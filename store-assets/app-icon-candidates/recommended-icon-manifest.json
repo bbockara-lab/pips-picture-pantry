@@ -1,0 +1,15 @@
+{
+    "version":  "v1.36",
+    "status":  "final-approved",
+    "candidate":  "pip-soup-badge-v2",
+    "approvedAt":  "2026-06-24",
+    "approvalBasis":  "Owner authorized final icon approval; Pip Soup Badge v2 selected for stronger 60 px readability and mascot-first silhouette.",
+    "source":  "store-assets\\app-icon\\v1.36\\finalists\\pip-soup-badge-v2-app-store-1024.png",
+    "sourceSha256":  "2f34f230e66109f79e1957b11e9230adb1bab0202b2263cb79a76d4b4af15538",
+    "outputs":  [
+                    "store-assets/app-icon/v1.36/AppIcon.appiconset",
+                    "src/assets/app-icon-192.png",
+                    "src/assets/app-icon-512.png",
+                    "src/assets/apple-touch-icon-180.png"
+                ]
+}
