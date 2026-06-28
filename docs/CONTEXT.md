@@ -5,7 +5,7 @@ Last updated: 2026-06-28
 ## Current Phase
 
 - Mode: `live-candidate`
-- Version: `v0.1.3`
+- Version: `v0.1.4`
 - Goal: ship a small Android-first cozy Nonogram MVP within one week, while keeping iOS packaging and store-readiness prepared for Mac Mini handoff.
 
 ## Decisions
@@ -105,11 +105,37 @@ Last updated: 2026-06-28
 - First-play screens must answer what should I do now within one glance.
 - Player-facing text should be concrete: tap, fill, mark, solve, save, album, today.
 
+## Progress Update - 2026-06-28 Clue Readability / Visual Direction
+
+- Bumped visible app version to v0.1.4.
+- Removed the ambiguous cropped character thumbnail from the Pip strip; first-play UI now focuses on instruction and board state.
+- Removed difficult player-facing terminology such as grid from onboarding copy, replacing it with picture squares / picture cells.
+- Clarified clue wording: 3 means three together; 1 1 means two separate singles.
+- Improved clue number rendering so separate numbers no longer visually collapse into 111.
+- Improved fill/mark visual language: fill uses warmer honey/coral tones, mark uses mint dashed styling and a dot marker.
+- Added Korean font handling and copy cleanup carried forward from v0.1.3.
+- Generated first experimental character redesign candidate at docs/visual-concepts/pip-cast-redesign-concept-v1.png.
+- Added docs/CHARACTER_REDESIGN_DIRECTION.md with redesign principles, avoid-list, and IP clearance notes.
+- Verification after this slice: node --check passed on changed JS files; npm run test passed with 17 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed; jarsigner still reports the release AAB is unsigned.
+
+## Product Copy Rule
+
+- Do not show internal development-positioning phrases to players. Lines such as quiet minutes, cozy world intent, or why we are making the game belong in planning docs, not the app UI.
+- First-play screens must answer what should I do now within one glance.
+- Player-facing text should be concrete: tap, fill, mark, solve, save, album, today.
+- Avoid technical terms like grid when a simpler player term works.
+
+## Character Direction Rule
+
+- Treat current generated character art as clearance-pending and replaceable.
+- Prefer original, simplified 2D sticker-like shapes over glossy AI-rendered fur or semi-realistic mascot detail.
+- Do not ship a final character design without visual similarity review and trademark/name clearance in target markets.
+
 ## Next Actions
 
+- Review docs/visual-concepts/pip-cast-redesign-concept-v1.png with user/family and choose whether to iterate the new Pip direction.
 - Create/connect upload keystore outside the repo and build a signed Android release AAB.
-- Draft Android/iOS store metadata and screenshot checklist using the v0.1.3 Studio logo -> Game identity -> First Move flow as the launch-brand anchor.
+- Draft Android/iOS store metadata and screenshot checklist using the v0.1.4 first-play flow.
 - Run a manual real-device or emulator check of native splash to Sunny Spoon logo bumper to game identity to first puzzle handoff.
-- Review Korean copy quality before store screenshots; strings render through Unicode escapes but copy should still be human-polished.
 - Decide whether the 10x10 unlockable puzzle should be visually locked in UI for v0.1.0 or remain selectable as a non-blocking preview.
 - Later Android polish: connect in-app language picker to Android per-app language APIs/LocaleManager or AppCompat so system settings and app settings stay synchronized on Android 13+.

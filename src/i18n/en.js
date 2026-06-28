@@ -53,9 +53,9 @@ export const en = {
   howToPlay: {
     title: "First move",
     goal: "Fill the squares the numbers point to.",
-    stepFill: "Choose Fill, then tap squares on the grid.",
-    stepClues: "A clue of 3 means three filled squares together.",
-    stepMark: "Use Mark for squares you know are blank."
+    stepFill: "Choose Fill, then tap the picture squares.",
+    stepClues: "3 means three together. 1 1 means two separate singles.",
+    stepMark: "Use Mark for squares you know stay blank."
   },
   controls: {
     fill: "Fill",

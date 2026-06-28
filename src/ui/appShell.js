@@ -6,7 +6,7 @@ import { getLanguagePreference, puzzleText, setLanguagePreference, t } from "../
 import { renderAlbumView } from "./albumView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
-export const APP_VERSION = "v0.1.3";
+export const APP_VERSION = "v0.1.4";
 
 export function renderApp(root) {
   const dailyPuzzle = getDailyPuzzle(puzzles);
@@ -185,7 +185,6 @@ function createPipStrip(puzzle, activeView) {
   const line = activeView === "album" ? t("pipStrip.albumLine") : t("pipStrip.puzzleLine");
   const note = activeView === "album" ? t("pipStrip.albumNote") : t("pipStrip.puzzleNote", { title: puzzleTitle });
   strip.innerHTML = `
-    <img src="/src/assets/characters/headshot-portrait-sheet-v1-clean.png" alt="Pip" />
     <div>
       <p class="pip-line">${line}</p>
       <p class="pip-note">${note}</p>

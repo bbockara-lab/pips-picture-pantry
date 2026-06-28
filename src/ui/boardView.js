@@ -67,7 +67,7 @@ function renderCells(puzzle, state, onCellPress, locked) {
       if (!locked) {
         button.addEventListener("click", () => onCellPress(rowIndex, columnIndex));
       }
-      button.textContent = cell === CELL.marked ? "x" : "";
+      button.textContent = cell === CELL.marked ? "•" : "";
       grid.appendChild(button);
     });
   });
