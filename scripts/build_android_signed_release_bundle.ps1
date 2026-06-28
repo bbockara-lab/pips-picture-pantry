@@ -44,15 +44,17 @@ try {
     throw "Release AAB was not produced: $aabPath"
   }
 
-  $verifyOutput = & $jarsigner -verify -verbose -certs $aabPath 2>&1
+  $verifyOutput = & $jarsigner -verify $aabPath 2>&1
   $verifyText = $verifyOutput -join [Environment]::NewLine
-  Write-Host $verifyText
-
-  if ($LASTEXITCODE -ne 0 -or $verifyText -match "jar is unsigned") {
+  if ($LASTEXITCODE -ne 0 -or $verifyText -notmatch "jar verified" -or $verifyText -match "jar is unsigned") {
+    Write-Host $verifyText
     throw "Signed release verification failed."
   }
 
+  $aab = Get-Item -LiteralPath $aabPath
   Write-Host "Signed release AAB ready: $aabPath"
+  Write-Host "Signed release AAB size bytes: $($aab.Length)"
+  Write-Host "jarsigner verification: jar verified"
 } finally {
   Pop-Location
 }

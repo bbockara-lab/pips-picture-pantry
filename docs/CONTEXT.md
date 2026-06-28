@@ -189,3 +189,12 @@ Last updated: 2026-06-28
 - Added scripts/build_android_signed_release_bundle.ps1 for signed AAB builds and jarsigner verification once signing variables are set.
 - Added docs/ANDROID_SIGNING_SETUP.md and .gitignore safeguards for keystore/signing-secret files.
 - Next Android blocker: run the keystore creation step with owner-chosen passwords, set PPP_UPLOAD_* environment variables, build the signed AAB, and upload to Google Play internal testing.
+
+## Progress Update - 2026-06-28 Signed Android AAB
+
+- Kept UI version at v0.1.8 because this slice changes release readiness, not player-facing behavior.
+- Created the Android upload keystore and a local-only signing env file outside the repo under D:\Users\bbock\OneDrive\00. Private\10. Development\_android_keystores.
+- Built the first signed release AAB at android/app/build/outputs/bundle/release/app-release.aab.
+- Verified the signed AAB with jarsigner: jar verified, exit code 0.
+- Recorded upload key SHA-256 fingerprint in docs/ANDROID_RELEASE_STATUS.md for Play Console reference.
+- Next Android action: upload signed AAB to Google Play internal testing and capture Play Console acceptance or rejection details.
