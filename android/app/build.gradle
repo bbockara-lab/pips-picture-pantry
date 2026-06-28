@@ -1,5 +1,16 @@
 apply plugin: 'com.android.application'
 
+def pppReleaseSigning = [
+    storeFile: System.getenv("PPP_UPLOAD_STORE_FILE"),
+    storePassword: System.getenv("PPP_UPLOAD_STORE_PASSWORD"),
+    keyAlias: System.getenv("PPP_UPLOAD_KEY_ALIAS"),
+    keyPassword: System.getenv("PPP_UPLOAD_KEY_PASSWORD")
+]
+def pppReleaseSigningReady = pppReleaseSigning.values().every { value ->
+    value != null && value.trim()
+}
+
+
 android {
     namespace = "com.sunnyspoonstudios.pipspicturepantry"
     compileSdk = rootProject.ext.compileSdkVersion
@@ -16,8 +27,21 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    signingConfigs {
+        release {
+            if (pppReleaseSigningReady) {
+                storeFile file(pppReleaseSigning.storeFile)
+                storePassword pppReleaseSigning.storePassword
+                keyAlias pppReleaseSigning.keyAlias
+                keyPassword pppReleaseSigning.keyPassword
+            }
+        }
+    }
     buildTypes {
         release {
+            if (pppReleaseSigningReady) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

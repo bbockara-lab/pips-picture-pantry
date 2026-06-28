@@ -76,3 +76,12 @@ Last updated: 2026-06-28
 - scripts/build_android_release_bundle.ps1 passed after sync.
 - jarsigner -verify still reports: jar is unsigned.
 - Signing/upload keystore remains the Android Play upload blocker.
+
+## Verification Update - 2026-06-28 Android Signing Pipeline
+
+- Added Gradle release signing config that reads only environment variables and does not require signing secrets in the repo.
+- Added scripts/create_android_upload_keystore.ps1 to create the upload keystore outside the repo.
+- Added scripts/build_android_signed_release_bundle.ps1 to build, sync, bundle, and verify a signed release AAB when signing environment variables are present.
+- Added docs/ANDROID_SIGNING_SETUP.md with the one-time keystore setup and signed AAB build flow.
+- The existing unsigned release build path remains available for local build validation.
+- Actual signed AAB generation is still pending the local upload keystore passwords / environment variables.

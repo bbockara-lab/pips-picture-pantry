@@ -8,3 +8,8 @@ npm-debug.log*
 coverage/
 .vite/
 tmp/
+# Android release signing secrets
+*.jks
+*.keystore
+android-signing.env.ps1
+android-signing.properties

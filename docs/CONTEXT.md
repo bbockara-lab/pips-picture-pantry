@@ -39,7 +39,7 @@ Last updated: 2026-06-28
 - 2026-06-28: `npm run test` passed after Claude response: 3 files, 11 tests.
 - 2026-06-28: `npm run build` passed after Claude response.
 - 2026-06-28: Browser visual QA was attempted, but in-app browser connection failed with Windows sandbox ACL error; mobile visual pass remained pending.
-- 2026-06-28: Responded to Claude Review 2: added `src/i18n` scaffold for English/Korean, extracted gameplay UI strings, restored `×` difficulty badge via `\u00d7`, converted album stamps from text abbreviations to mini puzzle-grid visuals, added `.content-panel`, and added `min-height` for album stamps.
+- 2026-06-28: Responded to Claude Review 2: added `src/i18n` scaffold for English/Korean, extracted gameplay UI strings, restored the x difficulty badge via `\u00d7`, converted album stamps from text abbreviations to mini puzzle-grid visuals, added `.content-panel`, and added `min-height` for album stamps.
 - 2026-06-28: Korean i18n file is stored with Unicode escape sequences to avoid Windows/PowerShell encoding corruption while still rendering Korean text in the browser.
 - 2026-06-28: `npm run test` passed after i18n response: 4 files, 14 tests.
 - 2026-06-28: `npm run build` passed after i18n response.
@@ -180,3 +180,12 @@ Last updated: 2026-06-28
 - Draft Android/iOS store metadata and screenshot checklist using the v0.1.6 first-play flow.
 - Run a manual real-device or emulator check of native splash to Sunny Spoon logo bumper to game identity to first puzzle handoff.
 - Later Android polish: connect in-app language picker to Android per-app language APIs/LocaleManager or AppCompat so system settings and app settings stay synchronized on Android 13+.
+
+## Progress Update - 2026-06-28 Android Signing Pipeline
+
+- Kept UI version at v0.1.8 because this slice changes release infrastructure, not player-visible behavior.
+- Added environment-variable based Android release signing in android/app/build.gradle.
+- Added scripts/create_android_upload_keystore.ps1 for one-time upload keystore creation outside the repo.
+- Added scripts/build_android_signed_release_bundle.ps1 for signed AAB builds and jarsigner verification once signing variables are set.
+- Added docs/ANDROID_SIGNING_SETUP.md and .gitignore safeguards for keystore/signing-secret files.
+- Next Android blocker: run the keystore creation step with owner-chosen passwords, set PPP_UPLOAD_* environment variables, build the signed AAB, and upload to Google Play internal testing.
