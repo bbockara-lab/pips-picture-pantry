@@ -1,5 +1,9 @@
+import { puzzleText, t } from "../i18n/index.js";
+
 export function getCompletionMessage(puzzle) {
-  return `A cozy ${puzzle.reward.imageName.toLowerCase()}! Saved to the Pantry Album.`;
+  return t("completion.saved", {
+    imageName: puzzleText(puzzle.id, "imageName").toLowerCase()
+  });
 }
 
 export function renderCompletionBanner(puzzle) {

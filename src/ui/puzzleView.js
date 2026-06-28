@@ -6,13 +6,14 @@ import {
   undoLastMove
 } from "../game/puzzleState.js";
 import { loadPuzzleState, savePuzzleState } from "../game/save.js";
+import { puzzleText, t } from "../i18n/index.js";
 import { renderBoard } from "./boardView.js";
 import { renderCompletionBanner } from "./pipReaction.js";
 
 export function renderPuzzleView(puzzle) {
   let state = loadPuzzleState(puzzle.id) || createPuzzleState(puzzle);
   const section = document.createElement("section");
-  section.className = "puzzle-panel";
+  section.className = "puzzle-panel content-panel";
 
   function update(nextState) {
     state = {
@@ -30,10 +31,10 @@ export function renderPuzzleView(puzzle) {
     meta.className = "puzzle-meta";
     meta.innerHTML = `
       <div>
-        <p class="section-label">Daily picture</p>
-        <h2>${puzzle.title}</h2>
+        <p class="section-label">${t("sections.dailyPicture")}</p>
+        <h2>${puzzleText(puzzle.id, "title")}</h2>
       </div>
-      <p class="difficulty">${puzzle.size}x${puzzle.size}</p>
+      <p class="difficulty">${puzzle.size}\u00d7${puzzle.size}</p>
     `;
 
     section.appendChild(meta);
@@ -54,17 +55,17 @@ function createControls(state, update) {
   const controls = document.createElement("div");
   controls.className = "controls";
 
-  const fillButton = createModeButton("Fill", state.mode === "fill", () =>
+  const fillButton = createModeButton(t("controls.fill"), state.mode === "fill", () =>
     update(setMode(state, "fill"))
   );
-  const markButton = createModeButton("Mark", state.mode === "mark", () =>
+  const markButton = createModeButton(t("controls.mark"), state.mode === "mark", () =>
     update(setMode(state, "mark"))
   );
 
   const undoButton = document.createElement("button");
   undoButton.type = "button";
   undoButton.className = "tool-button";
-  undoButton.textContent = "Undo";
+  undoButton.textContent = t("controls.undo");
   undoButton.disabled = state.history.length === 0;
   undoButton.addEventListener("click", () => update(undoLastMove(state)));
 
@@ -86,6 +87,8 @@ function createProgressLine(state, puzzle) {
   line.className = "progress-line";
   const filledCount = state.cells.flat().filter((cell) => cell === "filled").length;
   const mistakes = countMistakes(state, puzzle.solution);
-  line.textContent = mistakes > 0 ? `${filledCount} filled - ${mistakes} to revisit` : `${filledCount} filled`;
+  line.textContent = mistakes > 0
+    ? t("progress.revisit", { count: filledCount, mistakes })
+    : t("progress.filled", { count: filledCount });
   return line;
 }

@@ -1,6 +1,7 @@
 import { puzzles } from "../data/puzzles.js";
 import { getDailyPuzzle } from "../game/dailyPuzzle.js";
 import { resetProgress } from "../game/save.js";
+import { puzzleText, t } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
@@ -62,16 +63,16 @@ function createHeader(onReset) {
   const titleGroup = document.createElement("div");
   titleGroup.className = "title-group";
   titleGroup.innerHTML = `
-    <p class="studio-name">Sunny Spoon Studios</p>
-    <h1>Pip's Picture Pantry</h1>
+    <p class="studio-name">${t("app.studioName")}</p>
+    <h1>${t("app.title")}</h1>
   `;
 
   const resetButton = document.createElement("button");
   resetButton.className = "icon-button";
   resetButton.type = "button";
-  resetButton.title = "Reset progress";
-  resetButton.setAttribute("aria-label", "Reset progress");
-  resetButton.textContent = "↺";
+  resetButton.title = t("header.resetProgress");
+  resetButton.setAttribute("aria-label", t("header.resetProgress"));
+  resetButton.textContent = "\u21ba";
   resetButton.addEventListener("click", onReset);
 
   header.append(titleGroup, resetButton);
@@ -81,8 +82,9 @@ function createHeader(onReset) {
 function createPipStrip(puzzle, activeView) {
   const strip = document.createElement("section");
   strip.className = "pip-strip";
-  const line = activeView === "album" ? "Pip saved the finished picture cards." : "Pip found today's picture.";
-  const note = activeView === "album" ? "The Pantry Album grows one cozy card at a time." : `Fill the grid to reveal <strong>${puzzle.title}</strong>.`;
+  const puzzleTitle = puzzleText(puzzle.id, "title");
+  const line = activeView === "album" ? t("pipStrip.albumLine") : t("pipStrip.puzzleLine");
+  const note = activeView === "album" ? t("pipStrip.albumNote") : t("pipStrip.puzzleNote", { title: puzzleTitle });
   strip.innerHTML = `
     <img src="/src/assets/app-icons/app-icon-192.png" alt="Pip" />
     <div>
@@ -96,11 +98,11 @@ function createPipStrip(puzzle, activeView) {
 function createViewTabs(activeView, onSelectView) {
   const tabs = document.createElement("nav");
   tabs.className = "view-tabs";
-  tabs.setAttribute("aria-label", "Main views");
+  tabs.setAttribute("aria-label", t("views.navLabel"));
 
   [
-    ["puzzle", "Puzzle"],
-    ["album", "Album"]
+    ["puzzle", t("views.puzzle")],
+    ["album", t("views.album")]
   ].forEach(([view, label]) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -115,11 +117,11 @@ function createViewTabs(activeView, onSelectView) {
 
 function createPuzzlePicker(activePuzzleId, onSelectPuzzle) {
   const section = document.createElement("section");
-  section.className = "puzzle-picker";
+  section.className = "puzzle-picker content-panel";
 
   const label = document.createElement("p");
   label.className = "section-label";
-  label.textContent = "Starter shelf";
+  label.textContent = t("sections.starterShelf");
   section.appendChild(label);
 
   const list = document.createElement("div");
@@ -129,7 +131,7 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = puzzle.id === activePuzzleId ? "puzzle-chip active" : "puzzle-chip";
-    button.textContent = puzzle.title;
+    button.textContent = puzzleText(puzzle.id, "title");
     button.addEventListener("click", () => onSelectPuzzle(puzzle.id));
     list.appendChild(button);
   });
@@ -141,6 +143,6 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle) {
 function createFooter() {
   const footer = document.createElement("footer");
   footer.className = "app-footer";
-  footer.textContent = APP_VERSION;
+  footer.textContent = t("app.versionLabel", { version: APP_VERSION });
   return footer;
 }

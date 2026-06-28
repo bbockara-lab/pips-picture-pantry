@@ -74,8 +74,7 @@ button {
 }
 
 .pip-strip,
-.puzzle-panel,
-.puzzle-picker {
+.content-panel {
   margin-top: 14px;
   border: 2px solid rgba(61, 43, 46, 0.22);
   border-radius: 8px;
@@ -299,11 +298,7 @@ button {
 }
 
 .album-panel {
-  margin-top: 14px;
-  border: 2px solid rgba(61, 43, 46, 0.22);
-  border-radius: 8px;
   padding: 12px;
-  background: rgba(255, 248, 232, 0.86);
 }
 
 .album-header {
@@ -354,6 +349,7 @@ button {
 .album-stamp {
   display: grid;
   place-items: center;
+  min-height: 48px;
   aspect-ratio: 1;
   border: 2px solid rgba(61, 43, 46, 0.35);
   border-radius: 8px;
@@ -362,6 +358,23 @@ button {
   font-size: 0.9rem;
   font-weight: 900;
   text-transform: uppercase;
+}
+
+.album-stamp.picture {
+  grid-template-columns: repeat(var(--stamp-size), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--stamp-size), minmax(0, 1fr));
+  gap: 1px;
+  padding: 6px;
+  place-items: stretch;
+}
+
+.stamp-cell {
+  border-radius: 2px;
+  background: rgba(255, 248, 232, 0.72);
+}
+
+.stamp-cell.filled {
+  background: #7a4e35;
 }
 
 .album-card h3 {

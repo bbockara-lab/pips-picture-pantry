@@ -40,6 +40,10 @@ Last updated: 2026-06-28
 - 2026-06-28: `npm run build` passed after Claude response.
 - 2026-06-28: Browser visual QA was attempted, but in-app browser connection failed with Windows sandbox ACL error; mobile visual pass remains pending.
 
+- 2026-06-28: Responded to Claude Review 2: added `src/i18n` scaffold for English/Korean, extracted gameplay UI strings, restored `×` difficulty badge via `\u00d7`, converted album stamps from text abbreviations to mini puzzle-grid visuals, added `.content-panel`, and added `min-height` for album stamps.
+- 2026-06-28: Korean i18n file is stored with Unicode escape sequences to avoid Windows/PowerShell encoding corruption while still rendering Korean text in the browser.
+- 2026-06-28: `npm run test` passed after i18n response: 4 files, 14 tests.
+- 2026-06-28: `npm run build` passed after i18n response.
 ## Next Actions
 
 - Run mobile visual QA at 360px/390px/430px widths.
