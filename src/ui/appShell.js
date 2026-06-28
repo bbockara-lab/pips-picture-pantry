@@ -2,22 +2,24 @@ import { puzzlePacks } from "../data/packs.js";
 import { puzzles } from "../data/puzzles.js";
 import { getDailyPuzzle } from "../game/dailyPuzzle.js";
 import { resetProgress } from "../game/save.js";
-import { puzzleText, t } from "../i18n/index.js";
+import { getLanguagePreference, puzzleText, setLanguagePreference, t } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
-export const APP_VERSION = "v0.1.1";
+export const APP_VERSION = "v0.1.2";
 
 export function renderApp(root) {
   const dailyPuzzle = getDailyPuzzle(puzzles);
   let activePuzzle = dailyPuzzle;
   let activeView = "puzzle";
   let resetOpen = false;
+  let settingsOpen = false;
 
   function selectPuzzle(puzzleId) {
     activePuzzle = puzzles.find((puzzle) => puzzle.id === puzzleId) || dailyPuzzle;
     activeView = "puzzle";
     resetOpen = false;
+    settingsOpen = false;
     draw();
   }
 
@@ -30,11 +32,13 @@ export function renderApp(root) {
   function selectView(view) {
     activeView = view;
     resetOpen = false;
+    settingsOpen = false;
     draw();
   }
 
   function requestReset() {
     resetOpen = true;
+    settingsOpen = false;
     draw();
   }
 
@@ -49,6 +53,22 @@ export function renderApp(root) {
     draw();
   }
 
+  function requestSettings() {
+    settingsOpen = true;
+    resetOpen = false;
+    draw();
+  }
+
+  function closeSettings() {
+    settingsOpen = false;
+    draw();
+  }
+
+  function changeLanguage(preference) {
+    setLanguagePreference(preference);
+    draw();
+  }
+
   function draw() {
     root.innerHTML = "";
     root.appendChild(createShell({
@@ -56,11 +76,15 @@ export function renderApp(root) {
       activeView,
       dailyPuzzle,
       resetOpen,
+      settingsOpen,
       onSelectPuzzle: selectPuzzle,
       onSelectView: selectView,
       onRequestReset: requestReset,
       onCancelReset: cancelReset,
       onConfirmReset: confirmReset,
+      onRequestSettings: requestSettings,
+      onCloseSettings: closeSettings,
+      onLanguageChange: changeLanguage,
       onNextPuzzle: selectNextPuzzle
     }));
   }
@@ -73,17 +97,21 @@ function createShell({
   activeView,
   dailyPuzzle,
   resetOpen,
+  settingsOpen,
   onSelectPuzzle,
   onSelectView,
   onRequestReset,
   onCancelReset,
   onConfirmReset,
+  onRequestSettings,
+  onCloseSettings,
+  onLanguageChange,
   onNextPuzzle
 }) {
   const shell = document.createElement("main");
   shell.className = "app-shell";
 
-  shell.appendChild(createHeader(onRequestReset));
+  shell.appendChild(createHeader(onRequestSettings, onRequestReset));
   shell.appendChild(createPipStrip(activePuzzle, activeView));
   shell.appendChild(createViewTabs(activeView, onSelectView));
 
@@ -104,10 +132,14 @@ function createShell({
     shell.appendChild(createResetDialog(onCancelReset, onConfirmReset));
   }
 
+  if (settingsOpen) {
+    shell.appendChild(createSettingsDialog(onCloseSettings, onLanguageChange));
+  }
+
   return shell;
 }
 
-function createHeader(onReset) {
+function createHeader(onSettings, onReset) {
   const header = document.createElement("header");
   header.className = "top-bar";
 
@@ -118,6 +150,17 @@ function createHeader(onReset) {
     <h1>${t("app.title")}</h1>
   `;
 
+  const actions = document.createElement("div");
+  actions.className = "header-actions";
+
+  const settingsButton = document.createElement("button");
+  settingsButton.className = "icon-button";
+  settingsButton.type = "button";
+  settingsButton.title = t("header.settings");
+  settingsButton.setAttribute("aria-label", t("header.settings"));
+  settingsButton.textContent = "\u2699";
+  settingsButton.addEventListener("click", onSettings);
+
   const resetButton = document.createElement("button");
   resetButton.className = "icon-button";
   resetButton.type = "button";
@@ -126,7 +169,8 @@ function createHeader(onReset) {
   resetButton.textContent = "\u21ba";
   resetButton.addEventListener("click", onReset);
 
-  header.append(titleGroup, resetButton);
+  actions.append(settingsButton, resetButton);
+  header.append(titleGroup, actions);
   return header;
 }
 
@@ -232,9 +276,7 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle) {
 }
 
 function createResetDialog(onCancel, onConfirm) {
-  const overlay = document.createElement("div");
-  overlay.className = "modal-backdrop";
-  overlay.setAttribute("role", "presentation");
+  const overlay = createModalBackdrop();
 
   const dialog = document.createElement("section");
   dialog.className = "reset-dialog";
@@ -264,6 +306,57 @@ function createResetDialog(onCancel, onConfirm) {
   actions.append(cancelButton, confirmButton);
   dialog.appendChild(actions);
   overlay.appendChild(dialog);
+  return overlay;
+}
+
+function createSettingsDialog(onClose, onLanguageChange) {
+  const overlay = createModalBackdrop();
+  const preference = getLanguagePreference();
+
+  const dialog = document.createElement("section");
+  dialog.className = "settings-dialog";
+  dialog.setAttribute("role", "dialog");
+  dialog.setAttribute("aria-modal", "true");
+  dialog.setAttribute("aria-labelledby", "settings-dialog-title");
+  dialog.innerHTML = `
+    <h2 id="settings-dialog-title">${t("settings.title")}</h2>
+    <p>${t("settings.languageNote")}</p>
+  `;
+
+  const group = document.createElement("div");
+  group.className = "language-options";
+  group.setAttribute("role", "group");
+  group.setAttribute("aria-label", t("settings.language"));
+
+  [
+    ["system", t("settings.systemDefault")],
+    ["en", t("settings.english")],
+    ["ko", t("settings.korean")]
+  ].forEach(([value, label]) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = preference === value ? "language-option active" : "language-option";
+    button.textContent = label;
+    button.setAttribute("aria-pressed", String(preference === value));
+    button.addEventListener("click", () => onLanguageChange(value));
+    group.appendChild(button);
+  });
+
+  const closeButton = document.createElement("button");
+  closeButton.type = "button";
+  closeButton.className = "tool-button settings-close";
+  closeButton.textContent = t("settings.close");
+  closeButton.addEventListener("click", onClose);
+
+  dialog.append(group, closeButton);
+  overlay.appendChild(dialog);
+  return overlay;
+}
+
+function createModalBackdrop() {
+  const overlay = document.createElement("div");
+  overlay.className = "modal-backdrop";
+  overlay.setAttribute("role", "presentation");
   return overlay;
 }
 

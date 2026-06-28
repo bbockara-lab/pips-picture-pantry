@@ -15,6 +15,8 @@ for (const viewport of viewports) {
   await page.goto(TARGET_URL, { waitUntil: "networkidle" });
 
   await expectVisible(page, ".brand-intro", viewport.name);
+  await expectVisible(page, ".studio-bumper__mark", viewport.name);
+  await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 1400 });
   await expectVisible(page, ".brand-intro__seal", viewport.name);
   await page.getByRole("button", { name: /start|시작/i }).click();
   await page.locator(".brand-intro").waitFor({ state: "detached", timeout: 1500 });

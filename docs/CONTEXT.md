@@ -5,7 +5,7 @@ Last updated: 2026-06-28
 ## Current Phase
 
 - Mode: `live-candidate`
-- Version: `v0.1.1`
+- Version: `v0.1.2`
 - Goal: ship a small Android-first cozy Nonogram MVP within one week, while keeping iOS packaging and store-readiness prepared for Mac Mini handoff.
 
 ## Decisions
@@ -75,10 +75,23 @@ Last updated: 2026-06-28
 - Updated mobile QA to verify the brand intro before continuing to puzzle and album checks.
 - Verification after this slice: node --check passed on changed JS files; npm run test passed with 16 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed; jarsigner still reports the release AAB is unsigned.
 
+## Progress Update - 2026-06-28 Studio Logo / Language Settings
+
+- Bumped visible app version to v0.1.2.
+- Split startup identity into two explicit stages: Sunny Spoon Studios company logo bumper first, then Pip's Picture Pantry game identity.
+- Kept the company bumper as a fixed English studio mark, while game identity and app UI follow the active language.
+- Added in-app Settings with language choices: System, English, Korean.
+- Default language behavior is System, which follows device/browser language; explicit user choices are stored locally and override System.
+- Added i18n tests for system default and in-app language override behavior.
+- Updated mobile QA to verify both the studio logo stage and game identity stage before checking puzzle and album screens.
+- Android language direction noted: Android 13+ supports centralized per-app language preferences; native LocaleManager/AppCompat integration remains a later Android polish step after the Capacitor MVP shell is stable.
+- Verification after this slice: node --check passed on changed JS files; npm run test passed with 17 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed; jarsigner still reports the release AAB is unsigned.
+
 ## Next Actions
 
 - Create/connect upload keystore outside the repo and build a signed Android release AAB.
-- Draft Android/iOS store metadata and screenshot checklist using the v0.1.1 opening screen as the family-look anchor.
-- Run a manual real-device or emulator check of native splash to in-app Sunny Spoon opening to puzzle handoff.
+- Draft Android/iOS store metadata and screenshot checklist using the v0.1.2 Studio logo -> Game identity sequence as the launch-brand anchor.
+- Run a manual real-device or emulator check of native splash to Sunny Spoon logo bumper to game identity to puzzle handoff.
 - Review Korean copy quality before store screenshots; strings render through Unicode escapes but copy should still be human-polished.
 - Decide whether the 10x10 unlockable puzzle should be visually locked in UI for v0.1.0 or remain selectable as a non-blocking preview.
+- Later Android polish: connect in-app language picker to Android per-app language APIs/LocaleManager or AppCompat so system settings and app settings stay synchronized on Android 13+.

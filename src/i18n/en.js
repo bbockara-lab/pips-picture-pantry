@@ -5,7 +5,8 @@ export const en = {
     versionLabel: "Version {version}"
   },
   brandIntro: {
-    ariaLabel: "Sunny Spoon Studios opening screen",
+    ariaLabel: "Sunny Spoon Studios and Pip's Picture Pantry opening screens",
+    studioTagline: "Sunny Spoon Studios",
     familyLine: "Warm little games for quiet minutes",
     skip: "Start"
   },
@@ -15,11 +16,21 @@ export const en = {
     navLabel: "Main views"
   },
   header: {
+    settings: "Settings",
     resetProgress: "Reset progress",
     resetTitle: "Reset all progress?",
     resetBody: "This clears every saved picture and current puzzle board on this device.",
     cancelReset: "Keep playing",
     confirmReset: "Reset"
+  },
+  settings: {
+    title: "Settings",
+    language: "Language",
+    languageNote: "Use your device language by default, or choose a language for this app.",
+    systemDefault: "System",
+    english: "English",
+    korean: "Korean",
+    close: "Done"
   },
   pipStrip: {
     puzzleLine: "Pip found today's picture.",

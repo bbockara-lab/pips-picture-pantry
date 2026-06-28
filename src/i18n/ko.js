@@ -5,7 +5,8 @@ export const ko = {
     versionLabel: "\ubc84\uc804 {version}"
   },
   brandIntro: {
-    ariaLabel: "Sunny Spoon Studios \uc2dc\uc791 \ud654\uba74",
+    ariaLabel: "Sunny Spoon Studios\uc640 Pip's Picture Pantry \uc2dc\uc791 \ud654\uba74",
+    studioTagline: "Sunny Spoon Studios",
     familyLine: "\uc870\uc6a9\ud55c \uc2dc\uac04\uc744 \uc704\ud55c \ub530\ub73b\ud55c \uc791\uc740 \uac8c\uc784",
     skip: "\uc2dc\uc791"
   },
@@ -15,11 +16,21 @@ export const ko = {
     navLabel: "\uc8fc\uc694 \ud654\uba74"
   },
   header: {
+    settings: "\uc124\uc815",
     resetProgress: "\uc9c4\ud589 \ucd08\uae30\ud654",
     resetTitle: "\ubaa8\ub4e0 \uc9c4\ud589\uc744 \ucd08\uae30\ud654\ud560\uae4c\uc694?",
     resetBody: "\uc774 \uae30\uae30\uc5d0 \uc800\uc7a5\ub41c \uc644\uc131 \uce74\ub4dc\uc640 \ud37c\uc990 \uc9c4\ud589\uc774 \ubaa8\ub450 \uc9c0\uc6cc\uc838\uc694.",
     cancelReset: "\uacc4\uc18d\ud558\uae30",
     confirmReset: "\ucd08\uae30\ud654"
+  },
+  settings: {
+    title: "\uc124\uc815",
+    language: "\uc5b8\uc5b4",
+    languageNote: "\uae30\uae30 \uc5b8\uc5b4\ub97c \uae30\ubcf8\uc73c\ub85c \uc0ac\uc6a9\ud558\uac70\ub098, \uc774 \uc571\uc5d0\uc11c \uc0ac\uc6a9\ud560 \uc5b8\uc5b4\ub97c \uc120\ud0dd\ud558\uc138\uc694.",
+    systemDefault: "\uc2dc\uc2a4\ud15c",
+    english: "English",
+    korean: "\ud55c\uad6d\uc5b4",
+    close: "\uc644\ub8cc"
   },
   pipStrip: {
     puzzleLine: "\ud54d\uc774 \uc624\ub298\uc758 \uadf8\ub9bc\uc744 \ucc3e\uc558\uc5b4\uc694.",

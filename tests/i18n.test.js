@@ -1,5 +1,12 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { getActiveLocale, puzzleText, setActiveLocale, t } from "../src/i18n/index.js";
+import {
+  getActiveLocale,
+  getLanguagePreference,
+  puzzleText,
+  setActiveLocale,
+  setLanguagePreference,
+  t
+} from "../src/i18n/index.js";
 
 describe("i18n", () => {
   afterEach(() => {
@@ -28,5 +35,15 @@ describe("i18n", () => {
 
     setActiveLocale("unsupported");
     expect(t("views.puzzle")).toBe("Puzzle");
+  });
+
+  it("supports system language default and in-app overrides", () => {
+    setLanguagePreference("system", "ko-KR");
+    expect(getLanguagePreference()).toBe("system");
+    expect(t("views.album")).toBe("\uc568\ubc94");
+
+    setLanguagePreference("en", "ko-KR");
+    expect(getLanguagePreference()).toBe("en");
+    expect(t("views.album")).toBe("Album");
   });
 });

@@ -3,7 +3,10 @@ import { ko } from "./ko.js";
 
 const dictionaries = { en, ko };
 const DEFAULT_LOCALE = "en";
-let activeLocale = getActiveLocale();
+const LANGUAGE_STORAGE_KEY = "pip-picture-pantry-language";
+const SYSTEM_PREFERENCE = "system";
+let languagePreference = readLanguagePreference();
+let activeLocale = resolveLocale(languagePreference);
 
 export function getActiveLocale(language = getNavigatorLanguage()) {
   const normalized = String(language || "").toLowerCase();
@@ -13,8 +16,23 @@ export function getActiveLocale(language = getNavigatorLanguage()) {
   return DEFAULT_LOCALE;
 }
 
+export function getLanguagePreference() {
+  return languagePreference;
+}
+
+export function getSupportedLocales() {
+  return [DEFAULT_LOCALE, "ko"];
+}
+
 export function setActiveLocale(locale) {
-  activeLocale = dictionaries[locale] ? locale : DEFAULT_LOCALE;
+  languagePreference = dictionaries[locale] ? locale : DEFAULT_LOCALE;
+  activeLocale = dictionaries[languagePreference] ? languagePreference : DEFAULT_LOCALE;
+}
+
+export function setLanguagePreference(preference, language = getNavigatorLanguage()) {
+  languagePreference = preference === SYSTEM_PREFERENCE || dictionaries[preference] ? preference : SYSTEM_PREFERENCE;
+  activeLocale = resolveLocale(languagePreference, language);
+  writeLanguagePreference(languagePreference);
 }
 
 export function t(key, params = {}) {
@@ -28,6 +46,30 @@ export function t(key, params = {}) {
 
 export function puzzleText(puzzleId, field) {
   return t(`puzzles.${puzzleId}.${field}`);
+}
+
+function resolveLocale(preference, language = getNavigatorLanguage()) {
+  if (preference === SYSTEM_PREFERENCE) {
+    return getActiveLocale(language);
+  }
+  return dictionaries[preference] ? preference : DEFAULT_LOCALE;
+}
+
+function readLanguagePreference() {
+  try {
+    const stored = globalThis.localStorage?.getItem(LANGUAGE_STORAGE_KEY);
+    return stored === SYSTEM_PREFERENCE || dictionaries[stored] ? stored : SYSTEM_PREFERENCE;
+  } catch {
+    return SYSTEM_PREFERENCE;
+  }
+}
+
+function writeLanguagePreference(preference) {
+  try {
+    globalThis.localStorage?.setItem(LANGUAGE_STORAGE_KEY, preference);
+  } catch {
+    // LocalStorage can be unavailable in private or restricted browser contexts.
+  }
 }
 
 function getNavigatorLanguage() {
