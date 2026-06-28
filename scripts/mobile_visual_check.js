@@ -22,6 +22,7 @@ for (const viewport of viewports) {
   await page.locator(".brand-intro").waitFor({ state: "detached", timeout: 1500 });
 
   await expectVisible(page, ".app-shell", viewport.name);
+  await expectVisible(page, ".pip-strip__portrait", viewport.name);
   await expectVisible(page, ".how-to-play", viewport.name);
   await expectVisible(page, ".puzzle-grid", viewport.name);
   await expectVisible(page, ".column-clue", viewport.name);

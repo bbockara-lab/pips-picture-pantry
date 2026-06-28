@@ -5,7 +5,7 @@ Last updated: 2026-06-28
 ## Current Phase
 
 - Mode: `live-candidate`
-- Version: `v0.1.5`
+- Version: `v0.1.6`
 - Goal: ship a small Android-first cozy Nonogram MVP within one week, while keeping iOS packaging and store-readiness prepared for Mac Mini handoff.
 
 ## Decisions
@@ -130,6 +130,16 @@ Last updated: 2026-06-28
 - Documented that the app icon/native launcher assets still need a dedicated redesign-based icon pass before final store submission.
 - Verification after this slice: node --check passed on changed JS files; npm run test passed with 17 tests; npm run build passed with the app character asset bundled at about 119 KB; npm run qa:mobile passed at 360x740, 390x844, and 430x932; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed after running separately from cap:sync; jarsigner still reports the release AAB is unsigned.
 
+
+## Progress Update - 2026-06-28 Pip Strip Sticker
+
+- Bumped visible app version to v0.1.6.
+- Generated a dedicated Pip sticker asset for the in-game Pip strip using the approved cozy sticker direction.
+- Saved the app asset at src/assets/characters/pip-strip-sticker-v1.png with transparent corners and a 320px square size.
+- Restored Pip character presence in the Pip strip without reusing a cropped character sheet or app icon.
+- Updated CHARACTER_IP_BIBLE.md so Pip's MVP visual anchors match the approved chef-hat/scarf pantry-helper direction.
+- Updated mobile visual QA to require the Pip strip sticker to render on 360px, 390px, and 430px mobile widths.
+- Verification after this slice: node --check passed on appShell.js and mobile_visual_check.js; npm run test passed with 17 tests; npm run build passed with the Pip strip asset bundled at about 170 KB; npm run qa:mobile passed; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed; jarsigner still reports the release AAB is unsigned.
 ## Product Copy Rule
 
 - Do not show internal development-positioning phrases to players. Lines such as quiet minutes, cozy world intent, or why we are making the game belong in planning docs, not the app UI.
@@ -145,9 +155,10 @@ Last updated: 2026-06-28
 
 ## Next Actions
 
-- Review docs/visual-concepts/pip-cast-redesign-concept-v1.png with user/family and choose whether to iterate the new Pip direction.
+- Strengthen the completion moment: Pip reaction image, solved-picture reveal, and album CTA polish.
+- Connect the 10x10 unlock gate to completed-puzzle progress instead of leaving it selectable.
+- Expand launch puzzle content toward the 30-picture store target after the completion loop feels rewarding.
 - Create/connect upload keystore outside the repo and build a signed Android release AAB.
-- Draft Android/iOS store metadata and screenshot checklist using the v0.1.4 first-play flow.
+- Draft Android/iOS store metadata and screenshot checklist using the v0.1.6 first-play flow.
 - Run a manual real-device or emulator check of native splash to Sunny Spoon logo bumper to game identity to first puzzle handoff.
-- Decide whether the 10x10 unlockable puzzle should be visually locked in UI for v0.1.0 or remain selectable as a non-blocking preview.
 - Later Android polish: connect in-app language picker to Android per-app language APIs/LocaleManager or AppCompat so system settings and app settings stay synchronized on Android 13+.

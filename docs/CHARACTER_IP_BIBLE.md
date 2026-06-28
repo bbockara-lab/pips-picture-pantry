@@ -18,7 +18,7 @@ All current characters are an in-game baseline. Elena, Pip, Aunt Mina, and the S
 
 The defensible identity is the combination of:
 
-`Sunny Spoon Village + Elena's Dream Studio + Pip the capybara helper + relationship memories + practical cozy village problems`
+`Sunny Spoon Village + Pip's Picture Pantry + Pip the pantry helper + Elena / Aunt Mina family warmth + cozy collectible picture memories`
 
 Do not present the property as a generic restaurant simulator, generic animal village, or lesson app with decorative characters.
 
@@ -35,12 +35,12 @@ Do not present the property as a generic restaurant simulator, generic animal vi
 
 ### Pip
 
-- Story function: capybara companion, clue carrier, mascot, and emotional anchor.
-- Visual anchors: round low capybara silhouette, small ears and muzzle, tiny bow, soft smile.
-- Behavioral anchors: sniffs, points, holds cards, finds warm resting spots, celebrates gently.
+- Story function: pantry helper, clue carrier, mascot, and emotional anchor for the first Sunny Spoon Studios release.
+- Visual anchors: rounded warm-brown small-animal silhouette, tiny cream chef hat, muted red scarf, small dot eyes, tiny nose/mouth, soft blush, warm-brown outline, white sticker border.
+- Behavioral anchors: points, holds recipe cards or small kitchen tools, celebrates gently, finds cozy pantry corners, reacts with quiet pride.
 - Voice: short sounds, signs, and body language; very limited full sentences.
 - Emotional rhythm: calm, loyal, quietly funny, and reassuring rather than chaotic.
-- Non-negotiable: Pip stays pet-like and recognizably capybara-shaped. Do not redesign him as a bear, hamster, generic plush mascot, or loud talking adult.
+- Non-negotiable: Pip must remain the same original pantry-helper mascot with a rounded soft silhouette and small chef/scarf anchors. Do not drift him into a generic bear, hamster, plush mascot, loud talking adult, or a recognizable existing franchise style.
 
 ### Aunt Mina
 
@@ -77,6 +77,8 @@ Current visual baseline assets:
 - `src/assets/characters/opening-expression-sheet-v1-clean.png`
 - `src/assets/characters/cafe-action-sheet-v1-clean.png`
 - `src/assets/characters/story-friends-sheet-v1-clean.png`
+- `src/assets/characters/pip-cast-redesign-concept-v1-web.jpg`
+- `src/assets/characters/pip-strip-sticker-v1.png`
 
 ## Writing And Content Contract
 

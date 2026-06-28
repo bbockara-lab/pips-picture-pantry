@@ -1163,3 +1163,32 @@ body {
 .pip-strip img {
   display: none;
 }
+/* v0.1.6 approved Pip sticker strip */
+.pip-strip {
+  grid-template-columns: 74px 1fr;
+  min-height: 86px;
+  overflow: hidden;
+}
+
+.pip-strip img.pip-strip__portrait {
+  display: block;
+  width: 74px;
+  height: 74px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  object-fit: contain;
+  object-position: center;
+  filter: drop-shadow(0 5px 9px rgba(61, 43, 46, 0.16));
+}
+
+@media (max-width: 370px) {
+  .pip-strip {
+    grid-template-columns: 64px 1fr;
+  }
+
+  .pip-strip img.pip-strip__portrait {
+    width: 64px;
+    height: 64px;
+  }
+}

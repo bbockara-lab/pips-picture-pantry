@@ -1,3 +1,4 @@
+import pipStripStickerUrl from "../assets/characters/pip-strip-sticker-v1.png";
 import { puzzlePacks } from "../data/packs.js";
 import { puzzles } from "../data/puzzles.js";
 import { getDailyPuzzle } from "../game/dailyPuzzle.js";
@@ -6,7 +7,7 @@ import { getLanguagePreference, puzzleText, setLanguagePreference, t } from "../
 import { renderAlbumView } from "./albumView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
-export const APP_VERSION = "v0.1.5";
+export const APP_VERSION = "v0.1.6";
 
 export function renderApp(root) {
   const dailyPuzzle = getDailyPuzzle(puzzles);
@@ -185,6 +186,7 @@ function createPipStrip(puzzle, activeView) {
   const line = activeView === "album" ? t("pipStrip.albumLine") : t("pipStrip.puzzleLine");
   const note = activeView === "album" ? t("pipStrip.albumNote") : t("pipStrip.puzzleNote", { title: puzzleTitle });
   strip.innerHTML = `
+    <img class="pip-strip__portrait" src="${pipStripStickerUrl}" alt="" />
     <div>
       <p class="pip-line">${line}</p>
       <p class="pip-note">${note}</p>

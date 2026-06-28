@@ -48,3 +48,4 @@ Player-facing screens should not use ambiguous character-sheet crops. Character 
 - v0.1.5 uses a resized app copy of the approved redesign concept as the game identity cast image: src/assets/characters/pip-cast-redesign-concept-v1-web.jpg.
 - The app icon and native launcher assets still use the previous Pip soup badge until a dedicated redesign-based icon candidate is generated and reviewed.
 - Next production asset step: generate/crop individual polished sticker assets for Pip, Elena, and Aunt Mina instead of using a full concept sheet in gameplay.
+- v0.1.6 adds a dedicated Pip strip sticker asset: src/assets/characters/pip-strip-sticker-v1.png.
