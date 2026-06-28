@@ -4,9 +4,10 @@ Last updated: 2026-06-28
 
 ## Status
 
-- Mode: experimental visual direction.
-- Current production UI still uses existing assets until a redesign candidate is reviewed and approved.
-- First generated concept candidate: docs/visual-concepts/pip-cast-redesign-concept-v1.png
+- Mode: approved visual direction for Pip's Picture Pantry MVP.
+- User approved the first generated direction as the production target direction on 2026-06-28.
+- Current production UI may still contain older placeholder assets until each surface is intentionally replaced.
+- Approved direction reference: docs/visual-concepts/pip-cast-redesign-concept-v1.png
 
 ## Why Redesign
 
@@ -41,3 +42,9 @@ This is not legal advice. Pip as a name, capybara as an animal, and cozy pantry 
 ## App UI Rule
 
 Player-facing screens should not use ambiguous character-sheet crops. Character art in gameplay should either be a deliberate helper portrait, a finished reward card, or a polished sticker asset.
+
+## Integration Notes
+
+- v0.1.5 uses a resized app copy of the approved redesign concept as the game identity cast image: src/assets/characters/pip-cast-redesign-concept-v1-web.jpg.
+- The app icon and native launcher assets still use the previous Pip soup badge until a dedicated redesign-based icon candidate is generated and reviewed.
+- Next production asset step: generate/crop individual polished sticker assets for Pip, Elena, and Aunt Mina instead of using a full concept sheet in gameplay.

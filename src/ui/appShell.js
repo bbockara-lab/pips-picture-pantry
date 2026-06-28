@@ -6,7 +6,7 @@ import { getLanguagePreference, puzzleText, setLanguagePreference, t } from "../
 import { renderAlbumView } from "./albumView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
-export const APP_VERSION = "v0.1.4";
+export const APP_VERSION = "v0.1.5";
 
 export function renderApp(root) {
   const dailyPuzzle = getDailyPuzzle(puzzles);

@@ -1,4 +1,4 @@
-﻿export const sunnySpoonBrand = {
+export const sunnySpoonBrand = {
   studioName: "Sunny Spoon Studios",
   philosophy: {
     shortLabel: "Story / Smile / Spark",
@@ -21,8 +21,8 @@
     ]
   },
   universeName: "Sunny Spoon Village",
-  launchProductName: "Elena's Cozy Village",
-  currentAppTitle: "Elena's Cozy Village",
+  launchProductName: "Pip's Picture Pantry",
+  currentAppTitle: "Pip's Picture Pantry",
   playerMemoryTargets: ["Pip", "Elena", "Sunny Spoon Village", "Dream Studio"],
   integrationRules: [
     "Use Sunny Spoon Studios in launch, credits, parent-facing, store, and future-announcement surfaces.",

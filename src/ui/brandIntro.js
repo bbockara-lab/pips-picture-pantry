@@ -1,3 +1,5 @@
+import appIconUrl from "../assets/app-icons/app-icon-192.png";
+import redesignedCastUrl from "../assets/characters/pip-cast-redesign-concept-v1-web.jpg";
 import { t } from "../i18n/index.js";
 
 const STUDIO_DURATION_MS = 900;
@@ -21,11 +23,11 @@ export function renderBrandIntro(root) {
     </div>
     <div class="brand-intro__content" aria-hidden="true">
       <div class="brand-intro__seal" aria-hidden="true">
-        <img src="/src/assets/app-icons/app-icon-192.png" alt="" />
+        <img src="${appIconUrl}" alt="" />
       </div>
       <p class="brand-intro__studio">${t("app.studioName")}</p>
       <h2>${t("app.title")}</h2>
-      <img class="brand-intro__cast" src="/src/assets/characters/opening-expression-sheet-v1-clean.png" alt="" />
+      <img class="brand-intro__cast" src="${redesignedCastUrl}" alt="" />
       <button class="brand-intro__skip" type="button">${t("brandIntro.skip")}</button>
     </div>
   `;

@@ -5,7 +5,7 @@ Last updated: 2026-06-28
 ## Current Phase
 
 - Mode: `live-candidate`
-- Version: `v0.1.4`
+- Version: `v0.1.5`
 - Goal: ship a small Android-first cozy Nonogram MVP within one week, while keeping iOS packaging and store-readiness prepared for Mac Mini handoff.
 
 ## Decisions
@@ -99,6 +99,7 @@ Last updated: 2026-06-28
 - Updated mobile QA to verify the How to Play card is visible before checking the puzzle board.
 - Verification after this slice: node --check passed on changed JS files; npm run test passed with 17 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed; jarsigner still reports the release AAB is unsigned.
 
+
 ## Product Copy Rule
 
 - Do not show internal development-positioning phrases to players. Lines such as quiet minutes, cozy world intent, or why we are making the game belong in planning docs, not the app UI.
@@ -117,6 +118,17 @@ Last updated: 2026-06-28
 - Generated first experimental character redesign candidate at docs/visual-concepts/pip-cast-redesign-concept-v1.png.
 - Added docs/CHARACTER_REDESIGN_DIRECTION.md with redesign principles, avoid-list, and IP clearance notes.
 - Verification after this slice: node --check passed on changed JS files; npm run test passed with 17 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed; jarsigner still reports the release AAB is unsigned.
+
+
+## Progress Update - 2026-06-28 Character Direction Approval
+
+- Bumped visible app version to v0.1.5.
+- User approved the first Pip/cast redesign concept as the production target direction.
+- Created a resized app asset at src/assets/characters/pip-cast-redesign-concept-v1-web.jpg from the approved concept for app use.
+- Updated the game identity cast image to show the approved redesign direction instead of the older expression sheet, using Vite asset imports so the image is bundled into dist/Android.
+- Updated brand metadata so launchProductName and currentAppTitle point to Pip's Picture Pantry instead of Elena's Cozy Village.
+- Documented that the app icon/native launcher assets still need a dedicated redesign-based icon pass before final store submission.
+- Verification after this slice: node --check passed on changed JS files; npm run test passed with 17 tests; npm run build passed with the app character asset bundled at about 119 KB; npm run qa:mobile passed at 360x740, 390x844, and 430x932; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed after running separately from cap:sync; jarsigner still reports the release AAB is unsigned.
 
 ## Product Copy Rule
 
