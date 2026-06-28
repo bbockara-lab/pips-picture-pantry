@@ -113,3 +113,13 @@ Last updated: 2026-06-28
 - Signed AAB size after rebuild: 3,746,786 bytes.
 - jarsigner verification after the move: jar verified.
 - Current Pip upload key SHA-256 fingerprint: 80:A0:F9:F5:FB:21:04:0D:3B:7A:3B:3A:DD:8E:8A:CD:18:3B:5F:72:FD:FA:8C:A7:D9:5F:79:BA:E2:C9:6D:98.
+## Verification Update - 2026-06-28 v0.1.9 Internal Test Feedback Build
+
+- Built a new signed Android App Bundle for the tester-feedback update.
+- Android versionCode: 2.
+- Android versionName: 1.0.1.
+- Visible app version: v0.1.9.
+- Signed AAB path: android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size: 3,746,933 bytes.
+- jarsigner verification: jar verified.
+- Play Console next upload should create internal test release 2 (1.0.1), because versionCode 1 is already used by the first internal test release.

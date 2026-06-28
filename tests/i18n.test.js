@@ -21,6 +21,10 @@ describe("i18n", () => {
 
   it("formats translated strings", () => {
     expect(t("progress.filled", { count: 3 })).toBe("3 filled");
+    expect(t("controls.fill")).toBe("Color");
+    expect(t("controls.mark")).toBe("Blank Check");
+    expect(t("controls.undo")).toBe("Undo last move");
+    expect(t("daily.eyebrow")).toBe("Today's pick");
     expect(t("album.count", { completed: 1, total: 9 })).toBe("1/9 pictures");
   });
 
@@ -41,6 +45,8 @@ describe("i18n", () => {
     setLanguagePreference("system", "ko-KR");
     expect(getLanguagePreference()).toBe("system");
     expect(t("views.album")).toBe("\uc568\ubc94");
+    expect(t("controls.fill")).toBe("\uce60\ud558\uae30");
+    expect(t("controls.mark")).toBe("\ube48\uce78 \uccb4\ud06c");
 
     setLanguagePreference("en", "ko-KR");
     expect(getLanguagePreference()).toBe("en");

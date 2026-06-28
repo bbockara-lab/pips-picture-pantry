@@ -3,7 +3,6 @@ import redesignedCastUrl from "../assets/characters/pip-cast-redesign-concept-v1
 import { t } from "../i18n/index.js";
 
 const STUDIO_DURATION_MS = 900;
-const GAME_DURATION_MS = 1300;
 const INTRO_EXIT_MS = 260;
 
 export function renderBrandIntro(root) {
@@ -54,10 +53,8 @@ export function renderBrandIntro(root) {
 
   if (prefersReducedMotion()) {
     showGameIdentity();
-    window.setTimeout(dismiss, 700);
   } else {
     window.setTimeout(showGameIdentity, STUDIO_DURATION_MS);
-    window.setTimeout(dismiss, STUDIO_DURATION_MS + GAME_DURATION_MS);
   }
 
   root.appendChild(intro);

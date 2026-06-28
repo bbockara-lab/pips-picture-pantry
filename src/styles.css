@@ -1,6 +1,6 @@
 :root {
   color: #3d2b2e;
-  background: #fff3d8;
+  background: #fff7e6;
   font-family:
     Inter, ui-rounded, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-synthesis: none;
@@ -17,8 +17,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    linear-gradient(180deg, rgba(255, 243, 216, 0.96), rgba(245, 223, 174, 0.88)),
-    #fff3d8;
+    linear-gradient(180deg, rgba(255, 250, 238, 0.98), rgba(250, 236, 204, 0.9)),
+    #fff7e6;
 }
 
 button {
@@ -186,7 +186,7 @@ button {
   min-height: 0;
   border: 2px solid rgba(61, 43, 46, 0.55);
   border-radius: 7px;
-  background: #fff3d8;
+  background: #fff7e6;
   color: #7a4e35;
   font-size: 1.1rem;
   font-weight: 900;
@@ -334,7 +334,7 @@ button {
   border: 2px solid rgba(61, 43, 46, 0.2);
   border-radius: 8px;
   padding: 9px;
-  background: #fff3d8;
+  background: #fff7e6;
 }
 
 .album-card.complete {
@@ -577,9 +577,9 @@ button {
 :root {
   --ink: #3d2b2e;
   --cocoa: #7a4e35;
-  --cream: #fff3d8;
+  --cream: #fff7e6;
   --paper: #fff8e8;
-  --toast: #f5dfae;
+  --toast: #f8e9c6;
   --honey: #f2c94c;
   --mint: #a8d8c2;
   --tomato: #d95d4f;
@@ -595,7 +595,7 @@ body {
   background:
     repeating-linear-gradient(90deg, rgba(122, 78, 53, 0.035) 0 1px, transparent 1px 18px),
     repeating-linear-gradient(0deg, rgba(122, 78, 53, 0.026) 0 1px, transparent 1px 22px),
-    linear-gradient(180deg, rgba(255, 243, 216, 0.98), rgba(245, 223, 174, 0.92));
+    linear-gradient(180deg, rgba(255, 250, 238, 0.98), rgba(250, 236, 204, 0.9));
 }
 
 .app-shell {
@@ -702,7 +702,7 @@ body {
   background:
     repeating-linear-gradient(90deg, rgba(122, 78, 53, 0.04) 0 1px, transparent 1px 20px),
     repeating-linear-gradient(0deg, rgba(122, 78, 53, 0.032) 0 1px, transparent 1px 24px),
-    linear-gradient(180deg, #fff8e8, #f5dfae 72%, #a8d8c2);
+    linear-gradient(180deg, #fffaf0, #f8e9c6 72%, #b8e0cd);
   z-index: 20;
   animation: brandIntroIn 260ms ease-out both;
 }

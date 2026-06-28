@@ -45,23 +45,23 @@ export const en = {
     pantryAlbum: "Pantry Album"
   },
   daily: {
-    eyebrow: "Today's card",
-    play: "Play today",
-    selected: "Selected",
-    note: "A picture picked for today."
+    eyebrow: "Today's pick",
+    play: "Try this picture",
+    selected: "Playing this",
+    note: "One suggested picture for the day. No bonus, just an easy place to start."
   },
   howToPlay: {
     title: "First move",
-    goal: "Fill the squares the numbers point to.",
-    stepFill: "Choose Fill, then tap the picture squares.",
-    stepClues: "3 means three together. 1 1 means two separate singles.",
-    stepMark: "Use Mark for squares you know stay blank."
+    goal: "Color the picture squares the numbers point to.",
+    stepFill: "Choose Color, then tap the picture squares.",
+    stepClues: "3 means three squares in a row. 1 1 means color one square, leave a gap, then color one more.",
+    stepMark: "Use Blank Check when you are sure a square should stay empty."
   },
   controls: {
-    fill: "Fill",
-    mark: "Mark",
-    markHint: "Mark empty spots you know should stay blank.",
-    undo: "Undo"
+    fill: "Color",
+    mark: "Blank Check",
+    markHint: "Check squares you are sure should stay empty.",
+    undo: "Undo last move"
   },
   progress: {
     filled: "{count} filled",

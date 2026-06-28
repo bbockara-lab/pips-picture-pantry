@@ -17,8 +17,10 @@ for (const viewport of viewports) {
   await expectVisible(page, ".brand-intro", viewport.name);
   await expectVisible(page, ".studio-bumper__mark", viewport.name);
   await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 2400 });
+  await page.waitForTimeout(1500);
+  await expectVisible(page, ".brand-intro.game-stage", viewport.name);
   await expectVisible(page, ".brand-intro__seal", viewport.name);
-  await page.getByRole("button", { name: /start|시작/i }).click();
+  await page.locator(".brand-intro__skip").click();
   await page.locator(".brand-intro").waitFor({ state: "detached", timeout: 1500 });
 
   await expectVisible(page, ".app-shell", viewport.name);
@@ -33,6 +35,8 @@ for (const viewport of viewports) {
   await seedCompletedStarter(page);
   await page.reload({ waitUntil: "networkidle" });
   await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 2400 });
+  await page.waitForTimeout(1500);
+  await expectVisible(page, ".brand-intro.game-stage", viewport.name);
   await page.locator(".brand-intro__skip").click();
   await page.locator(".brand-intro").waitFor({ state: "detached", timeout: 1500 });
   await expectVisible(page, ".completion-pip", viewport.name);

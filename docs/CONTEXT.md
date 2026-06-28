@@ -206,3 +206,14 @@ Last updated: 2026-06-28
 - Moved Elena Cozy Village upload key into 99. Key Paths/Android/Elena Cozy Village for the same key-storage convention.
 - Updated Android signing docs and the keystore creation script default path to the 99. Key Paths convention.
 - Verification after this slice: rebuilt the signed AAB using the moved Pip env file path; jarsigner reported jar verified; current upload key SHA-256 is recorded in docs/ANDROID_RELEASE_STATUS.md.
+
+## Progress Update - 2026-06-28 v0.1.9 First Internal Test Feedback
+
+- Bumped visible app version to v0.1.9 and Android release version to versionCode 2 / versionName 1.0.1 for the next Play internal test upload.
+- Changed the game identity screen so it no longer auto-dismisses; players must tap Start before entering the puzzle.
+- Clarified first puzzle instructions: 3 is now described as three continuous squares, and 1 1 explains coloring one square, leaving a gap, then coloring one more.
+- Renamed controls from Fill / Mark / Undo to Color / Blank Check / Undo last move in English, and to coloring / blank-check wording in Korean.
+- Lightened the cozy paper background while keeping the Sunny Spoon cream palette.
+- Reframed Today's card as Today's pick: a suggested picture with no bonus, meant only to reduce choice friction.
+- Updated mobile visual QA to verify the game identity screen stays visible until Start is tapped.
+- Verification after this slice: node --check passed on changed JS modules; npm run test passed with 20 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported jar verified.
