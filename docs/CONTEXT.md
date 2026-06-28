@@ -34,7 +34,7 @@ Last updated: 2026-06-28
 - 2026-06-28: `npm run build` passed and generated `dist/`.
 - 2026-06-28: Local dev server verified at `http://127.0.0.1:5173` with HTTP 200.
 - 2026-06-28: Official monetization docs checked; MVP monetization remains optional non-consumable support or bonus pack, with ads deferred.
-- 2026-06-28: `git diff --stat` is unavailable because this folder is not currently a Git repository.
+- 2026-06-28: Initialized local Git repository, added `.gitignore`, committed baseline as `a83aa08 chore: initialize Pip's Picture Pantry MVP scaffold`, and renamed branch to `main`.
 
 ## Next Actions
 
