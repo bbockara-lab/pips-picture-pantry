@@ -23,7 +23,7 @@ Last updated: 2026-06-28
 
 ## Signing Status
 
-- Upload keystore exists outside the repo under D:\Users\bbock\OneDrive\00. Private\10. Development\_android_keystores.
+- Upload keystore exists outside the repo under D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Pip's Picture Pantry.
 - Local-only signing env file exists outside the repo and is not committed.
 - jarsigner -verify reports: jar verified.
 - Current blocker: upload the signed AAB to Google Play internal testing and confirm Play Console accepts it.
@@ -96,10 +96,20 @@ Last updated: 2026-06-28
 
 ## Verification Update - 2026-06-28 Signed Android AAB
 
-- Created upload keystore outside the repo at D:\Users\bbock\OneDrive\00. Private\10. Development\_android_keystores\pip-picture-pantry-upload.jks.
-- Created local-only signing env file outside the repo at D:\Users\bbock\OneDrive\00. Private\10. Development\_android_keystores\pip-picture-pantry-upload.env.ps1.
+- Created upload keystore outside the repo at D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Pip's Picture Pantry\pip-picture-pantry-upload.jks.
+- Created local-only signing env file outside the repo at D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Pip's Picture Pantry\pip-picture-pantry-upload.env.ps1.
 - Built signed release AAB at android/app/build/outputs/bundle/release/app-release.aab.
-- Signed AAB size: 3,746,785 bytes.
+- Signed AAB size: 3,746,786 bytes.
 - jarsigner -verify returned jar verified with exit code 0.
-- Upload key SHA-256 fingerprint: 5D:DC:1A:4B:1C:12:13:DD:04:49:67:C4:84:A7:F9:61:98:22:F3:37:C3:90:96:FF:93:41:53:A4:67:BD:9C:56.
+- Upload key SHA-256 fingerprint: 80:A0:F9:F5:FB:21:04:0D:3B:7A:3B:3A:DD:8E:8A:CD:18:3B:5F:72:FD:FA:8C:A7:D9:5F:79:BA:E2:C9:6D:98.
 - Next blocker: upload this AAB to Google Play internal testing and confirm Play Console accepts the upload key / bundle.
+
+## Verification Update - 2026-06-28 Key Paths Organization
+
+- Organized private Android signing material under 99. Key Paths/Android by project name.
+- Pip's Picture Pantry upload keystore and local signing env now live under D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Pip's Picture Pantry.
+- Elena Cozy Village upload key was moved under D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Elena Cozy Village.
+- Rebuilt signed release AAB after the move: android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size after rebuild: 3,746,786 bytes.
+- jarsigner verification after the move: jar verified.
+- Current Pip upload key SHA-256 fingerprint: 80:A0:F9:F5:FB:21:04:0D:3B:7A:3B:3A:DD:8E:8A:CD:18:3B:5F:72:FD:FA:8C:A7:D9:5F:79:BA:E2:C9:6D:98.

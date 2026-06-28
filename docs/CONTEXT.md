@@ -193,8 +193,16 @@ Last updated: 2026-06-28
 ## Progress Update - 2026-06-28 Signed Android AAB
 
 - Kept UI version at v0.1.8 because this slice changes release readiness, not player-facing behavior.
-- Created the Android upload keystore and a local-only signing env file outside the repo under D:\Users\bbock\OneDrive\00. Private\10. Development\_android_keystores.
+- Created the Android upload keystore and a local-only signing env file outside the repo under D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Pip's Picture Pantry.
 - Built the first signed release AAB at android/app/build/outputs/bundle/release/app-release.aab.
 - Verified the signed AAB with jarsigner: jar verified, exit code 0.
 - Recorded upload key SHA-256 fingerprint in docs/ANDROID_RELEASE_STATUS.md for Play Console reference.
 - Next Android action: upload signed AAB to Google Play internal testing and capture Play Console acceptance or rejection details.
+
+## Progress Update - 2026-06-28 Key Paths Organization
+
+- Organized private Android signing materials under 99. Key Paths/Android by project name.
+- Moved Pip's Picture Pantry upload keystore and local signing env file to 99. Key Paths/Android/Pip's Picture Pantry outside the repo.
+- Moved Elena Cozy Village upload key into 99. Key Paths/Android/Elena Cozy Village for the same key-storage convention.
+- Updated Android signing docs and the keystore creation script default path to the 99. Key Paths convention.
+- Verification after this slice: rebuilt the signed AAB using the moved Pip env file path; jarsigner reported jar verified; current upload key SHA-256 is recorded in docs/ANDROID_RELEASE_STATUS.md.

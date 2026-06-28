@@ -31,7 +31,7 @@ scripts\create_android_upload_keystore.ps1
 Default output location:
 
 ```text
-D:\Users\bbock\OneDrive\00. Private\10. Development\_android_keystores\pip-picture-pantry-upload.jks
+D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Pip's Picture Pantry\pip-picture-pantry-upload.jks
 ```
 
 The script uses Android Studio's bundled JBR keytool and prompts for passwords. Save those passwords in a password manager. Google Play App Signing should then manage the app signing key, while this local upload key is used to upload AABs.
@@ -41,7 +41,7 @@ The script uses Android Studio's bundled JBR keytool and prompts for passwords. 
 Set the signing environment variables in the same PowerShell session:
 
 ```powershell
-$env:PPP_UPLOAD_STORE_FILE='D:\Users\bbock\OneDrive\00. Private\10. Development\_android_keystores\pip-picture-pantry-upload.jks'
+$env:PPP_UPLOAD_STORE_FILE='D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Pip's Picture Pantry\pip-picture-pantry-upload.jks'
 $env:PPP_UPLOAD_KEY_ALIAS='pip-picture-pantry-upload'
 $env:PPP_UPLOAD_STORE_PASSWORD='<store password>'
 $env:PPP_UPLOAD_KEY_PASSWORD='<key password>'

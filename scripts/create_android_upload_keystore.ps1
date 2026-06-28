@@ -7,7 +7,8 @@ $ErrorActionPreference = "Stop"
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
 if ([string]::IsNullOrWhiteSpace($KeystorePath)) {
-  $defaultDir = Join-Path (Split-Path -Parent $repoRoot) "_android_keystores"
+  $developmentRoot = Split-Path -Parent $repoRoot
+  $defaultDir = Join-Path $developmentRoot "99. Key Paths\Android\Pip's Picture Pantry"
   $KeystorePath = Join-Path $defaultDir "pip-picture-pantry-upload.jks"
 }
 
