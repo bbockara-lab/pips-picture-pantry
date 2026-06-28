@@ -10,10 +10,10 @@ import { puzzleText, t } from "../i18n/index.js";
 import { renderBoard } from "./boardView.js";
 import { renderCompletionBanner } from "./pipReaction.js";
 
-export function renderPuzzleView(puzzle) {
+export function renderPuzzleView(puzzle, options = {}) {
   let state = loadPuzzleState(puzzle.id) || createPuzzleState(puzzle);
   const section = document.createElement("section");
-  section.className = "puzzle-panel content-panel";
+  section.className = state.completed ? "puzzle-panel content-panel completed" : "puzzle-panel content-panel";
 
   function update(nextState) {
     state = {
@@ -26,6 +26,7 @@ export function renderPuzzleView(puzzle) {
 
   function draw() {
     section.innerHTML = "";
+    section.className = state.completed ? "puzzle-panel content-panel completed" : "puzzle-panel content-panel";
 
     const meta = document.createElement("div");
     meta.className = "puzzle-meta";
@@ -38,12 +39,18 @@ export function renderPuzzleView(puzzle) {
     `;
 
     section.appendChild(meta);
-    section.appendChild(renderBoard(puzzle, state, (row, column) => update(toggleCell(state, row, column))));
+    section.appendChild(renderBoard(puzzle, state, (row, column) => update(toggleCell(state, row, column)), {
+      locked: state.completed
+    }));
     section.appendChild(createControls(state, update));
     section.appendChild(createProgressLine(state, puzzle));
 
+    if (state.mode === "mark" && !state.completed) {
+      section.appendChild(createMarkHint());
+    }
+
     if (state.completed) {
-      section.appendChild(renderCompletionBanner(puzzle));
+      section.appendChild(renderCompletionBanner(puzzle, options));
     }
   }
 
@@ -61,12 +68,14 @@ function createControls(state, update) {
   const markButton = createModeButton(t("controls.mark"), state.mode === "mark", () =>
     update(setMode(state, "mark"))
   );
+  markButton.title = t("controls.markHint");
+  markButton.setAttribute("aria-label", t("controls.markHint"));
 
   const undoButton = document.createElement("button");
   undoButton.type = "button";
   undoButton.className = "tool-button";
   undoButton.textContent = t("controls.undo");
-  undoButton.disabled = state.history.length === 0;
+  undoButton.disabled = state.history.length === 0 || state.completed;
   undoButton.addEventListener("click", () => update(undoLastMove(state)));
 
   controls.append(fillButton, markButton, undoButton);
@@ -85,10 +94,22 @@ function createModeButton(label, active, onClick) {
 function createProgressLine(state, puzzle) {
   const line = document.createElement("p");
   line.className = "progress-line";
+  if (state.completed) {
+    line.textContent = t("progress.complete");
+    return line;
+  }
+
   const filledCount = state.cells.flat().filter((cell) => cell === "filled").length;
   const mistakes = countMistakes(state, puzzle.solution);
   line.textContent = mistakes > 0
     ? t("progress.revisit", { count: filledCount, mistakes })
     : t("progress.filled", { count: filledCount });
   return line;
+}
+
+function createMarkHint() {
+  const hint = document.createElement("p");
+  hint.className = "mode-hint";
+  hint.textContent = t("controls.markHint");
+  return hint;
 }

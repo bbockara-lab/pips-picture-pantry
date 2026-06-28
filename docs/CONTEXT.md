@@ -50,9 +50,23 @@ Last updated: 2026-06-28
 - 2026-06-28: `jarsigner -verify` confirmed the release AAB is unsigned; upload keystore/signing remains the Play upload blocker.
 - 2026-06-28: npm run cap:sync passed, then scripts/build_android_release_bundle.ps1 passed after sync.
 
+## Progress Update - 2026-06-28 Game Loop / Monetization Foundation
+
+- Responded to Claude Design & Game Feel Review and Direction Note 2 with a focused live-candidate polish slice.
+- Added reset confirmation dialog so progress is not erased by a single accidental tap.
+- Locked completed puzzle boards while keeping the solved picture visible.
+- Added completion CTAs: View Album and Next Picture, connecting completion to collection value.
+- Added a visually separate Daily card above the puzzle panel to make the daily habit loop clearer.
+- Added pack/access metadata for future monetization structure: free, unlockable, and bonus-pack. No payment UI or forced monetization was added.
+- Removed dead puzzle reward display data from puzzles.js; puzzle copy now stays in i18n dictionaries.
+- Added one new 8x8 puzzle and one 10x10 next-step puzzle to exercise larger board and album stamp density.
+- Cached the active locale after startup and added an explicit ko.js comment that launch puzzle titles stay English intentionally.
+- Verification after this slice: node --check on changed JS modules passed; npm run test passed with 16 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed; jarsigner still reports the release AAB is unsigned.
+
 ## Next Actions
 
-- Add completion-to-album navigation polish if mobile QA confirms layout.
-- Review Korean copy quality after mobile visual QA; strings render through Unicode escapes but copy should still be human-polished before store screenshots.
-- Create/connect upload keystore and build signed Android release AAB.
+- Create/connect upload keystore outside the repo and build a signed Android release AAB.
 - Draft Android/iOS store metadata and screenshot checklist.
+- Run a manual playthrough on the Daily card, reset modal, completion CTA, album view, and 10x10 puzzle on a real or emulator device.
+- Review Korean copy quality before store screenshots; strings render through Unicode escapes but copy should still be human-polished.
+- Decide whether the 10x10 unlockable puzzle should be visually locked in UI for v0.1.0 or remain selectable as a non-blocking preview.

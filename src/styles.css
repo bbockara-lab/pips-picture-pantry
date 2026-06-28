@@ -399,3 +399,177 @@ button {
     grid-template-rows: auto 1fr;
   }
 }
+
+.daily-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  border: 2px solid rgba(61, 43, 46, 0.28);
+  border-radius: 8px;
+  padding: 12px;
+  background: #f7df9e;
+}
+
+.daily-card h2,
+.daily-card p {
+  margin: 0;
+}
+
+.daily-card h2 {
+  margin-top: 2px;
+  font-size: 1.08rem;
+}
+
+.daily-card div > p:last-child {
+  margin-top: 3px;
+  color: #7a4e35;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.daily-card.active {
+  background: #a8d8c2;
+}
+
+.daily-button {
+  min-width: 96px;
+  padding: 0 10px;
+  font-weight: 900;
+}
+
+.puzzle-panel.completed .puzzle-cell:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.mode-hint {
+  margin: 8px 0 0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: #4a344a;
+  background: rgba(168, 216, 194, 0.38);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.completion-banner {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  align-items: center;
+}
+
+.completion-actions {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.completion-actions .tool-button {
+  font-weight: 900;
+}
+
+.pack-block + .pack-block {
+  margin-top: 14px;
+}
+
+.pack-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.pack-header span {
+  border-radius: 999px;
+  padding: 4px 9px;
+  color: #fff8e8;
+  background: #7a4e35;
+  font-size: 0.72rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.pack-note {
+  margin: 2px 0 0;
+  color: #7a4e35;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.puzzle-chip[data-access="unlockable"]::after {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background: #a8d8c2;
+  vertical-align: middle;
+}
+
+.album-stamp.picture {
+  padding: clamp(3px, 1.8vw, 6px);
+}
+
+.album-stamp.picture[style*="--stamp-size: 10"] {
+  gap: 0;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(61, 43, 46, 0.36);
+  z-index: 10;
+}
+
+.reset-dialog {
+  width: min(100%, 360px);
+  border: 2px solid #3d2b2e;
+  border-radius: 8px;
+  padding: 16px;
+  background: #fff8e8;
+  box-shadow: 0 12px 36px rgba(61, 43, 46, 0.28);
+}
+
+.reset-dialog h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.reset-dialog p {
+  margin: 8px 0 0;
+  color: #7a4e35;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.dialog-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.tool-button.danger {
+  color: #fff8e8;
+  background: #9f4f45;
+}
+
+@media (max-width: 370px) {
+  .daily-card {
+    grid-template-columns: 1fr;
+  }
+
+  .daily-button {
+    width: 100%;
+  }
+}

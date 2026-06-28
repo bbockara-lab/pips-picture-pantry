@@ -3,6 +3,7 @@ import { ko } from "./ko.js";
 
 const dictionaries = { en, ko };
 const DEFAULT_LOCALE = "en";
+let activeLocale = getActiveLocale();
 
 export function getActiveLocale(language = getNavigatorLanguage()) {
   const normalized = String(language || "").toLowerCase();
@@ -12,8 +13,12 @@ export function getActiveLocale(language = getNavigatorLanguage()) {
   return DEFAULT_LOCALE;
 }
 
+export function setActiveLocale(locale) {
+  activeLocale = dictionaries[locale] ? locale : DEFAULT_LOCALE;
+}
+
 export function t(key, params = {}) {
-  const dictionary = dictionaries[getActiveLocale()] || dictionaries[DEFAULT_LOCALE];
+  const dictionary = dictionaries[activeLocale] || dictionaries[DEFAULT_LOCALE];
   const value = getByPath(dictionary, key) ?? getByPath(dictionaries[DEFAULT_LOCALE], key) ?? key;
   if (typeof value !== "string") {
     return key;

@@ -13,9 +13,10 @@ describe("puzzle data", () => {
     });
   });
 
-  it("includes starter and easy launch-board sizes", () => {
+  it("includes starter, easy, and next-step launch-board sizes", () => {
     expect(puzzles.some((puzzle) => puzzle.size === 5)).toBe(true);
     expect(puzzles.some((puzzle) => puzzle.size === 8)).toBe(true);
+    expect(puzzles.some((puzzle) => puzzle.size === 10)).toBe(true);
   });
 
   it("supports stacked multi-number column clues", () => {
@@ -23,5 +24,17 @@ describe("puzzle data", () => {
     const clues = computeClues(windowPuzzle.solution);
 
     expect(clues.columns.some((clue) => clue.length > 1)).toBe(true);
+  });
+
+  it("keeps monetization access metadata explicit and non-blocking", () => {
+    const supportedAccess = new Set(["free", "unlockable", "bonus-pack"]);
+
+    puzzles.forEach((puzzle) => {
+      expect(supportedAccess.has(puzzle.access)).toBe(true);
+      expect(puzzle.reward).toBeUndefined();
+    });
+
+    expect(puzzles.filter((puzzle) => puzzle.access === "free").length).toBeGreaterThan(5);
+    expect(puzzles.some((puzzle) => puzzle.access === "unlockable")).toBe(true);
   });
 });

@@ -43,3 +43,9 @@ Last updated: 2026-06-28
 3. Build signed release AAB.
 4. Upload to Google Play internal testing.
 5. Capture real-device screenshots after internal install.
+## Verification Update - 2026-06-28 Game Loop Slice
+
+- npm run cap:sync passed after Daily card, completion CTA, access metadata, and 10x10 puzzle changes.
+- scripts/build_android_release_bundle.ps1 passed after sync.
+- jarsigner -verify still reports: jar is unsigned.
+- Signing/upload keystore remains the Android Play upload blocker.

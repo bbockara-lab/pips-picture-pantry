@@ -37,3 +37,16 @@ Monetization is a trial integration, not the product goal. The first release sho
 - Never interrupt puzzle play with purchase prompts.
 - No purchase prompt before a player completes at least several puzzles.
 - Purchases should feel like supporting the pantry, not escaping friction.
+
+## Game Loop Dependency - 2026-06-28
+
+Claude review and user direction confirmed that monetization depends on the core return loop. The app should establish Daily Picture, Starter Shelf, Pack Shelf, and Pantry Album value before exposing any payment surface.
+
+Current implementation response:
+
+- Added puzzle access metadata for free, unlockable, and bonus-pack content.
+- Kept all current gameplay non-blocked and mostly free.
+- Added Daily card and completion-to-album CTA so optional packs can later feel like more cozy cards to collect, not friction removal.
+- Added one unlockable 10x10 data entry as structure only; no paid gate or billing UI exists yet.
+
+Near-term monetization posture remains unchanged: no forced ads, no energy, no lives, no timers, no gacha, and no purchase prompts during puzzle play.

@@ -10,7 +10,11 @@ export const en = {
     navLabel: "Main views"
   },
   header: {
-    resetProgress: "Reset progress"
+    resetProgress: "Reset progress",
+    resetTitle: "Reset all progress?",
+    resetBody: "This clears every saved picture and current puzzle board on this device.",
+    cancelReset: "Keep playing",
+    confirmReset: "Reset"
   },
   pipStrip: {
     puzzleLine: "Pip found today's picture.",
@@ -23,17 +27,27 @@ export const en = {
     dailyPicture: "Daily picture",
     pantryAlbum: "Pantry Album"
   },
+  daily: {
+    eyebrow: "Today's card",
+    play: "Play today",
+    selected: "Selected",
+    note: "A small reason to visit Pip each day."
+  },
   controls: {
     fill: "Fill",
     mark: "Mark",
+    markHint: "Mark empty spots you know should stay blank.",
     undo: "Undo"
   },
   progress: {
     filled: "{count} filled",
-    revisit: "{count} filled - {mistakes} to revisit"
+    revisit: "{count} filled - {mistakes} to revisit",
+    complete: "Card complete"
   },
   completion: {
-    saved: "A cozy {imageName}! Saved to the Pantry Album."
+    saved: "A cozy {imageName}! Saved to the Pantry Album.",
+    viewAlbum: "View Album",
+    nextPicture: "Next Picture"
   },
   album: {
     count: "{completed}/{total} pictures",
@@ -41,6 +55,19 @@ export const en = {
     hiddenTitle: "Hidden picture",
     hiddenText: "Finish the puzzle to save this card.",
     lockedSymbol: "?"
+  },
+  packs: {
+    free: "Free",
+    unlockable: "Unlockable",
+    bonusPack: "Bonus pack",
+    pipsPantryShelf: {
+      title: "Starter shelf",
+      note: "Free launch pictures"
+    },
+    pipsPantryShelfPlus: {
+      title: "Pip's Pantry Shelf Plus",
+      note: "Future optional bonus pictures"
+    }
   },
   puzzles: {
     "pip-face-5": {
@@ -77,6 +104,16 @@ export const en = {
       title: "Tomato Soup",
       imageName: "Tomato Soup",
       albumText: "Tomato soup warms the whole shelf."
+    },
+    "pantry-jar-8": {
+      title: "Pantry Jar",
+      imageName: "Pantry Jar",
+      albumText: "A little jar joins Pip's pantry shelf."
+    },
+    "sunny-spoon-sign-10": {
+      title: "Sunny Spoon Sign",
+      imageName: "Sunny Spoon Sign",
+      albumText: "The Sunny Spoon sign is ready for the wall."
     }
   }
 };

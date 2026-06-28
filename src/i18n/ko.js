@@ -10,7 +10,11 @@ export const ko = {
     navLabel: "\uc8fc\uc694 \ud654\uba74"
   },
   header: {
-    resetProgress: "\uc9c4\ud589 \ucd08\uae30\ud654"
+    resetProgress: "\uc9c4\ud589 \ucd08\uae30\ud654",
+    resetTitle: "\ubaa8\ub4e0 \uc9c4\ud589\uc744 \ucd08\uae30\ud654\ud560\uae4c\uc694?",
+    resetBody: "\uc774 \uae30\uae30\uc5d0 \uc800\uc7a5\ub41c \uc644\uc131 \uce74\ub4dc\uc640 \ud37c\uc990 \uc9c4\ud589\uc774 \ubaa8\ub450 \uc9c0\uc6cc\uc838\uc694.",
+    cancelReset: "\uacc4\uc18d\ud558\uae30",
+    confirmReset: "\ucd08\uae30\ud654"
   },
   pipStrip: {
     puzzleLine: "\ud54d\uc774 \uc624\ub298\uc758 \uadf8\ub9bc\uc744 \ucc3e\uc558\uc5b4\uc694.",
@@ -23,17 +27,27 @@ export const ko = {
     dailyPicture: "\uc624\ub298\uc758 \uadf8\ub9bc",
     pantryAlbum: "\ud32c\ud2b8\ub9ac \uc568\ubc94"
   },
+  daily: {
+    eyebrow: "\uc624\ub298\uc758 \uce74\ub4dc",
+    play: "\uc624\ub298 \ud37c\uc990",
+    selected: "\uc120\ud0dd\ub428",
+    note: "\ub9e4\uc77c \ud54d\uc744 \ub9cc\ub098\ub294 \uc791\uc740 \uc774\uc720\uc608\uc694."
+  },
   controls: {
     fill: "\ucc44\uc6b0\uae30",
     mark: "\ud45c\uc2dc",
+    markHint: "\ube44\uc6cc\ub458 \uce78\uc744 \ud45c\uc2dc\ud574\uc694.",
     undo: "\ub418\ub3cc\ub9ac\uae30"
   },
   progress: {
     filled: "{count}\uce78 \ucc44\uc6c0",
-    revisit: "{count}\uce78 \ucc44\uc6c0 - {mistakes}\uce78 \ub2e4\uc2dc \ubcf4\uae30"
+    revisit: "{count}\uce78 \ucc44\uc6c0 - {mistakes}\uce78 \ub2e4\uc2dc \ubcf4\uae30",
+    complete: "\uce74\ub4dc \uc644\uc131"
   },
   completion: {
-    saved: "{imageName} \uc644\uc131! \uc568\ubc94\uc5d0 \uc800\uc7a5\ud588\uc5b4\uc694."
+    saved: "{imageName} \uc644\uc131! \uc568\ubc94\uc5d0 \uc800\uc7a5\ud588\uc5b4\uc694.",
+    viewAlbum: "\uc568\ubc94 \ubcf4\uae30",
+    nextPicture: "\ub2e4\uc74c \uadf8\ub9bc"
   },
   album: {
     count: "{completed}/{total}\uc7a5",
@@ -42,6 +56,20 @@ export const ko = {
     hiddenText: "\ud37c\uc990\uc744 \uc644\uc131\ud558\uba74 \uc800\uc7a5\ub3fc\uc694.",
     lockedSymbol: "?"
   },
+  packs: {
+    free: "\ubb34\ub8cc",
+    unlockable: "\uc7a0\uae08 \ud574\uc81c",
+    bonusPack: "\ubcf4\ub108\uc2a4 \ud329",
+    pipsPantryShelf: {
+      title: "\uccab \ud32c\ud2b8\ub9ac \uc120\ubc18",
+      note: "\ubb34\ub8cc \ucd9c\uc2dc \uadf8\ub9bc"
+    },
+    pipsPantryShelfPlus: {
+      title: "Pip's Pantry Shelf Plus",
+      note: "\ud5a5\ud6c4 \uc120\ud0dd\ud615 \ubcf4\ub108\uc2a4 \uadf8\ub9bc"
+    }
+  },
+  // Puzzle titles intentionally stay in English for the first launch card identity pass.
   puzzles: {
     "pip-face-5": {
       title: "Pip Face",
@@ -77,6 +105,16 @@ export const ko = {
       title: "Tomato Soup",
       imageName: "Tomato Soup",
       albumText: "\ud1a0\ub9c8\ud1a0 \uc218\ud504 \uadf8\ub9bc\uc774\uc5d0\uc694."
+    },
+    "pantry-jar-8": {
+      title: "Pantry Jar",
+      imageName: "Pantry Jar",
+      albumText: "\uc791\uc740 \ub2e8\uc9c0\uac00 \ud32c\ud2b8\ub9ac\uc5d0 \uc62c\ub77c\uac14\uc5b4\uc694."
+    },
+    "sunny-spoon-sign-10": {
+      title: "Sunny Spoon Sign",
+      imageName: "Sunny Spoon Sign",
+      albumText: "Sunny Spoon \uac04\ud310\uc744 \ubcbd\uc5d0 \uac78\uc5c8\uc5b4\uc694."
     }
   }
 };
