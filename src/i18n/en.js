@@ -84,6 +84,8 @@ export const en = {
     free: "Free",
     unlockable: "Unlockable",
     bonusPack: "Bonus pack",
+    locked: "Locked",
+    completeToUnlock: "Complete {count} cards",
     pipsPantryShelf: {
       title: "Starter shelf",
       note: "Free launch pictures"

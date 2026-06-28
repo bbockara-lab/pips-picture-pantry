@@ -84,6 +84,8 @@ export const ko = {
     free: "\ubb34\ub8cc",
     unlockable: "\uc7a0\uae08 \ud574\uc81c",
     bonusPack: "\ubcf4\ub108\uc2a4 \ud329",
+    locked: "\uc7a0\uae40",
+    completeToUnlock: "{count}\uc7a5 \uc644\uc131\ud558\uba74 \uc5f4\ub824\uc694",
     pipsPantryShelf: {
       title: "\uccab \ud32c\ud2b8\ub9ac \uc120\ubc18",
       note: "\ubb34\ub8cc \ucd9c\uc2dc \uadf8\ub9bc"

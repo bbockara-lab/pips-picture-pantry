@@ -1262,3 +1262,37 @@ body {
     width: min(100%, 164px);
   }
 }
+/* v0.1.8 progression unlock gate */
+.puzzle-chip {
+  display: grid;
+  place-items: center;
+  gap: 2px;
+}
+
+.puzzle-chip small {
+  color: var(--cocoa);
+  font-size: 0.68rem;
+  font-weight: 850;
+  line-height: 1.1;
+}
+
+.puzzle-chip.locked {
+  border-style: dashed;
+  background:
+    linear-gradient(135deg, rgba(245, 223, 174, 0.62), rgba(255, 248, 232, 0.86)),
+    var(--paper);
+  box-shadow: none;
+  opacity: 0.82;
+}
+
+.puzzle-chip.locked::before {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin-bottom: 1px;
+  border: 2px solid var(--cocoa);
+  border-top-width: 5px;
+  border-radius: 3px;
+  opacity: 0.8;
+}

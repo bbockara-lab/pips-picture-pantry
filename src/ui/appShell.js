@@ -2,12 +2,13 @@ import pipStripStickerUrl from "../assets/characters/pip-strip-sticker-v1.png";
 import { puzzlePacks } from "../data/packs.js";
 import { puzzles } from "../data/puzzles.js";
 import { getDailyPuzzle } from "../game/dailyPuzzle.js";
-import { resetProgress } from "../game/save.js";
+import { getUnlockRequirementProgress, isPuzzleUnlocked } from "../game/puzzleAccess.js";
+import { getCompletedPuzzleIds, resetProgress } from "../game/save.js";
 import { getLanguagePreference, puzzleText, setLanguagePreference, t } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
-export const APP_VERSION = "v0.1.7";
+export const APP_VERSION = "v0.1.8";
 
 export function renderApp(root) {
   const dailyPuzzle = getDailyPuzzle(puzzles);
@@ -17,7 +18,12 @@ export function renderApp(root) {
   let settingsOpen = false;
 
   function selectPuzzle(puzzleId) {
-    activePuzzle = puzzles.find((puzzle) => puzzle.id === puzzleId) || dailyPuzzle;
+    const nextPuzzle = puzzles.find((puzzle) => puzzle.id === puzzleId) || dailyPuzzle;
+    if (!isPuzzleUnlocked(nextPuzzle, getCompletedPuzzleIds())) {
+      return;
+    }
+
+    activePuzzle = nextPuzzle;
     activeView = "puzzle";
     resetOpen = false;
     settingsOpen = false;
@@ -25,8 +31,10 @@ export function renderApp(root) {
   }
 
   function selectNextPuzzle() {
-    const currentIndex = puzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
-    const nextPuzzle = puzzles[(currentIndex + 1) % puzzles.length] || dailyPuzzle;
+    const completedPuzzleIds = getCompletedPuzzleIds();
+    const unlockedPuzzles = puzzles.filter((puzzle) => isPuzzleUnlocked(puzzle, completedPuzzleIds));
+    const currentIndex = unlockedPuzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
+    const nextPuzzle = unlockedPuzzles[(currentIndex + 1) % unlockedPuzzles.length] || dailyPuzzle;
     selectPuzzle(nextPuzzle.id);
   }
 
@@ -238,6 +246,7 @@ function createDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle) {
 }
 
 function createPuzzlePicker(activePuzzleId, onSelectPuzzle) {
+  const completedPuzzleIds = getCompletedPuzzleIds();
   const section = document.createElement("section");
   section.className = "puzzle-picker content-panel";
 
@@ -264,12 +273,28 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle) {
       puzzles
         .filter((puzzle) => puzzle.packId === pack.id)
         .forEach((puzzle) => {
+          const unlocked = isPuzzleUnlocked(puzzle, completedPuzzleIds);
           const button = document.createElement("button");
           button.type = "button";
-          button.className = puzzle.id === activePuzzleId ? "puzzle-chip active" : "puzzle-chip";
-          button.textContent = puzzleText(puzzle.id, "title");
+          button.className = getPuzzleChipClass(puzzle, activePuzzleId, unlocked);
           button.dataset.access = puzzle.access;
-          button.addEventListener("click", () => onSelectPuzzle(puzzle.id));
+          button.disabled = !unlocked;
+
+          const label = document.createElement("span");
+          label.textContent = puzzleText(puzzle.id, "title");
+          button.appendChild(label);
+
+          if (!unlocked) {
+            const progress = getUnlockRequirementProgress(puzzle, completedPuzzleIds);
+            const requirement = document.createElement("small");
+            requirement.textContent = getUnlockRequirementLabel(progress);
+            button.appendChild(requirement);
+            button.title = requirement.textContent;
+            button.setAttribute("aria-label", `${puzzleText(puzzle.id, "title")} - ${requirement.textContent}`);
+          } else {
+            button.addEventListener("click", () => onSelectPuzzle(puzzle.id));
+          }
+
           list.appendChild(button);
         });
 
@@ -278,6 +303,25 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle) {
     });
 
   return section;
+}
+
+
+function getPuzzleChipClass(puzzle, activePuzzleId, unlocked) {
+  const classes = ["puzzle-chip"];
+  if (puzzle.id === activePuzzleId) {
+    classes.push("active");
+  }
+  if (!unlocked) {
+    classes.push("locked");
+  }
+  return classes.join(" ");
+}
+
+function getUnlockRequirementLabel(progress) {
+  if (!progress) {
+    return t("packs.locked");
+  }
+  return t("packs.completeToUnlock", { count: progress.required });
 }
 
 function createResetDialog(onCancel, onConfirm) {

@@ -5,7 +5,7 @@ Last updated: 2026-06-28
 ## Current Phase
 
 - Mode: `live-candidate`
-- Version: `v0.1.7`
+- Version: `v0.1.8`
 - Goal: ship a small Android-first cozy Nonogram MVP within one week, while keeping iOS packaging and store-readiness prepared for Mac Mini handoff.
 
 ## Decisions
@@ -149,6 +149,17 @@ Last updated: 2026-06-28
 - Updated mobile visual QA to seed a completed starter puzzle and verify .completion-pip and .completion-reveal render on 360px, 390px, and 430px mobile widths.
 - Verification after this slice: node --check passed on appShell.js, pipReaction.js, and mobile_visual_check.js; npm run test passed with 17 tests; npm run build passed with the Pip completion asset bundled at about 221 KB; npm run qa:mobile passed; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed; jarsigner still reports the release AAB is unsigned.
 
+
+## Progress Update - 2026-06-28 Unlock Gate
+
+- Bumped visible app version to v0.1.8.
+- Added src/game/puzzleAccess.js to evaluate unlock requirements independently from UI rendering.
+- Connected the Sunny Spoon Sign 10x10 puzzle to completed-count progress: it now stays locked until 5 cards are completed.
+- Puzzle picker now renders locked chips as disabled with a visible completion requirement instead of allowing early selection.
+- Added unlock access tests covering free puzzles, completed-count locking, unlocking, and duplicate completed-id handling.
+- Updated mobile visual QA to require a locked puzzle chip before the starter completion seed runs.
+- Verification after this slice: node --check passed on appShell.js, puzzleAccess.js, and mobile_visual_check.js; npm run test passed with 20 tests; npm run build passed; npm run qa:mobile passed; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed; jarsigner still reports the release AAB is unsigned.
+
 ## Product Copy Rule
 
 - Do not show internal development-positioning phrases to players. Lines such as quiet minutes, cozy world intent, or why we are making the game belong in planning docs, not the app UI.
@@ -164,7 +175,6 @@ Last updated: 2026-06-28
 
 ## Next Actions
 
-- Connect the 10x10 unlock gate to completed-puzzle progress instead of leaving it selectable.
 - Expand launch puzzle content toward the 30-picture store target after the completion loop feels rewarding.
 - Create/connect upload keystore outside the repo and build a signed Android release AAB.
 - Draft Android/iOS store metadata and screenshot checklist using the v0.1.6 first-play flow.
