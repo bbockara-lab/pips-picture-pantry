@@ -33,7 +33,7 @@ export function renderPuzzleView(puzzle) {
         <p class="section-label">Daily picture</p>
         <h2>${puzzle.title}</h2>
       </div>
-      <p class="difficulty">${puzzle.size}×${puzzle.size}</p>
+      <p class="difficulty">${puzzle.size}x${puzzle.size}</p>
     `;
 
     section.appendChild(meta);
@@ -86,6 +86,6 @@ function createProgressLine(state, puzzle) {
   line.className = "progress-line";
   const filledCount = state.cells.flat().filter((cell) => cell === "filled").length;
   const mistakes = countMistakes(state, puzzle.solution);
-  line.textContent = `${filledCount} filled · ${mistakes} gentle check`;
+  line.textContent = mistakes > 0 ? `${filledCount} filled - ${mistakes} to revisit` : `${filledCount} filled`;
   return line;
 }

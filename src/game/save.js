@@ -9,7 +9,11 @@ export function loadSave() {
   }
 
   try {
-    return JSON.parse(payload);
+    const parsed = JSON.parse(payload);
+    return {
+      puzzleStates: parsed.puzzleStates || {},
+      completedPuzzleIds: Array.isArray(parsed.completedPuzzleIds) ? parsed.completedPuzzleIds : []
+    };
   } catch {
     return null;
   }
@@ -33,6 +37,10 @@ export function savePuzzleState(state) {
   }
 
   saveGame(save);
+}
+
+export function getCompletedPuzzleIds() {
+  return loadSave()?.completedPuzzleIds || [];
 }
 
 export function resetProgress() {

@@ -1,6 +1,7 @@
 import { puzzles } from "../data/puzzles.js";
 import { getDailyPuzzle } from "../game/dailyPuzzle.js";
 import { resetProgress } from "../game/save.js";
+import { renderAlbumView } from "./albumView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
 export const APP_VERSION = "v0.1.0";
@@ -8,9 +9,16 @@ export const APP_VERSION = "v0.1.0";
 export function renderApp(root) {
   const dailyPuzzle = getDailyPuzzle(puzzles);
   let activePuzzle = dailyPuzzle;
+  let activeView = "puzzle";
 
   function selectPuzzle(puzzleId) {
     activePuzzle = puzzles.find((puzzle) => puzzle.id === puzzleId) || dailyPuzzle;
+    activeView = "puzzle";
+    draw();
+  }
+
+  function selectView(view) {
+    activeView = view;
     draw();
   }
 
@@ -21,20 +29,27 @@ export function renderApp(root) {
 
   function draw() {
     root.innerHTML = "";
-    root.appendChild(createShell(activePuzzle, selectPuzzle, handleReset));
+    root.appendChild(createShell(activePuzzle, activeView, selectPuzzle, selectView, handleReset));
   }
 
   draw();
 }
 
-function createShell(activePuzzle, onSelectPuzzle, onReset) {
+function createShell(activePuzzle, activeView, onSelectPuzzle, onSelectView, onReset) {
   const shell = document.createElement("main");
   shell.className = "app-shell";
 
   shell.appendChild(createHeader(onReset));
-  shell.appendChild(createPipStrip(activePuzzle));
-  shell.appendChild(renderPuzzleView(activePuzzle));
-  shell.appendChild(createPuzzlePicker(activePuzzle.id, onSelectPuzzle));
+  shell.appendChild(createPipStrip(activePuzzle, activeView));
+  shell.appendChild(createViewTabs(activeView, onSelectView));
+
+  if (activeView === "album") {
+    shell.appendChild(renderAlbumView());
+  } else {
+    shell.appendChild(renderPuzzleView(activePuzzle));
+    shell.appendChild(createPuzzlePicker(activePuzzle.id, onSelectPuzzle));
+  }
+
   shell.appendChild(createFooter());
 
   return shell;
@@ -63,17 +78,39 @@ function createHeader(onReset) {
   return header;
 }
 
-function createPipStrip(puzzle) {
+function createPipStrip(puzzle, activeView) {
   const strip = document.createElement("section");
   strip.className = "pip-strip";
+  const line = activeView === "album" ? "Pip saved the finished picture cards." : "Pip found today's picture.";
+  const note = activeView === "album" ? "The Pantry Album grows one cozy card at a time." : `Fill the grid to reveal <strong>${puzzle.title}</strong>.`;
   strip.innerHTML = `
     <img src="/src/assets/app-icons/app-icon-192.png" alt="Pip" />
     <div>
-      <p class="pip-line">Pip found today's picture.</p>
-      <p class="pip-note">Fill the grid to reveal <strong>${puzzle.title}</strong>.</p>
+      <p class="pip-line">${line}</p>
+      <p class="pip-note">${note}</p>
     </div>
   `;
   return strip;
+}
+
+function createViewTabs(activeView, onSelectView) {
+  const tabs = document.createElement("nav");
+  tabs.className = "view-tabs";
+  tabs.setAttribute("aria-label", "Main views");
+
+  [
+    ["puzzle", "Puzzle"],
+    ["album", "Album"]
+  ].forEach(([view, label]) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = activeView === view ? "view-tab active" : "view-tab";
+    button.textContent = label;
+    button.addEventListener("click", () => onSelectView(view));
+    tabs.appendChild(button);
+  });
+
+  return tabs;
 }
 
 function createPuzzlePicker(activePuzzleId, onSelectPuzzle) {

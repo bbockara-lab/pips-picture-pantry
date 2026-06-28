@@ -35,11 +35,14 @@ Last updated: 2026-06-28
 - 2026-06-28: Local dev server verified at `http://127.0.0.1:5173` with HTTP 200.
 - 2026-06-28: Official monetization docs checked; MVP monetization remains optional non-consumable support or bonus pack, with ads deferred.
 - 2026-06-28: Initialized local Git repository, added `.gitignore`, committed baseline as `a83aa08 chore: initialize Pip's Picture Pantry MVP scaffold`, and renamed branch to `main`.
+- 2026-06-28: Responded to Claude Review 1: fixed stacked column clues, changed board clue row to auto height, added Pantry Album view, softened progress copy, added two 8x8 puzzles, and added puzzle data tests.
+- 2026-06-28: `npm run test` passed after Claude response: 3 files, 11 tests.
+- 2026-06-28: `npm run build` passed after Claude response.
+- 2026-06-28: Browser visual QA was attempted, but in-app browser connection failed with Windows sandbox ACL error; mobile visual pass remains pending.
 
 ## Next Actions
 
-- Add Pantry Album and completed-puzzle persistence surface.
-- Expand puzzle data to first 8x8 puzzles.
 - Run mobile visual QA at 360px/390px/430px widths.
+- Add completion-to-album navigation polish if mobile QA confirms layout.
 - Prepare Capacitor Android shell after the next UI pass.
 - Draft Android/iOS store metadata and screenshot checklist.

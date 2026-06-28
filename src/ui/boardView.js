@@ -20,7 +20,11 @@ function renderColumnClues(columns) {
   columns.forEach((clue) => {
     const cell = document.createElement("div");
     cell.className = "column-clue";
-    cell.textContent = clue.join(" ");
+    clue.forEach((number) => {
+      const numberElement = document.createElement("span");
+      numberElement.textContent = number;
+      cell.appendChild(numberElement);
+    });
     clueRow.appendChild(cell);
   });
 
@@ -34,7 +38,11 @@ function renderRowClues(rows) {
   rows.forEach((clue) => {
     const cell = document.createElement("div");
     cell.className = "row-clue";
-    cell.textContent = clue.join(" ");
+    clue.forEach((number) => {
+      const numberElement = document.createElement("span");
+      numberElement.textContent = number;
+      cell.appendChild(numberElement);
+    });
     clueColumn.appendChild(cell);
   });
 
@@ -55,7 +63,7 @@ function renderCells(puzzle, state, onCellPress) {
       button.setAttribute("role", "gridcell");
       button.setAttribute("aria-label", `Row ${rowIndex + 1}, column ${columnIndex + 1}, ${cell}`);
       button.addEventListener("click", () => onCellPress(rowIndex, columnIndex));
-      button.textContent = cell === CELL.marked ? "×" : "";
+      button.textContent = cell === CELL.marked ? "x" : "";
       grid.appendChild(button);
     });
   });

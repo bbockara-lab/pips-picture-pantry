@@ -58,6 +58,48 @@ export const puzzles = [
       imageName: "Tiny Bow",
       albumText: "Pip's bow gets its own picture."
     }
+  },
+  {
+    id: "cafe-window-8",
+    title: "Cafe Window",
+    packId: "pips-pantry-shelf",
+    size: 8,
+    difficulty: "easy",
+    solution: [
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00000000"
+    ],
+    reward: {
+      imageName: "Cafe Window",
+      albumText: "A sunny window opens onto the pantry wall."
+    }
+  },
+  {
+    id: "tomato-soup-8",
+    title: "Tomato Soup",
+    packId: "pips-pantry-shelf",
+    size: 8,
+    difficulty: "easy",
+    solution: [
+      "00111100",
+      "01111110",
+      "11111111",
+      "11100111",
+      "11111111",
+      "01111110",
+      "00111100",
+      "00011000"
+    ],
+    reward: {
+      imageName: "Tomato Soup",
+      albumText: "Tomato soup warms the whole shelf."
+    }
   }
 ];
 
