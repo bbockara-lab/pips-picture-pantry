@@ -5,7 +5,7 @@ Last updated: 2026-06-28
 ## Current Phase
 
 - Mode: `live-candidate`
-- Version: `v0.1.2`
+- Version: `v0.1.3`
 - Goal: ship a small Android-first cozy Nonogram MVP within one week, while keeping iOS packaging and store-readiness prepared for Mac Mini handoff.
 
 ## Decisions
@@ -87,11 +87,29 @@ Last updated: 2026-06-28
 - Android language direction noted: Android 13+ supports centralized per-app language preferences; native LocaleManager/AppCompat integration remains a later Android polish step after the Capacitor MVP shell is stable.
 - Verification after this slice: node --check passed on changed JS files; npm run test passed with 17 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed; jarsigner still reports the release AAB is unsigned.
 
+## Progress Update - 2026-06-28 First-Play Clarity / Copy Cleanup
+
+- Bumped visible app version to v0.1.3.
+- Removed internal product-direction copy from the game identity screen. The game identity now shows title, character art, and Start only.
+- Set the first puzzle on launch to the 5x5 Pip Face starter puzzle instead of a rotating Daily puzzle, so first-time players begin with the easiest board.
+- Added a compact How to Play card above the board with the first action: choose Fill, read number clues, tap squares, and use Mark for blanks.
+- Added a simple clue example visual so the player sees what a clue like 3 means before touching the grid.
+- Updated Korean font handling by setting document language from the active locale and adding Korean-first font stack for lang=ko.
+- Updated user-facing copy to remove vague direction/brand-positioning lines; keep future visible copy concrete and player-useful.
+- Updated mobile QA to verify the How to Play card is visible before checking the puzzle board.
+- Verification after this slice: node --check passed on changed JS files; npm run test passed with 17 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed; jarsigner still reports the release AAB is unsigned.
+
+## Product Copy Rule
+
+- Do not show internal development-positioning phrases to players. Lines such as quiet minutes, cozy world intent, or why we are making the game belong in planning docs, not the app UI.
+- First-play screens must answer what should I do now within one glance.
+- Player-facing text should be concrete: tap, fill, mark, solve, save, album, today.
+
 ## Next Actions
 
 - Create/connect upload keystore outside the repo and build a signed Android release AAB.
-- Draft Android/iOS store metadata and screenshot checklist using the v0.1.2 Studio logo -> Game identity sequence as the launch-brand anchor.
-- Run a manual real-device or emulator check of native splash to Sunny Spoon logo bumper to game identity to puzzle handoff.
+- Draft Android/iOS store metadata and screenshot checklist using the v0.1.3 Studio logo -> Game identity -> First Move flow as the launch-brand anchor.
+- Run a manual real-device or emulator check of native splash to Sunny Spoon logo bumper to game identity to first puzzle handoff.
 - Review Korean copy quality before store screenshots; strings render through Unicode escapes but copy should still be human-polished.
 - Decide whether the 10x10 unlockable puzzle should be visually locked in UI for v0.1.0 or remain selectable as a non-blocking preview.
 - Later Android polish: connect in-app language picker to Android per-app language APIs/LocaleManager or AppCompat so system settings and app settings stay synchronized on Android 13+.

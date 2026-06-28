@@ -7,7 +7,6 @@ export const ko = {
   brandIntro: {
     ariaLabel: "Sunny Spoon Studios\uc640 Pip's Picture Pantry \uc2dc\uc791 \ud654\uba74",
     studioTagline: "Sunny Spoon Studios",
-    familyLine: "\uc870\uc6a9\ud55c \uc2dc\uac04\uc744 \uc704\ud55c \ub530\ub73b\ud55c \uc791\uc740 \uac8c\uc784",
     skip: "\uc2dc\uc791"
   },
   views: {
@@ -33,21 +32,30 @@ export const ko = {
     close: "\uc644\ub8cc"
   },
   pipStrip: {
-    puzzleLine: "\ud54d\uc774 \uc624\ub298\uc758 \uadf8\ub9bc\uc744 \ucc3e\uc558\uc5b4\uc694.",
-    puzzleNote: "{title} \uadf8\ub9bc\uc744 \uc644\uc131\ud574\uc694.",
-    albumLine: "\ud54d\uc774 \uc644\uc131\ud55c \uce74\ub4dc\ub97c \ubaa8\uc544\ub450\uc5c8\uc5b4\uc694.",
-    albumNote: "\ud32c\ud2b8\ub9ac \uc568\ubc94\uc774 \ud558\ub098\uc529 \ucc44\uc6cc\uc838\uc694."
+    puzzleLine: "\uc791\uc740 \uadf8\ub9bc\ubd80\ud130 \uc2dc\uc791\ud574\uc694.",
+    puzzleNote: "\uc22b\uc790\ub97c \ubcf4\uace0 {title}\uc744 \ucc44\uc6cc\uc694.",
+    albumLine: "\uc644\uc131\ud55c \uadf8\ub9bc\uc774 \uc5ec\uae30\uc5d0 \uc800\uc7a5\ub3fc\uc694.",
+    albumNote: "\ud37c\uc990\uc744 \ud480\uba74 \uce74\ub4dc\uac00 \uc5f4\ub824\uc694."
   },
   sections: {
     starterShelf: "\uccab \ud32c\ud2b8\ub9ac \uc120\ubc18",
     dailyPicture: "\uc624\ub298\uc758 \uadf8\ub9bc",
+    currentPicture: "\uc9c0\uae08 \uadf8\ub9bc",
+    startHere: "\uc5ec\uae30\uc11c \uc2dc\uc791",
     pantryAlbum: "\ud32c\ud2b8\ub9ac \uc568\ubc94"
   },
   daily: {
     eyebrow: "\uc624\ub298\uc758 \uce74\ub4dc",
     play: "\uc624\ub298 \ud37c\uc990",
     selected: "\uc120\ud0dd\ub428",
-    note: "\ub9e4\uc77c \ud54d\uc744 \ub9cc\ub098\ub294 \uc791\uc740 \uc774\uc720\uc608\uc694."
+    note: "\uc624\ub298 \uc120\ud0dd\ub41c \uadf8\ub9bc\uc774\uc5d0\uc694."
+  },
+  howToPlay: {
+    title: "\uccab \uc218",
+    goal: "\uc22b\uc790\uac00 \uac00\ub9ac\ud0a4\ub294 \uce78\uc744 \ucc44\uc6b0\uc138\uc694.",
+    stepFill: "\ucc44\uc6b0\uae30\ub97c \uc120\ud0dd\ud558\uace0 \uadf8\ub9ac\ub4dc \uce78\uc744 \ub204\ub974\uc138\uc694.",
+    stepClues: "\ub2e8\uc11c 3\uc740 \uc5f0\uc18d\ub41c 3\uce78\uc744 \ub73b\ud574\uc694.",
+    stepMark: "\ube48 \uce78\uc73c\ub85c \ud655\uc2e0\ud558\uba74 \ud45c\uc2dc\ub97c \uc0ac\uc6a9\ud558\uc138\uc694."
   },
   controls: {
     fill: "\ucc44\uc6b0\uae30",
@@ -67,7 +75,7 @@ export const ko = {
   },
   album: {
     count: "{completed}/{total}\uc7a5",
-    note: "\uc644\uc131\ud55c \uce74\ub4dc\ub97c \ubcf4\uad00\ud574\uc694.",
+    note: "\uc644\uc131\ud55c \uce74\ub4dc\uac00 \uc5ec\uae30\uc5d0 \ubcf4\uc5ec\uc694.",
     hiddenTitle: "\uc228\uc740 \uadf8\ub9bc",
     hiddenText: "\ud37c\uc990\uc744 \uc644\uc131\ud558\uba74 \uc800\uc7a5\ub3fc\uc694.",
     lockedSymbol: "?"

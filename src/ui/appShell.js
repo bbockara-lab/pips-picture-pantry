@@ -6,11 +6,11 @@ import { getLanguagePreference, puzzleText, setLanguagePreference, t } from "../
 import { renderAlbumView } from "./albumView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
-export const APP_VERSION = "v0.1.2";
+export const APP_VERSION = "v0.1.3";
 
 export function renderApp(root) {
   const dailyPuzzle = getDailyPuzzle(puzzles);
-  let activePuzzle = dailyPuzzle;
+  let activePuzzle = getStartPuzzle();
   let activeView = "puzzle";
   let resetOpen = false;
   let settingsOpen = false;
@@ -92,6 +92,10 @@ export function renderApp(root) {
   draw();
 }
 
+function getStartPuzzle() {
+  return puzzles.find((puzzle) => puzzle.id === "pip-face-5") || puzzles[0];
+}
+
 function createShell({
   activePuzzle,
   activeView,
@@ -118,11 +122,11 @@ function createShell({
   if (activeView === "album") {
     shell.appendChild(renderAlbumView());
   } else {
-    shell.appendChild(createDailyCard(dailyPuzzle, activePuzzle.id, onSelectPuzzle));
     shell.appendChild(renderPuzzleView(activePuzzle, {
       onViewAlbum: () => onSelectView("album"),
       onNextPuzzle
     }));
+    shell.appendChild(createDailyCard(dailyPuzzle, activePuzzle.id, onSelectPuzzle));
     shell.appendChild(createPuzzlePicker(activePuzzle.id, onSelectPuzzle));
   }
 

@@ -1,7 +1,7 @@
 import { t } from "../i18n/index.js";
 
 const STUDIO_DURATION_MS = 900;
-const GAME_DURATION_MS = 1700;
+const GAME_DURATION_MS = 1300;
 const INTRO_EXIT_MS = 260;
 
 export function renderBrandIntro(root) {
@@ -18,15 +18,13 @@ export function renderBrandIntro(root) {
         <span>SPOON</span>
         <span>STUDIOS</span>
       </div>
-      <p>${t("brandIntro.studioTagline")}</p>
     </div>
     <div class="brand-intro__content" aria-hidden="true">
       <div class="brand-intro__seal" aria-hidden="true">
         <img src="/src/assets/app-icons/app-icon-192.png" alt="" />
       </div>
       <p class="brand-intro__studio">${t("app.studioName")}</p>
-      <h2>${t("brandIntro.familyLine")}</h2>
-      <p class="brand-intro__title">${t("app.title")}</p>
+      <h2>${t("app.title")}</h2>
       <img class="brand-intro__cast" src="/src/assets/characters/opening-expression-sheet-v1-clean.png" alt="" />
       <button class="brand-intro__skip" type="button">${t("brandIntro.skip")}</button>
     </div>
@@ -54,7 +52,7 @@ export function renderBrandIntro(root) {
 
   if (prefersReducedMotion()) {
     showGameIdentity();
-    window.setTimeout(dismiss, 800);
+    window.setTimeout(dismiss, 700);
   } else {
     window.setTimeout(showGameIdentity, STUDIO_DURATION_MS);
     window.setTimeout(dismiss, STUDIO_DURATION_MS + GAME_DURATION_MS);

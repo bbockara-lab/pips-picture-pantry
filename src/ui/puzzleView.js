@@ -32,13 +32,18 @@ export function renderPuzzleView(puzzle, options = {}) {
     meta.className = "puzzle-meta";
     meta.innerHTML = `
       <div>
-        <p class="section-label">${t("sections.dailyPicture")}</p>
+        <p class="section-label">${getPuzzleLabel(puzzle)}</p>
         <h2>${puzzleText(puzzle.id, "title")}</h2>
       </div>
       <p class="difficulty">${puzzle.size}\u00d7${puzzle.size}</p>
     `;
 
     section.appendChild(meta);
+
+    if (!state.completed) {
+      section.appendChild(createHowToPlayCard());
+    }
+
     section.appendChild(renderBoard(puzzle, state, (row, column) => update(toggleCell(state, row, column)), {
       locked: state.completed
     }));
@@ -56,6 +61,31 @@ export function renderPuzzleView(puzzle, options = {}) {
 
   draw();
   return section;
+}
+
+function getPuzzleLabel(puzzle) {
+  return puzzle.id === "pip-face-5" ? t("sections.startHere") : t("sections.currentPicture");
+}
+
+function createHowToPlayCard() {
+  const card = document.createElement("section");
+  card.className = "how-to-play";
+  card.innerHTML = `
+    <div>
+      <p class="section-label">${t("howToPlay.title")}</p>
+      <p>${t("howToPlay.goal")}</p>
+    </div>
+    <div class="clue-example" aria-hidden="true">
+      <span>3</span>
+      <i></i><i></i><i></i><b></b><b></b>
+    </div>
+    <ol>
+      <li>${t("howToPlay.stepFill")}</li>
+      <li>${t("howToPlay.stepClues")}</li>
+      <li>${t("howToPlay.stepMark")}</li>
+    </ol>
+  `;
+  return card;
 }
 
 function createControls(state, update) {

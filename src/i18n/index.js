@@ -7,6 +7,7 @@ const LANGUAGE_STORAGE_KEY = "pip-picture-pantry-language";
 const SYSTEM_PREFERENCE = "system";
 let languagePreference = readLanguagePreference();
 let activeLocale = resolveLocale(languagePreference);
+applyDocumentLanguage(activeLocale);
 
 export function getActiveLocale(language = getNavigatorLanguage()) {
   const normalized = String(language || "").toLowerCase();
@@ -14,6 +15,10 @@ export function getActiveLocale(language = getNavigatorLanguage()) {
     return "ko";
   }
   return DEFAULT_LOCALE;
+}
+
+export function getCurrentLocale() {
+  return activeLocale;
 }
 
 export function getLanguagePreference() {
@@ -27,12 +32,14 @@ export function getSupportedLocales() {
 export function setActiveLocale(locale) {
   languagePreference = dictionaries[locale] ? locale : DEFAULT_LOCALE;
   activeLocale = dictionaries[languagePreference] ? languagePreference : DEFAULT_LOCALE;
+  applyDocumentLanguage(activeLocale);
 }
 
 export function setLanguagePreference(preference, language = getNavigatorLanguage()) {
   languagePreference = preference === SYSTEM_PREFERENCE || dictionaries[preference] ? preference : SYSTEM_PREFERENCE;
   activeLocale = resolveLocale(languagePreference, language);
   writeLanguagePreference(languagePreference);
+  applyDocumentLanguage(activeLocale);
 }
 
 export function t(key, params = {}) {
@@ -69,6 +76,12 @@ function writeLanguagePreference(preference) {
     globalThis.localStorage?.setItem(LANGUAGE_STORAGE_KEY, preference);
   } catch {
     // LocalStorage can be unavailable in private or restricted browser contexts.
+  }
+}
+
+function applyDocumentLanguage(locale) {
+  if (typeof document !== "undefined") {
+    document.documentElement.lang = locale;
   }
 }
 

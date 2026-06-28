@@ -7,7 +7,6 @@ export const en = {
   brandIntro: {
     ariaLabel: "Sunny Spoon Studios and Pip's Picture Pantry opening screens",
     studioTagline: "Sunny Spoon Studios",
-    familyLine: "Warm little games for quiet minutes",
     skip: "Start"
   },
   views: {
@@ -33,21 +32,30 @@ export const en = {
     close: "Done"
   },
   pipStrip: {
-    puzzleLine: "Pip found today's picture.",
-    puzzleNote: "Fill the grid to reveal {title}.",
-    albumLine: "Pip saved the finished picture cards.",
-    albumNote: "The Pantry Album grows one cozy card at a time."
+    puzzleLine: "Start with a small picture.",
+    puzzleNote: "Use the numbers to fill {title}.",
+    albumLine: "Finished pictures are saved here.",
+    albumNote: "Open a card after each solved puzzle."
   },
   sections: {
     starterShelf: "Starter shelf",
     dailyPicture: "Daily picture",
+    currentPicture: "Current picture",
+    startHere: "Start here",
     pantryAlbum: "Pantry Album"
   },
   daily: {
     eyebrow: "Today's card",
     play: "Play today",
     selected: "Selected",
-    note: "A small reason to visit Pip each day."
+    note: "A picture picked for today."
+  },
+  howToPlay: {
+    title: "First move",
+    goal: "Fill the squares the numbers point to.",
+    stepFill: "Choose Fill, then tap squares on the grid.",
+    stepClues: "A clue of 3 means three filled squares together.",
+    stepMark: "Use Mark for squares you know are blank."
   },
   controls: {
     fill: "Fill",
@@ -67,7 +75,7 @@ export const en = {
   },
   album: {
     count: "{completed}/{total} pictures",
-    note: "Pip keeps finished cards here.",
+    note: "Finished cards appear here.",
     hiddenTitle: "Hidden picture",
     hiddenText: "Finish the puzzle to save this card.",
     lockedSymbol: "?"

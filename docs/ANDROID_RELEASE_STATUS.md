@@ -64,3 +64,9 @@ Last updated: 2026-06-28
 - jarsigner -verify still reports: jar is unsigned.
 - Signing/upload keystore remains the Android Play upload blocker.
 - Later Android polish: wire the in-app language picker to Android 13+ per-app language APIs or AndroidX AppCompat language APIs so Android system settings and app settings remain synchronized.
+## Verification Update - 2026-06-28 v0.1.3 First-Play Clarity
+
+- npm run cap:sync passed after v0.1.3 first-play clarity changes.
+- scripts/build_android_release_bundle.ps1 passed after sync.
+- jarsigner -verify still reports: jar is unsigned.
+- Signing/upload keystore remains the Android Play upload blocker.
