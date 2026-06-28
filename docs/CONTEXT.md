@@ -5,7 +5,7 @@ Last updated: 2026-06-28
 ## Current Phase
 
 - Mode: `live-candidate`
-- Version: `v0.1.6`
+- Version: `v0.1.7`
 - Goal: ship a small Android-first cozy Nonogram MVP within one week, while keeping iOS packaging and store-readiness prepared for Mac Mini handoff.
 
 ## Decisions
@@ -140,6 +140,15 @@ Last updated: 2026-06-28
 - Updated CHARACTER_IP_BIBLE.md so Pip's MVP visual anchors match the approved chef-hat/scarf pantry-helper direction.
 - Updated mobile visual QA to require the Pip strip sticker to render on 360px, 390px, and 430px mobile widths.
 - Verification after this slice: node --check passed on appShell.js and mobile_visual_check.js; npm run test passed with 17 tests; npm run build passed with the Pip strip asset bundled at about 170 KB; npm run qa:mobile passed; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed; jarsigner still reports the release AAB is unsigned.
+
+## Progress Update - 2026-06-28 Completion Reward Moment
+
+- Bumped visible app version to v0.1.7.
+- Generated and added a dedicated Pip completion reaction sticker at src/assets/characters/pip-complete-sticker-v1.png.
+- Rebuilt the completion banner into a reward moment with Pip reaction art, concrete saved-card copy, completion CTAs, and a larger solved-picture reveal card.
+- Updated mobile visual QA to seed a completed starter puzzle and verify .completion-pip and .completion-reveal render on 360px, 390px, and 430px mobile widths.
+- Verification after this slice: node --check passed on appShell.js, pipReaction.js, and mobile_visual_check.js; npm run test passed with 17 tests; npm run build passed with the Pip completion asset bundled at about 221 KB; npm run qa:mobile passed; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed; jarsigner still reports the release AAB is unsigned.
+
 ## Product Copy Rule
 
 - Do not show internal development-positioning phrases to players. Lines such as quiet minutes, cozy world intent, or why we are making the game belong in planning docs, not the app UI.
@@ -155,7 +164,6 @@ Last updated: 2026-06-28
 
 ## Next Actions
 
-- Strengthen the completion moment: Pip reaction image, solved-picture reveal, and album CTA polish.
 - Connect the 10x10 unlock gate to completed-puzzle progress instead of leaving it selectable.
 - Expand launch puzzle content toward the 30-picture store target after the completion loop feels rewarding.
 - Create/connect upload keystore outside the repo and build a signed Android release AAB.

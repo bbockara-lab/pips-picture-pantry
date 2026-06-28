@@ -29,7 +29,17 @@ for (const viewport of viewports) {
   await expectNoHorizontalOverflow(page, viewport.name);
   await expectTapTargets(page, viewport.name);
 
-  await page.getByRole("button", { name: /album/i }).click();
+  await seedCompletedStarter(page);
+  await page.reload({ waitUntil: "networkidle" });
+  await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 1400 });
+  await page.locator(".brand-intro__skip").click();
+  await page.locator(".brand-intro").waitFor({ state: "detached", timeout: 1500 });
+  await expectVisible(page, ".completion-pip", viewport.name);
+  await expectVisible(page, ".completion-reveal", viewport.name);
+  await expectNoHorizontalOverflow(page, viewport.name);
+  await expectTapTargets(page, viewport.name);
+
+  await page.getByRole("button", { name: "Album", exact: true }).click();
   await expectVisible(page, ".album-panel", viewport.name);
   await expectVisible(page, ".album-stamp", viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
@@ -79,4 +89,28 @@ async function expectTapTargets(page, viewportName) {
   if (smallTargets.length) {
     failures.push(`[${viewportName}] Small tap targets: ${JSON.stringify(smallTargets)}`);
   }
+}
+async function seedCompletedStarter(page) {
+  await page.evaluate(() => {
+    const saveKey = "pips-picture-pantry:v0.1:save";
+    const cells = [
+      ["empty", "filled", "filled", "filled", "empty"],
+      ["filled", "filled", "filled", "filled", "filled"],
+      ["filled", "empty", "filled", "empty", "filled"],
+      ["filled", "filled", "filled", "filled", "filled"],
+      ["empty", "filled", "filled", "filled", "empty"]
+    ];
+    const state = {
+      puzzleId: "pip-face-5",
+      mode: "fill",
+      cells,
+      history: [],
+      completed: true,
+      updatedAt: new Date().toISOString()
+    };
+    localStorage.setItem(saveKey, JSON.stringify({
+      puzzleStates: { "pip-face-5": JSON.stringify(state) },
+      completedPuzzleIds: ["pip-face-5"]
+    }));
+  });
 }

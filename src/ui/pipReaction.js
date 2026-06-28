@@ -1,3 +1,4 @@
+import pipCompleteStickerUrl from "../assets/characters/pip-complete-sticker-v1.png";
 import { puzzleText, t } from "../i18n/index.js";
 
 export function getCompletionMessage(puzzle) {
@@ -10,12 +11,24 @@ export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle } = {
   const banner = document.createElement("div");
   banner.className = "completion-banner";
 
-  const spark = document.createElement("span");
-  spark.className = "spark";
-  spark.textContent = "+";
+  const reaction = document.createElement("img");
+  reaction.className = "completion-pip";
+  reaction.src = pipCompleteStickerUrl;
+  reaction.alt = "";
+
+  const copy = document.createElement("div");
+  copy.className = "completion-copy";
+
+  const title = document.createElement("p");
+  title.className = "completion-title";
+  title.textContent = t("progress.complete");
 
   const message = document.createElement("p");
   message.textContent = getCompletionMessage(puzzle);
+
+  copy.append(title, message);
+
+  const reveal = renderSolvedReveal(puzzle);
 
   const actions = document.createElement("div");
   actions.className = "completion-actions";
@@ -33,6 +46,23 @@ export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle } = {
   nextButton.addEventListener("click", () => onNextPuzzle?.());
 
   actions.append(albumButton, nextButton);
-  banner.append(spark, message, actions);
+  banner.append(reaction, copy, reveal, actions);
   return banner;
+}
+
+function renderSolvedReveal(puzzle) {
+  const reveal = document.createElement("div");
+  reveal.className = "completion-reveal";
+  reveal.setAttribute("aria-label", puzzleText(puzzle.id, "imageName"));
+  reveal.style.setProperty("--reveal-size", puzzle.size);
+
+  puzzle.solution.forEach((row) => {
+    [...row].forEach((cell) => {
+      const tile = document.createElement("span");
+      tile.className = cell === "1" ? "reveal-cell filled" : "reveal-cell";
+      reveal.appendChild(tile);
+    });
+  });
+
+  return reveal;
 }

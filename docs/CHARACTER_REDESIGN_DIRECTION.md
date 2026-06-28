@@ -49,3 +49,4 @@ Player-facing screens should not use ambiguous character-sheet crops. Character 
 - The app icon and native launcher assets still use the previous Pip soup badge until a dedicated redesign-based icon candidate is generated and reviewed.
 - Next production asset step: generate/crop individual polished sticker assets for Pip, Elena, and Aunt Mina instead of using a full concept sheet in gameplay.
 - v0.1.6 adds a dedicated Pip strip sticker asset: src/assets/characters/pip-strip-sticker-v1.png.
+- v0.1.7 adds a dedicated Pip completion reaction sticker asset: src/assets/characters/pip-complete-sticker-v1.png.

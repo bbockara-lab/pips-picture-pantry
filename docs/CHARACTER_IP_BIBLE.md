@@ -79,6 +79,7 @@ Current visual baseline assets:
 - `src/assets/characters/story-friends-sheet-v1-clean.png`
 - `src/assets/characters/pip-cast-redesign-concept-v1-web.jpg`
 - `src/assets/characters/pip-strip-sticker-v1.png`
+- `src/assets/characters/pip-complete-sticker-v1.png`
 
 ## Writing And Content Contract
 
