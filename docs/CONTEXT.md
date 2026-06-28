@@ -38,15 +38,21 @@ Last updated: 2026-06-28
 - 2026-06-28: Responded to Claude Review 1: fixed stacked column clues, changed board clue row to auto height, added Pantry Album view, softened progress copy, added two 8x8 puzzles, and added puzzle data tests.
 - 2026-06-28: `npm run test` passed after Claude response: 3 files, 11 tests.
 - 2026-06-28: `npm run build` passed after Claude response.
-- 2026-06-28: Browser visual QA was attempted, but in-app browser connection failed with Windows sandbox ACL error; mobile visual pass remains pending.
-
+- 2026-06-28: Browser visual QA was attempted, but in-app browser connection failed with Windows sandbox ACL error; mobile visual pass remained pending.
 - 2026-06-28: Responded to Claude Review 2: added `src/i18n` scaffold for English/Korean, extracted gameplay UI strings, restored `×` difficulty badge via `\u00d7`, converted album stamps from text abbreviations to mini puzzle-grid visuals, added `.content-panel`, and added `min-height` for album stamps.
 - 2026-06-28: Korean i18n file is stored with Unicode escape sequences to avoid Windows/PowerShell encoding corruption while still rendering Korean text in the browser.
 - 2026-06-28: `npm run test` passed after i18n response: 4 files, 14 tests.
 - 2026-06-28: `npm run build` passed after i18n response.
+- 2026-06-28: Added Playwright mobile QA script and verified 360x740, 390x844, and 430x932 with no horizontal overflow, visible puzzle board, visible album, and acceptable tap targets.
+- 2026-06-28: Added Capacitor Android shell with app ID `com.sunnyspoonstudios.pipspicturepantry`; `npx cap sync android` passed.
+- 2026-06-28: Android debug APK build passed: `android/app/build/outputs/apk/debug/app-debug.apk`.
+- 2026-06-28: Android release AAB build passed: `android/app/build/outputs/bundle/release/app-release.aab`.
+- 2026-06-28: `jarsigner -verify` confirmed the release AAB is unsigned; upload keystore/signing remains the Play upload blocker.
+- 2026-06-28: npm run cap:sync passed, then scripts/build_android_release_bundle.ps1 passed after sync.
+
 ## Next Actions
 
-- Run mobile visual QA at 360px/390px/430px widths.
 - Add completion-to-album navigation polish if mobile QA confirms layout.
-- Prepare Capacitor Android shell after the next UI pass.
+- Review Korean copy quality after mobile visual QA; strings render through Unicode escapes but copy should still be human-polished before store screenshots.
+- Create/connect upload keystore and build signed Android release AAB.
 - Draft Android/iOS store metadata and screenshot checklist.
