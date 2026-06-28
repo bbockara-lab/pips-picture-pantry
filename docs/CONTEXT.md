@@ -5,7 +5,7 @@ Last updated: 2026-06-28
 ## Current Phase
 
 - Mode: `live-candidate`
-- Version: `v0.1.0`
+- Version: `v0.1.1`
 - Goal: ship a small Android-first cozy Nonogram MVP within one week, while keeping iOS packaging and store-readiness prepared for Mac Mini handoff.
 
 ## Decisions
@@ -63,10 +63,22 @@ Last updated: 2026-06-28
 - Cached the active locale after startup and added an explicit ko.js comment that launch puzzle titles stay English intentionally.
 - Verification after this slice: node --check on changed JS modules passed; npm run test passed with 16 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed; jarsigner still reports the release AAB is unsigned.
 
+
+## Progress Update - 2026-06-28 Sunny Spoon Entry Identity
+
+- Bumped visible app version to v0.1.1.
+- Added an in-app Sunny Spoon Studios opening screen using the launch app seal, cozy paper texture, warm family-look copy, and the opening expression character sheet.
+- Added a Start skip button and short auto-dismiss timing so the brand moment is visible without slowing the puzzle loop.
+- Updated Pip strip imagery from the generic app icon to character art for stronger family look continuity.
+- Added shared CSS tokens and paper-grid texture treatment across the body, panels, buttons, daily card, board cells, and completion state.
+- Aligned Android native color resources, splash theme colors, launcher background color, and web theme-color with the Sunny Spoon cream/paper palette.
+- Updated mobile QA to verify the brand intro before continuing to puzzle and album checks.
+- Verification after this slice: node --check passed on changed JS files; npm run test passed with 16 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; npm run cap:sync passed; scripts/build_android_release_bundle.ps1 passed; jarsigner still reports the release AAB is unsigned.
+
 ## Next Actions
 
 - Create/connect upload keystore outside the repo and build a signed Android release AAB.
-- Draft Android/iOS store metadata and screenshot checklist.
-- Run a manual playthrough on the Daily card, reset modal, completion CTA, album view, and 10x10 puzzle on a real or emulator device.
+- Draft Android/iOS store metadata and screenshot checklist using the v0.1.1 opening screen as the family-look anchor.
+- Run a manual real-device or emulator check of native splash to in-app Sunny Spoon opening to puzzle handoff.
 - Review Korean copy quality before store screenshots; strings render through Unicode escapes but copy should still be human-polished.
 - Decide whether the 10x10 unlockable puzzle should be visually locked in UI for v0.1.0 or remain selectable as a non-blocking preview.

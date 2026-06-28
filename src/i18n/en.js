@@ -4,6 +4,11 @@ export const en = {
     studioName: "Sunny Spoon Studios",
     versionLabel: "Version {version}"
   },
+  brandIntro: {
+    ariaLabel: "Sunny Spoon Studios opening screen",
+    familyLine: "Warm little games for quiet minutes",
+    skip: "Start"
+  },
   views: {
     puzzle: "Puzzle",
     album: "Album",

@@ -14,6 +14,11 @@ for (const viewport of viewports) {
   const page = await browser.newPage({ viewport });
   await page.goto(TARGET_URL, { waitUntil: "networkidle" });
 
+  await expectVisible(page, ".brand-intro", viewport.name);
+  await expectVisible(page, ".brand-intro__seal", viewport.name);
+  await page.getByRole("button", { name: /start|시작/i }).click();
+  await page.locator(".brand-intro").waitFor({ state: "detached", timeout: 1500 });
+
   await expectVisible(page, ".app-shell", viewport.name);
   await expectVisible(page, ".puzzle-grid", viewport.name);
   await expectVisible(page, ".column-clue", viewport.name);

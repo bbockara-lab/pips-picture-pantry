@@ -49,3 +49,11 @@ Last updated: 2026-06-28
 - scripts/build_android_release_bundle.ps1 passed after sync.
 - jarsigner -verify still reports: jar is unsigned.
 - Signing/upload keystore remains the Android Play upload blocker.
+## Verification Update - 2026-06-28 v0.1.1 Entry Identity
+
+- Added Android color resources for Sunny Spoon cream/paper/cocoa/mint palette.
+- Updated native splash/post-splash theme colors and launcher background color.
+- npm run cap:sync passed after v0.1.1 web and Android resource changes.
+- scripts/build_android_release_bundle.ps1 passed after sync.
+- jarsigner -verify still reports: jar is unsigned.
+- Signing/upload keystore remains the Android Play upload blocker.

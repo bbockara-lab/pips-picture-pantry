@@ -4,6 +4,11 @@ export const ko = {
     studioName: "Sunny Spoon Studios",
     versionLabel: "\ubc84\uc804 {version}"
   },
+  brandIntro: {
+    ariaLabel: "Sunny Spoon Studios \uc2dc\uc791 \ud654\uba74",
+    familyLine: "\uc870\uc6a9\ud55c \uc2dc\uac04\uc744 \uc704\ud55c \ub530\ub73b\ud55c \uc791\uc740 \uac8c\uc784",
+    skip: "\uc2dc\uc791"
+  },
   views: {
     puzzle: "\ud37c\uc990",
     album: "\uc568\ubc94",
