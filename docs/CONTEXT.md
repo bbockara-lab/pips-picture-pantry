@@ -337,3 +337,10 @@ Last updated: 2026-06-28
 - Kept the previous BGM decision unchanged: generated background music remains disabled until an original looped audio asset exists.
 - Deferred large puzzle-size replacement for later content expansion because changing launched puzzle boards can disturb existing internal-test saves and balance.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 28 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and the release script requires jarsigner `jar verified` before succeeding.
+
+## Progress Update - 2026-06-29 v0.1.22 Daily Reward Clarity
+
+- Bumped visible app version to v0.1.22 and Android release version to versionCode 15 / versionName 1.0.14.
+- Updated Today's pick reward copy so the bonus displays with the same reward token icon used elsewhere in the economy, making it clear the player receives +5 spoons/tokens.
+- Kept the current Roadmap art model unchanged for this patch: the free 100-card path completes one Pip Portrait. Stage-specific preview/badge art remains a planned pre-release polish item for the next broader content pass.
+- Verification after this slice: node --check passed on changed JS modules; npm run test passed with 28 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and the release script requires jarsigner `jar verified` before succeeding.

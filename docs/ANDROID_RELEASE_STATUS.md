@@ -253,3 +253,14 @@ Last updated: 2026-06-28
 - Signed AAB size: 3,756,979 bytes.
 - jarsigner verification: jar verified by scripts/build_android_signed_release_bundle.ps1 before successful exit.
 - Play Console next upload should create internal test release 14 (1.0.13), because versionCode 1 through 13 are already used or prepared by earlier internal test builds.
+
+## Verification Update - 2026-06-29 v0.1.22 Daily Reward Clarity
+
+- Android versionCode: 15.
+- Android versionName: 1.0.14.
+- Visible app version: v0.1.22.
+- Purpose: next internal test build with clearer Today's pick reward copy showing the reward token icon plus +5.
+- Signed AAB rebuilt successfully at android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size: 3,757,060 bytes.
+- jarsigner verification: jar verified by scripts/build_android_signed_release_bundle.ps1 before successful exit.
+- Play Console next upload should create internal test release 15 (1.0.14), because versionCode 1 through 14 are already used or prepared by earlier internal test builds.

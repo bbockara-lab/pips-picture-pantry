@@ -2277,3 +2277,16 @@ body {
     height: 84px;
   }
 }
+
+
+/* v0.1.22 daily reward clarity */
+.daily-reward-note {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.daily-reward-note .spoon-icon {
+  margin-inline: 2px 0;
+}

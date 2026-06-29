@@ -22,7 +22,7 @@ import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
 
-export const APP_VERSION = "v0.1.21";
+export const APP_VERSION = "v0.1.22";
 const DAILY_BONUS = 5;
 
 export function renderApp(root) {
@@ -335,8 +335,16 @@ function createDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle) {
   text.innerHTML = `
     <p class="section-label">${t("daily.eyebrow")}</p>
     <h2>${puzzleTitle(dailyPuzzle)}</h2>
-    <p>${t("daily.note", { count: DAILY_BONUS })}</p>
   `;
+
+  const rewardNote = document.createElement("p");
+  rewardNote.className = "daily-reward-note";
+  rewardNote.append(
+    document.createTextNode(t("daily.notePrefix") + " "),
+    createSpoonIcon("small"),
+    document.createTextNode("+" + String(DAILY_BONUS) + t("daily.noteSuffix"))
+  );
+  text.appendChild(rewardNote);
 
   const button = document.createElement("button");
   button.type = "button";
