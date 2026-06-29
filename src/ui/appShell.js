@@ -1,4 +1,5 @@
-﻿import pipStripStickerUrl from "../assets/characters/pip-strip-sticker-v1.png";
+﻿import pipCompleteStickerUrl from "../assets/characters/pip-complete-sticker-v1.png";
+import pipStripStickerUrl from "../assets/characters/pip-strip-sticker-v1.png";
 import { getPackById, puzzlePacks } from "../data/packs.js";
 import { puzzles } from "../data/puzzles.js";
 import { getDailyPuzzle } from "../game/dailyPuzzle.js";
@@ -18,7 +19,7 @@ import { getAudioPreferences, setMusicEnabled, setSfxEnabled, startMusic, stopMu
 import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
-export const APP_VERSION = "v0.1.16";
+export const APP_VERSION = "v0.1.17";
 const DAILY_BONUS = 5;
 
 export function renderApp(root) {
@@ -325,6 +326,7 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack) {
       const packPuzzles = puzzles.filter((puzzle) => puzzle.packId === pack.id);
       const completeCount = packPuzzles.filter((puzzle) => completedPuzzleIdSet.has(puzzle.id)).length;
       const unlocked = isPackUnlocked(pack);
+      const isBonusPreview = pack.access === "bonus-pack";
       const packBlock = document.createElement("article");
       packBlock.className = unlocked ? "pack-block" : "pack-block locked";
 
@@ -335,12 +337,12 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack) {
           <p class="section-label">${t(pack.titleKey)}</p>
           <p class="pack-note">${t(pack.noteKey)}</p>
         </div>
-        <span>${t("packs.progress", { completed: completeCount, total: packPuzzles.length })}</span>
+        <span>${isBonusPreview ? t("packs.preview") : t("packs.progress", { completed: completeCount, total: packPuzzles.length })}</span>
       `;
       packBlock.appendChild(header);
       packBlock.appendChild(createStagePreview(pack, completeCount, packPuzzles.length));
 
-      if (pack.access === "bonus-pack") {
+      if (isBonusPreview) {
         packBlock.appendChild(createBonusPackPanel());
         section.appendChild(packBlock);
         return;
@@ -372,13 +374,13 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack) {
           meta.textContent = t("puzzlePicker.sizeComplete", { size: puzzle.size });
         } else {
           meta.append(
-            document.createTextNode(t("puzzlePicker.size", { size: puzzle.size }) + " - +"),
+            document.createTextNode(t("puzzlePicker.size", { size: puzzle.size }) + "  "),
             createSpoonIcon("small"),
-            document.createTextNode(String(puzzle.reward || 0))
+            document.createTextNode("+" + String(puzzle.reward || 0))
           );
         }
         button.appendChild(meta);
-        button.setAttribute("aria-label", `${puzzleTitle(puzzle)} - ${meta.textContent}`);
+        button.setAttribute("aria-label", `${puzzleTitle(puzzle)} - ${complete ? meta.textContent : t("puzzlePicker.rewardLabel", { size: puzzle.size, count: puzzle.reward || 0 })}`);
         button.addEventListener("click", () => onSelectPuzzle(puzzle.id));
 
         list.appendChild(button);
@@ -398,8 +400,11 @@ function createStagePreview(pack, completeCount, total) {
   preview.setAttribute("aria-hidden", "true");
   preview.style.setProperty("--stage-progress", `${Math.round((completeCount / Math.max(total || 20, 1)) * 100)}%`);
   preview.innerHTML = `
-    <div class="stage-silhouette">
-      <span></span><span></span><span></span>
+    <div class="stage-pip-preview">
+      <img class="stage-pip-preview__ghost" src="${pipCompleteStickerUrl}" alt="" />
+      <div class="stage-pip-preview__reveal">
+        <img src="${pipCompleteStickerUrl}" alt="" />
+      </div>
     </div>
   `;
   return preview;
@@ -537,8 +542,7 @@ function createSettingsDialog(onClose, onLanguageChange, onPlayerChange, onSfxCh
   audioGroup.className = "audio-options";
   audioGroup.innerHTML = `<p class="section-label">${t("settings.sound")}</p>`;
   audioGroup.append(
-    createAudioToggle(t("settings.sfx"), audio.sfx, onSfxChange),
-    createAudioToggle(t("settings.music"), audio.music, onMusicChange)
+    createAudioToggle(t("settings.sfx"), audio.sfx, onSfxChange)
   );
 
   const closeButton = document.createElement("button");

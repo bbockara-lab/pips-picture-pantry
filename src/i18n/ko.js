@@ -103,7 +103,8 @@
   },
   puzzlePicker: {
     size: "{size}x{size}",
-    sizeReward: "{size}x{size} - +{count}",
+    sizeReward: "{size}x{size} +{count}",
+    rewardLabel: "{size}x{size}, \ubcf4\uc0c1 {count}",
     sizeComplete: "{size}x{size} - \uc644\ub8cc"
   },
   packs: {

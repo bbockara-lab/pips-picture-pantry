@@ -198,3 +198,14 @@ Last updated: 2026-06-28
 - Signed AAB size: 3,752,961 bytes.
 - jarsigner verification: jar verified.
 - Play Console next upload should create internal test release 9 (1.0.8), because versionCode 1 through 8 are already used or prepared by earlier internal test builds.
+
+## Verification Update - 2026-06-28 v0.1.17 Roadmap / Reward Polish
+
+- Android versionCode: 10.
+- Android versionName: 1.0.9.
+- Visible app version: v0.1.17.
+- Purpose: next internal test build with clearer reward formatting, polished reward token, real Pip-image roadmap previews, hidden low-quality music toggle, BOM cleanup, and bonus-pack roadmap filtering.
+- Signed AAB rebuilt successfully at android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size: 3,753,568 bytes.
+- jarsigner verification: jar verified.
+- Play Console next upload should create internal test release 10 (1.0.9), because versionCode 1 through 9 are already used or prepared by earlier internal test builds.

@@ -103,7 +103,8 @@
   },
   puzzlePicker: {
     size: "{size}x{size}",
-    sizeReward: "{size}x{size} - +{count}",
+    sizeReward: "{size}x{size} +{count}",
+    rewardLabel: "{size}x{size}, reward {count}",
     sizeComplete: "{size}x{size} - Complete"
   },
   packs: {

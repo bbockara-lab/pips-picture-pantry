@@ -1,4 +1,4 @@
-﻿export const puzzlePacks = [
+export const puzzlePacks = [
   {
     id: "pips-first-shelf",
     titleKey: "packs.pips-first-shelf.title",

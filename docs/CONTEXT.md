@@ -287,3 +287,14 @@ Last updated: 2026-06-28
 - Changed the roadmap and stage previews from folder art / explicit Pip-part labels into soft silhouettes that become clearer with progress.
 - Cleaned Korean stage copy for consistency across the free progression stages.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 25 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported jar verified.
+
+## Progress Update - 2026-06-28 v0.1.17 Roadmap / Reward Polish
+
+- Bumped visible app version to v0.1.17 and Android release version to versionCode 10 / versionName 1.0.9.
+- Removed the confusing `5x5 - +3` reward formatting. Puzzle cards now show the size followed by a small reward token and `+3`.
+- Replaced the rough spoon glyph with a warmer golden reward token that carries a small spoon mark, so the economy reads as visual currency without relying on the word spoon.
+- Replaced the crude CSS circle silhouettes in stage previews and the Roadmap with the real Pip complete sticker as a ghosted target image that reveals color by progress.
+- Hid the music toggle for now because the previous generated background tone did not meet the cozy quality bar. Tap and completion sound effects remain available; file-based BGM is deferred until we have a real audio asset.
+- Removed the BOM character from `src/data/packs.js` after Claude review.
+- Kept future bonus stage placeholders in the stage list as optional paid-theme previews, but excluded empty bonus packs from the Roadmap progression so they do not appear as 0/0 completion targets.
+- Verification after this slice: node --check passed on changed JS modules; npm run test passed with 25 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported jar verified.

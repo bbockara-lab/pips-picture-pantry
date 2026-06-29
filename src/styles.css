@@ -1846,3 +1846,165 @@ body {
 .folder-art__body {
   display: none;
 }
+
+/* v0.1.17 real Pip roadmap preview and polished reward token */
+.spoon-icon {
+  width: 1.08em;
+  height: 1.08em;
+  margin: 0 0.2em;
+  border: 0.09em solid #8b5d44;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.82), transparent 24%),
+    radial-gradient(circle at 50% 56%, #ffe58a 0 32%, #f2c94c 33% 62%, #c58a35 63% 100%);
+  box-shadow:
+    inset 0 -0.08em 0 rgba(95, 60, 45, 0.22),
+    0 0.06em 0 rgba(61, 43, 46, 0.16);
+  transform: none;
+  vertical-align: -0.16em;
+}
+
+.spoon-icon::before {
+  left: 0.31em;
+  top: 0.2em;
+  width: 0.32em;
+  height: 0.34em;
+  border: 0.055em solid #7a4e35;
+  border-radius: 50%;
+  background: rgba(255, 248, 232, 0.74);
+  box-shadow: none;
+}
+
+.spoon-icon::after {
+  left: 0.47em;
+  top: 0.5em;
+  width: 0.08em;
+  height: 0.36em;
+  border-radius: 999px;
+  background: #7a4e35;
+}
+
+.puzzle-chip small {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+
+.stage-preview {
+  background:
+    linear-gradient(90deg, rgba(168, 216, 194, 0.38) 0 var(--stage-progress), transparent var(--stage-progress)),
+    radial-gradient(circle at 50% 50%, rgba(255, 253, 246, 0.94), rgba(245, 223, 174, 0.62));
+}
+
+.stage-silhouette {
+  display: none;
+}
+
+.stage-pip-preview {
+  position: relative;
+  width: min(100%, 184px);
+  height: 94px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.stage-pip-preview img {
+  position: absolute;
+  left: 50%;
+  bottom: -46px;
+  width: 148px;
+  max-width: none;
+  transform: translateX(-50%);
+  object-fit: contain;
+}
+
+.stage-pip-preview__ghost {
+  opacity: 0.16;
+  filter: grayscale(1) blur(0.3px);
+}
+
+.stage-pip-preview__reveal {
+  position: absolute;
+  inset: 0;
+  width: var(--stage-progress);
+  overflow: hidden;
+}
+
+.stage-pip-preview__reveal img {
+  opacity: 0.72;
+  filter: saturate(0.95);
+}
+
+.roadmap-goal {
+  position: relative;
+  height: 260px;
+  margin-top: 14px;
+  border: 2px solid rgba(61, 43, 46, 0.18);
+  border-radius: 8px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 253, 246, 0.98), rgba(245, 223, 174, 0.62)),
+    var(--paper);
+}
+
+.roadmap-goal img {
+  position: absolute;
+  left: 50%;
+  bottom: -24px;
+  width: min(88%, 250px);
+  max-height: 285px;
+  transform: translateX(-50%);
+  object-fit: contain;
+}
+
+.roadmap-goal__ghost {
+  opacity: 0.18;
+  filter: grayscale(1) blur(0.4px);
+}
+
+.roadmap-goal__reveal {
+  position: absolute;
+  inset: 0;
+  width: var(--goal-progress);
+  overflow: hidden;
+}
+
+.roadmap-goal__reveal img {
+  opacity: 0.92;
+}
+
+.roadmap-piece {
+  background:
+    linear-gradient(90deg, rgba(168, 216, 194, 0.42) 0 var(--roadmap-progress), transparent var(--roadmap-progress)),
+    rgba(255, 253, 246, 0.78);
+}
+
+.roadmap-piece > span {
+  display: none;
+}
+
+.roadmap-piece img {
+  position: absolute;
+  left: 50%;
+  bottom: -14px;
+  width: 70px;
+  max-width: none;
+  transform: translateX(-50%);
+}
+
+.roadmap-piece__ghost {
+  opacity: 0.16;
+  filter: grayscale(1) blur(0.2px);
+}
+
+.roadmap-piece__reveal {
+  position: absolute;
+  inset: 0;
+  width: var(--roadmap-progress);
+  overflow: hidden;
+}
+
+.roadmap-piece__reveal img {
+  opacity: 0.85;
+}
