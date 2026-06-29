@@ -93,7 +93,6 @@ export const en = {
     eyebrow: "Today's pick",
     play: "Play for bonus",
     selected: "Playing this",
-    note: "Finish this card today for a +{count} bonus.",
     notePrefix: "Finish this card today to get",
     noteSuffix: "."
   },

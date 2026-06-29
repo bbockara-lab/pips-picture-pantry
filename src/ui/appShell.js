@@ -17,7 +17,7 @@ import {
 } from "../game/save.js";
 import { getLanguagePreference, puzzleTitle, setLanguagePreference, t } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
-import { getAudioPreferences, playStageComplete, setMusicEnabled, setSfxEnabled, startMusic, stopMusic } from "./audio.js";
+import { getAudioPreferences, playStageComplete, setMusicEnabled, setSfxEnabled, startMusic } from "./audio.js";
 import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
@@ -114,8 +114,6 @@ export function renderApp(root) {
     setMusicEnabled(enabled);
     if (enabled) {
       startMusic();
-    } else {
-      stopMusic();
     }
     draw();
   }
