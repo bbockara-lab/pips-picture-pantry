@@ -118,6 +118,12 @@ export const ko = {
     viewAlbum: "\uc568\ubc94 \ubcf4\uae30",
     nextPicture: "\ub2e4\uc74c \uadf8\ub9bc"
   },
+  stageComplete: {
+    ariaLabel: "\uc2a4\ud14c\uc774\uc9c0 \uc644\ub8cc",
+    eyebrow: "\uc2a4\ud14c\uc774\uc9c0 \uc644\ub8cc!",
+    message: "\uc774 \uc2a4\ud14c\uc774\uc9c0\uc758 \ubaa8\ub4e0 \uadf8\ub9bc\uc774 \uc568\ubc94\uc5d0 \uc800\uc7a5\ub410\uc5b4\uc694.",
+    cta: "\uacc4\uc18d\ud558\uae30"
+  },
   album: {
     count: "{completed}/{total}\uc7a5",
     note: "\uc644\uc131\ud55c \uce74\ub4dc\uac00 \uc5ec\uae30\uc5d0 \ubcf4\uc5ec\uc694.",

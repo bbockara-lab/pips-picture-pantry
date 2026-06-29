@@ -50,6 +50,17 @@ export function playComplete() {
   globalThis.setTimeout(() => playTone(784, 0.12, 0.045, "sine"), 145);
 }
 
+export function playStageComplete() {
+  if (!getAudioPreferences().sfx) {
+    return;
+  }
+  playTone(523, 0.08, 0.07, "sine");
+  globalThis.setTimeout(() => playTone(659, 0.08, 0.07, "sine"), 90);
+  globalThis.setTimeout(() => playTone(784, 0.08, 0.07, "sine"), 180);
+  globalThis.setTimeout(() => playTone(1047, 0.18, 0.09, "sine"), 270);
+  globalThis.setTimeout(() => playTone(1047, 0.12, 0.07, "triangle"), 460);
+}
+
 export function startMusic() {
   // BGM placeholder: enable again when an original looped audio file is added.
   stopMusic();

@@ -10,17 +10,19 @@ import {
   getCompletedPuzzleIds,
   getPantrySpoons,
   isPackUnlocked,
+  markPackCompletedIfFirst,
   resetProgress,
   setActivePlayerName,
   unlockPack
 } from "../game/save.js";
 import { getLanguagePreference, puzzleTitle, setLanguagePreference, t } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
-import { getAudioPreferences, setMusicEnabled, setSfxEnabled, startMusic, stopMusic } from "./audio.js";
+import { getAudioPreferences, playStageComplete, setMusicEnabled, setSfxEnabled, startMusic, stopMusic } from "./audio.js";
 import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
+import { renderStageCompleteOverlay } from "./stageComplete.js";
 
-export const APP_VERSION = "v0.1.20";
+export const APP_VERSION = "v0.1.21";
 const DAILY_BONUS = 5;
 
 export function renderApp(root) {
@@ -123,6 +125,28 @@ export function renderApp(root) {
     draw();
   }
 
+  function checkStageComplete(puzzle) {
+    const pack = getPackById(puzzle.packId);
+    if (!pack || pack.access === "bonus-pack") {
+      return;
+    }
+
+    const completedPuzzleIds = new Set(getCompletedPuzzleIds());
+    const packPuzzles = puzzles.filter((candidate) => candidate.packId === pack.id);
+    if (!packPuzzles.length || !packPuzzles.every((candidate) => completedPuzzleIds.has(candidate.id))) {
+      return;
+    }
+
+    if (!markPackCompletedIfFirst(pack.id)) {
+      return;
+    }
+
+    globalThis.setTimeout(() => {
+      playStageComplete();
+      document.body.appendChild(renderStageCompleteOverlay(pack, draw));
+    }, 700);
+  }
+
   function draw() {
     root.innerHTML = "";
     root.appendChild(createShell({
@@ -143,7 +167,8 @@ export function renderApp(root) {
       onSfxChange: changeSfx,
       onMusicChange: changeMusic,
       onUnlockPack: requestUnlockPack,
-      onNextPuzzle: selectNextPuzzle
+      onNextPuzzle: selectNextPuzzle,
+      onPuzzleComplete: checkStageComplete
     }));
   }
 
@@ -172,7 +197,8 @@ function createShell({
   onSfxChange,
   onMusicChange,
   onUnlockPack,
-  onNextPuzzle
+  onNextPuzzle,
+  onPuzzleComplete
 }) {
   const shell = document.createElement("main");
   shell.className = "app-shell";
@@ -194,7 +220,8 @@ function createShell({
       dailyKey: activePuzzle.id === dailyPuzzle.id ? getDailyKey() : null,
       dailyBonus: activePuzzle.id === dailyPuzzle.id ? DAILY_BONUS : 0,
       onViewAlbum: () => onSelectView("album"),
-      onNextPuzzle
+      onNextPuzzle,
+      onPuzzleComplete
     }));
     shell.appendChild(createDailyCard(dailyPuzzle, activePuzzle.id, onSelectPuzzle));
     shell.appendChild(createPuzzlePicker(activePuzzle.id, onSelectPuzzle, onUnlockPack));

@@ -2171,3 +2171,109 @@ body {
   font-size: 0.78rem;
   font-weight: 800;
 }
+
+
+/* v0.1.21 stage completion celebration */
+.stage-complete-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: end center;
+  padding: 20px;
+  background: rgb(49 37 35 / 0.26);
+  animation: stage-overlay-in 180ms ease-out both;
+}
+
+.stage-complete-overlay--exit {
+  animation: stage-overlay-out 180ms ease-in both;
+}
+
+.stage-complete-card {
+  width: min(100%, 430px);
+  display: grid;
+  grid-template-columns: 108px 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 16px;
+  border: 3px solid var(--ink);
+  border-radius: 8px;
+  background: linear-gradient(145deg, #fff8df, #f6ffef);
+  box-shadow: 0 12px 0 rgb(61 45 43 / 0.2), 0 22px 36px rgb(61 45 43 / 0.2);
+  animation: stage-card-slide-up 220ms cubic-bezier(.2,.8,.2,1) both;
+}
+
+.stage-complete-pip {
+  width: 104px;
+  height: 104px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 0 rgb(61 45 43 / 0.16));
+  animation: stage-pip-bounce 520ms ease-out both;
+}
+
+.stage-complete-copy {
+  display: grid;
+  gap: 6px;
+}
+
+.stage-complete-copy h2,
+.stage-complete-copy p {
+  margin: 0;
+}
+
+.stage-complete-eyebrow {
+  color: var(--warm-brown);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.stage-complete-copy h2 {
+  color: var(--ink);
+  font-size: clamp(1.35rem, 4vw, 1.9rem);
+  line-height: 1.05;
+}
+
+.stage-complete-copy p:not(.stage-complete-eyebrow) {
+  color: var(--cocoa);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.stage-complete-cta {
+  width: 100%;
+  margin-top: 4px;
+}
+
+@keyframes stage-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes stage-overlay-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes stage-card-slide-up {
+  from { transform: translateY(24px) scale(0.98); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes stage-pip-bounce {
+  0% { transform: translateY(8px) rotate(-2deg) scale(0.92); }
+  55% { transform: translateY(-6px) rotate(2deg) scale(1.04); }
+  100% { transform: translateY(0) rotate(0deg) scale(1); }
+}
+
+@media (max-width: 420px) {
+  .stage-complete-card {
+    grid-template-columns: 86px 1fr;
+    padding: 14px;
+  }
+
+  .stage-complete-pip {
+    width: 84px;
+    height: 84px;
+  }
+}

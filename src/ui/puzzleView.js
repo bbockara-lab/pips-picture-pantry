@@ -29,6 +29,7 @@ export function renderPuzzleView(puzzle, options = {}) {
     });
     if (!wasCompleted && state.completed) {
       playComplete();
+      options.onPuzzleComplete?.(puzzle);
     }
     draw();
   }

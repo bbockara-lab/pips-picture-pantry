@@ -118,6 +118,12 @@ export const en = {
     viewAlbum: "View Album",
     nextPicture: "Next Picture"
   },
+  stageComplete: {
+    ariaLabel: "Stage complete",
+    eyebrow: "Stage complete!",
+    message: "Every picture in this stage is saved in your album.",
+    cta: "Keep going"
+  },
   album: {
     count: "{completed}/{total} pictures",
     note: "Finished cards appear here.",

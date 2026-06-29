@@ -242,3 +242,14 @@ Last updated: 2026-06-28
 - Signed AAB size: 3,756,069 bytes.
 - jarsigner verification: jar verified.
 - Play Console next upload should create internal test release 13 (1.0.12), because versionCode 1 through 12 are already used or prepared by earlier internal test builds.
+
+## Verification Update - 2026-06-29 v0.1.21 Stage Completion Celebration
+
+- Android versionCode: 14.
+- Android versionName: 1.0.13.
+- Visible app version: v0.1.21.
+- Purpose: next internal test build with one-time stage completion celebration, stage-complete SFX, completed-pack save tracking, and the previous retention polish intact.
+- Signed AAB rebuilt successfully at android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size: 3,756,979 bytes.
+- jarsigner verification: jar verified by scripts/build_android_signed_release_bundle.ps1 before successful exit.
+- Play Console next upload should create internal test release 14 (1.0.13), because versionCode 1 through 13 are already used or prepared by earlier internal test builds.

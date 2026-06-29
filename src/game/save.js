@@ -71,6 +71,17 @@ export function getCompletionDates() {
   return loadSave()?.completionDates || {};
 }
 
+export function markPackCompletedIfFirst(packId) {
+  const save = loadSave() || createEmptySave();
+  if (save.completedPackIds.includes(packId)) {
+    return false;
+  }
+
+  save.completedPackIds.push(packId);
+  saveGame(save);
+  return true;
+}
+
 export function isPackUnlocked(pack) {
   if (!pack || pack.access === "free" || Number(pack.unlockCost || 0) <= 0) {
     return true;
@@ -152,6 +163,7 @@ function normalizeSave(parsed) {
     completedPuzzleIds: Array.isArray(parsed?.completedPuzzleIds) ? parsed.completedPuzzleIds : [],
     rewardedPuzzleIds: Array.isArray(parsed?.rewardedPuzzleIds) ? parsed.rewardedPuzzleIds : [],
     dailyRewardedDates: Array.isArray(parsed?.dailyRewardedDates) ? parsed.dailyRewardedDates : [],
+    completedPackIds: Array.isArray(parsed?.completedPackIds) ? parsed.completedPackIds : [],
     completionDates: parsed?.completionDates && typeof parsed.completionDates === "object" ? parsed.completionDates : {},
     unlockedPackIds: Array.isArray(parsed?.unlockedPackIds) && parsed.unlockedPackIds.length
       ? Array.from(new Set([STARTER_PACK_ID, ...parsed.unlockedPackIds]))

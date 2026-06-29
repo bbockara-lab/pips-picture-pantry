@@ -8,6 +8,7 @@ import {
   getPantrySpoons,
   getUnlockedPackIds,
   loadSave,
+  markPackCompletedIfFirst,
   saveGame,
   savePuzzleState,
   setActivePlayerName,
@@ -96,6 +97,14 @@ describe("player save profiles", () => {
     expect(unlockPack({ id: "sunny-spoon-sign", access: "unlockable", unlockCost: 24 })).toBe(true);
     expect(getPantrySpoons()).toBe(0);
     expect(getUnlockedPackIds()).toContain("sunny-spoon-sign");
+  });
+
+  it("tracks stage completion celebrations once", () => {
+    setActivePlayerName("Jay");
+
+    expect(markPackCompletedIfFirst("pips-first-shelf")).toBe(true);
+    expect(markPackCompletedIfFirst("pips-first-shelf")).toBe(false);
+    expect(loadSave().completedPackIds).toEqual(["pips-first-shelf"]);
   });
 
 });

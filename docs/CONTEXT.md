@@ -327,3 +327,13 @@ Last updated: 2026-06-28
 - Added completion dates to saved puzzle progress and shows the completed date on finished Album cards.
 - Added simple Pip strip dialogue progression based on completed-card count so Pip responds differently as the pantry fills up.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 27 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932.
+
+## Progress Update - 2026-06-29 v0.1.21 Stage Completion Celebration
+
+- Bumped visible app version to v0.1.21 and Android release version to versionCode 14 / versionName 1.0.13.
+- Added a one-time stage completion celebration when all 20 cards in a free progression stage are complete.
+- Added `completedPackIds` to local save normalization so older saves migrate safely and completed-stage celebrations do not repeat.
+- Added a short stage-complete sound effect and a Pip sticker overlay that confirms the whole stage has been saved to the Album.
+- Kept the previous BGM decision unchanged: generated background music remains disabled until an original looped audio asset exists.
+- Deferred large puzzle-size replacement for later content expansion because changing launched puzzle boards can disturb existing internal-test saves and balance.
+- Verification after this slice: node --check passed on changed JS modules; npm run test passed with 28 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and the release script requires jarsigner `jar verified` before succeeding.
