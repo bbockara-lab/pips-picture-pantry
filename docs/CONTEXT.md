@@ -5,7 +5,7 @@ Last updated: 2026-06-28
 ## Current Phase
 
 - Mode: `live-candidate`
-- Version: `v0.1.12`
+- Version: `v0.1.13`
 - Goal: ship a small Android-first cozy Nonogram MVP within one week, while keeping iOS packaging and store-readiness prepared for Mac Mini handoff.
 
 ## Decisions
@@ -246,3 +246,12 @@ Last updated: 2026-06-28
 - Expanded the first launch shelf to 30 playable pictures: twelve 5x5 starter pictures, twelve 8x8 easy pictures, and six 10x10 next-step pictures.
 - Kept the content mostly free and progression-based. The 10x10 pictures unlock by completed-card count rather than payment.
 - Added puzzle data coverage to enforce the 30-picture launch volume and size distribution.
+
+
+## Progress Update - 2026-06-28 v0.1.13 Review Fixes
+
+- Bumped visible app version to v0.1.13 and Android release version to versionCode 6 / versionName 1.0.5.
+- Fixed corrupted Korean albumText strings for the new launch puzzles from teacup-5 through village-window-10.
+- Fixed createShell() to include onPlayerChange in the destructured parameter list so Settings can change the local player name.
+- Clarified the three-tab model: Album stores completed cards, while Wall / Pantry Wall shows cards filling a larger pantry-wall progression view.
+- Restored first-run player-name onboarding after the Start button and added a short note explaining that progress is saved under that name on this device.

@@ -1314,6 +1314,15 @@ body {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.player-intro-note {
+  max-width: 280px;
+  margin: 0;
+  color: var(--cocoa);
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-align: center;
+}
+
 .player-intro-form,
 .player-form {
   display: grid;

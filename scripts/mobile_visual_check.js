@@ -20,8 +20,7 @@ for (const viewport of viewports) {
   await page.waitForTimeout(1500);
   await expectVisible(page, ".brand-intro.game-stage", viewport.name);
   await expectVisible(page, ".brand-intro__seal", viewport.name);
-  await page.locator(".brand-intro__skip").click();
-  await page.locator(".brand-intro").waitFor({ state: "detached", timeout: 1500 });
+  await dismissIntro(page, "Jay");
 
   await expectVisible(page, ".app-shell", viewport.name);
   await expectVisible(page, ".pip-strip__portrait", viewport.name);
@@ -37,8 +36,7 @@ for (const viewport of viewports) {
   await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 2400 });
   await page.waitForTimeout(1500);
   await expectVisible(page, ".brand-intro.game-stage", viewport.name);
-  await page.locator(".brand-intro__skip").click();
-  await page.locator(".brand-intro").waitFor({ state: "detached", timeout: 1500 });
+  await dismissIntro(page, "Jay");
   await expectVisible(page, ".completion-pip", viewport.name);
   await expectVisible(page, ".completion-reveal", viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
@@ -64,11 +62,14 @@ console.log(`Mobile visual QA passed for ${viewports.map((viewport) => viewport.
 async function dismissIntro(page, playerName) {
   await page.locator(".brand-intro__skip").click();
   const nameInput = page.locator("#player-intro-name");
-  if (await nameInput.count()) {
+  try {
+    await nameInput.waitFor({ state: "visible", timeout: 700 });
     await nameInput.fill(playerName);
     await page.locator(".player-intro-form button").click();
+  } catch {
+    // Returning players skip the name form and the intro can close immediately.
   }
-  await page.locator(".brand-intro").waitFor({ state: "detached", timeout: 1500 });
+  await page.locator(".brand-intro").waitFor({ state: "detached", timeout: 2000 });
 }
 
 async function expectVisible(page, selector, viewportName) {

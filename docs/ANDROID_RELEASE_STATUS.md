@@ -153,3 +153,15 @@ Last updated: 2026-06-28
 - Signed AAB size: 3,749,122 bytes.
 - jarsigner verification: jar verified.
 - Play Console next upload should create internal test release 5 (1.0.4), because versionCode 1 through 4 are already used by earlier internal test builds.
+
+
+## Verification Update - 2026-06-28 v0.1.13 Review Fixes
+
+- Android versionCode: 6.
+- Android versionName: 1.0.5.
+- Visible app version: v0.1.13.
+- Purpose: reviewer-priority fix build for Korean copy, player-name settings, tab clarity, and first-run name onboarding.
+- Signed AAB rebuilt successfully at android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size: 3,750,068 bytes.
+- jarsigner verification: jar verified.
+- Play Console next upload should create internal test release 6 (1.0.5), because versionCode 1 through 5 are already used by earlier internal test builds.

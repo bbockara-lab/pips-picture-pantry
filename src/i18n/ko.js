@@ -9,10 +9,17 @@ export const ko = {
     studioTagline: "Sunny Spoon Studios",
     skip: "\uc2dc\uc791"
   },
+  playerIntro: {
+    title: "Pip\uc774 \ubb50\ub77c\uace0 \ubd80\ub974\uba74 \ub420\uae4c\uc694?",
+    note: "\uc774 \uc774\ub984\uc73c\ub85c \uc9c4\ud589\uc774 \uc774 \uae30\uae30\uc5d0 \uc800\uc7a5\ub3fc\uc694.",
+    label: "\uc774\ub984",
+    placeholder: "Jay",
+    continue: "\uacc4\uc18d"
+  },
   views: {
     puzzle: "\ud37c\uc990",
     album: "\uc568\ubc94",
-    map: "\ub9f5",
+    map: "\ud32c\ud2b8\ub9ac \ubcbd",
     navLabel: "\uc8fc\uc694 \ud654\uba74"
   },
   header: {
@@ -36,7 +43,9 @@ export const ko = {
     puzzleLine: "{player}, \uc791\uc740 \uadf8\ub9bc\ubd80\ud130 \uc2dc\uc791\ud574\uc694.",
     puzzleNote: "\uc22b\uc790\ub97c \ubcf4\uace0 {title}\uc744 \ucc44\uc6cc\uc694.",
     albumLine: "\uc644\uc131\ud55c \uadf8\ub9bc\uc774 \uc5ec\uae30\uc5d0 \uc800\uc7a5\ub3fc\uc694.",
-    albumNote: "\ud37c\uc990\uc744 \ud480\uba74 \uce74\ub4dc\uac00 \uc5f4\ub824\uc694."
+    albumNote: "\uc644\uc131\ud55c \uce74\ub4dc\ub97c \ubcf4\uad00\ud574\uc694.",
+    mapLine: "\uce74\ub4dc\uac00 \ud070 \ud32c\ud2b8\ub9ac \ubcbd\uc744 \ucc44\uc6cc\uac00\uc694.",
+    mapNote: "\ud37c\uc990\uc744 \ub354 \ud480\uba74 \ud070 \uadf8\ub9bc\uc774 \uc644\uc131\ub3fc\uc694."
   },
   sections: {
     starterShelf: "\uccab \ud32c\ud2b8\ub9ac \uc120\ubc18",
@@ -44,7 +53,7 @@ export const ko = {
     currentPicture: "\uc9c0\uae08 \uadf8\ub9bc",
     startHere: "\uc5ec\uae30\uc11c \uc2dc\uc791",
     pantryAlbum: "\ud32c\ud2b8\ub9ac \uc568\ubc94",
-    pantryMap: "\ud32c\ud2b8\ub9ac \ub9f5"
+    pantryMap: "\ud32c\ud2b8\ub9ac \ubcbd"
   },
   daily: {
     eyebrow: "\uc624\ub298\uc758 \ucd94\ucc9c",
@@ -151,107 +160,107 @@ export const ko = {
     "teacup-5": {
       title: "Teacup",
       imageName: "Teacup",
-      albumText: "?? ?? ????."
+      albumText: "작은 찻잔 카드예요."
     },
     "cookie-5": {
       title: "Cookie",
       imageName: "Cookie",
-      albumText: "??? ?? ??? ?????."
+      albumText: "동그란 쿠키 카드를 저장했어요."
     },
     "bread-loaf-5": {
       title: "Bread Loaf",
       imageName: "Bread Loaf",
-      albumText: "??? ? ? ??? ??? ?????."
+      albumText: "따뜻한 빵 한 덩이가 선반에 올라갔어요."
     },
     "tiny-house-5": {
       title: "Tiny House",
       imageName: "Tiny House",
-      albumText: "?? ? ??? ?????."
+      albumText: "작은 집 그림을 저장했어요."
     },
     "apple-5": {
       title: "Apple",
       imageName: "Apple",
-      albumText: "?? ??? ??? ??? ??."
+      albumText: "사과 카드가 선반을 환하게 해요."
     },
     "heart-card-5": {
       title: "Heart Card",
       imageName: "Heart Card",
-      albumText: "??? ?? ????."
+      albumText: "다정한 하트 카드예요."
     },
     "star-cookie-5": {
       title: "Star Cookie",
       imageName: "Star Cookie",
-      albumText: "? ?? ??? ????."
+      albumText: "별 쿠키 카드가 반짝여요."
     },
     "milk-bottle-8": {
       title: "Milk Bottle",
       imageName: "Milk Bottle",
-      albumText: "??? ??? ???? ?????."
+      albumText: "우유병 카드가 팬트리에 들어왔어요."
     },
     "jam-jar-8": {
       title: "Jam Jar",
       imageName: "Jam Jar",
-      albumText: "? ??? ???? ?? ???."
+      albumText: "잼 단지가 팬트리에 색을 더해요."
     },
     "whisk-8": {
       title: "Whisk",
       imageName: "Whisk",
-      albumText: "???? ?? ???? ????."
+      albumText: "거품기가 다음 레시피를 기다려요."
     },
     "chef-hat-8": {
       title: "Chef Hat",
       imageName: "Chef Hat",
-      albumText: "???? ?? ?? ????."
+      albumText: "부드러운 셰프 모자 카드예요."
     },
     "picnic-basket-8": {
       title: "Picnic Basket",
       imageName: "Picnic Basket",
-      albumText: "??? ???? ????."
+      albumText: "피크닉 바구니를 챙겼어요."
     },
     "cupcake-8": {
       title: "Cupcake",
       imageName: "Cupcake",
-      albumText: "???? ??? ?????."
+      albumText: "컵케이크 카드를 저장했어요."
     },
     "kettle-8": {
       title: "Kettle",
       imageName: "Kettle",
-      albumText: "???? cozy corner? ???? ??."
+      albumText: "주전자가 아늑한 모퉁이를 따뜻하게 해요."
     },
     "pantry-door-8": {
       title: "Pantry Door",
       imageName: "Pantry Door",
-      albumText: "?? ??? ?? ????."
+      albumText: "작은 팬트리 문이 열렸어요."
     },
     "rolling-pin-8": {
       title: "Rolling Pin",
       imageName: "Rolling Pin",
-      albumText: "?? ??? ??? ?????."
+      albumText: "밀대 카드가 앨범에 들어왔어요."
     },
     "apron-10": {
       title: "Apron",
       imageName: "Apron",
-      albumText: "Pip? ???? ?????."
+      albumText: "Pip의 앞치마를 준비했어요."
     },
     "bakery-shelf-10": {
       title: "Bakery Shelf",
       imageName: "Bakery Shelf",
-      albumText: "?? ?? ??? ?????."
+      albumText: "빵집 선반 그림이 완성됐어요."
     },
     "picnic-table-10": {
       title: "Picnic Table",
       imageName: "Picnic Table",
-      albumText: "??? ???? ?????."
+      albumText: "피크닉 테이블이 차려졌어요."
     },
     "sunny-pantry-10": {
       title: "Sunny Pantry",
       imageName: "Sunny Pantry",
-      albumText: "Sunny Pantry? ??? ????."
+      albumText: "Sunny Pantry가 환하게 켜졌어요."
     },
     "village-window-10": {
       title: "Village Window",
       imageName: "Village Window",
-      albumText: "?? ?? ??? ???? ????."
+      albumText: "마을 창문 카드가 팬트리에 걸렸어요."
     }
   }
 };

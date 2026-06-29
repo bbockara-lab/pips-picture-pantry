@@ -9,10 +9,17 @@ export const en = {
     studioTagline: "Sunny Spoon Studios",
     skip: "Start"
   },
+  playerIntro: {
+    title: "What should Pip call you?",
+    note: "Progress on this device will be saved under this name.",
+    label: "Player name",
+    placeholder: "Jay",
+    continue: "Continue"
+  },
   views: {
     puzzle: "Puzzle",
     album: "Album",
-    map: "Map",
+    map: "Wall",
     navLabel: "Main views"
   },
   header: {
@@ -36,7 +43,9 @@ export const en = {
     puzzleLine: "{player}, start with a small picture.",
     puzzleNote: "Use the numbers to fill {title}.",
     albumLine: "Finished pictures are saved here.",
-    albumNote: "Open a card after each solved puzzle."
+    albumNote: "Finished cards are stored here.",
+    mapLine: "Your cards are filling the pantry wall.",
+    mapNote: "Finish more pictures to complete the big scene."
   },
   sections: {
     starterShelf: "Starter shelf",
@@ -44,7 +53,7 @@ export const en = {
     currentPicture: "Current picture",
     startHere: "Start here",
     pantryAlbum: "Pantry Album",
-    pantryMap: "Pantry Map"
+    pantryMap: "Pantry Wall"
   },
   daily: {
     eyebrow: "Today's pick",
