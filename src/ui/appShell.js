@@ -22,7 +22,7 @@ import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
 
-export const APP_VERSION = "v0.1.22";
+export const APP_VERSION = "v0.1.23";
 const DAILY_BONUS = 5;
 
 export function renderApp(root) {
@@ -619,7 +619,8 @@ function createSettingsDialog(onClose, onLanguageChange, onPlayerChange, onSfxCh
   audioGroup.className = "audio-options";
   audioGroup.innerHTML = `<p class="section-label">${t("settings.sound")}</p>`;
   audioGroup.append(
-    createAudioToggle(t("settings.sfx"), audio.sfx, onSfxChange)
+    createAudioToggle(t("settings.sfx"), audio.sfx, onSfxChange),
+    createAudioToggle(t("settings.music"), audio.music, onMusicChange)
   );
 
   const closeButton = document.createElement("button");

@@ -45,7 +45,7 @@ export const ko = {
     savePlayer: "\uc774 \uc774\ub984 \uc0ac\uc6a9",
     sound: "\uc18c\ub9ac",
     sfx: "\ud6a8\uacfc\uc74c \ucf1c\uae30/\ub044\uae30",
-    music: "\uc74c\uc545 \ucf1c\uae30/\ub044\uae30",
+    music: "\uc544\ub291\ud55c \uc74c\uc545 \ucf1c\uae30/\ub044\uae30",
     close: "\uc644\ub8cc"
   },
   badges: {

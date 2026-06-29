@@ -45,7 +45,7 @@ export const en = {
     savePlayer: "Use this name",
     sound: "Sound",
     sfx: "Effects on/off",
-    music: "Music on/off",
+    music: "Cozy music on/off",
     close: "Done"
   },
   badges: {

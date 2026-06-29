@@ -264,3 +264,14 @@ Last updated: 2026-06-28
 - Signed AAB size: 3,757,060 bytes.
 - jarsigner verification: jar verified by scripts/build_android_signed_release_bundle.ps1 before successful exit.
 - Play Console next upload should create internal test release 15 (1.0.14), because versionCode 1 through 14 are already used or prepared by earlier internal test builds.
+
+## Verification Update - 2026-06-29 v0.1.23 Cozy Music Trial
+
+- Android versionCode: 16.
+- Android versionName: 1.0.15.
+- Visible app version: v0.1.23.
+- Purpose: next internal test build with an optional quiet WebAudio cozy music loop and restored music setting toggle.
+- Signed AAB rebuilt successfully at android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size: 3,757,693 bytes.
+- jarsigner verification: jar verified.
+- Play Console next upload should create internal test release 16 (1.0.15), because versionCode 1 through 15 are already used or prepared by earlier internal test builds.

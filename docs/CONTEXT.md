@@ -344,3 +344,11 @@ Last updated: 2026-06-28
 - Updated Today's pick reward copy so the bonus displays with the same reward token icon used elsewhere in the economy, making it clear the player receives +5 spoons/tokens.
 - Kept the current Roadmap art model unchanged for this patch: the free 100-card path completes one Pip Portrait. Stage-specific preview/badge art remains a planned pre-release polish item for the next broader content pass.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 28 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and the release script requires jarsigner `jar verified` before succeeding.
+
+## Progress Update - 2026-06-29 v0.1.23 Cozy Music Trial
+
+- Bumped visible app version to v0.1.23 and Android release version to versionCode 16 / versionName 1.0.15.
+- Added an optional WebAudio cozy music loop using a quiet 12-second C-major pattern with soft note envelopes and low bass support.
+- Restored the music toggle in Settings as `Cozy music on/off` / `??? ?? ??/??`; music remains opt-in and does not autoplay by default.
+- Kept SFX behavior unchanged and preserved the previous tap, card-complete, and stage-complete effects.
+- Verification after this slice: node --check passed on changed JS modules; npm run test passed with 28 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported `jar verified`.
