@@ -7,7 +7,12 @@ export const puzzlePacks = [
     monetizationRole: "starter",
     unlockCost: 0,
     muralPart: "pip-ear",
-    muralSet: "pip-portrait"
+    muralSet: "pip-portrait",
+    badge: {
+      id: "badge-pips-first-shelf",
+      titleKey: "badges.pipsFirstShelf",
+      descriptionKey: "badges.pipsFirstShelfDesc"
+    }
   },
   {
     id: "sunny-spoon-sign",
@@ -17,7 +22,12 @@ export const puzzlePacks = [
     monetizationRole: "free-progression",
     unlockCost: 24,
     muralPart: "pip-cheek",
-    muralSet: "pip-portrait"
+    muralSet: "pip-portrait",
+    badge: {
+      id: "badge-sunny-spoon-sign",
+      titleKey: "badges.sunnySpoonSign",
+      descriptionKey: "badges.sunnySpoonSignDesc"
+    }
   },
   {
     id: "apron-drawer",
@@ -27,7 +37,12 @@ export const puzzlePacks = [
     monetizationRole: "free-progression",
     unlockCost: 70,
     muralPart: "pip-scarf",
-    muralSet: "pip-portrait"
+    muralSet: "pip-portrait",
+    badge: {
+      id: "badge-apron-drawer",
+      titleKey: "badges.apronDrawer",
+      descriptionKey: "badges.apronDrawerDesc"
+    }
   },
   {
     id: "bakery-window",
@@ -37,7 +52,12 @@ export const puzzlePacks = [
     monetizationRole: "free-progression",
     unlockCost: 110,
     muralPart: "pip-hat",
-    muralSet: "pip-portrait"
+    muralSet: "pip-portrait",
+    badge: {
+      id: "badge-bakery-window",
+      titleKey: "badges.bakeryWindow",
+      descriptionKey: "badges.bakeryWindowDesc"
+    }
   },
   {
     id: "village-pantry",
@@ -47,7 +67,12 @@ export const puzzlePacks = [
     monetizationRole: "free-progression",
     unlockCost: 120,
     muralPart: "pip-face",
-    muralSet: "pip-portrait"
+    muralSet: "pip-portrait",
+    badge: {
+      id: "badge-village-pantry",
+      titleKey: "badges.villagePantry",
+      descriptionKey: "badges.villagePantryDesc"
+    }
   },
   {
     id: "cafe-window-plus",

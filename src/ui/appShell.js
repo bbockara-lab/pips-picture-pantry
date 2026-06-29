@@ -3,6 +3,7 @@ import pipStripStickerUrl from "../assets/characters/pip-strip-sticker-v1.png";
 import { getPackById, puzzlePacks } from "../data/packs.js";
 import { puzzles } from "../data/puzzles.js";
 import { getDailyPuzzle } from "../game/dailyPuzzle.js";
+import { getEarnedPackBadges } from "../game/badges.js";
 import {
   canUnlockPack,
   getActivePlayerName,
@@ -19,7 +20,7 @@ import { getAudioPreferences, setMusicEnabled, setSfxEnabled, startMusic, stopMu
 import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
-export const APP_VERSION = "v0.1.19";
+export const APP_VERSION = "v0.1.20";
 const DAILY_BONUS = 5;
 
 export function renderApp(root) {
@@ -257,11 +258,12 @@ function createPipStrip(puzzle, activeView) {
   strip.className = "pip-strip";
   const playerName = getActivePlayerName() || t("playerIntro.defaultName");
   const puzzleName = puzzleTitle(puzzle);
+  const completedCount = getCompletedPuzzleIds().length;
   const line = activeView === "album"
     ? t("pipStrip.albumLine")
     : activeView === "map"
       ? t("pipStrip.mapLine")
-      : t("pipStrip.puzzleLine", { player: playerName });
+      : getPipPuzzleLine(playerName, completedCount);
   const note = activeView === "album"
     ? t("pipStrip.albumNote")
     : activeView === "map"
@@ -416,29 +418,38 @@ function createStagePreview(pack, completeCount, total) {
 }
 
 function createBadgeShelf() {
-  const freeProgressPacks = puzzlePacks.filter((pack) => pack.muralSet === "pip-portrait");
-  const freePuzzleIds = puzzles
-    .filter((puzzle) => freeProgressPacks.some((pack) => pack.id === puzzle.packId))
-    .map((puzzle) => puzzle.id);
-  const completed = getCompletedPuzzleIds().filter((id) => freePuzzleIds.includes(id)).length;
-  const total = freePuzzleIds.length;
-  const earned = total > 0 && completed >= total;
-  if (!earned) {
+  const earnedBadges = getEarnedPackBadges(getCompletedPuzzleIds());
+  if (!earnedBadges.length) {
     return null;
   }
   const shelf = document.createElement("section");
-  shelf.className = earned ? "badge-shelf earned" : "badge-shelf";
-  shelf.setAttribute("aria-label", earned ? t("badges.earnedAria") : t("badges.progressAria", { completed, total }));
-  shelf.innerHTML = `
-    <div class="badge-shelf__token" aria-hidden="true">
-      <img src="${pipCompleteStickerUrl}" alt="" />
+  shelf.className = "badge-shelf earned";
+  shelf.setAttribute("aria-label", t("badges.earnedShelfAria", { count: earnedBadges.length }));
+  shelf.innerHTML = earnedBadges.slice(0, 3).map((status) => `
+    <div class="badge-shelf__item">
+      <div class="badge-shelf__token" aria-hidden="true">
+        <img src="${pipCompleteStickerUrl}" alt="" />
+      </div>
+      <div>
+        <p>${t(status.badge.titleKey)}</p>
+        <small>${t("badges.earned")}</small>
+      </div>
     </div>
-    <div>
-      <p>${earned ? t("badges.pipPortrait") : t("badges.nextBadge")}</p>
-      <small>${earned ? t("badges.earned") : t("badges.progress", { completed, total })}</small>
-    </div>
-  `;
+  `).join("");
   return shelf;
+}
+
+function getPipPuzzleLine(playerName, completedCount) {
+  if (completedCount === 0) {
+    return t("pipStrip.puzzleLineFirst", { player: playerName });
+  }
+  if (completedCount < 5) {
+    return t("pipStrip.puzzleLineEarly", { player: playerName });
+  }
+  if (completedCount < 15) {
+    return t("pipStrip.puzzleLineMid", { player: playerName });
+  }
+  return t("pipStrip.puzzleLineLate", { player: playerName });
 }
 
 function createBonusPackPanel() {

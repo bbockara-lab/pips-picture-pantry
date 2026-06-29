@@ -50,5 +50,9 @@ describe("puzzle data", () => {
     expect(puzzlePacks.filter((pack) => pack.access === "unlockable")).toHaveLength(4);
     expect(puzzlePacks.filter((pack) => pack.access === "bonus-pack")).toHaveLength(5);
     expect(puzzlePacks.filter((pack) => pack.muralSet === "pip-portrait")).toHaveLength(5);
+    puzzlePacks.filter((pack) => pack.muralSet === "pip-portrait").forEach((pack) => {
+      expect(pack.badge?.id).toMatch(/^badge-/);
+      expect(pack.badge?.titleKey).toMatch(/^badges\./);
+    });
   });
 });

@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import {
   getActivePlayerName,
   getCompletedPuzzleIds,
+  getCompletionDates,
   getPlayerRecords,
   hasActivePlayer,
   getPantrySpoons,
@@ -86,6 +87,7 @@ describe("player save profiles", () => {
     savePuzzleState(completedState, { reward: 3 });
     expect(getPantrySpoons()).toBe(3);
     expect(loadSave().completedPuzzleIds).toEqual(["pips-first-shelf-pip-face-1"]);
+    expect(getCompletionDates()["pips-first-shelf-pip-face-1"]).toMatch(/^\d{4}-\d{2}-\d{2}$/);
 
     savePuzzleState(completedState, { reward: 3 });
     expect(getPantrySpoons()).toBe(3);

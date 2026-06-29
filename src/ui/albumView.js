@@ -1,9 +1,10 @@
 import { puzzles } from "../data/puzzles.js";
-import { getCompletedPuzzleIds } from "../game/save.js";
+import { getCompletedPuzzleIds, getCompletionDates } from "../game/save.js";
 import { puzzleAlbumText, puzzleImageName, puzzleTitle, t } from "../i18n/index.js";
 
 export function renderAlbumView() {
   const completedIds = new Set(getCompletedPuzzleIds());
+  const completionDates = getCompletionDates();
   const section = document.createElement("section");
   section.className = "album-panel content-panel";
 
@@ -31,6 +32,7 @@ export function renderAlbumView() {
     copy.innerHTML = `
       <h3>${isComplete ? puzzleImageName(puzzle) : t("album.hiddenTitle")}</h3>
       <p>${isComplete ? puzzleAlbumText(puzzle) : t("album.hiddenText")}</p>
+      ${isComplete && completionDates[puzzle.id] ? `<small class="card-date">${formatCardDate(completionDates[puzzle.id])}</small>` : ""}
     `;
     card.appendChild(copy);
     grid.appendChild(card);
@@ -60,4 +62,13 @@ function renderStamp(puzzle, isComplete) {
   });
 
   return stamp;
+}
+function formatCardDate(dateKey) {
+  const [year, month, day] = String(dateKey).split("-");
+  if (!year || !month || !day) {
+    return "";
+  }
+  const locale = document.documentElement.lang || navigator.language || "en-US";
+  const date = new Date(Number(year), Number(month) - 1, Number(day));
+  return new Intl.DateTimeFormat(locale, { year: "numeric", month: "short", day: "numeric" }).format(date);
 }

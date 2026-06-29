@@ -2,6 +2,7 @@ import pipCompleteStickerUrl from "../assets/characters/pip-complete-sticker-v1.
 import { puzzlePacks } from "../data/packs.js";
 import { puzzles } from "../data/puzzles.js";
 import { getCompletedPuzzleIds, isPackUnlocked } from "../game/save.js";
+import { getNextBadgeProgress } from "../game/badges.js";
 import { t } from "../i18n/index.js";
 
 export function renderPantryMapView() {
@@ -90,16 +91,30 @@ export function renderPantryMapView() {
 }
 
 function createRoadmapBadge(completed, total) {
-  const earned = total > 0 && completed >= total;
+  const completedIds = getCompletedPuzzleIds();
+  const next = getNextBadgeProgress(completedIds);
+  const earnedAll = total > 0 && completed >= total;
   const badge = document.createElement("div");
-  badge.className = earned ? "roadmap-badge earned" : "roadmap-badge";
+  badge.className = earnedAll ? "roadmap-badge earned" : "roadmap-badge";
+  if (next) {
+    badge.innerHTML = `
+      <div class="roadmap-badge__token" aria-hidden="true">
+        <img src="${pipCompleteStickerUrl}" alt="" />
+      </div>
+      <div>
+        <p>${t("badges.nextPackBadge", { name: t(next.badge.titleKey) })}</p>
+        <small>${t("badges.packProgress", { completed: next.completed, total: next.total, name: t(next.badge.titleKey) })}</small>
+      </div>
+    `;
+    return badge;
+  }
   badge.innerHTML = `
     <div class="roadmap-badge__token" aria-hidden="true">
       <img src="${pipCompleteStickerUrl}" alt="" />
     </div>
     <div>
-      <p>${earned ? t("badges.pipPortrait") : t("badges.nextBadge")}</p>
-      <small>${earned ? t("badges.earned") : t("badges.progress", { completed, total })}</small>
+      <p>${t("badges.pipPortrait")}</p>
+      <small>${t("badges.earned")}</small>
     </div>
   `;
   return badge;

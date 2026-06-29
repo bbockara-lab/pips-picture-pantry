@@ -227,5 +227,18 @@ Last updated: 2026-06-28
 - Android versionName: 1.0.11.
 - Visible app version: v0.1.19.
 - Purpose: next internal test build with store-safe add-on copy, earned-only top badge shelf, and appShell BOM cleanup.
-- Signed AAB rebuilt successfully at android/app/build/outputs/bundle/release/app-release.aab.\n- Signed AAB size: 3,755,036 bytes.\n- jarsigner verification: jar verified.
+- Signed AAB rebuilt successfully at android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size: 3,755,036 bytes.
+- jarsigner verification: jar verified.
 - Play Console next upload should create internal test release 12 (1.0.11), because versionCode 1 through 11 are already used or prepared by earlier internal test builds.
+
+## Verification Update - 2026-06-29 v0.1.20 Retention Polish
+
+- Android versionCode: 13.
+- Android versionName: 1.0.12.
+- Visible app version: v0.1.20.
+- Purpose: next internal test build with pack-level badges, earned-only top badge shelf, Album completion dates, and evolving Pip dialogue.
+- Signed AAB rebuilt successfully at android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size: 3,756,069 bytes.
+- jarsigner verification: jar verified.
+- Play Console next upload should create internal test release 13 (1.0.12), because versionCode 1 through 12 are already used or prepared by earlier internal test builds.

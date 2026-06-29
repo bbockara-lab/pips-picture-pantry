@@ -37,6 +37,7 @@ export function savePuzzleState(state, rewardOptions = {}) {
 
   if (state.completed && !wasCompleted) {
     save.completedPuzzleIds.push(state.puzzleId);
+    save.completionDates[state.puzzleId] = getLocalDateKey();
     const reward = Number(rewardOptions.reward || 0);
     if (reward > 0 && !save.rewardedPuzzleIds.includes(state.puzzleId)) {
       save.pantrySpoons += reward;
@@ -64,6 +65,10 @@ export function getPantrySpoons() {
 
 export function getUnlockedPackIds() {
   return loadSave()?.unlockedPackIds || [STARTER_PACK_ID];
+}
+
+export function getCompletionDates() {
+  return loadSave()?.completionDates || {};
 }
 
 export function isPackUnlocked(pack) {
@@ -147,6 +152,7 @@ function normalizeSave(parsed) {
     completedPuzzleIds: Array.isArray(parsed?.completedPuzzleIds) ? parsed.completedPuzzleIds : [],
     rewardedPuzzleIds: Array.isArray(parsed?.rewardedPuzzleIds) ? parsed.rewardedPuzzleIds : [],
     dailyRewardedDates: Array.isArray(parsed?.dailyRewardedDates) ? parsed.dailyRewardedDates : [],
+    completionDates: parsed?.completionDates && typeof parsed.completionDates === "object" ? parsed.completionDates : {},
     unlockedPackIds: Array.isArray(parsed?.unlockedPackIds) && parsed.unlockedPackIds.length
       ? Array.from(new Set([STARTER_PACK_ID, ...parsed.unlockedPackIds]))
       : [STARTER_PACK_ID],
@@ -179,4 +185,11 @@ function readJson(key, fallback) {
   } catch {
     return fallback;
   }
+}
+
+function getLocalDateKey(now = new Date()) {
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return year + "-" + month + "-" + day;
 }

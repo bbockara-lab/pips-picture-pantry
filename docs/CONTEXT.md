@@ -317,3 +317,13 @@ Last updated: 2026-06-28
 - Changed the top badge shelf so it appears only after the first 100-card Pip Portrait badge is earned; in-progress badge tracking remains in the Roadmap view.
 - Removed the residual BOM from `src/ui/appShell.js`.
 - Verification after this slice: node --check passed on appShell; npm run test passed with 25 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932.
+
+## Progress Update - 2026-06-29 v0.1.20 Retention Polish
+
+- Bumped visible app version to v0.1.20 and Android release version to versionCode 13 / versionName 1.0.12.
+- Added pack-level badge metadata for the five free progression stages and a new `src/game/badges.js` helper for earned / next badge status.
+- Changed Roadmap badge progress from one large 100-card counter to the next pack badge target, giving players a shorter 20-card milestone.
+- Kept the top badge shelf earned-only: it now appears only after at least one pack badge is earned, avoiding noisy 0-progress UI for new players.
+- Added completion dates to saved puzzle progress and shows the completed date on finished Album cards.
+- Added simple Pip strip dialogue progression based on completed-card count so Pip responds differently as the pantry fills up.
+- Verification after this slice: node --check passed on changed JS modules; npm run test passed with 27 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932.
