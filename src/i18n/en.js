@@ -146,6 +146,111 @@ export const en = {
       title: "Sunny Spoon Sign",
       imageName: "Sunny Spoon Sign",
       albumText: "The Sunny Spoon sign is ready for the wall."
+    },
+    "teacup-5": {
+      title: "Teacup",
+      imageName: "Teacup",
+      albumText: "A tiny teacup joins Pip's shelf."
+    },
+    "cookie-5": {
+      title: "Cookie",
+      imageName: "Cookie",
+      albumText: "A round cookie card smells sweet."
+    },
+    "bread-loaf-5": {
+      title: "Bread Loaf",
+      imageName: "Bread Loaf",
+      albumText: "A warm loaf is ready for the pantry."
+    },
+    "tiny-house-5": {
+      title: "Tiny House",
+      imageName: "Tiny House",
+      albumText: "A little cozy house card is saved."
+    },
+    "apple-5": {
+      title: "Apple",
+      imageName: "Apple",
+      albumText: "A crisp apple brightens the shelf."
+    },
+    "heart-card-5": {
+      title: "Heart Card",
+      imageName: "Heart Card",
+      albumText: "A sweet card for a friendly pantry."
+    },
+    "star-cookie-5": {
+      title: "Star Cookie",
+      imageName: "Star Cookie",
+      albumText: "A star cookie sparkles on the card."
+    },
+    "milk-bottle-8": {
+      title: "Milk Bottle",
+      imageName: "Milk Bottle",
+      albumText: "A small milk bottle is tucked away."
+    },
+    "jam-jar-8": {
+      title: "Jam Jar",
+      imageName: "Jam Jar",
+      albumText: "A jam jar adds color to the pantry."
+    },
+    "whisk-8": {
+      title: "Whisk",
+      imageName: "Whisk",
+      albumText: "A whisk is ready for the next recipe."
+    },
+    "chef-hat-8": {
+      title: "Chef Hat",
+      imageName: "Chef Hat",
+      albumText: "A soft chef hat waits on the shelf."
+    },
+    "picnic-basket-8": {
+      title: "Picnic Basket",
+      imageName: "Picnic Basket",
+      albumText: "A picnic basket is packed for later."
+    },
+    "cupcake-8": {
+      title: "Cupcake",
+      imageName: "Cupcake",
+      albumText: "A cupcake card is saved."
+    },
+    "kettle-8": {
+      title: "Kettle",
+      imageName: "Kettle",
+      albumText: "A kettle warms the cozy corner."
+    },
+    "pantry-door-8": {
+      title: "Pantry Door",
+      imageName: "Pantry Door",
+      albumText: "A little pantry door opens."
+    },
+    "rolling-pin-8": {
+      title: "Rolling Pin",
+      imageName: "Rolling Pin",
+      albumText: "A rolling pin rolls into the album."
+    },
+    "apron-10": {
+      title: "Apron",
+      imageName: "Apron",
+      albumText: "A pantry apron is ready for Pip."
+    },
+    "bakery-shelf-10": {
+      title: "Bakery Shelf",
+      imageName: "Bakery Shelf",
+      albumText: "A full bakery shelf appears."
+    },
+    "picnic-table-10": {
+      title: "Picnic Table",
+      imageName: "Picnic Table",
+      albumText: "A picnic table is set."
+    },
+    "sunny-pantry-10": {
+      title: "Sunny Pantry",
+      imageName: "Sunny Pantry",
+      albumText: "The sunny pantry starts to glow."
+    },
+    "village-window-10": {
+      title: "Village Window",
+      imageName: "Village Window",
+      albumText: "A village window looks out from the pantry."
     }
   }
 };

@@ -13,6 +13,13 @@ describe("puzzle data", () => {
     });
   });
 
+
+  it("ships the first launch shelf with 30 playable pictures", () => {
+    expect(puzzles).toHaveLength(30);
+    expect(puzzles.filter((puzzle) => puzzle.size === 5)).toHaveLength(12);
+    expect(puzzles.filter((puzzle) => puzzle.size === 8)).toHaveLength(12);
+    expect(puzzles.filter((puzzle) => puzzle.size === 10)).toHaveLength(6);
+  });
   it("includes starter, easy, and next-step launch-board sizes", () => {
     expect(puzzles.some((puzzle) => puzzle.size === 5)).toBe(true);
     expect(puzzles.some((puzzle) => puzzle.size === 8)).toBe(true);

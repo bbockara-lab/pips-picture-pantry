@@ -9,7 +9,7 @@ import { renderAlbumView } from "./albumView.js";
 import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
-export const APP_VERSION = "v0.1.11";
+export const APP_VERSION = "v0.1.12";
 
 export function renderApp(root) {
   const dailyPuzzle = getDailyPuzzle(puzzles);

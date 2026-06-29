@@ -5,7 +5,7 @@ Last updated: 2026-06-28
 ## Current Phase
 
 - Mode: `live-candidate`
-- Version: `v0.1.11`
+- Version: `v0.1.12`
 - Goal: ship a small Android-first cozy Nonogram MVP within one week, while keeping iOS packaging and store-readiness prepared for Mac Mini handoff.
 
 ## Decisions
@@ -239,3 +239,10 @@ Last updated: 2026-06-28
 - Added a Pantry Map tab where solved cards fill slots in a larger pantry wall. This is the first MVP version of the larger meta-picture retention loop.
 - Added a player-name input in Settings so a device can switch to a new local name later.
 - Audio remains deferred until after the name/profile and map loop have been tested on-device.
+## Progress Update - 2026-06-28 v0.1.12 Launch Puzzle Volume
+
+- Bumped visible app version to v0.1.12 and Android release version to versionCode 5 / versionName 1.0.4 for the next internal test upload.
+- Corrected the map expansion direction: this slice expands the playable picture count, not only the Pantry Map meta view.
+- Expanded the first launch shelf to 30 playable pictures: twelve 5x5 starter pictures, twelve 8x8 easy pictures, and six 10x10 next-step pictures.
+- Kept the content mostly free and progression-based. The 10x10 pictures unlock by completed-card count rather than payment.
+- Added puzzle data coverage to enforce the 30-picture launch volume and size distribution.

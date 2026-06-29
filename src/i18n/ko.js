@@ -147,6 +147,111 @@ export const ko = {
       title: "Sunny Spoon Sign",
       imageName: "Sunny Spoon Sign",
       albumText: "Sunny Spoon \uac04\ud310\uc744 \ubcbd\uc5d0 \uac78\uc5c8\uc5b4\uc694."
+    },
+    "teacup-5": {
+      title: "Teacup",
+      imageName: "Teacup",
+      albumText: "?? ?? ????."
+    },
+    "cookie-5": {
+      title: "Cookie",
+      imageName: "Cookie",
+      albumText: "??? ?? ??? ?????."
+    },
+    "bread-loaf-5": {
+      title: "Bread Loaf",
+      imageName: "Bread Loaf",
+      albumText: "??? ? ? ??? ??? ?????."
+    },
+    "tiny-house-5": {
+      title: "Tiny House",
+      imageName: "Tiny House",
+      albumText: "?? ? ??? ?????."
+    },
+    "apple-5": {
+      title: "Apple",
+      imageName: "Apple",
+      albumText: "?? ??? ??? ??? ??."
+    },
+    "heart-card-5": {
+      title: "Heart Card",
+      imageName: "Heart Card",
+      albumText: "??? ?? ????."
+    },
+    "star-cookie-5": {
+      title: "Star Cookie",
+      imageName: "Star Cookie",
+      albumText: "? ?? ??? ????."
+    },
+    "milk-bottle-8": {
+      title: "Milk Bottle",
+      imageName: "Milk Bottle",
+      albumText: "??? ??? ???? ?????."
+    },
+    "jam-jar-8": {
+      title: "Jam Jar",
+      imageName: "Jam Jar",
+      albumText: "? ??? ???? ?? ???."
+    },
+    "whisk-8": {
+      title: "Whisk",
+      imageName: "Whisk",
+      albumText: "???? ?? ???? ????."
+    },
+    "chef-hat-8": {
+      title: "Chef Hat",
+      imageName: "Chef Hat",
+      albumText: "???? ?? ?? ????."
+    },
+    "picnic-basket-8": {
+      title: "Picnic Basket",
+      imageName: "Picnic Basket",
+      albumText: "??? ???? ????."
+    },
+    "cupcake-8": {
+      title: "Cupcake",
+      imageName: "Cupcake",
+      albumText: "???? ??? ?????."
+    },
+    "kettle-8": {
+      title: "Kettle",
+      imageName: "Kettle",
+      albumText: "???? cozy corner? ???? ??."
+    },
+    "pantry-door-8": {
+      title: "Pantry Door",
+      imageName: "Pantry Door",
+      albumText: "?? ??? ?? ????."
+    },
+    "rolling-pin-8": {
+      title: "Rolling Pin",
+      imageName: "Rolling Pin",
+      albumText: "?? ??? ??? ?????."
+    },
+    "apron-10": {
+      title: "Apron",
+      imageName: "Apron",
+      albumText: "Pip? ???? ?????."
+    },
+    "bakery-shelf-10": {
+      title: "Bakery Shelf",
+      imageName: "Bakery Shelf",
+      albumText: "?? ?? ??? ?????."
+    },
+    "picnic-table-10": {
+      title: "Picnic Table",
+      imageName: "Picnic Table",
+      albumText: "??? ???? ?????."
+    },
+    "sunny-pantry-10": {
+      title: "Sunny Pantry",
+      imageName: "Sunny Pantry",
+      albumText: "Sunny Pantry? ??? ????."
+    },
+    "village-window-10": {
+      title: "Village Window",
+      imageName: "Village Window",
+      albumText: "?? ?? ??? ???? ????."
     }
   }
 };

@@ -143,3 +143,13 @@ Last updated: 2026-06-28
 - Signed AAB size: 3,747,816 bytes.
 - jarsigner verification: jar verified.
 - Play Console next upload should create internal test release 4 (1.0.3), because versionCode 1, 2, and 3 are already used by earlier internal test builds.
+## Verification Update - 2026-06-28 v0.1.12 Launch Puzzle Volume
+
+- Android versionCode: 5.
+- Android versionName: 1.0.4.
+- Visible app version: v0.1.12.
+- Purpose: next internal test build with 30 playable launch pictures.
+- Signed AAB rebuilt successfully at android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size: 3,749,122 bytes.
+- jarsigner verification: jar verified.
+- Play Console next upload should create internal test release 5 (1.0.4), because versionCode 1 through 4 are already used by earlier internal test builds.
