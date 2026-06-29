@@ -5,7 +5,7 @@ Last updated: 2026-06-28
 ## Current Phase
 
 - Mode: `live-candidate`
-- Version: `v0.1.10`
+- Version: `v0.1.11`
 - Goal: ship a small Android-first cozy Nonogram MVP within one week, while keeping iOS packaging and store-readiness prepared for Mac Mini handoff.
 
 ## Decisions
@@ -230,3 +230,12 @@ Last updated: 2026-06-28
 
 - Pantry Mural: each solved card can fill one slot of a larger pantry/cafe illustration. This should be a motivation layer, not a blocker for enjoying individual free cards.
 - Audio polish: add lightweight local audio assets only after current first-play flow is stable. Required controls: sound effects on/off, music on/off, conservative default volume, and no disruptive autoplay assumptions.
+## Progress Update - 2026-06-28 v0.1.11 Player Profiles / Pantry Map
+
+- Bumped visible app version to v0.1.11 and Android release version to versionCode 4 / versionName 1.0.3 for the next internal test upload.
+- Added a first-launch player name step after the Sunny Spoon Studios and game identity screens. The app now asks what Pip should call the player before entering the puzzle loop.
+- Added local player profiles: progress is saved by player name, and entering a different name can start or resume a separate local progress track on the same device.
+- Preserved existing single-profile progress by migrating the legacy save into the first named profile when a player name is created.
+- Added a Pantry Map tab where solved cards fill slots in a larger pantry wall. This is the first MVP version of the larger meta-picture retention loop.
+- Added a player-name input in Settings so a device can switch to a new local name later.
+- Audio remains deferred until after the name/profile and map loop have been tested on-device.

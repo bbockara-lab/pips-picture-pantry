@@ -61,6 +61,16 @@ if (failures.length) {
 
 console.log(`Mobile visual QA passed for ${viewports.map((viewport) => viewport.name).join(", ")}.`);
 
+async function dismissIntro(page, playerName) {
+  await page.locator(".brand-intro__skip").click();
+  const nameInput = page.locator("#player-intro-name");
+  if (await nameInput.count()) {
+    await nameInput.fill(playerName);
+    await page.locator(".player-intro-form button").click();
+  }
+  await page.locator(".brand-intro").waitFor({ state: "detached", timeout: 1500 });
+}
+
 async function expectVisible(page, selector, viewportName) {
   const count = await page.locator(selector).count();
   if (count === 0) {
@@ -97,7 +107,10 @@ async function expectTapTargets(page, viewportName) {
 }
 async function seedCompletedStarter(page) {
   await page.evaluate(() => {
-    const saveKey = "pips-picture-pantry:v0.1:save";
+    const player = { id: "jay", name: "Jay" };
+    localStorage.setItem("pips-picture-pantry:v0.1:active-player", JSON.stringify(player));
+    localStorage.setItem("pips-picture-pantry:v0.1:players", JSON.stringify([player]));
+    const saveKey = "pips-picture-pantry:v0.1:save:jay";
     const cells = [
       ["empty", "filled", "filled", "filled", "empty"],
       ["filled", "filled", "filled", "filled", "filled"],

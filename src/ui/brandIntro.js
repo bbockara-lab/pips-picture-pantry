@@ -1,5 +1,6 @@
 import appIconUrl from "../assets/app-icons/app-icon-192.png";
 import redesignedCastUrl from "../assets/characters/pip-cast-redesign-concept-v1-web.jpg";
+import { hasActivePlayer, setActivePlayerName } from "../game/save.js";
 import { t } from "../i18n/index.js";
 
 const STUDIO_DURATION_MS = 900;

@@ -12,6 +12,7 @@ export const ko = {
   views: {
     puzzle: "\ud37c\uc990",
     album: "\uc568\ubc94",
+    map: "\ub9f5",
     navLabel: "\uc8fc\uc694 \ud654\uba74"
   },
   header: {
@@ -32,7 +33,7 @@ export const ko = {
     close: "\uc644\ub8cc"
   },
   pipStrip: {
-    puzzleLine: "\uc791\uc740 \uadf8\ub9bc\ubd80\ud130 \uc2dc\uc791\ud574\uc694.",
+    puzzleLine: "{player}, \uc791\uc740 \uadf8\ub9bc\ubd80\ud130 \uc2dc\uc791\ud574\uc694.",
     puzzleNote: "\uc22b\uc790\ub97c \ubcf4\uace0 {title}\uc744 \ucc44\uc6cc\uc694.",
     albumLine: "\uc644\uc131\ud55c \uadf8\ub9bc\uc774 \uc5ec\uae30\uc5d0 \uc800\uc7a5\ub3fc\uc694.",
     albumNote: "\ud37c\uc990\uc744 \ud480\uba74 \uce74\ub4dc\uac00 \uc5f4\ub824\uc694."
@@ -42,7 +43,8 @@ export const ko = {
     dailyPicture: "\uc624\ub298\uc758 \uadf8\ub9bc",
     currentPicture: "\uc9c0\uae08 \uadf8\ub9bc",
     startHere: "\uc5ec\uae30\uc11c \uc2dc\uc791",
-    pantryAlbum: "\ud32c\ud2b8\ub9ac \uc568\ubc94"
+    pantryAlbum: "\ud32c\ud2b8\ub9ac \uc568\ubc94",
+    pantryMap: "\ud32c\ud2b8\ub9ac \ub9f5"
   },
   daily: {
     eyebrow: "\uc624\ub298\uc758 \ucd94\ucc9c",

@@ -12,6 +12,7 @@ export const en = {
   views: {
     puzzle: "Puzzle",
     album: "Album",
+    map: "Map",
     navLabel: "Main views"
   },
   header: {
@@ -32,7 +33,7 @@ export const en = {
     close: "Done"
   },
   pipStrip: {
-    puzzleLine: "Start with a small picture.",
+    puzzleLine: "{player}, start with a small picture.",
     puzzleNote: "Use the numbers to fill {title}.",
     albumLine: "Finished pictures are saved here.",
     albumNote: "Open a card after each solved puzzle."
@@ -42,7 +43,8 @@ export const en = {
     dailyPicture: "Daily picture",
     currentPicture: "Current picture",
     startHere: "Start here",
-    pantryAlbum: "Pantry Album"
+    pantryAlbum: "Pantry Album",
+    pantryMap: "Pantry Map"
   },
   daily: {
     eyebrow: "Today's pick",

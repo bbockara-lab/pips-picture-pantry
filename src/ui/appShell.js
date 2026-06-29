@@ -3,12 +3,13 @@ import { puzzlePacks } from "../data/packs.js";
 import { puzzles } from "../data/puzzles.js";
 import { getDailyPuzzle } from "../game/dailyPuzzle.js";
 import { getUnlockRequirementProgress, isPuzzleUnlocked } from "../game/puzzleAccess.js";
-import { getCompletedPuzzleIds, resetProgress } from "../game/save.js";
+import { getActivePlayerName, getCompletedPuzzleIds, resetProgress, setActivePlayerName } from "../game/save.js";
 import { getLanguagePreference, puzzleText, setLanguagePreference, t } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
+import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
-export const APP_VERSION = "v0.1.10";
+export const APP_VERSION = "v0.1.11";
 
 export function renderApp(root) {
   const dailyPuzzle = getDailyPuzzle(puzzles);
@@ -77,6 +78,11 @@ export function renderApp(root) {
     setLanguagePreference(preference);
     draw();
   }
+  function changePlayerName(name) {
+    setActivePlayerName(name);
+    settingsOpen = false;
+    draw();
+  }
 
   function draw() {
     root.innerHTML = "";
@@ -94,6 +100,7 @@ export function renderApp(root) {
       onRequestSettings: requestSettings,
       onCloseSettings: closeSettings,
       onLanguageChange: changeLanguage,
+      onPlayerChange: changePlayerName,
       onNextPuzzle: selectNextPuzzle
     }));
   }
@@ -146,7 +153,7 @@ function createShell({
   }
 
   if (settingsOpen) {
-    shell.appendChild(createSettingsDialog(onCloseSettings, onLanguageChange));
+    shell.appendChild(createSettingsDialog(onCloseSettings, onLanguageChange, onPlayerChange));
   }
 
   return shell;
@@ -372,9 +379,10 @@ function createResetDialog(onCancel, onConfirm) {
   return overlay;
 }
 
-function createSettingsDialog(onClose, onLanguageChange) {
+function createSettingsDialog(onClose, onLanguageChange, onPlayerChange) {
   const overlay = createModalBackdrop();
   const preference = getLanguagePreference();
+  const playerName = getActivePlayerName();
 
   const dialog = document.createElement("section");
   dialog.className = "settings-dialog";
@@ -405,15 +413,37 @@ function createSettingsDialog(onClose, onLanguageChange) {
     group.appendChild(button);
   });
 
+  const playerForm = document.createElement("form");
+  playerForm.className = "player-form";
+  playerForm.innerHTML = `
+    <label for="player-name-input">${t("settings.playerName")}</label>
+    <div>
+      <input id="player-name-input" name="playerName" maxlength="18" autocomplete="nickname" value="${escapeAttribute(playerName)}" />
+      <button type="submit" class="tool-button">${t("settings.savePlayer")}</button>
+    </div>
+  `;
+  playerForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    onPlayerChange(new FormData(playerForm).get("playerName"));
+  });
+
   const closeButton = document.createElement("button");
   closeButton.type = "button";
   closeButton.className = "tool-button settings-close";
   closeButton.textContent = t("settings.close");
   closeButton.addEventListener("click", onClose);
 
-  dialog.append(group, closeButton);
+  dialog.append(group, playerForm, closeButton);
   overlay.appendChild(dialog);
   return overlay;
+}
+
+function escapeAttribute(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 function createModalBackdrop() {

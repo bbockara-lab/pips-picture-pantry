@@ -133,3 +133,13 @@ Last updated: 2026-06-28
 - Signed AAB size: 3,747,129 bytes.
 - jarsigner verification: jar verified.
 - Play Console next upload should create internal test release 3 (1.0.2), because versionCode 1 and 2 are already used by earlier internal test builds.
+## Verification Update - 2026-06-28 v0.1.11 Player Profiles / Pantry Map
+
+- Android versionCode: 4.
+- Android versionName: 1.0.3.
+- Visible app version: v0.1.11.
+- Purpose: next internal test build with player-name local profiles and the first Pantry Map meta-progression view.
+- Signed AAB rebuilt successfully at android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size: 3,747,816 bytes.
+- jarsigner verification: jar verified.
+- Play Console next upload should create internal test release 4 (1.0.3), because versionCode 1, 2, and 3 are already used by earlier internal test builds.
