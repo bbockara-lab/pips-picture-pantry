@@ -1,4 +1,4 @@
-﻿export const en = {
+export const en = {
   app: {
     title: "Pip's Picture Pantry",
     studioName: "Sunny Spoon Studios",
@@ -122,7 +122,7 @@
     locked: "Locked",
     progress: "{completed}/{total}",
     preview: "Preview",
-    pricePreview: "$0.99 planned",
+    pricePreview: "Optional add-on - 100 puzzles",
     unlockCostPrefix: "Open with ",
     openStage: "Open stage",
     paidPackHint: "A future paid stage will show its price here.",

@@ -309,3 +309,11 @@ Last updated: 2026-06-28
 - Changed future paid-stage copy from vague Coming Soon wording to a price-preview placeholder (`$0.99 planned` / `예상 가격 $0.99`) for later store wiring.
 - Kept BGM disabled intentionally and documented `startMusic()` as a placeholder until an original looped music file is added; current SFX remains active.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 25 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and the release script requires jarsigner `jar verified` before succeeding.
+
+## Progress Update - 2026-06-29 v0.1.19 Store-Safe Add-On Copy
+
+- Bumped visible app version to v0.1.19 and Android release version to versionCode 12 / versionName 1.0.11.
+- Replaced hardcoded `$0.99 planned` add-on text with store-safe value copy: `Optional add-on - 100 puzzles` / `선택 추가 세트 - 100개 퍼즐`.
+- Changed the top badge shelf so it appears only after the first 100-card Pip Portrait badge is earned; in-progress badge tracking remains in the Roadmap view.
+- Removed the residual BOM from `src/ui/appShell.js`.
+- Verification after this slice: node --check passed on appShell; npm run test passed with 25 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932.

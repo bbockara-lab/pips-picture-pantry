@@ -1,4 +1,4 @@
-﻿export const ko = {
+export const ko = {
   app: {
     title: "Pip's Picture Pantry",
     studioName: "Sunny Spoon Studios",
@@ -122,7 +122,7 @@
     locked: "\uc7a0\uae40",
     progress: "{completed}/{total}",
     preview: "\uc608\uace0",
-    pricePreview: "\uc608\uc0c1 \uac00\uaca9 $0.99",
+    pricePreview: "\uc120\ud0dd \ucd94\uac00 \uc138\ud2b8 - 100\uac1c \ud37c\uc990",
     unlockCostPrefix: "\uc5f4\uae30 ",
     openStage: "\uc2a4\ud14c\uc774\uc9c0 \uc5f4\uae30",
     paidPackHint: "\ucd94\ud6c4 \uc720\ub8cc \uc2a4\ud14c\uc774\uc9c0\ub294 \uc774 \uc790\ub9ac\uc5d0 \uac00\uaca9\uc774 \ud45c\uc2dc\ub420 \uc608\uc815\uc774\uc5d0\uc694.",

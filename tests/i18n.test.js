@@ -1,4 +1,4 @@
-﻿import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import {
   getActiveLocale,
   getLanguagePreference,
@@ -34,7 +34,7 @@ describe("i18n", () => {
     expect(t("settings.playerName")).toBe("Player name");
     expect(t("currency.spoons", { count: 7 })).toBe("Spoons 7");
     expect(t("packs.preview")).toBe("Preview");
-    expect(t("packs.pricePreview")).toBe("$0.99 planned");
+    expect(t("packs.pricePreview")).toBe("Optional add-on - 100 puzzles");
     expect(t("badges.progress", { completed: 3, total: 100 })).toBe("3/100 cards");
     expect(t("map.sets.cozy-cafe-room")).toBe("Cozy cafe room");
   });

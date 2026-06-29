@@ -1,4 +1,4 @@
-﻿import pipCompleteStickerUrl from "../assets/characters/pip-complete-sticker-v1.png";
+import pipCompleteStickerUrl from "../assets/characters/pip-complete-sticker-v1.png";
 import pipStripStickerUrl from "../assets/characters/pip-strip-sticker-v1.png";
 import { getPackById, puzzlePacks } from "../data/packs.js";
 import { puzzles } from "../data/puzzles.js";
@@ -19,7 +19,7 @@ import { getAudioPreferences, setMusicEnabled, setSfxEnabled, startMusic, stopMu
 import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
-export const APP_VERSION = "v0.1.18";
+export const APP_VERSION = "v0.1.19";
 const DAILY_BONUS = 5;
 
 export function renderApp(root) {
@@ -177,7 +177,10 @@ function createShell({
   shell.className = "app-shell";
 
   shell.appendChild(createHeader(onRequestSettings, onRequestReset));
-  shell.appendChild(createBadgeShelf());
+  const earnedBadgeShelf = createBadgeShelf();
+  if (earnedBadgeShelf) {
+    shell.appendChild(earnedBadgeShelf);
+  }
   shell.appendChild(createPipStrip(activePuzzle, activeView));
   shell.appendChild(createViewTabs(activeView, onSelectView));
 
@@ -420,6 +423,9 @@ function createBadgeShelf() {
   const completed = getCompletedPuzzleIds().filter((id) => freePuzzleIds.includes(id)).length;
   const total = freePuzzleIds.length;
   const earned = total > 0 && completed >= total;
+  if (!earned) {
+    return null;
+  }
   const shelf = document.createElement("section");
   shelf.className = earned ? "badge-shelf earned" : "badge-shelf";
   shelf.setAttribute("aria-label", earned ? t("badges.earnedAria") : t("badges.progressAria", { completed, total }));

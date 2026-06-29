@@ -1,4 +1,4 @@
-# Android Release Status
+﻿# Android Release Status
 
 Last updated: 2026-06-28
 
@@ -220,3 +220,12 @@ Last updated: 2026-06-28
 - Signed AAB size: 3,755,030 bytes.
 - jarsigner verification: jar verified by scripts/build_android_signed_release_bundle.ps1 before successful exit.
 - Play Console next upload should create internal test release 11 (1.0.10), because versionCode 1 through 10 are already used or prepared by earlier internal test builds.
+
+## Verification Update - 2026-06-29 v0.1.19 Store-Safe Add-On Copy
+
+- Android versionCode: 12.
+- Android versionName: 1.0.11.
+- Visible app version: v0.1.19.
+- Purpose: next internal test build with store-safe add-on copy, earned-only top badge shelf, and appShell BOM cleanup.
+- Signed AAB rebuilt successfully at android/app/build/outputs/bundle/release/app-release.aab.\n- Signed AAB size: 3,755,036 bytes.\n- jarsigner verification: jar verified.
+- Play Console next upload should create internal test release 12 (1.0.11), because versionCode 1 through 11 are already used or prepared by earlier internal test builds.
