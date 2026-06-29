@@ -53,8 +53,8 @@
     puzzleNote: "\uc9c0\uae08 \uadf8\ub9bc: {title}",
     albumLine: "\uc644\uc131\ud55c \uce74\ub4dc\uac00 \uc5ec\uae30\uc5d0 \uc800\uc7a5\ub3fc\uc694.",
     albumNote: "\uc644\uc131\ud55c \uce74\ub4dc\ub97c \ubcf4\uad00\ud574\uc694.",
-    mapLine: "\ud3f4\ub354\ub97c \uc644\uc131\ud558\uba74 \ud070 Pip \uadf8\ub9bc\uc774 \ucc44\uc6cc\uc838\uc694.",
-    mapNote: "\ud3f4\ub354 \ud558\ub098\uac00 \uc644\uc131\ub420 \ub54c\ub9c8\ub2e4 \uc0c8 \ubd80\ubd84\uc774 \uc5f4\ub824\uc694."
+    mapLine: "\uc2a4\ud14c\uc774\uc9c0\ub97c \uc644\uc131\ud558\uba74 Pip\uc758 \ud070 \uadf8\ub9bc\uc774 \ub4dc\ub7ec\ub098\uc694.",
+    mapNote: "\uc644\uc131\ud560\uc218\ub85d \uc2e4\ub8e8\uc5e3\uc774 \uc870\uae08\uc529 \uc120\uba85\ud574\uc838\uc694."
   },
   sections: {
     starterShelf: "\uccab \uc120\ubc18",
@@ -68,7 +68,7 @@
     eyebrow: "\uc624\ub298\uc758 \ucd94\ucc9c",
     play: "\ubcf4\ub108\uc2a4 \ubc1b\uae30",
     selected: "\uc9c0\uae08 \ud480\uace0 \uc788\uc5b4\uc694",
-    note: "\uc624\ub298 \uc774 \uce74\ub4dc\ub97c \uc644\uc131\ud558\uba74 \uc2a4\ud47c +{count}\uc744 \ub354 \ubc1b\uc544\uc694."
+    note: "\uc624\ub298 \uc774 \uce74\ub4dc\ub97c \uc644\uc131\ud558\uba74 \ubcf4\ub108\uc2a4 +{count}\uc744 \ubc1b\uc544\uc694."
   },
   howToPlay: {
     title: "\uccab \uc218",
@@ -103,7 +103,7 @@
   },
   puzzlePicker: {
     size: "{size}x{size}",
-    sizeReward: "{size}x{size} - \uc2a4\ud47c +{count}",
+    sizeReward: "{size}x{size} - +{count}",
     sizeComplete: "{size}x{size} - \uc644\ub8cc"
   },
   packs: {
@@ -112,41 +112,54 @@
     bonusPack: "\ubcf4\ub108\uc2a4 \ud329",
     locked: "\uc7a0\uae40",
     progress: "{completed}/{total}",
-    unlockCost: "\uc2a4\ud47c {count}\uac1c\ub85c \uc774 \ud3f4\ub354\ub97c \uc5f4\uc5b4\uc694.",
-    openFolder: "\ud3f4\ub354 \uc5f4\uae30",
-    needSpoons: "{count}\uac1c \ub354 \ud544\uc694",
+    unlockCostPrefix: "\uc5f4\uae30 ",
+    openStage: "\uc2a4\ud14c\uc774\uc9c0 \uc5f4\uae30",
+    paidPackHint: "\ucd94\ud6c4 \uc120\ud0dd\ud615 \uc720\ub8cc \uc2a4\ud14c\uc774\uc9c0\ub85c \uc5f4\uc5b4\ub458 \uc608\uc815\uc774\uc5d0\uc694.",
+    comingSoon: "\uc900\ube44 \uc911",
+    needMore: "{count}\uac1c \ub354 \ud544\uc694",
     "pips-first-shelf": {
-      title: "Pip\uc758 \uccab \uc120\ubc18",
-      note: "\ubb34\ub8cc \uccab \uce74\ub4dc"
+      title: "Pip\uc758 \uccab \uc2a4\ud14c\uc774\uc9c0",
+      note: "\uc791\uace0 \uc26c\uc6b4 \uccab \uadf8\ub9bc"
     },
     "sunny-spoon-sign": {
       title: "Sunny Spoon Sign",
-      note: "\ubc1d\uc740 \uac04\ud310 \ud3f4\ub354"
+      note: "\uac00\uac8c \uac04\ud310\uacfc \uc791\uc740 \uc18c\ud488"
     },
     "apron-drawer": {
       title: "Apron Drawer",
-      note: "Pip\uc744 \uc704\ud55c \uc8fc\ubc29 \uce74\ub4dc"
+      note: "\uc55e\uce58\ub9c8, \uc8fc\ubc29 \ub3c4\uad6c, \ub530\ub73b\ud55c \ubaa8\uc591"
     },
     "bakery-window": {
       title: "Bakery Window",
-      note: "\ub530\ub73b\ud55c \ube75\uc9d1 \uce74\ub4dc"
+      note: "\ube75, \ub514\uc800\ud2b8, \ucc3d\uac00\uc758 \ub530\ub73b\ud55c \ube5b"
     },
     "village-pantry": {
       title: "Village Pantry",
-      note: "\ub9c8\uc9c0\ub9c9 \ubb34\ub8cc \ud3f4\ub354"
+      note: "\uccab \ub85c\ub4dc\ub9f5\uc744 \ub9c8\ubb34\ub9ac\ud558\ub294 \uadf8\ub9bc"
+    }    ,
+    "cafe-window-plus": {
+      title: "Cafe Window Plus",
+      note: "\ucd94\ud6c4 \uc120\ud0dd\ud615 \ud14c\ub9c8 \uc2a4\ud14c\uc774\uc9c0"
+    },
+    "seasonal-pantry-plus": {
+      title: "Seasonal Pantry Plus",
+      note: "\ucd94\ud6c4 \uc120\ud0dd\ud615 \uc2dc\uc98c \uc2a4\ud14c\uc774\uc9c0"
     }
   },
   map: {
     count: "{completed}/{total}\uc7a5 \uc644\uc131",
-    note: "\ud3f4\ub354\ub97c \uc644\uc131\ud558\uba74 \ud070 Pip \uadf8\ub9bc\uc774 \ucc44\uc6cc\uc838\uc694.",
-    folderOpen: "\uc5f4\ub9b0 \ud3f4\ub354",
-    folderLocked: "\uc7a0\uae40 - \uc2a4\ud47c {count}\uac1c",
+    note: "\uc2a4\ud14c\uc774\uc9c0\ub97c \uc644\uc131\ud560\uc218\ub85d \ud070 \uadf8\ub9bc\uc774 \uc120\uba85\ud574\uc838\uc694.",
+    inProgress: "\uc9c4\ud589 \uc911",
+    revealed: "\uacf5\uac1c\ub428",
+    locked: "\uc7a0\uae40",
     parts: {
-      "pip-ear": "Pip\uc758 \uadc0",
-      "pip-cheek": "Pip\uc758 \ubcfc",
-      "pip-scarf": "Pip\uc758 \uc2a4\uce74\ud504",
-      "pip-hat": "Pip\uc758 \ubaa8\uc790",
-      "pip-face": "Pip\uc758 \uc5bc\uad74"
+      "pip-ear": "\uc228\uc740 \uc870\uac01",
+      "pip-cheek": "\uc228\uc740 \uc870\uac01",
+      "pip-scarf": "\uc228\uc740 \uc870\uac01",
+      "pip-hat": "\uc228\uc740 \uc870\uac01",
+      "pip-face": "\uc228\uc740 \uc870\uac01",
+      "bonus-cafe": "\ubcf4\ub108\uc2a4 \uc7a5\uba74",
+      "bonus-season": "\uc2dc\uc98c \uc7a5\uba74"
     }
   },
   puzzles: {

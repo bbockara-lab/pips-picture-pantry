@@ -276,3 +276,14 @@ Last updated: 2026-06-28
 - Softened early spoon-gate costs for internal testing: Sunny Spoon Sign now opens at 24 spoons, followed by 70 / 110 / 120 spoon folder gates.
 - Confirmed `map.parts.*` keys already exist in both English and Korean dictionaries.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 25 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported jar verified.
+
+## Progress Update - 2026-06-28 v0.1.16 Stage / Currency Polish
+
+- Bumped visible app version to v0.1.16 and Android release version to versionCode 9 / versionName 1.0.8.
+- Removed the current continuous background oscillator from the music toggle and made music default off; tap and completion sound effects remain enabled by default.
+- Reworked the visible progression language from folders to stages/scenes, while keeping the data model stable internally.
+- Added a CSS spoon icon for the header balance, puzzle rewards, and unlock costs so the player-facing economy is visual rather than text-heavy.
+- Added two future optional paid theme stage placeholders, while keeping spoons as an earned in-game progression currency instead of a purchasable consumable.
+- Changed the roadmap and stage previews from folder art / explicit Pip-part labels into soft silhouettes that become clearer with progress.
+- Cleaned Korean stage copy for consistency across the free progression stages.
+- Verification after this slice: node --check passed on changed JS modules; npm run test passed with 25 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported jar verified.

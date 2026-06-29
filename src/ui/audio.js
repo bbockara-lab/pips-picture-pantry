@@ -7,7 +7,7 @@ let audioUnlocked = false;
 export function getAudioPreferences() {
   return {
     sfx: readBool(SFX_KEY, true),
-    music: readBool(MUSIC_KEY, true)
+    music: readBool(MUSIC_KEY, false)
   };
 }
 
@@ -51,31 +51,7 @@ export function playComplete() {
 }
 
 export function startMusic() {
-  if (musicNodes || !audioUnlocked || !getAudioPreferences().music) {
-    return;
-  }
-  const context = getContext();
-  if (!context) {
-    return;
-  }
-
-  const gain = context.createGain();
-  gain.gain.value = 0.018;
-  gain.connect(context.destination);
-
-  const low = context.createOscillator();
-  low.type = "sine";
-  low.frequency.value = 196;
-  low.connect(gain);
-  low.start();
-
-  const high = context.createOscillator();
-  high.type = "triangle";
-  high.frequency.value = 392;
-  high.connect(gain);
-  high.start();
-
-  musicNodes = { gain, low, high };
+  stopMusic();
 }
 
 export function stopMusic() {

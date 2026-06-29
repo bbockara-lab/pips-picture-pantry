@@ -53,8 +53,8 @@
     puzzleNote: "Now playing: {title}",
     albumLine: "Finished cards are saved here.",
     albumNote: "Finished cards are stored here.",
-    mapLine: "Your folders are building one big Pip picture.",
-    mapNote: "Complete a folder to fill a new part."
+    mapLine: "Each stage reveals a piece of Pip.",
+    mapNote: "The silhouette becomes clearer as you finish stages."
   },
   sections: {
     starterShelf: "Starter shelf",
@@ -68,7 +68,7 @@
     eyebrow: "Today's pick",
     play: "Play for bonus",
     selected: "Playing this",
-    note: "Finish this card today to earn +{count} extra spoons."
+    note: "Finish this card today for a +{count} bonus."
   },
   howToPlay: {
     title: "First move",
@@ -103,7 +103,7 @@
   },
   puzzlePicker: {
     size: "{size}x{size}",
-    sizeReward: "{size}x{size} - +{count} spoons",
+    sizeReward: "{size}x{size} - +{count}",
     sizeComplete: "{size}x{size} - Complete"
   },
   packs: {
@@ -112,41 +112,54 @@
     bonusPack: "Bonus pack",
     locked: "Locked",
     progress: "{completed}/{total}",
-    unlockCost: "Open this folder with {count} spoons.",
-    openFolder: "Open folder",
-    needSpoons: "Need {count} more",
+    unlockCostPrefix: "Open with ",
+    openStage: "Open stage",
+    paidPackHint: "Optional paid stage pack planned for later.",
+    comingSoon: "Coming soon",
+    needMore: "Need {count} more",
     "pips-first-shelf": {
       title: "Pip's First Shelf",
-      note: "Free starter cards"
+      note: "Start with tiny cozy pictures"
     },
     "sunny-spoon-sign": {
       title: "Sunny Spoon Sign",
-      note: "A bright sign folder"
+      note: "Small shop-sign pictures"
     },
     "apron-drawer": {
       title: "Apron Drawer",
-      note: "Kitchen cards for Pip"
+      note: "Aprons, tools, and warm kitchen shapes"
     },
     "bakery-window": {
       title: "Bakery Window",
-      note: "Warm bakery cards"
+      note: "Bread, sweets, and window-light pictures"
     },
     "village-pantry": {
       title: "Village Pantry",
-      note: "The final free folder"
+      note: "Village pantry pictures for the first roadmap"
+    }    ,
+    "cafe-window-plus": {
+      title: "Cafe Window Plus",
+      note: "Optional theme stage planned for later"
+    },
+    "seasonal-pantry-plus": {
+      title: "Seasonal Pantry Plus",
+      note: "Optional seasonal stage planned for later"
     }
   },
   map: {
     count: "{completed}/{total} cards complete",
-    note: "Each folder fills part of a larger Pip picture.",
-    folderOpen: "Folder open",
-    folderLocked: "Locked - {count} spoons",
+    note: "The big picture becomes clearer with each completed stage.",
+    inProgress: "In progress",
+    revealed: "Revealed",
+    locked: "Locked",
     parts: {
-      "pip-ear": "Pip's ear",
-      "pip-cheek": "Pip's cheek",
-      "pip-scarf": "Pip's scarf",
-      "pip-hat": "Pip's hat",
-      "pip-face": "Pip's face"
+      "pip-ear": "Hidden piece",
+      "pip-cheek": "Hidden piece",
+      "pip-scarf": "Hidden piece",
+      "pip-hat": "Hidden piece",
+      "pip-face": "Hidden piece",
+      "bonus-cafe": "Bonus scene",
+      "bonus-season": "Seasonal scene"
     }
   },
   puzzles: {

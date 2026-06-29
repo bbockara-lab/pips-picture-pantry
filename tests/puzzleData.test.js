@@ -14,12 +14,14 @@ describe("puzzle data", () => {
     });
   });
 
-  it("ships 100 free progression pictures in five folders", () => {
+  it("ships 100 free progression pictures in five stages", () => {
     expect(puzzles).toHaveLength(100);
-    expect(puzzlePacks).toHaveLength(5);
-    puzzlePacks.forEach((pack) => {
-      expect(puzzles.filter((puzzle) => puzzle.packId === pack.id)).toHaveLength(20);
-    });
+    expect(puzzlePacks.filter((pack) => pack.monetizationRole !== "paid-theme-pack")).toHaveLength(5);
+    puzzlePacks
+      .filter((pack) => pack.monetizationRole !== "paid-theme-pack")
+      .forEach((pack) => {
+        expect(puzzles.filter((puzzle) => puzzle.packId === pack.id)).toHaveLength(20);
+      });
   });
 
   it("keeps the launch board sizes mobile-first", () => {
@@ -46,5 +48,6 @@ describe("puzzle data", () => {
 
     expect(puzzles.filter((puzzle) => puzzle.access === "free")).toHaveLength(100);
     expect(puzzlePacks.filter((pack) => pack.access === "unlockable")).toHaveLength(4);
+    expect(puzzlePacks.filter((pack) => pack.access === "bonus-pack")).toHaveLength(2);
   });
 });

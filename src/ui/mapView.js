@@ -29,15 +29,16 @@ export function renderPantryMapView() {
     const unlocked = isPackUnlocked(pack);
     const card = document.createElement("article");
     card.className = unlocked ? "roadmap-card" : "roadmap-card locked";
+    card.dataset.part = pack.muralPart;
     card.style.setProperty("--roadmap-progress", `${progress}%`);
     card.innerHTML = `
       <div class="roadmap-piece" aria-hidden="true">
-        <span>${t(`map.parts.${pack.muralPart}`)}</span>
+        <span></span><span></span><span></span>
       </div>
       <div>
         <h3>${t(pack.titleKey)}</h3>
         <p>${t("packs.progress", { completed: completeCount, total: packPuzzles.length })}</p>
-        <small>${unlocked ? t("map.folderOpen") : t("map.folderLocked", { count: pack.unlockCost || 0 })}</small>
+        <small>${completeCount >= packPuzzles.length && packPuzzles.length ? t("map.revealed") : unlocked ? t("map.inProgress") : t("map.locked")}</small>
       </div>
     `;
     mural.appendChild(card);

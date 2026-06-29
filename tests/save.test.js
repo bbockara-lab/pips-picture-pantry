@@ -72,7 +72,7 @@ describe("player save profiles", () => {
     expect(getCompletedPuzzleIds()).toEqual(["pip-face-5"]);
   });
 
-  it("awards spoons once and unlocks progression folders", () => {
+  it("awards spoons once and unlocks progression stages", () => {
     setActivePlayerName("Jay");
     const completedState = {
       puzzleId: "pips-first-shelf-pip-face-1",
@@ -90,8 +90,8 @@ describe("player save profiles", () => {
     savePuzzleState(completedState, { reward: 3 });
     expect(getPantrySpoons()).toBe(3);
 
-    saveGame({ ...loadSave(), pantrySpoons: 36 });
-    expect(unlockPack({ id: "sunny-spoon-sign", access: "unlockable", unlockCost: 36 })).toBe(true);
+    saveGame({ ...loadSave(), pantrySpoons: 24 });
+    expect(unlockPack({ id: "sunny-spoon-sign", access: "unlockable", unlockCost: 24 })).toBe(true);
     expect(getPantrySpoons()).toBe(0);
     expect(getUnlockedPackIds()).toContain("sunny-spoon-sign");
   });

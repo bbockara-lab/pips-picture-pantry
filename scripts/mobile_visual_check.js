@@ -30,7 +30,7 @@ for (const viewport of viewports) {
   await expectVisible(page, ".currency-pill", viewport.name);
   await expectVisible(page, ".pack-block", viewport.name);
   await expectVisible(page, ".pack-block.locked", viewport.name);
-  await expectVisible(page, ".folder-art", viewport.name);
+  await expectVisible(page, ".stage-preview", viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
   await expectTapTargets(page, viewport.name);
 

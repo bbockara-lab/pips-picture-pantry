@@ -1,48 +1,66 @@
-export const puzzlePacks = [
+﻿export const puzzlePacks = [
   {
-    "id": "pips-first-shelf",
-    "titleKey": "packs.pips-first-shelf.title",
-    "noteKey": "packs.pips-first-shelf.note",
-    "access": "free",
-    "monetizationRole": "starter",
-    "unlockCost": 0,
-    "muralPart": "pip-ear"
+    id: "pips-first-shelf",
+    titleKey: "packs.pips-first-shelf.title",
+    noteKey: "packs.pips-first-shelf.note",
+    access: "free",
+    monetizationRole: "starter",
+    unlockCost: 0,
+    muralPart: "pip-ear"
   },
   {
-    "id": "sunny-spoon-sign",
-    "titleKey": "packs.sunny-spoon-sign.title",
-    "noteKey": "packs.sunny-spoon-sign.note",
-    "access": "unlockable",
-    "monetizationRole": "free-progression",
-    "unlockCost": 24,
-    "muralPart": "pip-cheek"
+    id: "sunny-spoon-sign",
+    titleKey: "packs.sunny-spoon-sign.title",
+    noteKey: "packs.sunny-spoon-sign.note",
+    access: "unlockable",
+    monetizationRole: "free-progression",
+    unlockCost: 24,
+    muralPart: "pip-cheek"
   },
   {
-    "id": "apron-drawer",
-    "titleKey": "packs.apron-drawer.title",
-    "noteKey": "packs.apron-drawer.note",
-    "access": "unlockable",
-    "monetizationRole": "free-progression",
-    "unlockCost": 70,
-    "muralPart": "pip-scarf"
+    id: "apron-drawer",
+    titleKey: "packs.apron-drawer.title",
+    noteKey: "packs.apron-drawer.note",
+    access: "unlockable",
+    monetizationRole: "free-progression",
+    unlockCost: 70,
+    muralPart: "pip-scarf"
   },
   {
-    "id": "bakery-window",
-    "titleKey": "packs.bakery-window.title",
-    "noteKey": "packs.bakery-window.note",
-    "access": "unlockable",
-    "monetizationRole": "free-progression",
-    "unlockCost": 110,
-    "muralPart": "pip-hat"
+    id: "bakery-window",
+    titleKey: "packs.bakery-window.title",
+    noteKey: "packs.bakery-window.note",
+    access: "unlockable",
+    monetizationRole: "free-progression",
+    unlockCost: 110,
+    muralPart: "pip-hat"
   },
   {
-    "id": "village-pantry",
-    "titleKey": "packs.village-pantry.title",
-    "noteKey": "packs.village-pantry.note",
-    "access": "unlockable",
-    "monetizationRole": "free-progression",
-    "unlockCost": 120,
-    "muralPart": "pip-face"
+    id: "village-pantry",
+    titleKey: "packs.village-pantry.title",
+    noteKey: "packs.village-pantry.note",
+    access: "unlockable",
+    monetizationRole: "free-progression",
+    unlockCost: 120,
+    muralPart: "pip-face"
+  },
+  {
+    id: "cafe-window-plus",
+    titleKey: "packs.cafe-window-plus.title",
+    noteKey: "packs.cafe-window-plus.note",
+    access: "bonus-pack",
+    monetizationRole: "paid-theme-pack",
+    unlockCost: null,
+    muralPart: "bonus-cafe"
+  },
+  {
+    id: "seasonal-pantry-plus",
+    titleKey: "packs.seasonal-pantry-plus.title",
+    noteKey: "packs.seasonal-pantry-plus.note",
+    access: "bonus-pack",
+    monetizationRole: "paid-theme-pack",
+    unlockCost: null,
+    muralPart: "bonus-season"
   }
 ];
 

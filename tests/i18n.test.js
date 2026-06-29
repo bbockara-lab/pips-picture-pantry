@@ -28,7 +28,7 @@ describe("i18n", () => {
     expect(t("daily.eyebrow")).toBe("Today's pick");
     expect(t("views.map")).toBe("Roadmap");
     expect(t("pipStrip.puzzleLine", { player: "Jay" })).toBe("Jay, use the numbers to color the picture.");
-    expect(t("puzzlePicker.sizeReward", { size: 5, count: 3 })).toBe("5x5 - +3 spoons");
+    expect(t("puzzlePicker.sizeReward", { size: 5, count: 3 })).toBe("5x5 - +3");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - Complete");
     expect(t("album.count", { completed: 1, total: 100 })).toBe("1/100 pictures");
     expect(t("settings.playerName")).toBe("Player name");

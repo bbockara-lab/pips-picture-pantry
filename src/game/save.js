@@ -74,7 +74,7 @@ export function isPackUnlocked(pack) {
 }
 
 export function canUnlockPack(pack) {
-  return !isPackUnlocked(pack) && getPantrySpoons() >= Number(pack.unlockCost || 0);
+  return pack?.access !== "bonus-pack" && !isPackUnlocked(pack) && getPantrySpoons() >= Number(pack.unlockCost || 0);
 }
 
 export function unlockPack(pack) {

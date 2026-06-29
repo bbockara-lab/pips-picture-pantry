@@ -1671,3 +1671,178 @@ body {
     width: 100%;
   }
 }
+
+/* v0.1.16 stage wording, spoon icon currency, and roadmap silhouettes */
+.spoon-icon {
+  position: relative;
+  display: inline-block;
+  width: 0.78em;
+  height: 1.35em;
+  margin: 0 0.18em;
+  transform: rotate(34deg);
+  vertical-align: -0.22em;
+}
+
+.spoon-icon::before {
+  content: "";
+  position: absolute;
+  left: 0.11em;
+  top: 0;
+  width: 0.55em;
+  height: 0.58em;
+  border: 0.09em solid #8b5d44;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fff7c8, #f2c94c 66%, #d9a845);
+  box-shadow: inset 0 0.05em 0 rgba(255, 255, 255, 0.55);
+}
+
+.spoon-icon::after {
+  content: "";
+  position: absolute;
+  left: 0.34em;
+  top: 0.5em;
+  width: 0.16em;
+  height: 0.82em;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #8b5d44, #5f3c2d);
+}
+
+.spoon-icon.small {
+  font-size: 0.9em;
+}
+
+.currency-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.82rem;
+}
+
+.stage-preview {
+  position: relative;
+  min-height: 92px;
+  margin-top: 10px;
+  border: 2px solid rgba(61, 43, 46, 0.18);
+  border-radius: 8px;
+  padding: 12px;
+  background:
+    linear-gradient(90deg, rgba(168, 216, 194, 0.5) 0 var(--stage-progress), transparent var(--stage-progress)),
+    radial-gradient(circle at 50% 55%, rgba(122, 78, 53, 0.1), transparent 46%),
+    linear-gradient(135deg, rgba(255, 253, 246, 0.98), rgba(245, 223, 174, 0.5));
+  overflow: hidden;
+}
+
+.stage-silhouette {
+  position: relative;
+  width: min(100%, 190px);
+  height: 68px;
+  margin: 0 auto;
+  opacity: 0.46;
+  filter: blur(0.15px);
+}
+
+.stage-silhouette span {
+  position: absolute;
+  display: block;
+  background: rgba(61, 43, 46, 0.42);
+}
+
+.stage-silhouette span:nth-child(1) {
+  left: 50%;
+  bottom: 4px;
+  width: 86px;
+  height: 52px;
+  border-radius: 48% 48% 42% 42%;
+  transform: translateX(-50%);
+}
+
+.stage-silhouette span:nth-child(2),
+.stage-silhouette span:nth-child(3) {
+  top: 2px;
+  width: 34px;
+  height: 34px;
+  border-radius: 52% 48% 44% 56%;
+}
+
+.stage-silhouette span:nth-child(2) {
+  left: 38px;
+  transform: rotate(-18deg);
+}
+
+.stage-silhouette span:nth-child(3) {
+  right: 38px;
+  transform: rotate(18deg);
+}
+
+.stage-preview[data-part="pip-scarf"] .stage-silhouette span:nth-child(1),
+.roadmap-card[data-part="pip-scarf"] .roadmap-piece span:nth-child(1) {
+  border-radius: 20px 20px 48% 48%;
+  height: 34px;
+  bottom: 10px;
+}
+
+.stage-preview[data-part="pip-hat"] .stage-silhouette span:nth-child(1),
+.roadmap-card[data-part="pip-hat"] .roadmap-piece span:nth-child(1) {
+  width: 74px;
+  height: 34px;
+  bottom: 18px;
+  border-radius: 18px 18px 8px 8px;
+}
+
+.stage-preview[data-part="bonus-cafe"],
+.stage-preview[data-part="bonus-season"] {
+  background:
+    repeating-linear-gradient(45deg, rgba(122, 78, 53, 0.05) 0 8px, transparent 8px 16px),
+    linear-gradient(135deg, rgba(255, 248, 232, 0.95), rgba(168, 216, 194, 0.24));
+}
+
+.roadmap-piece {
+  background:
+    linear-gradient(90deg, rgba(168, 216, 194, 0.52) 0 var(--roadmap-progress), transparent var(--roadmap-progress)),
+    rgba(255, 253, 246, 0.78);
+}
+
+.roadmap-piece span {
+  position: absolute;
+  display: block;
+  background: rgba(61, 43, 46, 0.42);
+  font-size: 0;
+}
+
+.roadmap-piece {
+  position: relative;
+  overflow: hidden;
+}
+
+.roadmap-piece span:nth-child(1) {
+  left: 50%;
+  bottom: 13px;
+  width: 45px;
+  height: 34px;
+  border-radius: 48% 48% 42% 42%;
+  transform: translateX(-50%);
+}
+
+.roadmap-piece span:nth-child(2),
+.roadmap-piece span:nth-child(3) {
+  top: 16px;
+  width: 20px;
+  height: 20px;
+  border-radius: 52% 48% 44% 56%;
+}
+
+.roadmap-piece span:nth-child(2) {
+  left: 18px;
+  transform: rotate(-18deg);
+}
+
+.roadmap-piece span:nth-child(3) {
+  right: 18px;
+  transform: rotate(18deg);
+}
+
+.folder-art,
+.folder-art__tab,
+.folder-art__body {
+  display: none;
+}

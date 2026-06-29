@@ -187,3 +187,14 @@ Last updated: 2026-06-28
 - Signed AAB size: 3,752,069 bytes.
 - jarsigner verification: jar verified.
 - Play Console next upload should create internal test release 8 (1.0.7), because versionCode 1 through 7 are already used or prepared by earlier internal test builds.
+
+## Verification Update - 2026-06-28 v0.1.16 Stage / Currency Polish
+
+- Android versionCode: 9.
+- Android versionName: 1.0.8.
+- Visible app version: v0.1.16.
+- Purpose: next internal test build with music default off, visual spoon currency, stage wording, future paid theme placeholders, and roadmap silhouettes.
+- Signed AAB rebuilt successfully at android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size: 3,752,961 bytes.
+- jarsigner verification: jar verified.
+- Play Console next upload should create internal test release 9 (1.0.8), because versionCode 1 through 8 are already used or prepared by earlier internal test builds.

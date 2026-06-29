@@ -18,7 +18,7 @@ import { getAudioPreferences, setMusicEnabled, setSfxEnabled, startMusic, stopMu
 import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
-export const APP_VERSION = "v0.1.15";
+export const APP_VERSION = "v0.1.16";
 const DAILY_BONUS = 5;
 
 export function renderApp(root) {
@@ -223,7 +223,8 @@ function createHeader(onSettings, onReset) {
 
   const currency = document.createElement("p");
   currency.className = "currency-pill";
-  currency.textContent = t("currency.spoons", { count: getPantrySpoons() });
+  currency.append(createSpoonIcon(), document.createTextNode(String(getPantrySpoons())));
+  currency.setAttribute("aria-label", t("currency.spoons", { count: getPantrySpoons() }));
 
   const settingsButton = document.createElement("button");
   settingsButton.className = "icon-button";
@@ -320,9 +321,7 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack) {
   const section = document.createElement("section");
   section.className = "puzzle-picker content-panel";
 
-  puzzlePacks
-    .filter((pack) => puzzles.some((puzzle) => puzzle.packId === pack.id))
-    .forEach((pack) => {
+  puzzlePacks.forEach((pack) => {
       const packPuzzles = puzzles.filter((puzzle) => puzzle.packId === pack.id);
       const completeCount = packPuzzles.filter((puzzle) => completedPuzzleIdSet.has(puzzle.id)).length;
       const unlocked = isPackUnlocked(pack);
@@ -339,7 +338,13 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack) {
         <span>${t("packs.progress", { completed: completeCount, total: packPuzzles.length })}</span>
       `;
       packBlock.appendChild(header);
-      packBlock.appendChild(createFolderArt(pack, completeCount, packPuzzles.length));
+      packBlock.appendChild(createStagePreview(pack, completeCount, packPuzzles.length));
+
+      if (pack.access === "bonus-pack") {
+        packBlock.appendChild(createBonusPackPanel());
+        section.appendChild(packBlock);
+        return;
+      }
 
       if (!unlocked) {
         packBlock.appendChild(createUnlockPanel(pack, onUnlockPack));
@@ -363,9 +368,15 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack) {
         button.appendChild(label);
 
         const meta = document.createElement("small");
-        meta.textContent = complete
-          ? t("puzzlePicker.sizeComplete", { size: puzzle.size })
-          : t("puzzlePicker.sizeReward", { size: puzzle.size, count: puzzle.reward || 0 });
+        if (complete) {
+          meta.textContent = t("puzzlePicker.sizeComplete", { size: puzzle.size });
+        } else {
+          meta.append(
+            document.createTextNode(t("puzzlePicker.size", { size: puzzle.size }) + " - +"),
+            createSpoonIcon("small"),
+            document.createTextNode(String(puzzle.reward || 0))
+          );
+        }
         button.appendChild(meta);
         button.setAttribute("aria-label", `${puzzleTitle(puzzle)} - ${meta.textContent}`);
         button.addEventListener("click", () => onSelectPuzzle(puzzle.id));
@@ -380,18 +391,28 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack) {
   return section;
 }
 
-function createFolderArt(pack, completeCount, total) {
-  const art = document.createElement("div");
-  art.className = "folder-art";
-  art.setAttribute("aria-hidden", "true");
-  art.style.setProperty("--folder-progress", `${Math.round((completeCount / Math.max(total, 1)) * 100)}%`);
-  art.innerHTML = `
-    <div class="folder-art__tab"></div>
-    <div class="folder-art__body">
-      <span>${t(`map.parts.${pack.muralPart}`)}</span>
+function createStagePreview(pack, completeCount, total) {
+  const preview = document.createElement("div");
+  preview.className = "stage-preview";
+  preview.dataset.part = pack.muralPart;
+  preview.setAttribute("aria-hidden", "true");
+  preview.style.setProperty("--stage-progress", `${Math.round((completeCount / Math.max(total || 20, 1)) * 100)}%`);
+  preview.innerHTML = `
+    <div class="stage-silhouette">
+      <span></span><span></span><span></span>
     </div>
   `;
-  return art;
+  return preview;
+}
+
+function createBonusPackPanel() {
+  const panel = document.createElement("div");
+  panel.className = "unlock-panel bonus-pack-panel";
+  panel.innerHTML = `
+    <p>${t("packs.paidPackHint")}</p>
+    <button type="button" class="tool-button" disabled>${t("packs.comingSoon")}</button>
+  `;
+  return panel;
 }
 
 function createUnlockPanel(pack, onUnlockPack) {
@@ -399,11 +420,20 @@ function createUnlockPanel(pack, onUnlockPack) {
   panel.className = "unlock-panel";
   const canOpen = canUnlockPack(pack);
   panel.innerHTML = `
-    <p>${t("packs.unlockCost", { count: pack.unlockCost })}</p>
-    <button type="button" class="tool-button" ${canOpen ? "" : "disabled"}>${canOpen ? t("packs.openFolder") : t("packs.needSpoons", { count: Math.max(0, pack.unlockCost - getPantrySpoons()) })}</button>
+    <p></p>
+    <button type="button" class="tool-button" ${canOpen ? "" : "disabled"}>${canOpen ? t("packs.openStage") : t("packs.needMore", { count: Math.max(0, pack.unlockCost - getPantrySpoons()) })}</button>
   `;
+  const copy = panel.querySelector("p");
+  copy.append(document.createTextNode(t("packs.unlockCostPrefix")), createSpoonIcon("small"), document.createTextNode(String(pack.unlockCost)));
   panel.querySelector("button").addEventListener("click", () => onUnlockPack(pack.id));
   return panel;
+}
+
+function createSpoonIcon(size = "") {
+  const icon = document.createElement("span");
+  icon.className = size ? `spoon-icon ${size}` : "spoon-icon";
+  icon.setAttribute("aria-hidden", "true");
+  return icon;
 }
 
 function getPuzzleChipClass(puzzle, activePuzzleId, unlocked, complete) {
