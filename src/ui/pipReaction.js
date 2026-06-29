@@ -1,9 +1,9 @@
 import pipCompleteStickerUrl from "../assets/characters/pip-complete-sticker-v1.png";
-import { puzzleText, t } from "../i18n/index.js";
+import { puzzleAlbumText, puzzleImageName, puzzleTitle, t } from "../i18n/index.js";
 
 export function getCompletionMessage(puzzle) {
   return t("completion.saved", {
-    imageName: puzzleText(puzzle.id, "imageName")
+    imageName: puzzleImageName(puzzle)
   });
 }
 
@@ -53,7 +53,7 @@ export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle } = {
 function renderSolvedReveal(puzzle) {
   const reveal = document.createElement("div");
   reveal.className = "completion-reveal";
-  reveal.setAttribute("aria-label", puzzleText(puzzle.id, "imageName"));
+  reveal.setAttribute("aria-label", puzzleImageName(puzzle));
   reveal.style.setProperty("--reveal-size", puzzle.size);
 
   puzzle.solution.forEach((row) => {

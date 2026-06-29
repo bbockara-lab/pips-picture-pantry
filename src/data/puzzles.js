@@ -1,120 +1,333 @@
 export const puzzles = [
   {
-    id: "pip-face-5",
-    title: "Pip Face",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 5,
-    difficulty: "starter",
-    solution: ["01110", "11111", "10101", "11111", "01110"]
+    "id": "pips-first-shelf-pip-face-1",
+    "title": "Pip Face",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "01110",
+      "11111",
+      "10101",
+      "11111",
+      "01110"
+    ]
   },
   {
-    id: "soup-bowl-5",
-    title: "Soup Bowl",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 5,
-    difficulty: "starter",
-    solution: ["00000", "11111", "10001", "11111", "01110"]
+    "id": "pips-first-shelf-soup-bowl-2",
+    "title": "Soup Bowl",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "00000",
+      "11111",
+      "10001",
+      "11111",
+      "01110"
+    ]
   },
   {
-    id: "spoon-5",
-    title: "Spoon",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 5,
-    difficulty: "starter",
-    solution: ["01100", "01100", "00100", "00100", "00100"]
+    "id": "pips-first-shelf-spoon-3",
+    "title": "Spoon",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "01100",
+      "01100",
+      "00100",
+      "00100",
+      "00100"
+    ]
   },
   {
-    id: "recipe-card-5",
-    title: "Recipe Card",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 5,
-    difficulty: "starter",
-    solution: ["11111", "10001", "10111", "10001", "11111"]
+    "id": "pips-first-shelf-recipe-card-4",
+    "title": "Recipe Card",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "11111",
+      "10001",
+      "10111",
+      "10001",
+      "11111"
+    ]
   },
   {
-    id: "tiny-bow-5",
-    title: "Tiny Bow",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 5,
-    difficulty: "starter",
-    solution: ["10001", "11011", "01110", "11011", "10001"]
+    "id": "pips-first-shelf-tiny-bow-5",
+    "title": "Tiny Bow",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "10001",
+      "11011",
+      "01110",
+      "11011",
+      "10001"
+    ]
   },
   {
-    id: "teacup-5",
-    title: "Teacup",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 5,
-    difficulty: "starter",
-    solution: ["01110", "10001", "10101", "10011", "01110"]
+    "id": "pips-first-shelf-teacup-6",
+    "title": "Teacup",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "01110",
+      "10001",
+      "10101",
+      "10011",
+      "01110"
+    ]
   },
   {
-    id: "cookie-5",
-    title: "Cookie",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 5,
-    difficulty: "starter",
-    solution: ["01110", "10101", "11011", "10101", "01110"]
+    "id": "pips-first-shelf-cookie-7",
+    "title": "Cookie",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "01110",
+      "10101",
+      "11011",
+      "10101",
+      "01110"
+    ]
   },
   {
-    id: "bread-loaf-5",
-    title: "Bread Loaf",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 5,
-    difficulty: "starter",
-    solution: ["00100", "01110", "11111", "10001", "11111"]
+    "id": "pips-first-shelf-bread-loaf-8",
+    "title": "Bread Loaf",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "00100",
+      "01110",
+      "11111",
+      "10001",
+      "11111"
+    ]
   },
   {
-    id: "tiny-house-5",
-    title: "Tiny House",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 5,
-    difficulty: "starter",
-    solution: ["00100", "01110", "11111", "10101", "11111"]
+    "id": "pips-first-shelf-tiny-house-9",
+    "title": "Tiny House",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "00100",
+      "01110",
+      "11111",
+      "10101",
+      "11111"
+    ]
   },
   {
-    id: "apple-5",
-    title: "Apple",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 5,
-    difficulty: "starter",
-    solution: ["00100", "01110", "11111", "11111", "01110"]
+    "id": "pips-first-shelf-apple-10",
+    "title": "Apple",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "00100",
+      "01110",
+      "11111",
+      "11111",
+      "01110"
+    ]
   },
   {
-    id: "heart-card-5",
-    title: "Heart Card",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 5,
-    difficulty: "starter",
-    solution: ["01010", "11111", "11111", "01110", "00100"]
+    "id": "pips-first-shelf-pip-face-2-11",
+    "title": "Pip Face 2",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "01110",
+      "11111",
+      "10101",
+      "11111",
+      "01110"
+    ]
   },
   {
-    id: "star-cookie-5",
-    title: "Star Cookie",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 5,
-    difficulty: "starter",
-    solution: ["00100", "10101", "01110", "10101", "00100"]
+    "id": "pips-first-shelf-soup-bowl-2-12",
+    "title": "Soup Bowl 2",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "00000",
+      "11111",
+      "10001",
+      "11111",
+      "01110"
+    ]
   },
   {
-    id: "cafe-window-8",
-    title: "Cafe Window",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 8,
-    difficulty: "easy",
-    solution: [
+    "id": "pips-first-shelf-spoon-2-13",
+    "title": "Spoon 2",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "01100",
+      "01100",
+      "00100",
+      "00100",
+      "00100"
+    ]
+  },
+  {
+    "id": "pips-first-shelf-recipe-card-2-14",
+    "title": "Recipe Card 2",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "11111",
+      "10001",
+      "10111",
+      "10001",
+      "11111"
+    ]
+  },
+  {
+    "id": "pips-first-shelf-tiny-bow-2-15",
+    "title": "Tiny Bow 2",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "10001",
+      "11011",
+      "01110",
+      "11011",
+      "10001"
+    ]
+  },
+  {
+    "id": "pips-first-shelf-teacup-2-16",
+    "title": "Teacup 2",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "01110",
+      "10001",
+      "10101",
+      "10011",
+      "01110"
+    ]
+  },
+  {
+    "id": "pips-first-shelf-cookie-2-17",
+    "title": "Cookie 2",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "01110",
+      "10101",
+      "11011",
+      "10101",
+      "01110"
+    ]
+  },
+  {
+    "id": "pips-first-shelf-bread-loaf-2-18",
+    "title": "Bread Loaf 2",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "00100",
+      "01110",
+      "11111",
+      "10001",
+      "11111"
+    ]
+  },
+  {
+    "id": "pips-first-shelf-tiny-house-2-19",
+    "title": "Tiny House 2",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "00100",
+      "01110",
+      "11111",
+      "10101",
+      "11111"
+    ]
+  },
+  {
+    "id": "pips-first-shelf-apple-2-20",
+    "title": "Apple 2",
+    "packId": "pips-first-shelf",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "00100",
+      "01110",
+      "11111",
+      "11111",
+      "01110"
+    ]
+  },
+  {
+    "id": "sunny-spoon-sign-cafe-window-1",
+    "title": "Cafe Window",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
       "01111110",
       "01011010",
       "01011010",
@@ -126,13 +339,14 @@ export const puzzles = [
     ]
   },
   {
-    id: "tomato-soup-8",
-    title: "Tomato Soup",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 8,
-    difficulty: "easy",
-    solution: [
+    "id": "sunny-spoon-sign-tomato-soup-2",
+    "title": "Tomato Soup",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
       "00111100",
       "01111110",
       "11111111",
@@ -144,13 +358,14 @@ export const puzzles = [
     ]
   },
   {
-    id: "pantry-jar-8",
-    title: "Pantry Jar",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 8,
-    difficulty: "easy",
-    solution: [
+    "id": "sunny-spoon-sign-pantry-jar-3",
+    "title": "Pantry Jar",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
       "00111100",
       "01000010",
       "01111110",
@@ -162,159 +377,1407 @@ export const puzzles = [
     ]
   },
   {
-    id: "milk-bottle-8",
-    title: "Milk Bottle",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 8,
-    difficulty: "easy",
-    solution: ["00111100", "00100100", "01111110", "01000010", "01011010", "01011010", "01111110", "00111100"]
-  },
-  {
-    id: "jam-jar-8",
-    title: "Jam Jar",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 8,
-    difficulty: "easy",
-    solution: ["00111100", "01111110", "01000010", "01111110", "01011010", "01011010", "01111110", "00111100"]
-  },
-  {
-    id: "whisk-8",
-    title: "Whisk",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 8,
-    difficulty: "easy",
-    solution: ["01000010", "01011010", "00111100", "00011000", "00011000", "00011000", "00011000", "00011000"]
-  },
-  {
-    id: "chef-hat-8",
-    title: "Chef Hat",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 8,
-    difficulty: "easy",
-    solution: ["00111100", "01111110", "11111111", "11011011", "01111110", "00111100", "00111100", "00111100"]
-  },
-  {
-    id: "picnic-basket-8",
-    title: "Picnic Basket",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 8,
-    difficulty: "easy",
-    solution: ["00011000", "00100100", "01111110", "11111111", "10101011", "11111111", "10101011", "11111111"]
-  },
-  {
-    id: "cupcake-8",
-    title: "Cupcake",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 8,
-    difficulty: "easy",
-    solution: ["00011000", "00111100", "01111110", "01011010", "01111110", "00111100", "01111110", "00111100"]
-  },
-  {
-    id: "kettle-8",
-    title: "Kettle",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 8,
-    difficulty: "easy",
-    solution: ["00111100", "01000010", "11111110", "10000011", "10011001", "11111111", "01111110", "00111100"]
-  },
-  {
-    id: "pantry-door-8",
-    title: "Pantry Door",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 8,
-    difficulty: "easy",
-    solution: ["01111110", "01000010", "01011010", "01011010", "01000010", "01001010", "01000010", "01111110"]
-  },
-  {
-    id: "rolling-pin-8",
-    title: "Rolling Pin",
-    packId: "pips-pantry-shelf",
-    access: "free",
-    size: 8,
-    difficulty: "easy",
-    solution: ["00000000", "11000011", "11111111", "01111110", "01111110", "11111111", "11000011", "00000000"]
-  },
-  {
-    id: "sunny-spoon-sign-10",
-    title: "Sunny Spoon Sign",
-    packId: "pips-pantry-shelf",
-    access: "unlockable",
-    unlockRequirement: {
-      type: "completed-count",
-      count: 5
-    },
-    size: 10,
-    difficulty: "next-step",
-    solution: [
-      "0011111100",
-      "0110000110",
-      "1101111011",
-      "1101001011",
-      "1101111011",
-      "1100000011",
-      "0111111110",
-      "0010010100",
-      "0011111100",
-      "0000110000"
+    "id": "sunny-spoon-sign-milk-bottle-4",
+    "title": "Milk Bottle",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "00100100",
+      "01111110",
+      "01000010",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
     ]
   },
   {
-    id: "apron-10",
-    title: "Apron",
-    packId: "pips-pantry-shelf",
-    access: "unlockable",
-    unlockRequirement: { type: "completed-count", count: 8 },
-    size: 10,
-    difficulty: "next-step",
-    solution: ["0011111100", "0010010100", "0011111100", "0111111110", "0101111010", "0101111010", "0101111010", "0111111110", "0010000100", "0010000100"]
+    "id": "sunny-spoon-sign-jam-jar-5",
+    "title": "Jam Jar",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "01000010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
+    ]
   },
   {
-    id: "bakery-shelf-10",
-    title: "Bakery Shelf",
-    packId: "pips-pantry-shelf",
-    access: "unlockable",
-    unlockRequirement: { type: "completed-count", count: 10 },
-    size: 10,
-    difficulty: "next-step",
-    solution: ["1111111111", "1000000001", "1011111101", "1010000101", "1011111101", "1000000001", "1011111101", "1010100101", "1011111101", "1111111111"]
+    "id": "sunny-spoon-sign-whisk-6",
+    "title": "Whisk",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "01000010",
+      "01011010",
+      "00111100",
+      "00011000",
+      "00011000",
+      "00011000",
+      "00011000",
+      "00011000"
+    ]
   },
   {
-    id: "picnic-table-10",
-    title: "Picnic Table",
-    packId: "pips-pantry-shelf",
-    access: "unlockable",
-    unlockRequirement: { type: "completed-count", count: 12 },
-    size: 10,
-    difficulty: "next-step",
-    solution: ["0000000000", "0111111110", "1111111111", "1010101011", "1111111111", "0011111100", "0010010100", "0010010100", "0100000010", "1000000001"]
+    "id": "sunny-spoon-sign-chef-hat-7",
+    "title": "Chef Hat",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "11111111",
+      "11011011",
+      "01111110",
+      "00111100",
+      "00111100",
+      "00111100"
+    ]
   },
   {
-    id: "sunny-pantry-10",
-    title: "Sunny Pantry",
-    packId: "pips-pantry-shelf",
-    access: "unlockable",
-    unlockRequirement: { type: "completed-count", count: 15 },
-    size: 10,
-    difficulty: "next-step",
-    solution: ["0011111100", "0110000110", "1101111011", "1010000101", "1010110101", "1010000101", "1101111011", "0110000110", "0011111100", "0001001000"]
+    "id": "sunny-spoon-sign-cupcake-8",
+    "title": "Cupcake",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00011000",
+      "00111100",
+      "01111110",
+      "01011010",
+      "01111110",
+      "00111100",
+      "01111110",
+      "00111100"
+    ]
   },
   {
-    id: "village-window-10",
-    title: "Village Window",
-    packId: "pips-pantry-shelf",
-    access: "unlockable",
-    unlockRequirement: { type: "completed-count", count: 18 },
-    size: 10,
-    difficulty: "next-step",
-    solution: ["0011111100", "0100000010", "1011011011", "1011011011", "1111111111", "1011011011", "1011011011", "1000000001", "1111111111", "0000000000"]
+    "id": "sunny-spoon-sign-kettle-9",
+    "title": "Kettle",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01000010",
+      "11111110",
+      "10000011",
+      "10011001",
+      "11111111",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "sunny-spoon-sign-rolling-pin-10",
+    "title": "Rolling Pin",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00000000",
+      "11000011",
+      "11111111",
+      "01111110",
+      "01111110",
+      "11111111",
+      "11000011",
+      "00000000"
+    ]
+  },
+  {
+    "id": "sunny-spoon-sign-cafe-window-2-11",
+    "title": "Cafe Window 2",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00000000"
+    ]
+  },
+  {
+    "id": "sunny-spoon-sign-tomato-soup-2-12",
+    "title": "Tomato Soup 2",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "11111111",
+      "11100111",
+      "11111111",
+      "01111110",
+      "00111100",
+      "00011000"
+    ]
+  },
+  {
+    "id": "sunny-spoon-sign-pantry-jar-2-13",
+    "title": "Pantry Jar 2",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01000010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "sunny-spoon-sign-milk-bottle-2-14",
+    "title": "Milk Bottle 2",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "00100100",
+      "01111110",
+      "01000010",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "sunny-spoon-sign-jam-jar-2-15",
+    "title": "Jam Jar 2",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "01000010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "sunny-spoon-sign-whisk-2-16",
+    "title": "Whisk 2",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "01000010",
+      "01011010",
+      "00111100",
+      "00011000",
+      "00011000",
+      "00011000",
+      "00011000",
+      "00011000"
+    ]
+  },
+  {
+    "id": "sunny-spoon-sign-chef-hat-2-17",
+    "title": "Chef Hat 2",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "11111111",
+      "11011011",
+      "01111110",
+      "00111100",
+      "00111100",
+      "00111100"
+    ]
+  },
+  {
+    "id": "sunny-spoon-sign-cupcake-2-18",
+    "title": "Cupcake 2",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00011000",
+      "00111100",
+      "01111110",
+      "01011010",
+      "01111110",
+      "00111100",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "sunny-spoon-sign-kettle-2-19",
+    "title": "Kettle 2",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01000010",
+      "11111110",
+      "10000011",
+      "10011001",
+      "11111111",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "sunny-spoon-sign-rolling-pin-2-20",
+    "title": "Rolling Pin 2",
+    "packId": "sunny-spoon-sign",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00000000",
+      "11000011",
+      "11111111",
+      "01111110",
+      "01111110",
+      "11111111",
+      "11000011",
+      "00000000"
+    ]
+  },
+  {
+    "id": "apron-drawer-cafe-window-1",
+    "title": "Cafe Window",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00000000"
+    ]
+  },
+  {
+    "id": "apron-drawer-tomato-soup-2",
+    "title": "Tomato Soup",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "11111111",
+      "11100111",
+      "11111111",
+      "01111110",
+      "00111100",
+      "00011000"
+    ]
+  },
+  {
+    "id": "apron-drawer-pantry-jar-3",
+    "title": "Pantry Jar",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01000010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "apron-drawer-milk-bottle-4",
+    "title": "Milk Bottle",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "00100100",
+      "01111110",
+      "01000010",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "apron-drawer-jam-jar-5",
+    "title": "Jam Jar",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "01000010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "apron-drawer-whisk-6",
+    "title": "Whisk",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "01000010",
+      "01011010",
+      "00111100",
+      "00011000",
+      "00011000",
+      "00011000",
+      "00011000",
+      "00011000"
+    ]
+  },
+  {
+    "id": "apron-drawer-chef-hat-7",
+    "title": "Chef Hat",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "11111111",
+      "11011011",
+      "01111110",
+      "00111100",
+      "00111100",
+      "00111100"
+    ]
+  },
+  {
+    "id": "apron-drawer-cupcake-8",
+    "title": "Cupcake",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00011000",
+      "00111100",
+      "01111110",
+      "01011010",
+      "01111110",
+      "00111100",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "apron-drawer-kettle-9",
+    "title": "Kettle",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01000010",
+      "11111110",
+      "10000011",
+      "10011001",
+      "11111111",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "apron-drawer-rolling-pin-10",
+    "title": "Rolling Pin",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00000000",
+      "11000011",
+      "11111111",
+      "01111110",
+      "01111110",
+      "11111111",
+      "11000011",
+      "00000000"
+    ]
+  },
+  {
+    "id": "apron-drawer-cafe-window-2-11",
+    "title": "Cafe Window 2",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00000000"
+    ]
+  },
+  {
+    "id": "apron-drawer-tomato-soup-2-12",
+    "title": "Tomato Soup 2",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "11111111",
+      "11100111",
+      "11111111",
+      "01111110",
+      "00111100",
+      "00011000"
+    ]
+  },
+  {
+    "id": "apron-drawer-pantry-jar-2-13",
+    "title": "Pantry Jar 2",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01000010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "apron-drawer-milk-bottle-2-14",
+    "title": "Milk Bottle 2",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "00100100",
+      "01111110",
+      "01000010",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "apron-drawer-jam-jar-2-15",
+    "title": "Jam Jar 2",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "01000010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "apron-drawer-whisk-2-16",
+    "title": "Whisk 2",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "01000010",
+      "01011010",
+      "00111100",
+      "00011000",
+      "00011000",
+      "00011000",
+      "00011000",
+      "00011000"
+    ]
+  },
+  {
+    "id": "apron-drawer-chef-hat-2-17",
+    "title": "Chef Hat 2",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "11111111",
+      "11011011",
+      "01111110",
+      "00111100",
+      "00111100",
+      "00111100"
+    ]
+  },
+  {
+    "id": "apron-drawer-cupcake-2-18",
+    "title": "Cupcake 2",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00011000",
+      "00111100",
+      "01111110",
+      "01011010",
+      "01111110",
+      "00111100",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "apron-drawer-kettle-2-19",
+    "title": "Kettle 2",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01000010",
+      "11111110",
+      "10000011",
+      "10011001",
+      "11111111",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "apron-drawer-rolling-pin-2-20",
+    "title": "Rolling Pin 2",
+    "packId": "apron-drawer",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00000000",
+      "11000011",
+      "11111111",
+      "01111110",
+      "01111110",
+      "11111111",
+      "11000011",
+      "00000000"
+    ]
+  },
+  {
+    "id": "bakery-window-pip-face-1",
+    "title": "Pip Face",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "01110",
+      "11111",
+      "10101",
+      "11111",
+      "01110"
+    ]
+  },
+  {
+    "id": "bakery-window-soup-bowl-2",
+    "title": "Soup Bowl",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "00000",
+      "11111",
+      "10001",
+      "11111",
+      "01110"
+    ]
+  },
+  {
+    "id": "bakery-window-spoon-3",
+    "title": "Spoon",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "01100",
+      "01100",
+      "00100",
+      "00100",
+      "00100"
+    ]
+  },
+  {
+    "id": "bakery-window-recipe-card-4",
+    "title": "Recipe Card",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "11111",
+      "10001",
+      "10111",
+      "10001",
+      "11111"
+    ]
+  },
+  {
+    "id": "bakery-window-tiny-bow-5",
+    "title": "Tiny Bow",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "10001",
+      "11011",
+      "01110",
+      "11011",
+      "10001"
+    ]
+  },
+  {
+    "id": "bakery-window-teacup-6",
+    "title": "Teacup",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "01110",
+      "10001",
+      "10101",
+      "10011",
+      "01110"
+    ]
+  },
+  {
+    "id": "bakery-window-cookie-7",
+    "title": "Cookie",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "01110",
+      "10101",
+      "11011",
+      "10101",
+      "01110"
+    ]
+  },
+  {
+    "id": "bakery-window-bread-loaf-8",
+    "title": "Bread Loaf",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "00100",
+      "01110",
+      "11111",
+      "10001",
+      "11111"
+    ]
+  },
+  {
+    "id": "bakery-window-tiny-house-9",
+    "title": "Tiny House",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "00100",
+      "01110",
+      "11111",
+      "10101",
+      "11111"
+    ]
+  },
+  {
+    "id": "bakery-window-apple-10",
+    "title": "Apple",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "00100",
+      "01110",
+      "11111",
+      "11111",
+      "01110"
+    ]
+  },
+  {
+    "id": "bakery-window-cafe-window-11",
+    "title": "Cafe Window",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00000000"
+    ]
+  },
+  {
+    "id": "bakery-window-tomato-soup-12",
+    "title": "Tomato Soup",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "11111111",
+      "11100111",
+      "11111111",
+      "01111110",
+      "00111100",
+      "00011000"
+    ]
+  },
+  {
+    "id": "bakery-window-pantry-jar-13",
+    "title": "Pantry Jar",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01000010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "bakery-window-milk-bottle-14",
+    "title": "Milk Bottle",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "00100100",
+      "01111110",
+      "01000010",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "bakery-window-jam-jar-15",
+    "title": "Jam Jar",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "01000010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "bakery-window-whisk-16",
+    "title": "Whisk",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "01000010",
+      "01011010",
+      "00111100",
+      "00011000",
+      "00011000",
+      "00011000",
+      "00011000",
+      "00011000"
+    ]
+  },
+  {
+    "id": "bakery-window-chef-hat-17",
+    "title": "Chef Hat",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "11111111",
+      "11011011",
+      "01111110",
+      "00111100",
+      "00111100",
+      "00111100"
+    ]
+  },
+  {
+    "id": "bakery-window-cupcake-18",
+    "title": "Cupcake",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00011000",
+      "00111100",
+      "01111110",
+      "01011010",
+      "01111110",
+      "00111100",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "bakery-window-kettle-19",
+    "title": "Kettle",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01000010",
+      "11111110",
+      "10000011",
+      "10011001",
+      "11111111",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "bakery-window-rolling-pin-20",
+    "title": "Rolling Pin",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00000000",
+      "11000011",
+      "11111111",
+      "01111110",
+      "01111110",
+      "11111111",
+      "11000011",
+      "00000000"
+    ]
+  },
+  {
+    "id": "village-pantry-pip-face-1",
+    "title": "Pip Face",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "01110",
+      "11111",
+      "10101",
+      "11111",
+      "01110"
+    ]
+  },
+  {
+    "id": "village-pantry-soup-bowl-2",
+    "title": "Soup Bowl",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "00000",
+      "11111",
+      "10001",
+      "11111",
+      "01110"
+    ]
+  },
+  {
+    "id": "village-pantry-spoon-3",
+    "title": "Spoon",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "01100",
+      "01100",
+      "00100",
+      "00100",
+      "00100"
+    ]
+  },
+  {
+    "id": "village-pantry-recipe-card-4",
+    "title": "Recipe Card",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "11111",
+      "10001",
+      "10111",
+      "10001",
+      "11111"
+    ]
+  },
+  {
+    "id": "village-pantry-tiny-bow-5",
+    "title": "Tiny Bow",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "10001",
+      "11011",
+      "01110",
+      "11011",
+      "10001"
+    ]
+  },
+  {
+    "id": "village-pantry-teacup-6",
+    "title": "Teacup",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "01110",
+      "10001",
+      "10101",
+      "10011",
+      "01110"
+    ]
+  },
+  {
+    "id": "village-pantry-cookie-7",
+    "title": "Cookie",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "01110",
+      "10101",
+      "11011",
+      "10101",
+      "01110"
+    ]
+  },
+  {
+    "id": "village-pantry-bread-loaf-8",
+    "title": "Bread Loaf",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "00100",
+      "01110",
+      "11111",
+      "10001",
+      "11111"
+    ]
+  },
+  {
+    "id": "village-pantry-tiny-house-9",
+    "title": "Tiny House",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "00100",
+      "01110",
+      "11111",
+      "10101",
+      "11111"
+    ]
+  },
+  {
+    "id": "village-pantry-apple-10",
+    "title": "Apple",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 5,
+    "difficulty": "starter",
+    "reward": 3,
+    "solution": [
+      "00100",
+      "01110",
+      "11111",
+      "11111",
+      "01110"
+    ]
+  },
+  {
+    "id": "village-pantry-cafe-window-11",
+    "title": "Cafe Window",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00000000"
+    ]
+  },
+  {
+    "id": "village-pantry-tomato-soup-12",
+    "title": "Tomato Soup",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "11111111",
+      "11100111",
+      "11111111",
+      "01111110",
+      "00111100",
+      "00011000"
+    ]
+  },
+  {
+    "id": "village-pantry-pantry-jar-13",
+    "title": "Pantry Jar",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01000010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "village-pantry-milk-bottle-14",
+    "title": "Milk Bottle",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "00100100",
+      "01111110",
+      "01000010",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "village-pantry-jam-jar-15",
+    "title": "Jam Jar",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "01000010",
+      "01111110",
+      "01011010",
+      "01011010",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "village-pantry-whisk-16",
+    "title": "Whisk",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "01000010",
+      "01011010",
+      "00111100",
+      "00011000",
+      "00011000",
+      "00011000",
+      "00011000",
+      "00011000"
+    ]
+  },
+  {
+    "id": "village-pantry-chef-hat-17",
+    "title": "Chef Hat",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01111110",
+      "11111111",
+      "11011011",
+      "01111110",
+      "00111100",
+      "00111100",
+      "00111100"
+    ]
+  },
+  {
+    "id": "village-pantry-cupcake-18",
+    "title": "Cupcake",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00011000",
+      "00111100",
+      "01111110",
+      "01011010",
+      "01111110",
+      "00111100",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "village-pantry-kettle-19",
+    "title": "Kettle",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00111100",
+      "01000010",
+      "11111110",
+      "10000011",
+      "10011001",
+      "11111111",
+      "01111110",
+      "00111100"
+    ]
+  },
+  {
+    "id": "village-pantry-rolling-pin-20",
+    "title": "Rolling Pin",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 8,
+    "difficulty": "easy",
+    "reward": 5,
+    "solution": [
+      "00000000",
+      "11000011",
+      "11111111",
+      "01111110",
+      "01111110",
+      "11111111",
+      "11000011",
+      "00000000"
+    ]
   }
 ];
 

@@ -1,4 +1,4 @@
-export const ko = {
+﻿export const ko = {
   app: {
     title: "Pip's Picture Pantry",
     studioName: "Sunny Spoon Studios",
@@ -14,12 +14,13 @@ export const ko = {
     note: "\uc774 \uc774\ub984\uc73c\ub85c \uc9c4\ud589\uc774 \uc774 \uae30\uae30\uc5d0 \uc800\uc7a5\ub3fc\uc694.",
     label: "\uc774\ub984",
     placeholder: "Jay",
-    continue: "\uacc4\uc18d"
+    continue: "\uacc4\uc18d",
+    defaultName: "Friend"
   },
   views: {
     puzzle: "\ud37c\uc990",
     album: "\uc568\ubc94",
-    map: "\ud32c\ud2b8\ub9ac \ubcbd",
+    map: "\ub85c\ub4dc\ub9f5",
     navLabel: "\uc8fc\uc694 \ud654\uba74"
   },
   header: {
@@ -30,6 +31,9 @@ export const ko = {
     cancelReset: "\uacc4\uc18d\ud558\uae30",
     confirmReset: "\ucd08\uae30\ud654"
   },
+  currency: {
+    spoons: "\uc2a4\ud47c {count}"
+  },
   settings: {
     title: "\uc124\uc815",
     language: "\uc5b8\uc5b4",
@@ -37,35 +41,40 @@ export const ko = {
     systemDefault: "\uc2dc\uc2a4\ud15c",
     english: "English",
     korean: "\ud55c\uad6d\uc5b4",
+    playerName: "\uc774\ub984",
+    savePlayer: "\uc774 \uc774\ub984 \uc0ac\uc6a9",
+    sound: "\uc18c\ub9ac",
+    sfx: "\ud6a8\uacfc\uc74c \ucf1c\uae30/\ub044\uae30",
+    music: "\uc74c\uc545 \ucf1c\uae30/\ub044\uae30",
     close: "\uc644\ub8cc"
   },
   pipStrip: {
-    puzzleLine: "{player}, \uc791\uc740 \uadf8\ub9bc\ubd80\ud130 \uc2dc\uc791\ud574\uc694.",
-    puzzleNote: "\uc22b\uc790\ub97c \ubcf4\uace0 {title}\uc744 \ucc44\uc6cc\uc694.",
-    albumLine: "\uc644\uc131\ud55c \uadf8\ub9bc\uc774 \uc5ec\uae30\uc5d0 \uc800\uc7a5\ub3fc\uc694.",
+    puzzleLine: "{player}, \uc22b\uc790\ub97c \ubcf4\uace0 \uadf8\ub9bc\uc744 \uce60\ud574\uc694.",
+    puzzleNote: "\uc9c0\uae08 \uadf8\ub9bc: {title}",
+    albumLine: "\uc644\uc131\ud55c \uce74\ub4dc\uac00 \uc5ec\uae30\uc5d0 \uc800\uc7a5\ub3fc\uc694.",
     albumNote: "\uc644\uc131\ud55c \uce74\ub4dc\ub97c \ubcf4\uad00\ud574\uc694.",
-    mapLine: "\uce74\ub4dc\uac00 \ud070 \ud32c\ud2b8\ub9ac \ubcbd\uc744 \ucc44\uc6cc\uac00\uc694.",
-    mapNote: "\ud37c\uc990\uc744 \ub354 \ud480\uba74 \ud070 \uadf8\ub9bc\uc774 \uc644\uc131\ub3fc\uc694."
+    mapLine: "\ud3f4\ub354\ub97c \uc644\uc131\ud558\uba74 \ud070 Pip \uadf8\ub9bc\uc774 \ucc44\uc6cc\uc838\uc694.",
+    mapNote: "\ud3f4\ub354 \ud558\ub098\uac00 \uc644\uc131\ub420 \ub54c\ub9c8\ub2e4 \uc0c8 \ubd80\ubd84\uc774 \uc5f4\ub824\uc694."
   },
   sections: {
-    starterShelf: "\uccab \ud32c\ud2b8\ub9ac \uc120\ubc18",
+    starterShelf: "\uccab \uc120\ubc18",
     dailyPicture: "\uc624\ub298\uc758 \uadf8\ub9bc",
     currentPicture: "\uc9c0\uae08 \uadf8\ub9bc",
     startHere: "\uc5ec\uae30\uc11c \uc2dc\uc791",
     pantryAlbum: "\ud32c\ud2b8\ub9ac \uc568\ubc94",
-    pantryMap: "\ud32c\ud2b8\ub9ac \ubcbd"
+    pantryMap: "Pip \ub85c\ub4dc\ub9f5"
   },
   daily: {
     eyebrow: "\uc624\ub298\uc758 \ucd94\ucc9c",
-    play: "\ucd94\ucc9c \uadf8\ub9bc \ud480\uae30",
+    play: "\ubcf4\ub108\uc2a4 \ubc1b\uae30",
     selected: "\uc9c0\uae08 \ud480\uace0 \uc788\uc5b4\uc694",
-    note: "\ud558\ub8e8\uc5d0 \ud558\ub098 \ucd94\ucc9c\ub418\ub294 \uadf8\ub9bc\uc774\uc5d0\uc694. \ubcf4\ub108\uc2a4\ub294 \uc5c6\uace0, \uace0\ub974\uae30 \uc27d\uac8c \ubcf4\uc5ec\uc918\uc694."
+    note: "\uc624\ub298 \uc774 \uce74\ub4dc\ub97c \uc644\uc131\ud558\uba74 \uc2a4\ud47c +{count}\uc744 \ub354 \ubc1b\uc544\uc694."
   },
   howToPlay: {
     title: "\uccab \uc218",
     goal: "\uc22b\uc790\uac00 \uc54c\ub824\uc8fc\ub294 \ub9cc\ud07c \uadf8\ub9bc \uce78\uc744 \uce60\ud558\uc138\uc694.",
     stepFill: "\uce60\ud558\uae30\ub97c \uace0\ub974\uace0 \uadf8\ub9bc \uce78\uc744 \ub204\ub974\uc138\uc694.",
-    stepClues: "3\uc740 \uc5f0\uc18d\ub41c 3\uce78\uc774\uc5d0\uc694. 1 1\uc740 \ud55c \uce78\uc744 \uce60\ud558\uace0, \uc0ac\uc774\ub97c \ube44\uc6b4 \ub4a4 \ud55c \uce78\uc744 \ub354 \uce60\ud558\ub294 \ub73b\uc774\uc5d0\uc694.",
+    stepClues: "3\uc740 \uc5f0\uc18d\ub41c 3\uce78\uc774\uc5d0\uc694. 1 1\uc740 \ud55c \uce78\uc744 \uce60\ud558\uace0, \uc801\uc5b4\ub3c4 \ud55c \uce78\uc744 \ube44\uc6b4 \ub4a4 \ud55c \uce78\uc744 \ub354 \uce60\ud558\ub294 \ub73b\uc774\uc5d0\uc694.",
     stepMark: "\ube44\uc5b4 \uc788\ub294 \uce78\uc774 \ud655\uc2e4\ud558\uba74 \ube48\uce78 \uccb4\ud06c\ub97c \uc0ac\uc6a9\ud558\uc138\uc694."
   },
   controls: {
@@ -87,180 +96,64 @@ export const ko = {
   album: {
     count: "{completed}/{total}\uc7a5",
     note: "\uc644\uc131\ud55c \uce74\ub4dc\uac00 \uc5ec\uae30\uc5d0 \ubcf4\uc5ec\uc694.",
+    genericSaved: "{title} \uce74\ub4dc\ub97c \uc800\uc7a5\ud588\uc5b4\uc694.",
     hiddenTitle: "\uc228\uc740 \uadf8\ub9bc",
     hiddenText: "\ud37c\uc990\uc744 \uc644\uc131\ud558\uba74 \uc800\uc7a5\ub3fc\uc694.",
     lockedSymbol: "?"
   },
   puzzlePicker: {
     size: "{size}x{size}",
+    sizeReward: "{size}x{size} - \uc2a4\ud47c +{count}",
     sizeComplete: "{size}x{size} - \uc644\ub8cc"
   },
   packs: {
     free: "\ubb34\ub8cc",
-    unlockable: "\uc7a0\uae08 \ud574\uc81c",
+    unlockable: "\uc5f4\uae30",
     bonusPack: "\ubcf4\ub108\uc2a4 \ud329",
     locked: "\uc7a0\uae40",
-    completeToUnlock: "{count}\uc7a5 \uc644\uc131\ud558\uba74 \uc5f4\ub824\uc694",
-    pipsPantryShelf: {
-      title: "\uccab \ud32c\ud2b8\ub9ac \uc120\ubc18",
-      note: "\ubb34\ub8cc \ucd9c\uc2dc \uadf8\ub9bc"
+    progress: "{completed}/{total}",
+    unlockCost: "\uc2a4\ud47c {count}\uac1c\ub85c \uc774 \ud3f4\ub354\ub97c \uc5f4\uc5b4\uc694.",
+    openFolder: "\ud3f4\ub354 \uc5f4\uae30",
+    needSpoons: "{count}\uac1c \ub354 \ud544\uc694",
+    "pips-first-shelf": {
+      title: "Pip\uc758 \uccab \uc120\ubc18",
+      note: "\ubb34\ub8cc \uccab \uce74\ub4dc"
     },
-    pipsPantryShelfPlus: {
-      title: "Pip's Pantry Shelf Plus",
-      note: "\ud5a5\ud6c4 \uc120\ud0dd\ud615 \ubcf4\ub108\uc2a4 \uadf8\ub9bc"
+    "sunny-spoon-sign": {
+      title: "Sunny Spoon Sign",
+      note: "\ubc1d\uc740 \uac04\ud310 \ud3f4\ub354"
+    },
+    "apron-drawer": {
+      title: "Apron Drawer",
+      note: "Pip\uc744 \uc704\ud55c \uc8fc\ubc29 \uce74\ub4dc"
+    },
+    "bakery-window": {
+      title: "Bakery Window",
+      note: "\ub530\ub73b\ud55c \ube75\uc9d1 \uce74\ub4dc"
+    },
+    "village-pantry": {
+      title: "Village Pantry",
+      note: "\ub9c8\uc9c0\ub9c9 \ubb34\ub8cc \ud3f4\ub354"
     }
   },
-  // Puzzle titles intentionally stay in English for the first launch card identity pass.
+  map: {
+    count: "{completed}/{total}\uc7a5 \uc644\uc131",
+    note: "\ud3f4\ub354\ub97c \uc644\uc131\ud558\uba74 \ud070 Pip \uadf8\ub9bc\uc774 \ucc44\uc6cc\uc838\uc694.",
+    folderOpen: "\uc5f4\ub9b0 \ud3f4\ub354",
+    folderLocked: "\uc7a0\uae40 - \uc2a4\ud47c {count}\uac1c",
+    parts: {
+      "pip-ear": "Pip\uc758 \uadc0",
+      "pip-cheek": "Pip\uc758 \ubcfc",
+      "pip-scarf": "Pip\uc758 \uc2a4\uce74\ud504",
+      "pip-hat": "Pip\uc758 \ubaa8\uc790",
+      "pip-face": "Pip\uc758 \uc5bc\uad74"
+    }
+  },
   puzzles: {
-    "pip-face-5": {
+    "pips-first-shelf-pip-face-1": {
       title: "Pip Face",
       imageName: "Pip Face",
       albumText: "\uccab \uadf8\ub9bc\uc744 \uc800\uc7a5\ud588\uc5b4\uc694."
-    },
-    "soup-bowl-5": {
-      title: "Soup Bowl",
-      imageName: "Soup Bowl",
-      albumText: "\ub530\ub73b\ud55c \uc218\ud504 \uce74\ub4dc\uc608\uc694."
-    },
-    "spoon-5": {
-      title: "Spoon",
-      imageName: "Spoon",
-      albumText: "\uc791\uc740 \uc2a4\ud47c\uc744 \ucc3e\uc558\uc5b4\uc694."
-    },
-    "recipe-card-5": {
-      title: "Recipe Card",
-      imageName: "Recipe Card",
-      albumText: "\ub808\uc2dc\ud53c \uce74\ub4dc\ub97c \uc800\uc7a5\ud588\uc5b4\uc694."
-    },
-    "tiny-bow-5": {
-      title: "Tiny Bow",
-      imageName: "Tiny Bow",
-      albumText: "\uc791\uc740 \ub9ac\ubcf8 \uadf8\ub9bc\uc774\uc5d0\uc694."
-    },
-    "cafe-window-8": {
-      title: "Cafe Window",
-      imageName: "Cafe Window",
-      albumText: "\uce74\ud398 \ucc3d\ubb38\uc744 \uc800\uc7a5\ud588\uc5b4\uc694."
-    },
-    "tomato-soup-8": {
-      title: "Tomato Soup",
-      imageName: "Tomato Soup",
-      albumText: "\ud1a0\ub9c8\ud1a0 \uc218\ud504 \uadf8\ub9bc\uc774\uc5d0\uc694."
-    },
-    "pantry-jar-8": {
-      title: "Pantry Jar",
-      imageName: "Pantry Jar",
-      albumText: "\uc791\uc740 \ub2e8\uc9c0\uac00 \ud32c\ud2b8\ub9ac\uc5d0 \uc62c\ub77c\uac14\uc5b4\uc694."
-    },
-    "sunny-spoon-sign-10": {
-      title: "Sunny Spoon Sign",
-      imageName: "Sunny Spoon Sign",
-      albumText: "Sunny Spoon \uac04\ud310\uc744 \ubcbd\uc5d0 \uac78\uc5c8\uc5b4\uc694."
-    },
-    "teacup-5": {
-      title: "Teacup",
-      imageName: "Teacup",
-      albumText: "작은 찻잔 카드예요."
-    },
-    "cookie-5": {
-      title: "Cookie",
-      imageName: "Cookie",
-      albumText: "동그란 쿠키 카드를 저장했어요."
-    },
-    "bread-loaf-5": {
-      title: "Bread Loaf",
-      imageName: "Bread Loaf",
-      albumText: "따뜻한 빵 한 덩이가 선반에 올라갔어요."
-    },
-    "tiny-house-5": {
-      title: "Tiny House",
-      imageName: "Tiny House",
-      albumText: "작은 집 그림을 저장했어요."
-    },
-    "apple-5": {
-      title: "Apple",
-      imageName: "Apple",
-      albumText: "사과 카드가 선반을 환하게 해요."
-    },
-    "heart-card-5": {
-      title: "Heart Card",
-      imageName: "Heart Card",
-      albumText: "다정한 하트 카드예요."
-    },
-    "star-cookie-5": {
-      title: "Star Cookie",
-      imageName: "Star Cookie",
-      albumText: "별 쿠키 카드가 반짝여요."
-    },
-    "milk-bottle-8": {
-      title: "Milk Bottle",
-      imageName: "Milk Bottle",
-      albumText: "우유병 카드가 팬트리에 들어왔어요."
-    },
-    "jam-jar-8": {
-      title: "Jam Jar",
-      imageName: "Jam Jar",
-      albumText: "잼 단지가 팬트리에 색을 더해요."
-    },
-    "whisk-8": {
-      title: "Whisk",
-      imageName: "Whisk",
-      albumText: "거품기가 다음 레시피를 기다려요."
-    },
-    "chef-hat-8": {
-      title: "Chef Hat",
-      imageName: "Chef Hat",
-      albumText: "부드러운 셰프 모자 카드예요."
-    },
-    "picnic-basket-8": {
-      title: "Picnic Basket",
-      imageName: "Picnic Basket",
-      albumText: "피크닉 바구니를 챙겼어요."
-    },
-    "cupcake-8": {
-      title: "Cupcake",
-      imageName: "Cupcake",
-      albumText: "컵케이크 카드를 저장했어요."
-    },
-    "kettle-8": {
-      title: "Kettle",
-      imageName: "Kettle",
-      albumText: "주전자가 아늑한 모퉁이를 따뜻하게 해요."
-    },
-    "pantry-door-8": {
-      title: "Pantry Door",
-      imageName: "Pantry Door",
-      albumText: "작은 팬트리 문이 열렸어요."
-    },
-    "rolling-pin-8": {
-      title: "Rolling Pin",
-      imageName: "Rolling Pin",
-      albumText: "밀대 카드가 앨범에 들어왔어요."
-    },
-    "apron-10": {
-      title: "Apron",
-      imageName: "Apron",
-      albumText: "Pip의 앞치마를 준비했어요."
-    },
-    "bakery-shelf-10": {
-      title: "Bakery Shelf",
-      imageName: "Bakery Shelf",
-      albumText: "빵집 선반 그림이 완성됐어요."
-    },
-    "picnic-table-10": {
-      title: "Picnic Table",
-      imageName: "Picnic Table",
-      albumText: "피크닉 테이블이 차려졌어요."
-    },
-    "sunny-pantry-10": {
-      title: "Sunny Pantry",
-      imageName: "Sunny Pantry",
-      albumText: "Sunny Pantry가 환하게 켜졌어요."
-    },
-    "village-window-10": {
-      title: "Village Window",
-      imageName: "Village Window",
-      albumText: "마을 창문 카드가 팬트리에 걸렸어요."
     }
   }
 };

@@ -4,9 +4,13 @@ import {
   getCompletedPuzzleIds,
   getPlayerRecords,
   hasActivePlayer,
+  getPantrySpoons,
+  getUnlockedPackIds,
   loadSave,
   saveGame,
-  setActivePlayerName
+  savePuzzleState,
+  setActivePlayerName,
+  unlockPack
 } from "../src/game/save.js";
 
 class LocalStorageMock {
@@ -67,4 +71,29 @@ describe("player save profiles", () => {
 
     expect(getCompletedPuzzleIds()).toEqual(["pip-face-5"]);
   });
+
+  it("awards spoons once and unlocks progression folders", () => {
+    setActivePlayerName("Jay");
+    const completedState = {
+      puzzleId: "pips-first-shelf-pip-face-1",
+      size: 5,
+      mode: "fill",
+      completed: true,
+      history: [],
+      cells: Array.from({ length: 5 }, () => Array(5).fill("empty"))
+    };
+
+    savePuzzleState(completedState, { reward: 3 });
+    expect(getPantrySpoons()).toBe(3);
+    expect(loadSave().completedPuzzleIds).toEqual(["pips-first-shelf-pip-face-1"]);
+
+    savePuzzleState(completedState, { reward: 3 });
+    expect(getPantrySpoons()).toBe(3);
+
+    saveGame({ ...loadSave(), pantrySpoons: 36 });
+    expect(unlockPack({ id: "sunny-spoon-sign", access: "unlockable", unlockCost: 36 })).toBe(true);
+    expect(getPantrySpoons()).toBe(0);
+    expect(getUnlockedPackIds()).toContain("sunny-spoon-sign");
+  });
+
 });

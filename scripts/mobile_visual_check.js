@@ -27,7 +27,10 @@ for (const viewport of viewports) {
   await expectVisible(page, ".how-to-play", viewport.name);
   await expectVisible(page, ".puzzle-grid", viewport.name);
   await expectVisible(page, ".column-clue", viewport.name);
-  await expectVisible(page, ".puzzle-chip.locked", viewport.name);
+  await expectVisible(page, ".currency-pill", viewport.name);
+  await expectVisible(page, ".pack-block", viewport.name);
+  await expectVisible(page, ".pack-block.locked", viewport.name);
+  await expectVisible(page, ".folder-art", viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
   await expectTapTargets(page, viewport.name);
 
@@ -45,6 +48,11 @@ for (const viewport of viewports) {
   await page.getByRole("button", { name: "Album", exact: true }).click();
   await expectVisible(page, ".album-panel", viewport.name);
   await expectVisible(page, ".album-stamp", viewport.name);
+  await expectNoHorizontalOverflow(page, viewport.name);
+
+  await page.getByRole("button", { name: "Roadmap", exact: true }).click();
+  await expectVisible(page, ".map-panel", viewport.name);
+  await expectVisible(page, ".roadmap-card", viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
 
   await page.close();
@@ -120,7 +128,7 @@ async function seedCompletedStarter(page) {
       ["empty", "filled", "filled", "filled", "empty"]
     ];
     const state = {
-      puzzleId: "pip-face-5",
+      puzzleId: "pips-first-shelf-pip-face-1",
       mode: "fill",
       cells,
       history: [],
@@ -128,8 +136,12 @@ async function seedCompletedStarter(page) {
       updatedAt: new Date().toISOString()
     };
     localStorage.setItem(saveKey, JSON.stringify({
-      puzzleStates: { "pip-face-5": JSON.stringify(state) },
-      completedPuzzleIds: ["pip-face-5"]
+      puzzleStates: { "pips-first-shelf-pip-face-1": JSON.stringify(state) },
+      completedPuzzleIds: ["pips-first-shelf-pip-face-1"],
+      rewardedPuzzleIds: ["pips-first-shelf-pip-face-1"],
+      dailyRewardedDates: [],
+      unlockedPackIds: ["pips-first-shelf"],
+      pantrySpoons: 3
     }));
   });
 }

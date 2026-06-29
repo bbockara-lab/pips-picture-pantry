@@ -1,58 +1,48 @@
+﻿import { puzzlePacks } from "../data/packs.js";
 import { puzzles } from "../data/puzzles.js";
-import { getCompletedPuzzleIds } from "../game/save.js";
-import { puzzleText, t } from "../i18n/index.js";
+import { getCompletedPuzzleIds, isPackUnlocked } from "../game/save.js";
+import { t } from "../i18n/index.js";
 
 export function renderPantryMapView() {
   const completedIds = new Set(getCompletedPuzzleIds());
   const section = document.createElement("section");
   section.className = "map-panel content-panel";
+  const completedCount = completedIds.size;
 
   section.innerHTML = `
     <div class="map-header">
       <div>
         <p class="section-label">${t("sections.pantryMap")}</p>
-        <h2>${t("map.count", { completed: completedIds.size, total: puzzles.length })}</h2>
+        <h2>${t("map.count", { completed: completedCount, total: puzzles.length })}</h2>
       </div>
       <p class="map-note">${t("map.note")}</p>
     </div>
   `;
 
-  const wall = document.createElement("div");
-  wall.className = "pantry-map";
-  wall.style.setProperty("--map-size", String(Math.ceil(Math.sqrt(puzzles.length))));
+  const mural = document.createElement("div");
+  mural.className = "pantry-roadmap";
 
-  puzzles.forEach((puzzle, index) => {
-    const complete = completedIds.has(puzzle.id);
-    const tile = document.createElement("article");
-    tile.className = complete ? "map-tile complete" : "map-tile locked";
-    tile.setAttribute("aria-label", complete
-      ? t("map.completeTile", { title: puzzleText(puzzle.id, "title") })
-      : t("map.lockedTile", { number: index + 1 }));
-
-    const stamp = document.createElement("div");
-    stamp.className = complete ? "map-stamp picture" : "map-stamp locked-stamp";
-    stamp.setAttribute("aria-hidden", "true");
-
-    if (complete) {
-      stamp.style.setProperty("--stamp-size", puzzle.size);
-      puzzle.solution.forEach((row) => {
-        [...row].forEach((cell) => {
-          const span = document.createElement("span");
-          span.className = cell === "1" ? "stamp-cell filled" : "stamp-cell";
-          stamp.appendChild(span);
-        });
-      });
-    } else {
-      stamp.textContent = String(index + 1);
-    }
-
-    const label = document.createElement("p");
-    label.textContent = complete ? puzzleText(puzzle.id, "title") : t("map.emptySlot");
-
-    tile.append(stamp, label);
-    wall.appendChild(tile);
+  puzzlePacks.forEach((pack) => {
+    const packPuzzles = puzzles.filter((puzzle) => puzzle.packId === pack.id);
+    const completeCount = packPuzzles.filter((puzzle) => completedIds.has(puzzle.id)).length;
+    const progress = Math.round((completeCount / Math.max(packPuzzles.length, 1)) * 100);
+    const unlocked = isPackUnlocked(pack);
+    const card = document.createElement("article");
+    card.className = unlocked ? "roadmap-card" : "roadmap-card locked";
+    card.style.setProperty("--roadmap-progress", `${progress}%`);
+    card.innerHTML = `
+      <div class="roadmap-piece" aria-hidden="true">
+        <span>${t(`map.parts.${pack.muralPart}`)}</span>
+      </div>
+      <div>
+        <h3>${t(pack.titleKey)}</h3>
+        <p>${t("packs.progress", { completed: completeCount, total: packPuzzles.length })}</p>
+        <small>${unlocked ? t("map.folderOpen") : t("map.folderLocked", { count: pack.unlockCost || 0 })}</small>
+      </div>
+    `;
+    mural.appendChild(card);
   });
 
-  section.appendChild(wall);
+  section.appendChild(mural);
   return section;
 }

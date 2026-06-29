@@ -6,7 +6,8 @@ import {
   undoLastMove
 } from "../game/puzzleState.js";
 import { loadPuzzleState, savePuzzleState } from "../game/save.js";
-import { puzzleText, t } from "../i18n/index.js";
+import { puzzleTitle, t } from "../i18n/index.js";
+import { playComplete } from "./audio.js";
 import { renderBoard } from "./boardView.js";
 import { renderCompletionBanner } from "./pipReaction.js";
 
@@ -16,11 +17,19 @@ export function renderPuzzleView(puzzle, options = {}) {
   section.className = state.completed ? "puzzle-panel content-panel completed" : "puzzle-panel content-panel";
 
   function update(nextState) {
+    const wasCompleted = state.completed;
     state = {
       ...nextState,
       completed: isSolved(nextState, puzzle.solution) || nextState.completed
     };
-    savePuzzleState(state);
+    savePuzzleState(state, {
+      reward: puzzle.reward || 0,
+      dailyBonus: options.dailyBonus || 0,
+      dailyKey: options.dailyKey || null
+    });
+    if (!wasCompleted && state.completed) {
+      playComplete();
+    }
     draw();
   }
 
@@ -33,7 +42,7 @@ export function renderPuzzleView(puzzle, options = {}) {
     meta.innerHTML = `
       <div>
         <p class="section-label">${getPuzzleLabel(puzzle)}</p>
-        <h2>${puzzleText(puzzle.id, "title")}</h2>
+        <h2>${puzzleTitle(puzzle)}</h2>
       </div>
       <p class="difficulty">${puzzle.size}\u00d7${puzzle.size}</p>
     `;

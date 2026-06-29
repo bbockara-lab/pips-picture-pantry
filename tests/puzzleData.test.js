@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+﻿import { describe, expect, it } from "vitest";
+import { puzzlePacks } from "../src/data/packs.js";
 import { puzzles } from "../src/data/puzzles.js";
 import { computeClues } from "../src/game/nonogram.js";
 
@@ -13,35 +14,37 @@ describe("puzzle data", () => {
     });
   });
 
-
-  it("ships the first launch shelf with 30 playable pictures", () => {
-    expect(puzzles).toHaveLength(30);
-    expect(puzzles.filter((puzzle) => puzzle.size === 5)).toHaveLength(12);
-    expect(puzzles.filter((puzzle) => puzzle.size === 8)).toHaveLength(12);
-    expect(puzzles.filter((puzzle) => puzzle.size === 10)).toHaveLength(6);
+  it("ships 100 free progression pictures in five folders", () => {
+    expect(puzzles).toHaveLength(100);
+    expect(puzzlePacks).toHaveLength(5);
+    puzzlePacks.forEach((pack) => {
+      expect(puzzles.filter((puzzle) => puzzle.packId === pack.id)).toHaveLength(20);
+    });
   });
-  it("includes starter, easy, and next-step launch-board sizes", () => {
-    expect(puzzles.some((puzzle) => puzzle.size === 5)).toBe(true);
-    expect(puzzles.some((puzzle) => puzzle.size === 8)).toBe(true);
-    expect(puzzles.some((puzzle) => puzzle.size === 10)).toBe(true);
+
+  it("keeps the launch board sizes mobile-first", () => {
+    expect(puzzles.filter((puzzle) => puzzle.size === 5)).toHaveLength(40);
+    expect(puzzles.filter((puzzle) => puzzle.size === 8)).toHaveLength(60);
+    expect(puzzles.some((puzzle) => puzzle.size > 8)).toBe(false);
   });
 
   it("supports stacked multi-number column clues", () => {
-    const windowPuzzle = puzzles.find((puzzle) => puzzle.id === "cafe-window-8");
-    const clues = computeClues(windowPuzzle.solution);
-
-    expect(clues.columns.some((clue) => clue.length > 1)).toBe(true);
+    const cluePuzzle = puzzles.find((puzzle) => {
+      const clues = computeClues(puzzle.solution);
+      return clues.columns.some((clue) => clue.length > 1);
+    });
+    expect(cluePuzzle).toBeTruthy();
   });
 
-  it("keeps monetization access metadata explicit and non-blocking", () => {
+  it("keeps reward and access metadata explicit", () => {
     const supportedAccess = new Set(["free", "unlockable", "bonus-pack"]);
 
     puzzles.forEach((puzzle) => {
       expect(supportedAccess.has(puzzle.access)).toBe(true);
-      expect(puzzle.reward).toBeUndefined();
+      expect(puzzle.reward).toBeGreaterThan(0);
     });
 
-    expect(puzzles.filter((puzzle) => puzzle.access === "free").length).toBeGreaterThan(5);
-    expect(puzzles.some((puzzle) => puzzle.access === "unlockable")).toBe(true);
+    expect(puzzles.filter((puzzle) => puzzle.access === "free")).toHaveLength(100);
+    expect(puzzlePacks.filter((pack) => pack.access === "unlockable")).toHaveLength(4);
   });
 });

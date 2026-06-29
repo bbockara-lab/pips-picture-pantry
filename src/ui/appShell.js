@@ -1,15 +1,25 @@
-import pipStripStickerUrl from "../assets/characters/pip-strip-sticker-v1.png";
-import { puzzlePacks } from "../data/packs.js";
+﻿import pipStripStickerUrl from "../assets/characters/pip-strip-sticker-v1.png";
+import { getPackById, puzzlePacks } from "../data/packs.js";
 import { puzzles } from "../data/puzzles.js";
 import { getDailyPuzzle } from "../game/dailyPuzzle.js";
-import { getUnlockRequirementProgress, isPuzzleUnlocked } from "../game/puzzleAccess.js";
-import { getActivePlayerName, getCompletedPuzzleIds, resetProgress, setActivePlayerName } from "../game/save.js";
-import { getLanguagePreference, puzzleText, setLanguagePreference, t } from "../i18n/index.js";
+import {
+  canUnlockPack,
+  getActivePlayerName,
+  getCompletedPuzzleIds,
+  getPantrySpoons,
+  isPackUnlocked,
+  resetProgress,
+  setActivePlayerName,
+  unlockPack
+} from "../game/save.js";
+import { getLanguagePreference, puzzleTitle, setLanguagePreference, t } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
+import { getAudioPreferences, setMusicEnabled, setSfxEnabled, startMusic, stopMusic } from "./audio.js";
 import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
-export const APP_VERSION = "v0.1.13";
+export const APP_VERSION = "v0.1.14";
+const DAILY_BONUS = 5;
 
 export function renderApp(root) {
   const dailyPuzzle = getDailyPuzzle(puzzles);
@@ -20,7 +30,7 @@ export function renderApp(root) {
 
   function selectPuzzle(puzzleId) {
     const nextPuzzle = puzzles.find((puzzle) => puzzle.id === puzzleId) || dailyPuzzle;
-    if (!isPuzzleUnlocked(nextPuzzle, getCompletedPuzzleIds())) {
+    if (!isPackUnlocked(getPackById(nextPuzzle.packId))) {
       return;
     }
 
@@ -33,7 +43,12 @@ export function renderApp(root) {
 
   function selectNextPuzzle() {
     const completedPuzzleIds = getCompletedPuzzleIds();
-    const unlockedPuzzles = puzzles.filter((puzzle) => isPuzzleUnlocked(puzzle, completedPuzzleIds));
+    const unlockedPuzzles = puzzles.filter((puzzle) => isPackUnlocked(getPackById(puzzle.packId)));
+    const nextUnfinished = unlockedPuzzles.find((puzzle) => !completedPuzzleIds.includes(puzzle.id));
+    if (nextUnfinished) {
+      selectPuzzle(nextUnfinished.id);
+      return;
+    }
     const currentIndex = unlockedPuzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
     const nextPuzzle = unlockedPuzzles[(currentIndex + 1) % unlockedPuzzles.length] || dailyPuzzle;
     selectPuzzle(nextPuzzle.id);
@@ -60,6 +75,7 @@ export function renderApp(root) {
   function confirmReset() {
     resetProgress();
     resetOpen = false;
+    activePuzzle = getStartPuzzle();
     draw();
   }
 
@@ -78,9 +94,30 @@ export function renderApp(root) {
     setLanguagePreference(preference);
     draw();
   }
+
   function changePlayerName(name) {
     setActivePlayerName(name);
     settingsOpen = false;
+    draw();
+  }
+
+  function changeSfx(enabled) {
+    setSfxEnabled(enabled);
+    draw();
+  }
+
+  function changeMusic(enabled) {
+    setMusicEnabled(enabled);
+    if (enabled) {
+      startMusic();
+    } else {
+      stopMusic();
+    }
+    draw();
+  }
+
+  function requestUnlockPack(packId) {
+    unlockPack(getPackById(packId));
     draw();
   }
 
@@ -101,6 +138,9 @@ export function renderApp(root) {
       onCloseSettings: closeSettings,
       onLanguageChange: changeLanguage,
       onPlayerChange: changePlayerName,
+      onSfxChange: changeSfx,
+      onMusicChange: changeMusic,
+      onUnlockPack: requestUnlockPack,
       onNextPuzzle: selectNextPuzzle
     }));
   }
@@ -109,7 +149,7 @@ export function renderApp(root) {
 }
 
 function getStartPuzzle() {
-  return puzzles.find((puzzle) => puzzle.id === "pip-face-5") || puzzles[0];
+  return puzzles.find((puzzle) => puzzle.id === "pips-first-shelf-pip-face-1") || puzzles[0];
 }
 
 function createShell({
@@ -127,6 +167,9 @@ function createShell({
   onCloseSettings,
   onLanguageChange,
   onPlayerChange,
+  onSfxChange,
+  onMusicChange,
+  onUnlockPack,
   onNextPuzzle
 }) {
   const shell = document.createElement("main");
@@ -138,13 +181,17 @@ function createShell({
 
   if (activeView === "album") {
     shell.appendChild(renderAlbumView());
+  } else if (activeView === "map") {
+    shell.appendChild(renderPantryMapView());
   } else {
     shell.appendChild(renderPuzzleView(activePuzzle, {
+      dailyKey: activePuzzle.id === dailyPuzzle.id ? getDailyKey() : null,
+      dailyBonus: activePuzzle.id === dailyPuzzle.id ? DAILY_BONUS : 0,
       onViewAlbum: () => onSelectView("album"),
       onNextPuzzle
     }));
     shell.appendChild(createDailyCard(dailyPuzzle, activePuzzle.id, onSelectPuzzle));
-    shell.appendChild(createPuzzlePicker(activePuzzle.id, onSelectPuzzle));
+    shell.appendChild(createPuzzlePicker(activePuzzle.id, onSelectPuzzle, onUnlockPack));
   }
 
   shell.appendChild(createFooter());
@@ -154,7 +201,7 @@ function createShell({
   }
 
   if (settingsOpen) {
-    shell.appendChild(createSettingsDialog(onCloseSettings, onLanguageChange, onPlayerChange));
+    shell.appendChild(createSettingsDialog(onCloseSettings, onLanguageChange, onPlayerChange, onSfxChange, onMusicChange));
   }
 
   return shell;
@@ -174,6 +221,10 @@ function createHeader(onSettings, onReset) {
   const actions = document.createElement("div");
   actions.className = "header-actions";
 
+  const currency = document.createElement("p");
+  currency.className = "currency-pill";
+  currency.textContent = t("currency.spoons", { count: getPantrySpoons() });
+
   const settingsButton = document.createElement("button");
   settingsButton.className = "icon-button";
   settingsButton.type = "button";
@@ -190,7 +241,7 @@ function createHeader(onSettings, onReset) {
   resetButton.textContent = "\u21ba";
   resetButton.addEventListener("click", onReset);
 
-  actions.append(settingsButton, resetButton);
+  actions.append(currency, settingsButton, resetButton);
   header.append(titleGroup, actions);
   return header;
 }
@@ -198,9 +249,18 @@ function createHeader(onSettings, onReset) {
 function createPipStrip(puzzle, activeView) {
   const strip = document.createElement("section");
   strip.className = "pip-strip";
-  const puzzleTitle = puzzleText(puzzle.id, "title");
-  const line = activeView === "album" ? t("pipStrip.albumLine") : t("pipStrip.puzzleLine");
-  const note = activeView === "album" ? t("pipStrip.albumNote") : t("pipStrip.puzzleNote", { title: puzzleTitle });
+  const playerName = getActivePlayerName() || t("playerIntro.defaultName");
+  const puzzleName = puzzleTitle(puzzle);
+  const line = activeView === "album"
+    ? t("pipStrip.albumLine")
+    : activeView === "map"
+      ? t("pipStrip.mapLine")
+      : t("pipStrip.puzzleLine", { player: playerName });
+  const note = activeView === "album"
+    ? t("pipStrip.albumNote")
+    : activeView === "map"
+      ? t("pipStrip.mapNote")
+      : t("pipStrip.puzzleNote", { title: puzzleName });
   strip.innerHTML = `
     <img class="pip-strip__portrait" src="${pipStripStickerUrl}" alt="" />
     <div>
@@ -218,7 +278,8 @@ function createViewTabs(activeView, onSelectView) {
 
   [
     ["puzzle", t("views.puzzle")],
-    ["album", t("views.album")]
+    ["album", t("views.album")],
+    ["map", t("views.map")]
   ].forEach(([view, label]) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -238,8 +299,8 @@ function createDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle) {
   const text = document.createElement("div");
   text.innerHTML = `
     <p class="section-label">${t("daily.eyebrow")}</p>
-    <h2>${puzzleText(dailyPuzzle.id, "title")}</h2>
-    <p>${t("daily.note")}</p>
+    <h2>${puzzleTitle(dailyPuzzle)}</h2>
+    <p>${t("daily.note", { count: DAILY_BONUS })}</p>
   `;
 
   const button = document.createElement("button");
@@ -253,7 +314,7 @@ function createDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle) {
   return card;
 }
 
-function createPuzzlePicker(activePuzzleId, onSelectPuzzle) {
+function createPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack) {
   const completedPuzzleIds = getCompletedPuzzleIds();
   const completedPuzzleIdSet = new Set(completedPuzzleIds);
   const section = document.createElement("section");
@@ -262,8 +323,11 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle) {
   puzzlePacks
     .filter((pack) => puzzles.some((puzzle) => puzzle.packId === pack.id))
     .forEach((pack) => {
-      const packBlock = document.createElement("div");
-      packBlock.className = "pack-block";
+      const packPuzzles = puzzles.filter((puzzle) => puzzle.packId === pack.id);
+      const completeCount = packPuzzles.filter((puzzle) => completedPuzzleIdSet.has(puzzle.id)).length;
+      const unlocked = isPackUnlocked(pack);
+      const packBlock = document.createElement("article");
+      packBlock.className = unlocked ? "pack-block" : "pack-block locked";
 
       const header = document.createElement("div");
       header.className = "pack-header";
@@ -272,50 +336,42 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle) {
           <p class="section-label">${t(pack.titleKey)}</p>
           <p class="pack-note">${t(pack.noteKey)}</p>
         </div>
-        <span>${getAccessLabel(pack.access)}</span>
+        <span>${t("packs.progress", { completed: completeCount, total: packPuzzles.length })}</span>
       `;
       packBlock.appendChild(header);
+      packBlock.appendChild(createFolderArt(pack, completeCount, packPuzzles.length));
+
+      if (!unlocked) {
+        packBlock.appendChild(createUnlockPanel(pack, onUnlockPack));
+        section.appendChild(packBlock);
+        return;
+      }
 
       const list = document.createElement("div");
       list.className = "puzzle-list";
 
-      puzzles
-        .filter((puzzle) => puzzle.packId === pack.id)
-        .forEach((puzzle) => {
-          const unlocked = isPuzzleUnlocked(puzzle, completedPuzzleIds);
-          const complete = completedPuzzleIdSet.has(puzzle.id);
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = getPuzzleChipClass(puzzle, activePuzzleId, unlocked, complete);
-          button.dataset.access = puzzle.access;
-          button.dataset.size = String(puzzle.size);
-          button.dataset.complete = String(complete);
-          button.disabled = !unlocked;
+      packPuzzles.forEach((puzzle) => {
+        const complete = completedPuzzleIdSet.has(puzzle.id);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = getPuzzleChipClass(puzzle, activePuzzleId, true, complete);
+        button.dataset.size = String(puzzle.size);
+        button.dataset.complete = String(complete);
 
-          const label = document.createElement("span");
-          label.textContent = puzzleText(puzzle.id, "title");
-          button.appendChild(label);
+        const label = document.createElement("span");
+        label.textContent = puzzleTitle(puzzle);
+        button.appendChild(label);
 
-          const meta = document.createElement("small");
-          meta.textContent = complete
-            ? t("puzzlePicker.sizeComplete", { size: puzzle.size })
-            : t("puzzlePicker.size", { size: puzzle.size });
-          button.appendChild(meta);
+        const meta = document.createElement("small");
+        meta.textContent = complete
+          ? t("puzzlePicker.sizeComplete", { size: puzzle.size })
+          : t("puzzlePicker.sizeReward", { size: puzzle.size, count: puzzle.reward || 0 });
+        button.appendChild(meta);
+        button.setAttribute("aria-label", `${puzzleTitle(puzzle)} - ${meta.textContent}`);
+        button.addEventListener("click", () => onSelectPuzzle(puzzle.id));
 
-          if (!unlocked) {
-            const progress = getUnlockRequirementProgress(puzzle, completedPuzzleIds);
-            const requirement = document.createElement("small");
-            requirement.textContent = getUnlockRequirementLabel(progress);
-            button.appendChild(requirement);
-            button.title = requirement.textContent;
-            button.setAttribute("aria-label", `${puzzleText(puzzle.id, "title")} - ${meta.textContent} - ${requirement.textContent}`);
-          } else {
-            button.setAttribute("aria-label", `${puzzleText(puzzle.id, "title")} - ${meta.textContent}`);
-            button.addEventListener("click", () => onSelectPuzzle(puzzle.id));
-          }
-
-          list.appendChild(button);
-        });
+        list.appendChild(button);
+      });
 
       packBlock.appendChild(list);
       section.appendChild(packBlock);
@@ -324,6 +380,39 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle) {
   return section;
 }
 
+function createFolderArt(pack, completeCount, total) {
+  const art = document.createElement("div");
+  art.className = "folder-art";
+  art.setAttribute("aria-hidden", "true");
+  art.style.setProperty("--folder-progress", `${Math.round((completeCount / Math.max(total, 1)) * 100)}%`);
+  art.innerHTML = `
+    <div class="folder-art__tab"></div>
+    <div class="folder-art__body">
+      <span>${getMuralSymbol(pack.muralPart)}</span>
+    </div>
+  `;
+  return art;
+}
+
+function getMuralSymbol(part) {
+  if (part === "pip-ear") return "Pip Ear";
+  if (part === "pip-cheek") return "Cheek";
+  if (part === "pip-scarf") return "Scarf";
+  if (part === "pip-hat") return "Hat";
+  return "Face";
+}
+
+function createUnlockPanel(pack, onUnlockPack) {
+  const panel = document.createElement("div");
+  panel.className = "unlock-panel";
+  const canOpen = canUnlockPack(pack);
+  panel.innerHTML = `
+    <p>${t("packs.unlockCost", { count: pack.unlockCost })}</p>
+    <button type="button" class="tool-button" ${canOpen ? "" : "disabled"}>${canOpen ? t("packs.openFolder") : t("packs.needSpoons", { count: Math.max(0, pack.unlockCost - getPantrySpoons()) })}</button>
+  `;
+  panel.querySelector("button").addEventListener("click", () => onUnlockPack(pack.id));
+  return panel;
+}
 
 function getPuzzleChipClass(puzzle, activePuzzleId, unlocked, complete) {
   const classes = ["puzzle-chip"];
@@ -337,13 +426,6 @@ function getPuzzleChipClass(puzzle, activePuzzleId, unlocked, complete) {
     classes.push("complete");
   }
   return classes.join(" ");
-}
-
-function getUnlockRequirementLabel(progress) {
-  if (!progress) {
-    return t("packs.locked");
-  }
-  return t("packs.completeToUnlock", { count: progress.required });
 }
 
 function createResetDialog(onCancel, onConfirm) {
@@ -380,10 +462,11 @@ function createResetDialog(onCancel, onConfirm) {
   return overlay;
 }
 
-function createSettingsDialog(onClose, onLanguageChange, onPlayerChange) {
+function createSettingsDialog(onClose, onLanguageChange, onPlayerChange, onSfxChange, onMusicChange) {
   const overlay = createModalBackdrop();
   const preference = getLanguagePreference();
   const playerName = getActivePlayerName();
+  const audio = getAudioPreferences();
 
   const dialog = document.createElement("section");
   dialog.className = "settings-dialog";
@@ -428,15 +511,33 @@ function createSettingsDialog(onClose, onLanguageChange, onPlayerChange) {
     onPlayerChange(new FormData(playerForm).get("playerName"));
   });
 
+  const audioGroup = document.createElement("div");
+  audioGroup.className = "audio-options";
+  audioGroup.innerHTML = `<p class="section-label">${t("settings.sound")}</p>`;
+  audioGroup.append(
+    createAudioToggle(t("settings.sfx"), audio.sfx, onSfxChange),
+    createAudioToggle(t("settings.music"), audio.music, onMusicChange)
+  );
+
   const closeButton = document.createElement("button");
   closeButton.type = "button";
   closeButton.className = "tool-button settings-close";
   closeButton.textContent = t("settings.close");
   closeButton.addEventListener("click", onClose);
 
-  dialog.append(group, playerForm, closeButton);
+  dialog.append(group, playerForm, audioGroup, closeButton);
   overlay.appendChild(dialog);
   return overlay;
+}
+
+function createAudioToggle(label, active, onChange) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = active ? "language-option active" : "language-option";
+  button.textContent = label;
+  button.setAttribute("aria-pressed", String(active));
+  button.addEventListener("click", () => onChange(!active));
+  return button;
 }
 
 function escapeAttribute(value) {
@@ -454,14 +555,8 @@ function createModalBackdrop() {
   return overlay;
 }
 
-function getAccessLabel(access) {
-  if (access === "bonus-pack") {
-    return t("packs.bonusPack");
-  }
-  if (access === "unlockable") {
-    return t("packs.unlockable");
-  }
-  return t("packs.free");
+function getDailyKey() {
+  return new Date().toISOString().slice(0, 10);
 }
 
 function createFooter() {

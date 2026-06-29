@@ -55,6 +55,33 @@ export function puzzleText(puzzleId, field) {
   return t(`puzzles.${puzzleId}.${field}`);
 }
 
+export function puzzleTitle(puzzle) {
+  return puzzleCopy(puzzle, "title", puzzle?.title || titleFromId(puzzle?.id));
+}
+
+export function puzzleImageName(puzzle) {
+  return puzzleCopy(puzzle, "imageName", puzzle?.title || titleFromId(puzzle?.id));
+}
+
+export function puzzleAlbumText(puzzle) {
+  return puzzleCopy(puzzle, "albumText", t("album.genericSaved", { title: puzzle?.title || titleFromId(puzzle?.id) }));
+}
+
+function puzzleCopy(puzzle, field, fallback) {
+  const key = `puzzles.${puzzle?.id}.${field}`;
+  const value = t(key);
+  return value === key ? fallback : value;
+}
+
+function titleFromId(id = "") {
+  return String(id)
+    .replace(/-\d+$/, "")
+    .split("-")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
 function resolveLocale(preference, language = getNavigatorLanguage()) {
   if (preference === SYSTEM_PREFERENCE) {
     return getActiveLocale(language);

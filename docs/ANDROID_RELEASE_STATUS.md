@@ -165,3 +165,14 @@ Last updated: 2026-06-28
 - Signed AAB size: 3,750,068 bytes.
 - jarsigner verification: jar verified.
 - Play Console next upload should create internal test release 6 (1.0.5), because versionCode 1 through 5 are already used by earlier internal test builds.
+
+## Verification Update - 2026-06-28 v0.1.14 Folder Economy / Audio Trial
+
+- Android versionCode: 7.
+- Android versionName: 1.0.6.
+- Visible app version: v0.1.14.
+- Purpose: next internal test build with profile display fixes, spoon rewards, 100 free foldered cards, folder roadmap progression, brighter UI, and first local audio trial.
+- Signed AAB rebuilt successfully at android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size: 3,752,150 bytes.
+- jarsigner verification: jar verified.
+- Play Console next upload should create internal test release 7 (1.0.6), because versionCode 1 through 6 are already used by earlier internal test builds.

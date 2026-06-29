@@ -1,6 +1,6 @@
 import { puzzles } from "../data/puzzles.js";
 import { getCompletedPuzzleIds } from "../game/save.js";
-import { puzzleText, t } from "../i18n/index.js";
+import { puzzleAlbumText, puzzleImageName, puzzleTitle, t } from "../i18n/index.js";
 
 export function renderAlbumView() {
   const completedIds = new Set(getCompletedPuzzleIds());
@@ -29,8 +29,8 @@ export function renderAlbumView() {
 
     const copy = document.createElement("div");
     copy.innerHTML = `
-      <h3>${isComplete ? puzzleText(puzzle.id, "imageName") : t("album.hiddenTitle")}</h3>
-      <p>${isComplete ? puzzleText(puzzle.id, "albumText") : t("album.hiddenText")}</p>
+      <h3>${isComplete ? puzzleImageName(puzzle) : t("album.hiddenTitle")}</h3>
+      <p>${isComplete ? puzzleAlbumText(puzzle) : t("album.hiddenText")}</p>
     `;
     card.appendChild(copy);
     grid.appendChild(card);

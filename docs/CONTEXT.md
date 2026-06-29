@@ -255,3 +255,15 @@ Last updated: 2026-06-28
 - Fixed createShell() to include onPlayerChange in the destructured parameter list so Settings can change the local player name.
 - Clarified the three-tab model: Album stores completed cards, while Wall / Pantry Wall shows cards filling a larger pantry-wall progression view.
 - Restored first-run player-name onboarding after the Start button and added a short note explaining that progress is saved under that name on this device.
+
+## Progress Update - 2026-06-28 v0.1.14 Folder Economy / Audio Trial
+
+- Bumped visible app version to v0.1.14 and Android release version to versionCode 7 / versionName 1.0.6.
+- Fixed the live player profile path again from the tester screenshots: the Pip strip now receives the active player name, Settings shows translated player-name controls, and the `Jay` profile stays visible after first onboarding.
+- Replaced the weak Today's pick wording with a reward reason: completing the daily pick now grants an extra spoon bonus once per day.
+- Added the first trial economy loop: completed cards award spoons, the header shows spoon balance, and later folders can be opened with earned spoons.
+- Expanded free launch content to 100 cards arranged as five folders of 20 cards each: Pip's First Shelf, Sunny Spoon Sign, Apron Drawer, Bakery Window, and Village Pantry.
+- Converted the Roadmap view from individual card slots into folder-level mural progress, so each completed folder fills a larger Pip-picture part.
+- Added lightweight local WebAudio tap/complete effects and a very quiet background loop with Settings toggles for effects and music.
+- Brightened the game background and added uniform folder card art/spacing so folder labels and art no longer press against borders.
+- Verification after this slice: node --check passed on changed JS modules; npm run test passed with 25 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported jar verified.
