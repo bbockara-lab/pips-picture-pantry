@@ -47,7 +47,7 @@ export function renderBrandIntro(root) {
       return;
     }
     intro.classList.add("leaving");
-    window.setTimeout(() => intro.remove(), INTRO_EXIT_MS);
+    globalThis.setTimeout(() => intro.remove(), INTRO_EXIT_MS);
   };
 
   const requestPlayerName = () => {
@@ -74,7 +74,7 @@ export function renderBrandIntro(root) {
       window.dispatchEvent(new CustomEvent("ppp:player-changed"));
       dismiss();
     });
-    window.setTimeout(() => input.focus(), 50);
+    globalThis.setTimeout(() => input.focus(), 50);
   };
 
   intro.querySelector("button").addEventListener("click", () => {
@@ -88,7 +88,7 @@ export function renderBrandIntro(root) {
   if (prefersReducedMotion()) {
     showGameIdentity();
   } else {
-    window.setTimeout(showGameIdentity, STUDIO_DURATION_MS);
+    globalThis.setTimeout(showGameIdentity, STUDIO_DURATION_MS);
   }
 
   root.appendChild(intro);

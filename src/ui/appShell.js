@@ -18,7 +18,7 @@ import { getAudioPreferences, setMusicEnabled, setSfxEnabled, startMusic, stopMu
 import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
-export const APP_VERSION = "v0.1.14";
+export const APP_VERSION = "v0.1.15";
 const DAILY_BONUS = 5;
 
 export function renderApp(root) {
@@ -388,18 +388,10 @@ function createFolderArt(pack, completeCount, total) {
   art.innerHTML = `
     <div class="folder-art__tab"></div>
     <div class="folder-art__body">
-      <span>${getMuralSymbol(pack.muralPart)}</span>
+      <span>${t(`map.parts.${pack.muralPart}`)}</span>
     </div>
   `;
   return art;
-}
-
-function getMuralSymbol(part) {
-  if (part === "pip-ear") return "Pip Ear";
-  if (part === "pip-cheek") return "Cheek";
-  if (part === "pip-scarf") return "Scarf";
-  if (part === "pip-hat") return "Hat";
-  return "Face";
 }
 
 function createUnlockPanel(pack, onUnlockPack) {

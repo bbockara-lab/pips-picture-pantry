@@ -14,7 +14,7 @@ export const puzzlePacks = [
     "noteKey": "packs.sunny-spoon-sign.note",
     "access": "unlockable",
     "monetizationRole": "free-progression",
-    "unlockCost": 36,
+    "unlockCost": 24,
     "muralPart": "pip-cheek"
   },
   {
@@ -23,7 +23,7 @@ export const puzzlePacks = [
     "noteKey": "packs.apron-drawer.note",
     "access": "unlockable",
     "monetizationRole": "free-progression",
-    "unlockCost": 76,
+    "unlockCost": 70,
     "muralPart": "pip-scarf"
   },
   {
@@ -32,7 +32,7 @@ export const puzzlePacks = [
     "noteKey": "packs.bakery-window.note",
     "access": "unlockable",
     "monetizationRole": "free-progression",
-    "unlockCost": 128,
+    "unlockCost": 110,
     "muralPart": "pip-hat"
   },
   {
@@ -41,7 +41,7 @@ export const puzzlePacks = [
     "noteKey": "packs.village-pantry.note",
     "access": "unlockable",
     "monetizationRole": "free-progression",
-    "unlockCost": 188,
+    "unlockCost": 120,
     "muralPart": "pip-face"
   }
 ];

@@ -267,3 +267,12 @@ Last updated: 2026-06-28
 - Added lightweight local WebAudio tap/complete effects and a very quiet background loop with Settings toggles for effects and music.
 - Brightened the game background and added uniform folder card art/spacing so folder labels and art no longer press against borders.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 25 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported jar verified.
+
+## Progress Update - 2026-06-28 v0.1.15 Review 8 Polish
+
+- Bumped visible app version to v0.1.15 and Android release version to versionCode 8 / versionName 1.0.7.
+- Replaced the remaining folder-art mural label hardcode with localized `map.parts.*` copy, so Korean mode no longer shows labels such as `Pip Ear` in English.
+- Replaced `window.setTimeout` usage in audio and brand intro timing with `globalThis.setTimeout` for consistency with the rest of the browser-safe code.
+- Softened early spoon-gate costs for internal testing: Sunny Spoon Sign now opens at 24 spoons, followed by 70 / 110 / 120 spoon folder gates.
+- Confirmed `map.parts.*` keys already exist in both English and Korean dictionaries.
+- Verification after this slice: node --check passed on changed JS modules; npm run test passed with 25 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported jar verified.

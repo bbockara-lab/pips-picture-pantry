@@ -176,3 +176,14 @@ Last updated: 2026-06-28
 - Signed AAB size: 3,752,150 bytes.
 - jarsigner verification: jar verified.
 - Play Console next upload should create internal test release 7 (1.0.6), because versionCode 1 through 6 are already used by earlier internal test builds.
+
+## Verification Update - 2026-06-28 v0.1.15 Review 8 Polish
+
+- Android versionCode: 8.
+- Android versionName: 1.0.7.
+- Visible app version: v0.1.15.
+- Purpose: next internal test build with localized folder-art roadmap labels, globalThis timer cleanup, and softer early spoon unlock costs.
+- Signed AAB rebuilt successfully at android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size: 3,752,069 bytes.
+- jarsigner verification: jar verified.
+- Play Console next upload should create internal test release 8 (1.0.7), because versionCode 1 through 7 are already used or prepared by earlier internal test builds.

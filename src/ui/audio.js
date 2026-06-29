@@ -46,8 +46,8 @@ export function playComplete() {
     return;
   }
   playTone(523, 0.06, 0.05, "sine");
-  window.setTimeout(() => playTone(659, 0.08, 0.05, "sine"), 70);
-  window.setTimeout(() => playTone(784, 0.12, 0.045, "sine"), 145);
+  globalThis.setTimeout(() => playTone(659, 0.08, 0.05, "sine"), 70);
+  globalThis.setTimeout(() => playTone(784, 0.12, 0.045, "sine"), 145);
 }
 
 export function startMusic() {
