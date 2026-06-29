@@ -48,6 +48,14 @@
     music: "Music on/off",
     close: "Done"
   },
+  badges: {
+    pipPortrait: "Pip Portrait",
+    nextBadge: "Next badge",
+    earned: "Badge earned",
+    progress: "{completed}/{total} cards",
+    earnedAria: "Pip Portrait badge earned",
+    progressAria: "Pip Portrait badge progress {completed} of {total}"
+  },
   pipStrip: {
     puzzleLine: "{player}, use the numbers to color the picture.",
     puzzleNote: "Now playing: {title}",
@@ -113,9 +121,11 @@
     bonusPack: "Bonus pack",
     locked: "Locked",
     progress: "{completed}/{total}",
+    preview: "Preview",
+    pricePreview: "$0.99 planned",
     unlockCostPrefix: "Open with ",
     openStage: "Open stage",
-    paidPackHint: "Optional paid stage pack planned for later.",
+    paidPackHint: "A future paid stage will show its price here.",
     comingSoon: "Coming soon",
     needMore: "Need {count} more",
     "pips-first-shelf": {
@@ -142,9 +152,21 @@
       title: "Cafe Window Plus",
       note: "Optional theme stage planned for later"
     },
+    "bakery-morning-plus": {
+      title: "Bakery Morning Plus",
+      note: "A future paid set for a bakery morning picture"
+    },
     "seasonal-pantry-plus": {
       title: "Seasonal Pantry Plus",
-      note: "Optional seasonal stage planned for later"
+      note: "A future paid set for a seasonal pantry picture"
+    },
+    "village-picnic-plus": {
+      title: "Village Picnic Plus",
+      note: "A future paid set for a village picnic picture"
+    },
+    "sunny-festival-plus": {
+      title: "Sunny Festival Plus",
+      note: "A future paid set for a Sunny Spoon festival picture"
     }
   },
   map: {
@@ -153,6 +175,15 @@
     inProgress: "In progress",
     revealed: "Revealed",
     locked: "Locked",
+    nextSets: "Future picture sets",
+    sets: {
+      "pip-portrait": "Pip portrait",
+      "cozy-cafe-room": "Cozy cafe room",
+      "bakery-morning": "Bakery morning",
+      "seasonal-pantry": "Seasonal pantry",
+      "village-picnic": "Village picnic",
+      "sunny-spoon-festival": "Sunny Spoon festival"
+    },
     parts: {
       "pip-ear": "Hidden piece",
       "pip-cheek": "Hidden piece",
@@ -160,7 +191,10 @@
       "pip-hat": "Hidden piece",
       "pip-face": "Hidden piece",
       "bonus-cafe": "Bonus scene",
-      "bonus-season": "Seasonal scene"
+      "bonus-bakery": "Bakery scene",
+      "bonus-season": "Seasonal scene",
+      "bonus-picnic": "Picnic scene",
+      "bonus-festival": "Festival scene"
     }
   },
   puzzles: {

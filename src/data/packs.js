@@ -6,7 +6,8 @@ export const puzzlePacks = [
     access: "free",
     monetizationRole: "starter",
     unlockCost: 0,
-    muralPart: "pip-ear"
+    muralPart: "pip-ear",
+    muralSet: "pip-portrait"
   },
   {
     id: "sunny-spoon-sign",
@@ -15,7 +16,8 @@ export const puzzlePacks = [
     access: "unlockable",
     monetizationRole: "free-progression",
     unlockCost: 24,
-    muralPart: "pip-cheek"
+    muralPart: "pip-cheek",
+    muralSet: "pip-portrait"
   },
   {
     id: "apron-drawer",
@@ -24,7 +26,8 @@ export const puzzlePacks = [
     access: "unlockable",
     monetizationRole: "free-progression",
     unlockCost: 70,
-    muralPart: "pip-scarf"
+    muralPart: "pip-scarf",
+    muralSet: "pip-portrait"
   },
   {
     id: "bakery-window",
@@ -33,7 +36,8 @@ export const puzzlePacks = [
     access: "unlockable",
     monetizationRole: "free-progression",
     unlockCost: 110,
-    muralPart: "pip-hat"
+    muralPart: "pip-hat",
+    muralSet: "pip-portrait"
   },
   {
     id: "village-pantry",
@@ -42,7 +46,8 @@ export const puzzlePacks = [
     access: "unlockable",
     monetizationRole: "free-progression",
     unlockCost: 120,
-    muralPart: "pip-face"
+    muralPart: "pip-face",
+    muralSet: "pip-portrait"
   },
   {
     id: "cafe-window-plus",
@@ -51,7 +56,20 @@ export const puzzlePacks = [
     access: "bonus-pack",
     monetizationRole: "paid-theme-pack",
     unlockCost: null,
-    muralPart: "bonus-cafe"
+    muralPart: "bonus-cafe",
+    muralSet: "cozy-cafe-room",
+    pricePreviewKey: "packs.pricePreview"
+  },
+  {
+    id: "bakery-morning-plus",
+    titleKey: "packs.bakery-morning-plus.title",
+    noteKey: "packs.bakery-morning-plus.note",
+    access: "bonus-pack",
+    monetizationRole: "paid-theme-pack",
+    unlockCost: null,
+    muralPart: "bonus-bakery",
+    muralSet: "bakery-morning",
+    pricePreviewKey: "packs.pricePreview"
   },
   {
     id: "seasonal-pantry-plus",
@@ -60,7 +78,31 @@ export const puzzlePacks = [
     access: "bonus-pack",
     monetizationRole: "paid-theme-pack",
     unlockCost: null,
-    muralPart: "bonus-season"
+    muralPart: "bonus-season",
+    muralSet: "seasonal-pantry",
+    pricePreviewKey: "packs.pricePreview"
+  },
+  {
+    id: "village-picnic-plus",
+    titleKey: "packs.village-picnic-plus.title",
+    noteKey: "packs.village-picnic-plus.note",
+    access: "bonus-pack",
+    monetizationRole: "paid-theme-pack",
+    unlockCost: null,
+    muralPart: "bonus-picnic",
+    muralSet: "village-picnic",
+    pricePreviewKey: "packs.pricePreview"
+  },
+  {
+    id: "sunny-festival-plus",
+    titleKey: "packs.sunny-festival-plus.title",
+    noteKey: "packs.sunny-festival-plus.note",
+    access: "bonus-pack",
+    monetizationRole: "paid-theme-pack",
+    unlockCost: null,
+    muralPart: "bonus-festival",
+    muralSet: "sunny-spoon-festival",
+    pricePreviewKey: "packs.pricePreview"
   }
 ];
 

@@ -33,6 +33,10 @@ describe("i18n", () => {
     expect(t("album.count", { completed: 1, total: 100 })).toBe("1/100 pictures");
     expect(t("settings.playerName")).toBe("Player name");
     expect(t("currency.spoons", { count: 7 })).toBe("Spoons 7");
+    expect(t("packs.preview")).toBe("Preview");
+    expect(t("packs.pricePreview")).toBe("$0.99 planned");
+    expect(t("badges.progress", { completed: 3, total: 100 })).toBe("3/100 cards");
+    expect(t("map.sets.cozy-cafe-room")).toBe("Cozy cafe room");
   });
 
   it("resolves explicit and data-backed puzzle copy", () => {
@@ -57,6 +61,8 @@ describe("i18n", () => {
     expect(t("controls.mark")).toBe("\ube48\uce78 \uccb4\ud06c");
     expect(t("views.map")).toBe("\ub85c\ub4dc\ub9f5");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - \uc644\ub8cc");
+    expect(t("packs.preview")).toBe("\uc608\uace0");
+    expect(t("badges.pipPortrait")).toBe("Pip \ucd08\uc0c1\ud654");
 
     setLanguagePreference("en", "ko-KR");
     expect(getLanguagePreference()).toBe("en");

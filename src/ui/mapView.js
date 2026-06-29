@@ -1,4 +1,4 @@
-﻿import pipCompleteStickerUrl from "../assets/characters/pip-complete-sticker-v1.png";
+import pipCompleteStickerUrl from "../assets/characters/pip-complete-sticker-v1.png";
 import { puzzlePacks } from "../data/packs.js";
 import { puzzles } from "../data/puzzles.js";
 import { getCompletedPuzzleIds, isPackUnlocked } from "../game/save.js";
@@ -9,6 +9,7 @@ export function renderPantryMapView() {
   const section = document.createElement("section");
   section.className = "map-panel content-panel";
   const playablePacks = puzzlePacks.filter((pack) => puzzles.some((puzzle) => puzzle.packId === pack.id));
+  const futurePacks = puzzlePacks.filter((pack) => pack.access === "bonus-pack");
   const completedCount = completedIds.size;
   const roadmapTotal = playablePacks.reduce((sum, pack) => sum + puzzles.filter((puzzle) => puzzle.packId === pack.id).length, 0);
   const overallProgress = Math.round((completedCount / Math.max(roadmapTotal, 1)) * 100);
@@ -33,6 +34,7 @@ export function renderPantryMapView() {
     </div>
   `;
   section.appendChild(goal);
+  section.appendChild(createRoadmapBadge(completedCount, roadmapTotal));
 
   const mural = document.createElement("div");
   mural.className = "pantry-roadmap";
@@ -63,5 +65,42 @@ export function renderPantryMapView() {
   });
 
   section.appendChild(mural);
+
+  if (futurePacks.length) {
+    const future = document.createElement("div");
+    future.className = "future-roadmaps";
+    future.innerHTML = `<p class="section-label">${t("map.nextSets")}</p>`;
+    futurePacks.forEach((pack) => {
+      const item = document.createElement("article");
+      item.className = "future-roadmap-card";
+      item.innerHTML = `
+        <div class="future-mural-card" aria-hidden="true"><span>${t(`map.sets.${pack.muralSet}`)}</span></div>
+        <div>
+          <h3>${t(pack.titleKey)}</h3>
+          <p>${t(`map.sets.${pack.muralSet}`)}</p>
+          <small>${t("packs.pricePreview")}</small>
+        </div>
+      `;
+      future.appendChild(item);
+    });
+    section.appendChild(future);
+  }
+
   return section;
+}
+
+function createRoadmapBadge(completed, total) {
+  const earned = total > 0 && completed >= total;
+  const badge = document.createElement("div");
+  badge.className = earned ? "roadmap-badge earned" : "roadmap-badge";
+  badge.innerHTML = `
+    <div class="roadmap-badge__token" aria-hidden="true">
+      <img src="${pipCompleteStickerUrl}" alt="" />
+    </div>
+    <div>
+      <p>${earned ? t("badges.pipPortrait") : t("badges.nextBadge")}</p>
+      <small>${earned ? t("badges.earned") : t("badges.progress", { completed, total })}</small>
+    </div>
+  `;
+  return badge;
 }

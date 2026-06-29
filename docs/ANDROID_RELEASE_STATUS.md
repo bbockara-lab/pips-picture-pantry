@@ -209,3 +209,14 @@ Last updated: 2026-06-28
 - Signed AAB size: 3,753,568 bytes.
 - jarsigner verification: jar verified.
 - Play Console next upload should create internal test release 10 (1.0.9), because versionCode 1 through 9 are already used or prepared by earlier internal test builds.
+
+## Verification Update - 2026-06-29 v0.1.18 Badge / Future Sets Polish
+
+- Android versionCode: 11.
+- Android versionName: 1.0.10.
+- Visible app version: v0.1.18.
+- Purpose: next internal test build with completion badges, five future paid-theme set placeholders, fixed preview i18n, price-preview copy, and explicit file-based BGM deferral.
+- Signed AAB rebuilt successfully at android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size: 3,755,030 bytes.
+- jarsigner verification: jar verified by scripts/build_android_signed_release_bundle.ps1 before successful exit.
+- Play Console next upload should create internal test release 11 (1.0.10), because versionCode 1 through 10 are already used or prepared by earlier internal test builds.

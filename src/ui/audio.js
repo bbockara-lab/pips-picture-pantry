@@ -51,6 +51,7 @@ export function playComplete() {
 }
 
 export function startMusic() {
+  // BGM placeholder: enable again when an original looped audio file is added.
   stopMusic();
 }
 

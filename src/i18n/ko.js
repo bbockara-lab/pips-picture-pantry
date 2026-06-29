@@ -48,6 +48,14 @@
     music: "\uc74c\uc545 \ucf1c\uae30/\ub044\uae30",
     close: "\uc644\ub8cc"
   },
+  badges: {
+    pipPortrait: "Pip \ucd08\uc0c1\ud654",
+    nextBadge: "\ub2e4\uc74c \ubc30\uc9c0",
+    earned: "\ubc30\uc9c0 \ud68d\ub4dd",
+    progress: "{completed}/{total}\uc7a5",
+    earnedAria: "Pip \ucd08\uc0c1\ud654 \ubc30\uc9c0 \ud68d\ub4dd",
+    progressAria: "Pip \ucd08\uc0c1\ud654 \ubc30\uc9c0 \uc9c4\ud589 {completed}/{total}"
+  },
   pipStrip: {
     puzzleLine: "{player}, \uc22b\uc790\ub97c \ubcf4\uace0 \uadf8\ub9bc\uc744 \uce60\ud574\uc694.",
     puzzleNote: "\uc9c0\uae08 \uadf8\ub9bc: {title}",
@@ -113,9 +121,11 @@
     bonusPack: "\ubcf4\ub108\uc2a4 \ud329",
     locked: "\uc7a0\uae40",
     progress: "{completed}/{total}",
+    preview: "\uc608\uace0",
+    pricePreview: "\uc608\uc0c1 \uac00\uaca9 $0.99",
     unlockCostPrefix: "\uc5f4\uae30 ",
     openStage: "\uc2a4\ud14c\uc774\uc9c0 \uc5f4\uae30",
-    paidPackHint: "\ucd94\ud6c4 \uc120\ud0dd\ud615 \uc720\ub8cc \uc2a4\ud14c\uc774\uc9c0\ub85c \uc5f4\uc5b4\ub458 \uc608\uc815\uc774\uc5d0\uc694.",
+    paidPackHint: "\ucd94\ud6c4 \uc720\ub8cc \uc2a4\ud14c\uc774\uc9c0\ub294 \uc774 \uc790\ub9ac\uc5d0 \uac00\uaca9\uc774 \ud45c\uc2dc\ub420 \uc608\uc815\uc774\uc5d0\uc694.",
     comingSoon: "\uc900\ube44 \uc911",
     needMore: "{count}\uac1c \ub354 \ud544\uc694",
     "pips-first-shelf": {
@@ -142,9 +152,21 @@
       title: "Cafe Window Plus",
       note: "\ucd94\ud6c4 \uc120\ud0dd\ud615 \ud14c\ub9c8 \uc2a4\ud14c\uc774\uc9c0"
     },
+    "bakery-morning-plus": {
+      title: "Bakery Morning Plus",
+      note: "\ubca0\uc774\ucee4\ub9ac \uc544\uce68 \uadf8\ub9bc\uc744 \uc5ec\ub294 \ucd94\ud6c4 \uc720\ub8cc \uc138\ud2b8"
+    },
     "seasonal-pantry-plus": {
       title: "Seasonal Pantry Plus",
-      note: "\ucd94\ud6c4 \uc120\ud0dd\ud615 \uc2dc\uc98c \uc2a4\ud14c\uc774\uc9c0"
+      note: "\uc2dc\uc98c \ud32c\ud2b8\ub9ac \uadf8\ub9bc\uc744 \uc5ec\ub294 \ucd94\ud6c4 \uc720\ub8cc \uc138\ud2b8"
+    },
+    "village-picnic-plus": {
+      title: "Village Picnic Plus",
+      note: "\ub9c8\uc744 \ud53c\ud06c\ub2c9 \uadf8\ub9bc\uc744 \uc5ec\ub294 \ucd94\ud6c4 \uc720\ub8cc \uc138\ud2b8"
+    },
+    "sunny-festival-plus": {
+      title: "Sunny Festival Plus",
+      note: "Sunny Spoon \ucd95\uc81c \uadf8\ub9bc\uc744 \uc5ec\ub294 \ucd94\ud6c4 \uc720\ub8cc \uc138\ud2b8"
     }
   },
   map: {
@@ -153,6 +175,15 @@
     inProgress: "\uc9c4\ud589 \uc911",
     revealed: "\uacf5\uac1c\ub428",
     locked: "\uc7a0\uae40",
+    nextSets: "\ub2e4\uc74c \uadf8\ub9bc \uc138\ud2b8",
+    sets: {
+      "pip-portrait": "Pip \ucd08\uc0c1\ud654",
+      "cozy-cafe-room": "\uc544\ub291\ud55c \uce74\ud398 \ubc29",
+      "bakery-morning": "\ubca0\uc774\ucee4\ub9ac \uc544\uce68",
+      "seasonal-pantry": "\uc2dc\uc98c \ud32c\ud2b8\ub9ac",
+      "village-picnic": "\ub9c8\uc744 \ud53c\ud06c\ub2c9",
+      "sunny-spoon-festival": "Sunny Spoon \ucd95\uc81c"
+    },
     parts: {
       "pip-ear": "\uc228\uc740 \uc870\uac01",
       "pip-cheek": "\uc228\uc740 \uc870\uac01",
@@ -160,7 +191,10 @@
       "pip-hat": "\uc228\uc740 \uc870\uac01",
       "pip-face": "\uc228\uc740 \uc870\uac01",
       "bonus-cafe": "\ubcf4\ub108\uc2a4 \uc7a5\uba74",
-      "bonus-season": "\uc2dc\uc98c \uc7a5\uba74"
+      "bonus-bakery": "\ubca0\uc774\ucee4\ub9ac \uc7a5\uba74",
+      "bonus-season": "\uc2dc\uc98c \uc7a5\uba74",
+      "bonus-picnic": "\ud53c\ud06c\ub2c9 \uc7a5\uba74",
+      "bonus-festival": "\ucd95\uc81c \uc7a5\uba74"
     }
   },
   puzzles: {

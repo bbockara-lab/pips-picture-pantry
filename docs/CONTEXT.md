@@ -298,3 +298,14 @@ Last updated: 2026-06-28
 - Removed the BOM character from `src/data/packs.js` after Claude review.
 - Kept future bonus stage placeholders in the stage list as optional paid-theme previews, but excluded empty bonus packs from the Roadmap progression so they do not appear as 0/0 completion targets.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 25 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported jar verified.
+
+## Progress Update - 2026-06-29 v0.1.18 Badge / Future Sets Polish
+
+- Bumped visible app version to v0.1.18 and Android release version to versionCode 11 / versionName 1.0.10.
+- Added a top badge shelf: the first 100-card free roadmap now leads to a Pip Portrait badge that becomes earned when the full free set is complete.
+- Added the same badge state to the Roadmap view so the 100-card completion goal has a visible pride reward, not only a revealed picture.
+- Expanded future paid-theme placeholders from two to five 20-card set concepts: Cozy Cafe Room, Bakery Morning, Seasonal Pantry, Village Picnic, and Sunny Spoon Festival.
+- Fixed the missing `packs.preview` i18n key so Korean no longer shows a raw translation key in bonus-stage badges.
+- Changed future paid-stage copy from vague Coming Soon wording to a price-preview placeholder (`$0.99 planned` / `예상 가격 $0.99`) for later store wiring.
+- Kept BGM disabled intentionally and documented `startMusic()` as a placeholder until an original looped music file is added; current SFX remains active.
+- Verification after this slice: node --check passed on changed JS modules; npm run test passed with 25 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and the release script requires jarsigner `jar verified` before succeeding.

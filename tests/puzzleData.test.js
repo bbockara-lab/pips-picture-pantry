@@ -48,6 +48,7 @@ describe("puzzle data", () => {
 
     expect(puzzles.filter((puzzle) => puzzle.access === "free")).toHaveLength(100);
     expect(puzzlePacks.filter((pack) => pack.access === "unlockable")).toHaveLength(4);
-    expect(puzzlePacks.filter((pack) => pack.access === "bonus-pack")).toHaveLength(2);
+    expect(puzzlePacks.filter((pack) => pack.access === "bonus-pack")).toHaveLength(5);
+    expect(puzzlePacks.filter((pack) => pack.muralSet === "pip-portrait")).toHaveLength(5);
   });
 });

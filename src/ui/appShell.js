@@ -19,7 +19,7 @@ import { getAudioPreferences, setMusicEnabled, setSfxEnabled, startMusic, stopMu
 import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
-export const APP_VERSION = "v0.1.17";
+export const APP_VERSION = "v0.1.18";
 const DAILY_BONUS = 5;
 
 export function renderApp(root) {
@@ -177,6 +177,7 @@ function createShell({
   shell.className = "app-shell";
 
   shell.appendChild(createHeader(onRequestSettings, onRequestReset));
+  shell.appendChild(createBadgeShelf());
   shell.appendChild(createPipStrip(activePuzzle, activeView));
   shell.appendChild(createViewTabs(activeView, onSelectView));
 
@@ -395,19 +396,43 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack) {
 
 function createStagePreview(pack, completeCount, total) {
   const preview = document.createElement("div");
-  preview.className = "stage-preview";
+  const isBonusPreview = pack.access === "bonus-pack";
+  preview.className = isBonusPreview ? "stage-preview paid-preview" : "stage-preview";
   preview.dataset.part = pack.muralPart;
   preview.setAttribute("aria-hidden", "true");
   preview.style.setProperty("--stage-progress", `${Math.round((completeCount / Math.max(total || 20, 1)) * 100)}%`);
-  preview.innerHTML = `
-    <div class="stage-pip-preview">
-      <img class="stage-pip-preview__ghost" src="${pipCompleteStickerUrl}" alt="" />
-      <div class="stage-pip-preview__reveal">
-        <img src="${pipCompleteStickerUrl}" alt="" />
-      </div>
+  preview.innerHTML = isBonusPreview
+    ? `<div class="future-mural-card"><span>${t(`map.sets.${pack.muralSet}`)}</span></div>`
+    : `<div class="stage-pip-preview">
+        <img class="stage-pip-preview__ghost" src="${pipCompleteStickerUrl}" alt="" />
+        <div class="stage-pip-preview__reveal">
+          <img src="${pipCompleteStickerUrl}" alt="" />
+        </div>
+      </div>`;
+  return preview;
+}
+
+function createBadgeShelf() {
+  const freeProgressPacks = puzzlePacks.filter((pack) => pack.muralSet === "pip-portrait");
+  const freePuzzleIds = puzzles
+    .filter((puzzle) => freeProgressPacks.some((pack) => pack.id === puzzle.packId))
+    .map((puzzle) => puzzle.id);
+  const completed = getCompletedPuzzleIds().filter((id) => freePuzzleIds.includes(id)).length;
+  const total = freePuzzleIds.length;
+  const earned = total > 0 && completed >= total;
+  const shelf = document.createElement("section");
+  shelf.className = earned ? "badge-shelf earned" : "badge-shelf";
+  shelf.setAttribute("aria-label", earned ? t("badges.earnedAria") : t("badges.progressAria", { completed, total }));
+  shelf.innerHTML = `
+    <div class="badge-shelf__token" aria-hidden="true">
+      <img src="${pipCompleteStickerUrl}" alt="" />
+    </div>
+    <div>
+      <p>${earned ? t("badges.pipPortrait") : t("badges.nextBadge")}</p>
+      <small>${earned ? t("badges.earned") : t("badges.progress", { completed, total })}</small>
     </div>
   `;
-  return preview;
+  return shelf;
 }
 
 function createBonusPackPanel() {
@@ -415,7 +440,7 @@ function createBonusPackPanel() {
   panel.className = "unlock-panel bonus-pack-panel";
   panel.innerHTML = `
     <p>${t("packs.paidPackHint")}</p>
-    <button type="button" class="tool-button" disabled>${t("packs.comingSoon")}</button>
+    <button type="button" class="tool-button" disabled>${t("packs.pricePreview")}</button>
   `;
   return panel;
 }
