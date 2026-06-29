@@ -5,7 +5,7 @@ Last updated: 2026-06-28
 ## Current Phase
 
 - Mode: `live-candidate`
-- Version: `v0.1.8`
+- Version: `v0.1.10`
 - Goal: ship a small Android-first cozy Nonogram MVP within one week, while keeping iOS packaging and store-readiness prepared for Mac Mini handoff.
 
 ## Decisions
@@ -217,3 +217,16 @@ Last updated: 2026-06-28
 - Reframed Today's card as Today's pick: a suggested picture with no bonus, meant only to reduce choice friction.
 - Updated mobile visual QA to verify the game identity screen stays visible until Start is tapped.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 20 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported jar verified.
+## Progress Update - 2026-06-28 v0.1.10 Puzzle List Progress Cues
+
+- Bumped visible app version to v0.1.10 and Android release version to versionCode 3 / versionName 1.0.2 for the next internal test upload.
+- Added each puzzle size to the bottom picture list, so players can see 5x5 / 8x8 / 10x10 before choosing a picture.
+- Added completed-state labeling and a soft mint completed style to solved pictures in the bottom list, not only in the album.
+- Adjusted the album note so the Korean line "completed cards appear here" stays on one line on the target mobile widths.
+- Captured the user's larger retention idea as a future Pantry Mural / meta-picture system: solved cards can become tiles toward a larger cozy illustration.
+- Captured the audio idea as a post-internal-test polish candidate: cute tap/mark/complete SFX and a low-volume cozy BGM loop, with mute/settings controls and no extra monetization pressure.
+
+## Product Direction Candidates
+
+- Pantry Mural: each solved card can fill one slot of a larger pantry/cafe illustration. This should be a motivation layer, not a blocker for enjoying individual free cards.
+- Audio polish: add lightweight local audio assets only after current first-play flow is stable. Required controls: sound effects on/off, music on/off, conservative default volume, and no disruptive autoplay assumptions.

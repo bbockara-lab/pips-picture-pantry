@@ -123,3 +123,13 @@ Last updated: 2026-06-28
 - Signed AAB size: 3,746,933 bytes.
 - jarsigner verification: jar verified.
 - Play Console next upload should create internal test release 2 (1.0.1), because versionCode 1 is already used by the first internal test release.
+## Verification Update - 2026-06-28 v0.1.10 Puzzle List Progress Cues
+
+- Android versionCode: 3.
+- Android versionName: 1.0.2.
+- Visible app version: v0.1.10.
+- Purpose: next internal test build with clearer picture-list size labels and completed-list states.
+- Signed AAB rebuilt successfully at android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size: 3,747,129 bytes.
+- jarsigner verification: jar verified.
+- Play Console next upload should create internal test release 3 (1.0.2), because versionCode 1 and 2 are already used by earlier internal test builds.

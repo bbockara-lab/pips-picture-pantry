@@ -80,6 +80,10 @@ export const en = {
     hiddenText: "Finish the puzzle to save this card.",
     lockedSymbol: "?"
   },
+  puzzlePicker: {
+    size: "{size}x{size}",
+    sizeComplete: "{size}x{size} - Complete"
+  },
   packs: {
     free: "Free",
     unlockable: "Unlockable",

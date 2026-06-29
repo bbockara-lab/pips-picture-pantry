@@ -8,7 +8,7 @@ import { getLanguagePreference, puzzleText, setLanguagePreference, t } from "../
 import { renderAlbumView } from "./albumView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 
-export const APP_VERSION = "v0.1.9";
+export const APP_VERSION = "v0.1.10";
 
 export function renderApp(root) {
   const dailyPuzzle = getDailyPuzzle(puzzles);
@@ -247,6 +247,7 @@ function createDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle) {
 
 function createPuzzlePicker(activePuzzleId, onSelectPuzzle) {
   const completedPuzzleIds = getCompletedPuzzleIds();
+  const completedPuzzleIdSet = new Set(completedPuzzleIds);
   const section = document.createElement("section");
   section.className = "puzzle-picker content-panel";
 
@@ -274,15 +275,24 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle) {
         .filter((puzzle) => puzzle.packId === pack.id)
         .forEach((puzzle) => {
           const unlocked = isPuzzleUnlocked(puzzle, completedPuzzleIds);
+          const complete = completedPuzzleIdSet.has(puzzle.id);
           const button = document.createElement("button");
           button.type = "button";
-          button.className = getPuzzleChipClass(puzzle, activePuzzleId, unlocked);
+          button.className = getPuzzleChipClass(puzzle, activePuzzleId, unlocked, complete);
           button.dataset.access = puzzle.access;
+          button.dataset.size = String(puzzle.size);
+          button.dataset.complete = String(complete);
           button.disabled = !unlocked;
 
           const label = document.createElement("span");
           label.textContent = puzzleText(puzzle.id, "title");
           button.appendChild(label);
+
+          const meta = document.createElement("small");
+          meta.textContent = complete
+            ? t("puzzlePicker.sizeComplete", { size: puzzle.size })
+            : t("puzzlePicker.size", { size: puzzle.size });
+          button.appendChild(meta);
 
           if (!unlocked) {
             const progress = getUnlockRequirementProgress(puzzle, completedPuzzleIds);
@@ -290,8 +300,9 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle) {
             requirement.textContent = getUnlockRequirementLabel(progress);
             button.appendChild(requirement);
             button.title = requirement.textContent;
-            button.setAttribute("aria-label", `${puzzleText(puzzle.id, "title")} - ${requirement.textContent}`);
+            button.setAttribute("aria-label", `${puzzleText(puzzle.id, "title")} - ${meta.textContent} - ${requirement.textContent}`);
           } else {
+            button.setAttribute("aria-label", `${puzzleText(puzzle.id, "title")} - ${meta.textContent}`);
             button.addEventListener("click", () => onSelectPuzzle(puzzle.id));
           }
 
@@ -306,13 +317,16 @@ function createPuzzlePicker(activePuzzleId, onSelectPuzzle) {
 }
 
 
-function getPuzzleChipClass(puzzle, activePuzzleId, unlocked) {
+function getPuzzleChipClass(puzzle, activePuzzleId, unlocked, complete) {
   const classes = ["puzzle-chip"];
   if (puzzle.id === activePuzzleId) {
     classes.push("active");
   }
   if (!unlocked) {
     classes.push("locked");
+  }
+  if (complete) {
+    classes.push("complete");
   }
   return classes.join(" ");
 }

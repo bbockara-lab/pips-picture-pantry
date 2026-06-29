@@ -270,6 +270,17 @@ button {
   background: #f2c94c;
 }
 
+.puzzle-chip.complete:not(.active) {
+  border-color: rgba(72, 138, 122, 0.82);
+  background:
+    linear-gradient(135deg, rgba(168, 216, 194, 0.9), rgba(255, 248, 232, 0.86)),
+    var(--mint);
+}
+
+.puzzle-chip.complete small:first-of-type {
+  color: #3f786c;
+}
+
 .app-footer {
   padding: 14px 0 2px;
   text-align: center;
@@ -314,12 +325,13 @@ button {
 }
 
 .album-note {
-  max-width: 150px;
+  max-width: none;
   margin: 0;
   color: #7a4e35;
   font-size: 0.8rem;
   font-weight: 700;
   text-align: right;
+  white-space: nowrap;
 }
 
 .album-grid {

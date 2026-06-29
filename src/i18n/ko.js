@@ -80,6 +80,10 @@ export const ko = {
     hiddenText: "\ud37c\uc990\uc744 \uc644\uc131\ud558\uba74 \uc800\uc7a5\ub3fc\uc694.",
     lockedSymbol: "?"
   },
+  puzzlePicker: {
+    size: "{size}x{size}",
+    sizeComplete: "{size}x{size} - \uc644\ub8cc"
+  },
   packs: {
     free: "\ubb34\ub8cc",
     unlockable: "\uc7a0\uae08 \ud574\uc81c",

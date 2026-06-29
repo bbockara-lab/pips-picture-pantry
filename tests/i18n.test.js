@@ -25,6 +25,8 @@ describe("i18n", () => {
     expect(t("controls.mark")).toBe("Blank Check");
     expect(t("controls.undo")).toBe("Undo last move");
     expect(t("daily.eyebrow")).toBe("Today's pick");
+    expect(t("puzzlePicker.size", { size: 5 })).toBe("5x5");
+    expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - Complete");
     expect(t("album.count", { completed: 1, total: 9 })).toBe("1/9 pictures");
   });
 
@@ -47,6 +49,7 @@ describe("i18n", () => {
     expect(t("views.album")).toBe("\uc568\ubc94");
     expect(t("controls.fill")).toBe("\uce60\ud558\uae30");
     expect(t("controls.mark")).toBe("\ube48\uce78 \uccb4\ud06c");
+    expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - \uc644\ub8cc");
 
     setLanguagePreference("en", "ko-KR");
     expect(getLanguagePreference()).toBe("en");
