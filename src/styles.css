@@ -2414,3 +2414,70 @@ body {
   border-radius: inherit;
   background: linear-gradient(90deg, #a8d8c2, #f2c94c);
 }
+
+
+/* v0.1.26 stage-part roadmap reveal */
+.roadmap-card {
+  background: rgba(255, 248, 232, 0.82);
+}
+
+.roadmap-card:not(.locked) {
+  border-color: rgba(61, 43, 46, 0.2);
+}
+
+.stage-part-goal .roadmap-goal__ghost {
+  opacity: 0.14;
+  filter: grayscale(1) blur(0.2px);
+}
+
+.stage-part-goal .roadmap-goal__part {
+  opacity: var(--part-opacity);
+  filter: saturate(calc(0.72 + (var(--part-opacity) * 0.36)));
+  transition: opacity 180ms ease-out;
+}
+
+.roadmap-goal__part--pip-hat {
+  clip-path: polygon(27% 0, 73% 0, 76% 28%, 65% 39%, 33% 39%, 24% 28%);
+}
+
+.roadmap-goal__part--pip-scarf {
+  clip-path: polygon(24% 46%, 78% 46%, 78% 72%, 63% 82%, 36% 82%, 20% 70%);
+}
+
+.roadmap-goal__part--pip-face {
+  clip-path: ellipse(34% 29% at 50% 38%);
+}
+
+.roadmap-goal__part--pip-body {
+  clip-path: polygon(19% 52%, 80% 52%, 88% 100%, 12% 100%);
+}
+
+.roadmap-goal__part--pip-card {
+  clip-path: polygon(61% 28%, 100% 28%, 100% 88%, 58% 88%);
+}
+
+.roadmap-piece[data-part="pip-hat"] img,
+.roadmap-card[data-part="pip-hat"] .roadmap-piece img {
+  object-position: 50% 8%;
+  clip-path: polygon(22% 0, 78% 0, 78% 36%, 22% 36%);
+}
+
+.roadmap-card[data-part="pip-scarf"] .roadmap-piece img {
+  object-position: 50% 48%;
+  clip-path: polygon(20% 46%, 82% 46%, 82% 80%, 18% 80%);
+}
+
+.roadmap-card[data-part="pip-face"] .roadmap-piece img {
+  object-position: 50% 32%;
+  clip-path: ellipse(36% 31% at 50% 38%);
+}
+
+.roadmap-card[data-part="pip-body"] .roadmap-piece img {
+  object-position: 50% 70%;
+  clip-path: polygon(18% 48%, 82% 48%, 90% 100%, 10% 100%);
+}
+
+.roadmap-card[data-part="pip-card"] .roadmap-piece img {
+  object-position: 72% 50%;
+  clip-path: polygon(58% 24%, 100% 24%, 100% 90%, 56% 90%);
+}

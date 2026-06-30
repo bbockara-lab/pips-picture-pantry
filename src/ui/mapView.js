@@ -25,16 +25,7 @@ export function renderPantryMapView() {
     </div>
   `;
 
-  const goal = document.createElement("div");
-  goal.className = "roadmap-goal";
-  goal.style.setProperty("--goal-progress", `${overallProgress}%`);
-  goal.style.setProperty("--goal-progress-ratio", String(overallProgress / 100));
-  goal.innerHTML = `
-    <img class="roadmap-goal__ghost" src="${pipCompleteStickerUrl}" alt="" />
-    <img class="roadmap-goal__reveal" src="${pipCompleteStickerUrl}" alt="" />
-    <div class="roadmap-goal__meter" aria-hidden="true"><span></span></div>
-  `;
-  section.appendChild(goal);
+  section.appendChild(createRoadmapGoal(playablePacks, completedIds, overallProgress));
   section.appendChild(createRoadmapBadge(completedCount, roadmapTotal));
 
   const mural = document.createElement("div");
@@ -86,6 +77,32 @@ export function renderPantryMapView() {
   }
 
   return section;
+}
+
+function createRoadmapGoal(playablePacks, completedIds, overallProgress) {
+  const goal = document.createElement("div");
+  goal.className = "roadmap-goal stage-part-goal";
+  goal.style.setProperty("--goal-progress", `${overallProgress}%`);
+  goal.innerHTML = `<img class="roadmap-goal__ghost" src="${pipCompleteStickerUrl}" alt="" />`;
+
+  playablePacks.forEach((pack) => {
+    const packPuzzles = puzzles.filter((puzzle) => puzzle.packId === pack.id);
+    const completeCount = packPuzzles.filter((puzzle) => completedIds.has(puzzle.id)).length;
+    const packProgress = completeCount / Math.max(packPuzzles.length, 1);
+    const layer = document.createElement("img");
+    layer.className = `roadmap-goal__part roadmap-goal__part--${pack.muralPart}`;
+    layer.src = pipCompleteStickerUrl;
+    layer.alt = "";
+    layer.style.setProperty("--part-opacity", String(Math.min(1, Math.max(0, packProgress))));
+    goal.appendChild(layer);
+  });
+
+  const meter = document.createElement("div");
+  meter.className = "roadmap-goal__meter";
+  meter.setAttribute("aria-hidden", "true");
+  meter.innerHTML = "<span></span>";
+  goal.appendChild(meter);
+  return goal;
 }
 
 function createRoadmapBadge(completed, total) {

@@ -367,3 +367,10 @@ Last updated: 2026-06-28
 - Added the provided original cozy background music file at src/assets/music/bgm-cozy.mp3.
 - Replaced the temporary WebAudio generated music loop with a looped, opt-in MP3 background track at conservative volume.
 - Kept music off by default and controlled through Settings, while SFX behavior remains unchanged.
+
+## Progress Update - 2026-06-29 v0.1.26 Stage-Part Roadmap Reveal
+
+- Bumped visible app version to v0.1.26 and Android release version to versionCode 19 / versionName 1.0.18.
+- Reworked the Roadmap goal from overlapping full-image opacity to stage-specific Pip part reveals.
+- Mapped the five free stages to clearer Pip portrait parts: chef hat, scarf, face, body, and picture card.
+- Removed the misleading large progress stripe from Roadmap cards; progress remains in compact meters so the cards do not look like sliced images.

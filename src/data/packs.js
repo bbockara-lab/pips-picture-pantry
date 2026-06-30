@@ -6,7 +6,7 @@ export const puzzlePacks = [
     access: "free",
     monetizationRole: "starter",
     unlockCost: 0,
-    muralPart: "pip-ear",
+    muralPart: "pip-hat",
     muralSet: "pip-portrait",
     badge: {
       id: "badge-pips-first-shelf",
@@ -21,7 +21,7 @@ export const puzzlePacks = [
     access: "unlockable",
     monetizationRole: "free-progression",
     unlockCost: 24,
-    muralPart: "pip-cheek",
+    muralPart: "pip-scarf",
     muralSet: "pip-portrait",
     badge: {
       id: "badge-sunny-spoon-sign",
@@ -36,7 +36,7 @@ export const puzzlePacks = [
     access: "unlockable",
     monetizationRole: "free-progression",
     unlockCost: 70,
-    muralPart: "pip-scarf",
+    muralPart: "pip-face",
     muralSet: "pip-portrait",
     badge: {
       id: "badge-apron-drawer",
@@ -51,7 +51,7 @@ export const puzzlePacks = [
     access: "unlockable",
     monetizationRole: "free-progression",
     unlockCost: 110,
-    muralPart: "pip-hat",
+    muralPart: "pip-body",
     muralSet: "pip-portrait",
     badge: {
       id: "badge-bakery-window",
@@ -66,7 +66,7 @@ export const puzzlePacks = [
     access: "unlockable",
     monetizationRole: "free-progression",
     unlockCost: 120,
-    muralPart: "pip-face",
+    muralPart: "pip-card",
     muralSet: "pip-portrait",
     badge: {
       id: "badge-village-pantry",

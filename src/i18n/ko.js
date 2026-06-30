@@ -209,11 +209,11 @@ export const ko = {
       "sunny-spoon-festival": "Sunny Spoon \ucd95\uc81c"
     },
     parts: {
-      "pip-ear": "\uc228\uc740 \uc870\uac01",
-      "pip-cheek": "\uc228\uc740 \uc870\uac01",
-      "pip-scarf": "\uc228\uc740 \uc870\uac01",
-      "pip-hat": "\uc228\uc740 \uc870\uac01",
-      "pip-face": "\uc228\uc740 \uc870\uac01",
+      "pip-hat": "\uc170\ud504 \ubaa8\uc790",
+      "pip-scarf": "\ube68\uac04 \uc2a4\uce74\ud504",
+      "pip-face": "Pip \uc5bc\uad74",
+      "pip-body": "Pip \ubab8",
+      "pip-card": "\uadf8\ub9bc \uce74\ub4dc",
       "bonus-cafe": "\ubcf4\ub108\uc2a4 \uc7a5\uba74",
       "bonus-bakery": "\ubca0\uc774\ucee4\ub9ac \uc7a5\uba74",
       "bonus-season": "\uc2dc\uc98c \uc7a5\uba74",

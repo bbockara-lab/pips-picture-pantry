@@ -292,3 +292,9 @@ Last updated: 2026-06-28
 - Release target: v0.1.25 / Android versionCode 18 / versionName 1.0.17.
 - Added bundled BGM asset: src/assets/music/bgm-cozy.mp3.
 - Replaced generated WebAudio music with file-based loop playback through the existing Settings music toggle.
+
+## Verification Update - 2026-06-29 v0.1.26 Stage-Part Roadmap Reveal
+
+- Release target: v0.1.26 / Android versionCode 19 / versionName 1.0.18.
+- Roadmap reveal now uses stage-part masking instead of overlapping full Pip images.
+- The five free stages now contribute distinct visible areas to the Pip portrait.

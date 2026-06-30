@@ -209,11 +209,11 @@ export const en = {
       "sunny-spoon-festival": "Sunny Spoon festival"
     },
     parts: {
-      "pip-ear": "Hidden piece",
-      "pip-cheek": "Hidden piece",
-      "pip-scarf": "Hidden piece",
-      "pip-hat": "Hidden piece",
-      "pip-face": "Hidden piece",
+      "pip-hat": "Chef hat",
+      "pip-scarf": "Red scarf",
+      "pip-face": "Pip face",
+      "pip-body": "Pip body",
+      "pip-card": "Picture card",
       "bonus-cafe": "Bonus scene",
       "bonus-bakery": "Bakery scene",
       "bonus-season": "Seasonal scene",
