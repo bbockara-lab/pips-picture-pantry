@@ -352,3 +352,11 @@ Last updated: 2026-06-28
 - Restored the music toggle in Settings as `Cozy music on/off` / `??? ?? ??/??`; music remains opt-in and does not autoplay by default.
 - Kept SFX behavior unchanged and preserved the previous tap, card-complete, and stage-complete effects.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 28 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported `jar verified`.
+
+## Progress Update - 2026-06-29 v0.1.24 Roadmap Clarity
+
+- Bumped visible app version to v0.1.24 and Android release version to versionCode 17 / versionName 1.0.16.
+- Fixed Today's pick selection so it only chooses from currently unlocked/playable puzzle stages, avoiding locked daily recommendations.
+- Changed Today's pick reward copy layout so the reward token and +5 stay together on the second line.
+- Reworked stage previews and Roadmap cards to stop clipping Pip vertically; stage cards now show a progress meter, while the main Pip portrait becomes gradually clearer by overall 100-card progress.
+- Verification after this slice: node --check passed on changed JS modules; npm run test passed with 29 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported `jar verified`.

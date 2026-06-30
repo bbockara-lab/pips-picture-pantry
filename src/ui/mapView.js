@@ -28,11 +28,11 @@ export function renderPantryMapView() {
   const goal = document.createElement("div");
   goal.className = "roadmap-goal";
   goal.style.setProperty("--goal-progress", `${overallProgress}%`);
+  goal.style.setProperty("--goal-progress-ratio", String(overallProgress / 100));
   goal.innerHTML = `
     <img class="roadmap-goal__ghost" src="${pipCompleteStickerUrl}" alt="" />
-    <div class="roadmap-goal__reveal">
-      <img src="${pipCompleteStickerUrl}" alt="" />
-    </div>
+    <img class="roadmap-goal__reveal" src="${pipCompleteStickerUrl}" alt="" />
+    <div class="roadmap-goal__meter" aria-hidden="true"><span></span></div>
   `;
   section.appendChild(goal);
   section.appendChild(createRoadmapBadge(completedCount, roadmapTotal));
@@ -52,9 +52,7 @@ export function renderPantryMapView() {
     card.innerHTML = `
       <div class="roadmap-piece" aria-hidden="true">
         <img class="roadmap-piece__ghost" src="${pipCompleteStickerUrl}" alt="" />
-        <div class="roadmap-piece__reveal">
-          <img src="${pipCompleteStickerUrl}" alt="" />
-        </div>
+        <div class="roadmap-piece__meter"><span></span></div>
       </div>
       <div>
         <h3>${t(pack.titleKey)}</h3>

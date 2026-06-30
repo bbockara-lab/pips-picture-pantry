@@ -22,11 +22,11 @@ import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
 
-export const APP_VERSION = "v0.1.23";
+export const APP_VERSION = "v0.1.24";
 const DAILY_BONUS = 5;
 
 export function renderApp(root) {
-  const dailyPuzzle = getDailyPuzzle(puzzles);
+  const dailyPuzzle = getDailyPuzzle(getDailyPuzzleCandidates());
   let activePuzzle = getStartPuzzle();
   let activeView = "puzzle";
   let resetOpen = false;
@@ -175,6 +175,11 @@ export function renderApp(root) {
 
 function getStartPuzzle() {
   return puzzles.find((puzzle) => puzzle.id === "pips-first-shelf-pip-face-1") || puzzles[0];
+}
+
+function getDailyPuzzleCandidates() {
+  const unlocked = puzzles.filter((puzzle) => isPackUnlocked(getPackById(puzzle.packId)));
+  return unlocked.length ? unlocked : puzzles;
 }
 
 function createShell({
@@ -337,10 +342,14 @@ function createDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle) {
 
   const rewardNote = document.createElement("p");
   rewardNote.className = "daily-reward-note";
+  const rewardAmount = document.createElement("span");
+  rewardAmount.className = "daily-reward-amount";
+  rewardAmount.append(createSpoonIcon("small"), document.createTextNode("+" + String(DAILY_BONUS)));
   rewardNote.append(
-    document.createTextNode(t("daily.notePrefix") + " "),
-    createSpoonIcon("small"),
-    document.createTextNode("+" + String(DAILY_BONUS) + t("daily.noteSuffix"))
+    document.createTextNode(t("daily.notePrefix")),
+    document.createElement("br"),
+    rewardAmount,
+    document.createTextNode(t("daily.noteSuffix"))
   );
   text.appendChild(rewardNote);
 
@@ -443,9 +452,7 @@ function createStagePreview(pack, completeCount, total) {
     ? `<div class="future-mural-card"><span>${t(`map.sets.${pack.muralSet}`)}</span></div>`
     : `<div class="stage-pip-preview">
         <img class="stage-pip-preview__ghost" src="${pipCompleteStickerUrl}" alt="" />
-        <div class="stage-pip-preview__reveal">
-          <img src="${pipCompleteStickerUrl}" alt="" />
-        </div>
+        <div class="stage-progress-meter" aria-hidden="true"><span></span></div>
       </div>`;
   return preview;
 }

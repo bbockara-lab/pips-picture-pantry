@@ -2290,3 +2290,127 @@ body {
 .daily-reward-note .spoon-icon {
   margin-inline: 2px 0;
 }
+
+
+/* v0.1.24 roadmap clarity */
+.daily-reward-note {
+  display: block;
+}
+
+.daily-reward-amount {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.daily-reward-amount .spoon-icon {
+  margin-inline: 0;
+}
+
+.stage-pip-preview {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.stage-pip-preview img {
+  position: static;
+  width: 96px;
+  max-width: 100%;
+  margin: 0 auto;
+  transform: none;
+}
+
+.stage-pip-preview__ghost {
+  opacity: 0.2;
+}
+
+.stage-pip-preview__reveal,
+.roadmap-piece__reveal {
+  display: none;
+}
+
+.stage-progress-meter,
+.roadmap-goal__meter,
+.roadmap-piece__meter {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid rgba(61, 43, 46, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 253, 246, 0.72);
+}
+
+.stage-progress-meter {
+  width: min(100%, 168px);
+  height: 12px;
+  margin: 0 auto 2px;
+}
+
+.stage-progress-meter span {
+  display: block;
+  width: var(--stage-progress);
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #a8d8c2, #f2c94c);
+}
+
+.roadmap-goal__reveal {
+  position: absolute;
+  left: 50%;
+  bottom: -24px;
+  width: min(88%, 250px);
+  max-height: 285px;
+  transform: translateX(-50%);
+  overflow: visible;
+  object-fit: contain;
+  opacity: calc(0.03 + (var(--goal-progress-ratio) * 0.86));
+  filter: saturate(calc(0.5 + (var(--goal-progress-ratio) * 0.7)));
+}
+
+.roadmap-goal__meter {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 16px;
+  height: 14px;
+}
+
+.roadmap-goal__meter span {
+  display: block;
+  width: var(--goal-progress);
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #a8d8c2, #f2c94c);
+}
+
+.roadmap-piece {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  place-items: center;
+  gap: 6px;
+}
+
+.roadmap-piece img {
+  position: static;
+  width: 58px;
+  transform: none;
+}
+
+.roadmap-piece__ghost {
+  opacity: 0.18;
+}
+
+.roadmap-piece__meter {
+  width: 64px;
+  height: 9px;
+}
+
+.roadmap-piece__meter span {
+  display: block;
+  width: var(--roadmap-progress);
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #a8d8c2, #f2c94c);
+}
