@@ -55,7 +55,21 @@ Use:
 
 Tablet screenshots:
 
-Optional for MVP unless Play Console requires them for the selected device categories.
+7-inch tablet screenshots, generated size: 1200 x 1920.
+
+Use:
+- store-assets/play-console/tablet-7-screenshots/01-puzzle-screen.png
+- store-assets/play-console/tablet-7-screenshots/02-stage-list.png
+- store-assets/play-console/tablet-7-screenshots/03-album.png
+- store-assets/play-console/tablet-7-screenshots/04-badges.png
+
+10-inch tablet screenshots, generated size: 1600 x 2560.
+
+Use:
+- store-assets/play-console/tablet-10-screenshots/01-puzzle-screen.png
+- store-assets/play-console/tablet-10-screenshots/02-stage-list.png
+- store-assets/play-console/tablet-10-screenshots/03-album.png
+- store-assets/play-console/tablet-10-screenshots/04-badges.png
 
 ## Target Audience
 
