@@ -388,3 +388,11 @@ Last updated: 2026-06-28
 - Replaced semantic Pip-part cutting with a stable tile-puzzle reveal model.
 - The main Roadmap now treats the first 100 free puzzles as a 10x10 Pip portrait tile board; each completed puzzle reveals one tile.
 - Stage previews and Roadmap stage cards now show 20-tile mini boards instead of trying to identify character body parts.
+
+## Progress Update - 2026-06-30 v0.1.29 Badge Shelf Simplification
+
+- Bumped visible app version to v0.1.29 and Android release version to versionCode 22 / versionName 1.0.21.
+- Removed the confusing Roadmap concept from the user-facing flow and repurposed the third tab as a Badge Shelf.
+- Kept the tile-reveal style in stage previews, but each of the five free stages now uses a different target image instead of repeating Pip.
+- Stage completion and the earned top badge shelf now use the matching stage badge image.
+- Verification after this slice: JS syntax checks passed, unit tests passed, production build passed, mobile visual QA passed, and signed AAB was rebuilt with jarsigner verification.

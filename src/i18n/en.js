@@ -20,7 +20,7 @@ export const en = {
   views: {
     puzzle: "Puzzle",
     album: "Album",
-    map: "Roadmap",
+    map: "Badges",
     navLabel: "Main views"
   },
   header: {
@@ -50,6 +50,8 @@ export const en = {
   },
   badges: {
     pipPortrait: "Pip Portrait",
+    collectionCount: "{earned}/{total} badges earned",
+    collectionNote: "Each stage has its own picture. Finish all 20 cards in a stage to turn it into a badge.",
     nextBadge: "Next badge",
     earned: "Badge earned",
     progress: "{completed}/{total} cards",
@@ -59,15 +61,15 @@ export const en = {
     nextPackBadge: "Next badge: {name}",
     packProgress: "{completed}/{total} to earn {name}",
     pipsFirstShelf: "First Shelf Badge",
-    pipsFirstShelfDesc: "All starter pictures complete",
+    pipsFirstShelfDesc: "Pip picture badge complete",
     sunnySpoonSign: "Sunny Spoon Sign Badge",
-    sunnySpoonSignDesc: "All sign pictures complete",
+    sunnySpoonSignDesc: "Sunny Spoon logo badge complete",
     apronDrawer: "Apron Drawer Badge",
-    apronDrawerDesc: "All apron drawer pictures complete",
+    apronDrawerDesc: "Pip helper badge complete",
     bakeryWindow: "Bakery Window Badge",
-    bakeryWindowDesc: "All bakery window pictures complete",
+    bakeryWindowDesc: "Pantry friends badge complete",
     villagePantry: "Village Pantry Badge",
-    villagePantryDesc: "All village pantry pictures complete"
+    villagePantryDesc: "Sunny Spoon cast badge complete"
   },
   pipStrip: {
     puzzleLine: "{player}, use the numbers to color the picture.",
@@ -78,8 +80,8 @@ export const en = {
     puzzleNote: "Now playing: {title}",
     albumLine: "Finished cards are saved here.",
     albumNote: "Finished cards are stored here.",
-    mapLine: "Each stage reveals a piece of Pip.",
-    mapNote: "The silhouette becomes clearer as you finish stages."
+    mapLine: "Finish a stage to earn its badge.",
+    mapNote: "Your stage badges are collected here."
   },
   sections: {
     starterShelf: "Starter shelf",
@@ -87,7 +89,7 @@ export const en = {
     currentPicture: "Current picture",
     startHere: "Start here",
     pantryAlbum: "Pantry Album",
-    pantryMap: "Pip Roadmap"
+    pantryMap: "Badge Shelf"
   },
   daily: {
     eyebrow: "Today's pick",
@@ -170,7 +172,7 @@ export const en = {
     },
     "village-pantry": {
       title: "Village Pantry",
-      note: "Village pantry pictures for the first roadmap"
+      note: "Village pantry badge pictures"
     }    ,
     "cafe-window-plus": {
       title: "Cafe Window Plus",
@@ -195,7 +197,7 @@ export const en = {
   },
   map: {
     count: "{completed}/{total} cards complete",
-    note: "The big picture becomes clearer with each completed stage.",
+    note: "Each completed stage becomes a badge.",
     inProgress: "In progress",
     revealed: "Revealed",
     locked: "Locked",

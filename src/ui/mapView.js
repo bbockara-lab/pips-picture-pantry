@@ -1,78 +1,45 @@
-import pipCompleteStickerUrl from "../assets/characters/pip-complete-sticker-v1.png";
 import { puzzlePacks } from "../data/packs.js";
-import { puzzles } from "../data/puzzles.js";
+import { getStageArtUrl } from "../data/stageArt.js";
+import { getPackBadgeStatus, getNextBadgeProgress } from "../game/badges.js";
 import { getCompletedPuzzleIds, isPackUnlocked } from "../game/save.js";
-import { getNextBadgeProgress } from "../game/badges.js";
 import { t } from "../i18n/index.js";
 
 export function renderPantryMapView() {
-  const completedIds = new Set(getCompletedPuzzleIds());
+  const completedIds = getCompletedPuzzleIds();
+  const statuses = getPackBadgeStatus(completedIds);
+  const earnedCount = statuses.filter((status) => status.earned).length;
+  const next = getNextBadgeProgress(completedIds);
   const section = document.createElement("section");
-  section.className = "map-panel content-panel";
-  const playablePacks = puzzlePacks.filter((pack) => puzzles.some((puzzle) => puzzle.packId === pack.id));
-  const futurePacks = puzzlePacks.filter((pack) => pack.access === "bonus-pack");
-  const completedCount = completedIds.size;
-  const roadmapTotal = playablePacks.reduce((sum, pack) => sum + puzzles.filter((puzzle) => puzzle.packId === pack.id).length, 0);
-  const overallProgress = Math.round((completedCount / Math.max(roadmapTotal, 1)) * 100);
+  section.className = "map-panel badge-room content-panel";
 
   const header = document.createElement("div");
   header.className = "map-header";
   const title = document.createElement("div");
-  title.innerHTML = `<p class="section-label">${t("sections.pantryMap")}</p><h2>${t("map.count", { completed: completedCount, total: puzzles.length })}</h2>`;
+  title.innerHTML = `<p class="section-label">${t("sections.pantryMap")}</p><h2>${t("badges.collectionCount", { earned: earnedCount, total: statuses.length })}</h2>`;
   const note = document.createElement("p");
   note.className = "map-note";
-  note.textContent = t("map.note");
+  note.textContent = t("badges.collectionNote");
   header.append(title, note);
   section.appendChild(header);
 
-  section.appendChild(createRoadmapGoal(playablePacks, completedIds, overallProgress));
-  section.appendChild(createRoadmapBadge(completedCount, roadmapTotal));
+  if (next) {
+    section.appendChild(createNextBadgeCard(next));
+  }
 
-  const mural = document.createElement("div");
-  mural.className = "pantry-roadmap";
+  const badgeGrid = document.createElement("div");
+  badgeGrid.className = "badge-collection-grid";
+  statuses.forEach((status) => badgeGrid.appendChild(createBadgeCollectionCard(status)));
+  section.appendChild(badgeGrid);
 
-  playablePacks.forEach((pack) => {
-    const packPuzzles = puzzles.filter((puzzle) => puzzle.packId === pack.id);
-    const completeCount = packPuzzles.filter((puzzle) => completedIds.has(puzzle.id)).length;
-    const progressRatio = completeCount / Math.max(packPuzzles.length, 1);
-    const progress = Math.round(progressRatio * 100);
-    const unlocked = isPackUnlocked(pack);
-    const card = document.createElement("article");
-    card.className = unlocked ? "roadmap-card" : "roadmap-card locked";
-    card.style.setProperty("--roadmap-progress", progress + "%");
-    card.style.setProperty("--roadmap-progress-ratio", String(Math.min(1, Math.max(0, progressRatio))));
-
-    const piece = document.createElement("div");
-    piece.className = "roadmap-piece";
-    piece.setAttribute("aria-hidden", "true");
-    piece.appendChild(createTileMosaic(packPuzzles, completedIds, 5, "stage-tile-mosaic mini"));
-    const meter = document.createElement("div");
-    meter.className = "roadmap-piece__meter";
-    meter.innerHTML = "<span></span>";
-    piece.appendChild(meter);
-
-    const copy = document.createElement("div");
-    const heading = document.createElement("h3");
-    heading.textContent = t(pack.titleKey);
-    const progressText = document.createElement("p");
-    progressText.textContent = t("packs.progress", { completed: completeCount, total: packPuzzles.length });
-    const state = document.createElement("small");
-    state.textContent = completeCount >= packPuzzles.length && packPuzzles.length ? t("map.revealed") : unlocked ? t("map.inProgress") : t("map.locked");
-    copy.append(heading, progressText, state);
-    card.append(piece, copy);
-    mural.appendChild(card);
-  });
-
-  section.appendChild(mural);
-
+  const futurePacks = puzzlePacks.filter((pack) => pack.access === "bonus-pack");
   if (futurePacks.length) {
     const future = document.createElement("div");
-    future.className = "future-roadmaps";
+    future.className = "future-roadmaps future-badges";
     future.innerHTML = `<p class="section-label">${t("map.nextSets")}</p>`;
     futurePacks.forEach((pack) => {
       const item = document.createElement("article");
       item.className = "future-roadmap-card";
-      item.innerHTML = `<div class="future-mural-card" aria-hidden="true"><span>${t(`map.sets.${pack.muralSet}`)}</span></div><div><h3>${t(pack.titleKey)}</h3><p>${t(`map.sets.${pack.muralSet}`)}</p><small>${t("packs.pricePreview")}</small></div>`;
+      item.innerHTML = `<div class="future-mural-card" aria-hidden="true"><span>${t(`map.sets.${pack.muralSet}`)}</span></div><div><h3>${t(pack.titleKey)}</h3><p>${t(pack.noteKey)}</p><small>${t("packs.pricePreview")}</small></div>`;
       future.appendChild(item);
     });
     section.appendChild(future);
@@ -81,47 +48,56 @@ export function renderPantryMapView() {
   return section;
 }
 
-function createRoadmapGoal(playablePacks, completedIds, overallProgress) {
-  const orderedPuzzles = playablePacks.flatMap((pack) => puzzles.filter((puzzle) => puzzle.packId === pack.id));
-  const goal = document.createElement("div");
-  goal.className = "roadmap-goal tile-roadmap-goal";
-  goal.style.setProperty("--goal-progress", overallProgress + "%");
-  goal.innerHTML = `<img class="roadmap-goal__ghost" src="${pipCompleteStickerUrl}" alt="" /><div class="pip-tile-mosaic pip-tile-mosaic--large" aria-hidden="true"></div><div class="roadmap-goal__meter" aria-hidden="true"><span></span></div>`;
-  goal.querySelector(".pip-tile-mosaic").append(...createTileCells(orderedPuzzles, completedIds, 10));
-  return goal;
+function createNextBadgeCard(status) {
+  const card = document.createElement("div");
+  card.className = "roadmap-badge next-stage-badge";
+  card.innerHTML = `<div class="roadmap-badge__token" aria-hidden="true"><img src="${getStageArtUrl(status.pack.id)}" alt="" /></div><div><p>${t("badges.nextPackBadge", { name: t(status.badge.titleKey) })}</p><small>${t("badges.packProgress", { completed: status.completed, total: status.total, name: t(status.badge.titleKey) })}</small></div>`;
+  return card;
 }
 
-function createTileMosaic(stagePuzzles, completedIds, columns, className) {
+function createBadgeCollectionCard(status) {
+  const unlocked = isPackUnlocked(status.pack);
+  const card = document.createElement("article");
+  card.className = status.earned ? "badge-card earned" : unlocked ? "badge-card" : "badge-card locked";
+  card.style.setProperty("--badge-progress", `${Math.round((status.completed / Math.max(status.total, 1)) * 100)}%`);
+
+  const art = document.createElement("div");
+  art.className = "badge-card__art";
+  art.setAttribute("aria-hidden", "true");
+  art.appendChild(createTileMosaic(status.pack.id, status.completed, status.total || 20));
+
+  const copy = document.createElement("div");
+  const title = document.createElement("h3");
+  title.textContent = t(status.badge.titleKey);
+  const desc = document.createElement("p");
+  desc.textContent = t(status.badge.descriptionKey);
+  const meta = document.createElement("small");
+  meta.textContent = status.earned
+    ? t("badges.earned")
+    : unlocked
+      ? t("badges.progress", { completed: status.completed, total: status.total })
+      : t("map.locked");
+  copy.append(title, desc, meta);
+
+  card.append(art, copy);
+  return card;
+}
+
+function createTileMosaic(packId, completeCount, total) {
+  const columns = 5;
+  const rows = Math.ceil(total / columns);
+  const artUrl = getStageArtUrl(packId);
   const mosaic = document.createElement("div");
-  mosaic.className = `pip-tile-mosaic ${className}`;
-  mosaic.append(...createTileCells(stagePuzzles, completedIds, columns));
-  return mosaic;
-}
-
-function createTileCells(tilePuzzles, completedIds, columns) {
-  const rows = Math.ceil(tilePuzzles.length / columns);
-  return tilePuzzles.map((puzzle, index) => {
+  mosaic.className = "pip-tile-mosaic badge-tile-mosaic";
+  for (let index = 0; index < total; index += 1) {
     const tile = document.createElement("span");
     const col = index % columns;
     const row = Math.floor(index / columns);
-    tile.className = completedIds.has(puzzle.id) ? "pip-tile revealed" : "pip-tile";
-    tile.style.backgroundImage = `url("${pipCompleteStickerUrl}")`;
+    tile.className = index < completeCount ? "pip-tile revealed" : "pip-tile";
+    tile.style.backgroundImage = `url("${artUrl}")`;
     tile.style.backgroundSize = `${columns * 100}% ${rows * 100}%`;
     tile.style.backgroundPosition = `${columns === 1 ? 50 : (col / (columns - 1)) * 100}% ${rows === 1 ? 50 : (row / (rows - 1)) * 100}%`;
-    return tile;
-  });
-}
-
-function createRoadmapBadge(completed, total) {
-  const completedIds = getCompletedPuzzleIds();
-  const next = getNextBadgeProgress(completedIds);
-  const earnedAll = total > 0 && completed >= total;
-  const badge = document.createElement("div");
-  badge.className = earnedAll ? "roadmap-badge earned" : "roadmap-badge";
-  if (next) {
-    badge.innerHTML = `<div class="roadmap-badge__token" aria-hidden="true"><img src="${pipCompleteStickerUrl}" alt="" /></div><div><p>${t("badges.nextPackBadge", { name: t(next.badge.titleKey) })}</p><small>${t("badges.packProgress", { completed: next.completed, total: next.total, name: t(next.badge.titleKey) })}</small></div>`;
-    return badge;
+    mosaic.appendChild(tile);
   }
-  badge.innerHTML = `<div class="roadmap-badge__token" aria-hidden="true"><img src="${pipCompleteStickerUrl}" alt="" /></div><div><p>${t("badges.pipPortrait")}</p><small>${t("badges.earned")}</small></div>`;
-  return badge;
+  return mosaic;
 }

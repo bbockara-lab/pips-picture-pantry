@@ -20,7 +20,7 @@ export const ko = {
   views: {
     puzzle: "\ud37c\uc990",
     album: "\uc568\ubc94",
-    map: "\ub85c\ub4dc\ub9f5",
+    map: "\ubc30\uc9c0",
     navLabel: "\uc8fc\uc694 \ud654\uba74"
   },
   header: {
@@ -50,6 +50,8 @@ export const ko = {
   },
   badges: {
     pipPortrait: "Pip \ucd08\uc0c1\ud654",
+    collectionCount: "{earned}/{total}\uac1c \ubc30\uc9c0 \ud68d\ub4dd",
+    collectionNote: "\uc2a4\ud14c\uc774\uc9c0\ub9c8\ub2e4 \uc11c\ub85c \ub2e4\ub978 \uadf8\ub9bc\uc774 \uc788\uc5b4\uc694. 20\uc7a5\uc744 \ubaa8\ub450 \uc644\uc131\ud558\uba74 \ubc30\uc9c0\ub85c \ubcf4\uad00\ub3fc\uc694.",
     nextBadge: "\ub2e4\uc74c \ubc30\uc9c0",
     earned: "\ubc30\uc9c0 \ud68d\ub4dd",
     progress: "{completed}/{total}\uc7a5",
@@ -59,15 +61,15 @@ export const ko = {
     nextPackBadge: "\ub2e4\uc74c \ubc30\uc9c0: {name}",
     packProgress: "{name}\uae4c\uc9c0 {completed}/{total}\uc7a5",
     pipsFirstShelf: "\uccab \uc120\ubc18 \ubc30\uc9c0",
-    pipsFirstShelfDesc: "\uccab \uc120\ubc18 \uadf8\ub9bc \uc804\ubd80 \uc644\uc131",
+    pipsFirstShelfDesc: "Pip \uadf8\ub9bc \ubc30\uc9c0 \uc644\uc131",
     sunnySpoonSign: "Sunny Spoon Sign \ubc30\uc9c0",
-    sunnySpoonSignDesc: "\uac04\ud310 \uadf8\ub9bc \uc804\ubd80 \uc644\uc131",
+    sunnySpoonSignDesc: "Sunny Spoon \ub85c\uace0 \ubc30\uc9c0 \uc644\uc131",
     apronDrawer: "Apron Drawer \ubc30\uc9c0",
-    apronDrawerDesc: "\uc55e\uce58\ub9c8 \uc11c\ub78d \uadf8\ub9bc \uc804\ubd80 \uc644\uc131",
+    apronDrawerDesc: "Pip \ub3c4\uc6b0\ubbf8 \ubc30\uc9c0 \uc644\uc131",
     bakeryWindow: "Bakery Window \ubc30\uc9c0",
-    bakeryWindowDesc: "\ubca0\uc774\ucee4\ub9ac \ucc3d\uac00 \uadf8\ub9bc \uc804\ubd80 \uc644\uc131",
+    bakeryWindowDesc: "\ud32c\ud2b8\ub9ac \uce5c\uad6c\ub4e4 \ubc30\uc9c0 \uc644\uc131",
     villagePantry: "Village Pantry \ubc30\uc9c0",
-    villagePantryDesc: "\ub9c8\uc744 \ud32c\ud2b8\ub9ac \uadf8\ub9bc \uc804\ubd80 \uc644\uc131"
+    villagePantryDesc: "Sunny Spoon \uce90\uc2a4\ud2b8 \ubc30\uc9c0 \uc644\uc131"
   },
   pipStrip: {
     puzzleLine: "{player}, \uc22b\uc790\ub97c \ubcf4\uace0 \uadf8\ub9bc\uc744 \uce60\ud574\uc694.",
@@ -78,8 +80,8 @@ export const ko = {
     puzzleNote: "\uc9c0\uae08 \uadf8\ub9bc: {title}",
     albumLine: "\uc644\uc131\ud55c \uce74\ub4dc\uac00 \uc5ec\uae30\uc5d0 \uc800\uc7a5\ub3fc\uc694.",
     albumNote: "\uc644\uc131\ud55c \uce74\ub4dc\ub97c \ubcf4\uad00\ud574\uc694.",
-    mapLine: "\uc2a4\ud14c\uc774\uc9c0\ub97c \uc644\uc131\ud558\uba74 Pip\uc758 \ud070 \uadf8\ub9bc\uc774 \ub4dc\ub7ec\ub098\uc694.",
-    mapNote: "\uc644\uc131\ud560\uc218\ub85d \uc2e4\ub8e8\uc5e3\uc774 \uc870\uae08\uc529 \uc120\uba85\ud574\uc838\uc694."
+    mapLine: "\uc2a4\ud14c\uc774\uc9c0\ub97c \uc644\uc131\ud558\uba74 \ubc30\uc9c0\ub97c \ubc1b\uc544\uc694.",
+    mapNote: "\uc644\uc131\ud55c \uc2a4\ud14c\uc774\uc9c0 \ubc30\uc9c0\ub97c \ubaa8\uc544\ub450\ub294 \uacf3\uc774\uc5d0\uc694."
   },
   sections: {
     starterShelf: "\uccab \uc120\ubc18",
@@ -87,7 +89,7 @@ export const ko = {
     currentPicture: "\uc9c0\uae08 \uadf8\ub9bc",
     startHere: "\uc5ec\uae30\uc11c \uc2dc\uc791",
     pantryAlbum: "\ud32c\ud2b8\ub9ac \uc568\ubc94",
-    pantryMap: "Pip \ub85c\ub4dc\ub9f5"
+    pantryMap: "\ubc30\uc9c0 \uc120\ubc18"
   },
   daily: {
     eyebrow: "\uc624\ub298\uc758 \ucd94\ucc9c",
@@ -195,7 +197,7 @@ export const ko = {
   },
   map: {
     count: "{completed}/{total}\uc7a5 \uc644\uc131",
-    note: "\uc2a4\ud14c\uc774\uc9c0\ub97c \uc644\uc131\ud560\uc218\ub85d \ud070 \uadf8\ub9bc\uc774 \uc120\uba85\ud574\uc838\uc694.",
+    note: "\uc2a4\ud14c\uc774\uc9c0\ub97c \uc644\uc131\ud558\uba74 \ubc30\uc9c0\ub85c \ub0a8\uc544\uc694.",
     inProgress: "\uc9c4\ud589 \uc911",
     revealed: "\uacf5\uac1c\ub428",
     locked: "\uc7a0\uae40",

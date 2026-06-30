@@ -50,9 +50,9 @@ for (const viewport of viewports) {
   await expectVisible(page, ".album-stamp", viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
 
-  await page.getByRole("button", { name: "Roadmap", exact: true }).click();
+  await page.getByRole("button", { name: "Badges", exact: true }).click();
   await expectVisible(page, ".map-panel", viewport.name);
-  await expectVisible(page, ".roadmap-card", viewport.name);
+  await expectVisible(page, ".badge-card", viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
 
   await page.close();

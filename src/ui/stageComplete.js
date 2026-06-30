@@ -1,4 +1,4 @@
-import pipCompleteStickerUrl from "../assets/characters/pip-complete-sticker-v1.png";
+import { getStageArtUrl } from "../data/stageArt.js";
 import { t } from "../i18n/index.js";
 
 export function renderStageCompleteOverlay(pack, onDismiss = () => {}) {
@@ -11,7 +11,7 @@ export function renderStageCompleteOverlay(pack, onDismiss = () => {}) {
   const card = document.createElement("section");
   card.className = "stage-complete-card";
   card.innerHTML = `
-    <img class="stage-complete-pip" src="${pipCompleteStickerUrl}" alt="" />
+    <img class="stage-complete-pip" src="${getStageArtUrl(pack.id)}" alt="" />
     <div class="stage-complete-copy">
       <p class="stage-complete-eyebrow">${t("stageComplete.eyebrow")}</p>
       <h2>${t(pack.titleKey)}</h2>

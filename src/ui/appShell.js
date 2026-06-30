@@ -1,7 +1,7 @@
-import pipCompleteStickerUrl from "../assets/characters/pip-complete-sticker-v1.png";
 import pipStripStickerUrl from "../assets/characters/pip-strip-sticker-v1.png";
 import { getPackById, puzzlePacks } from "../data/packs.js";
 import { puzzles } from "../data/puzzles.js";
+import { getStageArtUrl } from "../data/stageArt.js";
 import { getDailyPuzzle } from "../game/dailyPuzzle.js";
 import { getEarnedPackBadges } from "../game/badges.js";
 import {
@@ -22,7 +22,7 @@ import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
 
-export const APP_VERSION = "v0.1.28";
+export const APP_VERSION = "v0.1.29";
 const DAILY_BONUS = 5;
 
 export function renderApp(root) {
@@ -455,22 +455,23 @@ function createStagePreview(pack, completeCount, total) {
   }
   const wrap = document.createElement("div");
   wrap.className = "stage-pip-preview tile-stage-preview";
-  wrap.append(createStageTileMosaic(completeCount, total || 20), createStageProgressMeter());
+  wrap.append(createStageTileMosaic(pack, completeCount, total || 20), createStageProgressMeter());
   preview.appendChild(wrap);
   return preview;
 }
 
-function createStageTileMosaic(completeCount, total) {
+function createStageTileMosaic(pack, completeCount, total) {
   const columns = 5;
   const rows = Math.ceil(total / columns);
   const mosaic = document.createElement("div");
   mosaic.className = "pip-tile-mosaic stage-tile-mosaic";
+  const artUrl = getStageArtUrl(pack.id);
   for (let index = 0; index < total; index += 1) {
     const tile = document.createElement("span");
     const col = index % columns;
     const row = Math.floor(index / columns);
     tile.className = index < completeCount ? "pip-tile revealed" : "pip-tile";
-    tile.style.backgroundImage = `url("${pipCompleteStickerUrl}")`;
+    tile.style.backgroundImage = `url("${artUrl}")`;
     tile.style.backgroundSize = `${columns * 100}% ${rows * 100}%`;
     tile.style.backgroundPosition = `${columns === 1 ? 50 : (col / (columns - 1)) * 100}% ${rows === 1 ? 50 : (row / (rows - 1)) * 100}%`;
     mosaic.appendChild(tile);
@@ -497,7 +498,7 @@ function createBadgeShelf() {
   shelf.innerHTML = earnedBadges.slice(0, 3).map((status) => `
     <div class="badge-shelf__item">
       <div class="badge-shelf__token" aria-hidden="true">
-        <img src="${pipCompleteStickerUrl}" alt="" />
+        <img src="${getStageArtUrl(status.pack.id)}" alt="" />
       </div>
       <div>
         <p>${t(status.badge.titleKey)}</p>
