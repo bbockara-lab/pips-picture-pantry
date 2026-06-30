@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pip's Picture Pantry Feature Graphic</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        width: 1024px;
+        height: 500px;
+        overflow: hidden;
+        color: #3d2b2d;
+        font-family: Arial, Helvetica, sans-serif;
+        background:
+          linear-gradient(90deg, rgba(255,255,255,0.42) 1px, transparent 1px) 0 0 / 36px 36px,
+          linear-gradient(0deg, rgba(255,255,255,0.42) 1px, transparent 1px) 0 0 / 36px 36px,
+          linear-gradient(135deg, #fff5db 0%, #fff9ec 44%, #dff2df 100%);
+      }
+
+      .frame {
+        position: relative;
+        width: 1024px;
+        height: 500px;
+        padding: 54px 72px;
+        border: 16px solid rgba(255, 255, 255, 0.72);
+      }
+
+      .content {
+        position: relative;
+        z-index: 2;
+        width: 54%;
+      }
+
+      .studio {
+        margin: 0 0 16px;
+        color: #83533b;
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 72px;
+        line-height: 0.96;
+        font-weight: 900;
+      }
+
+      .tagline {
+        width: 480px;
+        margin: 24px 0 0;
+        color: #6f4735;
+        font-size: 28px;
+        line-height: 1.24;
+        font-weight: 800;
+      }
+
+      .pills {
+        display: flex;
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .pill {
+        padding: 12px 18px;
+        border: 4px solid #3d2b2d;
+        border-radius: 18px;
+        background: #ffe06a;
+        box-shadow: 0 6px 0 rgba(61, 43, 45, 0.18);
+        font-size: 23px;
+        font-weight: 900;
+      }
+
+      .pill.secondary {
+        background: #c9ecdc;
+      }
+
+      .pip {
+        position: absolute;
+        right: 80px;
+        bottom: 14px;
+        width: 370px;
+        filter: drop-shadow(0 24px 28px rgba(80, 50, 32, 0.18));
+      }
+
+      .card {
+        position: absolute;
+        right: 64px;
+        top: 64px;
+        width: 238px;
+        height: 148px;
+        border: 6px solid #8f5a3d;
+        border-radius: 24px;
+        background: rgba(255, 255, 248, 0.92);
+        box-shadow: 0 14px 0 rgba(61, 43, 45, 0.14);
+        transform: rotate(4deg);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+        padding: 18px;
+      }
+
+      .cell {
+        aspect-ratio: 1;
+        border: 3px solid #9c7a63;
+        border-radius: 8px;
+        background: #fff8e7;
+      }
+
+      .cell.on {
+        background: linear-gradient(145deg, #ffd25d, #f49b58);
+      }
+
+      .spark {
+        position: absolute;
+        width: 54px;
+        height: 54px;
+        border-radius: 999px;
+        background: radial-gradient(circle, #fff7c2 0 18%, #f7c64f 19% 43%, transparent 44%);
+      }
+
+      .spark.one {
+        right: 430px;
+        top: 70px;
+      }
+
+      .spark.two {
+        right: 40px;
+        bottom: 120px;
+        transform: scale(0.78);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="frame">
+      <section class="content">
+        <p class="studio">Sunny Spoon Studios</p>
+        <h1>Pip's<br />Picture Pantry</h1>
+        <p class="tagline">Cozy picture puzzles with warm pantry badges.</p>
+        <div class="pills">
+          <div class="pill">Nonogram</div>
+          <div class="pill secondary">Cozy Puzzle</div>
+        </div>
+      </section>
+
+      <div class="card" aria-hidden="true">
+        <div class="grid">
+          <div class="cell on"></div><div class="cell on"></div><div class="cell on"></div><div class="cell"></div><div class="cell"></div>
+          <div class="cell"></div><div class="cell"></div><div class="cell on"></div><div class="cell"></div><div class="cell"></div>
+          <div class="cell on"></div><div class="cell"></div><div class="cell on"></div><div class="cell"></div><div class="cell on"></div>
+          <div class="cell"></div><div class="cell"></div><div class="cell on"></div><div class="cell"></div><div class="cell"></div>
+          <div class="cell on"></div><div class="cell on"></div><div class="cell on"></div><div class="cell"></div><div class="cell"></div>
+        </div>
+      </div>
+
+      <span class="spark one"></span>
+      <span class="spark two"></span>
+      <img class="pip" src="../../src/assets/characters/pip-complete-sticker-v1.png" alt="" />
+    </main>
+  </body>
+</html>
