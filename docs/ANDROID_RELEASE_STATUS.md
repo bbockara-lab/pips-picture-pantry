@@ -315,3 +315,10 @@ Last updated: 2026-06-28
 - User-facing Roadmap was replaced with a Badge Shelf, and the five free stages now reveal separate stage badge pictures.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 29 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported `jar verified`.
 - Signed AAB size: 10,311,937 bytes.
+
+## Verification Update - 2026-06-30 v0.1.30 Release Candidate Polish
+
+- Release target: v0.1.30 / Android versionCode 23 / versionName 1.0.22.
+- Village Pantry stage art is now visible in stage previews and badge cards.
+- Verification after this slice: node --check passed on changed JS modules; npm run test passed with 29 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported `jar verified`.
+- Signed AAB size: 10,201,350 bytes.

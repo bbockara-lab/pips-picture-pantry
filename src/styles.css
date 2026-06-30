@@ -2542,3 +2542,12 @@ body {
   .badge-tile-mosaic { width: 82px; }
   .badge-card h3 { font-size: 19px; }
 }
+
+/* v0.1.30 clearer locked stage badge art */
+.stage-preview .pip-tile:not(.revealed),
+.badge-card .pip-tile:not(.revealed) {
+  opacity: 0.18;
+}
+.badge-card.locked .badge-tile-mosaic {
+  background: radial-gradient(circle at 50% 42%, rgba(255, 241, 181, 0.98), rgba(245, 225, 174, 0.78));
+}

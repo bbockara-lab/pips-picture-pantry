@@ -396,3 +396,10 @@ Last updated: 2026-06-28
 - Kept the tile-reveal style in stage previews, but each of the five free stages now uses a different target image instead of repeating Pip.
 - Stage completion and the earned top badge shelf now use the matching stage badge image.
 - Verification after this slice: JS syntax checks passed, unit tests passed, production build passed, mobile visual QA passed, and signed AAB was rebuilt with jarsigner verification.
+
+## Progress Update - 2026-06-30 v0.1.30 Release Candidate Polish
+
+- Bumped visible app version to v0.1.30 and Android release version to versionCode 23 / versionName 1.0.22.
+- Replaced the nearly invisible Village Pantry stage badge art with the Story Friends image sheet so the fifth free stage has a visible target picture.
+- Slightly increased unrevealed tile opacity for stage previews and locked badge cards so future badge art reads as an intentional preview instead of an empty panel.
+- Verification after this slice: JS syntax checks passed, unit tests passed, production build passed, mobile visual QA passed, and signed AAB was rebuilt with jarsigner verification.
