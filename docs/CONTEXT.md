@@ -381,3 +381,10 @@ Last updated: 2026-06-28
 - Clarified the visual model: the main Roadmap image is the full Pip portrait becoming clearer across 100 completed cards.
 - Changed stage previews and Roadmap stage cards to show only the relevant Pip part for that stage, with compact progress meters.
 - Removed broad left-to-right fill backgrounds from stage art areas so stage cards no longer look like clipped full portraits.
+
+## Progress Update - 2026-06-30 v0.1.28 Pip Tile Roadmap
+
+- Bumped visible app version to v0.1.28 and Android release version to versionCode 21 / versionName 1.0.20.
+- Replaced semantic Pip-part cutting with a stable tile-puzzle reveal model.
+- The main Roadmap now treats the first 100 free puzzles as a 10x10 Pip portrait tile board; each completed puzzle reveals one tile.
+- Stage previews and Roadmap stage cards now show 20-tile mini boards instead of trying to identify character body parts.

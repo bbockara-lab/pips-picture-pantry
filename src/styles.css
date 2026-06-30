@@ -2507,3 +2507,17 @@ body {
 
 .part-preview-image img { clip-path: none !important; }
 .part-preview-image__reveal { opacity: var(--stage-progress-ratio, var(--roadmap-progress-ratio, 0)); }
+
+
+/* v0.1.28 Pip tile-puzzle roadmap */
+.tile-roadmap-goal .roadmap-goal__ghost { opacity: 0.1; filter: grayscale(1) blur(0.25px); }
+.tile-roadmap-goal .roadmap-goal__full-reveal, .tile-roadmap-goal .roadmap-goal__part { display: none; }
+.pip-tile-mosaic { display: grid; gap: 2px; }
+.pip-tile-mosaic--large { position: absolute; left: 50%; bottom: 42px; width: min(78%, 220px); aspect-ratio: 1; grid-template-columns: repeat(10, minmax(0, 1fr)); transform: translateX(-50%); }
+.stage-tile-mosaic { width: min(100%, 166px); aspect-ratio: 5 / 4; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 0 auto; }
+.stage-tile-mosaic.mini { width: 66px; margin: 0; }
+.pip-tile { display: block; min-width: 0; min-height: 0; border: 1px solid rgba(122, 78, 53, 0.16); border-radius: 3px; background-repeat: no-repeat; opacity: 0.08; filter: grayscale(1); }
+.pip-tile.revealed { opacity: 1; filter: none; box-shadow: inset 0 0 0 1px rgba(255, 248, 232, 0.34); }
+.tile-stage-preview { height: auto; }
+.roadmap-piece { display: grid; grid-template-rows: 1fr auto; justify-items: center; align-items: center; }
+.roadmap-piece .part-preview-image { display: none; }

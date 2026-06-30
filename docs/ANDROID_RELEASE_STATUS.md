@@ -303,3 +303,8 @@ Last updated: 2026-06-28
 
 - Release target: v0.1.27 / Android versionCode 20 / versionName 1.0.19.
 - Main Roadmap uses the full Pip portrait reveal; stage cards use focused part previews only.
+
+## Verification Update - 2026-06-30 v0.1.28 Pip Tile Roadmap
+
+- Release target: v0.1.28 / Android versionCode 21 / versionName 1.0.20.
+- Roadmap and stage previews now use tile-based Pip image reveal rather than semantic body-part masks.

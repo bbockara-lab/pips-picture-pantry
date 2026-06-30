@@ -22,7 +22,7 @@ import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
 
-export const APP_VERSION = "v0.1.27";
+export const APP_VERSION = "v0.1.28";
 const DAILY_BONUS = 5;
 
 export function renderApp(root) {
@@ -445,21 +445,45 @@ function createStagePreview(pack, completeCount, total) {
   const preview = document.createElement("div");
   const isBonusPreview = pack.access === "bonus-pack";
   preview.className = isBonusPreview ? "stage-preview paid-preview" : "stage-preview";
-  preview.dataset.part = pack.muralPart;
   preview.setAttribute("aria-hidden", "true");
   const stageProgressRatio = completeCount / Math.max(total || 20, 1);
   preview.style.setProperty("--stage-progress", `${Math.round(stageProgressRatio * 100)}%`);
   preview.style.setProperty("--stage-progress-ratio", String(Math.min(1, Math.max(0, stageProgressRatio))));
-  preview.innerHTML = isBonusPreview
-    ? `<div class="future-mural-card"><span>${t(`map.sets.${pack.muralSet}`)}</span></div>`
-    : `<div class="stage-pip-preview" data-part="${pack.muralPart}">
-        <div class="part-preview-image">
-          <img class="part-preview-image__ghost" src="${pipCompleteStickerUrl}" alt="" />
-          <img class="part-preview-image__reveal" src="${pipCompleteStickerUrl}" alt="" />
-        </div>
-        <div class="stage-progress-meter" aria-hidden="true"><span></span></div>
-      </div>`;
+  if (isBonusPreview) {
+    preview.innerHTML = `<div class="future-mural-card"><span>${t(`map.sets.${pack.muralSet}`)}</span></div>`;
+    return preview;
+  }
+  const wrap = document.createElement("div");
+  wrap.className = "stage-pip-preview tile-stage-preview";
+  wrap.append(createStageTileMosaic(completeCount, total || 20), createStageProgressMeter());
+  preview.appendChild(wrap);
   return preview;
+}
+
+function createStageTileMosaic(completeCount, total) {
+  const columns = 5;
+  const rows = Math.ceil(total / columns);
+  const mosaic = document.createElement("div");
+  mosaic.className = "pip-tile-mosaic stage-tile-mosaic";
+  for (let index = 0; index < total; index += 1) {
+    const tile = document.createElement("span");
+    const col = index % columns;
+    const row = Math.floor(index / columns);
+    tile.className = index < completeCount ? "pip-tile revealed" : "pip-tile";
+    tile.style.backgroundImage = `url("${pipCompleteStickerUrl}")`;
+    tile.style.backgroundSize = `${columns * 100}% ${rows * 100}%`;
+    tile.style.backgroundPosition = `${columns === 1 ? 50 : (col / (columns - 1)) * 100}% ${rows === 1 ? 50 : (row / (rows - 1)) * 100}%`;
+    mosaic.appendChild(tile);
+  }
+  return mosaic;
+}
+
+function createStageProgressMeter() {
+  const meter = document.createElement("div");
+  meter.className = "stage-progress-meter";
+  meter.setAttribute("aria-hidden", "true");
+  meter.innerHTML = "<span></span>";
+  return meter;
 }
 
 function createBadgeShelf() {
