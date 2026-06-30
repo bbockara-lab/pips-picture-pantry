@@ -360,3 +360,10 @@ Last updated: 2026-06-28
 - Changed Today's pick reward copy layout so the reward token and +5 stay together on the second line.
 - Reworked stage previews and Roadmap cards to stop clipping Pip vertically; stage cards now show a progress meter, while the main Pip portrait becomes gradually clearer by overall 100-card progress.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 29 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported `jar verified`.
+
+## Progress Update - 2026-06-29 v0.1.25 File-Based Cozy BGM
+
+- Bumped visible app version to v0.1.25 and Android release version to versionCode 18 / versionName 1.0.17.
+- Added the provided original cozy background music file at src/assets/music/bgm-cozy.mp3.
+- Replaced the temporary WebAudio generated music loop with a looped, opt-in MP3 background track at conservative volume.
+- Kept music off by default and controlled through Settings, while SFX behavior remains unchanged.

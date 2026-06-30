@@ -1,29 +1,11 @@
+import cozyBgmUrl from "../assets/music/bgm-cozy.mp3";
+
 const SFX_KEY = "pips-picture-pantry:v0.1:sfx";
 const MUSIC_KEY = "pips-picture-pantry:v0.1:music";
-const MUSIC_LOOP_MS = 12000;
-
 let audioContext = null;
-let musicNodes = null;
+let musicElement = null;
 let audioUnlocked = false;
 
-const cozyLoop = [
-  { at: 0, frequency: 523.25, duration: 1.4, volume: 0.018, type: "sine" },
-  { at: 900, frequency: 659.25, duration: 1.1, volume: 0.014, type: "triangle" },
-  { at: 1800, frequency: 783.99, duration: 1.2, volume: 0.014, type: "triangle" },
-  { at: 3000, frequency: 659.25, duration: 1.2, volume: 0.012, type: "sine" },
-  { at: 4200, frequency: 587.33, duration: 1.4, volume: 0.014, type: "sine" },
-  { at: 5400, frequency: 698.46, duration: 1.1, volume: 0.012, type: "triangle" },
-  { at: 6600, frequency: 880, duration: 1.5, volume: 0.012, type: "triangle" },
-  { at: 8400, frequency: 783.99, duration: 1.2, volume: 0.011, type: "sine" },
-  { at: 9900, frequency: 659.25, duration: 1.6, volume: 0.012, type: "sine" }
-];
-
-const cozyBass = [
-  { at: 0, frequency: 130.81, duration: 3.2 },
-  { at: 3600, frequency: 146.83, duration: 2.8 },
-  { at: 6600, frequency: 174.61, duration: 2.8 },
-  { at: 9600, frequency: 146.83, duration: 2.2 }
-];
 
 export function getAudioPreferences() {
   return {
@@ -83,88 +65,22 @@ export function playStageComplete() {
 }
 
 export function startMusic() {
-  if (!getAudioPreferences().music || musicNodes) {
+  if (!getAudioPreferences().music || !audioUnlocked) {
     return;
   }
 
-  const context = getContext();
-  if (!context || !audioUnlocked) {
-    return;
-  }
-
-  context.resume?.();
-  const gain = context.createGain();
-  gain.gain.setValueAtTime(0.72, context.currentTime);
-  gain.connect(context.destination);
-  musicNodes = { gain, timers: new Set(), oscillators: new Set() };
-  scheduleMusicLoop();
+  const bgm = getMusicElement();
+  bgm.play().catch(() => {
+    // Some browsers defer playback until the next direct user gesture.
+  });
 }
 
 export function stopMusic() {
-  if (!musicNodes) {
+  if (!musicElement) {
     return;
   }
 
-  musicNodes.timers.forEach((timer) => globalThis.clearTimeout(timer));
-  musicNodes.oscillators.forEach((oscillator) => {
-    try {
-      oscillator.stop();
-    } catch {
-      // Oscillator may already be stopped by its envelope.
-    }
-  });
-  musicNodes.gain.disconnect();
-  musicNodes = null;
-}
-
-function scheduleMusicLoop() {
-  if (!musicNodes) {
-    return;
-  }
-
-  [...cozyLoop, ...cozyBass.map((note) => ({ ...note, volume: 0.01, type: "sine" }))].forEach((note) => {
-    const timer = globalThis.setTimeout(() => {
-      musicNodes?.timers.delete(timer);
-      playMusicNote(note.frequency, note.duration, note.volume, note.type);
-    }, note.at);
-    musicNodes.timers.add(timer);
-  });
-
-  const loopTimer = globalThis.setTimeout(() => {
-    musicNodes?.timers.delete(loopTimer);
-    scheduleMusicLoop();
-  }, MUSIC_LOOP_MS);
-  musicNodes.timers.add(loopTimer);
-}
-
-function playMusicNote(frequency, duration, volume, type) {
-  const context = getContext();
-  if (!context || !musicNodes) {
-    return;
-  }
-
-  const oscillator = context.createOscillator();
-  const noteGain = context.createGain();
-  const now = context.currentTime;
-  const attack = 0.08;
-  const release = Math.min(0.45, duration * 0.42);
-
-  oscillator.type = type;
-  oscillator.frequency.setValueAtTime(frequency, now);
-  noteGain.gain.setValueAtTime(0.0001, now);
-  noteGain.gain.linearRampToValueAtTime(volume, now + attack);
-  noteGain.gain.setValueAtTime(volume, now + Math.max(attack, duration - release));
-  noteGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-  oscillator.connect(noteGain);
-  noteGain.connect(musicNodes.gain);
-  musicNodes.oscillators.add(oscillator);
-  oscillator.onended = () => {
-    musicNodes?.oscillators.delete(oscillator);
-    noteGain.disconnect();
-  };
-  oscillator.start(now);
-  oscillator.stop(now + duration + 0.02);
+  musicElement.pause();
 }
 
 function playTone(frequency, duration, volume, type) {
@@ -195,6 +111,16 @@ function getContext() {
   }
   audioContext ||= new AudioContext();
   return audioContext;
+}
+
+function getMusicElement() {
+  if (!musicElement) {
+    musicElement = new Audio(cozyBgmUrl);
+    musicElement.loop = true;
+    musicElement.preload = "auto";
+    musicElement.volume = 0.28;
+  }
+  return musicElement;
 }
 
 function readBool(key, fallback) {

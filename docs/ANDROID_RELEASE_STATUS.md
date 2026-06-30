@@ -286,3 +286,9 @@ Last updated: 2026-06-28
 - Signed AAB size: 3,757,997 bytes.
 - jarsigner verification: jar verified.
 - Play Console next upload should create internal test release 17 (1.0.16), because versionCode 1 through 16 are already used or prepared by earlier internal test builds.
+
+## Verification Update - 2026-06-29 v0.1.25 File-Based Cozy BGM
+
+- Release target: v0.1.25 / Android versionCode 18 / versionName 1.0.17.
+- Added bundled BGM asset: src/assets/music/bgm-cozy.mp3.
+- Replaced generated WebAudio music with file-based loop playback through the existing Settings music toggle.
