@@ -298,3 +298,8 @@ Last updated: 2026-06-28
 - Release target: v0.1.26 / Android versionCode 19 / versionName 1.0.18.
 - Roadmap reveal now uses stage-part masking instead of overlapping full Pip images.
 - The five free stages now contribute distinct visible areas to the Pip portrait.
+
+## Verification Update - 2026-06-30 v0.1.27 Roadmap / Stage Preview Split
+
+- Release target: v0.1.27 / Android versionCode 20 / versionName 1.0.19.
+- Main Roadmap uses the full Pip portrait reveal; stage cards use focused part previews only.

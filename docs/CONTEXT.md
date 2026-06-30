@@ -374,3 +374,10 @@ Last updated: 2026-06-28
 - Reworked the Roadmap goal from overlapping full-image opacity to stage-specific Pip part reveals.
 - Mapped the five free stages to clearer Pip portrait parts: chef hat, scarf, face, body, and picture card.
 - Removed the misleading large progress stripe from Roadmap cards; progress remains in compact meters so the cards do not look like sliced images.
+
+## Progress Update - 2026-06-30 v0.1.27 Roadmap / Stage Preview Split
+
+- Bumped visible app version to v0.1.27 and Android release version to versionCode 20 / versionName 1.0.19.
+- Clarified the visual model: the main Roadmap image is the full Pip portrait becoming clearer across 100 completed cards.
+- Changed stage previews and Roadmap stage cards to show only the relevant Pip part for that stage, with compact progress meters.
+- Removed broad left-to-right fill backgrounds from stage art areas so stage cards no longer look like clipped full portraits.

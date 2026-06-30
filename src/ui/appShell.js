@@ -22,7 +22,7 @@ import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
 
-export const APP_VERSION = "v0.1.26";
+export const APP_VERSION = "v0.1.27";
 const DAILY_BONUS = 5;
 
 export function renderApp(root) {
@@ -447,11 +447,16 @@ function createStagePreview(pack, completeCount, total) {
   preview.className = isBonusPreview ? "stage-preview paid-preview" : "stage-preview";
   preview.dataset.part = pack.muralPart;
   preview.setAttribute("aria-hidden", "true");
-  preview.style.setProperty("--stage-progress", `${Math.round((completeCount / Math.max(total || 20, 1)) * 100)}%`);
+  const stageProgressRatio = completeCount / Math.max(total || 20, 1);
+  preview.style.setProperty("--stage-progress", `${Math.round(stageProgressRatio * 100)}%`);
+  preview.style.setProperty("--stage-progress-ratio", String(Math.min(1, Math.max(0, stageProgressRatio))));
   preview.innerHTML = isBonusPreview
     ? `<div class="future-mural-card"><span>${t(`map.sets.${pack.muralSet}`)}</span></div>`
-    : `<div class="stage-pip-preview">
-        <img class="stage-pip-preview__ghost" src="${pipCompleteStickerUrl}" alt="" />
+    : `<div class="stage-pip-preview" data-part="${pack.muralPart}">
+        <div class="part-preview-image">
+          <img class="part-preview-image__ghost" src="${pipCompleteStickerUrl}" alt="" />
+          <img class="part-preview-image__reveal" src="${pipCompleteStickerUrl}" alt="" />
+        </div>
         <div class="stage-progress-meter" aria-hidden="true"><span></span></div>
       </div>`;
   return preview;

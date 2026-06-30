@@ -2481,3 +2481,29 @@ body {
   object-position: 72% 50%;
   clip-path: polygon(58% 24%, 100% 24%, 100% 90%, 56% 90%);
 }
+
+
+/* v0.1.27 clearer full-roadmap and stage-part previews */
+.full-pip-goal .roadmap-goal__ghost { opacity: 0.14; filter: grayscale(1) blur(0.25px); }
+.full-pip-goal .roadmap-goal__full-reveal { opacity: calc(0.04 + (var(--goal-progress-ratio) * 0.9)); filter: saturate(calc(0.62 + (var(--goal-progress-ratio) * 0.5))); }
+.stage-preview { background: radial-gradient(circle at 50% 50%, rgba(255, 253, 246, 0.94), rgba(245, 223, 174, 0.62)); }
+.stage-pip-preview, .roadmap-piece { overflow: hidden; }
+.stage-pip-preview img, .roadmap-piece img { position: static; width: 100%; max-width: none; margin: 0; transform: none; }
+.part-preview-image { position: relative; width: 138px; height: 76px; margin: 0 auto; overflow: hidden; }
+.roadmap-piece .part-preview-image { width: 66px; height: 54px; }
+.part-preview-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.part-preview-image__ghost { opacity: 0.18; filter: grayscale(1); }
+.part-preview-image__reveal { opacity: calc(var(--stage-progress, var(--roadmap-progress)) / 100); }
+.stage-pip-preview[data-part="pip-hat"] .part-preview-image, .roadmap-piece[data-part="pip-hat"] .part-preview-image { border-radius: 18px 18px 10px 10px; }
+.stage-pip-preview[data-part="pip-hat"] .part-preview-image img, .roadmap-piece[data-part="pip-hat"] .part-preview-image img { object-position: 50% 0%; }
+.stage-pip-preview[data-part="pip-face"] .part-preview-image, .roadmap-piece[data-part="pip-face"] .part-preview-image { border-radius: 44% 44% 38% 38%; }
+.stage-pip-preview[data-part="pip-face"] .part-preview-image img, .roadmap-piece[data-part="pip-face"] .part-preview-image img { object-position: 50% 25%; }
+.stage-pip-preview[data-part="pip-scarf"] .part-preview-image, .roadmap-piece[data-part="pip-scarf"] .part-preview-image { border-radius: 20px 20px 36px 36px; }
+.stage-pip-preview[data-part="pip-scarf"] .part-preview-image img, .roadmap-piece[data-part="pip-scarf"] .part-preview-image img { object-position: 50% 54%; }
+.stage-pip-preview[data-part="pip-body"] .part-preview-image, .roadmap-piece[data-part="pip-body"] .part-preview-image { border-radius: 38% 38% 46% 46%; }
+.stage-pip-preview[data-part="pip-body"] .part-preview-image img, .roadmap-piece[data-part="pip-body"] .part-preview-image img { object-position: 50% 78%; }
+.stage-pip-preview[data-part="pip-card"] .part-preview-image, .roadmap-piece[data-part="pip-card"] .part-preview-image { width: 96px; border-radius: 8px; }
+.stage-pip-preview[data-part="pip-card"] .part-preview-image img, .roadmap-piece[data-part="pip-card"] .part-preview-image img { object-position: 82% 48%; }
+
+.part-preview-image img { clip-path: none !important; }
+.part-preview-image__reveal { opacity: var(--stage-progress-ratio, var(--roadmap-progress-ratio, 0)); }
