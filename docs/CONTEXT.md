@@ -403,3 +403,9 @@ Last updated: 2026-06-28
 - Replaced the nearly invisible Village Pantry stage badge art with the Story Friends image sheet so the fifth free stage has a visible target picture.
 - Slightly increased unrevealed tile opacity for stage previews and locked badge cards so future badge art reads as an intentional preview instead of an empty panel.
 - Verification after this slice: JS syntax checks passed, unit tests passed, production build passed, mobile visual QA passed, and signed AAB was rebuilt with jarsigner verification.
+
+## Progress Update - 2026-06-30 v0.1.31 Launcher Icon Repair
+
+- Bumped visible app version to v0.1.31 and Android release version to versionCode 24 / versionName 1.0.23.
+- Regenerated Android launcher icon PNG resources from the Play Console 512px Pip app icon so installed tester builds should show the intended launcher icon instead of a blank/default icon.
+- This is a packaging-only follow-up intended for the closed test track after the first Alpha review/install checks.\r\n- Verification after this slice: appShell syntax check passed, production web build passed, and signed AAB was rebuilt as versionCode 24 / versionName 1.0.23.

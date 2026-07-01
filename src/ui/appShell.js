@@ -22,7 +22,7 @@ import { renderPantryMapView } from "./mapView.js";
 import { renderPuzzleView } from "./puzzleView.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
 
-export const APP_VERSION = "v0.1.30";
+export const APP_VERSION = "v0.1.31";
 const DAILY_BONUS = 5;
 
 export function renderApp(root) {

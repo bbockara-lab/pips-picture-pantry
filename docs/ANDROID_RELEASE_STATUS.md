@@ -1,4 +1,4 @@
-﻿# Android Release Status
+# Android Release Status
 
 Last updated: 2026-06-28
 
@@ -322,3 +322,9 @@ Last updated: 2026-06-28
 - Village Pantry stage art is now visible in stage previews and badge cards.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 29 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported `jar verified`.
 - Signed AAB size: 10,201,350 bytes.
+
+## Verification Update - 2026-06-30 v0.1.31 Launcher Icon Repair
+
+- Release target: v0.1.31 / Android versionCode 24 / versionName 1.0.23.
+- Regenerated launcher icon PNG resources from store-assets/play-console/app-icon-512.png for mdpi through xxxhdpi, including adaptive icon foreground PNGs.
+- Verification after this slice: node --check passed on appShell; npm run build passed; signed AAB rebuilt. Full jarsigner verification was not available because jarsigner is not installed on PATH or the detected local Java folders. Play Console upload validation remains the final signature check.\r\n- Signed AAB size: 10,814,753 bytes.
