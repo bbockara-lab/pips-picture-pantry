@@ -1229,6 +1229,22 @@ export const ko = {
     "village-pantry-little-linen-basket-102": {
       title: "\uC791\uC740 \uB9B0\uB128 \uBC14\uAD6C\uB2C8",
       imageName: "\uC791\uC740 \uB9B0\uB128 \uBC14\uAD6C\uB2C8"
+    },
+    "bakery-window-caramel-fig-danish-102": {
+      title: "\uCE74\uB77C\uBA5C \uBB34\uD654\uACFC \uB370\uB2C8\uC2DC",
+      imageName: "\uCE74\uB77C\uBA5C \uBB34\uD654\uACFC \uB370\uB2C8\uC2DC"
+    },
+    "bakery-window-blueberry-cream-pinwheel-103": {
+      title: "\uBE14\uB8E8\uBCA0\uB9AC \uD06C\uB9BC \uD540\uD720",
+      imageName: "\uBE14\uB8E8\uBCA0\uB9AC \uD06C\uB9BC \uD540\uD720"
+    },
+    "village-pantry-honey-label-crock-103": {
+      title: "\uD5C8\uB2C8 \uB77C\uBCA8 \uD06C\uB85D",
+      imageName: "\uD5C8\uB2C8 \uB77C\uBCA8 \uD06C\uB85D"
+    },
+    "village-pantry-daisy-checked-teapot-104": {
+      title: "\uB370\uC774\uC9C0 \uCCB4\uD06C \uD2F0\uD31F",
+      imageName: "\uB370\uC774\uC9C0 \uCCB4\uD06C \uD2F0\uD31F"
     }
   }
 };

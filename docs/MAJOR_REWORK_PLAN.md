@@ -1038,3 +1038,7 @@ Immediate implementation decisions:
 ### v0.1.234 Follow-up - Four Puzzle Quality Batch
 - Continued the quality-first content ramp and pushed Bakery Window past 100 authored puzzles while Village Pantry keeps expanding its 10x10 object vocabulary.
 - The next content passes can keep this two-pack cadence until a new themed pack receives approved art direction and QA thresholds.
+
+### v0.1.235 Follow-up - Four Puzzle Quality Batch
+- Added two Bakery Window 12x12 puzzle briefs and two Village Pantry 10x10 puzzle briefs with explicit silhouette/color/tags metadata.
+- Kept the incremental puzzle production lane focused on readable icons first, so future art generation can use the puzzle metadata as a compact creative brief.

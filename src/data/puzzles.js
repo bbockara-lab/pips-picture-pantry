@@ -6438,6 +6438,134 @@ export const puzzles = [
       "0111111110",
       "1111111111"
     ]
+  },
+  {
+    "id": "bakery-window-caramel-fig-danish-102",
+    "title": "Caramel Fig Danish",
+    "titleKey": "puzzles.bakery-window-caramel-fig-danish-102",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "round danish with fig wedges, caramel center, and a braided pastry rim",
+      "colorMood": "caramel amber, fig purple, buttery woven crust",
+      "tags": [
+        "fig danish",
+        "caramel center",
+        "braided rim"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "111011111111",
+      "111101111111",
+      "111111001111",
+      "111111111111",
+      "111100111111",
+      "111111011111",
+      "011111111110",
+      "001111111100",
+      "111111111111"
+    ]
+  },
+  {
+    "id": "bakery-window-blueberry-cream-pinwheel-103",
+    "title": "Blueberry Cream Pinwheel",
+    "titleKey": "puzzles.bakery-window-blueberry-cream-pinwheel-103",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "pinwheel pastry with four folded corners, cream middle, and blueberry dots",
+      "colorMood": "deep blueberry blue, vanilla cream, toasted pastry gold",
+      "tags": [
+        "pinwheel pastry",
+        "blueberry dots",
+        "folded corners"
+      ]
+    },
+    "solution": [
+      "111111111111",
+      "011111111110",
+      "111011110111",
+      "111101101111",
+      "111111111111",
+      "110111111011",
+      "111111111111",
+      "111101101111",
+      "111011110111",
+      "011111111110",
+      "001111111100",
+      "111111111111"
+    ]
+  },
+  {
+    "id": "village-pantry-honey-label-crock-103",
+    "title": "Honey Label Crock",
+    "titleKey": "puzzles.village-pantry-honey-label-crock-103",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "small ceramic crock with honey label, lid knob, and a rounded belly",
+      "colorMood": "warm cream ceramic, honey gold label, brown lid shadow",
+      "tags": [
+        "honey crock",
+        "ceramic jar",
+        "label"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1110011111",
+      "1111110111",
+      "1111111111",
+      "1101101111",
+      "1111111111",
+      "0111111110",
+      "1111111111"
+    ]
+  },
+  {
+    "id": "village-pantry-daisy-checked-teapot-104",
+    "title": "Daisy Checked Teapot",
+    "titleKey": "puzzles.village-pantry-daisy-checked-teapot-104",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "cozy teapot with rounded body, side handle, spout, and daisy check pattern",
+      "colorMood": "cream teapot, yellow daisy marks, soft sage checked accents",
+      "tags": [
+        "teapot",
+        "daisy pattern",
+        "checked accent"
+      ]
+    },
+    "solution": [
+      "0111111110",
+      "1111111111",
+      "1110111011",
+      "1111111111",
+      "1101111111",
+      "1111111011",
+      "1110111111",
+      "1111111111",
+      "0111111110",
+      "1111111111"
+    ]
   }
 ];
 

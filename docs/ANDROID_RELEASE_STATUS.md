@@ -1224,3 +1224,8 @@ Last updated: 2026-06-28
 - Added Village Pantry 10x10 Green Label Tea Tin and Little Linen Basket.
 - Raised guarded catalog thresholds to 263 free puzzles, 173 large-board free puzzles, 81 Bakery Window 12x12 boards, 88 Village Pantry 10x10 boards, and 125 readable large-board briefs.
 - Verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.
+
+## v0.1.235 - Four Puzzle Quality Batch
+- Added four readable free puzzles: Caramel Fig Danish, Blueberry Cream Pinwheel, Honey Label Crock, and Daisy Checked Teapot.
+- Raised guarded catalog thresholds to 267 free puzzles, 177 large-board free puzzles, 83 Bakery Window 12x12 boards, 90 Village Pantry 10x10 boards, and 129 readable large-board briefs.
+- Verification passed: syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

@@ -1231,6 +1231,22 @@ export const en = {
     "village-pantry-little-linen-basket-102": {
       title: "Little Linen Basket",
       imageName: "Little Linen Basket"
+    },
+    "bakery-window-caramel-fig-danish-102": {
+      title: "Caramel Fig Danish",
+      imageName: "Caramel Fig Danish"
+    },
+    "bakery-window-blueberry-cream-pinwheel-103": {
+      title: "Blueberry Cream Pinwheel",
+      imageName: "Blueberry Cream Pinwheel"
+    },
+    "village-pantry-honey-label-crock-103": {
+      title: "Honey Label Crock",
+      imageName: "Honey Label Crock"
+    },
+    "village-pantry-daisy-checked-teapot-104": {
+      title: "Daisy Checked Teapot",
+      imageName: "Daisy Checked Teapot"
     }
   }
 };
