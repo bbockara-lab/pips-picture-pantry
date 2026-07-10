@@ -4389,6 +4389,134 @@ export const puzzles = [
       "1111111111",
       "0011111100"
     ]
+  },
+  {
+    "id": "bakery-window-orange-brioche-knot-70",
+    "title": "Orange Brioche Knot",
+    "titleKey": "puzzles.bakery-window-orange-brioche-knot-70",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "twisted brioche knot with a clear crossing center and orange peel curl on top",
+      "colorMood": "buttery brioche gold, marmalade orange glaze, soft cocoa twist shadows",
+      "tags": [
+        "orange-brioche",
+        "twisted-pastry",
+        "bakery-window"
+      ]
+    },
+    "solution": [
+      "000111111000",
+      "001111111100",
+      "011110011110",
+      "111100001111",
+      "111001100111",
+      "110011110011",
+      "110011110011",
+      "111001100111",
+      "111100001111",
+      "011110011110",
+      "001111111100",
+      "000111111000"
+    ]
+  },
+  {
+    "id": "bakery-window-cream-horn-71",
+    "title": "Cream Horn",
+    "titleKey": "puzzles.bakery-window-cream-horn-71",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "diagonal pastry horn with a wide cream-filled opening and tapered flaky tip",
+      "colorMood": "golden pastry stripes, vanilla cream opening, toasted brown edges",
+      "tags": [
+        "cream-horn",
+        "filled-pastry",
+        "bakery-window"
+      ]
+    },
+    "solution": [
+      "111100000000",
+      "111110000000",
+      "011111000000",
+      "001111100000",
+      "000111110000",
+      "000011111000",
+      "000001111100",
+      "000000111110",
+      "000000011111",
+      "000000001111",
+      "000000011110",
+      "000000111100"
+    ]
+  },
+  {
+    "id": "village-pantry-linen-bread-bag-71",
+    "title": "Linen Bread Bag",
+    "titleKey": "puzzles.village-pantry-linen-bread-bag-71",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "soft drawstring bread bag with a rounded loaf bulge and two tied cord ears",
+      "colorMood": "cream linen bag, oat loaf shadow, sage drawstring stitches",
+      "tags": [
+        "linen-bread-bag",
+        "pantry-storage",
+        "soft-textile"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1110110111",
+      "1111111111",
+      "1101111011",
+      "1101111011",
+      "1111111111",
+      "0111111110",
+      "0011111100",
+      "0011001100"
+    ]
+  },
+  {
+    "id": "village-pantry-porcelain-butter-dish-72",
+    "title": "Porcelain Butter Dish",
+    "titleKey": "puzzles.village-pantry-porcelain-butter-dish-72",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "covered butter dish with a rounded lid knob, tray base, and clear side handles",
+      "colorMood": "warm white porcelain, butter yellow center, soft teal rim accents",
+      "tags": [
+        "butter-dish",
+        "porcelain-tableware",
+        "pantry-counter"
+      ]
+    },
+    "solution": [
+      "0001111000",
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1101111011",
+      "1101111011",
+      "1111111111",
+      "0111111110",
+      "1111111111",
+      "1111111111"
+    ]
   }
 ];
 

@@ -954,3 +954,9 @@ Immediate implementation decisions:
 ### v0.1.214 Follow-up - Four Puzzle Quality Batch
 - Reached the 199-puzzle threshold with guarded readable large-board expansion.
 - Next small content batch should intentionally cross 200 and then pause for a catalog/UX polish pass before another large content run.
+
+
+### v0.1.215 Follow-up - 200+ Puzzle Milestone Batch
+- Crossed 200 total free puzzles with a balanced 4-puzzle batch: two Bakery Window 12x12 boards and two Village Pantry 10x10 boards.
+- Continued the high-quality puzzle rule: recognizable silhouette first, future color mood documented, tags present, no blank edge rows, localized catalog names.
+- Next after QA: pause briefly for catalog UX / first-impression polish before continuing another content burst.

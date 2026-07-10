@@ -1814,3 +1814,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added four readable, edge-filled large-board puzzles: Maple Palmier, Fig Tart Square, Copper Funnel, and Embroidered Napkin.
 - Brought the catalog to 199 free puzzles while keeping recent-title uniqueness, readable art briefs, and mobile catalog thresholds aligned.
 - Version bumped to v0.1.214; full test/build/mobile/catalog QA passed.
+
+
+### v0.1.215 - 200+ Puzzle Milestone Batch
+- Added four readable, edge-filled large-board puzzles: Orange Brioche Knot, Cream Horn, Linen Bread Bag, and Porcelain Butter Dish.
+- Crossed the 200-puzzle milestone with 203 free puzzles while keeping Bakery 12x12, Village 10x10, readable art briefs, recent-title uniqueness, and mobile catalog thresholds aligned.
+- Version bumped to v0.1.215; full test/build/mobile/catalog QA passed.

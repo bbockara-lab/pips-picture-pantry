@@ -968,6 +968,22 @@ export const ko = {
     "village-pantry-embroidered-napkin-70": {
       title: "자수 냅킨",
       imageName: "자수 냅킨"
+    },
+    "bakery-window-orange-brioche-knot-70": {
+      title: "오렌지 브리오슈 매듭",
+      imageName: "오렌지 브리오슈 매듭"
+    },
+    "bakery-window-cream-horn-71": {
+      title: "크림 혼",
+      imageName: "크림 혼"
+    },
+    "village-pantry-linen-bread-bag-71": {
+      title: "린넨 빵 주머니",
+      imageName: "린넨 빵 주머니"
+    },
+    "village-pantry-porcelain-butter-dish-72": {
+      title: "도자기 버터 접시",
+      imageName: "도자기 버터 접시"
     }
   }
 };

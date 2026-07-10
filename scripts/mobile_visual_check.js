@@ -607,13 +607,13 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
 
   await openFloatingView(page, "puzzle");
   const largeBoardChipCount = await page.locator('.puzzle-chip[data-size="12"]').count();
-  if (largeBoardChipCount < 49) {
-    failures.push("[" + viewportName + "] Bakery Window should expose at least 49 12x12 catalog chips, saw " + largeBoardChipCount);
+  if (largeBoardChipCount < 51) {
+    failures.push("[" + viewportName + "] Bakery Window should expose at least 51 12x12 catalog chips, saw " + largeBoardChipCount);
   }
 
   const villageLargeBoardChipCount = await page.locator('.pack-block[data-pack-id="village-pantry"] .puzzle-chip[data-size="10"]').count();
-  if (villageLargeBoardChipCount < 56) {
-    failures.push("[" + viewportName + "] Village Pantry should expose at least 56 10x10 catalog chips, saw " + villageLargeBoardChipCount);
+  if (villageLargeBoardChipCount < 58) {
+    failures.push("[" + viewportName + "] Village Pantry should expose at least 58 10x10 catalog chips, saw " + villageLargeBoardChipCount);
   }
 
   const target = page.locator(".puzzle-chip", { hasText: /Bakery Window Glow/ }).first();

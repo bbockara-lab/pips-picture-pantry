@@ -1101,3 +1101,9 @@ Last updated: 2026-06-28
 - Added four readable large-board puzzles: Maple Palmier, Fig Tart Square, Copper Funnel, and Embroidered Napkin.
 - Raised guarded catalog thresholds to 199 free puzzles, 109 large-board free puzzles, 49 Bakery Window 12x12 boards, 56 Village Pantry 10x10 boards, and 61 readable large-board briefs.
 - Verified syntax checks, catalog QA, targeted puzzle/i18n/report tests, full test suite, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA at 360x740, 390x844, and 430x932.
+
+
+## v0.1.215 - 200+ Puzzle Milestone Batch
+- Added four readable large-board puzzles: Bakery Window 12x12 Orange Brioche Knot and Cream Horn; Village Pantry 10x10 Linen Bread Bag and Porcelain Butter Dish.
+- Raised guarded catalog thresholds to 203 free puzzles, 113 large-board free puzzles, 51 Bakery Window 12x12 boards, 58 Village Pantry 10x10 boards, and 65 readable large-board briefs.
+- Verified syntax checks, catalog QA, targeted puzzle/i18n/report tests, full test suite, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA at 360x740, 390x844, and 430x932.

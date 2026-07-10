@@ -970,6 +970,22 @@ export const en = {
     "village-pantry-embroidered-napkin-70": {
       title: "Embroidered Napkin",
       imageName: "Embroidered Napkin"
+    },
+    "bakery-window-orange-brioche-knot-70": {
+      title: "Orange Brioche Knot",
+      imageName: "Orange Brioche Knot"
+    },
+    "bakery-window-cream-horn-71": {
+      title: "Cream Horn",
+      imageName: "Cream Horn"
+    },
+    "village-pantry-linen-bread-bag-71": {
+      title: "Linen Bread Bag",
+      imageName: "Linen Bread Bag"
+    },
+    "village-pantry-porcelain-butter-dish-72": {
+      title: "Porcelain Butter Dish",
+      imageName: "Porcelain Butter Dish"
     }
   }
 };
