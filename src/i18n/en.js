@@ -991,6 +991,22 @@ export const en = {
     "village-pantry-porcelain-butter-dish-72": {
       title: "Porcelain Butter Dish",
       imageName: "Porcelain Butter Dish"
+    },
+    "bakery-window-honey-cruller-ring-72": {
+      title: "Honey Cruller Ring",
+      imageName: "Honey Cruller Ring"
+    },
+    "bakery-window-raspberry-linzer-frame-73": {
+      title: "Raspberry Linzer Frame",
+      imageName: "Raspberry Linzer Frame"
+    },
+    "village-pantry-ceramic-measuring-cup-73": {
+      title: "Ceramic Measuring Cup",
+      imageName: "Ceramic Measuring Cup"
+    },
+    "village-pantry-herb-drying-rack-74": {
+      title: "Herb Drying Rack",
+      imageName: "Herb Drying Rack"
     }
   }
 };

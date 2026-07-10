@@ -4517,7 +4517,136 @@ export const puzzles = [
       "1111111111",
       "1111111111"
     ]
+  },
+  {
+    "id": "bakery-window-honey-cruller-ring-72",
+    "title": "Honey Cruller Ring",
+    "titleKey": "puzzles.bakery-window-honey-cruller-ring-72",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "round cruller ring with a clear center hole and ridged honey-glazed edge",
+      "colorMood": "deep honey glaze, buttery ridges, warm amber shadow",
+      "tags": [
+        "honey-cruller",
+        "ring-pastry",
+        "bakery-window"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111100001111",
+      "111000000111",
+      "110001100011",
+      "110011110011",
+      "110011110011",
+      "110001100011",
+      "111000000111",
+      "111100001111",
+      "011111111110",
+      "001111111100"
+    ]
+  },
+  {
+    "id": "bakery-window-raspberry-linzer-frame-73",
+    "title": "Raspberry Linzer Frame",
+    "titleKey": "puzzles.bakery-window-raspberry-linzer-frame-73",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "square linzer cookie frame with a centered raspberry window and thick sugar border",
+      "colorMood": "powdered sugar cream, raspberry red center, toasted cookie rim",
+      "tags": [
+        "linzer-cookie",
+        "jam-window",
+        "bakery-window"
+      ]
+    },
+    "solution": [
+      "111111111111",
+      "111111111111",
+      "110000000011",
+      "110111111011",
+      "110110011011",
+      "110100001011",
+      "110100001011",
+      "110110011011",
+      "110111111011",
+      "110000000011",
+      "111111111111",
+      "111111111111"
+    ]
+  },
+  {
+    "id": "village-pantry-ceramic-measuring-cup-73",
+    "title": "Ceramic Measuring Cup",
+    "titleKey": "puzzles.village-pantry-ceramic-measuring-cup-73",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "stout ceramic measuring cup with a squared handle and small pour lip",
+      "colorMood": "warm white ceramic, teal measurement marks, soft cocoa handle shadow",
+      "tags": [
+        "measuring-cup",
+        "ceramic-tool",
+        "pantry-counter"
+      ]
+    },
+    "solution": [
+      "0011111000",
+      "0111111100",
+      "1111111110",
+      "1110011111",
+      "1111111111",
+      "1111111111",
+      "0111111110",
+      "0011111100",
+      "0001111000",
+      "0110000110"
+    ]
+  },
+  {
+    "id": "village-pantry-herb-drying-rack-74",
+    "title": "Herb Drying Rack",
+    "titleKey": "puzzles.village-pantry-herb-drying-rack-74",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "small wooden rack with three hanging herb bundles and a sturdy top rail",
+      "colorMood": "light wood rail, sage herb bundles, cream wall shadow",
+      "tags": [
+        "herb-rack",
+        "hanging-herbs",
+        "village-pantry"
+      ]
+    },
+    "solution": [
+      "1111111111",
+      "1001001001",
+      "1001001001",
+      "1011011011",
+      "1011011011",
+      "1011011011",
+      "1001001001",
+      "1001001001",
+      "1111111111",
+      "0111111110"
+    ]
   }
+
 ];
 
 export function getPuzzleById(id) {

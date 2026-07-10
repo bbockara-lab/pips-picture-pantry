@@ -989,6 +989,22 @@ export const ko = {
     "village-pantry-porcelain-butter-dish-72": {
       title: "도자기 버터 접시",
       imageName: "도자기 버터 접시"
+    },
+    "bakery-window-honey-cruller-ring-72": {
+      title: "\uAFC0 \uD06C\uB7EC\uB7EC \uB9C1",
+      imageName: "\uAFC0 \uD06C\uB7EC\uB7EC \uB9C1"
+    },
+    "bakery-window-raspberry-linzer-frame-73": {
+      title: "\uB77C\uC988\uBCA0\uB9AC \uB9B0\uC800 \uD504\uB808\uC784",
+      imageName: "\uB77C\uC988\uBCA0\uB9AC \uB9B0\uC800 \uD504\uB808\uC784"
+    },
+    "village-pantry-ceramic-measuring-cup-73": {
+      title: "\uB3C4\uC790\uAE30 \uACC4\uB7C9\uCEF5",
+      imageName: "\uB3C4\uC790\uAE30 \uACC4\uB7C9\uCEF5"
+    },
+    "village-pantry-herb-drying-rack-74": {
+      title: "\uD5C8\uBE0C \uAC74\uC870 \uB799",
+      imageName: "\uD5C8\uBE0C \uAC74\uC870 \uB799"
     }
   }
 };

@@ -1832,3 +1832,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added compact catalog summary chips to puzzle pack headers so large stages show progress, total pictures, large-board count, and maximum board size at a glance.
 - Added mobile QA coverage for Bakery Window and Village Pantry summary chips so the 200+ puzzle catalog remains visibly scannable.
 - Version bumped to v0.1.217; syntax checks, targeted i18n test, hygiene/assets QA, full test suite, production build, and mobile visual QA passed.
+
+
+### v0.1.218 - Four Puzzle Quality Batch
+- Added four readable large-board puzzles: Honey Cruller Ring, Raspberry Linzer Frame, Ceramic Measuring Cup, and Herb Drying Rack.
+- Resumed content growth after the catalog summary polish while keeping Bakery 12x12, Village 10x10, translated metadata, readable art briefs, and mobile catalog thresholds aligned.
+- Version bumped to v0.1.218; syntax checks, catalog QA, targeted puzzle/catalog/batch/i18n tests, full test suite, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA passed.

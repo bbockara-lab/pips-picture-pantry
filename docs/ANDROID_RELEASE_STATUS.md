@@ -1119,3 +1119,10 @@ Last updated: 2026-06-28
 - Added puzzle hub pack summary chips for catalog scale: completion, total picture count, large-board count, and max board size.
 - Added mobile visual QA assertions for Bakery Window and Village Pantry catalog summaries.
 - Verified syntax checks, targeted i18n test, hygiene/assets QA, full test suite, production build, and mobile visual QA at 360x740, 390x844, and 430x932.
+
+
+## v0.1.218 - Four Puzzle Quality Batch
+- Added Bakery Window 12x12 Honey Cruller Ring and Raspberry Linzer Frame.
+- Added Village Pantry 10x10 Ceramic Measuring Cup and Herb Drying Rack.
+- Raised guarded catalog thresholds to 207 free puzzles, 117 large-board free puzzles, 53 Bakery Window 12x12 boards, 60 Village Pantry 10x10 boards, and 69 readable large-board briefs.
+- Verified syntax checks, catalog QA, targeted puzzle/catalog/batch/i18n tests, full test suite, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA at 360x740, 390x844, and 430x932.

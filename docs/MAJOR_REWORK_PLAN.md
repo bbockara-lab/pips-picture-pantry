@@ -971,3 +971,8 @@ Immediate implementation decisions:
 ### v0.1.217 Follow-up - Catalog Summary Polish
 - After the 200+ puzzle milestone and opening-screen polish, improved puzzle hub scanability so large stages communicate their size before another content burst.
 - Next content pass can resume puzzle growth, but keep summary chips and catalog QA thresholds aligned as counts climb.
+
+
+### v0.1.218 Follow-up - Four Puzzle Quality Batch
+- Resumed curated puzzle growth after the 200+ catalog UX polish, adding two Bakery 12x12 and two Village 10x10 boards.
+- Continue alternating content growth with short UX/QA polish passes so the large catalog remains both deep and easy to browse.
