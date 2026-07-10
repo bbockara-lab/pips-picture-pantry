@@ -1007,3 +1007,7 @@ Immediate implementation decisions:
 
 ### v0.1.225 Follow-up - Four Puzzle Quality Batch
 - Added one more balanced content batch, keeping the growing puzzle catalog tied to translated metadata, readability briefs, and mobile catalog guards.
+
+### v0.1.226 Follow-up - Four Puzzle Quality Batch
+- Continued the authored puzzle expansion with another balanced Bakery/Village batch.
+- Preserved the launch-content direction: many puzzles, but each one carries translated metadata and an art-readability brief for later visual production.

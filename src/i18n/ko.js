@@ -1085,6 +1085,22 @@ export const ko = {
     "village-pantry-pressed-flower-frame-84": {
       title: "\uB204\uB978 \uAF43 \uC561\uC790",
       imageName: "\uB204\uB978 \uAF43 \uC561\uC790"
+    },
+    "bakery-window-candied-orange-scone-84": {
+      title: "\uB2F9\uC808\uC784 \uC624\uB80C\uC9C0 \uC2A4\uCF58",
+      imageName: "\uB2F9\uC808\uC784 \uC624\uB80C\uC9C0 \uC2A4\uCF58"
+    },
+    "bakery-window-rose-cream-eclair-85": {
+      title: "\uC7A5\uBBF8 \uD06C\uB9BC \uC5D0\uD074\uB808\uC5B4",
+      imageName: "\uC7A5\uBBF8 \uD06C\uB9BC \uC5D0\uD074\uB808\uC5B4"
+    },
+    "village-pantry-striped-pickle-jar-85": {
+      title: "\uC904\uBB34\uB2AC \uD53C\uD074 \uBCD1",
+      imageName: "\uC904\uBB34\uB2AC \uD53C\uD074 \uBCD1"
+    },
+    "village-pantry-little-recipe-box-86": {
+      title: "\uC791\uC740 \uB808\uC2DC\uD53C \uBC15\uC2A4",
+      imageName: "\uC791\uC740 \uB808\uC2DC\uD53C \uBC15\uC2A4"
     }
   }
 };

@@ -5286,6 +5286,134 @@ export const puzzles = [
       "1111111111",
       "0111111110"
     ]
+  },
+  {
+    "id": "bakery-window-candied-orange-scone-84",
+    "title": "Candied Orange Scone",
+    "titleKey": "puzzles.bakery-window-candied-orange-scone-84",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "triangular scone with a thick icing stripe and two candied orange rounds on top",
+      "colorMood": "warm biscuit gold, white glaze stripe, bright orange candy slices",
+      "tags": [
+        "scone",
+        "orange slice",
+        "icing"
+      ]
+    },
+    "solution": [
+      "000111111000",
+      "001111111100",
+      "011111111110",
+      "111100111111",
+      "111111001111",
+      "111111111111",
+      "011011111110",
+      "001111011100",
+      "011111111110",
+      "111111111111",
+      "011111111110",
+      "001111111100"
+    ]
+  },
+  {
+    "id": "bakery-window-rose-cream-eclair-85",
+    "title": "Rose Cream Eclair",
+    "titleKey": "puzzles.bakery-window-rose-cream-eclair-85",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "long eclair with piped cream dots and a small rose petal accent near the center",
+      "colorMood": "choux pastry tan, pale pink rose cream, glossy sugar highlights",
+      "tags": [
+        "eclair",
+        "rose cream",
+        "piped dots"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "110110110111",
+      "111111111111",
+      "111011111111",
+      "111111011111",
+      "111111111111",
+      "110110110111",
+      "111111111111",
+      "011111111110",
+      "001111111100"
+    ]
+  },
+  {
+    "id": "village-pantry-striped-pickle-jar-85",
+    "title": "Striped Pickle Jar",
+    "titleKey": "puzzles.village-pantry-striped-pickle-jar-85",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "squat pickle jar with striped lid, two cucumber spears, and a rounded label",
+      "colorMood": "green pickles, cream glass shine, red striped lid",
+      "tags": [
+        "pickle jar",
+        "striped lid",
+        "pantry preserve"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1110101111",
+      "1111111111",
+      "1101110111",
+      "1111111111",
+      "1110011111",
+      "1111111111",
+      "0111111110",
+      "0011111100"
+    ]
+  },
+  {
+    "id": "village-pantry-little-recipe-box-86",
+    "title": "Little Recipe Box",
+    "titleKey": "puzzles.village-pantry-little-recipe-box-86",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "small recipe card box with a tabbed card sticking up and a heart label on the front",
+      "colorMood": "mint recipe box, cream index card, tiny red heart label",
+      "tags": [
+        "recipe box",
+        "card tab",
+        "heart label"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1100111111",
+      "1111111111",
+      "1111011111",
+      "1111111111",
+      "1111111111",
+      "0111111110",
+      "0011111100"
+    ]
   }
 ];
 

@@ -1879,3 +1879,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added Village Pantry 10x10 Gingham Butter Cloche and Pressed Flower Frame.
 - Raised catalog guards to 227 free puzzles, 137 large-board free puzzles, 63 Bakery Window 12x12 boards, 70 Village Pantry 10x10 boards, and 89 readable large-board briefs.
 - Version bumped to v0.1.225; verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.
+
+### v0.1.226 - Four Puzzle Quality Batch
+- Added Bakery Window 12x12 Candied Orange Scone and Rose Cream Eclair.
+- Added Village Pantry 10x10 Striped Pickle Jar and Little Recipe Box.
+- Raised catalog guards to 231 free puzzles, 141 large-board free puzzles, 65 Bakery Window 12x12 boards, 72 Village Pantry 10x10 boards, and 93 readable large-board briefs.
+- Version bumped to v0.1.226; verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

@@ -1087,6 +1087,22 @@ export const en = {
     "village-pantry-pressed-flower-frame-84": {
       title: "Pressed Flower Frame",
       imageName: "Pressed Flower Frame"
+    },
+    "bakery-window-candied-orange-scone-84": {
+      title: "Candied Orange Scone",
+      imageName: "Candied Orange Scone"
+    },
+    "bakery-window-rose-cream-eclair-85": {
+      title: "Rose Cream Eclair",
+      imageName: "Rose Cream Eclair"
+    },
+    "village-pantry-striped-pickle-jar-85": {
+      title: "Striped Pickle Jar",
+      imageName: "Striped Pickle Jar"
+    },
+    "village-pantry-little-recipe-box-86": {
+      title: "Little Recipe Box",
+      imageName: "Little Recipe Box"
     }
   }
 };
