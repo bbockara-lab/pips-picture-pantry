@@ -1135,6 +1135,22 @@ export const en = {
     "village-pantry-ceramic-honey-spoon-rest-90": {
       title: "Ceramic Honey Spoon Rest",
       imageName: "Ceramic Honey Spoon Rest"
+    },
+    "bakery-window-caramel-pear-muffin-90": {
+      title: "Caramel Pear Muffin",
+      imageName: "Caramel Pear Muffin"
+    },
+    "bakery-window-sugar-dusted-bundt-91": {
+      title: "Sugar Dusted Bundt",
+      imageName: "Sugar Dusted Bundt"
+    },
+    "village-pantry-daisy-milk-bottle-91": {
+      title: "Daisy Milk Bottle",
+      imageName: "Daisy Milk Bottle"
+    },
+    "village-pantry-quilted-pot-mat-92": {
+      title: "Quilted Pot Mat",
+      imageName: "Quilted Pot Mat"
     }
   }
 };

@@ -5670,6 +5670,134 @@ export const puzzles = [
       "0111111110",
       "0011111100"
     ]
+  },
+  {
+    "id": "bakery-window-caramel-pear-muffin-90",
+    "title": "Caramel Pear Muffin",
+    "titleKey": "puzzles.bakery-window-caramel-pear-muffin-90",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "rounded muffin with a pear slice fan, caramel drizzle, and crinkled paper cup",
+      "colorMood": "caramel amber drizzle, pale pear green, toasted muffin gold",
+      "tags": [
+        "muffin",
+        "pear fan",
+        "caramel drizzle"
+      ]
+    },
+    "solution": [
+      "000111111000",
+      "001111111100",
+      "011111111110",
+      "111101111111",
+      "111111101111",
+      "111011111111",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "011111111110"
+    ]
+  },
+  {
+    "id": "bakery-window-sugar-dusted-bundt-91",
+    "title": "Sugar Dusted Bundt",
+    "titleKey": "puzzles.bakery-window-sugar-dusted-bundt-91",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "small bundt cake ring with scalloped edges, center hole, and powdered sugar cap",
+      "colorMood": "warm cake brown, snowy sugar dusting, golden scalloped shadows",
+      "tags": [
+        "bundt cake",
+        "powdered sugar",
+        "center hole"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "111100111111",
+      "111000011111",
+      "111000011111",
+      "111100111111",
+      "111111111111",
+      "111011101111",
+      "111111111111",
+      "011111111110",
+      "001111111100"
+    ]
+  },
+  {
+    "id": "village-pantry-daisy-milk-bottle-91",
+    "title": "Daisy Milk Bottle",
+    "titleKey": "puzzles.village-pantry-daisy-milk-bottle-91",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "tall milk bottle with narrow neck, daisy label, and round cap",
+      "colorMood": "creamy milk glass, sunny daisy yellow, soft green leaf mark",
+      "tags": [
+        "milk bottle",
+        "daisy label",
+        "glass bottle"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1110011111",
+      "1111110111",
+      "1111111111",
+      "1101101111",
+      "1111111111",
+      "0111111110",
+      "0011111100"
+    ]
+  },
+  {
+    "id": "village-pantry-quilted-pot-mat-92",
+    "title": "Quilted Pot Mat",
+    "titleKey": "puzzles.village-pantry-quilted-pot-mat-92",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "square quilted pot mat with diagonal stitch lines, loop tag, and rounded corners",
+      "colorMood": "mint fabric, cream stitch lines, tiny coral hanging loop",
+      "tags": [
+        "pot mat",
+        "quilted",
+        "hanging loop"
+      ]
+    },
+    "solution": [
+      "0111111110",
+      "1111111111",
+      "1110111111",
+      "1111011111",
+      "1111101111",
+      "1111110111",
+      "1111111011",
+      "1111111111",
+      "1111111111",
+      "0111111110"
+    ]
   }
 ];
 

@@ -1017,3 +1017,6 @@ Immediate implementation decisions:
 
 ### v0.1.228 Follow-up - Four Puzzle Quality Batch
 - Continued the high-volume puzzle catalog with another readable Bakery/Village batch and crossed 100 large-board readability briefs.
+
+### v0.1.229 Follow-up - Four Puzzle Quality Batch
+- Continued the balanced Bakery/Village puzzle expansion with translated metadata, art-readability briefs, and raised mobile/catalog guards.

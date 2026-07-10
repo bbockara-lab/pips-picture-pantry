@@ -1133,6 +1133,22 @@ export const ko = {
     "village-pantry-ceramic-honey-spoon-rest-90": {
       title: "\uC138\uB77C\uBBF9 \uAFC0 \uC2A4\uD47C \uBC1B\uCE68",
       imageName: "\uC138\uB77C\uBBF9 \uAFC0 \uC2A4\uD47C \uBC1B\uCE68"
+    },
+    "bakery-window-caramel-pear-muffin-90": {
+      title: "\uCE74\uB77C\uBA5C \uBC30 \uBA38\uD540",
+      imageName: "\uCE74\uB77C\uBA5C \uBC30 \uBA38\uD540"
+    },
+    "bakery-window-sugar-dusted-bundt-91": {
+      title: "\uC288\uAC70 \uB354\uC2A4\uD2B8 \uBC88\uD2B8",
+      imageName: "\uC288\uAC70 \uB354\uC2A4\uD2B8 \uBC88\uD2B8"
+    },
+    "village-pantry-daisy-milk-bottle-91": {
+      title: "\uB370\uC774\uC9C0 \uBC00\uD06C \uBCD1",
+      imageName: "\uB370\uC774\uC9C0 \uBC00\uD06C \uBCD1"
+    },
+    "village-pantry-quilted-pot-mat-92": {
+      title: "\uD034\uD2B8 \uB0C4\uBE44 \uB9E4\uD2B8",
+      imageName: "\uD034\uD2B8 \uB0C4\uBE44 \uB9E4\uD2B8"
     }
   }
 };
