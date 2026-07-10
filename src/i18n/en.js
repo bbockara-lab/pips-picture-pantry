@@ -1071,6 +1071,22 @@ export const en = {
     "village-pantry-pearl-sugar-bowl-82": {
       title: "Pearl Sugar Bowl",
       imageName: "Pearl Sugar Bowl"
+    },
+    "bakery-window-apricot-jam-tart-82": {
+      title: "Apricot Jam Tart",
+      imageName: "Apricot Jam Tart"
+    },
+    "bakery-window-cocoa-swirl-meringue-83": {
+      title: "Cocoa Swirl Meringue",
+      imageName: "Cocoa Swirl Meringue"
+    },
+    "village-pantry-gingham-butter-cloche-83": {
+      title: "Gingham Butter Cloche",
+      imageName: "Gingham Butter Cloche"
+    },
+    "village-pantry-pressed-flower-frame-84": {
+      title: "Pressed Flower Frame",
+      imageName: "Pressed Flower Frame"
     }
   }
 };

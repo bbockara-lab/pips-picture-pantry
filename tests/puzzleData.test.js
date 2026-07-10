@@ -36,12 +36,12 @@ describe("puzzle data", () => {
     const progressionPuzzles = puzzles.filter((puzzle) => progressionPacksById.has(puzzle.packId));
 
     expect(progressionPuzzles.some((puzzle) => puzzle.size >= 10)).toBe(true);
-    expect(progressionPuzzles.filter((puzzle) => puzzle.size >= 12).length).toBeGreaterThanOrEqual(61);
+    expect(progressionPuzzles.filter((puzzle) => puzzle.size >= 12).length).toBeGreaterThanOrEqual(63);
     progressionPuzzles.forEach((puzzle) => {
       const pack = progressionPacksById.get(puzzle.packId);
       expect(puzzle.size).toBeLessThanOrEqual(pack.size);
       if (puzzle.packId === "bakery-window") {
-        expect(progressionPuzzles.filter((candidate) => candidate.packId === "bakery-window" && candidate.size === 12).length).toBeGreaterThanOrEqual(61);
+        expect(progressionPuzzles.filter((candidate) => candidate.packId === "bakery-window" && candidate.size === 12).length).toBeGreaterThanOrEqual(63);
       }
       if (puzzle.size > 8) {
         expect(pack.size).toBeGreaterThanOrEqual(10);
@@ -71,7 +71,7 @@ describe("puzzle data", () => {
   it("keeps large-board translated catalog metadata explicit", () => {
     const largeBoardPuzzles = puzzles.filter((puzzle) => puzzle.size >= 10 && puzzle.access === "free");
 
-    expect(largeBoardPuzzles.length).toBeGreaterThanOrEqual(133);
+    expect(largeBoardPuzzles.length).toBeGreaterThanOrEqual(137);
     largeBoardPuzzles.forEach((puzzle) => {
       expect(puzzle.titleKey).toBe(`puzzles.${puzzle.id}`);
     });
@@ -99,7 +99,7 @@ describe("puzzle data", () => {
       return puzzle.access === "free" && puzzle.size >= 10 && puzzle.artReadability && suffix >= 48;
     });
 
-    expect(recentReadablePuzzles.length).toBeGreaterThanOrEqual(69);
+    expect(recentReadablePuzzles.length).toBeGreaterThanOrEqual(73);
     recentReadablePuzzles.forEach((puzzle) => {
       expect(puzzle.solution[0]).not.toMatch(/^0+$/);
       expect(puzzle.solution[puzzle.solution.length - 1]).not.toMatch(/^0+$/);

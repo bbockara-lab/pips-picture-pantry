@@ -5158,6 +5158,134 @@ export const puzzles = [
       "0111111110",
       "0011111100"
     ]
+  },
+  {
+    "id": "bakery-window-apricot-jam-tart-82",
+    "title": "Apricot Jam Tart",
+    "titleKey": "puzzles.bakery-window-apricot-jam-tart-82",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "round tart with a bright apricot jam center, crimped crust, and small leaf garnish",
+      "colorMood": "apricot orange jam, golden crust, tiny mint leaf accent",
+      "tags": [
+        "apricot tart",
+        "jam center",
+        "crimped crust"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "111001100111",
+      "111011110111",
+      "111111111111",
+      "111110111111",
+      "111111011111",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "011111111110"
+    ]
+  },
+  {
+    "id": "bakery-window-cocoa-swirl-meringue-83",
+    "title": "Cocoa Swirl Meringue",
+    "titleKey": "puzzles.bakery-window-cocoa-swirl-meringue-83",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "tall piped meringue kiss with a spiral cocoa ribbon curling up the center",
+      "colorMood": "vanilla white peaks, cocoa brown ribbon, toasted tip shadows",
+      "tags": [
+        "meringue",
+        "cocoa swirl",
+        "piped peak"
+      ]
+    },
+    "solution": [
+      "000111111000",
+      "001111111100",
+      "011110111110",
+      "111111011111",
+      "111011111111",
+      "111111101111",
+      "111101111111",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "000111111000",
+      "001111111100"
+    ]
+  },
+  {
+    "id": "village-pantry-gingham-butter-cloche-83",
+    "title": "Gingham Butter Cloche",
+    "titleKey": "puzzles.village-pantry-gingham-butter-cloche-83",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "domed butter cloche over a rectangular butter pat on a gingham plate",
+      "colorMood": "cream glass dome, butter yellow block, red gingham plate trim",
+      "tags": [
+        "butter cloche",
+        "gingham",
+        "pantry plate"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1110111111",
+      "1111110111",
+      "1111111111",
+      "0111111110",
+      "1111111111",
+      "1111001111",
+      "0111111110",
+      "0011111100"
+    ]
+  },
+  {
+    "id": "village-pantry-pressed-flower-frame-84",
+    "title": "Pressed Flower Frame",
+    "titleKey": "puzzles.village-pantry-pressed-flower-frame-84",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "small wall frame with pressed flowers, a hanging hook, and two leaf sprigs inside",
+      "colorMood": "honey wood frame, pale paper, pink pressed petals, green leaf stems",
+      "tags": [
+        "pressed flowers",
+        "wall frame",
+        "pantry decor"
+      ]
+    },
+    "solution": [
+      "0111111110",
+      "1111111111",
+      "1100100111",
+      "1111111111",
+      "1110011111",
+      "1111110111",
+      "1101111111",
+      "1111111111",
+      "1111111111",
+      "0111111110"
+    ]
   }
 ];
 

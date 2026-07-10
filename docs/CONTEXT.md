@@ -1873,3 +1873,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added Village Pantry 10x10 Red Check Apron and Pearl Sugar Bowl.
 - Raised catalog guards to 223 free puzzles, 133 large-board free puzzles, 61 Bakery Window 12x12 boards, 68 Village Pantry 10x10 boards, and 85 readable large-board briefs.
 - Version bumped to v0.1.224; verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.
+
+### v0.1.225 - Four Puzzle Quality Batch
+- Added Bakery Window 12x12 Apricot Jam Tart and Cocoa Swirl Meringue.
+- Added Village Pantry 10x10 Gingham Butter Cloche and Pressed Flower Frame.
+- Raised catalog guards to 227 free puzzles, 137 large-board free puzzles, 63 Bakery Window 12x12 boards, 70 Village Pantry 10x10 boards, and 89 readable large-board briefs.
+- Version bumped to v0.1.225; verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

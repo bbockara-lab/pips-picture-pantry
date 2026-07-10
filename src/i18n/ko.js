@@ -1069,6 +1069,22 @@ export const ko = {
     "village-pantry-pearl-sugar-bowl-82": {
       title: "\uD384 \uC288\uAC70 \uBCFC",
       imageName: "\uD384 \uC288\uAC70 \uBCFC"
+    },
+    "bakery-window-apricot-jam-tart-82": {
+      title: "\uC0B4\uAD6C\uC7BC \uD0C0\uB974\uD2B8",
+      imageName: "\uC0B4\uAD6C\uC7BC \uD0C0\uB974\uD2B8"
+    },
+    "bakery-window-cocoa-swirl-meringue-83": {
+      title: "\uCF54\uCF54\uC544 \uC2A4\uC6D4 \uBA54\uB9C1\uAD6C",
+      imageName: "\uCF54\uCF54\uC544 \uC2A4\uC6D4 \uBA54\uB9C1\uAD6C"
+    },
+    "village-pantry-gingham-butter-cloche-83": {
+      title: "\uAE45\uC5C4 \uBC84\uD130 \uD074\uB85C\uC288",
+      imageName: "\uAE45\uC5C4 \uBC84\uD130 \uD074\uB85C\uC288"
+    },
+    "village-pantry-pressed-flower-frame-84": {
+      title: "\uB204\uB978 \uAF43 \uC561\uC790",
+      imageName: "\uB204\uB978 \uAF43 \uC561\uC790"
     }
   }
 };

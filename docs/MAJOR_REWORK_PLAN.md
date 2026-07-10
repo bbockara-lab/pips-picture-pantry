@@ -1004,3 +1004,6 @@ Immediate implementation decisions:
 ### v0.1.224 Follow-up - Four Puzzle Quality Batch
 - Continued the polished puzzle-volume lane with two Bakery Window 12x12 boards and two Village Pantry 10x10 boards.
 - Kept the new puzzles within the art-readability contract so future generated art has explicit silhouette, color mood, and tag guidance.
+
+### v0.1.225 Follow-up - Four Puzzle Quality Batch
+- Added one more balanced content batch, keeping the growing puzzle catalog tied to translated metadata, readability briefs, and mobile catalog guards.
