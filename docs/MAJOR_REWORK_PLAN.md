@@ -960,3 +960,9 @@ Immediate implementation decisions:
 - Crossed 200 total free puzzles with a balanced 4-puzzle batch: two Bakery Window 12x12 boards and two Village Pantry 10x10 boards.
 - Continued the high-quality puzzle rule: recognizable silhouette first, future color mood documented, tags present, no blank edge rows, localized catalog names.
 - Next after QA: pause briefly for catalog UX / first-impression polish before continuing another content burst.
+
+
+### v0.1.216 Follow-up - Opening Screen Tactile Polish
+- After crossing 200 puzzles, paused content expansion briefly for first-impression polish.
+- Improved the start button and intro composition without replacing the approved Sunny Spoon/Pip art assets.
+- Kept this as a scoped UI polish layer rather than a broad art-system rewrite.

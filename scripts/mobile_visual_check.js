@@ -178,10 +178,11 @@ async function expectOpeningIntroPolish(page, viewportName) {
       width: rect.width,
       height: rect.height,
       borderRadius: parseFloat(style.borderRadius),
-      backgroundImage: style.backgroundImage
+      backgroundImage: style.backgroundImage,
+      boxShadow: style.boxShadow
     };
   });
-  if (buttonMetrics.width < 120 || buttonMetrics.height < 48 || buttonMetrics.borderRadius < 10 || !buttonMetrics.backgroundImage.includes("linear-gradient")) {
+  if (buttonMetrics.width < 150 || buttonMetrics.height < 54 || buttonMetrics.borderRadius < 14 || !buttonMetrics.backgroundImage.includes("linear-gradient") || buttonMetrics.boxShadow === "none") {
     failures.push("[" + viewportName + "] Opening start button lost its polished game-button treatment: " + JSON.stringify(buttonMetrics));
   }
 }
