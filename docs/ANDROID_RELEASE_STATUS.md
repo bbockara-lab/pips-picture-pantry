@@ -1139,3 +1139,10 @@ Last updated: 2026-06-28
 - Added Village Pantry 10x10 Polka Dot Sugar Tin and Wooden Egg Crate.
 - Raised guarded catalog thresholds to 211 free puzzles, 121 large-board free puzzles, 55 Bakery Window 12x12 boards, 62 Village Pantry 10x10 boards, and 73 readable large-board briefs.
 - Verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.
+
+
+## v0.1.221 - Four Puzzle Quality Batch
+- Added Bakery Window 12x12 Strawberry Charlotte Dome and Cocoa Biscotti Bundle.
+- Added Village Pantry 10x10 Checkered Tea Towel and Honeycomb Glass Jar.
+- Raised guarded catalog thresholds to 215 free puzzles, 125 large-board free puzzles, 57 Bakery Window 12x12 boards, 64 Village Pantry 10x10 boards, and 77 readable large-board briefs.
+- Verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

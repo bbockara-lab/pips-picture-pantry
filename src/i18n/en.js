@@ -1023,6 +1023,22 @@ export const en = {
     "village-pantry-wooden-egg-crate-76": {
       title: "Wooden Egg Crate",
       imageName: "Wooden Egg Crate"
+    },
+    "bakery-window-strawberry-charlotte-dome-76": {
+      title: "Strawberry Charlotte Dome",
+      imageName: "Strawberry Charlotte Dome"
+    },
+    "bakery-window-cocoa-biscotti-bundle-77": {
+      title: "Cocoa Biscotti Bundle",
+      imageName: "Cocoa Biscotti Bundle"
+    },
+    "village-pantry-checkered-tea-towel-77": {
+      title: "Checkered Tea Towel",
+      imageName: "Checkered Tea Towel"
+    },
+    "village-pantry-honeycomb-glass-jar-78": {
+      title: "Honeycomb Glass Jar",
+      imageName: "Honeycomb Glass Jar"
     }
   }
 };

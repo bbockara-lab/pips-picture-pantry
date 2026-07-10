@@ -1021,6 +1021,22 @@ export const ko = {
     "village-pantry-wooden-egg-crate-76": {
       title: "\uB098\uBB34 \uB2EC\uAC40 \uC0C1\uC790",
       imageName: "\uB098\uBB34 \uB2EC\uAC40 \uC0C1\uC790"
+    },
+    "bakery-window-strawberry-charlotte-dome-76": {
+      title: "\uB538\uAE30 \uC0E4\uB97C\uB85C\uD2B8 \uB3D4",
+      imageName: "\uB538\uAE30 \uC0E4\uB97C\uB85C\uD2B8 \uB3D4"
+    },
+    "bakery-window-cocoa-biscotti-bundle-77": {
+      title: "\uCF54\uCF54\uC544 \uBE44\uC2A4\uCF54\uD2F0 \uBB36\uC74C",
+      imageName: "\uCF54\uCF54\uC544 \uBE44\uC2A4\uCF54\uD2F0 \uBB36\uC74C"
+    },
+    "village-pantry-checkered-tea-towel-77": {
+      title: "\uCCB4\uD06C \uD2F0\uD0C0\uC6D4",
+      imageName: "\uCCB4\uD06C \uD2F0\uD0C0\uC6D4"
+    },
+    "village-pantry-honeycomb-glass-jar-78": {
+      title: "\uBC8C\uC9D1\uAFC0 \uC720\uB9AC\uBCD1",
+      imageName: "\uBC8C\uC9D1\uAFC0 \uC720\uB9AC\uBCD1"
     }
   }
 };

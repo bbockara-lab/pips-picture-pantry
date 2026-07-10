@@ -4773,6 +4773,134 @@ export const puzzles = [
       "0111111110",
       "0011111100"
     ]
+  },
+  {
+    "id": "bakery-window-strawberry-charlotte-dome-76",
+    "title": "Strawberry Charlotte Dome",
+    "titleKey": "puzzles.bakery-window-strawberry-charlotte-dome-76",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "round charlotte cake dome with a scalloped ladyfinger wall and strawberry crown",
+      "colorMood": "cream cake, berry red crown, toasted biscuit rim",
+      "tags": [
+        "charlotte-cake",
+        "strawberry-dome",
+        "bakery-window"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111101111111",
+      "111111011111",
+      "111111111111",
+      "110101010111",
+      "111111111111",
+      "110101010111",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "011111111110"
+    ]
+  },
+  {
+    "id": "bakery-window-cocoa-biscotti-bundle-77",
+    "title": "Cocoa Biscotti Bundle",
+    "titleKey": "puzzles.bakery-window-cocoa-biscotti-bundle-77",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "three diagonal biscotti sticks tied with a small ribbon band",
+      "colorMood": "cocoa brown cookies, almond flecks, pale ribbon highlight",
+      "tags": [
+        "biscotti",
+        "cookie-bundle",
+        "bakery-window"
+      ]
+    },
+    "solution": [
+      "111000001100",
+      "111100011110",
+      "011110111111",
+      "001111111110",
+      "000111111100",
+      "001111111000",
+      "011111110000",
+      "111111100000",
+      "111111110000",
+      "011111111000",
+      "001111111100",
+      "000111111110"
+    ]
+  },
+  {
+    "id": "village-pantry-checkered-tea-towel-77",
+    "title": "Checkered Tea Towel",
+    "titleKey": "puzzles.village-pantry-checkered-tea-towel-77",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "folded tea towel with a hanging loop and chunky checkered pattern",
+      "colorMood": "cream cotton, berry-red checks, warm stitched border",
+      "tags": [
+        "tea-towel",
+        "checkered-cloth",
+        "village-pantry"
+      ]
+    },
+    "solution": [
+      "0111111110",
+      "1111111111",
+      "1101101101",
+      "1111111111",
+      "1011011011",
+      "1111111111",
+      "1101101101",
+      "1111111111",
+      "0111111110",
+      "0011111100"
+    ]
+  },
+  {
+    "id": "village-pantry-honeycomb-glass-jar-78",
+    "title": "Honeycomb Glass Jar",
+    "titleKey": "puzzles.village-pantry-honeycomb-glass-jar-78",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "round glass jar with a honeycomb label and small cloth lid",
+      "colorMood": "gold honey, amber comb label, cream cloth cap",
+      "tags": [
+        "honey-jar",
+        "honeycomb-label",
+        "pantry-shelf"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1101111011",
+      "1110101111",
+      "1101011011",
+      "1110101111",
+      "1101111011",
+      "0111111110",
+      "0011111100"
+    ]
   }
 
 ];

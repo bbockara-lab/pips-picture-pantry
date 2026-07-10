@@ -986,3 +986,8 @@ Immediate implementation decisions:
 ### v0.1.220 Follow-up - Four Puzzle Quality Batch
 - Continued curated puzzle scale with two new 12x12 bakery silhouettes and two new 10x10 pantry-object silhouettes.
 - Keep the next content pass balanced between puzzle quantity and readable object design, especially as 12x12 boards become a stronger differentiator.
+
+
+### v0.1.221 Follow-up - Four Puzzle Quality Batch
+- Continued the high-volume curated puzzle lane with silhouettes that should remain recognizable even before final color-card art is attached.
+- Keep alternating Bakery 12x12 and Village 10x10 batches until the catalog depth target is comfortably ahead of closed-test expectations.
