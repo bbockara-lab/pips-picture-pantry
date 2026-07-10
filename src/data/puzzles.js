@@ -5926,6 +5926,134 @@ export const puzzles = [
       "1111111111",
       "0111111110"
     ]
+  },
+  {
+    "id": "bakery-window-cherry-cream-brioche-94",
+    "title": "Cherry Cream Brioche",
+    "titleKey": "puzzles.bakery-window-cherry-cream-brioche-94",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "rounded brioche bun with a cream pocket and two cherry dots sitting on top",
+      "colorMood": "golden brioche, vanilla cream center, bright cherry red accents",
+      "tags": [
+        "brioche",
+        "cream pocket",
+        "cherries"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "110110111011",
+      "111111111111",
+      "111100111111",
+      "111111001111",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "011111111110",
+      "111111111111"
+    ]
+  },
+  {
+    "id": "bakery-window-ginger-honey-madeleine-95",
+    "title": "Ginger Honey Madeleine",
+    "titleKey": "puzzles.bakery-window-ginger-honey-madeleine-95",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "shell-shaped madeleine with scalloped ridges and a honey drizzle crossing the middle",
+      "colorMood": "honey gold cake, ginger warm brown, glossy amber drizzle",
+      "tags": [
+        "madeleine",
+        "scalloped shell",
+        "honey drizzle"
+      ]
+    },
+    "solution": [
+      "000111111000",
+      "001111111100",
+      "011111111110",
+      "111011101111",
+      "111111111111",
+      "110111011111",
+      "111111111111",
+      "111011101111",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "011111111110"
+    ]
+  },
+  {
+    "id": "village-pantry-blue-ribbon-mason-jar-95",
+    "title": "Blue Ribbon Mason Jar",
+    "titleKey": "puzzles.village-pantry-blue-ribbon-mason-jar-95",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "mason jar with ribbed shoulders, a blue ribbon tied around the neck, and a small label",
+      "colorMood": "clear glass shine, blue ribbon, cream paper label",
+      "tags": [
+        "mason jar",
+        "blue ribbon",
+        "pantry label"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1110011111",
+      "1111110111",
+      "1111111111",
+      "1101101111",
+      "1111111111",
+      "0111111110",
+      "0011111100"
+    ]
+  },
+  {
+    "id": "village-pantry-floral-rolling-pin-96",
+    "title": "Floral Rolling Pin",
+    "titleKey": "puzzles.village-pantry-floral-rolling-pin-96",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "small rolling pin with two handles and tiny floral marks along the barrel",
+      "colorMood": "warm wood barrel, cream flour dust, tiny pink flower marks",
+      "tags": [
+        "rolling pin",
+        "floral marks",
+        "baking tool"
+      ]
+    },
+    "solution": [
+      "0111111110",
+      "1111111111",
+      "1101101111",
+      "1111111111",
+      "1110011111",
+      "1111110111",
+      "1111111111",
+      "1101101111",
+      "1111111111",
+      "0111111110"
+    ]
   }
 ];
 

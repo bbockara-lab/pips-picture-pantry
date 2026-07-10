@@ -1165,6 +1165,22 @@ export const ko = {
     "village-pantry-mint-label-flour-tin-94": {
       title: "\uBBFC\uD2B8 \uB77C\uBCA8 \uBC00\uAC00\uB8E8 \uD2F4",
       imageName: "\uBBFC\uD2B8 \uB77C\uBCA8 \uBC00\uAC00\uB8E8 \uD2F4"
+    },
+    "bakery-window-cherry-cream-brioche-94": {
+      title: "\uCCB4\uB9AC \uD06C\uB9BC \uBE0C\uB9AC\uC624\uC288",
+      imageName: "\uCCB4\uB9AC \uD06C\uB9BC \uBE0C\uB9AC\uC624\uC288"
+    },
+    "bakery-window-ginger-honey-madeleine-95": {
+      title: "\uC9C4\uC800 \uD5C8\uB2C8 \uB9C8\uB4E4\uB80C",
+      imageName: "\uC9C4\uC800 \uD5C8\uB2C8 \uB9C8\uB4E4\uB80C"
+    },
+    "village-pantry-blue-ribbon-mason-jar-95": {
+      title: "\uD30C\uB780 \uB9AC\uBCF8 \uBA54\uC774\uC2A8 \uC790",
+      imageName: "\uD30C\uB780 \uB9AC\uBCF8 \uBA54\uC774\uC2A8 \uC790"
+    },
+    "village-pantry-floral-rolling-pin-96": {
+      title: "\uD50C\uB85C\uB7F4 \uBC00\uB300",
+      imageName: "\uD50C\uB85C\uB7F4 \uBC00\uB300"
     }
   }
 };

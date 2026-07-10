@@ -1167,6 +1167,22 @@ export const en = {
     "village-pantry-mint-label-flour-tin-94": {
       title: "Mint Label Flour Tin",
       imageName: "Mint Label Flour Tin"
+    },
+    "bakery-window-cherry-cream-brioche-94": {
+      title: "Cherry Cream Brioche",
+      imageName: "Cherry Cream Brioche"
+    },
+    "bakery-window-ginger-honey-madeleine-95": {
+      title: "Ginger Honey Madeleine",
+      imageName: "Ginger Honey Madeleine"
+    },
+    "village-pantry-blue-ribbon-mason-jar-95": {
+      title: "Blue Ribbon Mason Jar",
+      imageName: "Blue Ribbon Mason Jar"
+    },
+    "village-pantry-floral-rolling-pin-96": {
+      title: "Floral Rolling Pin",
+      imageName: "Floral Rolling Pin"
     }
   }
 };
