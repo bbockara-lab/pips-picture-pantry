@@ -1234,3 +1234,8 @@ Last updated: 2026-06-28
 - Added four readable free puzzles: Plum Cardamom Braid, Honey Lavender Canele, Rose Label Jam Pot, and Blue Linen Bowl Cover.
 - Raised guarded catalog thresholds to 271 free puzzles, 181 large-board free puzzles, 85 Bakery Window 12x12 boards, 92 Village Pantry 10x10 boards, and 133 readable large-board briefs.
 - Verification passed: syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.
+
+## v0.1.237 - Four Puzzle Quality Batch
+- Added four readable free puzzles: Orange Blossom Cruller, Blackberry Vanilla Galette, Gingham Egg Cup, and Sage Butter Dish.
+- Raised guarded catalog thresholds to 275 free puzzles, 185 large-board free puzzles, 87 Bakery Window 12x12 boards, 94 Village Pantry 10x10 boards, and 137 readable large-board briefs.
+- Verification passed: syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

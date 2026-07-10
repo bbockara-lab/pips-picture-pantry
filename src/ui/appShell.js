@@ -32,7 +32,7 @@ import { renderSettingsDialog } from "./settingsView.js";
 import { advanceTimeAttackSession, createTimeAttackSession, getTimeAttackElapsedSeconds, TIME_ATTACK_TRIAL_ROUNDS } from "./timeAttackFlow.js";
 import { renderTimeAttackView } from "./timeAttackView.js";
 
-export const APP_VERSION = "v0.1.236";
+export const APP_VERSION = "v0.1.237";
 const DAILY_BONUS = ECONOMY.DAILY_BONUS;
 
 export function renderApp(root) {

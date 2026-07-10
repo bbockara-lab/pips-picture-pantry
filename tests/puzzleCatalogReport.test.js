@@ -8,11 +8,11 @@ describe("puzzle catalog report", () => {
     const villagePantry = report.byPack.find((pack) => pack.id === "village-pantry");
 
     expect(report.warningMessages).toEqual([]);
-    expect(report.totals.freePuzzles).toBeGreaterThanOrEqual(271);
-    expect(report.totals.twelveByTwelveBoards).toBeGreaterThanOrEqual(85);
-    expect(report.totals.readableLargeBoards).toBeGreaterThanOrEqual(133);
-    expect(bakeryWindow.twelveByTwelveCount).toBeGreaterThanOrEqual(85);
-    expect(villagePantry.largeBoardCount).toBeGreaterThanOrEqual(92);
+    expect(report.totals.freePuzzles).toBeGreaterThanOrEqual(275);
+    expect(report.totals.twelveByTwelveBoards).toBeGreaterThanOrEqual(87);
+    expect(report.totals.readableLargeBoards).toBeGreaterThanOrEqual(137);
+    expect(bakeryWindow.twelveByTwelveCount).toBeGreaterThanOrEqual(87);
+    expect(villagePantry.largeBoardCount).toBeGreaterThanOrEqual(94);
   });
 
   it("warns when recent large-board progression puzzles lack readable art briefs", () => {

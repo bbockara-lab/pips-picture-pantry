@@ -6694,6 +6694,134 @@ export const puzzles = [
       "0111111110",
       "0011111100"
     ]
+  },
+  {
+    "id": "bakery-window-orange-blossom-cruller-106",
+    "title": "Orange Blossom Cruller",
+    "titleKey": "puzzles.bakery-window-orange-blossom-cruller-106",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "ring cruller with twisted ridges, orange glaze, and tiny blossom dots",
+      "colorMood": "sunny orange glaze, pastry gold, soft white blossom specks",
+      "tags": [
+        "cruller",
+        "orange glaze",
+        "blossom dots"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "111011111111",
+      "111101111111",
+      "111111001111",
+      "111111111111",
+      "111100111111",
+      "111111011111",
+      "011111111110",
+      "001111111100",
+      "011111111110"
+    ]
+  },
+  {
+    "id": "bakery-window-blackberry-vanilla-galette-107",
+    "title": "Blackberry Vanilla Galette",
+    "titleKey": "puzzles.bakery-window-blackberry-vanilla-galette-107",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "freeform galette with folded crust corners, blackberry center, and vanilla drizzle",
+      "colorMood": "blackberry violet, vanilla cream lines, rustic golden crust",
+      "tags": [
+        "galette",
+        "blackberries",
+        "vanilla drizzle"
+      ]
+    },
+    "solution": [
+      "011111111110",
+      "111111111111",
+      "111101111111",
+      "111111011111",
+      "111111111111",
+      "110111101111",
+      "111111111111",
+      "111011111011",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "111111111111"
+    ]
+  },
+  {
+    "id": "village-pantry-gingham-egg-cup-107",
+    "title": "Gingham Egg Cup",
+    "titleKey": "puzzles.village-pantry-gingham-egg-cup-107",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "small egg cup with a rounded egg top, gingham band, and pedestal foot",
+      "colorMood": "cream egg, red gingham band, warm ceramic shadow",
+      "tags": [
+        "egg cup",
+        "gingham band",
+        "pedestal"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1110011111",
+      "1111110111",
+      "1111111111",
+      "1101101111",
+      "1111111111",
+      "0111111110",
+      "0011111100"
+    ]
+  },
+  {
+    "id": "village-pantry-sage-butter-dish-108",
+    "title": "Sage Butter Dish",
+    "titleKey": "puzzles.village-pantry-sage-butter-dish-108",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "low butter dish with domed cover, sage knob, and little plate rim",
+      "colorMood": "sage green knob, cream ceramic dome, butter yellow base",
+      "tags": [
+        "butter dish",
+        "sage knob",
+        "ceramic dome"
+      ]
+    },
+    "solution": [
+      "0111111110",
+      "1111111111",
+      "1110111011",
+      "1111111111",
+      "1101111111",
+      "1111111011",
+      "1111111111",
+      "1110011111",
+      "0111111110",
+      "1111111111"
+    ]
   }
 ];
 

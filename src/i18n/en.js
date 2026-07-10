@@ -1263,6 +1263,22 @@ export const en = {
     "village-pantry-blue-linen-bowl-cover-106": {
       title: "Blue Linen Bowl Cover",
       imageName: "Blue Linen Bowl Cover"
+    },
+    "bakery-window-orange-blossom-cruller-106": {
+      title: "Orange Blossom Cruller",
+      imageName: "Orange Blossom Cruller"
+    },
+    "bakery-window-blackberry-vanilla-galette-107": {
+      title: "Blackberry Vanilla Galette",
+      imageName: "Blackberry Vanilla Galette"
+    },
+    "village-pantry-gingham-egg-cup-107": {
+      title: "Gingham Egg Cup",
+      imageName: "Gingham Egg Cup"
+    },
+    "village-pantry-sage-butter-dish-108": {
+      title: "Sage Butter Dish",
+      imageName: "Sage Butter Dish"
     }
   }
 };
