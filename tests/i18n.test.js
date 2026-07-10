@@ -58,6 +58,33 @@ describe("i18n", () => {
     expect(puzzleTitle({ id: "village-pantry-market-basket-21", title: "Market Basket" })).toBe("\uc2dc\uc7a5 \ubc14\uad6c\ub2c8");
   });
 
+  it("keeps newest Korean large-board puzzle names readable", () => {
+    setActiveLocale("ko");
+
+    const newestNames = [
+      ["village-pantry-copper-funnel-69", "\uAD6C\uB9AC \uAE54\uB54C\uAE30"],
+      ["village-pantry-embroidered-napkin-70", "\uC790\uC218 \uB0C5\uD0A8"],
+      ["bakery-window-orange-brioche-knot-70", "\uC624\uB80C\uC9C0 \uBE0C\uB9AC\uC624\uC288 \uB9E4\uB4ED"],
+      ["bakery-window-cream-horn-71", "\uD06C\uB9BC \uD638\uB978"],
+      ["village-pantry-linen-bread-bag-71", "\uB9B0\uB128 \uBE75 \uC8FC\uBA38\uB2C8"],
+      ["village-pantry-porcelain-butter-dish-72", "\uB3C4\uC790\uAE30 \uBC84\uD130 \uADF8\uB987"],
+      ["bakery-window-honey-cruller-ring-72", "\uAFC0 \uD06C\uB7EC\uB7EC \uB9C1"],
+      ["bakery-window-raspberry-linzer-frame-73", "\uB77C\uC988\uBCA0\uB9AC \uB9B0\uC800 \uD504\uB808\uC784"],
+      ["village-pantry-ceramic-measuring-cup-73", "\uB3C4\uC790\uAE30 \uACC4\uB7C9\uCEF5"],
+      ["village-pantry-herb-drying-rack-74", "\uD5C8\uBE0C \uAC74\uC870 \uB799"]
+    ];
+
+    newestNames.forEach(([id, expected]) => {
+      const title = puzzleTitle({ id, title: "Fallback Title" });
+      const imageName = puzzleText(id, "imageName");
+      expect(title).toBe(expected);
+      expect(imageName).toBe(expected);
+      expect(title).not.toMatch(/[?]{2,}/);
+      expect(title).not.toContain("\uFFFD");
+      expect(title).not.toContain("\u5360");
+    });
+  });
+
   it("uses a cached active locale", () => {
     setActiveLocale("ko");
 

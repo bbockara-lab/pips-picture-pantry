@@ -967,28 +967,28 @@ export const ko = {
       imageName: "무화과 타르트 사각"
     },
     "village-pantry-copper-funnel-69": {
-      title: "구리 깔때기",
-      imageName: "구리 깔때기"
+      title: "\uAD6C\uB9AC \uAE54\uB54C\uAE30",
+      imageName: "\uAD6C\uB9AC \uAE54\uB54C\uAE30"
     },
     "village-pantry-embroidered-napkin-70": {
-      title: "자수 냅킨",
-      imageName: "자수 냅킨"
+      title: "\uC790\uC218 \uB0C5\uD0A8",
+      imageName: "\uC790\uC218 \uB0C5\uD0A8"
     },
     "bakery-window-orange-brioche-knot-70": {
-      title: "오렌지 브리오슈 매듭",
-      imageName: "오렌지 브리오슈 매듭"
+      title: "\uC624\uB80C\uC9C0 \uBE0C\uB9AC\uC624\uC288 \uB9E4\uB4ED",
+      imageName: "\uC624\uB80C\uC9C0 \uBE0C\uB9AC\uC624\uC288 \uB9E4\uB4ED"
     },
     "bakery-window-cream-horn-71": {
-      title: "크림 혼",
-      imageName: "크림 혼"
+      title: "\uD06C\uB9BC \uD638\uB978",
+      imageName: "\uD06C\uB9BC \uD638\uB978"
     },
     "village-pantry-linen-bread-bag-71": {
-      title: "린넨 빵 주머니",
-      imageName: "린넨 빵 주머니"
+      title: "\uB9B0\uB128 \uBE75 \uC8FC\uBA38\uB2C8",
+      imageName: "\uB9B0\uB128 \uBE75 \uC8FC\uBA38\uB2C8"
     },
     "village-pantry-porcelain-butter-dish-72": {
-      title: "도자기 버터 접시",
-      imageName: "도자기 버터 접시"
+      title: "\uB3C4\uC790\uAE30 \uBC84\uD130 \uADF8\uB987",
+      imageName: "\uB3C4\uC790\uAE30 \uBC84\uD130 \uADF8\uB987"
     },
     "bakery-window-honey-cruller-ring-72": {
       title: "\uAFC0 \uD06C\uB7EC\uB7EC \uB9C1",

@@ -976,3 +976,8 @@ Immediate implementation decisions:
 ### v0.1.218 Follow-up - Four Puzzle Quality Batch
 - Resumed curated puzzle growth after the 200+ catalog UX polish, adding two Bakery 12x12 and two Village 10x10 boards.
 - Continue alternating content growth with short UX/QA polish passes so the large catalog remains both deep and easy to browse.
+
+
+### v0.1.219 Follow-up - Recent Korean Puzzle Title Guard
+- Closed a localization-quality gap found after the v0.1.218 content batch: recent large-board Korean catalog names now have explicit readable coverage.
+- Keep pairing content batches with metadata guards so puzzle quantity growth does not quietly reduce catalog polish.

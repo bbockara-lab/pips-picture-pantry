@@ -1838,3 +1838,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added four readable large-board puzzles: Honey Cruller Ring, Raspberry Linzer Frame, Ceramic Measuring Cup, and Herb Drying Rack.
 - Resumed content growth after the catalog summary polish while keeping Bakery 12x12, Village 10x10, translated metadata, readable art briefs, and mobile catalog thresholds aligned.
 - Version bumped to v0.1.218; syntax checks, catalog QA, targeted puzzle/catalog/batch/i18n tests, full test suite, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA passed.
+
+
+### v0.1.219 - Recent Korean Puzzle Title Guard
+- Repaired the newest Korean large-board puzzle names from the v0.1.215-v0.1.218 content run so catalog browsing does not show mojibake for recent cards.
+- Added an i18n regression guard for the newest Bakery/Village large-board titles and image names.
+- Verified with syntax checks, targeted i18n test, catalog report, hygiene/assets QA, full Vitest, production build, and mobile visual QA.
