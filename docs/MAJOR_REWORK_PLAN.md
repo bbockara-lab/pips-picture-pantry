@@ -1042,3 +1042,7 @@ Immediate implementation decisions:
 ### v0.1.235 Follow-up - Four Puzzle Quality Batch
 - Added two Bakery Window 12x12 puzzle briefs and two Village Pantry 10x10 puzzle briefs with explicit silhouette/color/tags metadata.
 - Kept the incremental puzzle production lane focused on readable icons first, so future art generation can use the puzzle metadata as a compact creative brief.
+
+### v0.1.236 Follow-up - Four Puzzle Quality Batch
+- Added two Bakery Window 12x12 puzzle briefs and two Village Pantry 10x10 puzzle briefs with explicit silhouette/color/tags metadata.
+- Continued the high-volume puzzle lane while keeping every added puzzle tied to a readable cozy object, not abstract fill patterns.

@@ -6566,6 +6566,134 @@ export const puzzles = [
       "0111111110",
       "1111111111"
     ]
+  },
+  {
+    "id": "bakery-window-plum-cardamom-braid-104",
+    "title": "Plum Cardamom Braid",
+    "titleKey": "puzzles.bakery-window-plum-cardamom-braid-104",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "long braided pastry with plum pockets, cardamom seed dots, and tucked ends",
+      "colorMood": "plum purple, golden braid, tiny warm spice flecks",
+      "tags": [
+        "plum braid",
+        "cardamom dots",
+        "braided pastry"
+      ]
+    },
+    "solution": [
+      "011111111110",
+      "111111111111",
+      "111011111111",
+      "111101111111",
+      "111111001111",
+      "111111111111",
+      "110111111111",
+      "111101111111",
+      "111111011111",
+      "111111111111",
+      "011111111110",
+      "001111111100"
+    ]
+  },
+  {
+    "id": "bakery-window-honey-lavender-canele-105",
+    "title": "Honey Lavender Canele",
+    "titleKey": "puzzles.bakery-window-honey-lavender-canele-105",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "ridged canele tower with honey glaze cap and a tiny lavender sprig",
+      "colorMood": "deep caramel crust, honey shine, soft lavender accent",
+      "tags": [
+        "canele",
+        "honey glaze",
+        "lavender sprig"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "110111011111",
+      "111111111111",
+      "111011101111",
+      "111111111111",
+      "111101110111",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "011111111110"
+    ]
+  },
+  {
+    "id": "village-pantry-rose-label-jam-pot-105",
+    "title": "Rose Label Jam Pot",
+    "titleKey": "puzzles.village-pantry-rose-label-jam-pot-105",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "rounded jam pot with cloth lid, rose label, and two small jar shoulders",
+      "colorMood": "berry jam red, cream cloth lid, dusty rose label",
+      "tags": [
+        "jam pot",
+        "rose label",
+        "cloth lid"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1110111011",
+      "1111111111",
+      "1101111011",
+      "1111111111",
+      "1110011111",
+      "0111111110",
+      "1111111111"
+    ]
+  },
+  {
+    "id": "village-pantry-blue-linen-bowl-cover-106",
+    "title": "Blue Linen Bowl Cover",
+    "titleKey": "puzzles.village-pantry-blue-linen-bowl-cover-106",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "covered bowl with scalloped linen edge, ribbon knot, and low rounded base",
+      "colorMood": "powder blue linen, cream bowl, tiny yellow ribbon",
+      "tags": [
+        "bowl cover",
+        "blue linen",
+        "ribbon knot"
+      ]
+    },
+    "solution": [
+      "0111111110",
+      "1111111111",
+      "1110110111",
+      "1111111111",
+      "1101111011",
+      "1111111111",
+      "1111011111",
+      "1111110111",
+      "0111111110",
+      "0011111100"
+    ]
   }
 ];
 

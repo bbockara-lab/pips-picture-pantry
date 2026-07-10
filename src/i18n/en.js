@@ -1247,6 +1247,22 @@ export const en = {
     "village-pantry-daisy-checked-teapot-104": {
       title: "Daisy Checked Teapot",
       imageName: "Daisy Checked Teapot"
+    },
+    "bakery-window-plum-cardamom-braid-104": {
+      title: "Plum Cardamom Braid",
+      imageName: "Plum Cardamom Braid"
+    },
+    "bakery-window-honey-lavender-canele-105": {
+      title: "Honey Lavender Canele",
+      imageName: "Honey Lavender Canele"
+    },
+    "village-pantry-rose-label-jam-pot-105": {
+      title: "Rose Label Jam Pot",
+      imageName: "Rose Label Jam Pot"
+    },
+    "village-pantry-blue-linen-bowl-cover-106": {
+      title: "Blue Linen Bowl Cover",
+      imageName: "Blue Linen Bowl Cover"
     }
   }
 };
