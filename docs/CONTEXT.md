@@ -1844,3 +1844,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Repaired the newest Korean large-board puzzle names from the v0.1.215-v0.1.218 content run so catalog browsing does not show mojibake for recent cards.
 - Added an i18n regression guard for the newest Bakery/Village large-board titles and image names.
 - Verified with syntax checks, targeted i18n test, catalog report, hygiene/assets QA, full Vitest, production build, and mobile visual QA.
+
+
+### v0.1.220 - Four Puzzle Quality Batch
+- Added four readable large-board puzzles: Blueberry Babka Slice, Vanilla Canele Tower, Polka Dot Sugar Tin, and Wooden Egg Crate.
+- Raised catalog guards to 211 free puzzles, 121 large-board free puzzles, 55 Bakery Window 12x12 boards, 62 Village Pantry 10x10 boards, and 73 readable large-board briefs.
+- Version bumped to v0.1.220; verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

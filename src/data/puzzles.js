@@ -4645,6 +4645,134 @@ export const puzzles = [
       "1111111111",
       "0111111110"
     ]
+  },
+  {
+    "id": "bakery-window-blueberry-babka-slice-74",
+    "title": "Blueberry Babka Slice",
+    "titleKey": "puzzles.bakery-window-blueberry-babka-slice-74",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "tall sliced babka wedge with a readable braided blueberry swirl running through the crumb",
+      "colorMood": "golden brioche crumb, blueberry jam ribbons, soft sugar-dusted crust",
+      "tags": [
+        "babka-slice",
+        "blueberry-swirl",
+        "bakery-window"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "111011011111",
+      "110110110111",
+      "111101101111",
+      "111011011111",
+      "110110110111",
+      "111111111110",
+      "011111111100",
+      "001111111000",
+      "000111110000"
+    ]
+  },
+  {
+    "id": "bakery-window-vanilla-canele-tower-75",
+    "title": "Vanilla Canele Tower",
+    "titleKey": "puzzles.bakery-window-vanilla-canele-tower-75",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "three stacked caneles with fluted sides and a rounded vanilla-glaze crown",
+      "colorMood": "burnished caramel shell, vanilla cream highlights, toasted brown grooves",
+      "tags": [
+        "canele",
+        "stacked-pastry",
+        "bakery-window"
+      ]
+    },
+    "solution": [
+      "001111110000",
+      "011111111000",
+      "111011101100",
+      "111111111110",
+      "011011101100",
+      "111111111110",
+      "011111111100",
+      "001111111000",
+      "011101110000",
+      "111111111000",
+      "011111110000",
+      "001111100000"
+    ]
+  },
+  {
+    "id": "village-pantry-polka-dot-sugar-tin-75",
+    "title": "Polka Dot Sugar Tin",
+    "titleKey": "puzzles.village-pantry-polka-dot-sugar-tin-75",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "rounded sugar tin with a lid band, dotted front label, and small feet",
+      "colorMood": "buttery yellow tin, white polka dots, cocoa lid shadow",
+      "tags": [
+        "sugar-tin",
+        "polka-dot-label",
+        "village-pantry"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111001111",
+      "1111111111",
+      "1101111011",
+      "1101111011",
+      "1111111111",
+      "0111111110",
+      "0011111100",
+      "0110000110"
+    ]
+  },
+  {
+    "id": "village-pantry-wooden-egg-crate-76",
+    "title": "Wooden Egg Crate",
+    "titleKey": "puzzles.village-pantry-wooden-egg-crate-76",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "low wooden egg crate with three rounded egg pockets and slatted side rails",
+      "colorMood": "warm pine crate, cream eggs, soft straw-gold shadows",
+      "tags": [
+        "egg-crate",
+        "wooden-slats",
+        "pantry-counter"
+      ]
+    },
+    "solution": [
+      "0111111110",
+      "1111111111",
+      "1101101101",
+      "1111111111",
+      "1011011011",
+      "1111111111",
+      "1101101101",
+      "1111111111",
+      "0111111110",
+      "0011111100"
+    ]
   }
 
 ];

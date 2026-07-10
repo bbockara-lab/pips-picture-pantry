@@ -1132,3 +1132,10 @@ Last updated: 2026-06-28
 - Repaired Korean title/imageName copy for the newest large-board catalog entries from Copper Funnel through Herb Drying Rack.
 - Added targeted i18n coverage so recent Korean puzzle names cannot silently regress to mojibake.
 - Verified with syntax checks, targeted i18n test, catalog report, hygiene/assets QA, full Vitest, production build, and mobile visual QA.
+
+
+## v0.1.220 - Four Puzzle Quality Batch
+- Added Bakery Window 12x12 Blueberry Babka Slice and Vanilla Canele Tower.
+- Added Village Pantry 10x10 Polka Dot Sugar Tin and Wooden Egg Crate.
+- Raised guarded catalog thresholds to 211 free puzzles, 121 large-board free puzzles, 55 Bakery Window 12x12 boards, 62 Village Pantry 10x10 boards, and 73 readable large-board briefs.
+- Verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

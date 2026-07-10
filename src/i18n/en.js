@@ -1007,6 +1007,22 @@ export const en = {
     "village-pantry-herb-drying-rack-74": {
       title: "Herb Drying Rack",
       imageName: "Herb Drying Rack"
+    },
+    "bakery-window-blueberry-babka-slice-74": {
+      title: "Blueberry Babka Slice",
+      imageName: "Blueberry Babka Slice"
+    },
+    "bakery-window-vanilla-canele-tower-75": {
+      title: "Vanilla Canele Tower",
+      imageName: "Vanilla Canele Tower"
+    },
+    "village-pantry-polka-dot-sugar-tin-75": {
+      title: "Polka Dot Sugar Tin",
+      imageName: "Polka Dot Sugar Tin"
+    },
+    "village-pantry-wooden-egg-crate-76": {
+      title: "Wooden Egg Crate",
+      imageName: "Wooden Egg Crate"
     }
   }
 };

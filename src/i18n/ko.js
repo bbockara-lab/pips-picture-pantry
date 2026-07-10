@@ -1005,6 +1005,22 @@ export const ko = {
     "village-pantry-herb-drying-rack-74": {
       title: "\uD5C8\uBE0C \uAC74\uC870 \uB799",
       imageName: "\uD5C8\uBE0C \uAC74\uC870 \uB799"
+    },
+    "bakery-window-blueberry-babka-slice-74": {
+      title: "\uBE14\uB8E8\uBCA0\uB9AC \uBC14\uBE0C\uCE74 \uC870\uAC01",
+      imageName: "\uBE14\uB8E8\uBCA0\uB9AC \uBC14\uBE0C\uCE74 \uC870\uAC01"
+    },
+    "bakery-window-vanilla-canele-tower-75": {
+      title: "\uBC14\uB2D0\uB77C \uCE74\uB204\uB808 \uD0D1",
+      imageName: "\uBC14\uB2D0\uB77C \uCE74\uB204\uB808 \uD0D1"
+    },
+    "village-pantry-polka-dot-sugar-tin-75": {
+      title: "\uBB3C\uBC29\uC6B8 \uC124\uD0D5 \uD2F4",
+      imageName: "\uBB3C\uBC29\uC6B8 \uC124\uD0D5 \uD2F4"
+    },
+    "village-pantry-wooden-egg-crate-76": {
+      title: "\uB098\uBB34 \uB2EC\uAC40 \uC0C1\uC790",
+      imageName: "\uB098\uBB34 \uB2EC\uAC40 \uC0C1\uC790"
     }
   }
 };

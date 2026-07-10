@@ -981,3 +981,8 @@ Immediate implementation decisions:
 ### v0.1.219 Follow-up - Recent Korean Puzzle Title Guard
 - Closed a localization-quality gap found after the v0.1.218 content batch: recent large-board Korean catalog names now have explicit readable coverage.
 - Keep pairing content batches with metadata guards so puzzle quantity growth does not quietly reduce catalog polish.
+
+
+### v0.1.220 Follow-up - Four Puzzle Quality Batch
+- Continued curated puzzle scale with two new 12x12 bakery silhouettes and two new 10x10 pantry-object silhouettes.
+- Keep the next content pass balanced between puzzle quantity and readable object design, especially as 12x12 boards become a stronger differentiator.
