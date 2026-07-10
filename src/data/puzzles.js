@@ -5414,6 +5414,134 @@ export const puzzles = [
       "0111111110",
       "0011111100"
     ]
+  },
+  {
+    "id": "bakery-window-hazelnut-praline-square-86",
+    "title": "Hazelnut Praline Square",
+    "titleKey": "puzzles.bakery-window-hazelnut-praline-square-86",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "neat square praline slice with a hazelnut dot grid and thick chocolate edge",
+      "colorMood": "caramel praline tan, chocolate brown rim, toasted hazelnut dots",
+      "tags": [
+        "praline square",
+        "hazelnut",
+        "chocolate edge"
+      ]
+    },
+    "solution": [
+      "011111111110",
+      "111111111111",
+      "110110110111",
+      "111111111111",
+      "111011011111",
+      "111111111111",
+      "110110110111",
+      "111111111111",
+      "111011011111",
+      "111111111111",
+      "111111111111",
+      "011111111110"
+    ]
+  },
+  {
+    "id": "bakery-window-lemon-curd-rosette-87",
+    "title": "Lemon Curd Rosette",
+    "titleKey": "puzzles.bakery-window-lemon-curd-rosette-87",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "round tartlet with a spiral rosette of lemon curd and a small leaf at one side",
+      "colorMood": "sunny lemon yellow, buttery crust, tiny green leaf accent",
+      "tags": [
+        "lemon curd",
+        "rosette",
+        "tartlet"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "111100111111",
+      "111111001111",
+      "111011111111",
+      "111111101111",
+      "111110111111",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "011111111110"
+    ]
+  },
+  {
+    "id": "village-pantry-cornflower-tea-canister-87",
+    "title": "Cornflower Tea Canister",
+    "titleKey": "puzzles.village-pantry-cornflower-tea-canister-87",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "tall tea canister with a cornflower label, lid knob, and side highlight stripe",
+      "colorMood": "soft blue tin, cream label, tiny cornflower petals",
+      "tags": [
+        "tea canister",
+        "cornflower",
+        "blue tin"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1110011111",
+      "1111110111",
+      "1111111111",
+      "1101101111",
+      "1111111111",
+      "0111111110",
+      "0011111100"
+    ]
+  },
+  {
+    "id": "village-pantry-ribboned-bread-basket-88",
+    "title": "Ribboned Bread Basket",
+    "titleKey": "puzzles.village-pantry-ribboned-bread-basket-88",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "woven bread basket with a ribbon bow and two rounded loaves tucked inside",
+      "colorMood": "honey wicker basket, cream bread tops, coral ribbon bow",
+      "tags": [
+        "bread basket",
+        "ribbon bow",
+        "woven wicker"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1101110111",
+      "1111111111",
+      "1110011111",
+      "1111111111",
+      "0111111110",
+      "1111111111",
+      "0111111110"
+    ]
   }
 ];
 

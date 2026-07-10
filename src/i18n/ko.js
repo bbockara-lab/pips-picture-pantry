@@ -1101,6 +1101,22 @@ export const ko = {
     "village-pantry-little-recipe-box-86": {
       title: "\uC791\uC740 \uB808\uC2DC\uD53C \uBC15\uC2A4",
       imageName: "\uC791\uC740 \uB808\uC2DC\uD53C \uBC15\uC2A4"
+    },
+    "bakery-window-hazelnut-praline-square-86": {
+      title: "\uD5E4\uC990\uB11B \uD504\uB784\uB9B0 \uC2A4\uD018\uC5B4",
+      imageName: "\uD5E4\uC990\uB11B \uD504\uB784\uB9B0 \uC2A4\uD018\uC5B4"
+    },
+    "bakery-window-lemon-curd-rosette-87": {
+      title: "\uB808\uBAAC \uCEE4\uB4DC \uB85C\uC81C\uD2B8",
+      imageName: "\uB808\uBAAC \uCEE4\uB4DC \uB85C\uC81C\uD2B8"
+    },
+    "village-pantry-cornflower-tea-canister-87": {
+      title: "\uCF58\uD50C\uB77C\uC6CC \uD2F0 \uCE90\uB2C8\uC2A4\uD130",
+      imageName: "\uCF58\uD50C\uB77C\uC6CC \uD2F0 \uCE90\uB2C8\uC2A4\uD130"
+    },
+    "village-pantry-ribboned-bread-basket-88": {
+      title: "\uB9AC\uBCF8 \uBE0C\uB808\uB4DC \uBC14\uAD6C\uB2C8",
+      imageName: "\uB9AC\uBCF8 \uBE0C\uB808\uB4DC \uBC14\uAD6C\uB2C8"
     }
   }
 };

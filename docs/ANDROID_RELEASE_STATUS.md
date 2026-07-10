@@ -1176,3 +1176,9 @@ Last updated: 2026-06-28
 - Added Village Pantry 10x10 Striped Pickle Jar and Little Recipe Box.
 - Raised guarded catalog thresholds to 231 free puzzles, 141 large-board free puzzles, 65 Bakery Window 12x12 boards, 72 Village Pantry 10x10 boards, and 93 readable large-board briefs.
 - Verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.
+
+## v0.1.227 - Four Puzzle Quality Batch
+- Added Bakery Window 12x12 Hazelnut Praline Square and Lemon Curd Rosette.
+- Added Village Pantry 10x10 Cornflower Tea Canister and Ribboned Bread Basket.
+- Raised guarded catalog thresholds to 235 free puzzles, 145 large-board free puzzles, 67 Bakery Window 12x12 boards, 74 Village Pantry 10x10 boards, and 97 readable large-board briefs.
+- Verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

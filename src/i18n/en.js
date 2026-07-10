@@ -1103,6 +1103,22 @@ export const en = {
     "village-pantry-little-recipe-box-86": {
       title: "Little Recipe Box",
       imageName: "Little Recipe Box"
+    },
+    "bakery-window-hazelnut-praline-square-86": {
+      title: "Hazelnut Praline Square",
+      imageName: "Hazelnut Praline Square"
+    },
+    "bakery-window-lemon-curd-rosette-87": {
+      title: "Lemon Curd Rosette",
+      imageName: "Lemon Curd Rosette"
+    },
+    "village-pantry-cornflower-tea-canister-87": {
+      title: "Cornflower Tea Canister",
+      imageName: "Cornflower Tea Canister"
+    },
+    "village-pantry-ribboned-bread-basket-88": {
+      title: "Ribboned Bread Basket",
+      imageName: "Ribboned Bread Basket"
     }
   }
 };

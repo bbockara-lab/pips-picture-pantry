@@ -1011,3 +1011,6 @@ Immediate implementation decisions:
 ### v0.1.226 Follow-up - Four Puzzle Quality Batch
 - Continued the authored puzzle expansion with another balanced Bakery/Village batch.
 - Preserved the launch-content direction: many puzzles, but each one carries translated metadata and an art-readability brief for later visual production.
+
+### v0.1.227 Follow-up - Four Puzzle Quality Batch
+- Continued the polished content-volume push while keeping puzzle identity readable enough for later artwork and album surfaces.
