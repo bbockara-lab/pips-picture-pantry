@@ -1826,3 +1826,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added a scoped opening screen polish layer for the game-stage intro: warmer card depth, improved key-visual frame, larger Pip seal, and a more tactile start button.
 - Tightened the mobile visual guard so the start button must keep larger dimensions, rounded corners, gradient, and real shadow treatment.
 - Version bumped to v0.1.216; full test/build/mobile QA passed.
+
+
+### v0.1.217 - Catalog Summary Polish
+- Added compact catalog summary chips to puzzle pack headers so large stages show progress, total pictures, large-board count, and maximum board size at a glance.
+- Added mobile QA coverage for Bakery Window and Village Pantry summary chips so the 200+ puzzle catalog remains visibly scannable.
+- Version bumped to v0.1.217; syntax checks, targeted i18n test, hygiene/assets QA, full test suite, production build, and mobile visual QA passed.

@@ -1113,3 +1113,9 @@ Last updated: 2026-06-28
 - Improved the first game-stage intro surface with a deeper warm card, framed key visual, larger Pip seal, and a more dimensional start button.
 - Tightened mobile visual QA so the opening start button cannot regress to a flat treatment.
 - Verified syntax checks, hygiene/assets QA, full test suite, production build, local HTTP 200, and mobile visual QA at 360x740, 390x844, and 430x932.
+
+
+## v0.1.217 - Catalog Summary Polish
+- Added puzzle hub pack summary chips for catalog scale: completion, total picture count, large-board count, and max board size.
+- Added mobile visual QA assertions for Bakery Window and Village Pantry catalog summaries.
+- Verified syntax checks, targeted i18n test, hygiene/assets QA, full test suite, production build, and mobile visual QA at 360x740, 390x844, and 430x932.

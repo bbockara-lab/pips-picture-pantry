@@ -4363,3 +4363,55 @@ img {
     width: min(100%, 304px);
   }
 }
+
+
+/* v0.1.217 catalog summary polish */
+.pack-catalog-summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+  max-width: min(232px, 48vw);
+}
+
+.pack-header .pack-catalog-summary span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  border: 2px solid rgba(68, 42, 47, 0.18);
+  border-radius: 999px;
+  padding: 4px 9px;
+  color: #432a2f;
+  background: linear-gradient(180deg, #fff8e8 0%, #f6dfaf 100%);
+  box-shadow: 0 2px 0 rgba(68, 42, 47, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  font-size: 0.68rem;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.pack-header .pack-catalog-summary__progress {
+  color: #fff8e8;
+  border-color: rgba(68, 42, 47, 0.22);
+  background: linear-gradient(180deg, #8c5a3b 0%, #67412e 100%);
+}
+
+.pack-header .pack-catalog-summary__large {
+  background: linear-gradient(180deg, #d4f0de 0%, #a7dbc2 100%);
+}
+
+.pack-header .pack-catalog-summary__largest {
+  background: linear-gradient(180deg, #ffe29a 0%, #f4be45 100%);
+}
+
+@media (max-width: 430px) {
+  .pack-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .pack-catalog-summary {
+    justify-content: flex-start;
+    max-width: 100%;
+  }
+}

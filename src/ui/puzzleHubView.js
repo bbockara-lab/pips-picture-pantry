@@ -158,13 +158,12 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack,
 
     const header = document.createElement("div");
     header.className = "pack-header";
-    header.innerHTML = `
-      <div>
-        <p class="section-label">${t(pack.titleKey)}</p>
-        <p class="pack-note">${t(pack.noteKey)}</p>
-      </div>
-      <span>${isBonusPreview ? t("packs.preview") : t("packs.progress", { completed: completeCount, total: packPuzzles.length })}</span>
+    const headerCopy = document.createElement("div");
+    headerCopy.innerHTML = `
+      <p class="section-label">${t(pack.titleKey)}</p>
+      <p class="pack-note">${t(pack.noteKey)}</p>
     `;
+    header.append(headerCopy, createPackCatalogSummary(packPuzzles, completeCount, isBonusPreview));
     packBlock.appendChild(header);
     packBlock.appendChild(createStagePreview(pack, completeCount, packPuzzles.length));
 
@@ -218,6 +217,55 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack,
   });
 
   return section;
+}
+
+function createPackCatalogSummary(packPuzzles, completeCount, isBonusPreview) {
+  const summary = document.createElement("div");
+  summary.className = "pack-catalog-summary";
+
+  if (isBonusPreview) {
+    const preview = document.createElement("span");
+    preview.className = "pack-catalog-summary__progress";
+    preview.textContent = t("packs.preview");
+    summary.appendChild(preview);
+    return summary;
+  }
+
+  const total = packPuzzles.length;
+  const largeCount = packPuzzles.filter((puzzle) => Number(puzzle.size) >= 10).length;
+  const largestSize = packPuzzles.reduce((largest, puzzle) => Math.max(largest, Number(puzzle.size) || 0), 0);
+
+  const progress = document.createElement("span");
+  progress.className = "pack-catalog-summary__progress";
+  progress.textContent = t("packs.catalogProgress", { completed: completeCount, total });
+  summary.appendChild(progress);
+
+  const totalChip = document.createElement("span");
+  totalChip.className = "pack-catalog-summary__total";
+  totalChip.textContent = t("packs.catalogTotal", { count: total });
+  summary.appendChild(totalChip);
+
+  if (largeCount > 0) {
+    const largeChip = document.createElement("span");
+    largeChip.className = "pack-catalog-summary__large";
+    largeChip.textContent = t("packs.catalogLarge", { count: largeCount });
+    summary.appendChild(largeChip);
+  }
+
+  if (largestSize > 0) {
+    const sizeChip = document.createElement("span");
+    sizeChip.className = "pack-catalog-summary__largest";
+    sizeChip.textContent = t("packs.catalogLargest", { size: largestSize });
+    summary.appendChild(sizeChip);
+  }
+
+  summary.setAttribute("aria-label", t("packs.catalogSummary", {
+    completed: completeCount,
+    total,
+    large: largeCount,
+    size: largestSize
+  }));
+  return summary;
 }
 
 function createStageFilterBar(hideCompletedStages, hiddenStageCount, onToggleHideCompletedStages) {

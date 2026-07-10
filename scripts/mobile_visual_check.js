@@ -617,6 +617,20 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     failures.push("[" + viewportName + "] Village Pantry should expose at least 58 10x10 catalog chips, saw " + villageLargeBoardChipCount);
   }
 
+  const bakerySummaryText = await page.locator('.pack-block[data-pack-id="bakery-window"] .pack-catalog-summary').first().innerText();
+  const bakerySummaryLargeMatch = bakerySummaryText.match(/(\d+)\s+large/);
+  const bakerySummaryLargeCount = bakerySummaryLargeMatch ? Number(bakerySummaryLargeMatch[1]) : 0;
+  if (bakerySummaryLargeCount < 51 || !bakerySummaryText.includes("12x12")) {
+    failures.push("[" + viewportName + "] Bakery Window catalog summary should expose at least 51 large boards and 12x12 max size, saw " + bakerySummaryText);
+  }
+
+  const villageSummaryText = await page.locator('.pack-block[data-pack-id="village-pantry"] .pack-catalog-summary').first().innerText();
+  const villageSummaryLargeMatch = villageSummaryText.match(/(\d+)\s+large/);
+  const villageSummaryLargeCount = villageSummaryLargeMatch ? Number(villageSummaryLargeMatch[1]) : 0;
+  if (villageSummaryLargeCount < 58 || !villageSummaryText.includes("10x10")) {
+    failures.push("[" + viewportName + "] Village Pantry catalog summary should expose at least 58 large boards and 10x10 max size, saw " + villageSummaryText);
+  }
+
   const target = page.locator(".puzzle-chip", { hasText: /Bakery Window Glow/ }).first();
   await target.waitFor({ state: "visible", timeout: 5000 });
   await target.click();

@@ -966,3 +966,8 @@ Immediate implementation decisions:
 - After crossing 200 puzzles, paused content expansion briefly for first-impression polish.
 - Improved the start button and intro composition without replacing the approved Sunny Spoon/Pip art assets.
 - Kept this as a scoped UI polish layer rather than a broad art-system rewrite.
+
+
+### v0.1.217 Follow-up - Catalog Summary Polish
+- After the 200+ puzzle milestone and opening-screen polish, improved puzzle hub scanability so large stages communicate their size before another content burst.
+- Next content pass can resume puzzle growth, but keep summary chips and catalog QA thresholds aligned as counts climb.
