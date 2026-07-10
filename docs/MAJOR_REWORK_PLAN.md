@@ -991,3 +991,7 @@ Immediate implementation decisions:
 ### v0.1.221 Follow-up - Four Puzzle Quality Batch
 - Continued the high-volume curated puzzle lane with silhouettes that should remain recognizable even before final color-card art is attached.
 - Keep alternating Bakery 12x12 and Village 10x10 batches until the catalog depth target is comfortably ahead of closed-test expectations.
+
+
+### v0.1.222 Follow-up - Bakery 12x12 Guard Alignment
+- Closed a small QA drift after the v0.1.221 content batch: Bakery-specific guard now matches the active 57-card 12x12 floor.

@@ -1856,3 +1856,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added four readable large-board puzzles: Strawberry Charlotte Dome, Cocoa Biscotti Bundle, Checkered Tea Towel, and Honeycomb Glass Jar.
 - Raised catalog guards to 215 free puzzles, 125 large-board free puzzles, 57 Bakery Window 12x12 boards, 64 Village Pantry 10x10 boards, and 77 readable large-board briefs.
 - Version bumped to v0.1.221; verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.
+
+
+### v0.1.222 - Bakery 12x12 Guard Alignment
+- Aligned the Bakery Window-specific 12x12 regression guard with the current v0.1.221 catalog floor of 57 authored Bakery 12x12 puzzles.
+- Version bumped to v0.1.222; targeted puzzle-data and catalog-report tests passed.

@@ -41,7 +41,7 @@ describe("puzzle data", () => {
       const pack = progressionPacksById.get(puzzle.packId);
       expect(puzzle.size).toBeLessThanOrEqual(pack.size);
       if (puzzle.packId === "bakery-window") {
-        expect(progressionPuzzles.filter((candidate) => candidate.packId === "bakery-window" && candidate.size === 12).length).toBeGreaterThanOrEqual(53);
+        expect(progressionPuzzles.filter((candidate) => candidate.packId === "bakery-window" && candidate.size === 12).length).toBeGreaterThanOrEqual(57);
       }
       if (puzzle.size > 8) {
         expect(pack.size).toBeGreaterThanOrEqual(10);

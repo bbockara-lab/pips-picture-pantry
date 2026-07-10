@@ -1146,3 +1146,8 @@ Last updated: 2026-06-28
 - Added Village Pantry 10x10 Checkered Tea Towel and Honeycomb Glass Jar.
 - Raised guarded catalog thresholds to 215 free puzzles, 125 large-board free puzzles, 57 Bakery Window 12x12 boards, 64 Village Pantry 10x10 boards, and 77 readable large-board briefs.
 - Verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.
+
+
+## v0.1.222 - Bakery 12x12 Guard Alignment
+- Aligned the Bakery Window-specific 12x12 regression guard with the current 57-card Bakery Window 12x12 catalog floor.
+- Verified with targeted puzzle-data and catalog-report tests.
