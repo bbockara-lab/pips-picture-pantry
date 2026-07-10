@@ -1149,6 +1149,22 @@ export const ko = {
     "village-pantry-quilted-pot-mat-92": {
       title: "\uD034\uD2B8 \uB0C4\uBE44 \uB9E4\uD2B8",
       imageName: "\uD034\uD2B8 \uB0C4\uBE44 \uB9E4\uD2B8"
+    },
+    "bakery-window-berry-cream-crown-92": {
+      title: "\uBCA0\uB9AC \uD06C\uB9BC \uD06C\uB77C\uC6B4",
+      imageName: "\uBCA0\uB9AC \uD06C\uB9BC \uD06C\uB77C\uC6B4"
+    },
+    "bakery-window-cocoa-almond-biscuit-93": {
+      title: "\uCF54\uCF54\uC544 \uC544\uBAAC\uB4DC \uBE44\uC2A4\uD0B7",
+      imageName: "\uCF54\uCF54\uC544 \uC544\uBAAC\uB4DC \uBE44\uC2A4\uD0B7"
+    },
+    "village-pantry-lace-jam-spoon-93": {
+      title: "\uB808\uC774\uC2A4 \uC7BC \uC2A4\uD47C",
+      imageName: "\uB808\uC774\uC2A4 \uC7BC \uC2A4\uD47C"
+    },
+    "village-pantry-mint-label-flour-tin-94": {
+      title: "\uBBFC\uD2B8 \uB77C\uBCA8 \uBC00\uAC00\uB8E8 \uD2F4",
+      imageName: "\uBBFC\uD2B8 \uB77C\uBCA8 \uBC00\uAC00\uB8E8 \uD2F4"
     }
   }
 };

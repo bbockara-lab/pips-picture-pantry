@@ -1903,3 +1903,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added Village Pantry 10x10 Daisy Milk Bottle and Quilted Pot Mat.
 - Raised catalog guards to 243 free puzzles, 153 large-board free puzzles, 71 Bakery Window 12x12 boards, 78 Village Pantry 10x10 boards, and 105 readable large-board briefs.
 - Version bumped to v0.1.229; verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.
+
+### v0.1.230 - Four Puzzle Quality Batch
+- Added Bakery Window 12x12 Berry Cream Crown and Cocoa Almond Biscuit.
+- Added Village Pantry 10x10 Lace Jam Spoon and Mint Label Flour Tin.
+- Raised catalog guards to 247 free puzzles, 157 large-board free puzzles, 73 Bakery Window 12x12 boards, 80 Village Pantry 10x10 boards, and 109 readable large-board briefs.
+- Version bumped to v0.1.230; verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

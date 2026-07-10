@@ -1151,6 +1151,22 @@ export const en = {
     "village-pantry-quilted-pot-mat-92": {
       title: "Quilted Pot Mat",
       imageName: "Quilted Pot Mat"
+    },
+    "bakery-window-berry-cream-crown-92": {
+      title: "Berry Cream Crown",
+      imageName: "Berry Cream Crown"
+    },
+    "bakery-window-cocoa-almond-biscuit-93": {
+      title: "Cocoa Almond Biscuit",
+      imageName: "Cocoa Almond Biscuit"
+    },
+    "village-pantry-lace-jam-spoon-93": {
+      title: "Lace Jam Spoon",
+      imageName: "Lace Jam Spoon"
+    },
+    "village-pantry-mint-label-flour-tin-94": {
+      title: "Mint Label Flour Tin",
+      imageName: "Mint Label Flour Tin"
     }
   }
 };

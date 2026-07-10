@@ -1020,3 +1020,6 @@ Immediate implementation decisions:
 
 ### v0.1.229 Follow-up - Four Puzzle Quality Batch
 - Continued the balanced Bakery/Village puzzle expansion with translated metadata, art-readability briefs, and raised mobile/catalog guards.
+
+### v0.1.230 Follow-up - Four Puzzle Quality Batch
+- Continued expanding the polished launch catalog and crossed 80 Village Pantry 10x10 boards under mobile/catalog guards.

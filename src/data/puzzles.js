@@ -5798,6 +5798,134 @@ export const puzzles = [
       "1111111111",
       "0111111110"
     ]
+  },
+  {
+    "id": "bakery-window-berry-cream-crown-92",
+    "title": "Berry Cream Crown",
+    "titleKey": "puzzles.bakery-window-berry-cream-crown-92",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "small crown-shaped pastry with cream peaks and three round berries along the top",
+      "colorMood": "golden pastry crown, vanilla cream peaks, ruby berry dots",
+      "tags": [
+        "crown pastry",
+        "cream peaks",
+        "berries"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111011101111",
+      "111111111111",
+      "110110110111",
+      "111111111111",
+      "111101111111",
+      "111111101111",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "011111111110"
+    ]
+  },
+  {
+    "id": "bakery-window-cocoa-almond-biscuit-93",
+    "title": "Cocoa Almond Biscuit",
+    "titleKey": "puzzles.bakery-window-cocoa-almond-biscuit-93",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "oval cocoa biscuit with almond slivers scattered across the center and a dark rim",
+      "colorMood": "deep cocoa brown, toasted almond cream, warm biscuit edge",
+      "tags": [
+        "cocoa biscuit",
+        "almond slivers",
+        "oval cookie"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "111001100111",
+      "111111111111",
+      "110110110111",
+      "111111111111",
+      "111001100111",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "011111111110"
+    ]
+  },
+  {
+    "id": "village-pantry-lace-jam-spoon-93",
+    "title": "Lace Jam Spoon",
+    "titleKey": "puzzles.village-pantry-lace-jam-spoon-93",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "long jam spoon with a rounded bowl, lace-tied handle, and small sticky drip",
+      "colorMood": "warm wooden spoon, berry jam red, cream lace bow",
+      "tags": [
+        "jam spoon",
+        "lace bow",
+        "wooden utensil"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1110111111",
+      "1111011111",
+      "1111101111",
+      "1111110111",
+      "1111111111",
+      "0111111110",
+      "0011111100"
+    ]
+  },
+  {
+    "id": "village-pantry-mint-label-flour-tin-94",
+    "title": "Mint Label Flour Tin",
+    "titleKey": "puzzles.village-pantry-mint-label-flour-tin-94",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "rectangular flour tin with a mint label, hinged lid, and two tiny scoop marks",
+      "colorMood": "cream metal tin, mint green label, soft flour-white highlights",
+      "tags": [
+        "flour tin",
+        "mint label",
+        "pantry storage"
+      ]
+    },
+    "solution": [
+      "0111111110",
+      "1111111111",
+      "1110011111",
+      "1111110111",
+      "1111111111",
+      "1101101111",
+      "1111111111",
+      "1111111111",
+      "1111111111",
+      "0111111110"
+    ]
   }
 ];
 
