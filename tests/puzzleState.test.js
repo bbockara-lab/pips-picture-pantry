@@ -1,11 +1,15 @@
 import { describe, expect, it } from "vitest";
 import {
   createPuzzleState,
+  moveCursor,
   restoreState,
   serializeState,
   setMode,
+  setCursor,
   toggleCell,
-  undoLastMove
+  toggleCursorCell,
+  undoLastMove,
+  useHint
 } from "../src/game/puzzleState.js";
 
 const puzzle = {
@@ -43,12 +47,55 @@ describe("puzzle state", () => {
     expect(state.history).toHaveLength(0);
   });
 
+  it("moves and clamps the cursor", () => {
+    let state = createPuzzleState(puzzle);
+
+    state = setCursor(state, 2, 2, puzzle.size);
+    expect(state.cursor).toEqual({ row: 2, column: 2 });
+
+    state = moveCursor(state, 1, 1, puzzle.size);
+    expect(state.cursor).toEqual({ row: 2, column: 2 });
+
+    state = moveCursor(state, -2, -1, puzzle.size);
+    expect(state.cursor).toEqual({ row: 0, column: 1 });
+  });
+
+  it("toggles the selected cursor cell", () => {
+    let state = createPuzzleState(puzzle);
+    state = setCursor(state, 2, 1, puzzle.size);
+    state = toggleCursorCell(state, "mark");
+
+    expect(state.cells[2][1]).toBe("marked");
+  });
+
+
+  it("uses a hint on an unresolved correct cell and lets undo restore the hint count", () => {
+    const hintPuzzle = { id: "hint-puzzle", size: 3 };
+    const solution = [
+      [false, true, false],
+      [false, false, false],
+      [false, false, false]
+    ];
+    let state = createPuzzleState(hintPuzzle);
+
+    state = useHint(state, solution);
+    expect(state.cells[0][1]).toBe("filled");
+    expect(state.hintsUsed).toBe(1);
+
+    state = undoLastMove(state);
+    expect(state.cells[0][1]).toBe("empty");
+    expect(state.hintsUsed).toBe(0);
+  });
+
   it("serializes and restores state", () => {
     let state = createPuzzleState(puzzle);
     state = toggleCell(state, 2, 2, "fill");
+    state = useHint(state, [[false, false, false], [false, false, false], [false, false, true]]);
 
     const restored = restoreState(serializeState(state));
     expect(restored.puzzleId).toBe("test-puzzle");
     expect(restored.cells[2][2]).toBe("filled");
+    expect(restored.cursor).toEqual({ row: 0, column: 0 });
+    expect(restored.hintsUsed).toBe(1);
   });
 });

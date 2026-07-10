@@ -8,6 +8,8 @@ npm-debug.log*
 coverage/
 .vite/
 tmp/
+.tmp/
+tmp-*
 .firebase/
 # Android release signing secrets
 *.jks

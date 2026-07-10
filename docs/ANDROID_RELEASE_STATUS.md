@@ -327,4 +327,777 @@ Last updated: 2026-06-28
 
 - Release target: v0.1.31 / Android versionCode 24 / versionName 1.0.23.
 - Regenerated launcher icon PNG resources from store-assets/play-console/app-icon-512.png for mdpi through xxxhdpi, including adaptive icon foreground PNGs.
-- Verification after this slice: node --check passed on appShell; npm run build passed; signed AAB rebuilt. Full jarsigner verification was not available because jarsigner is not installed on PATH or the detected local Java folders. Play Console upload validation remains the final signature check.\r\n- Signed AAB size: 10,814,753 bytes.
+- Verification after this slice: node --check passed on appShell; npm run build passed; signed AAB rebuilt. Full jarsigner verification was not available because jarsigner is not installed on PATH or the detected local Java folders. Play Console upload validation remains the final signature check.
+- Signed AAB size: 10,814,753 bytes.
+
+
+## Verification Update - 2026-07-01 v0.1.32 Tutorial / Mystery Tile Polish
+
+- Release target: v0.1.32 / Android versionCode 25 / versionName 1.0.24.
+- Scope: local UX review build candidate for visual first-puzzle guidance and stage/badge mystery tile previews.
+- Signed AAB: not rebuilt yet; rebuild after local UX approval. Local verification passed with JS syntax checks and npm run build.
+
+## Verification Update - 2026-07-01 v0.1.33 Tutorial Label Polish
+
+- Release target: v0.1.33 / Android versionCode 25 / versionName 1.0.24.
+- Scope: copy-only polish for the first-puzzle visual guide heading; no Android numbering change because versionCode 25 has not been uploaded yet.
+- Verification after this slice: node --check passed for ko/en i18n and appShell; npm run build passed; signed AAB rebuilt at android/app/build/outputs/bundle/release/app-release.aab.
+- Signed AAB size: 10,815,359 bytes.
+
+## Verification Update - 2026-07-01 v0.1.34 Stage Navigation Comfort
+
+- Prepared tester-feedback UX update for local review before the next Play Console upload.
+- Android version target updated to versionCode 26 / versionName 1.0.25.
+- Web version/package updated to v0.1.34 / 0.1.34.
+- Added puzzle-panel same-stage previous/next/list navigation and automatic scroll-to-board/list behavior.
+- Verification so far: node --check passed for changed JS modules; npm run build passed.
+- Signed AAB has not been rebuilt for this version yet; rebuild only after local UX approval.
+
+## Verification Update - 2026-07-01 v0.1.35 Late-Stage 10x10 Trial
+
+- Release target: v0.1.35 / Android versionCode 27 / versionName 1.0.26.
+- Scope: late-stage difficulty expansion with 10 total 10x10 puzzles, while keeping the beginner stages unchanged.
+- Signed AAB has not been rebuilt for this version yet; rebuild only after local UX approval.
+
+## Local Experimental Update - 2026-07-05 v0.1.68 Focused Play Settings Access
+- Web/local version moved to v0.1.68 for the experimental major rework.
+- Android AAB generation and Play Console upload remain paused for this design-heavy slice.
+- Next Android release should still verify launcher icon placement, Samsung/Game Launcher behavior, visible version, core navigation, and rollback readiness before upload.
+
+## Local Experimental Update - 2026-07-05 v0.1.69 Focused Play Module Extraction
+- Web/local version moved to v0.1.69 for structural containment during the major rework.
+- Android AAB generation and Play Console upload remain paused.
+- No Android numbering changes were made in this slice.
+
+## Local Experimental Update - 2026-07-05 v0.1.70 Puzzle Hub And Stage List Extraction
+- Web/local version moved to v0.1.70 for app shell containment during the major rework.
+- Android AAB generation and Play Console upload remain paused.
+- No Android numbering changes were made in this slice.
+
+## Local Experimental Update - 2026-07-05 v0.1.71 Completion Banner Routing Check
+- Web/local version moved to v0.1.71 after reconnecting focused-play completion Album routing.
+- Completion remains user-paced rather than auto-advancing.
+- Android AAB generation and Play Console upload remain paused.
+
+## Local Experimental Update - 2026-07-05 v0.1.72 Settings Dialog Extraction
+- Web/local version moved to v0.1.72 for app shell containment during the major rework.
+- Android AAB generation and Play Console upload remain paused.
+- No Android numbering changes were made in this slice.
+
+## Local Experimental Update - 2026-07-05 v0.1.73 App Chrome Extraction
+- Web/local version moved to v0.1.73 for app shell containment during the major rework.
+- Android AAB generation and Play Console upload remain paused.
+- No Android numbering changes were made in this slice.
+
+## Local Experimental Update - 2026-07-05 v0.1.74 UI Preference Module Extraction
+- Web/local version moved to v0.1.74 for app shell containment during the major rework.
+- Android AAB generation and Play Console upload remain paused.
+- No Android numbering changes were made in this slice.
+
+## Local Experimental Update - 2026-07-05 v0.1.75 Daily Card And Stage Navigation Extraction
+- Web/local version moved to v0.1.75 for app shell containment during the major rework.
+- Android AAB generation and Play Console upload remain paused.
+- No Android numbering changes were made in this slice.
+
+## Local Experimental Update - 2026-07-05 v0.1.76 Time Attack Flow Extraction
+- Web/local version moved to v0.1.76 for app shell containment during the major rework.
+- Android AAB generation and Play Console upload remain paused.
+- No Android numbering changes were made in this slice.
+
+## Local Experimental Update - 2026-07-05 v0.1.77 Time Attack Hub Expansion
+- Web/local version moved to v0.1.77 for Time Attack usability polish during the major rework.
+- Android AAB generation and Play Console upload remain paused.
+- No Android numbering changes were made in this slice.
+
+## Local Experimental Update - 2026-07-05 v0.1.78 Puzzle Assist View Extraction
+- Web/local version moved to v0.1.78 for tutorial/hint UI containment during the major rework.
+- Android AAB generation and Play Console upload remain paused.
+- No Android numbering changes were made in this slice.
+
+## Local Experimental Update - 2026-07-05 v0.1.79 Puzzle Cursor Controls Extraction
+- Web/local version moved to v0.1.79 for larger-board cursor/D-pad control containment during the major rework.
+- Android AAB generation and Play Console upload remain paused.
+- No Android numbering changes were made in this slice.
+
+## Local Experimental Update - 2026-07-05 v0.1.80 Pip Guided Dialogue Onboarding
+- Web/local version moved to v0.1.80 for Pip-led first-run puzzle and Time Attack guide dialogs.
+- Added approved raster guide art and per-player guide-seen save tracking.
+- Android AAB generation and Play Console upload remain paused.
+- No Android numbering changes were made in this slice.
+
+## Local Experimental Update - 2026-07-05 v0.1.81 Pip Character Continuity Correction
+- Web/local version moved to v0.1.81 after correcting the guide art identity drift.
+- The generated guide image from v0.1.80 is now rejected/hidden because it did not preserve Pip's Sunny Spoon character identity.
+- Guide dialogs now use established baseline Sunny Spoon/Pip raster art until a new Pip-consistent guide scene is explicitly approved.
+- Android AAB generation and Play Console upload remain paused.
+- No Android numbering changes were made in this slice.
+
+## Local Experimental Update - 2026-07-05 v0.1.82 Art Cohesion Reset Start
+- Web/local version moved to v0.1.82 after starting the coordinated Sunny Spoon/Pip art-system reset.
+- Removed the inconsistent cast-sheet collage from the opening game identity screen until a coherent key visual is approved.
+- Added an art rework roadmap and QA coverage against the old opening cast-sheet returning.
+- Android AAB generation and Play Console upload remain paused.
+- No Android numbering changes were made in this slice.
+
+## Local Experimental Update - 2026-07-05 v0.1.83 Runtime Art Import Guard
+- Web/local version moved to v0.1.83 for art-pipeline hardening.
+- Asset QA now blocks candidate/rejected/hidden-only asset paths from being referenced by runtime source files.
+- Current visible temporary art debt is explicitly tracked for spoon currency, Pip chrome, and completion reaction art.
+- Android AAB generation and Play Console upload remain paused.
+- No Android numbering changes were made in this slice.
+
+## Local Experimental Update - 2026-07-05 v0.1.84 Pip Master Art Candidate Intake
+- Web/local version moved to v0.1.84 after adding a hidden Pip master key visual candidate for review.
+- The candidate is registered as hidden and not wired into runtime UI or the production bundle.
+- Added a dedicated Pip master art review note before any visible approval decision.
+- Android AAB generation and Play Console upload remain paused.
+- No Android numbering changes were made in this slice.
+
+## Local Experimental Update - 2026-07-05 v0.1.85 Pip Master Art Review Board
+- Web/local version moved to v0.1.85 after adding a docs-only Pip master art comparison board.
+- Added `docs/art-review/pip-master-review-v1.html` to compare baseline Pip references, rejected drift, and the hidden master candidate against explicit identity criteria.
+- No new candidate art was wired into runtime UI; the master candidate remains hidden and manifest-gated.
+- No signed AAB was rebuilt; Android upload remains paused during the experimental art-system reset.
+
+## Local Experimental Update - 2026-07-05 v0.1.86 Korean Guide Copy Repair
+- Web/local version moved to v0.1.86 after repairing Korean first-run guide and hint copy mojibake.
+- Added i18n regression coverage for Korean guide/hint readability.
+- No new candidate art was wired into runtime UI; the master candidate remains hidden and manifest-gated.
+- No signed AAB was rebuilt; Android upload remains paused during the experimental art-system reset.
+
+## Local Experimental Update - 2026-07-05 v0.1.87 Time Attack Save Retention
+- Web/local version moved to v0.1.87 after adding Time Attack daily-count save retention.
+- `timeAttackDailyCount` now keeps only recent valid local-date keys during save normalization, limiting long-term save growth.
+- Added save regression coverage for stale/malformed daily-count key pruning.
+- No signed AAB was rebuilt; Android upload remains paused during the experimental art-system reset.
+
+## Local Experimental Update - 2026-07-05 v0.1.88 Art-Gated Guide And Pantry QA
+- Web/local version moved to v0.1.88 after adding manifest-gated guide art rendering and Pantry paused-state QA.
+- v0.1.97 reopens Pantry shop/equip UI with six approved visible Sunny Spoon pantry-decoration raster assets.
+- Guide dialog art now has an explicit manifest approval guard around the current baseline raster import.
+- No signed AAB was rebuilt; Android upload remains paused during the experimental art-system reset.
+
+## Local Experimental Update - 2026-07-05 v0.1.89 Spoon Token Candidate Intake
+- Web/local version moved to v0.1.89 after adding a hidden transparent spoon currency candidate.
+- `spoon-token-candidate-v2` is registered as hidden candidate art only; runtime UI still uses the existing temporary spoon token.
+- Added `docs/SPOON_TOKEN_ART_REVIEW.md` to track review and approval criteria before any currency replacement.
+- No signed AAB was rebuilt; Android upload remains paused during the experimental art-system reset.
+
+## Local Experimental Update - 2026-07-05 v0.1.90 Runtime Manifest Isolation
+- Web/local version moved to v0.1.90 after isolating the full asset manifest from runtime imports.
+- Runtime guide art and Pantry decoration approval now use a small approved allowlist instead of importing hidden candidate manifest records into the production JS bundle.
+- Asset QA now blocks direct runtime imports of `assetManifest.js`.
+- No signed AAB was rebuilt; Android upload remains paused during the experimental art-system reset.
+
+## Local Experimental Update - 2026-07-05 v0.1.91 Approved Spoon Token Runtime Swap
+- Web/local version moved to v0.1.91 after promoting the user-approved spoon token into runtime UI.
+- `spoon-token-v2` is now approved visible currency art; `spoon-token-v1` is hidden legacy audit art.
+- Runtime UI imports now use the optimized 256x256 transparent spoon token.
+- No signed AAB was rebuilt; Android upload remains paused during the experimental art-system reset.
+
+
+## Local Experimental Update - 2026-07-05 v0.1.92 Pip Chrome And Completion Candidate Intake
+- Web/local version moved to v0.1.92 after adding hidden Pip chrome and completion reaction candidates.
+- `pip-chrome-candidate-v2` and `pip-completion-candidate-v2` are review-only transparent PNG assets and are not wired into runtime UI.
+- The current visible Pip chrome/completion stickers remain temporary approved baseline art until the new candidates pass explicit character-continuity review.
+- No signed AAB was rebuilt; Android upload remains paused during the experimental art-system reset.
+
+
+## Local Experimental Update - 2026-07-05 v0.1.93 First Stage Reward Candidate Intake
+- Web/local version moved to v0.1.93 after adding a hidden first free-stage reward art candidate.
+- `pips-first-shelf-reward-candidate-v1` is review-only and is not wired into `stageArt.js` or runtime UI.
+- Stage reward surfaces remain in their conservative pending-art state until approved visible reward art exists.
+- No signed AAB was rebuilt; Android upload remains paused during the experimental art-system reset.
+
+
+## Local Experimental Update - 2026-07-05 v0.1.94 Approved Art Runtime Promotion
+- Web/local version moved to v0.1.94 after promoting approved Pip chrome, Pip completion, and first-stage reward art into runtime UI.
+- The previous visible temporary Pip chrome/completion assets are now hidden legacy audit records.
+- The first free-stage reward art is now available through `stageArt.js` for `pips-first-shelf`.
+- No signed AAB was rebuilt; Android upload remains paused during the experimental art-system reset.
+
+
+## Local Experimental Update - 2026-07-05 v0.1.95 Free Stage Reward Art Set
+- Web/local version moved to v0.1.95 after adding approved runtime reward art for all five free stage packs.
+- `stageArt.js` now maps Pip's First Shelf, Sunny Spoon Sign, Apron Drawer, Bakery Window, and Village Pantry to approved WebP stage reward art.
+- No signed AAB was rebuilt; Android upload remains paused during the experimental art-system reset.
+
+
+## Local Experimental Update - 2026-07-05 v0.1.96 Free Stage Badge Art Set
+- Web/local version moved to v0.1.96 after adding approved collectible badge art for all five free stage packs.
+- Badge shelf and Pantry Map badge collection cards now use approved badge art through `src/data/badgeArt.js`.
+- No signed AAB was rebuilt; Android upload remains paused during the experimental art-system reset.
+
+### v0.1.97 Pantry Decoration MVP
+- Pantry shop/equip UI is live locally with approved v2 decoration WebP assets.
+- Android packaging remains deferred until the user explicitly requests a release build.
+
+### v0.1.98 Pantry First Purchase Guide
+- Added the one-time Pip guide after the first decoration purchase and documented Pantry placement/economy guardrails.
+- Android packaging remains deferred until explicitly requested.
+
+### v0.1.99 Pantry Placement Affordances
+- Pantry room slots now act as visible placement filters, making fixed slot placement understandable before purchase.
+- Android packaging remains deferred until explicitly requested.
+
+### v0.1.100 Pantry Economy Guardrails
+- Decoration economy values now match the approved spec and are enforced by asset QA.
+- Android packaging remains deferred until explicitly requested.
+
+### v0.1.101 Pantry Placement Mobile QA
+- Mobile visual QA now covers Pantry placement filters and slot-specific shop behavior.
+- Android packaging remains deferred until explicitly requested.
+
+### v0.1.102 Pantry First Purchase Callback Fix
+- Fixed the first-purchase Pantry guide callback and added mobile QA coverage for the guide overlay.
+- Android packaging remains deferred until explicitly requested.
+
+### v0.1.103 Opening Key Visual
+- Brand intro now uses an approved Sunny Spoon/Pip key visual WebP with mobile QA coverage.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.104 Pantry Common Decoration Expansion
+- Local web version now includes 10 approved Pantry decorations, adding four common-priced items across counter, window, back-wall, and shelf slots.
+- Android packaging remains deferred until explicitly requested.
+
+
+### Post-v0.1.104 Review 20 QA Hardening
+- Added local asset QA coverage for approved stage reward art mappings after Review 20.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.105 Pantry Slot Decoration Set 15
+- Local web version now includes 15 approved Pantry decorations across all five room slots.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.106 Pantry Cozy Decoration Goals
+- Local web version now includes 20 approved Pantry decorations with a cozy upgrade target for every room slot.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.107 Pantry Rare Decoration Goals
+- Local web version now includes 25 approved Pantry decorations with rare long-term goals for every room slot.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.108 Pantry Rarity Filters
+- Local web version now includes Pantry rarity filters for the 25-item decoration catalog.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.109 Pantry Availability Filters
+- Local web version now includes Pantry availability filters for the 25-item decoration catalog.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.110 Pantry Filter Empty State
+
+- Local web version now includes a guided empty state and reset action for Pantry filter combinations with no results.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.111 Pantry Filter Summary
+
+- Local web version now includes a Pantry filter result summary and clear-filters action for the expanded decoration catalog.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.112 Pantry Sort And Recommendation Badges
+
+- Local web version now includes Pantry sorting controls and item recommendation/status badges for the expanded decoration shop.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.113 Pantry Placement Advisor
+
+- Local web version now includes a Pantry placement advisor that explains item count, owned count, and price range for selected room slots.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.114 Pantry Savings Goal
+
+- Local web version now includes a Pantry savings-goal card that shows the next decoration target and remaining spoon gap.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.115 Pantry Collection Progress
+
+- Local web version now includes a Pantry collection progress board with overall and per-slot decoration counts.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.116 Pantry Item Savings Meters
+
+- Local web version now includes per-decoration spoon progress meters for unowned paid Pantry items.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.117 Pantry Placement Swap Notes
+
+- Local web version now includes card-level Pantry placement notes explaining empty-slot placement or display replacement.
+- Android packaging remains deferred until explicitly requested.
+
+
+### Post-v0.1.117 Pantry Purchase QA Hardening
+
+- Local QA now verifies the first Pantry purchase updates collection progress and fills the counter slot.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.118 Pantry Display Plan
+
+- Local web version now includes a Pantry display-plan card for selected room spots, including current display state and next upgrade guidance.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.119 Pantry Browsing State Retention
+
+- Local web version now preserves Pantry filter and selected-slot context across purchase/equip refreshes.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.120 Pantry Purchase Feedback
+
+- Local web version now shows a Pantry action feedback card after decoration purchase/equip, using approved decoration art.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.121 Pantry Earning Plan
+
+- Local web version now shows a Pantry earning-plan card for the next decoration goal using the shared economy config.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.122 Pantry Earning CTA
+
+- Local web version now links Pantry decoration goals back to puzzle play through a Play for spoons CTA.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.123 Pantry Goal Tracking
+
+- Local web version now supports tracking a desired Pantry decoration goal and retargeting the savings/earning plan to that item.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.124 Replay Reward Guardrails
+
+- Local web version now includes save-layer guardrails for future Pip Replay Pick rewards: clean picked replay only, daily cap 3, and one reward per puzzle per day.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.125 Replay Picks Hub Surface
+- Added the visible Pip Replay Picks hub card for completed unlocked puzzles, including daily limit copy and mobile QA coverage.
+- Replay reward claiming remains gated behind the next challenge replay state slice so completed puzzle saves remain stable.
+
+
+### v0.1.126 Replay Challenge Session
+- Added the local replay challenge flow behind Pip Replay Picks, with ephemeral board state and clean-run reward gating.
+- Android packaging remains paused until this experimental economy loop receives local approval.
+
+
+### v0.1.127 Replay Clean Undo Guard
+- Added cumulative clean-status tracking for Replay Picks: undo does not restore reward eligibility after a wrong fill or hint use.
+- Android packaging remains paused during the experimental economy loop.
+
+### v0.1.128 Reusable Sunny Spoon Studios Bumper Art
+- Added approved reusable Sunny Spoon Studios bumper art to the first launch stage.
+- Runtime uses optimized WebP at `src/assets/brand/sunny-spoon-studios-bumper-v1.webp`; PNG source remains archived for review/rework.
+- Studio bumper art is guarded through `runtimeArt.js` and asset manifest QA.
+- Web/local version moved to v0.1.128.
+
+### v0.1.129 Pantry Story Request Benchmark Pass
+- Added a story-framed first Pantry request card to make the starter decoration purchase feel like Pip's room request.
+- Mobile QA now verifies the Pantry request card and target item surface.
+- Web/local version moved to v0.1.129.
+
+
+### v0.1.130 Pantry Story Milestone
+
+- Added a post-first-request Pantry milestone card with room-level feedback and next-arrival decoration previews.
+- Added mobile QA selectors for the milestone surface.
+- Web/local version moved to v0.1.130.
+
+
+### v0.1.131 Pantry Delivery Note Goal
+
+- Next-arrival Pantry preview items now open a Pip delivery note goal card.
+- Mobile visual QA now verifies the delivery-note card after the first Pantry purchase milestone.
+- Web/local version moved to v0.1.131.
+
+
+### v0.1.132 Pantry Story Split And Delivery Complete
+
+- Split Pantry story card rendering into src/ui/pantryStoryCards.js to keep pantryView.js below the next maintainability threshold.
+- Added delivery-complete feedback when a pinned delivery-note target is purchased/equipped.
+- Web/local version moved to v0.1.132.
+
+### v0.1.133 Pantry Shop Progressive Reveal
+
+- Pantry shop now defaults to 6 prioritized cards and expands by batch with a Show more decorations control.
+- Mobile QA verifies the 6/25 initial reveal and 12-card expansion across 360x740, 390x844, and 430x932.
+- Web/local version moved to v0.1.133.
+
+### v0.1.134 Pantry Planning Deck
+
+- Pantry support cards are now grouped into a single planning deck to reduce scattered top-of-page card stacking in mobile preview.
+- Mobile QA verifies the grouped deck plus existing 6/25 progressive shop reveal on 360x740, 390x844, and 430x932.
+- Web/local version moved to v0.1.134.
+
+### v0.1.135 Durable Pantry Delivery Goal
+
+- Pantry delivery-note goals now persist through save state instead of living only in module memory.
+- Mobile QA verifies the delivery note survives a page reload, then clears when the goal decoration is purchased.
+- Web/local version moved to v0.1.135.
+
+
+### v0.1.136 Pantry Delivery Completion History
+- Pantry delivery request completion is now durable: completed request ids are stored in `pantryCompletedStoryGoalIds`.
+- Purchase/equip paths dedupe completed delivery ids and clear the active goal only when the target is actually satisfied.
+- Added test and mobile QA coverage for the completed Small Jam Jar delivery save state.
+- Web/local version moved to v0.1.136.
+
+
+### v0.1.137 Pantry Request Completion Archive
+- Completed Pantry delivery requests now surface in a visible request-log card.
+- Mobile QA checks the request-log card after completing the Small Jam Jar delivery.
+- Web/local version moved to v0.1.137.
+
+
+### v0.1.138 Pantry Room Step Progress
+- Pantry request history now shows next-room-step progress from completed delivery counts.
+- Mobile QA verifies the completed Small Jam Jar request shows 1/3 progress toward the next room step.
+- Web/local version moved to v0.1.138.
+
+### v0.1.139 Pantry Story Stage Gate
+- Web/local version moved to v0.1.139.
+- Unlockable puzzle stages now require both spoons and Pantry delivery progress before a new pack can be opened.
+- The gate is save-compatible: previously unlocked stages remain unlocked, but new unlock attempts must satisfy the room-step requirement.
+- Pending validation: unit tests, asset manifest QA, production build, HTTP smoke, and mobile visual QA.
+
+### v0.1.140 Badge Map Gate Clarity
+- Web/local version moved to v0.1.140.
+- Badge/map locked cards now expose the Pantry room-step gate used by puzzle pack unlocks.
+- Android packaging remains deferred until explicitly requested.
+
+### v0.1.141 Stage Gate Pantry Action
+- Web/local version moved to v0.1.141.
+- Locked stage cards now provide a direct Pantry action when the story gate blocks a new stage.
+- Android packaging remains deferred until explicitly requested.
+
+### v0.1.142 Pantry Stage Goal
+- Web/local version moved to v0.1.142.
+- Pantry request-log progress now names the next puzzle stage tied to room-step progress.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.143 Stage Art QA Guard
+- Web/local version moved to v0.1.143.
+- Mobile visual QA now asserts stage previews use approved tile artwork instead of pending-art placeholders.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.144 Pantry Archive Next Request
+- Web/local version moved to v0.1.144.
+- Completed Pantry request logs now offer a direct Plan request CTA for the next Pip delivery note.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.145 Pantry Room Chapter Signal
+- Web/local version moved to v0.1.145.
+- Pantry request logs now expose the current room chapter progress for the decoration/story loop.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.146 Pantry Stage Spoon Gate
+- Web/local version moved to v0.1.146.
+- Pantry archive stage goals now include the spoon key requirement alongside request progress.
+- Android packaging remains deferred until explicitly requested.
+
+
+### v0.1.147 Legacy Unlockable Dot Cleanup
+- Web/local version moved to v0.1.147.
+- Removed stale unlockable puzzle-chip dot styling from the old puzzle-level lock experiment.
+
+### v0.1.148 Source Hygiene QA Guard
+- Web/local version moved to v0.1.148.
+- Added `npm run qa:hygiene` so source BOMs and legacy puzzle-chip dot styling are blocked by automated release checks.
+
+### v0.1.149 Pack Size Contract
+- Web/local version moved to v0.1.149.
+- Added puzzle data coverage so progression pack declared board sizes must match their current maximum shipped puzzle size before more 10x10+ content is added.
+
+### v0.1.150 Puzzle Scale Test Flex
+- Web/local version moved to v0.1.150.
+- Relaxed puzzle data tests from fixed 100/40/50/10 counts into scalable catalog contracts so future puzzle additions are not blocked by stale test constants.
+
+### v0.1.151 First 12x12 Catalog Puzzle
+- Web/local version moved to v0.1.151.
+- Added the first authored 12x12 free progression puzzle and raised Bakery Window's declared size to match the shipped catalog.
+
+### v0.1.152 12x12 Mobile QA Path
+- Web/local version moved to v0.1.152.
+- Mobile visual QA now opens the 12x12 catalog puzzle and verifies 144-cell focused play rendering with hints and cursor controls.
+- Android packaging remains deferred until explicitly requested.
+
+## v0.1.153 - 12x12 Bakery Mini Batch
+- Added a small 12x12 Bakery Window puzzle batch and QA coverage. Android bundle generation remains paused while the rework continues locally.
+- Verification after this slice: `node --check tests\\puzzleData.test.js`, `node --check scripts\\mobile_visual_check.js`, and `node --check src\\data\\puzzles.js` passed; targeted `tests/puzzleData.test.js` passed 6 tests; full `npm run test -- --run` passed 52 tests; `npm run qa:assets` passed with 122 assets; `npm run build` passed; local HTTP smoke returned 200 OK; `npm run qa:mobile` passed for 360x740, 390x844, and 430x932 with the three-card 12x12 Bakery Window catalog check.
+
+
+## v0.1.154 - Intro And Settings Polish
+- Polished the web opening screen seal/start button and settings dialog styling. Android bundle generation remains paused while the rework continues locally.
+- Verification after this slice: `node --check src\\ui\\brandIntro.js` and `node --check src\\ui\\settingsView.js` passed; full `npm run test -- --run` passed 52 tests; `npm run qa:assets` passed with 122 assets; `npm run build` passed; local HTTP smoke returned 200 OK; Playwright visual capture found 0 overflowing opening/settings controls and reduced the settings dialog height from about 808px to about 731px on 390x844; `npm run qa:mobile` passed for 360x740, 390x844, and 430x932.
+
+
+## v0.1.155 - First-Impression QA Guard
+- Added mobile QA guards for opening seal/start-button polish and settings dialog layout. Android bundle generation remains paused while the rework continues locally.
+- Verification after this slice: `node --check scripts\\mobile_visual_check.js` passed; full `npm run test -- --run` passed 52 tests; `npm run qa:assets` passed with 122 assets; `npm run build` passed; local HTTP smoke returned 200 OK; `npm run qa:mobile` passed for 360x740, 390x844, and 430x932 with the opening seal/start-button and settings-dialog polish guards active.
+
+## v0.1.156 - Opening Seal Asset Guard
+- Added source-level asset QA for the opening seal art. Android bundle generation remains paused while the rework continues locally.
+- Verification after this slice: `node --check scripts\\asset_manifest_check.js` passed; `npm run qa:assets` passed with 122 assets; full `npm run test -- --run` passed 52 tests; `npm run build` passed; local HTTP smoke returned 200 OK; `npm run qa:mobile` passed for 360x740, 390x844, and 430x932.
+
+## v0.1.157 - Tactile Button System Polish
+- Added shared tactile styling for primary gameplay controls and navigation. Android bundle generation remains paused while the rework continues locally.
+- Verification after this slice: `npm run qa:assets` passed with 122 assets; `node --check scripts\\mobile_visual_check.js` passed; full `npm run test -- --run` passed 52 tests; `npm run build` passed; local HTTP smoke returned 200 OK; `npm run qa:mobile` passed for 360x740, 390x844, and 430x932.
+
+## v0.1.158 - App Chrome Polish
+- Polished the web header/HUD and floating nav presentation. Android bundle generation remains paused while the rework continues locally.
+- Verification after this slice: `npm run qa:assets` passed with 122 assets; `node --check scripts\\mobile_visual_check.js` passed; full `npm run test -- --run` passed 52 tests; `npm run build` passed; local HTTP smoke returned 200 OK; `npm run qa:mobile` passed for 360x740, 390x844, and 430x932.
+
+## v0.1.159 - App Chrome QA Guard
+- Added mobile QA guards for header/HUD and floating-nav visual polish. Android bundle generation remains paused while the rework continues locally.
+- Verification after this slice: `node --check scripts\\mobile_visual_check.js` passed; `npm run qa:mobile` passed for 360x740, 390x844, and 430x932 with the app chrome polish guard active; full `npm run test -- --run` passed 52 tests; `npm run qa:assets` passed with 122 assets; `npm run build` passed; local HTTP smoke returned 200 OK.
+## v0.1.160 - Completion Reward Polish
+- Upgraded solved puzzle and stage completion reward UI styling for stronger first-session polish.
+- Keeps approved raster Pip/stage assets as the visual source while improving the surrounding app chrome.
+- Verification pending: assets, tests, build, HTTP, mobile QA.
+## v0.1.161 - Reward Polish QA Guards
+- Mobile QA now guards completion reward and stage-complete reward visual contracts.
+- Verification passed: `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.162 - Settings Dialog Polish
+- Upgraded settings dialog visual hierarchy and tactile controls.
+- Verification passed by v0.1.163 mobile polish guard plus standard assets/tests/build/HTTP gate.
+## v0.1.163 - Settings Polish QA Guard
+- Added direct mobile QA checks for settings dialog visual polish.
+- Also confirms v0.1.162 settings polish through the same mobile visual QA flow.
+- Verification passed: `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.164 - iOS Safe Area Chrome Guard
+- Addressed Claude Review 27 follow-up: top bar can no longer rely on fixed 16px padding only on iOS safe-area devices.
+- Verification passed: `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.165 - Replay Picks Polish
+- Upgraded replay picks visual treatment and added mobile QA guard coverage.
+- Verification passed: `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.166 - Album And Map Polish
+- Upgraded album and badge map presentation to reduce placeholder feel in collection/progression screens.
+- Verification passed: `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.167 - 12x12 Bakery Content Batch 2
+- Expanded the curated 12x12 Bakery Window catalog from 3 to 5 puzzles.
+- Verification passed: `npm run test -- tests/puzzleData.test.js --run`, `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.168 - Village Pantry 10x10 Content Batch
+- Expanded late-stage Village Pantry content with two curated 10x10 puzzles.
+- Verification passed: `npm run test -- tests/puzzleData.test.js --run`, `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.169 - Village Pantry 10x10 Content Batch 2
+- Expanded late-stage Village Pantry content with two additional curated 10x10 puzzles.
+- Verification passed: `npm run test -- tests/puzzleData.test.js --run`, `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.170 - 12x12 Bakery Content Batch 3
+- Expanded the curated 12x12 Bakery Window catalog from 5 to 7 puzzles.
+- Verification passed: `npm run test -- tests/puzzleData.test.js --run`, `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.171 - Puzzle Catalog Report Guard
+- Added a local catalog report QA command for content-volume planning before larger puzzle batches.
+- Verification passed: `npm run qa:catalog`, `npm run test -- tests/puzzleCatalogReport.test.js --run`, `npm run qa:hygiene`, `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.172 - Village Pantry 10x10 Content Batch 3
+- Expanded late-stage Village Pantry content with two additional curated 10x10 puzzles.
+- Verification passed: `npm run qa:catalog`, `npm run test -- tests/puzzleData.test.js tests/puzzleCatalogReport.test.js --run`, `npm run qa:hygiene`, `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.173 - Village Pantry Mobile Catalog Guard
+- Added mobile visual QA coverage for the expanded Village Pantry 10x10 catalog.
+- Verification passed: `npm run qa:mobile`, `npm run qa:catalog`, `npm run qa:hygiene`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.174 - 12x12 Bakery Content Batch 4
+- Expanded the curated 12x12 Bakery Window catalog from 7 to 9 puzzles.
+- Verification passed: `npm run qa:catalog`, `npm run test -- tests/puzzleData.test.js tests/puzzleCatalogReport.test.js --run`, `npm run qa:hygiene`, `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.175 - Village Pantry 10x10 Content Batch 4
+- Expanded late-stage Village Pantry content from 12 to 14 10x10 puzzles.
+- Verification passed: `npm run qa:catalog`, `npm run test -- tests/puzzleData.test.js tests/puzzleCatalogReport.test.js --run`, `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.176 - 12x12 Bakery Content Batch 5
+- Expanded the curated 12x12 Bakery Window catalog from 9 to 11 puzzles.
+- Verification passed: `npm run qa:catalog`, `npm run test -- tests/puzzleData.test.js tests/puzzleCatalogReport.test.js --run`, `npm run qa:hygiene`, `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.177 - Village Pantry 10x10 Content Batch 5
+- Expanded late-stage Village Pantry content from 14 to 16 10x10 puzzles.
+- Verification passed: `npm run qa:catalog`, `npm run test -- tests/puzzleData.test.js tests/puzzleCatalogReport.test.js --run`, `npm run qa:hygiene`, `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.178 - 12x12 Bakery Content Batch 6
+- Expanded the curated 12x12 Bakery Window catalog from 11 to 13 puzzles.
+- Verification passed: `npm run qa:catalog`, `npm run test -- tests/puzzleData.test.js tests/puzzleCatalogReport.test.js --run`, `npm run qa:hygiene`, `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+## v0.1.179 - Village Pantry 10x10 Content Batch 6
+- Expanded late-stage Village Pantry content from 16 to 18 10x10 puzzles.
+- Verification passed: `npm run qa:catalog`, `npm run test -- tests/puzzleData.test.js tests/puzzleCatalogReport.test.js --run`, `npm run qa:hygiene`, `npm run qa:mobile`, `npm run qa:assets`, `npm run test -- --run`, `npm run build`, and HTTP 200 local server check.
+
+## v0.1.180 - Village Pantry Translation Metadata Guard
+- Fixed the Review 29 titleKey/i18n follow-up for recent Village Pantry content. Android bundle generation remains paused while the rework continues locally.
+- Verification passed: syntax checks, targeted i18n/data/catalog tests, `npm run qa:catalog`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run`, `npm run build`, HTTP 200 local server check, and `npm run qa:mobile`.
+
+## v0.1.181 - Large-Board Translation Metadata Guard
+- Extended the Review 29 fix into a full large-board catalog metadata guard. Android bundle generation remains paused while the rework continues locally.
+- Verification passed: syntax checks, targeted i18n/data/catalog tests, `npm run qa:catalog`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run`, `npm run build`, HTTP 200 local server check, and `npm run qa:mobile`.
+
+## v0.1.182 - Catalog Metadata QA Guard
+- Strengthened catalog QA for future large-board puzzle expansion. Android bundle generation remains paused while the rework continues locally.
+- Verification passed: syntax checks, targeted catalog tests, `npm run qa:catalog`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run`, `npm run build`, HTTP 200 local server check, and `npm run qa:mobile`.
+
+## v0.1.183 - 12x12 Bakery Content Batch 7
+- Expanded the curated Bakery Window 12x12 catalog from 13 to 15 puzzles. Android bundle generation remains paused while the rework continues locally.
+- Verification passed: syntax checks, targeted data/catalog tests, `npm run qa:catalog`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run`, `npm run build`, HTTP 200 local server check, and `npm run qa:mobile`.
+
+## v0.1.184 - Village Pantry 10x10 Content Batch 7
+- Expanded late-stage Village Pantry content from 18 to 20 10x10 puzzles. Android bundle generation remains paused while the rework continues locally.
+- Verification passed: syntax checks, targeted data/catalog tests, `npm run qa:catalog`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run`, `npm run build`, HTTP 200 local server check, and `npm run qa:mobile`.
+
+## v0.1.185 - 12x12 Bakery Content Batch 8
+- Expanded the curated Bakery Window 12x12 catalog from 15 to 17 puzzles. Android bundle generation remains paused while the rework continues locally.
+- Verification passed: syntax checks, targeted data/catalog tests, `npm run qa:catalog`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run`, `npm run build`, HTTP 200 local server check, and `npm run qa:mobile`.
+
+## v0.1.186 - Village Pantry 10x10 Content Batch 8
+- Expanded late-stage Village Pantry content from 20 to 22 10x10 puzzles. Android bundle generation remains paused while the rework continues locally.
+- Verification passed: syntax checks, targeted data/catalog tests, `npm run qa:catalog`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run`, `npm run build`, HTTP 200 local server check, and `npm run qa:mobile`.
+
+## v0.1.187 - Puzzle Batch Intake Guard
+- Added a reusable pre-catalog puzzle batch intake guard for future content expansion. Android bundle generation remains paused while the rework continues locally.
+- Verification passed: syntax checks, direct batch test, `npm run qa:catalog`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run`, `npm run build`, HTTP 200 local server check, and `npm run qa:mobile`.
+
+## v0.1.188 - Village Pantry 10x10 Batch
+- Added two Village Pantry 10x10 puzzles with English/Korean catalog names and explicit `titleKey` metadata.
+- Verification passed: syntax checks, direct batch test, `npm run qa:catalog`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run`, `npm run build`, HTTP 200 local server check, and `npm run qa:mobile`.
+
+## v0.1.189 - Bakery Window 12x12 Batch
+- Added two Bakery Window 12x12 puzzles with English/Korean catalog names and explicit `titleKey` metadata.
+- Verification passed: syntax checks, direct batch test, `npm run qa:catalog`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run`, `npm run build`, HTTP 200 local server check, and `npm run qa:mobile`.
+
+## v0.1.190 - Village Pantry 10x10 Pair
+- Added two Village Pantry 10x10 puzzles with English/Korean catalog names and explicit `titleKey` metadata.
+- Verification passed: syntax checks, direct batch test, `npm run qa:catalog`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run`, `npm run build`, HTTP 200 local server check, and `npm run qa:mobile`.
+
+## v0.1.191 - Readable Puzzle Art Intake
+- Added two Bakery Window 12x12 puzzles designed around bold, readable silhouettes and future color mood metadata.
+- Strengthened the batch intake guard to require art readability briefs for future large-board candidates.
+- Verification passed: syntax checks, batch/readability guard test, targeted data/catalog tests, `npm run qa:catalog`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run`, `npm run build`, HTTP 200 local server check, and `npm run qa:mobile`.
+
+## v0.1.192 - Village Readable Puzzle Pair
+- Added two Village Pantry 10x10 puzzles designed around simple, instantly readable pantry silhouettes.
+- Verification passed: syntax checks, batch/readability guard test, targeted data/catalog tests, `npm run qa:catalog`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run`, `npm run build`, HTTP 200 local server check, and `npm run qa:mobile`.
+
+## v0.1.193 - Bakery Readable Puzzle Pair
+- Added two Bakery Window 12x12 puzzles designed around instantly readable cozy bakery silhouettes.
+- Verification passed: syntax checks, batch/readability guard test, targeted data/catalog tests, `npm run qa:catalog`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run`, `npm run build`, HTTP 200 local server check, and `npm run qa:mobile`.
+
+## v0.1.194 - Village Readable Puzzle Pair
+- Added two Village Pantry 10x10 puzzles designed around instantly readable village pantry silhouettes.
+- Verification passed: syntax checks, batch/readability guard test, targeted data/catalog tests, `npm run qa:catalog`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run`, `npm run build`, HTTP 200 local server check, and `npm run qa:mobile`.
+
+## v0.1.195 - Bakery Readable Puzzle Pair
+- Added 2 Bakery Window 12x12 puzzles with explicit readability briefs: Layer Cake Slice and Ribbon Cookie Box.
+- Catalog thresholds now guard at least 149 free puzzles, 59 large-board free puzzles, and 25 Bakery Window 12x12 boards.
+- Verification passed: `node --check` for touched JS files, `npm run qa:catalog`, targeted puzzle/catalog tests, `tests/puzzleBatchIntake.test.js`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run` (13 files / 59 tests), `npm run build`, `curl.exe -I http://127.0.0.1:5173/`, and `npm run qa:mobile` (360x740, 390x844, 430x932).
+
+## 2026-07-09 Play Production Access Watch
+- Current Play Console production access status: closed testing track is active with 12 selected testers and 5 days of participation elapsed toward the 14-day requirement.
+- Development implication: keep using the remaining Android closed-test window for content, UI polish, and regression hardening; do not block web/common development on production access.
+- iOS implication: Mac mini is expected around 2026-07-23, so keep shared web/Capacitor readiness moving now and defer Mac-only App Store packaging/signing until the hardware arrives.
+
+## v0.1.196 - Village Readable Puzzle Pair
+- Added 2 Village Pantry 10x10 puzzles with explicit readability briefs: Cinnamon Braid and Teapot Cozy.
+- Catalog thresholds now guard at least 151 free puzzles, 61 large-board free puzzles, 25 Bakery Window 12x12 boards, and 32 Village Pantry 10x10 boards.
+- Verification passed: `node --check` for touched JS files, `npm run qa:catalog`, targeted puzzle/catalog tests, `tests/puzzleBatchIntake.test.js`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run` (13 files / 59 tests), `npm run build`, `curl.exe -I http://127.0.0.1:5173/`, and `npm run qa:mobile` (360x740, 390x844, 430x932).
+
+## v0.1.197 - Four Puzzle Readability Batch
+- Added 4 readable large-board puzzles in one content batch: Bakery Window 12x12 Peach Tart Fan and Sugar Bell; Village Pantry 10x10 Copper Kettle and Berry Bowl.
+- Catalog thresholds now guard at least 155 free puzzles, 65 large-board free puzzles, 27 total 12x12 boards, 27 Bakery Window 12x12 boards, and 34 Village Pantry 10x10 boards.
+- Verification passed: `node --check` for touched JS files, `npm run qa:catalog`, targeted puzzle/catalog tests, `tests/puzzleBatchIntake.test.js`, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run` (13 files / 59 tests), `npm run build`, `curl.exe -I http://127.0.0.1:5173/`, and `npm run qa:mobile` (360x740, 390x844, 430x932).
+
+## v0.1.198 - Puzzle Readability Report Guard
+- Promoted large-board art readability from batch-intake-only validation into the catalog report.
+- The catalog report now counts readable large-board briefs and warns when recent free 10x10+ puzzles lack a usable silhouette/color/tag brief.
+- Verification passed: syntax checks, `npm run qa:catalog`, targeted catalog/batch tests, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run` (13 files / 60 tests), `npm run build`, `curl.exe -I http://127.0.0.1:5173/`, and `npm run qa:mobile` (360x740, 390x844, 430x932).
+
+## v0.1.199 - Four Puzzle Quality Batch
+- Added 4 readable large-board puzzles: Bakery Window 12x12 Jam Thumbprint and Lemon Glaze Bun; Village Pantry 10x10 Flower Milk Jug and Toast Rack.
+- Catalog thresholds now guard at least 159 free puzzles, 69 large-board free puzzles, 29 total 12x12 boards, 29 Bakery Window 12x12 boards, 36 Village Pantry 10x10 boards, and 21 readable large-board briefs.
+- Verification passed: syntax checks, `npm run qa:catalog`, targeted puzzle/catalog/batch tests, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run` (13 files / 60 tests), `npm run build`, `curl.exe -I http://127.0.0.1:5173/`, and `npm run qa:mobile` (360x740, 390x844, 430x932).
+
+## v0.1.200 - Four Puzzle Quality Batch
+- Added 4 readable large-board puzzles: Bakery Window 12x12 Caramel Custard Cup and Berry Cream Roll; Village Pantry 10x10 Honey Dipper and Egg Basket.
+- Catalog thresholds now guard at least 163 free puzzles, 73 large-board free puzzles, 31 total 12x12 boards, 31 Bakery Window 12x12 boards, 38 Village Pantry 10x10 boards, and 25 readable large-board briefs.
+- Verification passed: syntax checks, `npm run qa:catalog`, targeted puzzle/catalog/batch tests, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run` (13 files / 60 tests), `npm run build`, `curl.exe -I http://127.0.0.1:5173/`, and `npm run qa:mobile` (360x740, 390x844, 430x932).
+
+## v0.1.201 - Recent Puzzle Edge Row Polish
+- Addressed Review 31's blank-row diversity note by replacing fully blank bottom rows in recent readable puzzles with intentional plate, shadow, base, or handle rows.
+- Added a regression test so recent free 10x10+ readable puzzles cannot ship with fully blank first or last solution rows.
+- Verification passed: syntax checks, `npm run qa:catalog`, targeted puzzle/catalog tests, `npm run qa:hygiene`, `npm run qa:assets`, full `npm run test -- --run` (13 files / 61 tests), `npm run build`, `curl.exe -I http://127.0.0.1:5173/`, and `npm run qa:mobile` (360x740, 390x844, 430x932).
+
+## v0.1.202 - Four Puzzle Quality Batch
+- Added 4 readable large-board puzzles without blank edge rows: Bakery Window 12x12 Cocoa Cream Puff and Sprinkle Donut; Village Pantry 10x10 Cotton Napkin Ring and Spice Scoop.
+- Catalog thresholds now guard at least 167 free puzzles, 77 large-board free puzzles, 33 total 12x12 boards, 33 Bakery Window 12x12 boards, 40 Village Pantry 10x10 boards, and 29 readable large-board briefs.
+- Verified syntax checks, catalog QA, targeted puzzle/catalog/batch tests, hygiene/assets QA, full test suite, production build, local HTTP 200, and mobile visual QA at 360x740, 390x844, and 430x932.
+
+## v0.1.203 - Four Puzzle Quality Batch
+- Added 4 readable large-board puzzles without blank edge rows: Bakery Window 12x12 Cinnamon Swirl Roll and Strawberry Tart; Village Pantry 10x10 Ribbon Tea Tin and Checked Pot Holder.
+- Catalog thresholds now guard at least 171 free puzzles, 81 large-board free puzzles, 35 total 12x12 boards, 35 Bakery Window 12x12 boards, 42 Village Pantry 10x10 boards, and 33 readable large-board briefs.
+- Verified syntax checks, catalog QA, targeted puzzle/catalog/batch tests, hygiene/assets QA, full test suite, production build, local HTTP 200, and mobile visual QA at 360x740, 390x844, and 430x932.
+
+## v0.1.204 - Four Puzzle Quality Batch
+- Added 4 readable large-board puzzles without blank edge rows: Bakery Window 12x12 Honey Cruller Twist and Pear Galette; Village Pantry 10x10 Lace Jar Cover and Garden Herb Bundle.
+- Catalog thresholds now guard at least 175 free puzzles, 85 large-board free puzzles, 37 total 12x12 boards, 37 Bakery Window 12x12 boards, 44 Village Pantry 10x10 boards, and 37 readable large-board briefs.
+- Verified syntax checks, catalog QA, targeted puzzle/catalog/batch tests, hygiene/assets QA, full test suite, production build, local HTTP 200, and mobile visual QA at 360x740, 390x844, and 430x932.
+
+## v0.1.205 - Time Attack Hint Economy
+- Added stepped Time Attack hint pricing through economy config: 2, 4, then 7 spoons per run.
+- Time Attack hint panels now show paid hint cost, current spoon balance, confirmation, and insufficient-spoon disabled state.
+- Refreshed first Time Attack Pip guide copy to explain random puzzles, spoon earning, paid hints, and record chasing.
+- Verified syntax checks, save/i18n tests, full test suite, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA at 360x740, 390x844, and 430x932.
+
+## v0.1.206 - Time Attack Hint Confirmation Polish
+- Replaced the native browser confirm for paid Time Attack hints with an in-game confirmation panel.
+- Made the no-refund-on-undo rule explicit in Time Attack hint copy and confirmation copy.
+- Repaired Korean Time Attack guide copy so it stays readable in the first-run Pip dialog.
+- Verified syntax checks, i18n/save tests, full test suite, hygiene/assets QA, production build, local HTTP 200, mobile visual QA at 360x740, 390x844, and 430x932, and catalog guard.
+
+## v0.1.207 - Four Puzzle Quality Batch
+- Added four readable large-board puzzles: Apricot Danish, Vanilla Eclair, Hanging Ladle, and Pickle Jar.
+- Raised guarded catalog thresholds to 179 free puzzles, 89 large-board free puzzles, 39 Bakery Window 12x12 boards, 46 Village Pantry 10x10 boards, and 41 readable large-board briefs.
+- Verified syntax checks, catalog QA, targeted puzzle/i18n tests, full test suite, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA at 360x740, 390x844, and 430x932.
+
+## v0.1.208 - Four Puzzle Quality Batch
+- Added four readable large-board puzzles: Jam Crescent, Lemon Tartlet, Flour Sifter, and Cocoa Scoop Tin.
+- Raised guarded catalog thresholds to 183 free puzzles, 93 large-board free puzzles, 41 Bakery Window 12x12 boards, 48 Village Pantry 10x10 boards, and 45 readable large-board briefs.
+- Verified syntax checks, catalog QA, targeted puzzle/i18n tests, full test suite, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA at 360x740, 390x844, and 430x932.
+
+## v0.1.209 - Four Puzzle Quality Batch
+- Added four readable large-board puzzles: Braided Pretzel, Berry Danish Square, Measuring Spoons, and Jam Label Jar.
+- Raised guarded catalog thresholds to 187 free puzzles, 97 large-board free puzzles, 43 Bakery Window 12x12 boards, 50 Village Pantry 10x10 boards, and 49 readable large-board briefs.
+- Verified syntax checks, catalog QA, targeted puzzle/i18n tests, full test suite, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA at 360x740, 390x844, and 430x932.
+
+## v0.1.210 - Recent Puzzle Title Guard
+- Added a regression guard so recent readable 10x10+ free puzzle titles stay unique while older cross-pack starter repeats remain allowed.
+- This protects catalog polish after the Cocoa Tin/Cocoa Scoop Tin naming correction.
+- Verified targeted puzzle data test, full test suite, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA at 360x740, 390x844, and 430x932.
+
+## v0.1.211 - Four Puzzle Quality Batch
+- Added four readable large-board puzzles: Almond Pinwheel, Cherry Turnover, Tea Strainer, and Blue Gingham Cloth.
+- Raised guarded catalog thresholds to 191 free puzzles, 101 large-board free puzzles, 45 Bakery Window 12x12 boards, 52 Village Pantry 10x10 boards, and 53 readable large-board briefs.
+- Verified syntax checks, catalog QA, targeted puzzle/i18n tests, full test suite, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA at 360x740, 390x844, and 430x932.
+
+## v0.1.212 - Catalog Report Threshold Tightening
+- Raised stale catalog report regression thresholds to the current v0.1.211 catalog floor: 191 free puzzles, 45 12x12 boards, 53 readable large-board briefs, 45 Bakery Window 12x12 boards, and 52 Village Pantry large boards.
+- This keeps the QA report aligned with the current content scale before the next 200-puzzle push.
+- Verified catalog report test, full test suite, catalog QA, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA at 360x740, 390x844, and 430x932.
+
+## v0.1.213 - Four Puzzle Quality Batch
+- Added four readable large-board puzzles: Custard Star, Poppy Seed Roll, Scalloped Plate, and Honey Clothespin.
+- Raised guarded catalog thresholds to 195 free puzzles, 105 large-board free puzzles, 47 Bakery Window 12x12 boards, 54 Village Pantry 10x10 boards, and 57 readable large-board briefs.
+- Verified syntax checks, catalog QA, targeted puzzle/i18n/report tests, full test suite, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA at 360x740, 390x844, and 430x932.
+
+## v0.1.214 - Four Puzzle Quality Batch
+- Added four readable large-board puzzles: Maple Palmier, Fig Tart Square, Copper Funnel, and Embroidered Napkin.
+- Raised guarded catalog thresholds to 199 free puzzles, 109 large-board free puzzles, 49 Bakery Window 12x12 boards, 56 Village Pantry 10x10 boards, and 61 readable large-board briefs.
+- Verified syntax checks, catalog QA, targeted puzzle/i18n/report tests, full test suite, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA at 360x740, 390x844, and 430x932.

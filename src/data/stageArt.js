@@ -1,17 +1,21 @@
-import appIconUrl from "../assets/app-icons/app-icon-512.png";
-import pipCastUrl from "../assets/characters/pip-cast-redesign-concept-v1-web.jpg";
-import pipCompleteStickerUrl from "../assets/characters/pip-complete-sticker-v1.png";
-import pipStripStickerUrl from "../assets/characters/pip-strip-sticker-v1.png";
-import storyFriendsUrl from "../assets/characters/story-friends-sheet-v1-clean.png";
+import pipsFirstShelfRewardUrl from "../assets/stage-rewards/pips-first-shelf-reward-v1.webp";
+import sunnySpoonSignRewardUrl from "../assets/stage-rewards/sunny-spoon-sign-reward-v1.webp";
+import apronDrawerRewardUrl from "../assets/stage-rewards/apron-drawer-reward-v1.webp";
+import bakeryWindowRewardUrl from "../assets/stage-rewards/bakery-window-reward-v1.webp";
+import villagePantryRewardUrl from "../assets/stage-rewards/village-pantry-reward-v1.webp";
 
-const stageArtUrls = {
-  "pips-first-shelf": pipCompleteStickerUrl,
-  "sunny-spoon-sign": appIconUrl,
-  "apron-drawer": pipStripStickerUrl,
-  "bakery-window": pipCastUrl,
-  "village-pantry": storyFriendsUrl
-};
+const approvedStageArtUrls = Object.freeze({
+  "pips-first-shelf": pipsFirstShelfRewardUrl,
+  "sunny-spoon-sign": sunnySpoonSignRewardUrl,
+  "apron-drawer": apronDrawerRewardUrl,
+  "bakery-window": bakeryWindowRewardUrl,
+  "village-pantry": villagePantryRewardUrl
+});
 
 export function getStageArtUrl(packId) {
-  return stageArtUrls[packId] || pipCompleteStickerUrl;
+  return approvedStageArtUrls[packId] || null;
+}
+
+export function hasApprovedStageArt(packId) {
+  return Boolean(approvedStageArtUrls[packId]);
 }

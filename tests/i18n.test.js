@@ -34,7 +34,7 @@ describe("i18n", () => {
     expect(t("settings.playerName")).toBe("Player name");
     expect(t("currency.spoons", { count: 7 })).toBe("Spoons 7");
     expect(t("packs.preview")).toBe("Preview");
-    expect(t("packs.pricePreview")).toBe("Optional add-on - 100 puzzles");
+    expect(t("packs.pricePreview")).toBe("Optional add-on");
     expect(t("badges.progress", { completed: 3, total: 100 })).toBe("3/100 cards");
     expect(t("map.sets.cozy-cafe-room")).toBe("Cozy cafe room");
   });
@@ -44,6 +44,17 @@ describe("i18n", () => {
     expect(puzzleTitle({ id: "custom-puzzle-1", title: "Custom Puzzle" })).toBe("Custom Puzzle");
   });
 
+  it("resolves Village Pantry catalog names in supported locales", () => {
+    expect(puzzleTitle({ id: "village-pantry-candle-shelf-31", title: "Candle Shelf" })).toBe("Candle Shelf");
+    expect(puzzleText("village-pantry-wicker-tray-32", "imageName")).toBe("Wicker Tray");
+
+    setActiveLocale("ko");
+    expect(puzzleTitle({ id: "village-pantry-candle-shelf-31", title: "Candle Shelf" })).toBe("\uc591\ucd08 \uc120\ubc18");
+    expect(puzzleText("village-pantry-wicker-tray-32", "imageName")).toBe("\ub77c\ud0c4 \uc7c1\ubc18");
+    expect(puzzleTitle({ id: "bakery-window-glow-21", title: "Bakery Window Glow" })).toBe("\ubca0\uc774\ucee4\ub9ac \ucc3d\uac00\uc758 \ubc18\uc9dd\uc784");
+    expect(puzzleTitle({ id: "village-pantry-market-basket-21", title: "Market Basket" })).toBe("\uc2dc\uc7a5 \ubc14\uad6c\ub2c8");
+  });
+
   it("uses a cached active locale", () => {
     setActiveLocale("ko");
 
@@ -51,6 +62,67 @@ describe("i18n", () => {
 
     setActiveLocale("unsupported");
     expect(t("views.puzzle")).toBe("Puzzle");
+  });
+
+
+  it("keeps Korean guide and hint copy readable", () => {
+    setActiveLocale("ko");
+
+    const keys = [
+      "guide.eyebrow",
+      "guide.skip",
+      "guide.next",
+      "guide.done",
+      "guide.puzzle.title",
+      "guide.puzzle.step1",
+      "guide.puzzle.step2",
+      "guide.puzzle.step3",
+      "guide.timeAttack.title",
+      "guide.timeAttack.step1",
+      "guide.timeAttack.step2",
+      "guide.timeAttack.step3",
+      "controls.hint",
+      "controls.hintWithCost",
+      "controls.hintConfirmTitle",
+      "controls.hintConfirmBody",
+      "controls.hintCancel",
+      "controls.hintConfirmAction",
+      "controls.hintRemaining",
+      "controls.hintIntro",
+      "controls.timeAttackHintIntro",
+      "controls.timeAttackHintNeedMore",
+      "controls.hintEmpty"
+    ];
+
+    keys.forEach((key) => {
+      const value = t(key, { count: 1, limit: 3 });
+      expect(value).not.toMatch(/[?]{2,}/);
+      expect(value).not.toContain("\uFFFD");
+      expect(value).not.toContain("\u5360");
+    });
+    expect(t("guide.eyebrow")).toBe("Pip \uAC00\uC774\uB4DC");
+    expect(t("controls.hintRemaining", { count: 1, limit: 3 })).toBe("\uD78C\uD2B8 1/3");
+  });
+
+  it("keeps Korean pantry story request copy out of English fallback", () => {
+    setActiveLocale("ko");
+
+    expect(t("pantry.storyEyebrow")).toBe("Pip\uC758 \uBD80\uD0C1");
+    expect(t("pantry.storyTarget", { item: "\uCCAB \uCE74\uC6B4\uD130 \uBCF4", slot: "\uCE74\uC6B4\uD130" })).toBe(
+      "\uBD80\uD0C1\uD55C \uC18C\uD488: \uCE74\uC6B4\uD130 \uC790\uB9AC\uC5D0 \uCCAB \uCE74\uC6B4\uD130 \uBCF4"
+    );
+    expect(t("pantry.story.startTitle", { slot: "\uCE74\uC6B4\uD130" })).toBe(
+      "\uCE74\uC6B4\uD130 \uC790\uB9AC\uB97C \uBA3C\uC800 \uB530\uB73B\uD558\uAC8C \uD574\uBCFC\uAE4C\uC694?"
+    );
+    expect(t("pantry.story.completeTitle")).toBe("\uCCAB \uBD80\uD0C1 \uC644\uB8CC");
+    expect(t("pantry.storyMilestoneEyebrow")).toBe("\uD32C\uD2B8\uB9AC \uCE5C\uBC00\uB3C4");
+    expect(t("pantry.storyNextArrivalAction", { item: "\uD5C8\uBE0C \uD654\uBD84" })).toBe("\uD5C8\uBE0C \uD654\uBD84 \uBAA9\uD45C \uBCF4\uAE30");
+    expect(t("pantry.storyDeliveryEyebrow")).toBe("Pip\uC758 \uBC30\uC1A1 \uBA54\uBAA8");
+    expect(t("pantry.storyDeliveryEarn")).toBe("\uC2A4\uD47C \uBC8C\uB7EC \uAC00\uAE30");
+    expect(t("pantry.storyArchiveEyebrow")).toBe("Pip\uC758 \uBD80\uD0C1 \uAE30\uB85D");
+    expect(t("pantry.feedbackStoryCompleteEyebrow")).toBe("\uBC30\uC1A1 \uC644\uB8CC");
+    expect(t("pantry.shopLimitAction")).toBe("\uC7A5\uC2DD \uB354 \uBCF4\uAE30");
+    expect(t("pantry.planningDeckAria")).toBe("\uD32C\uD2B8\uB9AC \uBC29 \uACC4\uD68D\uACFC \uC2A4\uD47C \uBAA9\uD45C");
   });
 
   it("supports system language default and in-app overrides", () => {

@@ -1,6 +1,6 @@
 {
   "name": "pips-picture-pantry",
-  "version": "0.1.31",
+  "version": "0.1.214",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,6 +10,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "qa:mobile": "node scripts/mobile_visual_check.js",
+    "qa:assets": "node scripts/asset_manifest_check.js",
+    "qa:hygiene": "node scripts/source_hygiene_check.js",
+    "qa:catalog": "node scripts/puzzle_catalog_report.js",
+    "qa:batch": "vitest run tests/puzzleBatchIntake.test.js",
     "cap:sync": "npm run build && cap sync",
     "android:open": "cap open android"
   },

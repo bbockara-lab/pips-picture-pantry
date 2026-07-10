@@ -44,6 +44,21 @@ export function playTap() {
   playTone(660, 0.025, 0.035, "triangle");
 }
 
+export function playCursorMove() {
+  if (!getAudioPreferences().sfx) {
+    return;
+  }
+  playTone(540, 0.018, 0.024, "triangle");
+}
+
+export function playCursorAction() {
+  if (!getAudioPreferences().sfx) {
+    return;
+  }
+  playTone(720, 0.026, 0.032, "triangle");
+  lightVibrate(8);
+}
+
 export function playComplete() {
   if (!getAudioPreferences().sfx) {
     return;
@@ -99,6 +114,17 @@ function playTone(frequency, duration, volume, type) {
   gain.connect(context.destination);
   oscillator.start();
   oscillator.stop(context.currentTime + duration);
+}
+
+function lightVibrate(duration) {
+  if (typeof navigator === "undefined" || typeof navigator.vibrate !== "function") {
+    return;
+  }
+  try {
+    navigator.vibrate(duration);
+  } catch {
+    // Ignore vibration failures in browsers that restrict haptics.
+  }
 }
 
 function getContext() {

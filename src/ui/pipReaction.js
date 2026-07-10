@@ -1,4 +1,4 @@
-import pipCompleteStickerUrl from "../assets/characters/pip-complete-sticker-v1.png";
+import pipCompleteStickerUrl from "../assets/characters/pip-completion-v2.png";
 import { puzzleAlbumText, puzzleImageName, puzzleTitle, t } from "../i18n/index.js";
 
 export function getCompletionMessage(puzzle) {
@@ -7,7 +7,7 @@ export function getCompletionMessage(puzzle) {
   });
 }
 
-export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle } = {}) {
+export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle, replayChallenge = false, replayResult = null } = {}) {
   const banner = document.createElement("div");
   banner.className = "completion-banner";
 
@@ -24,7 +24,7 @@ export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle } = {
   title.textContent = t("progress.complete");
 
   const message = document.createElement("p");
-  message.textContent = getCompletionMessage(puzzle);
+  message.textContent = getCompletionBannerMessage(puzzle, { replayChallenge, replayResult });
 
   copy.append(title, message);
 
@@ -36,7 +36,7 @@ export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle } = {
   const albumButton = document.createElement("button");
   albumButton.type = "button";
   albumButton.className = "tool-button";
-  albumButton.textContent = t("completion.viewAlbum");
+  albumButton.textContent = replayChallenge ? t("playScreen.back") : t("completion.viewAlbum");
   albumButton.addEventListener("click", () => onViewAlbum?.());
 
   const nextButton = document.createElement("button");
@@ -48,6 +48,16 @@ export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle } = {
   actions.append(albumButton, nextButton);
   banner.append(reaction, copy, reveal, actions);
   return banner;
+}
+
+function getCompletionBannerMessage(puzzle, options = {}) {
+  if (!options.replayChallenge) {
+    return getCompletionMessage(puzzle);
+  }
+  if (options.replayResult?.rewardAllowed) {
+    return t("completion.replayReward", { count: options.replayResult.reward || 0 });
+  }
+  return t("completion.replayNoReward");
 }
 
 function renderSolvedReveal(puzzle) {

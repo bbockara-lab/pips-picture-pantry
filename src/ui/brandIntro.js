@@ -1,12 +1,18 @@
-import appIconUrl from "../assets/app-icons/app-icon-192.png";
-import redesignedCastUrl from "../assets/characters/pip-cast-redesign-concept-v1-web.jpg";
+import pipSealUrl from "../assets/characters/pip-chrome-v2.png";
+import openingKeyVisualUrl from "../assets/brand/opening-key-visual-v1.webp";
+import studioBumperUrl from "../assets/brand/sunny-spoon-studios-bumper-v1.webp";
+import { isRuntimeStudioBumperArtApproved } from "../data/runtimeArt.js";
 import { hasActivePlayer, setActivePlayerName } from "../game/save.js";
 import { t } from "../i18n/index.js";
 
 const STUDIO_DURATION_MS = 900;
 const INTRO_EXIT_MS = 260;
+const STUDIO_BUMPER_ASSET_ID = "sunny-spoon-studios-bumper-v1";
 
 export function renderBrandIntro(root) {
+  const studioBumperArt = isRuntimeStudioBumperArtApproved(STUDIO_BUMPER_ASSET_ID)
+    ? `<div class="studio-bumper__art" aria-hidden="true"><img src="${studioBumperUrl}" alt="" /></div>`
+    : "";
   const intro = document.createElement("section");
   intro.className = "brand-intro studio-stage";
   intro.setAttribute("role", "status");
@@ -15,19 +21,18 @@ export function renderBrandIntro(root) {
   intro.innerHTML = `
     <div class="brand-intro__grain" aria-hidden="true"></div>
     <div class="studio-bumper" aria-label="Sunny Spoon Studios">
-      <div class="studio-bumper__mark" aria-hidden="true">
-        <span>SUNNY</span>
-        <span>SPOON</span>
-        <span>STUDIOS</span>
-      </div>
+      ${studioBumperArt}
+      <p>Sunny Spoon Studios</p>
     </div>
     <div class="brand-intro__content" aria-hidden="true">
+      <div class="brand-intro__key-visual" aria-hidden="true">
+        <img src="${openingKeyVisualUrl}" alt="" />
+      </div>
       <div class="brand-intro__seal" aria-hidden="true">
-        <img src="${appIconUrl}" alt="" />
+        <img src="${pipSealUrl}" alt="" />
       </div>
       <p class="brand-intro__studio">${t("app.studioName")}</p>
       <h2>${t("app.title")}</h2>
-      <img class="brand-intro__cast" src="${redesignedCastUrl}" alt="" />
       <button class="brand-intro__skip" type="button">${t("brandIntro.skip")}</button>
     </div>
   `;
@@ -54,8 +59,11 @@ export function renderBrandIntro(root) {
     const content = intro.querySelector(".brand-intro__content");
     content.classList.add("name-stage");
     content.innerHTML = `
+      <div class="brand-intro__key-visual small" aria-hidden="true">
+        <img src="${openingKeyVisualUrl}" alt="" />
+      </div>
       <div class="brand-intro__seal" aria-hidden="true">
-        <img src="${appIconUrl}" alt="" />
+        <img src="${pipSealUrl}" alt="" />
       </div>
       <p class="brand-intro__studio">${t("app.studioName")}</p>
       <h2>${t("playerIntro.title")}</h2>

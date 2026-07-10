@@ -1,4 +1,4 @@
-﻿export const characterIdentity = [
+export const characterIdentity = [
   {
     id: "elena",
     name: "Elena",

@@ -1,6 +1,7 @@
 import { puzzles } from "../data/puzzles.js";
 import { getCompletedPuzzleIds, getCompletionDates } from "../game/save.js";
-import { puzzleAlbumText, puzzleImageName, puzzleTitle, t } from "../i18n/index.js";
+import { puzzleAlbumText, puzzleImageName, t } from "../i18n/index.js";
+import { renderColoredPuzzleArt } from "./coloredPuzzleArt.js";
 
 export function renderAlbumView() {
   const completedIds = new Set(getCompletedPuzzleIds());
@@ -52,16 +53,8 @@ function renderStamp(puzzle, isComplete) {
     return stamp;
   }
 
-  stamp.style.setProperty("--stamp-size", puzzle.size);
-  puzzle.solution.forEach((row) => {
-    [...row].forEach((cell) => {
-      const tile = document.createElement("span");
-      tile.className = cell === "1" ? "stamp-cell filled" : "stamp-cell";
-      stamp.appendChild(tile);
-    });
-  });
+  return renderColoredPuzzleArt(puzzle, { className: stamp.className });
 
-  return stamp;
 }
 function formatCardDate(dateKey) {
   const [year, month, day] = String(dateKey).split("-");

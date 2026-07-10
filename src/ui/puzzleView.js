@@ -1,20 +1,31 @@
 import { countMistakes, isSolved } from "../game/nonogram.js";
+import { createReplayCleanStatus, isReplayClean, updateReplayCleanStatus } from "../game/replayChallenge.js";
 import {
   createPuzzleState,
+  setCursor,
   setMode,
   toggleCell,
   undoLastMove
 } from "../game/puzzleState.js";
-import { loadPuzzleState, savePuzzleState } from "../game/save.js";
+import { getPantrySpoons, loadPuzzleState, recordReplayReward, savePuzzleState, spendPantrySpoons } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
-import { playComplete } from "./audio.js";
+import { playComplete, playCursorAction, playCursorMove, playTap } from "./audio.js";
+import { getHintLimit, renderHintPanel, renderHowToPlayCard, renderMarkHint } from "./puzzleAssistView.js";
+import { moveSelectedCell, renderCursorControls, shouldShowCursorControls, toggleSelectedCell } from "./puzzleCursorControls.js";
 import { renderBoard } from "./boardView.js";
 import { renderCompletionBanner } from "./pipReaction.js";
 
 export function renderPuzzleView(puzzle, options = {}) {
-  let state = loadPuzzleState(puzzle.id) || createPuzzleState(puzzle);
+  const isReplayChallenge = Boolean(options.replayChallenge);
+  const isTimeAttack = Boolean(options.isTimeAttack);
+  let state = isReplayChallenge ? createPuzzleState(puzzle) : loadPuzzleState(puzzle.id) || createPuzzleState(puzzle);
+  let replayCleanStatus = createReplayCleanStatus();
+  let replayResult = null;
+  const controlMode = options.controlMode || "auto";
   const section = document.createElement("section");
   section.className = state.completed ? "puzzle-panel content-panel completed" : "puzzle-panel content-panel";
+  section.tabIndex = 0;
+  section.addEventListener("keydown", handlePuzzleKeydown);
 
   function update(nextState) {
     const wasCompleted = state.completed;
@@ -22,50 +33,127 @@ export function renderPuzzleView(puzzle, options = {}) {
       ...nextState,
       completed: isSolved(nextState, puzzle.solution) || nextState.completed
     };
-    savePuzzleState(state, {
-      reward: puzzle.reward || 0,
-      dailyBonus: options.dailyBonus || 0,
-      dailyKey: options.dailyKey || null
-    });
+    if (isReplayChallenge && !state.completed) {
+      replayCleanStatus = updateReplayCleanStatus(replayCleanStatus, state, puzzle.solution);
+    }
+    if (!isReplayChallenge) {
+      savePuzzleState(state, {
+        reward: puzzle.reward || 0,
+        dailyBonus: options.dailyBonus || 0,
+        dailyKey: options.dailyKey || null
+      });
+    }
     if (!wasCompleted && state.completed) {
+      if (isReplayChallenge) {
+        replayResult = recordReplayReward({
+          puzzleId: puzzle.id,
+          clean: isReplayClean(replayCleanStatus),
+          picked: Boolean(options.replayPicked)
+        });
+      }
       playComplete();
-      options.onPuzzleComplete?.(puzzle);
+      if (!isReplayChallenge) {
+        options.onPuzzleComplete?.(puzzle);
+      }
     }
     draw();
+  }
+
+  function handlePuzzleKeydown(event) {
+    if (shouldIgnoreKeyboardEvent(event) || state.completed) {
+      return;
+    }
+
+    const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode);
+    if (!cursorControlsEnabled) {
+      return;
+    }
+
+    const key = event.key;
+    if (key === "ArrowUp") {
+      event.preventDefault();
+      moveSelectedCell(state, -1, 0, puzzle.size, update);
+    } else if (key === "ArrowDown") {
+      event.preventDefault();
+      moveSelectedCell(state, 1, 0, puzzle.size, update);
+    } else if (key === "ArrowLeft") {
+      event.preventDefault();
+      moveSelectedCell(state, 0, -1, puzzle.size, update);
+    } else if (key === "ArrowRight") {
+      event.preventDefault();
+      moveSelectedCell(state, 0, 1, puzzle.size, update);
+    } else if (key === " " || key === "Enter") {
+      event.preventDefault();
+      toggleSelectedCell(state, "fill", update);
+    } else if (key.toLowerCase() === "x" || key === "Backspace" || key === "Delete") {
+      event.preventDefault();
+      toggleSelectedCell(state, "mark", update);
+    } else if (key.toLowerCase() === "z" && (event.ctrlKey || event.metaKey)) {
+      event.preventDefault();
+      update(undoLastMove(state));
+    }
   }
 
   function draw() {
     section.innerHTML = "";
     section.className = state.completed ? "puzzle-panel content-panel completed" : "puzzle-panel content-panel";
+    section.classList.toggle("replay-challenge", isReplayChallenge);
 
     const meta = document.createElement("div");
     meta.className = "puzzle-meta";
     meta.innerHTML = `
       <div>
-        <p class="section-label">${getPuzzleLabel(puzzle)}</p>
+        <p class="section-label">${isReplayChallenge ? t("replayPicks.challengeLabel") : getPuzzleLabel(puzzle)}</p>
         <h2>${puzzleTitle(puzzle)}</h2>
       </div>
       <p class="difficulty">${puzzle.size}\u00d7${puzzle.size}</p>
     `;
-
-    section.appendChild(meta);
-
-    if (!state.completed) {
-      section.appendChild(createHowToPlayCard());
+    if (!options.compactHeader) {
+      section.appendChild(meta);
+    }
+    if (isReplayChallenge) {
+      section.appendChild(createReplayChallengeNote(!isReplayClean(replayCleanStatus)));
+    }
+    if (options.stageNavigation) {
+      section.appendChild(createStageNavigation(options.stageNavigation));
     }
 
-    section.appendChild(renderBoard(puzzle, state, (row, column) => update(toggleCell(state, row, column)), {
-      locked: state.completed
+    if (!state.completed) {
+      section.appendChild(renderHowToPlayCard());
+    }
+
+    const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode);
+    section.appendChild(renderBoard(puzzle, state, (row, column) => {
+      playTap();
+      const cursorState = setCursor(state, row, column, puzzle.size);
+      update(toggleCell(cursorState, row, column));
+    }, {
+      completed: state.completed,
+      locked: state.completed,
+      cursorEnabled: cursorControlsEnabled
     }));
     section.appendChild(createControls(state, update));
+    const baseHintLimit = getHintLimit(puzzle);
+    const hintLimit = isTimeAttack ? Math.min(baseHintLimit, 3) : baseHintLimit;
+    if (!state.completed && hintLimit > 0) {
+      const timeAttackHintCost = isTimeAttack ? options.getTimeAttackHintCost?.(state.hintsUsed || 0) || 0 : 0;
+      section.appendChild(renderHintPanel(state, puzzle, update, hintLimit, {
+        cost: timeAttackHintCost,
+        balance: isTimeAttack ? getPantrySpoons() : 0,
+        onSpendHint: isTimeAttack ? (cost) => spendPantrySpoons(cost, "time-attack-hint").allowed : null
+      }));
+    }
+    if (!state.completed && cursorControlsEnabled) {
+      section.appendChild(renderCursorControls(state, puzzle, update));
+    }
     section.appendChild(createProgressLine(state, puzzle));
 
     if (state.mode === "mark" && !state.completed) {
-      section.appendChild(createMarkHint());
+      section.appendChild(renderMarkHint());
     }
 
     if (state.completed) {
-      section.appendChild(renderCompletionBanner(puzzle, options));
+      section.appendChild(renderCompletionBanner(puzzle, { ...options, replayResult }));
     }
   }
 
@@ -73,29 +161,22 @@ export function renderPuzzleView(puzzle, options = {}) {
   return section;
 }
 
-function getPuzzleLabel(puzzle) {
-  return puzzle.id === "pip-face-5" ? t("sections.startHere") : t("sections.currentPicture");
+function shouldIgnoreKeyboardEvent(event) {
+  const target = event.target;
+  if (!target || target === event.currentTarget) {
+    return false;
+  }
+
+  const tagName = target.tagName;
+  if (["BUTTON", "INPUT", "TEXTAREA", "SELECT", "A"].includes(tagName)) {
+    return true;
+  }
+
+  return Boolean(target.isContentEditable);
 }
 
-function createHowToPlayCard() {
-  const card = document.createElement("section");
-  card.className = "how-to-play";
-  card.innerHTML = `
-    <div>
-      <p class="section-label">${t("howToPlay.title")}</p>
-      <p>${t("howToPlay.goal")}</p>
-    </div>
-    <div class="clue-example" aria-hidden="true">
-      <span>3</span>
-      <i></i><i></i><i></i><b></b><b></b>
-    </div>
-    <ol>
-      <li>${t("howToPlay.stepFill")}</li>
-      <li>${t("howToPlay.stepClues")}</li>
-      <li>${t("howToPlay.stepMark")}</li>
-    </ol>
-  `;
-  return card;
+function getPuzzleLabel(puzzle) {
+  return puzzle.id === "pip-face-5" ? t("sections.startHere") : t("sections.currentPicture");
 }
 
 function createControls(state, update) {
@@ -147,9 +228,50 @@ function createProgressLine(state, puzzle) {
   return line;
 }
 
-function createMarkHint() {
-  const hint = document.createElement("p");
-  hint.className = "mode-hint";
-  hint.textContent = t("controls.markHint");
-  return hint;
+function createStageNavigation(stageNavigation) {
+  const nav = document.createElement("nav");
+  nav.className = "stage-navigation";
+  nav.setAttribute("aria-label", stageNavigation.packTitle);
+
+  const copy = document.createElement("div");
+  copy.className = "stage-navigation__copy";
+
+  const title = document.createElement("p");
+  title.textContent = stageNavigation.packTitle;
+
+  const position = document.createElement("small");
+  position.textContent = t("stageNav.position", {
+    current: stageNavigation.current,
+    total: stageNavigation.total
+  });
+
+  copy.append(title, position);
+
+  const actions = document.createElement("div");
+  actions.className = "stage-navigation__actions";
+  actions.append(
+    createStageNavButton(t("stageNav.previous"), !stageNavigation.hasPrevious, stageNavigation.onPrevious),
+    createStageNavButton(t("stageNav.list"), false, stageNavigation.onShowList),
+    createStageNavButton(t("stageNav.next"), !stageNavigation.hasNext, stageNavigation.onNext)
+  );
+
+  nav.append(copy, actions);
+  return nav;
+}
+
+function createStageNavButton(label, disabled, onClick) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "stage-nav-button";
+  button.textContent = label;
+  button.disabled = disabled;
+  button.addEventListener("click", onClick);
+  return button;
+}
+
+function createReplayChallengeNote(hadMistake) {
+  const note = document.createElement("p");
+  note.className = hadMistake ? "replay-challenge-note warning" : "replay-challenge-note";
+  note.textContent = hadMistake ? t("replayPicks.cleanBroken") : t("replayPicks.cleanRule");
+  return note;
 }

@@ -1,4 +1,4 @@
-﻿import "./styles.css";
+import "./styles.css";
 import { renderApp } from "./ui/appShell.js";
 import { unlockAudio, playTap } from "./ui/audio.js";
 import { renderBrandIntro } from "./ui/brandIntro.js";

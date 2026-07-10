@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pip Master Art Review v1</title>
+  <style>
+    :root { color: #3d2b2e; background: #fff3d8; font-family: "Nunito", "Segoe UI", Arial, sans-serif; line-height: 1.45; }
+    body { margin: 0; background: radial-gradient(circle at top left, rgba(168, 216, 194, 0.35), transparent 34rem), linear-gradient(180deg, #fff8e7 0%, #fff3d8 55%, #f5dfae 100%); }
+    main { box-sizing: border-box; width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 48px; }
+    header { display: grid; gap: 10px; margin-bottom: 24px; }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.05; letter-spacing: 0; }
+    h2 { font-size: 1.35rem; }
+    h3 { font-size: 1.05rem; }
+    .eyebrow { color: #7a4e35; font-weight: 900; text-transform: uppercase; }
+    .summary { max-width: 860px; color: #60464a; font-size: 1.05rem; }
+    .status-row, .criteria, .asset-grid { display: grid; gap: 12px; }
+    .status-row { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 24px 0; }
+    .pill { border: 2px solid rgba(61, 43, 46, 0.2); border-radius: 8px; background: rgba(255, 248, 231, 0.84); padding: 14px 16px; box-shadow: 0 6px 0 rgba(61, 43, 46, 0.08); }
+    .label { display: block; color: #7a4e35; font-size: 0.8rem; font-weight: 900; text-transform: uppercase; }
+    .value { display: block; margin-top: 4px; font-weight: 900; }
+    .section { margin-top: 28px; }
+    .asset-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); align-items: stretch; }
+    .asset-card { display: grid; grid-template-rows: auto 1fr auto; gap: 12px; min-height: 100%; border: 2px solid rgba(61, 43, 46, 0.22); border-radius: 8px; background: rgba(255, 252, 242, 0.92); padding: 14px; box-shadow: 0 8px 0 rgba(61, 43, 46, 0.08); }
+    .asset-card.candidate { border-color: #d95d4f; box-shadow: 0 8px 0 rgba(217, 93, 79, 0.18); }
+    .asset-card.rejected { opacity: 0.72; }
+    .asset-frame { display: grid; place-items: center; min-height: 190px; border: 2px dashed rgba(122, 78, 53, 0.26); border-radius: 8px; background: linear-gradient(45deg, rgba(245, 223, 174, 0.35) 25%, transparent 25%), linear-gradient(-45deg, rgba(245, 223, 174, 0.35) 25%, transparent 25%), #fff8e7; background-size: 26px 26px; }
+    .asset-frame img { display: block; max-width: 100%; max-height: 260px; object-fit: contain; border-radius: 8px; }
+    .badge { display: inline-flex; width: fit-content; border-radius: 999px; padding: 4px 10px; background: #a8d8c2; color: #2f443c; font-size: 0.78rem; font-weight: 900; text-transform: uppercase; }
+    .badge.warning { background: #f2c94c; color: #3d2b2e; }
+    .badge.stop { background: #d95d4f; color: #fff8e7; }
+    .card-note { color: #60464a; font-size: 0.95rem; }
+    .criteria { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 12px; }
+    .criteria-item { border-left: 5px solid #a8d8c2; background: rgba(255, 252, 242, 0.82); border-radius: 8px; padding: 14px 16px; }
+    .criteria-item strong { display: block; margin-bottom: 4px; }
+    footer { margin-top: 34px; color: #7a4e35; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">Sunny Spoon Studios Art Review</p>
+      <h1>Pip Master Art Review v1</h1>
+      <p class="summary">Experimental review board for comparing the current Sunny Spoon/Pip baseline, rejected drift, and hidden master/chrome/completion candidates before anything becomes player-facing.</p>
+    </header>
+    <section class="status-row" aria-label="Review status">
+      <div class="pill"><span class="label">Version</span><span class="value">v0.1.92 review artifact</span></div>
+      <div class="pill"><span class="label">Runtime rule</span><span class="value">Candidate stays hidden until approval</span></div>
+      <div class="pill"><span class="label">Top risk</span><span class="value">Generic bear drift away from Pip</span></div>
+    </section>
+    <section class="section">
+      <h2>Reference Set</h2>
+      <div class="asset-grid">
+        <article class="asset-card"><h3>App Icon Baseline</h3><div class="asset-frame"><img src="../../src/assets/app-icons/app-icon-512.png" alt="Current Pip app icon baseline"></div><span class="badge warning">temporary baseline</span><p class="card-note">Useful for face, hat, scarf, warm outline, and first-impression continuity.</p></article>
+        <article class="asset-card"><h3>Guide Baseline</h3><div class="asset-frame"><img src="../../src/assets/characters/pip-cast-redesign-concept-v1-web.jpg" alt="Current Sunny Spoon guide baseline art"></div><span class="badge warning">temporary baseline</span><p class="card-note">Current approved guide fallback, but still part of the mixed legacy/candidate debt.</p></article>
+        <article class="asset-card"><h3>Chrome Pip</h3><div class="asset-frame"><img src="../../src/assets/characters/pip-strip-sticker-v1.png" alt="Current Pip chrome sticker"></div><span class="badge warning">temporary approved</span><p class="card-note">Visible UI reference only until the coordinated master art pass replaces it.</p></article>
+        <article class="asset-card"><h3>Completion Pip</h3><div class="asset-frame"><img src="../../src/assets/characters/pip-complete-sticker-v1.png" alt="Current Pip completion reaction sticker"></div><span class="badge warning">temporary approved</span><p class="card-note">Current completion reaction art; should become more unified with the final Pip model.</p></article>
+        <article class="asset-card rejected"><h3>Rejected Guide Scene</h3><div class="asset-frame"><img src="../../src/assets/characters/pip-guide-scene-v1.png" alt="Rejected guide scene that drifted away from Pip"></div><span class="badge stop">rejected</span><p class="card-note">Polished and cute, but rejected because it reads as an unfamiliar mascot, not Pip.</p></article>
+        <article class="asset-card candidate"><h3>Master Candidate v1</h3><div class="asset-frame"><img src="../../src/assets/characters/pip-master-key-candidate-v1.png" alt="Hidden Pip master key visual candidate"></div><span class="badge">candidate hidden</span><p class="card-note">Review for capybara-like Pip identity before it can guide icon, guide, reward, or effect art.</p></article>
+
+        <article class="asset-card candidate"><h3>Chrome Candidate v2</h3><div class="asset-frame"><img src="../../src/assets/characters/pip-chrome-candidate-v2.png" alt="Hidden Pip chrome sticker candidate"></div><span class="badge">candidate hidden</span><p class="card-note">Potential replacement for the visible header/chrome Pip sticker after explicit identity approval.</p></article>
+        <article class="asset-card candidate"><h3>Completion Candidate v2</h3><div class="asset-frame"><img src="../../src/assets/characters/pip-completion-candidate-v2.png" alt="Hidden Pip completion reaction candidate"></div><span class="badge">candidate hidden</span><p class="card-note">Potential replacement for completion reaction art after checking it still reads as Pip.</p></article>
+      </div>
+    </section>
+    <section class="section">
+      <h2>Approval Criteria</h2>
+      <div class="criteria">
+        <div class="criteria-item"><strong>Pip identity</strong>Rounded warm-brown capybara-like pantry helper, not a generic bear, hamster, plush, or new mascot.</div>
+        <div class="criteria-item"><strong>Signature details</strong>Tiny cream chef hat, muted red scarf, dot eyes, tiny nose/mouth, soft blush, warm-brown outline.</div>
+        <div class="criteria-item"><strong>Whole-app fit</strong>Must plausibly unify icon, opening, guide, completion, spoon currency, pantry rewards, and effects.</div>
+        <div class="criteria-item"><strong>Production readiness</strong>Works when cropped small, has clean edges, does not bloat runtime accidentally, and remains manifest-gated.</div>
+      </div>
+    </section>
+    <footer>Open this file locally for art review only. It is not imported by the Vite runtime.</footer>
+  </main>
+</body>
+</html>
