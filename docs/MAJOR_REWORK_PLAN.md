@@ -1014,3 +1014,6 @@ Immediate implementation decisions:
 
 ### v0.1.227 Follow-up - Four Puzzle Quality Batch
 - Continued the polished content-volume push while keeping puzzle identity readable enough for later artwork and album surfaces.
+
+### v0.1.228 Follow-up - Four Puzzle Quality Batch
+- Continued the high-volume puzzle catalog with another readable Bakery/Village batch and crossed 100 large-board readability briefs.

@@ -5542,6 +5542,134 @@ export const puzzles = [
       "1111111111",
       "0111111110"
     ]
+  },
+  {
+    "id": "bakery-window-vanilla-bean-cupcake-88",
+    "title": "Vanilla Bean Cupcake",
+    "titleKey": "puzzles.bakery-window-vanilla-bean-cupcake-88",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "cupcake with a fluted wrapper, tall vanilla frosting swirl, and tiny bean speckles",
+      "colorMood": "buttery cake gold, vanilla cream frosting, warm brown speckles",
+      "tags": [
+        "cupcake",
+        "frosting swirl",
+        "vanilla bean"
+      ]
+    },
+    "solution": [
+      "000111111000",
+      "001111111100",
+      "011111111110",
+      "111111011111",
+      "111011111111",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "011111111110",
+      "111101111111",
+      "111111101111",
+      "011111111110"
+    ]
+  },
+  {
+    "id": "bakery-window-pistachio-glaze-donut-89",
+    "title": "Pistachio Glaze Donut",
+    "titleKey": "puzzles.bakery-window-pistachio-glaze-donut-89",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "round donut ring with a clear center hole and chunky pistachio glaze patches",
+      "colorMood": "soft green pistachio glaze, golden fried dough, pale nut bits",
+      "tags": [
+        "donut ring",
+        "pistachio glaze",
+        "center hole"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "111100111111",
+      "111000011111",
+      "111000011111",
+      "111100111111",
+      "111111111111",
+      "110111011111",
+      "111111111111",
+      "011111111110",
+      "001111111100"
+    ]
+  },
+  {
+    "id": "village-pantry-sage-thread-spool-89",
+    "title": "Sage Thread Spool",
+    "titleKey": "puzzles.village-pantry-sage-thread-spool-89",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "upright thread spool with wrapped bands, a loose thread tail, and wooden caps",
+      "colorMood": "sage green thread, honey wood caps, soft cream highlight",
+      "tags": [
+        "thread spool",
+        "sage green",
+        "sewing pantry"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1110011111",
+      "1111111111",
+      "1101110111",
+      "1111111111",
+      "1111110011",
+      "0111111110",
+      "0011111100"
+    ]
+  },
+  {
+    "id": "village-pantry-ceramic-honey-spoon-rest-90",
+    "title": "Ceramic Honey Spoon Rest",
+    "titleKey": "puzzles.village-pantry-ceramic-honey-spoon-rest-90",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "oval ceramic spoon rest with a honey spoon laid diagonally and a tiny drip mark",
+      "colorMood": "cream ceramic, amber honey, warm wooden spoon handle",
+      "tags": [
+        "spoon rest",
+        "honey spoon",
+        "ceramic oval"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1101111111",
+      "1110111111",
+      "1111011111",
+      "1111101111",
+      "1111111111",
+      "0111111110",
+      "0011111100"
+    ]
   }
 ];
 

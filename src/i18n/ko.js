@@ -1117,6 +1117,22 @@ export const ko = {
     "village-pantry-ribboned-bread-basket-88": {
       title: "\uB9AC\uBCF8 \uBE0C\uB808\uB4DC \uBC14\uAD6C\uB2C8",
       imageName: "\uB9AC\uBCF8 \uBE0C\uB808\uB4DC \uBC14\uAD6C\uB2C8"
+    },
+    "bakery-window-vanilla-bean-cupcake-88": {
+      title: "\uBC14\uB2D0\uB77C \uBE48 \uCEF5\uCF00\uC774\uD06C",
+      imageName: "\uBC14\uB2D0\uB77C \uBE48 \uCEF5\uCF00\uC774\uD06C"
+    },
+    "bakery-window-pistachio-glaze-donut-89": {
+      title: "\uD53C\uC2A4\uD0C0\uCE58\uC624 \uAE00\uB808\uC774\uC988 \uB3C4\uB11B",
+      imageName: "\uD53C\uC2A4\uD0C0\uCE58\uC624 \uAE00\uB808\uC774\uC988 \uB3C4\uB11B"
+    },
+    "village-pantry-sage-thread-spool-89": {
+      title: "\uC138\uC774\uC9C0 \uC2E4\uD328",
+      imageName: "\uC138\uC774\uC9C0 \uC2E4\uD328"
+    },
+    "village-pantry-ceramic-honey-spoon-rest-90": {
+      title: "\uC138\uB77C\uBBF9 \uAFC0 \uC2A4\uD47C \uBC1B\uCE68",
+      imageName: "\uC138\uB77C\uBBF9 \uAFC0 \uC2A4\uD47C \uBC1B\uCE68"
     }
   }
 };

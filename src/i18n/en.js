@@ -1119,6 +1119,22 @@ export const en = {
     "village-pantry-ribboned-bread-basket-88": {
       title: "Ribboned Bread Basket",
       imageName: "Ribboned Bread Basket"
+    },
+    "bakery-window-vanilla-bean-cupcake-88": {
+      title: "Vanilla Bean Cupcake",
+      imageName: "Vanilla Bean Cupcake"
+    },
+    "bakery-window-pistachio-glaze-donut-89": {
+      title: "Pistachio Glaze Donut",
+      imageName: "Pistachio Glaze Donut"
+    },
+    "village-pantry-sage-thread-spool-89": {
+      title: "Sage Thread Spool",
+      imageName: "Sage Thread Spool"
+    },
+    "village-pantry-ceramic-honey-spoon-rest-90": {
+      title: "Ceramic Honey Spoon Rest",
+      imageName: "Ceramic Honey Spoon Rest"
     }
   }
 };
