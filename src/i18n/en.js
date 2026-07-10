@@ -1183,6 +1183,22 @@ export const en = {
     "village-pantry-floral-rolling-pin-96": {
       title: "Floral Rolling Pin",
       imageName: "Floral Rolling Pin"
+    },
+    "bakery-window-raspberry-choux-puff-96": {
+      title: "Raspberry Choux Puff",
+      imageName: "Raspberry Choux Puff"
+    },
+    "bakery-window-lemon-ribbon-tart-97": {
+      title: "Lemon Ribbon Tart",
+      imageName: "Lemon Ribbon Tart"
+    },
+    "village-pantry-little-spice-drawer-97": {
+      title: "Little Spice Drawer",
+      imageName: "Little Spice Drawer"
+    },
+    "village-pantry-checkered-napkin-ring-98": {
+      title: "Checkered Napkin Ring",
+      imageName: "Checkered Napkin Ring"
     }
   }
 };

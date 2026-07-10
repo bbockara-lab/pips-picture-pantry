@@ -1915,3 +1915,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added Village Pantry 10x10 Blue Ribbon Mason Jar and Floral Rolling Pin.
 - Raised catalog guards to 251 free puzzles, 161 large-board free puzzles, 75 Bakery Window 12x12 boards, 82 Village Pantry 10x10 boards, and 113 readable large-board briefs.
 - Version bumped to v0.1.231; verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.
+
+### v0.1.232 - Four Puzzle Quality Batch
+- Added Bakery Window 12x12 Raspberry Choux Puff and Lemon Ribbon Tart.
+- Added Village Pantry 10x10 Little Spice Drawer and Checkered Napkin Ring.
+- Raised catalog guards to 255 free puzzles, 165 large-board free puzzles, 77 Bakery Window 12x12 boards, 84 Village Pantry 10x10 boards, and 117 readable large-board briefs.
+- Version bumped to v0.1.232; verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

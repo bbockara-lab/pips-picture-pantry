@@ -1181,6 +1181,22 @@ export const ko = {
     "village-pantry-floral-rolling-pin-96": {
       title: "\uD50C\uB85C\uB7F4 \uBC00\uB300",
       imageName: "\uD50C\uB85C\uB7F4 \uBC00\uB300"
+    },
+    "bakery-window-raspberry-choux-puff-96": {
+      title: "\uB77C\uC988\uBCA0\uB9AC \uC288 \uD37C\uD504",
+      imageName: "\uB77C\uC988\uBCA0\uB9AC \uC288 \uD37C\uD504"
+    },
+    "bakery-window-lemon-ribbon-tart-97": {
+      title: "\uB808\uBAAC \uB9AC\uBCF8 \uD0C0\uB974\uD2B8",
+      imageName: "\uB808\uBAAC \uB9AC\uBCF8 \uD0C0\uB974\uD2B8"
+    },
+    "village-pantry-little-spice-drawer-97": {
+      title: "\uC791\uC740 \uD5A5\uC2E0\uB8CC \uC11C\uB78D",
+      imageName: "\uC791\uC740 \uD5A5\uC2E0\uB8CC \uC11C\uB78D"
+    },
+    "village-pantry-checkered-napkin-ring-98": {
+      title: "\uCCB4\uD06C \uB0C5\uD0A8 \uB9C1",
+      imageName: "\uCCB4\uD06C \uB0C5\uD0A8 \uB9C1"
     }
   }
 };

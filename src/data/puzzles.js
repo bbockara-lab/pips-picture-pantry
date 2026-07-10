@@ -6054,6 +6054,134 @@ export const puzzles = [
       "1111111111",
       "0111111110"
     ]
+  },
+  {
+    "id": "bakery-window-raspberry-choux-puff-96",
+    "title": "Raspberry Choux Puff",
+    "titleKey": "puzzles.bakery-window-raspberry-choux-puff-96",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "round choux puff with a cream cap, raspberry dot cluster, and soft pastry base",
+      "colorMood": "toasty pastry gold, whipped cream white, raspberry pink-red accents",
+      "tags": [
+        "choux puff",
+        "raspberries",
+        "cream cap"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "111011101111",
+      "111111111111",
+      "110111111011",
+      "111111111111",
+      "111110111111",
+      "011111111110",
+      "001111111100",
+      "011111111110",
+      "111111111111"
+    ]
+  },
+  {
+    "id": "bakery-window-lemon-ribbon-tart-97",
+    "title": "Lemon Ribbon Tart",
+    "titleKey": "puzzles.bakery-window-lemon-ribbon-tart-97",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "oval lemon tart with a folded ribbon stripe and small zest dots across the top",
+      "colorMood": "buttery crust, lemon yellow filling, pale cream ribbon highlight",
+      "tags": [
+        "lemon tart",
+        "ribbon stripe",
+        "zest dots"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "111101111111",
+      "111110111111",
+      "111111011111",
+      "111111101111",
+      "111111111111",
+      "110111011111",
+      "011111111110",
+      "001111111100",
+      "011111111110"
+    ]
+  },
+  {
+    "id": "village-pantry-little-spice-drawer-97",
+    "title": "Little Spice Drawer",
+    "titleKey": "puzzles.village-pantry-little-spice-drawer-97",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "small wooden spice drawer with a label plate, pull knob, and stacked cabinet edges",
+      "colorMood": "warm wood, cream label, tiny brass knob highlight",
+      "tags": [
+        "spice drawer",
+        "label plate",
+        "wood cabinet"
+      ]
+    },
+    "solution": [
+      "1111111111",
+      "1111111111",
+      "1100111111",
+      "1111110011",
+      "1111111111",
+      "1110011111",
+      "1111110111",
+      "1111111111",
+      "0111111110",
+      "1111111111"
+    ]
+  },
+  {
+    "id": "village-pantry-checkered-napkin-ring-98",
+    "title": "Checkered Napkin Ring",
+    "titleKey": "puzzles.village-pantry-checkered-napkin-ring-98",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "folded napkin loop with a round ring center and checkered cloth corners",
+      "colorMood": "cream napkin, red checkered corners, soft wooden ring",
+      "tags": [
+        "napkin ring",
+        "checkered cloth",
+        "table setting"
+      ]
+    },
+    "solution": [
+      "0111111110",
+      "1111111111",
+      "1110011111",
+      "1111110111",
+      "1111111111",
+      "1101111011",
+      "1111111111",
+      "1110011111",
+      "1111111111",
+      "0111111110"
+    ]
   }
 ];
 

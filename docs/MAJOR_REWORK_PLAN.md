@@ -1026,3 +1026,7 @@ Immediate implementation decisions:
 
 ### v0.1.231 Follow-up - Four Puzzle Quality Batch
 - Continued the polished large-board catalog expansion, keeping puzzle volume tied to readable silhouettes and translated metadata.
+
+### v0.1.232 Follow-up - Four Puzzle Quality Batch
+- Continued the quality-first puzzle scale-up with two readable Bakery Window 12x12 puzzles and two readable Village Pantry 10x10 puzzles.
+- Keep alternating larger board content while preserving clear silhouette, color mood, and translated metadata for every new puzzle.
