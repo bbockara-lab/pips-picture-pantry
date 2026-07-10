@@ -6310,6 +6310,134 @@ export const puzzles = [
       "1111111111",
       "0111111110"
     ]
+  },
+  {
+    "id": "bakery-window-strawberry-vanilla-puff-100",
+    "title": "Strawberry Vanilla Puff",
+    "titleKey": "puzzles.bakery-window-strawberry-vanilla-puff-100",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "tall cream puff with a vanilla stripe, strawberry cap, and rounded pastry base",
+      "colorMood": "vanilla cream white, strawberry red, warm pastry gold",
+      "tags": [
+        "cream puff",
+        "strawberry cap",
+        "vanilla stripe"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "110111111011",
+      "111111111111",
+      "111100111111",
+      "111111001111",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "011111111110",
+      "111111111111"
+    ]
+  },
+  {
+    "id": "bakery-window-cinnamon-honey-twist-101",
+    "title": "Cinnamon Honey Twist",
+    "titleKey": "puzzles.bakery-window-cinnamon-honey-twist-101",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "braided pastry twist with two cinnamon grooves and a honey glaze trail",
+      "colorMood": "cinnamon brown, honey amber, golden baked dough",
+      "tags": [
+        "pastry twist",
+        "cinnamon grooves",
+        "honey glaze"
+      ]
+    },
+    "solution": [
+      "011111111110",
+      "111111111111",
+      "111011111111",
+      "111101111111",
+      "111110111111",
+      "111111011111",
+      "111111101111",
+      "111111110111",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "011111111110"
+    ]
+  },
+  {
+    "id": "village-pantry-green-label-tea-tin-101",
+    "title": "Green Label Tea Tin",
+    "titleKey": "puzzles.village-pantry-green-label-tea-tin-101",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "upright tea tin with a green front label, lid seam, and tiny leaf stamp",
+      "colorMood": "cream tin, leafy green label, soft tea-brown shadow",
+      "tags": [
+        "tea tin",
+        "green label",
+        "leaf stamp"
+      ]
+    },
+    "solution": [
+      "0111111110",
+      "1111111111",
+      "1110011111",
+      "1111110111",
+      "1111111111",
+      "1101111011",
+      "1111111111",
+      "1110011111",
+      "1111111111",
+      "0111111110"
+    ]
+  },
+  {
+    "id": "village-pantry-little-linen-basket-102",
+    "title": "Little Linen Basket",
+    "titleKey": "puzzles.village-pantry-little-linen-basket-102",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "woven basket filled with folded linens, two side handles, and a soft cloth lip",
+      "colorMood": "straw basket tan, linen cream, pale blue folded cloth",
+      "tags": [
+        "linen basket",
+        "woven handles",
+        "folded cloth"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1110111011",
+      "1111111111",
+      "1101101111",
+      "1111111111",
+      "1111111111",
+      "0111111110",
+      "1111111111"
+    ]
   }
 ];
 

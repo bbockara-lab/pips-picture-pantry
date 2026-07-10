@@ -1213,6 +1213,22 @@ export const ko = {
     "village-pantry-blue-check-sugar-tin-100": {
       title: "\uBE14\uB8E8 \uCCB4\uD06C \uC124\uD0D5 \uD2F4",
       imageName: "\uBE14\uB8E8 \uCCB4\uD06C \uC124\uD0D5 \uD2F4"
+    },
+    "bakery-window-strawberry-vanilla-puff-100": {
+      title: "\uC2A4\uD2B8\uB85C\uBCA0\uB9AC \uBC14\uB2D0\uB77C \uD37C\uD504",
+      imageName: "\uC2A4\uD2B8\uB85C\uBCA0\uB9AC \uBC14\uB2D0\uB77C \uD37C\uD504"
+    },
+    "bakery-window-cinnamon-honey-twist-101": {
+      title: "\uC2DC\uB098\uBAAC \uD5C8\uB2C8 \uD2B8\uC704\uC2A4\uD2B8",
+      imageName: "\uC2DC\uB098\uBAAC \uD5C8\uB2C8 \uD2B8\uC704\uC2A4\uD2B8"
+    },
+    "village-pantry-green-label-tea-tin-101": {
+      title: "\uADF8\uB9B0 \uB77C\uBCA8 \uD2F0 \uD2F4",
+      imageName: "\uADF8\uB9B0 \uB77C\uBCA8 \uD2F0 \uD2F4"
+    },
+    "village-pantry-little-linen-basket-102": {
+      title: "\uC791\uC740 \uB9B0\uB128 \uBC14\uAD6C\uB2C8",
+      imageName: "\uC791\uC740 \uB9B0\uB128 \uBC14\uAD6C\uB2C8"
     }
   }
 };

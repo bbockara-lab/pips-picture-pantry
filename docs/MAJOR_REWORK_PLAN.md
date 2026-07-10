@@ -1034,3 +1034,7 @@ Immediate implementation decisions:
 ### v0.1.233 Follow-up - Four Puzzle Quality Batch
 - Continued the quality-first catalog ramp with two pastry silhouettes and two pantry-tool silhouettes, all carrying readable art briefs and localized titles.
 - The launch-volume lane remains quality gated: every added 10x10+/12x12 puzzle must stay recognizable before future artwork production.
+
+### v0.1.234 Follow-up - Four Puzzle Quality Batch
+- Continued the quality-first content ramp and pushed Bakery Window past 100 authored puzzles while Village Pantry keeps expanding its 10x10 object vocabulary.
+- The next content passes can keep this two-pack cadence until a new themed pack receives approved art direction and QA thresholds.

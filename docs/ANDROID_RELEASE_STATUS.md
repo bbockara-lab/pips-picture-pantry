@@ -1218,3 +1218,9 @@ Last updated: 2026-06-28
 - Added Village Pantry 10x10 Copper Measuring Cups and Blue Check Sugar Tin.
 - Raised guarded catalog thresholds to 259 free puzzles, 169 large-board free puzzles, 79 Bakery Window 12x12 boards, 86 Village Pantry 10x10 boards, and 121 readable large-board briefs.
 - Verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.
+
+## v0.1.234 - Four Puzzle Quality Batch
+- Added Bakery Window 12x12 Strawberry Vanilla Puff and Cinnamon Honey Twist.
+- Added Village Pantry 10x10 Green Label Tea Tin and Little Linen Basket.
+- Raised guarded catalog thresholds to 263 free puzzles, 173 large-board free puzzles, 81 Bakery Window 12x12 boards, 88 Village Pantry 10x10 boards, and 125 readable large-board briefs.
+- Verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

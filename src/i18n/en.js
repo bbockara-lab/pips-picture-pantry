@@ -1215,6 +1215,22 @@ export const en = {
     "village-pantry-blue-check-sugar-tin-100": {
       title: "Blue Check Sugar Tin",
       imageName: "Blue Check Sugar Tin"
+    },
+    "bakery-window-strawberry-vanilla-puff-100": {
+      title: "Strawberry Vanilla Puff",
+      imageName: "Strawberry Vanilla Puff"
+    },
+    "bakery-window-cinnamon-honey-twist-101": {
+      title: "Cinnamon Honey Twist",
+      imageName: "Cinnamon Honey Twist"
+    },
+    "village-pantry-green-label-tea-tin-101": {
+      title: "Green Label Tea Tin",
+      imageName: "Green Label Tea Tin"
+    },
+    "village-pantry-little-linen-basket-102": {
+      title: "Little Linen Basket",
+      imageName: "Little Linen Basket"
     }
   }
 };
