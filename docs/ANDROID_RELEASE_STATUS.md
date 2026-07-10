@@ -1151,3 +1151,10 @@ Last updated: 2026-06-28
 ## v0.1.222 - Bakery 12x12 Guard Alignment
 - Aligned the Bakery Window-specific 12x12 regression guard with the current 57-card Bakery Window 12x12 catalog floor.
 - Verified with targeted puzzle-data and catalog-report tests.
+
+
+## v0.1.223 - Four Puzzle Quality Batch
+- Added Bakery Window 12x12 Almond Croissant Stack and Peach Cream Tartlet.
+- Added Village Pantry 10x10 Blue Enamel Colander and Cinnamon Stick Jar.
+- Raised guarded catalog thresholds to 219 free puzzles, 129 large-board free puzzles, 59 Bakery Window 12x12 boards, 66 Village Pantry 10x10 boards, and 81 readable large-board briefs.
+- Verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

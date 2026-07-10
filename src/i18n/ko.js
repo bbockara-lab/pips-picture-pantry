@@ -1037,6 +1037,22 @@ export const ko = {
     "village-pantry-honeycomb-glass-jar-78": {
       title: "\uBC8C\uC9D1\uAFC0 \uC720\uB9AC\uBCD1",
       imageName: "\uBC8C\uC9D1\uAFC0 \uC720\uB9AC\uBCD1"
+    },
+    "bakery-window-almond-croissant-stack-78": {
+      title: "\uC544\uBAAC\uB4DC \uD06C\uB8E8\uC544\uC0C1 \uC2A4\uD0DD",
+      imageName: "\uC544\uBAAC\uB4DC \uD06C\uB8E8\uC544\uC0C1 \uC2A4\uD0DD"
+    },
+    "bakery-window-peach-cream-tartlet-79": {
+      title: "\uBCF5\uC22D\uC544 \uD06C\uB9BC \uD0C0\uB974\uD2C0\uB81B",
+      imageName: "\uBCF5\uC22D\uC544 \uD06C\uB9BC \uD0C0\uB974\uD2C0\uB81B"
+    },
+    "village-pantry-blue-enamel-colander-79": {
+      title: "\uD30C\uB780 \uBC95\uB791 \uCC44\uBC18",
+      imageName: "\uD30C\uB780 \uBC95\uB791 \uCC44\uBC18"
+    },
+    "village-pantry-cinnamon-stick-jar-80": {
+      title: "\uACC4\uD53C \uC2A4\uD2F1 \uBCD1",
+      imageName: "\uACC4\uD53C \uC2A4\uD2F1 \uBCD1"
     }
   }
 };

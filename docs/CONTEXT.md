@@ -1861,3 +1861,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 ### v0.1.222 - Bakery 12x12 Guard Alignment
 - Aligned the Bakery Window-specific 12x12 regression guard with the current v0.1.221 catalog floor of 57 authored Bakery 12x12 puzzles.
 - Version bumped to v0.1.222; targeted puzzle-data and catalog-report tests passed.
+
+
+### v0.1.223 - Four Puzzle Quality Batch
+- Added four readable large-board puzzles: Almond Croissant Stack, Peach Cream Tartlet, Blue Enamel Colander, and Cinnamon Stick Jar.
+- Raised catalog guards to 219 free puzzles, 129 large-board free puzzles, 59 Bakery Window 12x12 boards, 66 Village Pantry 10x10 boards, and 81 readable large-board briefs.
+- Version bumped to v0.1.223; verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

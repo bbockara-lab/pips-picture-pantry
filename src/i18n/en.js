@@ -1039,6 +1039,22 @@ export const en = {
     "village-pantry-honeycomb-glass-jar-78": {
       title: "Honeycomb Glass Jar",
       imageName: "Honeycomb Glass Jar"
+    },
+    "bakery-window-almond-croissant-stack-78": {
+      title: "Almond Croissant Stack",
+      imageName: "Almond Croissant Stack"
+    },
+    "bakery-window-peach-cream-tartlet-79": {
+      title: "Peach Cream Tartlet",
+      imageName: "Peach Cream Tartlet"
+    },
+    "village-pantry-blue-enamel-colander-79": {
+      title: "Blue Enamel Colander",
+      imageName: "Blue Enamel Colander"
+    },
+    "village-pantry-cinnamon-stick-jar-80": {
+      title: "Cinnamon Stick Jar",
+      imageName: "Cinnamon Stick Jar"
     }
   }
 };

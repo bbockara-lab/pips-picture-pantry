@@ -995,3 +995,8 @@ Immediate implementation decisions:
 
 ### v0.1.222 Follow-up - Bakery 12x12 Guard Alignment
 - Closed a small QA drift after the v0.1.221 content batch: Bakery-specific guard now matches the active 57-card 12x12 floor.
+
+
+### v0.1.223 Follow-up - Four Puzzle Quality Batch
+- Continued curated catalog expansion with a mix of pastry silhouettes and pantry-tool silhouettes while preserving the readable art brief contract.
+- Next content slices should keep avoiding repeated object shapes so the catalog feels broad, not merely large.

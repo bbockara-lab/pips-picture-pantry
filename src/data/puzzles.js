@@ -4901,6 +4901,134 @@ export const puzzles = [
       "0111111110",
       "0011111100"
     ]
+  },
+  {
+    "id": "bakery-window-almond-croissant-stack-78",
+    "title": "Almond Croissant Stack",
+    "titleKey": "puzzles.bakery-window-almond-croissant-stack-78",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "two crescent croissants stacked with almond flakes along the curved top edges",
+      "colorMood": "buttery pastry gold, pale almond chips, toasted crescent shadows",
+      "tags": [
+        "almond-croissant",
+        "stacked-crescent",
+        "bakery-window"
+      ]
+    },
+    "solution": [
+      "001111110000",
+      "011111111000",
+      "111100111100",
+      "111000011110",
+      "110000001111",
+      "111000011110",
+      "111111111100",
+      "011111111000",
+      "001111110000",
+      "011111111100",
+      "111111111110",
+      "011111111100"
+    ]
+  },
+  {
+    "id": "bakery-window-peach-cream-tartlet-79",
+    "title": "Peach Cream Tartlet",
+    "titleKey": "puzzles.bakery-window-peach-cream-tartlet-79",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "round tartlet shell with a fan of peach slices over a cream center",
+      "colorMood": "peach orange fan, vanilla cream, honey-brown tart shell",
+      "tags": [
+        "peach-tartlet",
+        "fruit-fan",
+        "bakery-window"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111011101111",
+      "111101111111",
+      "110111011011",
+      "111111111111",
+      "111011101111",
+      "110111011011",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "000111110000"
+    ]
+  },
+  {
+    "id": "village-pantry-blue-enamel-colander-79",
+    "title": "Blue Enamel Colander",
+    "titleKey": "puzzles.village-pantry-blue-enamel-colander-79",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "rounded handled colander with a row of drain holes and a small base foot",
+      "colorMood": "sky-blue enamel, cream rim, tiny dark drain holes",
+      "tags": [
+        "colander",
+        "enamel-bowl",
+        "village-pantry"
+      ]
+    },
+    "solution": [
+      "0111111110",
+      "1111111111",
+      "1110111011",
+      "1111111111",
+      "1101010111",
+      "1111111111",
+      "0111111110",
+      "0011111100",
+      "0111111110",
+      "1100000011"
+    ]
+  },
+  {
+    "id": "village-pantry-cinnamon-stick-jar-80",
+    "title": "Cinnamon Stick Jar",
+    "titleKey": "puzzles.village-pantry-cinnamon-stick-jar-80",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "tall glass jar with three vertical cinnamon sticks and a tied cloth cap",
+      "colorMood": "warm cinnamon brown, clear glass shine, cream cloth top",
+      "tags": [
+        "cinnamon-jar",
+        "spice-sticks",
+        "pantry-shelf"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1101101101",
+      "1101101101",
+      "1101101101",
+      "1101101101",
+      "1111111111",
+      "0111111110",
+      "0011111100"
+    ]
   }
 
 ];
