@@ -1055,6 +1055,22 @@ export const en = {
     "village-pantry-cinnamon-stick-jar-80": {
       title: "Cinnamon Stick Jar",
       imageName: "Cinnamon Stick Jar"
+    },
+    "bakery-window-lavender-shortbread-tin-80": {
+      title: "Lavender Shortbread Tin",
+      imageName: "Lavender Shortbread Tin"
+    },
+    "bakery-window-maple-pecan-braid-81": {
+      title: "Maple Pecan Braid",
+      imageName: "Maple Pecan Braid"
+    },
+    "village-pantry-red-check-apron-81": {
+      title: "Red Check Apron",
+      imageName: "Red Check Apron"
+    },
+    "village-pantry-pearl-sugar-bowl-82": {
+      title: "Pearl Sugar Bowl",
+      imageName: "Pearl Sugar Bowl"
     }
   }
 };

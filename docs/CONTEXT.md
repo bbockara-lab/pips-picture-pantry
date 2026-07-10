@@ -1867,3 +1867,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added four readable large-board puzzles: Almond Croissant Stack, Peach Cream Tartlet, Blue Enamel Colander, and Cinnamon Stick Jar.
 - Raised catalog guards to 219 free puzzles, 129 large-board free puzzles, 59 Bakery Window 12x12 boards, 66 Village Pantry 10x10 boards, and 81 readable large-board briefs.
 - Version bumped to v0.1.223; verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.
+
+### v0.1.224 - Four Puzzle Quality Batch
+- Added Bakery Window 12x12 Lavender Shortbread Tin and Maple Pecan Braid.
+- Added Village Pantry 10x10 Red Check Apron and Pearl Sugar Bowl.
+- Raised catalog guards to 223 free puzzles, 133 large-board free puzzles, 61 Bakery Window 12x12 boards, 68 Village Pantry 10x10 boards, and 85 readable large-board briefs.
+- Version bumped to v0.1.224; verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

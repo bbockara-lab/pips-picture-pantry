@@ -1000,3 +1000,7 @@ Immediate implementation decisions:
 ### v0.1.223 Follow-up - Four Puzzle Quality Batch
 - Continued curated catalog expansion with a mix of pastry silhouettes and pantry-tool silhouettes while preserving the readable art brief contract.
 - Next content slices should keep avoiding repeated object shapes so the catalog feels broad, not merely large.
+
+### v0.1.224 Follow-up - Four Puzzle Quality Batch
+- Continued the polished puzzle-volume lane with two Bakery Window 12x12 boards and two Village Pantry 10x10 boards.
+- Kept the new puzzles within the art-readability contract so future generated art has explicit silhouette, color mood, and tag guidance.

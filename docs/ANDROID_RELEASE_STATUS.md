@@ -1158,3 +1158,9 @@ Last updated: 2026-06-28
 - Added Village Pantry 10x10 Blue Enamel Colander and Cinnamon Stick Jar.
 - Raised guarded catalog thresholds to 219 free puzzles, 129 large-board free puzzles, 59 Bakery Window 12x12 boards, 66 Village Pantry 10x10 boards, and 81 readable large-board briefs.
 - Verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.
+
+## v0.1.224 - Four Puzzle Quality Batch
+- Added Bakery Window 12x12 Lavender Shortbread Tin and Maple Pecan Braid.
+- Added Village Pantry 10x10 Red Check Apron and Pearl Sugar Bowl.
+- Raised guarded catalog thresholds to 223 free puzzles, 133 large-board free puzzles, 61 Bakery Window 12x12 boards, 68 Village Pantry 10x10 boards, and 85 readable large-board briefs.
+- Verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

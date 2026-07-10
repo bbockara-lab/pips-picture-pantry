@@ -1053,6 +1053,22 @@ export const ko = {
     "village-pantry-cinnamon-stick-jar-80": {
       title: "\uACC4\uD53C \uC2A4\uD2F1 \uBCD1",
       imageName: "\uACC4\uD53C \uC2A4\uD2F1 \uBCD1"
+    },
+    "bakery-window-lavender-shortbread-tin-80": {
+      title: "\uB77C\uBCA4\uB354 \uC1FC\uD2B8\uBE0C\uB808\uB4DC \uD2F4",
+      imageName: "\uB77C\uBCA4\uB354 \uC1FC\uD2B8\uBE0C\uB808\uB4DC \uD2F4"
+    },
+    "bakery-window-maple-pecan-braid-81": {
+      title: "\uBA54\uC774\uD50C \uD53C\uCE78 \uBE0C\uB808\uC774\uB4DC",
+      imageName: "\uBA54\uC774\uD50C \uD53C\uCE78 \uBE0C\uB808\uC774\uB4DC"
+    },
+    "village-pantry-red-check-apron-81": {
+      title: "\uBE68\uAC04 \uCCB4\uD06C \uC55E\uCE58\uB9C8",
+      imageName: "\uBE68\uAC04 \uCCB4\uD06C \uC55E\uCE58\uB9C8"
+    },
+    "village-pantry-pearl-sugar-bowl-82": {
+      title: "\uD384 \uC288\uAC70 \uBCFC",
+      imageName: "\uD384 \uC288\uAC70 \uBCFC"
     }
   }
 };

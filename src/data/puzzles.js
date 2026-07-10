@@ -5030,7 +5030,135 @@ export const puzzles = [
       "0011111100"
     ]
   }
-
+,
+  {
+    "id": "bakery-window-lavender-shortbread-tin-80",
+    "title": "Lavender Shortbread Tin",
+    "titleKey": "puzzles.bakery-window-lavender-shortbread-tin-80",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "round cookie tin with a lavender sprig label and stacked shortbread squares inside",
+      "colorMood": "soft lavender label, butter-cookie gold, pale cream tin rim",
+      "tags": [
+        "cookie tin",
+        "lavender",
+        "shortbread"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "111001100111",
+      "111011110111",
+      "111111111111",
+      "111100111111",
+      "111111001111",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "011111111110"
+    ]
+  },
+  {
+    "id": "bakery-window-maple-pecan-braid-81",
+    "title": "Maple Pecan Braid",
+    "titleKey": "puzzles.bakery-window-maple-pecan-braid-81",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "long braided pastry with diagonal plaits and pecan dots across the glossy top",
+      "colorMood": "maple glaze amber, toasted pecan brown, golden pastry folds",
+      "tags": [
+        "braided pastry",
+        "maple glaze",
+        "pecans"
+      ]
+    },
+    "solution": [
+      "000111111000",
+      "001111111100",
+      "011101110110",
+      "111111111111",
+      "110111011111",
+      "111111111111",
+      "111011101111",
+      "111111111111",
+      "011101110110",
+      "001111111100",
+      "000111111000",
+      "001111111100"
+    ]
+  },
+  {
+    "id": "village-pantry-red-check-apron-81",
+    "title": "Red Check Apron",
+    "titleKey": "puzzles.village-pantry-red-check-apron-81",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "small hanging apron with a neck loop, waist ties, and large checkered pocket panel",
+      "colorMood": "tomato red checks, cream fabric, warm stitch shadows",
+      "tags": [
+        "apron",
+        "red check",
+        "pantry textile"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1110011111",
+      "1111111111",
+      "1011111101",
+      "1110101111",
+      "1111111111",
+      "0111111110",
+      "0011111100",
+      "0110000110"
+    ]
+  },
+  {
+    "id": "village-pantry-pearl-sugar-bowl-82",
+    "title": "Pearl Sugar Bowl",
+    "titleKey": "puzzles.village-pantry-pearl-sugar-bowl-82",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "round sugar bowl with two handles, domed lid, and pearl sugar dots on top",
+      "colorMood": "porcelain cream bowl, tiny white sugar pearls, soft blue rim",
+      "tags": [
+        "sugar bowl",
+        "porcelain",
+        "pearl sugar"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1101111011",
+      "1111111111",
+      "1110101111",
+      "1111111111",
+      "0111111110",
+      "1111111111",
+      "0111111110",
+      "0011111100"
+    ]
+  }
 ];
 
 export function getPuzzleById(id) {
