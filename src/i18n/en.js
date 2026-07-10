@@ -1199,6 +1199,22 @@ export const en = {
     "village-pantry-checkered-napkin-ring-98": {
       title: "Checkered Napkin Ring",
       imageName: "Checkered Napkin Ring"
+    },
+    "bakery-window-almond-crescent-roll-98": {
+      title: "Almond Crescent Roll",
+      imageName: "Almond Crescent Roll"
+    },
+    "bakery-window-peach-custard-square-99": {
+      title: "Peach Custard Square",
+      imageName: "Peach Custard Square"
+    },
+    "village-pantry-copper-measuring-cups-99": {
+      title: "Copper Measuring Cups",
+      imageName: "Copper Measuring Cups"
+    },
+    "village-pantry-blue-check-sugar-tin-100": {
+      title: "Blue Check Sugar Tin",
+      imageName: "Blue Check Sugar Tin"
     }
   }
 };

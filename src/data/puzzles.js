@@ -6182,6 +6182,134 @@ export const puzzles = [
       "1111111111",
       "0111111110"
     ]
+  },
+  {
+    "id": "bakery-window-almond-crescent-roll-98",
+    "title": "Almond Crescent Roll",
+    "titleKey": "puzzles.bakery-window-almond-crescent-roll-98",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "curved crescent roll with almond flakes along the top and a tucked pastry tail",
+      "colorMood": "buttery pastry gold, toasted almond tan, light sugar shine",
+      "tags": [
+        "crescent roll",
+        "almond flakes",
+        "curved pastry"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "111011111111",
+      "111101111111",
+      "111110111111",
+      "111111011111",
+      "111111101111",
+      "011111111110",
+      "001111111100",
+      "011111111110",
+      "111111111111"
+    ]
+  },
+  {
+    "id": "bakery-window-peach-custard-square-99",
+    "title": "Peach Custard Square",
+    "titleKey": "puzzles.bakery-window-peach-custard-square-99",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "square custard pastry with rounded corners, peach slice marks, and a crisp border",
+      "colorMood": "pale custard cream, peach orange slices, golden pastry rim",
+      "tags": [
+        "custard square",
+        "peach slices",
+        "pastry border"
+      ]
+    },
+    "solution": [
+      "111111111111",
+      "111111111111",
+      "110011111111",
+      "111111001111",
+      "111111111111",
+      "111001111111",
+      "111111011111",
+      "111111111111",
+      "111100111111",
+      "111111111111",
+      "111111111111",
+      "011111111110"
+    ]
+  },
+  {
+    "id": "village-pantry-copper-measuring-cups-99",
+    "title": "Copper Measuring Cups",
+    "titleKey": "puzzles.village-pantry-copper-measuring-cups-99",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "nested measuring cups with three bowl rims and a small hanging handle",
+      "colorMood": "warm copper, cream highlights, tiny shadowed handles",
+      "tags": [
+        "measuring cups",
+        "copper",
+        "nested bowls"
+      ]
+    },
+    "solution": [
+      "0111111110",
+      "1111111111",
+      "1110111111",
+      "1111011111",
+      "1111111111",
+      "1101110111",
+      "1111111111",
+      "1111110111",
+      "0111111110",
+      "1111111111"
+    ]
+  },
+  {
+    "id": "village-pantry-blue-check-sugar-tin-100",
+    "title": "Blue Check Sugar Tin",
+    "titleKey": "puzzles.village-pantry-blue-check-sugar-tin-100",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "squat sugar tin with a checked blue label, lid lip, and two small sugar dots",
+      "colorMood": "cream enamel tin, blue gingham label, white sugar sparkle",
+      "tags": [
+        "sugar tin",
+        "blue check",
+        "enamel canister"
+      ]
+    },
+    "solution": [
+      "0111111110",
+      "1111111111",
+      "1100110011",
+      "1111111111",
+      "1110011111",
+      "1111110111",
+      "1111111111",
+      "1101101111",
+      "1111111111",
+      "0111111110"
+    ]
   }
 ];
 

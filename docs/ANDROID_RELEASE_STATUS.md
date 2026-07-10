@@ -1212,3 +1212,9 @@ Last updated: 2026-06-28
 - Added Village Pantry 10x10 Little Spice Drawer and Checkered Napkin Ring.
 - Raised guarded catalog thresholds to 255 free puzzles, 165 large-board free puzzles, 77 Bakery Window 12x12 boards, 84 Village Pantry 10x10 boards, and 117 readable large-board briefs.
 - Verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.
+
+## v0.1.233 - Four Puzzle Quality Batch
+- Added Bakery Window 12x12 Almond Crescent Roll and Peach Custard Square.
+- Added Village Pantry 10x10 Copper Measuring Cups and Blue Check Sugar Tin.
+- Raised guarded catalog thresholds to 259 free puzzles, 169 large-board free puzzles, 79 Bakery Window 12x12 boards, 86 Village Pantry 10x10 boards, and 121 readable large-board briefs.
+- Verified with syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

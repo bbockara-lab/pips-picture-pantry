@@ -1197,6 +1197,22 @@ export const ko = {
     "village-pantry-checkered-napkin-ring-98": {
       title: "\uCCB4\uD06C \uB0C5\uD0A8 \uB9C1",
       imageName: "\uCCB4\uD06C \uB0C5\uD0A8 \uB9C1"
+    },
+    "bakery-window-almond-crescent-roll-98": {
+      title: "\uC544\uBAAC\uB4DC \uD06C\uB808\uC13C\uD2B8 \uB864",
+      imageName: "\uC544\uBAAC\uB4DC \uD06C\uB808\uC13C\uD2B8 \uB864"
+    },
+    "bakery-window-peach-custard-square-99": {
+      title: "\uBCF5\uC22D\uC544 \uCEE4\uC2A4\uD130\uB4DC \uC2A4\uD018\uC5B4",
+      imageName: "\uBCF5\uC22D\uC544 \uCEE4\uC2A4\uD130\uB4DC \uC2A4\uD018\uC5B4"
+    },
+    "village-pantry-copper-measuring-cups-99": {
+      title: "\uCF54\uD37C \uACC4\uB7C9\uCEF5",
+      imageName: "\uCF54\uD37C \uACC4\uB7C9\uCEF5"
+    },
+    "village-pantry-blue-check-sugar-tin-100": {
+      title: "\uBE14\uB8E8 \uCCB4\uD06C \uC124\uD0D5 \uD2F4",
+      imageName: "\uBE14\uB8E8 \uCCB4\uD06C \uC124\uD0D5 \uD2F4"
     }
   }
 };
