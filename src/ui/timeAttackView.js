@@ -132,7 +132,8 @@ function getBestSummaryText(bestScores) {
   }
   return t("timeAttack.bestSummary", {
     progress: getRecordProgress(best),
-    time: formatElapsedSeconds(best.elapsedSeconds || 0)
+    time: formatElapsedSeconds(best.elapsedSeconds || 0),
+    hints: getRecordHints(best)
   });
 }
 
@@ -149,7 +150,8 @@ function createRecordsPanel(bestScores) {
       item.textContent = t("timeAttack.recordLine", {
         size: record.size || "?",
         progress: getRecordProgress(record),
-        time: formatElapsedSeconds(record.elapsedSeconds || 0)
+        time: formatElapsedSeconds(record.elapsedSeconds || 0),
+        hints: getRecordHints(record)
       });
       list.appendChild(item);
     });
@@ -194,6 +196,10 @@ function createLastResultPanel(lastResult) {
 
   result.append(title, score, meta, reward);
   return result;
+}
+
+function getRecordHints(record) {
+  return Math.max(0, Math.floor(Number(record?.hintsUsed || 0)));
 }
 
 function getRecordProgress(record) {
