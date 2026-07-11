@@ -1342,3 +1342,8 @@ Last updated: 2026-06-28
 ### v0.1.262 - Stage Unlock Plan Copy
 - 잠긴 스테이지 카드에 다음 행동 플랜 문구를 추가했다. 스푼 부족, Pantry 요청 부족, 둘 다 부족한 상황을 각각 설명해 다음 퍼즐을 열기 위한 목표를 더 명확하게 보여 준다.
 - Season 0의 333개 퍼즐을 단순 목록이 아니라 스푼 수급과 Pantry 진행으로 단계적으로 열어 가는 구조로 느끼게 하는 UI 보강이다.
+
+
+### v0.1.263 - Opening Promise Strip
+- Added a Season 0 launch note and three tactile promise chips to the brand intro: 333 pictures, Pantry goals, and Time Attack.
+- The first game screen now previews puzzle volume, decoration goals, and competitive play before the user enters the puzzle loop.

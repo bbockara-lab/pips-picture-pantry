@@ -40,6 +40,7 @@ describe("i18n", () => {
     expect(t("packs.pricePreview")).toBe("Optional add-on");
     expect(t("seasonProgress.catalogStat", { completed: 3, total: 333 })).toBe("3/333 pictures");
     expect(t("seasonProgress.stageStat", { unlocked: 2, total: 5 })).toBe("2/5 stages open");
+    expect(t("brandIntro.launchNote")).toBe("Season 0 opens with 333 cozy pictures, pantry goals, and spoon rewards.");
     expect(t("packs.unlockPlanNeedBoth", { count: 12, completed: 2, required: 3 })).toBe("Earn 12 more spoons and finish Pantry requests 2/3 to open this stage.");
     expect(t("badges.progress", { completed: 3, total: 100 })).toBe("3/100 cards");
     expect(t("map.sets.cozy-cafe-room")).toBe("Cozy cafe room");
@@ -92,6 +93,7 @@ describe("i18n", () => {
     setActiveLocale("ko");
 
     expect(t("views.puzzle")).toBe("\ud37c\uc990");
+    expect(t("brandIntro.promisePuzzle")).toBe("\uadf8\ub9bc 333\uac1c");
 
     setActiveLocale("unsupported");
     expect(t("views.puzzle")).toBe("Puzzle");

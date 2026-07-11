@@ -7,6 +7,11 @@ export const en = {
   brandIntro: {
     ariaLabel: "Sunny Spoon Studios and Pip's Picture Pantry opening screens",
     studioTagline: "Sunny Spoon Studios",
+    launchNote: "Season 0 opens with 333 cozy pictures, pantry goals, and spoon rewards.",
+    promiseLabel: "Launch season highlights",
+    promisePuzzle: "333 pictures",
+    promiseDecorate: "Pantry goals",
+    promiseTimeAttack: "Time Attack",
     skip: "Start"
   },
   playerIntro: {
