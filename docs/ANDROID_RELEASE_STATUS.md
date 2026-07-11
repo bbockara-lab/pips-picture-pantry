@@ -4,6 +4,10 @@ Last updated: 2026-06-28
 
 ## Current State
 
+- 2026-07-10 planning update: launch content strategy now targets about 333 polished Season 0 puzzles rather than completing 1,000 puzzles before release.
+- Long-term 1,000+ puzzle depth remains a live-service update goal through seasonal/quarterly content packs.
+- Near-term release readiness should prioritize first-session polish, art consistency, Pantry story/economy flow, Time Attack, guide presentation, and mobile UX once the catalog approaches the 333 range.
+
 - Mode: live-candidate
 - App ID: com.sunnyspoonstudios.pipspicturepantry
 - App name: Pip's Picture Pantry

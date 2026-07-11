@@ -11,8 +11,30 @@ describe("puzzle catalog report", () => {
     expect(report.totals.freePuzzles).toBeGreaterThanOrEqual(283);
     expect(report.totals.twelveByTwelveBoards).toBeGreaterThanOrEqual(91);
     expect(report.totals.readableLargeBoards).toBeGreaterThanOrEqual(145);
+    expect(report.launchTarget.targetFreePuzzles).toBe(333);
+    expect(report.launchTarget.remainingFreePuzzles).toBeLessThanOrEqual(50);
+    expect(report.launchTarget.shouldPrioritizePolish).toBe(true);
     expect(bakeryWindow.twelveByTwelveCount).toBeGreaterThanOrEqual(91);
     expect(villagePantry.largeBoardCount).toBeGreaterThanOrEqual(98);
+  });
+
+  it("reports launch-target progress for smaller catalogs", () => {
+    const report = buildPuzzleCatalogReport({
+      packList: [],
+      puzzleList: [
+        { id: "starter-1", access: "free", size: 5 },
+        { id: "starter-2", access: "free", size: 5 },
+        { id: "bonus-1", access: "bonus-pack", size: 5 }
+      ],
+      dictionaries: { en: {}, ko: {} }
+    });
+
+    expect(report.launchTarget).toEqual({
+      targetFreePuzzles: 333,
+      remainingFreePuzzles: 331,
+      progressPercent: 1,
+      shouldPrioritizePolish: false
+    });
   });
 
   it("warns when recent large-board progression puzzles lack readable art briefs", () => {

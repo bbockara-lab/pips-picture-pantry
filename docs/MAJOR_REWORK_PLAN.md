@@ -1,6 +1,6 @@
 # Pip's Picture Pantry Major Rework Plan
 
-Last updated: 2026-07-02
+Last updated: 2026-07-10
 
 ## Status
 
@@ -28,6 +28,18 @@ The main motivation should not be "pay or wait to play the next puzzle." The mai
 - Puzzle quantity can be throttled through Pantry story progress, spoon costs, room goals, and update pacing instead of limiting the total content ambition.
 - Long-term goal: become the cozy nonogram game with one of the deepest curated puzzle libraries on mobile.
 - Quality bar: every album/catalog puzzle must be logically solvable, visually readable, and resolve into a recognizable cozy image with strong design, theme, and color sensibility; volume does not lower the bar.
+
+### Launch Catalog Strategy Pivot - 2026-07-10
+
+The launch catalog should now target a polished **Season 0 / Launch v1** set rather than trying to finish the old 1,000-puzzle ambition before release.
+
+- Practical launch target: about 333 curated puzzles, roughly one third of the long-term 1,000-puzzle ambition.
+- This number is directional, not a hard marketing promise. If quality, UI, economy, art, or QA needs more time, launch can ship slightly below or above it.
+- Once the catalog is near the 333 range, prioritize first-session quality over raw puzzle count: opening art, button feel, settings polish, guide/dialog presentation, Pantry story loop, Time Attack economy, completion effects, and mobile layout.
+- The 1,000-puzzle goal becomes a cumulative live-service roadmap, reached through quarterly or seasonal updates rather than launch crunch.
+- Seasonal updates should create anticipation: spring picnic, summer fruit/cafe, autumn baking, winter cocoa/gifts, holiday pantry, or current-topic cozy packs.
+- Every future season must keep the same catalog contract: logical solve, readable silhouette, translated title/image name, art-readability metadata, and mobile/catalog QA guards.
+- Economy pacing can use Pantry room goals, spoon costs, Time Attack, daily rewards, and staged unlocks so players experience progress without consuming the entire catalog too quickly.
 
 ## Core Loop
 

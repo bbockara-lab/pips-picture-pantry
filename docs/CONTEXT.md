@@ -1,6 +1,15 @@
 # Pip's Picture Pantry - Active Context
 
-Last updated: 2026-06-28
+Last updated: 2026-07-10
+
+## Current Launch Strategy Snapshot - 2026-07-10
+
+- Current local catalog after v0.1.239: 283 free puzzles, 193 large boards, 91 12x12 boards, 98 Village Pantry 10x10 boards, and 145 readable large-board briefs.
+- Launch target is now **about 333 high-quality puzzles**, not 1,000 puzzles before release.
+- The long-term 1,000+ puzzle ambition remains, but it becomes a post-launch live-service roadmap through seasonal and quarterly updates.
+- Once the launch catalog nears the 333 range, prioritize total game quality over more bulk puzzle generation: Sunny Spoon/Pip art consistency, opening screen, button/UI feel, settings polish, Pip guide dialogs, Pantry story loop, Time Attack hint economy, completion effects, and mobile QA.
+- Seasonal updates should preserve anticipation and freshness: spring picnic, summer fruit/cafe, autumn baking, winter cocoa/gifts, Sunny Spoon festival, or other timely cozy packs.
+- Every future puzzle update still needs the same quality gate: logical solve, readable object, distinct silhouette, strong color/design concept, translated catalog copy, art-readability metadata, and automated catalog/i18n/mobile guards.
 
 ## Current Phase
 

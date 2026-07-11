@@ -4,6 +4,9 @@ import { en } from "../src/i18n/en.js";
 import { ko } from "../src/i18n/ko.js";
 import { pathToFileURL } from "node:url";
 
+export const LAUNCH_CATALOG_TARGET = 333;
+export const LAUNCH_QUALITY_PIVOT_BUFFER = 50;
+
 function incrementCounter(counter, key) {
   counter[key] = (counter[key] || 0) + 1;
 }
@@ -116,6 +119,12 @@ export function buildPuzzleCatalogReport({ puzzleList = puzzles, packList = puzz
       twelveByTwelveBoards: puzzleList.filter((puzzle) => puzzle.size >= 12).length,
       readableLargeBoards: readableLargeBoards.length,
     },
+    launchTarget: {
+      targetFreePuzzles: LAUNCH_CATALOG_TARGET,
+      remainingFreePuzzles: Math.max(0, LAUNCH_CATALOG_TARGET - (byAccess.free || 0)),
+      progressPercent: Math.min(100, Math.round(((byAccess.free || 0) / LAUNCH_CATALOG_TARGET) * 100)),
+      shouldPrioritizePolish: (byAccess.free || 0) >= LAUNCH_CATALOG_TARGET - LAUNCH_QUALITY_PIVOT_BUFFER,
+    },
     byAccess,
     bySize,
     byPack,
@@ -131,6 +140,8 @@ export function formatPuzzleCatalogReport(report = buildPuzzleCatalogReport()) {
     `Large boards 10x10+: ${report.totals.largeBoards}`,
     `Large boards 12x12+: ${report.totals.twelveByTwelveBoards}`,
     `Readable large-board briefs: ${report.totals.readableLargeBoards}`,
+    `Launch target: ${report.totals.freePuzzles}/${report.launchTarget.targetFreePuzzles} free puzzles (${report.launchTarget.progressPercent}%, ${report.launchTarget.remainingFreePuzzles} remaining)`,
+    `Launch quality pivot: ${report.launchTarget.shouldPrioritizePolish ? "yes - prioritize first-session polish alongside any new puzzles" : "not yet - continue curated puzzle growth"}`,
     "",
     "By pack:",
   ];
