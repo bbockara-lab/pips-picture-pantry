@@ -100,6 +100,7 @@ function renderHintConfirm(panel, { state, puzzle, update, hintCost, options }) 
   confirm.className = "hint-panel__confirm";
   confirm.setAttribute("role", "group");
   confirm.setAttribute("aria-label", t("controls.hintConfirmTitle"));
+  confirm.dataset.cost = String(hintCost);
 
   const title = document.createElement("p");
   title.className = "hint-panel__confirm-title";

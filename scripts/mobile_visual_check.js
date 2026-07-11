@@ -84,6 +84,7 @@ for (const viewport of viewports) {
   await verifyPantryPlacement(page, viewport.name);
 
   await verifyLargeBoardCatalogPuzzle(page, viewport.name);
+  await expectHintConfirmationPolish(page, viewport.name);
 
   await page.close();
 }
@@ -456,6 +457,54 @@ async function expectCompletionRewardPolish(page, viewportName) {
     !metrics.revealBackground.includes("linear-gradient")
   ) {
     failures.push("[" + viewportName + "] Completion reward polish regression: " + JSON.stringify(metrics));
+  }
+}
+
+async function expectHintConfirmationPolish(page, viewportName) {
+  const metrics = await page.evaluate(() => {
+    const host = document.createElement("div");
+    host.className = "hint-panel mobile-qa-hint-fixture";
+    host.style.cssText = "position: fixed; left: 12px; right: 12px; bottom: 14px; z-index: 9999; display: grid; grid-template-columns: 1fr; max-width: 340px; margin: 0 auto;";
+    host.innerHTML = '<div class="hint-panel__confirm" data-cost="4" role="group"><p class="hint-panel__confirm-title">Spend spoons for a hint?</p><p>This uses 4 spoons now. Undo can remove the hint move, but the spoons are not refunded.</p><div class="hint-panel__confirm-actions"><button type="button" class="tool-button">Not now</button><button type="button" class="tool-button complete">Use 4</button></div></div>';
+    document.body.appendChild(host);
+    const panel = host.querySelector(".hint-panel__confirm");
+    const buttons = [...host.querySelectorAll("button")];
+    const rect = panel?.getBoundingClientRect();
+    const style = panel ? getComputedStyle(panel) : null;
+    const buttonMetrics = buttons.map((button) => {
+      const buttonRect = button.getBoundingClientRect();
+      const buttonStyle = getComputedStyle(button);
+      return { width: buttonRect.width, height: buttonRect.height, background: buttonStyle.backgroundImage };
+    });
+    const result = {
+      left: rect?.left || 0,
+      right: rect?.right || 0,
+      width: rect?.width || 0,
+      height: rect?.height || 0,
+      viewportWidth: window.innerWidth,
+      radius: style ? parseFloat(style.borderRadius) : 0,
+      background: style?.backgroundImage || "",
+      boxShadow: style?.boxShadow || "",
+      cost: panel?.getAttribute("data-cost") || "",
+      buttonMetrics
+    };
+    host.remove();
+    return result;
+  });
+
+  const buttonsReady = metrics.buttonMetrics.length === 2 && metrics.buttonMetrics.every((button) => button.height >= 40 && button.width >= 100 && button.background.includes("linear-gradient"));
+  if (
+    metrics.left < -1 ||
+    metrics.right > metrics.viewportWidth + 1 ||
+    metrics.width < 280 ||
+    metrics.height < 120 ||
+    metrics.radius < 12 ||
+    !metrics.background.includes("linear-gradient") ||
+    metrics.boxShadow === "none" ||
+    metrics.cost !== "4" ||
+    !buttonsReady
+  ) {
+    failures.push("[" + viewportName + "] Hint confirmation polish regression: " + JSON.stringify(metrics));
   }
 }
 

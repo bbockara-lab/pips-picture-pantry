@@ -37,6 +37,11 @@ for (const scanRoot of jsScanRoots) {
     if (bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf) {
       errors.push(`${toProjectPath(filePath)}: UTF-8 BOM is not allowed in source files`);
     }
+    const source = bytes.toString("utf8");
+    const projectPath = toProjectPath(filePath);
+    if (/(\bwindow|\bglobalThis)\.confirm\s*\(/.test(source)) {
+      errors.push(`${projectPath}: native confirm dialogs are not allowed in runtime or QA code`);
+    }
   }
 }
 

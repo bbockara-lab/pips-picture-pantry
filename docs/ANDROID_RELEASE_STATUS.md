@@ -1257,3 +1257,8 @@ Last updated: 2026-06-28
 ## v0.1.240 - Time Attack Coach Polish
 - Added the Pip coach card to the Time Attack lobby and kept Android bundle generation paused during the local rework.
 - Verification focus for this slice: i18n copy, mobile Time Attack lobby containment, and full local test/build health.
+
+## v0.1.241 - Time Attack Hint Confirmation Polish
+- Polished the in-game paid-hint confirmation panel for Time Attack and added a hygiene guard against native browser confirm dialogs.
+- Added mobile visual QA coverage for the paid-hint confirmation panel treatment.
+- Android bundle generation remains paused during the local major rework; next signed AAB should wait for broader UX/art approval.

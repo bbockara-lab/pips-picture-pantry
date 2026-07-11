@@ -1972,3 +1972,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added a Pip coach card to the Time Attack lobby so the mode explains its role even after the first-run guide is dismissed.
 - The card now frames Time Attack as a spoon source, a selective hint sink, and a personal-record challenge.
 - Added mobile QA coverage for the Time Attack coach card treatment and bumped the visible app version to v0.1.240.
+
+### v0.1.241 - Time Attack Hint Confirmation Polish
+- Polished the paid Time Attack hint confirmation panel so spending spoons stays inside the cozy game UI instead of feeling like a browser dialog.
+- Added a source hygiene guard that blocks window.confirm/globalThis.confirm from returning to runtime or QA code.
+- Added mobile visual QA coverage for the paid-hint confirmation panel treatment.
+- Bumped the visible app version to v0.1.241 while keeping Android bundle generation paused during the local rework.
