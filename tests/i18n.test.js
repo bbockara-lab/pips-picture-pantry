@@ -41,6 +41,7 @@ describe("i18n", () => {
     expect(t("seasonProgress.catalogStat", { completed: 3, total: 333 })).toBe("3/333 pictures");
     expect(t("seasonProgress.stageStat", { unlocked: 2, total: 5 })).toBe("2/5 stages open");
     expect(t("seasonProgress.goalReadyTitle", { pack: "Bakery Window" })).toBe("Bakery Window is ready");
+    expect(t("seasonProgress.goalOpenAction")).toBe("Open stage");
     expect(t("brandIntro.launchNote")).toBe("Season 0 opens with 333 cozy pictures, pantry goals, and spoon rewards.");
     expect(t("packs.unlockPlanNeedBoth", { count: 12, completed: 2, required: 3 })).toBe("Earn 12 more spoons and finish Pantry requests 2/3 to open this stage.");
     expect(t("badges.progress", { completed: 3, total: 100 })).toBe("3/100 cards");

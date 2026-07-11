@@ -301,6 +301,9 @@ export const en = {
     goalUnlockedBody: "{count} pictures are still waiting for album cards, badges, and spoons.",
     goalCompleteTitle: "Season 0 mastered",
     goalCompleteBody: "All {count} launch stages are complete. Save spoons for the next seasonal room.",
+    goalOpenAction: "Open stage",
+    goalPantryAction: "Go to Pantry",
+    goalAlbumAction: "View album",
     nextSeasonTitle: "Next season is warming up",
     nextSeasonBody: "Seasonal pantry sets will arrive as update packs after the launch room feels polished."
   },

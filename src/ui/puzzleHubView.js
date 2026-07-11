@@ -6,7 +6,8 @@ import { ECONOMY } from "../data/economyConfig.js";
 import { canUnlockPack, getCompletedPuzzleIds, getPackPantryRoomRequirement, getPantrySpoons, getReplayDailyCount, isPackUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 
-export function renderPuzzleHub(activePuzzle, onOpenPuzzle) {
+export function renderPuzzleHub(activePuzzle, onOpenPuzzle, options = {}) {
+  const { onOpenPantry = () => {}, onUnlockPack = () => {}, onViewAlbum = () => {} } = options;
   const stack = document.createElement("div");
   stack.className = "puzzle-hub-stack";
 
@@ -23,11 +24,11 @@ export function renderPuzzleHub(activePuzzle, onOpenPuzzle) {
   action.addEventListener("click", onOpenPuzzle);
 
   panel.append(copy, action);
-  stack.append(panel, createSeasonProgressCard());
+  stack.append(panel, createSeasonProgressCard({ onOpenPantry, onUnlockPack, onViewAlbum }));
   return stack;
 }
 
-function createSeasonProgressCard() {
+function createSeasonProgressCard(actions = {}) {
   const progressionPacks = puzzlePacks.filter((pack) => pack.access !== "bonus-pack");
   const progressionPackIds = new Set(progressionPacks.map((pack) => pack.id));
   const seasonPuzzles = puzzles.filter((puzzle) => progressionPackIds.has(puzzle.packId));
@@ -76,7 +77,7 @@ function createSeasonProgressCard() {
     createSpoonSeasonStat(t("seasonProgress.spoonStat", { count: getPantrySpoons() }))
   );
 
-  const goal = createSeasonGoalCard({ nextLockedPack, remaining, progressionPacks });
+  const goal = createSeasonGoalCard({ nextLockedPack, remaining, progressionPacks, ...actions });
 
   const teaser = document.createElement("div");
   teaser.className = "season-next-card";
@@ -86,12 +87,14 @@ function createSeasonProgressCard() {
   return card;
 }
 
-function createSeasonGoalCard({ nextLockedPack, remaining, progressionPacks }) {
+function createSeasonGoalCard({ nextLockedPack, remaining, progressionPacks, onOpenPantry, onUnlockPack, onViewAlbum }) {
   const goal = document.createElement("div");
   goal.className = "season-progress-goal";
 
   let title = "";
   let body = "";
+  let actionLabel = "";
+  let actionHandler = null;
   if (nextLockedPack) {
     const packName = t(nextLockedPack.titleKey);
     const roomRequirement = getPackPantryRoomRequirement(nextLockedPack);
@@ -102,16 +105,33 @@ function createSeasonGoalCard({ nextLockedPack, remaining, progressionPacks }) {
       : t("seasonProgress.goalLockedTitle", { pack: packName });
     body = ready
       ? t("seasonProgress.goalReadyBody")
-      : getUnlockPlanText(nextLockedPack, roomRequirement, spoonGap);
+      : getUnlockPlanText(ready, roomRequirement, spoonGap);
+    if (ready) {
+      actionLabel = t("seasonProgress.goalOpenAction");
+      actionHandler = () => onUnlockPack(nextLockedPack.id);
+    } else if (!roomRequirement.met) {
+      actionLabel = t("seasonProgress.goalPantryAction");
+      actionHandler = onOpenPantry;
+    }
   } else if (remaining > 0) {
     title = t("seasonProgress.goalUnlockedTitle");
     body = t("seasonProgress.goalUnlockedBody", { count: remaining });
+    actionLabel = t("seasonProgress.goalAlbumAction");
+    actionHandler = onViewAlbum;
   } else {
     title = t("seasonProgress.goalCompleteTitle");
     body = t("seasonProgress.goalCompleteBody", { count: progressionPacks.length });
   }
 
   goal.innerHTML = "<span>" + t("seasonProgress.goalEyebrow") + "</span><strong>" + title + "</strong><p>" + body + "</p>";
+  if (actionLabel && actionHandler) {
+    const action = document.createElement("button");
+    action.type = "button";
+    action.className = "tool-button season-progress-goal__action";
+    action.textContent = actionLabel;
+    action.addEventListener("click", actionHandler);
+    goal.appendChild(action);
+  }
   return goal;
 }
 
