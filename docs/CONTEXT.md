@@ -2103,3 +2103,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added a Room Path mission block to the Pantry progress board so decoration requests, room steps, spoon savings, and the next puzzle stage are visible in one place.
 - Reused the existing Pantry room-step requirements from the stage pack data instead of introducing a new economy rule, keeping decoration pacing and stage unlock logic aligned.
 - Bumped the visible app version to v0.1.267; verification focused on pantry syntax, i18n, full Vitest, hygiene/assets/catalog QA, production build, HTTP smoke, and mobile visual QA.
+
+### v0.1.268 - Pantry Progress Mission Mobile Guard
+- Added explicit mobile visual QA coverage for the Pantry Room Path mission card so the next request target, spoon gate, meter, and fact chips cannot silently disappear during future layout work.
+- Bumped the visible app version to v0.1.268; verification focuses on syntax, full Vitest, hygiene/assets/catalog QA, production build, HTTP smoke, and mobile visual QA.

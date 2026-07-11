@@ -1173,3 +1173,7 @@ Immediate implementation decisions:
 ### v0.1.267 - Pantry Progress Mission Card
 - Connected the Pantry progress board more directly to progression pacing by showing the next room-step request target and spoon requirement for the next puzzle stage.
 - This supports the launch direction that decoration is not merely optional collecting: it becomes a readable bridge between puzzle rewards, room completion, and future stage access.
+
+### v0.1.268 - Pantry Progress Mission Mobile Guard
+- Locked the new Pantry progression bridge into mobile QA. Future UI/art passes should preserve the card because it is the visible link between decoration requests, stage access, and spoon pacing.
+- This keeps the current priority on launch quality: fewer raw puzzle-production slices, more protection around the progression experience that makes the 333 launch puzzles feel structured.

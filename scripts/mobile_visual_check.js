@@ -195,7 +195,7 @@ async function expectOpeningIntroPolish(page, viewportName) {
 }
 
 async function expectSettingsDialogPolish(page, viewportName) {
-  await page.locator('button[aria-label="Settings"], button[aria-label="설정"]').first().click();
+  await page.locator('button[aria-label="Settings"], button[aria-label="?ㅼ젙"]').first().click();
   await expectVisible(page, ".settings-dialog", viewportName);
   const viewport = page.viewportSize() || { height: 844 };
   const metrics = await page.evaluate(() => {
@@ -820,6 +820,9 @@ async function verifyPantryPlacement(page, viewportName) {
   await expectVisible(page, ".pantry-earning-plan", viewportName);
   await expectVisible(page, ".pantry-earning-action", viewportName);
   await expectVisible(page, ".pantry-progress-board", viewportName);
+  await expectVisible(page, ".pantry-progress-mission", viewportName);
+  await expectVisible(page, ".pantry-progress-mission__meter", viewportName);
+  await expectVisible(page, ".pantry-progress-mission__facts span", viewportName);
   await expectVisible(page, ".pantry-display-plan", viewportName);
   await expectVisible(page, ".pantry-slot-filters", viewportName);
   await expectVisible(page, ".pantry-rarity-filters", viewportName);
@@ -846,6 +849,31 @@ async function verifyPantryPlacement(page, viewportName) {
   const progressText = await page.locator(".pantry-progress-board").first().innerText();
   if (!progressText.includes("0/25") || !progressText.includes("0/6")) {
     failures.push("[" + viewportName + "] Pantry progress board should show seeded 0/25 collection and counter 0/6 progress, saw " + progressText);
+  }
+
+  const progressMissionText = await page.locator(".pantry-progress-mission").first().innerText();
+  if (!progressMissionText.includes("0/3") || !progressMissionText.includes("Stage spoons") || !progressMissionText.includes("80")) {
+    failures.push("[" + viewportName + "] Pantry progress mission should link seeded room requests to the next stage spoon gate, saw " + progressMissionText);
+  }
+  const progressMissionMetrics = await page.locator(".pantry-progress-mission").first().evaluate((card) => {
+    const rect = card.getBoundingClientRect();
+    const meter = card.querySelector(".pantry-progress-mission__meter span");
+    const facts = [...card.querySelectorAll(".pantry-progress-mission__facts span")].map((fact) => {
+      const factRect = fact.getBoundingClientRect();
+      return { width: factRect.width, height: factRect.height, text: fact.textContent.trim() };
+    });
+    return {
+      width: rect.width,
+      meterWidth: meter ? meter.getBoundingClientRect().width : 0,
+      facts
+    };
+  });
+  if (
+    progressMissionMetrics.width < 180 ||
+    progressMissionMetrics.facts.length !== 2 ||
+    progressMissionMetrics.facts.some((fact) => fact.width < 120 || fact.height < 24)
+  ) {
+    failures.push("[" + viewportName + "] Pantry progress mission mobile layout regressed: " + JSON.stringify(progressMissionMetrics));
   }
 
   const savingsGoalText = await page.locator(".pantry-savings-goal").first().innerText();
@@ -994,6 +1022,10 @@ async function verifyPantryPlacement(page, viewportName) {
   const postPurchaseProgressText = await page.locator(".pantry-progress-board").innerText();
   if (!postPurchaseProgressText.includes("1/25") || !postPurchaseProgressText.includes("1/5")) {
     failures.push("[" + viewportName + "] First Pantry purchase did not update collection progress, saw " + postPurchaseProgressText);
+  }
+  const postPurchaseMissionText = await page.locator(".pantry-progress-mission").first().innerText();
+  if (!postPurchaseMissionText.includes("0/3") || !postPurchaseMissionText.includes("Stage spoons")) {
+    failures.push("[" + viewportName + "] First Pantry purchase should preserve the room-path mission until the story request is delivered, saw " + postPurchaseMissionText);
   }
   if ((await page.locator(".pantry-room-slot.slot-counter.filled").count()) !== 1) {
     failures.push("[" + viewportName + "] First Pantry purchase did not fill the counter room slot");

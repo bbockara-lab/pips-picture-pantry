@@ -1367,3 +1367,8 @@ Last updated: 2026-06-28
 - Visible app version: v0.1.267.
 - Android bundle generation remains paused during the local rework; the next handoff should include the Pantry Room Path mission block that links decoration requests to stage unlock pacing.
 - Planned verification: local web QA plus mobile visual QA before Android packaging resumes.
+
+## Verification Update - 2026-07-11 v0.1.268 Pantry Progress Mission Mobile Guard
+- Visible app version: v0.1.268.
+- Android bundle generation remains paused during the local rework; the next handoff should include the mobile QA guard for the Pantry Room Path mission card.
+- Planned verification: local web QA plus mobile visual QA before Android packaging resumes.
