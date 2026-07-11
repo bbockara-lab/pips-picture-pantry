@@ -1978,3 +1978,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added a source hygiene guard that blocks window.confirm/globalThis.confirm from returning to runtime or QA code.
 - Added mobile visual QA coverage for the paid-hint confirmation panel treatment.
 - Bumped the visible app version to v0.1.241 while keeping Android bundle generation paused during the local rework.
+
+### v0.1.242 - Time Attack Three-Round Pacing
+- Changed the default 3-round Time Attack run from three 5x5 boards to 5x5, 8x8, then 10x10 so the mode exposes a meaningful paid-hint decision within a short session.
+- Time Attack records now use the largest board reached in the run instead of always recording against the opening 5x5 board.
+- Bumped the visible app version to v0.1.242.

@@ -35,6 +35,7 @@ import {
   unlockPack
 } from "../src/game/save.js";
 import { pantryDecorations } from "../src/data/decorations.js";
+import { advanceTimeAttackSession, createTimeAttackSession } from "../src/ui/timeAttackFlow.js";
 
 class LocalStorageMock {
   constructor() {
@@ -212,6 +213,24 @@ describe("player save profiles", () => {
     expect(getPantrySpoons()).toBe(3);
     expect(spendPantrySpoons(4, "time-attack-hint")).toEqual({ spent: 0, balance: 3, allowed: false, reason: "not-enough-spoons" });
     expect(getPantrySpoons()).toBe(3);
+  });
+
+  it("records mixed-size time attack runs against the largest reached board", () => {
+    setActivePlayerName("Jay");
+    const session = createTimeAttackSession({ now: 1000 });
+
+    const result = advanceTimeAttackSession({
+      run: session.run,
+      seed: session.seed,
+      startedAt: Date.now(),
+      roundIndex: session.run.length - 1,
+      puzzle: session.run.at(-1)
+    });
+
+    expect(session.run.map((puzzle) => puzzle.size)).toEqual([5, 8, 10]);
+    expect(result.status).toBe("complete");
+    expect(getTimeAttackBestScores()["10"].completedRounds).toBe(3);
+    expect(getTimeAttackBestScores()["5"]).toBeUndefined();
   });
 
   it("tracks time attack rewards and best scores", () => {

@@ -32,7 +32,7 @@ export function advanceTimeAttackSession({ run, seed, startedAt, roundIndex, puz
 
   const elapsedSeconds = getTimeAttackElapsedSeconds(startedAt);
   const result = recordTimeAttackResult({
-    size: run[0]?.size || puzzle?.size || 5,
+    size: getTimeAttackRunRecordSize(run, puzzle),
     score: getTimeAttackRunScore({ completedRounds: run.length, elapsedSeconds }),
     seed,
     completedRounds: run.length,
@@ -49,4 +49,9 @@ export function advanceTimeAttackSession({ run, seed, startedAt, roundIndex, puz
 export function getTimeAttackElapsedSeconds(startedAt) {
   if (!startedAt) return 0;
   return Math.max(0, Math.floor((Date.now() - startedAt) / 1000));
+}
+
+function getTimeAttackRunRecordSize(run, puzzle) {
+  const runSizes = Array.isArray(run) ? run.map((entry) => Number(entry?.size || 0)).filter(Boolean) : [];
+  return Math.max(...runSizes, Number(puzzle?.size || 0), 5);
 }

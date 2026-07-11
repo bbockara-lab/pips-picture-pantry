@@ -27,8 +27,9 @@ describe("time attack random puzzle generation", () => {
   });
 
   it("ramps board size during a run", () => {
-    expect([0, 2, 3, 6, 7, 11, 12, 17, 18].map(getTimeAttackSizeForRound)).toEqual([5, 5, 8, 8, 10, 10, 12, 12, 15]);
-    expect(createTimeAttackRun({ seed: "run", rounds: 6 }).map((puzzle) => puzzle.size)).toEqual([5, 5, 5, 8, 8, 8]);
+    expect([0, 1, 2, 3, 5, 6, 12].map(getTimeAttackSizeForRound)).toEqual([5, 8, 10, 12, 12, 15, 15]);
+    expect(createTimeAttackRun({ seed: "run", rounds: 3 }).map((puzzle) => puzzle.size)).toEqual([5, 8, 10]);
+    expect(createTimeAttackRun({ seed: "run", rounds: 6 }).map((puzzle) => puzzle.size)).toEqual([5, 8, 10, 12, 12, 12]);
   });
 
   it("scores completed runs with a speed bonus", () => {

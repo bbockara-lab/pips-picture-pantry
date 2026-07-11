@@ -27,10 +27,10 @@ export function createTimeAttackPuzzle({ seed, size, index = 0 } = {}) {
 
 export function getTimeAttackSizeForRound(roundIndex = 0) {
   const round = Math.max(0, Number(roundIndex) || 0);
-  if (round < 3) return 5;
-  if (round < 7) return 8;
-  if (round < 12) return 10;
-  if (round < 18) return 12;
+  if (round === 0) return 5;
+  if (round === 1) return 8;
+  if (round === 2) return 10;
+  if (round < 6) return 12;
   return 15;
 }
 

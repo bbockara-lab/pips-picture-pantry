@@ -1262,3 +1262,8 @@ Last updated: 2026-06-28
 - Polished the in-game paid-hint confirmation panel for Time Attack and added a hygiene guard against native browser confirm dialogs.
 - Added mobile visual QA coverage for the paid-hint confirmation panel treatment.
 - Android bundle generation remains paused during the local major rework; next signed AAB should wait for broader UX/art approval.
+
+## v0.1.242 - Time Attack Three-Round Pacing
+- Changed the default Time Attack size ramp to 5x5, 8x8, and 10x10 so short runs can still surface the hint-spend decision.
+- Time Attack records now use the largest board reached in the run rather than the first 5x5 board.
+- Android bundle generation remains paused during the local major rework.
