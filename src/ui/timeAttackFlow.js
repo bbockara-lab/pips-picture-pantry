@@ -3,6 +3,7 @@ import { createTimeAttackRun, getTimeAttackRunScore } from "../game/randomPuzzle
 import { recordTimeAttackResult } from "../game/save.js";
 
 export const TIME_ATTACK_TRIAL_ROUNDS = 3;
+export const TIME_ATTACK_LIMIT_SECONDS = 180;
 
 export function createTimeAttackSession({ currentPuzzle, rounds = TIME_ATTACK_TRIAL_ROUNDS, now = Date.now() } = {}) {
   const seed = now.toString(36);
@@ -31,22 +32,52 @@ export function advanceTimeAttackSession({ run, seed, startedAt, roundIndex, puz
     };
   }
 
+  return finishTimeAttackSession({
+    run,
+    seed,
+    startedAt,
+    roundIndex,
+    puzzle,
+    puzzleState,
+    previousHintsUsed,
+    completedRounds: run.length,
+    outcome: "complete"
+  });
+}
+
+export function finishTimeAttackSession({
+  run,
+  seed,
+  startedAt,
+  roundIndex = 0,
+  puzzle,
+  puzzleState,
+  previousHintsUsed = 0,
+  completedRounds = 0,
+  outcome = "complete"
+} = {}) {
+  if (!run?.length) {
+    return { status: "closed" };
+  }
+
   const elapsedSeconds = getTimeAttackElapsedSeconds(startedAt);
   const progress = getTimeAttackProgress({ run, roundIndex, puzzle, puzzleState });
   const hintsUsed = Math.max(0, Number(previousHintsUsed || 0)) + Math.max(0, Number(puzzleState?.hintsUsed || 0));
+  const status = outcome === "timeout" ? "timeout" : "complete";
   const result = recordTimeAttackResult({
-    size: getTimeAttackRunRecordSize(run, puzzle),
+    size: getTimeAttackRunRecordSize(run, puzzle, roundIndex),
     score: getTimeAttackRunScore({ progressCells: progress.progressCells, elapsedSeconds, hintsUsed }),
     seed,
-    completedRounds: run.length,
+    completedRounds,
     elapsedSeconds,
     progressCells: progress.progressCells,
     currentRoundCorrectCells: progress.currentRoundCorrectCells,
-    hintsUsed
+    hintsUsed,
+    outcome: status
   });
 
   return {
-    status: "complete",
+    status,
     elapsedSeconds,
     result
   };
@@ -73,7 +104,9 @@ export function getTimeAttackProgress({ run, roundIndex = 0, puzzle, puzzleState
   };
 }
 
-function getTimeAttackRunRecordSize(run, puzzle) {
-  const runSizes = Array.isArray(run) ? run.map((entry) => Number(entry?.size || 0)).filter(Boolean) : [];
+function getTimeAttackRunRecordSize(run, puzzle, roundIndex = 0) {
+  const currentIndex = Math.max(0, Math.floor(Number(roundIndex) || 0));
+  const reachedRun = Array.isArray(run) ? run.slice(0, currentIndex + 1) : [];
+  const runSizes = reachedRun.map((entry) => Number(entry?.size || 0)).filter(Boolean);
   return Math.max(...runSizes, Number(puzzle?.size || 0), 5);
 }

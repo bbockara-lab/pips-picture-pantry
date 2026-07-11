@@ -43,6 +43,7 @@ export function renderPuzzleView(puzzle, options = {}) {
         dailyKey: options.dailyKey || null
       });
     }
+    options.onPuzzleStateChange?.(puzzle, state);
     if (!wasCompleted && state.completed) {
       if (isReplayChallenge) {
         replayResult = recordReplayReward({
@@ -158,6 +159,7 @@ export function renderPuzzleView(puzzle, options = {}) {
   }
 
   draw();
+  options.onPuzzleStateChange?.(puzzle, state);
   return section;
 }
 

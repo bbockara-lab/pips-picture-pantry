@@ -42,7 +42,10 @@ export function renderPlayScreen(activePuzzle, options) {
   if (isTimeAttack) {
     const timer = document.createElement("p");
     timer.className = "play-screen__timer";
-    timer.textContent = t("timeAttack.elapsed", { time: formatElapsedSeconds(timeAttackElapsedSeconds) });
+    const remainingSeconds = Math.max(0, Number(timeAttackLimitSeconds || 0) - Number(timeAttackElapsedSeconds || 0));
+    timer.textContent = timeAttackLimitSeconds
+      ? t("timeAttack.remaining", { time: formatElapsedSeconds(remainingSeconds) })
+      : t("timeAttack.elapsed", { time: formatElapsedSeconds(timeAttackElapsedSeconds) });
     title.appendChild(timer);
   }
 

@@ -1279,3 +1279,7 @@ Last updated: 2026-06-28
 ## v0.1.245 - Time Attack Progress-Cell Records
 - Time Attack records now store progress-cell metadata instead of relying only on completed-round scoring.
 - Android bundle generation remains paused during local rework.
+
+## v0.1.246 - Time Attack Timeout Records
+- Time Attack now supports a 3-minute timeout and saves partial progress-cell records.
+- Android bundle generation remains paused during local rework.

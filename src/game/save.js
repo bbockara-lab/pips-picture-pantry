@@ -232,7 +232,8 @@ export function recordTimeAttackResult({
   elapsedSeconds = 0,
   progressCells = 0,
   currentRoundCorrectCells = 0,
-  hintsUsed = 0
+  hintsUsed = 0,
+  outcome = "complete"
 } = {}) {
   const save = loadSave() || createEmptySave();
   const today = getLocalDateKey();
@@ -245,8 +246,9 @@ export function recordTimeAttackResult({
   const normalizedProgressCells = Math.max(0, Math.floor(Number(progressCells) || 0));
   const normalizedCurrentRoundCorrectCells = Math.max(0, Math.floor(Number(currentRoundCorrectCells) || 0));
   const normalizedHintsUsed = Math.max(0, Math.floor(Number(hintsUsed) || 0));
+  const normalizedOutcome = outcome === "timeout" ? "timeout" : "complete";
   const recordImproved = normalizedScore > previousBest;
-  const rewardAllowed = dailyCount < getDailyTimeAttackLimit();
+  const rewardAllowed = dailyCount < getDailyTimeAttackLimit() && normalizedProgressCells > 0;
   let reward = 0;
 
   if (rewardAllowed) {
@@ -268,6 +270,7 @@ export function recordTimeAttackResult({
       progressCells: normalizedProgressCells,
       currentRoundCorrectCells: normalizedCurrentRoundCorrectCells,
       hintsUsed: normalizedHintsUsed,
+      outcome: normalizedOutcome,
       date: today
     };
   }
@@ -283,7 +286,8 @@ export function recordTimeAttackResult({
     elapsedSeconds: normalizedElapsedSeconds,
     progressCells: normalizedProgressCells,
     currentRoundCorrectCells: normalizedCurrentRoundCorrectCells,
-    hintsUsed: normalizedHintsUsed
+    hintsUsed: normalizedHintsUsed,
+    outcome: normalizedOutcome
   };
 }
 

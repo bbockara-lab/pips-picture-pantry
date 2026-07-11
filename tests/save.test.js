@@ -35,7 +35,7 @@ import {
   unlockPack
 } from "../src/game/save.js";
 import { pantryDecorations } from "../src/data/decorations.js";
-import { advanceTimeAttackSession, createTimeAttackSession, getTimeAttackProgress } from "../src/ui/timeAttackFlow.js";
+import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackProgress, TIME_ATTACK_LIMIT_SECONDS } from "../src/ui/timeAttackFlow.js";
 
 class LocalStorageMock {
   constructor() {
@@ -237,6 +237,40 @@ describe("player save profiles", () => {
     expect(progress.completedBefore).toBe(25);
     expect(progress.progressCells).toBeGreaterThan(25);
     expect(progress.progressCells).toBe(25 + progress.currentRoundCorrectCells);
+  });
+
+  it("records partial time attack timeout runs by cells reached", () => {
+    setActivePlayerName("Jay");
+    const session = createTimeAttackSession({ now: 1000 });
+    const partialPuzzle = session.run[1];
+    const partialState = {
+      cells: partialPuzzle.solution.map((row, rowIndex) => [...row].map((cell, columnIndex) => {
+        if (rowIndex === 0 || columnIndex === 0) {
+          return cell === "1" ? "filled" : "marked";
+        }
+        return "empty";
+      })),
+      hintsUsed: 1
+    };
+
+    const result = finishTimeAttackSession({
+      run: session.run,
+      seed: session.seed,
+      startedAt: Date.now() - TIME_ATTACK_LIMIT_SECONDS * 1000,
+      roundIndex: 1,
+      puzzle: partialPuzzle,
+      puzzleState: partialState,
+      previousHintsUsed: 1,
+      completedRounds: 1,
+      outcome: "timeout"
+    });
+
+    expect(result.status).toBe("timeout");
+    expect(result.result.outcome).toBe("timeout");
+    expect(result.result.progressCells).toBeGreaterThan(25);
+    expect(result.result.hintsUsed).toBe(2);
+    expect(getTimeAttackBestScores()["8"].outcome).toBe("timeout");
+    expect(getTimeAttackBestScores()["10"]).toBeUndefined();
   });
 
   it("records mixed-size time attack runs against the largest reached board", () => {

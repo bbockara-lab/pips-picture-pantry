@@ -181,8 +181,11 @@ export const en = {
     newRecord: "New personal best",
     lastRun: "Last run",
     lastScore: "{progress} cells in {time}",
+    timeUp: "Time up",
+    timeoutReward: "Time up! You banked +{reward} spoons for this run.",
     round: "Time Attack {current}/{total}",
-    elapsed: "Time {time}"
+    elapsed: "Time {time}",
+    remaining: "Time left {time}"
   },
   guide: {
     eyebrow: "Pip guide",

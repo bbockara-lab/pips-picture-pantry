@@ -168,7 +168,9 @@ function createLastResultPanel(lastResult) {
   title.textContent = lastResult.recordImproved ? t("timeAttack.newRecord") : t("timeAttack.lastRun");
 
   const reward = document.createElement("p");
-  reward.textContent = t(lastResult.reward > 0 ? "timeAttack.lastReward" : "timeAttack.lastNoReward", {
+  reward.textContent = t(lastResult.outcome === "timeout" && lastResult.reward > 0
+    ? "timeAttack.timeoutReward"
+    : lastResult.reward > 0 ? "timeAttack.lastReward" : "timeAttack.lastNoReward", {
     reward: lastResult.reward || 0
   });
 

@@ -1995,3 +1995,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 ### v0.1.245 - Time Attack Progress-Cell Records
 - Changed Time Attack record metadata and lobby copy from round-only scoring toward progress-cell records: completed previous boards plus correct cells on the current board.
 - Saved best scores now include progressCells, currentRoundCorrectCells, hintsUsed, elapsedSeconds, and score so future timed partial runs can rank by one-more-correct-cell progress.
+
+### v0.1.246 - Time Attack Timeout Records
+- Added a 3-minute Time Attack limit so the mode now ends on time instead of relying only on full 3-board completion.
+- Time Attack now snapshots the active puzzle state and records partial timeout runs by progressCells, preserving the one-more-correct-cell record design.

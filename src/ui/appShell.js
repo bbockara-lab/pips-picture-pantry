@@ -29,10 +29,10 @@ import { renderFloatingNav } from "./floatingNav.js";
 import { renderGuideDialog } from "./guideDialog.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
 import { renderSettingsDialog } from "./settingsView.js";
-import { advanceTimeAttackSession, createTimeAttackSession, getTimeAttackElapsedSeconds, TIME_ATTACK_TRIAL_ROUNDS } from "./timeAttackFlow.js";
+import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackElapsedSeconds, TIME_ATTACK_LIMIT_SECONDS, TIME_ATTACK_TRIAL_ROUNDS } from "./timeAttackFlow.js";
 import { renderTimeAttackView } from "./timeAttackView.js";
 
-export const APP_VERSION = "v0.1.245";
+export const APP_VERSION = "v0.1.246";
 const DAILY_BONUS = ECONOMY.DAILY_BONUS;
 
 export function renderApp(root) {
@@ -51,6 +51,7 @@ export function renderApp(root) {
   let timeAttackTimerHandle = null;
   let timeAttackRoundIndex = 0;
   let activeTimeAttackHintsUsed = 0;
+  let activeTimeAttackPuzzleState = null;
   let timeAttackLastResult = null;
   let activeGuide = null;
   let replayChallenge = false;
@@ -133,6 +134,7 @@ export function renderApp(root) {
     activeTimeAttackStartedAt = session.startedAt;
     timeAttackRoundIndex = session.roundIndex;
     activeTimeAttackHintsUsed = 0;
+    activeTimeAttackPuzzleState = null;
     activePuzzle = session.activePuzzle;
     replayChallenge = false;
     activeView = "timeAttack";
@@ -150,6 +152,7 @@ export function renderApp(root) {
     activeTimeAttackStartedAt = null;
     timeAttackRoundIndex = 0;
     activeTimeAttackHintsUsed = 0;
+    activeTimeAttackPuzzleState = null;
     draw();
   }
 
@@ -171,6 +174,7 @@ export function renderApp(root) {
 
     if (result.status === "next-round") {
       activeTimeAttackHintsUsed += Math.max(0, Number(puzzleState?.hintsUsed || 0));
+      activeTimeAttackPuzzleState = null;
       timeAttackRoundIndex = result.roundIndex;
       activePuzzle = result.activePuzzle;
       draw();
@@ -184,7 +188,38 @@ export function renderApp(root) {
     activeTimeAttackRun = null;
     timeAttackRoundIndex = 0;
     activeTimeAttackHintsUsed = 0;
+    activeTimeAttackPuzzleState = null;
     draw();
+  }
+
+  function finishTimeAttackByTimeout() {
+    const result = finishTimeAttackSession({
+      run: activeTimeAttackRun,
+      seed: activeTimeAttackSeed,
+      startedAt: activeTimeAttackStartedAt,
+      roundIndex: timeAttackRoundIndex,
+      puzzle: activePuzzle,
+      puzzleState: activeTimeAttackPuzzleState,
+      previousHintsUsed: activeTimeAttackHintsUsed,
+      completedRounds: timeAttackRoundIndex,
+      outcome: "timeout"
+    });
+    timeAttackLastResult = result.result;
+    replayChallenge = false;
+    activeView = "timeAttack";
+    playOpen = false;
+    activeTimeAttackRun = null;
+    activeTimeAttackStartedAt = null;
+    timeAttackRoundIndex = 0;
+    activeTimeAttackHintsUsed = 0;
+    activeTimeAttackPuzzleState = null;
+    draw();
+  }
+
+  function updateTimeAttackPuzzleState(puzzle, puzzleState) {
+    if (activeView === "timeAttack" && playOpen && puzzle?.id === activePuzzle?.id) {
+      activeTimeAttackPuzzleState = puzzleState;
+    }
   }
   function requestReset() {
     resetOpen = true;
@@ -284,6 +319,10 @@ export function renderApp(root) {
       globalThis.clearTimeout(timeAttackTimerHandle);
       timeAttackTimerHandle = null;
     }
+    if (activeView === "timeAttack" && playOpen && activeTimeAttackStartedAt && getTimeAttackElapsedSeconds(activeTimeAttackStartedAt) >= TIME_ATTACK_LIMIT_SECONDS) {
+      finishTimeAttackByTimeout();
+      return;
+    }
     root.innerHTML = "";
     if (!activeGuide && activeView === "puzzle" && playOpen && !hasSeenGuide("puzzle")) {
       activeGuide = "puzzle";
@@ -329,6 +368,7 @@ export function renderApp(root) {
       onStartTimeAttack: startTimeAttackRun,
       onCloseTimeAttack: closeTimeAttackRun,
       onTimeAttackPuzzleComplete: completeTimeAttackPuzzle,
+      onTimeAttackPuzzleStateChange: updateTimeAttackPuzzleState,
       timeAttackRun: activeTimeAttackRun,
       timeAttackStartedAt: activeTimeAttackStartedAt,
       timeAttackRoundIndex,
@@ -404,11 +444,13 @@ function createShell({
   onStartTimeAttack,
   onCloseTimeAttack,
   onTimeAttackPuzzleComplete,
+  onTimeAttackPuzzleStateChange,
   onReplayPick,
   replayChallenge,
   replayPicked,
   timeAttackRun,
   timeAttackStartedAt,
+  timeAttackLimitSeconds,
   timeAttackRoundIndex,
   timeAttackLastResult,
   activeGuide,
@@ -437,7 +479,9 @@ function createShell({
       timeAttackRoundIndex,
       timeAttackTotalRounds: timeAttackRun?.length || TIME_ATTACK_TRIAL_ROUNDS,
       timeAttackElapsedSeconds: getTimeAttackElapsedSeconds(timeAttackStartedAt),
+      timeAttackLimitSeconds,
       getTimeAttackHintCost,
+      onPuzzleStateChange: activeView === "timeAttack" ? onTimeAttackPuzzleStateChange : null,
       replayChallenge,
       replayPicked
     }));

@@ -180,8 +180,11 @@ export const ko = {
     newRecord: "\uc0c8 \ucd5c\uace0 \uae30\ub85d",
     lastRun: "\uc9c0\ub09c \ub3c4\uc804",
     lastScore: "{time}\uc5d0 {progress}\uce78",
+    timeUp: "\uc2dc\uac04 \uc885\ub8cc",
+    timeoutReward: "\uc2dc\uac04 \uc885\ub8cc! \uc774\ubc88 \ub3c4\uc804\uc73c\ub85c \uc2a4\ud47c +{reward}\uc744 \uc800\uc7a5\ud588\uc5b4\uc694.",
     round: "\ud0c0\uc784\uc5b4\ud0dd {current}/{total}",
-    elapsed: "\uc2dc\uac04 {time}"
+    elapsed: "\uc2dc\uac04 {time}",
+    remaining: "\ub0a8\uc740 \uc2dc\uac04 {time}"
   },
   guide: {
     eyebrow: "Pip 가이드",
