@@ -72,6 +72,8 @@ export function finishTimeAttackSession({
     elapsedSeconds,
     progressCells: progress.progressCells,
     currentRoundCorrectCells: progress.currentRoundCorrectCells,
+    currentRoundTotalCells: progress.currentRoundTotalCells,
+    currentRoundNumber: progress.currentRoundNumber,
     hintsUsed,
     outcome: status
   });
@@ -97,9 +99,12 @@ export function getTimeAttackProgress({ run, roundIndex = 0, puzzle, puzzleState
   }, 0);
   const currentPuzzle = puzzle || safeRun[currentIndex];
   const currentRoundCorrectCells = countCorrectCells(puzzleState, currentPuzzle?.solution || []);
+  const currentRoundTotalCells = Math.max(0, Number(currentPuzzle?.size || 0) ** 2);
   return {
     completedBefore,
     currentRoundCorrectCells,
+    currentRoundTotalCells,
+    currentRoundNumber: currentIndex + 1,
     progressCells: completedBefore + currentRoundCorrectCells
   };
 }

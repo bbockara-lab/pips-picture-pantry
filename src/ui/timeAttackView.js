@@ -132,6 +132,7 @@ function getBestSummaryText(bestScores) {
   }
   return t("timeAttack.bestSummary", {
     progress: getRecordProgress(best),
+    boardProgress: getRecordBoardProgress(best),
     time: formatElapsedSeconds(best.elapsedSeconds || 0),
     hints: getRecordHints(best)
   });
@@ -150,6 +151,7 @@ function createRecordsPanel(bestScores) {
       item.textContent = t("timeAttack.recordLine", {
         size: record.size || "?",
         progress: getRecordProgress(record),
+        boardProgress: getRecordBoardProgress(record),
         time: formatElapsedSeconds(record.elapsedSeconds || 0),
         hints: getRecordHints(record)
       });
@@ -185,6 +187,7 @@ function createLastResultPanel(lastResult) {
   score.className = "time-attack-panel__score";
   score.textContent = t("timeAttack.lastScore", {
     progress: getRecordProgress(lastResult),
+    boardProgress: getRecordBoardProgress(lastResult),
     time: formatElapsedSeconds(lastResult.elapsedSeconds || 0)
   });
 
@@ -208,6 +211,16 @@ function getRecordProgress(record) {
     return Math.floor(storedProgress);
   }
   return Math.max(0, Math.floor(Number(record?.score || 0) / 1000));
+}
+
+function getRecordBoardProgress(record) {
+  const current = Math.max(0, Math.floor(Number(record?.currentRoundCorrectCells || 0)));
+  const total = Math.max(current, Math.floor(Number(record?.currentRoundTotalCells || 0)));
+  const round = Math.max(1, Math.floor(Number(record?.currentRoundNumber || record?.completedRounds || 1)));
+  if (!total) {
+    return t("timeAttack.boardProgressFallback", { round, current });
+  }
+  return t("timeAttack.boardProgress", { round, current, total });
 }
 
 function getBestRecord(bestScores) {

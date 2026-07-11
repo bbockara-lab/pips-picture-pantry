@@ -232,6 +232,8 @@ export function recordTimeAttackResult({
   elapsedSeconds = 0,
   progressCells = 0,
   currentRoundCorrectCells = 0,
+  currentRoundTotalCells = 0,
+  currentRoundNumber = 0,
   hintsUsed = 0,
   outcome = "complete"
 } = {}) {
@@ -245,6 +247,8 @@ export function recordTimeAttackResult({
   const normalizedElapsedSeconds = Math.max(0, Math.floor(Number(elapsedSeconds) || 0));
   const normalizedProgressCells = Math.max(0, Math.floor(Number(progressCells) || 0));
   const normalizedCurrentRoundCorrectCells = Math.max(0, Math.floor(Number(currentRoundCorrectCells) || 0));
+  const normalizedCurrentRoundTotalCells = Math.max(normalizedCurrentRoundCorrectCells, Math.floor(Number(currentRoundTotalCells) || 0));
+  const normalizedCurrentRoundNumber = Math.max(0, Math.floor(Number(currentRoundNumber) || 0));
   const normalizedHintsUsed = Math.max(0, Math.floor(Number(hintsUsed) || 0));
   const normalizedOutcome = outcome === "timeout" ? "timeout" : "complete";
   const recordImproved = normalizedScore > previousBest;
@@ -269,6 +273,8 @@ export function recordTimeAttackResult({
       elapsedSeconds: normalizedElapsedSeconds,
       progressCells: normalizedProgressCells,
       currentRoundCorrectCells: normalizedCurrentRoundCorrectCells,
+      currentRoundTotalCells: normalizedCurrentRoundTotalCells,
+      currentRoundNumber: normalizedCurrentRoundNumber,
       hintsUsed: normalizedHintsUsed,
       outcome: normalizedOutcome,
       date: today
@@ -286,6 +292,8 @@ export function recordTimeAttackResult({
     elapsedSeconds: normalizedElapsedSeconds,
     progressCells: normalizedProgressCells,
     currentRoundCorrectCells: normalizedCurrentRoundCorrectCells,
+    currentRoundTotalCells: normalizedCurrentRoundTotalCells,
+    currentRoundNumber: normalizedCurrentRoundNumber,
     hintsUsed: normalizedHintsUsed,
     outcome: normalizedOutcome
   };

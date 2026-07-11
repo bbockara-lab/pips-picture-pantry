@@ -1181,3 +1181,7 @@ Immediate implementation decisions:
 ### v0.1.269 - Pantry Progress Mission Action
 - Turned the Pantry Room Path card from a progress readout into a guided action surface.
 - The first priority remains room-request progress; spoon earning stays available when the room gate is satisfied or when other Pantry cards call for it.
+
+### v0.1.270 - Time Attack Board Progress Records
+- Made the user's Time Attack ranking direction explicit in the product surface: records now communicate how far into the current board the run reached, not just which board was reached.
+- This keeps the mode competitive even when many players time out in the same round, while preserving the existing progress-cell scoring model and hint penalty economy.

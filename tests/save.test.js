@@ -237,6 +237,8 @@ describe("player save profiles", () => {
     expect(progress.completedBefore).toBe(25);
     expect(progress.progressCells).toBeGreaterThan(25);
     expect(progress.progressCells).toBe(25 + progress.currentRoundCorrectCells);
+    expect(progress.currentRoundTotalCells).toBe(64);
+    expect(progress.currentRoundNumber).toBe(2);
   });
 
   it("records partial time attack timeout runs by cells reached", () => {
@@ -310,6 +312,8 @@ describe("player save profiles", () => {
       completedRounds: 2,
       progressCells: 4,
       currentRoundCorrectCells: 4,
+      currentRoundTotalCells: 25,
+      currentRoundNumber: 1,
       hintsUsed: 1
     });
     expect(first.reward).toBe(27);
@@ -319,6 +323,8 @@ describe("player save profiles", () => {
     expect(getTimeAttackDailyCount()).toBe(1);
     expect(getTimeAttackBestScores()["5"].score).toBe(4004);
     expect(getTimeAttackBestScores()["5"].progressCells).toBe(4);
+    expect(getTimeAttackBestScores()["5"].currentRoundTotalCells).toBe(25);
+    expect(getTimeAttackBestScores()["5"].currentRoundNumber).toBe(1);
 
     const second = recordTimeAttackResult({ size: 5, score: 3003, seed: "seed-b", completedRounds: 1, progressCells: 3 });
     expect(second.reward).toBe(15);

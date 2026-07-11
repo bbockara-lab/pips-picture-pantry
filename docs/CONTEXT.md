@@ -2111,3 +2111,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 ### v0.1.269 - Pantry Progress Mission Action
 - Added a direct action to the Pantry Room Path mission card so the card now routes players toward the next decoration request before sending them to earn more spoons.
 - Bumped the visible app version to v0.1.269; verification focuses on Pantry syntax, i18n, mobile QA, full Vitest, hygiene/assets/catalog QA, production build, and HTTP smoke.
+
+### v0.1.270 - Time Attack Board Progress Records
+- Extended Time Attack result records with the active board number and active-board cell progress so close runs differ by more than completed round count.
+- Updated best-run, record-list, and last-run copy to show both total progress cells and the current board's cell count, preserving old-record fallbacks.
+- Bumped the visible app version to v0.1.270; verification focuses on Time Attack syntax, save tests, i18n, mobile QA, full Vitest, hygiene/assets/catalog QA, production build, and HTTP smoke.

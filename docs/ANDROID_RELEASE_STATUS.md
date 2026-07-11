@@ -1377,3 +1377,8 @@ Last updated: 2026-06-28
 - Visible app version: v0.1.269.
 - Android bundle generation remains paused during the local rework; the next handoff should include the Room Path CTA that connects Pantry progression to the next decoration request.
 - Planned verification: local web QA plus mobile visual QA before Android packaging resumes.
+
+## Verification Update - 2026-07-11 v0.1.270 Time Attack Board Progress Records
+- Visible app version: v0.1.270.
+- Android bundle generation remains paused during the local rework; the next handoff should include Time Attack records that show active-board progress for better leaderboard/readback clarity.
+- Planned verification: Time Attack save/UI tests, local web QA, and mobile visual QA before Android packaging resumes.
