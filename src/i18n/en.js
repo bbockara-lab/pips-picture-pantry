@@ -1327,6 +1327,22 @@ export const en = {
     "village-pantry-sunflower-flour-sieve-112": {
       title: "Sunflower Flour Sieve",
       imageName: "Sunflower Flour Sieve"
+    },
+    "bakery-window-raspberry-lattice-tart-112": {
+      title: "Raspberry Lattice Tart",
+      imageName: "Raspberry Lattice Tart"
+    },
+    "bakery-window-sesame-pretzel-knot-113": {
+      title: "Sesame Pretzel Knot",
+      imageName: "Sesame Pretzel Knot"
+    },
+    "village-pantry-porcelain-measuring-jug-113": {
+      title: "Porcelain Measuring Jug",
+      imageName: "Porcelain Measuring Jug"
+    },
+    "village-pantry-embroidered-tea-cozy-114": {
+      title: "Embroidered Tea Cozy",
+      imageName: "Embroidered Tea Cozy"
     }
   }
 };

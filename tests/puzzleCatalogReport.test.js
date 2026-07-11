@@ -8,14 +8,14 @@ describe("puzzle catalog report", () => {
     const villagePantry = report.byPack.find((pack) => pack.id === "village-pantry");
 
     expect(report.warningMessages).toEqual([]);
-    expect(report.totals.freePuzzles).toBeGreaterThanOrEqual(283);
-    expect(report.totals.twelveByTwelveBoards).toBeGreaterThanOrEqual(91);
-    expect(report.totals.readableLargeBoards).toBeGreaterThanOrEqual(145);
+    expect(report.totals.freePuzzles).toBeGreaterThanOrEqual(287);
+    expect(report.totals.twelveByTwelveBoards).toBeGreaterThanOrEqual(93);
+    expect(report.totals.readableLargeBoards).toBeGreaterThanOrEqual(149);
     expect(report.launchTarget.targetFreePuzzles).toBe(333);
-    expect(report.launchTarget.remainingFreePuzzles).toBeLessThanOrEqual(50);
+    expect(report.launchTarget.remainingFreePuzzles).toBeLessThanOrEqual(46);
     expect(report.launchTarget.shouldPrioritizePolish).toBe(true);
-    expect(bakeryWindow.twelveByTwelveCount).toBeGreaterThanOrEqual(91);
-    expect(villagePantry.largeBoardCount).toBeGreaterThanOrEqual(98);
+    expect(bakeryWindow.twelveByTwelveCount).toBeGreaterThanOrEqual(93);
+    expect(villagePantry.largeBoardCount).toBeGreaterThanOrEqual(100);
   });
 
   it("reports launch-target progress for smaller catalogs", () => {

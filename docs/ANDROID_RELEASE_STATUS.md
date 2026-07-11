@@ -1271,3 +1271,7 @@ Last updated: 2026-06-28
 ## v0.1.243 - Time Attack Ladder Polish
 - Time Attack lobby now previews the 5x5, 8x8, and 10x10 round ramp before a run begins.
 - Added mobile QA coverage for the ladder while Android bundle generation remains paused during the local rework.
+
+## v0.1.244 - Readable Puzzle Batch
+- Added 4 quality-gated launch-catalog puzzles with titleKey, English/Korean catalog copy, and artReadability briefs.
+- Catalog now stands at 287/333 free puzzles, with 46 remaining to the Season 0 launch target. Android bundle generation remains paused during local rework.

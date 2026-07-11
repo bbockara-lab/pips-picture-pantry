@@ -1987,3 +1987,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 ### v0.1.243 - Time Attack Ladder Polish
 - Added a visible 5x5 -> 8x8 -> 10x10 run ladder to the Time Attack lobby so the shorter 3-round pacing is clear before players start.
 - Added mobile QA coverage for the ladder treatment and bumped the visible app version to v0.1.243.
+
+### v0.1.244 - Readable Puzzle Batch
+- Added four readable large-board puzzles: Bakery Window 12x12 Raspberry Lattice Tart and Sesame Pretzel Knot; Village Pantry 10x10 Porcelain Measuring Jug and Embroidered Tea Cozy.
+- Raised catalog guards to 287 free puzzles, 197 large-board free puzzles, 93 Bakery Window 12x12 boards, 100 Village Pantry 10x10 boards, and 149 readable large-board briefs.

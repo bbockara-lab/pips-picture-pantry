@@ -7078,6 +7078,134 @@ export const puzzles = [
       "0111111110",
       "0011111100"
     ]
+  },
+  {
+      "id": "bakery-window-raspberry-lattice-tart-112",
+      "title": "Raspberry Lattice Tart",
+      "titleKey": "puzzles.bakery-window-raspberry-lattice-tart-112",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "round tart with crimped edge, diagonal lattice strips, and raspberry filling windows",
+          "colorMood": "raspberry red filling, golden crust lattice, pale sugar highlights",
+          "tags": [
+              "lattice tart",
+              "raspberry filling",
+              "crimped crust"
+          ]
+      },
+      "solution": [
+          "001111111100",
+          "011111111110",
+          "111101011111",
+          "110111101111",
+          "111011110111",
+          "111101111011",
+          "110111011111",
+          "111011101111",
+          "111111111111",
+          "011111111110",
+          "001111111100",
+          "011111111110"
+      ]
+  },
+  {
+      "id": "bakery-window-sesame-pretzel-knot-113",
+      "title": "Sesame Pretzel Knot",
+      "titleKey": "puzzles.bakery-window-sesame-pretzel-knot-113",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "looped pretzel knot with two open bends, crossed center, and sesame dot texture",
+          "colorMood": "toasty brown crust, pale sesame specks, warm salt highlights",
+          "tags": [
+              "pretzel knot",
+              "sesame dots",
+              "crossed center"
+          ]
+      },
+      "solution": [
+          "001110111000",
+          "011111111100",
+          "111001001110",
+          "110111110110",
+          "111111111110",
+          "011011011100",
+          "001111111000",
+          "011011011100",
+          "111111111110",
+          "110011001110",
+          "011111111100",
+          "001110111000"
+      ]
+  },
+  {
+      "id": "village-pantry-porcelain-measuring-jug-113",
+      "title": "Porcelain Measuring Jug",
+      "titleKey": "puzzles.village-pantry-porcelain-measuring-jug-113",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "small measuring jug with pouring lip, side handle, and two tiny measure ticks",
+          "colorMood": "warm white porcelain, blue measure marks, honey shadow under the base",
+          "tags": [
+              "measuring jug",
+              "pouring lip",
+              "blue ticks"
+          ]
+      },
+      "solution": [
+          "0011111000",
+          "0111111100",
+          "1111001110",
+          "1111111111",
+          "1101111011",
+          "1101111011",
+          "1111111111",
+          "0111111100",
+          "0011111000",
+          "0110001100"
+      ]
+  },
+  {
+      "id": "village-pantry-embroidered-tea-cozy-114",
+      "title": "Embroidered Tea Cozy",
+      "titleKey": "puzzles.village-pantry-embroidered-tea-cozy-114",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "arched quilted tea cozy with stitched flower dots, scalloped base, and soft side seams",
+          "colorMood": "cream quilt cloth, coral flower embroidery, sage seam shadows",
+          "tags": [
+              "tea cozy",
+              "embroidered flowers",
+              "quilted arch"
+          ]
+      },
+      "solution": [
+          "0011111100",
+          "0111111110",
+          "1111011111",
+          "1111111111",
+          "1101111011",
+          "1111011111",
+          "1111111111",
+          "0111111110",
+          "0011111100",
+          "0110000110"
+      ]
   }
 ];
 

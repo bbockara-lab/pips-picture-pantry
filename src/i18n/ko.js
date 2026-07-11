@@ -1325,6 +1325,22 @@ export const ko = {
     "village-pantry-sunflower-flour-sieve-112": {
       title: "\uD574\uBC14\uB77C\uAE30 \uBC00\uAC00\uB8E8 \uCCB4",
       imageName: "\uD574\uBC14\uB77C\uAE30 \uBC00\uAC00\uB8E8 \uCCB4"
+    },
+    "bakery-window-raspberry-lattice-tart-112": {
+      title: "라즈베리 격자 타르트",
+      imageName: "라즈베리 격자 타르트"
+    },
+    "bakery-window-sesame-pretzel-knot-113": {
+      title: "참깨 프레첼 매듭",
+      imageName: "참깨 프레첼 매듭"
+    },
+    "village-pantry-porcelain-measuring-jug-113": {
+      title: "도자기 계량 저그",
+      imageName: "도자기 계량 저그"
+    },
+    "village-pantry-embroidered-tea-cozy-114": {
+      title: "자수 티코지",
+      imageName: "자수 티코지"
     }
   }
 };
