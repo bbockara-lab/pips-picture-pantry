@@ -1050,3 +1050,7 @@ Immediate implementation decisions:
 ### v0.1.237 Follow-up - Four Puzzle Quality Batch
 - Added two Bakery Window 12x12 puzzle briefs and two Village Pantry 10x10 puzzle briefs with explicit silhouette/color/tags metadata.
 - Continued the puzzle-scale lane with distinct pantry and pastry objects to avoid repeated abstract silhouettes.
+
+### v0.1.238 Follow-up - Four Puzzle Quality Batch
+- Added two Bakery Window 12x12 puzzle briefs and two Village Pantry 10x10 puzzle briefs with explicit silhouette/color/tags metadata.
+- Kept the content lane aligned to cozy, inspectable objects so future puzzle art can be generated from specific briefs instead of generic patterns.

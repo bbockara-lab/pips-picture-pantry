@@ -1277,6 +1277,22 @@ export const ko = {
     "village-pantry-sage-butter-dish-108": {
       title: "\uC138\uC774\uC9C0 \uBC84\uD130 \uB514\uC26C",
       imageName: "\uC138\uC774\uC9C0 \uBC84\uD130 \uB514\uC26C"
+    },
+    "bakery-window-pear-ginger-turnover-108": {
+      title: "\uBC30 \uC9C4\uC800 \uD134\uC624\uBC84",
+      imageName: "\uBC30 \uC9C4\uC800 \uD134\uC624\uBC84"
+    },
+    "bakery-window-mocha-cream-roll-109": {
+      title: "\uBAA8\uCE74 \uD06C\uB9BC \uB864",
+      imageName: "\uBAA8\uCE74 \uD06C\uB9BC \uB864"
+    },
+    "village-pantry-poppy-seed-mortar-109": {
+      title: "\uD30C\uD53C\uC2DC\uB4DC \uC808\uAD6C",
+      imageName: "\uD30C\uD53C\uC2DC\uB4DC \uC808\uAD6C"
+    },
+    "village-pantry-striped-pantry-towel-110": {
+      title: "\uC2A4\uD2B8\uB77C\uC774\uD504 \uD32C\uD2B8\uB9AC \uD0C0\uC6D4",
+      imageName: "\uC2A4\uD2B8\uB77C\uC774\uD504 \uD32C\uD2B8\uB9AC \uD0C0\uC6D4"
     }
   }
 };

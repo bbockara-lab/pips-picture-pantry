@@ -1279,6 +1279,22 @@ export const en = {
     "village-pantry-sage-butter-dish-108": {
       title: "Sage Butter Dish",
       imageName: "Sage Butter Dish"
+    },
+    "bakery-window-pear-ginger-turnover-108": {
+      title: "Pear Ginger Turnover",
+      imageName: "Pear Ginger Turnover"
+    },
+    "bakery-window-mocha-cream-roll-109": {
+      title: "Mocha Cream Roll",
+      imageName: "Mocha Cream Roll"
+    },
+    "village-pantry-poppy-seed-mortar-109": {
+      title: "Poppy Seed Mortar",
+      imageName: "Poppy Seed Mortar"
+    },
+    "village-pantry-striped-pantry-towel-110": {
+      title: "Striped Pantry Towel",
+      imageName: "Striped Pantry Towel"
     }
   }
 };

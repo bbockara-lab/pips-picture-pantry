@@ -6822,6 +6822,134 @@ export const puzzles = [
       "0111111110",
       "1111111111"
     ]
+  },
+  {
+    "id": "bakery-window-pear-ginger-turnover-108",
+    "title": "Pear Ginger Turnover",
+    "titleKey": "puzzles.bakery-window-pear-ginger-turnover-108",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "triangular turnover with pear slice marks, crimped edge, and ginger sparkle",
+      "colorMood": "pear green, ginger gold, flaky pastry tan",
+      "tags": [
+        "turnover",
+        "pear slices",
+        "crimped edge"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "111101111111",
+      "111111011111",
+      "111111111111",
+      "110111101111",
+      "111111111111",
+      "111011111011",
+      "011111111110",
+      "001111111100",
+      "111111111111"
+    ]
+  },
+  {
+    "id": "bakery-window-mocha-cream-roll-109",
+    "title": "Mocha Cream Roll",
+    "titleKey": "puzzles.bakery-window-mocha-cream-roll-109",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "spiraled roll cake with mocha stripe, cream center, and soft cut face",
+      "colorMood": "mocha brown, cream white, toasted cake gold",
+      "tags": [
+        "roll cake",
+        "mocha stripe",
+        "cream spiral"
+      ]
+    },
+    "solution": [
+      "011111111110",
+      "111111111111",
+      "111011111111",
+      "111101111111",
+      "111111111111",
+      "111110011111",
+      "111111111111",
+      "111101111011",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "011111111110"
+    ]
+  },
+  {
+    "id": "village-pantry-poppy-seed-mortar-109",
+    "title": "Poppy Seed Mortar",
+    "titleKey": "puzzles.village-pantry-poppy-seed-mortar-109",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "sturdy mortar bowl with small pestle, poppy seed dots, and rounded foot",
+      "colorMood": "stone cream, dark poppy specks, warm wooden pestle",
+      "tags": [
+        "mortar",
+        "pestle",
+        "poppy seeds"
+      ]
+    },
+    "solution": [
+      "0111111110",
+      "1111111111",
+      "1110011111",
+      "1111110111",
+      "1111111111",
+      "1101111011",
+      "1111111111",
+      "1111011111",
+      "0111111110",
+      "1111111111"
+    ]
+  },
+  {
+    "id": "village-pantry-striped-pantry-towel-110",
+    "title": "Striped Pantry Towel",
+    "titleKey": "puzzles.village-pantry-striped-pantry-towel-110",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "folded hanging towel with two vertical stripes, loop tab, and soft bottom fold",
+      "colorMood": "cream cotton, coral stripes, pale sage hanging tab",
+      "tags": [
+        "pantry towel",
+        "stripes",
+        "hanging loop"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1110110111",
+      "1111111111",
+      "1101111011",
+      "1111111111",
+      "1110111111",
+      "0111111110",
+      "0011111100"
+    ]
   }
 ];
 
