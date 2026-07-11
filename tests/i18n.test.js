@@ -126,6 +126,8 @@ describe("i18n", () => {
       "timeAttack.ladderFinal",
       "timeAttack.timeUp",
       "timeAttack.timeoutReward",
+      "timeAttack.timeoutNoReward",
+      "timeAttack.resultMeta",
       "timeAttack.remaining",
       "controls.hint",
       "controls.hintWithCost",

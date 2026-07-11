@@ -4629,6 +4629,14 @@ img {
   }
 }
 
+/* v0.1.248 time attack result detail polish */
+.time-attack-panel__meta {
+  margin: 0;
+  color: rgba(77, 46, 52, 0.72);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
 /* v0.1.247 time attack timeout polish */
 .play-screen--time-attack .play-screen__timer {
   display: inline-flex;

@@ -2003,3 +2003,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 ### v0.1.247 - Time Attack Timeout Visual Polish
 - Polished the Time Attack remaining-time pill and result card so timeout, record, and normal run outcomes are easier to distinguish in the first-session flow.
 - Kept the change visual-only on top of v0.1.246 timeout recording behavior.
+
+### v0.1.248 - Time Attack Result Detail Polish
+- 타임어택 타임아웃 결과에서 보상이 있는 타임아웃과 진행 부족으로 보상이 없는 타임아웃을 문구로 분리했다.
+- 결과 카드에 사용한 힌트 수를 노출해, 기록 경쟁과 스푼 소비가 한 화면에서 함께 이해되도록 정리했다.
+- 버전 표기는 v0.1.248로 갱신했다.

@@ -182,6 +182,8 @@ export const ko = {
     lastScore: "{time}\uc5d0 {progress}\uce78",
     timeUp: "\uc2dc\uac04 \uc885\ub8cc",
     timeoutReward: "\uc2dc\uac04 \uc885\ub8cc! \uc774\ubc88 \ub3c4\uc804\uc73c\ub85c \uc2a4\ud47c +{reward}\uc744 \uc800\uc7a5\ud588\uc5b4\uc694.",
+    timeoutNoReward: "\uc2dc\uac04 \uc885\ub8cc. \ub2e4\uc74c \ub3c4\uc804\uc5d0\uc11c \ud55c \uc218\ub77c\ub3c4 \ub9de\ud788\uba74 \uc2a4\ud47c\uc744 \uc800\uc7a5\ud560 \uc218 \uc788\uc5b4\uc694.",
+    resultMeta: "\ud78c\ud2b8 {hints}\ud68c \uc0ac\uc6a9",
     round: "\ud0c0\uc784\uc5b4\ud0dd {current}/{total}",
     elapsed: "\uc2dc\uac04 {time}",
     remaining: "\ub0a8\uc740 \uc2dc\uac04 {time}"

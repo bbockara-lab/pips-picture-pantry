@@ -183,6 +183,8 @@ export const en = {
     lastScore: "{progress} cells in {time}",
     timeUp: "Time up",
     timeoutReward: "Time up! You banked +{reward} spoons for this run.",
+    timeoutNoReward: "Time up. Make at least one correct move to bank spoons next run.",
+    resultMeta: "Hints used: {hints}",
     round: "Time Attack {current}/{total}",
     elapsed: "Time {time}",
     remaining: "Time left {time}"

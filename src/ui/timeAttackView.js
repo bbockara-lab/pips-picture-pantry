@@ -170,9 +170,12 @@ function createLastResultPanel(lastResult) {
   title.textContent = lastResult.recordImproved ? t("timeAttack.newRecord") : t("timeAttack.lastRun");
 
   const reward = document.createElement("p");
-  reward.textContent = t(lastResult.outcome === "timeout" && lastResult.reward > 0
+  const rewardKey = lastResult.outcome === "timeout" && lastResult.reward > 0
     ? "timeAttack.timeoutReward"
-    : lastResult.reward > 0 ? "timeAttack.lastReward" : "timeAttack.lastNoReward", {
+    : lastResult.outcome === "timeout"
+      ? "timeAttack.timeoutNoReward"
+      : lastResult.reward > 0 ? "timeAttack.lastReward" : "timeAttack.lastNoReward";
+  reward.textContent = t(rewardKey, {
     reward: lastResult.reward || 0
   });
 
@@ -183,7 +186,13 @@ function createLastResultPanel(lastResult) {
     time: formatElapsedSeconds(lastResult.elapsedSeconds || 0)
   });
 
-  result.append(title, score, reward);
+  const meta = document.createElement("p");
+  meta.className = "time-attack-panel__meta";
+  meta.textContent = t("timeAttack.resultMeta", {
+    hints: Math.max(0, Number(lastResult.hintsUsed || 0))
+  });
+
+  result.append(title, score, meta, reward);
   return result;
 }
 
