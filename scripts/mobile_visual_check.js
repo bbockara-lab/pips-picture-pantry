@@ -747,10 +747,32 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     failures.push("[" + viewportName + "] 12x12 puzzle should expose 4 hints, saw " + hintText);
   }
 
+  await expectCompletedLineGuidance(page, viewportName);
   await expectNoHorizontalOverflow(page, viewportName);
   await page.locator(".play-screen__back").click();
 }
 
+async function expectCompletedLineGuidance(page, viewportName) {
+  const firstRowFilledCells = [3, 4, 5, 6, 7, 8];
+  for (const cellIndex of firstRowFilledCells) {
+    await page.locator(".puzzle-grid .puzzle-cell").nth(cellIndex).click();
+  }
+
+  const metrics = await page.evaluate(() => {
+    const rowCompleteCount = document.querySelectorAll(".row-clue.line-complete").length;
+    const safeSuggestions = document.querySelectorAll(".puzzle-cell.safe-suggestion").length;
+    const firstRowGlow = document.querySelectorAll(".puzzle-cell.completed-row").length;
+    const lockedLeakCount = document.querySelectorAll(".board-wrap.locked .line-complete, .board-wrap.locked .safe-suggestion, .board-wrap.locked .completed-row, .board-wrap.locked .completed-column").length;
+    return { rowCompleteCount, safeSuggestions, firstRowGlow, lockedLeakCount };
+  });
+
+  if (metrics.rowCompleteCount < 1 || metrics.safeSuggestions < 6 || metrics.firstRowGlow < 12) {
+    failures.push("[" + viewportName + "] Completed-line guidance did not appear after finishing the first 12x12 row: " + JSON.stringify(metrics));
+  }
+  if (metrics.lockedLeakCount > 0) {
+    failures.push("[" + viewportName + "] Completed-line guidance leaked into a locked board: " + JSON.stringify(metrics));
+  }
+}
 async function seedLargeBoardCatalogAccess(page) {
   await page.evaluate(() => {
     const player = { id: "jay", name: "Jay" };
