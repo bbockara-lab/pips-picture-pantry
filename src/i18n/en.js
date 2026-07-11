@@ -1380,6 +1380,22 @@ export const en = {
     "village-pantry-gingham-picnic-jar-118": {
       title: "Gingham Picnic Jar",
       imageName: "Gingham Picnic Jar"
+    },
+    "bakery-window-maple-pecan-scroll-118": {
+      title: "Maple Pecan Scroll",
+      imageName: "Maple Pecan Scroll"
+    },
+    "bakery-window-vanilla-checker-tile-119": {
+      title: "Vanilla Checker Tile",
+      imageName: "Vanilla Checker Tile"
+    },
+    "village-pantry-wooden-pastry-brush-119": {
+      title: "Wooden Pastry Brush",
+      imageName: "Wooden Pastry Brush"
+    },
+    "village-pantry-ceramic-spoon-rest-120": {
+      title: "Ceramic Spoon Rest",
+      imageName: "Ceramic Spoon Rest"
     }
   }
 };

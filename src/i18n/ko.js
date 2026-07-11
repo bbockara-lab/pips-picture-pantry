@@ -1378,6 +1378,22 @@ export const ko = {
     "village-pantry-gingham-picnic-jar-118": {
       title: "\uAE45\uC5C4 \uD53C\uD06C\uB2C9 \uBCD1",
       imageName: "\uAE45\uC5C4 \uD53C\uD06C\uB2C9 \uBCD1"
+    },
+    "bakery-window-maple-pecan-scroll-118": {
+      title: "\uBA54\uC774\uD50C \uD53C\uCE78 \uC2A4\uD06C\uB864",
+      imageName: "\uBA54\uC774\uD50C \uD53C\uCE78 \uC2A4\uD06C\uB864"
+    },
+    "bakery-window-vanilla-checker-tile-119": {
+      title: "\uBC14\uB2D0\uB77C \uCCB4\uCEE4 \uD0C0\uC77C",
+      imageName: "\uBC14\uB2D0\uB77C \uCCB4\uCEE4 \uD0C0\uC77C"
+    },
+    "village-pantry-wooden-pastry-brush-119": {
+      title: "\uB098\uBB34 \uD398\uC774\uC2A4\uD2B8\uB9AC \uBD93",
+      imageName: "\uB098\uBB34 \uD398\uC774\uC2A4\uD2B8\uB9AC \uBD93"
+    },
+    "village-pantry-ceramic-spoon-rest-120": {
+      title: "\uC138\uB77C\uBBF9 \uC2A4\uD47C \uBC1B\uCE68",
+      imageName: "\uC138\uB77C\uBBF9 \uC2A4\uD47C \uBC1B\uCE68"
     }
   }
 };

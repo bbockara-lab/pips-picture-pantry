@@ -7462,6 +7462,134 @@ export const puzzles = [
           "0011111100",
           "0110000110"
       ]
+  },
+  {
+      "id": "bakery-window-maple-pecan-scroll-118",
+      "title": "Maple Pecan Scroll",
+      "titleKey": "puzzles.bakery-window-maple-pecan-scroll-118",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "spiral pastry scroll with pecan dot clusters, maple glaze bands, and a round baked rim",
+          "colorMood": "maple amber glaze, toasted pecan dots, soft golden dough",
+          "tags": [
+              "pastry scroll",
+              "pecan dots",
+              "maple glaze"
+          ]
+      },
+      "solution": [
+          "001111111100",
+          "011111111110",
+          "111001111111",
+          "111011001111",
+          "111111011111",
+          "110111111011",
+          "111110111111",
+          "111100110111",
+          "111111001111",
+          "011111111110",
+          "001111111100",
+          "011100001110"
+      ]
+  },
+  {
+      "id": "bakery-window-vanilla-checker-tile-119",
+      "title": "Vanilla Checker Tile",
+      "titleKey": "puzzles.bakery-window-vanilla-checker-tile-119",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "square vanilla cookie tile with checker jam insets, crisp border, and tiny sugar corners",
+          "colorMood": "vanilla biscuit cream, strawberry checker marks, toasted square edge",
+          "tags": [
+              "checker cookie",
+              "vanilla tile",
+              "sugar corners"
+          ]
+      },
+      "solution": [
+          "111111111111",
+          "100111100111",
+          "111111111111",
+          "111001111001",
+          "111111111111",
+          "100111001111",
+          "111111111111",
+          "111001111001",
+          "111111111111",
+          "100111100111",
+          "111111111111",
+          "011111111110"
+      ]
+  },
+  {
+      "id": "village-pantry-wooden-pastry-brush-119",
+      "title": "Wooden Pastry Brush",
+      "titleKey": "puzzles.village-pantry-wooden-pastry-brush-119",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "short wooden pastry brush with bristle block, handle hole, and rounded grip end",
+          "colorMood": "warm wood handle, cream bristles, honey glaze shine",
+          "tags": [
+              "pastry brush",
+              "wood handle",
+              "cream bristles"
+          ]
+      },
+      "solution": [
+          "1111110000",
+          "1111111000",
+          "1110111100",
+          "1111111110",
+          "0011111111",
+          "0001111111",
+          "0000111110",
+          "0001111100",
+          "0011001100",
+          "0110000110"
+      ]
+  },
+  {
+      "id": "village-pantry-ceramic-spoon-rest-120",
+      "title": "Ceramic Spoon Rest",
+      "titleKey": "puzzles.village-pantry-ceramic-spoon-rest-120",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "oval spoon rest with small handle notch, glaze dot, and raised ceramic rim",
+          "colorMood": "buttermilk ceramic glaze, sage rim shadow, tiny blue flower dot",
+          "tags": [
+              "spoon rest",
+              "ceramic oval",
+              "flower dot"
+          ]
+      },
+      "solution": [
+          "0011111100",
+          "0111111110",
+          "1111111111",
+          "1110110111",
+          "1111111111",
+          "0111111110",
+          "0011111100",
+          "0001111000",
+          "0011111100",
+          "0110000110"
+      ]
   }
 ];
 

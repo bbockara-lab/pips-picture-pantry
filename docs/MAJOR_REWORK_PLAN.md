@@ -1108,3 +1108,7 @@ Immediate implementation decisions:
 ### v0.1.252 Follow-up - Four Puzzle Quality Batch
 - Added another balanced Bakery/Village batch with pastry and pantry silhouettes chosen for later icon-readability.
 - Season 0 catalog now has 38 free puzzles remaining to the 333 launch target, leaving room for UI/art polish before release.
+
+### v0.1.253 Follow-up - Four Puzzle Quality Batch
+- Added pastry roll/tile and pantry tool/rest silhouettes to keep the growing catalog visually distinguishable.
+- Season 0 catalog now has 34 free puzzles remaining to the 333 launch target.
