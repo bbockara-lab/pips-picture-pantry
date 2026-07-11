@@ -1295,6 +1295,22 @@ export const en = {
     "village-pantry-striped-pantry-towel-110": {
       title: "Striped Pantry Towel",
       imageName: "Striped Pantry Towel"
+    },
+    "bakery-window-cherry-almond-biscotti-110": {
+      title: "Cherry Almond Biscotti",
+      imageName: "Cherry Almond Biscotti"
+    },
+    "bakery-window-lemon-poppy-pound-cake-111": {
+      title: "Lemon Poppy Pound Cake",
+      imageName: "Lemon Poppy Pound Cake"
+    },
+    "village-pantry-little-cocoa-scoop-111": {
+      title: "Little Cocoa Scoop",
+      imageName: "Little Cocoa Scoop"
+    },
+    "village-pantry-sunflower-flour-sieve-112": {
+      title: "Sunflower Flour Sieve",
+      imageName: "Sunflower Flour Sieve"
     }
   }
 };

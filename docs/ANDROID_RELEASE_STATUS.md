@@ -1244,3 +1244,8 @@ Last updated: 2026-06-28
 - Added four readable free puzzles: Pear Ginger Turnover, Mocha Cream Roll, Poppy Seed Mortar, and Striped Pantry Towel.
 - Raised guarded catalog thresholds to 279 free puzzles, 189 large-board free puzzles, 89 Bakery Window 12x12 boards, 96 Village Pantry 10x10 boards, and 141 readable large-board briefs.
 - Verification passed: syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.
+
+## v0.1.239 - Four Puzzle Quality Batch
+- Added four readable free puzzles: Cherry Almond Biscotti, Lemon Poppy Pound Cake, Little Cocoa Scoop, and Sunflower Flour Sieve.
+- Raised guarded catalog thresholds to 283 free puzzles, 193 large-board free puzzles, 91 Bakery Window 12x12 boards, 98 Village Pantry 10x10 boards, and 145 readable large-board briefs.
+- Verification passed: syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.

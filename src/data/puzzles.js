@@ -6950,6 +6950,134 @@ export const puzzles = [
       "0111111110",
       "0011111100"
     ]
+  },
+  {
+    "id": "bakery-window-cherry-almond-biscotti-110",
+    "title": "Cherry Almond Biscotti",
+    "titleKey": "puzzles.bakery-window-cherry-almond-biscotti-110",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "slender biscotti pair with almond chips, cherry dots, and angled cut ends",
+      "colorMood": "toasted almond tan, cherry red, pale sugar crust",
+      "tags": [
+        "biscotti",
+        "almond chips",
+        "cherry dots"
+      ]
+    },
+    "solution": [
+      "011111111110",
+      "111111111111",
+      "111011111111",
+      "111101111111",
+      "111111001111",
+      "111111111111",
+      "110111111111",
+      "111101111111",
+      "111111011111",
+      "111111111111",
+      "011111111110",
+      "001111111100"
+    ]
+  },
+  {
+    "id": "bakery-window-lemon-poppy-pound-cake-111",
+    "title": "Lemon Poppy Pound Cake",
+    "titleKey": "puzzles.bakery-window-lemon-poppy-pound-cake-111",
+    "packId": "bakery-window",
+    "access": "free",
+    "size": 12,
+    "difficulty": "hard",
+    "reward": 9,
+    "artReadability": {
+      "silhouette": "thick pound cake slice with lemon glaze top, poppy specks, and crumb base",
+      "colorMood": "lemon yellow glaze, vanilla cake, tiny dark poppy seeds",
+      "tags": [
+        "pound cake",
+        "lemon glaze",
+        "poppy seeds"
+      ]
+    },
+    "solution": [
+      "001111111100",
+      "011111111110",
+      "111111111111",
+      "110111011111",
+      "111111111111",
+      "111011101111",
+      "111111111111",
+      "111101110111",
+      "111111111111",
+      "011111111110",
+      "001111111100",
+      "111111111111"
+    ]
+  },
+  {
+    "id": "village-pantry-little-cocoa-scoop-111",
+    "title": "Little Cocoa Scoop",
+    "titleKey": "puzzles.village-pantry-little-cocoa-scoop-111",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "small scoop with cocoa mound, short handle, and a rounded spoon bowl",
+      "colorMood": "cocoa brown, brass scoop, cream highlight",
+      "tags": [
+        "cocoa scoop",
+        "short handle",
+        "spoon bowl"
+      ]
+    },
+    "solution": [
+      "0011111100",
+      "0111111110",
+      "1111111111",
+      "1110011111",
+      "1111110111",
+      "1111111111",
+      "1101101111",
+      "1111111111",
+      "0111111110",
+      "1111111111"
+    ]
+  },
+  {
+    "id": "village-pantry-sunflower-flour-sieve-112",
+    "title": "Sunflower Flour Sieve",
+    "titleKey": "puzzles.village-pantry-sunflower-flour-sieve-112",
+    "packId": "village-pantry",
+    "access": "free",
+    "size": 10,
+    "difficulty": "medium",
+    "reward": 7,
+    "artReadability": {
+      "silhouette": "round flour sieve with mesh center, sunflower handle charm, and side grip",
+      "colorMood": "cream mesh, sunflower yellow charm, warm wooden handle",
+      "tags": [
+        "flour sieve",
+        "sunflower charm",
+        "mesh center"
+      ]
+    },
+    "solution": [
+      "0111111110",
+      "1111111111",
+      "1110111011",
+      "1111111111",
+      "1101111111",
+      "1111111011",
+      "1110111111",
+      "1111111111",
+      "0111111110",
+      "0011111100"
+    ]
   }
 ];
 

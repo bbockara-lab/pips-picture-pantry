@@ -1293,6 +1293,22 @@ export const ko = {
     "village-pantry-striped-pantry-towel-110": {
       title: "\uC2A4\uD2B8\uB77C\uC774\uD504 \uD32C\uD2B8\uB9AC \uD0C0\uC6D4",
       imageName: "\uC2A4\uD2B8\uB77C\uC774\uD504 \uD32C\uD2B8\uB9AC \uD0C0\uC6D4"
+    },
+    "bakery-window-cherry-almond-biscotti-110": {
+      title: "\uCCB4\uB9AC \uC544\uBAAC\uB4DC \uBE44\uC2A4\uCF54\uD2F0",
+      imageName: "\uCCB4\uB9AC \uC544\uBAAC\uB4DC \uBE44\uC2A4\uCF54\uD2F0"
+    },
+    "bakery-window-lemon-poppy-pound-cake-111": {
+      title: "\uB808\uBAAC \uD30C\uD53C \uD30C\uC6B4\uB4DC \uCF00\uC774\uD06C",
+      imageName: "\uB808\uBAAC \uD30C\uD53C \uD30C\uC6B4\uB4DC \uCF00\uC774\uD06C"
+    },
+    "village-pantry-little-cocoa-scoop-111": {
+      title: "\uC791\uC740 \uCF54\uCF54\uC544 \uC2A4\uCFE0\uD504",
+      imageName: "\uC791\uC740 \uCF54\uCF54\uC544 \uC2A4\uCFE0\uD504"
+    },
+    "village-pantry-sunflower-flour-sieve-112": {
+      title: "\uD574\uBC14\uB77C\uAE30 \uBC00\uAC00\uB8E8 \uCCB4",
+      imageName: "\uD574\uBC14\uB77C\uAE30 \uBC00\uAC00\uB8E8 \uCCB4"
     }
   }
 };
