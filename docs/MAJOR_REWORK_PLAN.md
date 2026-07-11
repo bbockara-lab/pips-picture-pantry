@@ -1082,3 +1082,6 @@ Immediate implementation decisions:
 ### v0.1.246 Follow-up - Time Attack Timeout Records
 - Time Attack now has a concrete 3-minute session limit, making progress-cell records meaningful even when the player does not complete all three boards.
 - Partial runs record the largest board reached and correct cells completed so the mode can differentiate close attempts.
+
+### v0.1.247 Follow-up - Time Attack Timeout Visual Polish
+- Added visual emphasis for Time Attack timeout and personal-record outcomes so progress-cell runs feel more intentional after the 3-minute limit.

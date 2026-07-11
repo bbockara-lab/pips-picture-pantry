@@ -162,7 +162,9 @@ function createRecordsPanel(bestScores) {
 
 function createLastResultPanel(lastResult) {
   const result = document.createElement("div");
-  result.className = lastResult.recordImproved ? "time-attack-panel__result is-record" : "time-attack-panel__result";
+  result.className = lastResult.outcome === "timeout"
+    ? "time-attack-panel__result is-timeout"
+    : lastResult.recordImproved ? "time-attack-panel__result is-record" : "time-attack-panel__result";
 
   const title = document.createElement("h3");
   title.textContent = lastResult.recordImproved ? t("timeAttack.newRecord") : t("timeAttack.lastRun");

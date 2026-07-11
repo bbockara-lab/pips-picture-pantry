@@ -1999,3 +1999,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 ### v0.1.246 - Time Attack Timeout Records
 - Added a 3-minute Time Attack limit so the mode now ends on time instead of relying only on full 3-board completion.
 - Time Attack now snapshots the active puzzle state and records partial timeout runs by progressCells, preserving the one-more-correct-cell record design.
+
+### v0.1.247 - Time Attack Timeout Visual Polish
+- Polished the Time Attack remaining-time pill and result card so timeout, record, and normal run outcomes are easier to distinguish in the first-session flow.
+- Kept the change visual-only on top of v0.1.246 timeout recording behavior.
