@@ -7590,6 +7590,134 @@ export const puzzles = [
           "0011111100",
           "0110000110"
       ]
+  },
+  {
+      "id": "bakery-window-orange-cardamom-ring-120",
+      "title": "Orange Cardamom Ring",
+      "titleKey": "puzzles.bakery-window-orange-cardamom-ring-120",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "round spiced pastry ring with orange peel notches, open center, and cardamom seed dots",
+          "colorMood": "candied orange glaze, golden pastry crumb, tiny green cardamom flecks",
+          "tags": [
+              "pastry ring",
+              "orange peel",
+              "cardamom dots"
+          ]
+      },
+      "solution": [
+          "001111111100",
+          "011111111110",
+          "111100001111",
+          "111011110111",
+          "110111111011",
+          "110111111011",
+          "111011110111",
+          "111100001111",
+          "111111111111",
+          "011111111110",
+          "001111111100",
+          "011100001110"
+      ]
+  },
+  {
+      "id": "bakery-window-berry-cream-envelope-121",
+      "title": "Berry Cream Envelope",
+      "titleKey": "puzzles.bakery-window-berry-cream-envelope-121",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "folded pastry envelope with diagonal flap seams, berry cream center, and pinched corners",
+          "colorMood": "berry pink filling, pale cream folds, toasted pastry corner shadows",
+          "tags": [
+              "pastry envelope",
+              "berry cream",
+              "folded corners"
+          ]
+      },
+      "solution": [
+          "111111111111",
+          "110000000011",
+          "111000000111",
+          "111100001111",
+          "110110011011",
+          "110111111011",
+          "111011110111",
+          "111101101111",
+          "111110011111",
+          "111111111111",
+          "011111111110",
+          "001111111100"
+      ]
+  },
+  {
+      "id": "village-pantry-sage-linen-bundle-121",
+      "title": "Sage Linen Bundle",
+      "titleKey": "puzzles.village-pantry-sage-linen-bundle-121",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "folded linen bundle tied with twine, sage sprig tucked under the bow, and soft cloth corners",
+          "colorMood": "sage green cloth, cream twine bow, pale linen fold shadows",
+          "tags": [
+              "linen bundle",
+              "twine bow",
+              "sage sprig"
+          ]
+      },
+      "solution": [
+          "1111111111",
+          "1001111001",
+          "1111111111",
+          "1110011111",
+          "1101111011",
+          "1111111111",
+          "1111001111",
+          "0111111110",
+          "0011111100",
+          "0110000110"
+      ]
+  },
+  {
+      "id": "village-pantry-honey-dipper-jar-122",
+      "title": "Honey Dipper Jar",
+      "titleKey": "puzzles.village-pantry-honey-dipper-jar-122",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "small honey jar with ribbed dipper leaning across the lid, round glass body, and label dot",
+          "colorMood": "warm honey gold, amber glass shadow, pale wooden dipper handle",
+          "tags": [
+              "honey jar",
+              "dipper handle",
+              "round label"
+          ]
+      },
+      "solution": [
+          "0011111100",
+          "0111111110",
+          "1110011111",
+          "1111111111",
+          "1101111011",
+          "1111111111",
+          "1110111111",
+          "0111111110",
+          "0011111100",
+          "1100000011"
+      ]
   }
 ];
 

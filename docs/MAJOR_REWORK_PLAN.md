@@ -1112,3 +1112,7 @@ Immediate implementation decisions:
 ### v0.1.253 Follow-up - Four Puzzle Quality Batch
 - Added pastry roll/tile and pantry tool/rest silhouettes to keep the growing catalog visually distinguishable.
 - Season 0 catalog now has 34 free puzzles remaining to the 333 launch target.
+
+### v0.1.254 Follow-up - Four Puzzle Quality Batch
+- Added another quality-gated Bakery/Village content batch while keeping silhouettes distinct enough for later thumbnail and reward art production.
+- GitHub verify workflow is now part of the project baseline; keep local QA aligned with the same test/catalog/hygiene/assets/build ladder before push.

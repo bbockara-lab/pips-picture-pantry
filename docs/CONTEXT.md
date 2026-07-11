@@ -2033,3 +2033,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added four readable free puzzles: Maple Pecan Scroll, Vanilla Checker Tile, Wooden Pastry Brush, and Ceramic Spoon Rest.
 - Raised catalog guards to 299 free puzzles, 209 large-board free puzzles, 99 Bakery Window 12x12 boards, 106 Village Pantry 10x10 boards, and 161 readable large-board briefs.
 - Version bumped to v0.1.253; verification focused on syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, and production build.
+
+### v0.1.254 - Four Puzzle Quality Batch
+- Added four readable free puzzles: Orange Cardamom Ring, Berry Cream Envelope, Sage Linen Bundle, and Honey Dipper Jar.
+- Raised catalog guards to 303 free puzzles, 213 large-board free puzzles, 101 Bakery Window 12x12 boards, 108 Village Pantry 10x10 boards, and 165 readable large-board briefs.
+- Version bumped to v0.1.254; local verification mirrors the GitHub verify workflow: syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, and production build.

@@ -1396,6 +1396,22 @@ export const en = {
     "village-pantry-ceramic-spoon-rest-120": {
       title: "Ceramic Spoon Rest",
       imageName: "Ceramic Spoon Rest"
+    },
+    "bakery-window-orange-cardamom-ring-120": {
+      title: "Orange Cardamom Ring",
+      imageName: "Orange Cardamom Ring"
+    },
+    "bakery-window-berry-cream-envelope-121": {
+      title: "Berry Cream Envelope",
+      imageName: "Berry Cream Envelope"
+    },
+    "village-pantry-sage-linen-bundle-121": {
+      title: "Sage Linen Bundle",
+      imageName: "Sage Linen Bundle"
+    },
+    "village-pantry-honey-dipper-jar-122": {
+      title: "Honey Dipper Jar",
+      imageName: "Honey Dipper Jar"
     }
   }
 };

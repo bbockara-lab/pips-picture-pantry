@@ -1394,6 +1394,22 @@ export const ko = {
     "village-pantry-ceramic-spoon-rest-120": {
       title: "\uC138\uB77C\uBBF9 \uC2A4\uD47C \uBC1B\uCE68",
       imageName: "\uC138\uB77C\uBBF9 \uC2A4\uD47C \uBC1B\uCE68"
+    },
+    "bakery-window-orange-cardamom-ring-120": {
+      title: "\uC624\uB80C\uC9C0 \uCE74\uB2E4\uBA48 \uB9C1",
+      imageName: "\uC624\uB80C\uC9C0 \uCE74\uB2E4\uBA48 \uB9C1"
+    },
+    "bakery-window-berry-cream-envelope-121": {
+      title: "\uBCA0\uB9AC \uD06C\uB9BC \uBD09\uD22C \uD398\uC774\uC2A4\uD2B8\uB9AC",
+      imageName: "\uBCA0\uB9AC \uD06C\uB9BC \uBD09\uD22C \uD398\uC774\uC2A4\uD2B8\uB9AC"
+    },
+    "village-pantry-sage-linen-bundle-121": {
+      title: "\uC138\uC774\uC9C0 \uB9B0\uB128 \uBB36\uC74C",
+      imageName: "\uC138\uC774\uC9C0 \uB9B0\uB128 \uBB36\uC74C"
+    },
+    "village-pantry-honey-dipper-jar-122": {
+      title: "\uD5C8\uB2C8 \uB514\uD37C \uBCD1",
+      imageName: "\uD5C8\uB2C8 \uB514\uD37C \uBCD1"
     }
   }
 };
