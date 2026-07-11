@@ -1426,6 +1426,23 @@ export const ko = {
     "village-pantry-tiny-copper-kettle-124": {
       title: "\uC791\uC740 \uAD6C\uB9AC \uC8FC\uC804\uC790",
       imageName: "\uC791\uC740 \uAD6C\uB9AC \uC8FC\uC804\uC790"
+    },
+    "bakery-window-fig-honey-pinwheel-124": {
+      title: "\uBB34\uD654\uACFC \uAFC0 \uD540\uD720",
+      imageName: "\uBB34\uD654\uACFC \uAFC0 \uD540\uD720"
+    },
+    "bakery-window-cocoa-pear-tartlet-125": {
+      title: "\uCF54\uCF54\uC544 \uBC30 \uD0C0\uB974\uD2C0\uB81B",
+      imageName: "\uCF54\uCF54\uC544 \uBC30 \uD0C0\uB974\uD2C0\uB81B"
+    },
+    "village-pantry-checked-recipe-folder-125": {
+      title: "\uCCB4\uD06C \uB808\uC2DC\uD53C \uD3F4\uB354",
+      imageName: "\uCCB4\uD06C \uB808\uC2DC\uD53C \uD3F4\uB354"
+    },
+    "village-pantry-berry-label-sifter-126": {
+      title: "\uBCA0\uB9AC \uB77C\uBCA8 \uCCB4",
+      imageName: "\uBCA0\uB9AC \uB77C\uBCA8 \uCCB4"
     }
+
   }
 };

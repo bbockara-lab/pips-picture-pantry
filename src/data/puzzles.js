@@ -7846,7 +7846,136 @@ export const puzzles = [
           "0110000110",
           "1100000011"
       ]
+  },
+  {
+      "id": "bakery-window-fig-honey-pinwheel-124",
+      "title": "Fig Honey Pinwheel",
+      "titleKey": "puzzles.bakery-window-fig-honey-pinwheel-124",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "round fig pastry with four pinwheel folds, honey center, and a crisp bakery rim",
+          "colorMood": "deep fig jam, amber honey shine, toasted pastry folds",
+          "tags": [
+              "fig pinwheel",
+              "honey center",
+              "pastry folds"
+          ]
+      },
+      "solution": [
+          "001111111100",
+          "011111111110",
+          "111011101111",
+          "110111011011",
+          "111110111111",
+          "111111111111",
+          "111101111111",
+          "110111011011",
+          "111011101111",
+          "011111111110",
+          "001111111100",
+          "011100001110"
+      ]
+  },
+  {
+      "id": "bakery-window-cocoa-pear-tartlet-125",
+      "title": "Cocoa Pear Tartlet",
+      "titleKey": "puzzles.bakery-window-cocoa-pear-tartlet-125",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "small cocoa tartlet with pear slice arcs, rounded crumb rim, and glossy filling",
+          "colorMood": "cocoa filling, pale pear slices, warm biscuit crust",
+          "tags": [
+              "pear tartlet",
+              "cocoa filling",
+              "crumb rim"
+          ]
+      },
+      "solution": [
+          "001111111100",
+          "011111111110",
+          "111100111111",
+          "111111001111",
+          "110111111011",
+          "111111111111",
+          "111001111111",
+          "111111001111",
+          "111100111111",
+          "011111111110",
+          "001111111100",
+          "000111111000"
+      ]
+  },
+  {
+      "id": "village-pantry-checked-recipe-folder-125",
+      "title": "Checked Recipe Folder",
+      "titleKey": "puzzles.village-pantry-checked-recipe-folder-125",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "upright recipe folder with checkered tabs, folded bottom, and a tidy pantry label",
+          "colorMood": "cream folder paper, green checked tabs, soft pencil shadows",
+          "tags": [
+              "recipe folder",
+              "checked tabs",
+              "pantry label"
+          ]
+      },
+      "solution": [
+          "1111111111",
+          "1001111001",
+          "1111111111",
+          "1110011111",
+          "1111111111",
+          "1001111001",
+          "1111111111",
+          "0111111110",
+          "0011111100",
+          "1110000111"
+      ]
+  },
+  {
+      "id": "village-pantry-berry-label-sifter-126",
+      "title": "Berry Label Sifter",
+      "titleKey": "puzzles.village-pantry-berry-label-sifter-126",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "round flour sifter with berry label, side handle, and little mesh-foot base",
+          "colorMood": "silver tin, berry red label, pale flour dust",
+          "tags": [
+              "flour sifter",
+              "berry label",
+              "side handle"
+          ]
+      },
+      "solution": [
+          "0011111100",
+          "0111111110",
+          "1111111111",
+          "1101101011",
+          "1111111111",
+          "0111111110",
+          "0011111100",
+          "0111111110",
+          "1100000011",
+          "1110000111"
+      ]
   }
+
 ];
 
 export function getPuzzleById(id) {

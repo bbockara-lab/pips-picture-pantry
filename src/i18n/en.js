@@ -1428,6 +1428,23 @@ export const en = {
     "village-pantry-tiny-copper-kettle-124": {
       title: "Tiny Copper Kettle",
       imageName: "Tiny Copper Kettle"
+    },
+    "bakery-window-fig-honey-pinwheel-124": {
+      title: "Fig Honey Pinwheel",
+      imageName: "Fig Honey Pinwheel"
+    },
+    "bakery-window-cocoa-pear-tartlet-125": {
+      title: "Cocoa Pear Tartlet",
+      imageName: "Cocoa Pear Tartlet"
+    },
+    "village-pantry-checked-recipe-folder-125": {
+      title: "Checked Recipe Folder",
+      imageName: "Checked Recipe Folder"
+    },
+    "village-pantry-berry-label-sifter-126": {
+      title: "Berry Label Sifter",
+      imageName: "Berry Label Sifter"
     }
+
   }
 };

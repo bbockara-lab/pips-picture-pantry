@@ -1120,3 +1120,7 @@ Immediate implementation decisions:
 ### v0.1.255 Follow-up - Four Puzzle Quality Batch
 - Added four more quality-gated launch puzzles, emphasizing immediately readable silhouettes for later art generation.
 - Season 0 catalog now has 26 free puzzles remaining to the 333 launch target.
+
+### v0.1.256 Follow-up - Four Puzzle Quality Batch
+- Added another balanced Bakery/Village launch batch with distinct pastry and pantry-object silhouettes.
+- Season 0 catalog now has 22 free puzzles remaining to the 333 launch target; keep future batches quality-gated and avoid duplicate readable titles.
