@@ -38,6 +38,8 @@ describe("i18n", () => {
     expect(t("packs.catalogLarge", { count: 7 })).toBe("7 large");
     expect(t("packs.catalogLargest", { size: 12 })).toBe("up to 12x12");
     expect(t("packs.pricePreview")).toBe("Optional add-on");
+    expect(t("seasonProgress.catalogStat", { completed: 3, total: 333 })).toBe("3/333 pictures");
+    expect(t("seasonProgress.stageStat", { unlocked: 2, total: 5 })).toBe("2/5 stages open");
     expect(t("badges.progress", { completed: 3, total: 100 })).toBe("3/100 cards");
     expect(t("map.sets.cozy-cafe-room")).toBe("Cozy cafe room");
   });
@@ -185,6 +187,8 @@ describe("i18n", () => {
     expect(t("packs.catalogProgress", { completed: 3, total: 12 })).toBe("3/12 \uc644\ub8cc");
     expect(t("packs.catalogLarge", { count: 7 })).toBe("\ud070 \ud37c\uc990 7\uac1c");
     expect(t("packs.catalogLargest", { size: 12 })).toBe("\ucd5c\ub300 12x12");
+    expect(t("seasonProgress.catalogStat", { completed: 3, total: 333 })).toBe("3/333 \uADF8\uB9BC");
+    expect(t("seasonProgress.stageStat", { unlocked: 2, total: 5 })).toBe("2/5 \uC2A4\uD14C\uC774\uC9C0 \uC5F4\uB9BC");
     expect(t("badges.pipPortrait")).toBe("Pip \ucd08\uc0c1\ud654");
 
     setLanguagePreference("en", "ko-KR");

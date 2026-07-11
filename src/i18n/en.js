@@ -279,6 +279,19 @@ export const en = {
     rewardLabel: "{size}x{size}, reward {count}",
     sizeComplete: "{size}x{size} - Complete"
   },
+  seasonProgress: {
+    eyebrow: "Season 0 pantry",
+    title: "333 launch pictures are ready",
+    bodyLocked: "Open {pack} with spoons and Pantry requests to keep the catalog unfolding.",
+    bodyUnlocked: "All stages are open. Finish pictures for spoons, badges, and the full launch album.",
+    bodyComplete: "Season 0 is complete. Pip is saving the counter for the next seasonal update.",
+    catalogStat: "{completed}/{total} pictures",
+    stageStat: "{unlocked}/{total} stages open",
+    spoonStat: "{count} spoons saved",
+    nextSeasonTitle: "Next season is warming up",
+    nextSeasonBody: "Seasonal pantry sets will arrive as update packs after the launch room feels polished."
+  },
+
   packs: {
     free: "Free",
     unlockable: "Unlockable",

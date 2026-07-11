@@ -7,6 +7,9 @@ import { canUnlockPack, getCompletedPuzzleIds, getPackPantryRoomRequirement, get
 import { puzzleTitle, t } from "../i18n/index.js";
 
 export function renderPuzzleHub(activePuzzle, onOpenPuzzle) {
+  const stack = document.createElement("div");
+  stack.className = "puzzle-hub-stack";
+
   const panel = document.createElement("section");
   panel.className = "puzzle-hub-panel content-panel";
 
@@ -20,7 +23,78 @@ export function renderPuzzleHub(activePuzzle, onOpenPuzzle) {
   action.addEventListener("click", onOpenPuzzle);
 
   panel.append(copy, action);
-  return panel;
+  stack.append(panel, createSeasonProgressCard());
+  return stack;
+}
+
+function createSeasonProgressCard() {
+  const progressionPacks = puzzlePacks.filter((pack) => pack.access !== "bonus-pack");
+  const progressionPackIds = new Set(progressionPacks.map((pack) => pack.id));
+  const seasonPuzzles = puzzles.filter((puzzle) => progressionPackIds.has(puzzle.packId));
+  const completedSet = new Set(getCompletedPuzzleIds());
+  const completed = seasonPuzzles.filter((puzzle) => completedSet.has(puzzle.id)).length;
+  const total = seasonPuzzles.length || 1;
+  const remaining = Math.max(0, total - completed);
+  const unlockedCount = progressionPacks.filter((pack) => isPackUnlocked(pack)).length;
+  const nextLockedPack = progressionPacks.find((pack) => !isPackUnlocked(pack));
+  const percent = Math.min(100, Math.round((completed / total) * 100));
+
+  const card = document.createElement("section");
+  card.className = "season-progress-card content-panel";
+  card.style.setProperty("--season-progress", percent + "%");
+
+  const bodyKey = nextLockedPack
+    ? "seasonProgress.bodyLocked"
+    : remaining > 0
+      ? "seasonProgress.bodyUnlocked"
+      : "seasonProgress.bodyComplete";
+  const bodyParams = nextLockedPack ? { pack: t(nextLockedPack.titleKey) } : {};
+
+  const header = document.createElement("div");
+  header.className = "season-progress-card__header";
+  const copy = document.createElement("div");
+  copy.innerHTML = [
+    "<p class=\"section-label\">" + t("seasonProgress.eyebrow") + "</p>",
+    "<h2>" + t("seasonProgress.title") + "</h2>",
+    "<p>" + t(bodyKey, bodyParams) + "</p>"
+  ].join("");
+  const percentBadge = document.createElement("strong");
+  percentBadge.className = "season-progress-card__percent";
+  percentBadge.textContent = percent + "%";
+  header.append(copy, percentBadge);
+
+  const meter = document.createElement("div");
+  meter.className = "season-progress-meter";
+  meter.setAttribute("aria-hidden", "true");
+  meter.innerHTML = "<span></span>";
+
+  const stats = document.createElement("div");
+  stats.className = "season-progress-stats";
+  stats.append(
+    createSeasonStat(t("seasonProgress.catalogStat", { completed, total })),
+    createSeasonStat(t("seasonProgress.stageStat", { unlocked: unlockedCount, total: progressionPacks.length })),
+    createSpoonSeasonStat(t("seasonProgress.spoonStat", { count: getPantrySpoons() }))
+  );
+
+  const teaser = document.createElement("div");
+  teaser.className = "season-next-card";
+  teaser.innerHTML = "<strong>" + t("seasonProgress.nextSeasonTitle") + "</strong><p>" + t("seasonProgress.nextSeasonBody") + "</p>";
+
+  card.append(header, meter, stats, teaser);
+  return card;
+}
+
+function createSeasonStat(text) {
+  const stat = document.createElement("span");
+  stat.textContent = text;
+  return stat;
+}
+
+function createSpoonSeasonStat(text) {
+  const stat = document.createElement("span");
+  stat.className = "season-progress-stats__spoons";
+  stat.append(createSpoonIcon("small"), document.createTextNode(text));
+  return stat;
 }
 
 
@@ -302,8 +376,10 @@ function createStagePreview(pack, completeCount, total) {
   }
   const wrap = document.createElement("div");
   wrap.className = "stage-pip-preview tile-stage-preview";
+  const previewTileTotal = 20;
+  const previewCompleteCount = Math.round(stageProgressRatio * previewTileTotal);
   if (hasApprovedStageArt(pack.id)) {
-    wrap.append(createStageTileMosaic(pack, completeCount, total || 20), createStageProgressMeter());
+    wrap.append(createStageTileMosaic(pack, previewCompleteCount, previewTileTotal), createStageProgressMeter());
   } else {
     wrap.append(createStageArtPending(completeCount, total || 20), createStageProgressMeter());
   }

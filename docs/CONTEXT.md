@@ -2068,3 +2068,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added ten readable free puzzles to close the Season 0 launch catalog target: Pear Vanilla Rosette, Blueberry Almond Square, Apricot Sugar Shell, Cocoa Cherry Ribbon, Lemon Thyme Crown, Patchwork Jam Ledger, Sage Butter Crock, Copper Honey Measure, Daisy Recipe Clipboard, and Tiny Checkered Sieve.
 - Raised catalog guards to 333 free puzzles, 243 large-board free puzzles, 116 Bakery Window 12x12 boards, 123 Village Pantry 10x10 boards, and 195 readable large-board briefs.
 - Season 0 now reaches the 333-puzzle launch target. Next major priority should shift from bulk puzzle count to first-session polish, art consistency, Pantry story/economy flow, Time Attack feel, completion effects, and mobile QA.
+
+### v0.1.261 - Season 0 Progress Hub
+- Puzzle Hub에 Season 0 진행 카드를 추가해 333개 출시 퍼즐을 하나의 런칭 시즌 카탈로그로 보이게 했다.
+- 카드에서 전체 완성률, 열린 스테이지 수, 보유 스푼을 함께 보여 주어 다음 스테이지 해금과 Pantry 요청이 자연스러운 목표가 되도록 정리했다.
+- 다음 시즌 업데이트 예고 문구를 추가해 출시 후 계절성 퍼즐 팩 확장 방향을 UI 안에 심었다.
+- 모바일 preview guard에서 발견된 대형 팩 mosaic 압축 문제를 함께 수정했다. 실제 136개/137개 퍼즐 수를 그대로 렌더하지 않고 20칸 샘플에 진행률을 환산해 stage art가 안정적으로 보이게 했다.
