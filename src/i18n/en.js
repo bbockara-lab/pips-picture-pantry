@@ -28,6 +28,11 @@ export const en = {
     pantry: "Pantry",
     map: "Badges",
     timeAttack: "Time",
+    puzzleHint: "Pick and solve",
+    albumHint: "Saved pictures",
+    pantryHint: "Decorate goals",
+    timeAttackHint: "Beat your run",
+    mapHint: "Stage badges",
     navLabel: "Main views",
     menu: "Menu"
   },

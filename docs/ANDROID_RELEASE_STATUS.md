@@ -1357,3 +1357,8 @@ Last updated: 2026-06-28
 ### v0.1.265 - Season Goal Actions
 - Added direct actions to the Season 0 Next Goal card: open a ready stage, route to Pantry when room progress is missing, or view the Album when all stages are open.
 - Fixed the Next Goal locked-copy path so it passes the actual unlock-ready boolean into the shared unlock-plan text helper.
+
+## Verification Update - 2026-07-11 v0.1.266 Floating Navigation Context Polish
+- Visible app version: v0.1.266.
+- Android bundle generation remains paused during the local rework; next release build should include the clarified floating navigation trigger and localized destination hints.
+- Planned verification: full local web QA plus mobile visual QA before the next Android handoff.

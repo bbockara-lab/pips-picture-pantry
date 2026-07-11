@@ -2093,3 +2093,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 ### v0.1.265 - Season Goal Actions
 - Added direct actions to the Season 0 Next Goal card: open a ready stage, route to Pantry when room progress is missing, or view the Album when all stages are open.
 - Fixed the Next Goal locked-copy path so it passes the actual unlock-ready boolean into the shared unlock-plan text helper.
+
+### v0.1.266 - Floating Navigation Context Polish
+- Upgraded the floating navigation trigger to show the current destination instead of a generic menu-only label, making the bottom control feel more like an in-game wayfinding sign.
+- Added short localized helper lines to each floating nav destination so Puzzle, Album, Pantry, Time, and Badges communicate their purpose before the user taps.
+- Bumped the visible app version to v0.1.266; verification focused on syntax, i18n, full Vitest, hygiene/assets/catalog QA, production build, and mobile visual QA.

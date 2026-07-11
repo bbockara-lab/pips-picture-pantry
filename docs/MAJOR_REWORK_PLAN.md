@@ -1165,3 +1165,7 @@ Immediate implementation decisions:
 ### v0.1.265 - Season Goal Actions
 - Added direct actions to the Season 0 Next Goal card: open a ready stage, route to Pantry when room progress is missing, or view the Album when all stages are open.
 - Fixed the Next Goal locked-copy path so it passes the actual unlock-ready boolean into the shared unlock-plan text helper.
+
+### v0.1.266 - Floating Navigation Context Polish
+- Continued the post-catalog UX polish lane by giving the floating nav a current-view trigger label and destination helper copy.
+- Kept the change UI-only and art-compatible: no placeholder icon art was introduced, preserving the approved asset pipeline for future Sunny Spoon/Pip visual upgrades.

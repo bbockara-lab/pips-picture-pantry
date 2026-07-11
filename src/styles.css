@@ -4963,3 +4963,70 @@ img {
   padding-inline: 16px;
   font-size: 0.82rem;
 }
+
+
+/* v0.1.266 floating navigation context polish */
+.floating-nav__trigger {
+  display: inline-grid;
+  align-content: center;
+  gap: 1px;
+  min-width: 118px;
+  min-height: 50px;
+  padding: 6px 14px;
+  text-align: left;
+}
+
+.floating-nav__trigger-label {
+  color: rgba(75, 48, 54, 0.68);
+  font-size: 0.62rem;
+  font-weight: 950;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.floating-nav__trigger strong {
+  color: var(--ink);
+  font-size: 0.86rem;
+  font-weight: 950;
+  line-height: 1.05;
+}
+
+.floating-nav__item {
+  display: grid;
+  align-content: center;
+  gap: 2px;
+  min-height: 52px;
+  padding: 7px 11px;
+  text-align: left;
+}
+
+.floating-nav__item span {
+  font-weight: 950;
+  line-height: 1.05;
+}
+
+.floating-nav__item small {
+  color: rgba(75, 48, 54, 0.68);
+  font-size: 0.68rem;
+  font-weight: 850;
+  line-height: 1.05;
+}
+
+.floating-nav__item.active small {
+  color: rgba(61, 43, 46, 0.78);
+}
+
+@media (max-width: 390px) {
+  .floating-nav__trigger {
+    min-width: 108px;
+    padding-inline: 12px;
+  }
+
+  .floating-nav__item {
+    padding-inline: 9px;
+  }
+
+  .floating-nav__item small {
+    font-size: 0.64rem;
+  }
+}

@@ -28,6 +28,11 @@ export const ko = {
     pantry: "\ud32c\ud2b8\ub9ac",
     map: "\ubc30\uc9c0",
     timeAttack: "\ud0c0\uc784",
+    puzzleHint: "\uace0\ub974\uace0 \ud480\uae30",
+    albumHint: "\uc800\uc7a5\ud55c \uadf8\ub9bc",
+    pantryHint: "\uafb8\ubbf8\uae30 \ubaa9\ud45c",
+    timeAttackHint: "\uae30\ub85d \ub3c4\uc804",
+    mapHint: "\uc2a4\ud14c\uc774\uc9c0 \ubc30\uc9c0",
     navLabel: "\uc8fc\uc694 \ud654\uba74",
     menu: "\uba54\ub274"
   },

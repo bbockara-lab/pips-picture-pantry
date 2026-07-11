@@ -27,6 +27,7 @@ describe("i18n", () => {
     expect(t("controls.undo")).toBe("Undo last move");
     expect(t("daily.eyebrow")).toBe("Today's pick");
     expect(t("views.map")).toBe("Badges");
+    expect(t("views.pantryHint")).toBe("Decorate goals");
     expect(t("pipStrip.puzzleLine", { player: "Jay" })).toBe("Jay, use the numbers to color the picture.");
     expect(t("puzzlePicker.sizeReward", { size: 5, count: 3 })).toBe("5x5 +3");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - Complete");
@@ -187,6 +188,7 @@ describe("i18n", () => {
     expect(t("controls.fill")).toBe("\uce60\ud558\uae30");
     expect(t("controls.mark")).toBe("\ube48\uce78 \uccb4\ud06c");
     expect(t("views.map")).toBe("\ubc30\uc9c0");
+    expect(t("views.pantryHint")).toBe("\uafb8\ubbf8\uae30 \ubaa9\ud45c");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - \uc644\ub8cc");
     expect(t("packs.preview")).toBe("\uc608\uace0");
     expect(t("packs.catalogProgress", { completed: 3, total: 12 })).toBe("3/12 \uc644\ub8cc");
