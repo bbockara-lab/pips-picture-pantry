@@ -1124,3 +1124,7 @@ Immediate implementation decisions:
 ### v0.1.256 Follow-up - Four Puzzle Quality Batch
 - Added another balanced Bakery/Village launch batch with distinct pastry and pantry-object silhouettes.
 - Season 0 catalog now has 22 free puzzles remaining to the 333 launch target; keep future batches quality-gated and avoid duplicate readable titles.
+
+### v0.1.257 Follow-up - Four Puzzle Quality Batch
+- Added pastry rose/twist and pantry crock/scoop silhouettes to keep the late Season 0 catalog varied.
+- Season 0 catalog now has 18 free puzzles remaining to the 333 launch target; continue balancing content growth with first-session polish.

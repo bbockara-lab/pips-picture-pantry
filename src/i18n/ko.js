@@ -1443,6 +1443,23 @@ export const ko = {
       title: "\uBCA0\uB9AC \uB77C\uBCA8 \uCCB4",
       imageName: "\uBCA0\uB9AC \uB77C\uBCA8 \uCCB4"
     }
+,
+    "bakery-window-apple-cinnamon-rose-126": {
+      title: "\uC560\uD50C \uC2DC\uB098\uBAAC \uB85C\uC988",
+      imageName: "\uC560\uD50C \uC2DC\uB098\uBAAC \uB85C\uC988"
+    },
+    "bakery-window-honey-sesame-twist-127": {
+      title: "\uAFC0 \uCC38\uAE68 \uD2B8\uC704\uC2A4\uD2B8",
+      imageName: "\uAFC0 \uCC38\uAE68 \uD2B8\uC704\uC2A4\uD2B8"
+    },
+    "village-pantry-blue-stripe-flour-crock-127": {
+      title: "\uD30C\uB780 \uC904\uBB34\uB2AC \uBC00\uAC00\uB8E8 \uD56D\uC544\uB9AC",
+      imageName: "\uD30C\uB780 \uC904\uBB34\uB2AC \uBC00\uAC00\uB8E8 \uD56D\uC544\uB9AC"
+    },
+    "village-pantry-copper-berry-scoop-128": {
+      title: "\uAD6C\uB9AC \uBCA0\uB9AC \uC2A4\uCFE0\uD504",
+      imageName: "\uAD6C\uB9AC \uBCA0\uB9AC \uC2A4\uCFE0\uD504"
+    }
 
   }
 };

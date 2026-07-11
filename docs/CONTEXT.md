@@ -2048,3 +2048,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added four readable free puzzles: Fig Honey Pinwheel, Cocoa Pear Tartlet, Checked Recipe Folder, and Berry Label Sifter.
 - Raised catalog guards to 311 free puzzles, 221 large-board free puzzles, 105 Bakery Window 12x12 boards, 112 Village Pantry 10x10 boards, and 173 readable large-board briefs.
 - Version bumped to v0.1.256; local verification continues to mirror the GitHub verify workflow before push.
+
+### v0.1.257 - Four Puzzle Quality Batch
+- Added four readable free puzzles: Apple Cinnamon Rose, Honey Sesame Twist, Blue Stripe Flour Crock, and Copper Berry Scoop.
+- Raised catalog guards to 315 free puzzles, 225 large-board free puzzles, 107 Bakery Window 12x12 boards, 114 Village Pantry 10x10 boards, and 177 readable large-board briefs.
+- Version bumped to v0.1.257; local verification continues to mirror the GitHub verify workflow before push.

@@ -7975,6 +7975,135 @@ export const puzzles = [
           "1110000111"
       ]
   }
+,
+  {
+      "id": "bakery-window-apple-cinnamon-rose-126",
+      "title": "Apple Cinnamon Rose",
+      "titleKey": "puzzles.bakery-window-apple-cinnamon-rose-126",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "round pastry rose with curled apple petals, cinnamon center, and baked scallop base",
+          "colorMood": "red apple peel, cinnamon brown spiral, golden pastry edge",
+          "tags": [
+              "apple rose",
+              "cinnamon center",
+              "pastry petals"
+          ]
+      },
+      "solution": [
+          "001111111100",
+          "011111111110",
+          "111101101111",
+          "111011011111",
+          "110111111011",
+          "111111111111",
+          "111011101111",
+          "111101111111",
+          "011111011110",
+          "001111111100",
+          "011100001110",
+          "111000000111"
+      ]
+  },
+  {
+      "id": "bakery-window-honey-sesame-twist-127",
+      "title": "Honey Sesame Twist",
+      "titleKey": "puzzles.bakery-window-honey-sesame-twist-127",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "braided pastry twist with honey glaze bands, sesame speckles, and tapered ends",
+          "colorMood": "amber honey glaze, pale sesame dots, toasted braid shadows",
+          "tags": [
+              "sesame twist",
+              "honey glaze",
+              "braided pastry"
+          ]
+      },
+      "solution": [
+          "000111111000",
+          "001111111100",
+          "011110111110",
+          "111101111111",
+          "111111011111",
+          "110111111011",
+          "111111101111",
+          "111101111111",
+          "011111111110",
+          "001111111100",
+          "011000001110",
+          "110000000011"
+      ]
+  },
+  {
+      "id": "village-pantry-blue-stripe-flour-crock-127",
+      "title": "Blue Stripe Flour Crock",
+      "titleKey": "puzzles.village-pantry-blue-stripe-flour-crock-127",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "stout flour crock with blue side stripes, wide lid, and soft ceramic feet",
+          "colorMood": "cream ceramic crock, blue pantry stripes, flour-dust highlights",
+          "tags": [
+              "flour crock",
+              "blue stripes",
+              "ceramic lid"
+          ]
+      },
+      "solution": [
+          "0011111100",
+          "0111111110",
+          "1111111111",
+          "1001111001",
+          "1111111111",
+          "1100110011",
+          "1111111111",
+          "0111111110",
+          "0110000110",
+          "1110000111"
+      ]
+  },
+  {
+      "id": "village-pantry-copper-berry-scoop-128",
+      "title": "Copper Berry Scoop",
+      "titleKey": "puzzles.village-pantry-copper-berry-scoop-128",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "small copper scoop with rounded bowl, berry label mark, and short handle base",
+          "colorMood": "warm copper scoop, berry red mark, cream handle shine",
+          "tags": [
+              "copper scoop",
+              "berry mark",
+              "short handle"
+          ]
+      },
+      "solution": [
+          "0001111000",
+          "0011111100",
+          "0111111110",
+          "1111111111",
+          "1110111011",
+          "1111111111",
+          "0111111110",
+          "0011111100",
+          "0110000110",
+          "1100000011"
+      ]
+  }
 
 ];
 

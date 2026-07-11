@@ -1445,6 +1445,23 @@ export const en = {
       title: "Berry Label Sifter",
       imageName: "Berry Label Sifter"
     }
+,
+    "bakery-window-apple-cinnamon-rose-126": {
+      title: "Apple Cinnamon Rose",
+      imageName: "Apple Cinnamon Rose"
+    },
+    "bakery-window-honey-sesame-twist-127": {
+      title: "Honey Sesame Twist",
+      imageName: "Honey Sesame Twist"
+    },
+    "village-pantry-blue-stripe-flour-crock-127": {
+      title: "Blue Stripe Flour Crock",
+      imageName: "Blue Stripe Flour Crock"
+    },
+    "village-pantry-copper-berry-scoop-128": {
+      title: "Copper Berry Scoop",
+      imageName: "Copper Berry Scoop"
+    }
 
   }
 };
