@@ -1461,6 +1461,22 @@ export const en = {
     "village-pantry-copper-berry-scoop-128": {
       title: "Copper Berry Scoop",
       imageName: "Copper Berry Scoop"
+    },
+    "bakery-window-plum-cream-danish-128": {
+      title: "Plum Cream Danish",
+      imageName: "Plum Cream Danish"
+    },
+    "bakery-window-ginger-caramel-knot-129": {
+      title: "Ginger Caramel Knot",
+      imageName: "Ginger Caramel Knot"
+    },
+    "village-pantry-mint-label-tea-tin-129": {
+      title: "Mint Label Tea Tin",
+      imageName: "Mint Label Tea Tin"
+    },
+    "village-pantry-stitched-linen-apron-130": {
+      title: "Stitched Linen Apron",
+      imageName: "Stitched Linen Apron"
     }
 
   }

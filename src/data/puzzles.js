@@ -8103,7 +8103,136 @@ export const puzzles = [
           "0110000110",
           "1100000011"
       ]
+  },
+  {
+      "id": "bakery-window-plum-cream-danish-128",
+      "title": "Plum Cream Danish",
+      "titleKey": "puzzles.bakery-window-plum-cream-danish-128",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "oval danish with plum halves, cream pillow center, and folded pastry corners",
+          "colorMood": "purple plum gloss, vanilla cream center, honey-baked pastry folds",
+          "tags": [
+              "plum danish",
+              "cream center",
+              "folded corners"
+          ]
+      },
+      "solution": [
+          "001111111100",
+          "011111111110",
+          "111001111111",
+          "111111001111",
+          "110111111011",
+          "111111111111",
+          "111110011111",
+          "111001111111",
+          "111111001111",
+          "011111111110",
+          "001111111100",
+          "011100001110"
+      ]
+  },
+  {
+      "id": "bakery-window-ginger-caramel-knot-129",
+      "title": "Ginger Caramel Knot",
+      "titleKey": "puzzles.bakery-window-ginger-caramel-knot-129",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "twisted bakery knot with caramel pocket, ginger crystal dots, and soft looped arms",
+          "colorMood": "caramel amber pocket, ginger sugar sparkle, toasted knot ridges",
+          "tags": [
+              "caramel knot",
+              "ginger crystals",
+              "twisted pastry"
+          ]
+      },
+      "solution": [
+          "000111111000",
+          "001111111100",
+          "011111011110",
+          "111110111111",
+          "111011111111",
+          "110111111011",
+          "111111011111",
+          "111110111111",
+          "011111111110",
+          "001111111100",
+          "011000001110",
+          "110000000011"
+      ]
+  },
+  {
+      "id": "village-pantry-mint-label-tea-tin-129",
+      "title": "Mint Label Tea Tin",
+      "titleKey": "puzzles.village-pantry-mint-label-tea-tin-129",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "squat tea tin with mint leaf label, lid rim, and two small bottom feet",
+          "colorMood": "cream tea tin, mint green label, soft metal highlights",
+          "tags": [
+              "tea tin",
+              "mint label",
+              "lid rim"
+          ]
+      },
+      "solution": [
+          "0011111100",
+          "0111111110",
+          "1111111111",
+          "1110011111",
+          "1101111011",
+          "1111111111",
+          "1110011111",
+          "0111111110",
+          "0110000110",
+          "1110000111"
+      ]
+  },
+  {
+      "id": "village-pantry-stitched-linen-apron-130",
+      "title": "Stitched Linen Apron",
+      "titleKey": "puzzles.village-pantry-stitched-linen-apron-130",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "folded linen apron with neck loop, stitched pocket, and soft hanging ties",
+          "colorMood": "warm linen cloth, sage pocket stitch, pale thread highlights",
+          "tags": [
+              "linen apron",
+              "stitched pocket",
+              "hanging ties"
+          ]
+      },
+      "solution": [
+          "0011111100",
+          "0110000110",
+          "1111111111",
+          "1101111011",
+          "1111111111",
+          "1110011111",
+          "1111111111",
+          "0111111110",
+          "1011111101",
+          "1100000011"
+      ]
   }
+
 
 ];
 
