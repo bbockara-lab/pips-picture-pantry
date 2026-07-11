@@ -149,6 +149,7 @@ describe("i18n", () => {
       "controls.hintConfirmAction",
       "controls.hintRemaining",
       "controls.hintIntro",
+      "controls.hintIntroMulti",
       "controls.timeAttackHintIntro",
       "controls.timeAttackHintNeedMore",
       "controls.hintEmpty"
@@ -162,6 +163,7 @@ describe("i18n", () => {
     });
     expect(t("guide.eyebrow")).toBe("Pip \uAC00\uC774\uB4DC");
     expect(t("controls.hintRemaining", { count: 1, limit: 3 })).toBe("\uD78C\uD2B8 1/3");
+    expect(t("controls.hintIntroMulti", { count: 5 })).toContain("5");
   });
 
   it("keeps Korean pantry story request copy out of English fallback", () => {

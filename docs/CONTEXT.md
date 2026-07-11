@@ -2138,3 +2138,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added a distinct drag-preview treatment so cells under an active sweep feel responsive before the stroke commits.
 - Kept the change visual-only: drag stroke grouping, undo behavior, puzzle rewards, and hint logic remain unchanged.
 - Bumped the visible app version to v0.1.273; verification focuses on CSS hygiene, mobile QA, full Vitest, asset/catalog QA, production build, and HTTP smoke.
+
+### v0.1.274 - Size-Aware Hint Reveal Foundation
+- Changed puzzle hints so one hint can reveal a small group of sure cells while still counting as one hint use.
+- Normal large boards now scale hint help by size: 10x10 reveals up to 3 cells, 12x12 up to 5, 15x15 up to 6, and 18x18 up to 8.
+- Time Attack keeps the existing one-cell paid hint behavior for now so the current spoon economy and record fairness stay stable.

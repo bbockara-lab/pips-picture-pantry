@@ -1206,3 +1206,8 @@ Immediate implementation decisions:
 ### v0.1.273 - Drag Stroke Preview Polish
 - Polished the drag/sweep interaction by giving in-progress cells a clearer preview style before pointer release commits the stroke.
 - This closes Review 42 follow-up without changing the drag state model.
+
+### v0.1.274 - Size-Aware Hint Reveal Foundation
+- Implemented grouped hint reveals as a foundation for future normal-puzzle paid hints.
+- Preserved Time Attack hint balance at one cell per paid hint until separate economy tuning is ready.
+- Added regression coverage for multi-cell hint undo behavior and readable i18n copy.

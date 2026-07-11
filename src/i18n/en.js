@@ -253,6 +253,7 @@ export const en = {
     hintConfirmAction: "Use {cost}",
     hintRemaining: "Hints {count}/{limit}",
     hintIntro: "A hint solves one sure square on bigger boards. Undo stays free.",
+    hintIntroMulti: "On this larger board, one hint solves up to {count} sure squares. Undo stays free.",
     timeAttackHintIntro: "Time Attack hints spend spoons now: {cost} spoons for the next hint. Undo will not refund spent spoons. Balance: {balance}.",
     timeAttackHintNeedMore: "The next Time Attack hint costs {cost} spoons. Balance: {balance}.",
     hintEmpty: "No hints left on this puzzle. Keep solving or undo freely."

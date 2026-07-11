@@ -42,28 +42,36 @@ export function toggleCursorCell(state, mode = state.mode) {
   return toggleCell(state, cursor.row, cursor.column, mode);
 }
 
-export function useHint(state, solutionGrid) {
+export function useHint(state, solutionGrid, options = {}) {
   const solution = normalizeSolution(solutionGrid);
-  const target = findHintTarget(state, solution);
-  if (!target) {
+  const revealCount = Math.max(1, Math.floor(Number(options.revealCount || 1)));
+  const targets = findHintTargets(state, solution, revealCount);
+  if (!targets.length) {
     return state;
   }
 
   const cells = cloneCells(state.cells);
-  cells[target.row][target.column] = target.next;
+  targets.forEach((target) => {
+    cells[target.row][target.column] = target.next;
+  });
+  const cursor = targets[targets.length - 1];
 
   return {
     ...state,
+    cursor: { row: cursor.row, column: cursor.column },
     cells,
     hintsUsed: Math.max(0, Number(state.hintsUsed || 0)) + 1,
     history: [
       ...state.history,
       {
-        row: target.row,
-        column: target.column,
-        previous: target.previous,
-        next: target.next,
-        hint: true
+        cells: targets.map((target) => ({
+          row: target.row,
+          column: target.column,
+          previous: target.previous,
+          next: target.next
+        })),
+        hint: true,
+        revealCount: targets.length
       }
     ],
     updatedAt: new Date().toISOString()
@@ -197,12 +205,17 @@ export function restoreState(payload) {
   };
 }
 
-function findHintTarget(state, solution) {
+function findHintTargets(state, solution, revealCount = 1) {
+  const targets = [];
+
   for (let row = 0; row < solution.length; row += 1) {
     for (let column = 0; column < solution[row].length; column += 1) {
       const current = state.cells[row]?.[column];
       if (solution[row][column] && current !== CELL.filled) {
-        return { row, column, previous: current || CELL.empty, next: CELL.filled };
+        targets.push({ row, column, previous: current || CELL.empty, next: CELL.filled });
+        if (targets.length >= revealCount) {
+          return targets;
+        }
       }
     }
   }
@@ -211,12 +224,15 @@ function findHintTarget(state, solution) {
     for (let column = 0; column < solution[row].length; column += 1) {
       const current = state.cells[row]?.[column];
       if (!solution[row][column] && current === CELL.empty) {
-        return { row, column, previous: current, next: CELL.marked };
+        targets.push({ row, column, previous: current, next: CELL.marked });
+        if (targets.length >= revealCount) {
+          return targets;
+        }
       }
     }
   }
 
-  return null;
+  return targets;
 }
 
 function cloneCells(cells) {

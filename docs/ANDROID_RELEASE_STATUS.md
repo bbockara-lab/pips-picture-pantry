@@ -1397,3 +1397,8 @@ Last updated: 2026-06-28
 - Visible app version: v0.1.273.
 - Android bundle generation remains paused during the local rework; the next handoff should include the clearer drag-preview styling for sweep input.
 - Planned verification: local web QA and mobile visual QA before Android packaging resumes.
+
+## v0.1.274 - Size-Aware Hint Reveal Foundation
+- Normal puzzle hints can now reveal multiple sure cells on larger boards while consuming one hint use.
+- Time Attack paid hints remain one-cell hints for launch balance.
+- Verification passed: targeted puzzle/i18n tests, full Vitest 70 tests, qa:hygiene, qa:catalog, qa:assets, production build, and mobile QA 360/390/430.

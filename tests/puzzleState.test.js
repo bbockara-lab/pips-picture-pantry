@@ -104,6 +104,27 @@ describe("puzzle state", () => {
     expect(state.hintsUsed).toBe(0);
   });
 
+  it("reveals multiple sure cells with one size-aware hint history entry", () => {
+    const hintPuzzle = { id: "large-hint-puzzle", size: 3 };
+    const solution = [
+      [true, true, true],
+      [false, false, false],
+      [false, false, false]
+    ];
+    let state = createPuzzleState(hintPuzzle);
+
+    state = useHint(state, solution, { revealCount: 3 });
+    expect(state.cells[0]).toEqual(["filled", "filled", "filled"]);
+    expect(state.hintsUsed).toBe(1);
+    expect(state.history).toHaveLength(1);
+    expect(state.history[0].hint).toBe(true);
+    expect(state.history[0].cells).toHaveLength(3);
+
+    state = undoLastMove(state);
+    expect(state.cells[0]).toEqual(["empty", "empty", "empty"]);
+    expect(state.hintsUsed).toBe(0);
+  });
+
   it("serializes and restores state", () => {
     let state = createPuzzleState(puzzle);
     state = toggleCell(state, 2, 2, "fill");

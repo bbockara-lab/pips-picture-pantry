@@ -11,7 +11,7 @@ import {
 import { getPantrySpoons, loadPuzzleState, recordReplayReward, savePuzzleState, spendPantrySpoons } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { playComplete, playCursorAction, playCursorMove, playTap } from "./audio.js";
-import { getHintLimit, renderHintPanel, renderHowToPlayCard, renderMarkHint } from "./puzzleAssistView.js";
+import { getHintLimit, getHintRevealCount, renderHintPanel, renderHowToPlayCard, renderMarkHint } from "./puzzleAssistView.js";
 import { moveSelectedCell, renderCursorControls, shouldShowCursorControls, toggleSelectedCell } from "./puzzleCursorControls.js";
 import { renderBoard } from "./boardView.js";
 import { renderCompletionBanner } from "./pipReaction.js";
@@ -143,8 +143,10 @@ export function renderPuzzleView(puzzle, options = {}) {
     const hintLimit = isTimeAttack ? Math.min(baseHintLimit, 3) : baseHintLimit;
     if (!state.completed && hintLimit > 0) {
       const timeAttackHintCost = isTimeAttack ? options.getTimeAttackHintCost?.(state.hintsUsed || 0) || 0 : 0;
+      const revealCount = getHintRevealCount(puzzle, { isTimeAttack });
       section.appendChild(renderHintPanel(state, puzzle, update, hintLimit, {
         cost: timeAttackHintCost,
+        revealCount,
         balance: isTimeAttack ? getPantrySpoons() : 0,
         onSpendHint: isTimeAttack ? (cost) => spendPantrySpoons(cost, "time-attack-hint").allowed : null
       }));

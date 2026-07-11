@@ -52,6 +52,27 @@ export function getHintLimit(puzzle) {
   return 0;
 }
 
+export function getHintRevealCount(puzzle, options = {}) {
+  if (options.isTimeAttack) {
+    return 1;
+  }
+
+  const size = Number(puzzle.size || 0);
+  if (size >= 18) {
+    return 8;
+  }
+  if (size >= 15) {
+    return 6;
+  }
+  if (size >= 12) {
+    return 5;
+  }
+  if (size >= 10) {
+    return 3;
+  }
+  return 1;
+}
+
 export function renderHintPanel(state, puzzle, update, hintLimit = getHintLimit(puzzle), options = {}) {
   const used = Math.max(0, Number(state.hintsUsed || 0));
   const remaining = Math.max(0, hintLimit - used);
@@ -69,7 +90,8 @@ export function renderHintPanel(state, puzzle, update, hintLimit = getHintLimit(
   body.className = "hint-panel__body";
   const hintCost = Math.max(0, Number(options.cost || 0));
   const balance = Math.max(0, Number(options.balance || 0));
-  body.textContent = getHintBodyText({ remaining, hintCost, balance });
+  const revealCount = Math.max(1, Number(options.revealCount || 1));
+  body.textContent = getHintBodyText({ remaining, hintCost, balance, revealCount });
 
   copy.append(title, body);
 
@@ -86,7 +108,7 @@ export function renderHintPanel(state, puzzle, update, hintLimit = getHintLimit(
       renderHintConfirm(panel, { state, puzzle, update, hintCost, options });
       return;
     }
-    update(useHint(state, puzzle.solution));
+    update(useHint(state, puzzle.solution, { revealCount }));
   });
 
   panel.append(copy, button);
@@ -94,6 +116,7 @@ export function renderHintPanel(state, puzzle, update, hintLimit = getHintLimit(
 }
 
 function renderHintConfirm(panel, { state, puzzle, update, hintCost, options }) {
+  const revealCount = Math.max(1, Number(options.revealCount || 1));
   panel.querySelector(".hint-panel__confirm")?.remove();
 
   const confirm = document.createElement("div");
@@ -127,7 +150,7 @@ function renderHintConfirm(panel, { state, puzzle, update, hintCost, options }) 
       confirm.remove();
       return;
     }
-    update(useHint(state, puzzle.solution));
+    update(useHint(state, puzzle.solution, { revealCount }));
   });
 
   actions.append(cancel, spend);
@@ -135,12 +158,12 @@ function renderHintConfirm(panel, { state, puzzle, update, hintCost, options }) 
   panel.append(confirm);
 }
 
-function getHintBodyText({ remaining, hintCost, balance }) {
+function getHintBodyText({ remaining, hintCost, balance, revealCount }) {
   if (remaining <= 0) {
     return t("controls.hintEmpty");
   }
   if (hintCost <= 0) {
-    return t("controls.hintIntro");
+    return revealCount > 1 ? t("controls.hintIntroMulti", { count: revealCount }) : t("controls.hintIntro");
   }
   if (balance < hintCost) {
     return t("controls.timeAttackHintNeedMore", { cost: hintCost, balance });
