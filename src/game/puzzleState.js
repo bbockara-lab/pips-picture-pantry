@@ -88,6 +88,54 @@ export function toggleCell(state, row, column, mode = state.mode) {
   };
 }
 
+export function paintCells(state, targets, nextValue) {
+  if (!Object.values(CELL).includes(nextValue) || !Array.isArray(targets)) {
+    return state;
+  }
+
+  const cells = cloneCells(state.cells);
+  const seen = new Set();
+  const moves = [];
+  let cursor = getCursor(state);
+
+  targets.forEach((target) => {
+    const row = Number(target?.row);
+    const column = Number(target?.column);
+    const key = `${row}:${column}`;
+    const current = cells[row]?.[column];
+    if (!current || seen.has(key)) {
+      return;
+    }
+    seen.add(key);
+    cursor = { row, column };
+    if (current === nextValue) {
+      return;
+    }
+    cells[row][column] = nextValue;
+    moves.push({ row, column, previous: current, next: nextValue });
+  });
+
+  if (!moves.length) {
+    return { ...state, cursor };
+  }
+
+  return {
+    ...state,
+    cursor,
+    cells,
+    history: [...state.history, { cells: moves, drag: true }],
+    updatedAt: new Date().toISOString()
+  };
+}
+
+export function getNextCellValue(current, mode) {
+  if (mode === "mark") {
+    return current === CELL.marked ? CELL.empty : CELL.marked;
+  }
+
+  return current === CELL.filled ? CELL.empty : CELL.filled;
+}
+
 export function undoLastMove(state) {
   const lastMove = state.history[state.history.length - 1];
   if (!lastMove) {
@@ -95,7 +143,15 @@ export function undoLastMove(state) {
   }
 
   const cells = cloneCells(state.cells);
-  cells[lastMove.row][lastMove.column] = lastMove.previous;
+  if (Array.isArray(lastMove.cells)) {
+    lastMove.cells.forEach((move) => {
+      if (cells[move.row]?.[move.column]) {
+        cells[move.row][move.column] = move.previous;
+      }
+    });
+  } else {
+    cells[lastMove.row][lastMove.column] = lastMove.previous;
+  }
 
   return {
     ...state,
@@ -161,14 +217,6 @@ function findHintTarget(state, solution) {
   }
 
   return null;
-}
-
-function getNextCellValue(current, mode) {
-  if (mode === "mark") {
-    return current === CELL.marked ? CELL.empty : CELL.marked;
-  }
-
-  return current === CELL.filled ? CELL.empty : CELL.filled;
 }
 
 function cloneCells(cells) {

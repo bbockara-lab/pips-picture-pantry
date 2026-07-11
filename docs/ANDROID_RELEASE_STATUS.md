@@ -1387,3 +1387,8 @@ Last updated: 2026-06-28
 - Visible app version: v0.1.271.
 - Android bundle generation remains paused during the local rework; the next handoff should include solution-aware completed-line glow and soft blank/X board guidance.
 - Planned verification: board syntax, full local web QA, and mobile visual QA before Android packaging resumes.
+
+## Verification Update - 2026-07-11 v0.1.272 Drag Stroke Cell Painting
+- Visible app version: v0.1.272.
+- Android bundle generation remains paused during the local rework; the next handoff should include drag/sweep cell painting for larger-board comfort.
+- Planned verification: puzzle state stroke tests, full local web QA, and mobile visual QA before Android packaging resumes.

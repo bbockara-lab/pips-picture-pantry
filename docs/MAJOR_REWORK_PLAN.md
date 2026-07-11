@@ -1198,3 +1198,7 @@ Immediate implementation decisions:
 ### v0.1.271 - Completed Line Guidance Foundation
 - Added the first implementation slice for friendly puzzle guidance: row/column completion is now checked against the actual solution before the UI shows completed-line glow or soft blank/X suggestions.
 - This starts the larger interaction UX lane without changing rewards, hint economy, or drag behavior yet.
+
+### v0.1.272 - Drag Stroke Cell Painting
+- Implemented the first planned drag/sweep interaction pass for the focused puzzle board.
+- The stroke commits once on pointer release and stores one grouped history item, preserving cozy undo behavior while making larger boards less tap-heavy.

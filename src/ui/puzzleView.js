@@ -2,6 +2,7 @@ import { countMistakes, isSolved } from "../game/nonogram.js";
 import { createReplayCleanStatus, isReplayClean, updateReplayCleanStatus } from "../game/replayChallenge.js";
 import {
   createPuzzleState,
+  paintCells,
   setCursor,
   setMode,
   toggleCell,
@@ -124,9 +125,13 @@ export function renderPuzzleView(puzzle, options = {}) {
     }
 
     const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode);
-    section.appendChild(renderBoard(puzzle, state, (row, column) => {
+    section.appendChild(renderBoard(puzzle, state, (row, column, action = {}) => {
       playTap();
       const cursorState = setCursor(state, row, column, puzzle.size);
+      if (Array.isArray(action.paintCells) && action.paintValue) {
+        update(paintCells(cursorState, action.paintCells, action.paintValue));
+        return;
+      }
       update(toggleCell(cursorState, row, column));
     }, {
       completed: state.completed,

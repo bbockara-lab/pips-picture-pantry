@@ -2128,3 +2128,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added correctness-based row/column completion guidance to the puzzle board so satisfied lines can glow gently and show soft blank/X suggestions across the whole completed line.
 - Replaced the previous cursor-only clue-count heuristic with solution-aware line checks, preventing wrong filled cells from being treated as complete just because the clue count matches.
 - Bumped the visible app version to v0.1.271; verification focuses on board syntax, full Vitest, hygiene/assets/catalog QA, production build, HTTP smoke, and mobile visual QA.
+
+### v0.1.272 - Drag Stroke Cell Painting
+- Added the first drag/sweep input slice for puzzle boards: players can press and sweep across consecutive cells, then commit the stroke as one state update.
+- Drag strokes use one history entry, so undo reverses the whole sweep instead of forcing the player to undo every cell individually.
+- Bumped the visible app version to v0.1.272; verification focuses on puzzle state stroke tests, board syntax, mobile QA, full Vitest, hygiene/assets/catalog QA, production build, and HTTP smoke.

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   createPuzzleState,
   moveCursor,
+  paintCells,
   restoreState,
   serializeState,
   setMode,
@@ -44,6 +45,22 @@ describe("puzzle state", () => {
     state = undoLastMove(state);
 
     expect(state.cells[1][1]).toBe("empty");
+    expect(state.history).toHaveLength(0);
+  });
+  it("paints a dragged stroke and undoes it as one move", () => {
+    let state = createPuzzleState(puzzle);
+    state = paintCells(state, [
+      { row: 0, column: 0 },
+      { row: 0, column: 1 },
+      { row: 0, column: 2 }
+    ], "filled");
+
+    expect(state.cells[0]).toEqual(["filled", "filled", "filled"]);
+    expect(state.history).toHaveLength(1);
+    expect(state.history[0].cells).toHaveLength(3);
+
+    state = undoLastMove(state);
+    expect(state.cells[0]).toEqual(["empty", "empty", "empty"]);
     expect(state.history).toHaveLength(0);
   });
 
