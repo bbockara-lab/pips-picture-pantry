@@ -1,5 +1,6 @@
 import { getApprovedPantryDecorations, getDecorationById, pantrySlots } from "../data/decorations.js";
 import { ECONOMY, getPuzzleReward } from "../data/economyConfig.js";
+import { puzzlePacks } from "../data/packs.js";
 import { getDecorationArtUrl } from "../data/decorationArt.js";
 import {
   buyDecoration,
@@ -19,6 +20,7 @@ const rarityFilters = ["all", "starter", "common", "cozy", "rare"];
 const availabilityFilters = ["all", "canBuy", "owned"];
 const sortOptions = ["featured", "priceLow", "priceHigh", "rarity"];
 const rarityRank = { starter: 0, common: 1, cozy: 2, rare: 3, premium: 4 };
+const roomStepTargets = [1, 3, 6, 10];
 const defaultShopCardLimit = 6;
 const pantryViewState = {
   selectedSlotId: "all",
@@ -443,13 +445,61 @@ function renderEarningPlan(selectedSlotId, approvedDecorations, ownedIds, spoons
   return plan;
 }
 
-function renderCollectionProgress(approvedDecorations, ownedIds, equippedDecorations) {
+
+function getNextPantryProgressStage(completedRequestCount) {
+  return puzzlePacks
+    .filter((pack) => pack.access !== "bonus-pack" && Number(pack.pantryRoomStepRequired || 0) > completedRequestCount)
+    .sort((left, right) => Number(left.pantryRoomStepRequired || 0) - Number(right.pantryRoomStepRequired || 0) || Number(left.unlockCost || 0) - Number(right.unlockCost || 0))[0] || null;
+}
+
+function renderPantryProgressMission(completedRequestCount, spoons) {
+  const mission = document.createElement("div");
+  mission.className = "pantry-progress-mission";
+
+  const nextStage = getNextPantryProgressStage(completedRequestCount);
+  const roomTarget = roomStepTargets.find((target) => target > completedRequestCount) || completedRequestCount;
+  const nextTarget = nextStage ? Number(nextStage.pantryRoomStepRequired || roomTarget) : roomTarget;
+  const previousTarget = [...roomStepTargets].reverse().find((target) => target <= completedRequestCount) || 0;
+  const remainingRequests = Math.max(0, nextTarget - completedRequestCount);
+  const span = Math.max(1, nextTarget - previousTarget);
+  const progress = nextTarget === completedRequestCount ? 100 : Math.round(((completedRequestCount - previousTarget) / span) * 100);
+  mission.style.setProperty("--pantry-room-progress", Math.max(0, Math.min(100, progress)) + "%");
+  const title = nextStage
+    ? t("pantry.progressMissionTitle", { count: completedRequestCount, target: nextTarget })
+    : t("pantry.progressMissionCompleteTitle");
+  const body = nextStage
+    ? t("pantry.progressMissionBody", { remaining: remainingRequests, stage: t(nextStage.titleKey) })
+    : t("pantry.progressMissionCompleteBody", { count: completedRequestCount });
+
+  mission.innerHTML = ""
+    + '<p class="section-label">' + t("pantry.progressMissionEyebrow") + "</p>"
+    + "<strong>" + title + "</strong>"
+    + "<p>" + body + "</p>"
+    + '<div class="pantry-progress-mission__meter" aria-hidden="true"><span></span></div>';
+
+  if (nextStage) {
+    const unlockCost = Math.max(0, Number(nextStage.unlockCost || 0));
+    const saved = Math.min(unlockCost, Math.max(0, Number(spoons || 0)));
+    const needed = Math.max(0, unlockCost - saved);
+    const facts = document.createElement("div");
+    facts.className = "pantry-progress-mission__facts";
+    facts.innerHTML = ""
+      + "<span>" + t("pantry.progressMissionRequests", { count: completedRequestCount, target: Number(nextStage.pantryRoomStepRequired || nextTarget) }) + "</span>"
+      + "<span>" + t("pantry.progressMissionSpoons", { saved, cost: unlockCost, needed }) + "</span>";
+    mission.appendChild(facts);
+  }
+
+  return mission;
+}
+
+function renderCollectionProgress(approvedDecorations, ownedIds, equippedDecorations, completedStoryGoalIds, spoons) {
   const ownedSet = new Set(ownedIds);
   const progress = document.createElement("section");
   progress.className = "pantry-progress-board";
 
   const equippedCount = pantrySlots.filter((slot) => equippedDecorations[slot.id]).length;
   const ownedCount = approvedDecorations.filter((decoration) => ownedSet.has(decoration.id)).length;
+  const completedRequestCount = Array.isArray(completedStoryGoalIds) ? completedStoryGoalIds.length : 0;
   const header = document.createElement("div");
   header.className = "pantry-progress-board__header";
   header.innerHTML = ""
@@ -470,7 +520,9 @@ function renderCollectionProgress(approvedDecorations, ownedIds, equippedDecorat
     list.appendChild(row);
   });
 
-  progress.append(header, list);
+  const mission = renderPantryProgressMission(completedRequestCount, spoons);
+
+  progress.append(header, mission, list);
   return progress;
 }
 
@@ -693,7 +745,7 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     advisorMount.replaceChildren(renderPlacementAdvisor(selectedSlotId, approvedDecorations, ownedIds));
     savingsGoalMount.replaceChildren(renderSavingsGoal(selectedSlotId, approvedDecorations, ownedIds, spoons, trackedGoalId));
     earningPlanMount.replaceChildren(renderEarningPlan(selectedSlotId, approvedDecorations, ownedIds, spoons, trackedGoalId, onPlayForSpoons));
-    progressMount.replaceChildren(renderCollectionProgress(approvedDecorations, ownedIds, equippedDecorations));
+    progressMount.replaceChildren(renderCollectionProgress(approvedDecorations, ownedIds, equippedDecorations, completedStoryGoalIds, spoons));
     displayPlanMount.replaceChildren(renderDisplayPlan(selectedSlotId, approvedDecorations, ownedIds, equippedDecorations, spoons));
 
     const visibleDecorations = approvedDecorations

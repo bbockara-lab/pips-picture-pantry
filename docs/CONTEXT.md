@@ -2098,3 +2098,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Upgraded the floating navigation trigger to show the current destination instead of a generic menu-only label, making the bottom control feel more like an in-game wayfinding sign.
 - Added short localized helper lines to each floating nav destination so Puzzle, Album, Pantry, Time, and Badges communicate their purpose before the user taps.
 - Bumped the visible app version to v0.1.266; verification focused on syntax, i18n, full Vitest, hygiene/assets/catalog QA, production build, and mobile visual QA.
+
+### v0.1.267 - Pantry Progress Mission Card
+- Added a Room Path mission block to the Pantry progress board so decoration requests, room steps, spoon savings, and the next puzzle stage are visible in one place.
+- Reused the existing Pantry room-step requirements from the stage pack data instead of introducing a new economy rule, keeping decoration pacing and stage unlock logic aligned.
+- Bumped the visible app version to v0.1.267; verification focused on pantry syntax, i18n, full Vitest, hygiene/assets/catalog QA, production build, HTTP smoke, and mobile visual QA.

@@ -1362,3 +1362,8 @@ Last updated: 2026-06-28
 - Visible app version: v0.1.266.
 - Android bundle generation remains paused during the local rework; next release build should include the clarified floating navigation trigger and localized destination hints.
 - Planned verification: full local web QA plus mobile visual QA before the next Android handoff.
+
+## Verification Update - 2026-07-11 v0.1.267 Pantry Progress Mission Card
+- Visible app version: v0.1.267.
+- Android bundle generation remains paused during the local rework; the next handoff should include the Pantry Room Path mission block that links decoration requests to stage unlock pacing.
+- Planned verification: local web QA plus mobile visual QA before Android packaging resumes.

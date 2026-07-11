@@ -1169,3 +1169,7 @@ Immediate implementation decisions:
 ### v0.1.266 - Floating Navigation Context Polish
 - Continued the post-catalog UX polish lane by giving the floating nav a current-view trigger label and destination helper copy.
 - Kept the change UI-only and art-compatible: no placeholder icon art was introduced, preserving the approved asset pipeline for future Sunny Spoon/Pip visual upgrades.
+
+### v0.1.267 - Pantry Progress Mission Card
+- Connected the Pantry progress board more directly to progression pacing by showing the next room-step request target and spoon requirement for the next puzzle stage.
+- This supports the launch direction that decoration is not merely optional collecting: it becomes a readable bridge between puzzle rewards, room completion, and future stage access.
