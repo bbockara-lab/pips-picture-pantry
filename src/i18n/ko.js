@@ -1475,6 +1475,22 @@ export const ko = {
     "village-pantry-stitched-linen-apron-130": {
       title: "\uC2A4\uD2F0\uCE58 \uB9B0\uB128 \uC55E\uCE58\uB9C8",
       imageName: "\uC2A4\uD2F0\uCE58 \uB9B0\uB128 \uC55E\uCE58\uB9C8"
+    },
+    "bakery-window-cranberry-custard-braid-130": {
+      title: "\uD06C\uB79C\uBCA0\uB9AC \uCEE4\uC2A4\uD130\uB4DC \uBE0C\uB808\uC774\uB4DC",
+      imageName: "\uD06C\uB79C\uBCA0\uB9AC \uCEE4\uC2A4\uD130\uB4DC \uBE0C\uB808\uC774\uB4DC"
+    },
+    "bakery-window-mocha-hazelnut-button-131": {
+      title: "\uBAA8\uCE74 \uD5E4\uC774\uC990\uB11B \uBC84\uD2BC",
+      imageName: "\uBAA8\uCE74 \uD5E4\uC774\uC990\uB11B \uBC84\uD2BC"
+    },
+    "village-pantry-sunflower-spice-tin-131": {
+      title: "\uD574\uBC14\uB77C\uAE30 \uC2A4\uD30C\uC774\uC2A4 \uD2F4",
+      imageName: "\uD574\uBC14\uB77C\uAE30 \uC2A4\uD30C\uC774\uC2A4 \uD2F4"
+    },
+    "village-pantry-gingham-bread-cloth-132": {
+      title: "\uAE45\uC5C4 \uBE75 \uCC9C",
+      imageName: "\uAE45\uC5C4 \uBE75 \uCC9C"
     }
 
   }

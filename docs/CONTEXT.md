@@ -2058,3 +2058,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added four readable free puzzles: Plum Cream Danish, Ginger Caramel Knot, Mint Label Tea Tin, and Stitched Linen Apron.
 - Raised catalog guards to 319 free puzzles, 229 large-board free puzzles, 109 Bakery Window 12x12 boards, 116 Village Pantry 10x10 boards, and 181 readable large-board briefs.
 - Version bumped to v0.1.258; local verification continues to mirror the GitHub verify workflow before push.
+
+### v0.1.259 - Four Puzzle Quality Batch
+- Added four readable free puzzles: Cranberry Custard Braid, Mocha Hazelnut Button, Sunflower Spice Tin, and Gingham Bread Cloth.
+- Raised catalog guards to 323 free puzzles, 233 large-board free puzzles, 111 Bakery Window 12x12 boards, 118 Village Pantry 10x10 boards, and 185 readable large-board briefs.
+- Version bumped to v0.1.259; local verification continues to mirror the GitHub verify workflow before push.

@@ -1132,3 +1132,7 @@ Immediate implementation decisions:
 ### v0.1.258 Follow-up - Four Puzzle Quality Batch
 - Added plum/ginger pastry silhouettes and mint/linen pantry silhouettes, keeping late Season 0 entries object-readable.
 - Season 0 catalog now has 14 free puzzles remaining to the 333 launch target; after the next few batches, shift harder toward first-session polish.
+
+### v0.1.259 Follow-up - Four Puzzle Quality Batch
+- Added cranberry/mocha bakery items and sunflower/gingham pantry items to round out the late Season 0 launch catalog.
+- Season 0 catalog now has 10 free puzzles remaining to the 333 launch target, so the next work should start reserving time for UI/art/game-feel polish.

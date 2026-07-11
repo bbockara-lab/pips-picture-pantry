@@ -1477,6 +1477,22 @@ export const en = {
     "village-pantry-stitched-linen-apron-130": {
       title: "Stitched Linen Apron",
       imageName: "Stitched Linen Apron"
+    },
+    "bakery-window-cranberry-custard-braid-130": {
+      title: "Cranberry Custard Braid",
+      imageName: "Cranberry Custard Braid"
+    },
+    "bakery-window-mocha-hazelnut-button-131": {
+      title: "Mocha Hazelnut Button",
+      imageName: "Mocha Hazelnut Button"
+    },
+    "village-pantry-sunflower-spice-tin-131": {
+      title: "Sunflower Spice Tin",
+      imageName: "Sunflower Spice Tin"
+    },
+    "village-pantry-gingham-bread-cloth-132": {
+      title: "Gingham Bread Cloth",
+      imageName: "Gingham Bread Cloth"
     }
 
   }

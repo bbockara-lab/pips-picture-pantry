@@ -8231,6 +8231,134 @@ export const puzzles = [
           "1011111101",
           "1100000011"
       ]
+  },
+  {
+      "id": "bakery-window-cranberry-custard-braid-130",
+      "title": "Cranberry Custard Braid",
+      "titleKey": "puzzles.bakery-window-cranberry-custard-braid-130",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "braided pastry bar with cranberry dots, custard ribbon, and tucked woven ends",
+          "colorMood": "cranberry red jewels, vanilla custard stripe, golden braid crust",
+          "tags": [
+              "cranberry braid",
+              "custard ribbon",
+              "woven pastry"
+          ]
+      },
+      "solution": [
+          "001111111100",
+          "011111111110",
+          "111011111111",
+          "111110111111",
+          "110111011011",
+          "111111111111",
+          "111011110111",
+          "111110111111",
+          "011111111110",
+          "001111111100",
+          "011000001110",
+          "110000000011"
+      ]
+  },
+  {
+      "id": "bakery-window-mocha-hazelnut-button-131",
+      "title": "Mocha Hazelnut Button",
+      "titleKey": "puzzles.bakery-window-mocha-hazelnut-button-131",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "round button cookie with mocha center, hazelnut nubs, and scalloped edge",
+          "colorMood": "mocha brown center, hazelnut tan dots, butter cookie rim",
+          "tags": [
+              "button cookie",
+              "mocha center",
+              "hazelnut nubs"
+          ]
+      },
+      "solution": [
+          "001111111100",
+          "011111111110",
+          "111101101111",
+          "111111111111",
+          "110111111011",
+          "111101101111",
+          "111111111111",
+          "111011011111",
+          "011111111110",
+          "001111111100",
+          "011100001110",
+          "111000000111"
+      ]
+  },
+  {
+      "id": "village-pantry-sunflower-spice-tin-131",
+      "title": "Sunflower Spice Tin",
+      "titleKey": "puzzles.village-pantry-sunflower-spice-tin-131",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "little spice tin with sunflower label, lid lip, and compact pantry base",
+          "colorMood": "yellow sunflower label, cream tin body, warm spice shadows",
+          "tags": [
+              "spice tin",
+              "sunflower label",
+              "lid lip"
+          ]
+      },
+      "solution": [
+          "0011111100",
+          "0111111110",
+          "1111111111",
+          "1110101111",
+          "1101111011",
+          "1110101111",
+          "1111111111",
+          "0111111110",
+          "0110000110",
+          "1110000111"
+      ]
+  },
+  {
+      "id": "village-pantry-gingham-bread-cloth-132",
+      "title": "Gingham Bread Cloth",
+      "titleKey": "puzzles.village-pantry-gingham-bread-cloth-132",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "folded bread cloth with gingham checks, soft corner drape, and stitched edge",
+          "colorMood": "cream cotton cloth, red gingham checks, toasted bread warmth",
+          "tags": [
+              "bread cloth",
+              "gingham checks",
+              "stitched edge"
+          ]
+      },
+      "solution": [
+          "1111111111",
+          "1001100110",
+          "1111111111",
+          "1100110011",
+          "1111111111",
+          "1001100110",
+          "1111111111",
+          "0111111110",
+          "0011111100",
+          "1100000011"
+      ]
   }
 
 
