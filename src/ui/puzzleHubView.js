@@ -76,12 +76,43 @@ function createSeasonProgressCard() {
     createSpoonSeasonStat(t("seasonProgress.spoonStat", { count: getPantrySpoons() }))
   );
 
+  const goal = createSeasonGoalCard({ nextLockedPack, remaining, progressionPacks });
+
   const teaser = document.createElement("div");
   teaser.className = "season-next-card";
   teaser.innerHTML = "<strong>" + t("seasonProgress.nextSeasonTitle") + "</strong><p>" + t("seasonProgress.nextSeasonBody") + "</p>";
 
-  card.append(header, meter, stats, teaser);
+  card.append(header, meter, stats, goal, teaser);
   return card;
+}
+
+function createSeasonGoalCard({ nextLockedPack, remaining, progressionPacks }) {
+  const goal = document.createElement("div");
+  goal.className = "season-progress-goal";
+
+  let title = "";
+  let body = "";
+  if (nextLockedPack) {
+    const packName = t(nextLockedPack.titleKey);
+    const roomRequirement = getPackPantryRoomRequirement(nextLockedPack);
+    const spoonGap = Math.max(0, Number(nextLockedPack.unlockCost || 0) - getPantrySpoons());
+    const ready = canUnlockPack(nextLockedPack);
+    title = ready
+      ? t("seasonProgress.goalReadyTitle", { pack: packName })
+      : t("seasonProgress.goalLockedTitle", { pack: packName });
+    body = ready
+      ? t("seasonProgress.goalReadyBody")
+      : getUnlockPlanText(nextLockedPack, roomRequirement, spoonGap);
+  } else if (remaining > 0) {
+    title = t("seasonProgress.goalUnlockedTitle");
+    body = t("seasonProgress.goalUnlockedBody", { count: remaining });
+  } else {
+    title = t("seasonProgress.goalCompleteTitle");
+    body = t("seasonProgress.goalCompleteBody", { count: progressionPacks.length });
+  }
+
+  goal.innerHTML = "<span>" + t("seasonProgress.goalEyebrow") + "</span><strong>" + title + "</strong><p>" + body + "</p>";
+  return goal;
 }
 
 function createSeasonStat(text) {

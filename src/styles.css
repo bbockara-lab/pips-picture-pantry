@@ -4917,3 +4917,39 @@ img {
     padding-block: 4px;
   }
 }
+
+
+/* v0.1.264 season next goal card */
+.season-progress-goal {
+  display: grid;
+  gap: 4px;
+  border: 2px solid rgba(68, 42, 47, 0.18);
+  border-radius: 16px;
+  padding: 12px 14px;
+  color: #432a2f;
+  background:
+    linear-gradient(135deg, rgba(255, 253, 242, 0.96), rgba(239, 223, 174, 0.78));
+  box-shadow:
+    0 5px 0 rgba(68, 42, 47, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.season-progress-goal span {
+  color: #8b5b3e;
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.season-progress-goal strong {
+  font-size: 1rem;
+  line-height: 1.15;
+}
+
+.season-progress-goal p {
+  margin: 0;
+  color: #5f4034;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.35;
+}

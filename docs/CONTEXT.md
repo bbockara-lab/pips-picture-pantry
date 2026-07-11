@@ -2083,3 +2083,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 ### v0.1.263 - Opening Promise Strip
 - Added a Season 0 launch note and three tactile promise chips to the brand intro: 333 pictures, Pantry goals, and Time Attack.
 - The first game screen now previews puzzle volume, decoration goals, and competitive play before the user enters the puzzle loop.
+
+
+### v0.1.264 - Season Next Goal Card
+- Added a Next Goal panel to the Season 0 Puzzle Hub card so the 333-picture catalog points players toward the next locked shelf, album completion, or next-season savings goal.
+- Reused the existing spoon/Pantry gate logic inside the hub instead of adding a separate economy rule, keeping stage pacing, room requests, and UI copy aligned.
