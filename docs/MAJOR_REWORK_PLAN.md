@@ -1202,3 +1202,7 @@ Immediate implementation decisions:
 ### v0.1.272 - Drag Stroke Cell Painting
 - Implemented the first planned drag/sweep interaction pass for the focused puzzle board.
 - The stroke commits once on pointer release and stores one grouped history item, preserving cozy undo behavior while making larger boards less tap-heavy.
+
+### v0.1.273 - Drag Stroke Preview Polish
+- Polished the drag/sweep interaction by giving in-progress cells a clearer preview style before pointer release commits the stroke.
+- This closes Review 42 follow-up without changing the drag state model.

@@ -2133,3 +2133,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added the first drag/sweep input slice for puzzle boards: players can press and sweep across consecutive cells, then commit the stroke as one state update.
 - Drag strokes use one history entry, so undo reverses the whole sweep instead of forcing the player to undo every cell individually.
 - Bumped the visible app version to v0.1.272; verification focuses on puzzle state stroke tests, board syntax, mobile QA, full Vitest, hygiene/assets/catalog QA, production build, and HTTP smoke.
+
+### v0.1.273 - Drag Stroke Preview Polish
+- Added a distinct drag-preview treatment so cells under an active sweep feel responsive before the stroke commits.
+- Kept the change visual-only: drag stroke grouping, undo behavior, puzzle rewards, and hint logic remain unchanged.
+- Bumped the visible app version to v0.1.273; verification focuses on CSS hygiene, mobile QA, full Vitest, asset/catalog QA, production build, and HTTP smoke.

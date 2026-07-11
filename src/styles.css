@@ -5152,3 +5152,29 @@ img {
     radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.68), transparent 30%),
     linear-gradient(135deg, rgba(188, 228, 204, 0.48), rgba(255, 248, 232, 0.92));
 }
+
+/* v0.1.273 drag stroke preview polish */
+.puzzle-cell.drag-preview {
+  transform: scale(0.96);
+  outline: 3px solid rgba(255, 255, 255, 0.78);
+  outline-offset: -5px;
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.62),
+    0 0 0 3px rgba(242, 201, 76, 0.28),
+    0 8px 18px rgba(89, 58, 43, 0.18);
+  filter: saturate(1.08) brightness(1.04);
+}
+
+.puzzle-cell.drag-preview.filled {
+  background:
+    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.58), transparent 30%),
+    linear-gradient(135deg, #ffe48d, #efa46d 56%, #c87955);
+}
+
+.puzzle-cell.drag-preview.marked {
+  border-style: dashed;
+  background:
+    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.7), transparent 30%),
+    linear-gradient(135deg, rgba(184, 226, 205, 0.82), rgba(255, 248, 232, 0.96));
+  color: rgba(63, 105, 90, 0.82);
+}
