@@ -1491,6 +1491,46 @@ export const ko = {
     "village-pantry-gingham-bread-cloth-132": {
       title: "\uAE45\uC5C4 \uBE75 \uCC9C",
       imageName: "\uAE45\uC5C4 \uBE75 \uCC9C"
+    },
+    "bakery-window-pear-vanilla-rosette-132": {
+      title: "\uBC30 \uBC14\uB2D0\uB77C \uB85C\uC81C\uD2B8",
+      imageName: "\uBC30 \uBC14\uB2D0\uB77C \uB85C\uC81C\uD2B8"
+    },
+    "bakery-window-blueberry-almond-square-133": {
+      title: "\uBE14\uB8E8\uBCA0\uB9AC \uC544\uBAAC\uB4DC \uC2A4\uD018\uC5B4",
+      imageName: "\uBE14\uB8E8\uBCA0\uB9AC \uC544\uBAAC\uB4DC \uC2A4\uD018\uC5B4"
+    },
+    "bakery-window-apricot-sugar-shell-134": {
+      title: "\uC0B4\uAD6C \uC124\uD0D5 \uC258",
+      imageName: "\uC0B4\uAD6C \uC124\uD0D5 \uC258"
+    },
+    "bakery-window-cocoa-cherry-ribbon-135": {
+      title: "\uCF54\uCF54\uC544 \uCCB4\uB9AC \uB9AC\uBCF8",
+      imageName: "\uCF54\uCF54\uC544 \uCCB4\uB9AC \uB9AC\uBCF8"
+    },
+    "bakery-window-lemon-thyme-crown-136": {
+      title: "\uB808\uBAAC \uD0C0\uC784 \uC655\uAD00",
+      imageName: "\uB808\uBAAC \uD0C0\uC784 \uC655\uAD00"
+    },
+    "village-pantry-patchwork-jam-ledger-133": {
+      title: "\uD328\uCE58\uC6CC\uD06C \uC7BC \uC7A5\uBD80",
+      imageName: "\uD328\uCE58\uC6CC\uD06C \uC7BC \uC7A5\uBD80"
+    },
+    "village-pantry-sage-butter-crock-134": {
+      title: "\uC138\uC774\uC9C0 \uBC84\uD130 \uD56D\uC544\uB9AC",
+      imageName: "\uC138\uC774\uC9C0 \uBC84\uD130 \uD56D\uC544\uB9AC"
+    },
+    "village-pantry-copper-honey-measure-135": {
+      title: "\uAD6C\uB9AC \uAFC0 \uACC4\uB7C9\uCEF5",
+      imageName: "\uAD6C\uB9AC \uAFC0 \uACC4\uB7C9\uCEF5"
+    },
+    "village-pantry-daisy-recipe-clipboard-136": {
+      title: "\uB370\uC774\uC9C0 \uB808\uC2DC\uD53C \uD074\uB9BD\uBCF4\uB4DC",
+      imageName: "\uB370\uC774\uC9C0 \uB808\uC2DC\uD53C \uD074\uB9BD\uBCF4\uB4DC"
+    },
+    "village-pantry-tiny-checkered-sieve-137": {
+      title: "\uC791\uC740 \uCCB4\uCEE4 \uCCB4",
+      imageName: "\uC791\uC740 \uCCB4\uCEE4 \uCCB4"
     }
 
   }

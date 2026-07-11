@@ -1136,3 +1136,7 @@ Immediate implementation decisions:
 ### v0.1.259 Follow-up - Four Puzzle Quality Batch
 - Added cranberry/mocha bakery items and sunflower/gingham pantry items to round out the late Season 0 launch catalog.
 - Season 0 catalog now has 10 free puzzles remaining to the 333 launch target, so the next work should start reserving time for UI/art/game-feel polish.
+
+### v0.1.260 Follow-up - Season 0 Launch Catalog Completion
+- Completed the practical Season 0 launch catalog target at 333 free puzzles.
+- Future content should become seasonal/update-driven rather than bulk pre-launch production; immediate development priority should shift to the first-session experience, art consistency, Pantry progression, Time Attack economy, and mobile polish.

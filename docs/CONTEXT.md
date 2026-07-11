@@ -2063,3 +2063,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added four readable free puzzles: Cranberry Custard Braid, Mocha Hazelnut Button, Sunflower Spice Tin, and Gingham Bread Cloth.
 - Raised catalog guards to 323 free puzzles, 233 large-board free puzzles, 111 Bakery Window 12x12 boards, 118 Village Pantry 10x10 boards, and 185 readable large-board briefs.
 - Version bumped to v0.1.259; local verification continues to mirror the GitHub verify workflow before push.
+
+### v0.1.260 - Season 0 Launch Catalog Completion Batch
+- Added ten readable free puzzles to close the Season 0 launch catalog target: Pear Vanilla Rosette, Blueberry Almond Square, Apricot Sugar Shell, Cocoa Cherry Ribbon, Lemon Thyme Crown, Patchwork Jam Ledger, Sage Butter Crock, Copper Honey Measure, Daisy Recipe Clipboard, and Tiny Checkered Sieve.
+- Raised catalog guards to 333 free puzzles, 243 large-board free puzzles, 116 Bakery Window 12x12 boards, 123 Village Pantry 10x10 boards, and 195 readable large-board briefs.
+- Season 0 now reaches the 333-puzzle launch target. Next major priority should shift from bulk puzzle count to first-session polish, art consistency, Pantry story/economy flow, Time Attack feel, completion effects, and mobile QA.

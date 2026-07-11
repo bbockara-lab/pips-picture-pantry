@@ -8359,8 +8359,327 @@ export const puzzles = [
           "0011111100",
           "1100000011"
       ]
+  },
+  {
+      "id": "bakery-window-pear-vanilla-rosette-132",
+      "title": "Pear Vanilla Rosette",
+      "titleKey": "puzzles.bakery-window-pear-vanilla-rosette-132",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "round pear rosette pastry with vanilla center, curled fruit petals, and scalloped crust edge",
+          "colorMood": "pale pear slices, vanilla cream glow, golden pastry rim",
+          "tags": [
+              "pear rosette",
+              "vanilla center",
+              "fruit petals"
+          ]
+      },
+      "solution": [
+          "001111111100",
+          "011111111110",
+          "111101111111",
+          "111011011111",
+          "110111111011",
+          "111111111111",
+          "111110111111",
+          "111011101111",
+          "011111111110",
+          "001111111100",
+          "011100001110",
+          "111000000111"
+      ]
+  },
+  {
+      "id": "bakery-window-blueberry-almond-square-133",
+      "title": "Blueberry Almond Square",
+      "titleKey": "puzzles.bakery-window-blueberry-almond-square-133",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "square bakery bar with blueberry dots, almond corner chips, and a thick crumb border",
+          "colorMood": "blueberry violet dots, almond tan chips, buttery square crust",
+          "tags": [
+              "blueberry square",
+              "almond chips",
+              "crumb border"
+          ]
+      },
+      "solution": [
+          "111111111111",
+          "100111111001",
+          "111111011111",
+          "111001111111",
+          "111111111111",
+          "110111101111",
+          "111111111111",
+          "111110011111",
+          "111111111111",
+          "100111111001",
+          "111111111111",
+          "111000000111"
+      ]
+  },
+  {
+      "id": "bakery-window-apricot-sugar-shell-134",
+      "title": "Apricot Sugar Shell",
+      "titleKey": "puzzles.bakery-window-apricot-sugar-shell-134",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "shell-shaped pastry with apricot pocket, sugar ridges, and a rounded fan base",
+          "colorMood": "apricot orange filling, white sugar ridges, toasted shell folds",
+          "tags": [
+              "apricot shell",
+              "sugar ridges",
+              "fan pastry"
+          ]
+      },
+      "solution": [
+          "000111111000",
+          "001111111100",
+          "011111111110",
+          "111011101111",
+          "111111111111",
+          "110111111011",
+          "111111111111",
+          "111101011111",
+          "011111111110",
+          "001111111100",
+          "011000001110",
+          "110000000011"
+      ]
+  },
+  {
+      "id": "bakery-window-cocoa-cherry-ribbon-135",
+      "title": "Cocoa Cherry Ribbon",
+      "titleKey": "puzzles.bakery-window-cocoa-cherry-ribbon-135",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "ribbon pastry with cocoa bands, cherry bead center, and folded bow tails",
+          "colorMood": "dark cocoa ribbon, cherry red bead, warm pastry highlights",
+          "tags": [
+              "cocoa ribbon",
+              "cherry bead",
+              "bow pastry"
+          ]
+      },
+      "solution": [
+          "001111111100",
+          "011111111110",
+          "111001111111",
+          "111111001111",
+          "110111111011",
+          "111111111111",
+          "111111001111",
+          "111001111111",
+          "011111111110",
+          "001111111100",
+          "011100001110",
+          "111000000111"
+      ]
+  },
+  {
+      "id": "bakery-window-lemon-thyme-crown-136",
+      "title": "Lemon Thyme Crown",
+      "titleKey": "puzzles.bakery-window-lemon-thyme-crown-136",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "small pastry crown with lemon curd jewels, thyme leaf points, and three cream peaks",
+          "colorMood": "lemon yellow jewels, thyme green flecks, cream pastry crown",
+          "tags": [
+              "lemon crown",
+              "thyme flecks",
+              "cream peaks"
+          ]
+      },
+      "solution": [
+          "001001001100",
+          "011111111110",
+          "111101111111",
+          "111111011111",
+          "110111111011",
+          "111111111111",
+          "111011110111",
+          "111111111111",
+          "011111111110",
+          "001111111100",
+          "011100001110",
+          "111000000111"
+      ]
+  },
+  {
+      "id": "village-pantry-patchwork-jam-ledger-133",
+      "title": "Patchwork Jam Ledger",
+      "titleKey": "puzzles.village-pantry-patchwork-jam-ledger-133",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "upright jam ledger with patchwork cover squares, tiny label tab, and rounded book base",
+          "colorMood": "berry patch squares, cream ledger paper, soft brown binding",
+          "tags": [
+              "jam ledger",
+              "patchwork cover",
+              "label tab"
+          ]
+      },
+      "solution": [
+          "1111111111",
+          "1001101001",
+          "1111111111",
+          "1100110111",
+          "1111111111",
+          "1011001101",
+          "1111111111",
+          "0111111110",
+          "0011111100",
+          "1110000111"
+      ]
+  },
+  {
+      "id": "village-pantry-sage-butter-crock-134",
+      "title": "Sage Butter Crock",
+      "titleKey": "puzzles.village-pantry-sage-butter-crock-134",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "round butter crock with sage leaf stamp, lid lip, and squat ceramic feet",
+          "colorMood": "cream butter crock, sage green stamp, warm ceramic shadow",
+          "tags": [
+              "butter crock",
+              "sage stamp",
+              "ceramic feet"
+          ]
+      },
+      "solution": [
+          "0011111100",
+          "0111111110",
+          "1111111111",
+          "1110101111",
+          "1101111011",
+          "1111111111",
+          "1110101111",
+          "0111111110",
+          "0110000110",
+          "1110000111"
+      ]
+  },
+  {
+      "id": "village-pantry-copper-honey-measure-135",
+      "title": "Copper Honey Measure",
+      "titleKey": "puzzles.village-pantry-copper-honey-measure-135",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "small copper measuring cup with honey drip mark, side handle, and oval cup bowl",
+          "colorMood": "copper cup glow, honey amber drip, cream handle shine",
+          "tags": [
+              "honey measure",
+              "copper cup",
+              "side handle"
+          ]
+      },
+      "solution": [
+          "0001111000",
+          "0011111100",
+          "0111111110",
+          "1111111111",
+          "1110111011",
+          "1111111111",
+          "0111111110",
+          "0011111100",
+          "0110000110",
+          "1100000011"
+      ]
+  },
+  {
+      "id": "village-pantry-daisy-recipe-clipboard-136",
+      "title": "Daisy Recipe Clipboard",
+      "titleKey": "puzzles.village-pantry-daisy-recipe-clipboard-136",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "recipe clipboard with daisy sticker, top clip, ruled card lines, and rounded corners",
+          "colorMood": "cream recipe card, daisy yellow sticker, warm wooden clip",
+          "tags": [
+              "recipe clipboard",
+              "daisy sticker",
+              "top clip"
+          ]
+      },
+      "solution": [
+          "0011111100",
+          "0111111110",
+          "1111111111",
+          "1001111001",
+          "1111111111",
+          "1110011111",
+          "1111111111",
+          "1001111001",
+          "0111111110",
+          "1110000111"
+      ]
+  },
+  {
+      "id": "village-pantry-tiny-checkered-sieve-137",
+      "title": "Tiny Checkered Sieve",
+      "titleKey": "puzzles.village-pantry-tiny-checkered-sieve-137",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "little kitchen sieve with checkered mesh, rounded rim, and a short handle nub",
+          "colorMood": "pale tin rim, cream checkered mesh, soft flour dust",
+          "tags": [
+              "checkered sieve",
+              "mesh bowl",
+              "handle nub"
+          ]
+      },
+      "solution": [
+          "0011111100",
+          "0111111110",
+          "1111111111",
+          "1010101011",
+          "1111111111",
+          "0101010110",
+          "1111111111",
+          "0111111110",
+          "0011111100",
+          "0110000110"
+      ]
   }
-
 
 ];
 

@@ -1493,6 +1493,46 @@ export const en = {
     "village-pantry-gingham-bread-cloth-132": {
       title: "Gingham Bread Cloth",
       imageName: "Gingham Bread Cloth"
+    },
+    "bakery-window-pear-vanilla-rosette-132": {
+      title: "Pear Vanilla Rosette",
+      imageName: "Pear Vanilla Rosette"
+    },
+    "bakery-window-blueberry-almond-square-133": {
+      title: "Blueberry Almond Square",
+      imageName: "Blueberry Almond Square"
+    },
+    "bakery-window-apricot-sugar-shell-134": {
+      title: "Apricot Sugar Shell",
+      imageName: "Apricot Sugar Shell"
+    },
+    "bakery-window-cocoa-cherry-ribbon-135": {
+      title: "Cocoa Cherry Ribbon",
+      imageName: "Cocoa Cherry Ribbon"
+    },
+    "bakery-window-lemon-thyme-crown-136": {
+      title: "Lemon Thyme Crown",
+      imageName: "Lemon Thyme Crown"
+    },
+    "village-pantry-patchwork-jam-ledger-133": {
+      title: "Patchwork Jam Ledger",
+      imageName: "Patchwork Jam Ledger"
+    },
+    "village-pantry-sage-butter-crock-134": {
+      title: "Sage Butter Crock",
+      imageName: "Sage Butter Crock"
+    },
+    "village-pantry-copper-honey-measure-135": {
+      title: "Copper Honey Measure",
+      imageName: "Copper Honey Measure"
+    },
+    "village-pantry-daisy-recipe-clipboard-136": {
+      title: "Daisy Recipe Clipboard",
+      imageName: "Daisy Recipe Clipboard"
+    },
+    "village-pantry-tiny-checkered-sieve-137": {
+      title: "Tiny Checkered Sieve",
+      imageName: "Tiny Checkered Sieve"
     }
 
   }
