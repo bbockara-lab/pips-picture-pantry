@@ -2116,3 +2116,10 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Extended Time Attack result records with the active board number and active-board cell progress so close runs differ by more than completed round count.
 - Updated best-run, record-list, and last-run copy to show both total progress cells and the current board's cell count, preserving old-record fallbacks.
 - Bumped the visible app version to v0.1.270; verification focuses on Time Attack syntax, save tests, i18n, mobile QA, full Vitest, hygiene/assets/catalog QA, production build, and HTTP smoke.
+
+### Design Note - Puzzle Interaction And Hint Economy UX
+- User direction: prioritize puzzle-screen kindness and convenience after the Season 0 catalog target. Drag/sweep cell selection, completed-line feedback, and stronger hint bundles should be treated as one coherent UX lane.
+- Drag/sweep input is expected for consecutive cells, especially on larger boards. It must work with existing direct-tap/move controls, undo, mistake tracking, replay-clean reward rules, and mobile touch scrolling.
+- Completed-line feedback should make the game feel helpful: a completed row/column gets a soft backlight and remaining unresolved cells can receive soft X/blank guidance. Keep it gentle and cozy; avoid loud arcade effects or anything that removes puzzle agency.
+- Hint economy needs size-aware design. A one-cell hint is too weak for 12x12 boards, so normal puzzles should use difficulty-scaled reveal bundles and paid hints should feel worth spending spoons on. Time Attack should remain separate: hints can be a spoon sink under pressure, but must protect record clarity and fairness.
+- Future QA coverage should include drag gesture behavior, auto/soft X line completion, hint bundle cost and reveal counts, undo/no-refund semantics, replay-clean interactions, and mobile no-scroll-regression checks.

@@ -1185,3 +1185,12 @@ Immediate implementation decisions:
 ### v0.1.270 - Time Attack Board Progress Records
 - Made the user's Time Attack ranking direction explicit in the product surface: records now communicate how far into the current board the run reached, not just which board was reached.
 - This keeps the mode competitive even when many players time out in the same round, while preserving the existing progress-cell scoring model and hint penalty economy.
+
+### Direction Addendum - Puzzle Interaction And Hint Economy UX
+- Record these as scheduled product direction, not immediate patch scope: drag painting, friendly line-completion guidance, and size-aware hint bundles should be designed together because they all change how generous the puzzle screen feels.
+- Drag painting should let the player press/touch and sweep across consecutive cells instead of tapping every square. The implementation must preserve the current control modes, undo history, mistake tracking, replay-clean checks, and mobile scroll behavior.
+- Completed-line guidance should be cozy and readable: when a row or column clue is correctly satisfied, give that line a subtle warm backlight and mark remaining unresolved cells with soft blank/X guidance. This should help new players without making the puzzle solve itself; consider a guided/default-on assist treatment and a settings path if advanced players want less help.
+- Normal puzzle hints should become difficulty-scaled bundles rather than a single-cell answer on larger boards. Candidate reveal counts: 5x5 = 1 useful cell, 8x8 = 2-3, 10x10 = 3-4, 12x12 = 5-6, future larger boards = 7+; final numbers should be tuned against real board difficulty and spoon economy.
+- Paid hint design should feel like a fair continuation tool: the player should think "one more hint will keep this puzzle alive" rather than "the game solved it for me." Hints should prioritize logically useful filled cells and safe blank marks, not purely random answers.
+- Time Attack should keep a distinct hint economy: hints are a tactical spoon sink under pressure, with rising per-run cost and clear no-refund/no-record-confusion semantics. The reveal payload may be smaller or faster than normal mode if needed to protect competitive integrity.
+- Suggested implementation order: first drag input and line-complete feedback in the focused puzzle screen, then normal puzzle hint bundles/copy, then Time Attack-specific tuning, then mobile QA guards for drag gestures, line-complete states, hint bundle UI, undo semantics, and scroll prevention.
