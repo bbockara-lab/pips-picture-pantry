@@ -14,6 +14,7 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
   `;
 
   const coach = createTimeAttackCoachCard();
+  const ladder = createTimeAttackLadder();
 
   const startButton = document.createElement("button");
   startButton.type = "button";
@@ -33,11 +34,11 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
 
   if (lastResult) {
     const result = createLastResultPanel(lastResult);
-    panel.append(intro, coach, startButton, summary, result, records);
+    panel.append(intro, coach, ladder, startButton, summary, result, records);
     return panel;
   }
 
-  panel.append(intro, coach, startButton, summary, records);
+  panel.append(intro, coach, ladder, startButton, summary, records);
   return panel;
 }
 
@@ -70,6 +71,38 @@ function createTimeAttackCoachCard() {
   copy.appendChild(chips);
   card.append(portrait, copy);
   return card;
+}
+
+function createTimeAttackLadder() {
+  const ladder = document.createElement("ol");
+  ladder.className = "time-attack-ladder";
+  ladder.setAttribute("aria-label", t("timeAttack.ladderAria"));
+
+  [
+    ["ladderRound1", "ladderSize1", "ladderWarmup"],
+    ["ladderRound2", "ladderSize2", "ladderTempo"],
+    ["ladderRound3", "ladderSize3", "ladderFinal"]
+  ].forEach(([roundKey, sizeKey, bodyKey], index) => {
+    const item = document.createElement("li");
+    item.className = index === 2 ? "time-attack-ladder__step is-final" : "time-attack-ladder__step";
+
+    const round = document.createElement("span");
+    round.className = "time-attack-ladder__round";
+    round.textContent = t(`timeAttack.${roundKey}`);
+
+    const size = document.createElement("strong");
+    size.className = "time-attack-ladder__size";
+    size.textContent = t(`timeAttack.${sizeKey}`);
+
+    const body = document.createElement("span");
+    body.className = "time-attack-ladder__body";
+    body.textContent = t(`timeAttack.${bodyKey}`);
+
+    item.append(round, size, body);
+    ladder.appendChild(item);
+  });
+
+  return ladder;
 }
 
 function createSummaryCard(titleText, bodyText) {

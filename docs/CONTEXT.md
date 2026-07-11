@@ -1983,3 +1983,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Changed the default 3-round Time Attack run from three 5x5 boards to 5x5, 8x8, then 10x10 so the mode exposes a meaningful paid-hint decision within a short session.
 - Time Attack records now use the largest board reached in the run instead of always recording against the opening 5x5 board.
 - Bumped the visible app version to v0.1.242.
+
+### v0.1.243 - Time Attack Ladder Polish
+- Added a visible 5x5 -> 8x8 -> 10x10 run ladder to the Time Attack lobby so the shorter 3-round pacing is clear before players start.
+- Added mobile QA coverage for the ladder treatment and bumped the visible app version to v0.1.243.

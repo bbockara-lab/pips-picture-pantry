@@ -652,6 +652,22 @@ async function openFloatingView(page, view) {
     if (coachMetrics.width <= 0 || coachMetrics.height < 96 || coachMetrics.radius < 12 || !coachMetrics.background.includes("linear-gradient") || coachMetrics.chips < 3) {
       failures.push("Time Attack coach card lost its Pip/economy guidance treatment: " + JSON.stringify(coachMetrics));
     }
+    await expectVisible(page, ".time-attack-ladder", "Time Attack ladder");
+    const ladderMetrics = await page.locator(".time-attack-ladder").first().evaluate((ladder) => {
+      const rect = ladder.getBoundingClientRect();
+      const text = ladder.textContent || "";
+      const steps = Array.from(ladder.querySelectorAll(".time-attack-ladder__step")).map((step) => {
+        const box = step.getBoundingClientRect();
+        const style = getComputedStyle(step);
+        return { width: box.width, height: box.height, radius: parseFloat(style.borderRadius), background: style.backgroundImage };
+      });
+      return { width: rect.width, height: rect.height, text, steps };
+    });
+    const ladderHasRun = /5x5/.test(ladderMetrics.text) && /8x8/.test(ladderMetrics.text) && /10x10/.test(ladderMetrics.text);
+    const ladderLooksPolished = ladderMetrics.steps.length === 3 && ladderMetrics.steps.every((step) => step.width > 0 && step.height >= 48 && step.radius >= 12 && step.background.includes("linear-gradient"));
+    if (ladderMetrics.width <= 0 || ladderMetrics.height <= 0 || !ladderHasRun || !ladderLooksPolished) {
+      failures.push("Time Attack ladder lost the 5x5/8x8/10x10 run preview: " + JSON.stringify(ladderMetrics));
+    }
   }
 }
 async function verifyLargeBoardCatalogPuzzle(page, viewportName) {

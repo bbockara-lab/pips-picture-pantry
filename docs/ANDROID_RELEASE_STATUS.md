@@ -1267,3 +1267,7 @@ Last updated: 2026-06-28
 - Changed the default Time Attack size ramp to 5x5, 8x8, and 10x10 so short runs can still surface the hint-spend decision.
 - Time Attack records now use the largest board reached in the run rather than the first 5x5 board.
 - Android bundle generation remains paused during the local major rework.
+
+## v0.1.243 - Time Attack Ladder Polish
+- Time Attack lobby now previews the 5x5, 8x8, and 10x10 round ramp before a run begins.
+- Added mobile QA coverage for the ladder while Android bundle generation remains paused during the local rework.
