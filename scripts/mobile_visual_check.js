@@ -592,6 +592,18 @@ async function openFloatingView(page, view) {
   if (selector) {
     await page.locator(selector).first().waitFor({ state: "visible", timeout: 5000 });
   }
+  if (view === "timeAttack") {
+    await expectVisible(page, ".time-attack-coach-card", "Time Attack coach card");
+    const coachMetrics = await page.locator(".time-attack-coach-card").first().evaluate((card) => {
+      const rect = card.getBoundingClientRect();
+      const style = getComputedStyle(card);
+      const chips = card.querySelectorAll(".time-attack-coach-card__chips li").length;
+      return { width: rect.width, height: rect.height, radius: parseFloat(style.borderRadius), background: style.backgroundImage, chips };
+    });
+    if (coachMetrics.width <= 0 || coachMetrics.height < 96 || coachMetrics.radius < 12 || !coachMetrics.background.includes("linear-gradient") || coachMetrics.chips < 3) {
+      failures.push("Time Attack coach card lost its Pip/economy guidance treatment: " + JSON.stringify(coachMetrics));
+    }
+  }
 }
 async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   await seedLargeBoardCatalogAccess(page);

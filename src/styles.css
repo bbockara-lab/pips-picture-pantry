@@ -4415,3 +4415,86 @@ img {
     max-width: 100%;
   }
 }
+
+
+/* v0.1.240 time attack coach polish */
+.time-attack-coach-card {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  border: 3px solid rgba(71, 45, 48, 0.92);
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, rgba(178, 229, 205, 0.95) 0%, rgba(255, 247, 222, 0.98) 68%),
+    #fff6df;
+  box-shadow: 0 9px 0 rgba(71, 45, 48, 0.14), 0 18px 34px rgba(85, 60, 38, 0.14);
+  overflow: hidden;
+}
+
+.time-attack-coach-card__pip {
+  width: 86px;
+  height: 86px;
+  object-fit: contain;
+  filter: drop-shadow(0 7px 0 rgba(71, 45, 48, 0.14));
+}
+
+.time-attack-coach-card__copy {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.time-attack-coach-card__copy h3 {
+  margin: 0;
+  color: var(--ink, #3b2c2f);
+  font-size: 1.1rem;
+  line-height: 1.12;
+}
+
+.time-attack-coach-card__copy p:not(.section-label) {
+  margin: 0;
+  color: #704832;
+  font-size: 0.92rem;
+  font-weight: 760;
+  line-height: 1.35;
+}
+
+.time-attack-coach-card__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 0;
+  margin: 4px 0 0;
+  list-style: none;
+}
+
+.time-attack-coach-card__chips li {
+  padding: 7px 10px;
+  border: 2px solid rgba(71, 45, 48, 0.78);
+  border-radius: 999px;
+  background: rgba(255, 252, 238, 0.86);
+  color: #4c3035;
+  font-size: 0.82rem;
+  font-weight: 900;
+  box-shadow: 0 4px 0 rgba(71, 45, 48, 0.11);
+}
+
+@media (max-width: 430px) {
+  .time-attack-coach-card {
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .time-attack-coach-card__pip {
+    width: 64px;
+    height: 64px;
+  }
+
+  .time-attack-coach-card__chips li {
+    font-size: 0.76rem;
+    padding: 6px 8px;
+  }
+}

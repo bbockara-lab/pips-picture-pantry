@@ -1,3 +1,4 @@
+import pipCoachUrl from "../assets/characters/pip-chrome-v2.png";
 import { t } from "../i18n/index.js";
 
 export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLimit = 3, lastResult = null, onStart } = {}) {
@@ -11,6 +12,8 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
     <h2>${t("timeAttack.title")}</h2>
     <p>${t("timeAttack.body")}</p>
   `;
+
+  const coach = createTimeAttackCoachCard();
 
   const startButton = document.createElement("button");
   startButton.type = "button";
@@ -30,12 +33,43 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
 
   if (lastResult) {
     const result = createLastResultPanel(lastResult);
-    panel.append(intro, startButton, summary, result, records);
+    panel.append(intro, coach, startButton, summary, result, records);
     return panel;
   }
 
-  panel.append(intro, startButton, summary, records);
+  panel.append(intro, coach, startButton, summary, records);
   return panel;
+}
+
+function createTimeAttackCoachCard() {
+  const card = document.createElement("article");
+  card.className = "time-attack-coach-card";
+
+  const portrait = document.createElement("img");
+  portrait.className = "time-attack-coach-card__pip";
+  portrait.src = pipCoachUrl;
+  portrait.alt = "";
+  portrait.setAttribute("aria-hidden", "true");
+
+  const copy = document.createElement("div");
+  copy.className = "time-attack-coach-card__copy";
+  copy.innerHTML = `
+    <p class="section-label">${t("timeAttack.coachEyebrow")}</p>
+    <h3>${t("timeAttack.coachTitle")}</h3>
+    <p>${t("timeAttack.coachBody")}</p>
+  `;
+
+  const chips = document.createElement("ul");
+  chips.className = "time-attack-coach-card__chips";
+  ["coachEarn", "coachSpend", "coachRecord"].forEach((key) => {
+    const item = document.createElement("li");
+    item.textContent = t(`timeAttack.${key}`);
+    chips.appendChild(item);
+  });
+
+  copy.appendChild(chips);
+  card.append(portrait, copy);
+  return card;
 }
 
 function createSummaryCard(titleText, bodyText) {

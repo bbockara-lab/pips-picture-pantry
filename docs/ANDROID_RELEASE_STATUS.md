@@ -1253,3 +1253,7 @@ Last updated: 2026-06-28
 - Added four readable free puzzles: Cherry Almond Biscotti, Lemon Poppy Pound Cake, Little Cocoa Scoop, and Sunflower Flour Sieve.
 - Raised guarded catalog thresholds to 283 free puzzles, 193 large-board free puzzles, 91 Bakery Window 12x12 boards, 98 Village Pantry 10x10 boards, and 145 readable large-board briefs.
 - Verification passed: syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, production build, local HTTP 200, and mobile visual QA.
+
+## v0.1.240 - Time Attack Coach Polish
+- Added the Pip coach card to the Time Attack lobby and kept Android bundle generation paused during the local rework.
+- Verification focus for this slice: i18n copy, mobile Time Attack lobby containment, and full local test/build health.
