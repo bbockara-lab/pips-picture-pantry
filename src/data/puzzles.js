@@ -7206,6 +7206,134 @@ export const puzzles = [
           "0011111100",
           "0110000110"
       ]
+  },
+  {
+      "id": "bakery-window-cranberry-linzer-star-114",
+      "title": "Cranberry Linzer Star",
+      "titleKey": "puzzles.bakery-window-cranberry-linzer-star-114",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "six-point cookie star with jam windows, sugar notches, and a thick baked edge",
+          "colorMood": "ruby cranberry centers, golden linzer crumb, powdered sugar sparkle",
+          "tags": [
+              "linzer star",
+              "cranberry jam",
+              "sugar notches"
+          ]
+      },
+      "solution": [
+          "100100100001",
+          "010111010010",
+          "001111100100",
+          "111111111110",
+          "011111111100",
+          "001111111000",
+          "011111111100",
+          "111111111110",
+          "001111100100",
+          "010111010010",
+          "100100100001",
+          "111001001110"
+      ]
+  },
+  {
+      "id": "bakery-window-hazelnut-cocoa-tart-115",
+      "title": "Hazelnut Cocoa Tart",
+      "titleKey": "puzzles.bakery-window-hazelnut-cocoa-tart-115",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "round cocoa tart with scalloped crust, hazelnut dot clusters, and glossy filling",
+          "colorMood": "deep cocoa center, toasted hazelnut dots, buttery tart shell rim",
+          "tags": [
+              "cocoa tart",
+              "hazelnut dots",
+              "scalloped crust"
+          ]
+      },
+      "solution": [
+          "011111111110",
+          "111111111111",
+          "110011001111",
+          "111111111111",
+          "111100111111",
+          "111111111111",
+          "111111001111",
+          "111111111111",
+          "111001100111",
+          "111111111111",
+          "011111111110",
+          "001111111100"
+      ]
+  },
+  {
+      "id": "village-pantry-braided-herb-basket-115",
+      "title": "Braided Herb Basket",
+      "titleKey": "puzzles.village-pantry-braided-herb-basket-115",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "low woven basket with braided rim, herb sprigs tucked inside, and arched handle shadow",
+          "colorMood": "warm wicker strands, soft green herbs, honey-brown basket shadows",
+          "tags": [
+              "herb basket",
+              "braided rim",
+              "woven wicker"
+          ]
+      },
+      "solution": [
+          "0011111100",
+          "0110110110",
+          "1111111111",
+          "1101101011",
+          "1111111111",
+          "1101011011",
+          "1111111111",
+          "0111111110",
+          "0011111100",
+          "1110000111"
+      ]
+  },
+  {
+      "id": "village-pantry-blue-daisy-teacup-116",
+      "title": "Blue Daisy Teacup",
+      "titleKey": "puzzles.village-pantry-blue-daisy-teacup-116",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "round teacup with small handle, daisy marks on the bowl, and a sturdy saucer foot",
+          "colorMood": "sky blue glaze, cream daisy petals, warm tea shadow under the cup",
+          "tags": [
+              "blue teacup",
+              "daisy marks",
+              "saucer foot"
+          ]
+      },
+      "solution": [
+          "0011111100",
+          "0111111110",
+          "1101101011",
+          "1111111111",
+          "1110110111",
+          "1111111111",
+          "0111111110",
+          "0011111100",
+          "0110000110",
+          "1111111111"
+      ]
   }
 ];
 

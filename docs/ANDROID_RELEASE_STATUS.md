@@ -1292,3 +1292,7 @@ Last updated: 2026-06-28
 - 오프닝 게임 시작 화면과 이름 입력 화면에 작은 버전 칩을 추가해, 미리보기에서 현재 빌드를 즉시 확인할 수 있게 했다.
 - APP_VERSION을 src/data/appVersion.js로 분리해 앱 쉘과 브랜드 인트로가 같은 버전 값을 공유하도록 정리했다.
 - 모바일 QA가 오프닝 버전 칩을 확인하도록 확장했다.
+
+## v0.1.251 - Four Puzzle Quality Batch
+- Added 4 quality-gated launch-catalog puzzles with titleKey, English/Korean catalog copy, and artReadability briefs.
+- Catalog now stands at 291/333 free puzzles, with 42 remaining to the Season 0 launch target. Android bundle generation remains paused during local rework.

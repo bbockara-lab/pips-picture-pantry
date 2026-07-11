@@ -1346,6 +1346,22 @@ export const ko = {
     "village-pantry-embroidered-tea-cozy-114": {
       title: "자수 티코지",
       imageName: "자수 티코지"
+    },
+    "bakery-window-cranberry-linzer-star-114": {
+      title: "\uD06C\uB79C\uBCA0\uB9AC \uB9B0\uC800 \uBCC4",
+      imageName: "\uD06C\uB79C\uBCA0\uB9AC \uB9B0\uC800 \uBCC4"
+    },
+    "bakery-window-hazelnut-cocoa-tart-115": {
+      title: "\uD5E4\uC774\uC990\uB11B \uCF54\uCF54\uC544 \uD0C0\uB974\uD2B8",
+      imageName: "\uD5E4\uC774\uC990\uB11B \uCF54\uCF54\uC544 \uD0C0\uB974\uD2B8"
+    },
+    "village-pantry-braided-herb-basket-115": {
+      title: "\uB530\uC740 \uD5C8\uBE0C \uBC14\uAD6C\uB2C8",
+      imageName: "\uB530\uC740 \uD5C8\uBE0C \uBC14\uAD6C\uB2C8"
+    },
+    "village-pantry-blue-daisy-teacup-116": {
+      title: "\uD30C\uB780 \uB370\uC774\uC9C0 \uCC3B\uC794",
+      imageName: "\uD30C\uB780 \uB370\uC774\uC9C0 \uCC3B\uC794"
     }
   }
 };

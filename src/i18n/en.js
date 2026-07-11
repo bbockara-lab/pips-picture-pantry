@@ -1348,6 +1348,22 @@ export const en = {
     "village-pantry-embroidered-tea-cozy-114": {
       title: "Embroidered Tea Cozy",
       imageName: "Embroidered Tea Cozy"
+    },
+    "bakery-window-cranberry-linzer-star-114": {
+      title: "Cranberry Linzer Star",
+      imageName: "Cranberry Linzer Star"
+    },
+    "bakery-window-hazelnut-cocoa-tart-115": {
+      title: "Hazelnut Cocoa Tart",
+      imageName: "Hazelnut Cocoa Tart"
+    },
+    "village-pantry-braided-herb-basket-115": {
+      title: "Braided Herb Basket",
+      imageName: "Braided Herb Basket"
+    },
+    "village-pantry-blue-daisy-teacup-116": {
+      title: "Blue Daisy Teacup",
+      imageName: "Blue Daisy Teacup"
     }
   }
 };
