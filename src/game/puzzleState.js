@@ -164,7 +164,7 @@ export function undoLastMove(state) {
   return {
     ...state,
     cells,
-    hintsUsed: lastMove.hint ? Math.max(0, Number(state.hintsUsed || 0) - 1) : Number(state.hintsUsed || 0),
+    hintsUsed: Math.max(0, Number(state.hintsUsed || 0)),
     history: state.history.slice(0, -1),
     updatedAt: new Date().toISOString()
   };

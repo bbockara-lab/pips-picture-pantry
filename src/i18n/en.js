@@ -248,13 +248,13 @@ export const en = {
     hint: "Use hint",
     hintWithCost: "Hint - {cost} spoons",
     hintConfirmTitle: "Spend spoons for a hint?",
-    hintConfirmBody: "This uses {cost} spoons now. Undo can remove the hint move, but the spoons are not refunded.",
+    hintConfirmBody: "This uses {cost} spoons now. Undo can remove the hint cells, but the hint use and spoons stay spent.",
     hintCancel: "Not now",
     hintConfirmAction: "Use {cost}",
     hintRemaining: "Hints {count}/{limit}",
-    hintIntro: "A hint solves one sure square on bigger boards. Undo stays free.",
-    hintIntroMulti: "On this larger board, one hint solves up to {count} sure squares. Undo stays free.",
-    timeAttackHintIntro: "Time Attack hints spend spoons now: {cost} spoons for the next hint. Undo will not refund spent spoons. Balance: {balance}.",
+    hintIntro: "A hint solves one sure square. Undo can clear the cell, but the hint still counts.",
+    hintIntroMulti: "On this larger board, one hint solves up to {count} sure squares. Undo can clear them, but the hint still counts.",
+    timeAttackHintIntro: "Time Attack hints spend spoons now: {cost} spoons for the next hint. Undo can clear the cell, but the hint use and spoons stay spent. Balance: {balance}.",
     timeAttackHintNeedMore: "The next Time Attack hint costs {cost} spoons. Balance: {balance}.",
     hintEmpty: "No hints left on this puzzle. Keep solving or undo freely."
 

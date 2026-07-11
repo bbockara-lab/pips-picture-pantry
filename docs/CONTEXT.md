@@ -2143,3 +2143,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Changed puzzle hints so one hint can reveal a small group of sure cells while still counting as one hint use.
 - Normal large boards now scale hint help by size: 10x10 reveals up to 3 cells, 12x12 up to 5, 15x15 up to 6, and 18x18 up to 8.
 - Time Attack keeps the existing one-cell paid hint behavior for now so the current spoon economy and record fairness stay stable.
+### v0.1.275 - Hint Undo Exploit Guard
+- Changed Undo so hint cells can be visually reverted, but the hint use count remains spent.
+- This prevents using hints as free preview information by hinting, memorizing, then undoing.
+- Updated hint copy to clearly say Undo may clear hint cells but hint use and spent spoons remain recorded.

@@ -86,7 +86,7 @@ describe("puzzle state", () => {
   });
 
 
-  it("uses a hint on an unresolved correct cell and lets undo restore the hint count", () => {
+  it("uses a hint on an unresolved correct cell and keeps the hint count after undo", () => {
     const hintPuzzle = { id: "hint-puzzle", size: 3 };
     const solution = [
       [false, true, false],
@@ -101,7 +101,7 @@ describe("puzzle state", () => {
 
     state = undoLastMove(state);
     expect(state.cells[0][1]).toBe("empty");
-    expect(state.hintsUsed).toBe(0);
+    expect(state.hintsUsed).toBe(1);
   });
 
   it("reveals multiple sure cells with one size-aware hint history entry", () => {
@@ -122,7 +122,7 @@ describe("puzzle state", () => {
 
     state = undoLastMove(state);
     expect(state.cells[0]).toEqual(["empty", "empty", "empty"]);
-    expect(state.hintsUsed).toBe(0);
+    expect(state.hintsUsed).toBe(1);
   });
 
   it("serializes and restores state", () => {

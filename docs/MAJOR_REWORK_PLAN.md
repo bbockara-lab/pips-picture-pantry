@@ -1211,3 +1211,7 @@ Immediate implementation decisions:
 - Implemented grouped hint reveals as a foundation for future normal-puzzle paid hints.
 - Preserved Time Attack hint balance at one cell per paid hint until separate economy tuning is ready.
 - Added regression coverage for multi-cell hint undo behavior and readable i18n copy.
+### v0.1.275 - Hint Undo Exploit Guard
+- Closed the hint-preview exploit: Undo no longer reduces `hintsUsed` after a hint move.
+- Keep the design rule: Undo is an input safety net, not a reward/economy reset.
+- Future paid normal-puzzle hints should follow the same rule as Time Attack: no spoon refund and no clean-record reset after Undo.

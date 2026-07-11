@@ -1402,3 +1402,7 @@ Last updated: 2026-06-28
 - Normal puzzle hints can now reveal multiple sure cells on larger boards while consuming one hint use.
 - Time Attack paid hints remain one-cell hints for launch balance.
 - Verification passed: targeted puzzle/i18n tests, full Vitest 70 tests, qa:hygiene, qa:catalog, qa:assets, production build, and mobile QA 360/390/430.
+## v0.1.275 - Hint Undo Exploit Guard
+- Hint Undo now restores cells only; hint use count stays recorded.
+- This protects replay cleanliness, Time Attack records, and future paid normal-puzzle hint economy from free-preview abuse.
+- Verification passed: targeted hint/replay/i18n tests, full Vitest 70 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.

@@ -51,7 +51,7 @@ describe("replay challenge reward guard", () => {
     expect(isReplayClean(status)).toBe(false);
 
     state = undoLastMove(state);
-    expect(state.hintsUsed).toBe(0);
+    expect(state.hintsUsed).toBe(1);
     status = updateReplayCleanStatus(status, state, solution);
     expect(isReplayClean(status)).toBe(false);
   });
