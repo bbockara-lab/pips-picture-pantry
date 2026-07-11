@@ -1287,3 +1287,8 @@ Last updated: 2026-06-28
 ## v0.1.247 - Time Attack Timeout Visual Polish
 - Polished the Time Attack remaining-time pill and timeout result card.
 - Android bundle generation remains paused during local rework.
+
+### v0.1.250 Opening Version Visibility
+- 오프닝 게임 시작 화면과 이름 입력 화면에 작은 버전 칩을 추가해, 미리보기에서 현재 빌드를 즉시 확인할 수 있게 했다.
+- APP_VERSION을 src/data/appVersion.js로 분리해 앱 쉘과 브랜드 인트로가 같은 버전 값을 공유하도록 정리했다.
+- 모바일 QA가 오프닝 버전 칩을 확인하도록 확장했다.

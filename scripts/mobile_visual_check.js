@@ -20,6 +20,7 @@ for (const viewport of viewports) {
   await page.waitForTimeout(800);
   await expectVisible(page, ".brand-intro.game-stage", viewport.name);
   await expectVisible(page, ".brand-intro__seal", viewport.name);
+  await expectVisible(page, ".brand-intro__version", viewport.name);
   await expectOpeningIntroPolish(page, viewport.name);
   await expectAbsent(page, ".brand-intro__cast", viewport.name);
   await dismissIntro(page, "Jay");
@@ -170,6 +171,11 @@ async function expectOpeningIntroPolish(page, viewportName) {
   const sealSrc = await page.locator(".brand-intro__seal img").first().getAttribute("src");
   if (!String(sealSrc || "").includes("pip-chrome-v2")) {
     failures.push("[" + viewportName + "] Opening seal should use current Pip chrome art, saw " + sealSrc);
+  }
+
+  const versionText = await page.locator(".brand-intro__version").first().textContent();
+  if (!String(versionText || "").includes("v0.1.")) {
+    failures.push("[" + viewportName + "] Opening version chip is missing the visible app version: " + versionText);
   }
 
   const buttonMetrics = await page.locator(".brand-intro__skip").first().evaluate((button) => {

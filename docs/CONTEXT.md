@@ -2013,3 +2013,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - 타임어택 최고 기록 요약과 기록 목록에 사용한 힌트 수를 함께 표시하도록 정리했다.
 - 진행 칸 수, 시간, 힌트 수가 한 줄에 같이 보여 기록 경쟁과 스푼 소비의 관계가 더 명확해졌다.
 - 버전 표기는 v0.1.249로 갱신했다.
+
+### v0.1.250 - Opening Version Visibility
+- 오프닝 게임 시작 화면과 이름 입력 화면에 작은 버전 칩을 추가해, 미리보기에서 현재 빌드를 즉시 확인할 수 있게 했다.
+- APP_VERSION을 src/data/appVersion.js로 분리해 앱 쉘과 브랜드 인트로가 같은 버전 값을 공유하도록 정리했다.
+- 모바일 QA가 오프닝 버전 칩을 확인하도록 확장했다.

@@ -4309,6 +4309,24 @@ img {
 }
 
 
+/* v0.1.250 opening version chip */
+.brand-intro__version {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  margin: -2px 0 4px;
+  border: 2px solid rgba(122, 78, 53, 0.18);
+  border-radius: 999px;
+  padding: 3px 10px;
+  color: rgba(67, 42, 47, 0.68);
+  background: rgba(255, 250, 238, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.74);
+  font-size: 0.72rem;
+  font-weight: 850;
+  line-height: 1;
+}
+
 /* v0.1.216 opening screen tactile polish */
 .brand-intro.game-stage {
   background:

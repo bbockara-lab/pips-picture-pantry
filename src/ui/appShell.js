@@ -1,3 +1,4 @@
+import { APP_VERSION } from "../data/appVersion.js";
 import { getPackById } from "../data/packs.js";
 import { ECONOMY, getTimeAttackHintCost } from "../data/economyConfig.js";
 import { puzzles } from "../data/puzzles.js";
@@ -32,7 +33,6 @@ import { renderSettingsDialog } from "./settingsView.js";
 import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackElapsedSeconds, TIME_ATTACK_LIMIT_SECONDS, TIME_ATTACK_TRIAL_ROUNDS } from "./timeAttackFlow.js";
 import { renderTimeAttackView } from "./timeAttackView.js";
 
-export const APP_VERSION = "v0.1.249";
 const DAILY_BONUS = ECONOMY.DAILY_BONUS;
 
 export function renderApp(root) {

@@ -1,6 +1,7 @@
 import pipSealUrl from "../assets/characters/pip-chrome-v2.png";
 import openingKeyVisualUrl from "../assets/brand/opening-key-visual-v1.webp";
 import studioBumperUrl from "../assets/brand/sunny-spoon-studios-bumper-v1.webp";
+import { APP_VERSION } from "../data/appVersion.js";
 import { isRuntimeStudioBumperArtApproved } from "../data/runtimeArt.js";
 import { hasActivePlayer, setActivePlayerName } from "../game/save.js";
 import { t } from "../i18n/index.js";
@@ -33,6 +34,7 @@ export function renderBrandIntro(root) {
       </div>
       <p class="brand-intro__studio">${t("app.studioName")}</p>
       <h2>${t("app.title")}</h2>
+      <p class="brand-intro__version">${t("app.versionLabel", { version: APP_VERSION })}</p>
       <button class="brand-intro__skip" type="button">${t("brandIntro.skip")}</button>
     </div>
   `;
@@ -68,6 +70,7 @@ export function renderBrandIntro(root) {
       <p class="brand-intro__studio">${t("app.studioName")}</p>
       <h2>${t("playerIntro.title")}</h2>
       <p class="player-intro-note">${t("playerIntro.note")}</p>
+      <p class="brand-intro__version">${t("app.versionLabel", { version: APP_VERSION })}</p>
       <form class="player-intro-form">
         <label for="player-intro-name">${t("playerIntro.label")}</label>
         <input id="player-intro-name" name="playerName" maxlength="18" autocomplete="nickname" placeholder="${t("playerIntro.placeholder")}" />
