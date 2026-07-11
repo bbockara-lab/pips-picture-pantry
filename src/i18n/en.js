@@ -1364,6 +1364,22 @@ export const en = {
     "village-pantry-blue-daisy-teacup-116": {
       title: "Blue Daisy Teacup",
       imageName: "Blue Daisy Teacup"
+    },
+    "bakery-window-pistachio-crescent-wreath-116": {
+      title: "Pistachio Crescent Wreath",
+      imageName: "Pistachio Crescent Wreath"
+    },
+    "bakery-window-apricot-custard-bar-117": {
+      title: "Apricot Custard Bar",
+      imageName: "Apricot Custard Bar"
+    },
+    "village-pantry-copper-tea-strainer-117": {
+      title: "Copper Tea Strainer",
+      imageName: "Copper Tea Strainer"
+    },
+    "village-pantry-gingham-picnic-jar-118": {
+      title: "Gingham Picnic Jar",
+      imageName: "Gingham Picnic Jar"
     }
   }
 };

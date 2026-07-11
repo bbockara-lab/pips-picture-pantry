@@ -1362,6 +1362,22 @@ export const ko = {
     "village-pantry-blue-daisy-teacup-116": {
       title: "\uD30C\uB780 \uB370\uC774\uC9C0 \uCC3B\uC794",
       imageName: "\uD30C\uB780 \uB370\uC774\uC9C0 \uCC3B\uC794"
+    },
+    "bakery-window-pistachio-crescent-wreath-116": {
+      title: "\uD53C\uC2A4\uD0C0\uCE58\uC624 \uCD08\uC2B9\uB2EC \uB9AC\uC2A4",
+      imageName: "\uD53C\uC2A4\uD0C0\uCE58\uC624 \uCD08\uC2B9\uB2EC \uB9AC\uC2A4"
+    },
+    "bakery-window-apricot-custard-bar-117": {
+      title: "\uC0B4\uAD6C \uCEE4\uC2A4\uD130\uB4DC \uBC14",
+      imageName: "\uC0B4\uAD6C \uCEE4\uC2A4\uD130\uB4DC \uBC14"
+    },
+    "village-pantry-copper-tea-strainer-117": {
+      title: "\uAD6C\uB9AC \uCC28 \uAC70\uB984\uB9DD",
+      imageName: "\uAD6C\uB9AC \uCC28 \uAC70\uB984\uB9DD"
+    },
+    "village-pantry-gingham-picnic-jar-118": {
+      title: "\uAE45\uC5C4 \uD53C\uD06C\uB2C9 \uBCD1",
+      imageName: "\uAE45\uC5C4 \uD53C\uD06C\uB2C9 \uBCD1"
     }
   }
 };

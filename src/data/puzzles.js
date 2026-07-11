@@ -7334,6 +7334,134 @@ export const puzzles = [
           "0110000110",
           "1111111111"
       ]
+  },
+  {
+      "id": "bakery-window-pistachio-crescent-wreath-116",
+      "title": "Pistachio Crescent Wreath",
+      "titleKey": "puzzles.bakery-window-pistachio-crescent-wreath-116",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "crescent pastry wreath with leafy pistachio clusters, open center, and sugar-dusted tips",
+          "colorMood": "soft green pistachio crumb, golden pastry crescent, white sugar dust",
+          "tags": [
+              "crescent wreath",
+              "pistachio crumb",
+              "sugar tips"
+          ]
+      },
+      "solution": [
+          "001111111100",
+          "011111111110",
+          "111001100111",
+          "110111111011",
+          "111111111111",
+          "111011110111",
+          "111111111111",
+          "110111111011",
+          "111001100111",
+          "011111111110",
+          "001111111100",
+          "000111111000"
+      ]
+  },
+  {
+      "id": "bakery-window-apricot-custard-bar-117",
+      "title": "Apricot Custard Bar",
+      "titleKey": "puzzles.bakery-window-apricot-custard-bar-117",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "neat rectangular custard bar with apricot stripes, crumbly border, and glossy fruit patches",
+          "colorMood": "apricot orange glaze, pale vanilla custard, toasted shortbread edge",
+          "tags": [
+              "custard bar",
+              "apricot stripes",
+              "shortbread edge"
+          ]
+      },
+      "solution": [
+          "111111111111",
+          "100111111001",
+          "111111111111",
+          "111001100111",
+          "111111111111",
+          "110111111011",
+          "111111111111",
+          "111100111111",
+          "111111111111",
+          "100111111001",
+          "111111111111",
+          "011111111110"
+      ]
+  },
+  {
+      "id": "village-pantry-copper-tea-strainer-117",
+      "title": "Copper Tea Strainer",
+      "titleKey": "puzzles.village-pantry-copper-tea-strainer-117",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "small tea strainer with round mesh bowl, twin handles, and a tapered handle shadow",
+          "colorMood": "polished copper rim, amber mesh dots, cream tea-table highlights",
+          "tags": [
+              "tea strainer",
+              "copper mesh",
+              "tiny handles"
+          ]
+      },
+      "solution": [
+          "0011111000",
+          "0111111100",
+          "1110101110",
+          "1111111111",
+          "0111111110",
+          "0011111100",
+          "0001111000",
+          "0011111100",
+          "0110000110",
+          "1100000011"
+      ]
+  },
+  {
+      "id": "village-pantry-gingham-picnic-jar-118",
+      "title": "Gingham Picnic Jar",
+      "titleKey": "puzzles.village-pantry-gingham-picnic-jar-118",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "round picnic jar with checked cloth lid, berry label, and squat glass base",
+          "colorMood": "red gingham lid, honey glass jar, berry label accent",
+          "tags": [
+              "picnic jar",
+              "gingham lid",
+              "berry label"
+          ]
+      },
+      "solution": [
+          "0011111100",
+          "0111111110",
+          "1111111111",
+          "1101011011",
+          "1111111111",
+          "1101101011",
+          "1111111111",
+          "0111111110",
+          "0011111100",
+          "0110000110"
+      ]
   }
 ];
 

@@ -1104,3 +1104,7 @@ Immediate implementation decisions:
 ### v0.1.251 Follow-up - Four Puzzle Quality Batch
 - Added two Bakery Window 12x12 puzzle briefs and two Village Pantry 10x10 puzzle briefs with explicit silhouette/color/tags metadata.
 - Continued the Season 0 quality-first launch catalog toward the 333-puzzle target while keeping post-launch seasonal expansion open.
+
+### v0.1.252 Follow-up - Four Puzzle Quality Batch
+- Added another balanced Bakery/Village batch with pastry and pantry silhouettes chosen for later icon-readability.
+- Season 0 catalog now has 38 free puzzles remaining to the 333 launch target, leaving room for UI/art polish before release.

@@ -2023,3 +2023,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added four readable free puzzles: Cranberry Linzer Star, Hazelnut Cocoa Tart, Braided Herb Basket, and Blue Daisy Teacup.
 - Raised catalog guards to 291 free puzzles, 201 large-board free puzzles, 95 Bakery Window 12x12 boards, 102 Village Pantry 10x10 boards, and 153 readable large-board briefs.
 - Version bumped to v0.1.251; verification focused on syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, and production build.
+
+### v0.1.252 - Four Puzzle Quality Batch
+- Added four readable free puzzles: Pistachio Crescent Wreath, Apricot Custard Bar, Copper Tea Strainer, and Gingham Picnic Jar.
+- Raised catalog guards to 295 free puzzles, 205 large-board free puzzles, 97 Bakery Window 12x12 boards, 104 Village Pantry 10x10 boards, and 157 readable large-board briefs.
+- Version bumped to v0.1.252; verification focused on syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, and production build.
