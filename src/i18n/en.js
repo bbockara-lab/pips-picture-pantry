@@ -313,6 +313,10 @@ export const en = {
     needPantryRoom: "Need pantry story",
     visitPantry: "Go to Pantry",
     roomRequirement: "Pantry room step: {completed}/{required} requests",
+    unlockPlanReady: "Ready to open. Spending spoons reveals the next shelf of pictures.",
+    unlockPlanNeedSpoons: "Earn {count} more spoons from daily picks, replay picks, or Time Attack.",
+    unlockPlanNeedPantry: "Finish Pantry requests {completed}/{required} to make room for this stage.",
+    unlockPlanNeedBoth: "Earn {count} more spoons and finish Pantry requests {completed}/{required} to open this stage.",
     "pips-first-shelf": {
       title: "Pip's First Shelf",
       note: "Start with tiny cozy pictures"

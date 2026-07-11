@@ -461,10 +461,12 @@ function createUnlockPanel(pack, onUnlockPack, onOpenPantry) {
   const disabledText = roomRequirement.met
     ? t("packs.needMore", { count: spoonGap })
     : t("packs.needPantryRoom");
+  const planText = getUnlockPlanText(canOpen, roomRequirement, spoonGap);
   panel.innerHTML = `
     <div class="unlock-panel__requirements">
       <p class="unlock-panel__cost"></p>
       ${roomRequirement.required > 0 ? `<p class="unlock-panel__room">${t("packs.roomRequirement", roomRequirement)}</p>` : ""}
+      <p class="unlock-panel__plan">${planText}</p>
     </div>
     <div class="unlock-panel__actions">
       <button type="button" class="tool-button" ${canOpen ? "" : "disabled"}>${canOpen ? t("packs.openStage") : disabledText}</button>
@@ -476,6 +478,19 @@ function createUnlockPanel(pack, onUnlockPack, onOpenPantry) {
   panel.querySelector(".tool-button").addEventListener("click", () => onUnlockPack(pack.id));
   panel.querySelector(".stage-gate-link")?.addEventListener("click", onOpenPantry);
   return panel;
+}
+
+function getUnlockPlanText(canOpen, roomRequirement, spoonGap) {
+  if (canOpen) {
+    return t("packs.unlockPlanReady");
+  }
+  if (!roomRequirement.met && spoonGap > 0) {
+    return t("packs.unlockPlanNeedBoth", { count: spoonGap, completed: roomRequirement.completed, required: roomRequirement.required });
+  }
+  if (!roomRequirement.met) {
+    return t("packs.unlockPlanNeedPantry", roomRequirement);
+  }
+  return t("packs.unlockPlanNeedSpoons", { count: spoonGap });
 }
 
 function createSpoonIcon(size = "") {

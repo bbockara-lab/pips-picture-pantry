@@ -2957,6 +2957,19 @@ img {
   }
 }
 
+/* v0.1.262 stage unlock plan copy */
+.unlock-panel__plan {
+  margin: 6px 0 0;
+  padding: 8px 10px;
+  border: 2px solid rgba(68, 42, 47, 0.14);
+  border-radius: 12px;
+  color: #5f4034;
+  background: rgba(255, 248, 226, 0.78);
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
 /* v0.1.141 stage gate action */
 .unlock-panel__actions {
   display: grid;

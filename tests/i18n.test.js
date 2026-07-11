@@ -40,6 +40,7 @@ describe("i18n", () => {
     expect(t("packs.pricePreview")).toBe("Optional add-on");
     expect(t("seasonProgress.catalogStat", { completed: 3, total: 333 })).toBe("3/333 pictures");
     expect(t("seasonProgress.stageStat", { unlocked: 2, total: 5 })).toBe("2/5 stages open");
+    expect(t("packs.unlockPlanNeedBoth", { count: 12, completed: 2, required: 3 })).toBe("Earn 12 more spoons and finish Pantry requests 2/3 to open this stage.");
     expect(t("badges.progress", { completed: 3, total: 100 })).toBe("3/100 cards");
     expect(t("map.sets.cozy-cafe-room")).toBe("Cozy cafe room");
   });
@@ -189,6 +190,7 @@ describe("i18n", () => {
     expect(t("packs.catalogLargest", { size: 12 })).toBe("\ucd5c\ub300 12x12");
     expect(t("seasonProgress.catalogStat", { completed: 3, total: 333 })).toBe("3/333 \uADF8\uB9BC");
     expect(t("seasonProgress.stageStat", { unlocked: 2, total: 5 })).toBe("2/5 \uC2A4\uD14C\uC774\uC9C0 \uC5F4\uB9BC");
+    expect(t("packs.unlockPlanNeedBoth", { count: 12, completed: 2, required: 3 })).toBe("\uC2A4\uD47C 12\uAC1C\uB97C \uB354 \uBAA8\uC73C\uACE0 \uD32C\uD2B8\uB9AC \uBD80\uD0C1 2/3\uAC1C\uB97C \uB9C8\uCE58\uBA74 \uC5F4\uB9B4 \uAC70\uC608\uC694.");
     expect(t("badges.pipPortrait")).toBe("Pip \ucd08\uc0c1\ud654");
 
     setLanguagePreference("en", "ko-KR");
