@@ -1116,3 +1116,7 @@ Immediate implementation decisions:
 ### v0.1.254 Follow-up - Four Puzzle Quality Batch
 - Added another quality-gated Bakery/Village content batch while keeping silhouettes distinct enough for later thumbnail and reward art production.
 - GitHub verify workflow is now part of the project baseline; keep local QA aligned with the same test/catalog/hygiene/assets/build ladder before push.
+
+### v0.1.255 Follow-up - Four Puzzle Quality Batch
+- Added four more quality-gated launch puzzles, emphasizing immediately readable silhouettes for later art generation.
+- Season 0 catalog now has 26 free puzzles remaining to the 333 launch target.

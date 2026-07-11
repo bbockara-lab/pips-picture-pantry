@@ -1308,3 +1308,7 @@ Last updated: 2026-06-28
 ## v0.1.254 - Four Puzzle Quality Batch
 - Added 4 quality-gated launch-catalog puzzles with titleKey, English/Korean catalog copy, and artReadability briefs.
 - Catalog now stands at 303/333 free puzzles, with 30 remaining to the Season 0 launch target. Android bundle generation remains paused during local rework.
+
+## v0.1.255 - Four Puzzle Quality Batch
+- Added 4 quality-gated launch-catalog puzzles with titleKey, English/Korean catalog copy, and artReadability briefs.
+- Catalog now stands at 307/333 free puzzles, with 26 remaining to the Season 0 launch target. Android bundle generation remains paused during local rework.

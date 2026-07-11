@@ -1410,6 +1410,22 @@ export const ko = {
     "village-pantry-honey-dipper-jar-122": {
       title: "\uD5C8\uB2C8 \uB514\uD37C \uBCD1",
       imageName: "\uD5C8\uB2C8 \uB514\uD37C \uBCD1"
+    },
+    "bakery-window-cherry-cream-crown-122": {
+      title: "\uCCB4\uB9AC \uD06C\uB9BC \uC655\uAD00",
+      imageName: "\uCCB4\uB9AC \uD06C\uB9BC \uC655\uAD00"
+    },
+    "bakery-window-lemon-zest-petal-tart-123": {
+      title: "\uB808\uBAAC \uC81C\uC2A4\uD2B8 \uAF43\uC78E \uD0C0\uB974\uD2B8",
+      imageName: "\uB808\uBAAC \uC81C\uC2A4\uD2B8 \uAF43\uC78E \uD0C0\uB974\uD2B8"
+    },
+    "village-pantry-striped-sugar-sack-123": {
+      title: "\uC904\uBB34\uB2AC \uC124\uD0D5 \uC790\uB8E8",
+      imageName: "\uC904\uBB34\uB2AC \uC124\uD0D5 \uC790\uB8E8"
+    },
+    "village-pantry-tiny-copper-kettle-124": {
+      title: "\uC791\uC740 \uAD6C\uB9AC \uC8FC\uC804\uC790",
+      imageName: "\uC791\uC740 \uAD6C\uB9AC \uC8FC\uC804\uC790"
     }
   }
 };

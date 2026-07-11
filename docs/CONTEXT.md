@@ -2038,3 +2038,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added four readable free puzzles: Orange Cardamom Ring, Berry Cream Envelope, Sage Linen Bundle, and Honey Dipper Jar.
 - Raised catalog guards to 303 free puzzles, 213 large-board free puzzles, 101 Bakery Window 12x12 boards, 108 Village Pantry 10x10 boards, and 165 readable large-board briefs.
 - Version bumped to v0.1.254; local verification mirrors the GitHub verify workflow: syntax checks, catalog QA, targeted puzzle/catalog/i18n tests, full Vitest, hygiene/assets QA, and production build.
+
+### v0.1.255 - Four Puzzle Quality Batch
+- Added four readable free puzzles: Cherry Cream Crown, Lemon Zest Petal Tart, Striped Sugar Sack, and Tiny Copper Kettle.
+- Raised catalog guards to 307 free puzzles, 217 large-board free puzzles, 103 Bakery Window 12x12 boards, 110 Village Pantry 10x10 boards, and 169 readable large-board briefs.
+- Version bumped to v0.1.255; local verification continues to mirror the GitHub verify workflow before push.

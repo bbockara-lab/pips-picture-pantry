@@ -7718,6 +7718,134 @@ export const puzzles = [
           "0011111100",
           "1100000011"
       ]
+  },
+  {
+      "id": "bakery-window-cherry-cream-crown-122",
+      "title": "Cherry Cream Crown",
+      "titleKey": "puzzles.bakery-window-cherry-cream-crown-122",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "small pastry crown with three cream peaks, cherry center, and scalloped baked base",
+          "colorMood": "ruby cherry gloss, vanilla cream peaks, golden pastry scallops",
+          "tags": [
+              "pastry crown",
+              "cherry center",
+              "cream peaks"
+          ]
+      },
+      "solution": [
+          "001001001100",
+          "011111111110",
+          "111101111111",
+          "111111011111",
+          "110111111011",
+          "111111111111",
+          "111011110111",
+          "111111111111",
+          "011111111110",
+          "001111111100",
+          "011100001110",
+          "111000000111"
+      ]
+  },
+  {
+      "id": "bakery-window-lemon-zest-petal-tart-123",
+      "title": "Lemon Zest Petal Tart",
+      "titleKey": "puzzles.bakery-window-lemon-zest-petal-tart-123",
+      "packId": "bakery-window",
+      "access": "free",
+      "size": 12,
+      "difficulty": "hard",
+      "reward": 9,
+      "artReadability": {
+          "silhouette": "swirled petal tartlet with lemon zest center, cream ridges, and round crumb edge",
+          "colorMood": "sunny lemon zest, pale cream petals, toasted biscuit rim",
+          "tags": [
+              "lemon zest tart",
+              "cream ridges",
+              "petal tartlet"
+          ]
+      },
+      "solution": [
+          "001111111100",
+          "011111111110",
+          "111110011111",
+          "111001111111",
+          "111011001111",
+          "110111111011",
+          "111100110111",
+          "111111001111",
+          "111111111111",
+          "011111111110",
+          "001111111100",
+          "000111111000"
+      ]
+  },
+  {
+      "id": "village-pantry-striped-sugar-sack-123",
+      "title": "Striped Sugar Sack",
+      "titleKey": "puzzles.village-pantry-striped-sugar-sack-123",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "soft sugar sack with tied neck, vertical stripe patches, and a sagging cloth base",
+          "colorMood": "cream muslin sack, blue pantry stripes, warm flour-dust shadows",
+          "tags": [
+              "sugar sack",
+              "cloth stripes",
+              "tied neck"
+          ]
+      },
+      "solution": [
+          "0011111000",
+          "0111111100",
+          "1111111110",
+          "1101101011",
+          "1111111111",
+          "1101011011",
+          "1111111111",
+          "0111111110",
+          "0011111100",
+          "0110000110"
+      ]
+  },
+  {
+      "id": "village-pantry-tiny-copper-kettle-124",
+      "title": "Tiny Copper Kettle",
+      "titleKey": "puzzles.village-pantry-tiny-copper-kettle-124",
+      "packId": "village-pantry",
+      "access": "free",
+      "size": 10,
+      "difficulty": "medium",
+      "reward": 7,
+      "artReadability": {
+          "silhouette": "round little kettle with curved spout, top handle, and squat copper body",
+          "colorMood": "polished copper body, cream highlight rim, soft tea steam shadow",
+          "tags": [
+              "copper kettle",
+              "curved spout",
+              "top handle"
+          ]
+      },
+      "solution": [
+          "0011111100",
+          "0110000110",
+          "1111111111",
+          "1111111011",
+          "1101111111",
+          "1111111111",
+          "0111111110",
+          "0011111100",
+          "0110000110",
+          "1100000011"
+      ]
   }
 ];
 

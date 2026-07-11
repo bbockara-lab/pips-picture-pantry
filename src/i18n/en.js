@@ -1412,6 +1412,22 @@ export const en = {
     "village-pantry-honey-dipper-jar-122": {
       title: "Honey Dipper Jar",
       imageName: "Honey Dipper Jar"
+    },
+    "bakery-window-cherry-cream-crown-122": {
+      title: "Cherry Cream Crown",
+      imageName: "Cherry Cream Crown"
+    },
+    "bakery-window-lemon-zest-petal-tart-123": {
+      title: "Lemon Zest Petal Tart",
+      imageName: "Lemon Zest Petal Tart"
+    },
+    "village-pantry-striped-sugar-sack-123": {
+      title: "Striped Sugar Sack",
+      imageName: "Striped Sugar Sack"
+    },
+    "village-pantry-tiny-copper-kettle-124": {
+      title: "Tiny Copper Kettle",
+      imageName: "Tiny Copper Kettle"
     }
   }
 };
