@@ -1372,3 +1372,8 @@ Last updated: 2026-06-28
 - Visible app version: v0.1.268.
 - Android bundle generation remains paused during the local rework; the next handoff should include the mobile QA guard for the Pantry Room Path mission card.
 - Planned verification: local web QA plus mobile visual QA before Android packaging resumes.
+
+## Verification Update - 2026-07-11 v0.1.269 Pantry Progress Mission Action
+- Visible app version: v0.1.269.
+- Android bundle generation remains paused during the local rework; the next handoff should include the Room Path CTA that connects Pantry progression to the next decoration request.
+- Planned verification: local web QA plus mobile visual QA before Android packaging resumes.

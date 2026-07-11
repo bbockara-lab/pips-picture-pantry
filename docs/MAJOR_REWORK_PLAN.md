@@ -1177,3 +1177,7 @@ Immediate implementation decisions:
 ### v0.1.268 - Pantry Progress Mission Mobile Guard
 - Locked the new Pantry progression bridge into mobile QA. Future UI/art passes should preserve the card because it is the visible link between decoration requests, stage access, and spoon pacing.
 - This keeps the current priority on launch quality: fewer raw puzzle-production slices, more protection around the progression experience that makes the 333 launch puzzles feel structured.
+
+### v0.1.269 - Pantry Progress Mission Action
+- Turned the Pantry Room Path card from a progress readout into a guided action surface.
+- The first priority remains room-request progress; spoon earning stays available when the room gate is satisfied or when other Pantry cards call for it.

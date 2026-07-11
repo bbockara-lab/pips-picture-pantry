@@ -2107,3 +2107,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 ### v0.1.268 - Pantry Progress Mission Mobile Guard
 - Added explicit mobile visual QA coverage for the Pantry Room Path mission card so the next request target, spoon gate, meter, and fact chips cannot silently disappear during future layout work.
 - Bumped the visible app version to v0.1.268; verification focuses on syntax, full Vitest, hygiene/assets/catalog QA, production build, HTTP smoke, and mobile visual QA.
+
+### v0.1.269 - Pantry Progress Mission Action
+- Added a direct action to the Pantry Room Path mission card so the card now routes players toward the next decoration request before sending them to earn more spoons.
+- Bumped the visible app version to v0.1.269; verification focuses on Pantry syntax, i18n, mobile QA, full Vitest, hygiene/assets/catalog QA, production build, and HTTP smoke.

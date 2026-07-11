@@ -5098,3 +5098,22 @@ img {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* v0.1.269 pantry mission action */
+.pantry-progress-mission__action {
+  min-height: 42px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 214, 102, 0.98), rgba(244, 184, 91, 0.98));
+  color: var(--ink);
+  font: inherit;
+  font-weight: 950;
+  cursor: pointer;
+  box-shadow: 0 4px 0 rgba(78, 48, 54, 0.22);
+}
+
+.pantry-progress-mission__action:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 rgba(78, 48, 54, 0.22);
+}

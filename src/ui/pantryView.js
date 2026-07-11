@@ -452,7 +452,18 @@ function getNextPantryProgressStage(completedRequestCount) {
     .sort((left, right) => Number(left.pantryRoomStepRequired || 0) - Number(right.pantryRoomStepRequired || 0) || Number(left.unlockCost || 0) - Number(right.unlockCost || 0))[0] || null;
 }
 
-function renderPantryProgressMission(completedRequestCount, spoons) {
+function getNextPantryRequestDecoration(approvedDecorations, ownedIds, equippedDecorations) {
+  const starterRequest = approvedDecorations.find((decoration) => Number(decoration.cost || 0) === 0 && decoration.slot === "counter") || approvedDecorations[0];
+  if (starterRequest && (!ownedIds.includes(starterRequest.id) || equippedDecorations[starterRequest.slot] !== starterRequest.id)) {
+    return starterRequest;
+  }
+
+  return approvedDecorations
+    .filter((decoration) => decoration.id !== starterRequest?.id && !ownedIds.includes(decoration.id))
+    .sort((left, right) => Number(left.cost || 0) - Number(right.cost || 0) || left.id.localeCompare(right.id))[0] || null;
+}
+
+function renderPantryProgressMission(completedRequestCount, spoons, nextRequestDecoration, onPlanRequest, onPlayForSpoons) {
   const mission = document.createElement("div");
   mission.className = "pantry-progress-mission";
 
@@ -487,12 +498,25 @@ function renderPantryProgressMission(completedRequestCount, spoons) {
       + "<span>" + t("pantry.progressMissionRequests", { count: completedRequestCount, target: Number(nextStage.pantryRoomStepRequired || nextTarget) }) + "</span>"
       + "<span>" + t("pantry.progressMissionSpoons", { saved, cost: unlockCost, needed }) + "</span>";
     mission.appendChild(facts);
+
+    const action = document.createElement("button");
+    action.type = "button";
+    action.className = "pantry-progress-mission__action";
+    if (remainingRequests > 0 && nextRequestDecoration) {
+      action.textContent = t("pantry.progressMissionPlanRequest");
+      action.addEventListener("click", () => onPlanRequest?.(nextRequestDecoration));
+      mission.appendChild(action);
+    } else if (needed > 0) {
+      action.textContent = t("pantry.progressMissionPlaySpoons");
+      action.addEventListener("click", () => onPlayForSpoons?.());
+      mission.appendChild(action);
+    }
   }
 
   return mission;
 }
 
-function renderCollectionProgress(approvedDecorations, ownedIds, equippedDecorations, completedStoryGoalIds, spoons) {
+function renderCollectionProgress(approvedDecorations, ownedIds, equippedDecorations, completedStoryGoalIds, spoons, onPlanRequest, onPlayForSpoons) {
   const ownedSet = new Set(ownedIds);
   const progress = document.createElement("section");
   progress.className = "pantry-progress-board";
@@ -520,7 +544,8 @@ function renderCollectionProgress(approvedDecorations, ownedIds, equippedDecorat
     list.appendChild(row);
   });
 
-  const mission = renderPantryProgressMission(completedRequestCount, spoons);
+  const nextRequestDecoration = getNextPantryRequestDecoration(approvedDecorations, ownedIds, equippedDecorations);
+  const mission = renderPantryProgressMission(completedRequestCount, spoons, nextRequestDecoration, onPlanRequest, onPlayForSpoons);
 
   progress.append(header, mission, list);
   return progress;
@@ -745,7 +770,7 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     advisorMount.replaceChildren(renderPlacementAdvisor(selectedSlotId, approvedDecorations, ownedIds));
     savingsGoalMount.replaceChildren(renderSavingsGoal(selectedSlotId, approvedDecorations, ownedIds, spoons, trackedGoalId));
     earningPlanMount.replaceChildren(renderEarningPlan(selectedSlotId, approvedDecorations, ownedIds, spoons, trackedGoalId, onPlayForSpoons));
-    progressMount.replaceChildren(renderCollectionProgress(approvedDecorations, ownedIds, equippedDecorations, completedStoryGoalIds, spoons));
+    progressMount.replaceChildren(renderCollectionProgress(approvedDecorations, ownedIds, equippedDecorations, completedStoryGoalIds, spoons, planNextRoomRequest, onPlayForSpoons));
     displayPlanMount.replaceChildren(renderDisplayPlan(selectedSlotId, approvedDecorations, ownedIds, equippedDecorations, spoons));
 
     const visibleDecorations = approvedDecorations
@@ -788,6 +813,17 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     if (shopLimitControl) {
       shopLimitMount.appendChild(shopLimitControl);
     }
+  }
+
+  function planNextRoomRequest(decoration) {
+    if (!decoration) {
+      return;
+    }
+    if (Number(decoration.cost || 0) === 0) {
+      startStoryRequest(decoration);
+      return;
+    }
+    selectStoryArrival(decoration);
   }
 
   function trackGoal(decoration) {

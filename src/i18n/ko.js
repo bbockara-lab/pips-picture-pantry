@@ -461,6 +461,8 @@ export const ko = {
     progressMissionCompleteBody: "\ubd80\ud0c1 {count}\uac1c\uac00 \uc644\ub8cc\ub410\uc5b4\uc694. \ub2e4\uc74c \uacc4\uc808 \ubc29\uc5d0\uc11c \uc0c8 \uc7a5\uc2dd \ucc55\ud130\ub97c \uc5f4 \uc218 \uc788\uc5b4\uc694.",
     progressMissionRequests: "\ubd80\ud0c1 {count}/{target}\uac1c",
     progressMissionSpoons: "\uc2a4\ud14c\uc774\uc9c0 \uc2a4\ud47c {saved}/{cost}\uac1c, {needed}\uac1c \ub354",
+    progressMissionPlanRequest: "\ub2e4\uc74c \ubd80\ud0c1 \uacc4\ud68d\ud558\uae30",
+    progressMissionPlaySpoons: "\uc2a4\ud47c \ubc8c\ub7ec \uac00\uae30",
     progressSlot: "{owned}/{total}",
     displayPlanEyebrow: "배치 계획",
     displayPlanAllTitle: "한 자리를 골라 계획하기",

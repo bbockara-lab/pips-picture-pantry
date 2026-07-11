@@ -463,6 +463,8 @@ export const en = {
     progressMissionCompleteBody: "{count} requests are complete. Future seasonal rooms can add the next decoration chapter.",
     progressMissionRequests: "Requests {count}/{target}",
     progressMissionSpoons: "Stage spoons {saved}/{cost}; {needed} more",
+    progressMissionPlanRequest: "Plan next request",
+    progressMissionPlaySpoons: "Play for spoons",
     progressSlot: "{owned}/{total}",
     displayPlanEyebrow: "Display plan",
     displayPlanAllTitle: "Choose one spot to plan",

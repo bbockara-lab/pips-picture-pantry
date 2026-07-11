@@ -823,6 +823,7 @@ async function verifyPantryPlacement(page, viewportName) {
   await expectVisible(page, ".pantry-progress-mission", viewportName);
   await expectVisible(page, ".pantry-progress-mission__meter", viewportName);
   await expectVisible(page, ".pantry-progress-mission__facts span", viewportName);
+  await expectVisible(page, ".pantry-progress-mission__action", viewportName);
   await expectVisible(page, ".pantry-display-plan", viewportName);
   await expectVisible(page, ".pantry-slot-filters", viewportName);
   await expectVisible(page, ".pantry-rarity-filters", viewportName);
@@ -874,6 +875,11 @@ async function verifyPantryPlacement(page, viewportName) {
     progressMissionMetrics.facts.some((fact) => fact.width < 120 || fact.height < 24)
   ) {
     failures.push("[" + viewportName + "] Pantry progress mission mobile layout regressed: " + JSON.stringify(progressMissionMetrics));
+  }
+
+  const missionActionText = await page.locator(".pantry-progress-mission__action").first().innerText();
+  if (!/Plan next request|다음 부탁/.test(missionActionText)) {
+    failures.push("[" + viewportName + "] Pantry progress mission should offer the next request action first, saw " + missionActionText);
   }
 
   const savingsGoalText = await page.locator(".pantry-savings-goal").first().innerText();
