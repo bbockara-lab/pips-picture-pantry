@@ -1382,3 +1382,8 @@ Last updated: 2026-06-28
 - Visible app version: v0.1.270.
 - Android bundle generation remains paused during the local rework; the next handoff should include Time Attack records that show active-board progress for better leaderboard/readback clarity.
 - Planned verification: Time Attack save/UI tests, local web QA, and mobile visual QA before Android packaging resumes.
+
+## Verification Update - 2026-07-11 v0.1.271 Completed Line Guidance Foundation
+- Visible app version: v0.1.271.
+- Android bundle generation remains paused during the local rework; the next handoff should include solution-aware completed-line glow and soft blank/X board guidance.
+- Planned verification: board syntax, full local web QA, and mobile visual QA before Android packaging resumes.

@@ -1194,3 +1194,7 @@ Immediate implementation decisions:
 - Paid hint design should feel like a fair continuation tool: the player should think "one more hint will keep this puzzle alive" rather than "the game solved it for me." Hints should prioritize logically useful filled cells and safe blank marks, not purely random answers.
 - Time Attack should keep a distinct hint economy: hints are a tactical spoon sink under pressure, with rising per-run cost and clear no-refund/no-record-confusion semantics. The reveal payload may be smaller or faster than normal mode if needed to protect competitive integrity.
 - Suggested implementation order: first drag input and line-complete feedback in the focused puzzle screen, then normal puzzle hint bundles/copy, then Time Attack-specific tuning, then mobile QA guards for drag gestures, line-complete states, hint bundle UI, undo semantics, and scroll prevention.
+
+### v0.1.271 - Completed Line Guidance Foundation
+- Added the first implementation slice for friendly puzzle guidance: row/column completion is now checked against the actual solution before the UI shows completed-line glow or soft blank/X suggestions.
+- This starts the larger interaction UX lane without changing rewards, hint economy, or drag behavior yet.

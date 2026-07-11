@@ -1,4 +1,4 @@
-import { CELL, computeClues } from "../game/nonogram.js";
+import { CELL, computeClues, normalizeSolution } from "../game/nonogram.js";
 import { puzzleText } from "../i18n/index.js";
 import { getPuzzleCellColor } from "./coloredPuzzleArt.js";
 
@@ -9,21 +9,28 @@ export function renderBoard(puzzle, state, onCellPress, options = {}) {
   board.style.setProperty("--board-size", puzzle.size);
 
   const cursor = options.cursorEnabled === false ? null : state.cursor;
-  const lineGuidance = getLineGuidance(clues, state, cursor, options);
-  board.appendChild(renderColumnClues(clues.columns, cursor));
-  board.appendChild(renderRowClues(clues.rows, cursor));
+  const lineGuidance = getLineGuidance(puzzle, state, options);
+  board.appendChild(renderColumnClues(clues.columns, cursor, lineGuidance));
+  board.appendChild(renderRowClues(clues.rows, cursor, lineGuidance));
   board.appendChild(renderCells(puzzle, state, onCellPress, options, lineGuidance));
 
   return board;
 }
 
-function renderColumnClues(columns, cursor) {
+function renderColumnClues(columns, cursor, lineGuidance) {
   const clueRow = document.createElement("div");
   clueRow.className = "column-clues";
 
   columns.forEach((clue, columnIndex) => {
     const cell = document.createElement("div");
-    cell.className = cursor?.column === columnIndex ? "column-clue active" : "column-clue";
+    const classes = ["column-clue"];
+    if (cursor?.column === columnIndex) {
+      classes.push("active");
+    }
+    if (lineGuidance.completedColumns.has(columnIndex)) {
+      classes.push("line-complete");
+    }
+    cell.className = classes.join(" ");
     clue.forEach((number) => {
       const numberElement = document.createElement("span");
       numberElement.textContent = number;
@@ -35,13 +42,20 @@ function renderColumnClues(columns, cursor) {
   return clueRow;
 }
 
-function renderRowClues(rows, cursor) {
+function renderRowClues(rows, cursor, lineGuidance) {
   const clueColumn = document.createElement("div");
   clueColumn.className = "row-clues";
 
   rows.forEach((clue, rowIndex) => {
     const cell = document.createElement("div");
-    cell.className = cursor?.row === rowIndex ? "row-clue active" : "row-clue";
+    const classes = ["row-clue"];
+    if (cursor?.row === rowIndex) {
+      classes.push("active");
+    }
+    if (lineGuidance.completedRows.has(rowIndex)) {
+      classes.push("line-complete");
+    }
+    cell.className = classes.join(" ");
     clue.forEach((number) => {
       const numberElement = document.createElement("span");
       numberElement.textContent = number;
@@ -79,9 +93,15 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
       if (!locked && cursor?.row === rowIndex && cursor?.column === columnIndex) {
         classes.push("selected");
       }
+      if (!locked && lineGuidance.completedRows.has(rowIndex)) {
+        classes.push("completed-row");
+      }
+      if (!locked && lineGuidance.completedColumns.has(columnIndex)) {
+        classes.push("completed-column");
+      }
       const safeSuggestion = !locked && cell === CELL.empty && (
-        (lineGuidance.rowSatisfied && cursor?.row === rowIndex) ||
-        (lineGuidance.columnSatisfied && cursor?.column === columnIndex)
+        lineGuidance.completedRows.has(rowIndex) ||
+        lineGuidance.completedColumns.has(columnIndex)
       );
       if (safeSuggestion) {
         classes.push("safe-suggestion");
@@ -104,21 +124,38 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
   return grid;
 }
 
-function getLineGuidance(clues, state, cursor, options) {
-  if (options.locked || options.cursorEnabled === false || !cursor) {
-    return { rowSatisfied: false, columnSatisfied: false };
+function getLineGuidance(puzzle, state, options) {
+  const completedRows = new Set();
+  const completedColumns = new Set();
+  if (options.locked) {
+    return { completedRows, completedColumns };
   }
 
-  const row = state.cells[cursor.row] || [];
-  const column = state.cells.map((line) => line[cursor.column]);
-  return {
-    rowSatisfied: isLineFilledToTarget(row, clues.rows[cursor.row]),
-    columnSatisfied: isLineFilledToTarget(column, clues.columns[cursor.column])
-  };
+  const solution = normalizeSolution(puzzle.solution);
+  solution.forEach((solutionRow, rowIndex) => {
+    if (isLineCorrectlySatisfied(state.cells[rowIndex] || [], solutionRow)) {
+      completedRows.add(rowIndex);
+    }
+  });
+
+  for (let columnIndex = 0; columnIndex < puzzle.size; columnIndex += 1) {
+    const cells = state.cells.map((row) => row[columnIndex]);
+    const solutionColumn = solution.map((row) => row[columnIndex]);
+    if (isLineCorrectlySatisfied(cells, solutionColumn)) {
+      completedColumns.add(columnIndex);
+    }
+  }
+
+  return { completedRows, completedColumns };
 }
 
-function isLineFilledToTarget(line, clue = [0]) {
-  const target = clue.reduce((total, value) => total + Number(value || 0), 0);
-  const filled = line.filter((cell) => cell === CELL.filled).length;
-  return filled === target;
+function isLineCorrectlySatisfied(line, solutionLine) {
+  if (!solutionLine.some(Boolean)) {
+    return false;
+  }
+
+  return solutionLine.every((shouldFill, index) => {
+    const cell = line[index];
+    return shouldFill ? cell === CELL.filled : cell !== CELL.filled;
+  });
 }

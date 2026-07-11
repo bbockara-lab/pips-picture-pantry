@@ -2123,3 +2123,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Completed-line feedback should make the game feel helpful: a completed row/column gets a soft backlight and remaining unresolved cells can receive soft X/blank guidance. Keep it gentle and cozy; avoid loud arcade effects or anything that removes puzzle agency.
 - Hint economy needs size-aware design. A one-cell hint is too weak for 12x12 boards, so normal puzzles should use difficulty-scaled reveal bundles and paid hints should feel worth spending spoons on. Time Attack should remain separate: hints can be a spoon sink under pressure, but must protect record clarity and fairness.
 - Future QA coverage should include drag gesture behavior, auto/soft X line completion, hint bundle cost and reveal counts, undo/no-refund semantics, replay-clean interactions, and mobile no-scroll-regression checks.
+
+### v0.1.271 - Completed Line Guidance Foundation
+- Added correctness-based row/column completion guidance to the puzzle board so satisfied lines can glow gently and show soft blank/X suggestions across the whole completed line.
+- Replaced the previous cursor-only clue-count heuristic with solution-aware line checks, preventing wrong filled cells from being treated as complete just because the clue count matches.
+- Bumped the visible app version to v0.1.271; verification focuses on board syntax, full Vitest, hygiene/assets/catalog QA, production build, HTTP smoke, and mobile visual QA.
