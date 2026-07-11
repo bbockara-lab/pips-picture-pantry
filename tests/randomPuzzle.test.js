@@ -32,10 +32,13 @@ describe("time attack random puzzle generation", () => {
     expect(createTimeAttackRun({ seed: "run", rounds: 6 }).map((puzzle) => puzzle.size)).toEqual([5, 8, 10, 12, 12, 12]);
   });
 
-  it("scores completed runs with a speed bonus", () => {
-    expect(getTimeAttackRunScore({ completedRounds: 3, elapsedSeconds: 45 })).toBe(3555);
-    expect(getTimeAttackRunScore({ completedRounds: 3, elapsedSeconds: 120 })).toBeGreaterThan(
-      getTimeAttackRunScore({ completedRounds: 2, elapsedSeconds: 10 })
+  it("scores time attack records by progress cells before speed", () => {
+    expect(getTimeAttackRunScore({ progressCells: 189, elapsedSeconds: 45 })).toBe(189555);
+    expect(getTimeAttackRunScore({ progressCells: 90, elapsedSeconds: 300 })).toBeGreaterThan(
+      getTimeAttackRunScore({ progressCells: 89, elapsedSeconds: 1 })
+    );
+    expect(getTimeAttackRunScore({ progressCells: 90, elapsedSeconds: 1, hintsUsed: 2 })).toBeLessThan(
+      getTimeAttackRunScore({ progressCells: 90, elapsedSeconds: 1, hintsUsed: 0 })
     );
   });
 });

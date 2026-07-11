@@ -32,7 +32,7 @@ import { renderSettingsDialog } from "./settingsView.js";
 import { advanceTimeAttackSession, createTimeAttackSession, getTimeAttackElapsedSeconds, TIME_ATTACK_TRIAL_ROUNDS } from "./timeAttackFlow.js";
 import { renderTimeAttackView } from "./timeAttackView.js";
 
-export const APP_VERSION = "v0.1.244";
+export const APP_VERSION = "v0.1.245";
 const DAILY_BONUS = ECONOMY.DAILY_BONUS;
 
 export function renderApp(root) {
@@ -50,6 +50,7 @@ export function renderApp(root) {
   let activeTimeAttackStartedAt = null;
   let timeAttackTimerHandle = null;
   let timeAttackRoundIndex = 0;
+  let activeTimeAttackHintsUsed = 0;
   let timeAttackLastResult = null;
   let activeGuide = null;
   let replayChallenge = false;
@@ -131,6 +132,7 @@ export function renderApp(root) {
     activeTimeAttackRun = session.run;
     activeTimeAttackStartedAt = session.startedAt;
     timeAttackRoundIndex = session.roundIndex;
+    activeTimeAttackHintsUsed = 0;
     activePuzzle = session.activePuzzle;
     replayChallenge = false;
     activeView = "timeAttack";
@@ -147,16 +149,19 @@ export function renderApp(root) {
     activeTimeAttackRun = null;
     activeTimeAttackStartedAt = null;
     timeAttackRoundIndex = 0;
+    activeTimeAttackHintsUsed = 0;
     draw();
   }
 
-  function completeTimeAttackPuzzle(puzzle) {
+  function completeTimeAttackPuzzle(puzzle, puzzleState) {
     const result = advanceTimeAttackSession({
       run: activeTimeAttackRun,
       seed: activeTimeAttackSeed,
       startedAt: activeTimeAttackStartedAt,
       roundIndex: timeAttackRoundIndex,
-      puzzle
+      puzzle,
+      puzzleState,
+      previousHintsUsed: activeTimeAttackHintsUsed
     });
 
     if (result.status === "closed") {
@@ -165,6 +170,7 @@ export function renderApp(root) {
     }
 
     if (result.status === "next-round") {
+      activeTimeAttackHintsUsed += Math.max(0, Number(puzzleState?.hintsUsed || 0));
       timeAttackRoundIndex = result.roundIndex;
       activePuzzle = result.activePuzzle;
       draw();
@@ -177,6 +183,7 @@ export function renderApp(root) {
     playOpen = false;
     activeTimeAttackRun = null;
     timeAttackRoundIndex = 0;
+    activeTimeAttackHintsUsed = 0;
     draw();
   }
   function requestReset() {

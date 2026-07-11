@@ -131,9 +131,11 @@ function hashSeed(seed) {
   return hash >>> 0;
 }
 
-export function getTimeAttackRunScore({ completedRounds = 0, elapsedSeconds = 0 } = {}) {
-  const rounds = Math.max(0, Number(completedRounds) || 0);
+export function getTimeAttackRunScore({ progressCells = 0, elapsedSeconds = 0, hintsUsed = 0 } = {}) {
+  const progress = Math.max(0, Math.floor(Number(progressCells) || 0));
   const elapsed = Math.max(0, Number(elapsedSeconds) || 0);
+  const hints = Math.max(0, Math.floor(Number(hintsUsed) || 0));
   const speedBonus = Math.max(0, 600 - Math.floor(elapsed));
-  return Math.floor(rounds * 1000 + speedBonus);
+  const hintPenalty = Math.min(500, hints * 25);
+  return Math.max(0, Math.floor(progress * 1000 + speedBonus - hintPenalty));
 }

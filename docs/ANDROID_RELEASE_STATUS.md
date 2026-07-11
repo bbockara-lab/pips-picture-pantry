@@ -1275,3 +1275,7 @@ Last updated: 2026-06-28
 ## v0.1.244 - Readable Puzzle Batch
 - Added 4 quality-gated launch-catalog puzzles with titleKey, English/Korean catalog copy, and artReadability briefs.
 - Catalog now stands at 287/333 free puzzles, with 46 remaining to the Season 0 launch target. Android bundle generation remains paused during local rework.
+
+## v0.1.245 - Time Attack Progress-Cell Records
+- Time Attack records now store progress-cell metadata instead of relying only on completed-round scoring.
+- Android bundle generation remains paused during local rework.

@@ -68,3 +68,27 @@ export function countMistakes(state, solutionGrid) {
 
   return mistakes;
 }
+
+export function countCorrectCells(state, solutionGrid) {
+  if (!state?.cells || !Array.isArray(solutionGrid)) {
+    return 0;
+  }
+  if (isSolved(state, solutionGrid)) {
+    const solution = normalizeSolution(solutionGrid);
+    return solution.reduce((total, row) => total + row.length, 0);
+  }
+
+  const solution = normalizeSolution(solutionGrid);
+  let correct = 0;
+  solution.forEach((row, rowIndex) => {
+    row.forEach((shouldFill, columnIndex) => {
+      const current = state.cells?.[rowIndex]?.[columnIndex];
+      if (shouldFill && current === CELL.filled) {
+        correct += 1;
+      } else if (!shouldFill && current === CELL.marked) {
+        correct += 1;
+      }
+    });
+  });
+  return correct;
+}

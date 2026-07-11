@@ -35,7 +35,7 @@ import {
   unlockPack
 } from "../src/game/save.js";
 import { pantryDecorations } from "../src/data/decorations.js";
-import { advanceTimeAttackSession, createTimeAttackSession } from "../src/ui/timeAttackFlow.js";
+import { advanceTimeAttackSession, createTimeAttackSession, getTimeAttackProgress } from "../src/ui/timeAttackFlow.js";
 
 class LocalStorageMock {
   constructor() {
@@ -215,36 +215,78 @@ describe("player save profiles", () => {
     expect(getPantrySpoons()).toBe(3);
   });
 
+  it("measures time attack progress by completed boards plus current correct cells", () => {
+    setActivePlayerName("Jay");
+    const session = createTimeAttackSession({ now: 1000 });
+    const partialState = {
+      cells: session.run[1].solution.map((row, rowIndex) => [...row].map((cell, columnIndex) => {
+        if (rowIndex === 0 || columnIndex === 0) {
+          return cell === "1" ? "filled" : "marked";
+        }
+        return "empty";
+      }))
+    };
+
+    const progress = getTimeAttackProgress({
+      run: session.run,
+      roundIndex: 1,
+      puzzle: session.run[1],
+      puzzleState: partialState
+    });
+
+    expect(progress.completedBefore).toBe(25);
+    expect(progress.progressCells).toBeGreaterThan(25);
+    expect(progress.progressCells).toBe(25 + progress.currentRoundCorrectCells);
+  });
+
   it("records mixed-size time attack runs against the largest reached board", () => {
     setActivePlayerName("Jay");
     const session = createTimeAttackSession({ now: 1000 });
+    const finalPuzzle = session.run.at(-1);
 
     const result = advanceTimeAttackSession({
       run: session.run,
       seed: session.seed,
       startedAt: Date.now(),
       roundIndex: session.run.length - 1,
-      puzzle: session.run.at(-1)
+      puzzle: finalPuzzle,
+      puzzleState: {
+        cells: finalPuzzle.solution.map((row) => [...row].map((cell) => cell === "1" ? "filled" : "empty")),
+        hintsUsed: 1
+      },
+      previousHintsUsed: 2
     });
 
     expect(session.run.map((puzzle) => puzzle.size)).toEqual([5, 8, 10]);
     expect(result.status).toBe("complete");
     expect(getTimeAttackBestScores()["10"].completedRounds).toBe(3);
+    expect(getTimeAttackBestScores()["10"].progressCells).toBe(189);
+    expect(getTimeAttackBestScores()["10"].currentRoundCorrectCells).toBe(100);
+    expect(getTimeAttackBestScores()["10"].hintsUsed).toBe(3);
     expect(getTimeAttackBestScores()["5"]).toBeUndefined();
   });
 
   it("tracks time attack rewards and best scores", () => {
     setActivePlayerName("Jay");
 
-    const first = recordTimeAttackResult({ size: 5, score: 4, seed: "seed-a", completedRounds: 2 });
+    const first = recordTimeAttackResult({
+      size: 5,
+      score: 4004,
+      seed: "seed-a",
+      completedRounds: 2,
+      progressCells: 4,
+      currentRoundCorrectCells: 4,
+      hintsUsed: 1
+    });
     expect(first.reward).toBe(27);
     expect(first.recordImproved).toBe(true);
     expect(first.rewardAllowed).toBe(true);
     expect(getPantrySpoons()).toBe(27);
     expect(getTimeAttackDailyCount()).toBe(1);
-    expect(getTimeAttackBestScores()["5"].score).toBe(4);
+    expect(getTimeAttackBestScores()["5"].score).toBe(4004);
+    expect(getTimeAttackBestScores()["5"].progressCells).toBe(4);
 
-    const second = recordTimeAttackResult({ size: 5, score: 3, seed: "seed-b", completedRounds: 1 });
+    const second = recordTimeAttackResult({ size: 5, score: 3003, seed: "seed-b", completedRounds: 1, progressCells: 3 });
     expect(second.reward).toBe(15);
     expect(second.recordImproved).toBe(false);
     expect(getPantrySpoons()).toBe(42);

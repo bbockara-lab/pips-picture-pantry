@@ -53,7 +53,7 @@ export function renderPuzzleView(puzzle, options = {}) {
       }
       playComplete();
       if (!isReplayChallenge) {
-        options.onPuzzleComplete?.(puzzle);
+        options.onPuzzleComplete?.(puzzle, state);
       }
     }
     draw();

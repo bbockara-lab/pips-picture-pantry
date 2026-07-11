@@ -1991,3 +1991,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 ### v0.1.244 - Readable Puzzle Batch
 - Added four readable large-board puzzles: Bakery Window 12x12 Raspberry Lattice Tart and Sesame Pretzel Knot; Village Pantry 10x10 Porcelain Measuring Jug and Embroidered Tea Cozy.
 - Raised catalog guards to 287 free puzzles, 197 large-board free puzzles, 93 Bakery Window 12x12 boards, 100 Village Pantry 10x10 boards, and 149 readable large-board briefs.
+
+### v0.1.245 - Time Attack Progress-Cell Records
+- Changed Time Attack record metadata and lobby copy from round-only scoring toward progress-cell records: completed previous boards plus correct cells on the current board.
+- Saved best scores now include progressCells, currentRoundCorrectCells, hintsUsed, elapsedSeconds, and score so future timed partial runs can rank by one-more-correct-cell progress.

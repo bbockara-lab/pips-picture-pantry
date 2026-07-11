@@ -131,7 +131,7 @@ function getBestSummaryText(bestScores) {
     return t("timeAttack.noRecord");
   }
   return t("timeAttack.bestSummary", {
-    score: best.score || 0,
+    progress: getRecordProgress(best),
     time: formatElapsedSeconds(best.elapsedSeconds || 0)
   });
 }
@@ -148,7 +148,7 @@ function createRecordsPanel(bestScores) {
       const item = document.createElement("li");
       item.textContent = t("timeAttack.recordLine", {
         size: record.size || "?",
-        score: record.score || 0,
+        progress: getRecordProgress(record),
         time: formatElapsedSeconds(record.elapsedSeconds || 0)
       });
       list.appendChild(item);
@@ -175,12 +175,20 @@ function createLastResultPanel(lastResult) {
   const score = document.createElement("p");
   score.className = "time-attack-panel__score";
   score.textContent = t("timeAttack.lastScore", {
-    score: lastResult.score || 0,
+    progress: getRecordProgress(lastResult),
     time: formatElapsedSeconds(lastResult.elapsedSeconds || 0)
   });
 
   result.append(title, score, reward);
   return result;
+}
+
+function getRecordProgress(record) {
+  const storedProgress = Number(record?.progressCells);
+  if (Number.isFinite(storedProgress) && storedProgress > 0) {
+    return Math.floor(storedProgress);
+  }
+  return Math.max(0, Math.floor(Number(record?.score || 0) / 1000));
 }
 
 function getBestRecord(bestScores) {

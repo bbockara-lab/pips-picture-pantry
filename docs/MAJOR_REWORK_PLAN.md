@@ -1074,3 +1074,7 @@ Immediate implementation decisions:
 ### v0.1.244 Follow-up - Readable Puzzle Batch
 - Continued the Season 0 catalog ramp with four quality-gated puzzles while staying in the launch-polish pivot zone.
 - New batch: Raspberry Lattice Tart, Sesame Pretzel Knot, Porcelain Measuring Jug, and Embroidered Tea Cozy. Keep future batches similarly distinct in silhouette and color mood.
+
+### v0.1.245 Follow-up - Time Attack Progress-Cell Records
+- Time Attack record design now uses correct progress cells as the primary ranking unit, with elapsed time and hint usage as secondary score factors.
+- This preserves the user's direction that one more correct move should matter more than merely reaching the same board or round.

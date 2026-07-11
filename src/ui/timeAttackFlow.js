@@ -1,3 +1,4 @@
+import { countCorrectCells } from "../game/nonogram.js";
 import { createTimeAttackRun, getTimeAttackRunScore } from "../game/randomPuzzle.js";
 import { recordTimeAttackResult } from "../game/save.js";
 
@@ -16,7 +17,7 @@ export function createTimeAttackSession({ currentPuzzle, rounds = TIME_ATTACK_TR
   };
 }
 
-export function advanceTimeAttackSession({ run, seed, startedAt, roundIndex, puzzle } = {}) {
+export function advanceTimeAttackSession({ run, seed, startedAt, roundIndex, puzzle, puzzleState, previousHintsUsed = 0 } = {}) {
   if (!run?.length) {
     return { status: "closed" };
   }
@@ -31,12 +32,17 @@ export function advanceTimeAttackSession({ run, seed, startedAt, roundIndex, puz
   }
 
   const elapsedSeconds = getTimeAttackElapsedSeconds(startedAt);
+  const progress = getTimeAttackProgress({ run, roundIndex, puzzle, puzzleState });
+  const hintsUsed = Math.max(0, Number(previousHintsUsed || 0)) + Math.max(0, Number(puzzleState?.hintsUsed || 0));
   const result = recordTimeAttackResult({
     size: getTimeAttackRunRecordSize(run, puzzle),
-    score: getTimeAttackRunScore({ completedRounds: run.length, elapsedSeconds }),
+    score: getTimeAttackRunScore({ progressCells: progress.progressCells, elapsedSeconds, hintsUsed }),
     seed,
     completedRounds: run.length,
-    elapsedSeconds
+    elapsedSeconds,
+    progressCells: progress.progressCells,
+    currentRoundCorrectCells: progress.currentRoundCorrectCells,
+    hintsUsed
   });
 
   return {
@@ -49,6 +55,22 @@ export function advanceTimeAttackSession({ run, seed, startedAt, roundIndex, puz
 export function getTimeAttackElapsedSeconds(startedAt) {
   if (!startedAt) return 0;
   return Math.max(0, Math.floor((Date.now() - startedAt) / 1000));
+}
+
+export function getTimeAttackProgress({ run, roundIndex = 0, puzzle, puzzleState } = {}) {
+  const safeRun = Array.isArray(run) ? run : [];
+  const currentIndex = Math.max(0, Math.floor(Number(roundIndex) || 0));
+  const completedBefore = safeRun.slice(0, currentIndex).reduce((total, entry) => {
+    const size = Math.max(0, Number(entry?.size || 0));
+    return total + size * size;
+  }, 0);
+  const currentPuzzle = puzzle || safeRun[currentIndex];
+  const currentRoundCorrectCells = countCorrectCells(puzzleState, currentPuzzle?.solution || []);
+  return {
+    completedBefore,
+    currentRoundCorrectCells,
+    progressCells: completedBefore + currentRoundCorrectCells
+  };
 }
 
 function getTimeAttackRunRecordSize(run, puzzle) {

@@ -224,13 +224,27 @@ export function markPackCompletedIfFirst(packOrId) {
   return { completed: true, bonus };
 }
 
-export function recordTimeAttackResult({ size, score, seed, completedRounds = 0, elapsedSeconds = 0 } = {}) {
+export function recordTimeAttackResult({
+  size,
+  score,
+  seed,
+  completedRounds = 0,
+  elapsedSeconds = 0,
+  progressCells = 0,
+  currentRoundCorrectCells = 0,
+  hintsUsed = 0
+} = {}) {
   const save = loadSave() || createEmptySave();
   const today = getLocalDateKey();
   const dailyCount = Number(save.timeAttackDailyCount[today] || 0);
   const rewardKey = String(size || "mixed");
   const previousBest = Number(save.timeAttackBestScores[rewardKey]?.score || 0);
   const normalizedScore = Math.max(0, Number(score || 0));
+  const normalizedCompletedRounds = Math.max(0, Number(completedRounds || 0));
+  const normalizedElapsedSeconds = Math.max(0, Math.floor(Number(elapsedSeconds) || 0));
+  const normalizedProgressCells = Math.max(0, Math.floor(Number(progressCells) || 0));
+  const normalizedCurrentRoundCorrectCells = Math.max(0, Math.floor(Number(currentRoundCorrectCells) || 0));
+  const normalizedHintsUsed = Math.max(0, Math.floor(Number(hintsUsed) || 0));
   const recordImproved = normalizedScore > previousBest;
   const rewardAllowed = dailyCount < getDailyTimeAttackLimit();
   let reward = 0;
@@ -249,14 +263,28 @@ export function recordTimeAttackResult({ size, score, seed, completedRounds = 0,
       score: normalizedScore,
       size: Number(size) || null,
       seed: seed || null,
-      completedRounds: Math.max(0, Number(completedRounds || 0)),
-    elapsedSeconds: Math.max(0, Math.floor(Number(elapsedSeconds) || 0)),
+      completedRounds: normalizedCompletedRounds,
+      elapsedSeconds: normalizedElapsedSeconds,
+      progressCells: normalizedProgressCells,
+      currentRoundCorrectCells: normalizedCurrentRoundCorrectCells,
+      hintsUsed: normalizedHintsUsed,
       date: today
     };
   }
 
   saveGame(save);
-  return { reward, recordImproved, rewardAllowed, dailyCount: save.timeAttackDailyCount[today] || dailyCount, score: normalizedScore, completedRounds: Math.max(0, Number(completedRounds || 0)), elapsedSeconds: Math.max(0, Math.floor(Number(elapsedSeconds) || 0)) };
+  return {
+    reward,
+    recordImproved,
+    rewardAllowed,
+    dailyCount: save.timeAttackDailyCount[today] || dailyCount,
+    score: normalizedScore,
+    completedRounds: normalizedCompletedRounds,
+    elapsedSeconds: normalizedElapsedSeconds,
+    progressCells: normalizedProgressCells,
+    currentRoundCorrectCells: normalizedCurrentRoundCorrectCells,
+    hintsUsed: normalizedHintsUsed
+  };
 }
 
 export function getTimeAttackBestScores() {
