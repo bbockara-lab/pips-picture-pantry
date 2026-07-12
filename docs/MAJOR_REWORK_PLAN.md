@@ -1240,3 +1240,8 @@ Immediate implementation decisions:
 ### v0.1.281 - Hint Economy State Rule
 - Track paid extra hints separately from total hints so free-hint allowances can later vary by board size, difficulty, event, or onboarding without corrupting price escalation.
 - Preserve the fairness rule: undo may remove hint-filled cells, but hint usage and spoon-paid hint usage remain recorded.
+
+
+### v0.1.282 - Friendly Zero-Clue Rows
+- For first-session and large-board friendliness, rows or columns with a 0 clue should visually guide players toward X marks instead of staying visually inert.
+- Keep this as guidance, not a separate reward/economy action: tapping or dragging the suggested cells still records normal player marks.

@@ -2174,3 +2174,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Separated paid normal puzzle hint count from total hint count with `paidHintsUsed` in puzzle state.
 - Extra hint pricing now reads paid hint count directly instead of deriving it from `hintsUsed - hintLimit`, keeping future variable free-hint rules safe.
 - Undo still clears revealed cells only; hint use and paid hint count remain spent by design.
+
+
+### v0.1.282 - Zero-Clue Line Guidance
+- Completed-line guidance now treats all-empty solution lines as satisfied when the player has no filled cells in that row or column.
+- This lets 0-clue rows/columns show the same soft completed-line glow and safe X suggestions as other solved lines.
+- Added board-view guard coverage for zero-clue line behavior.

@@ -239,11 +239,7 @@ function getLineGuidance(puzzle, state, options) {
   return { completedRows, completedColumns };
 }
 
-function isLineCorrectlySatisfied(line, solutionLine) {
-  if (!solutionLine.some(Boolean)) {
-    return false;
-  }
-
+export function isLineCorrectlySatisfied(line, solutionLine) {
   return solutionLine.every((shouldFill, index) => {
     const cell = line[index];
     return shouldFill ? cell === CELL.filled : cell !== CELL.filled;

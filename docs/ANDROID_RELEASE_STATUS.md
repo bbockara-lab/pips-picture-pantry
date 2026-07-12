@@ -1427,3 +1427,8 @@ Last updated: 2026-06-28
 ## v0.1.281 - Paid Hint Count State Split
 - Normal puzzle extra-hint pricing no longer depends on `hintsUsed - hintLimit`; puzzle state now keeps `paidHintsUsed` explicitly.
 - Verification passed: full Vitest 78 tests, qa:hygiene, qa:catalog, qa:assets, production build, and mobile QA 360/390/430.
+
+
+## v0.1.282 - Zero-Clue Line Guidance
+- 0-clue rows/columns now participate in completed-line glow and safe X suggestions when no wrong fill is present.
+- Verification passed: full Vitest 79 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.
