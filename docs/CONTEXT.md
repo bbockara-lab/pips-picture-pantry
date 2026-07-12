@@ -2211,3 +2211,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 ### v0.1.288 - Korean Copy Regression Guard
 - Tightened Korean guide/hint i18n tests so mojibake fragments cannot be accepted as readable gameplay copy.
 - Updated the paid extra hint assertion to expect the readable Korean phrase directly, keeping economy copy quality tied to automated QA.
+
+### v0.1.289 - Korean Source Hygiene Guard
+- Extended source hygiene so src/i18n/ko.js is scanned for common mojibake fragments, not only selected runtime keys.
+- This makes future Korean UI copy additions fail fast if encoding damage slips into the source file.

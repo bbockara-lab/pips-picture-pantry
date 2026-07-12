@@ -52,6 +52,13 @@ for (const file of textFiles) {
   }
 }
 
+const koreanSourcePath = "src/i18n/ko.js";
+const koreanSource = readFileSync(resolve(root, koreanSourcePath), "utf8");
+const mojibakeFragments = /[媛뚰ㅽ꾩쒖쇱뫜吏湲異]/;
+if (mojibakeFragments.test(koreanSource)) {
+  errors.push(`${koreanSourcePath}: Korean copy contains common mojibake fragments`);
+}
+
 const styles = readFileSync(resolve(root, "src/styles.css"), "utf8");
 const staleCssRules = [
   {

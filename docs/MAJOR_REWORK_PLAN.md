@@ -1272,3 +1272,7 @@ Immediate implementation decisions:
 ### v0.1.288 - Copy QA Is Part Of Interface Polish
 - Treat visible Korean copy regressions as interface defects, especially around hints, guides, Time Attack, and replay challenge flows.
 - Keep regression tests checking both missing translations and common mojibake fragments before Android release work resumes.
+
+### v0.1.289 - Automate Copy Quality Gates
+- Korean copy quality should be guarded at source level as well as targeted i18n tests because interface polish depends on every visible string staying readable.
+- Keep this lightweight hygiene gate close to existing BOM/stale CSS checks so copy regressions are caught before visual QA.
