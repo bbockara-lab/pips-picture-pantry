@@ -2151,3 +2151,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Updated normal hint targeting so a hint corrects an already-wrong filled cell before adding safe marks to untouched blanks.
 - This makes paid/limited hints feel useful when a player is stuck because of an existing mistake, especially on larger boards.
 - Kept the v0.1.275 rule: Undo can revert the visible hint cells, but hint usage remains spent.
+### v0.1.277 - Safe Suggestion Tap Guard
+- Completed-line safe X suggestions now commit as marks when tapped or dragged, even while the player is in fill mode.
+- This prevents a visually suggested blank from becoming a wrong filled cell through a natural tap.
+- Added a board-view paint-decision unit test so future input polish keeps visual guidance and committed state aligned.

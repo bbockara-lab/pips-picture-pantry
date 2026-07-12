@@ -1409,3 +1409,6 @@ Last updated: 2026-06-28
 ## v0.1.276 - Hint Mistake Correction Priority
 - Hint targeting now corrects wrong filled cells before adding safe blank marks, making hints more useful on larger boards and preserving the no-free-preview Undo rule.
 - Verification passed: targeted hint/replay tests, full Vitest 71 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.
+## v0.1.277 - Safe Suggestion Tap Guard
+- Completed-line safe X suggestions now commit as marks on touch/drag instead of toggling into wrong filled cells.
+- Verification passed: board-view targeted tests, full Vitest 73 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.

@@ -168,7 +168,7 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
           dragSession = {
             pointerId: event.pointerId,
             start: { row: rowIndex, column: columnIndex },
-            value: getNextCellValue(cell, state.mode),
+            value: getCellPaintValue(cell, state.mode, { safeSuggestion }),
             cells: new Map()
           };
           addDragCell(button, rowIndex, columnIndex);
@@ -198,6 +198,14 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
   });
 
   return grid;
+}
+
+export function getCellPaintValue(cell, mode, options = {}) {
+  if (options.safeSuggestion && cell === CELL.empty) {
+    return CELL.marked;
+  }
+
+  return getNextCellValue(cell, mode);
 }
 
 function paintButtonDraft(button, value) {

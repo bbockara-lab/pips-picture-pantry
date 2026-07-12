@@ -1219,3 +1219,7 @@ Immediate implementation decisions:
 - Hints now prioritize correcting a wrong filled cell before placing additional safe X marks.
 - Design rule: a limited or paid hint must resolve the player's current friction, not only reveal unrelated untouched cells.
 - Future hint economy tuning should preserve this order: fix clear mistakes, reveal required filled cells, then add safe blank marks.
+### v0.1.277 - Visual Guidance Must Match Input Semantics
+- Safe X suggestions are not only decorative: direct touch/drag on those cells must mark them, not fill them.
+- This closes a small but high-friction puzzle UX trap where a player could follow the UI hint and accidentally create a mistake.
+- Continue using this standard for future guidance systems: anything that looks actionable must commit the same semantic action.
