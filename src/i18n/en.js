@@ -256,6 +256,8 @@ export const en = {
     hintIntroMulti: "On this larger board, one hint solves up to {count} sure squares. Undo can clear them, but the hint still counts.",
     timeAttackHintIntro: "Time Attack hints spend spoons now: {cost} spoons for the next hint. Undo can clear the cell, but the hint use and spoons stay spent. Balance: {balance}.",
     timeAttackHintNeedMore: "The next Time Attack hint costs {cost} spoons. Balance: {balance}.",
+    paidHintIntro: "Extra hint: {cost} spoons for up to {count} useful squares. Undo can clear the cells, but the hint and spoons stay spent. Balance: {balance}.",
+    paidHintNeedMore: "The next extra hint costs {cost} spoons. Balance: {balance}.",
     hintEmpty: "No hints left on this puzzle. Keep solving or undo freely."
 
   },

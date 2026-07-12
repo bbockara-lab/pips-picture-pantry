@@ -1227,3 +1227,7 @@ Immediate implementation decisions:
 - Clean replay reward logic must evaluate the completed state, including the final move, before payout.
 - Hints, mistakes, and other reward-breaking actions should never be hidden by the transition into a completed screen.
 - Use this same ordering standard for future Time Attack and seasonal challenge rewards.
+### v0.1.279 - Normal Puzzle Paid Hint Bridge
+- Normal large puzzles now have a bridge from limited free hints into paid extra hints, matching the direction that 12x12+ boards may need a fair continuation tool.
+- Starting costs are intentionally higher than Time Attack hints because normal hints reveal bundled useful cells and are not under time pressure. Tune these with real play data before launch.
+- Preserve separate balance lanes: normal paid hints support cozy completion; Time Attack paid hints remain a high-pressure record decision.

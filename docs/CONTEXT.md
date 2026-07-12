@@ -2159,3 +2159,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Replay clean status now updates before reward payout even when the latest move completes the puzzle.
 - This closes a final-hint loophole where a replay could complete with a hint before the clean tracker saw the hint use.
 - Added a replay challenge regression test for final-hint completion.
+### v0.1.279 - Normal Puzzle Extra Hint Economy
+- Added paid extra hints for normal large-board puzzles after the free hint allowance is used.
+- Extra hint costs now scale by board size and repeated paid use, while Time Attack keeps its separate one-cell escalating hint economy.
+- Kept the no-free-preview rule: Undo can remove revealed cells, but hint use and spent spoons remain recorded.

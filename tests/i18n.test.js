@@ -152,6 +152,8 @@ describe("i18n", () => {
       "controls.hintIntroMulti",
       "controls.timeAttackHintIntro",
       "controls.timeAttackHintNeedMore",
+      "controls.paidHintIntro",
+      "controls.paidHintNeedMore",
       "controls.hintEmpty"
     ];
 
@@ -164,6 +166,7 @@ describe("i18n", () => {
     expect(t("guide.eyebrow")).toBe("Pip \uAC00\uC774\uB4DC");
     expect(t("controls.hintRemaining", { count: 1, limit: 3 })).toBe("\uD78C\uD2B8 1/3");
     expect(t("controls.hintIntroMulti", { count: 5 })).toContain("5");
+    expect(t("controls.paidHintIntro", { cost: 9, count: 5, balance: 20 })).toContain("추가 힌트");
   });
 
   it("keeps Korean pantry story request copy out of English fallback", () => {

@@ -91,7 +91,7 @@ export function renderHintPanel(state, puzzle, update, hintLimit = getHintLimit(
   const hintCost = Math.max(0, Number(options.cost || 0));
   const balance = Math.max(0, Number(options.balance || 0));
   const revealCount = Math.max(1, Number(options.revealCount || 1));
-  body.textContent = getHintBodyText({ remaining, hintCost, balance, revealCount });
+  body.textContent = getHintBodyText({ remaining, hintCost, balance, revealCount, timeAttack: Boolean(options.timeAttack) });
 
   copy.append(title, body);
 
@@ -99,9 +99,10 @@ export function renderHintPanel(state, puzzle, update, hintLimit = getHintLimit(
   button.type = "button";
   button.className = "hint-button";
   button.textContent = hintCost > 0 ? t("controls.hintWithCost", { cost: hintCost }) : t("controls.hint");
-  button.disabled = remaining <= 0 || (hintCost > 0 && balance < hintCost);
+  const canUseHint = remaining > 0 || hintCost > 0;
+  button.disabled = !canUseHint || (hintCost > 0 && balance < hintCost);
   button.addEventListener("click", () => {
-    if (remaining <= 0) {
+    if (!canUseHint) {
       return;
     }
     if (hintCost > 0) {
@@ -158,17 +159,21 @@ function renderHintConfirm(panel, { state, puzzle, update, hintCost, options }) 
   panel.append(confirm);
 }
 
-function getHintBodyText({ remaining, hintCost, balance, revealCount }) {
+function getHintBodyText({ remaining, hintCost, balance, revealCount, timeAttack = false }) {
+  if (hintCost > 0) {
+    if (balance < hintCost) {
+      return timeAttack
+        ? t("controls.timeAttackHintNeedMore", { cost: hintCost, balance })
+        : t("controls.paidHintNeedMore", { cost: hintCost, balance });
+    }
+    return timeAttack
+      ? t("controls.timeAttackHintIntro", { cost: hintCost, balance })
+      : t("controls.paidHintIntro", { cost: hintCost, balance, count: revealCount });
+  }
   if (remaining <= 0) {
     return t("controls.hintEmpty");
   }
-  if (hintCost <= 0) {
-    return revealCount > 1 ? t("controls.hintIntroMulti", { count: revealCount }) : t("controls.hintIntro");
-  }
-  if (balance < hintCost) {
-    return t("controls.timeAttackHintNeedMore", { cost: hintCost, balance });
-  }
-  return t("controls.timeAttackHintIntro", { cost: hintCost, balance });
+  return revealCount > 1 ? t("controls.hintIntroMulti", { count: revealCount }) : t("controls.hintIntro");
 }
 
 export function renderMarkHint() {

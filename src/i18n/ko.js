@@ -255,6 +255,8 @@ export const ko = {
     hintIntroMulti: "이 큰 퍼즐에서는 힌트 한 번이 확실한 칸 {count}개까지 해결해요. 되돌리기로 칸을 지울 수는 있지만, 힌트 사용은 그대로 기록돼요.",
     timeAttackHintIntro: "타임어택 힌트는 지금 스푼을 쓰고 사용해요. 다음 힌트 {cost}개, 되돌리기로 칸을 지울 수는 있지만 힌트 사용과 스푼 사용은 그대로 남아요. 보유 {balance}개.",
     timeAttackHintNeedMore: "\uB2E4\uC74C \uD0C0\uC784\uC5B4\uD0DD \uD78C\uD2B8\uB294 \uC2A4\uD47C {cost}\uAC1C\uAC00 \uD544\uC694\uD574\uC694. \uBCF4\uC720 {balance}\uAC1C.",
+    paidHintIntro: "추가 힌트: 스푼 {cost}개로 도움되는 칸 {count}개까지 해결해요. 되돌리기로 칸을 지울 수는 있지만, 힌트와 스푼 사용은 그대로 남아요. 보유 {balance}개.",
+    paidHintNeedMore: "다음 추가 힌트는 스푼 {cost}개가 필요해요. 보유 {balance}개.",
     hintEmpty: "\uC774 \uADF8\uB9BC\uC5D0\uC11C \uC4F8 \uC218 \uC788\uB294 \uD78C\uD2B8\uB97C \uBAA8\uB450 \uC0AC\uC6A9\uD588\uC5B4\uC694. \uACC4\uC18D \uD480\uAC70\uB098 \uC790\uC720\uB86D\uAC8C \uB418\uB3CC\uB9B4 \uC218 \uC788\uC5B4\uC694."
   },
   progress: {

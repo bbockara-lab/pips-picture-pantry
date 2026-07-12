@@ -25,6 +25,12 @@ export const ECONOMY = {
   TIME_ATTACK_RECORD_BONUS: 12,
   TIME_ATTACK_DAILY_LIMIT: 3,
   TIME_ATTACK_HINT_COSTS: [2, 4, 7],
+  PUZZLE_EXTRA_HINT_BASE_COST_BY_SIZE: {
+    10: 6,
+    12: 9,
+    15: 13,
+    18: 18
+  },
   REPLAY_PICK_REWARD: 1,
   REPLAY_PICK_DAILY_LIMIT: 3,
   COZY_PASS_SPOON_GRANT: 250
@@ -58,6 +64,17 @@ export function getTimeAttackHintCost(hintsUsed = 0) {
 
 export function getTimeAttackHintCosts() {
   return [...ECONOMY.TIME_ATTACK_HINT_COSTS];
+}
+
+export function getPuzzleExtraHintCost(size, paidHintsUsed = 0) {
+  const normalizedSize = Number(size) || 0;
+  const base = ECONOMY.PUZZLE_EXTRA_HINT_BASE_COST_BY_SIZE[normalizedSize] || 0;
+  if (base <= 0) {
+    return 0;
+  }
+
+  const paidCount = Math.max(0, Math.floor(Number(paidHintsUsed) || 0));
+  return base + paidCount * Math.ceil(base / 2);
 }
 
 export function getReplayPickReward() {

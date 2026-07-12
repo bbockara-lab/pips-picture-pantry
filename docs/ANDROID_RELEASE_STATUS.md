@@ -1415,3 +1415,6 @@ Last updated: 2026-06-28
 ## v0.1.278 - Replay Final-Move Clean Guard
 - Replay clean status now includes the final completing move before reward payout, closing the final-hint clean reward loophole.
 - Verification passed: replay challenge targeted tests, full Vitest 74 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.
+## v0.1.279 - Normal Puzzle Extra Hint Economy
+- Normal large-board puzzles can offer paid extra hints after their free hint allowance is exhausted; Android bundle generation remains paused during local rework.
+- Verification passed: economy/i18n/puzzle targeted tests, full Vitest 76 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.

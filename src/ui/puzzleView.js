@@ -8,6 +8,7 @@ import {
   toggleCell,
   undoLastMove
 } from "../game/puzzleState.js";
+import { getPuzzleExtraHintCost } from "../data/economyConfig.js";
 import { getPantrySpoons, loadPuzzleState, recordReplayReward, savePuzzleState, spendPantrySpoons } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { playComplete, playCursorAction, playCursorMove, playTap } from "./audio.js";
@@ -140,13 +141,22 @@ export function renderPuzzleView(puzzle, options = {}) {
     const baseHintLimit = getHintLimit(puzzle);
     const hintLimit = isTimeAttack ? Math.min(baseHintLimit, 3) : baseHintLimit;
     if (!state.completed && hintLimit > 0) {
+      const paidHintCount = Math.max(0, Number(state.hintsUsed || 0) - hintLimit);
+      const normalHintCost = !isTimeAttack && Number(state.hintsUsed || 0) >= hintLimit
+        ? getPuzzleExtraHintCost(puzzle.size, paidHintCount)
+        : 0;
       const timeAttackHintCost = isTimeAttack ? options.getTimeAttackHintCost?.(state.hintsUsed || 0) || 0 : 0;
+      const hintCost = isTimeAttack ? timeAttackHintCost : normalHintCost;
       const revealCount = getHintRevealCount(puzzle, { isTimeAttack });
       section.appendChild(renderHintPanel(state, puzzle, update, hintLimit, {
-        cost: timeAttackHintCost,
+        cost: hintCost,
         revealCount,
-        balance: isTimeAttack ? getPantrySpoons() : 0,
-        onSpendHint: isTimeAttack ? (cost) => spendPantrySpoons(cost, "time-attack-hint").allowed : null
+        balance: hintCost > 0 ? getPantrySpoons() : 0,
+        paid: hintCost > 0,
+        timeAttack: isTimeAttack,
+        onSpendHint: hintCost > 0
+          ? (cost) => spendPantrySpoons(cost, isTimeAttack ? "time-attack-hint" : "puzzle-extra-hint").allowed
+          : null
       }));
     }
     if (!state.completed && cursorControlsEnabled) {
