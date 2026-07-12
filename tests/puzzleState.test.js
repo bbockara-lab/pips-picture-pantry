@@ -47,6 +47,18 @@ describe("puzzle state", () => {
     expect(state.cells[1][1]).toBe("empty");
     expect(state.history).toHaveLength(0);
   });
+  it("allows a drag stroke to carry per-cell target values", () => {
+    let state = createPuzzleState(puzzle);
+    state = paintCells(state, [
+      { row: 0, column: 0 },
+      { row: 0, column: 1, next: "marked" }
+    ], "filled");
+
+    expect(state.cells[0][0]).toBe("filled");
+    expect(state.cells[0][1]).toBe("marked");
+    expect(state.history[0].cells).toHaveLength(2);
+  });
+
   it("paints a dragged stroke and undoes it as one move", () => {
     let state = createPuzzleState(puzzle);
     state = paintCells(state, [

@@ -120,11 +120,12 @@ export function paintCells(state, targets, nextValue) {
     }
     seen.add(key);
     cursor = { row, column };
-    if (current === nextValue) {
+    const targetValue = Object.values(CELL).includes(target.next) ? target.next : nextValue;
+    if (current === targetValue) {
       return;
     }
-    cells[row][column] = nextValue;
-    moves.push({ row, column, previous: current, next: nextValue });
+    cells[row][column] = targetValue;
+    moves.push({ row, column, previous: current, next: targetValue });
   });
 
   if (!moves.length) {

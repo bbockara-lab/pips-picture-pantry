@@ -1250,3 +1250,8 @@ Immediate implementation decisions:
 ### v0.1.283 - Teach Friendly Line Guidance Early
 - First-session puzzle guidance should mention line-completion assistance, because completed-line glow and pale X suggestions are core comfort features for larger boards.
 - Keep the copy short and embedded in the existing how-to-play card to avoid another modal.
+
+
+### v0.1.284 - Swipe Play Should Respect Guidance
+- Drag/swipe painting should feel fast without punishing players for crossing already-solved guidance.
+- Safe X suggestion cells now protect themselves during mixed strokes, which better matches the friendly large-board UX goal.

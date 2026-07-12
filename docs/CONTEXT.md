@@ -2186,3 +2186,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - The how-to-play card now explains the completed-line glow and pale X suggestions directly in the first play surface.
 - Added a small muted line-hint style so the guidance reads as help copy rather than another command.
 - i18n coverage now includes the completed-line hint copy.
+
+
+### v0.1.284 - Drag Stroke Safe-Suggestion Protection
+- Drag strokes can now carry per-cell target values, so safe X suggestion cells stay marked even when a fill stroke crosses them.
+- This keeps completed-line guidance helpful during fast swipe play instead of letting a drag accidentally erase the guidance.
+- Added board-view and puzzle-state tests for per-cell drag targets.
