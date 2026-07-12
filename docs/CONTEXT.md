@@ -2192,3 +2192,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Drag strokes can now carry per-cell target values, so safe X suggestion cells stay marked even when a fill stroke crosses them.
 - This keeps completed-line guidance helpful during fast swipe play instead of letting a drag accidentally erase the guidance.
 - Added board-view and puzzle-state tests for per-cell drag targets.
+
+
+### v0.1.285 - Drag Stroke Value Regression Guard
+- Refined safe-suggestion drag protection so normal cells keep the stroke's original target value.
+- This preserves the existing drag-to-clear behavior when a stroke starts from a filled cell, while still protecting safe X suggestion cells.
+- Added board-view coverage for safe-suggestion protection versus normal stroke value preservation.

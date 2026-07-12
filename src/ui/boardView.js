@@ -107,9 +107,7 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
     if (dragSession.cells.has(key)) {
       return;
     }
-    const value = getCellPaintValue(getCellValueFromButton(button), dragSession.value === CELL.marked ? "mark" : "fill", {
-      safeSuggestion: button.classList.contains("safe-suggestion")
-    });
+    const value = getDragCellPaintValue(button, dragSession.value);
     dragSession.cells.set(key, { row: rowIndex, column: columnIndex, next: value });
     paintButtonDraft(button, value);
   }
@@ -211,14 +209,11 @@ export function getCellPaintValue(cell, mode, options = {}) {
   return getNextCellValue(cell, mode);
 }
 
-export function getCellValueFromButton(button) {
-  if (button.classList.contains(CELL.filled)) {
-    return CELL.filled;
-  }
-  if (button.classList.contains(CELL.marked)) {
+export function getDragCellPaintValue(button, strokeValue) {
+  if (button.classList.contains("safe-suggestion")) {
     return CELL.marked;
   }
-  return CELL.empty;
+  return Object.values(CELL).includes(strokeValue) ? strokeValue : CELL.empty;
 }
 
 function paintButtonDraft(button, value) {

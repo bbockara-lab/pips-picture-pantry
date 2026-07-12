@@ -1255,3 +1255,8 @@ Immediate implementation decisions:
 ### v0.1.284 - Swipe Play Should Respect Guidance
 - Drag/swipe painting should feel fast without punishing players for crossing already-solved guidance.
 - Safe X suggestion cells now protect themselves during mixed strokes, which better matches the friendly large-board UX goal.
+
+
+### v0.1.285 - Swipe Protection Must Preserve Intent
+- Safe-suggestion protection should only affect suggested blank cells; it must not turn a clear stroke into a mixed toggle stroke.
+- Keep guarding this interaction because swipe play is a core comfort feature on larger boards.

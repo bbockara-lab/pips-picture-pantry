@@ -1442,3 +1442,7 @@ Last updated: 2026-06-28
 ## v0.1.284 - Drag Stroke Safe-Suggestion Protection
 - Swipe painting now supports per-cell target values so safe X suggestions remain marks during a fill drag.
 - Verification passed: full Vitest 81 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.
+
+## v0.1.285 - Drag Stroke Value Regression Guard
+- Safe X suggestion protection now preserves the original stroke value for normal cells, including drag-to-clear strokes.
+- Verification passed: full Vitest 81 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.
