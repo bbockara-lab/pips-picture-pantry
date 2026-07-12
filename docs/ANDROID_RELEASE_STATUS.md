@@ -1484,3 +1484,10 @@ Last updated: 2026-06-28
 
 - Board guidance logic now has direct regression coverage for truly completed rows/columns and locked-board suppression.
 - Verification passed: targeted board-view test, full Vitest (87 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.
+
+
+## Verification Update - 2026-07-12 v0.1.295 Opening Promise Chip Polish
+
+- Opening launch highlights now use tactile promise chips with CSS-only Sunny Spoon styled marks.
+- Android bundle generation remains paused during the local rework; next handoff should include this first-impression polish after full local QA passes.
+- Verification passed: syntax checks, full Vitest (87 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.

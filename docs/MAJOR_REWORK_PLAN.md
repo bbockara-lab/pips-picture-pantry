@@ -1300,3 +1300,10 @@ Immediate implementation decisions:
 - The line glow and pale X suggestion system must be based on actual solution comparison, not only clue counts or accidental visual state.
 - Locked/completed preview boards should not show active guidance overlays.
 - Keep these checks close to swipe play work because both features shape how friendly large boards feel.
+
+
+### v0.1.295 - Opening Promise Chip Polish
+
+- The launch promise strip should feel like part of the game interface, not plain text pasted under the key visual.
+- Reworked the three launch promises into tactile chips with CSS-native marks so first-session polish improves while final asset-family work remains separate.
+- Mobile QA now guards the chip count, readable dimensions, icon presence, polished treatment, and overflow because the opening screen is a first-impression surface.

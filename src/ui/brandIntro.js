@@ -36,9 +36,18 @@ export function renderBrandIntro(root) {
       <h2>${t("app.title")}</h2>
       <p class="brand-intro__launch-note">${t("brandIntro.launchNote")}</p>
       <div class="brand-intro__promise-strip" aria-label="${t("brandIntro.promiseLabel")}">
-        <span>${t("brandIntro.promisePuzzle")}</span>
-        <span>${t("brandIntro.promiseDecorate")}</span>
-        <span>${t("brandIntro.promiseTimeAttack")}</span>
+        <span class="brand-intro__promise-chip brand-intro__promise-chip--puzzle">
+          <i aria-hidden="true"></i>
+          <b>${t("brandIntro.promisePuzzle")}</b>
+        </span>
+        <span class="brand-intro__promise-chip brand-intro__promise-chip--pantry">
+          <i aria-hidden="true"></i>
+          <b>${t("brandIntro.promiseDecorate")}</b>
+        </span>
+        <span class="brand-intro__promise-chip brand-intro__promise-chip--time">
+          <i aria-hidden="true"></i>
+          <b>${t("brandIntro.promiseTimeAttack")}</b>
+        </span>
       </div>
       <p class="brand-intro__version">${t("app.versionLabel", { version: APP_VERSION })}</p>
       <button class="brand-intro__skip" type="button">${t("brandIntro.skip")}</button>

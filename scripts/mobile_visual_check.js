@@ -195,6 +195,33 @@ async function expectOpeningIntroPolish(page, viewportName) {
   if (buttonMetrics.width < 150 || buttonMetrics.height < 54 || buttonMetrics.borderRadius < 14 || !buttonMetrics.backgroundImage.includes("linear-gradient") || buttonMetrics.boxShadow === "none") {
     failures.push("[" + viewportName + "] Opening start button lost its polished game-button treatment: " + JSON.stringify(buttonMetrics));
   }
+
+  const promiseMetrics = await page.locator(".brand-intro__promise-chip").evaluateAll((chips) => chips.map((chip) => {
+    const rect = chip.getBoundingClientRect();
+    const icon = chip.querySelector("i");
+    const text = chip.querySelector("b");
+    const style = getComputedStyle(chip);
+    const iconRect = icon?.getBoundingClientRect();
+    return {
+      text: (text?.textContent || "").trim(),
+      width: rect.width,
+      height: rect.height,
+      borderRadius: parseFloat(style.borderRadius),
+      backgroundImage: style.backgroundImage,
+      boxShadow: style.boxShadow,
+      iconWidth: iconRect?.width || 0,
+      iconHeight: iconRect?.height || 0,
+      overflows: chip.scrollWidth > Math.ceil(rect.width) + 1 || chip.scrollHeight > Math.ceil(rect.height) + 1
+    };
+  }));
+  if (promiseMetrics.length !== 3) {
+    failures.push("[" + viewportName + "] Opening promise strip should show 3 tactile chips, saw " + promiseMetrics.length);
+  }
+  promiseMetrics.forEach((metrics, index) => {
+    if (!metrics.text || metrics.width < 70 || metrics.height < 34 || metrics.borderRadius < 14 || !metrics.backgroundImage.includes("linear-gradient") || metrics.boxShadow === "none" || metrics.iconWidth < 14 || metrics.iconHeight < 14 || metrics.overflows) {
+      failures.push("[" + viewportName + "] Opening promise chip " + (index + 1) + " lost readable tactile treatment: " + JSON.stringify(metrics));
+    }
+  });
 }
 
 async function expectSettingsDialogPolish(page, viewportName) {

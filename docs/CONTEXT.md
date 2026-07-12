@@ -2240,3 +2240,10 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Exposed the board completed-line guidance calculation for direct regression coverage.
 - Added tests that verify only truly completed rows/columns receive guidance, while locked boards keep guidance hidden.
 - This protects the friendly large-board experience where completed lines glow and safe blank suggestions appear only when the solved line state is real.
+
+
+## Progress Update - 2026-07-12 v0.1.295 Opening Promise Chip Polish
+
+- Turned the opening promise strip into three tactile mini chips for puzzle volume, Pantry goals, and Time Attack.
+- Used CSS-native Sunny Spoon styled marks instead of introducing new bitmap art, keeping the screen visually richer without adding character/world inconsistency.
+- Extended mobile QA so the first screen now guards promise-chip count, touch/read size, icon presence, gradient treatment, and overflow.
