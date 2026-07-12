@@ -746,6 +746,25 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   if (!hintText.includes("4")) {
     failures.push("[" + viewportName + "] 12x12 puzzle should expose 4 hints, saw " + hintText);
   }
+  const hintButtonMetrics = await page.locator(".hint-button").first().evaluate((button) => {
+    const rect = button.getBoundingClientRect();
+    return {
+      width: rect.width,
+      height: rect.height,
+      visibleText: button.textContent.trim(),
+      ariaLabel: button.getAttribute("aria-label") || "",
+      iconCount: button.querySelectorAll(".hint-button__icon").length
+    };
+  });
+  if (
+    hintButtonMetrics.width < 48 ||
+    hintButtonMetrics.height < 48 ||
+    hintButtonMetrics.visibleText.length > 0 ||
+    !hintButtonMetrics.ariaLabel ||
+    hintButtonMetrics.iconCount !== 1
+  ) {
+    failures.push("[" + viewportName + "] Hint button should be an accessible icon-only control: " + JSON.stringify(hintButtonMetrics));
+  }
 
   await expectCompletedLineGuidance(page, viewportName);
   await expectNoHorizontalOverflow(page, viewportName);

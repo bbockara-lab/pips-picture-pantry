@@ -1281,3 +1281,7 @@ Immediate implementation decisions:
 - Internal hint states may split free allowance, spoon-spending continuation, and Time Attack tuning, but player-facing UI should present a single hint action.
 - Explain the transition at the moment it matters: show remaining free hints first, then tell the player the next hint uses spoons.
 - Avoid user-facing "paid hint" category language; use spoon economy language instead.
+### v0.1.291 - Hint Button Presentation Rule
+
+- The hint action should remain a single visible icon control. The UI may show remaining free hints and spoon-use explanations in surrounding copy, but the button itself should not expose internal free/extra/Time Attack labels.
+- Keep the icon button accessible with an aria label and mobile-safe tap size.

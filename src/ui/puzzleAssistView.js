@@ -104,7 +104,9 @@ export function renderHintPanel(state, puzzle, update, hintLimit = getHintLimit(
   const button = document.createElement("button");
   button.type = "button";
   button.className = "hint-button";
-  button.textContent = t("controls.hint");
+  button.setAttribute("aria-label", t("controls.hint"));
+  button.title = t("controls.hint");
+  button.appendChild(createHintIcon());
   const canUseHint = remaining > 0 || hintCost > 0;
   button.disabled = !canUseHint || (hintCost > 0 && balance < hintCost);
   button.addEventListener("click", () => {
@@ -120,6 +122,24 @@ export function renderHintPanel(state, puzzle, update, hintLimit = getHintLimit(
 
   panel.append(copy, button);
   return panel;
+}
+
+function createHintIcon() {
+  const icon = document.createElement("span");
+  icon.className = "hint-button__icon";
+  icon.setAttribute("aria-hidden", "true");
+
+  const bowl = document.createElement("span");
+  bowl.className = "hint-button__bowl";
+
+  const handle = document.createElement("span");
+  handle.className = "hint-button__handle";
+
+  const sparkle = document.createElement("span");
+  sparkle.className = "hint-button__sparkle";
+
+  icon.append(bowl, handle, sparkle);
+  return icon;
 }
 
 function renderHintConfirm(panel, { state, puzzle, update, hintCost, options }) {

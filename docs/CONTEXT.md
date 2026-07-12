@@ -2220,3 +2220,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Kept the player-facing hint UI as one hint surface: the panel title stays on the remaining hint count instead of exposing internal free/spoon/Time Attack categories.
 - Time Attack now uses its small free hint allowance first and only switches to spoon-spending hints after that allowance is used.
 - Updated guide and hint copy so players hear "use spoons for the next hint" rather than "paid hint" or separate paid categories.
+## Progress Update - 2026-07-12 v0.1.291 Hint Icon Control Polish
+
+- Changed the hint action from a text-heavy button into an accessible icon-only control so players see one clear hint affordance rather than hint categories or cost labels.
+- Added tactile Sunny Spoon styling to the hint panel and button while keeping the remaining free-hint count visible in the panel copy.
+- Extended mobile QA to guard the hint button touch size, icon presence, and absence of visible button text.

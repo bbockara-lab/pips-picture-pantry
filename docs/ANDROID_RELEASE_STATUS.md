@@ -1467,3 +1467,8 @@ Last updated: 2026-06-28
 - Hint UI no longer exposes separate free/extra/Time Attack hint titles; it keeps a single hint count and explains spoon use only when needed.
 - Time Attack hints now use the free allowance before switching to spoon-spending hints.
 - Verification passed: targeted hint/i18n/economy tests, full Vitest (84 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.
+## Verification Update - 2026-07-12 v0.1.291 Hint Icon Control Polish
+
+- Hint action is now an accessible icon-only control with the remaining hint count left in panel copy.
+- Mobile QA now guards hint button touch size, icon presence, and absence of visible button text.
+- Verification passed: syntax, targeted tests, full Vitest (84 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.
