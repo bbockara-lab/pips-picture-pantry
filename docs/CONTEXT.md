@@ -2180,3 +2180,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Completed-line guidance now treats all-empty solution lines as satisfied when the player has no filled cells in that row or column.
 - This lets 0-clue rows/columns show the same soft completed-line glow and safe X suggestions as other solved lines.
 - Added board-view guard coverage for zero-clue line behavior.
+
+
+### v0.1.283 - First-Play Line Guidance Copy
+- The how-to-play card now explains the completed-line glow and pale X suggestions directly in the first play surface.
+- Added a small muted line-hint style so the guidance reads as help copy rather than another command.
+- i18n coverage now includes the completed-line hint copy.

@@ -8,6 +8,7 @@ export function renderHowToPlayCard() {
     <div class="guide-copy">
       <p class="section-label">${t("howToPlay.title")}</p>
       <p>${t("howToPlay.goal")}</p>
+      <p class="how-to-play__line-hint">${t("controls.lineCompleteHint")}</p>
     </div>
     <div class="clue-guide" aria-hidden="true">
       <div class="clue-guide__row">

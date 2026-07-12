@@ -1245,3 +1245,8 @@ Immediate implementation decisions:
 ### v0.1.282 - Friendly Zero-Clue Rows
 - For first-session and large-board friendliness, rows or columns with a 0 clue should visually guide players toward X marks instead of staying visually inert.
 - Keep this as guidance, not a separate reward/economy action: tapping or dragging the suggested cells still records normal player marks.
+
+
+### v0.1.283 - Teach Friendly Line Guidance Early
+- First-session puzzle guidance should mention line-completion assistance, because completed-line glow and pale X suggestions are core comfort features for larger boards.
+- Keep the copy short and embedded in the existing how-to-play card to avoid another modal.

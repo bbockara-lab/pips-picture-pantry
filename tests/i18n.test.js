@@ -148,6 +148,7 @@ describe("i18n", () => {
       "controls.hintCancel",
       "controls.hintConfirmAction",
       "controls.hintRemaining",
+      "controls.lineCompleteHint",
       "controls.hintIntro",
       "controls.hintIntroMulti",
       "controls.timeAttackHintIntro",

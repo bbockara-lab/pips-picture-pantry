@@ -5178,3 +5178,11 @@ img {
     linear-gradient(135deg, rgba(184, 226, 205, 0.82), rgba(255, 248, 232, 0.96));
   color: rgba(63, 105, 90, 0.82);
 }
+
+/* v0.1.283 first-play line guidance copy */
+.how-to-play__line-hint {
+  margin-top: 0.45rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
