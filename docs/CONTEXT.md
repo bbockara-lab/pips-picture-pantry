@@ -2235,3 +2235,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added a recursive i18n regression test over Korean non-puzzle UI copy so mojibake fragments cannot slip into core screens, guides, pantry, or hint text.
 - Kept the heavier 333-puzzle catalog names out of this broad UI guard because puzzle metadata already has targeted catalog checks and separate expansion QA.
 - This supports the launch-quality goal that Korean interface polish is treated as product quality, not a late cosmetic pass.
+## Progress Update - 2026-07-12 v0.1.294 Completed-Line Guidance Guard
+
+- Exposed the board completed-line guidance calculation for direct regression coverage.
+- Added tests that verify only truly completed rows/columns receive guidance, while locked boards keep guidance hidden.
+- This protects the friendly large-board experience where completed lines glow and safe blank suggestions appear only when the solved line state is real.

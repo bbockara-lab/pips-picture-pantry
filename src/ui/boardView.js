@@ -222,7 +222,7 @@ function paintButtonDraft(button, value) {
   button.textContent = value === CELL.marked ? "\u00d7" : "";
 }
 
-function getLineGuidance(puzzle, state, options) {
+export function getLineGuidance(puzzle, state, options = {}) {
   const completedRows = new Set();
   const completedColumns = new Set();
   if (options.locked) {

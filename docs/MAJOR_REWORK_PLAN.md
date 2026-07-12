@@ -1295,3 +1295,8 @@ Immediate implementation decisions:
 - Korean UI copy should be protected broadly across core screens, guides, Pantry, Time Attack, and hint text.
 - Keep puzzle catalog copy on targeted checks so large future seasonal batches can be reviewed with catalog-specific tooling.
 - Treat mojibake or fallback copy as a release blocker for user-facing launch screens.
+### v0.1.294 - Completed-Line Guidance Should Stay Honest
+
+- The line glow and pale X suggestion system must be based on actual solution comparison, not only clue counts or accidental visual state.
+- Locked/completed preview boards should not show active guidance overlays.
+- Keep these checks close to swipe play work because both features shape how friendly large boards feel.
