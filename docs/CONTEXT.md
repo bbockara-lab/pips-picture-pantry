@@ -2203,3 +2203,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Repaired remaining Korean replay-pick copy so the daily clean replay challenge reads as intentional guidance instead of mojibake.
 - Clarified the Korean Time Attack paid-hint sentence so the spoon cost is stated as a cost, not a hint count.
 - Added i18n regression coverage for the replay-pick and Time Attack paid-hint Korean strings.
+
+### v0.1.287 - Paid Hint Title Clarity
+- Split hint panel titles for free hints, normal extra hints, and Time Attack paid hints so the paid state is visible before reading the body copy.
+- Added direct helper coverage for the three hint title modes and Korean i18n coverage for the new labels.

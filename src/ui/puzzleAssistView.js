@@ -85,11 +85,16 @@ export function renderHintPanel(state, puzzle, update, hintLimit = getHintLimit(
 
   const title = document.createElement("p");
   title.className = "hint-panel__title";
-  title.textContent = t("controls.hintRemaining", { count: remaining, limit: hintLimit });
+  const hintCost = Math.max(0, Number(options.cost || 0));
+  title.textContent = getHintTitleText({
+    remaining,
+    hintLimit,
+    hintCost,
+    timeAttack: Boolean(options.timeAttack)
+  });
 
   const body = document.createElement("p");
   body.className = "hint-panel__body";
-  const hintCost = Math.max(0, Number(options.cost || 0));
   const balance = Math.max(0, Number(options.balance || 0));
   const revealCount = Math.max(1, Number(options.revealCount || 1));
   body.textContent = getHintBodyText({ remaining, hintCost, balance, revealCount, timeAttack: Boolean(options.timeAttack) });
@@ -175,6 +180,13 @@ function getHintBodyText({ remaining, hintCost, balance, revealCount, timeAttack
     return t("controls.hintEmpty");
   }
   return revealCount > 1 ? t("controls.hintIntroMulti", { count: revealCount }) : t("controls.hintIntro");
+}
+
+export function getHintTitleText({ remaining, hintLimit, hintCost, timeAttack = false }) {
+  if (hintCost > 0) {
+    return timeAttack ? t("controls.timeAttackHintTitle") : t("controls.extraHintTitle");
+  }
+  return t("controls.hintRemaining", { count: remaining, limit: hintLimit });
 }
 
 export function renderMarkHint() {

@@ -252,6 +252,8 @@ export const en = {
     hintCancel: "Not now",
     hintConfirmAction: "Use {cost}",
     hintRemaining: "Hints {count}/{limit}",
+    extraHintTitle: "Extra hint",
+    timeAttackHintTitle: "Time Attack hint",
     hintIntro: "A hint solves one sure square. Undo can clear the cell, but the hint still counts.",
     hintIntroMulti: "On this larger board, one hint solves up to {count} sure squares. Undo can clear them, but the hint still counts.",
     timeAttackHintIntro: "Time Attack hints spend spoons now: {cost} spoons for the next hint. Undo can clear the cell, but the hint use and spoons stay spent. Balance: {balance}.",

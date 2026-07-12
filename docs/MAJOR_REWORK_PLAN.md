@@ -1264,3 +1264,7 @@ Immediate implementation decisions:
 ### v0.1.286 - Player-Facing Copy Is Part Of Game Feel
 - Keep Korean copy checks close to gameplay UX work, especially for replay, hints, Time Attack, and first-run guide text.
 - Treat mojibake or awkward economy wording as a release-quality issue, not a cosmetic-only issue.
+
+### v0.1.287 - Hint Economy Copy Should Be State-Aware
+- Hint UI should make the free-to-paid transition explicit in title, body, and action text.
+- Keep separating normal puzzle extra hints from Time Attack hint spending because the economy intent is different.

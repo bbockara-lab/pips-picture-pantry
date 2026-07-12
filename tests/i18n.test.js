@@ -148,6 +148,8 @@ describe("i18n", () => {
       "controls.hintCancel",
       "controls.hintConfirmAction",
       "controls.hintRemaining",
+      "controls.extraHintTitle",
+      "controls.timeAttackHintTitle",
       "controls.lineCompleteHint",
       "controls.hintIntro",
       "controls.hintIntroMulti",
@@ -166,6 +168,8 @@ describe("i18n", () => {
     });
     expect(t("guide.eyebrow")).toBe("Pip \uAC00\uC774\uB4DC");
     expect(t("controls.hintRemaining", { count: 1, limit: 3 })).toBe("\uD78C\uD2B8 1/3");
+    expect(t("controls.extraHintTitle")).toBe("\uCD94\uAC00 \uD78C\uD2B8");
+    expect(t("controls.timeAttackHintTitle")).toBe("\uD0C0\uC784\uC5B4\uD0DD \uD78C\uD2B8");
     expect(t("controls.hintIntroMulti", { count: 5 })).toContain("5");
     expect(t("controls.paidHintIntro", { cost: 9, count: 5, balance: 20 })).toContain("추가 힌트");
     expect(t("controls.timeAttackHintIntro", { cost: 9, balance: 20 })).toContain("\uC2A4\uD47C 9\uAC1C");

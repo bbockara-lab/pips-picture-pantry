@@ -251,6 +251,8 @@ export const ko = {
     hintCancel: "\uC544\uC9C1 \uC548 \uC4F0\uAE30",
     hintConfirmAction: "{cost}\uAC1C \uC4F0\uAE30",
     hintRemaining: "\uD78C\uD2B8 {count}/{limit}",
+    extraHintTitle: "\uCD94\uAC00 \uD78C\uD2B8",
+    timeAttackHintTitle: "\uD0C0\uC784\uC5B4\uD0DD \uD78C\uD2B8",
     hintIntro: "힌트가 확실한 한 칸을 해결해요. 되돌리기로 칸을 지울 수는 있지만, 힌트 사용은 그대로 기록돼요.",
     hintIntroMulti: "이 큰 퍼즐에서는 힌트 한 번이 확실한 칸 {count}개까지 해결해요. 되돌리기로 칸을 지울 수는 있지만, 힌트 사용은 그대로 기록돼요.",
     timeAttackHintIntro: "\uD0C0\uC784\uC5B4\uD0DD \uD78C\uD2B8\uB294 \uC9C0\uAE08 \uC2A4\uD47C {cost}\uAC1C\uB97C \uC4F0\uACE0 \uC0AC\uC6A9\uD574\uC694. \uB418\uB3CC\uB9AC\uAE30\uB85C \uCE78\uC744 \uC9C0\uC6B8 \uC218\uB294 \uC788\uC9C0\uB9CC \uD78C\uD2B8 \uC0AC\uC6A9\uACFC \uC2A4\uD47C \uC0AC\uC6A9\uC740 \uADF8\uB300\uB85C \uB0A8\uC544\uC694. \uBCF4\uC720 {balance}\uAC1C.",
