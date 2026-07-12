@@ -1446,3 +1446,7 @@ Last updated: 2026-06-28
 ## v0.1.285 - Drag Stroke Value Regression Guard
 - Safe X suggestion protection now preserves the original stroke value for normal cells, including drag-to-clear strokes.
 - Verification passed: full Vitest 81 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.
+
+## v0.1.286 - Korean Replay And Hint Copy Polish
+- Repaired Korean replay-pick and Time Attack paid-hint copy in the gameplay guidance layer.
+- Verification passed: full Vitest 81 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.

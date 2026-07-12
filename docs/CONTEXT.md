@@ -2198,3 +2198,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Refined safe-suggestion drag protection so normal cells keep the stroke's original target value.
 - This preserves the existing drag-to-clear behavior when a stroke starts from a filled cell, while still protecting safe X suggestion cells.
 - Added board-view coverage for safe-suggestion protection versus normal stroke value preservation.
+
+### v0.1.286 - Korean Replay And Hint Copy Polish
+- Repaired remaining Korean replay-pick copy so the daily clean replay challenge reads as intentional guidance instead of mojibake.
+- Clarified the Korean Time Attack paid-hint sentence so the spoon cost is stated as a cost, not a hint count.
+- Added i18n regression coverage for the replay-pick and Time Attack paid-hint Korean strings.
