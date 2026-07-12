@@ -20,7 +20,8 @@ export function renderPlayScreen(activePuzzle, options) {
     timeAttackElapsedSeconds = 0,
     replayChallenge = false,
     replayPicked = false,
-    getTimeAttackHintCost
+    getTimeAttackHintCost,
+    onPuzzleStateChange
   } = options;
 
   const screen = document.createElement("section");
@@ -76,6 +77,7 @@ export function renderPlayScreen(activePuzzle, options) {
     replayPicked,
     isTimeAttack,
     getTimeAttackHintCost,
+    onPuzzleStateChange,
     onViewAlbum: replayChallenge ? onClosePuzzle : undefined,
     onPuzzleComplete
   }));

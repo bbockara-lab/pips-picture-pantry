@@ -2163,3 +2163,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added paid extra hints for normal large-board puzzles after the free hint allowance is used.
 - Extra hint costs now scale by board size and repeated paid use, while Time Attack keeps its separate one-cell escalating hint economy.
 - Kept the no-free-preview rule: Undo can remove revealed cells, but hint use and spent spoons remain recorded.
+
+### v0.1.280 - Time Attack State Callback Wiring Guard
+- Fixed focused play wiring so puzzle state changes are passed from `renderPlayScreen` into `renderPuzzleView`.
+- This keeps Time Attack timeout records aware of the current board state and supports the progress-cell ranking direction.
+- Added a play-screen wiring guard test so future UI refactors do not silently drop the callback again.

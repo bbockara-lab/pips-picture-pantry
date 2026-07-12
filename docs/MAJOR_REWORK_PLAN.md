@@ -1231,3 +1231,7 @@ Immediate implementation decisions:
 - Normal large puzzles now have a bridge from limited free hints into paid extra hints, matching the direction that 12x12+ boards may need a fair continuation tool.
 - Starting costs are intentionally higher than Time Attack hints because normal hints reveal bundled useful cells and are not under time pressure. Tune these with real play data before launch.
 - Preserve separate balance lanes: normal paid hints support cozy completion; Time Attack paid hints remain a high-pressure record decision.
+
+### v0.1.280 - Time Attack Progress State Wiring
+- Time Attack records depend on live puzzle-state callbacks, especially for timeout runs where the puzzle is not completed.
+- Keep callback wiring guarded whenever play-screen/header/puzzle-view composition is refactored; otherwise progress-cell ranking can lose the current-board state.
