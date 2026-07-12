@@ -34,9 +34,7 @@ export function renderPuzzleView(puzzle, options = {}) {
       ...nextState,
       completed: isSolved(nextState, puzzle.solution) || nextState.completed
     };
-    if (isReplayChallenge && !state.completed) {
-      replayCleanStatus = updateReplayCleanStatus(replayCleanStatus, state, puzzle.solution);
-    }
+    replayCleanStatus = getReplayCleanStatusAfterState(isReplayChallenge, replayCleanStatus, state, puzzle.solution);
     if (!isReplayChallenge) {
       savePuzzleState(state, {
         reward: puzzle.reward || 0,
@@ -168,6 +166,14 @@ export function renderPuzzleView(puzzle, options = {}) {
   draw();
   options.onPuzzleStateChange?.(puzzle, state);
   return section;
+}
+
+export function getReplayCleanStatusAfterState(isReplayChallenge, replayCleanStatus, state, solution) {
+  if (!isReplayChallenge) {
+    return replayCleanStatus;
+  }
+
+  return updateReplayCleanStatus(replayCleanStatus, state, solution);
 }
 
 function shouldIgnoreKeyboardEvent(event) {

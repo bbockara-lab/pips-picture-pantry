@@ -1412,3 +1412,6 @@ Last updated: 2026-06-28
 ## v0.1.277 - Safe Suggestion Tap Guard
 - Completed-line safe X suggestions now commit as marks on touch/drag instead of toggling into wrong filled cells.
 - Verification passed: board-view targeted tests, full Vitest 73 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.
+## v0.1.278 - Replay Final-Move Clean Guard
+- Replay clean status now includes the final completing move before reward payout, closing the final-hint clean reward loophole.
+- Verification passed: replay challenge targeted tests, full Vitest 74 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.

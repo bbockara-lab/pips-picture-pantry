@@ -3,6 +3,7 @@ import { recordReplayReward, getPantrySpoons, setActivePlayerName, saveGame, loa
 import { CELL } from "../src/game/nonogram.js";
 import { createPuzzleState, toggleCell, undoLastMove, useHint } from "../src/game/puzzleState.js";
 import { createReplayCleanStatus, isReplayClean, updateReplayCleanStatus } from "../src/game/replayChallenge.js";
+import { getReplayCleanStatusAfterState } from "../src/ui/puzzleView.js";
 
 class LocalStorageMock {
   constructor() { this.store = new Map(); }
@@ -42,6 +43,17 @@ describe("replay challenge reward guard", () => {
     expect(isReplayClean(status)).toBe(false);
   });
 
+  it("keeps replay unclean when a final hint completes the puzzle", () => {
+    let state = createPuzzleState(replayPuzzle);
+    let status = createReplayCleanStatus();
+
+    state = useHint(state, solution, { revealCount: 5 });
+    state = { ...state, completed: true };
+    status = getReplayCleanStatusAfterState(true, status, state, solution);
+
+    expect(state.hintsUsed).toBe(1);
+    expect(isReplayClean(status)).toBe(false);
+  });
   it("keeps replay unclean after a hint is undone", () => {
     let state = createPuzzleState(replayPuzzle);
     let status = createReplayCleanStatus();

@@ -2155,3 +2155,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Completed-line safe X suggestions now commit as marks when tapped or dragged, even while the player is in fill mode.
 - This prevents a visually suggested blank from becoming a wrong filled cell through a natural tap.
 - Added a board-view paint-decision unit test so future input polish keeps visual guidance and committed state aligned.
+### v0.1.278 - Replay Final-Move Clean Guard
+- Replay clean status now updates before reward payout even when the latest move completes the puzzle.
+- This closes a final-hint loophole where a replay could complete with a hint before the clean tracker saw the hint use.
+- Added a replay challenge regression test for final-hint completion.

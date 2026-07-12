@@ -1223,3 +1223,7 @@ Immediate implementation decisions:
 - Safe X suggestions are not only decorative: direct touch/drag on those cells must mark them, not fill them.
 - This closes a small but high-friction puzzle UX trap where a player could follow the UI hint and accidentally create a mistake.
 - Continue using this standard for future guidance systems: anything that looks actionable must commit the same semantic action.
+### v0.1.278 - Reward Rules Must Observe the Final Move
+- Clean replay reward logic must evaluate the completed state, including the final move, before payout.
+- Hints, mistakes, and other reward-breaking actions should never be hidden by the transition into a completed screen.
+- Use this same ordering standard for future Time Attack and seasonal challenge rewards.
