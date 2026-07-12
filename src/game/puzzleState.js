@@ -211,6 +211,18 @@ function findHintTargets(state, solution, revealCount = 1) {
   for (let row = 0; row < solution.length; row += 1) {
     for (let column = 0; column < solution[row].length; column += 1) {
       const current = state.cells[row]?.[column];
+      if (!solution[row][column] && current === CELL.filled) {
+        targets.push({ row, column, previous: current, next: CELL.marked });
+        if (targets.length >= revealCount) {
+          return targets;
+        }
+      }
+    }
+  }
+
+  for (let row = 0; row < solution.length; row += 1) {
+    for (let column = 0; column < solution[row].length; column += 1) {
+      const current = state.cells[row]?.[column];
       if (solution[row][column] && current !== CELL.filled) {
         targets.push({ row, column, previous: current || CELL.empty, next: CELL.filled });
         if (targets.length >= revealCount) {

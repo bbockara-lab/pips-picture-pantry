@@ -1406,3 +1406,6 @@ Last updated: 2026-06-28
 - Hint Undo now restores cells only; hint use count stays recorded.
 - This protects replay cleanliness, Time Attack records, and future paid normal-puzzle hint economy from free-preview abuse.
 - Verification passed: targeted hint/replay/i18n tests, full Vitest 70 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.
+## v0.1.276 - Hint Mistake Correction Priority
+- Hint targeting now corrects wrong filled cells before adding safe blank marks, making hints more useful on larger boards and preserving the no-free-preview Undo rule.
+- Verification passed: targeted hint/replay tests, full Vitest 71 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.

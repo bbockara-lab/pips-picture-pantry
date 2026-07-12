@@ -2147,3 +2147,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Changed Undo so hint cells can be visually reverted, but the hint use count remains spent.
 - This prevents using hints as free preview information by hinting, memorizing, then undoing.
 - Updated hint copy to clearly say Undo may clear hint cells but hint use and spent spoons remain recorded.
+### v0.1.276 - Hint Mistake Correction Priority
+- Updated normal hint targeting so a hint corrects an already-wrong filled cell before adding safe marks to untouched blanks.
+- This makes paid/limited hints feel useful when a player is stuck because of an existing mistake, especially on larger boards.
+- Kept the v0.1.275 rule: Undo can revert the visible hint cells, but hint usage remains spent.

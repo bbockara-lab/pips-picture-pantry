@@ -1215,3 +1215,7 @@ Immediate implementation decisions:
 - Closed the hint-preview exploit: Undo no longer reduces `hintsUsed` after a hint move.
 - Keep the design rule: Undo is an input safety net, not a reward/economy reset.
 - Future paid normal-puzzle hints should follow the same rule as Time Attack: no spoon refund and no clean-record reset after Undo.
+### v0.1.276 - Hint Targeting Logic Guard
+- Hints now prioritize correcting a wrong filled cell before placing additional safe X marks.
+- Design rule: a limited or paid hint must resolve the player's current friction, not only reveal unrelated untouched cells.
+- Future hint economy tuning should preserve this order: fix clear mistakes, reveal required filled cells, then add safe blank marks.

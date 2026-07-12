@@ -104,6 +104,22 @@ describe("puzzle state", () => {
     expect(state.hintsUsed).toBe(1);
   });
 
+  it("uses a hint to correct a wrong filled cell before adding safe marks", () => {
+    const hintPuzzle = { id: "hint-correction-puzzle", size: 3 };
+    const solution = [
+      [false, false, false],
+      [false, true, false],
+      [false, false, false]
+    ];
+    let state = createPuzzleState(hintPuzzle);
+
+    state = toggleCell(state, 0, 0, "fill");
+    state = useHint(state, solution);
+
+    expect(state.cells[0][0]).toBe("marked");
+    expect(state.hintsUsed).toBe(1);
+    expect(state.history[state.history.length - 1].hint).toBe(true);
+  });
   it("reveals multiple sure cells with one size-aware hint history entry", () => {
     const hintPuzzle = { id: "large-hint-puzzle", size: 3 };
     const solution = [
