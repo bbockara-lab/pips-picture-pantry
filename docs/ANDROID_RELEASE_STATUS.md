@@ -1472,3 +1472,7 @@ Last updated: 2026-06-28
 - Hint action is now an accessible icon-only control with the remaining hint count left in panel copy.
 - Mobile QA now guards hint button touch size, icon presence, and absence of visible button text.
 - Verification passed: syntax, targeted tests, full Vitest (84 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.
+## Verification Update - 2026-07-12 v0.1.292 Time Attack Guide QA Guard
+
+- Mobile QA now opens Time Attack and verifies the first-run Pip guide reaches the hint/spoon explanation step.
+- Verification passed: syntax, full Vitest (84 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.

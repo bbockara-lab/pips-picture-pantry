@@ -1285,3 +1285,8 @@ Immediate implementation decisions:
 
 - The hint action should remain a single visible icon control. The UI may show remaining free hints and spoon-use explanations in surrounding copy, but the button itself should not expose internal free/extra/Time Attack labels.
 - Keep the icon button accessible with an aria label and mobile-safe tap size.
+### v0.1.292 - Time Attack Guide Must Explain Hint Pacing
+
+- Time Attack onboarding should explicitly teach that a run starts with limited hints and later uses spoons for more help.
+- Keep this as Pip guide/coach copy, not as separate visible hint categories on the puzzle control itself.
+- Mobile QA should continue guarding this because the hint economy is both a usability feature and a monetization pacing feature.

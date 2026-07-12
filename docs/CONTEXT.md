@@ -2225,3 +2225,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Changed the hint action from a text-heavy button into an accessible icon-only control so players see one clear hint affordance rather than hint categories or cost labels.
 - Added tactile Sunny Spoon styling to the hint panel and button while keeping the remaining free-hint count visible in the panel copy.
 - Extended mobile QA to guard the hint button touch size, icon presence, and absence of visible button text.
+## Progress Update - 2026-07-12 v0.1.292 Time Attack Guide QA Guard
+
+- Added mobile QA coverage that opens Time Attack, confirms Pip's first-run guide appears, and advances to the hint step.
+- The guard checks that the guide explains both limited hints and spoon continuation, keeping the player-facing hint model simple while preserving the economy pacing.
+- This protects the intended onboarding flow without adding separate visible hint categories to the puzzle controls.

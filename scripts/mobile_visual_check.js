@@ -84,6 +84,9 @@ for (const viewport of viewports) {
   await openFloatingView(page, "pantry");
   await verifyPantryPlacement(page, viewport.name);
 
+  await openFloatingView(page, "timeAttack", viewport.name);
+  await expectNoHorizontalOverflow(page, viewport.name);
+
   await verifyLargeBoardCatalogPuzzle(page, viewport.name);
   await expectHintConfirmationPolish(page, viewport.name);
 
@@ -625,7 +628,7 @@ async function expectTapTargets(page, viewportName) {
     failures.push(`[${viewportName}] Small tap targets: ${JSON.stringify(smallTargets)}`);
   }
 }
-async function openFloatingView(page, view) {
+async function openFloatingView(page, view, viewportName = view) {
   await dismissGuideIfPresent(page, "floating-nav");
   if ((await page.locator(".floating-nav__trigger").count()) === 0 && (await page.locator(".play-screen__back").count()) > 0) {
     await page.locator(".play-screen__back").click();
@@ -648,6 +651,7 @@ async function openFloatingView(page, view) {
     await page.locator(selector).first().waitFor({ state: "visible", timeout: 5000 });
   }
   if (view === "timeAttack") {
+    await expectTimeAttackGuideCopy(page, viewportName);
     await expectVisible(page, ".time-attack-coach-card", "Time Attack coach card");
     const coachMetrics = await page.locator(".time-attack-coach-card").first().evaluate((card) => {
       const rect = card.getBoundingClientRect();
@@ -675,6 +679,33 @@ async function openFloatingView(page, view) {
       failures.push("Time Attack ladder lost the 5x5/8x8/10x10 run preview: " + JSON.stringify(ladderMetrics));
     }
   }
+}
+
+async function expectTimeAttackGuideCopy(page, viewportName) {
+  const overlay = page.locator(".guide-overlay");
+  if ((await overlay.count()) === 0) {
+    failures.push("[" + viewportName + "] Time Attack first-run guide did not appear");
+    return;
+  }
+
+  await expectVisible(page, ".guide-dialog", viewportName);
+  await expectVisible(page, ".guide-dialog__art img", viewportName);
+
+  const firstStepText = await page.locator(".guide-dialog__bubble").first().innerText();
+  if (!/Time Attack|타임어택|도전/i.test(firstStepText)) {
+    failures.push("[" + viewportName + "] Time Attack guide first step should frame the mode, saw " + firstStepText);
+  }
+
+  await page.locator(".guide-dialog__next").click();
+  const hintStepText = await page.locator(".guide-dialog__bubble").first().innerText();
+  const mentionsHint = /hint|힌트/i.test(hintStepText);
+  const mentionsSpoons = /spoon|스푼/i.test(hintStepText);
+  if (!mentionsHint || !mentionsSpoons) {
+    failures.push("[" + viewportName + "] Time Attack guide should explain limited hints and spoon continuation, saw " + hintStepText);
+  }
+
+  await page.locator(".guide-dialog__skip").click();
+  await overlay.waitFor({ state: "detached", timeout: 2000 });
 }
 async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   await seedLargeBoardCatalogAccess(page);
