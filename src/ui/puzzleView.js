@@ -142,11 +142,14 @@ export function renderPuzzleView(puzzle, options = {}) {
     const hintLimit = isTimeAttack ? Math.min(baseHintLimit, 3) : baseHintLimit;
     if (!state.completed && hintLimit > 0) {
       const paidHintCount = Math.max(0, Number(state.paidHintsUsed || 0));
-      const normalHintCost = !isTimeAttack && Number(state.hintsUsed || 0) >= hintLimit
-        ? getPuzzleExtraHintCost(puzzle.size, paidHintCount)
-        : 0;
-      const timeAttackHintCost = isTimeAttack ? options.getTimeAttackHintCost?.(state.hintsUsed || 0) || 0 : 0;
-      const hintCost = isTimeAttack ? timeAttackHintCost : normalHintCost;
+      const hintCost = getPuzzleHintCost({
+        puzzleSize: puzzle.size,
+        hintsUsed: state.hintsUsed,
+        paidHintsUsed: paidHintCount,
+        hintLimit,
+        isTimeAttack,
+        getTimeAttackHintCost: options.getTimeAttackHintCost
+      });
       const revealCount = getHintRevealCount(puzzle, { isTimeAttack });
       section.appendChild(renderHintPanel(state, puzzle, update, hintLimit, {
         cost: hintCost,
@@ -178,6 +181,24 @@ export function renderPuzzleView(puzzle, options = {}) {
   return section;
 }
 
+export function getPuzzleHintCost({
+  puzzleSize,
+  hintsUsed = 0,
+  paidHintsUsed = 0,
+  hintLimit = 0,
+  isTimeAttack = false,
+  getTimeAttackHintCost
+} = {}) {
+  if (Number(hintsUsed || 0) < hintLimit) {
+    return 0;
+  }
+
+  if (isTimeAttack) {
+    return getTimeAttackHintCost?.(paidHintsUsed) || 0;
+  }
+
+  return getPuzzleExtraHintCost(puzzleSize, paidHintsUsed);
+}
 export function getReplayCleanStatusAfterState(isReplayChallenge, replayCleanStatus, state, solution) {
   if (!isReplayChallenge) {
     return replayCleanStatus;

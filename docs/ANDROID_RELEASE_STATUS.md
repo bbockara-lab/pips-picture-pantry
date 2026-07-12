@@ -1462,3 +1462,8 @@ Last updated: 2026-06-28
 ## v0.1.289 - Korean Source Hygiene Guard
 - Source hygiene now rejects common mojibake fragments in src/i18n/ko.js before Android packaging.
 - Verification passed: full Vitest 82 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.
+## Verification Update - 2026-07-12 v0.1.290 Unified Hint Presentation
+
+- Hint UI no longer exposes separate free/extra/Time Attack hint titles; it keeps a single hint count and explains spoon use only when needed.
+- Time Attack hints now use the free allowance before switching to spoon-spending hints.
+- Verification passed: targeted hint/i18n/economy tests, full Vitest (84 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.

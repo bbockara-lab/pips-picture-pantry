@@ -2215,3 +2215,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 ### v0.1.289 - Korean Source Hygiene Guard
 - Extended source hygiene so src/i18n/ko.js is scanned for common mojibake fragments, not only selected runtime keys.
 - This makes future Korean UI copy additions fail fast if encoding damage slips into the source file.
+## Progress Update - 2026-07-12 v0.1.290 Unified Hint Presentation
+
+- Kept the player-facing hint UI as one hint surface: the panel title stays on the remaining hint count instead of exposing internal free/spoon/Time Attack categories.
+- Time Attack now uses its small free hint allowance first and only switches to spoon-spending hints after that allowance is used.
+- Updated guide and hint copy so players hear "use spoons for the next hint" rather than "paid hint" or separate paid categories.

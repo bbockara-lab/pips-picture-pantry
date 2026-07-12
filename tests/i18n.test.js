@@ -169,10 +169,8 @@ describe("i18n", () => {
     });
     expect(t("guide.eyebrow")).toBe("Pip \uAC00\uC774\uB4DC");
     expect(t("controls.hintRemaining", { count: 1, limit: 3 })).toBe("\uD78C\uD2B8 1/3");
-    expect(t("controls.extraHintTitle")).toBe("\uCD94\uAC00 \uD78C\uD2B8");
-    expect(t("controls.timeAttackHintTitle")).toBe("\uD0C0\uC784\uC5B4\uD0DD \uD78C\uD2B8");
     expect(t("controls.hintIntroMulti", { count: 5 })).toContain("5");
-    expect(t("controls.paidHintIntro", { cost: 9, count: 5, balance: 20 })).toContain("\uCD94\uAC00 \uD78C\uD2B8");
+    expect(t("controls.paidHintIntro", { cost: 9, count: 5, balance: 20 })).toContain("\uBB34\uB8CC \uD78C\uD2B8\uB97C \uB2E4 \uC37C\uC5B4\uC694");
     expect(t("controls.timeAttackHintIntro", { cost: 9, balance: 20 })).toContain("\uC2A4\uD47C 9\uAC1C");
     expect(t("replayPicks.eyebrow")).toBe("Pip\uC758 \uB2E4\uC2DC \uD480\uAE30 \uCD94\uCC9C");
     expect(t("replayPicks.title")).toBe("\uAE54\uB054\uD55C \uB2E4\uC2DC \uD480\uAE30 \uB3C4\uC804");

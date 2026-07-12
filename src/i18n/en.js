@@ -157,7 +157,7 @@ export const en = {
   timeAttack: {
     eyebrow: "New challenge",
     title: "Time Attack",
-    body: "Solve 3 generated puzzles in a row. Earn daily spoons, chase records, and decide whether a paid hint is worth the time save.",
+    body: "Solve 3 generated puzzles in a row. Earn daily spoons, chase records, and decide when a spoon hint is worth the time save.",
     coachEyebrow: "Pip's run note",
     coachTitle: "Earn spoons, then choose your risk",
     coachBody: "This is the speedy place for extra spoons. Random boards keep it fresh, hints spend spoons when a record is close, and every clean run teaches the next one.",
@@ -215,7 +215,7 @@ export const en = {
     timeAttack: {
       title: "Ready for a speedy pantry run?",
       step1: "Time Attack gives you random puzzles in a row. Finish the run to earn daily spoons and raise your local record.",
-      step2: "If a clue slows you down, you can spend spoons for a hint. The first hint is gentle, then the price climbs.",
+      step2: "Each run gives you a few hints. After those are gone, the next hint uses spoons and the price climbs.",
       step3: "Use hints when a new record is close, or save your spoons for the Pantry. Pip believes this run can be your new best!"
     },
     pantryFirstPurchase: {
@@ -246,8 +246,8 @@ export const en = {
     cursorFill: "Color",
     cursorMark: "Blank",
     hint: "Use hint",
-    hintWithCost: "Hint - {cost} spoons",
-    hintConfirmTitle: "Spend spoons for a hint?",
+    hintWithCost: "Use hint",
+    hintConfirmTitle: "Use spoons for a hint?",
     hintConfirmBody: "This uses {cost} spoons now. Undo can remove the hint cells, but the hint use and spoons stay spent.",
     hintCancel: "Not now",
     hintConfirmAction: "Use {cost}",
@@ -256,10 +256,10 @@ export const en = {
     timeAttackHintTitle: "Time Attack hint",
     hintIntro: "A hint solves one sure square. Undo can clear the cell, but the hint still counts.",
     hintIntroMulti: "On this larger board, one hint solves up to {count} sure squares. Undo can clear them, but the hint still counts.",
-    timeAttackHintIntro: "Time Attack hints spend spoons now: {cost} spoons for the next hint. Undo can clear the cell, but the hint use and spoons stay spent. Balance: {balance}.",
-    timeAttackHintNeedMore: "The next Time Attack hint costs {cost} spoons. Balance: {balance}.",
-    paidHintIntro: "Extra hint: {cost} spoons for up to {count} useful squares. Undo can clear the cells, but the hint and spoons stay spent. Balance: {balance}.",
-    paidHintNeedMore: "The next extra hint costs {cost} spoons. Balance: {balance}.",
+    timeAttackHintIntro: "Free hints are used up. The next hint uses {cost} spoons. Undo can clear the cell, but the hint use and spoons stay spent. Balance: {balance}.",
+    timeAttackHintNeedMore: "The next hint needs {cost} spoons. Balance: {balance}.",
+    paidHintIntro: "Free hints are used up. Spend {cost} spoons to solve up to {count} useful squares. Undo can clear the cells, but the hint and spoons stay spent. Balance: {balance}.",
+    paidHintNeedMore: "The next hint needs {cost} spoons. Balance: {balance}.",
     hintEmpty: "No hints left on this puzzle. Keep solving or undo freely."
 
   },

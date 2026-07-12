@@ -214,7 +214,7 @@ export const ko = {
     timeAttack: {
       title: "빠른 팬트리 도전 준비됐나요?",
       step1: "타임어택은 랜덤 퍼즐을 이어서 푸는 곳이에요. 완주하면 오늘의 스푼을 벌고, 내 기록도 올라가요.",
-      step2: "막히는 단서가 있으면 스푼을 써서 힌트를 볼 수 있어요. 첫 힌트는 가볍지만, 쓸수록 가격이 올라가요.",
+      step2: "도전마다 힌트가 조금 주어져요. 다 쓰고 나면 다음 힌트는 스푼을 사용하고, 쓸수록 필요한 스푼이 올라가요.",
       step3: "기록이 눈앞이면 힌트를 쓰고, 팬트리를 꾸미고 싶다면 아껴도 좋아요. Pip은 이번 기록을 믿고 있어요!"
     },
     pantryFirstPurchase: {
@@ -245,8 +245,8 @@ export const ko = {
     cursorFill: "\uce60\ud558\uae30",
     cursorMark: "\ube48\uce78",
     hint: "\uD78C\uD2B8 \uC4F0\uAE30",
-    hintWithCost: "\uD78C\uD2B8 - \uC2A4\uD47C {cost}\uAC1C",
-    hintConfirmTitle: "\uC2A4\uD47C\uC744 \uC4F0\uACE0 \uD78C\uD2B8\uB97C \uBCFC\uAE4C\uC694?",
+    hintWithCost: "\uD78C\uD2B8 \uC4F0\uAE30",
+    hintConfirmTitle: "\uC2A4\uD47C\uC73C\uB85C \uD78C\uD2B8\uB97C \uBCFC\uAE4C\uC694?",
     hintConfirmBody: "지금 스푼 {cost}개를 사용해요. 되돌리기로 힌트 칸을 지울 수는 있지만, 힌트 사용과 스푼 사용은 그대로 남아요.",
     hintCancel: "\uC544\uC9C1 \uC548 \uC4F0\uAE30",
     hintConfirmAction: "{cost}\uAC1C \uC4F0\uAE30",
@@ -255,10 +255,10 @@ export const ko = {
     timeAttackHintTitle: "\uD0C0\uC784\uC5B4\uD0DD \uD78C\uD2B8",
     hintIntro: "힌트가 확실한 한 칸을 해결해요. 되돌리기로 칸을 지울 수는 있지만, 힌트 사용은 그대로 기록돼요.",
     hintIntroMulti: "이 큰 퍼즐에서는 힌트 한 번이 확실한 칸 {count}개까지 해결해요. 되돌리기로 칸을 지울 수는 있지만, 힌트 사용은 그대로 기록돼요.",
-    timeAttackHintIntro: "\uD0C0\uC784\uC5B4\uD0DD \uD78C\uD2B8\uB294 \uC9C0\uAE08 \uC2A4\uD47C {cost}\uAC1C\uB97C \uC4F0\uACE0 \uC0AC\uC6A9\uD574\uC694. \uB418\uB3CC\uB9AC\uAE30\uB85C \uCE78\uC744 \uC9C0\uC6B8 \uC218\uB294 \uC788\uC9C0\uB9CC \uD78C\uD2B8 \uC0AC\uC6A9\uACFC \uC2A4\uD47C \uC0AC\uC6A9\uC740 \uADF8\uB300\uB85C \uB0A8\uC544\uC694. \uBCF4\uC720 {balance}\uAC1C.",
-    timeAttackHintNeedMore: "\uB2E4\uC74C \uD0C0\uC784\uC5B4\uD0DD \uD78C\uD2B8\uB294 \uC2A4\uD47C {cost}\uAC1C\uAC00 \uD544\uC694\uD574\uC694. \uBCF4\uC720 {balance}\uAC1C.",
-    paidHintIntro: "추가 힌트: 스푼 {cost}개로 도움되는 칸 {count}개까지 해결해요. 되돌리기로 칸을 지울 수는 있지만, 힌트와 스푼 사용은 그대로 남아요. 보유 {balance}개.",
-    paidHintNeedMore: "다음 추가 힌트는 스푼 {cost}개가 필요해요. 보유 {balance}개.",
+    timeAttackHintIntro: "\uBB34\uB8CC \uD78C\uD2B8\uB97C \uB2E4 \uC37C\uC5B4\uC694. \uB2E4\uC74C \uD78C\uD2B8\uB294 \uC2A4\uD47C {cost}\uAC1C\uB97C \uC0AC\uC6A9\uD574\uC694. \uB418\uB3CC\uB9AC\uAE30\uB85C \uCE78\uC744 \uC9C0\uC6B8 \uC218\uB294 \uC788\uC9C0\uB9CC \uD78C\uD2B8 \uC0AC\uC6A9\uACFC \uC2A4\uD47C \uC0AC\uC6A9\uC740 \uADF8\uB300\uB85C \uB0A8\uC544\uC694. \uBCF4\uC720 {balance}\uAC1C.",
+    timeAttackHintNeedMore: "\uB2E4\uC74C \uD78C\uD2B8\uB294 \uC2A4\uD47C {cost}\uAC1C\uAC00 \uD544\uC694\uD574\uC694. \uBCF4\uC720 {balance}\uAC1C.",
+    paidHintIntro: "무료 힌트를 다 썼어요. 스푼 {cost}개를 사용하면 도움되는 칸 {count}개까지 해결해요. 되돌리기로 칸을 지울 수는 있지만, 힌트와 스푼 사용은 그대로 남아요. 보유 {balance}개.",
+    paidHintNeedMore: "다음 힌트는 스푼 {cost}개가 필요해요. 보유 {balance}개.",
     hintEmpty: "\uC774 \uADF8\uB9BC\uC5D0\uC11C \uC4F8 \uC218 \uC788\uB294 \uD78C\uD2B8\uB97C \uBAA8\uB450 \uC0AC\uC6A9\uD588\uC5B4\uC694. \uACC4\uC18D \uD480\uAC70\uB098 \uC790\uC720\uB86D\uAC8C \uB418\uB3CC\uB9B4 \uC218 \uC788\uC5B4\uC694."
   },
   progress: {

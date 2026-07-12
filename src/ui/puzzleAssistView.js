@@ -104,7 +104,7 @@ export function renderHintPanel(state, puzzle, update, hintLimit = getHintLimit(
   const button = document.createElement("button");
   button.type = "button";
   button.className = "hint-button";
-  button.textContent = hintCost > 0 ? t("controls.hintWithCost", { cost: hintCost }) : t("controls.hint");
+  button.textContent = t("controls.hint");
   const canUseHint = remaining > 0 || hintCost > 0;
   button.disabled = !canUseHint || (hintCost > 0 && balance < hintCost);
   button.addEventListener("click", () => {
@@ -182,10 +182,7 @@ function getHintBodyText({ remaining, hintCost, balance, revealCount, timeAttack
   return revealCount > 1 ? t("controls.hintIntroMulti", { count: revealCount }) : t("controls.hintIntro");
 }
 
-export function getHintTitleText({ remaining, hintLimit, hintCost, timeAttack = false }) {
-  if (hintCost > 0) {
-    return timeAttack ? t("controls.timeAttackHintTitle") : t("controls.extraHintTitle");
-  }
+export function getHintTitleText({ remaining, hintLimit }) {
   return t("controls.hintRemaining", { count: remaining, limit: hintLimit });
 }
 

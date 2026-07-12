@@ -1276,3 +1276,8 @@ Immediate implementation decisions:
 ### v0.1.289 - Automate Copy Quality Gates
 - Korean copy quality should be guarded at source level as well as targeted i18n tests because interface polish depends on every visible string staying readable.
 - Keep this lightweight hygiene gate close to existing BOM/stale CSS checks so copy regressions are caught before visual QA.
+### v0.1.290 - Hint Economy Should Stay Player-Friendly
+
+- Internal hint states may split free allowance, spoon-spending continuation, and Time Attack tuning, but player-facing UI should present a single hint action.
+- Explain the transition at the moment it matters: show remaining free hints first, then tell the player the next hint uses spoons.
+- Avoid user-facing "paid hint" category language; use spoon economy language instead.
