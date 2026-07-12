@@ -141,7 +141,7 @@ export function renderPuzzleView(puzzle, options = {}) {
     const baseHintLimit = getHintLimit(puzzle);
     const hintLimit = isTimeAttack ? Math.min(baseHintLimit, 3) : baseHintLimit;
     if (!state.completed && hintLimit > 0) {
-      const paidHintCount = Math.max(0, Number(state.hintsUsed || 0) - hintLimit);
+      const paidHintCount = Math.max(0, Number(state.paidHintsUsed || 0));
       const normalHintCost = !isTimeAttack && Number(state.hintsUsed || 0) >= hintLimit
         ? getPuzzleExtraHintCost(puzzle.size, paidHintCount)
         : 0;

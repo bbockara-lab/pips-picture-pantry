@@ -151,7 +151,7 @@ function renderHintConfirm(panel, { state, puzzle, update, hintCost, options }) 
       confirm.remove();
       return;
     }
-    update(useHint(state, puzzle.solution, { revealCount }));
+    update(useHint(state, puzzle.solution, { revealCount, paid: Boolean(options.paid) }));
   });
 
   actions.append(cancel, spend);

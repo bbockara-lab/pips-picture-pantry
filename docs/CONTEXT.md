@@ -2168,3 +2168,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Fixed focused play wiring so puzzle state changes are passed from `renderPlayScreen` into `renderPuzzleView`.
 - This keeps Time Attack timeout records aware of the current board state and supports the progress-cell ranking direction.
 - Added a play-screen wiring guard test so future UI refactors do not silently drop the callback again.
+
+
+### v0.1.281 - Paid Hint Count State Split
+- Separated paid normal puzzle hint count from total hint count with `paidHintsUsed` in puzzle state.
+- Extra hint pricing now reads paid hint count directly instead of deriving it from `hintsUsed - hintLimit`, keeping future variable free-hint rules safe.
+- Undo still clears revealed cells only; hint use and paid hint count remain spent by design.

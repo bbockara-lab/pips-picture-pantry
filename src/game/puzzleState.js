@@ -10,6 +10,7 @@ export function createPuzzleState(puzzle) {
     ),
     history: [],
     hintsUsed: 0,
+    paidHintsUsed: 0,
     completed: false,
     updatedAt: new Date().toISOString()
   };
@@ -45,6 +46,7 @@ export function toggleCursorCell(state, mode = state.mode) {
 export function useHint(state, solutionGrid, options = {}) {
   const solution = normalizeSolution(solutionGrid);
   const revealCount = Math.max(1, Math.floor(Number(options.revealCount || 1)));
+  const paid = Boolean(options.paid);
   const targets = findHintTargets(state, solution, revealCount);
   if (!targets.length) {
     return state;
@@ -61,6 +63,7 @@ export function useHint(state, solutionGrid, options = {}) {
     cursor: { row: cursor.row, column: cursor.column },
     cells,
     hintsUsed: Math.max(0, Number(state.hintsUsed || 0)) + 1,
+    paidHintsUsed: Math.max(0, Number(state.paidHintsUsed || 0)) + (paid ? 1 : 0),
     history: [
       ...state.history,
       {
@@ -71,6 +74,7 @@ export function useHint(state, solutionGrid, options = {}) {
           next: target.next
         })),
         hint: true,
+        paid,
         revealCount: targets.length
       }
     ],
@@ -165,6 +169,7 @@ export function undoLastMove(state) {
     ...state,
     cells,
     hintsUsed: Math.max(0, Number(state.hintsUsed || 0)),
+    paidHintsUsed: Math.max(0, Number(state.paidHintsUsed || 0)),
     history: state.history.slice(0, -1),
     updatedAt: new Date().toISOString()
   };
@@ -178,6 +183,7 @@ export function serializeState(state) {
     cells: state.cells,
     history: state.history,
     hintsUsed: Math.max(0, Number(state.hintsUsed || 0)),
+    paidHintsUsed: Math.max(0, Number(state.paidHintsUsed || 0)),
     completed: state.completed,
     updatedAt: state.updatedAt
   });
@@ -200,6 +206,7 @@ export function restoreState(payload) {
     cells: parsed.cells,
     history: Array.isArray(parsed.history) ? parsed.history : [],
     hintsUsed: Math.max(0, Number(parsed.hintsUsed || 0)),
+    paidHintsUsed: Math.max(0, Number(parsed.paidHintsUsed || 0)),
     completed: Boolean(parsed.completed),
     updatedAt: parsed.updatedAt || new Date().toISOString()
   };

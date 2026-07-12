@@ -98,6 +98,7 @@ describe("puzzle state", () => {
     state = useHint(state, solution);
     expect(state.cells[0][1]).toBe("filled");
     expect(state.hintsUsed).toBe(1);
+    expect(state.paidHintsUsed).toBe(0);
 
     state = undoLastMove(state);
     expect(state.cells[0][1]).toBe("empty");
@@ -141,6 +142,26 @@ describe("puzzle state", () => {
     expect(state.hintsUsed).toBe(1);
   });
 
+  it("tracks paid hint uses separately from free hint uses", () => {
+    const paidHintPuzzle = { id: "paid-hint-puzzle", size: 3 };
+    const solution = [
+      [true, true, true],
+      [false, false, false],
+      [false, false, false]
+    ];
+    let state = createPuzzleState(paidHintPuzzle);
+
+    state = useHint(state, solution, { revealCount: 1 });
+    state = useHint(state, solution, { revealCount: 1, paid: true });
+
+    expect(state.hintsUsed).toBe(2);
+    expect(state.paidHintsUsed).toBe(1);
+
+    state = undoLastMove(state);
+    expect(state.hintsUsed).toBe(2);
+    expect(state.paidHintsUsed).toBe(1);
+  });
+
   it("serializes and restores state", () => {
     let state = createPuzzleState(puzzle);
     state = toggleCell(state, 2, 2, "fill");
@@ -151,5 +172,6 @@ describe("puzzle state", () => {
     expect(restored.cells[2][2]).toBe("filled");
     expect(restored.cursor).toEqual({ row: 0, column: 0 });
     expect(restored.hintsUsed).toBe(1);
+    expect(restored.paidHintsUsed).toBe(0);
   });
 });

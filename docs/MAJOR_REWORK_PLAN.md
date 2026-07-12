@@ -1235,3 +1235,8 @@ Immediate implementation decisions:
 ### v0.1.280 - Time Attack Progress State Wiring
 - Time Attack records depend on live puzzle-state callbacks, especially for timeout runs where the puzzle is not completed.
 - Keep callback wiring guarded whenever play-screen/header/puzzle-view composition is refactored; otherwise progress-cell ranking can lose the current-board state.
+
+
+### v0.1.281 - Hint Economy State Rule
+- Track paid extra hints separately from total hints so free-hint allowances can later vary by board size, difficulty, event, or onboarding without corrupting price escalation.
+- Preserve the fairness rule: undo may remove hint-filled cells, but hint usage and spoon-paid hint usage remain recorded.
