@@ -1491,3 +1491,10 @@ Last updated: 2026-06-28
 - Opening launch highlights now use tactile promise chips with CSS-only Sunny Spoon styled marks.
 - Android bundle generation remains paused during the local rework; next handoff should include this first-impression polish after full local QA passes.
 - Verification passed: syntax checks, full Vitest (87 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.
+
+
+## Verification Update - 2026-07-12 v0.1.296 Spoon Hint Confirmation Clarity
+
+- Hint confirmation now includes a compact spoon-cost chip while preserving a single hint-button presentation.
+- Android bundle generation remains paused during the local rework; next handoff should include this hint-economy UX clarification after full local QA passes.
+- Verification passed: syntax, targeted hint/i18n tests, full Vitest (88 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.

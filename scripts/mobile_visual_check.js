@@ -501,7 +501,7 @@ async function expectHintConfirmationPolish(page, viewportName) {
     const host = document.createElement("div");
     host.className = "hint-panel mobile-qa-hint-fixture";
     host.style.cssText = "position: fixed; left: 12px; right: 12px; bottom: 14px; z-index: 9999; display: grid; grid-template-columns: 1fr; max-width: 340px; margin: 0 auto;";
-    host.innerHTML = '<div class="hint-panel__confirm" data-cost="4" role="group"><p class="hint-panel__confirm-title">Spend spoons for a hint?</p><p>This uses 4 spoons now. Undo can remove the hint move, but the spoons are not refunded.</p><div class="hint-panel__confirm-actions"><button type="button" class="tool-button">Not now</button><button type="button" class="tool-button complete">Use 4</button></div></div>';
+    host.innerHTML = '<div class="hint-panel__confirm" data-cost="4" role="group"><p class="hint-panel__confirm-title">Spend spoons for a hint?</p><div class="hint-panel__cost-chip" aria-label="4 spoons"><span class="hint-panel__spoon-mark" aria-hidden="true"></span><strong>4</strong></div><p>This uses 4 spoons now. Undo can remove the hint move, but the spoons are not refunded.</p><div class="hint-panel__confirm-actions"><button type="button" class="tool-button">Not now</button><button type="button" class="tool-button complete">Use 4</button></div></div>';
     document.body.appendChild(host);
     const panel = host.querySelector(".hint-panel__confirm");
     const buttons = [...host.querySelectorAll("button")];
@@ -512,6 +512,10 @@ async function expectHintConfirmationPolish(page, viewportName) {
       const buttonStyle = getComputedStyle(button);
       return { width: buttonRect.width, height: buttonRect.height, background: buttonStyle.backgroundImage };
     });
+    const costChip = host.querySelector(".hint-panel__cost-chip");
+    const costChipRect = costChip?.getBoundingClientRect();
+    const costChipStyle = costChip ? getComputedStyle(costChip) : null;
+    const spoonMarkRect = host.querySelector(".hint-panel__spoon-mark")?.getBoundingClientRect();
     const result = {
       left: rect?.left || 0,
       right: rect?.right || 0,
@@ -522,6 +526,13 @@ async function expectHintConfirmationPolish(page, viewportName) {
       background: style?.backgroundImage || "",
       boxShadow: style?.boxShadow || "",
       cost: panel?.getAttribute("data-cost") || "",
+      costChipText: costChip?.textContent?.trim() || "",
+      costChipLabel: costChip?.getAttribute("aria-label") || "",
+      costChipWidth: costChipRect?.width || 0,
+      costChipHeight: costChipRect?.height || 0,
+      costChipBackground: costChipStyle?.backgroundImage || "",
+      spoonMarkWidth: spoonMarkRect?.width || 0,
+      spoonMarkHeight: spoonMarkRect?.height || 0,
       buttonMetrics
     };
     host.remove();
@@ -538,6 +549,13 @@ async function expectHintConfirmationPolish(page, viewportName) {
     !metrics.background.includes("linear-gradient") ||
     metrics.boxShadow === "none" ||
     metrics.cost !== "4" ||
+    metrics.costChipText !== "4" ||
+    !metrics.costChipLabel.includes("4") ||
+    metrics.costChipWidth < 48 ||
+    metrics.costChipHeight < 32 ||
+    !metrics.costChipBackground.includes("linear-gradient") ||
+    metrics.spoonMarkWidth < 14 ||
+    metrics.spoonMarkHeight < 14 ||
     !buttonsReady
   ) {
     failures.push("[" + viewportName + "] Hint confirmation polish regression: " + JSON.stringify(metrics));

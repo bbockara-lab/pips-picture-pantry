@@ -1307,3 +1307,10 @@ Immediate implementation decisions:
 - The launch promise strip should feel like part of the game interface, not plain text pasted under the key visual.
 - Reworked the three launch promises into tactile chips with CSS-native marks so first-session polish improves while final asset-family work remains separate.
 - Mobile QA now guards the chip count, readable dimensions, icon presence, polished treatment, and overflow because the opening screen is a first-impression surface.
+
+
+### v0.1.296 - Spoon Hint Confirmation Clarity
+
+- Hint UI should continue to feel like one hint feature, not three separate free/paid/time-attack products.
+- When spoons are needed, the confirmation panel now highlights the spoon cost with a compact chip and keeps copy framed as spoon use rather than paid labeling.
+- QA now guards both the visible cost chip and copy hygiene so hint economy changes do not quietly become confusing or store-unfriendly.

@@ -156,6 +156,11 @@ function renderHintConfirm(panel, { state, puzzle, update, hintCost, options }) 
   title.className = "hint-panel__confirm-title";
   title.textContent = t("controls.hintConfirmTitle");
 
+  const costChip = document.createElement("div");
+  costChip.className = "hint-panel__cost-chip";
+  costChip.setAttribute("aria-label", t("controls.hintCostLabel", { cost: hintCost }));
+  costChip.innerHTML = '<span class="hint-panel__spoon-mark" aria-hidden="true"></span><strong>' + hintCost + '</strong>';
+
   const body = document.createElement("p");
   body.textContent = t("controls.hintConfirmBody", { cost: hintCost });
 
@@ -181,7 +186,7 @@ function renderHintConfirm(panel, { state, puzzle, update, hintCost, options }) 
   });
 
   actions.append(cancel, spend);
-  confirm.append(title, body, actions);
+  confirm.append(title, costChip, body, actions);
   panel.append(confirm);
 }
 

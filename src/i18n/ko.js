@@ -250,6 +250,7 @@ export const ko = {
     hintConfirmBody: "지금 스푼 {cost}개를 사용해요. 되돌리기로 힌트 칸을 지울 수는 있지만, 힌트 사용과 스푼 사용은 그대로 남아요.",
     hintCancel: "\uC544\uC9C1 \uC548 \uC4F0\uAE30",
     hintConfirmAction: "{cost}\uAC1C \uC4F0\uAE30",
+    hintCostLabel: "\uC2A4\uD47C {cost}\uAC1C",
     hintRemaining: "\uD78C\uD2B8 {count}/{limit}",
     extraHintTitle: "\uCD94\uAC00 \uD78C\uD2B8",
     timeAttackHintTitle: "\uD0C0\uC784\uC5B4\uD0DD \uD78C\uD2B8",

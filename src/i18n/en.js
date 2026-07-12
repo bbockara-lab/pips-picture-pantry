@@ -251,6 +251,7 @@ export const en = {
     hintConfirmBody: "This uses {cost} spoons now. Undo can remove the hint cells, but the hint use and spoons stay spent.",
     hintCancel: "Not now",
     hintConfirmAction: "Use {cost}",
+    hintCostLabel: "{cost} spoons",
     hintRemaining: "Hints {count}/{limit}",
     extraHintTitle: "Extra hint",
     timeAttackHintTitle: "Time Attack hint",

@@ -164,6 +164,7 @@ describe("i18n", () => {
       "controls.hintConfirmBody",
       "controls.hintCancel",
       "controls.hintConfirmAction",
+      "controls.hintCostLabel",
       "controls.hintRemaining",
       "controls.extraHintTitle",
       "controls.timeAttackHintTitle",

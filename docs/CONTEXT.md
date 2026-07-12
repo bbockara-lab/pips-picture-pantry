@@ -2247,3 +2247,10 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Turned the opening promise strip into three tactile mini chips for puzzle volume, Pantry goals, and Time Attack.
 - Used CSS-native Sunny Spoon styled marks instead of introducing new bitmap art, keeping the screen visually richer without adding character/world inconsistency.
 - Extended mobile QA so the first screen now guards promise-chip count, touch/read size, icon presence, gradient treatment, and overflow.
+
+
+## Progress Update - 2026-07-12 v0.1.296 Spoon Hint Confirmation Clarity
+
+- Added a compact spoon-cost chip inside the hint confirmation panel so spending moments stay clear without exposing paid/free labels as separate user-facing modes.
+- Kept the single hint-button presentation intact; the extra explanation only appears at the confirmation step after free hints are used up.
+- Extended mobile QA to guard the spoon-cost chip, icon mark, dimensions, and gradient treatment.
