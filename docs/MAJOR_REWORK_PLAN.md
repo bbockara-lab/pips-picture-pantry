@@ -1268,3 +1268,7 @@ Immediate implementation decisions:
 ### v0.1.287 - Hint Economy Copy Should Be State-Aware
 - Hint UI should make the free-to-paid transition explicit in title, body, and action text.
 - Keep separating normal puzzle extra hints from Time Attack hint spending because the economy intent is different.
+
+### v0.1.288 - Copy QA Is Part Of Interface Polish
+- Treat visible Korean copy regressions as interface defects, especially around hints, guides, Time Attack, and replay challenge flows.
+- Keep regression tests checking both missing translations and common mojibake fragments before Android release work resumes.

@@ -1454,3 +1454,7 @@ Last updated: 2026-06-28
 ## v0.1.287 - Paid Hint Title Clarity
 - Hint panels now use separate titles for free hints, normal extra hints, and Time Attack paid hints.
 - Verification passed: full Vitest 82 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.
+
+## v0.1.288 - Korean Copy Regression Guard
+- Korean guide/hint regression tests now reject common mojibake fragments and verify the readable extra-hint phrase.
+- Verification passed: full Vitest 82 tests, qa:hygiene, qa:catalog, qa:assets, production build, HTTP 200, and mobile QA 360/390/430.
