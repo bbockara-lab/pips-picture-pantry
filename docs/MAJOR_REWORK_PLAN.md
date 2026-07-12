@@ -1290,3 +1290,8 @@ Immediate implementation decisions:
 - Time Attack onboarding should explicitly teach that a run starts with limited hints and later uses spoons for more help.
 - Keep this as Pip guide/coach copy, not as separate visible hint categories on the puzzle control itself.
 - Mobile QA should continue guarding this because the hint economy is both a usability feature and a monetization pacing feature.
+### v0.1.293 - Korean UI Copy Guard
+
+- Korean UI copy should be protected broadly across core screens, guides, Pantry, Time Attack, and hint text.
+- Keep puzzle catalog copy on targeted checks so large future seasonal batches can be reviewed with catalog-specific tooling.
+- Treat mojibake or fallback copy as a release blocker for user-facing launch screens.

@@ -1476,3 +1476,7 @@ Last updated: 2026-06-28
 
 - Mobile QA now opens Time Attack and verifies the first-run Pip guide reaches the hint/spoon explanation step.
 - Verification passed: syntax, full Vitest (84 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.
+## Verification Update - 2026-07-12 v0.1.293 Korean UI Copy Guard
+
+- Korean non-puzzle UI copy now has recursive mojibake regression coverage in i18n tests.
+- Verification passed: targeted i18n test, full Vitest (85 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.

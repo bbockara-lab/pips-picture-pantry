@@ -8,6 +8,23 @@ import {
   setLanguagePreference,
   t
 } from "../src/i18n/index.js";
+import { ko } from "../src/i18n/ko.js";
+
+const KOREAN_MOJIBAKE_PATTERN = /[揶쏅슦쎄쑴뽰눘維쒙쭪疫꿰빊吏紐]/;
+
+function collectStrings(source, path = [], strings = []) {
+  Object.entries(source || {}).forEach(([key, value]) => {
+    const nextPath = [...path, key];
+    if (value && typeof value === "object") {
+      collectStrings(value, nextPath, strings);
+      return;
+    }
+    if (typeof value === "string") {
+      strings.push([nextPath.join("."), value]);
+    }
+  });
+  return strings;
+}
 
 describe("i18n", () => {
   afterEach(() => {
@@ -174,6 +191,16 @@ describe("i18n", () => {
     expect(t("controls.timeAttackHintIntro", { cost: 9, balance: 20 })).toContain("\uC2A4\uD47C 9\uAC1C");
     expect(t("replayPicks.eyebrow")).toBe("Pip\uC758 \uB2E4\uC2DC \uD480\uAE30 \uCD94\uCC9C");
     expect(t("replayPicks.title")).toBe("\uAE54\uB054\uD55C \uB2E4\uC2DC \uD480\uAE30 \uB3C4\uC804");
+  });
+
+  it("keeps all non-puzzle Korean UI copy free of mojibake fragments", () => {
+    const strings = collectStrings(ko).filter(([key]) => !key.startsWith("puzzles."));
+
+    strings.forEach(([key, value]) => {
+      expect(value, key).not.toMatch(KOREAN_MOJIBAKE_PATTERN);
+      expect(value, key).not.toContain("\uFFFD");
+      expect(value, key).not.toContain("\u5360");
+    });
   });
 
   it("keeps Korean pantry story request copy out of English fallback", () => {

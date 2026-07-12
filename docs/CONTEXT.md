@@ -2230,3 +2230,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added mobile QA coverage that opens Time Attack, confirms Pip's first-run guide appears, and advances to the hint step.
 - The guard checks that the guide explains both limited hints and spoon continuation, keeping the player-facing hint model simple while preserving the economy pacing.
 - This protects the intended onboarding flow without adding separate visible hint categories to the puzzle controls.
+## Progress Update - 2026-07-12 v0.1.293 Korean UI Copy Guard
+
+- Added a recursive i18n regression test over Korean non-puzzle UI copy so mojibake fragments cannot slip into core screens, guides, pantry, or hint text.
+- Kept the heavier 333-puzzle catalog names out of this broad UI guard because puzzle metadata already has targeted catalog checks and separate expansion QA.
+- This supports the launch-quality goal that Korean interface polish is treated as product quality, not a late cosmetic pass.
