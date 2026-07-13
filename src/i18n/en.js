@@ -284,6 +284,9 @@ export const en = {
     eyebrow: "Stage complete!",
     message: "Every picture in this stage is saved in your album.",
     bonus: "Stage bonus +{count}",
+    factsLabel: "Stage rewards",
+    albumFact: "Album filled",
+    nextFact: "Room path grows",
     cta: "Keep going"
   },
   album: {

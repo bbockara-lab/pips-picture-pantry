@@ -26,6 +26,10 @@ export function renderStageCompleteOverlay(pack, onDismiss = () => {}, completio
       <h2>${t(pack.titleKey)}</h2>
       <p>${t("stageComplete.message")}</p>
       ${stageBonusMarkup}
+      <div class="stage-complete-facts" aria-label="${t("stageComplete.factsLabel")}">
+        <span>${t("stageComplete.albumFact")}</span>
+        <span>${t("stageComplete.nextFact")}</span>
+      </div>
       <button type="button" class="tool-button stage-complete-cta">${t("stageComplete.cta")}</button>
     </div>
   `;

@@ -2302,3 +2302,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Reframed the puzzle-complete solved reveal as a small album-card surface with an Album card label and Saved stamp.
 - Kept completion logic unchanged: album saving, replay rewards, next-picture flow, hint counts, and spoon rules are not touched.
 - Mobile QA now guards the completion card shell, stamp, label, gradient treatment, reveal square, and action bounds so reward polish survives later art passes.
+
+### v0.1.306 - Stage Complete Fact Chip Polish
+- Added two compact reward facts to the stage-complete overlay so finishing a stage communicates album progress and room-path momentum, not only a one-time bonus.
+- Kept stage completion logic, spoon bonus rules, dismissal behavior, and approved stage art handling unchanged.
+- Mobile QA now guards the fact-chip count, text, gradient treatment, dimensions, and overflow inside the stage-complete reward card.

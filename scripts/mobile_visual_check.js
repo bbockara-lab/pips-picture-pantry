@@ -595,11 +595,12 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
   const metrics = await page.evaluate(() => {
     const overlay = document.createElement("div");
     overlay.className = "stage-complete-overlay";
-    overlay.innerHTML = '<section class="stage-complete-card"><div class="stage-complete-pip stage-complete-pending-art"><strong>ART</strong></div><div class="stage-complete-copy"><p class="stage-complete-eyebrow">Complete</p><h2>Starter Stage</h2><p>Reward copy</p><p class="stage-complete-bonus"><img alt=""> +5 spoons</p><button type="button" class="tool-button stage-complete-cta">OK</button></div></section>';
+    overlay.innerHTML = '<section class="stage-complete-card"><div class="stage-complete-pip stage-complete-pending-art"><strong>ART</strong></div><div class="stage-complete-copy"><p class="stage-complete-eyebrow">Complete</p><h2>Starter Stage</h2><p>Reward copy</p><p class="stage-complete-bonus"><img alt=""> +5 spoons</p><div class="stage-complete-facts" aria-label="Stage rewards"><span>Album filled</span><span>Room path grows</span></div><button type="button" class="tool-button stage-complete-cta">OK</button></div></section>';
     document.body.appendChild(overlay);
     const card = overlay.querySelector(".stage-complete-card");
     const art = overlay.querySelector(".stage-complete-pip");
     const cta = overlay.querySelector(".stage-complete-cta");
+    const factChips = [...overlay.querySelectorAll(".stage-complete-facts span")];
     const cardRect = card?.getBoundingClientRect();
     const artRect = art?.getBoundingClientRect();
     const ctaRect = cta?.getBoundingClientRect();
@@ -615,6 +616,19 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
       viewportHeight: window.innerHeight,
       artHeight: artRect?.height || 0,
       ctaHeight: ctaRect?.height || 0,
+      factCount: factChips.length,
+      factChips: factChips.map((chip) => {
+        const rect = chip.getBoundingClientRect();
+        const style = getComputedStyle(chip);
+        return {
+          text: chip.textContent.trim(),
+          width: rect.width,
+          height: rect.height,
+          radius: parseFloat(style.borderRadius),
+          background: style.backgroundImage,
+          overflows: chip.scrollWidth > Math.ceil(rect.width) + 1 || chip.scrollHeight > Math.ceil(rect.height) + 1
+        };
+      }),
       cardRadius: cardStyle ? parseFloat(cardStyle.borderRadius) : 0,
       cardBackground: cardStyle?.backgroundImage || "",
       overlayBackground: overlayStyle.backgroundImage || "",
@@ -629,6 +643,8 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
     metrics.cardHeight > metrics.viewportHeight - 24 ||
     metrics.artHeight < 180 ||
     metrics.ctaHeight < 50 ||
+    metrics.factCount !== 2 ||
+    metrics.factChips.some((chip) => !chip.text || chip.width < 90 || chip.height < 32 || chip.radius < 12 || !chip.background.includes("linear-gradient") || chip.overflows) ||
     metrics.cardRadius < 16 ||
     !metrics.cardBackground.includes("linear-gradient") ||
     !metrics.overlayBackground.includes("radial-gradient") ||

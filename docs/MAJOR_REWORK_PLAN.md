@@ -1363,3 +1363,8 @@ Immediate implementation decisions:
 - Tightened the per-puzzle completion reward moment so the solved mini picture reads like an album collectible instead of only a raw grid preview.
 - Added lightweight label/stamp copy through i18n and CSS-only tactile treatment, preserving the existing Sunny Spoon completion flow and replay economy rules.
 - Extended mobile QA to make the reward card, stamp, label, and reveal geometry part of the guarded launch polish surface.
+
+### v0.1.306 - Stage Complete Fact Chip Polish
+- Strengthened the stage-complete reward moment with two small tactile facts: album filled and room path grows.
+- This supports the broader goal of making every puzzle milestone connect back to collection, Pantry progress, and next-goal anticipation.
+- QA now treats those fact chips as part of the protected mobile reward surface.
