@@ -857,12 +857,42 @@ async function expectCompletedLineGuidance(page, viewportName) {
     const rowCompleteCount = document.querySelectorAll(".row-clue.line-complete").length;
     const safeSuggestions = document.querySelectorAll(".puzzle-cell.safe-suggestion").length;
     const firstRowGlow = document.querySelectorAll(".puzzle-cell.completed-row").length;
+    const rowClue = document.querySelector(".row-clue.line-complete span");
+    const safeCell = document.querySelector(".puzzle-cell.safe-suggestion");
+    const glowCell = document.querySelector(".puzzle-cell.completed-row");
+    const readStyle = (el) => {
+      const style = el ? getComputedStyle(el) : null;
+      return {
+        background: style?.backgroundImage || "",
+        boxShadow: style?.boxShadow || "",
+        borderStyle: style?.borderStyle || "",
+        outlineStyle: style?.outlineStyle || "",
+        color: style?.color || ""
+      };
+    };
     const lockedLeakCount = document.querySelectorAll(".board-wrap.locked .line-complete, .board-wrap.locked .safe-suggestion, .board-wrap.locked .completed-row, .board-wrap.locked .completed-column").length;
-    return { rowCompleteCount, safeSuggestions, firstRowGlow, lockedLeakCount };
+    return {
+      rowCompleteCount,
+      safeSuggestions,
+      firstRowGlow,
+      rowClueStyle: readStyle(rowClue),
+      safeCellStyle: readStyle(safeCell),
+      glowCellStyle: readStyle(glowCell),
+      lockedLeakCount
+    };
   });
 
   if (metrics.rowCompleteCount < 1 || metrics.safeSuggestions < 6 || metrics.firstRowGlow < 12) {
     failures.push("[" + viewportName + "] Completed-line guidance did not appear after finishing the first 12x12 row: " + JSON.stringify(metrics));
+  }
+  if (
+    !metrics.rowClueStyle.background.includes("gradient") ||
+    metrics.glowCellStyle.boxShadow === "none" ||
+    metrics.safeCellStyle.borderStyle !== "dashed" ||
+    metrics.safeCellStyle.outlineStyle !== "dashed" ||
+    !metrics.safeCellStyle.background.includes("gradient")
+  ) {
+    failures.push("[" + viewportName + "] Completed-line guidance lost polished glow/safe-X treatment: " + JSON.stringify(metrics));
   }
   if (metrics.lockedLeakCount > 0) {
     failures.push("[" + viewportName + "] Completed-line guidance leaked into a locked board: " + JSON.stringify(metrics));

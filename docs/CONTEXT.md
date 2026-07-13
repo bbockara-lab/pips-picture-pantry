@@ -2254,3 +2254,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added a compact spoon-cost chip inside the hint confirmation panel so spending moments stay clear without exposing paid/free labels as separate user-facing modes.
 - Kept the single hint-button presentation intact; the extra explanation only appears at the confirmation step after free hints are used up.
 - Extended mobile QA to guard the spoon-cost chip, icon mark, dimensions, and gradient treatment.
+
+## Progress Update - 2026-07-12 v0.1.297 Completed-Line Visual Guard
+
+- Polished completed-line guidance so solved rows/columns read as a soft backlight, while safe blank suggestions keep their gentle dashed X treatment.
+- Kept the board logic unchanged; this slice is about making the existing friendly guidance feel clearer during large-board play.
+- Extended mobile QA to verify not only that completed-line guidance appears, but that the glow, safe-X outline, and clue gradient remain visually present.

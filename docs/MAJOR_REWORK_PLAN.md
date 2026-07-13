@@ -1314,3 +1314,9 @@ Immediate implementation decisions:
 - Hint UI should continue to feel like one hint feature, not three separate free/paid/time-attack products.
 - When spoons are needed, the confirmation panel now highlights the spoon cost with a compact chip and keeps copy framed as spoon use rather than paid labeling.
 - QA now guards both the visible cost chip and copy hygiene so hint economy changes do not quietly become confusing or store-unfriendly.
+
+### v0.1.297 - Completed-Line Visual Guard
+
+- Completed-line guidance should stay visually warm and readable as UI polish continues.
+- Mobile QA now checks the actual clue gradient, row glow, and safe-X dashed outline instead of only counting DOM classes.
+- Keep this as a visual guard around the already-tested completed-line logic, not a new puzzle-rule change.

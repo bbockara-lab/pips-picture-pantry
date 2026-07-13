@@ -1498,3 +1498,9 @@ Last updated: 2026-06-28
 - Hint confirmation now includes a compact spoon-cost chip while preserving a single hint-button presentation.
 - Android bundle generation remains paused during the local rework; next handoff should include this hint-economy UX clarification after full local QA passes.
 - Verification passed: syntax, targeted hint/i18n tests, full Vitest (88 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.
+
+## Verification Update - 2026-07-12 v0.1.297 Completed-Line Visual Guard
+
+- Completed-line guidance received a visual polish pass for solved row/column glow and safe X suggestions.
+- Android bundle generation remains paused during the local rework; next handoff should include this large-board guidance polish after full local QA passes.
+- Verification passed: syntax, targeted board/hint/i18n tests, full Vitest (88 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.

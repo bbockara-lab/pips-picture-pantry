@@ -5505,3 +5505,51 @@ img {
   transform: rotate(38deg);
   transform-origin: center top;
 }
+
+/* v0.1.297 completed-line guidance polish */
+.row-clue.line-complete,
+.column-clue.line-complete {
+  position: relative;
+  isolation: isolate;
+}
+
+.row-clue.line-complete::after,
+.column-clue.line-complete::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  z-index: -1;
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 226, 142, 0.36), transparent 68%),
+    linear-gradient(135deg, rgba(171, 218, 169, 0.2), rgba(255, 248, 232, 0));
+  pointer-events: none;
+}
+
+.puzzle-cell.completed-row,
+.puzzle-cell.completed-column {
+  background-blend-mode: screen, normal;
+}
+
+.puzzle-cell.completed-row:not(.filled):not(.marked),
+.puzzle-cell.completed-column:not(.filled):not(.marked) {
+  background:
+    radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.76), transparent 30%),
+    linear-gradient(135deg, rgba(197, 230, 176, 0.42), rgba(255, 248, 232, 0.94));
+}
+
+.puzzle-cell.safe-suggestion {
+  position: relative;
+  outline: 2px dashed rgba(72, 138, 122, 0.34);
+  outline-offset: -5px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.74);
+}
+
+.puzzle-cell.safe-suggestion::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 5px;
+  background: rgba(168, 216, 194, 0.12);
+  pointer-events: none;
+}
