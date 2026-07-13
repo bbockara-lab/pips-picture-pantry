@@ -2333,3 +2333,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added a compact selected-square status chip to the large-board cursor controls so players can see whether the current cursor cell is empty, colored, or marked blank before acting.
 - Kept cursor movement, fill/mark behavior, undo, hints, spoon spending, drag painting, and completed-line guidance unchanged; this is a presentation/accessibility layer on the existing cursor state.
 - Bumped the visible app version to v0.1.311 and extended mobile QA telemetry to guard the status chip text, dimensions, gradient treatment, and overflow behavior.
+
+### v0.1.312 - Cursor Action Intent Labels
+- Updated the large-board cursor action buttons so already colored cells show a clear-color action and already marked cells show a clear-X action.
+- Kept the underlying toggle behavior unchanged; this slice makes the existing result easier to predict before the player taps.
+- Bumped the visible app version to v0.1.312 and extended mobile QA to verify the status chip and action label update after coloring a selected cursor cell.

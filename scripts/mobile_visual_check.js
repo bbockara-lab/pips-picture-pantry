@@ -948,6 +948,14 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     failures.push("[" + viewportName + "] Cursor pad lost tactile large-board treatment: " + JSON.stringify(cursorPadMetrics));
   }
 
+  await page.locator(".cursor-action-button").first().click();
+  const cursorStatusAfterFill = await page.locator(".cursor-controls__status").first().innerText();
+  const cursorActionAfterFill = await page.locator(".cursor-action-button").first().innerText();
+  if (!/Colored|\uCE60\uD568/.test(cursorStatusAfterFill) || !/Clear|\uC9C0\uC6B0/.test(cursorActionAfterFill)) {
+    failures.push("[" + viewportName + "] Cursor action labels should explain clearing after coloring: " + JSON.stringify({ cursorStatusAfterFill, cursorActionAfterFill }));
+  }
+  await page.locator(".cursor-action-button").first().click();
+
   const titleText = await page.locator(".play-screen__title").first().innerText();
   if (!titleText.includes("Bakery Window Glow")) {
     failures.push("[" + viewportName + "] 12x12 play screen title should show Bakery Window Glow, saw " + titleText);
