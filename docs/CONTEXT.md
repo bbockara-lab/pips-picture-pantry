@@ -2378,3 +2378,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Fixed the Time Attack play header so the countdown limit passed from the app shell is explicitly destructured before the remaining-time text is rendered.
 - Kept Time Attack session selection, records, hints, spoon spending, and puzzle flow unchanged; this closes a small runtime-risk gap in the play header.
 - Added a source-level play-screen guard so future refactors cannot drop the countdown limit wiring silently.
+
+### v0.1.321 - Time Attack Start Surface Polish
+- Polished the Time Attack entry surface so the intro, start button, summary cards, and record panel read as one tactile Sunny Spoon game surface instead of plain utility blocks.
+- Kept Time Attack session selection, countdown wiring, records, hints, spoon spending, and reward rules unchanged; this is a presentation and QA guard pass.
+- Extended mobile QA to guard the intro card, tactile start button, summary card gradients, records panel treatment, and viewport bounds on the Time Attack path.

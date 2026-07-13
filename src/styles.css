@@ -5174,6 +5174,158 @@ img {
   font-weight: 900;
 }
 
+/* v0.1.321 time attack start surface polish */
+.time-attack-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.time-attack-panel__intro {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  overflow: hidden;
+  border: 2px solid rgba(71, 45, 48, 0.16);
+  border-radius: 16px;
+  padding: 14px;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.18) 0 8px, rgba(255, 224, 148, 0.12) 8px 16px),
+    linear-gradient(135deg, rgba(255, 250, 231, 0.96), rgba(184, 230, 210, 0.62));
+  box-shadow:
+    0 9px 0 rgba(71, 45, 48, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.time-attack-panel__intro h2,
+.time-attack-panel__intro p {
+  margin: 0;
+}
+
+.time-attack-panel__intro h2 {
+  color: #3d2b2e;
+  font-size: clamp(1.24rem, 5vw, 1.72rem);
+  line-height: 1.05;
+}
+
+.time-attack-panel__intro p:not(.section-label) {
+  color: #744d35;
+  font-weight: 820;
+  line-height: 1.38;
+}
+
+.time-attack-panel__start {
+  justify-self: center;
+  min-width: min(100%, 260px);
+  min-height: 56px;
+  border-width: 3px;
+  border-radius: 18px;
+  color: #3d2b2e;
+  font-size: 1.08rem;
+  font-weight: 940;
+  box-shadow:
+    0 7px 0 rgba(71, 45, 48, 0.22),
+    0 16px 28px rgba(224, 156, 49, 0.18),
+    inset 0 2px 0 rgba(255, 255, 255, 0.62);
+}
+
+.time-attack-panel__start::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  border: 2px solid rgba(71, 45, 48, 0.34);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 35% 32%, rgba(255, 255, 255, 0.86) 0 18%, transparent 19%),
+    linear-gradient(135deg, #ffd86a 0 42%, #f0a93b 43% 100%);
+  box-shadow:
+    inset 0 -2px 0 rgba(71, 45, 48, 0.14),
+    0 2px 0 rgba(71, 45, 48, 0.12);
+}
+
+.time-attack-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.time-attack-summary__card,
+.time-attack-records {
+  border: 2px solid rgba(71, 45, 48, 0.14);
+  border-radius: 16px;
+  padding: 12px;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 242, 0.96), rgba(255, 239, 198, 0.82)),
+    #fff5d8;
+  box-shadow:
+    0 6px 0 rgba(71, 45, 48, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.time-attack-summary__card h3,
+.time-attack-summary__card p,
+.time-attack-records h3,
+.time-attack-records ul {
+  margin: 0;
+}
+
+.time-attack-summary__card {
+  display: grid;
+  align-content: start;
+  gap: 5px;
+  min-height: 104px;
+}
+
+.time-attack-summary__card h3,
+.time-attack-records h3 {
+  color: #4d3036;
+  font-size: 0.9rem;
+  line-height: 1.18;
+}
+
+.time-attack-summary__card p,
+.time-attack-records {
+  color: #765039;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.time-attack-records {
+  display: grid;
+  gap: 8px;
+  min-height: 56px;
+}
+
+.time-attack-records ul {
+  display: grid;
+  gap: 6px;
+  padding-left: 18px;
+}
+
+.time-attack-records li::marker {
+  color: #d08a32;
+}
+
+@media (max-width: 430px) {
+  .time-attack-panel {
+    gap: 12px;
+  }
+
+  .time-attack-summary {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .time-attack-summary__card {
+    min-height: 76px;
+  }
+
+  .time-attack-panel__start {
+    width: 100%;
+  }
+}
+
 
 /* v0.1.261 season progress hub */
 .puzzle-hub-stack {

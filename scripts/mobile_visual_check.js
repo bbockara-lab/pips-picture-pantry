@@ -882,6 +882,77 @@ async function openFloatingView(page, view, viewportName = view) {
     if (ladderMetrics.width <= 0 || ladderMetrics.height <= 0 || !ladderHasRun || !ladderLooksPolished) {
       failures.push("Time Attack ladder lost the 5x5/8x8/10x10 run preview: " + JSON.stringify(ladderMetrics));
     }
+    await expectTimeAttackStartSurface(page, viewportName);
+  }
+}
+
+async function expectTimeAttackStartSurface(page, viewportName) {
+  await expectVisible(page, ".time-attack-panel__intro", "Time Attack intro");
+  await expectVisible(page, ".time-attack-panel__start", "Time Attack start button");
+  await expectVisible(page, ".time-attack-summary", "Time Attack summary cards");
+  await expectVisible(page, ".time-attack-records", "Time Attack records panel");
+
+  const metrics = await page.locator(".time-attack-panel").first().evaluate((panel) => {
+    const panelRect = panel.getBoundingClientRect();
+    const intro = panel.querySelector(".time-attack-panel__intro");
+    const start = panel.querySelector(".time-attack-panel__start");
+    const summary = panel.querySelector(".time-attack-summary");
+    const cards = Array.from(panel.querySelectorAll(".time-attack-summary__card")).map((card) => {
+      const rect = card.getBoundingClientRect();
+      const style = getComputedStyle(card);
+      return {
+        width: rect.width,
+        height: rect.height,
+        radius: parseFloat(style.borderRadius),
+        background: style.backgroundImage,
+        shadow: style.boxShadow
+      };
+    });
+    const records = panel.querySelector(".time-attack-records");
+    const introRect = intro?.getBoundingClientRect();
+    const introStyle = intro ? getComputedStyle(intro) : null;
+    const startRect = start?.getBoundingClientRect();
+    const startStyle = start ? getComputedStyle(start) : null;
+    const summaryStyle = summary ? getComputedStyle(summary) : null;
+    const recordsRect = records?.getBoundingClientRect();
+    const recordsStyle = records ? getComputedStyle(records) : null;
+    return {
+      panelWidth: panelRect.width,
+      panelRight: panelRect.right,
+      viewportWidth: window.innerWidth,
+      intro: introRect ? {
+        width: introRect.width,
+        height: introRect.height,
+        radius: parseFloat(introStyle.borderRadius),
+        background: introStyle.backgroundImage,
+        shadow: introStyle.boxShadow
+      } : null,
+      start: startRect ? {
+        width: startRect.width,
+        height: startRect.height,
+        radius: parseFloat(startStyle.borderRadius),
+        background: startStyle.backgroundImage,
+        shadow: startStyle.boxShadow
+      } : null,
+      summaryColumns: summaryStyle?.gridTemplateColumns || "",
+      cards,
+      records: recordsRect ? {
+        width: recordsRect.width,
+        height: recordsRect.height,
+        radius: parseFloat(recordsStyle.borderRadius),
+        background: recordsStyle.backgroundImage,
+        shadow: recordsStyle.boxShadow
+      } : null
+    };
+  });
+
+  const introLooksPolished = metrics.intro && metrics.intro.height >= 72 && metrics.intro.radius >= 14 && metrics.intro.background.includes("linear-gradient") && metrics.intro.shadow !== "none";
+  const startLooksTactile = metrics.start && metrics.start.width >= 220 && metrics.start.height >= 52 && metrics.start.radius >= 16 && metrics.start.background.includes("linear-gradient") && metrics.start.shadow !== "none";
+  const summaryLooksPolished = metrics.cards.length === 3 && metrics.cards.every((card) => card.width > 0 && card.height >= 70 && card.radius >= 14 && card.background.includes("linear-gradient") && card.shadow !== "none");
+  const recordsLooksPolished = metrics.records && metrics.records.width > 0 && metrics.records.radius >= 14 && metrics.records.background.includes("linear-gradient") && metrics.records.shadow !== "none";
+  const staysInViewport = metrics.panelWidth > 0 && metrics.panelRight <= metrics.viewportWidth + 1;
+  if (!introLooksPolished || !startLooksTactile || !summaryLooksPolished || !recordsLooksPolished || !staysInViewport) {
+    failures.push("[" + viewportName + "] Time Attack start surface lost its polished intro/start/summary/records treatment: " + JSON.stringify(metrics));
   }
 }
 
