@@ -409,6 +409,7 @@ async function expectAlbumPolish(page, viewportName) {
     const album = document.querySelector(".album-panel");
     const albumCard = document.querySelector(".album-card");
     const albumStamp = document.querySelector(".album-stamp");
+    const albumState = document.querySelector(".album-card__state");
 
     const readBox = (el) => {
       const rect = el?.getBoundingClientRect();
@@ -427,18 +428,22 @@ async function expectAlbumPolish(page, viewportName) {
       album: readBox(album),
       albumCard: readBox(albumCard),
       albumStamp: readBox(albumStamp),
+      albumState: readBox(albumState),
 
     };
   });
-  const boxes = [metrics.album, metrics.albumCard, metrics.albumStamp];
+  const boxes = [metrics.album, metrics.albumCard, metrics.albumStamp, metrics.albumState];
   const outside = boxes.some((box) => box.left < -1 || box.right > metrics.viewportWidth + 1);
   if (
     outside ||
     metrics.album.radius < 14 ||
     metrics.albumCard.radius < 12 ||
     metrics.albumStamp.height < 64 ||
+    metrics.albumState.height < 20 ||
+    metrics.albumState.radius < 10 ||
     !metrics.album.background.includes("linear-gradient") ||
-    !metrics.albumCard.background.includes("linear-gradient")
+    !metrics.albumCard.background.includes("linear-gradient") ||
+    !metrics.albumState.background.includes("linear-gradient")
   ) {
     failures.push("[" + viewportName + "] Album polish regression: " + JSON.stringify(metrics));
   }
@@ -449,6 +454,7 @@ async function expectMapPolish(page, viewportName) {
     const map = document.querySelector(".map-panel");
     const badgeCard = document.querySelector(".badge-card");
     const badgeToken = document.querySelector(".badge-art-token");
+    const badgeState = document.querySelector(".badge-card__state");
     const readBox = (el) => {
       const rect = el?.getBoundingClientRect();
       const style = el ? getComputedStyle(el) : null;
@@ -465,18 +471,22 @@ async function expectMapPolish(page, viewportName) {
       viewportWidth: window.innerWidth,
       map: readBox(map),
       badgeCard: readBox(badgeCard),
-      badgeToken: readBox(badgeToken)
+      badgeToken: readBox(badgeToken),
+      badgeState: readBox(badgeState)
     };
   });
-  const boxes = [metrics.map, metrics.badgeCard, metrics.badgeToken];
+  const boxes = [metrics.map, metrics.badgeCard, metrics.badgeToken, metrics.badgeState];
   const outside = boxes.some((box) => box.left < -1 || box.right > metrics.viewportWidth + 1);
   if (
     outside ||
     metrics.map.radius < 14 ||
     metrics.badgeCard.radius < 12 ||
     metrics.badgeToken.height < 80 ||
+    metrics.badgeState.height < 20 ||
+    metrics.badgeState.radius < 10 ||
     !metrics.map.background.includes("linear-gradient") ||
-    !metrics.badgeCard.background.includes("linear-gradient")
+    !metrics.badgeCard.background.includes("linear-gradient") ||
+    !metrics.badgeState.background.includes("linear-gradient")
   ) {
     failures.push("[" + viewportName + "] Map polish regression: " + JSON.stringify(metrics));
   }

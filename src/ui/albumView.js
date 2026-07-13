@@ -31,6 +31,7 @@ export function renderAlbumView() {
 
     const copy = document.createElement("div");
     copy.innerHTML = `
+      <span class="album-card__state">${isComplete ? t("completion.savedStamp") : t("album.hiddenTitle")}</span>
       <h3>${isComplete ? puzzleImageName(puzzle) : t("album.hiddenTitle")}</h3>
       <p>${isComplete ? puzzleAlbumText(puzzle) : t("album.hiddenText")}</p>
       ${isComplete && completionDates[puzzle.id] ? `<small class="card-date">${formatCardDate(completionDates[puzzle.id])}</small>` : ""}

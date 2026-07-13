@@ -2388,3 +2388,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added a scoped Sunny Spoon token treatment to the opening start button so the first tappable action feels like part of the game art direction instead of a plain flat button.
 - Kept the name-entry continue button, intro timing, player-name flow, and brand art unchanged by scoping the token to the non-name opening stage.
 - Extended mobile QA to inspect the start button pseudo-element token, gradient, dimensions, and shadow along with the existing button polish guard.
+
+### v0.1.323 - Album Map Status Card Polish
+- Added compact status chips to Album cards and Badge Shelf cards so saved, hidden, earned, in-progress, and locked states read directly inside the repeated card surfaces.
+- Kept album completion, badge progress, pack unlock, pantry requirements, and all reward logic unchanged; this is a presentation and QA guard pass.
+- Extended mobile QA to guard the new Album/Map state chips, gradients, dimensions, and viewport bounds so future card polish does not regress the status language.
