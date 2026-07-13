@@ -99,7 +99,12 @@ export function renderHintPanel(state, puzzle, update, hintLimit = getHintLimit(
   const revealCount = Math.max(1, Number(options.revealCount || 1));
   body.textContent = getHintBodyText({ remaining, hintCost, balance, revealCount, timeAttack: Boolean(options.timeAttack) });
 
-  copy.append(title, body);
+  const meter = renderHintAllowanceMeter(remaining, hintLimit);
+  copy.append(title);
+  if (meter) {
+    copy.append(meter);
+  }
+  copy.append(body);
 
   const button = document.createElement("button");
   button.type = "button";
@@ -122,6 +127,31 @@ export function renderHintPanel(state, puzzle, update, hintLimit = getHintLimit(
 
   panel.append(copy, button);
   return panel;
+}
+
+function renderHintAllowanceMeter(remaining, hintLimit) {
+  if (!hintLimit || hintLimit <= 0) {
+    return null;
+  }
+
+  const meter = document.createElement("div");
+  meter.className = "hint-panel__meter";
+  meter.setAttribute("aria-label", t("controls.hintMeterLabel", { count: remaining, limit: hintLimit }));
+
+  for (let index = 0; index < hintLimit; index += 1) {
+    const dot = document.createElement("span");
+    dot.className = index < remaining ? "hint-panel__meter-dot available" : "hint-panel__meter-dot spent";
+    dot.setAttribute("aria-hidden", "true");
+    meter.appendChild(dot);
+  }
+
+  return meter;
+}
+
+export function getHintMeterState({ remaining, hintLimit }) {
+  const limit = Math.max(0, Number(hintLimit || 0));
+  const count = Math.min(limit, Math.max(0, Number(remaining || 0)));
+  return Array.from({ length: limit }, (_, index) => index < count ? "available" : "spent");
 }
 
 function createHintIcon() {

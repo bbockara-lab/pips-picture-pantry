@@ -253,6 +253,7 @@ export const en = {
     hintConfirmAction: "Use {cost}",
     hintCostLabel: "{cost} spoons",
     hintRemaining: "Hints {count}/{limit}",
+    hintMeterLabel: "{count} of {limit} free hints left",
     extraHintTitle: "Extra hint",
     timeAttackHintTitle: "Time Attack hint",
     hintIntro: "A hint solves one sure square. Undo can clear the cell, but the hint still counts.",

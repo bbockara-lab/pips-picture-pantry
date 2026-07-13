@@ -829,7 +829,10 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       height: rect.height,
       visibleText: button.textContent.trim(),
       ariaLabel: button.getAttribute("aria-label") || "",
-      iconCount: button.querySelectorAll(".hint-button__icon").length
+      iconCount: button.querySelectorAll(".hint-button__icon").length,
+      meterDots: document.querySelectorAll(".hint-panel__meter-dot").length,
+      meterAvailable: document.querySelectorAll(".hint-panel__meter-dot.available").length,
+      meterLabel: document.querySelector(".hint-panel__meter")?.getAttribute("aria-label") || ""
     };
   });
   if (
@@ -837,7 +840,10 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     hintButtonMetrics.height < 48 ||
     hintButtonMetrics.visibleText.length > 0 ||
     !hintButtonMetrics.ariaLabel ||
-    hintButtonMetrics.iconCount !== 1
+    hintButtonMetrics.iconCount !== 1 ||
+    hintButtonMetrics.meterDots !== 4 ||
+    hintButtonMetrics.meterAvailable !== 4 ||
+    !hintButtonMetrics.meterLabel
   ) {
     failures.push("[" + viewportName + "] Hint button should be an accessible icon-only control: " + JSON.stringify(hintButtonMetrics));
   }

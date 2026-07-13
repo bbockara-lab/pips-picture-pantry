@@ -1332,3 +1332,8 @@ Immediate implementation decisions:
 - Progress feedback should feel like part of the tactile play HUD, not plain helper text.
 - The status chip keeps mistake feedback visible without adding new rules or interrupting the puzzle flow.
 - Mobile QA now protects the compact progress treatment alongside the hint and control-button guards.
+
+### v0.1.300 - Hint Allowance Meter Polish
+- Kept the hint action as one icon-only button while adding a small allowance meter beside the copy so free hints are easier to scan.
+- The meter shows remaining free hint uses without introducing separate free/extra/Time Attack button categories.
+- Mobile QA now guards the 12x12 hint meter count, available dots, and accessibility label.

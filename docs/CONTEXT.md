@@ -2272,3 +2272,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Reworked the puzzle progress line into a compact status chip with distinct normal, warning, and complete treatments.
 - Kept the underlying filled/mistake logic unchanged while making progress feedback easier to read during repeated play.
 - Extended mobile QA to guard the progress chip dimensions, icon mark, gradient treatment, text presence, and overflow.
+
+### v0.1.300 - Hint Allowance Meter Polish
+- Kept the hint action as one icon-only button while adding a small allowance meter beside the copy so free hints are easier to scan.
+- The meter shows remaining free hint uses without introducing separate free/extra/Time Attack button categories.
+- Mobile QA now guards the 12x12 hint meter count, available dots, and accessibility label.

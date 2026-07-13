@@ -5783,3 +5783,50 @@ img {
     font-size: 0.78rem;
   }
 }
+
+
+/* v0.1.300 hint allowance meter polish */
+.hint-panel__meter {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 20px;
+  margin-top: 5px;
+  border: 1px solid rgba(71, 45, 48, 0.14);
+  border-radius: 999px;
+  padding: 4px 7px;
+  background: linear-gradient(180deg, rgba(255, 253, 243, 0.76), rgba(228, 242, 226, 0.7));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.hint-panel__meter-dot {
+  width: 9px;
+  height: 9px;
+  border: 1px solid rgba(71, 45, 48, 0.28);
+  border-radius: 50%;
+  transition: transform 120ms ease, background 120ms ease, opacity 120ms ease;
+}
+
+.hint-panel__meter-dot.available {
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.86), transparent 32%), #f6c94e;
+  box-shadow: 0 1px 0 rgba(71, 45, 48, 0.18);
+}
+
+.hint-panel__meter-dot.spent {
+  background: rgba(122, 94, 78, 0.18);
+  opacity: 0.62;
+}
+
+@media (max-width: 380px) {
+  .hint-panel__meter {
+    gap: 4px;
+    padding-inline: 6px;
+  }
+
+  .hint-panel__meter-dot {
+    width: 8px;
+    height: 8px;
+  }
+}

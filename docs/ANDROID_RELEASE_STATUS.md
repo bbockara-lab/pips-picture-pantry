@@ -1516,3 +1516,9 @@ Last updated: 2026-06-28
 - Puzzle progress now renders as a compact status chip for filled, revisit, and complete states.
 - Android bundle generation remains paused during the local rework; next handoff should include this play-HUD polish after full local QA passes.
 - Verification passed: syntax, targeted puzzle/puzzle-state/i18n tests, full Vitest (88 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.
+
+## Verification Update - 2026-07-12 v0.1.300 Hint Allowance Meter Polish
+
+- Hint panels now show a compact free-hint allowance meter while preserving the single icon-only hint action.
+- Android bundle generation remains paused during the local rework; next handoff should include this hint-UX polish after full local QA passes.
+- Verification passed: syntax, targeted hint/i18n tests, full Vitest (89 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.
