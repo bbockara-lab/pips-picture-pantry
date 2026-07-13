@@ -6022,6 +6022,33 @@ img {
   }
 }
 
+/* v0.1.322 opening start cta token polish */
+.brand-intro.game-stage .brand-intro__content:not(.name-stage) .brand-intro__skip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding-inline: 24px 28px;
+}
+
+.brand-intro.game-stage .brand-intro__content:not(.name-stage) .brand-intro__skip::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  border: 2px solid rgba(61, 43, 46, 0.32);
+  border-radius: 50% 50% 48% 48%;
+  background:
+    radial-gradient(circle at 36% 30%, rgba(255, 255, 255, 0.88) 0 18%, transparent 19%),
+    linear-gradient(180deg, #fff3a8 0%, #f4c744 52%, #db9133 100%);
+  box-shadow:
+    inset 0 -2px 0 rgba(61, 43, 46, 0.16),
+    0 2px 0 rgba(61, 43, 46, 0.14);
+}
+
+.brand-intro.game-stage .brand-intro__content:not(.name-stage) .brand-intro__skip::before {
+  right: 38px;
+}
 
 /* v0.1.296 spoon hint confirmation clarity */
 .hint-panel__cost-chip {

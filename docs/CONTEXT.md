@@ -2383,3 +2383,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Polished the Time Attack entry surface so the intro, start button, summary cards, and record panel read as one tactile Sunny Spoon game surface instead of plain utility blocks.
 - Kept Time Attack session selection, countdown wiring, records, hints, spoon spending, and reward rules unchanged; this is a presentation and QA guard pass.
 - Extended mobile QA to guard the intro card, tactile start button, summary card gradients, records panel treatment, and viewport bounds on the Time Attack path.
+
+### v0.1.322 - Opening Start CTA Token Polish
+- Added a scoped Sunny Spoon token treatment to the opening start button so the first tappable action feels like part of the game art direction instead of a plain flat button.
+- Kept the name-entry continue button, intro timing, player-name flow, and brand art unchanged by scoping the token to the non-name opening stage.
+- Extended mobile QA to inspect the start button pseudo-element token, gradient, dimensions, and shadow along with the existing button polish guard.
