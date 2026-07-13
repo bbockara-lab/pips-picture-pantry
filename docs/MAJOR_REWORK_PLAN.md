@@ -1320,3 +1320,9 @@ Immediate implementation decisions:
 - Completed-line guidance should stay visually warm and readable as UI polish continues.
 - Mobile QA now checks the actual clue gradient, row glow, and safe-X dashed outline instead of only counting DOM classes.
 - Keep this as a visual guard around the already-tested completed-line logic, not a new puzzle-rule change.
+
+### v0.1.298 - Puzzle Control Icon Polish
+
+- The play controls should read as tools, not plain text buttons, especially on 12x12 boards where repeated action comfort matters.
+- Undo remains a visual correction tool; it must not become a way to refund hint usage or spoon spending.
+- Mobile QA now guards icon+label controls so later art/UI passes do not regress the core play surface.

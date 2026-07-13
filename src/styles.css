@@ -5553,3 +5553,122 @@ img {
   background: rgba(168, 216, 194, 0.12);
   pointer-events: none;
 }
+
+/* v0.1.298 puzzle control icon polish */
+.controls {
+  align-items: stretch;
+}
+
+.control-button {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  align-items: center;
+  justify-items: center;
+  gap: 7px;
+  min-height: 54px;
+  padding: 7px 9px;
+  text-align: center;
+}
+
+.control-button__label {
+  min-width: 0;
+  font-size: clamp(0.78rem, 2.9vw, 0.96rem);
+  font-weight: 950;
+  line-height: 1.08;
+}
+
+.control-button__icon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(61, 43, 46, 0.34);
+  border-radius: 9px;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78), transparent 28%),
+    linear-gradient(135deg, #ffe07a, #e99a64);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.58),
+    0 2px 0 rgba(61, 43, 46, 0.1);
+}
+
+.control-button__icon::before,
+.control-button__icon::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.control-button__icon--fill::before {
+  inset: 5px;
+  border-radius: 5px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.38), transparent 36%),
+    #d98f4e;
+}
+
+.control-button__icon--mark {
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78), transparent 28%),
+    linear-gradient(135deg, #c9ecd9, #8ec9b1);
+}
+
+.control-button__icon--mark::before,
+.control-button__icon--mark::after {
+  left: 5px;
+  top: 10px;
+  width: 14px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(61, 43, 46, 0.72);
+}
+
+.control-button__icon--mark::before {
+  transform: rotate(45deg);
+}
+
+.control-button__icon--mark::after {
+  transform: rotate(-45deg);
+}
+
+.control-button__icon--undo {
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78), transparent 28%),
+    linear-gradient(135deg, #fff0a8, #f0b453);
+}
+
+.control-button__icon--undo::before {
+  left: 5px;
+  top: 6px;
+  width: 11px;
+  height: 11px;
+  border: 3px solid rgba(61, 43, 46, 0.72);
+  border-right-color: transparent;
+  border-radius: 50%;
+  transform: rotate(24deg);
+}
+
+.control-button__icon--undo::after {
+  left: 4px;
+  top: 4px;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 7px solid rgba(61, 43, 46, 0.72);
+  transform: rotate(-20deg);
+}
+
+@media (max-width: 380px) {
+  .control-button {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    min-height: 58px;
+    padding-inline: 6px;
+  }
+
+  .control-button__icon {
+    width: 22px;
+    height: 22px;
+  }
+}

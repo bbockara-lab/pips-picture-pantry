@@ -1504,3 +1504,9 @@ Last updated: 2026-06-28
 - Completed-line guidance received a visual polish pass for solved row/column glow and safe X suggestions.
 - Android bundle generation remains paused during the local rework; next handoff should include this large-board guidance polish after full local QA passes.
 - Verification passed: syntax, targeted board/hint/i18n tests, full Vitest (88 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.
+
+## Verification Update - 2026-07-12 v0.1.298 Puzzle Control Icon Polish
+
+- Core puzzle controls now use icon+label treatment while preserving existing fill/mark/undo behavior.
+- Android bundle generation remains paused during the local rework; next handoff should include this play-control polish after full local QA passes.
+- Verification passed: syntax, targeted puzzle/puzzle-state/i18n tests, full Vitest (88 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.

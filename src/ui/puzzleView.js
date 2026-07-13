@@ -230,18 +230,21 @@ function createControls(state, update) {
   controls.className = "controls";
 
   const fillButton = createModeButton(t("controls.fill"), state.mode === "fill", () =>
-    update(setMode(state, "fill"))
+    update(setMode(state, "fill")),
+    "fill"
   );
   const markButton = createModeButton(t("controls.mark"), state.mode === "mark", () =>
-    update(setMode(state, "mark"))
+    update(setMode(state, "mark")),
+    "mark"
   );
   markButton.title = t("controls.markHint");
   markButton.setAttribute("aria-label", t("controls.markHint"));
 
   const undoButton = document.createElement("button");
   undoButton.type = "button";
-  undoButton.className = "tool-button";
-  undoButton.textContent = t("controls.undo");
+  undoButton.className = "tool-button control-button control-button--undo";
+  undoButton.setAttribute("aria-label", t("controls.undo"));
+  undoButton.append(createControlIcon("undo"), createControlLabel(t("controls.undo")));
   undoButton.disabled = state.history.length === 0 || state.completed;
   undoButton.addEventListener("click", () => update(undoLastMove(state)));
 
@@ -249,13 +252,28 @@ function createControls(state, update) {
   return controls;
 }
 
-function createModeButton(label, active, onClick) {
+function createModeButton(label, active, onClick, iconName) {
   const button = document.createElement("button");
   button.type = "button";
-  button.className = active ? "mode-button active" : "mode-button";
-  button.textContent = label;
+  button.className = active ? "mode-button control-button active" : "mode-button control-button";
+  button.setAttribute("aria-label", label);
+  button.append(createControlIcon(iconName), createControlLabel(label));
   button.addEventListener("click", onClick);
   return button;
+}
+
+function createControlIcon(name) {
+  const icon = document.createElement("span");
+  icon.className = `control-button__icon control-button__icon--${name}`;
+  icon.setAttribute("aria-hidden", "true");
+  return icon;
+}
+
+function createControlLabel(label) {
+  const text = document.createElement("span");
+  text.className = "control-button__label";
+  text.textContent = label;
+  return text;
 }
 
 function createProgressLine(state, puzzle) {

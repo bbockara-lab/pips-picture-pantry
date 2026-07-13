@@ -842,6 +842,27 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     failures.push("[" + viewportName + "] Hint button should be an accessible icon-only control: " + JSON.stringify(hintButtonMetrics));
   }
 
+  const controlMetrics = await page.locator(".controls .control-button").evaluateAll((buttons) => buttons.map((button) => {
+    const rect = button.getBoundingClientRect();
+    const style = getComputedStyle(button);
+    const label = button.querySelector(".control-button__label");
+    const icon = button.querySelector(".control-button__icon");
+    const iconRect = icon?.getBoundingClientRect();
+    return {
+      text: (label?.textContent || "").trim(),
+      width: rect.width,
+      height: rect.height,
+      background: style.backgroundImage,
+      iconWidth: iconRect?.width || 0,
+      iconHeight: iconRect?.height || 0,
+      ariaLabel: button.getAttribute("aria-label") || "",
+      overflows: button.scrollWidth > Math.ceil(rect.width) + 1 || button.scrollHeight > Math.ceil(rect.height) + 1
+    };
+  }));
+  if (controlMetrics.length !== 3 || controlMetrics.some((metrics) => !metrics.text || metrics.height < 52 || !metrics.background.includes("gradient") || metrics.iconWidth < 20 || metrics.iconHeight < 20 || !metrics.ariaLabel || metrics.overflows)) {
+    failures.push("[" + viewportName + "] Puzzle controls lost icon+tactile mobile treatment: " + JSON.stringify(controlMetrics));
+  }
+
   await expectCompletedLineGuidance(page, viewportName);
   await expectNoHorizontalOverflow(page, viewportName);
   await page.locator(".play-screen__back").click();
