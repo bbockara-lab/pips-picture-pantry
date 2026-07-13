@@ -1,14 +1,18 @@
 import { useHint } from "../game/puzzleState.js";
+import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
 import { t } from "../i18n/index.js";
 
 export function renderHowToPlayCard() {
   const card = document.createElement("section");
   card.className = "how-to-play visual-guide";
   card.innerHTML = `
-    <div class="guide-copy">
-      <p class="section-label">${t("howToPlay.title")}</p>
-      <p>${t("howToPlay.goal")}</p>
-      <p class="how-to-play__line-hint">${t("controls.lineCompleteHint")}</p>
+    <div class="guide-pip-scene">
+      <img class="guide-pip-scene__pip" src="${pipGuideUrl}" alt="" aria-hidden="true" />
+      <div class="guide-copy guide-pip-scene__bubble">
+        <p class="section-label">${t("howToPlay.title")}</p>
+        <p>${t("howToPlay.goal")}</p>
+        <p class="how-to-play__line-hint">${t("controls.lineCompleteHint")}</p>
+      </div>
     </div>
     <div class="clue-guide" aria-hidden="true">
       <div class="clue-guide__row">

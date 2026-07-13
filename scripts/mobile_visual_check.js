@@ -1055,6 +1055,14 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   const howToPlayMetrics = await page.locator(".how-to-play.visual-guide").first().evaluate((card) => {
     const rect = card.getBoundingClientRect();
     const style = getComputedStyle(card);
+    const pip = card.querySelector(".guide-pip-scene__pip");
+    const bubble = card.querySelector(".guide-pip-scene__bubble");
+    const scene = card.querySelector(".guide-pip-scene");
+    const pipRect = pip?.getBoundingClientRect();
+    const bubbleRect = bubble?.getBoundingClientRect();
+    const sceneRect = scene?.getBoundingClientRect();
+    const pipStyle = pip ? getComputedStyle(pip) : null;
+    const bubbleStyle = bubble ? getComputedStyle(bubble) : null;
     const clueRows = [...card.querySelectorAll(".clue-guide__row")].map((row) => {
       const rowRect = row.getBoundingClientRect();
       return { width: rowRect.width, height: rowRect.height };
@@ -1070,6 +1078,16 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       viewportWidth: window.innerWidth,
       radius: parseFloat(style.borderRadius),
       background: style.backgroundImage,
+      pipSrc: pip?.getAttribute("src") || "",
+      pipWidth: pipRect?.width || 0,
+      pipHeight: pipRect?.height || 0,
+      pipFit: pipStyle?.objectFit || "",
+      bubbleWidth: bubbleRect?.width || 0,
+      bubbleHeight: bubbleRect?.height || 0,
+      bubbleBackground: bubbleStyle?.backgroundImage || "",
+      bubbleRadius: bubbleStyle ? parseFloat(bubbleStyle.borderRadius) : 0,
+      bubbleShadow: bubbleStyle?.boxShadow || "",
+      sceneWidth: sceneRect?.width || 0,
       clueRows,
       actions,
       miniCells: card.querySelectorAll(".mini-cell").length,
@@ -1083,6 +1101,16 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     howToPlayMetrics.width > 570 ||
     howToPlayMetrics.radius < 16 ||
     !howToPlayMetrics.background.includes("gradient") ||
+    !howToPlayMetrics.pipSrc.includes("pip-chrome-v2") ||
+    howToPlayMetrics.pipWidth < 52 ||
+    howToPlayMetrics.pipHeight < 52 ||
+    howToPlayMetrics.pipFit !== "contain" ||
+    howToPlayMetrics.bubbleWidth < 120 ||
+    howToPlayMetrics.bubbleHeight < 70 ||
+    !howToPlayMetrics.bubbleBackground.includes("gradient") ||
+    howToPlayMetrics.bubbleRadius < 12 ||
+    howToPlayMetrics.bubbleShadow === "none" ||
+    howToPlayMetrics.sceneWidth < 180 ||
     howToPlayMetrics.clueRows.length !== 2 ||
     howToPlayMetrics.clueRows.some((row) => row.height < 28) ||
     howToPlayMetrics.actions.length !== 3 ||

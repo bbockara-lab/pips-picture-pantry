@@ -2353,3 +2353,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Polished the fill, blank-check, undo, and large-board cursor action symbols so they read as tactile Sunny Spoon tokens rather than temporary UI marks.
 - Kept puzzle input, undo, hint spending, drag painting, and cursor behavior unchanged; this is a presentation and QA guard pass.
 - Extended mobile QA to verify control-symbol gradients, shadows, pseudo-element artwork, and cursor action icon treatment.
+
+### v0.1.316 - Pip Conversational How-To Guide
+- Reworked the in-puzzle how-to card into a Pip-led mini dialogue scene using the approved `pip-chrome-v2` character art.
+- Kept guide copy, puzzle input, hint, undo, line guidance, and cursor behavior unchanged; this is a first-play presentation polish pass.
+- Extended mobile QA to guard the Pip image, speech-bubble treatment, clue examples, action chips, and overflow on the 12x12 path.
