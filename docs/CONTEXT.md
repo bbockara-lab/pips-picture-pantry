@@ -2373,3 +2373,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Polished the active puzzle panel, puzzle meta row, and board frame into a warmer paper-tray treatment so the board surface feels intentional rather than bare scaffolding.
 - Kept puzzle input, cursor controls, drag painting, hints, undo, line guidance, and completion logic unchanged; this is a presentation-only polish pass.
 - Extended mobile QA to guard the active panel, meta card, board tray, grid frame, active clue treatment, gradients, shadows, bounds, and overflow.
+
+### v0.1.320 - Time Attack Countdown Wiring Guard
+- Fixed the Time Attack play header so the countdown limit passed from the app shell is explicitly destructured before the remaining-time text is rendered.
+- Kept Time Attack session selection, records, hints, spoon spending, and puzzle flow unchanged; this closes a small runtime-risk gap in the play header.
+- Added a source-level play-screen guard so future refactors cannot drop the countdown limit wiring silently.

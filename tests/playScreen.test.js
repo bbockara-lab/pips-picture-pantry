@@ -8,4 +8,9 @@ describe("play screen wiring", () => {
     expect(playScreenSource).toMatch(/onPuzzleStateChange\s*\n\s*}\s*=\s*options/);
     expect(playScreenSource).toMatch(/renderPuzzleView\([\s\S]*onPuzzleStateChange,[\s\S]*onPuzzleComplete/);
   });
+
+  it("destructures the time attack limit before rendering the countdown", () => {
+    expect(playScreenSource).toMatch(/timeAttackLimitSeconds\s*=\s*0/);
+    expect(playScreenSource).toMatch(/Math\.max\(0,\s*Number\(timeAttackLimitSeconds/);
+  });
 });

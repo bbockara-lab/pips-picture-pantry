@@ -18,6 +18,7 @@ export function renderPlayScreen(activePuzzle, options) {
     timeAttackRoundIndex = 0,
     timeAttackTotalRounds = 3,
     timeAttackElapsedSeconds = 0,
+    timeAttackLimitSeconds = 0,
     replayChallenge = false,
     replayPicked = false,
     getTimeAttackHintCost,
