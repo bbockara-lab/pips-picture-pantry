@@ -808,6 +808,47 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     failures.push("[" + viewportName + "] 12x12 puzzle meta should show 12x12, saw " + sizeText);
   }
 
+  const playHeaderMetrics = await page.locator(".play-screen__header").first().evaluate((header) => {
+    const rect = header.getBoundingClientRect();
+    const style = getComputedStyle(header);
+    const title = header.querySelector(".play-screen__title");
+    const titleRect = title?.getBoundingClientRect();
+    const controls = [...header.querySelectorAll("button, .difficulty")].map((node) => {
+      const nodeRect = node.getBoundingClientRect();
+      return {
+        text: (node.textContent || "").trim(),
+        width: nodeRect.width,
+        height: nodeRect.height,
+        left: nodeRect.left,
+        right: nodeRect.right
+      };
+    });
+    return {
+      left: rect.left,
+      right: rect.right,
+      width: rect.width,
+      height: rect.height,
+      viewportWidth: window.innerWidth,
+      background: style.backgroundImage,
+      radius: parseFloat(style.borderRadius),
+      titleWidth: titleRect?.width || 0,
+      titleOverflow: title ? title.scrollWidth > Math.ceil(titleRect?.width || 0) + 1 : true,
+      controls
+    };
+  });
+  if (
+    playHeaderMetrics.left < -1 ||
+    playHeaderMetrics.right > playHeaderMetrics.viewportWidth + 1 ||
+    playHeaderMetrics.height < 64 ||
+    playHeaderMetrics.radius < 14 ||
+    !playHeaderMetrics.background.includes("gradient") ||
+    playHeaderMetrics.titleWidth < 90 ||
+    playHeaderMetrics.titleOverflow ||
+    playHeaderMetrics.controls.some((control) => control.height < 30 || control.left < -1 || control.right > playHeaderMetrics.viewportWidth + 1)
+  ) {
+    failures.push("[" + viewportName + "] Play header lost compact HUD polish: " + JSON.stringify(playHeaderMetrics));
+  }
+
   const cellCount = await page.locator(".puzzle-grid .puzzle-cell").count();
   if (cellCount !== 144) {
     failures.push("[" + viewportName + "] Bakery Window Glow should render 144 cells, saw " + cellCount);

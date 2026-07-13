@@ -1522,3 +1522,9 @@ Last updated: 2026-06-28
 - Hint panels now show a compact free-hint allowance meter while preserving the single icon-only hint action.
 - Android bundle generation remains paused during the local rework; next handoff should include this hint-UX polish after full local QA passes.
 - Verification passed: syntax, targeted hint/i18n tests, full Vitest (89 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.
+
+## Verification Update - 2026-07-12 v0.1.301 Play Header HUD Polish
+
+- Focused play headers now use compact tactile HUD styling for back, title, settings, and board-size metadata.
+- Android bundle generation remains paused during the local rework; next handoff should include this play-header polish after full local QA passes.
+- Verification passed: syntax, targeted play/puzzle/hint/i18n tests, full Vitest (89 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.

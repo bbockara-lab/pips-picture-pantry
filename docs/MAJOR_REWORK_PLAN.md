@@ -1337,3 +1337,8 @@ Immediate implementation decisions:
 - Kept the hint action as one icon-only button while adding a small allowance meter beside the copy so free hints are easier to scan.
 - The meter shows remaining free hint uses without introducing separate free/extra/Time Attack button categories.
 - Mobile QA now guards the 12x12 hint meter count, available dots, and accessibility label.
+
+### v0.1.301 - Play Header HUD Polish
+- Reframed the focused puzzle header as a compact tactile HUD card so back, title, settings, and board size read as one designed surface.
+- Kept behavior unchanged and preserved Time Attack and Replay variants with mode-aware header backgrounds.
+- Mobile QA now guards header bounds, gradient treatment, title fit, and control placement on the 12x12 play path.
