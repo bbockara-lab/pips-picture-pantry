@@ -6232,6 +6232,7 @@ img {
   outline-offset: -5px;
   color: transparent;
   text-shadow: none;
+  overflow: hidden;
 }
 
 .puzzle-cell.safe-suggestion::before,
@@ -6247,7 +6248,9 @@ img {
   background:
     radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.86), transparent 34%),
     linear-gradient(135deg, rgba(168, 216, 194, 0.2), rgba(255, 248, 232, 0.52));
-  box-shadow: inset 0 0 0 1px rgba(72, 138, 122, 0.16);
+  box-shadow:
+    inset 0 0 0 1px rgba(72, 138, 122, 0.16),
+    inset 0 -2px 0 rgba(72, 138, 122, 0.08);
 }
 
 .puzzle-cell.safe-suggestion::after {
@@ -6256,10 +6259,13 @@ img {
   height: min(64%, 20px);
   border-radius: 6px;
   background:
+    radial-gradient(circle at 32% 22%, rgba(255, 255, 255, 0.62) 0 15%, transparent 16%),
     linear-gradient(45deg, transparent 39%, rgba(72, 92, 86, 0.68) 42%, rgba(72, 92, 86, 0.68) 58%, transparent 61%),
     linear-gradient(135deg, transparent 39%, rgba(72, 92, 86, 0.68) 42%, rgba(72, 92, 86, 0.68) 58%, transparent 61%);
   transform: translate(-50%, -50%) rotate(-4deg);
-  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.78));
+  filter:
+    drop-shadow(0 1px 0 rgba(255, 255, 255, 0.78))
+    drop-shadow(0 2px 0 rgba(72, 92, 86, 0.12));
 }
 
 /* v0.1.298 puzzle control icon polish */
@@ -7125,6 +7131,7 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   width: fit-content;
   min-height: 28px;
   margin: 7px 0 0;
@@ -7139,8 +7146,29 @@ img {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72), 0 3px 0 rgba(67, 45, 51, 0.1);
 }
 
+.cursor-controls__status::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  border: 2px solid rgba(67, 45, 51, 0.42);
+  border-radius: 6px;
+  background:
+    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.68) 0 22%, transparent 23%),
+    linear-gradient(145deg, #fff8e5, #f2d887);
+  box-shadow:
+    inset 0 -1px 0 rgba(67, 45, 51, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.64);
+}
+
 .cursor-controls__status--filled {
   background: linear-gradient(135deg, #ffd66d, #e99a64 58%, #bc6b4b);
+}
+
+.cursor-controls__status--filled::before {
+  background:
+    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.72) 0 22%, transparent 23%),
+    linear-gradient(145deg, #ffd66d 0%, #e99a64 58%, #bc6b4b 100%);
 }
 
 .cursor-controls__status--marked {
@@ -7148,6 +7176,14 @@ img {
     linear-gradient(135deg, transparent 42%, rgba(61, 43, 46, 0.26) 43%, rgba(61, 43, 46, 0.26) 57%, transparent 58%),
     linear-gradient(45deg, transparent 42%, rgba(61, 43, 46, 0.26) 43%, rgba(61, 43, 46, 0.26) 57%, transparent 58%),
     linear-gradient(180deg, rgba(255, 250, 232, 0.96), rgba(168, 216, 194, 0.72));
+}
+
+.cursor-controls__status--marked::before {
+  background:
+    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.72) 0 22%, transparent 23%),
+    linear-gradient(135deg, transparent 39%, #4f9282 40%, #4f9282 58%, transparent 59%),
+    linear-gradient(45deg, transparent 39%, #4f9282 40%, #4f9282 58%, transparent 59%),
+    linear-gradient(145deg, #f7fff3 0%, #c6e6d4 58%, #93c7b0 100%);
 }
 
 .cursor-controls__body {
@@ -7172,6 +7208,8 @@ img {
 
 .cursor-move,
 .cursor-action-button {
+  position: relative;
+  overflow: hidden;
   min-height: 44px;
   border: 2px solid var(--ink);
   border-radius: 14px;
@@ -7180,6 +7218,16 @@ img {
   font-weight: 950;
   box-shadow: 0 4px 0 rgba(67, 45, 51, 0.18);
   touch-action: manipulation;
+}
+
+.cursor-move::after {
+  content: "";
+  position: absolute;
+  inset: 4px 5px auto;
+  height: 38%;
+  border-radius: 12px 12px 8px 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7), transparent);
+  pointer-events: none;
 }
 
 .cursor-move:active,
@@ -7214,7 +7262,6 @@ img {
 }
 
 .cursor-action-button {
-  position: relative;
   width: 100%;
   min-height: 48px;
   border-radius: 16px;
@@ -7235,7 +7282,8 @@ img {
   box-shadow:
     inset 0 2px 0 rgba(255, 255, 255, 0.56),
     inset 0 -2px 0 rgba(67, 45, 51, 0.1),
-    0 2px 0 rgba(67, 45, 51, 0.1);
+    0 2px 0 rgba(67, 45, 51, 0.1),
+    0 0 0 3px rgba(255, 250, 232, 0.62);
 }
 
 .cursor-action-button::after {

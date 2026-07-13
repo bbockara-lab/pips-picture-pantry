@@ -2408,3 +2408,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Fixed the completed-line progress badge so English uses "1 line" for a single guided row or column instead of the awkward "1 lines" copy seen during mobile QA.
 - Added explicit i18n coverage for the singular guided-line key while preserving Korean line copy and existing multi-line progress language.
 - Kept completed-line guidance logic, safe-X art, puzzle input, hints, undo, and cursor behavior unchanged; this is a copy-quality and regression-test pass.
+
+### v0.1.327 - Cursor Symbol Art Guard Polish
+- Added richer layered treatment to completed-line safe blank X marks, cursor status chips, and large-board D-pad buttons so these controls feel like small Sunny Spoon game tokens rather than temporary symbols.
+- Kept puzzle input, cursor movement, drag painting, hints, undo, and completed-line guidance logic unchanged; this is a presentation and regression-guard pass.
+- Extended mobile QA to guard status-chip token artwork, D-pad shine layers, and safe-X radial/linear artwork so future UI polish preserves the handcrafted symbol language.

@@ -1059,14 +1059,18 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const status = panel.querySelector(".cursor-controls__status");
     const statusRect = status?.getBoundingClientRect();
     const statusStyle = status ? getComputedStyle(status) : null;
+    const statusTokenStyle = status ? getComputedStyle(status, "::before") : null;
     const moves = [...panel.querySelectorAll(".cursor-move")].map((button) => {
       const buttonRect = button.getBoundingClientRect();
       const buttonStyle = getComputedStyle(button);
+      const shineStyle = getComputedStyle(button, "::after");
       return {
         width: buttonRect.width,
         height: buttonRect.height,
         background: buttonStyle.backgroundImage,
-        label: button.getAttribute("aria-label") || ""
+        label: button.getAttribute("aria-label") || "",
+        shineBackground: shineStyle.backgroundImage,
+        shineHeight: parseFloat(shineStyle.height) || 0
       };
     });
     const actions = [...panel.querySelectorAll(".cursor-action-button")].map((button) => {
@@ -1096,6 +1100,10 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       statusWidth: statusRect?.width || 0,
       statusHeight: statusRect?.height || 0,
       statusBackground: statusStyle?.backgroundImage || "",
+      statusTokenWidth: parseFloat(statusTokenStyle?.width) || 0,
+      statusTokenHeight: parseFloat(statusTokenStyle?.height) || 0,
+      statusTokenBackground: statusTokenStyle?.backgroundImage || "",
+      statusTokenShadow: statusTokenStyle?.boxShadow || "",
       dpadWidth: dpad?.getBoundingClientRect().width || 0,
       moves,
       actions,
@@ -1111,9 +1119,13 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     cursorPadMetrics.statusHeight < 24 ||
     cursorPadMetrics.statusWidth > cursorPadMetrics.width ||
     !cursorPadMetrics.statusBackground.includes("gradient") ||
+    cursorPadMetrics.statusTokenWidth < 12 ||
+    cursorPadMetrics.statusTokenHeight < 12 ||
+    !cursorPadMetrics.statusTokenBackground.includes("gradient") ||
+    cursorPadMetrics.statusTokenShadow === "none" ||
     cursorPadMetrics.dpadWidth < 132 ||
     cursorPadMetrics.moves.length !== 4 ||
-    cursorPadMetrics.moves.some((button) => button.width < 40 || button.height < 40 || !button.background.includes("gradient") || !button.label) ||
+    cursorPadMetrics.moves.some((button) => button.width < 40 || button.height < 40 || !button.background.includes("gradient") || !button.label || !button.shineBackground.includes("gradient") || button.shineHeight < 10) ||
     cursorPadMetrics.actions.length !== 2 ||
     cursorPadMetrics.actions.some((button) => button.width < 120 || button.height < 44 || !button.background.includes("gradient") || !button.text || !button.iconBackground.includes("gradient") || button.iconRadius < 6 || button.iconShadow === "none") ||
     cursorPadMetrics.overflows
@@ -1529,6 +1541,7 @@ async function expectCompletedLineGuidance(page, viewportName) {
         beforeBoxShadow: before?.boxShadow || "",
         afterBackground: after?.backgroundImage || "",
         afterFilter: after?.filter || "",
+        afterTransform: after?.transform || "",
         afterWidth: parseFloat(after?.width) || 0,
         afterHeight: parseFloat(after?.height) || 0
       };
@@ -1561,8 +1574,10 @@ async function expectCompletedLineGuidance(page, viewportName) {
     metrics.safeCellStyle.color !== "rgba(0, 0, 0, 0)" ||
     !metrics.safeCellStyle.beforeBackground.includes("gradient") ||
     metrics.safeCellStyle.beforeBoxShadow === "none" ||
-    !metrics.safeCellStyle.afterBackground.includes("gradient") ||
+    !metrics.safeCellStyle.afterBackground.includes("radial-gradient") ||
+    !metrics.safeCellStyle.afterBackground.includes("linear-gradient") ||
     metrics.safeCellStyle.afterFilter === "none" ||
+    metrics.safeCellStyle.afterTransform === "none" ||
     metrics.safeCellStyle.afterWidth < 8 ||
     metrics.safeCellStyle.afterHeight < 8 ||
     !metrics.progressBadgeText ||
