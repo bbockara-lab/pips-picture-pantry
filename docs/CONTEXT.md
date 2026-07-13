@@ -2343,3 +2343,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added explicit cursor action descriptors so large-board buttons carry fill, mark, clear-fill, and clear-mark intent classes in addition to readable labels.
 - Polished the cursor action buttons with small built-in fill/X glyphs so the game-pad controls read more visually without adding new art assets.
 - Added focused unit coverage for cursor selected-cell labels and clear-action intent, then bumped the visible app version to v0.1.313.
+
+### v0.1.314 - Large Board Cursor Focus Rails
+- Connected the existing current-row, current-column, selected-cell, and active-clue classes to visible focus rail styling on large boards.
+- Kept puzzle input logic unchanged while making cursor-pad play easier to follow on 12x12 boards and above.
+- Bumped the visible app version to v0.1.314 and extended mobile QA to guard the row, column, clue, and selected-cell highlight treatment.

@@ -948,6 +948,45 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     failures.push("[" + viewportName + "] Cursor pad lost tactile large-board treatment: " + JSON.stringify(cursorPadMetrics));
   }
 
+  const cursorHighlightMetrics = await page.locator(".board-wrap").first().evaluate((board) => {
+    const selected = board.querySelector(".puzzle-cell.selected");
+    const currentRow = board.querySelector(".puzzle-cell.current-row");
+    const currentColumn = board.querySelector(".puzzle-cell.current-column");
+    const activeRowClue = board.querySelector(".row-clue.active span");
+    const activeColumnClue = board.querySelector(".column-clue.active span");
+    const selectedStyle = selected ? getComputedStyle(selected) : null;
+    const rowStyle = currentRow ? getComputedStyle(currentRow) : null;
+    const columnStyle = currentColumn ? getComputedStyle(currentColumn) : null;
+    const rowClueStyle = activeRowClue ? getComputedStyle(activeRowClue) : null;
+    const columnClueStyle = activeColumnClue ? getComputedStyle(activeColumnClue) : null;
+    return {
+      selected: Boolean(selected),
+      currentRow: Boolean(currentRow),
+      currentColumn: Boolean(currentColumn),
+      activeRowClue: Boolean(activeRowClue),
+      activeColumnClue: Boolean(activeColumnClue),
+      selectedOutline: selectedStyle?.outlineStyle || "",
+      rowShadow: rowStyle?.boxShadow || "",
+      columnShadow: columnStyle?.boxShadow || "",
+      rowClueBackground: rowClueStyle?.backgroundImage || "",
+      columnClueBackground: columnClueStyle?.backgroundImage || ""
+    };
+  });
+  if (
+    !cursorHighlightMetrics.selected ||
+    !cursorHighlightMetrics.currentRow ||
+    !cursorHighlightMetrics.currentColumn ||
+    !cursorHighlightMetrics.activeRowClue ||
+    !cursorHighlightMetrics.activeColumnClue ||
+    cursorHighlightMetrics.selectedOutline === "none" ||
+    cursorHighlightMetrics.rowShadow === "none" ||
+    cursorHighlightMetrics.columnShadow === "none" ||
+    !cursorHighlightMetrics.rowClueBackground.includes("gradient") ||
+    !cursorHighlightMetrics.columnClueBackground.includes("gradient")
+  ) {
+    failures.push("[" + viewportName + "] Cursor focus rails should highlight the selected row, column, cell, and clues: " + JSON.stringify(cursorHighlightMetrics));
+  }
+
   await page.locator(".cursor-action-button").first().click();
   const cursorStatusAfterFill = await page.locator(".cursor-controls__status").first().innerText();
   const cursorActionAfterFill = await page.locator(".cursor-action-button").first().innerText();
