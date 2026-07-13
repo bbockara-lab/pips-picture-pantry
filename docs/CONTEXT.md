@@ -2368,3 +2368,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Refined the settings dialog into a more deliberate Sunny Spoon control surface with role-specific language, player-name, control-mode, audio, save, and close button treatments.
 - Kept settings behavior unchanged: language preference, player name saving, control mode, sound toggles, and close flow use the same callbacks as before.
 - Extended mobile QA to guard the settings title badge, active-choice marker, save button treatment, section counts, gradients, dimensions, and overflow.
+
+### v0.1.319 - Puzzle Board Frame Polish
+- Polished the active puzzle panel, puzzle meta row, and board frame into a warmer paper-tray treatment so the board surface feels intentional rather than bare scaffolding.
+- Kept puzzle input, cursor controls, drag painting, hints, undo, line guidance, and completion logic unchanged; this is a presentation-only polish pass.
+- Extended mobile QA to guard the active panel, meta card, board tray, grid frame, active clue treatment, gradients, shadows, bounds, and overflow.

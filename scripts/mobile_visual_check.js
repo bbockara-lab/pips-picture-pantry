@@ -1337,9 +1337,72 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     failures.push("[" + viewportName + "] Puzzle tool shelf lost cohesive stacked treatment: " + JSON.stringify({ ...toolShelfMetrics, controlsToHintGap, progressAfterHint }));
   }
 
+  await expectPuzzleBoardFramePolish(page, viewportName);
   await expectCompletedLineGuidance(page, viewportName);
   await expectNoHorizontalOverflow(page, viewportName);
   await page.locator(".play-screen__back").click();
+}
+
+async function expectPuzzleBoardFramePolish(page, viewportName) {
+  const metrics = await page.evaluate(() => {
+    const panel = document.querySelector(".puzzle-panel:not(.completed)");
+    const meta = document.querySelector(".play-screen__header");
+    const board = panel?.querySelector(".board-wrap:not(.locked)");
+    const grid = panel?.querySelector(".puzzle-grid");
+    const activeClue = panel?.querySelector(".row-clue.active, .column-clue.active");
+    const read = (node) => {
+      if (!node) {
+        return null;
+      }
+      const rect = node.getBoundingClientRect();
+      const style = getComputedStyle(node);
+      return {
+        left: rect.left,
+        right: rect.right,
+        width: rect.width,
+        height: rect.height,
+        radius: parseFloat(style.borderRadius),
+        background: style.backgroundImage,
+        shadow: style.boxShadow,
+        borderWidth: parseFloat(style.borderTopWidth) || 0
+      };
+    };
+    return {
+      viewportWidth: window.innerWidth,
+      panel: read(panel),
+      meta: read(meta),
+      board: read(board),
+      grid: read(grid),
+      activeClue: read(activeClue)
+    };
+  });
+  if (
+    !metrics.panel ||
+    !metrics.meta ||
+    !metrics.board ||
+    !metrics.grid ||
+    !metrics.activeClue ||
+    metrics.panel.radius < 16 ||
+    !metrics.panel.background.includes("gradient") ||
+    metrics.panel.shadow === "none" ||
+    metrics.meta.width > 530 ||
+    metrics.meta.left < -1 ||
+    metrics.meta.right > metrics.viewportWidth + 1 ||
+    metrics.meta.radius < 16 ||
+    !metrics.meta.background.includes("gradient") ||
+    metrics.board.left < -1 ||
+    metrics.board.right > metrics.viewportWidth + 1 ||
+    metrics.board.radius < 16 ||
+    !metrics.board.background.includes("gradient") ||
+    metrics.board.shadow === "none" ||
+    metrics.grid.borderWidth < 2 ||
+    metrics.grid.radius < 12 ||
+    !metrics.grid.background.includes("gradient") ||
+    metrics.grid.right > metrics.viewportWidth + 1 ||
+    !metrics.activeClue.background.includes("gradient")
+  ) {
+    failures.push("[" + viewportName + "] Puzzle board frame lost polished paper-tray treatment: " + JSON.stringify(metrics));
+  }
 }
 
 async function expectCompletedLineGuidance(page, viewportName) {

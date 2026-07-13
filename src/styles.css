@@ -6496,6 +6496,90 @@ img {
   }
 }
 
+/* v0.1.319 puzzle board frame polish */
+.puzzle-panel:not(.completed) {
+  border-color: rgba(61, 43, 46, 0.18);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(255, 224, 138, 0.26), transparent 34%),
+    linear-gradient(180deg, rgba(255, 252, 243, 0.98), rgba(250, 241, 222, 0.92));
+  box-shadow:
+    0 6px 0 rgba(61, 43, 46, 0.08),
+    0 16px 32px rgba(91, 68, 45, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.78);
+}
+
+.puzzle-panel:not(.completed) .puzzle-meta {
+  width: min(100%, 520px);
+  margin: 0 auto 12px;
+  border: 2px solid rgba(61, 43, 46, 0.14);
+  border-radius: 18px;
+  padding: 10px 12px;
+  background:
+    linear-gradient(135deg, rgba(255, 253, 243, 0.96), rgba(232, 247, 229, 0.78)),
+    radial-gradient(circle at 92% 16%, rgba(255, 212, 97, 0.22), transparent 30%);
+  box-shadow:
+    0 4px 0 rgba(61, 43, 46, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.74);
+}
+
+.puzzle-panel:not(.completed) .puzzle-meta h2 {
+  line-height: 1.16;
+}
+
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+  --board-cell-size: clamp(18px, calc((100vw - 160px) / var(--board-size)), 44px);
+  width: fit-content;
+  max-width: 100%;
+  margin: 12px auto 0;
+  border: 2px solid rgba(61, 43, 46, 0.13);
+  border-radius: 20px;
+  padding: 12px;
+  background:
+    linear-gradient(180deg, rgba(255, 248, 226, 0.94), rgba(246, 233, 203, 0.82)),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.18) 0 1px, transparent 1px 15px);
+  box-shadow:
+    0 6px 0 rgba(61, 43, 46, 0.08),
+    0 16px 28px rgba(91, 68, 45, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .puzzle-grid {
+  border: 3px solid rgba(61, 43, 46, 0.15);
+  border-radius: 14px;
+  padding: 3px;
+  background:
+    linear-gradient(135deg, rgba(255, 251, 238, 0.98), rgba(238, 226, 196, 0.84));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.74),
+    0 3px 0 rgba(61, 43, 46, 0.07);
+}
+
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .column-clue,
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clue {
+  border-radius: 999px;
+  background: rgba(255, 252, 241, 0.46);
+}
+
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .column-clue.active,
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clue.active {
+  background:
+    linear-gradient(180deg, rgba(255, 229, 131, 0.84), rgba(255, 246, 209, 0.7));
+}
+
+@media (max-width: 420px) {
+  .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --board-cell-size: clamp(17px, calc((100vw - 158px) / var(--board-size)), 42px);
+    grid-template-columns: 46px minmax(0, calc(var(--board-cell-size) * var(--board-size)));
+    padding: 8px;
+    border-radius: 16px;
+  }
+
+  .puzzle-panel:not(.completed) .puzzle-meta {
+    padding: 9px 10px;
+  }
+}
+
 /* v0.1.303 how-to guide card polish */
 .how-to-play.visual-guide {
   grid-template-columns: minmax(0, 1.2fr) minmax(150px, auto);
