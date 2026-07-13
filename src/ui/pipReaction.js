@@ -61,6 +61,22 @@ function getCompletionBannerMessage(puzzle, options = {}) {
 }
 
 function renderSolvedReveal(puzzle) {
+  const card = document.createElement("div");
+  card.className = "completion-reveal-card";
+
+  const meta = document.createElement("div");
+  meta.className = "completion-reveal__meta";
+
+  const eyebrow = document.createElement("span");
+  eyebrow.className = "completion-reveal__eyebrow";
+  eyebrow.textContent = t("completion.albumCard");
+
+  const stamp = document.createElement("span");
+  stamp.className = "completion-reveal__stamp";
+  stamp.textContent = t("completion.savedStamp");
+
+  meta.append(eyebrow, stamp);
+
   const reveal = document.createElement("div");
   reveal.className = "completion-reveal";
   reveal.setAttribute("aria-label", puzzleImageName(puzzle));
@@ -74,5 +90,6 @@ function renderSolvedReveal(puzzle) {
     });
   });
 
-  return reveal;
+  card.append(meta, reveal);
+  return card;
 }

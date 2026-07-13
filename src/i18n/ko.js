@@ -270,6 +270,8 @@ export const ko = {
   },
   completion: {
     saved: "{imageName} \uc644\uc131! \uc568\ubc94\uc5d0 \uc800\uc7a5\ud588\uc5b4\uc694.",
+    albumCard: "\uc568\ubc94 \uce74\ub4dc",
+    savedStamp: "\uc800\uc7a5\ub428",
     viewAlbum: "\uc568\ubc94 \ubcf4\uae30",
     nextPicture: "\uB2E4\uC74C \uADF8\uB9BC",
     replayReward: "\uAE54\uB054\uD55C \uB9AC\uD50C\uB808\uC774! \uC2A4\uD47C +{count}\uC744 \uBC1B\uC558\uC5B4\uC694.",

@@ -1543,3 +1543,8 @@ Last updated: 2026-06-28
 - Season 0 hub now presents the post-launch update cadence as an in-game update-note card with puzzle drop, season room, and Pip news chips.
 - Android bundle generation remains paused during the local rework; next handoff should include this live-service expectation polish after full local QA passes.
 - Verification passed: syntax, full Vitest (89 tests), hygiene/catalog/assets, production build, HTTP 200 smoke, and mobile QA 360/390/430 all passed.
+
+## Verification Update - 2026-07-12 v0.1.305 Completion Collectible Card Polish
+- Puzzle completion now presents the solved reveal as a compact album-card reward with a saved stamp.
+- Android bundle generation remains paused during the local rework; next handoff should include this completion-reward polish after full local QA passes.
+- Verification passed: syntax, full Vitest (89 tests), hygiene/catalog/assets, production build, HTTP 200 smoke, and mobile QA 360/390/430 all passed.

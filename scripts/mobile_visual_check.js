@@ -456,14 +456,22 @@ async function expectCompletionRewardPolish(page, viewportName) {
   const metrics = await page.evaluate(() => {
     const banner = document.querySelector(".completion-banner");
     const pip = document.querySelector(".completion-pip");
+    const card = document.querySelector(".completion-reveal-card");
     const reveal = document.querySelector(".completion-reveal");
+    const stamp = document.querySelector(".completion-reveal__stamp");
+    const eyebrow = document.querySelector(".completion-reveal__eyebrow");
     const actions = document.querySelector(".completion-actions");
     const bannerRect = banner?.getBoundingClientRect();
     const pipRect = pip?.getBoundingClientRect();
+    const cardRect = card?.getBoundingClientRect();
     const revealRect = reveal?.getBoundingClientRect();
+    const stampRect = stamp?.getBoundingClientRect();
+    const eyebrowRect = eyebrow?.getBoundingClientRect();
     const actionsRect = actions?.getBoundingClientRect();
     const bannerStyle = banner ? getComputedStyle(banner) : null;
+    const cardStyle = card ? getComputedStyle(card) : null;
     const revealStyle = reveal ? getComputedStyle(reveal) : null;
+    const stampStyle = stamp ? getComputedStyle(stamp) : null;
     return {
       bannerWidth: bannerRect?.width || 0,
       bannerLeft: bannerRect?.left || 0,
@@ -471,13 +479,23 @@ async function expectCompletionRewardPolish(page, viewportName) {
       viewportWidth: window.innerWidth,
       pipWidth: pipRect?.width || 0,
       pipHeight: pipRect?.height || 0,
+      cardWidth: cardRect?.width || 0,
+      cardHeight: cardRect?.height || 0,
       revealWidth: revealRect?.width || 0,
       revealHeight: revealRect?.height || 0,
+      stampWidth: stampRect?.width || 0,
+      stampHeight: stampRect?.height || 0,
+      eyebrowWidth: eyebrowRect?.width || 0,
       actionsWidth: actionsRect?.width || 0,
       bannerRadius: bannerStyle ? parseFloat(bannerStyle.borderRadius) : 0,
       bannerBackground: bannerStyle?.backgroundImage || "",
+      cardRadius: cardStyle ? parseFloat(cardStyle.borderRadius) : 0,
+      cardBackground: cardStyle?.backgroundImage || "",
       revealRadius: revealStyle ? parseFloat(revealStyle.borderRadius) : 0,
-      revealBackground: revealStyle?.backgroundImage || ""
+      revealBackground: revealStyle?.backgroundImage || "",
+      stampBackground: stampStyle?.backgroundImage || "",
+      stampText: stamp?.textContent?.trim() || "",
+      eyebrowText: eyebrow?.textContent?.trim() || ""
     };
   });
   if (
@@ -485,13 +503,23 @@ async function expectCompletionRewardPolish(page, viewportName) {
     metrics.bannerRight > metrics.viewportWidth + 1 ||
     metrics.pipWidth < 60 ||
     metrics.pipHeight < 60 ||
+    metrics.cardWidth < 180 ||
+    metrics.cardHeight < metrics.revealHeight + 30 ||
     metrics.revealWidth < 150 ||
     Math.abs(metrics.revealWidth - metrics.revealHeight) > 2 ||
+    metrics.stampWidth < 42 ||
+    metrics.stampHeight < 22 ||
+    metrics.eyebrowWidth < 56 ||
     metrics.actionsWidth < metrics.bannerWidth * 0.72 ||
     metrics.bannerRadius < 14 ||
+    metrics.cardRadius < 16 ||
     metrics.revealRadius < 10 ||
     !metrics.bannerBackground.includes("linear-gradient") ||
-    !metrics.revealBackground.includes("linear-gradient")
+    !metrics.cardBackground.includes("linear-gradient") ||
+    !metrics.revealBackground.includes("linear-gradient") ||
+    !metrics.stampBackground.includes("linear-gradient") ||
+    !metrics.stampText ||
+    !metrics.eyebrowText
   ) {
     failures.push("[" + viewportName + "] Completion reward polish regression: " + JSON.stringify(metrics));
   }

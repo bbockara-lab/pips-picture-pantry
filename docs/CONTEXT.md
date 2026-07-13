@@ -2297,3 +2297,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Refined the Season 0 Puzzle Hub teaser so the 333-picture launch catalog points toward ongoing seasonal drops instead of feeling like a one-time finite list.
 - Added tactile update chips for puzzle drops, season rooms, and Pip news, matching the broader benchmark direction of character-led, user-friendly update operations.
 - Mobile QA now checks the teaser copy, chips, gradient treatment, and mobile bounds.
+
+### v0.1.305 - Completion Collectible Card Polish
+- Reframed the puzzle-complete solved reveal as a small album-card surface with an Album card label and Saved stamp.
+- Kept completion logic unchanged: album saving, replay rewards, next-picture flow, hint counts, and spoon rules are not touched.
+- Mobile QA now guards the completion card shell, stamp, label, gradient treatment, reveal square, and action bounds so reward polish survives later art passes.

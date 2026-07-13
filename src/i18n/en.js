@@ -272,6 +272,8 @@ export const en = {
   },
   completion: {
     saved: "A cozy {imageName}! Saved to the Pantry Album.",
+    albumCard: "Album card",
+    savedStamp: "Saved",
     viewAlbum: "View Album",
     nextPicture: "Next Picture",
     replayReward: "Clean replay! You earned +{count} spoon.",

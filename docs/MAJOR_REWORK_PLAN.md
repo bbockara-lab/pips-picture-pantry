@@ -1358,3 +1358,8 @@ Immediate implementation decisions:
 - Expanded the Season 0 hub teaser into an update-note card with three compact chips: puzzle drop, season room, and Pip news.
 - Kept this as UI/UX polish only. It does not add external channels, marketing dependencies, or new economy rules; it simply makes the post-launch seasonal cadence visible in-game.
 - Mobile QA now guards the teaser copy, chip count, gradient treatment, and card bounds so the launch/update expectation does not disappear during later art passes.
+
+### v0.1.305 - Completion Collectible Card Polish
+- Tightened the per-puzzle completion reward moment so the solved mini picture reads like an album collectible instead of only a raw grid preview.
+- Added lightweight label/stamp copy through i18n and CSS-only tactile treatment, preserving the existing Sunny Spoon completion flow and replay economy rules.
+- Extended mobile QA to make the reward card, stamp, label, and reveal geometry part of the guarded launch polish surface.
