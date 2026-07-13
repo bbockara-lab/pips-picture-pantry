@@ -321,8 +321,10 @@ function createProgressLine(state, puzzle) {
   if (guidedLineCount > 0) {
     const badge = document.createElement("span");
     badge.className = "progress-line__badge";
-    badge.textContent = t("progress.linesGuided", { count: guidedLineCount });
-    badge.setAttribute("aria-label", t("progress.linesGuidedAria", { count: guidedLineCount }));
+    const lineCopyKey = guidedLineCount === 1 ? "progress.lineGuided" : "progress.linesGuided";
+    const lineAriaKey = guidedLineCount === 1 ? "progress.lineGuidedAria" : "progress.linesGuidedAria";
+    badge.textContent = t(lineCopyKey, { count: guidedLineCount });
+    badge.setAttribute("aria-label", t(lineAriaKey, { count: guidedLineCount }));
     line.append(mark, text, badge);
     return line;
   }

@@ -41,6 +41,7 @@ describe("i18n", () => {
     expect(t("progress.filled", { count: 3 })).toBe("3 filled");
     expect(t("progress.filledOf", { count: 3, target: 12 })).toBe("3/12 colored");
     expect(t("progress.revisitOf", { count: 5, target: 12, mistakes: 1 })).toBe("5/12 colored - 1 to revisit");
+    expect(t("progress.lineGuided", { count: 1 })).toBe("1 line");
     expect(t("progress.linesGuided", { count: 3 })).toBe("3 lines");
     expect(t("controls.fill")).toBe("Color");
     expect(t("controls.mark")).toBe("Blank Check");
@@ -237,6 +238,7 @@ describe("i18n", () => {
     expect(t("views.map")).toBe("\ubc30\uc9c0");
     expect(t("views.pantryHint")).toBe("\uafb8\ubbf8\uae30 \ubaa9\ud45c");
     expect(t("pantry.progressMissionRequests", { count: 1, target: 3 })).toBe("\ubd80\ud0c1 1/3\uac1c");
+    expect(t("progress.lineGuided", { count: 1 })).toBe("1\uc904");
     expect(t("progress.linesGuided", { count: 3 })).toBe("3\uc904");
     expect(t("pantry.progressMissionPlanRequest")).toBe("\ub2e4\uc74c \ubd80\ud0c1 \uacc4\ud68d\ud558\uae30");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - \uc644\ub8cc");

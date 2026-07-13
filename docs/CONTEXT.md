@@ -2403,3 +2403,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Reworked completed-line safe blank suggestions so the X mark is drawn as layered CSS artwork rather than raw text, keeping the board friendlier and more premium during guided play.
 - Kept all completed-line guidance logic, drag painting, hints, undo, cursor controls, and puzzle state behavior unchanged; this is a presentation and regression-guard pass.
 - Extended mobile QA to guard the safe-X pseudo-element layers, transparency, shadow, dimensions, and filter treatment so future board polish preserves the handcrafted symbol language.
+
+### v0.1.326 - Guided Line Copy Polish
+- Fixed the completed-line progress badge so English uses "1 line" for a single guided row or column instead of the awkward "1 lines" copy seen during mobile QA.
+- Added explicit i18n coverage for the singular guided-line key while preserving Korean line copy and existing multi-line progress language.
+- Kept completed-line guidance logic, safe-X art, puzzle input, hints, undo, and cursor behavior unchanged; this is a copy-quality and regression-test pass.

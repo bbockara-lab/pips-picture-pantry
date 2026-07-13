@@ -277,6 +277,8 @@ export const en = {
     filledOf: "{count}/{target} colored",
     revisit: "{count} filled - {mistakes} to revisit",
     revisitOf: "{count}/{target} colored - {mistakes} to revisit",
+    lineGuided: "{count} line",
+    lineGuidedAria: "{count} completed clue line",
     linesGuided: "{count} lines",
     linesGuidedAria: "{count} completed clue lines",
     complete: "Card complete"
