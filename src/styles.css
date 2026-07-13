@@ -1386,6 +1386,92 @@ body {
   line-height: 1.12;
 }
 
+/* v0.1.317 Pip-consistent guide dialog art */
+.guide-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background:
+    radial-gradient(circle at 24% 16%, rgba(255, 216, 121, 0.18), transparent 28%),
+    rgba(46, 31, 36, 0.58);
+  backdrop-filter: blur(3px);
+}
+
+.guide-dialog {
+  display: grid;
+  grid-template-columns: minmax(108px, 0.72fr) minmax(0, 1fr);
+  align-items: end;
+  width: min(100%, 560px);
+  gap: 0;
+}
+
+.guide-dialog__art {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: end center;
+  min-height: 210px;
+  padding: 10px 0 0;
+  border-radius: 22px 0 0 22px;
+  background:
+    radial-gradient(circle at 50% 34%, rgba(255, 255, 255, 0.9) 0 31%, transparent 32%),
+    linear-gradient(180deg, rgba(255, 241, 192, 0.92), rgba(178, 222, 198, 0.68));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.72),
+    0 10px 0 rgba(61, 43, 46, 0.12);
+}
+
+.guide-dialog__art img {
+  width: min(88%, 168px);
+  max-height: 204px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 0 rgba(61, 43, 46, 0.14));
+}
+
+.guide-dialog__bubble {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  margin-left: -12px;
+  padding: 18px;
+  border: 3px solid rgba(61, 43, 46, 0.92);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 15% 13%, rgba(255, 255, 255, 0.92) 0 9%, transparent 10%),
+    linear-gradient(180deg, rgba(255, 251, 238, 0.98), rgba(242, 253, 232, 0.94));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.74),
+    0 8px 0 rgba(61, 43, 46, 0.16),
+    0 18px 28px rgba(61, 43, 46, 0.18);
+}
+
+.guide-dialog__bubble::before {
+  content: "";
+  position: absolute;
+  left: -11px;
+  top: 40px;
+  width: 18px;
+  height: 18px;
+  border-left: 3px solid rgba(61, 43, 46, 0.92);
+  border-bottom: 3px solid rgba(61, 43, 46, 0.92);
+  background: rgba(252, 254, 239, 0.98);
+  transform: rotate(45deg);
+}
+
+.guide-dialog__eyebrow {
+  margin: 0;
+  color: #845538;
+  font-size: 0.78rem;
+  font-weight: 950;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
 .guide-dialog__bubble p:not(.guide-dialog__eyebrow) {
   color: var(--ink, #3b2c2f);
   font-size: 0.98rem;
@@ -1439,12 +1525,30 @@ body {
   }
 
   .guide-dialog__art {
-    min-height: 180px;
+    min-height: 136px;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .guide-dialog {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-dialog__art img {
+    width: min(48vw, 130px);
+    max-height: 136px;
   }
 
   .guide-dialog__bubble {
-    margin: -28px 10px 10px;
+    margin: -18px 10px 10px;
     padding: 14px;
+  }
+
+  .guide-dialog__bubble::before {
+    left: 36px;
+    top: -11px;
+    border: 0;
+    border-left: 3px solid rgba(61, 43, 46, 0.92);
+    border-top: 3px solid rgba(61, 43, 46, 0.92);
   }
 
   .guide-dialog__actions {

@@ -1,4 +1,4 @@
-const APPROVED_GUIDE_ART_IDS = new Set(["pip-cast-redesign-concept-v1-web-guide"]);
+const APPROVED_GUIDE_ART_IDS = new Set(["pip-chrome-v2"]);
 const APPROVED_STUDIO_BUMPER_ART_IDS = new Set(["sunny-spoon-studios-bumper-v1"]);
 
 export function isRuntimeGuideArtApproved(assetId) {

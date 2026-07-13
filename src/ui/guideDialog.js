@@ -1,8 +1,8 @@
-import pipGuideSceneUrl from "../assets/characters/pip-cast-redesign-concept-v1-web.jpg";
+import pipGuideSceneUrl from "../assets/characters/pip-chrome-v2.png";
 import { isRuntimeGuideArtApproved } from "../data/runtimeArt.js";
 import { t } from "../i18n/index.js";
 
-const GUIDE_ART_ASSET_ID = "pip-cast-redesign-concept-v1-web-guide";
+const GUIDE_ART_ASSET_ID = "pip-chrome-v2";
 const GUIDE_STEPS = {
   puzzle: ["guide.puzzle.step1", "guide.puzzle.step2", "guide.puzzle.step3"],
   timeAttack: ["guide.timeAttack.step1", "guide.timeAttack.step2", "guide.timeAttack.step3"],

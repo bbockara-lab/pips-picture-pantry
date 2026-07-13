@@ -193,6 +193,12 @@ const guideDialogSource = readFileSync(resolve(root, "src/ui/guideDialog.js"), "
 if (guideDialogSource.includes("pip-cast-redesign-concept-v1-web.jpg") && !guideDialogSource.includes("isRuntimeGuideArtApproved")) {
   errors.push("src/ui/guideDialog.js: guide art imports must be guarded by the approved runtime art allowlist");
 }
+if (!guideDialogSource.includes("pip-chrome-v2.png")) {
+  errors.push("src/ui/guideDialog.js: guide dialogs must use approved pip-chrome-v2 art for Pip continuity");
+}
+if (!guideDialogSource.includes('GUIDE_ART_ASSET_ID = "pip-chrome-v2"') || !runtimeArtSource.includes('"pip-chrome-v2"')) {
+  errors.push("src/ui/guideDialog.js: guide dialog art must be guarded by the pip-chrome-v2 runtime allowlist");
+}
 
 const approvedVisiblePaths = new Set(
   assetRegistry

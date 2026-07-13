@@ -27,8 +27,8 @@ for (const viewport of viewports) {
 
   await expectVisible(page, ".app-shell", viewport.name);
   await expectSafeAreaChromeGuard(page, viewport.name);
-  await expectSettingsDialogPolish(page, viewport.name);
   await dismissGuideIfPresent(page, viewport.name);
+  await expectSettingsDialogPolish(page, viewport.name);
   if ((await page.locator(".play-screen").count()) > 0) {
     await expectVisible(page, ".play-screen", viewport.name);
       await page.locator(".play-screen__back").click();
@@ -148,8 +148,58 @@ async function dismissGuideIfPresent(page, viewportName) {
   }
   await expectVisible(page, ".guide-dialog", viewportName);
   await expectVisible(page, ".guide-dialog__art img", viewportName);
+  await expectGuideDialogChromeArt(page, viewportName);
   await page.locator(".guide-dialog__skip").click();
   await page.locator(".guide-overlay").waitFor({ state: "detached", timeout: 2000 });
+}
+
+async function expectGuideDialogChromeArt(page, viewportName) {
+  const guideMetrics = await page.locator(".guide-dialog").first().evaluate((dialog) => {
+    const rect = dialog.getBoundingClientRect();
+    const art = dialog.querySelector(".guide-dialog__art");
+    const image = dialog.querySelector(".guide-dialog__art img");
+    const bubble = dialog.querySelector(".guide-dialog__bubble");
+    const artRect = art?.getBoundingClientRect();
+    const imageRect = image?.getBoundingClientRect();
+    const bubbleRect = bubble?.getBoundingClientRect();
+    const artStyle = art ? getComputedStyle(art) : null;
+    const imageStyle = image ? getComputedStyle(image) : null;
+    const bubbleStyle = bubble ? getComputedStyle(bubble) : null;
+    return {
+      width: rect.width,
+      height: rect.height,
+      imageSrc: image?.getAttribute("src") || "",
+      artWidth: artRect?.width || 0,
+      artHeight: artRect?.height || 0,
+      imageWidth: imageRect?.width || 0,
+      imageHeight: imageRect?.height || 0,
+      imageFit: imageStyle?.objectFit || "",
+      artBackground: artStyle?.backgroundImage || "",
+      bubbleWidth: bubbleRect?.width || 0,
+      bubbleHeight: bubbleRect?.height || 0,
+      bubbleBackground: bubbleStyle?.backgroundImage || "",
+      bubbleRadius: bubbleStyle ? parseFloat(bubbleStyle.borderRadius) : 0,
+      bubbleShadow: bubbleStyle?.boxShadow || "",
+      overflows: dialog.scrollWidth > Math.ceil(rect.width) + 1 || dialog.scrollHeight > Math.ceil(rect.height) + 1
+    };
+  });
+  if (
+    !guideMetrics.imageSrc.includes("pip-chrome-v2") ||
+    guideMetrics.artWidth < 90 ||
+    guideMetrics.artHeight < 120 ||
+    guideMetrics.imageWidth < 80 ||
+    guideMetrics.imageHeight < 80 ||
+    guideMetrics.imageFit !== "contain" ||
+    !guideMetrics.artBackground.includes("gradient") ||
+    guideMetrics.bubbleWidth < 160 ||
+    guideMetrics.bubbleHeight < 140 ||
+    !guideMetrics.bubbleBackground.includes("gradient") ||
+    guideMetrics.bubbleRadius < 16 ||
+    guideMetrics.bubbleShadow === "none" ||
+    guideMetrics.overflows
+  ) {
+    failures.push("[" + viewportName + "] Guide dialog lost current Pip chrome art treatment: " + JSON.stringify(guideMetrics));
+  }
 }
 async function expectAbsent(page, selector, viewportName) {
   const count = await page.locator(selector).count();
@@ -822,6 +872,7 @@ async function expectTimeAttackGuideCopy(page, viewportName) {
 
   await expectVisible(page, ".guide-dialog", viewportName);
   await expectVisible(page, ".guide-dialog__art img", viewportName);
+  await expectGuideDialogChromeArt(page, viewportName);
 
   const firstStepText = await page.locator(".guide-dialog__bubble").first().innerText();
   if (!/Time Attack|\uD0C0\uC784\uC5B4\uD0DD|\uB3C4\uC804/i.test(firstStepText)) {
@@ -1594,6 +1645,7 @@ async function verifyPantryPlacement(page, viewportName) {
     failures.push("[" + viewportName + "] First Pantry purchase did not open Pip guide");
   } else {
     await expectVisible(page, ".guide-dialog", viewportName);
+    await expectGuideDialogChromeArt(page, viewportName);
     await page.locator(".guide-dialog__skip").click();
     await page.locator(".guide-overlay").waitFor({ state: "detached", timeout: 2000 });
   }

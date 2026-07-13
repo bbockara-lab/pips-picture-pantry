@@ -2358,3 +2358,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Reworked the in-puzzle how-to card into a Pip-led mini dialogue scene using the approved `pip-chrome-v2` character art.
 - Kept guide copy, puzzle input, hint, undo, line guidance, and cursor behavior unchanged; this is a first-play presentation polish pass.
 - Extended mobile QA to guard the Pip image, speech-bubble treatment, clue examples, action chips, and overflow on the 12x12 path.
+
+### v0.1.317 - Pip Guide Dialog Art Continuity
+- Swapped first-run, Time Attack, and Pantry purchase guide dialogs onto the approved `pip-chrome-v2` character art so Pip stays visually consistent across guide surfaces.
+- Preserved the existing guide steps, save flow, and runtime art approval gate while removing the older guide-scene dependency from visible dialog UI.
+- Extended asset and mobile QA to guard the guide dialog art source, speech-bubble treatment, and overflow across the guided onboarding paths.
