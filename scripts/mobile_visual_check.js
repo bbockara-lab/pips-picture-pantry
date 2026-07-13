@@ -1317,15 +1317,38 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   }
   const hintButtonMetrics = await page.locator(".hint-button").first().evaluate((button) => {
     const rect = button.getBoundingClientRect();
+    const meter = document.querySelector(".hint-panel__meter");
+    const meterRect = meter?.getBoundingClientRect();
+    const meterStyle = meter ? getComputedStyle(meter) : null;
+    const dots = [...document.querySelectorAll(".hint-panel__meter-dot")].map((dot) => {
+      const dotRect = dot.getBoundingClientRect();
+      const dotStyle = getComputedStyle(dot);
+      const afterStyle = getComputedStyle(dot, "::after");
+      return {
+        width: dotRect.width,
+        height: dotRect.height,
+        background: dotStyle.backgroundImage || dotStyle.backgroundColor || "",
+        shadow: dotStyle.boxShadow || "",
+        handleContent: afterStyle.content || "",
+        handleWidth: parseFloat(afterStyle.width) || 0,
+        handleHeight: parseFloat(afterStyle.height) || 0,
+        handleBackground: afterStyle.backgroundImage || afterStyle.backgroundColor || ""
+      };
+    });
     return {
       width: rect.width,
       height: rect.height,
       visibleText: button.textContent.trim(),
       ariaLabel: button.getAttribute("aria-label") || "",
       iconCount: button.querySelectorAll(".hint-button__icon").length,
-      meterDots: document.querySelectorAll(".hint-panel__meter-dot").length,
+      meterWidth: meterRect?.width || 0,
+      meterHeight: meterRect?.height || 0,
+      meterBackground: meterStyle?.backgroundImage || "",
+      meterShadow: meterStyle?.boxShadow || "",
+      meterDots: dots.length,
       meterAvailable: document.querySelectorAll(".hint-panel__meter-dot.available").length,
-      meterLabel: document.querySelector(".hint-panel__meter")?.getAttribute("aria-label") || ""
+      meterLabel: meter?.getAttribute("aria-label") || "",
+      dots
     };
   });
   if (
@@ -1334,11 +1357,15 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     hintButtonMetrics.visibleText.length > 0 ||
     !hintButtonMetrics.ariaLabel ||
     hintButtonMetrics.iconCount !== 1 ||
+    hintButtonMetrics.meterHeight < 22 ||
+    !hintButtonMetrics.meterBackground.includes("gradient") ||
+    hintButtonMetrics.meterShadow === "none" ||
     hintButtonMetrics.meterDots !== 4 ||
     hintButtonMetrics.meterAvailable !== 4 ||
-    !hintButtonMetrics.meterLabel
+    !hintButtonMetrics.meterLabel ||
+    hintButtonMetrics.dots.some((dot) => dot.width < 12 || dot.height < 12 || !dot.background.includes("gradient") || dot.shadow === "none" || dot.handleContent === "none" || dot.handleWidth < 4 || dot.handleHeight < 10 || !dot.handleBackground)
   ) {
-    failures.push("[" + viewportName + "] Hint button should be an accessible icon-only control: " + JSON.stringify(hintButtonMetrics));
+    failures.push("[" + viewportName + "] Hint button should be an accessible icon-only control with spoon-token allowance art: " + JSON.stringify(hintButtonMetrics));
   }
 
   const controlMetrics = await page.locator(".controls .control-button").evaluateAll((buttons) => buttons.map((button) => {

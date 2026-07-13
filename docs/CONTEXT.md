@@ -2418,3 +2418,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Polished the drag-stroke preview cells so swiping across multiple cells shows the same layered fill/X token language used by the rest of the puzzle controls.
 - Kept drag painting behavior, safe-suggestion protection, cursor controls, hints, undo, and completion logic unchanged; this is a presentation and QA guard pass for the active gesture moment.
 - Extended mobile QA to start an actual board drag and inspect the transient `.drag-preview` artwork layers before release checks pass.
+### v0.1.329 - Hint Allowance Token Polish
+- Polished the remaining-hint meter into small spoon-token artwork so hints still read as one simple icon action while the allowance feels like part of the Sunny Spoon interface.
+- Kept hint limits, reveal counts, spoon spending, undo behavior, Time Attack hint rules, and puzzle state logic unchanged; this is a presentation and QA guard pass.
+- Extended mobile QA to guard the hint meter background, token gradients, shadows, and spoon-handle pseudo-elements so future hint UI work does not regress into plain dots.
