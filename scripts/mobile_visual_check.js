@@ -226,7 +226,7 @@ async function expectOpeningIntroPolish(page, viewportName) {
 }
 
 async function expectSettingsDialogPolish(page, viewportName) {
-  await page.locator('button[aria-label="Settings"], button[aria-label="?ㅼ젙"]').first().click();
+  await page.locator('button[aria-label="Settings"], button[aria-label="\uC124\uC815"]').first().click();
   await expectVisible(page, ".settings-dialog", viewportName);
   const viewport = page.viewportSize() || { height: 844 };
   const metrics = await page.evaluate(() => {
@@ -824,14 +824,14 @@ async function expectTimeAttackGuideCopy(page, viewportName) {
   await expectVisible(page, ".guide-dialog__art img", viewportName);
 
   const firstStepText = await page.locator(".guide-dialog__bubble").first().innerText();
-  if (!/Time Attack|타임어택|도전/i.test(firstStepText)) {
+  if (!/Time Attack|\uD0C0\uC784\uC5B4\uD0DD|\uB3C4\uC804/i.test(firstStepText)) {
     failures.push("[" + viewportName + "] Time Attack guide first step should frame the mode, saw " + firstStepText);
   }
 
   await page.locator(".guide-dialog__next").click();
   const hintStepText = await page.locator(".guide-dialog__bubble").first().innerText();
-  const mentionsHint = /hint|힌트/i.test(hintStepText);
-  const mentionsSpoons = /spoon|스푼/i.test(hintStepText);
+  const mentionsHint = /hint|\uD78C\uD2B8/i.test(hintStepText);
+  const mentionsSpoons = /spoon|\uC2A4\uD47C/i.test(hintStepText);
   if (!mentionsHint || !mentionsSpoons) {
     failures.push("[" + viewportName + "] Time Attack guide should explain limited hints and spoon continuation, saw " + hintStepText);
   }
@@ -905,11 +905,17 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const actions = [...panel.querySelectorAll(".cursor-action-button")].map((button) => {
       const buttonRect = button.getBoundingClientRect();
       const buttonStyle = getComputedStyle(button);
+      const iconStyle = getComputedStyle(button, "::before");
+      const shineStyle = getComputedStyle(button, "::after");
       return {
         width: buttonRect.width,
         height: buttonRect.height,
         background: buttonStyle.backgroundImage,
-        text: button.textContent.trim()
+        text: button.textContent.trim(),
+        iconBackground: iconStyle.backgroundImage,
+        iconRadius: parseFloat(iconStyle.borderRadius),
+        iconShadow: iconStyle.boxShadow,
+        shineDisplay: shineStyle.display
       };
     });
     return {
@@ -942,7 +948,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     cursorPadMetrics.moves.length !== 4 ||
     cursorPadMetrics.moves.some((button) => button.width < 40 || button.height < 40 || !button.background.includes("gradient") || !button.label) ||
     cursorPadMetrics.actions.length !== 2 ||
-    cursorPadMetrics.actions.some((button) => button.width < 120 || button.height < 44 || !button.background.includes("gradient") || !button.text) ||
+    cursorPadMetrics.actions.some((button) => button.width < 120 || button.height < 44 || !button.background.includes("gradient") || !button.text || !button.iconBackground.includes("gradient") || button.iconRadius < 6 || button.iconShadow === "none") ||
     cursorPadMetrics.overflows
   ) {
     failures.push("[" + viewportName + "] Cursor pad lost tactile large-board treatment: " + JSON.stringify(cursorPadMetrics));
@@ -1134,6 +1140,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const label = button.querySelector(".control-button__label");
     const icon = button.querySelector(".control-button__icon");
     const iconRect = icon?.getBoundingClientRect();
+    const iconStyle = icon ? getComputedStyle(icon) : null;
+    const beforeStyle = icon ? getComputedStyle(icon, "::before") : null;
+    const afterStyle = icon ? getComputedStyle(icon, "::after") : null;
     return {
       text: (label?.textContent || "").trim(),
       width: rect.width,
@@ -1141,12 +1150,16 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       background: style.backgroundImage,
       iconWidth: iconRect?.width || 0,
       iconHeight: iconRect?.height || 0,
+      iconBackground: iconStyle?.backgroundImage || "",
+      iconShadow: iconStyle?.boxShadow || "",
+      symbolBackground: beforeStyle?.backgroundImage || beforeStyle?.backgroundColor || "",
+      shineContent: afterStyle?.content || "",
       ariaLabel: button.getAttribute("aria-label") || "",
       overflows: button.scrollWidth > Math.ceil(rect.width) + 1 || button.scrollHeight > Math.ceil(rect.height) + 1
     };
   }));
-  if (controlMetrics.length !== 3 || controlMetrics.some((metrics) => !metrics.text || metrics.height < 52 || !metrics.background.includes("gradient") || metrics.iconWidth < 20 || metrics.iconHeight < 20 || !metrics.ariaLabel || metrics.overflows)) {
-    failures.push("[" + viewportName + "] Puzzle controls lost icon+tactile mobile treatment: " + JSON.stringify(controlMetrics));
+  if (controlMetrics.length !== 3 || controlMetrics.some((metrics) => !metrics.text || metrics.height < 52 || !metrics.background.includes("gradient") || metrics.iconWidth < 20 || metrics.iconHeight < 20 || !metrics.iconBackground.includes("gradient") || metrics.iconShadow === "none" || !metrics.symbolBackground || metrics.shineContent === "none" || !metrics.ariaLabel || metrics.overflows)) {
+    failures.push("[" + viewportName + "] Puzzle controls lost polished icon+tactile mobile treatment: " + JSON.stringify(controlMetrics));
   }
 
   const progressMetrics = await page.locator(".progress-line").first().evaluate((line) => {
@@ -1417,7 +1430,7 @@ async function verifyPantryPlacement(page, viewportName) {
   }
 
   const missionActionText = await page.locator(".pantry-progress-mission__action").first().innerText();
-  if (!/Plan next request|다음 부탁/.test(missionActionText)) {
+  if (!/Plan next request|\uB2E4\uC74C \uBD80\uD0C1/.test(missionActionText)) {
     failures.push("[" + viewportName + "] Pantry progress mission should offer the next request action first, saw " + missionActionText);
   }
 

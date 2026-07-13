@@ -5744,11 +5744,13 @@ img {
   border: 2px solid rgba(61, 43, 46, 0.34);
   border-radius: 9px;
   background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78), transparent 28%),
-    linear-gradient(135deg, #ffe07a, #e99a64);
+    radial-gradient(circle at 31% 25%, rgba(255, 255, 255, 0.86) 0 18%, transparent 19%),
+    linear-gradient(145deg, #ffe8a6 0%, #ffc65e 48%, #e88a52 100%);
   box-shadow:
-    inset 0 2px 0 rgba(255, 255, 255, 0.58),
-    0 2px 0 rgba(61, 43, 46, 0.1);
+    inset 0 2px 0 rgba(255, 255, 255, 0.64),
+    inset 0 -2px 0 rgba(154, 91, 50, 0.18),
+    0 2px 0 rgba(61, 43, 46, 0.14);
+  overflow: hidden;
 }
 
 .control-button__icon::before,
@@ -5759,27 +5761,45 @@ img {
 }
 
 .control-button__icon--fill::before {
-  inset: 5px;
-  border-radius: 5px;
+  inset: 4px;
+  border: 2px solid rgba(255, 248, 223, 0.58);
+  border-radius: 6px;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.38), transparent 36%),
-    #d98f4e;
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.5) 0 18%, transparent 20%),
+    linear-gradient(145deg, #ffd571 0%, #e99a58 62%, #c86d49 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    0 1px 0 rgba(61, 43, 46, 0.16);
+}
+
+.control-button__icon--fill::after {
+  right: 3px;
+  bottom: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 239, 177, 0.64);
 }
 
 .control-button__icon--mark {
   background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78), transparent 28%),
-    linear-gradient(135deg, #c9ecd9, #8ec9b1);
+    radial-gradient(circle at 31% 25%, rgba(255, 255, 255, 0.9) 0 18%, transparent 19%),
+    linear-gradient(145deg, #e1f5e8 0%, #b7dec8 56%, #82bea5 100%);
 }
 
 .control-button__icon--mark::before,
 .control-button__icon--mark::after {
-  left: 5px;
+  left: 4px;
   top: 10px;
-  width: 14px;
+  width: 16px;
   height: 3px;
   border-radius: 999px;
-  background: rgba(61, 43, 46, 0.72);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.42), transparent 34%),
+    #4f9282;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.42),
+    0 0 0 1px rgba(61, 43, 46, 0.12);
 }
 
 .control-button__icon--mark::before {
@@ -5793,30 +5813,32 @@ img {
 .control-button__icon--undo {
   border-radius: 50%;
   background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78), transparent 28%),
-    linear-gradient(135deg, #fff0a8, #f0b453);
+    radial-gradient(circle at 31% 25%, rgba(255, 255, 255, 0.88) 0 18%, transparent 19%),
+    linear-gradient(145deg, #fff2b6 0%, #f3bd59 58%, #d58a3c 100%);
 }
 
 .control-button__icon--undo::before {
   left: 5px;
-  top: 6px;
-  width: 11px;
-  height: 11px;
-  border: 3px solid rgba(61, 43, 46, 0.72);
+  top: 5px;
+  width: 12px;
+  height: 12px;
+  border: 3px solid #7b6049;
   border-right-color: transparent;
   border-radius: 50%;
-  transform: rotate(24deg);
+  transform: rotate(34deg);
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.48));
 }
 
 .control-button__icon--undo::after {
-  left: 4px;
+  left: 3px;
   top: 4px;
   width: 0;
   height: 0;
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
-  border-right: 7px solid rgba(61, 43, 46, 0.72);
-  transform: rotate(-20deg);
+  border-right: 8px solid #7b6049;
+  transform: rotate(-28deg);
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.42));
 }
 
 @media (max-width: 380px) {
@@ -6512,27 +6534,51 @@ img {
 .cursor-action-button::before {
   content: "";
   position: absolute;
-  left: 14px;
+  left: 13px;
   top: 50%;
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgba(67, 45, 51, 0.72);
-  border-radius: 6px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(67, 45, 51, 0.62);
+  border-radius: 8px;
   transform: translateY(-50%);
-  box-shadow: inset 0 0 0 2px rgba(255, 250, 239, 0.42);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.56),
+    inset 0 -2px 0 rgba(67, 45, 51, 0.1),
+    0 2px 0 rgba(67, 45, 51, 0.1);
+}
+
+.cursor-action-button::after {
+  content: "";
+  position: absolute;
+  left: 19px;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 241, 186, 0.68);
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
 .cursor-action-button--fill::before,
 .cursor-action-button--clear-fill::before {
-  background: linear-gradient(135deg, #ffd66d, #e99a64 58%, #bc6b4b);
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.55) 0 18%, transparent 19%),
+    linear-gradient(145deg, #ffd66d 0%, #e99a64 58%, #bc6b4b 100%);
 }
 
 .cursor-action-button--mark::before,
 .cursor-action-button--clear-mark::before {
   background:
-    linear-gradient(135deg, transparent 41%, rgba(67, 45, 51, 0.72) 42%, rgba(67, 45, 51, 0.72) 57%, transparent 58%),
-    linear-gradient(45deg, transparent 41%, rgba(67, 45, 51, 0.72) 42%, rgba(67, 45, 51, 0.72) 57%, transparent 58%),
-    #fffaf0;
+    linear-gradient(135deg, transparent 39%, #4f9282 40%, #4f9282 58%, transparent 59%),
+    linear-gradient(45deg, transparent 39%, #4f9282 40%, #4f9282 58%, transparent 59%),
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.72) 0 18%, transparent 19%),
+    linear-gradient(145deg, #f7fff3 0%, #c6e6d4 58%, #93c7b0 100%);
+}
+
+.cursor-action-button--mark::after,
+.cursor-action-button--clear-mark::after {
+  display: none;
 }
 
 .cursor-action-button--clear-fill,

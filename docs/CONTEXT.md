@@ -2348,3 +2348,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Connected the existing current-row, current-column, selected-cell, and active-clue classes to visible focus rail styling on large boards.
 - Kept puzzle input logic unchanged while making cursor-pad play easier to follow on 12x12 boards and above.
 - Bumped the visible app version to v0.1.314 and extended mobile QA to guard the row, column, clue, and selected-cell highlight treatment.
+
+### v0.1.315 - Puzzle Control Symbol Polish
+- Polished the fill, blank-check, undo, and large-board cursor action symbols so they read as tactile Sunny Spoon tokens rather than temporary UI marks.
+- Kept puzzle input, undo, hint spending, drag painting, and cursor behavior unchanged; this is a presentation and QA guard pass.
+- Extended mobile QA to verify control-symbol gradients, shadows, pseudo-element artwork, and cursor action icon treatment.
