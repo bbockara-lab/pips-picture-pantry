@@ -5625,7 +5625,7 @@ img {
   content: "";
   position: absolute;
   inset: 2px;
-  z-index: -1;
+  z-index: 0;
   border-radius: 12px;
   background:
     radial-gradient(circle at 50% 50%, rgba(255, 226, 142, 0.36), transparent 68%),
@@ -5782,6 +5782,7 @@ img {
 
 /* v0.1.299 puzzle progress chip polish */
 .progress-line {
+  position: relative;
   display: inline-grid;
   grid-template-columns: 22px minmax(0, auto);
   align-items: center;
@@ -5792,6 +5793,7 @@ img {
   gap: 7px;
   border: 2px solid rgba(61, 43, 46, 0.14);
   border-radius: 999px;
+  overflow: hidden;
   padding: 5px 12px 6px 9px;
   background:
     linear-gradient(180deg, rgba(255, 252, 242, 0.98), rgba(240, 230, 190, 0.82));
@@ -5799,10 +5801,26 @@ img {
     0 3px 0 rgba(61, 43, 46, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.72);
   text-align: center;
+  isolation: isolate;
+}
+
+.progress-line::before {
+  content: "";
+  position: absolute;
+  inset: 3px auto 3px 3px;
+  width: calc((100% - 6px) * var(--progress-ratio, 0));
+  min-width: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(90deg, rgba(250, 210, 91, 0.4), rgba(160, 213, 178, 0.46));
+  opacity: 0.9;
+  z-index: 0;
+  transition: width 140ms ease;
 }
 
 .progress-line__mark {
   position: relative;
+  z-index: 1;
   width: 20px;
   height: 20px;
   border: 2px solid rgba(61, 43, 46, 0.26);
@@ -5825,6 +5843,8 @@ img {
 }
 
 .progress-line__text {
+  position: relative;
+  z-index: 1;
   min-width: 0;
   color: var(--cocoa);
   font-size: 0.82rem;
@@ -5836,6 +5856,11 @@ img {
   border-color: rgba(188, 83, 65, 0.24);
   background:
     linear-gradient(180deg, rgba(255, 245, 230, 0.98), rgba(248, 203, 170, 0.78));
+}
+
+.progress-line.warning::before {
+  background:
+    linear-gradient(90deg, rgba(247, 177, 126, 0.5), rgba(255, 213, 143, 0.54));
 }
 
 .progress-line.warning .progress-line__mark {

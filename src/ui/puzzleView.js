@@ -296,6 +296,7 @@ function createProgressLine(state, puzzle) {
 
   if (state.completed) {
     line.classList.add("complete");
+    line.style.setProperty("--progress-ratio", "1");
     text.textContent = t("progress.complete");
     line.append(mark, text);
     return line;
@@ -303,6 +304,8 @@ function createProgressLine(state, puzzle) {
 
   const filledCount = state.cells.flat().filter((cell) => cell === "filled").length;
   const targetCount = countSolutionFilledCells(puzzle.solution);
+  const progressRatio = targetCount > 0 ? Math.min(1, filledCount / targetCount) : 0;
+  line.style.setProperty("--progress-ratio", progressRatio.toFixed(3));
   const mistakes = countMistakes(state, puzzle.solution);
   line.classList.toggle("warning", mistakes > 0);
   text.textContent = mistakes > 0

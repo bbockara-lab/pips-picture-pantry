@@ -2318,3 +2318,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Updated the in-play progress chip to show colored cells against the puzzle's actual solution target, so larger boards communicate progress as `count/target` instead of a loose filled-cell count.
 - Kept mistake warnings visible in the same chip, now framed as target progress plus cells to revisit.
 - Added i18n and mobile QA coverage so future UI passes preserve the target-count progress cue on compact play surfaces.
+
+### v0.1.309 - Puzzle Progress Rail Polish
+- Added a soft visual progress rail inside the in-play progress chip so `count/target` also reads at a glance as board-completion momentum.
+- Kept puzzle logic, mistake warnings, hints, undo, and drag painting unchanged; this is a presentation-only layer on the existing progress chip.
+- Mobile QA now guards the progress ratio custom property and clipped chip treatment so the rail remains a designed part of the play surface.

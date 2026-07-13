@@ -1563,3 +1563,8 @@ Last updated: 2026-06-28
 - Puzzle progress chips now show colored cells against the actual solution target, keeping mistake warnings in the same compact play surface.
 - Android bundle generation remains paused during the local rework; next handoff should include this large-board progress clarity after full local QA passes.
 - Verification passed: syntax checks, full Vitest (89 tests), hygiene/catalog/assets QA, production build, HTTP 200 smoke, and mobile QA 360/390/430 all passed.
+
+## Verification Update - 2026-07-13 v0.1.309 Puzzle Progress Rail Polish
+- Puzzle progress chips now include a soft progress rail behind the target-count text, improving at-a-glance progress clarity on large boards.
+- Android bundle generation remains paused during the local rework; next handoff should include this play-surface polish after full local QA passes.
+- Verification passed: syntax checks, full Vitest (89 tests), hygiene/catalog/assets QA, production build, HTTP 200 smoke, and mobile QA 360/390/430 all passed.

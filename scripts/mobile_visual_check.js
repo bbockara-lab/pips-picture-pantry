@@ -1106,10 +1106,12 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       markWidth: markRect?.width || 0,
       markHeight: markRect?.height || 0,
       text: (text?.textContent || "").trim(),
+      progressRatio: style.getPropertyValue("--progress-ratio").trim(),
+      overflow: style.overflow,
       overflows: line.scrollWidth > Math.ceil(rect.width) + 1 || line.scrollHeight > Math.ceil(rect.height) + 1
     };
   });
-  if (progressMetrics.width > progressMetrics.viewportWidth || progressMetrics.height < 32 || progressMetrics.borderRadius < 16 || !progressMetrics.background.includes("gradient") || progressMetrics.markWidth < 18 || progressMetrics.markHeight < 18 || !progressMetrics.text || !progressMetrics.text.includes("/") || progressMetrics.overflows) {
+  if (progressMetrics.width > progressMetrics.viewportWidth || progressMetrics.height < 32 || progressMetrics.borderRadius < 16 || !progressMetrics.background.includes("gradient") || progressMetrics.markWidth < 18 || progressMetrics.markHeight < 18 || !progressMetrics.text || !progressMetrics.text.includes("/") || progressMetrics.progressRatio === "" || progressMetrics.overflow !== "hidden" || progressMetrics.overflows) {
     failures.push("[" + viewportName + "] Puzzle progress line lost compact chip treatment: " + JSON.stringify(progressMetrics));
   }
 
