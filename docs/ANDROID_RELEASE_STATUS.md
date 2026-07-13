@@ -1553,3 +1553,8 @@ Last updated: 2026-06-28
 - Stage-complete overlays now include compact fact chips tying stage completion to album progress and room-path momentum.
 - Android bundle generation remains paused during the local rework; next handoff should include this milestone-reward polish after full local QA passes.
 - Verification passed: syntax, full Vitest (89 tests), hygiene/catalog/assets, production build, HTTP 200 smoke, and mobile QA 360/390/430 all passed.
+
+
+## Verification Update - 2026-07-12 v0.1.307 Large Board Cursor Pad Polish
+- Added tactile large-board cursor pad styling and a row/column position chip while preserving puzzle logic and hint economy behavior.
+- Verification passed: syntax checks, full Vitest (89 tests), hygiene/catalog/assets QA, production build, HTTP 200 smoke, and mobile QA 360/390/430 all passed.

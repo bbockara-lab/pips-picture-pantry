@@ -884,6 +884,58 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   await expectVisible(page, ".puzzle-panel", viewportName);
   await expectVisible(page, ".hint-panel", viewportName);
   await expectVisible(page, ".cursor-controls", viewportName);
+  const cursorPadMetrics = await page.locator(".cursor-controls").first().evaluate((panel) => {
+    const rect = panel.getBoundingClientRect();
+    const style = getComputedStyle(panel);
+    const position = panel.querySelector(".cursor-controls__position");
+    const dpad = panel.querySelector(".cursor-dpad");
+    const moves = [...panel.querySelectorAll(".cursor-move")].map((button) => {
+      const buttonRect = button.getBoundingClientRect();
+      const buttonStyle = getComputedStyle(button);
+      return {
+        width: buttonRect.width,
+        height: buttonRect.height,
+        background: buttonStyle.backgroundImage,
+        label: button.getAttribute("aria-label") || ""
+      };
+    });
+    const actions = [...panel.querySelectorAll(".cursor-action-button")].map((button) => {
+      const buttonRect = button.getBoundingClientRect();
+      const buttonStyle = getComputedStyle(button);
+      return {
+        width: buttonRect.width,
+        height: buttonRect.height,
+        background: buttonStyle.backgroundImage,
+        text: button.textContent.trim()
+      };
+    });
+    return {
+      width: rect.width,
+      height: rect.height,
+      viewportWidth: window.innerWidth,
+      radius: parseFloat(style.borderRadius),
+      background: style.backgroundImage,
+      positionText: position?.textContent.trim() || "",
+      dpadWidth: dpad?.getBoundingClientRect().width || 0,
+      moves,
+      actions,
+      overflows: panel.scrollWidth > Math.ceil(rect.width) + 1 || panel.scrollHeight > Math.ceil(rect.height) + 1
+    };
+  });
+  if (
+    cursorPadMetrics.width > Math.min(cursorPadMetrics.viewportWidth, 530) ||
+    cursorPadMetrics.radius < 16 ||
+    !cursorPadMetrics.background.includes("gradient") ||
+    !cursorPadMetrics.positionText ||
+    cursorPadMetrics.dpadWidth < 132 ||
+    cursorPadMetrics.moves.length !== 4 ||
+    cursorPadMetrics.moves.some((button) => button.width < 40 || button.height < 40 || !button.background.includes("gradient") || !button.label) ||
+    cursorPadMetrics.actions.length !== 2 ||
+    cursorPadMetrics.actions.some((button) => button.width < 120 || button.height < 44 || !button.background.includes("gradient") || !button.text) ||
+    cursorPadMetrics.overflows
+  ) {
+    failures.push("[" + viewportName + "] Cursor pad lost tactile large-board treatment: " + JSON.stringify(cursorPadMetrics));
+  }
 
   const titleText = await page.locator(".play-screen__title").first().innerText();
   if (!titleText.includes("Bakery Window Glow")) {

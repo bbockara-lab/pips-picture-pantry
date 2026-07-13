@@ -2307,3 +2307,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added two compact reward facts to the stage-complete overlay so finishing a stage communicates album progress and room-path momentum, not only a one-time bonus.
 - Kept stage completion logic, spoon bonus rules, dismissal behavior, and approved stage art handling unchanged.
 - Mobile QA now guards the fact-chip count, text, gradient treatment, dimensions, and overflow inside the stage-complete reward card.
+
+
+### v0.1.307 - Large Board Cursor Pad Polish
+- Upgraded the large-board cursor controls from a plain helper block into a tactile game-pad surface with a current row/column chip, larger directional buttons, and separate Color/Blank action buttons.
+- Kept all puzzle state, undo, drag painting, hint economy, and completed-line guidance behavior unchanged.
+- Mobile QA now guards the cursor pad's gradient treatment, button sizes, labels, position chip, and overflow behavior.

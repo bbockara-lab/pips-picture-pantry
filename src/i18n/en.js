@@ -238,6 +238,7 @@ export const en = {
     undo: "Undo last move",
     cursorPanel: "Large board controls",
     cursorHint: "Move with arrows, then choose Color or Blank.",
+    cursorPosition: "Row {row}, Column {column}",
     lineCompleteHint: "When the highlighted line has enough colored squares, pale X marks show likely blanks.",
     cursorUp: "Move up",
     cursorDown: "Move down",

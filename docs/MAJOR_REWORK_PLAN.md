@@ -1368,3 +1368,9 @@ Immediate implementation decisions:
 - Strengthened the stage-complete reward moment with two small tactile facts: album filled and room path grows.
 - This supports the broader goal of making every puzzle milestone connect back to collection, Pantry progress, and next-goal anticipation.
 - QA now treats those fact chips as part of the protected mobile reward surface.
+
+
+### v0.1.307 - Large Board Cursor Pad Polish
+- Continued the user-friendly 12x12+ puzzle work by making cursor play feel deliberate and game-like instead of like temporary debug controls.
+- This supports the Meow Tower benchmark direction: clear affordances, large touch targets, and immediate guidance for big-board solving.
+- Protected the visual contract in mobile QA so later art and layout passes do not erase the control pad polish.

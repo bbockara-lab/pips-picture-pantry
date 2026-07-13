@@ -21,6 +21,13 @@ export function renderCursorControls(state, puzzle, update) {
   hint.className = "cursor-controls__hint";
   hint.textContent = t("controls.cursorHint");
 
+  const position = document.createElement("p");
+  position.className = "cursor-controls__position";
+  position.textContent = t("controls.cursorPosition", {
+    row: Math.max(1, Number(state.cursor?.row || 0) + 1),
+    column: Math.max(1, Number(state.cursor?.column || 0) + 1)
+  });
+
   const lineHint = document.createElement("p");
   lineHint.className = "cursor-controls__hint cursor-controls__hint--secondary";
   lineHint.textContent = t("controls.lineCompleteHint");
@@ -45,7 +52,7 @@ export function renderCursorControls(state, puzzle, update) {
   body.className = "cursor-controls__body";
   body.append(dpad, actions);
 
-  controls.append(hint, lineHint, body);
+  controls.append(hint, position, lineHint, body);
   return controls;
 }
 
