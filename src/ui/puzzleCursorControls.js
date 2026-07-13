@@ -46,7 +46,7 @@ export function renderCursorControls(state, puzzle, update) {
 
   const actions = document.createElement("div");
   actions.className = "cursor-actions";
-  const actionLabels = getCursorActionLabels(state);
+  const actionLabels = getCursorActionDescriptors(state);
   actions.append(
     createCursorActionButton(actionLabels.fill, () => toggleSelectedCell(state, "fill", update)),
     createCursorActionButton(actionLabels.mark, () => toggleSelectedCell(state, "mark", update))
@@ -86,10 +86,22 @@ export function getSelectedCursorCell(state) {
 }
 
 export function getCursorActionLabels(state) {
+  const descriptors = getCursorActionDescriptors(state);
+  return {
+    fill: descriptors.fill.label,
+    mark: descriptors.mark.label
+  };
+}
+
+export function getCursorActionDescriptors(state) {
   const value = getSelectedCursorCell(state);
   return {
-    fill: value === CELL.filled ? t("controls.cursorClearFill") : t("controls.cursorFill"),
-    mark: value === CELL.marked ? t("controls.cursorClearMark") : t("controls.cursorMark")
+    fill: value === CELL.filled
+      ? { label: t("controls.cursorClearFill"), intent: "clear-fill" }
+      : { label: t("controls.cursorFill"), intent: "fill" },
+    mark: value === CELL.marked
+      ? { label: t("controls.cursorClearMark"), intent: "clear-mark" }
+      : { label: t("controls.cursorMark"), intent: "mark" }
   };
 }
 
@@ -108,11 +120,12 @@ function renderCursorStatus(state) {
   return chip;
 }
 
-function createCursorActionButton(label, onClick) {
+function createCursorActionButton(action, onClick) {
   const button = document.createElement("button");
   button.type = "button";
-  button.className = "cursor-action-button";
-  button.textContent = label;
+  button.className = "cursor-action-button cursor-action-button--" + action.intent;
+  button.textContent = action.label;
+  button.setAttribute("aria-label", action.label);
   button.addEventListener("click", onClick);
   return button;
 }

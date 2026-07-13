@@ -6448,13 +6448,46 @@ img {
 }
 
 .cursor-action-button {
+  position: relative;
   width: 100%;
   min-height: 48px;
   border-radius: 16px;
+  padding-left: 42px;
   background: linear-gradient(180deg, #fff9ef 0%, #f4c755 100%);
 }
 
-.cursor-action-button:last-child {
+.cursor-action-button::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(67, 45, 51, 0.72);
+  border-radius: 6px;
+  transform: translateY(-50%);
+  box-shadow: inset 0 0 0 2px rgba(255, 250, 239, 0.42);
+}
+
+.cursor-action-button--fill::before,
+.cursor-action-button--clear-fill::before {
+  background: linear-gradient(135deg, #ffd66d, #e99a64 58%, #bc6b4b);
+}
+
+.cursor-action-button--mark::before,
+.cursor-action-button--clear-mark::before {
+  background:
+    linear-gradient(135deg, transparent 41%, rgba(67, 45, 51, 0.72) 42%, rgba(67, 45, 51, 0.72) 57%, transparent 58%),
+    linear-gradient(45deg, transparent 41%, rgba(67, 45, 51, 0.72) 42%, rgba(67, 45, 51, 0.72) 57%, transparent 58%),
+    #fffaf0;
+}
+
+.cursor-action-button--clear-fill,
+.cursor-action-button--clear-mark {
+  background: linear-gradient(180deg, #fffaf0 0%, #ead9bf 100%);
+}
+
+.cursor-action-button--mark {
   background: linear-gradient(180deg, #fffaf2 0%, #a9dcc7 100%);
 }
 
@@ -6470,5 +6503,9 @@ img {
   .cursor-dpad {
     grid-template-columns: repeat(3, 42px);
     grid-template-rows: repeat(3, 42px);
+  }
+
+  .cursor-action-button {
+    padding-left: 38px;
   }
 }

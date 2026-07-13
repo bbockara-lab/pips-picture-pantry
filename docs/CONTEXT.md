@@ -2338,3 +2338,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Updated the large-board cursor action buttons so already colored cells show a clear-color action and already marked cells show a clear-X action.
 - Kept the underlying toggle behavior unchanged; this slice makes the existing result easier to predict before the player taps.
 - Bumped the visible app version to v0.1.312 and extended mobile QA to verify the status chip and action label update after coloring a selected cursor cell.
+
+### v0.1.313 - Cursor Action Intent Guards
+- Added explicit cursor action descriptors so large-board buttons carry fill, mark, clear-fill, and clear-mark intent classes in addition to readable labels.
+- Polished the cursor action buttons with small built-in fill/X glyphs so the game-pad controls read more visually without adding new art assets.
+- Added focused unit coverage for cursor selected-cell labels and clear-action intent, then bumped the visible app version to v0.1.313.
