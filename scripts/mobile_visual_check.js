@@ -1144,6 +1144,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const columnStyle = currentColumn ? getComputedStyle(currentColumn) : null;
     const rowClueStyle = activeRowClue ? getComputedStyle(activeRowClue) : null;
     const columnClueStyle = activeColumnClue ? getComputedStyle(activeColumnClue) : null;
+    const rowClueBefore = activeRowClue ? getComputedStyle(activeRowClue, "::before") : null;
+    const columnClueBefore = activeColumnClue ? getComputedStyle(activeColumnClue, "::before") : null;
     return {
       selected: Boolean(selected),
       currentRow: Boolean(currentRow),
@@ -1154,7 +1156,11 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       rowShadow: rowStyle?.boxShadow || "",
       columnShadow: columnStyle?.boxShadow || "",
       rowClueBackground: rowClueStyle?.backgroundImage || "",
-      columnClueBackground: columnClueStyle?.backgroundImage || ""
+      columnClueBackground: columnClueStyle?.backgroundImage || "",
+      rowClueShadow: rowClueStyle?.boxShadow || "",
+      columnClueShadow: columnClueStyle?.boxShadow || "",
+      rowClueShine: rowClueBefore?.backgroundImage || "",
+      columnClueShine: columnClueBefore?.backgroundImage || ""
     };
   });
   if (
@@ -1167,7 +1173,11 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     cursorHighlightMetrics.rowShadow === "none" ||
     cursorHighlightMetrics.columnShadow === "none" ||
     !cursorHighlightMetrics.rowClueBackground.includes("gradient") ||
-    !cursorHighlightMetrics.columnClueBackground.includes("gradient")
+    !cursorHighlightMetrics.columnClueBackground.includes("gradient") ||
+    cursorHighlightMetrics.rowClueShadow === "none" ||
+    cursorHighlightMetrics.columnClueShadow === "none" ||
+    !cursorHighlightMetrics.rowClueShine.includes("gradient") ||
+    !cursorHighlightMetrics.columnClueShine.includes("gradient")
   ) {
     failures.push("[" + viewportName + "] Cursor focus rails should highlight the selected row, column, cell, and clues: " + JSON.stringify(cursorHighlightMetrics));
   }
@@ -1645,6 +1655,7 @@ async function expectCompletedLineGuidance(page, viewportName) {
         outlineStyle: style?.outlineStyle || "",
         color: style?.color || "",
         beforeBackground: before?.backgroundImage || "",
+        beforeContent: before?.content || "",
         beforeBoxShadow: before?.boxShadow || "",
         afterBackground: after?.backgroundImage || "",
         afterFilter: after?.filter || "",
@@ -1674,6 +1685,9 @@ async function expectCompletedLineGuidance(page, viewportName) {
   }
   if (
     !metrics.rowClueStyle.background.includes("gradient") ||
+    metrics.rowClueStyle.boxShadow === "none" ||
+    metrics.rowClueStyle.beforeContent === "none" ||
+    !metrics.rowClueStyle.beforeBackground.includes("gradient") ||
     metrics.glowCellStyle.boxShadow === "none" ||
     metrics.safeCellStyle.borderStyle !== "dashed" ||
     metrics.safeCellStyle.outlineStyle !== "dashed" ||

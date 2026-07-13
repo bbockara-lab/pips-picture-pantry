@@ -2422,3 +2422,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Polished the remaining-hint meter into small spoon-token artwork so hints still read as one simple icon action while the allowance feels like part of the Sunny Spoon interface.
 - Kept hint limits, reveal counts, spoon spending, undo behavior, Time Attack hint rules, and puzzle state logic unchanged; this is a presentation and QA guard pass.
 - Extended mobile QA to guard the hint meter background, token gradients, shadows, and spoon-handle pseudo-elements so future hint UI work does not regress into plain dots.
+
+### v0.1.330 - Clue Number Token Polish
+- Polished row and column clue numbers into small glossy tokens so the puzzle clues match the tactile Sunny Spoon board, control, and hint-token language.
+- Kept clue calculation, completed-line guidance, cursor movement, drag painting, hints, undo, and puzzle state behavior unchanged; this is a presentation and QA guard pass.
+- Extended mobile QA to guard active and completed clue token gradients, shine layers, and shadows so board clue readability stays premium during later layout work.
