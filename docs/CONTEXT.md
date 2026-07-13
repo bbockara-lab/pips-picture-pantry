@@ -2292,3 +2292,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Polished the in-puzzle how-to card so the clue examples, line-completion hint, and basic actions read as one friendly guide surface.
 - Kept gameplay logic unchanged while making the first visible play guidance feel closer to the tactile Sunny Spoon interface.
 - Mobile QA now guards the guide card bounds, gradient treatment, clue example rows, action chips, mini cells, and overflow on the 12x12 path.
+
+### v0.1.304 - Season Update Teaser Polish
+- Refined the Season 0 Puzzle Hub teaser so the 333-picture launch catalog points toward ongoing seasonal drops instead of feeling like a one-time finite list.
+- Added tactile update chips for puzzle drops, season rooms, and Pip news, matching the broader benchmark direction of character-led, user-friendly update operations.
+- Mobile QA now checks the teaser copy, chips, gradient treatment, and mobile bounds.

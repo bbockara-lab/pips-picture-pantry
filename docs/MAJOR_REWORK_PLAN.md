@@ -1,6 +1,6 @@
 # Pip's Picture Pantry Major Rework Plan
 
-Last updated: 2026-07-10
+Last updated: 2026-07-12
 
 ## Status
 
@@ -1352,3 +1352,9 @@ Immediate implementation decisions:
 - The first play guidance should feel intentionally designed, not like instructional text added after the fact.
 - Keep the clue examples visual and compact so new players can understand filled blocks, separated clues, and completed-line help without leaving the puzzle.
 - Mobile QA should protect this card because it is part of the first-session friendliness target.
+
+### v0.1.304 - Season Update Teaser Polish
+- Benchmarked the Meow Tower-style operating loop as a direction signal: the game should feel like a friendly character world that can announce small seasonal drops, not only a static puzzle catalog.
+- Expanded the Season 0 hub teaser into an update-note card with three compact chips: puzzle drop, season room, and Pip news.
+- Kept this as UI/UX polish only. It does not add external channels, marketing dependencies, or new economy rules; it simply makes the post-launch seasonal cadence visible in-game.
+- Mobile QA now guards the teaser copy, chip count, gradient treatment, and card bounds so the launch/update expectation does not disappear during later art passes.

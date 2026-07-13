@@ -1538,3 +1538,8 @@ Last updated: 2026-06-28
 - In-puzzle how-to guidance now uses a polished guide-card treatment with clue rows and compact action chips.
 - Android bundle generation remains paused during the local rework; next handoff should include this first-play guidance polish after full local QA passes.
 - Verification passed: syntax, targeted puzzle/hint/i18n tests, full Vitest (89 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.
+
+## Verification Update - 2026-07-12 v0.1.304 Season Update Teaser Polish
+- Season 0 hub now presents the post-launch update cadence as an in-game update-note card with puzzle drop, season room, and Pip news chips.
+- Android bundle generation remains paused during the local rework; next handoff should include this live-service expectation polish after full local QA passes.
+- Verification passed: syntax, full Vitest (89 tests), hygiene/catalog/assets, production build, HTTP 200 smoke, and mobile QA 360/390/430 all passed.

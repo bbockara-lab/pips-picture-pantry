@@ -318,8 +318,13 @@ export const en = {
     goalOpenAction: "Open stage",
     goalPantryAction: "Go to Pantry",
     goalAlbumAction: "View album",
-    nextSeasonTitle: "Next season is warming up",
-    nextSeasonBody: "Seasonal pantry sets will arrive as update packs after the launch room feels polished."
+    nextSeasonLabel: "Update note",
+    nextSeasonTitle: "Next seasonal drop is warming up",
+    nextSeasonBody: "Season 0 launches with 333 cozy pictures. Future drops should feel like small events: new puzzles, Pantry items, and Pip notes to come back for.",
+    nextSeasonChipsLabel: "Upcoming update themes",
+    nextSeasonChipDrop: "Puzzle drop",
+    nextSeasonChipSeason: "Season room",
+    nextSeasonChipCommunity: "Pip news"
   },
 
   packs: {

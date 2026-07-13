@@ -42,6 +42,7 @@ for (const viewport of viewports) {
   await expectLockedStageGate(page, viewport.name);
   await expectVisible(page, ".stage-preview", viewport.name);
   await expectStageArtPreviews(page, viewport.name);
+  await expectSeasonUpdateTeaser(page, viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
   await expectTapTargets(page, viewport.name);
 
@@ -627,6 +628,48 @@ async function expectLockedStageGate(page, viewportName) {
   const lockedText = await page.locator(".pack-block.locked").first().innerText();
   if (!lockedText.includes("Pantry room step") || !lockedText.includes("0/3") || !lockedText.includes("Need pantry story") || !lockedText.includes("Go to Pantry")) {
     failures.push("[" + viewportName + "] Locked stage should explain pantry story progress, saw " + lockedText);
+  }
+}
+
+async function expectSeasonUpdateTeaser(page, viewportName) {
+  await expectVisible(page, ".season-next-card", viewportName);
+  await expectVisible(page, ".season-next-card__label", viewportName);
+  await expectVisible(page, ".season-next-card__chips span", viewportName);
+  const text = await page.locator(".season-next-card").first().innerText();
+  const normalizedText = text.toLowerCase();
+  if (!normalizedText.includes("update note") || !text.includes("333") || !text.includes("Puzzle drop") || !text.includes("Pip news")) {
+    failures.push("[" + viewportName + "] Season update teaser should explain the post-launch drop plan, saw " + text);
+  }
+
+  const metrics = await page.locator(".season-next-card").first().evaluate((card) => {
+    const rect = card.getBoundingClientRect();
+    const style = getComputedStyle(card);
+    const label = card.querySelector(".season-next-card__label");
+    const chips = [...card.querySelectorAll(".season-next-card__chips span")].map((chip) => {
+      const chipRect = chip.getBoundingClientRect();
+      return { width: chipRect.width, height: chipRect.height, text: chip.textContent.trim() };
+    });
+    return {
+      width: rect.width,
+      right: rect.right,
+      viewportWidth: window.innerWidth,
+      radius: parseFloat(style.borderRadius),
+      background: style.backgroundImage,
+      labelText: label?.textContent?.trim() || "",
+      chipCount: chips.length,
+      chips
+    };
+  });
+  if (
+    metrics.width < 260 ||
+    metrics.right > metrics.viewportWidth + 1 ||
+    metrics.radius < 12 ||
+    !metrics.background.includes("linear-gradient") ||
+    metrics.labelText.length === 0 ||
+    metrics.chipCount !== 3 ||
+    metrics.chips.some((chip) => chip.height < 26 || chip.width < 58)
+  ) {
+    failures.push("[" + viewportName + "] Season update teaser mobile layout regressed: " + JSON.stringify(metrics));
   }
 }
 

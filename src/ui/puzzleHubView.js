@@ -81,7 +81,16 @@ function createSeasonProgressCard(actions = {}) {
 
   const teaser = document.createElement("div");
   teaser.className = "season-next-card";
-  teaser.innerHTML = "<strong>" + t("seasonProgress.nextSeasonTitle") + "</strong><p>" + t("seasonProgress.nextSeasonBody") + "</p>";
+  teaser.innerHTML = [
+    "<span class=\"season-next-card__label\">" + t("seasonProgress.nextSeasonLabel") + "</span>",
+    "<strong>" + t("seasonProgress.nextSeasonTitle") + "</strong>",
+    "<p>" + t("seasonProgress.nextSeasonBody") + "</p>",
+    "<div class=\"season-next-card__chips\" aria-label=\"" + t("seasonProgress.nextSeasonChipsLabel") + "\">",
+    "<span>" + t("seasonProgress.nextSeasonChipDrop") + "</span>",
+    "<span>" + t("seasonProgress.nextSeasonChipSeason") + "</span>",
+    "<span>" + t("seasonProgress.nextSeasonChipCommunity") + "</span>",
+    "</div>"
+  ].join("");
 
   card.append(header, meter, stats, goal, teaser);
   return card;
