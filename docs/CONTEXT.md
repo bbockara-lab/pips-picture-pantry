@@ -2328,3 +2328,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added a compact completed-line badge to the in-play progress chip so players can see when row/column guidance is helping them clear the board.
 - Reused the existing completed-line solution comparison logic; fill, mark, undo, hints, spoon spending, drag painting, and mistake handling are unchanged.
 - Added i18n coverage and mobile QA telemetry for the badge dimensions so the extra guidance stays compact on large-board play surfaces.
+
+### v0.1.311 - Cursor Selected State Chip
+- Added a compact selected-square status chip to the large-board cursor controls so players can see whether the current cursor cell is empty, colored, or marked blank before acting.
+- Kept cursor movement, fill/mark behavior, undo, hints, spoon spending, drag painting, and completed-line guidance unchanged; this is a presentation/accessibility layer on the existing cursor state.
+- Bumped the visible app version to v0.1.311 and extended mobile QA telemetry to guard the status chip text, dimensions, gradient treatment, and overflow behavior.

@@ -889,6 +889,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const style = getComputedStyle(panel);
     const position = panel.querySelector(".cursor-controls__position");
     const dpad = panel.querySelector(".cursor-dpad");
+    const status = panel.querySelector(".cursor-controls__status");
+    const statusRect = status?.getBoundingClientRect();
+    const statusStyle = status ? getComputedStyle(status) : null;
     const moves = [...panel.querySelectorAll(".cursor-move")].map((button) => {
       const buttonRect = button.getBoundingClientRect();
       const buttonStyle = getComputedStyle(button);
@@ -916,6 +919,10 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       radius: parseFloat(style.borderRadius),
       background: style.backgroundImage,
       positionText: position?.textContent.trim() || "",
+      statusText: status?.textContent.trim() || "",
+      statusWidth: statusRect?.width || 0,
+      statusHeight: statusRect?.height || 0,
+      statusBackground: statusStyle?.backgroundImage || "",
       dpadWidth: dpad?.getBoundingClientRect().width || 0,
       moves,
       actions,
@@ -927,6 +934,10 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     cursorPadMetrics.radius < 16 ||
     !cursorPadMetrics.background.includes("gradient") ||
     !cursorPadMetrics.positionText ||
+    !cursorPadMetrics.statusText ||
+    cursorPadMetrics.statusHeight < 24 ||
+    cursorPadMetrics.statusWidth > cursorPadMetrics.width ||
+    !cursorPadMetrics.statusBackground.includes("gradient") ||
     cursorPadMetrics.dpadWidth < 132 ||
     cursorPadMetrics.moves.length !== 4 ||
     cursorPadMetrics.moves.some((button) => button.width < 40 || button.height < 40 || !button.background.includes("gradient") || !button.label) ||

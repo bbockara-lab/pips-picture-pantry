@@ -1,4 +1,5 @@
 import { moveCursor, toggleCursorCell } from "../game/puzzleState.js";
+import { CELL } from "../game/nonogram.js";
 import { t } from "../i18n/index.js";
 import { playCursorAction, playCursorMove } from "./audio.js";
 
@@ -28,6 +29,8 @@ export function renderCursorControls(state, puzzle, update) {
     column: Math.max(1, Number(state.cursor?.column || 0) + 1)
   });
 
+  const status = renderCursorStatus(state);
+
   const lineHint = document.createElement("p");
   lineHint.className = "cursor-controls__hint cursor-controls__hint--secondary";
   lineHint.textContent = t("controls.lineCompleteHint");
@@ -52,7 +55,7 @@ export function renderCursorControls(state, puzzle, update) {
   body.className = "cursor-controls__body";
   body.append(dpad, actions);
 
-  controls.append(hint, position, lineHint, body);
+  controls.append(hint, position, status, lineHint, body);
   return controls;
 }
 
@@ -74,6 +77,22 @@ function createCursorMoveButton(position, label, ariaLabel, onClick) {
   button.setAttribute("aria-label", ariaLabel);
   button.addEventListener("click", onClick);
   return button;
+}
+
+function renderCursorStatus(state) {
+  const cursor = state.cursor || { row: 0, column: 0 };
+  const value = state.cells?.[cursor.row]?.[cursor.column] || CELL.empty;
+  const labelKey = {
+    [CELL.filled]: "controls.cursorStatusFilled",
+    [CELL.marked]: "controls.cursorStatusMarked",
+    [CELL.empty]: "controls.cursorStatusEmpty"
+  }[value] || "controls.cursorStatusEmpty";
+
+  const chip = document.createElement("p");
+  chip.className = "cursor-controls__status cursor-controls__status--" + value;
+  chip.textContent = t(labelKey);
+  chip.setAttribute("aria-label", t("controls.cursorStatusLabel", { status: t(labelKey) }));
+  return chip;
 }
 
 function createCursorActionButton(label, onClick) {
