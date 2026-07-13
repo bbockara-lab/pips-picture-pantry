@@ -269,6 +269,8 @@ export const ko = {
     filledOf: "{count}/{target}\uce78 \ucc44\uc6c0",
     revisit: "{count}\uce78 \ucc44\uc6c0 - {mistakes}\uce78 \ub2e4\uc2dc \ubcf4\uae30",
     revisitOf: "{count}/{target}\uce78 \ucc44\uc6c0 - {mistakes}\uce78 \ub2e4\uc2dc \ubcf4\uae30",
+    linesGuided: "{count}\uc904",
+    linesGuidedAria: "\uc644\uc131\ub41c \ud78c\ud2b8 \uc904 {count}\uac1c",
     complete: "\uce74\ub4dc \uc644\uc131"
   },
   completion: {

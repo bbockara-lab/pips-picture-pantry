@@ -2323,3 +2323,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added a soft visual progress rail inside the in-play progress chip so `count/target` also reads at a glance as board-completion momentum.
 - Kept puzzle logic, mistake warnings, hints, undo, and drag painting unchanged; this is a presentation-only layer on the existing progress chip.
 - Mobile QA now guards the progress ratio custom property and clipped chip treatment so the rail remains a designed part of the play surface.
+
+### v0.1.310 - Guided Line Progress Badge
+- Added a compact completed-line badge to the in-play progress chip so players can see when row/column guidance is helping them clear the board.
+- Reused the existing completed-line solution comparison logic; fill, mark, undo, hints, spoon spending, drag painting, and mistake handling are unchanged.
+- Added i18n coverage and mobile QA telemetry for the badge dimensions so the extra guidance stays compact on large-board play surfaces.

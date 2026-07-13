@@ -1096,7 +1096,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const style = getComputedStyle(line);
     const mark = line.querySelector(".progress-line__mark");
     const text = line.querySelector(".progress-line__text");
+    const badge = line.querySelector(".progress-line__badge");
     const markRect = mark?.getBoundingClientRect();
+    const badgeRect = badge?.getBoundingClientRect();
     return {
       width: rect.width,
       height: rect.height,
@@ -1106,6 +1108,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       markWidth: markRect?.width || 0,
       markHeight: markRect?.height || 0,
       text: (text?.textContent || "").trim(),
+      badgeText: (badge?.textContent || "").trim(),
+      badgeWidth: badgeRect?.width || 0,
+      badgeHeight: badgeRect?.height || 0,
       progressRatio: style.getPropertyValue("--progress-ratio").trim(),
       overflow: style.overflow,
       overflows: line.scrollWidth > Math.ceil(rect.width) + 1 || line.scrollHeight > Math.ceil(rect.height) + 1
@@ -1178,6 +1183,9 @@ async function expectCompletedLineGuidance(page, viewportName) {
     const rowClue = document.querySelector(".row-clue.line-complete span");
     const safeCell = document.querySelector(".puzzle-cell.safe-suggestion");
     const glowCell = document.querySelector(".puzzle-cell.completed-row");
+    const progressBadge = document.querySelector(".progress-line__badge");
+    const progressBadgeStyle = progressBadge ? getComputedStyle(progressBadge) : null;
+    const progressBadgeRect = progressBadge?.getBoundingClientRect();
     const readStyle = (el) => {
       const style = el ? getComputedStyle(el) : null;
       return {
@@ -1196,6 +1204,10 @@ async function expectCompletedLineGuidance(page, viewportName) {
       rowClueStyle: readStyle(rowClue),
       safeCellStyle: readStyle(safeCell),
       glowCellStyle: readStyle(glowCell),
+      progressBadgeText: (progressBadge?.textContent || "").trim(),
+      progressBadgeWidth: progressBadgeRect?.width || 0,
+      progressBadgeHeight: progressBadgeRect?.height || 0,
+      progressBadgeBackground: progressBadgeStyle?.backgroundImage || "",
       lockedLeakCount
     };
   });
@@ -1208,7 +1220,11 @@ async function expectCompletedLineGuidance(page, viewportName) {
     metrics.glowCellStyle.boxShadow === "none" ||
     metrics.safeCellStyle.borderStyle !== "dashed" ||
     metrics.safeCellStyle.outlineStyle !== "dashed" ||
-    !metrics.safeCellStyle.background.includes("gradient")
+    !metrics.safeCellStyle.background.includes("gradient") ||
+    !metrics.progressBadgeText ||
+    metrics.progressBadgeWidth < 28 ||
+    metrics.progressBadgeHeight < 18 ||
+    !metrics.progressBadgeBackground.includes("gradient")
   ) {
     failures.push("[" + viewportName + "] Completed-line guidance lost polished glow/safe-X treatment: " + JSON.stringify(metrics));
   }

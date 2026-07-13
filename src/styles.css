@@ -5784,7 +5784,7 @@ img {
 .progress-line {
   position: relative;
   display: inline-grid;
-  grid-template-columns: 22px minmax(0, auto);
+  grid-template-columns: 22px minmax(0, auto) auto;
   align-items: center;
   justify-content: center;
   justify-self: center;
@@ -5852,6 +5852,26 @@ img {
   line-height: 1.12;
 }
 
+.progress-line__badge {
+  position: relative;
+  z-index: 1;
+  min-width: 34px;
+  border: 1px solid rgba(85, 139, 101, 0.26);
+  border-radius: 999px;
+  padding: 3px 7px;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.74), transparent 28%),
+    linear-gradient(180deg, rgba(227, 248, 221, 0.98), rgba(158, 213, 174, 0.86));
+  color: #4d7e5b;
+  font-size: 0.7rem;
+  font-weight: 950;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow:
+    0 2px 0 rgba(61, 43, 46, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
 .progress-line.warning {
   border-color: rgba(188, 83, 65, 0.24);
   background:
@@ -5913,6 +5933,12 @@ img {
 
   .progress-line__text {
     font-size: 0.78rem;
+  }
+
+  .progress-line__badge {
+    min-width: 28px;
+    padding-inline: 6px;
+    font-size: 0.66rem;
   }
 }
 

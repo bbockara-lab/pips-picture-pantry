@@ -14,7 +14,7 @@ import { puzzleTitle, t } from "../i18n/index.js";
 import { playComplete, playCursorAction, playCursorMove, playTap } from "./audio.js";
 import { getHintLimit, getHintRevealCount, renderHintPanel, renderHowToPlayCard, renderMarkHint } from "./puzzleAssistView.js";
 import { moveSelectedCell, renderCursorControls, shouldShowCursorControls, toggleSelectedCell } from "./puzzleCursorControls.js";
-import { renderBoard } from "./boardView.js";
+import { getLineGuidance, renderBoard } from "./boardView.js";
 import { renderCompletionBanner } from "./pipReaction.js";
 
 export function renderPuzzleView(puzzle, options = {}) {
@@ -283,6 +283,11 @@ function countSolutionFilledCells(solution) {
   }, 0);
 }
 
+function countGuidedLines(state, puzzle) {
+  const guidance = getLineGuidance(puzzle, state);
+  return guidance.completedRows.size + guidance.completedColumns.size;
+}
+
 function createProgressLine(state, puzzle) {
   const line = document.createElement("p");
   line.className = "progress-line";
@@ -311,6 +316,17 @@ function createProgressLine(state, puzzle) {
   text.textContent = mistakes > 0
     ? t("progress.revisitOf", { count: filledCount, target: targetCount, mistakes })
     : t("progress.filledOf", { count: filledCount, target: targetCount });
+
+  const guidedLineCount = countGuidedLines(state, puzzle);
+  if (guidedLineCount > 0) {
+    const badge = document.createElement("span");
+    badge.className = "progress-line__badge";
+    badge.textContent = t("progress.linesGuided", { count: guidedLineCount });
+    badge.setAttribute("aria-label", t("progress.linesGuidedAria", { count: guidedLineCount }));
+    line.append(mark, text, badge);
+    return line;
+  }
+
   line.append(mark, text);
   return line;
 }

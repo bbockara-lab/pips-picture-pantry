@@ -1384,3 +1384,8 @@ Immediate implementation decisions:
 - Added a soft visual progress rail inside the in-play progress chip so `count/target` also reads at a glance as board-completion momentum.
 - Kept puzzle logic, mistake warnings, hints, undo, and drag painting unchanged; this is a presentation-only layer on the existing progress chip.
 - Mobile QA now guards the progress ratio custom property and clipped chip treatment so the rail remains a designed part of the play surface.
+
+### v0.1.310 - Guided Line Progress Badge
+- Large-board play should keep surfacing friendly, non-interruptive guidance after a line is truly complete.
+- The progress chip now gains a small completed-line count badge, connected to the same row/column guidance that powers clue glow and safe blank suggestions.
+- Keep this UI as a helper signal only: it must not change puzzle completion, hint economy, undo, replay cleanliness, or Time Attack scoring.
