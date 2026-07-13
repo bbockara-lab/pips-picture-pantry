@@ -2363,3 +2363,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Swapped first-run, Time Attack, and Pantry purchase guide dialogs onto the approved `pip-chrome-v2` character art so Pip stays visually consistent across guide surfaces.
 - Preserved the existing guide steps, save flow, and runtime art approval gate while removing the older guide-scene dependency from visible dialog UI.
 - Extended asset and mobile QA to guard the guide dialog art source, speech-bubble treatment, and overflow across the guided onboarding paths.
+
+### v0.1.318 - Settings Dialog Tactile Polish
+- Refined the settings dialog into a more deliberate Sunny Spoon control surface with role-specific language, player-name, control-mode, audio, save, and close button treatments.
+- Kept settings behavior unchanged: language preference, player name saving, control mode, sound toggles, and close flow use the same callbacks as before.
+- Extended mobile QA to guard the settings title badge, active-choice marker, save button treatment, section counts, gradients, dimensions, and overflow.

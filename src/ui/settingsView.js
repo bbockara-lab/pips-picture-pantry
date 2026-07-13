@@ -27,7 +27,7 @@ export function renderSettingsDialog({
   `;
 
   const group = document.createElement("div");
-  group.className = "language-options";
+  group.className = "language-options settings-choice-grid settings-choice-grid--language";
   group.setAttribute("role", "group");
   group.setAttribute("aria-label", t("settings.language"));
 
@@ -38,7 +38,9 @@ export function renderSettingsDialog({
   ].forEach(([value, label]) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = preference === value ? "language-option active" : "language-option";
+    button.className = preference === value
+      ? "language-option settings-choice settings-choice--language active"
+      : "language-option settings-choice settings-choice--language";
     button.textContent = label;
     button.setAttribute("aria-pressed", String(preference === value));
     button.addEventListener("click", () => onLanguageChange(value));
@@ -51,7 +53,7 @@ export function renderSettingsDialog({
     <label for="player-name-input">${t("settings.playerName")}</label>
     <div>
       <input id="player-name-input" name="playerName" maxlength="18" autocomplete="nickname" value="${escapeAttribute(playerName)}" />
-      <button type="submit" class="tool-button">${t("settings.savePlayer")}</button>
+      <button type="submit" class="tool-button settings-choice settings-choice--save">${t("settings.savePlayer")}</button>
     </div>
   `;
   playerForm.addEventListener("submit", (event) => {
@@ -63,7 +65,7 @@ export function renderSettingsDialog({
   controlGroup.className = "control-options";
   controlGroup.innerHTML = `<p class="section-label">${t("settings.controls")}</p><p>${t("settings.controlsNote")}</p>`;
   const controlButtons = document.createElement("div");
-  controlButtons.className = "language-options compact";
+  controlButtons.className = "language-options compact settings-choice-grid settings-choice-grid--control";
   controlButtons.setAttribute("role", "group");
   controlButtons.setAttribute("aria-label", t("settings.controls"));
   [
@@ -73,7 +75,9 @@ export function renderSettingsDialog({
   ].forEach(([value, label]) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = controlMode === value ? "language-option active" : "language-option";
+    button.className = controlMode === value
+      ? "language-option settings-choice settings-choice--control active"
+      : "language-option settings-choice settings-choice--control";
     button.textContent = label;
     button.setAttribute("aria-pressed", String(controlMode === value));
     button.addEventListener("click", () => onControlModeChange(value));
@@ -91,7 +95,7 @@ export function renderSettingsDialog({
 
   const closeButton = document.createElement("button");
   closeButton.type = "button";
-  closeButton.className = "tool-button settings-close";
+  closeButton.className = "tool-button settings-choice settings-choice--close settings-close";
   closeButton.textContent = t("settings.close");
   closeButton.addEventListener("click", onClose);
 
@@ -103,7 +107,9 @@ export function renderSettingsDialog({
 function createAudioToggle(label, active, onChange) {
   const button = document.createElement("button");
   button.type = "button";
-  button.className = active ? "language-option active" : "language-option";
+  button.className = active
+    ? "language-option settings-choice settings-choice--audio active"
+    : "language-option settings-choice settings-choice--audio";
   button.textContent = label;
   button.setAttribute("aria-pressed", String(active));
   button.addEventListener("click", () => onChange(!active));

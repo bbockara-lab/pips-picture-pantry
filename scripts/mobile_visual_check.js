@@ -296,19 +296,34 @@ async function expectSettingsDialogPolish(page, viewportName) {
         const active = document.querySelector(".settings-dialog .language-option.active");
         const input = document.querySelector(".settings-dialog input");
         const close = document.querySelector(".settings-close");
+        const title = document.querySelector(".settings-dialog h2");
+        const save = document.querySelector(".settings-choice--save");
+        const languageChoices = [...document.querySelectorAll(".settings-choice--language")];
+        const controlChoices = [...document.querySelectorAll(".settings-choice--control")];
+        const audioChoices = [...document.querySelectorAll(".settings-choice--audio")];
         const activeStyle = active ? getComputedStyle(active) : null;
         const dialogStyle = dialog ? getComputedStyle(dialog) : null;
         const inputStyle = input ? getComputedStyle(input) : null;
         const closeStyle = close ? getComputedStyle(close) : null;
+        const titleBefore = title ? getComputedStyle(title, "::before") : null;
+        const activeAfter = active ? getComputedStyle(active, "::after") : null;
+        const saveStyle = save ? getComputedStyle(save) : null;
         return {
           dialogRadius: dialogStyle ? parseFloat(dialogStyle.borderRadius) : 0,
           dialogBackground: dialogStyle?.backgroundImage || "",
+          titleBadgeWidth: titleBefore ? parseFloat(titleBefore.width) : 0,
           activeHeight: active?.getBoundingClientRect().height || 0,
           activeBackground: activeStyle?.backgroundImage || "",
+          activeMarkerBackground: activeAfter?.backgroundImage || "",
           inputHeight: input?.getBoundingClientRect().height || 0,
           inputRadius: inputStyle ? parseFloat(inputStyle.borderRadius) : 0,
+          saveHeight: save?.getBoundingClientRect().height || 0,
+          saveBackground: saveStyle?.backgroundImage || "",
           closeHeight: close?.getBoundingClientRect().height || 0,
-          closeBackground: closeStyle?.backgroundImage || ""
+          closeBackground: closeStyle?.backgroundImage || "",
+          languageChoiceCount: languageChoices.length,
+          controlChoiceCount: controlChoices.length,
+          audioChoiceCount: audioChoices.length
         };
       })()
     };
@@ -318,12 +333,19 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.overflowItems.length ||
     metrics.settingsPolish.dialogRadius < 16 ||
     !metrics.settingsPolish.dialogBackground.includes("linear-gradient") ||
+    metrics.settingsPolish.titleBadgeWidth < 18 ||
     metrics.settingsPolish.activeHeight < 48 ||
     !metrics.settingsPolish.activeBackground.includes("linear-gradient") ||
+    !metrics.settingsPolish.activeMarkerBackground.includes("radial-gradient") ||
     metrics.settingsPolish.inputHeight < 42 ||
     metrics.settingsPolish.inputRadius < 8 ||
+    metrics.settingsPolish.saveHeight < 48 ||
+    !metrics.settingsPolish.saveBackground.includes("linear-gradient") ||
     metrics.settingsPolish.closeHeight < 50 ||
-    !metrics.settingsPolish.closeBackground.includes("linear-gradient")
+    !metrics.settingsPolish.closeBackground.includes("linear-gradient") ||
+    metrics.settingsPolish.languageChoiceCount !== 3 ||
+    metrics.settingsPolish.controlChoiceCount !== 3 ||
+    metrics.settingsPolish.audioChoiceCount !== 2
   ) {
     failures.push("[" + viewportName + "] Settings dialog polish regression: " + JSON.stringify(metrics));
   }
