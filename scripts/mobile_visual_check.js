@@ -165,6 +165,7 @@ async function expectGuideDialogChromeArt(page, viewportName) {
     const artStyle = art ? getComputedStyle(art) : null;
     const imageStyle = image ? getComputedStyle(image) : null;
     const bubbleStyle = bubble ? getComputedStyle(bubble) : null;
+    const bubbleAfter = bubble ? getComputedStyle(bubble, "::after") : null;
     return {
       width: rect.width,
       height: rect.height,
@@ -180,6 +181,7 @@ async function expectGuideDialogChromeArt(page, viewportName) {
       bubbleBackground: bubbleStyle?.backgroundImage || "",
       bubbleRadius: bubbleStyle ? parseFloat(bubbleStyle.borderRadius) : 0,
       bubbleShadow: bubbleStyle?.boxShadow || "",
+      bubbleAccentBackground: bubbleAfter?.backgroundImage || "",
       overflows: dialog.scrollWidth > Math.ceil(rect.width) + 1 || dialog.scrollHeight > Math.ceil(rect.height) + 1
     };
   });
@@ -715,6 +717,7 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
           height: rect.height,
           radius: parseFloat(style.borderRadius),
           background: style.backgroundImage,
+      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
           beforeBackground: getComputedStyle(chip, "::before").backgroundImage,
           beforeWidth: parseFloat(getComputedStyle(chip, "::before").width),
           overflows: chip.scrollWidth > Math.ceil(rect.width) + 1 || chip.scrollHeight > Math.ceil(rect.height) + 1
@@ -723,7 +726,7 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
       cardRadius: cardStyle ? parseFloat(cardStyle.borderRadius) : 0,
       cardBackground: cardStyle?.backgroundImage || "",
       cardBeforeHeight: cardBefore ? parseFloat(cardBefore.height) : 0,
-      cardBeforeBackground: cardBefore?.backgroundImage || "",
+      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore?.backgroundImage || "" : "",
       overlayBackground: overlayStyle.backgroundImage || "",
       ctaBackground: ctaStyle?.backgroundImage || ""
     };
@@ -783,6 +786,7 @@ async function expectSeasonUpdateTeaser(page, viewportName) {
   const metrics = await page.locator(".season-next-card").first().evaluate((card) => {
     const rect = card.getBoundingClientRect();
     const style = getComputedStyle(card);
+    const cardBefore = getComputedStyle(card, "::before");
     const label = card.querySelector(".season-next-card__label");
     const chips = [...card.querySelectorAll(".season-next-card__chips span")].map((chip) => {
       const chipRect = chip.getBoundingClientRect();
@@ -794,6 +798,7 @@ async function expectSeasonUpdateTeaser(page, viewportName) {
       viewportWidth: window.innerWidth,
       radius: parseFloat(style.borderRadius),
       background: style.backgroundImage,
+      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
       labelText: label?.textContent?.trim() || "",
       chipCount: chips.length,
       chips
@@ -883,6 +888,7 @@ async function openFloatingView(page, view, viewportName = view) {
     const coachMetrics = await page.locator(".time-attack-coach-card").first().evaluate((card) => {
       const rect = card.getBoundingClientRect();
       const style = getComputedStyle(card);
+    const cardBefore = getComputedStyle(card, "::before");
       const chips = card.querySelectorAll(".time-attack-coach-card__chips li").length;
       return { width: rect.width, height: rect.height, radius: parseFloat(style.borderRadius), background: style.backgroundImage, chips };
     });
@@ -923,11 +929,13 @@ async function expectTimeAttackStartSurface(page, viewportName) {
     const cards = Array.from(panel.querySelectorAll(".time-attack-summary__card")).map((card) => {
       const rect = card.getBoundingClientRect();
       const style = getComputedStyle(card);
+    const cardBefore = getComputedStyle(card, "::before");
       return {
         width: rect.width,
         height: rect.height,
         radius: parseFloat(style.borderRadius),
         background: style.backgroundImage,
+      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
         shadow: style.boxShadow
       };
     });
@@ -1095,6 +1103,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       viewportWidth: window.innerWidth,
       radius: parseFloat(style.borderRadius),
       background: style.backgroundImage,
+      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
       positionText: position?.textContent.trim() || "",
       statusText: status?.textContent.trim() || "",
       statusWidth: statusRect?.width || 0,
@@ -1222,6 +1231,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       height: rect.height,
       viewportWidth: window.innerWidth,
       background: style.backgroundImage,
+      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
       radius: parseFloat(style.borderRadius),
       titleWidth: titleRect?.width || 0,
       titleOverflow: title ? title.scrollWidth > Math.ceil(titleRect?.width || 0) + 1 : true,
@@ -1244,6 +1254,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   const howToPlayMetrics = await page.locator(".how-to-play.visual-guide").first().evaluate((card) => {
     const rect = card.getBoundingClientRect();
     const style = getComputedStyle(card);
+    const cardBefore = getComputedStyle(card, "::before");
     const pip = card.querySelector(".guide-pip-scene__pip");
     const bubble = card.querySelector(".guide-pip-scene__bubble");
     const scene = card.querySelector(".guide-pip-scene");
@@ -1252,6 +1263,11 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const sceneRect = scene?.getBoundingClientRect();
     const pipStyle = pip ? getComputedStyle(pip) : null;
     const bubbleStyle = bubble ? getComputedStyle(bubble) : null;
+    const bubbleAfter = bubble ? getComputedStyle(bubble, "::after") : null;
+    const firstClueRow = card.querySelector(".clue-guide__row");
+    const clueRowAfter = firstClueRow ? getComputedStyle(firstClueRow, "::after") : null;
+    const firstAction = card.querySelector(".guide-actions span");
+    const actionBefore = firstAction ? getComputedStyle(firstAction, "::before") : null;
     const clueRows = [...card.querySelectorAll(".clue-guide__row")].map((row) => {
       const rowRect = row.getBoundingClientRect();
       return { width: rowRect.width, height: rowRect.height };
@@ -1267,20 +1283,28 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       viewportWidth: window.innerWidth,
       radius: parseFloat(style.borderRadius),
       background: style.backgroundImage,
+      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
       pipSrc: pip?.getAttribute("src") || "",
       pipWidth: pipRect?.width || 0,
       pipHeight: pipRect?.height || 0,
       pipFit: pipStyle?.objectFit || "",
+      pipBackground: pipStyle?.backgroundImage || "",
+      pipShadow: pipStyle?.boxShadow || "",
+      pipRadius: pipStyle ? parseFloat(pipStyle.borderRadius) : 0,
       bubbleWidth: bubbleRect?.width || 0,
       bubbleHeight: bubbleRect?.height || 0,
       bubbleBackground: bubbleStyle?.backgroundImage || "",
       bubbleRadius: bubbleStyle ? parseFloat(bubbleStyle.borderRadius) : 0,
       bubbleShadow: bubbleStyle?.boxShadow || "",
+      bubbleAccentBackground: bubbleAfter?.backgroundImage || "",
       sceneWidth: sceneRect?.width || 0,
       clueRows,
       actions,
       miniCells: card.querySelectorAll(".mini-cell").length,
       lineHint: card.querySelector(".how-to-play__line-hint")?.textContent.trim() || "",
+      clueRowAccentBackground: clueRowAfter?.backgroundImage || "",
+      actionAccentContent: actionBefore?.content || "",
+      actionAccentBackground: actionBefore?.backgroundImage || "",
       overflows: card.scrollWidth > Math.ceil(rect.width) + 1 || card.scrollHeight > Math.ceil(rect.height) + 1
     };
   });
@@ -1290,20 +1314,28 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     howToPlayMetrics.width > 570 ||
     howToPlayMetrics.radius < 16 ||
     !howToPlayMetrics.background.includes("gradient") ||
+    !howToPlayMetrics.cardBeforeBackground.includes("gradient") ||
     !howToPlayMetrics.pipSrc.includes("pip-chrome-v2") ||
     howToPlayMetrics.pipWidth < 52 ||
     howToPlayMetrics.pipHeight < 52 ||
     howToPlayMetrics.pipFit !== "contain" ||
+    !howToPlayMetrics.pipBackground.includes("gradient") ||
+    howToPlayMetrics.pipShadow === "none" ||
+    howToPlayMetrics.pipRadius < 16 ||
     howToPlayMetrics.bubbleWidth < 120 ||
     howToPlayMetrics.bubbleHeight < 70 ||
     !howToPlayMetrics.bubbleBackground.includes("gradient") ||
     howToPlayMetrics.bubbleRadius < 12 ||
     howToPlayMetrics.bubbleShadow === "none" ||
+    !howToPlayMetrics.bubbleAccentBackground.includes("gradient") ||
     howToPlayMetrics.sceneWidth < 180 ||
     howToPlayMetrics.clueRows.length !== 2 ||
     howToPlayMetrics.clueRows.some((row) => row.height < 28) ||
     howToPlayMetrics.actions.length !== 3 ||
     howToPlayMetrics.actions.some((chip) => chip.height < 22 || !chip.text) ||
+    !howToPlayMetrics.clueRowAccentBackground.includes("gradient") ||
+    howToPlayMetrics.actionAccentContent === "none" ||
+    !howToPlayMetrics.actionAccentBackground.includes("gradient") ||
     howToPlayMetrics.miniCells !== 10 ||
     !howToPlayMetrics.lineHint ||
     howToPlayMetrics.overflows
@@ -1392,6 +1424,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       width: rect.width,
       height: rect.height,
       background: style.backgroundImage,
+      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
       iconWidth: iconRect?.width || 0,
       iconHeight: iconRect?.height || 0,
       iconBackground: iconStyle?.backgroundImage || "",
@@ -1419,6 +1452,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       height: rect.height,
       viewportWidth: window.innerWidth,
       background: style.backgroundImage,
+      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
       borderRadius: parseFloat(style.borderRadius),
       markWidth: markRect?.width || 0,
       markHeight: markRect?.height || 0,
@@ -1454,6 +1488,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
         height: rect.height,
         radius: parseFloat(style.borderRadius),
         background: style.backgroundImage,
+      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
         marginTop: parseFloat(style.marginTop) || 0
       };
     };
@@ -1586,6 +1621,7 @@ async function expectPuzzleBoardFramePolish(page, viewportName) {
         height: rect.height,
         radius: parseFloat(style.borderRadius),
         background: style.backgroundImage,
+      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
         shadow: style.boxShadow,
         borderWidth: parseFloat(style.borderTopWidth) || 0
       };

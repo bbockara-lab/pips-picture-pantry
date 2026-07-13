@@ -7466,3 +7466,80 @@ img {
     inset 0 1px 0 rgba(255, 255, 255, 0.72),
     0 3px 10px rgba(148, 119, 61, 0.18);
 }
+/* v0.1.331 Pip guide card sticker polish */
+.how-to-play.visual-guide {
+  position: relative;
+  overflow: hidden;
+}
+
+.how-to-play.visual-guide::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 34%;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.48), transparent);
+  pointer-events: none;
+}
+
+.guide-pip-scene__pip {
+  box-sizing: border-box;
+  border: 2px solid rgba(255, 255, 255, 0.72);
+  border-radius: 20px;
+  padding: 4px;
+  background:
+    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.72) 0 14%, transparent 15%),
+    linear-gradient(145deg, rgba(255, 242, 182, 0.88), rgba(194, 229, 204, 0.72));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 4px 0 rgba(71, 45, 48, 0.1);
+}
+
+.guide-pip-scene__bubble::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.72) 0 20%, transparent 21%),
+    linear-gradient(135deg, rgba(244, 199, 85, 0.72), rgba(160, 210, 174, 0.62));
+  opacity: 0.64;
+  pointer-events: none;
+}
+
+.clue-guide__row {
+  position: relative;
+  overflow: hidden;
+}
+
+.clue-guide__row::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0 58%, rgba(255, 255, 255, 0.32) 59% 72%, transparent 73%);
+  pointer-events: none;
+}
+
+.guide-actions span {
+  position: relative;
+  padding-left: 18px;
+  overflow: hidden;
+}
+
+.guide-actions span::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.78) 0 28%, transparent 29%),
+    linear-gradient(135deg, #f4c755, #d98d48);
+  transform: translateY(-50%);
+  box-shadow: 0 1px 0 rgba(71, 45, 48, 0.12);
+}

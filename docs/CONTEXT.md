@@ -2427,3 +2427,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Polished row and column clue numbers into small glossy tokens so the puzzle clues match the tactile Sunny Spoon board, control, and hint-token language.
 - Kept clue calculation, completed-line guidance, cursor movement, drag painting, hints, undo, and puzzle state behavior unchanged; this is a presentation and QA guard pass.
 - Extended mobile QA to guard active and completed clue token gradients, shine layers, and shadows so board clue readability stays premium during later layout work.
+### v0.1.331 - Pip Guide Card Sticker Polish
+- Polished the in-puzzle Pip how-to card so Pip, the speech bubble, clue examples, and action chips read more like a cohesive Sunny Spoon sticker guide instead of a plain instruction panel.
+- Kept guide copy, puzzle logic, drag painting, hints, undo, and completed-line behavior unchanged; this is a visual polish and guard pass.
+- Extended mobile QA to protect the guide card shine layer, Pip sticker frame, speech-bubble accent, clue-row shine, and action-chip marker layers.
