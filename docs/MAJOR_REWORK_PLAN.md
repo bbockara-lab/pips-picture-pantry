@@ -1326,3 +1326,9 @@ Immediate implementation decisions:
 - The play controls should read as tools, not plain text buttons, especially on 12x12 boards where repeated action comfort matters.
 - Undo remains a visual correction tool; it must not become a way to refund hint usage or spoon spending.
 - Mobile QA now guards icon+label controls so later art/UI passes do not regress the core play surface.
+
+### v0.1.299 - Puzzle Progress Chip Polish
+
+- Progress feedback should feel like part of the tactile play HUD, not plain helper text.
+- The status chip keeps mistake feedback visible without adding new rules or interrupting the puzzle flow.
+- Mobile QA now protects the compact progress treatment alongside the hint and control-button guards.

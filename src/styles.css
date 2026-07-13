@@ -5672,3 +5672,114 @@ img {
     height: 22px;
   }
 }
+
+/* v0.1.299 puzzle progress chip polish */
+.progress-line {
+  display: inline-grid;
+  grid-template-columns: 22px minmax(0, auto);
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  max-width: 100%;
+  min-height: 34px;
+  gap: 7px;
+  border: 2px solid rgba(61, 43, 46, 0.14);
+  border-radius: 999px;
+  padding: 5px 12px 6px 9px;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 242, 0.98), rgba(240, 230, 190, 0.82));
+  box-shadow:
+    0 3px 0 rgba(61, 43, 46, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  text-align: center;
+}
+
+.progress-line__mark {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(61, 43, 46, 0.26);
+  border-radius: 7px;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.76), transparent 30%),
+    linear-gradient(135deg, #ffe27a, #e99a64);
+}
+
+.progress-line__mark::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 7px;
+  height: 7px;
+  border-radius: 3px;
+  background: rgba(122, 78, 53, 0.66);
+  box-shadow: 5px 5px 0 rgba(122, 78, 53, 0.5);
+}
+
+.progress-line__text {
+  min-width: 0;
+  color: var(--cocoa);
+  font-size: 0.82rem;
+  font-weight: 950;
+  line-height: 1.12;
+}
+
+.progress-line.warning {
+  border-color: rgba(188, 83, 65, 0.24);
+  background:
+    linear-gradient(180deg, rgba(255, 245, 230, 0.98), rgba(248, 203, 170, 0.78));
+}
+
+.progress-line.warning .progress-line__mark {
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78), transparent 30%),
+    linear-gradient(135deg, #f7c78e, #dc7c62);
+}
+
+.progress-line.warning .progress-line__mark::after {
+  left: 4px;
+  top: 8px;
+  width: 10px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(61, 43, 46, 0.68);
+  box-shadow: none;
+  transform: rotate(-18deg);
+}
+
+.progress-line.complete {
+  border-color: rgba(85, 139, 101, 0.24);
+  background:
+    linear-gradient(180deg, rgba(235, 250, 235, 0.98), rgba(176, 220, 190, 0.82));
+}
+
+.progress-line.complete .progress-line__mark {
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78), transparent 30%),
+    linear-gradient(135deg, #c7edc0, #8fcf9f);
+}
+
+.progress-line.complete .progress-line__mark::after {
+  left: 5px;
+  top: 4px;
+  width: 7px;
+  height: 11px;
+  border-right: 3px solid rgba(61, 43, 46, 0.68);
+  border-bottom: 3px solid rgba(61, 43, 46, 0.68);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: rotate(42deg);
+}
+
+@media (max-width: 380px) {
+  .progress-line {
+    width: fit-content;
+    max-width: min(100%, 300px);
+  }
+
+  .progress-line__text {
+    font-size: 0.78rem;
+  }
+}

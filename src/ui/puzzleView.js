@@ -279,16 +279,28 @@ function createControlLabel(label) {
 function createProgressLine(state, puzzle) {
   const line = document.createElement("p");
   line.className = "progress-line";
+
+  const mark = document.createElement("span");
+  mark.className = "progress-line__mark";
+  mark.setAttribute("aria-hidden", "true");
+
+  const text = document.createElement("span");
+  text.className = "progress-line__text";
+
   if (state.completed) {
-    line.textContent = t("progress.complete");
+    line.classList.add("complete");
+    text.textContent = t("progress.complete");
+    line.append(mark, text);
     return line;
   }
 
   const filledCount = state.cells.flat().filter((cell) => cell === "filled").length;
   const mistakes = countMistakes(state, puzzle.solution);
-  line.textContent = mistakes > 0
+  line.classList.toggle("warning", mistakes > 0);
+  text.textContent = mistakes > 0
     ? t("progress.revisit", { count: filledCount, mistakes })
     : t("progress.filled", { count: filledCount });
+  line.append(mark, text);
   return line;
 }
 

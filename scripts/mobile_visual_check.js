@@ -863,6 +863,28 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     failures.push("[" + viewportName + "] Puzzle controls lost icon+tactile mobile treatment: " + JSON.stringify(controlMetrics));
   }
 
+  const progressMetrics = await page.locator(".progress-line").first().evaluate((line) => {
+    const rect = line.getBoundingClientRect();
+    const style = getComputedStyle(line);
+    const mark = line.querySelector(".progress-line__mark");
+    const text = line.querySelector(".progress-line__text");
+    const markRect = mark?.getBoundingClientRect();
+    return {
+      width: rect.width,
+      height: rect.height,
+      viewportWidth: window.innerWidth,
+      background: style.backgroundImage,
+      borderRadius: parseFloat(style.borderRadius),
+      markWidth: markRect?.width || 0,
+      markHeight: markRect?.height || 0,
+      text: (text?.textContent || "").trim(),
+      overflows: line.scrollWidth > Math.ceil(rect.width) + 1 || line.scrollHeight > Math.ceil(rect.height) + 1
+    };
+  });
+  if (progressMetrics.width > progressMetrics.viewportWidth || progressMetrics.height < 32 || progressMetrics.borderRadius < 16 || !progressMetrics.background.includes("gradient") || progressMetrics.markWidth < 18 || progressMetrics.markHeight < 18 || !progressMetrics.text || progressMetrics.overflows) {
+    failures.push("[" + viewportName + "] Puzzle progress line lost compact chip treatment: " + JSON.stringify(progressMetrics));
+  }
+
   await expectCompletedLineGuidance(page, viewportName);
   await expectNoHorizontalOverflow(page, viewportName);
   await page.locator(".play-screen__back").click();

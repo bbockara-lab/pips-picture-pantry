@@ -2266,3 +2266,9 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Reworked the three core puzzle controls into icon+label buttons for Color, Blank Check, and Undo so the play surface feels more like a tactile game UI.
 - Kept the existing undo rules unchanged: it can remove the last visual move, but hint usage and spoon spending remain counted.
 - Extended mobile QA to guard control count, icon presence, touch height, gradient treatment, labels, aria labels, and overflow.
+
+## Progress Update - 2026-07-12 v0.1.299 Puzzle Progress Chip Polish
+
+- Reworked the puzzle progress line into a compact status chip with distinct normal, warning, and complete treatments.
+- Kept the underlying filled/mistake logic unchanged while making progress feedback easier to read during repeated play.
+- Extended mobile QA to guard the progress chip dimensions, icon mark, gradient treatment, text presence, and overflow.

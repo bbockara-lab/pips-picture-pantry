@@ -1510,3 +1510,9 @@ Last updated: 2026-06-28
 - Core puzzle controls now use icon+label treatment while preserving existing fill/mark/undo behavior.
 - Android bundle generation remains paused during the local rework; next handoff should include this play-control polish after full local QA passes.
 - Verification passed: syntax, targeted puzzle/puzzle-state/i18n tests, full Vitest (88 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.
+
+## Verification Update - 2026-07-12 v0.1.299 Puzzle Progress Chip Polish
+
+- Puzzle progress now renders as a compact status chip for filled, revisit, and complete states.
+- Android bundle generation remains paused during the local rework; next handoff should include this play-HUD polish after full local QA passes.
+- Verification passed: syntax, targeted puzzle/puzzle-state/i18n tests, full Vitest (88 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.
