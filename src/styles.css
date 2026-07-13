@@ -5950,3 +5950,55 @@ img {
     font-size: 0.86rem;
   }
 }
+
+/* v0.1.302 puzzle tool shelf cohesion */
+.puzzle-panel:not(.completed) .controls,
+.puzzle-panel:not(.completed) .hint-panel {
+  width: min(100%, 520px);
+  margin-inline: auto;
+}
+
+.puzzle-panel:not(.completed) .controls {
+  margin-top: 14px;
+  border: 2px solid rgba(61, 43, 46, 0.16);
+  border-radius: 18px;
+  padding: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 253, 243, 0.94), rgba(231, 246, 229, 0.78)),
+    radial-gradient(circle at 8% 10%, rgba(255, 226, 122, 0.28), transparent 34%);
+  box-shadow:
+    0 4px 0 rgba(61, 43, 46, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.puzzle-panel:not(.completed) .hint-panel {
+  margin-top: 10px;
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(255, 252, 240, 0.98), rgba(226, 244, 232, 0.88)),
+    radial-gradient(circle at 94% 10%, rgba(255, 214, 105, 0.28), transparent 30%);
+  box-shadow:
+    0 4px 0 rgba(61, 43, 46, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.puzzle-panel:not(.completed) .progress-line {
+  margin: 10px auto 0;
+}
+
+.puzzle-panel:not(.completed) .controls + .hint-panel,
+.puzzle-panel:not(.completed) .hint-panel + .progress-line {
+  margin-top: 10px;
+}
+
+@media (max-width: 380px) {
+  .puzzle-panel:not(.completed) .controls {
+    gap: 6px;
+    padding: 7px;
+  }
+
+  .puzzle-panel:not(.completed) .hint-panel {
+    gap: 9px;
+    padding: 10px;
+  }
+}

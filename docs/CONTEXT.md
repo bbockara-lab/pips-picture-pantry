@@ -2282,3 +2282,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Reframed the focused puzzle header as a compact tactile HUD card so back, title, settings, and board size read as one designed surface.
 - Kept behavior unchanged and preserved Time Attack and Replay variants with mode-aware header backgrounds.
 - Mobile QA now guards header bounds, gradient treatment, title fit, and control placement on the 12x12 play path.
+
+### v0.1.302 - Puzzle Tool Shelf Cohesion
+- Reframed the lower puzzle controls, hint panel, and progress chip as one cohesive play-tool shelf through shared width, spacing, rounded surfaces, and soft Sunny Spoon gradients.
+- Kept all puzzle logic unchanged: fill, blank check, undo, hint allowance, and spoon-spending rules continue to behave as before.
+- Mobile QA now guards the stacked tool-shelf treatment so future UI polish does not scatter the main play controls on 12x12 boards.

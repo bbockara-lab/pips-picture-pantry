@@ -932,6 +932,51 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     failures.push("[" + viewportName + "] Puzzle progress line lost compact chip treatment: " + JSON.stringify(progressMetrics));
   }
 
+  const toolShelfMetrics = await page.evaluate(() => {
+    const controls = document.querySelector(".puzzle-panel .controls");
+    const hint = document.querySelector(".puzzle-panel .hint-panel");
+    const progress = document.querySelector(".puzzle-panel .progress-line");
+    const read = (node) => {
+      if (!node) {
+        return null;
+      }
+      const rect = node.getBoundingClientRect();
+      const style = getComputedStyle(node);
+      return {
+        top: rect.top,
+        bottom: rect.bottom,
+        left: rect.left,
+        right: rect.right,
+        width: rect.width,
+        height: rect.height,
+        radius: parseFloat(style.borderRadius),
+        background: style.backgroundImage,
+        marginTop: parseFloat(style.marginTop) || 0
+      };
+    };
+    return {
+      viewportWidth: window.innerWidth,
+      controls: read(controls),
+      hint: read(hint),
+      progress: read(progress)
+    };
+  });
+  const shelfNodes = [toolShelfMetrics.controls, toolShelfMetrics.hint, toolShelfMetrics.progress];
+  const controlsToHintGap = toolShelfMetrics.hint.top - toolShelfMetrics.controls.bottom;
+  const progressAfterHint = toolShelfMetrics.progress.top > toolShelfMetrics.hint.bottom;
+  if (
+    shelfNodes.some((metrics) => !metrics || metrics.left < -1 || metrics.right > toolShelfMetrics.viewportWidth + 1 || metrics.width > 530) ||
+    controlsToHintGap < 6 ||
+    controlsToHintGap > 20 ||
+    !progressAfterHint ||
+    toolShelfMetrics.controls.radius < 16 ||
+    toolShelfMetrics.hint.radius < 16 ||
+    !toolShelfMetrics.controls.background.includes("gradient") ||
+    !toolShelfMetrics.hint.background.includes("gradient")
+  ) {
+    failures.push("[" + viewportName + "] Puzzle tool shelf lost cohesive stacked treatment: " + JSON.stringify({ ...toolShelfMetrics, controlsToHintGap, progressAfterHint }));
+  }
+
   await expectCompletedLineGuidance(page, viewportName);
   await expectNoHorizontalOverflow(page, viewportName);
   await page.locator(".play-screen__back").click();

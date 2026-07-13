@@ -1342,3 +1342,8 @@ Immediate implementation decisions:
 - Reframed the focused puzzle header as a compact tactile HUD card so back, title, settings, and board size read as one designed surface.
 - Kept behavior unchanged and preserved Time Attack and Replay variants with mode-aware header backgrounds.
 - Mobile QA now guards header bounds, gradient treatment, title fit, and control placement on the 12x12 play path.
+
+### v0.1.302 - Puzzle Tool Shelf Cohesion
+- Treat the lower play controls, hint affordance, and progress chip as a single repeated interaction zone rather than separate helper widgets.
+- Keep the surface compact on mobile, with shared max width, soft tactile gradients, and predictable spacing below large boards.
+- Mobile QA should continue guarding this area because it is where repeated play comfort, hint economy, and mistake feedback meet.
