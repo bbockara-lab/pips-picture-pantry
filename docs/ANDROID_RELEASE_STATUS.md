@@ -1533,3 +1533,8 @@ Last updated: 2026-06-28
 - Lower puzzle controls, hint panel, and progress chip now share a cohesive play-tool shelf treatment.
 - Android bundle generation remains paused during the local rework; next handoff should include this repeated-play polish after full local QA passes.
 - Verification passed: syntax, targeted play/puzzle/hint/i18n tests, full Vitest (89 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.
+
+## Verification Update - 2026-07-12 v0.1.303 How-To Guide Card Polish
+- In-puzzle how-to guidance now uses a polished guide-card treatment with clue rows and compact action chips.
+- Android bundle generation remains paused during the local rework; next handoff should include this first-play guidance polish after full local QA passes.
+- Verification passed: syntax, targeted puzzle/hint/i18n tests, full Vitest (89 tests), hygiene/catalog/assets, production build, mobile QA, and HTTP 200 smoke all passed.

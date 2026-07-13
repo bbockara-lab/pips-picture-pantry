@@ -1347,3 +1347,8 @@ Immediate implementation decisions:
 - Treat the lower play controls, hint affordance, and progress chip as a single repeated interaction zone rather than separate helper widgets.
 - Keep the surface compact on mobile, with shared max width, soft tactile gradients, and predictable spacing below large boards.
 - Mobile QA should continue guarding this area because it is where repeated play comfort, hint economy, and mistake feedback meet.
+
+### v0.1.303 - How-To Guide Card Polish
+- The first play guidance should feel intentionally designed, not like instructional text added after the fact.
+- Keep the clue examples visual and compact so new players can understand filled blocks, separated clues, and completed-line help without leaving the puzzle.
+- Mobile QA should protect this card because it is part of the first-session friendliness target.

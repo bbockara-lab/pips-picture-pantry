@@ -2287,3 +2287,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Reframed the lower puzzle controls, hint panel, and progress chip as one cohesive play-tool shelf through shared width, spacing, rounded surfaces, and soft Sunny Spoon gradients.
 - Kept all puzzle logic unchanged: fill, blank check, undo, hint allowance, and spoon-spending rules continue to behave as before.
 - Mobile QA now guards the stacked tool-shelf treatment so future UI polish does not scatter the main play controls on 12x12 boards.
+
+### v0.1.303 - How-To Guide Card Polish
+- Polished the in-puzzle how-to card so the clue examples, line-completion hint, and basic actions read as one friendly guide surface.
+- Kept gameplay logic unchanged while making the first visible play guidance feel closer to the tactile Sunny Spoon interface.
+- Mobile QA now guards the guide card bounds, gradient treatment, clue example rows, action chips, mini cells, and overflow on the 12x12 path.

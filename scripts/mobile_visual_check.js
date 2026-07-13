@@ -849,6 +849,48 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     failures.push("[" + viewportName + "] Play header lost compact HUD polish: " + JSON.stringify(playHeaderMetrics));
   }
 
+  const howToPlayMetrics = await page.locator(".how-to-play.visual-guide").first().evaluate((card) => {
+    const rect = card.getBoundingClientRect();
+    const style = getComputedStyle(card);
+    const clueRows = [...card.querySelectorAll(".clue-guide__row")].map((row) => {
+      const rowRect = row.getBoundingClientRect();
+      return { width: rowRect.width, height: rowRect.height };
+    });
+    const actions = [...card.querySelectorAll(".guide-actions span")].map((chip) => {
+      const chipRect = chip.getBoundingClientRect();
+      return { width: chipRect.width, height: chipRect.height, text: chip.textContent.trim() };
+    });
+    return {
+      left: rect.left,
+      right: rect.right,
+      width: rect.width,
+      viewportWidth: window.innerWidth,
+      radius: parseFloat(style.borderRadius),
+      background: style.backgroundImage,
+      clueRows,
+      actions,
+      miniCells: card.querySelectorAll(".mini-cell").length,
+      lineHint: card.querySelector(".how-to-play__line-hint")?.textContent.trim() || "",
+      overflows: card.scrollWidth > Math.ceil(rect.width) + 1 || card.scrollHeight > Math.ceil(rect.height) + 1
+    };
+  });
+  if (
+    howToPlayMetrics.left < -1 ||
+    howToPlayMetrics.right > howToPlayMetrics.viewportWidth + 1 ||
+    howToPlayMetrics.width > 570 ||
+    howToPlayMetrics.radius < 16 ||
+    !howToPlayMetrics.background.includes("gradient") ||
+    howToPlayMetrics.clueRows.length !== 2 ||
+    howToPlayMetrics.clueRows.some((row) => row.height < 28) ||
+    howToPlayMetrics.actions.length !== 3 ||
+    howToPlayMetrics.actions.some((chip) => chip.height < 22 || !chip.text) ||
+    howToPlayMetrics.miniCells !== 10 ||
+    !howToPlayMetrics.lineHint ||
+    howToPlayMetrics.overflows
+  ) {
+    failures.push("[" + viewportName + "] How-to guide lost polished mobile treatment: " + JSON.stringify(howToPlayMetrics));
+  }
+
   const cellCount = await page.locator(".puzzle-grid .puzzle-cell").count();
   if (cellCount !== 144) {
     failures.push("[" + viewportName + "] Bakery Window Glow should render 144 cells, saw " + cellCount);
