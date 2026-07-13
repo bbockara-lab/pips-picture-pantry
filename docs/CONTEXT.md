@@ -2413,3 +2413,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added richer layered treatment to completed-line safe blank X marks, cursor status chips, and large-board D-pad buttons so these controls feel like small Sunny Spoon game tokens rather than temporary symbols.
 - Kept puzzle input, cursor movement, drag painting, hints, undo, and completed-line guidance logic unchanged; this is a presentation and regression-guard pass.
 - Extended mobile QA to guard status-chip token artwork, D-pad shine layers, and safe-X radial/linear artwork so future UI polish preserves the handcrafted symbol language.
+
+### v0.1.328 - Drag Preview Token Polish
+- Polished the drag-stroke preview cells so swiping across multiple cells shows the same layered fill/X token language used by the rest of the puzzle controls.
+- Kept drag painting behavior, safe-suggestion protection, cursor controls, hints, undo, and completion logic unchanged; this is a presentation and QA guard pass for the active gesture moment.
+- Extended mobile QA to start an actual board drag and inspect the transient `.drag-preview` artwork layers before release checks pass.

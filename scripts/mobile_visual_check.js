@@ -1445,10 +1445,90 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
 
   await expectPuzzleBoardFramePolish(page, viewportName);
   await expectCompletedLineGuidance(page, viewportName);
+  await expectDragPreviewPolish(page, viewportName);
   await expectNoHorizontalOverflow(page, viewportName);
   await page.locator(".play-screen__back").click();
 }
 
+async function expectDragPreviewPolish(page, viewportName) {
+  const cells = page.locator(".puzzle-grid .puzzle-cell");
+  const firstBox = await cells.nth(2).boundingBox();
+  const secondBox = await cells.nth(3).boundingBox();
+  if (!firstBox || !secondBox) {
+    failures.push("[" + viewportName + "] Could not locate board cells for drag preview QA");
+    return;
+  }
+
+  const start = {
+    x: firstBox.x + firstBox.width / 2,
+    y: firstBox.y + firstBox.height / 2
+  };
+  const end = {
+    x: secondBox.x + secondBox.width / 2,
+    y: secondBox.y + secondBox.height / 2
+  };
+  await cells.nth(2).dispatchEvent("pointerdown", {
+    pointerId: 77,
+    pointerType: "touch",
+    isPrimary: true,
+    button: 0,
+    buttons: 1,
+    clientX: start.x,
+    clientY: start.y
+  });
+  await page.locator(".puzzle-grid").first().dispatchEvent("pointermove", {
+    pointerId: 77,
+    pointerType: "touch",
+    isPrimary: true,
+    button: 0,
+    buttons: 1,
+    clientX: end.x,
+    clientY: end.y
+  });
+
+  const metrics = await page.evaluate(() => {
+    const previews = [...document.querySelectorAll(".puzzle-cell.drag-preview")];
+    const preview = previews[0];
+    const style = preview ? getComputedStyle(preview) : null;
+    const before = preview ? getComputedStyle(preview, "::before") : null;
+    const after = preview ? getComputedStyle(preview, "::after") : null;
+    return {
+      count: previews.length,
+      className: preview?.className || "",
+      background: style?.backgroundImage || "",
+      color: style?.color || "",
+      outlineStyle: style?.outlineStyle || "",
+      boxShadow: style?.boxShadow || "",
+      beforeBackground: before?.backgroundImage || "",
+      beforeShadow: before?.boxShadow || "",
+      afterBackground: after?.backgroundImage || "",
+      afterTransform: after?.transform || "",
+      afterFilter: after?.filter || ""
+    };
+  });
+
+  await page.evaluate(() => {
+    const event = typeof PointerEvent === "function"
+      ? new PointerEvent("pointerup", { pointerId: 77, pointerType: "touch", isPrimary: true, bubbles: true })
+      : new MouseEvent("pointerup", { bubbles: true });
+    window.dispatchEvent(event);
+  });
+
+  const previewIsMarked = String(metrics.className).includes("marked");
+  if (
+    metrics.count < 1 ||
+    !metrics.background.includes("gradient") ||
+    metrics.outlineStyle === "none" ||
+    metrics.boxShadow === "none" ||
+    !metrics.beforeBackground.includes("gradient") ||
+    metrics.beforeShadow === "none" ||
+    metrics.afterBackground === "none" ||
+    (previewIsMarked && metrics.afterTransform === "none") ||
+    metrics.afterFilter === "none"
+  ) {
+    failures.push("[" + viewportName + "] Drag preview lost handcrafted token treatment: " + JSON.stringify(metrics));
+  }
+}
 async function expectPuzzleBoardFramePolish(page, viewportName) {
   const metrics = await page.evaluate(() => {
     const panel = document.querySelector(".puzzle-panel:not(.completed)");

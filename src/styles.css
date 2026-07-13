@@ -5935,6 +5935,8 @@ img {
 
 /* v0.1.273 drag stroke preview polish */
 .puzzle-cell.drag-preview {
+  position: relative;
+  overflow: hidden;
   transform: scale(0.96);
   outline: 3px solid rgba(255, 255, 255, 0.78);
   outline-offset: -5px;
@@ -5945,10 +5947,33 @@ img {
   filter: saturate(1.08) brightness(1.04);
 }
 
+.puzzle-cell.drag-preview::before,
+.puzzle-cell.drag-preview::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.puzzle-cell.drag-preview::before {
+  inset: 5px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.58), transparent 56%);
+  box-shadow: inset 0 -2px 0 rgba(67, 45, 51, 0.08);
+}
+
 .puzzle-cell.drag-preview.filled {
   background:
     radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.58), transparent 30%),
     linear-gradient(135deg, #ffe48d, #efa46d 56%, #c87955);
+}
+
+.puzzle-cell.drag-preview.filled::after {
+  inset: auto 7px 7px auto;
+  width: 30%;
+  height: 30%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 241, 186, 0.76) 0 44%, transparent 46%);
+  filter: drop-shadow(0 1px 0 rgba(89, 58, 43, 0.12));
 }
 
 .puzzle-cell.drag-preview.marked {
@@ -5956,7 +5981,20 @@ img {
   background:
     radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.7), transparent 30%),
     linear-gradient(135deg, rgba(184, 226, 205, 0.82), rgba(255, 248, 232, 0.96));
-  color: rgba(63, 105, 90, 0.82);
+  color: transparent;
+  text-shadow: none;
+}
+
+.puzzle-cell.drag-preview.marked::after {
+  inset: 50% auto auto 50%;
+  width: min(62%, 20px);
+  height: min(62%, 20px);
+  border-radius: 6px;
+  background:
+    linear-gradient(45deg, transparent 39%, rgba(72, 92, 86, 0.76) 42%, rgba(72, 92, 86, 0.76) 58%, transparent 61%),
+    linear-gradient(135deg, transparent 39%, rgba(72, 92, 86, 0.76) 42%, rgba(72, 92, 86, 0.76) 58%, transparent 61%);
+  transform: translate(-50%, -50%) rotate(-4deg);
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.78));
 }
 
 /* v0.1.283 first-play line guidance copy */
