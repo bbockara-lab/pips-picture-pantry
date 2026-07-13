@@ -2393,3 +2393,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added compact status chips to Album cards and Badge Shelf cards so saved, hidden, earned, in-progress, and locked states read directly inside the repeated card surfaces.
 - Kept album completion, badge progress, pack unlock, pantry requirements, and all reward logic unchanged; this is a presentation and QA guard pass.
 - Extended mobile QA to guard the new Album/Map state chips, gradients, dimensions, and viewport bounds so future card polish does not regress the status language.
+
+### v0.1.324 - Stage Complete Reward Card Polish
+- Added a subtle reward ribbon, fact-chip tokens, and a warmer tactile CTA treatment to the stage-complete overlay so stage completion feels more like a crafted reward moment.
+- Kept stage completion detection, spoon bonuses, pack badge logic, and dismissal behavior unchanged; this is a presentation and QA guard pass.
+- Extended mobile QA to guard the reward-card pseudo-element, fact-token artwork, CTA gradient, dimensions, and overflow behavior.

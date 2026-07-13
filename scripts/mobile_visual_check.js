@@ -693,6 +693,7 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
     const artRect = art?.getBoundingClientRect();
     const ctaRect = cta?.getBoundingClientRect();
     const cardStyle = card ? getComputedStyle(card) : null;
+    const cardBefore = card ? getComputedStyle(card, "::before") : null;
     const overlayStyle = getComputedStyle(overlay);
     const ctaStyle = cta ? getComputedStyle(cta) : null;
     const result = {
@@ -714,11 +715,15 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
           height: rect.height,
           radius: parseFloat(style.borderRadius),
           background: style.backgroundImage,
+          beforeBackground: getComputedStyle(chip, "::before").backgroundImage,
+          beforeWidth: parseFloat(getComputedStyle(chip, "::before").width),
           overflows: chip.scrollWidth > Math.ceil(rect.width) + 1 || chip.scrollHeight > Math.ceil(rect.height) + 1
         };
       }),
       cardRadius: cardStyle ? parseFloat(cardStyle.borderRadius) : 0,
       cardBackground: cardStyle?.backgroundImage || "",
+      cardBeforeHeight: cardBefore ? parseFloat(cardBefore.height) : 0,
+      cardBeforeBackground: cardBefore?.backgroundImage || "",
       overlayBackground: overlayStyle.backgroundImage || "",
       ctaBackground: ctaStyle?.backgroundImage || ""
     };
@@ -732,8 +737,10 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
     metrics.artHeight < 180 ||
     metrics.ctaHeight < 50 ||
     metrics.factCount !== 2 ||
-    metrics.factChips.some((chip) => !chip.text || chip.width < 90 || chip.height < 32 || chip.radius < 12 || !chip.background.includes("linear-gradient") || chip.overflows) ||
+    metrics.factChips.some((chip) => !chip.text || chip.width < 90 || chip.height < 32 || chip.radius < 12 || chip.beforeWidth < 10 || !chip.background.includes("linear-gradient") || !chip.beforeBackground.includes("linear-gradient") || chip.overflows) ||
     metrics.cardRadius < 16 ||
+    metrics.cardBeforeHeight < 8 ||
+    !metrics.cardBeforeBackground.includes("linear-gradient") ||
     !metrics.cardBackground.includes("linear-gradient") ||
     !metrics.overlayBackground.includes("radial-gradient") ||
     !metrics.ctaBackground.includes("linear-gradient")
