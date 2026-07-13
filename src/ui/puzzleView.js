@@ -276,6 +276,13 @@ function createControlLabel(label) {
   return text;
 }
 
+function countSolutionFilledCells(solution) {
+  return solution.reduce((total, row) => {
+    const cells = Array.isArray(row) ? row : String(row).split("");
+    return total + cells.filter((cell) => cell === 1 || cell === "1" || cell === true).length;
+  }, 0);
+}
+
 function createProgressLine(state, puzzle) {
   const line = document.createElement("p");
   line.className = "progress-line";
@@ -295,11 +302,12 @@ function createProgressLine(state, puzzle) {
   }
 
   const filledCount = state.cells.flat().filter((cell) => cell === "filled").length;
+  const targetCount = countSolutionFilledCells(puzzle.solution);
   const mistakes = countMistakes(state, puzzle.solution);
   line.classList.toggle("warning", mistakes > 0);
   text.textContent = mistakes > 0
-    ? t("progress.revisit", { count: filledCount, mistakes })
-    : t("progress.filled", { count: filledCount });
+    ? t("progress.revisitOf", { count: filledCount, target: targetCount, mistakes })
+    : t("progress.filledOf", { count: filledCount, target: targetCount });
   line.append(mark, text);
   return line;
 }

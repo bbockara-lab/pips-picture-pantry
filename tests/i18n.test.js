@@ -39,6 +39,8 @@ describe("i18n", () => {
 
   it("formats translated strings", () => {
     expect(t("progress.filled", { count: 3 })).toBe("3 filled");
+    expect(t("progress.filledOf", { count: 3, target: 12 })).toBe("3/12 colored");
+    expect(t("progress.revisitOf", { count: 5, target: 12, mistakes: 1 })).toBe("5/12 colored - 1 to revisit");
     expect(t("controls.fill")).toBe("Color");
     expect(t("controls.mark")).toBe("Blank Check");
     expect(t("controls.undo")).toBe("Undo last move");

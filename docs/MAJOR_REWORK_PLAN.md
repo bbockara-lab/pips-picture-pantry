@@ -1374,3 +1374,8 @@ Immediate implementation decisions:
 - Continued the user-friendly 12x12+ puzzle work by making cursor play feel deliberate and game-like instead of like temporary debug controls.
 - This supports the Meow Tower benchmark direction: clear affordances, large touch targets, and immediate guidance for big-board solving.
 - Protected the visual contract in mobile QA so later art and layout passes do not erase the control pad polish.
+
+### v0.1.308 - Puzzle Progress Target Count
+- Updated the in-play progress chip to show colored cells against the puzzle's actual solution target, so larger boards communicate progress as `count/target` instead of a loose filled-cell count.
+- Kept mistake warnings visible in the same chip, now framed as target progress plus cells to revisit.
+- Added i18n and mobile QA coverage so future UI passes preserve the target-count progress cue on compact play surfaces.

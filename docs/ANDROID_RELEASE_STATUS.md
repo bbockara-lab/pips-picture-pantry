@@ -1558,3 +1558,8 @@ Last updated: 2026-06-28
 ## Verification Update - 2026-07-12 v0.1.307 Large Board Cursor Pad Polish
 - Added tactile large-board cursor pad styling and a row/column position chip while preserving puzzle logic and hint economy behavior.
 - Verification passed: syntax checks, full Vitest (89 tests), hygiene/catalog/assets QA, production build, HTTP 200 smoke, and mobile QA 360/390/430 all passed.
+
+## Verification Update - 2026-07-12 v0.1.308 Puzzle Progress Target Count
+- Puzzle progress chips now show colored cells against the actual solution target, keeping mistake warnings in the same compact play surface.
+- Android bundle generation remains paused during the local rework; next handoff should include this large-board progress clarity after full local QA passes.
+- Verification passed: syntax checks, full Vitest (89 tests), hygiene/catalog/assets QA, production build, HTTP 200 smoke, and mobile QA 360/390/430 all passed.

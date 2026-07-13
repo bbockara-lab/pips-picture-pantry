@@ -268,7 +268,9 @@ export const en = {
   },
   progress: {
     filled: "{count} filled",
+    filledOf: "{count}/{target} colored",
     revisit: "{count} filled - {mistakes} to revisit",
+    revisitOf: "{count}/{target} colored - {mistakes} to revisit",
     complete: "Card complete"
   },
   completion: {

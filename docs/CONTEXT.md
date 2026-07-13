@@ -2313,3 +2313,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Upgraded the large-board cursor controls from a plain helper block into a tactile game-pad surface with a current row/column chip, larger directional buttons, and separate Color/Blank action buttons.
 - Kept all puzzle state, undo, drag painting, hint economy, and completed-line guidance behavior unchanged.
 - Mobile QA now guards the cursor pad's gradient treatment, button sizes, labels, position chip, and overflow behavior.
+
+### v0.1.308 - Puzzle Progress Target Count
+- Updated the in-play progress chip to show colored cells against the puzzle's actual solution target, so larger boards communicate progress as `count/target` instead of a loose filled-cell count.
+- Kept mistake warnings visible in the same chip, now framed as target progress plus cells to revisit.
+- Added i18n and mobile QA coverage so future UI passes preserve the target-count progress cue on compact play surfaces.
