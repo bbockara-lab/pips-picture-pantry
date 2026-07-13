@@ -2398,3 +2398,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added a subtle reward ribbon, fact-chip tokens, and a warmer tactile CTA treatment to the stage-complete overlay so stage completion feels more like a crafted reward moment.
 - Kept stage completion detection, spoon bonuses, pack badge logic, and dismissal behavior unchanged; this is a presentation and QA guard pass.
 - Extended mobile QA to guard the reward-card pseudo-element, fact-token artwork, CTA gradient, dimensions, and overflow behavior.
+
+### v0.1.325 - Safe Blank Suggestion Art Polish
+- Reworked completed-line safe blank suggestions so the X mark is drawn as layered CSS artwork rather than raw text, keeping the board friendlier and more premium during guided play.
+- Kept all completed-line guidance logic, drag painting, hints, undo, cursor controls, and puzzle state behavior unchanged; this is a presentation and regression-guard pass.
+- Extended mobile QA to guard the safe-X pseudo-element layers, transparency, shadow, dimensions, and filter treatment so future board polish preserves the handcrafted symbol language.

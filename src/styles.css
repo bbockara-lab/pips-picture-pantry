@@ -6230,16 +6230,36 @@ img {
   position: relative;
   outline: 2px dashed rgba(72, 138, 122, 0.34);
   outline-offset: -5px;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.74);
+  color: transparent;
+  text-shadow: none;
 }
 
+.puzzle-cell.safe-suggestion::before,
 .puzzle-cell.safe-suggestion::after {
   content: "";
   position: absolute;
-  inset: 5px;
-  border-radius: 5px;
-  background: rgba(168, 216, 194, 0.12);
   pointer-events: none;
+}
+
+.puzzle-cell.safe-suggestion::before {
+  inset: 7px;
+  border-radius: 6px;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.86), transparent 34%),
+    linear-gradient(135deg, rgba(168, 216, 194, 0.2), rgba(255, 248, 232, 0.52));
+  box-shadow: inset 0 0 0 1px rgba(72, 138, 122, 0.16);
+}
+
+.puzzle-cell.safe-suggestion::after {
+  inset: 50% auto auto 50%;
+  width: min(64%, 20px);
+  height: min(64%, 20px);
+  border-radius: 6px;
+  background:
+    linear-gradient(45deg, transparent 39%, rgba(72, 92, 86, 0.68) 42%, rgba(72, 92, 86, 0.68) 58%, transparent 61%),
+    linear-gradient(135deg, transparent 39%, rgba(72, 92, 86, 0.68) 42%, rgba(72, 92, 86, 0.68) 58%, transparent 61%);
+  transform: translate(-50%, -50%) rotate(-4deg);
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.78));
 }
 
 /* v0.1.298 puzzle control icon polish */

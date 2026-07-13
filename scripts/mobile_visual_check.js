@@ -1517,12 +1517,20 @@ async function expectCompletedLineGuidance(page, viewportName) {
     const progressBadgeRect = progressBadge?.getBoundingClientRect();
     const readStyle = (el) => {
       const style = el ? getComputedStyle(el) : null;
+      const before = el ? getComputedStyle(el, "::before") : null;
+      const after = el ? getComputedStyle(el, "::after") : null;
       return {
         background: style?.backgroundImage || "",
         boxShadow: style?.boxShadow || "",
         borderStyle: style?.borderStyle || "",
         outlineStyle: style?.outlineStyle || "",
-        color: style?.color || ""
+        color: style?.color || "",
+        beforeBackground: before?.backgroundImage || "",
+        beforeBoxShadow: before?.boxShadow || "",
+        afterBackground: after?.backgroundImage || "",
+        afterFilter: after?.filter || "",
+        afterWidth: parseFloat(after?.width) || 0,
+        afterHeight: parseFloat(after?.height) || 0
       };
     };
     const lockedLeakCount = document.querySelectorAll(".board-wrap.locked .line-complete, .board-wrap.locked .safe-suggestion, .board-wrap.locked .completed-row, .board-wrap.locked .completed-column").length;
@@ -1550,6 +1558,13 @@ async function expectCompletedLineGuidance(page, viewportName) {
     metrics.safeCellStyle.borderStyle !== "dashed" ||
     metrics.safeCellStyle.outlineStyle !== "dashed" ||
     !metrics.safeCellStyle.background.includes("gradient") ||
+    metrics.safeCellStyle.color !== "rgba(0, 0, 0, 0)" ||
+    !metrics.safeCellStyle.beforeBackground.includes("gradient") ||
+    metrics.safeCellStyle.beforeBoxShadow === "none" ||
+    !metrics.safeCellStyle.afterBackground.includes("gradient") ||
+    metrics.safeCellStyle.afterFilter === "none" ||
+    metrics.safeCellStyle.afterWidth < 8 ||
+    metrics.safeCellStyle.afterHeight < 8 ||
     !metrics.progressBadgeText ||
     metrics.progressBadgeWidth < 28 ||
     metrics.progressBadgeHeight < 18 ||
