@@ -1084,11 +1084,57 @@ async function openFloatingView(page, view, viewportName = view) {
     const coachMetrics = await page.locator(".time-attack-coach-card").first().evaluate((card) => {
       const rect = card.getBoundingClientRect();
       const style = getComputedStyle(card);
-    const cardBefore = getComputedStyle(card, "::before");
-      const chips = card.querySelectorAll(".time-attack-coach-card__chips li").length;
-      return { width: rect.width, height: rect.height, radius: parseFloat(style.borderRadius), background: style.backgroundImage, chips };
+      const cardBefore = getComputedStyle(card, "::before");
+      const cardAfter = getComputedStyle(card, "::after");
+      const pip = card.querySelector(".time-attack-coach-card__pip");
+      const pipRect = pip?.getBoundingClientRect() || { width: 0, height: 0 };
+      const pipStyle = pip ? getComputedStyle(pip) : null;
+      const chips = Array.from(card.querySelectorAll(".time-attack-coach-card__chips li")).map((chip) => {
+        const chipRect = chip.getBoundingClientRect();
+        const chipStyle = getComputedStyle(chip);
+        const tokenStyle = getComputedStyle(chip, "::before");
+        const shineStyle = getComputedStyle(chip, "::after");
+        return {
+          height: chipRect.height,
+          background: chipStyle.backgroundImage,
+          tokenContent: tokenStyle.content,
+          tokenWidth: parseFloat(tokenStyle.width),
+          tokenBackground: tokenStyle.backgroundImage,
+          shineBackground: shineStyle.backgroundImage
+        };
+      });
+      return {
+        width: rect.width,
+        height: rect.height,
+        radius: parseFloat(style.borderRadius),
+        background: style.backgroundImage,
+        shadow: style.boxShadow,
+        topShine: cardBefore.backgroundImage,
+        backToken: cardAfter.backgroundImage,
+        pipWidth: pipRect.width,
+        pipHeight: pipRect.height,
+        pipRadius: pipStyle ? parseFloat(pipStyle.borderRadius) : 0,
+        pipBackground: pipStyle?.backgroundImage || "",
+        pipShadow: pipStyle?.boxShadow || "none",
+        chips
+      };
     });
-    if (coachMetrics.width <= 0 || coachMetrics.height < 96 || coachMetrics.radius < 12 || !coachMetrics.background.includes("linear-gradient") || coachMetrics.chips < 3) {
+    if (
+      coachMetrics.width <= 0 ||
+      coachMetrics.height < 96 ||
+      coachMetrics.radius < 12 ||
+      !coachMetrics.background.includes("linear-gradient") ||
+      coachMetrics.shadow === "none" ||
+      !coachMetrics.topShine.includes("linear-gradient") ||
+      !coachMetrics.backToken.includes("gradient") ||
+      coachMetrics.pipWidth < 62 ||
+      coachMetrics.pipHeight < 62 ||
+      coachMetrics.pipRadius < 18 ||
+      !coachMetrics.pipBackground.includes("gradient") ||
+      coachMetrics.pipShadow === "none" ||
+      coachMetrics.chips.length < 3 ||
+      coachMetrics.chips.some((chip) => chip.height < 26 || !chip.background.includes("gradient") || chip.tokenContent === "none" || chip.tokenWidth < 8 || !chip.tokenBackground.includes("gradient") || !chip.shineBackground.includes("gradient"))
+    ) {
       failures.push("Time Attack coach card lost its Pip/economy guidance treatment: " + JSON.stringify(coachMetrics));
     }
     await expectVisible(page, ".time-attack-ladder", "Time Attack ladder");

@@ -2498,3 +2498,8 @@ v1 Android decision:
 - Strengthened the in-puzzle how-to card so Pip, the speech bubble, clue examples, and action chips read more like a friendly dialogue scene rather than a plain tutorial panel.
 - Kept puzzle logic, hint rules, drag painting, undo, auto marks, and guide copy unchanged; this is a presentation polish and QA guard slice.
 - Extended mobile QA to protect the Pip scene badge, speech-tail gradient, bubble depth, and existing guide-card artwork layers.
+
+### v0.1.342 - Time Attack Coach Dialogue Polish
+- Polished the Time Attack coach card so Pip's mode explanation uses the same sticker-frame, warm speech, shine, and token-chip language as the in-puzzle guide.
+- Kept run selection, countdown, hint economy, records, rewards, and guide copy unchanged; this is a presentation and QA guard slice for the mode entry surface.
+- Extended mobile QA to guard the coach-card shine, backing token, Pip frame, chip token artwork, and chip shine layers.

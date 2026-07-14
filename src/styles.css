@@ -5161,6 +5161,123 @@ img {
   }
 }
 
+
+/* v0.1.342 Time Attack coach dialogue polish */
+.time-attack-coach-card {
+  position: relative;
+  isolation: isolate;
+  border-color: rgba(71, 45, 48, 0.96);
+  background:
+    radial-gradient(circle at 16% 12%, rgba(255, 232, 145, 0.42), transparent 32%),
+    radial-gradient(circle at 95% 0%, rgba(159, 214, 182, 0.42), transparent 34%),
+    linear-gradient(135deg, rgba(178, 229, 205, 0.96) 0%, rgba(255, 247, 222, 0.98) 72%),
+    #fff6df;
+  box-shadow:
+    0 9px 0 rgba(71, 45, 48, 0.14),
+    0 19px 36px rgba(85, 60, 38, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.time-attack-coach-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: -1;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.46), transparent);
+  pointer-events: none;
+}
+
+.time-attack-coach-card::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  top: 16px;
+  z-index: -1;
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78) 0 18%, transparent 19%),
+    linear-gradient(135deg, rgba(244, 199, 85, 0.44), rgba(160, 210, 174, 0.34));
+  opacity: 0.74;
+  pointer-events: none;
+}
+
+.time-attack-coach-card__pip {
+  box-sizing: border-box;
+  border: 2px solid rgba(255, 255, 255, 0.76);
+  border-radius: 22px;
+  padding: 4px;
+  background:
+    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.78) 0 14%, transparent 15%),
+    linear-gradient(145deg, rgba(255, 238, 171, 0.9), rgba(188, 225, 204, 0.76));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 5px 0 rgba(71, 45, 48, 0.12),
+    0 12px 18px rgba(83, 68, 51, 0.1);
+  transform: rotate(-2deg);
+}
+
+.time-attack-coach-card__copy .section-label {
+  width: fit-content;
+  border: 1px solid rgba(141, 90, 54, 0.18);
+  border-radius: 999px;
+  padding: 3px 9px;
+  background: linear-gradient(180deg, rgba(255, 249, 229, 0.96), rgba(244, 221, 174, 0.78));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.time-attack-coach-card__chips li {
+  position: relative;
+  padding-left: 24px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 238, 0.96), rgba(245, 229, 188, 0.82));
+}
+
+.time-attack-coach-card__chips li::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.78) 0 28%, transparent 29%),
+    linear-gradient(135deg, #f4c755, #d98d48);
+  box-shadow: 0 1px 0 rgba(71, 45, 48, 0.14);
+  transform: translateY(-50%);
+}
+
+.time-attack-coach-card__chips li::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0 58%, rgba(255, 255, 255, 0.26) 59% 72%, transparent 73%);
+  pointer-events: none;
+}
+
+@media (max-width: 430px) {
+  .time-attack-coach-card::after {
+    right: 10px;
+    top: 10px;
+    width: 42px;
+    height: 42px;
+  }
+
+  .time-attack-coach-card__chips li {
+    padding-left: 21px;
+  }
+
+  .time-attack-coach-card__chips li::before {
+    left: 8px;
+    width: 8px;
+    height: 8px;
+  }
+}
+
 /* v0.1.243 time attack ladder polish */
 .time-attack-ladder {
   display: grid;
