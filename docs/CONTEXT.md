@@ -2448,3 +2448,28 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Updated the Pip-led how-to card examples so completed-line blanks use the same soft automatic X token players now see on the board.
 - Refined line-completion guide copy to explain that safe blanks are marked automatically only after a line is truly complete.
 - Extended mobile QA and Korean i18n coverage so the guide, auto-mark artwork, and user-facing copy stay aligned.
+
+## IAP / Cozy Pass Status (v1 Android Launch — 2026-07-13)
+
+**현재 상태 (v0.1.336 기준):**
+- `src/game/save.js` `normalizeSave()`에 `cozyPassPurchased: Boolean(...)` 필드 존재 — 데이터 모델만 준비됨
+- `src/data/economyConfig.js`에 `COZY_PASS_SPOON_GRANT: 250` 상수 존재 — 어디서도 사용되지 않음
+- `cozyPassPurchased` 필드를 **읽는** 코드 없음 (스푼 지급, UI 분기 모두 미구현)
+- `pip-lucky-mug` 장식이 `pantryDecorations` 배열에 `rarity: "premium"`으로 존재하지만 `runtimeArt.js` approved 목록에 없어 팬트리 샵에 노출되지 않음
+- Capacitor에 Google Play Billing 플러그인 설치 안 됨
+
+**유저 노출 여부:**
+- `bonus-pack` 팩 5개가 퍼즐 허브에 표시됨 — "Optional add-on" 텍스트 + `disabled` 버튼으로 노출 (기능 없음, 구매 UI 없음)
+- Cozy Pass 구매 버튼은 어디에도 없음
+- Play Store 정책상 disabled 상태의 future placeholder UI는 허용됨 (구매 불가 상태로 표시)
+
+**v1 Android 출시 전 필요한 조치:**
+- 없음 — 현재 상태로 출시 가능. IAP는 v1.1 이후 별도 슬라이스로 구현.
+- Codex: `cozyPassPurchased`, `COZY_PASS_SPOON_GRANT`는 **미구현 예약 필드**로 유지. 실제 IAP 연동 전까지 건드리지 말 것.
+- IAP 구현 시 Google Play Billing Library v7+ (`@capacitor-community/in-app-purchases` 또는 네이티브 플러그인) 설치 필요.
+
+### v0.1.336 - Mobile Safe Area And Save Guard
+- Added body-level overlay safe-area padding so settings, Pip guides, brand intro, and stage-complete reward surfaces stay above Android gesture navigation and iOS home indicators.
+- Reset the safe-suggestion outer border cascade so the board keeps one intentional dashed guide ring instead of showing double dashed X artwork.
+- Hardened restored puzzle state against damaged save payloads by normalizing unknown cell values to empty before Undo or later board logic touches them.
+- Extended mobile QA and puzzle-state tests to guard the overlay safe-area padding, safe-suggestion border reset, and damaged-save recovery path.

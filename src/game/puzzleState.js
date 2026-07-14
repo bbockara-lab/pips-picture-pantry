@@ -210,7 +210,7 @@ export function undoLastMove(state) {
   const cells = cloneCells(state.cells);
   if (Array.isArray(lastMove.cells)) {
     lastMove.cells.forEach((move) => {
-      if (cells[move.row]?.[move.column]) {
+      if (cells[move.row]?.[move.column] !== undefined) {
         cells[move.row][move.column] = move.previous;
       }
     });
@@ -252,11 +252,16 @@ export function restoreState(payload) {
     return null;
   }
 
+  const validCellValues = new Set(Object.values(CELL));
   return {
     puzzleId: parsed.puzzleId,
     mode: parsed.mode === "mark" ? "mark" : "fill",
     cursor: getCursor(parsed),
-    cells: parsed.cells,
+    cells: parsed.cells.map((row) =>
+      Array.isArray(row)
+        ? row.map((cell) => (validCellValues.has(cell) ? cell : CELL.empty))
+        : []
+    ),
     history: Array.isArray(parsed.history) ? parsed.history : [],
     hintsUsed: Math.max(0, Number(parsed.hintsUsed || 0)),
     paidHintsUsed: Math.max(0, Number(parsed.paidHintsUsed || 0)),

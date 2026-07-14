@@ -242,4 +242,44 @@ describe("puzzle state", () => {
     expect(restored.hintsUsed).toBe(1);
     expect(restored.paidHintsUsed).toBe(0);
   });
+
+  it("normalizes unknown or empty cell values to empty when restoring a damaged save", () => {
+    const damaged = JSON.stringify({
+      puzzleId: "test-puzzle",
+      mode: "fill",
+      cursor: { row: 0, column: 0 },
+      cells: [
+        ["filled", "", null],
+        ["marked", "UNKNOWN", undefined],
+        ["empty", "empty", "empty"]
+      ],
+      history: [],
+      hintsUsed: 0,
+      paidHintsUsed: 0,
+      completed: false
+    });
+
+    const restored = restoreState(damaged);
+    expect(restored.cells[0]).toEqual(["filled", "empty", "empty"]);
+    expect(restored.cells[1]).toEqual(["marked", "empty", "empty"]);
+    expect(restored.cells[2]).toEqual(["empty", "empty", "empty"]);
+  });
+
+  it("undoes correctly after restoring a damaged save with normalized cells", () => {
+    const damaged = JSON.stringify({
+      puzzleId: "test-puzzle",
+      mode: "fill",
+      cursor: { row: 0, column: 0 },
+      cells: [["filled", "", "empty"], ["empty", "empty", "empty"], ["empty", "empty", "empty"]],
+      history: [{ row: 0, column: 0, previous: "empty", next: "filled" }],
+      hintsUsed: 0,
+      paidHintsUsed: 0,
+      completed: false
+    });
+
+    let state = restoreState(damaged);
+    state = undoLastMove(state);
+    expect(state.cells[0][0]).toBe("empty");
+    expect(state.history).toHaveLength(0);
+  });
 });

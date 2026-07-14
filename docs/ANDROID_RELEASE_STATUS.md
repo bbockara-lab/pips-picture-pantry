@@ -1,6 +1,29 @@
 # Android Release Status
 
-Last updated: 2026-06-28
+Last updated: 2026-07-13
+
+## Public Launch Checklist (Claude — 2026-07-13)
+
+**versionCode 관리 규칙:**
+- 마지막 Play Console 업로드: versionCode **27** / versionName **"1.0.26"** (v0.1.35, closed testing)
+- v0.1.36 ~ v0.1.336은 AAB 업로드 없이 로컬 전용으로 진행됨
+- 다음 Play Console 업로드(출시 빌드) 전 반드시 `android/app/build.gradle`에서 아래 두 값을 증가시켜야 함:
+  - `versionCode` → **28 이상** (Play Console은 동일/이전 값 업로드 거부)
+  - `versionName` → 공개 출시에 맞는 값 (예: "1.1.0" 또는 "1.0.0" — 현재 "1.0.26"은 내부 테스트 버전 느낌이므로 재검토 권장)
+- `package.json` / `src/data/appVersion.js`의 버전은 Play Store 버전과 별개로 관리됨 (혼동 주의)
+
+**자동화 여부:** `build.gradle`의 versionCode는 현재 수동 관리. CI 스크립트(`scripts/build_android_release_bundle.ps1`)에서 자동 증분하지 않음. 출시 직전 수동으로 올릴 것.
+
+**출시 전 최소 패치 (Codex):**
+```gradle
+// android/app/build.gradle defaultConfig
+versionCode 28          // ← 27에서 증가 (또는 그 이상)
+versionName "1.1.0"    // ← 공개 출시용으로 재검토
+```
+
+**검증 방법:** 빌드 후 Play Console 업로드 전 `bundle-tool validate` 또는 Play Console 내부 테스트 트랙에 업로드해 버전 충돌 메시지가 없는지 확인.
+
+---
 
 ## Current State
 

@@ -155,6 +155,7 @@ async function dismissGuideIfPresent(page, viewportName) {
 
 async function expectGuideDialogChromeArt(page, viewportName) {
   const guideMetrics = await page.locator(".guide-dialog").first().evaluate((dialog) => {
+    const overlay = document.querySelector(".guide-overlay");
     const rect = dialog.getBoundingClientRect();
     const art = dialog.querySelector(".guide-dialog__art");
     const image = dialog.querySelector(".guide-dialog__art img");
@@ -166,6 +167,7 @@ async function expectGuideDialogChromeArt(page, viewportName) {
     const imageStyle = image ? getComputedStyle(image) : null;
     const bubbleStyle = bubble ? getComputedStyle(bubble) : null;
     const bubbleAfter = bubble ? getComputedStyle(bubble, "::after") : null;
+    const overlayStyle = overlay ? getComputedStyle(overlay) : null;
     return {
       width: rect.width,
       height: rect.height,
@@ -182,6 +184,7 @@ async function expectGuideDialogChromeArt(page, viewportName) {
       bubbleRadius: bubbleStyle ? parseFloat(bubbleStyle.borderRadius) : 0,
       bubbleShadow: bubbleStyle?.boxShadow || "",
       bubbleAccentBackground: bubbleAfter?.backgroundImage || "",
+      overlayPaddingBottom: overlayStyle ? parseFloat(overlayStyle.paddingBottom) : 0,
       overflows: dialog.scrollWidth > Math.ceil(rect.width) + 1 || dialog.scrollHeight > Math.ceil(rect.height) + 1
     };
   });
@@ -198,6 +201,7 @@ async function expectGuideDialogChromeArt(page, viewportName) {
     !guideMetrics.bubbleBackground.includes("gradient") ||
     guideMetrics.bubbleRadius < 16 ||
     guideMetrics.bubbleShadow === "none" ||
+    guideMetrics.overlayPaddingBottom < 18 ||
     guideMetrics.overflows
   ) {
     failures.push("[" + viewportName + "] Guide dialog lost current Pip chrome art treatment: " + JSON.stringify(guideMetrics));
@@ -288,6 +292,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
   await expectVisible(page, ".settings-dialog", viewportName);
   const viewport = page.viewportSize() || { height: 844 };
   const metrics = await page.evaluate(() => {
+    const backdrop = document.querySelector(".modal-backdrop");
     const dialog = document.querySelector(".settings-dialog");
     const dialogRect = dialog?.getBoundingClientRect();
     const overflowItems = [...document.querySelectorAll(".settings-dialog button, .settings-dialog input")]
@@ -299,6 +304,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
       .map((el) => el.textContent || el.getAttribute("aria-label") || el.className);
     return {
       height: dialogRect?.height || 0,
+      backdropPaddingBottom: backdrop ? parseFloat(getComputedStyle(backdrop).paddingBottom) : 0,
       overflowItems,
       settingsPolish: (() => {
         const active = document.querySelector(".settings-dialog .language-option.active");
@@ -338,6 +344,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
   });
   if (
     metrics.height > viewport.height - 24 ||
+    metrics.backdropPaddingBottom < 18 ||
     metrics.overflowItems.length ||
     metrics.settingsPolish.dialogRadius < 16 ||
     !metrics.settingsPolish.dialogBackground.includes("linear-gradient") ||
@@ -796,6 +803,7 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
       cardBeforeHeight: cardBefore ? parseFloat(cardBefore.height) : 0,
       cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore?.backgroundImage || "" : "",
       overlayBackground: overlayStyle.backgroundImage || "",
+      overlayPaddingBottom: parseFloat(overlayStyle.paddingBottom) || 0,
       ctaBackground: ctaStyle?.backgroundImage || ""
     };
     overlay.remove();
@@ -814,6 +822,7 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
     !metrics.cardBeforeBackground.includes("linear-gradient") ||
     !metrics.cardBackground.includes("linear-gradient") ||
     !metrics.overlayBackground.includes("radial-gradient") ||
+    metrics.overlayPaddingBottom < 22 ||
     !metrics.ctaBackground.includes("linear-gradient")
   ) {
     failures.push("[" + viewportName + "] Stage-complete reward polish regression: " + JSON.stringify(metrics));
@@ -1760,6 +1769,9 @@ async function expectCompletedLineGuidance(page, viewportName) {
     const firstRowGlow = document.querySelectorAll(".puzzle-cell.completed-row").length;
     const rowClue = document.querySelector(".row-clue.line-complete span");
     const safeCell = document.querySelector(".puzzle-cell.completed-row.marked");
+    const safeSuggestion = document.createElement("button");
+    safeSuggestion.className = "puzzle-cell safe-suggestion";
+    document.body.appendChild(safeSuggestion);
     const glowCell = document.querySelector(".puzzle-cell.completed-row");
     const progressBadge = document.querySelector(".progress-line__badge");
     const progressBadgeStyle = progressBadge ? getComputedStyle(progressBadge) : null;
@@ -1784,6 +1796,8 @@ async function expectCompletedLineGuidance(page, viewportName) {
         afterHeight: parseFloat(after?.height) || 0
       };
     };
+    const safeSuggestionStyle = readStyle(safeSuggestion);
+    safeSuggestion.remove();
     const lockedLeakCount = document.querySelectorAll(".board-wrap.locked .line-complete, .board-wrap.locked .safe-suggestion, .board-wrap.locked .completed-row, .board-wrap.locked .completed-column").length;
     return {
       rowCompleteCount,
@@ -1791,6 +1805,7 @@ async function expectCompletedLineGuidance(page, viewportName) {
       firstRowGlow,
       rowClueStyle: readStyle(rowClue),
       safeCellStyle: readStyle(safeCell),
+      safeSuggestionStyle,
       glowCellStyle: readStyle(glowCell),
       progressBadgeText: (progressBadge?.textContent || "").trim(),
       progressBadgeWidth: progressBadgeRect?.width || 0,
@@ -1811,6 +1826,8 @@ async function expectCompletedLineGuidance(page, viewportName) {
     metrics.glowCellStyle.boxShadow === "none" ||
     metrics.safeCellStyle.borderStyle !== "dashed" ||
     metrics.safeCellStyle.outlineStyle !== "dashed" ||
+    metrics.safeSuggestionStyle.borderStyle !== "solid" ||
+    metrics.safeSuggestionStyle.outlineStyle !== "dashed" ||
     !metrics.safeCellStyle.background.includes("gradient") ||
     metrics.safeCellStyle.color !== "rgba(0, 0, 0, 0)" ||
     !metrics.safeCellStyle.beforeBackground.includes("gradient") ||

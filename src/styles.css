@@ -7751,3 +7751,26 @@ img {
   filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.62));
   transform: translate(-50%, -50%) rotate(-4deg);
 }
+
+/* v0.1.336 Android gesture-nav safe-area guard for fixed overlays */
+/* viewport-fit=cover is set in index.html; these overlays are appended to document.body
+   and do not inherit the app-shell safe-area padding. Adding env(safe-area-inset-bottom)
+   as extra bottom padding shifts the centered content up above the gesture bar. */
+.modal-backdrop,
+.brand-intro,
+.guide-overlay {
+  padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+}
+
+.stage-complete-overlay {
+  padding-bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+}
+
+/* v0.1.336 safe-suggestion border cascade fix */
+/* An earlier block (src/styles.css ~5874) sets border-style:dashed on .safe-suggestion.
+   The current artwork block uses outline for the dashed ring instead. Without this reset,
+   cells show both a dashed outer border AND a dashed inner outline ring simultaneously. */
+.puzzle-cell.safe-suggestion {
+  border-style: solid;
+  border-color: rgba(61, 43, 46, 0.38);
+}
