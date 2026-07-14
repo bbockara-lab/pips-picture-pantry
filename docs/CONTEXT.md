@@ -2431,3 +2431,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Polished the in-puzzle Pip how-to card so Pip, the speech bubble, clue examples, and action chips read more like a cohesive Sunny Spoon sticker guide instead of a plain instruction panel.
 - Kept guide copy, puzzle logic, drag painting, hints, undo, and completed-line behavior unchanged; this is a visual polish and guard pass.
 - Extended mobile QA to protect the guide card shine layer, Pip sticker frame, speech-bubble accent, clue-row shine, and action-chip marker layers.
+### v0.1.332 - Floating Nav Token Polish
+- Polished the floating navigation trigger and active menu items with shine, arrow, and small token layers so view switching feels like part of the Sunny Spoon HUD rather than a utility dropdown.
+- Kept navigation behavior, active-view selection, labels, and route callbacks unchanged; this is a presentation and QA guard pass.
+- Extended mobile QA to protect the floating nav open state, trigger shine, arrow treatment, active-item token, padding, bounds, and panel gradients.

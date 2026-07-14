@@ -7543,3 +7543,79 @@ img {
   transform: translateY(-50%);
   box-shadow: 0 1px 0 rgba(71, 45, 48, 0.12);
 }
+/* v0.1.332 Floating Nav Token Polish */
+.floating-nav__trigger,
+.floating-nav__item {
+  position: relative;
+  overflow: hidden;
+}
+
+.floating-nav__trigger::before,
+.floating-nav__item::before {
+  content: "";
+  position: absolute;
+  inset: 4px 5px auto;
+  height: 34%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.52), transparent);
+  pointer-events: none;
+}
+
+.floating-nav__trigger::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  border-right: 2px solid rgba(75, 48, 54, 0.72);
+  border-bottom: 2px solid rgba(75, 48, 54, 0.72);
+  transform: translateY(-64%) rotate(45deg);
+  transition: transform 120ms ease;
+  pointer-events: none;
+}
+
+.floating-nav[data-open="true"] .floating-nav__trigger::after {
+  transform: translateY(-36%) rotate(225deg);
+}
+
+.floating-nav__item::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.72) 0 26%, transparent 27%),
+    linear-gradient(135deg, rgba(244, 199, 85, 0.76), rgba(148, 197, 158, 0.64));
+  opacity: 0.68;
+  transform: translateY(-50%);
+  box-shadow: 0 1px 0 rgba(61, 43, 46, 0.12);
+  pointer-events: none;
+}
+
+.floating-nav__item {
+  padding-left: 24px;
+}
+
+.floating-nav__item.active::after {
+  width: 10px;
+  height: 10px;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.78) 0 24%, transparent 25%),
+    linear-gradient(135deg, #f4c755, #d98d48);
+  opacity: 1;
+}
+
+@media (max-width: 390px) {
+  .floating-nav__trigger::after {
+    right: 10px;
+  }
+
+  .floating-nav__item {
+    padding-left: 22px;
+  }
+}

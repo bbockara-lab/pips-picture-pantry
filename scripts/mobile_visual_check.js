@@ -385,19 +385,47 @@ async function expectAppChromePolish(page, viewportName) {
   await trigger.click();
   await page.locator(".floating-nav[data-open='true'] .floating-nav__menu").waitFor({ state: "visible", timeout: 3000 });
   const navMetrics = await page.evaluate(() => {
+    const nav = document.querySelector(".floating-nav");
     const menu = document.querySelector(".floating-nav__menu");
+    const triggerButton = document.querySelector(".floating-nav__trigger");
+    const activeItem = document.querySelector(".floating-nav__item.active");
     const rect = menu?.getBoundingClientRect();
     const style = menu ? getComputedStyle(menu) : null;
+    const triggerBefore = triggerButton ? getComputedStyle(triggerButton, "::before") : null;
+    const triggerAfter = triggerButton ? getComputedStyle(triggerButton, "::after") : null;
+    const activeBefore = activeItem ? getComputedStyle(activeItem, "::before") : null;
+    const activeAfter = activeItem ? getComputedStyle(activeItem, "::after") : null;
     return {
+      open: nav?.dataset.open || "",
       left: rect?.left || 0,
       right: rect?.right || 0,
       width: rect?.width || 0,
       viewportWidth: window.innerWidth,
       borderRadius: style ? parseFloat(style.borderRadius) : 0,
-      backgroundImage: style?.backgroundImage || ""
+      backgroundImage: style?.backgroundImage || "",
+      triggerShine: triggerBefore?.backgroundImage || "",
+      triggerArrow: triggerAfter?.borderBottomWidth || "",
+      triggerArrowTransform: triggerAfter?.transform || "",
+      activeShine: activeBefore?.backgroundImage || "",
+      activeToken: activeAfter?.backgroundImage || "",
+      activeTokenWidth: parseFloat(activeAfter?.width) || 0,
+      activePaddingLeft: activeItem ? parseFloat(getComputedStyle(activeItem).paddingLeft) || 0 : 0
     };
   });
-  if (navMetrics.left < -1 || navMetrics.right > navMetrics.viewportWidth + 1 || navMetrics.borderRadius < 12 || !navMetrics.backgroundImage.includes("linear-gradient")) {
+  if (
+    navMetrics.open !== "true" ||
+    navMetrics.left < -1 ||
+    navMetrics.right > navMetrics.viewportWidth + 1 ||
+    navMetrics.borderRadius < 12 ||
+    !navMetrics.backgroundImage.includes("linear-gradient") ||
+    !navMetrics.triggerShine.includes("gradient") ||
+    navMetrics.triggerArrow === "0px" ||
+    navMetrics.triggerArrowTransform === "none" ||
+    !navMetrics.activeShine.includes("gradient") ||
+    !navMetrics.activeToken.includes("gradient") ||
+    navMetrics.activeTokenWidth < 8 ||
+    navMetrics.activePaddingLeft < 20
+  ) {
     failures.push("[" + viewportName + "] Floating nav panel polish/layout regression: " + JSON.stringify(navMetrics));
   }
   await trigger.click();
