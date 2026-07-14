@@ -2522,3 +2522,8 @@ v1 Android decision:
 ### Source Hygiene Guard Stability - 2026-07-14
 - Converted Korean/release-note mojibake guards to escaped fragment checks so the guard source itself stays stable across PowerShell, GitHub diff, and CI encoding paths.
 - Verified the narrower guard avoids false positives on normal Korean release notes while still preserving launch-risk detection for known corrupted fragments.
+
+### v0.1.344 - Pantry Room Path Chips
+- Bumped the visible app version to v0.1.344 and added a three-chip room path inside the Pantry progress mission card: request count, next puzzle stage, and spoon progress.
+- The intent is to make the first-session economy loop easier to read at a glance: Pip requests are not optional decoration clutter; they are the bridge to the next stage plus the reason to keep earning spoons.
+- Extended mobile QA to require the new path chips and protect their mobile tap-size/readability alongside the existing mission meter and facts.

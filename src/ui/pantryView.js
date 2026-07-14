@@ -481,17 +481,25 @@ function renderPantryProgressMission(completedRequestCount, spoons, nextRequestD
   const body = nextStage
     ? t("pantry.progressMissionBody", { remaining: remainingRequests, stage: t(nextStage.titleKey) })
     : t("pantry.progressMissionCompleteBody", { count: completedRequestCount });
+  const unlockCost = nextStage ? Math.max(0, Number(nextStage.unlockCost || 0)) : 0;
+  const saved = nextStage ? Math.min(unlockCost, Math.max(0, Number(spoons || 0))) : 0;
+  const needed = nextStage ? Math.max(0, unlockCost - saved) : 0;
+  const route = nextStage
+    ? '<div class="pantry-progress-mission__route" aria-label="' + t("pantry.progressMissionRouteAria") + '">'
+      + '<span>' + t("pantry.progressMissionRouteRequests", { count: completedRequestCount, target: nextTarget }) + '</span>'
+      + '<span>' + t("pantry.progressMissionRouteStage", { stage: t(nextStage.titleKey) }) + '</span>'
+      + '<span>' + t("pantry.progressMissionRouteSpoons", { saved, cost: unlockCost }) + '</span>'
+      + '</div>'
+    : "";
 
   mission.innerHTML = ""
     + '<p class="section-label">' + t("pantry.progressMissionEyebrow") + "</p>"
     + "<strong>" + title + "</strong>"
     + "<p>" + body + "</p>"
+    + route
     + '<div class="pantry-progress-mission__meter" aria-hidden="true"><span></span></div>';
 
   if (nextStage) {
-    const unlockCost = Math.max(0, Number(nextStage.unlockCost || 0));
-    const saved = Math.min(unlockCost, Math.max(0, Number(spoons || 0)));
-    const needed = Math.max(0, unlockCost - saved);
     const facts = document.createElement("div");
     facts.className = "pantry-progress-mission__facts";
     facts.innerHTML = ""

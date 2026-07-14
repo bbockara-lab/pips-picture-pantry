@@ -6047,6 +6047,38 @@ img {
   background: linear-gradient(90deg, rgba(154, 207, 181, 0.98), rgba(255, 214, 102, 0.98));
 }
 
+.pantry-progress-mission__route {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.pantry-progress-mission__route span {
+  min-width: 0;
+  min-height: 28px;
+  display: grid;
+  place-items: center;
+  border: 2px solid rgba(78, 48, 54, 0.14);
+  border-radius: 999px;
+  padding: 5px 8px;
+  background:
+    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.82), transparent 28%),
+    linear-gradient(180deg, rgba(255, 252, 241, 0.94), rgba(238, 249, 229, 0.82));
+  color: var(--cocoa);
+  font-size: 0.68rem;
+  font-weight: 950;
+  line-height: 1.1;
+  text-align: center;
+  box-shadow: 0 2px 0 rgba(78, 48, 54, 0.08);
+}
+
+.pantry-progress-mission__route span:nth-child(2) {
+  border-color: rgba(179, 124, 45, 0.28);
+  background:
+    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.84), transparent 30%),
+    linear-gradient(180deg, rgba(255, 229, 151, 0.96), rgba(255, 248, 215, 0.88));
+}
+
 .pantry-progress-mission__facts {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -6065,6 +6097,7 @@ img {
 }
 
 @media (max-width: 430px) {
+  .pantry-progress-mission__route,
   .pantry-progress-mission__facts {
     grid-template-columns: 1fr;
   }

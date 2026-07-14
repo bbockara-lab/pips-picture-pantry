@@ -2129,6 +2129,7 @@ async function verifyPantryPlacement(page, viewportName) {
   await expectVisible(page, ".pantry-earning-action", viewportName);
   await expectVisible(page, ".pantry-progress-board", viewportName);
   await expectVisible(page, ".pantry-progress-mission", viewportName);
+  await expectVisible(page, ".pantry-progress-mission__route span", viewportName);
   await expectVisible(page, ".pantry-progress-mission__meter", viewportName);
   await expectVisible(page, ".pantry-progress-mission__facts span", viewportName);
   await expectVisible(page, ".pantry-progress-mission__action", viewportName);
@@ -2161,12 +2162,16 @@ async function verifyPantryPlacement(page, viewportName) {
   }
 
   const progressMissionText = await page.locator(".pantry-progress-mission").first().innerText();
-  if (!progressMissionText.includes("0/3") || !progressMissionText.includes("Stage spoons") || !progressMissionText.includes("80")) {
+  if (!progressMissionText.includes("0/3") || !progressMissionText.includes("Next:") || !progressMissionText.includes("Stage spoons") || !progressMissionText.includes("80")) {
     failures.push("[" + viewportName + "] Pantry progress mission should link seeded room requests to the next stage spoon gate, saw " + progressMissionText);
   }
   const progressMissionMetrics = await page.locator(".pantry-progress-mission").first().evaluate((card) => {
     const rect = card.getBoundingClientRect();
     const meter = card.querySelector(".pantry-progress-mission__meter span");
+    const route = [...card.querySelectorAll(".pantry-progress-mission__route span")].map((chip) => {
+      const chipRect = chip.getBoundingClientRect();
+      return { width: chipRect.width, height: chipRect.height, text: chip.textContent.trim() };
+    });
     const facts = [...card.querySelectorAll(".pantry-progress-mission__facts span")].map((fact) => {
       const factRect = fact.getBoundingClientRect();
       return { width: factRect.width, height: factRect.height, text: fact.textContent.trim() };
@@ -2174,11 +2179,14 @@ async function verifyPantryPlacement(page, viewportName) {
     return {
       width: rect.width,
       meterWidth: meter ? meter.getBoundingClientRect().width : 0,
+      route,
       facts
     };
   });
   if (
     progressMissionMetrics.width < 180 ||
+    progressMissionMetrics.route.length !== 3 ||
+    progressMissionMetrics.route.some((chip) => chip.width < 72 || chip.height < 24) ||
     progressMissionMetrics.facts.length !== 2 ||
     progressMissionMetrics.facts.some((fact) => fact.width < 120 || fact.height < 24)
   ) {
