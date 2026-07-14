@@ -7088,6 +7088,31 @@ img {
     rgba(255, 250, 232, 0.78);
 }
 
+.mini-cell.auto-mark {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(72, 138, 122, 0.32);
+  outline: 1px dashed rgba(72, 138, 122, 0.36);
+  outline-offset: -3px;
+  background:
+    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.78), transparent 34%),
+    linear-gradient(135deg, rgba(232, 248, 229, 0.95), rgba(255, 250, 232, 0.84));
+}
+
+.mini-cell.auto-mark::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  background:
+    linear-gradient(135deg, transparent 40%, rgba(72, 138, 122, 0.78) 42%, rgba(72, 138, 122, 0.78) 58%, transparent 60%),
+    linear-gradient(45deg, transparent 40%, rgba(72, 138, 122, 0.72) 42%, rgba(72, 138, 122, 0.72) 58%, transparent 60%);
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.72));
+  transform: translate(-50%, -50%) rotate(-4deg);
+}
+
 .clue-caption {
   min-width: 0;
   color: #7a4e35;

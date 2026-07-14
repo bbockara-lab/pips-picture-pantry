@@ -2443,3 +2443,8 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Added solution-safe automatic blank marks after a real completed row or column, so players get the friendly guidance they expect without requiring every likely blank to be tapped one by one.
 - Auto marks are merged into the triggering move history, so one Undo clears the last player action and the automatic X marks together; Undo itself does not regenerate auto marks.
 - Added state tests for correct-line auto marking, wrong-line protection, and grouped Undo behavior.
+
+### v0.1.335 - Auto Mark Guide Polish
+- Updated the Pip-led how-to card examples so completed-line blanks use the same soft automatic X token players now see on the board.
+- Refined line-completion guide copy to explain that safe blanks are marked automatically only after a line is truly complete.
+- Extended mobile QA and Korean i18n coverage so the guide, auto-mark artwork, and user-facing copy stay aligned.

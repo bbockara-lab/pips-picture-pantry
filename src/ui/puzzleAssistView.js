@@ -20,16 +20,16 @@ export function renderHowToPlayCard() {
         <span class="mini-cell filled"></span>
         <span class="mini-cell filled"></span>
         <span class="mini-cell filled"></span>
-        <span class="mini-cell"></span>
-        <span class="mini-cell"></span>
+        <span class="mini-cell auto-mark"></span>
+        <span class="mini-cell auto-mark"></span>
         <span class="clue-caption">${t("howToPlay.clueTogether")}</span>
       </div>
       <div class="clue-guide__row">
         <span class="clue-badge wide">1 1 1</span>
         <span class="mini-cell filled"></span>
-        <span class="mini-cell gap"></span>
+        <span class="mini-cell auto-mark gap"></span>
         <span class="mini-cell filled"></span>
-        <span class="mini-cell gap"></span>
+        <span class="mini-cell auto-mark gap"></span>
         <span class="mini-cell filled"></span>
         <span class="clue-caption">${t("howToPlay.clueApart")}</span>
       </div>

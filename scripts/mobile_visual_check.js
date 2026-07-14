@@ -1369,6 +1369,20 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       clueRows,
       actions,
       miniCells: card.querySelectorAll(".mini-cell").length,
+      autoMarkCells: card.querySelectorAll(".mini-cell.auto-mark").length,
+      autoMarkStyles: [...card.querySelectorAll(".mini-cell.auto-mark")].map((cell) => {
+        const cellStyle = getComputedStyle(cell);
+        const markStyle = getComputedStyle(cell, "::after");
+        return {
+          outlineStyle: cellStyle.outlineStyle,
+          outlineOffset: cellStyle.outlineOffset,
+          background: cellStyle.backgroundImage || "",
+          markContent: markStyle.content || "",
+          markBackground: markStyle.backgroundImage || "",
+          markWidth: parseFloat(markStyle.width) || 0,
+          markHeight: parseFloat(markStyle.height) || 0
+        };
+      }),
       lineHint: card.querySelector(".how-to-play__line-hint")?.textContent.trim() || "",
       clueRowAccentBackground: clueRowAfter?.backgroundImage || "",
       actionAccentContent: actionBefore?.content || "",
@@ -1405,6 +1419,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     howToPlayMetrics.actionAccentContent === "none" ||
     !howToPlayMetrics.actionAccentBackground.includes("gradient") ||
     howToPlayMetrics.miniCells !== 10 ||
+    howToPlayMetrics.autoMarkCells !== 4 ||
+    howToPlayMetrics.autoMarkStyles.some((cell) => cell.outlineStyle !== "dashed" || !cell.background.includes("gradient") || cell.markContent === "none" || !cell.markBackground.includes("gradient") || cell.markWidth < 10 || cell.markHeight < 10) ||
     !howToPlayMetrics.lineHint ||
     howToPlayMetrics.overflows
   ) {

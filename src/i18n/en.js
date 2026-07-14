@@ -243,7 +243,7 @@ export const en = {
     cursorStatusEmpty: "Selected: Empty",
     cursorStatusFilled: "Selected: Colored",
     cursorStatusMarked: "Selected: Blank",
-    lineCompleteHint: "When the highlighted line has enough colored squares, pale X marks show likely blanks.",
+    lineCompleteHint: "When a line is truly complete, soft X marks fill the safe blanks for you.",
     cursorUp: "Move up",
     cursorDown: "Move down",
     cursorLeft: "Move left",
