@@ -2518,3 +2518,7 @@ v1 Android decision:
 - User reported Google Play production access eligibility at 9/14 days complete. Working target is to finish the Android-ready candidate within three development days, then reserve the remaining eligibility window for review, real-device checks, upload, and store-listing cleanup.
 - Repaired the Android release checklist into ASCII-safe release notes so versionCode/versionName rules remain readable before the next AAB upload.
 - Extended source hygiene to guard the Android release status document against common mojibake fragments, treating release-doc readability as a launch-risk item.
+
+### Source Hygiene Guard Stability - 2026-07-14
+- Converted Korean/release-note mojibake guards to escaped fragment checks so the guard source itself stays stable across PowerShell, GitHub diff, and CI encoding paths.
+- Verified the narrower guard avoids false positives on normal Korean release notes while still preserving launch-risk detection for known corrupted fragments.

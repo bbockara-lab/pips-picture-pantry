@@ -30,6 +30,10 @@ function toProjectPath(filePath) {
   return relative(root, filePath).replace(/\\/g, "/");
 }
 
+function containsFragment(source, fragments) {
+  return fragments.some((fragment) => source.includes(fragment));
+}
+
 for (const scanRoot of jsScanRoots) {
   const base = resolve(root, scanRoot);
   const files = collectFiles(base, (filePath) => filePath.endsWith(".js"));
@@ -55,17 +59,21 @@ for (const file of textFiles) {
 
 const koreanSourcePath = "src/i18n/ko.js";
 const koreanSource = readFileSync(resolve(root, koreanSourcePath), "utf8");
-const mojibakeFragments = /[媛뚰ㅽ꾩쒖쇱뫜吏湲異]/;
-if (mojibakeFragments.test(koreanSource)) {
+const koreanMojibakeFragments = [
+  "\u5a9b\ub6b0\u317d\uafa9\uc496\uc1f1\ubadc\uf9de\u6e72\u7570"
+];
+if (containsFragment(koreanSource, koreanMojibakeFragments)) {
   errors.push(`${koreanSourcePath}: Korean copy contains common mojibake fragments`);
 }
 
 
 const releaseDocMojibakeFiles = ["docs/ANDROID_RELEASE_STATUS.md"];
-const releaseDocMojibakeFragments = /[愿洹쒖튃留덉낅줈濡꾩슜吏꾪뻾諛섎뱶嫄곕怨듦컻踰꾩쟾沅뚯옣寃利]/;
+const releaseDocMojibakeFragments = [
+  "\u613f\u6d39\uc496\ud283\uf9cd\ub349\ub085\uc908\u6fe1\uafa9\uc29c\uf9de\uafaa\ubefe\u8adb\uc10e\ubc76\u5ac4\uacd5\u6028\ub4e6\ucefb\u8e30\uafa9\uc7fe\u6c85\ub6af\uc623\u5bc3\u0080\uf9dd"
+];
 for (const file of releaseDocMojibakeFiles) {
   const source = readFileSync(resolve(root, file), "utf8");
-  if (releaseDocMojibakeFragments.test(source)) {
+  if (containsFragment(source, releaseDocMojibakeFragments)) {
     errors.push(`${file}: release notes contain common mojibake fragments`);
   }
 }
