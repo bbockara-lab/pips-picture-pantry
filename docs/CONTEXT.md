@@ -2435,3 +2435,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Polished the floating navigation trigger and active menu items with shine, arrow, and small token layers so view switching feels like part of the Sunny Spoon HUD rather than a utility dropdown.
 - Kept navigation behavior, active-view selection, labels, and route callbacks unchanged; this is a presentation and QA guard pass.
 - Extended mobile QA to protect the floating nav open state, trigger shine, arrow treatment, active-item token, padding, bounds, and panel gradients.
+### v0.1.333 - Header Icon Artwork Polish
+- Replaced the visible text gear/reset glyphs in the main and play headers with CSS-drawn Sunny Spoon icon buttons while keeping the existing accessible labels and click behavior.
+- Kept settings/reset routing unchanged; this is a UI artwork pass for first-impression chrome consistency.
+- Extended mobile QA to guard icon-only header buttons, minimum tap size, gradient button art, settings gear layers, and reset arrow layers.

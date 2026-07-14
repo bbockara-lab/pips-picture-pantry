@@ -57,10 +57,9 @@ export function renderPlayScreen(activePuzzle, options) {
 
   const settingsButton = document.createElement("button");
   settingsButton.type = "button";
-  settingsButton.className = "play-screen__settings icon-button";
+  settingsButton.className = "play-screen__settings icon-button icon-button--settings";
   settingsButton.title = t("header.settings");
   settingsButton.setAttribute("aria-label", t("header.settings"));
-  settingsButton.textContent = "\u2699";
   settingsButton.addEventListener("click", onRequestSettings);
 
   header.append(backButton, title, settingsButton, size);

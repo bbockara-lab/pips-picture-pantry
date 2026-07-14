@@ -367,20 +367,60 @@ async function expectAppChromePolish(page, viewportName) {
   const chromeMetrics = await page.evaluate(() => {
     const topBar = document.querySelector(".top-bar");
     const currency = document.querySelector(".currency-pill");
+    const settings = document.querySelector(".icon-button--settings");
+    const reset = document.querySelector(".icon-button--reset");
     const topBarRect = topBar?.getBoundingClientRect();
     const currencyRect = currency?.getBoundingClientRect();
+    const settingsRect = settings?.getBoundingClientRect();
+    const resetRect = reset?.getBoundingClientRect();
     const style = topBar ? getComputedStyle(topBar) : null;
+    const settingsStyle = settings ? getComputedStyle(settings) : null;
+    const resetStyle = reset ? getComputedStyle(reset) : null;
+    const settingsBefore = settings ? getComputedStyle(settings, "::before") : null;
+    const settingsAfter = settings ? getComputedStyle(settings, "::after") : null;
+    const resetBefore = reset ? getComputedStyle(reset, "::before") : null;
+    const resetAfter = reset ? getComputedStyle(reset, "::after") : null;
     return {
       topBarHeight: topBarRect?.height || 0,
       currencyHeight: currencyRect?.height || 0,
       borderRadius: style ? parseFloat(style.borderRadius) : 0,
-      backgroundImage: style?.backgroundImage || ""
+      backgroundImage: style?.backgroundImage || "",
+      settingsText: (settings?.textContent || "").trim(),
+      resetText: (reset?.textContent || "").trim(),
+      settingsWidth: settingsRect?.width || 0,
+      settingsHeight: settingsRect?.height || 0,
+      resetWidth: resetRect?.width || 0,
+      resetHeight: resetRect?.height || 0,
+      settingsBackground: settingsStyle?.backgroundImage || "",
+      resetBackground: resetStyle?.backgroundImage || "",
+      settingsGearWidth: parseFloat(settingsBefore?.width) || 0,
+      settingsGearBorder: settingsBefore?.borderTopWidth || "",
+      settingsHubWidth: parseFloat(settingsAfter?.width) || 0,
+      resetRingWidth: parseFloat(resetBefore?.width) || 0,
+      resetArrowBorder: resetAfter?.borderLeftWidth || ""
     };
   });
-  if (chromeMetrics.topBarHeight < 68 || chromeMetrics.currencyHeight < 36 || chromeMetrics.borderRadius < 12 || !chromeMetrics.backgroundImage.includes("linear-gradient")) {
-    failures.push("[" + viewportName + "] App chrome lost polished HUD treatment: " + JSON.stringify(chromeMetrics));
+  if (
+    chromeMetrics.topBarHeight < 68 ||
+    chromeMetrics.currencyHeight < 36 ||
+    chromeMetrics.borderRadius < 12 ||
+    !chromeMetrics.backgroundImage.includes("linear-gradient") ||
+    chromeMetrics.settingsText ||
+    chromeMetrics.resetText ||
+    chromeMetrics.settingsWidth < 44 ||
+    chromeMetrics.settingsHeight < 44 ||
+    chromeMetrics.resetWidth < 44 ||
+    chromeMetrics.resetHeight < 44 ||
+    !chromeMetrics.settingsBackground.includes("gradient") ||
+    !chromeMetrics.resetBackground.includes("gradient") ||
+    chromeMetrics.settingsGearWidth < 18 ||
+    chromeMetrics.settingsGearBorder === "0px" ||
+    chromeMetrics.settingsHubWidth < 5 ||
+    chromeMetrics.resetRingWidth < 20 ||
+    chromeMetrics.resetArrowBorder === "0px"
+  ) {
+    failures.push("[" + viewportName + "] App chrome lost polished HUD/icon treatment: " + JSON.stringify(chromeMetrics));
   }
-
   const trigger = page.locator(".floating-nav__trigger").first();
   await trigger.click();
   await page.locator(".floating-nav[data-open='true'] .floating-nav__menu").waitFor({ state: "visible", timeout: 3000 });

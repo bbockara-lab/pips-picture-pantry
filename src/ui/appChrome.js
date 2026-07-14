@@ -25,19 +25,17 @@ export function renderHeader(onSettings, onReset) {
   currency.setAttribute("aria-label", t("currency.spoons", { count: getPantrySpoons() }));
 
   const settingsButton = document.createElement("button");
-  settingsButton.className = "icon-button";
+  settingsButton.className = "icon-button icon-button--settings";
   settingsButton.type = "button";
   settingsButton.title = t("header.settings");
   settingsButton.setAttribute("aria-label", t("header.settings"));
-  settingsButton.textContent = "\u2699";
   settingsButton.addEventListener("click", onSettings);
 
   const resetButton = document.createElement("button");
-  resetButton.className = "icon-button";
+  resetButton.className = "icon-button icon-button--reset";
   resetButton.type = "button";
   resetButton.title = t("header.resetProgress");
   resetButton.setAttribute("aria-label", t("header.resetProgress"));
-  resetButton.textContent = "\u21ba";
   resetButton.addEventListener("click", onReset);
 
   actions.append(currency, settingsButton, resetButton);
