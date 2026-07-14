@@ -7,7 +7,8 @@ const errors = [];
 const jsScanRoots = ["src", "scripts", "tests"];
 const textFiles = [
   "src/styles.css",
-  "package.json"
+  "package.json",
+  "docs/ANDROID_RELEASE_STATUS.md"
 ];
 
 function collectFiles(dir, predicate, files = []) {
@@ -59,6 +60,15 @@ if (mojibakeFragments.test(koreanSource)) {
   errors.push(`${koreanSourcePath}: Korean copy contains common mojibake fragments`);
 }
 
+
+const releaseDocMojibakeFiles = ["docs/ANDROID_RELEASE_STATUS.md"];
+const releaseDocMojibakeFragments = /[愿洹쒖튃留덉낅줈濡꾩슜吏꾪뻾諛섎뱶嫄곕怨듦컻踰꾩쟾沅뚯옣寃利]/;
+for (const file of releaseDocMojibakeFiles) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (releaseDocMojibakeFragments.test(source)) {
+    errors.push(`${file}: release notes contain common mojibake fragments`);
+  }
+}
 const styles = readFileSync(resolve(root, "src/styles.css"), "utf8");
 const staleCssRules = [
   {

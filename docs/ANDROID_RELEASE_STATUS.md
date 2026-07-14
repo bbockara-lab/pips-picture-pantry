@@ -1,27 +1,34 @@
 # Android Release Status
 
-Last updated: 2026-07-13
+Last updated: 2026-07-14
 
-## Public Launch Checklist (Claude — 2026-07-13)
+## Public Launch Checklist (release-safe, 2026-07-14)
 
-**versionCode 관리 규칙:**
-- 마지막 Play Console 업로드: versionCode **27** / versionName **"1.0.26"** (v0.1.35, closed testing)
-- v0.1.36 ~ v0.1.336은 AAB 업로드 없이 로컬 전용으로 진행됨
-- 다음 Play Console 업로드(출시 빌드) 전 반드시 `android/app/build.gradle`에서 아래 두 값을 증가시켜야 함:
-  - `versionCode` → **28 이상** (Play Console은 동일/이전 값 업로드 거부)
-  - `versionName` → 공개 출시에 맞는 값 (예: "1.1.0" 또는 "1.0.0" — 현재 "1.0.26"은 내부 테스트 버전 느낌이므로 재검토 권장)
-- `package.json` / `src/data/appVersion.js`의 버전은 Play Store 버전과 별개로 관리됨 (혼동 주의)
+**versionCode management rule:**
+- Last Play Console upload: versionCode **27** / versionName **"1.0.26"** (v0.1.35, closed testing).
+- v0.1.36 through current local builds have not been uploaded as AABs; they are local/GitHub development versions only.
+- The next Play Console upload must increase `android/app/build.gradle` before building the release bundle:
+  - `versionCode` -> **28 or higher** (Play Console rejects duplicate or lower codes).
+  - `versionName` -> final public-launch label to be chosen at release time. Keep it separate from the web/internal app version in `package.json` and `src/data/appVersion.js`.
 
-**자동화 여부:** `build.gradle`의 versionCode는 현재 수동 관리. CI 스크립트(`scripts/build_android_release_bundle.ps1`)에서 자동 증분하지 않음. 출시 직전 수동으로 올릴 것.
+**Automation status:** `build.gradle` versionCode is still manually managed. `scripts/build_android_release_bundle.ps1` and signed-bundle scripts do not auto-increment it. Update it intentionally right before the next AAB upload.
 
-**출시 전 최소 패치 (Codex):**
+**Minimum release patch example:**
 ```gradle
 // android/app/build.gradle defaultConfig
-versionCode 28          // ← 27에서 증가 (또는 그 이상)
-versionName "1.1.0"    // ← 공개 출시용으로 재검토
+versionCode 28
+versionName "1.1.0" // or the final public launch version name
 ```
 
-**검증 방법:** 빌드 후 Play Console 업로드 전 `bundle-tool validate` 또는 Play Console 내부 테스트 트랙에 업로드해 버전 충돌 메시지가 없는지 확인.
+**Verification method:** after the release build, upload the AAB to the Play Console internal/closed test track and confirm there is no version conflict message. Record the accepted package/version details below before promoting.
+
+---
+
+## Closed Testing Access Window - 2026-07-14
+
+- User reported that Google Play production access eligibility now shows **9 of 14 days complete**.
+- Remaining release work should assume about five eligibility days remain, with a working goal to finish the Android-ready candidate in the next three development days and reserve the final window for review, real-device checks, AAB upload, and store-listing cleanup.
+- Priority order for the three-day push: first-session polish, Pantry purpose/economy clarity, Android/WebView QA, release numbering, signed AAB rebuild, and rollback notes.
 
 ---
 

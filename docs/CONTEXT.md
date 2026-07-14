@@ -2513,3 +2513,8 @@ v1 Android decision:
 - Polished the language, control-mode, and sound setting groups into small framed cards so Settings uses the same warm surface, shine, token, and tactile shadow language as the opening, guide, and Time Attack surfaces.
 - Kept language selection, player-name editing, sound toggles, control-mode selection, and close behavior unchanged; this is a presentation and QA guard slice.
 - Extended mobile QA to guard the three Settings choice cards, their shine layers, and the small choice-token artwork on every language/control/audio option.
+
+### Release Readiness - 2026-07-14 Closed Testing Day 9
+- User reported Google Play production access eligibility at 9/14 days complete. Working target is to finish the Android-ready candidate within three development days, then reserve the remaining eligibility window for review, real-device checks, upload, and store-listing cleanup.
+- Repaired the Android release checklist into ASCII-safe release notes so versionCode/versionName rules remain readable before the next AAB upload.
+- Extended source hygiene to guard the Android release status document against common mojibake fragments, treating release-doc readability as a launch-risk item.
