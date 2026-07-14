@@ -448,7 +448,34 @@ async function expectSettingsDialogPolish(page, viewportName) {
           closeBackground: closeStyle?.backgroundImage || "",
           languageChoiceCount: languageChoices.length,
           controlChoiceCount: controlChoices.length,
-          audioChoiceCount: audioChoices.length
+          audioChoiceCount: audioChoices.length,
+          choiceGroupCards: [
+            document.querySelector(".settings-choice-grid--language"),
+            document.querySelector(".settings-choice-grid--control"),
+            document.querySelector(".audio-options")
+          ].map((group) => {
+            const rect = group?.getBoundingClientRect() || { height: 0 };
+            const style = group ? getComputedStyle(group) : null;
+            const shine = group ? getComputedStyle(group, "::before") : null;
+            return {
+              height: rect.height,
+              radius: style ? parseFloat(style.borderRadius) : 0,
+              background: style?.backgroundImage || "",
+              shadow: style?.boxShadow || "none",
+              shineBackground: shine?.backgroundImage || "",
+              shineHeight: shine ? parseFloat(shine.height) : 0
+            };
+          }),
+          choiceShines: [...languageChoices, ...controlChoices, ...audioChoices].map((choice) => {
+            const shine = getComputedStyle(choice, "::before");
+            const marker = getComputedStyle(choice, "::after");
+            return {
+              shineWidth: parseFloat(shine.width) || 0,
+              shineHeight: parseFloat(shine.height) || 0,
+              shineBackground: shine.backgroundImage || "",
+              markerBackground: marker.backgroundImage || ""
+            };
+          })
         };
       })()
     };
@@ -479,7 +506,11 @@ async function expectSettingsDialogPolish(page, viewportName) {
     !metrics.settingsPolish.closeBackground.includes("linear-gradient") ||
     metrics.settingsPolish.languageChoiceCount !== 3 ||
     metrics.settingsPolish.controlChoiceCount !== 3 ||
-    metrics.settingsPolish.audioChoiceCount !== 2
+    metrics.settingsPolish.audioChoiceCount !== 2 ||
+    metrics.settingsPolish.choiceGroupCards.length !== 3 ||
+    metrics.settingsPolish.choiceGroupCards.some((card) => card.height < 64 || card.radius < 16 || !card.background.includes("gradient") || card.shadow === "none" || !card.shineBackground.includes("gradient") || card.shineHeight < 16) ||
+    metrics.settingsPolish.choiceShines.length !== 8 ||
+    metrics.settingsPolish.choiceShines.some((choice) => choice.shineWidth < 16 || choice.shineHeight < 6 || !choice.shineBackground.includes("gradient") || !choice.markerBackground.includes("gradient"))
   ) {
     failures.push("[" + viewportName + "] Settings dialog polish regression: " + JSON.stringify(metrics));
   }

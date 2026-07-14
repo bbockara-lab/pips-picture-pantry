@@ -4463,6 +4463,79 @@ img {
   border-radius: 14px;
 }
 
+/* v0.1.343 settings choice card vocabulary polish */
+.settings-choice-grid--language,
+.settings-choice-grid--control,
+.audio-options {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid rgba(61, 43, 46, 0.12);
+  border-radius: 18px;
+  padding: 10px;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 0.78) 0 12%, transparent 13%),
+    linear-gradient(135deg, rgba(255, 250, 231, 0.92), rgba(235, 252, 238, 0.76));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.76),
+    0 5px 0 rgba(61, 43, 46, 0.07),
+    0 13px 22px rgba(122, 78, 53, 0.08);
+}
+
+.settings-choice-grid--language::before,
+.settings-choice-grid--control::before,
+.audio-options::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 34%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), transparent);
+  pointer-events: none;
+}
+
+.settings-choice--language,
+.settings-choice--control,
+.settings-choice--audio {
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.settings-choice--language::before,
+.settings-choice--control::before,
+.settings-choice--audio::before {
+  inset: 7px auto auto 10px;
+  width: 18px;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.18));
+}
+
+.settings-choice--language::after,
+.settings-choice--control::after,
+.settings-choice--audio::after {
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.82) 0 22%, transparent 23%),
+    linear-gradient(135deg, rgba(255, 248, 226, 0.96), rgba(239, 214, 171, 0.92));
+}
+
+.settings-choice.active {
+  border-color: rgba(61, 43, 46, 0.72);
+}
+
+.settings-choice.active::after {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 1px 0 rgba(61, 43, 46, 0.12),
+    0 0 0 4px rgba(255, 255, 255, 0.42);
+}
+
+@media (max-width: 380px) {
+  .settings-choice-grid--language,
+  .settings-choice-grid--control,
+  .audio-options {
+    padding: 8px;
+  }
+}
+
 /* v0.1.164 iOS safe-area chrome guard */
 .app-shell {
   padding:

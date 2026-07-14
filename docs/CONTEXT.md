@@ -2503,3 +2503,13 @@ v1 Android decision:
 - Polished the Time Attack coach card so Pip's mode explanation uses the same sticker-frame, warm speech, shine, and token-chip language as the in-puzzle guide.
 - Kept run selection, countdown, hint economy, records, rewards, and guide copy unchanged; this is a presentation and QA guard slice for the mode entry surface.
 - Extended mobile QA to guard the coach-card shine, backing token, Pip frame, chip token artwork, and chip shine layers.
+
+## Sunny Spoon Card UI Vocabulary - Launch Polish
+- Launch-facing cards should share a warm framed surface, one soft top-shine layer, a small sticker/token accent, tactile shadow depth, and a mint or cream active state.
+- UI-only polish should keep behavior stable and add a matching mobile QA guard whenever the visual treatment becomes part of the release expectation.
+- Prefer CSS-native symbols and reusable sticker/token language for controls until a final raster asset exists, so placeholder text or flat utility buttons do not leak into launch surfaces.
+
+### v0.1.343 - Settings Choice Card Vocabulary Polish
+- Polished the language, control-mode, and sound setting groups into small framed cards so Settings uses the same warm surface, shine, token, and tactile shadow language as the opening, guide, and Time Attack surfaces.
+- Kept language selection, player-name editing, sound toggles, control-mode selection, and close behavior unchanged; this is a presentation and QA guard slice.
+- Extended mobile QA to guard the three Settings choice cards, their shine layers, and the small choice-token artwork on every language/control/audio option.
