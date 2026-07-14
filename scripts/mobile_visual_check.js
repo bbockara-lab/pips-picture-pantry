@@ -1740,10 +1740,10 @@ async function expectCompletedLineGuidance(page, viewportName) {
 
   const metrics = await page.evaluate(() => {
     const rowCompleteCount = document.querySelectorAll(".row-clue.line-complete").length;
-    const safeSuggestions = document.querySelectorAll(".puzzle-cell.safe-suggestion").length;
+    const autoMarkedBlanks = document.querySelectorAll(".puzzle-cell.completed-row.marked").length;
     const firstRowGlow = document.querySelectorAll(".puzzle-cell.completed-row").length;
     const rowClue = document.querySelector(".row-clue.line-complete span");
-    const safeCell = document.querySelector(".puzzle-cell.safe-suggestion");
+    const safeCell = document.querySelector(".puzzle-cell.completed-row.marked");
     const glowCell = document.querySelector(".puzzle-cell.completed-row");
     const progressBadge = document.querySelector(".progress-line__badge");
     const progressBadgeStyle = progressBadge ? getComputedStyle(progressBadge) : null;
@@ -1771,7 +1771,7 @@ async function expectCompletedLineGuidance(page, viewportName) {
     const lockedLeakCount = document.querySelectorAll(".board-wrap.locked .line-complete, .board-wrap.locked .safe-suggestion, .board-wrap.locked .completed-row, .board-wrap.locked .completed-column").length;
     return {
       rowCompleteCount,
-      safeSuggestions,
+      autoMarkedBlanks,
       firstRowGlow,
       rowClueStyle: readStyle(rowClue),
       safeCellStyle: readStyle(safeCell),
@@ -1784,7 +1784,7 @@ async function expectCompletedLineGuidance(page, viewportName) {
     };
   });
 
-  if (metrics.rowCompleteCount < 1 || metrics.safeSuggestions < 6 || metrics.firstRowGlow < 12) {
+  if (metrics.rowCompleteCount < 1 || metrics.autoMarkedBlanks < 6 || metrics.firstRowGlow < 12) {
     failures.push("[" + viewportName + "] Completed-line guidance did not appear after finishing the first 12x12 row: " + JSON.stringify(metrics));
   }
   if (
@@ -1810,7 +1810,7 @@ async function expectCompletedLineGuidance(page, viewportName) {
     metrics.progressBadgeHeight < 18 ||
     !metrics.progressBadgeBackground.includes("gradient")
   ) {
-    failures.push("[" + viewportName + "] Completed-line guidance lost polished glow/safe-X treatment: " + JSON.stringify(metrics));
+    failures.push("[" + viewportName + "] Completed-line guidance lost polished glow/auto-X treatment: " + JSON.stringify(metrics));
   }
   if (metrics.lockedLeakCount > 0) {
     failures.push("[" + viewportName + "] Completed-line guidance leaked into a locked board: " + JSON.stringify(metrics));

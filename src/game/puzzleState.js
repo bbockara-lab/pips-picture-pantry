@@ -140,6 +140,58 @@ export function paintCells(state, targets, nextValue) {
     updatedAt: new Date().toISOString()
   };
 }
+export function applyCompletedLineMarks(state, solutionGrid) {
+  const solution = normalizeSolution(solutionGrid);
+  const cells = cloneCells(state.cells);
+  const moves = [];
+  const seen = new Set();
+
+  function addMark(row, column) {
+    const key = `${row}:${column}`;
+    if (seen.has(key) || cells[row]?.[column] !== CELL.empty || solution[row]?.[column]) {
+      return;
+    }
+    seen.add(key);
+    cells[row][column] = CELL.marked;
+    moves.push({ row, column, previous: CELL.empty, next: CELL.marked, autoLineMark: true });
+  }
+
+  solution.forEach((solutionRow, rowIndex) => {
+    if (!hasFilledTarget(solutionRow) || !isLineCorrectlySatisfied(cells[rowIndex] || [], solutionRow)) {
+      return;
+    }
+    solutionRow.forEach((shouldFill, columnIndex) => {
+      if (!shouldFill) {
+        addMark(rowIndex, columnIndex);
+      }
+    });
+  });
+
+  for (let columnIndex = 0; columnIndex < solution.length; columnIndex += 1) {
+    const line = cells.map((row) => row[columnIndex]);
+    const solutionColumn = solution.map((row) => row[columnIndex]);
+    if (!hasFilledTarget(solutionColumn) || !isLineCorrectlySatisfied(line, solutionColumn)) {
+      continue;
+    }
+    solutionColumn.forEach((shouldFill, rowIndex) => {
+      if (!shouldFill) {
+        addMark(rowIndex, columnIndex);
+      }
+    });
+  }
+
+  if (!moves.length) {
+    return state;
+  }
+
+  return {
+    ...state,
+    cells,
+    history: mergeAutoLineMarksIntoHistory(state.history, moves),
+    updatedAt: new Date().toISOString()
+  };
+}
+
 
 export function getNextCellValue(current, mode) {
   if (mode === "mark") {
@@ -255,6 +307,28 @@ function findHintTargets(state, solution, revealCount = 1) {
   return targets;
 }
 
+function hasFilledTarget(solutionLine) {
+  return solutionLine.some(Boolean);
+}
+function mergeAutoLineMarksIntoHistory(history, moves) {
+  const previousHistory = Array.isArray(history) ? history : [];
+  const lastMove = previousHistory[previousHistory.length - 1];
+  if (!lastMove) {
+    return [...previousHistory, { cells: moves, autoLineMarks: true }];
+  }
+
+  const mergedMove = Array.isArray(lastMove.cells)
+    ? { ...lastMove, cells: [...lastMove.cells, ...moves], autoLineMarks: true }
+    : { cells: [lastMove, ...moves], autoLineMarks: true };
+  return [...previousHistory.slice(0, -1), mergedMove];
+}
+
+function isLineCorrectlySatisfied(line, solutionLine) {
+  return solutionLine.every((shouldFill, index) => {
+    const cell = line[index];
+    return shouldFill ? cell === CELL.filled : cell !== CELL.filled;
+  });
+}
 function cloneCells(cells) {
   return cells.map((row) => [...row]);
 }

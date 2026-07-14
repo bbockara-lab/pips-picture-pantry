@@ -1,6 +1,7 @@
 import { countMistakes, isSolved } from "../game/nonogram.js";
 import { createReplayCleanStatus, isReplayClean, updateReplayCleanStatus } from "../game/replayChallenge.js";
 import {
+  applyCompletedLineMarks,
   createPuzzleState,
   paintCells,
   setCursor,
@@ -29,11 +30,13 @@ export function renderPuzzleView(puzzle, options = {}) {
   section.tabIndex = 0;
   section.addEventListener("keydown", handlePuzzleKeydown);
 
-  function update(nextState) {
+  function update(nextState, options = {}) {
     const wasCompleted = state.completed;
+    const shouldAutoMark = !options.skipAutoLineMarks && nextState.cells !== state.cells && !nextState.completed;
+    const resolvedState = shouldAutoMark ? applyCompletedLineMarks(nextState, puzzle.solution) : nextState;
     state = {
-      ...nextState,
-      completed: isSolved(nextState, puzzle.solution) || nextState.completed
+      ...resolvedState,
+      completed: isSolved(resolvedState, puzzle.solution) || resolvedState.completed
     };
     replayCleanStatus = getReplayCleanStatusAfterState(isReplayChallenge, replayCleanStatus, state, puzzle.solution);
     if (!isReplayChallenge) {
@@ -91,7 +94,7 @@ export function renderPuzzleView(puzzle, options = {}) {
       toggleSelectedCell(state, "mark", update);
     } else if (key.toLowerCase() === "z" && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
-      update(undoLastMove(state));
+      update(undoLastMove(state), { skipAutoLineMarks: true });
     }
   }
 
@@ -246,7 +249,7 @@ function createControls(state, update) {
   undoButton.setAttribute("aria-label", t("controls.undo"));
   undoButton.append(createControlIcon("undo"), createControlLabel(t("controls.undo")));
   undoButton.disabled = state.history.length === 0 || state.completed;
-  undoButton.addEventListener("click", () => update(undoLastMove(state)));
+  undoButton.addEventListener("click", () => update(undoLastMove(state), { skipAutoLineMarks: true }));
 
   controls.append(fillButton, markButton, undoButton);
   return controls;

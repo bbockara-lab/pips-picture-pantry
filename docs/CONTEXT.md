@@ -2439,3 +2439,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Replaced the visible text gear/reset glyphs in the main and play headers with CSS-drawn Sunny Spoon icon buttons while keeping the existing accessible labels and click behavior.
 - Kept settings/reset routing unchanged; this is a UI artwork pass for first-impression chrome consistency.
 - Extended mobile QA to guard icon-only header buttons, minimum tap size, gradient button art, settings gear layers, and reset arrow layers.
+### v0.1.334 - Completed Line Auto Marks
+- Added solution-safe automatic blank marks after a real completed row or column, so players get the friendly guidance they expect without requiring every likely blank to be tapped one by one.
+- Auto marks are merged into the triggering move history, so one Undo clears the last player action and the automatic X marks together; Undo itself does not regenerate auto marks.
+- Added state tests for correct-line auto marking, wrong-line protection, and grouped Undo behavior.

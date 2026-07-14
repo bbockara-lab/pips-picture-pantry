@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  applyCompletedLineMarks,
   createPuzzleState,
   moveCursor,
   paintCells,
@@ -174,6 +175,61 @@ describe("puzzle state", () => {
     expect(state.paidHintsUsed).toBe(1);
   });
 
+
+  it("auto-marks blank cells only on correctly completed lines and undoes them with the move", () => {
+    const linePuzzle = { id: "line-mark-puzzle", size: 3 };
+    const solution = [
+      [true, true, false],
+      [false, false, false],
+      [false, false, false]
+    ];
+    let state = createPuzzleState(linePuzzle);
+
+    state = toggleCell(state, 0, 0, "fill");
+    state = toggleCell(state, 0, 1, "fill");
+    state = applyCompletedLineMarks(state, solution);
+
+    expect(state.cells[0]).toEqual(["filled", "filled", "marked"]);
+    expect(state.history[state.history.length - 1].cells).toEqual(expect.arrayContaining([
+      expect.objectContaining({ row: 0, column: 1, next: "filled" }),
+      expect.objectContaining({ row: 0, column: 2, next: "marked", autoLineMark: true })
+    ]));
+
+    state = undoLastMove(state);
+    expect(state.cells[0]).toEqual(["filled", "empty", "empty"]);
+  });
+
+  it("does not auto-mark blanks when the filled cells are in the wrong place", () => {
+    const linePuzzle = { id: "wrong-line-mark-puzzle", size: 3 };
+    const solution = [
+      [true, false, true],
+      [false, false, false],
+      [false, false, false]
+    ];
+    let state = createPuzzleState(linePuzzle);
+
+    state = toggleCell(state, 0, 0, "fill");
+    state = toggleCell(state, 0, 1, "fill");
+    state = applyCompletedLineMarks(state, solution);
+
+    expect(state.cells[0]).toEqual(["filled", "filled", "empty"]);
+  });
+
+  it("does not auto-mark all-blank clue lines at the start of a puzzle", () => {
+    const blankLinePuzzle = { id: "blank-line-puzzle", size: 3 };
+    const solution = [
+      [false, false, false],
+      [false, true, false],
+      [false, false, false]
+    ];
+    let state = createPuzzleState(blankLinePuzzle);
+
+    state = toggleCell(state, 1, 1, "fill");
+    state = applyCompletedLineMarks(state, solution);
+
+    expect(state.cells[0]).toEqual(["empty", "marked", "empty"]);
+    expect(state.cells[2]).toEqual(["empty", "marked", "empty"]);
+  });
   it("serializes and restores state", () => {
     let state = createPuzzleState(puzzle);
     state = toggleCell(state, 2, 2, "fill");
