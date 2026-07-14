@@ -241,13 +241,19 @@ async function expectOpeningIntroPolish(page, viewportName) {
   const buttonMetrics = await page.locator(".brand-intro__skip").first().evaluate((button) => {
     const rect = button.getBoundingClientRect();
     const style = getComputedStyle(button);
+    const shineStyle = getComputedStyle(button, "::before");
     const tokenStyle = getComputedStyle(button, "::after");
     return {
       width: rect.width,
       height: rect.height,
+      borderWidth: parseFloat(style.borderTopWidth),
       borderRadius: parseFloat(style.borderRadius),
       backgroundImage: style.backgroundImage,
       boxShadow: style.boxShadow,
+      overflow: style.overflow,
+      shineContent: shineStyle.content,
+      shineHeight: parseFloat(shineStyle.height),
+      shineBackground: shineStyle.backgroundImage,
       tokenContent: tokenStyle.content,
       tokenWidth: parseFloat(tokenStyle.width),
       tokenHeight: parseFloat(tokenStyle.height),
@@ -255,8 +261,9 @@ async function expectOpeningIntroPolish(page, viewportName) {
       tokenShadow: tokenStyle.boxShadow
     };
   });
-  const hasStartToken = buttonMetrics.tokenContent !== "none" && buttonMetrics.tokenWidth >= 18 && buttonMetrics.tokenHeight >= 18 && buttonMetrics.tokenBackground.includes("linear-gradient") && buttonMetrics.tokenShadow !== "none";
-  if (buttonMetrics.width < 150 || buttonMetrics.height < 54 || buttonMetrics.borderRadius < 14 || !buttonMetrics.backgroundImage.includes("linear-gradient") || buttonMetrics.boxShadow === "none" || !hasStartToken) {
+  const hasStartShine = buttonMetrics.shineContent !== "none" && buttonMetrics.shineHeight >= 10 && buttonMetrics.shineBackground.includes("linear-gradient");
+  const hasStartToken = buttonMetrics.tokenContent !== "none" && buttonMetrics.tokenWidth >= 20 && buttonMetrics.tokenHeight >= 20 && buttonMetrics.tokenBackground.includes("linear-gradient") && buttonMetrics.tokenShadow !== "none";
+  if (buttonMetrics.width < 160 || buttonMetrics.height < 56 || buttonMetrics.borderWidth < 4 || buttonMetrics.borderRadius < 16 || !buttonMetrics.backgroundImage.includes("linear-gradient") || buttonMetrics.boxShadow === "none" || buttonMetrics.overflow !== "hidden" || !hasStartShine || !hasStartToken) {
     failures.push("[" + viewportName + "] Opening start button lost its polished game-button treatment: " + JSON.stringify(buttonMetrics));
   }
   const promiseMetrics = await page.locator(".brand-intro__promise-chip").evaluateAll((chips) => chips.map((chip) => {
