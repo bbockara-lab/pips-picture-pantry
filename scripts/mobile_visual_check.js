@@ -405,6 +405,8 @@ async function expectSettingsDialogPolish(page, viewportName) {
       overflowItems,
       settingsPolish: (() => {
         const active = document.querySelector(".settings-dialog .language-option.active");
+        const playerForm = document.querySelector(".player-form");
+
         const input = document.querySelector(".settings-dialog input");
         const close = document.querySelector(".settings-close");
         const title = document.querySelector(".settings-dialog h2");
@@ -414,6 +416,10 @@ async function expectSettingsDialogPolish(page, viewportName) {
         const audioChoices = [...document.querySelectorAll(".settings-choice--audio")];
         const activeStyle = active ? getComputedStyle(active) : null;
         const dialogStyle = dialog ? getComputedStyle(dialog) : null;
+        const playerFormStyle = playerForm ? getComputedStyle(playerForm) : null;
+
+        const playerFormBefore = playerForm ? getComputedStyle(playerForm, "::before") : null;
+
         const inputStyle = input ? getComputedStyle(input) : null;
         const closeStyle = close ? getComputedStyle(close) : null;
         const titleBefore = title ? getComputedStyle(title, "::before") : null;
@@ -426,6 +432,14 @@ async function expectSettingsDialogPolish(page, viewportName) {
           activeHeight: active?.getBoundingClientRect().height || 0,
           activeBackground: activeStyle?.backgroundImage || "",
           activeMarkerBackground: activeAfter?.backgroundImage || "",
+
+          playerFormRadius: playerFormStyle ? parseFloat(playerFormStyle.borderRadius) : 0,
+
+          playerFormBackground: playerFormStyle?.backgroundImage || "",
+
+          playerFormShadow: playerFormStyle?.boxShadow || "none",
+
+          playerFormBadgeWidth: playerFormBefore ? parseFloat(playerFormBefore.width) : 0,
           inputHeight: input?.getBoundingClientRect().height || 0,
           inputRadius: inputStyle ? parseFloat(inputStyle.borderRadius) : 0,
           saveHeight: save?.getBoundingClientRect().height || 0,
@@ -449,6 +463,14 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.activeHeight < 48 ||
     !metrics.settingsPolish.activeBackground.includes("linear-gradient") ||
     !metrics.settingsPolish.activeMarkerBackground.includes("radial-gradient") ||
+
+    metrics.settingsPolish.playerFormRadius < 16 ||
+
+    !metrics.settingsPolish.playerFormBackground.includes("linear-gradient") ||
+
+    metrics.settingsPolish.playerFormShadow === "none" ||
+
+    metrics.settingsPolish.playerFormBadgeWidth < 20 ||
     metrics.settingsPolish.inputHeight < 42 ||
     metrics.settingsPolish.inputRadius < 8 ||
     metrics.settingsPolish.saveHeight < 48 ||

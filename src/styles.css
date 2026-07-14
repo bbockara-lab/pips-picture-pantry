@@ -4409,6 +4409,60 @@ img {
   }
 }
 
+/* v0.1.340 settings player name card polish */
+.player-form {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(61, 43, 46, 0.18);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 10% 12%, rgba(255, 255, 255, 0.74) 0 8%, transparent 9%),
+    linear-gradient(135deg, rgba(255, 252, 241, 0.9), rgba(238, 253, 239, 0.82));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.82),
+    0 5px 0 rgba(61, 43, 46, 0.07),
+    0 12px 22px rgba(122, 78, 53, 0.08);
+}
+
+.player-form::before {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(61, 43, 46, 0.18);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.78) 0 18%, transparent 19%),
+    linear-gradient(135deg, #ffe278, #d99b39);
+  box-shadow:
+    inset 0 -2px 0 rgba(122, 78, 53, 0.2),
+    0 3px 0 rgba(61, 43, 46, 0.1);
+  pointer-events: none;
+}
+
+.player-form input {
+  border-width: 3px;
+  border-color: rgba(61, 43, 46, 0.28);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.82) 0 8%, transparent 9%),
+    linear-gradient(180deg, rgba(255, 255, 252, 0.99), rgba(255, 246, 222, 0.97));
+  box-shadow:
+    inset 0 3px 7px rgba(61, 43, 46, 0.08),
+    0 3px 0 rgba(61, 43, 46, 0.08);
+}
+
+.player-form input:focus-visible {
+  outline: 3px solid rgba(104, 160, 128, 0.42);
+  outline-offset: 2px;
+}
+
+.player-form .settings-choice--save {
+  border-radius: 14px;
+}
+
 /* v0.1.164 iOS safe-area chrome guard */
 .app-shell {
   padding:
