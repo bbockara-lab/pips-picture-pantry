@@ -2451,7 +2451,7 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 
 ## IAP / Cozy Pass Status (v1 Android Launch - 2026-07-13)
 
-Current state (v0.1.338):
+Current state (v0.1.339):
 - `src/game/save.js` keeps `cozyPassPurchased: Boolean(...)` only as a reserved data field.
 - `src/data/economyConfig.js` defines `COZY_PASS_SPOON_GRANT: 250`, but no runtime flow reads it yet.
 - No code currently reads `cozyPassPurchased` for spoon grants or UI branching.
@@ -2485,3 +2485,7 @@ v1 Android decision:
 - Repaired Korean opening copy for the Season 0 launch note and promise chips, using Unicode escapes to prevent Windows console encoding from reintroducing mojibake.
 - Extended mobile QA to inspect the player-name form card, input, label, shine layer, and continue button before filling the name.
 - Added i18n regression assertions for Korean opening copy so the launch note and three promise chips remain readable.
+### v0.1.339 - Pip-Led Player Name Invitation
+- Added a small Pip cue to the first-run player-name step so the name request feels like an in-world invitation instead of a plain form.
+- Styled the cue with the existing Pip chrome art, a warm speech-card treatment, and a small tail without introducing a new asset.
+- Extended mobile QA to verify the Pip cue text, image size, card gradient, shadow, tail, and responsive width before dismissing the opening flow.

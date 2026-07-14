@@ -147,15 +147,22 @@ async function dismissIntro(page, playerName, viewportName) {
 async function expectPlayerIntroPolish(page, viewportName) {
   const metrics = await page.locator(".brand-intro__content.name-stage").first().evaluate((content) => {
     const note = content.querySelector(".player-intro-note");
+    const pipCue = content.querySelector(".player-intro-pip");
+    const pipCueImage = pipCue?.querySelector("img");
+    const pipCueText = pipCue?.querySelector("span");
     const form = content.querySelector(".player-intro-form");
     const label = form?.querySelector("label");
     const input = form?.querySelector("input");
     const button = form?.querySelector("button");
     const formRect = form?.getBoundingClientRect();
+    const pipCueRect = pipCue?.getBoundingClientRect();
+    const pipCueImageRect = pipCueImage?.getBoundingClientRect();
     const inputRect = input?.getBoundingClientRect();
     const buttonRect = button?.getBoundingClientRect();
     const formStyle = form ? getComputedStyle(form) : null;
     const formBefore = form ? getComputedStyle(form, "::before") : null;
+    const pipCueStyle = pipCue ? getComputedStyle(pipCue) : null;
+    const pipCueAfter = pipCue ? getComputedStyle(pipCue, "::after") : null;
     const labelStyle = label ? getComputedStyle(label) : null;
     const inputStyle = input ? getComputedStyle(input) : null;
     const buttonStyle = button ? getComputedStyle(button) : null;
@@ -169,6 +176,13 @@ async function expectPlayerIntroPolish(page, viewportName) {
       shineContent: formBefore?.content || "none",
       shineHeight: formBefore ? parseFloat(formBefore.height) : 0,
       shineBackground: formBefore?.backgroundImage || "",
+      pipCueText: pipCueText?.textContent?.trim() || "",
+      pipCueWidth: pipCueRect?.width || 0,
+      pipCueImageWidth: pipCueImageRect?.width || 0,
+      pipCueRadius: pipCueStyle ? parseFloat(pipCueStyle.borderRadius) : 0,
+      pipCueBackground: pipCueStyle?.backgroundImage || "",
+      pipCueShadow: pipCueStyle?.boxShadow || "none",
+      pipCueTailContent: pipCueAfter?.content || "none",
       labelText: label?.textContent?.trim() || "",
       labelBackground: labelStyle?.backgroundImage || "",
       labelRadius: labelStyle ? parseFloat(labelStyle.borderRadius) : 0,
@@ -193,6 +207,13 @@ async function expectPlayerIntroPolish(page, viewportName) {
     metrics.shineContent === "none" ||
     metrics.shineHeight < 10 ||
     !metrics.shineBackground.includes("linear-gradient") ||
+    !metrics.pipCueText ||
+    metrics.pipCueWidth < 240 ||
+    metrics.pipCueImageWidth < 46 ||
+    metrics.pipCueRadius < 16 ||
+    !metrics.pipCueBackground.includes("linear-gradient") ||
+    metrics.pipCueShadow === "none" ||
+    metrics.pipCueTailContent === "none" ||
     !metrics.labelText ||
     !metrics.labelBackground.includes("linear-gradient") ||
     metrics.labelRadius < 14 ||

@@ -17,6 +17,7 @@ export const en = {
   playerIntro: {
     title: "What should Pip call you?",
     note: "Progress on this device will be saved under this name.",
+    pipCue: "I will keep your pantry cards tidy.",
     label: "Player name",
     placeholder: "Jay",
     continue: "Continue",

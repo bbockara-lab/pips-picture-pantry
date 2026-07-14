@@ -85,6 +85,10 @@ export function renderBrandIntro(root) {
       <p class="brand-intro__studio">${t("app.studioName")}</p>
       <h2>${t("playerIntro.title")}</h2>
       <p class="player-intro-note">${t("playerIntro.note")}</p>
+      <div class="player-intro-pip">
+        <img src="${pipSealUrl}" alt="" aria-hidden="true" />
+        <span>${t("playerIntro.pipCue")}</span>
+      </div>
       <p class="brand-intro__version">${t("app.versionLabel", { version: APP_VERSION })}</p>
       <form class="player-intro-form">
         <label for="player-intro-name">${t("playerIntro.label")}</label>

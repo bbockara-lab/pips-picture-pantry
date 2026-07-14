@@ -120,6 +120,7 @@ describe("i18n", () => {
 
     expect(t("views.puzzle")).toBe("\ud37c\uc990");
     expect(t("brandIntro.promisePuzzle")).toBe("\uadf8\ub9bc 333\uac1c");
+    expect(t("playerIntro.pipCue")).toBe("\ud32c\ud2b8\ub9ac \uce74\ub4dc\ub294 Pip\uc774 \uae54\ub054\ud558\uac8c \uc815\ub9ac\ud574\ub458\uac8c\uc694.");
 
     setActiveLocale("unsupported");
     expect(t("views.puzzle")).toBe("Puzzle");
@@ -148,6 +149,7 @@ describe("i18n", () => {
       "timeAttack.coachEarn",
       "timeAttack.coachSpend",
       "timeAttack.coachRecord",
+      "playerIntro.pipCue",
       "timeAttack.ladderAria",
       "timeAttack.ladderRound1",
       "timeAttack.ladderRound2",
