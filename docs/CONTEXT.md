@@ -2493,3 +2493,8 @@ v1 Android decision:
 ### v0.1.340 - Settings Player Name Card Polish
 - Refined the Settings player-name section into a tactile card with a small spoon-token badge, warmer gradient surface, stronger input field, and clearer focus ring.
 - Kept the existing settings layout and behavior intact while extending mobile QA to guard the player-form card radius, gradient, shadow, badge, and input polish.
+
+### v0.1.341 - Pip Guide Dialogue Polish
+- Strengthened the in-puzzle how-to card so Pip, the speech bubble, clue examples, and action chips read more like a friendly dialogue scene rather than a plain tutorial panel.
+- Kept puzzle logic, hint rules, drag painting, undo, auto marks, and guide copy unchanged; this is a presentation polish and QA guard slice.
+- Extended mobile QA to protect the Pip scene badge, speech-tail gradient, bubble depth, and existing guide-card artwork layers.

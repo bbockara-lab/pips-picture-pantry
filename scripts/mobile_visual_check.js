@@ -1458,6 +1458,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const bubbleRect = bubble?.getBoundingClientRect();
     const sceneRect = scene?.getBoundingClientRect();
     const pipStyle = pip ? getComputedStyle(pip) : null;
+    const sceneBefore = scene ? getComputedStyle(scene, "::before") : null;
+    const bubbleBefore = bubble ? getComputedStyle(bubble, "::before") : null;
     const bubbleStyle = bubble ? getComputedStyle(bubble) : null;
     const bubbleAfter = bubble ? getComputedStyle(bubble, "::after") : null;
     const firstClueRow = card.querySelector(".clue-guide__row");
@@ -1487,6 +1489,12 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       pipBackground: pipStyle?.backgroundImage || "",
       pipShadow: pipStyle?.boxShadow || "",
       pipRadius: pipStyle ? parseFloat(pipStyle.borderRadius) : 0,
+      sceneBadgeContent: sceneBefore?.content || "none",
+      sceneBadgeWidth: parseFloat(sceneBefore?.width) || 0,
+      sceneBadgeHeight: parseFloat(sceneBefore?.height) || 0,
+      sceneBadgeBackground: sceneBefore?.backgroundImage || "",
+      sceneBadgeShadow: sceneBefore?.boxShadow || "none",
+      bubbleTailBackground: bubbleBefore?.backgroundImage || "",
       bubbleWidth: bubbleRect?.width || 0,
       bubbleHeight: bubbleRect?.height || 0,
       bubbleBackground: bubbleStyle?.backgroundImage || "",
@@ -1532,6 +1540,12 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     !howToPlayMetrics.pipBackground.includes("gradient") ||
     howToPlayMetrics.pipShadow === "none" ||
     howToPlayMetrics.pipRadius < 16 ||
+    howToPlayMetrics.sceneBadgeContent === "none" ||
+    howToPlayMetrics.sceneBadgeWidth < 16 ||
+    howToPlayMetrics.sceneBadgeHeight < 16 ||
+    !howToPlayMetrics.sceneBadgeBackground.includes("gradient") ||
+    howToPlayMetrics.sceneBadgeShadow === "none" ||
+    !howToPlayMetrics.bubbleTailBackground.includes("gradient") ||
     howToPlayMetrics.bubbleWidth < 120 ||
     howToPlayMetrics.bubbleHeight < 70 ||
     !howToPlayMetrics.bubbleBackground.includes("gradient") ||

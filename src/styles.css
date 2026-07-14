@@ -7816,6 +7816,87 @@ img {
   transform: translateY(-50%);
   box-shadow: 0 1px 0 rgba(71, 45, 48, 0.12);
 }
+
+/* v0.1.341 Pip guide dialogue polish */
+.how-to-play.visual-guide {
+  border-color: rgba(61, 43, 46, 0.2);
+  background:
+    radial-gradient(circle at 12% 16%, rgba(255, 232, 145, 0.38), transparent 34%),
+    radial-gradient(circle at 92% 8%, rgba(178, 220, 185, 0.34), transparent 30%),
+    linear-gradient(135deg, rgba(255, 253, 242, 0.98), rgba(230, 246, 229, 0.9));
+  box-shadow:
+    0 5px 0 rgba(61, 43, 46, 0.1),
+    0 12px 22px rgba(77, 55, 45, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.74);
+}
+
+.guide-pip-scene {
+  position: relative;
+  isolation: isolate;
+}
+
+.guide-pip-scene::before {
+  content: "";
+  position: absolute;
+  left: 51px;
+  top: 7px;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.82);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.8) 0 22%, transparent 23%),
+    linear-gradient(135deg, #f4c755, #d98d48);
+  box-shadow:
+    0 2px 0 rgba(71, 45, 48, 0.14),
+    0 0 0 4px rgba(255, 246, 210, 0.52);
+  pointer-events: none;
+}
+
+.guide-pip-scene__pip {
+  position: relative;
+  z-index: 2;
+  transform: rotate(-2deg);
+}
+
+.guide-pip-scene__bubble {
+  z-index: 1;
+  border-color: rgba(61, 43, 46, 0.18);
+  background:
+    radial-gradient(circle at 15% 13%, rgba(255, 255, 255, 0.86) 0 10%, transparent 11%),
+    radial-gradient(circle at 95% 90%, rgba(255, 226, 142, 0.28), transparent 34%),
+    linear-gradient(180deg, rgba(255, 252, 239, 0.98), rgba(229, 244, 225, 0.9));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.72),
+    0 5px 0 rgba(61, 43, 46, 0.1),
+    0 10px 18px rgba(65, 80, 56, 0.08);
+}
+
+.guide-pip-scene__bubble::before {
+  border-color: rgba(61, 43, 46, 0.18);
+  background: linear-gradient(135deg, rgba(249, 253, 239, 0.98), rgba(236, 247, 230, 0.96));
+}
+
+.how-to-play.visual-guide .section-label {
+  display: inline-grid;
+  place-items: center;
+  width: fit-content;
+  min-height: 24px;
+  border: 1px solid rgba(141, 90, 54, 0.18);
+  border-radius: 999px;
+  padding: 3px 9px;
+  background: linear-gradient(180deg, rgba(255, 249, 229, 0.96), rgba(244, 221, 174, 0.78));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.clue-guide__row {
+  border-width: 2px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 3px 0 rgba(61, 43, 46, 0.08);
+}
+
 /* v0.1.332 Floating Nav Token Polish */
 .floating-nav__trigger,
 .floating-nav__item {
