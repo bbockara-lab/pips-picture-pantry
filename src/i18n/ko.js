@@ -7,11 +7,11 @@ export const ko = {
   brandIntro: {
     ariaLabel: "Sunny Spoon Studios\uc640 Pip's Picture Pantry \uc2dc\uc791 \ud654\uba74",
     studioTagline: "Sunny Spoon Studios",
-    launchNote: "시즌 0에는 333개의 포근한 그림, 팬트리 목표, 스푼 보상이 기다려요.",
-    promiseLabel: "출시 시즌 하이라이트",
-    promisePuzzle: "그림 333개",
-    promiseDecorate: "팬트리 목표",
-    promiseTimeAttack: "타임어택",
+    launchNote: "\uc2dc\uc98c 0\uc5d0\ub294 \uc544\ub291\ud55c \uadf8\ub9bc 333\uac1c, \ud32c\ud2b8\ub9ac \ubaa9\ud45c, \uc2a4\ud47c \ubcf4\uc0c1\uc774 \uae30\ub2e4\ub824\uc694.",
+    promiseLabel: "\ucd9c\uc2dc \uc2dc\uc98c \ud558\uc774\ub77c\uc774\ud2b8",
+    promisePuzzle: "\uadf8\ub9bc 333\uac1c",
+    promiseDecorate: "\ud32c\ud2b8\ub9ac \ubaa9\ud45c",
+    promiseTimeAttack: "\ud0c0\uc784\uc5b4\ud0dd",
     skip: "\uc2dc\uc791"
   },
   playerIntro: {

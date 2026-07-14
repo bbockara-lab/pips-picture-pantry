@@ -23,7 +23,7 @@ for (const viewport of viewports) {
   await expectVisible(page, ".brand-intro__version", viewport.name);
   await expectOpeningIntroPolish(page, viewport.name);
   await expectAbsent(page, ".brand-intro__cast", viewport.name);
-  await dismissIntro(page, "Jay");
+  await dismissIntro(page, "Jay", viewport.name);
 
   await expectVisible(page, ".app-shell", viewport.name);
   await expectSafeAreaChromeGuard(page, viewport.name);
@@ -51,7 +51,7 @@ for (const viewport of viewports) {
   await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6000 });
   await page.waitForTimeout(800);
   await expectVisible(page, ".brand-intro.game-stage", viewport.name);
-  await dismissIntro(page, "Jay");
+  await dismissIntro(page, "Jay", viewport.name);
   await dismissGuideIfPresent(page, viewport.name);
   await expectVisible(page, ".completion-pip", viewport.name);
   await expectVisible(page, ".completion-reveal", viewport.name);
@@ -128,17 +128,86 @@ async function expectSafeAreaChromeGuard(page, viewportName) {
   }
 }
 
-async function dismissIntro(page, playerName) {
+async function dismissIntro(page, playerName, viewportName) {
   await page.locator(".brand-intro__skip").click();
   const nameInput = page.locator("#player-intro-name");
   try {
     await nameInput.waitFor({ state: "visible", timeout: 700 });
+    if (viewportName) {
+      await expectPlayerIntroPolish(page, viewportName);
+    }
     await nameInput.fill(playerName);
     await page.locator(".player-intro-form button").click();
   } catch {
     // Returning players skip the name form and the intro can close immediately.
   }
   await page.locator(".brand-intro").waitFor({ state: "detached", timeout: 2000 });
+}
+
+async function expectPlayerIntroPolish(page, viewportName) {
+  const metrics = await page.locator(".brand-intro__content.name-stage").first().evaluate((content) => {
+    const note = content.querySelector(".player-intro-note");
+    const form = content.querySelector(".player-intro-form");
+    const label = form?.querySelector("label");
+    const input = form?.querySelector("input");
+    const button = form?.querySelector("button");
+    const formRect = form?.getBoundingClientRect();
+    const inputRect = input?.getBoundingClientRect();
+    const buttonRect = button?.getBoundingClientRect();
+    const formStyle = form ? getComputedStyle(form) : null;
+    const formBefore = form ? getComputedStyle(form, "::before") : null;
+    const labelStyle = label ? getComputedStyle(label) : null;
+    const inputStyle = input ? getComputedStyle(input) : null;
+    const buttonStyle = button ? getComputedStyle(button) : null;
+    return {
+      noteText: note?.textContent?.trim() || "",
+      noteWidth: note?.getBoundingClientRect().width || 0,
+      formWidth: formRect?.width || 0,
+      formRadius: formStyle ? parseFloat(formStyle.borderRadius) : 0,
+      formBackground: formStyle?.backgroundImage || "",
+      formShadow: formStyle?.boxShadow || "none",
+      shineContent: formBefore?.content || "none",
+      shineHeight: formBefore ? parseFloat(formBefore.height) : 0,
+      shineBackground: formBefore?.backgroundImage || "",
+      labelText: label?.textContent?.trim() || "",
+      labelBackground: labelStyle?.backgroundImage || "",
+      labelRadius: labelStyle ? parseFloat(labelStyle.borderRadius) : 0,
+      inputHeight: inputRect?.height || 0,
+      inputRadius: inputStyle ? parseFloat(inputStyle.borderRadius) : 0,
+      inputBackground: inputStyle?.backgroundImage || "",
+      inputShadow: inputStyle?.boxShadow || "none",
+      buttonWidth: buttonRect?.width || 0,
+      buttonHeight: buttonRect?.height || 0,
+      buttonBackground: buttonStyle?.backgroundImage || "",
+      buttonShadow: buttonStyle?.boxShadow || "none",
+      overflows: form ? form.scrollWidth > Math.ceil(formRect.width) + 1 || form.scrollHeight > Math.ceil(formRect.height) + 1 : true
+    };
+  });
+  if (
+    !metrics.noteText ||
+    metrics.noteWidth < 190 ||
+    metrics.formWidth < 250 ||
+    metrics.formRadius < 16 ||
+    !metrics.formBackground.includes("linear-gradient") ||
+    metrics.formShadow === "none" ||
+    metrics.shineContent === "none" ||
+    metrics.shineHeight < 10 ||
+    !metrics.shineBackground.includes("linear-gradient") ||
+    !metrics.labelText ||
+    !metrics.labelBackground.includes("linear-gradient") ||
+    metrics.labelRadius < 14 ||
+    metrics.inputHeight < 50 ||
+    metrics.inputRadius < 12 ||
+    !metrics.inputBackground.includes("linear-gradient") ||
+    metrics.inputShadow === "none" ||
+    metrics.buttonWidth < 240 ||
+    metrics.buttonHeight < 54 ||
+    !metrics.buttonBackground.includes("linear-gradient") ||
+    metrics.buttonShadow === "none" ||
+    metrics.overflows
+  ) {
+    failures.push("[" + viewportName + "] Player name intro lost polished invitation treatment: " + JSON.stringify(metrics));
+  }
 }
 
 
@@ -1104,7 +1173,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   if ((await page.locator(".brand-intro").count()) > 0) {
     await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6000 });
     await page.waitForTimeout(400);
-    await dismissIntro(page, "Jay");
+    await dismissIntro(page, "Jay", viewportName);
   }
   await dismissGuideIfPresent(page, viewportName);
   if ((await page.locator(".play-screen__back").count()) > 0) {
@@ -2175,7 +2244,7 @@ async function verifyPantryPlacement(page, viewportName) {
   await page.reload({ waitUntil: "domcontentloaded" });
   if ((await page.locator(".brand-intro").count()) > 0) {
     await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6000 });
-    await dismissIntro(page, "Jay");
+    await dismissIntro(page, "Jay", viewportName);
     await dismissGuideIfPresent(page, viewportName);
   }
   await openFloatingView(page, "pantry");

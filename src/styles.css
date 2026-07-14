@@ -6208,6 +6208,93 @@ img {
     inset 0 -3px 0 rgba(177, 103, 46, 0.13);
 }
 
+/* v0.1.338 player name invitation polish */
+.brand-intro.game-stage .brand-intro__content.name-stage {
+  min-height: min(600px, calc(100vh - 34px));
+  justify-content: center;
+}
+
+.player-intro-note {
+  width: min(100%, 336px);
+  margin: 0 auto 2px;
+  color: #775039;
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.player-intro-form {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  width: min(100%, 342px);
+  margin-top: 10px;
+  border: 2px solid rgba(61, 43, 46, 0.18);
+  border-radius: 18px;
+  padding: 16px;
+  background:
+    radial-gradient(circle at 16% 15%, rgba(255, 255, 255, 0.74) 0 8%, transparent 9%),
+    linear-gradient(180deg, rgba(255, 253, 246, 0.98), rgba(255, 244, 218, 0.95));
+  box-shadow:
+    0 8px 0 rgba(61, 43, 46, 0.11),
+    0 18px 34px rgba(122, 78, 53, 0.16),
+    inset 0 2px 0 rgba(255, 255, 255, 0.82);
+}
+
+.player-intro-form::before {
+  content: "";
+  position: absolute;
+  inset: 7px 18px auto;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.16));
+  pointer-events: none;
+}
+
+.player-intro-form label {
+  justify-self: start;
+  min-height: 28px;
+  border: 2px solid rgba(122, 78, 53, 0.14);
+  border-radius: 999px;
+  padding: 4px 11px;
+  color: #774b35;
+  background: linear-gradient(180deg, #fff1b8, #f5d378);
+  box-shadow:
+    0 2px 0 rgba(61, 43, 46, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  font-size: 0.84rem;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.player-intro-form input {
+  width: 100%;
+  min-height: 52px;
+  border: 3px solid rgba(61, 43, 46, 0.24);
+  border-radius: 14px;
+  padding: 0 14px;
+  color: #3d2b2e;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 253, 0.98), rgba(255, 247, 228, 0.96));
+  box-shadow:
+    inset 0 3px 8px rgba(61, 43, 46, 0.08),
+    0 3px 0 rgba(61, 43, 46, 0.08);
+  font: inherit;
+  font-weight: 850;
+}
+
+.player-intro-form input:focus-visible {
+  outline: 3px solid rgba(153, 218, 190, 0.86);
+  outline-offset: 3px;
+  border-color: rgba(61, 43, 46, 0.38);
+}
+
+.player-intro-form .brand-intro__skip {
+  justify-self: stretch;
+  margin-top: 4px;
+}
+
 /* v0.1.296 spoon hint confirmation clarity */
 .hint-panel__cost-chip {
   display: inline-grid;
