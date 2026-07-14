@@ -2527,3 +2527,8 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.344 and added a three-chip room path inside the Pantry progress mission card: request count, next puzzle stage, and spoon progress.
 - The intent is to make the first-session economy loop easier to read at a glance: Pip requests are not optional decoration clutter; they are the bridge to the next stage plus the reason to keep earning spoons.
 - Extended mobile QA to require the new path chips and protect their mobile tap-size/readability alongside the existing mission meter and facts.
+
+### v0.1.345 - Completion Reward Fact Chips
+- Bumped the visible app version to v0.1.345 and added three small reward fact chips to the puzzle completion banner: album saved, room path grows, and next picture ready.
+- The completion moment now reinforces why the player should continue without changing completion timing, replay reward rules, or the existing Album/Next Picture actions.
+- Extended mobile QA to require the three completion fact chips, their readable tap-sized layout, and warm gradient treatment on mobile viewports.

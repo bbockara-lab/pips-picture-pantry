@@ -3816,6 +3816,41 @@ img {
   line-height: 1.28;
 }
 
+.completion-reward-facts {
+  position: relative;
+  z-index: 1;
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 2px;
+}
+
+.completion-reward-facts span {
+  min-width: 0;
+  min-height: 30px;
+  display: grid;
+  place-items: center;
+  border: 2px solid rgba(78, 48, 54, 0.13);
+  border-radius: 999px;
+  padding: 5px 8px;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.78), transparent 28%),
+    linear-gradient(180deg, rgba(255, 252, 241, 0.92), rgba(220, 241, 214, 0.82));
+  color: #6c4936;
+  font-size: 0.69rem;
+  font-weight: 950;
+  line-height: 1.1;
+  text-align: center;
+  box-shadow: 0 2px 0 rgba(78, 48, 54, 0.08);
+}
+
+.completion-reward-facts span:nth-child(2) {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.78), transparent 28%),
+    linear-gradient(180deg, rgba(255, 232, 157, 0.94), rgba(255, 250, 224, 0.86));
+}
+
 .completion-reveal-card {
   position: relative;
   z-index: 1;

@@ -28,6 +28,14 @@ export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle, repl
 
   copy.append(title, message);
 
+  const facts = document.createElement("div");
+  facts.className = "completion-reward-facts";
+  ["completion.rewardFactAlbum", "completion.rewardFactRoom", "completion.rewardFactNext"].forEach((key) => {
+    const chip = document.createElement("span");
+    chip.textContent = t(key);
+    facts.appendChild(chip);
+  });
+
   const reveal = renderSolvedReveal(puzzle);
 
   const actions = document.createElement("div");
@@ -46,7 +54,7 @@ export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle, repl
   nextButton.addEventListener("click", () => onNextPuzzle?.());
 
   actions.append(albumButton, nextButton);
-  banner.append(reaction, copy, reveal, actions);
+  banner.append(reaction, copy, facts, reveal, actions);
   return banner;
 }
 

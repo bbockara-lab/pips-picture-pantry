@@ -776,6 +776,12 @@ async function expectCompletionRewardPolish(page, viewportName) {
     const stamp = document.querySelector(".completion-reveal__stamp");
     const eyebrow = document.querySelector(".completion-reveal__eyebrow");
     const actions = document.querySelector(".completion-actions");
+    const rewardFacts = [...document.querySelectorAll(".completion-reward-facts span")];
+    const rewardFactRects = rewardFacts.map((chip) => {
+      const rect = chip.getBoundingClientRect();
+      const style = getComputedStyle(chip);
+      return { width: rect.width, height: rect.height, background: style.backgroundImage, text: chip.textContent.trim() };
+    });
     const bannerRect = banner?.getBoundingClientRect();
     const pipRect = pip?.getBoundingClientRect();
     const cardRect = card?.getBoundingClientRect();
@@ -802,6 +808,7 @@ async function expectCompletionRewardPolish(page, viewportName) {
       stampHeight: stampRect?.height || 0,
       eyebrowWidth: eyebrowRect?.width || 0,
       actionsWidth: actionsRect?.width || 0,
+      rewardFactRects,
       bannerRadius: bannerStyle ? parseFloat(bannerStyle.borderRadius) : 0,
       bannerBackground: bannerStyle?.backgroundImage || "",
       cardRadius: cardStyle ? parseFloat(cardStyle.borderRadius) : 0,
@@ -826,6 +833,8 @@ async function expectCompletionRewardPolish(page, viewportName) {
     metrics.stampHeight < 22 ||
     metrics.eyebrowWidth < 56 ||
     metrics.actionsWidth < metrics.bannerWidth * 0.72 ||
+    metrics.rewardFactRects.length !== 3 ||
+    metrics.rewardFactRects.some((chip) => chip.width < 72 || chip.height < 26 || !chip.background.includes("linear-gradient") || !chip.text) ||
     metrics.bannerRadius < 14 ||
     metrics.cardRadius < 16 ||
     metrics.revealRadius < 10 ||
