@@ -1,9 +1,12 @@
 import { puzzlePacks } from "../data/packs.js";
 import { pantrySlots } from "../data/decorations.js";
+import pipGuideSceneUrl from "../assets/characters/pip-chrome-v2.png";
 import { getDecorationArtUrl } from "../data/decorationArt.js";
+import { isRuntimeGuideArtApproved } from "../data/runtimeArt.js";
 import { t } from "../i18n/index.js";
 
 const roomStepTargets = [1, 3, 6, 10];
+const GUIDE_ART_ASSET_ID = "pip-chrome-v2";
 
 export function renderPantryStoryRequest(approvedDecorations, ownedIds, equippedDecorations, spoons, onStartRequest) {
   const starterRequest = approvedDecorations.find((decoration) => Number(decoration.cost || 0) === 0 && decoration.slot === "counter") || approvedDecorations[0];
@@ -19,6 +22,14 @@ export function renderPantryStoryRequest(approvedDecorations, ownedIds, equipped
   const slotLabel = slot ? t(slot.titleKey) : starterRequest.slot;
   const request = document.createElement("aside");
   request.className = "pantry-story-request state-" + state;
+
+  if (isRuntimeGuideArtApproved(GUIDE_ART_ASSET_ID)) {
+    const pip = document.createElement("div");
+    pip.className = "pantry-story-request__pip";
+    pip.setAttribute("aria-hidden", "true");
+    pip.innerHTML = '<img src="' + pipGuideSceneUrl + '" alt="" />';
+    request.appendChild(pip);
+  }
 
   const art = document.createElement("div");
   art.className = "pantry-story-request__art";

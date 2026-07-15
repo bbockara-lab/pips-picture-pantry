@@ -2532,3 +2532,8 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.345 and added three small reward fact chips to the puzzle completion banner: album saved, room path grows, and next picture ready.
 - The completion moment now reinforces why the player should continue without changing completion timing, replay reward rules, or the existing Album/Next Picture actions.
 - Extended mobile QA to require the three completion fact chips, their readable tap-sized layout, and warm gradient treatment on mobile viewports.
+
+### v0.1.346 - Pip-Led Pantry Request Card
+- Bumped the visible app version to v0.1.346 and upgraded the first Pantry request card with the approved Pip chrome art so the shop entry reads like a character-led request, not only an item catalog.
+- Kept Pantry purchase, slot filtering, story goals, completion archive, and spoon economy behavior unchanged; this is launch-facing presentation polish.
+- Extended mobile QA to guard the Pip cameo, shine layer, rounded card frame, and polished request-card treatment on mobile viewports.

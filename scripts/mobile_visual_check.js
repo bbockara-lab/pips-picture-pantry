@@ -2160,6 +2160,35 @@ async function verifyPantryPlacement(page, viewportName) {
     return;
   }
 
+  const storyRequestMetrics = await page.locator(".pantry-story-request").first().evaluate((card) => {
+    const rect = card.getBoundingClientRect();
+    const pip = card.querySelector(".pantry-story-request__pip");
+    const pipRect = pip ? pip.getBoundingClientRect() : { width: 0, height: 0 };
+    const shine = getComputedStyle(card, "::before");
+    return {
+      width: rect.width,
+      borderRadius: parseFloat(getComputedStyle(card).borderRadius) || 0,
+      overflow: getComputedStyle(card).overflow,
+      background: getComputedStyle(card).backgroundImage,
+      shineContent: shine.content,
+      shineHeight: parseFloat(shine.height) || 0,
+      pipWidth: pipRect.width,
+      pipHeight: pipRect.height
+    };
+  });
+  if (
+    storyRequestMetrics.width < 180
+    || storyRequestMetrics.borderRadius < 14
+    || storyRequestMetrics.overflow !== "hidden"
+    || !storyRequestMetrics.background.includes("radial-gradient")
+    || storyRequestMetrics.shineContent === "none"
+    || storyRequestMetrics.shineHeight < 10
+    || storyRequestMetrics.pipWidth < 40
+    || storyRequestMetrics.pipHeight < 40
+  ) {
+    failures.push("[" + viewportName + "] Pantry story request card lost Pip-led polished treatment: " + JSON.stringify(storyRequestMetrics));
+  }
+
   const allDisplayPlanText = await page.locator(".pantry-display-plan").first().innerText();
   if (!allDisplayPlanText.includes("0/5") || !allDisplayPlanText.includes("Tap")) {
     failures.push("[" + viewportName + "] Pantry display plan should summarize the empty room before a slot is selected, saw " + allDisplayPlanText);

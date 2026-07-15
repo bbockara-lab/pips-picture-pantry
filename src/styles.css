@@ -2654,26 +2654,77 @@ img {
 }
 
 .pantry-story-request {
+  position: relative;
   display: grid;
   grid-template-columns: 72px minmax(0, 1fr);
   gap: 12px;
   align-items: center;
+  overflow: hidden;
   border: 2px solid rgba(77, 111, 67, 0.24);
-  border-radius: 8px;
-  padding: 12px;
+  border-radius: 16px;
+  padding: 14px;
   background:
-    linear-gradient(135deg, rgba(184, 230, 210, 0.9), rgba(255, 248, 232, 0.94)),
+    radial-gradient(circle at 94% 12%, rgba(255, 238, 158, 0.76), transparent 34%),
+    linear-gradient(135deg, rgba(184, 230, 210, 0.92), rgba(255, 248, 232, 0.96)),
     var(--paper);
-  box-shadow: 0 10px 24px rgba(78, 48, 54, 0.1);
+  box-shadow: 0 14px 30px rgba(78, 48, 54, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+
+.pantry-story-request::before {
+  content: "";
+  position: absolute;
+  inset: 8px 82px auto 14px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+.pantry-story-request__pip {
+  position: absolute;
+  top: 8px;
+  right: 9px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 2px solid rgba(78, 48, 54, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 252, 241, 0.88);
+  box-shadow: 0 8px 16px rgba(78, 48, 54, 0.12), inset 0 -3px 0 rgba(78, 48, 54, 0.08);
+  pointer-events: none;
+}
+
+.pantry-story-request__pip::after {
+  content: "";
+  position: absolute;
+  right: 35px;
+  bottom: 6px;
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid rgba(78, 48, 54, 0.12);
+  border-bottom: 2px solid rgba(78, 48, 54, 0.12);
+  background: rgba(255, 252, 241, 0.88);
+  transform: rotate(45deg);
+}
+
+.pantry-story-request__pip img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(78, 48, 54, 0.12));
 }
 
 .pantry-story-request__art {
+  position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
   width: 70px;
   height: 70px;
   border: 2px solid rgba(78, 48, 54, 0.16);
-  border-radius: 8px;
+  border-radius: 12px;
   background: rgba(255, 252, 241, 0.88);
 }
 
@@ -2685,7 +2736,10 @@ img {
 }
 
 .pantry-story-request__copy {
+  position: relative;
+  z-index: 2;
   min-width: 0;
+  padding-right: 44px;
 }
 
 .pantry-story-request h3,
@@ -2750,6 +2804,23 @@ img {
   .pantry-story-request__art img {
     max-width: 50px;
     max-height: 50px;
+  }
+}
+
+/* v0.1.346 pantry story request mobile Pip cameo */
+@media (max-width: 430px) {
+  .pantry-story-request__pip {
+    width: 42px;
+    height: 42px;
+  }
+
+  .pantry-story-request__pip img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .pantry-story-request__copy {
+    padding-right: 34px;
   }
 }
 
