@@ -2217,6 +2217,61 @@ async function verifyPantryPlacement(page, viewportName) {
   await expectVisible(page, ".pantry-track-goal", viewportName);
   await expectVisible(page, ".pantry-slot-note", viewportName);
   await expectVisible(page, ".pantry-swap-note", viewportName);
+  const itemSignalMetrics = await page.locator(".pantry-item-card").first().evaluate((card) => {
+    const status = card.querySelector(".pantry-item-status");
+    const slotNote = card.querySelector(".pantry-slot-note");
+    const swapNote = card.querySelector(".pantry-swap-note");
+    const statusStyle = status ? getComputedStyle(status) : null;
+    const statusIcon = status ? getComputedStyle(status, "::before") : null;
+    const slotStyle = slotNote ? getComputedStyle(slotNote) : null;
+    const slotIcon = slotNote ? getComputedStyle(slotNote, "::before") : null;
+    const swapStyle = swapNote ? getComputedStyle(swapNote) : null;
+    const swapIcon = swapNote ? getComputedStyle(swapNote, "::before") : null;
+    return {
+      statusHeight: status ? status.getBoundingClientRect().height : 0,
+      statusRadius: statusStyle ? parseFloat(statusStyle.borderRadius) || 0 : 0,
+      statusBorderWidth: statusStyle ? parseFloat(statusStyle.borderTopWidth) || 0 : 0,
+      statusOverflow: statusStyle ? statusStyle.overflow : "",
+      statusBackground: statusStyle ? statusStyle.backgroundImage : "",
+      statusIconContent: statusIcon ? statusIcon.content : "none",
+      statusIconWidth: statusIcon ? parseFloat(statusIcon.width) || 0 : 0,
+      slotHeight: slotNote ? slotNote.getBoundingClientRect().height : 0,
+      slotRadius: slotStyle ? parseFloat(slotStyle.borderRadius) || 0 : 0,
+      slotBorderWidth: slotStyle ? parseFloat(slotStyle.borderTopWidth) || 0 : 0,
+      slotBackground: slotStyle ? slotStyle.backgroundImage : "",
+      slotIconContent: slotIcon ? slotIcon.content : "none",
+      slotIconWidth: slotIcon ? parseFloat(slotIcon.width) || 0 : 0,
+      swapHeight: swapNote ? swapNote.getBoundingClientRect().height : 0,
+      swapRadius: swapStyle ? parseFloat(swapStyle.borderRadius) || 0 : 0,
+      swapBorderWidth: swapStyle ? parseFloat(swapStyle.borderTopWidth) || 0 : 0,
+      swapBackground: swapStyle ? swapStyle.backgroundImage : "",
+      swapIconContent: swapIcon ? swapIcon.content : "none",
+      swapIconWidth: swapIcon ? parseFloat(swapIcon.width) || 0 : 0
+    };
+  });
+  if (
+    itemSignalMetrics.statusHeight < 30 ||
+    itemSignalMetrics.statusRadius < 12 ||
+    itemSignalMetrics.statusBorderWidth < 2 ||
+    itemSignalMetrics.statusOverflow !== "hidden" ||
+    !itemSignalMetrics.statusBackground.includes("radial-gradient") ||
+    itemSignalMetrics.statusIconContent === "none" ||
+    itemSignalMetrics.statusIconWidth < 9 ||
+    itemSignalMetrics.slotHeight < 32 ||
+    itemSignalMetrics.slotRadius < 12 ||
+    itemSignalMetrics.slotBorderWidth < 2 ||
+    !itemSignalMetrics.slotBackground.includes("radial-gradient") ||
+    itemSignalMetrics.slotIconContent === "none" ||
+    itemSignalMetrics.slotIconWidth < 9 ||
+    itemSignalMetrics.swapHeight < 32 ||
+    itemSignalMetrics.swapRadius < 12 ||
+    itemSignalMetrics.swapBorderWidth < 2 ||
+    !itemSignalMetrics.swapBackground.includes("radial-gradient") ||
+    itemSignalMetrics.swapIconContent === "none" ||
+    itemSignalMetrics.swapIconWidth < 9
+  ) {
+    failures.push("[" + viewportName + "] Pantry item signal chips lost polished status/note treatment: " + JSON.stringify(itemSignalMetrics));
+  }
 
   if ((await page.locator(".pantry-display-plan").count()) === 0) {
     failures.push("[" + viewportName + "] Pantry panel did not open; skipping dependent pantry text checks");

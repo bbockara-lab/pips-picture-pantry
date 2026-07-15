@@ -2618,3 +2618,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.360 and upgraded the first Pantry request target chip plus CTA button into the same tactile, spoon-token card language as the newer shop surfaces.
 - Kept request selection, starter decoration choice, ownership/equip checks, and action routing unchanged; this is a first-purchase guidance and touch-quality pass.
 - Extended mobile QA to guard the request card border/shadow, Pip cameo depth, target chip artwork, and CTA shine/border/radius treatment across mobile viewports.
+
+
+### v0.1.361 - Pantry Item Signal Chip Polish
+- Bumped the visible app version to v0.1.361 and upgraded item status, slot note, and swap note text into compact signal chips with small CSS-drawn token icons.
+- Kept item status selection, buy/equip routing, slot filtering, swap warnings, and savings logic unchanged; this is a readability and decision-support pass inside each shop card.
+- Extended mobile QA to guard status/note chip height, radius, border, clipped background, and icon artwork across mobile viewports.
