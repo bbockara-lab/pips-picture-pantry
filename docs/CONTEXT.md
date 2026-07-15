@@ -2552,3 +2552,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.349 and polished Pantry purchase/story-complete feedback into reward-style cards with a stronger framed surface, clipped shine, token accent, and deeper item-art stage.
 - Kept purchase, equip, room slot, story-goal, completion archive, and spoon economy behavior unchanged; this is presentation polish for the post-purchase reward moment.
 - Extended mobile QA to guard the feedback frame, shine/token artwork, item-art stage, dismiss tap target, and story-complete reward variant on mobile viewports.
+
+
+### v0.1.350 - Pantry Room Slot Polish
+- Bumped the visible app version to v0.1.350 and upgraded the fixed Pantry room slots with a warm room frame, floor/wall split, tactile slot cards, dashed empty-place affordance, selected-state glow, and item-art staging.
+- Kept slot selection, shop filtering, purchase/equip behavior, story goals, and the five-slot capacity model unchanged while making the physical placement model clearer at a glance.
+- Extended mobile QA to guard the room frame, pseudo-layer divider, five absolute placement slots, slot radius, and border depth on mobile viewports.

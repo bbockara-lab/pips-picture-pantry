@@ -8884,3 +8884,168 @@ img {
     width: 100%;
   }
 }
+
+
+/* v0.1.350 pantry room slot polish */
+.pantry-room {
+  position: relative;
+  min-height: 380px;
+  padding: 20px;
+  overflow: hidden;
+  border: 3px solid rgba(78, 48, 54, 0.18);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 17% 18%, rgba(255, 255, 255, 0.68) 0 8%, transparent 9%),
+    linear-gradient(180deg, rgba(255, 238, 157, 0.62) 0 53%, rgba(255, 248, 222, 0.96) 54% 100%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.22) 0 5px, transparent 5px 17px);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.76),
+    0 10px 0 rgba(61, 43, 46, 0.08),
+    0 22px 34px rgba(92, 59, 38, 0.12);
+}
+
+.pantry-room::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 54%;
+  height: 3px;
+  background: rgba(132, 85, 56, 0.13);
+  box-shadow: 0 8px 0 rgba(255, 255, 255, 0.32);
+}
+
+.pantry-room::after {
+  content: "";
+  position: absolute;
+  inset: auto 8% 18px;
+  height: 30px;
+  border-radius: 999px;
+  background: radial-gradient(ellipse at center, rgba(92, 59, 38, 0.12), transparent 68%);
+  pointer-events: none;
+}
+
+.pantry-room-slot {
+  position: absolute;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 3px;
+  min-width: 112px;
+  min-height: 66px;
+  padding: 9px 10px;
+  overflow: hidden;
+  border: 3px solid rgba(78, 48, 54, 0.2);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.78) 0 12%, transparent 13%),
+    linear-gradient(180deg, rgba(255, 252, 241, 0.92), rgba(255, 233, 172, 0.72));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.72),
+    0 5px 0 rgba(61, 43, 46, 0.1),
+    0 12px 18px rgba(92, 59, 38, 0.1);
+  color: var(--ink);
+  text-align: center;
+}
+
+.pantry-room-slot.empty {
+  border-style: dashed;
+  border-color: rgba(77, 111, 67, 0.34);
+  background:
+    radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.7) 0 12%, transparent 13%),
+    linear-gradient(180deg, rgba(238, 250, 231, 0.82), rgba(255, 248, 222, 0.78));
+}
+
+.pantry-room-slot.empty::before {
+  content: "+";
+  position: absolute;
+  right: 8px;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(181, 226, 207, 0.82);
+  color: var(--cocoa);
+  font-size: 0.92rem;
+  font-weight: 950;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.pantry-room-slot.filled {
+  border-style: solid;
+  border-color: rgba(207, 164, 59, 0.58);
+}
+
+.pantry-room-slot.selected {
+  border-color: var(--gold-strong);
+  background:
+    radial-gradient(circle at 23% 18%, rgba(255, 255, 255, 0.84) 0 13%, transparent 14%),
+    linear-gradient(180deg, #fff7d9, #ffd878);
+  box-shadow:
+    0 0 0 4px rgba(247, 200, 79, 0.24),
+    inset 0 2px 0 rgba(255, 255, 255, 0.78),
+    0 7px 0 rgba(132, 85, 56, 0.18),
+    0 16px 24px rgba(78, 48, 54, 0.16);
+}
+
+.pantry-room-slot span,
+.pantry-room-slot strong {
+  position: relative;
+  z-index: 1;
+}
+
+.pantry-room-slot span {
+  color: var(--cocoa);
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.pantry-room-slot strong {
+  max-width: 100%;
+  color: var(--ink);
+  font-size: 0.84rem;
+  line-height: 1.1;
+}
+
+.pantry-room-decoration {
+  position: relative;
+  z-index: 1;
+  width: min(66px, 82%);
+  max-height: 54px;
+  object-fit: contain;
+  filter: drop-shadow(0 7px 0 rgba(92, 59, 38, 0.12));
+}
+
+.slot-back-wall { top: 30px; left: 50%; width: 184px; transform: translateX(-50%); }
+.slot-window { right: 28px; top: 96px; width: 122px; }
+.slot-shelf { left: 28px; top: 112px; width: 132px; }
+.slot-counter { left: 50%; bottom: 92px; width: 178px; min-height: 74px; transform: translateX(-50%); }
+.slot-floor { left: 28px; bottom: 28px; width: 132px; }
+
+@media (max-width: 720px) {
+  .pantry-room {
+    min-height: 340px;
+    padding: 14px;
+  }
+
+  .pantry-room-slot {
+    min-width: 92px;
+    min-height: 60px;
+    padding: 8px;
+    border-radius: 16px;
+  }
+
+  .pantry-room-decoration {
+    width: min(54px, 78%);
+    max-height: 44px;
+  }
+
+  .slot-back-wall { top: 22px; width: 158px; }
+  .slot-window { right: 12px; top: 86px; width: 108px; }
+  .slot-shelf { left: 12px; top: 108px; width: 118px; }
+  .slot-counter { width: 164px; min-height: 68px; bottom: 86px; }
+  .slot-floor { left: 12px; bottom: 20px; width: 118px; }
+}

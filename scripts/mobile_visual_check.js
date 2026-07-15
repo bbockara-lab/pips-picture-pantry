@@ -2124,6 +2124,30 @@ async function seedCompletedStarter(page) {
 async function verifyPantryPlacement(page, viewportName) {
   await expectVisible(page, ".pantry-panel", viewportName);
   await expectVisible(page, ".pantry-room", viewportName);
+  const pantryRoomMetrics = await page.locator(".pantry-room").first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    const before = getComputedStyle(el, "::before");
+    const firstSlot = el.querySelector(".pantry-room-slot");
+    const slotStyle = firstSlot ? getComputedStyle(firstSlot) : null;
+    return {
+      minHeight: parseFloat(style.minHeight),
+      borderRadius: parseFloat(style.borderRadius),
+      borderWidth: parseFloat(style.borderTopWidth),
+      overflow: style.overflow,
+      background: style.backgroundImage,
+      roomDivider: before.content,
+      slotCount: el.querySelectorAll(".pantry-room-slot").length,
+      slotPosition: slotStyle ? slotStyle.position : "",
+      slotRadius: slotStyle ? parseFloat(slotStyle.borderRadius) : 0,
+      slotBorderWidth: slotStyle ? parseFloat(slotStyle.borderTopWidth) : 0
+    };
+  });
+  if (pantryRoomMetrics.minHeight < 320 || pantryRoomMetrics.borderRadius < 20 || pantryRoomMetrics.borderWidth < 3 || pantryRoomMetrics.overflow !== "hidden" || !pantryRoomMetrics.background.includes("linear-gradient") || pantryRoomMetrics.roomDivider === "none") {
+    failures.push("[" + viewportName + "] Pantry room frame lost cozy placement polish: " + JSON.stringify(pantryRoomMetrics));
+  }
+  if (pantryRoomMetrics.slotCount !== 5 || pantryRoomMetrics.slotPosition !== "absolute" || pantryRoomMetrics.slotRadius < 16 || pantryRoomMetrics.slotBorderWidth < 3) {
+    failures.push("[" + viewportName + "] Pantry room slots lost tactile fixed-placement styling: " + JSON.stringify(pantryRoomMetrics));
+  }
   await expectVisible(page, ".pantry-placement-note", viewportName);
   await expectVisible(page, ".pantry-story-request", viewportName);
   await expectVisible(page, ".pantry-story-request__target", viewportName);
