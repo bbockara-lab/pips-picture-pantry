@@ -639,13 +639,19 @@ function renderShopLimitControl(visibleCount, totalCount, onShowMore) {
   const text = document.createElement("p");
   text.textContent = t("pantry.shopLimitSummary", { visible: visibleCount, total: totalCount });
 
+  const meter = document.createElement("div");
+  meter.className = "pantry-shop-limit__meter";
+  meter.setAttribute("aria-hidden", "true");
+  meter.style.setProperty("--shop-limit-progress", Math.min(100, Math.round((visibleCount / totalCount) * 100)) + "%");
+  meter.innerHTML = "<span></span>";
+
   const button = document.createElement("button");
   button.type = "button";
   button.className = "pantry-shop-limit__action";
   button.textContent = t("pantry.shopLimitAction");
   button.addEventListener("click", () => onShowMore?.());
 
-  control.append(text, button);
+  control.append(text, meter, button);
   return control;
 }
 

@@ -2542,3 +2542,8 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.347 and polished Pantry shop items into warm delivery-style cards with a framed item-art stage, shine layer, clearer rarity/cost chips, and full-width tactile action buttons.
 - Replaced the inline shop-card meta separator with structured rarity and spoon-cost chips so the catalog stays readable across Korean/English and Windows console encodings.
 - Kept purchase, equip, filtering, sorting, story goals, and spoon economy behavior unchanged while extending mobile QA to guard the card frame, art stage, meta chips, shine layer, and CTA tap target.
+
+### v0.1.348 - Pantry Shop Reveal Control Polish
+- Bumped the visible app version to v0.1.348 and upgraded the Pantry shop reveal control with a progress meter, shine layer, spoon-token CTA, and stronger mobile tap target.
+- Kept the progressive 6-card reveal logic unchanged; the new meter only makes the remaining decoration catalog feel intentional instead of like a plain pagination button.
+- Extended mobile QA to guard the reveal card frame, meter fill, clipped shine, spoon-token button accent, and responsive full-width CTA behavior.

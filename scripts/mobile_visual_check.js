@@ -2316,6 +2316,54 @@ async function verifyPantryPlacement(page, viewportName) {
   if (!shopLimitText.includes("6/25") || !shopLimitText.includes("Show more")) {
     failures.push("[" + viewportName + "] Pantry show-more control should explain the 6/25 progressive reveal, saw " + shopLimitText);
   }
+
+  const shopLimitMetrics = await page.locator(".pantry-shop-limit").first().evaluate((control) => {
+    const rect = control.getBoundingClientRect();
+    const meter = control.querySelector(".pantry-shop-limit__meter");
+    const meterRect = meter ? meter.getBoundingClientRect() : { width: 0, height: 0 };
+    const meterFill = control.querySelector(".pantry-shop-limit__meter span");
+    const meterFillRect = meterFill ? meterFill.getBoundingClientRect() : { width: 0, height: 0 };
+    const button = control.querySelector(".pantry-shop-limit__action");
+    const buttonRect = button ? button.getBoundingClientRect() : { width: 0, height: 0 };
+    const token = button ? getComputedStyle(button, "::before") : { content: "none", width: "0", height: "0" };
+    const shine = getComputedStyle(control, "::before");
+    return {
+      width: rect.width,
+      borderRadius: parseFloat(getComputedStyle(control).borderRadius) || 0,
+      borderWidth: parseFloat(getComputedStyle(control).borderTopWidth) || 0,
+      overflow: getComputedStyle(control).overflow,
+      background: getComputedStyle(control).backgroundImage,
+      shineContent: shine.content,
+      shineHeight: parseFloat(shine.height) || 0,
+      meterWidth: meterRect.width,
+      meterHeight: meterRect.height,
+      meterFillWidth: meterFillRect.width,
+      buttonWidth: buttonRect.width,
+      buttonHeight: buttonRect.height,
+      tokenContent: token.content,
+      tokenWidth: parseFloat(token.width) || 0,
+      tokenHeight: parseFloat(token.height) || 0
+    };
+  });
+  if (
+    shopLimitMetrics.width < 180
+    || shopLimitMetrics.borderRadius < 16
+    || shopLimitMetrics.borderWidth < 3
+    || shopLimitMetrics.overflow !== "hidden"
+    || !shopLimitMetrics.background.includes("radial-gradient")
+    || shopLimitMetrics.shineContent === "none"
+    || shopLimitMetrics.shineHeight < 8
+    || shopLimitMetrics.meterWidth < 150
+    || shopLimitMetrics.meterHeight < 10
+    || shopLimitMetrics.meterFillWidth <= 0
+    || shopLimitMetrics.buttonWidth < 120
+    || shopLimitMetrics.buttonHeight < 44
+    || shopLimitMetrics.tokenContent === "none"
+    || shopLimitMetrics.tokenWidth < 10
+    || shopLimitMetrics.tokenHeight < 10
+  ) {
+    failures.push("[" + viewportName + "] Pantry show-more reveal control lost polished progress treatment: " + JSON.stringify(shopLimitMetrics));
+  }
   await page.locator(".pantry-shop-limit__action").click();
   await page.waitForTimeout(120);
   const expandedCardCount = await page.locator(".pantry-item-card").count();
