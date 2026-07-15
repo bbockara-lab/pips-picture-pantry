@@ -2666,3 +2666,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.368 and upgraded Time Attack summary cards plus records panel with framed score-card surfaces, clipped shine, spoon-token accents, and readable record rows.
 - Kept Time Attack run creation, daily reward counts, best-score sorting, and record math unchanged; this is a presentation and QA-readability pass for the competitive loop.
 - Extended mobile QA to guard summary-card shine/token layers, records-panel frame treatment, row height, and no-overflow behavior across mobile viewports.
+
+
+### v0.1.369 - Reset Dialog Flow QA Guard
+- Bumped the visible app version to v0.1.369 and closed the reset-dialog review flag by making mobile QA exercise the real reset button, modal backdrop, dialog copy, cancel/confirm labels, and cancel-return flow.
+- Kept reset semantics and reset-dialog UI artwork unchanged; this is a launch-readiness guard for a destructive confirmation surface.
+- Extended mobile QA to verify safe-area backdrop padding, dialog viewport containment, localized copy intent, button tap size, and app-shell recovery after cancel.

@@ -785,8 +785,12 @@ async function expectStageNavigationPolish(page, viewportName) {
 
 async function expectResetDialogPolish(page, viewportName) {
   await page.locator('button[aria-label="Reset progress"], button[aria-label="\uC9C4\uD589 \uC0C1\uD0DC \uCD08\uAE30\uD654"]').first().click();
+  await expectVisible(page, ".modal-backdrop", viewportName);
   await expectVisible(page, ".reset-dialog", viewportName);
   const metrics = await page.locator(".reset-dialog").first().evaluate((dialog) => {
+    const backdrop = dialog.closest(".modal-backdrop");
+    const backdropStyle = backdrop ? getComputedStyle(backdrop) : null;
+    const backdropRect = backdrop?.getBoundingClientRect();
     const rect = dialog.getBoundingClientRect();
     const style = getComputedStyle(dialog);
     const shine = getComputedStyle(dialog, "::before");
@@ -802,8 +806,17 @@ async function expectResetDialogPolish(page, viewportName) {
     const cancelStyle = cancel ? getComputedStyle(cancel) : null;
     const confirmStyle = confirm ? getComputedStyle(confirm) : null;
     return {
+      backdropWidth: backdropRect?.width || 0,
+      backdropHeight: backdropRect?.height || 0,
+      viewportWidth: window.innerWidth,
+      viewportHeight: window.innerHeight,
+      backdropDisplay: backdropStyle?.display || "",
+      backdropPaddingBottom: backdropStyle ? parseFloat(backdropStyle.paddingBottom) : 0,
+      backdropBackground: backdropStyle?.backgroundColor || "",
       width: rect.width,
       height: rect.height,
+      left: rect.left,
+      right: rect.right,
       radius: parseFloat(style.borderRadius),
       borderWidth: parseFloat(style.borderTopWidth),
       background: style.backgroundImage,
@@ -812,22 +825,35 @@ async function expectResetDialogPolish(page, viewportName) {
       shineContent: shine.content,
       shineHeight: parseFloat(shine.height),
       shineBackground: shine.backgroundImage,
+      titleText: title?.textContent?.trim() || "",
       titleBadgeWidth: parseFloat(titleBadge?.width) || 0,
       titleBadgeBackground: titleBadge?.backgroundImage || "",
+      bodyText: body?.textContent?.trim() || "",
       bodyHeight: bodyRect?.height || 0,
       bodyRadius: bodyStyle ? parseFloat(bodyStyle.borderRadius) : 0,
       bodyBackground: bodyStyle?.backgroundImage || "",
+      cancelText: cancel?.textContent?.trim() || "",
       cancelHeight: cancelRect?.height || 0,
+      cancelWidth: cancelRect?.width || 0,
       cancelRadius: cancelStyle ? parseFloat(cancelStyle.borderRadius) : 0,
       cancelBackground: cancelStyle?.backgroundImage || "",
+      confirmText: confirm?.textContent?.trim() || "",
       confirmHeight: confirmRect?.height || 0,
+      confirmWidth: confirmRect?.width || 0,
       confirmRadius: confirmStyle ? parseFloat(confirmStyle.borderRadius) : 0,
       confirmBackground: confirmStyle?.backgroundImage || "",
       overflows: dialog.scrollWidth > Math.ceil(rect.width) + 1 || dialog.scrollHeight > Math.ceil(rect.height) + 1
     };
   });
   if (
+    metrics.backdropWidth < metrics.viewportWidth ||
+    metrics.backdropHeight < metrics.viewportHeight ||
+    metrics.backdropDisplay !== "grid" ||
+    metrics.backdropPaddingBottom < 18 ||
+    !metrics.backdropBackground.includes("rgba") ||
     metrics.width < 280 ||
+    metrics.left < -1 ||
+    metrics.right > metrics.viewportWidth + 1 ||
     metrics.radius < 16 ||
     metrics.borderWidth < 3 ||
     !metrics.background.includes("gradient") ||
@@ -836,14 +862,20 @@ async function expectResetDialogPolish(page, viewportName) {
     metrics.shineContent === "none" ||
     metrics.shineHeight < 10 ||
     !metrics.shineBackground.includes("gradient") ||
+    !/Reset|progress|\uCD08\uAE30\uD654|\uC9C4\uD589/.test(metrics.titleText) ||
     metrics.titleBadgeWidth < 20 ||
     !metrics.titleBadgeBackground.includes("gradient") ||
+    !/saved|picture|device|\uC800\uC7A5|\uC9C4\uD589|\uC9C0\uC6CC/.test(metrics.bodyText) ||
     metrics.bodyHeight < 42 ||
     metrics.bodyRadius < 12 ||
     !metrics.bodyBackground.includes("gradient") ||
+    !/Cancel|Keep playing|\uCDE8\uC18C|\uACC4\uC18D/.test(metrics.cancelText) ||
+    metrics.cancelWidth < 110 ||
     metrics.cancelHeight < 46 ||
     metrics.cancelRadius < 14 ||
     !metrics.cancelBackground.includes("gradient") ||
+    !/Reset|\uCD08\uAE30\uD654/.test(metrics.confirmText) ||
+    metrics.confirmWidth < 110 ||
     metrics.confirmHeight < 46 ||
     metrics.confirmRadius < 14 ||
     !metrics.confirmBackground.includes("gradient") ||
@@ -853,6 +885,8 @@ async function expectResetDialogPolish(page, viewportName) {
   }
   await page.locator(".reset-dialog .dialog-actions .tool-button:not(.danger)").click();
   await page.locator(".reset-dialog").waitFor({ state: "detached", timeout: 2000 });
+  await page.locator(".modal-backdrop").waitFor({ state: "detached", timeout: 2000 });
+  await expectVisible(page, ".app-shell", viewportName);
 }
 
 
