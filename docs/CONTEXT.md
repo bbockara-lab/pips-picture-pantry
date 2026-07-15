@@ -2570,3 +2570,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.352 and upgraded the Pantry display plan into a matching upgrade card with clipped shine, a gold token accent, and a framed next-decoration step.
 - Kept selected-slot filtering, equipped-state copy, next decoration cost math, and shop behavior unchanged; this is a visual/readability pass on the same placement economy flow.
 - Extended mobile QA to guard the display plan frame, token artwork, shine layer, and next-step icon treatment on mobile viewports.
+
+
+### v0.1.353 - Pantry Savings Goal Polish
+- Bumped the visible app version to v0.1.353 and upgraded item savings meters plus the tracked-goal button into small economy cards with spoon-token artwork, thicker progress depth, and active-state glow.
+- Kept shop ordering, affordability math, selected slot filtering, and tracked-goal persistence unchanged; this pass improves the visual reward loop around saving spoons for a decoration.
+- Extended mobile QA to guard savings-card frame, token artwork, meter depth, and tracked-goal active treatment on mobile viewports.

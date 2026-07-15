@@ -2275,6 +2275,33 @@ async function verifyPantryPlacement(page, viewportName) {
     failures.push("[" + viewportName + "] Pantry item savings meter should show seeded spoon progress, saw " + firstSavingsText);
   }
 
+  const savingsVisualMetrics = await page.locator(".pantry-item-savings").first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    const before = getComputedStyle(el, "::before");
+    const meter = el.querySelector(".pantry-item-savings-meter");
+    const fill = meter?.querySelector("span");
+    const meterStyle = meter ? getComputedStyle(meter) : null;
+    const fillStyle = fill ? getComputedStyle(fill) : null;
+    return {
+      borderRadius: parseFloat(style.borderRadius),
+      borderWidth: parseFloat(style.borderTopWidth),
+      overflow: style.overflow,
+      paddingLeft: parseFloat(style.paddingLeft),
+      background: style.backgroundImage,
+      tokenContent: before.content,
+      tokenWidth: parseFloat(before.width),
+      meterHeight: meter ? meter.getBoundingClientRect().height : 0,
+      meterBorderWidth: meterStyle ? parseFloat(meterStyle.borderTopWidth) : 0,
+      fillBackground: fillStyle ? fillStyle.backgroundImage : ""
+    };
+  });
+  if (savingsVisualMetrics.borderRadius < 14 || savingsVisualMetrics.borderWidth < 2 || savingsVisualMetrics.overflow !== "hidden" || savingsVisualMetrics.paddingLeft < 36 || !savingsVisualMetrics.background.includes("radial-gradient")) {
+    failures.push("[" + viewportName + "] Pantry item savings lost its polished economy card treatment: " + JSON.stringify(savingsVisualMetrics));
+  }
+  if (savingsVisualMetrics.tokenContent === "none" || savingsVisualMetrics.tokenWidth < 18 || savingsVisualMetrics.meterHeight < 10 || savingsVisualMetrics.meterBorderWidth < 2 || !savingsVisualMetrics.fillBackground.includes("linear-gradient")) {
+    failures.push("[" + viewportName + "] Pantry item savings lost token or meter artwork: " + JSON.stringify(savingsVisualMetrics));
+  }
+
   const shopCardMetrics = await page.locator(".pantry-item-card").first().evaluate((card) => {
     const rect = card.getBoundingClientRect();
     const art = card.querySelector(".pantry-item-art");
@@ -2409,6 +2436,23 @@ async function verifyPantryPlacement(page, viewportName) {
   }
   if ((await page.locator(".pantry-track-goal.active").count()) !== 1) {
     failures.push("[" + viewportName + "] Track-goal active state did not appear");
+  }
+  const trackGoalVisualMetrics = await page.locator(".pantry-track-goal.active").first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    const before = getComputedStyle(el, "::before");
+    return {
+      height: el.getBoundingClientRect().height,
+      borderRadius: parseFloat(style.borderRadius),
+      borderWidth: parseFloat(style.borderTopWidth),
+      overflow: style.overflow,
+      background: style.backgroundImage,
+      tokenContent: before.content,
+      tokenWidth: parseFloat(before.width),
+      boxShadow: style.boxShadow
+    };
+  });
+  if (trackGoalVisualMetrics.height < 44 || trackGoalVisualMetrics.borderRadius < 14 || trackGoalVisualMetrics.borderWidth < 3 || trackGoalVisualMetrics.overflow !== "hidden" || !trackGoalVisualMetrics.background.includes("radial-gradient") || trackGoalVisualMetrics.tokenContent === "none" || trackGoalVisualMetrics.tokenWidth < 14 || !trackGoalVisualMetrics.boxShadow.includes("rgba")) {
+    failures.push("[" + viewportName + "] Track-goal button lost polished active card treatment: " + JSON.stringify(trackGoalVisualMetrics));
   }
   await page.locator(".pantry-slot-filter").first().click();
   await page.locator(".pantry-sort-option", { hasText: /Recommended/ }).click();

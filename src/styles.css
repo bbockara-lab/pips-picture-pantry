@@ -9234,3 +9234,118 @@ img {
     height: 25px;
   }
 }
+
+
+/* v0.1.353 pantry savings and goal polish */
+.pantry-item-savings {
+  position: relative;
+  overflow: hidden;
+  gap: 7px;
+  padding: 10px 12px 11px 42px;
+  border: 2px solid rgba(207, 164, 59, 0.22);
+  border-radius: 15px;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.72) 0 10%, transparent 11%),
+    linear-gradient(135deg, rgba(255, 248, 226, 0.96), rgba(184, 230, 210, 0.38));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 4px 0 rgba(61, 43, 46, 0.06);
+}
+
+.pantry-item-savings::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 11px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78) 0 20%, transparent 21%),
+    linear-gradient(135deg, #f8d477, #dfa342);
+  box-shadow:
+    inset 0 0 0 3px rgba(132, 85, 56, 0.12),
+    0 2px 0 rgba(61, 43, 46, 0.12);
+}
+
+.pantry-item-savings p {
+  position: relative;
+  z-index: 1;
+  color: var(--ink, #3d2b2e);
+  font-size: 0.78rem;
+  font-weight: 920;
+}
+
+.pantry-item-savings-meter {
+  position: relative;
+  z-index: 1;
+  height: 12px;
+  border-width: 2px;
+  background: rgba(255, 253, 243, 0.92);
+  box-shadow: inset 0 2px 0 rgba(61, 43, 46, 0.06);
+}
+
+.pantry-item-savings-meter span {
+  background:
+    radial-gradient(circle at 18% 35%, rgba(255, 255, 255, 0.68) 0 10%, transparent 11%),
+    linear-gradient(90deg, rgba(184, 230, 210, 0.98), rgba(255, 206, 84, 0.98));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.54);
+}
+
+.pantry-track-goal {
+  position: relative;
+  overflow: hidden;
+  width: auto;
+  min-height: 44px;
+  margin: 0;
+  padding: 9px 15px 9px 38px;
+  border: 3px solid rgba(78, 48, 54, 0.2);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.7) 0 10%, transparent 11%),
+    linear-gradient(180deg, rgba(255, 253, 244, 0.96), rgba(255, 244, 214, 0.9));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.7),
+    0 4px 0 rgba(61, 43, 46, 0.1);
+}
+
+.pantry-track-goal::before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78) 0 20%, transparent 21%),
+    linear-gradient(135deg, #f7cd69, #d99a36);
+  box-shadow: 0 2px 0 rgba(61, 43, 46, 0.12);
+}
+
+.pantry-track-goal.active {
+  border-color: rgba(85, 149, 119, 0.54);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.72) 0 10%, transparent 11%),
+    linear-gradient(180deg, rgba(223, 249, 229, 0.98), rgba(184, 230, 210, 0.88));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.74),
+    0 4px 0 rgba(77, 111, 67, 0.14),
+    0 0 0 4px rgba(184, 230, 210, 0.32);
+}
+
+@media (max-width: 430px) {
+  .pantry-item-savings {
+    padding-left: 38px;
+  }
+
+  .pantry-item-savings::before {
+    left: 10px;
+  }
+
+  .pantry-track-goal {
+    width: 100%;
+    justify-self: stretch;
+  }
+}
