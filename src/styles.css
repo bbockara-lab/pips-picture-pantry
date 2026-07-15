@@ -10930,3 +10930,84 @@ img {
     radial-gradient(circle at 14% 20%, rgba(255, 255, 255, 0.62) 0 10%, transparent 11%),
     linear-gradient(180deg, rgba(233, 250, 239, 0.96), rgba(172, 219, 193, 0.84));
 }
+
+
+/* v0.1.368 time attack summary and records polish */
+.time-attack-summary__card,
+.time-attack-records {
+  position: relative;
+  overflow: hidden;
+  border-width: 3px;
+  border-color: rgba(61, 43, 46, 0.18);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 10% 12%, rgba(255, 255, 255, 0.78) 0 9%, transparent 10%),
+    linear-gradient(135deg, rgba(255, 252, 244, 0.98), rgba(255, 232, 184, 0.82));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.74),
+    inset 0 -3px 0 rgba(122, 78, 53, 0.06),
+    0 5px 0 rgba(61, 43, 46, 0.1),
+    0 14px 22px rgba(122, 78, 53, 0.11);
+}
+
+.time-attack-summary__card::before,
+.time-attack-records::before {
+  content: "";
+  position: absolute;
+  inset: 7px 34px auto 12px;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+.time-attack-summary__card::after,
+.time-attack-records::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(61, 43, 46, 0.13);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78) 0 23%, transparent 24%),
+    linear-gradient(180deg, #ffe07b, #d88a45);
+  box-shadow: inset 0 -2px 0 rgba(61, 43, 46, 0.1);
+  pointer-events: none;
+}
+
+.time-attack-summary__card > *,
+.time-attack-records > * {
+  position: relative;
+  z-index: 1;
+}
+
+.time-attack-summary__card h3,
+.time-attack-records h3 {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 27px;
+  border: 2px solid rgba(122, 78, 53, 0.1);
+  border-radius: 999px;
+  padding: 3px 10px;
+  background: rgba(255, 248, 232, 0.76);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.time-attack-records li {
+  min-height: 28px;
+  border: 2px solid rgba(61, 43, 46, 0.09);
+  border-radius: 12px;
+  padding: 5px 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 248, 232, 0.86), rgba(230, 249, 240, 0.54));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+
+.time-attack-records ul {
+  padding-left: 0;
+  list-style-position: inside;
+}

@@ -2660,3 +2660,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.367 and upgraded the daily reward card into a framed spoon-economy surface with clipped shine, token accent, reward pill, and a deeper tactile play button.
 - Kept daily puzzle selection, active-state disabling, bonus amount, and reward persistence unchanged; this is a launch-facing polish pass for the daily return loop.
 - Extended mobile QA to guard the daily card frame, shine/token layers, reward amount pill, CTA button depth, and no-overflow behavior across mobile viewports.
+
+
+### v0.1.368 - Time Attack Summary Records Polish
+- Bumped the visible app version to v0.1.368 and upgraded Time Attack summary cards plus records panel with framed score-card surfaces, clipped shine, spoon-token accents, and readable record rows.
+- Kept Time Attack run creation, daily reward counts, best-score sorting, and record math unchanged; this is a presentation and QA-readability pass for the competitive loop.
+- Extended mobile QA to guard summary-card shine/token layers, records-panel frame treatment, row height, and no-overflow behavior across mobile viewports.

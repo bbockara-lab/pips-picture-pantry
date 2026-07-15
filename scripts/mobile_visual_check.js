@@ -1600,17 +1600,23 @@ async function expectTimeAttackStartSurface(page, viewportName) {
     const cards = Array.from(panel.querySelectorAll(".time-attack-summary__card")).map((card) => {
       const rect = card.getBoundingClientRect();
       const style = getComputedStyle(card);
-    const cardBefore = getComputedStyle(card, "::before");
+      const cardBefore = getComputedStyle(card, "::before");
+      const cardAfter = getComputedStyle(card, "::after");
       return {
         width: rect.width,
         height: rect.height,
         radius: parseFloat(style.borderRadius),
         background: style.backgroundImage,
-      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
-        shadow: style.boxShadow
+        overflow: style.overflow,
+        shadow: style.boxShadow,
+        shineContent: cardBefore.content,
+        shineBackground: cardBefore.backgroundImage || "",
+        tokenContent: cardAfter.content,
+        tokenWidth: parseFloat(cardAfter.width)
       };
     });
     const records = panel.querySelector(".time-attack-records");
+    const recordItems = records ? Array.from(records.querySelectorAll("li")) : [];
     const introRect = intro?.getBoundingClientRect();
     const introStyle = intro ? getComputedStyle(intro) : null;
     const startRect = start?.getBoundingClientRect();
@@ -1618,6 +1624,8 @@ async function expectTimeAttackStartSurface(page, viewportName) {
     const summaryStyle = summary ? getComputedStyle(summary) : null;
     const recordsRect = records?.getBoundingClientRect();
     const recordsStyle = records ? getComputedStyle(records) : null;
+    const recordsBefore = records ? getComputedStyle(records, "::before") : null;
+    const recordsAfter = records ? getComputedStyle(records, "::after") : null;
     return {
       panelWidth: panelRect.width,
       panelRight: panelRect.right,
@@ -1643,15 +1651,45 @@ async function expectTimeAttackStartSurface(page, viewportName) {
         height: recordsRect.height,
         radius: parseFloat(recordsStyle.borderRadius),
         background: recordsStyle.backgroundImage,
-        shadow: recordsStyle.boxShadow
+        overflow: recordsStyle.overflow,
+        shadow: recordsStyle.boxShadow,
+        shineContent: recordsBefore.content,
+        shineBackground: recordsBefore.backgroundImage || "",
+        tokenContent: recordsAfter.content,
+        tokenWidth: parseFloat(recordsAfter.width),
+        textLength: (records.textContent || "").trim().length,
+        itemCount: recordItems.length,
+        itemHeights: recordItems.slice(0, 3).map((item) => item.getBoundingClientRect().height)
       } : null
     };
   });
 
   const introLooksPolished = metrics.intro && metrics.intro.height >= 72 && metrics.intro.radius >= 14 && metrics.intro.background.includes("linear-gradient") && metrics.intro.shadow !== "none";
   const startLooksTactile = metrics.start && metrics.start.width >= 220 && metrics.start.height >= 52 && metrics.start.radius >= 16 && metrics.start.background.includes("linear-gradient") && metrics.start.shadow !== "none";
-  const summaryLooksPolished = metrics.cards.length === 3 && metrics.cards.every((card) => card.width > 0 && card.height >= 70 && card.radius >= 14 && card.background.includes("linear-gradient") && card.shadow !== "none");
-  const recordsLooksPolished = metrics.records && metrics.records.width > 0 && metrics.records.radius >= 14 && metrics.records.background.includes("linear-gradient") && metrics.records.shadow !== "none";
+  const summaryLooksPolished = metrics.cards.length === 3 && metrics.cards.every((card) =>
+    card.width > 0 &&
+    card.height >= 70 &&
+    card.radius >= 14 &&
+    card.background.includes("linear-gradient") &&
+    card.overflow === "hidden" &&
+    card.shadow !== "none" &&
+    card.shineContent !== "none" &&
+    card.shineBackground.includes("gradient") &&
+    card.tokenContent !== "none" &&
+    card.tokenWidth >= 12
+  );
+  const recordsLooksPolished = metrics.records &&
+    metrics.records.width > 0 &&
+    metrics.records.radius >= 14 &&
+    metrics.records.background.includes("linear-gradient") &&
+    metrics.records.overflow === "hidden" &&
+    metrics.records.shadow !== "none" &&
+    metrics.records.shineContent !== "none" &&
+    metrics.records.shineBackground.includes("gradient") &&
+    metrics.records.tokenContent !== "none" &&
+    metrics.records.tokenWidth >= 14 &&
+    metrics.records.textLength > 0 &&
+    metrics.records.itemHeights.every((height) => height >= 28);
   const staysInViewport = metrics.panelWidth > 0 && metrics.panelRight <= metrics.viewportWidth + 1;
   if (!introLooksPolished || !startLooksTactile || !summaryLooksPolished || !recordsLooksPolished || !staysInViewport) {
     failures.push("[" + viewportName + "] Time Attack start surface lost its polished intro/start/summary/records treatment: " + JSON.stringify(metrics));
