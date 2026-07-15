@@ -9946,7 +9946,6 @@ img {
 
 .pantry-story-milestone__copy,
 .pantry-story-milestone__preview,
-.pantry-story-delivery__pip,
 .pantry-story-delivery__art,
 .pantry-story-delivery__copy,
 .pantry-story-delivery__steps,
@@ -9956,6 +9955,8 @@ img {
 }
 
 .pantry-story-delivery__pip {
+  position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
   justify-self: end;

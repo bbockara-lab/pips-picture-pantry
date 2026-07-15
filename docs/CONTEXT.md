@@ -2696,3 +2696,10 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.373 and rebuilt the Settings dialog title, language note, player-name form, control copy, and audio label with explicit DOM nodes instead of HTML string insertion.
 - Removed the now-unneeded manual attribute escaping helper because the player name is assigned through the input value API.
 - Kept language selection, player-name save, control mode, audio toggles, close behavior, and existing tactile settings artwork unchanged while relying on the existing mobile QA settings guards.
+
+
+### v0.1.374 - Pantry Delivery Pip Selector Cleanup
+- Bumped the visible app version to v0.1.374 and closed the reviewed duplicate CSS selector on the Pantry delivery Pip stamp.
+- Moved the stamp layering directly into the single .pantry-story-delivery__pip rule while keeping the frame, speech-tail accent, image sizing, delivery card behavior, and mobile QA expectations unchanged.
+- This is a small CSS hygiene pass to keep the polished Pantry story-card artwork easier to maintain before release QA.
+
