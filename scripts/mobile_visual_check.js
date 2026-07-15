@@ -361,14 +361,25 @@ async function expectOpeningIntroPolish(page, viewportName) {
     const icon = chip.querySelector("i");
     const text = chip.querySelector("b");
     const style = getComputedStyle(chip);
+    const shineStyle = getComputedStyle(chip, "::before");
+    const tokenStyle = getComputedStyle(chip, "::after");
     const iconRect = icon?.getBoundingClientRect();
     return {
       text: (text?.textContent || "").trim(),
       width: rect.width,
       height: rect.height,
+      borderWidth: parseFloat(style.borderTopWidth),
       borderRadius: parseFloat(style.borderRadius),
       backgroundImage: style.backgroundImage,
       boxShadow: style.boxShadow,
+      overflow: style.overflow,
+      shineContent: shineStyle.content,
+      shineHeight: parseFloat(shineStyle.height),
+      shineBackground: shineStyle.backgroundImage,
+      tokenContent: tokenStyle.content,
+      tokenWidth: parseFloat(tokenStyle.width),
+      tokenHeight: parseFloat(tokenStyle.height),
+      tokenBackground: tokenStyle.backgroundImage,
       iconWidth: iconRect?.width || 0,
       iconHeight: iconRect?.height || 0,
       overflows: chip.scrollWidth > Math.ceil(rect.width) + 1 || chip.scrollHeight > Math.ceil(rect.height) + 1
@@ -378,7 +389,9 @@ async function expectOpeningIntroPolish(page, viewportName) {
     failures.push("[" + viewportName + "] Opening promise strip should show 3 tactile chips, saw " + promiseMetrics.length);
   }
   promiseMetrics.forEach((metrics, index) => {
-    if (!metrics.text || metrics.width < 70 || metrics.height < 34 || metrics.borderRadius < 14 || !metrics.backgroundImage.includes("linear-gradient") || metrics.boxShadow === "none" || metrics.iconWidth < 14 || metrics.iconHeight < 14 || metrics.overflows) {
+    const hasChipShine = metrics.shineContent !== "none" && metrics.shineHeight >= 7 && metrics.shineBackground.includes("linear-gradient");
+    const hasCornerToken = metrics.tokenContent !== "none" && metrics.tokenWidth >= 8 && metrics.tokenHeight >= 8 && metrics.tokenBackground.includes("gradient");
+    if (!metrics.text || metrics.width < 70 || metrics.height < 34 || metrics.borderWidth < 3 || metrics.borderRadius < 14 || !metrics.backgroundImage.includes("linear-gradient") || metrics.boxShadow === "none" || metrics.overflow !== "hidden" || !hasChipShine || !hasCornerToken || metrics.iconWidth < 14 || metrics.iconHeight < 14 || metrics.overflows) {
       failures.push("[" + viewportName + "] Opening promise chip " + (index + 1) + " lost readable tactile treatment: " + JSON.stringify(metrics));
     }
   });

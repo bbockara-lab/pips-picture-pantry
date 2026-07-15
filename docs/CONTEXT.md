@@ -2624,3 +2624,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.361 and upgraded item status, slot note, and swap note text into compact signal chips with small CSS-drawn token icons.
 - Kept item status selection, buy/equip routing, slot filtering, swap warnings, and savings logic unchanged; this is a readability and decision-support pass inside each shop card.
 - Extended mobile QA to guard status/note chip height, radius, border, clipped background, and icon artwork across mobile viewports.
+
+
+### v0.1.362 - Opening Promise Chip Depth Polish
+- Bumped the visible app version to v0.1.362 and upgraded the three opening promise chips with a clipped shine layer, thicker framed border, deeper tactile shadow, and a tiny corner token accent.
+- Kept the studio bumper timing, player-name flow, start button, and promise copy unchanged; this is a first-impression visual consistency pass.
+- Extended mobile QA to guard the promise chip border depth, clipped shine, corner token, and no-overflow behavior across mobile viewports.

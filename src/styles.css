@@ -10221,3 +10221,47 @@ img {
     linear-gradient(135deg, #ffd98e, #dd9c54);
   transform: translateY(-50%) rotate(12deg);
 }
+
+
+/* v0.1.362 opening promise chip depth polish */
+.brand-intro__promise-strip .brand-intro__promise-chip {
+  position: relative;
+  overflow: hidden;
+  border-width: 3px;
+  box-shadow:
+    0 5px 0 rgba(68, 42, 47, 0.14),
+    0 12px 20px rgba(122, 78, 53, 0.12),
+    inset 0 2px 0 rgba(255, 255, 255, 0.82),
+    inset 0 -3px 0 rgba(122, 78, 53, 0.06);
+}
+
+.brand-intro__promise-strip .brand-intro__promise-chip::before {
+  content: "";
+  position: absolute;
+  inset: 5px 12px auto 10px;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+.brand-intro__promise-strip .brand-intro__promise-chip::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  bottom: 7px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.82) 0 25%, transparent 26%),
+    linear-gradient(180deg, rgba(255, 232, 155, 0.96), rgba(238, 146, 73, 0.92));
+  box-shadow: 0 1px 0 rgba(68, 42, 47, 0.12);
+  pointer-events: none;
+}
+
+.brand-intro__promise-chip b,
+.brand-intro__promise-chip i {
+  position: relative;
+  z-index: 1;
+}
