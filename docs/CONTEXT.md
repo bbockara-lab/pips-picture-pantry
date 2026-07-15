@@ -2576,3 +2576,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.353 and upgraded item savings meters plus the tracked-goal button into small economy cards with spoon-token artwork, thicker progress depth, and active-state glow.
 - Kept shop ordering, affordability math, selected slot filtering, and tracked-goal persistence unchanged; this pass improves the visual reward loop around saving spoons for a decoration.
 - Extended mobile QA to guard savings-card frame, token artwork, meter depth, and tracked-goal active treatment on mobile viewports.
+
+
+### v0.1.354 - Pantry Pip Cameo Guard
+- Bumped the visible app version to v0.1.354 and hardened the first Pantry request Pip cameo so the character image is built with explicit DOM nodes instead of HTML string insertion.
+- Kept request selection, purchase flow, slot filtering, card copy, and Pip artwork unchanged; this is a safety and launch-polish guard for the character-led shop entry surface.
+- Extended mobile QA to guard Pip cameo pointer behavior, speech-tail artwork, image layering, and decorative alt text so future card polish cannot accidentally turn Pip into a blocking or screen-reader-visible control.

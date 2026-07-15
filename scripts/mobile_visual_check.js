@@ -2187,8 +2187,12 @@ async function verifyPantryPlacement(page, viewportName) {
   const storyRequestMetrics = await page.locator(".pantry-story-request").first().evaluate((card) => {
     const rect = card.getBoundingClientRect();
     const pip = card.querySelector(".pantry-story-request__pip");
+    const pipImage = pip?.querySelector("img");
     const pipRect = pip ? pip.getBoundingClientRect() : { width: 0, height: 0 };
     const shine = getComputedStyle(card, "::before");
+    const pipStyle = pip ? getComputedStyle(pip) : null;
+    const pipTail = pip ? getComputedStyle(pip, "::after") : null;
+    const pipImageStyle = pipImage ? getComputedStyle(pipImage) : null;
     return {
       width: rect.width,
       borderRadius: parseFloat(getComputedStyle(card).borderRadius) || 0,
@@ -2197,7 +2201,13 @@ async function verifyPantryPlacement(page, viewportName) {
       shineContent: shine.content,
       shineHeight: parseFloat(shine.height) || 0,
       pipWidth: pipRect.width,
-      pipHeight: pipRect.height
+      pipHeight: pipRect.height,
+      pipPointerEvents: pipStyle ? pipStyle.pointerEvents : "",
+      pipTailContent: pipTail ? pipTail.content : "none",
+      pipTailWidth: pipTail ? parseFloat(pipTail.width) || 0 : 0,
+      pipImageDisplay: pipImageStyle ? pipImageStyle.display : "",
+      pipImageZIndex: pipImageStyle ? pipImageStyle.zIndex : "",
+      pipImageAlt: pipImage ? pipImage.getAttribute("alt") : null
     };
   });
   if (
@@ -2209,6 +2219,12 @@ async function verifyPantryPlacement(page, viewportName) {
     || storyRequestMetrics.shineHeight < 10
     || storyRequestMetrics.pipWidth < 40
     || storyRequestMetrics.pipHeight < 40
+    || storyRequestMetrics.pipPointerEvents !== "none"
+    || storyRequestMetrics.pipTailContent === "none"
+    || storyRequestMetrics.pipTailWidth < 8
+    || storyRequestMetrics.pipImageDisplay !== "block"
+    || storyRequestMetrics.pipImageZIndex !== "1"
+    || storyRequestMetrics.pipImageAlt !== ""
   ) {
     failures.push("[" + viewportName + "] Pantry story request card lost Pip-led polished treatment: " + JSON.stringify(storyRequestMetrics));
   }

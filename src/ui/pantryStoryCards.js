@@ -27,7 +27,11 @@ export function renderPantryStoryRequest(approvedDecorations, ownedIds, equipped
     const pip = document.createElement("div");
     pip.className = "pantry-story-request__pip";
     pip.setAttribute("aria-hidden", "true");
-    pip.innerHTML = '<img src="' + pipGuideSceneUrl + '" alt="" />';
+    const pipImage = document.createElement("img");
+    pipImage.src = pipGuideSceneUrl;
+    pipImage.alt = "";
+    pipImage.setAttribute("aria-hidden", "true");
+    pip.appendChild(pipImage);
     request.appendChild(pip);
   }
 

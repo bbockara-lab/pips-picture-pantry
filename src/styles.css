@@ -2701,6 +2701,7 @@ img {
   position: absolute;
   right: 35px;
   bottom: 6px;
+  z-index: 0;
   width: 10px;
   height: 10px;
   border-left: 2px solid rgba(78, 48, 54, 0.12);
@@ -2710,6 +2711,9 @@ img {
 }
 
 .pantry-story-request__pip img {
+  position: relative;
+  z-index: 1;
+  display: block;
   width: 42px;
   height: 42px;
   object-fit: contain;
