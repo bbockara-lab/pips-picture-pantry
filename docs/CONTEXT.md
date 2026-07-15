@@ -2558,3 +2558,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.350 and upgraded the fixed Pantry room slots with a warm room frame, floor/wall split, tactile slot cards, dashed empty-place affordance, selected-state glow, and item-art staging.
 - Kept slot selection, shop filtering, purchase/equip behavior, story goals, and the five-slot capacity model unchanged while making the physical placement model clearer at a glance.
 - Extended mobile QA to guard the room frame, pseudo-layer divider, five absolute placement slots, slot radius, and border depth on mobile viewports.
+
+
+### v0.1.351 - Pantry Placement Advisor Polish
+- Bumped the visible app version to v0.1.351 and upgraded the Pantry placement advisor into a warm planning card with a spoon-token badge, clipped shine, deeper border, and clearer selected-slot explanation.
+- Kept slot selection, fixed placement capacity, shop filtering, and economy behavior unchanged; the card now better supports the user question of where a decoration will go before spending spoons.
+- Extended mobile QA to guard the advisor frame, left token spacing, token artwork, shine layer, and radial/linear card treatment on mobile viewports.

@@ -2420,6 +2420,28 @@ async function verifyPantryPlacement(page, viewportName) {
   if (!counterAdvisorText.includes("Counter") || !counterAdvisorText.includes("6")) {
     failures.push("[" + viewportName + "] Counter placement advisor should explain the selected slot choices, saw " + counterAdvisorText);
   }
+  const placementAdvisorMetrics = await page.locator(".pantry-placement-advisor").first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    const before = getComputedStyle(el, "::before");
+    const after = getComputedStyle(el, "::after");
+    return {
+      borderRadius: parseFloat(style.borderRadius),
+      borderWidth: parseFloat(style.borderTopWidth),
+      overflow: style.overflow,
+      paddingLeft: parseFloat(style.paddingLeft),
+      background: style.backgroundImage,
+      tokenContent: before.content,
+      tokenWidth: parseFloat(before.width),
+      shineContent: after.content,
+      shineHeight: parseFloat(after.height)
+    };
+  });
+  if (placementAdvisorMetrics.borderRadius < 16 || placementAdvisorMetrics.borderWidth < 3 || placementAdvisorMetrics.overflow !== "hidden" || placementAdvisorMetrics.paddingLeft < 44 || !placementAdvisorMetrics.background.includes("radial-gradient")) {
+    failures.push("[" + viewportName + "] Pantry placement advisor lost its polished planning-card frame: " + JSON.stringify(placementAdvisorMetrics));
+  }
+  if (placementAdvisorMetrics.tokenContent === "none" || placementAdvisorMetrics.tokenWidth < 22 || placementAdvisorMetrics.shineContent === "none" || placementAdvisorMetrics.shineHeight < 8) {
+    failures.push("[" + viewportName + "] Pantry placement advisor lost token or shine artwork: " + JSON.stringify(placementAdvisorMetrics));
+  }
   const counterDisplayPlanText = await page.locator(".pantry-display-plan").innerText();
   if (!counterDisplayPlanText.includes("Counter") || !counterDisplayPlanText.includes("empty") || !counterDisplayPlanText.includes("Starter Counter Cloth")) {
     failures.push("[" + viewportName + "] Counter display plan should explain current empty spot and next upgrade, saw " + counterDisplayPlanText);
