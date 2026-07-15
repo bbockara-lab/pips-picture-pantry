@@ -2684,3 +2684,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.371 and added the approved Pip guide art as a small delivery-stamp cameo on active Pantry delivery notes.
 - Rebuilt the delivery-note copy and step chips with explicit DOM nodes instead of HTML string insertion while keeping goal selection, spoon-gap math, persistence, and shop routing unchanged.
 - Extended mobile QA to guard the delivery Pip stamp frame, speech-tail accent, image size, delivery card frame, step chips, and action buttons across mobile viewports.
+
+
+### v0.1.372 - Pantry Progress Mission Card Polish
+- Bumped the visible app version to v0.1.372 and rebuilt the Pantry room-path mission card with explicit DOM nodes instead of HTML string insertion.
+- Upgraded the mission card with a clipped shine layer, spoon-token accent, deeper framed surface, and stronger progress-meter depth while keeping room-step targets, spoon-gate math, and action routing unchanged.
+- Extended mobile QA to guard the mission card border, clipped shine, token accent, meter depth, route chips, facts, and action layout across mobile viewports.

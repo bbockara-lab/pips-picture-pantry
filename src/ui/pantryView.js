@@ -505,27 +505,43 @@ function renderPantryProgressMission(completedRequestCount, spoons, nextRequestD
   const unlockCost = nextStage ? Math.max(0, Number(nextStage.unlockCost || 0)) : 0;
   const saved = nextStage ? Math.min(unlockCost, Math.max(0, Number(spoons || 0))) : 0;
   const needed = nextStage ? Math.max(0, unlockCost - saved) : 0;
-  const route = nextStage
-    ? '<div class="pantry-progress-mission__route" aria-label="' + t("pantry.progressMissionRouteAria") + '">'
-      + '<span>' + t("pantry.progressMissionRouteRequests", { count: completedRequestCount, target: nextTarget }) + '</span>'
-      + '<span>' + t("pantry.progressMissionRouteStage", { stage: t(nextStage.titleKey) }) + '</span>'
-      + '<span>' + t("pantry.progressMissionRouteSpoons", { saved, cost: unlockCost }) + '</span>'
-      + '</div>'
-    : "";
+  const eyebrow = document.createElement("p");
+  eyebrow.className = "section-label";
+  eyebrow.textContent = t("pantry.progressMissionEyebrow");
+  const titleNode = document.createElement("strong");
+  titleNode.textContent = title;
+  const bodyNode = document.createElement("p");
+  bodyNode.textContent = body;
+  mission.append(eyebrow, titleNode, bodyNode);
 
-  mission.innerHTML = ""
-    + '<p class="section-label">' + t("pantry.progressMissionEyebrow") + "</p>"
-    + "<strong>" + title + "</strong>"
-    + "<p>" + body + "</p>"
-    + route
-    + '<div class="pantry-progress-mission__meter" aria-hidden="true"><span></span></div>';
+  if (nextStage) {
+    const route = document.createElement("div");
+    route.className = "pantry-progress-mission__route";
+    route.setAttribute("aria-label", t("pantry.progressMissionRouteAria"));
+    const requestStep = document.createElement("span");
+    requestStep.textContent = t("pantry.progressMissionRouteRequests", { count: completedRequestCount, target: nextTarget });
+    const stageStep = document.createElement("span");
+    stageStep.textContent = t("pantry.progressMissionRouteStage", { stage: t(nextStage.titleKey) });
+    const spoonStep = document.createElement("span");
+    spoonStep.textContent = t("pantry.progressMissionRouteSpoons", { saved, cost: unlockCost });
+    route.append(requestStep, stageStep, spoonStep);
+    mission.appendChild(route);
+  }
+
+  const meter = document.createElement("div");
+  meter.className = "pantry-progress-mission__meter";
+  meter.setAttribute("aria-hidden", "true");
+  meter.appendChild(document.createElement("span"));
+  mission.appendChild(meter);
 
   if (nextStage) {
     const facts = document.createElement("div");
     facts.className = "pantry-progress-mission__facts";
-    facts.innerHTML = ""
-      + "<span>" + t("pantry.progressMissionRequests", { count: completedRequestCount, target: Number(nextStage.pantryRoomStepRequired || nextTarget) }) + "</span>"
-      + "<span>" + t("pantry.progressMissionSpoons", { saved, cost: unlockCost, needed }) + "</span>";
+    const requestFact = document.createElement("span");
+    requestFact.textContent = t("pantry.progressMissionRequests", { count: completedRequestCount, target: Number(nextStage.pantryRoomStepRequired || nextTarget) });
+    const spoonFact = document.createElement("span");
+    spoonFact.textContent = t("pantry.progressMissionSpoons", { saved, cost: unlockCost, needed });
+    facts.append(requestFact, spoonFact);
     mission.appendChild(facts);
 
     const action = document.createElement("button");

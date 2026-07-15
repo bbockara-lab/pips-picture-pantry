@@ -6353,20 +6353,58 @@ img {
 
 /* v0.1.267 pantry progress mission card */
 .pantry-progress-mission {
+  position: relative;
   display: grid;
   gap: 7px;
-  padding: 11px;
-  border: 2px solid rgba(77, 111, 67, 0.22);
-  border-radius: 12px;
+  overflow: hidden;
+  padding: 13px;
+  border: 3px solid rgba(77, 111, 67, 0.24);
+  border-radius: 16px;
   background:
+    radial-gradient(circle at 94% 10%, rgba(255, 214, 102, 0.34) 0 13%, transparent 14%),
     linear-gradient(135deg, rgba(216, 241, 220, 0.78), rgba(255, 250, 235, 0.94)),
     var(--paper);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.72),
+    0 5px 0 rgba(77, 111, 67, 0.1),
+    0 13px 22px rgba(78, 48, 54, 0.08);
+}
+
+.pantry-progress-mission::before {
+  content: "";
+  position: absolute;
+  inset: 0 46px auto 14px;
+  height: 12px;
+  border-radius: 0 0 999px 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.18));
+  pointer-events: none;
+}
+
+.pantry-progress-mission::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(112, 76, 56, 0.18);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.68) 0 18%, transparent 19%),
+    linear-gradient(145deg, rgba(255, 226, 118, 0.98), rgba(220, 151, 73, 0.98));
+  box-shadow: inset 0 -3px 0 rgba(120, 77, 42, 0.12);
+  pointer-events: none;
+}
+
+.pantry-progress-mission > * {
+  position: relative;
+  z-index: 1;
 }
 
 .pantry-progress-mission strong {
   color: var(--ink);
-  font-size: 0.98rem;
+  padding-right: 34px;
+  font-size: 1rem;
   font-weight: 950;
   line-height: 1.16;
 }
@@ -6380,11 +6418,14 @@ img {
 }
 
 .pantry-progress-mission__meter {
-  height: 10px;
+  height: 12px;
   overflow: hidden;
   border: 2px solid rgba(78, 48, 54, 0.14);
   border-radius: 999px;
   background: rgba(255, 252, 241, 0.86);
+  box-shadow:
+    inset 0 2px 3px rgba(78, 48, 54, 0.08),
+    0 2px 0 rgba(255, 255, 255, 0.58);
 }
 
 .pantry-progress-mission__meter span {
@@ -6435,9 +6476,12 @@ img {
 
 .pantry-progress-mission__facts span {
   min-width: 0;
-  border-radius: 8px;
+  border: 2px solid rgba(78, 48, 54, 0.12);
+  border-radius: 11px;
   padding: 6px 8px;
-  background: rgba(255, 252, 241, 0.74);
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.72), transparent 30%),
+    rgba(255, 252, 241, 0.78);
   color: var(--cocoa);
   font-size: 0.72rem;
   font-weight: 900;

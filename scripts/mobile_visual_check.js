@@ -2884,7 +2884,12 @@ async function verifyPantryPlacement(page, viewportName) {
   }
   const progressMissionMetrics = await page.locator(".pantry-progress-mission").first().evaluate((card) => {
     const rect = card.getBoundingClientRect();
+    const style = getComputedStyle(card);
+    const before = getComputedStyle(card, "::before");
+    const after = getComputedStyle(card, "::after");
     const meter = card.querySelector(".pantry-progress-mission__meter span");
+    const meterTrack = card.querySelector(".pantry-progress-mission__meter");
+    const meterTrackStyle = meterTrack ? getComputedStyle(meterTrack) : null;
     const route = [...card.querySelectorAll(".pantry-progress-mission__route span")].map((chip) => {
       const chipRect = chip.getBoundingClientRect();
       return { width: chipRect.width, height: chipRect.height, text: chip.textContent.trim() };
@@ -2895,13 +2900,33 @@ async function verifyPantryPlacement(page, viewportName) {
     });
     return {
       width: rect.width,
+      borderRadius: parseFloat(style.borderRadius),
+      borderWidth: parseFloat(style.borderTopWidth),
+      overflow: style.overflow,
+      background: style.backgroundImage,
+      shineContent: before.content,
+      shineHeight: parseFloat(before.height),
+      tokenContent: after.content,
+      tokenWidth: parseFloat(after.width),
       meterWidth: meter ? meter.getBoundingClientRect().width : 0,
+      meterHeight: meterTrack ? meterTrack.getBoundingClientRect().height : 0,
+      meterShadow: meterTrackStyle ? meterTrackStyle.boxShadow : "",
       route,
       facts
     };
   });
   if (
     progressMissionMetrics.width < 180 ||
+    progressMissionMetrics.borderRadius < 15 ||
+    progressMissionMetrics.borderWidth < 3 ||
+    progressMissionMetrics.overflow !== "hidden" ||
+    !progressMissionMetrics.background.includes("radial-gradient") ||
+    progressMissionMetrics.shineContent === "none" ||
+    progressMissionMetrics.shineHeight < 10 ||
+    progressMissionMetrics.tokenContent === "none" ||
+    progressMissionMetrics.tokenWidth < 22 ||
+    progressMissionMetrics.meterHeight < 11 ||
+    !progressMissionMetrics.meterShadow.includes("inset") ||
     progressMissionMetrics.route.length !== 3 ||
     progressMissionMetrics.route.some((chip) => chip.width < 72 || chip.height < 24) ||
     progressMissionMetrics.facts.length !== 2 ||
