@@ -2172,6 +2172,45 @@ async function verifyPantryPlacement(page, viewportName) {
   await expectVisible(page, ".pantry-availability-filters", viewportName);
   await expectVisible(page, ".pantry-sort-bar", viewportName);
   await expectVisible(page, ".pantry-filter-summary", viewportName);
+  const filterControlsMetrics = await page.locator(".pantry-filter-stack").first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    const activeSlot = el.querySelector(".pantry-slot-filter.active");
+    const activeSort = el.querySelector(".pantry-sort-option.active");
+    const sortLabel = el.querySelector(".pantry-sort-label");
+    const activeSlotStyle = activeSlot ? getComputedStyle(activeSlot) : null;
+    const activeSortStyle = activeSort ? getComputedStyle(activeSort) : null;
+    const sortLabelStyle = sortLabel ? getComputedStyle(sortLabel) : null;
+    return {
+      borderRadius: parseFloat(style.borderRadius) || 0,
+      borderWidth: parseFloat(style.borderTopWidth) || 0,
+      background: style.backgroundImage,
+      boxShadow: style.boxShadow,
+      activeSlotHeight: activeSlot ? activeSlot.getBoundingClientRect().height : 0,
+      activeSlotBorderWidth: activeSlotStyle ? parseFloat(activeSlotStyle.borderTopWidth) || 0 : 0,
+      activeSlotBackground: activeSlotStyle ? activeSlotStyle.backgroundImage : "",
+      activeSortHeight: activeSort ? activeSort.getBoundingClientRect().height : 0,
+      activeSortBorderWidth: activeSortStyle ? parseFloat(activeSortStyle.borderTopWidth) || 0 : 0,
+      activeSortBackground: activeSortStyle ? activeSortStyle.backgroundImage : "",
+      sortLabelHeight: sortLabel ? sortLabel.getBoundingClientRect().height : 0,
+      sortLabelRadius: sortLabelStyle ? parseFloat(sortLabelStyle.borderRadius) || 0 : 0
+    };
+  });
+  if (
+    filterControlsMetrics.borderRadius < 16 ||
+    filterControlsMetrics.borderWidth < 3 ||
+    !filterControlsMetrics.background.includes("radial-gradient") ||
+    !filterControlsMetrics.boxShadow.includes("rgba") ||
+    filterControlsMetrics.activeSlotHeight < 40 ||
+    filterControlsMetrics.activeSlotBorderWidth < 3 ||
+    !filterControlsMetrics.activeSlotBackground.includes("radial-gradient") ||
+    filterControlsMetrics.activeSortHeight < 40 ||
+    filterControlsMetrics.activeSortBorderWidth < 3 ||
+    !filterControlsMetrics.activeSortBackground.includes("radial-gradient") ||
+    filterControlsMetrics.sortLabelHeight < 30 ||
+    filterControlsMetrics.sortLabelRadius < 14
+  ) {
+    failures.push("[" + viewportName + "] Pantry filter controls lost polished chip treatment: " + JSON.stringify(filterControlsMetrics));
+  }
   await expectVisible(page, ".pantry-item-card", viewportName);
   await expectVisible(page, ".pantry-item-status", viewportName);
   await expectVisible(page, ".pantry-item-savings", viewportName);
@@ -2699,6 +2738,35 @@ async function verifyPantryPlacement(page, viewportName) {
   if (!rareSummaryText.includes("5") || !rareSummaryText.includes(String(totalPantryCardCount))) {
     failures.push("[" + viewportName + "] Rare filter summary should show 5 of " + totalPantryCardCount + ", saw " + rareSummaryText);
   }
+  const filteredSummaryMetrics = await page.locator(".pantry-filter-summary").first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    const clear = el.querySelector(".pantry-clear-filters");
+    const clearStyle = clear ? getComputedStyle(clear) : null;
+    return {
+      height: el.getBoundingClientRect().height,
+      borderRadius: parseFloat(style.borderRadius) || 0,
+      borderWidth: parseFloat(style.borderTopWidth) || 0,
+      overflow: style.overflow,
+      background: style.backgroundImage,
+      clearHeight: clear ? clear.getBoundingClientRect().height : 0,
+      clearRadius: clearStyle ? parseFloat(clearStyle.borderRadius) || 0 : 0,
+      clearBorderWidth: clearStyle ? parseFloat(clearStyle.borderTopWidth) || 0 : 0,
+      clearBackground: clearStyle ? clearStyle.backgroundImage : ""
+    };
+  });
+  if (
+    filteredSummaryMetrics.height < 42 ||
+    filteredSummaryMetrics.borderRadius < 14 ||
+    filteredSummaryMetrics.borderWidth < 3 ||
+    filteredSummaryMetrics.overflow !== "hidden" ||
+    !filteredSummaryMetrics.background.includes("radial-gradient") ||
+    filteredSummaryMetrics.clearHeight < 40 ||
+    filteredSummaryMetrics.clearRadius < 14 ||
+    filteredSummaryMetrics.clearBorderWidth < 3 ||
+    !filteredSummaryMetrics.clearBackground.includes("radial-gradient")
+  ) {
+    failures.push("[" + viewportName + "] Pantry filtered summary lost polished reset treatment: " + JSON.stringify(filteredSummaryMetrics));
+  }
   if (rareCardCount !== 5) {
     failures.push("[" + viewportName + "] Rare filter should show 5 decorations, saw " + rareCardCount);
   }
@@ -2706,6 +2774,20 @@ async function verifyPantryPlacement(page, viewportName) {
   await page.locator(".pantry-availability-filter", { hasText: /Can buy/ }).click();
   await page.waitForTimeout(120);
   await expectVisible(page, ".pantry-empty-state", viewportName);
+  const resetFilterMetrics = await page.locator(".pantry-reset-filters").first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    return {
+      height: el.getBoundingClientRect().height,
+      borderRadius: parseFloat(style.borderRadius) || 0,
+      borderWidth: parseFloat(style.borderTopWidth) || 0,
+      overflow: style.overflow,
+      background: style.backgroundImage,
+      boxShadow: style.boxShadow
+    };
+  });
+  if (resetFilterMetrics.height < 42 || resetFilterMetrics.borderRadius < 14 || resetFilterMetrics.borderWidth < 3 || resetFilterMetrics.overflow !== "hidden" || !resetFilterMetrics.background.includes("radial-gradient") || !resetFilterMetrics.boxShadow.includes("rgba")) {
+    failures.push("[" + viewportName + "] Pantry reset-filters button lost tactile treatment: " + JSON.stringify(resetFilterMetrics));
+  }
   if ((await page.locator(".pantry-item-card").count()) !== 0) {
     failures.push("[" + viewportName + "] Rare plus can-buy filters should show the empty state only");
   }

@@ -2606,3 +2606,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.358 and upgraded the Pantry savings-goal and earning-plan cards into the same warm spoon-economy card language as the item savings chips.
 - Kept target-item selection, tracked-goal retargeting, spoon gap math, starter/daily run estimates, and Time Attack routing unchanged; this is a UI clarity pass for the spend/earn loop.
 - Extended mobile QA to guard the savings-goal frame, spoon token, shine layer, meter depth, earning-plan frame, and spoon-accented action button across mobile viewports.
+
+
+### v0.1.359 - Pantry Filter Controls Polish
+- Bumped the visible app version to v0.1.359 and upgraded Pantry slot, rarity, availability, sort, filter-summary, and reset controls into the same tactile chip language as the polished shop cards.
+- Kept all filtering, sorting, visible-card limit, reset behavior, and selected-slot persistence unchanged; this is a visual consistency pass for the decoration browsing workflow.
+- Extended mobile QA to guard the filter-stack frame, active filter chips, active sort chip, sort label, filtered summary card, clear button, and empty-state reset button across mobile viewports.
