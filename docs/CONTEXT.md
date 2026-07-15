@@ -2672,3 +2672,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.369 and closed the reset-dialog review flag by making mobile QA exercise the real reset button, modal backdrop, dialog copy, cancel/confirm labels, and cancel-return flow.
 - Kept reset semantics and reset-dialog UI artwork unchanged; this is a launch-readiness guard for a destructive confirmation surface.
 - Extended mobile QA to verify safe-area backdrop padding, dialog viewport containment, localized copy intent, button tap size, and app-shell recovery after cancel.
+
+
+### v0.1.370 - Pantry Feedback Pip Cameo Polish
+- Bumped the visible app version to v0.1.370 and upgraded Pantry purchase, equip, and story-complete feedback cards with the approved Pip guide cameo asset.
+- Rebuilt the feedback copy with explicit DOM nodes instead of HTML string insertion while keeping purchase/equip/story completion logic, spoon accounting, and placement behavior unchanged.
+- Extended mobile QA to guard the Pip cameo frame, speech-tail accent, image size, reward frame, item art, and story-complete feedback treatment across mobile viewports.

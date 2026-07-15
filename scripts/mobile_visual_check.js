@@ -3393,6 +3393,11 @@ async function verifyPantryPlacement(page, viewportName) {
     const artStyle = art ? getComputedStyle(art) : null;
     const img = el.querySelector(".pantry-action-feedback__art img");
     const imgRect = img ? img.getBoundingClientRect() : { width: 0, height: 0 };
+    const pip = el.querySelector(".pantry-action-feedback__pip");
+    const pipStyle = pip ? getComputedStyle(pip) : null;
+    const pipAfter = pip ? getComputedStyle(pip, "::after") : null;
+    const pipImg = el.querySelector(".pantry-action-feedback__pip img");
+    const pipImgRect = pipImg ? pipImg.getBoundingClientRect() : { width: 0, height: 0 };
     const dismiss = el.querySelector(".pantry-action-feedback__dismiss");
     const dismissRect = dismiss ? dismiss.getBoundingClientRect() : { height: 0 };
     return {
@@ -3409,6 +3414,13 @@ async function verifyPantryPlacement(page, viewportName) {
       artRadius: artStyle ? parseFloat(artStyle.borderRadius) : 0,
       imageWidth: imgRect.width,
       imageHeight: imgRect.height,
+      pipWidth: pip ? pip.getBoundingClientRect().width : 0,
+      pipRadius: pipStyle ? parseFloat(pipStyle.borderRadius) : 0,
+      pipBorderWidth: pipStyle ? parseFloat(pipStyle.borderTopWidth) : 0,
+      pipBackground: pipStyle ? pipStyle.backgroundImage : "",
+      pipTailContent: pipAfter ? pipAfter.content : "none",
+      pipImageWidth: pipImgRect.width,
+      pipImageHeight: pipImgRect.height,
       dismissHeight: dismissRect.height
     };
   });
@@ -3420,6 +3432,9 @@ async function verifyPantryPlacement(page, viewportName) {
   }
   if (purchaseFeedbackMetrics.artWidth < 68 || purchaseFeedbackMetrics.artRadius < 14 || purchaseFeedbackMetrics.imageWidth < 44 || purchaseFeedbackMetrics.imageHeight < 44 || purchaseFeedbackMetrics.dismissHeight < 40) {
     failures.push("[" + viewportName + "] Pantry purchase feedback art or dismiss target regressed: " + JSON.stringify(purchaseFeedbackMetrics));
+  }
+  if (purchaseFeedbackMetrics.pipWidth < 42 || purchaseFeedbackMetrics.pipRadius < 14 || purchaseFeedbackMetrics.pipBorderWidth < 2 || !purchaseFeedbackMetrics.pipBackground.includes("radial-gradient") || purchaseFeedbackMetrics.pipTailContent === "none" || purchaseFeedbackMetrics.pipImageWidth < 34 || purchaseFeedbackMetrics.pipImageHeight < 34) {
+    failures.push("[" + viewportName + "] Pantry purchase feedback lost Pip cameo artwork: " + JSON.stringify(purchaseFeedbackMetrics));
   }
 
   await expectVisible(page, ".pantry-progress-board", viewportName);
@@ -3547,6 +3562,10 @@ async function verifyPantryPlacement(page, viewportName) {
     const artStyle = art ? getComputedStyle(art) : null;
     const img = el.querySelector(".pantry-action-feedback__art img");
     const imgRect = img ? img.getBoundingClientRect() : { width: 0, height: 0 };
+    const pip = el.querySelector(".pantry-action-feedback__pip");
+    const pipStyle = pip ? getComputedStyle(pip) : null;
+    const pipImg = el.querySelector(".pantry-action-feedback__pip img");
+    const pipImgRect = pipImg ? pipImg.getBoundingClientRect() : { width: 0, height: 0 };
     return {
       borderRadius: parseFloat(style.borderRadius),
       borderWidth: parseFloat(style.borderTopWidth),
@@ -3557,7 +3576,12 @@ async function verifyPantryPlacement(page, viewportName) {
       artWidth: art ? art.getBoundingClientRect().width : 0,
       artRadius: artStyle ? parseFloat(artStyle.borderRadius) : 0,
       imageWidth: imgRect.width,
-      imageHeight: imgRect.height
+      imageHeight: imgRect.height,
+      pipWidth: pip ? pip.getBoundingClientRect().width : 0,
+      pipRadius: pipStyle ? parseFloat(pipStyle.borderRadius) : 0,
+      pipBackground: pipStyle ? pipStyle.backgroundImage : "",
+      pipImageWidth: pipImgRect.width,
+      pipImageHeight: pipImgRect.height
     };
   });
   if (storyFeedbackMetrics.borderRadius < 16 || storyFeedbackMetrics.borderWidth < 3 || !storyFeedbackMetrics.background.includes("radial-gradient") || storyFeedbackMetrics.shineContent === "none" || storyFeedbackMetrics.tokenContent === "none" || storyFeedbackMetrics.tokenWidth < 24) {
@@ -3565,6 +3589,9 @@ async function verifyPantryPlacement(page, viewportName) {
   }
   if (storyFeedbackMetrics.artWidth < 68 || storyFeedbackMetrics.artRadius < 14 || storyFeedbackMetrics.imageWidth < 44 || storyFeedbackMetrics.imageHeight < 44) {
     failures.push("[" + viewportName + "] Story-complete feedback art regressed: " + JSON.stringify(storyFeedbackMetrics));
+  }
+  if (storyFeedbackMetrics.pipWidth < 42 || storyFeedbackMetrics.pipRadius < 14 || !storyFeedbackMetrics.pipBackground.includes("radial-gradient") || storyFeedbackMetrics.pipImageWidth < 34 || storyFeedbackMetrics.pipImageHeight < 34) {
+    failures.push("[" + viewportName + "] Story-complete feedback lost Pip cameo artwork: " + JSON.stringify(storyFeedbackMetrics));
   }
   const completedStoryState = await page.evaluate(() => {
     const save = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:save:jay") || "{}");
