@@ -2588,3 +2588,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.355 and upgraded the post-first-purchase milestone plus delivery-note cards with the same framed surface, shine, token, and tactile action language used by the newer Pantry shop cards.
 - Kept story goal selection, next-arrival persistence, purchase flow, spoon math, and slot placement unchanged; this is a launch-facing presentation pass for the first decoration story loop.
 - Extended mobile QA to guard milestone card frame, level/item chip polish, delivery-note solid card treatment, step chips, and 44px action controls on mobile viewports.
+
+
+### v0.1.356 - Pantry Story Archive Polish
+- Bumped the visible app version to v0.1.356 and upgraded the completed-request archive into the same cozy framed card language as the newer Pantry story surfaces.
+- Kept completed-goal persistence, next-request planning, stage-gate math, and shop routing unchanged; this is a launch-facing polish pass for the loop summary that appears after a decoration request is fulfilled.
+- Extended mobile QA to guard the archive frame, progress meter, chapter card, stage-goal card, next-request CTA, and completed-item chips across mobile viewports.

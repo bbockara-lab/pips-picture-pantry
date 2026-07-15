@@ -2821,6 +2821,47 @@ async function verifyPantryPlacement(page, viewportName) {
   await expectVisible(page, ".pantry-story-archive__chapter", viewportName);
   await expectVisible(page, ".pantry-story-archive__stage-goal", viewportName);
   await expectVisible(page, ".pantry-story-archive__next", viewportName);
+  const storyArchiveMetrics = await page.locator(".pantry-story-archive").first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    const before = getComputedStyle(el, "::before");
+    const after = getComputedStyle(el, "::after");
+    const step = el.querySelector(".pantry-story-archive__step");
+    const meter = el.querySelector(".pantry-story-archive__meter");
+    const chapter = el.querySelector(".pantry-story-archive__chapter");
+    const stageGoal = el.querySelector(".pantry-story-archive__stage-goal");
+    const next = el.querySelector(".pantry-story-archive__next");
+    const nextAction = el.querySelector(".pantry-story-archive__next-action");
+    const item = el.querySelector(".pantry-story-archive__item");
+    const stepStyle = step ? getComputedStyle(step) : null;
+    const meterStyle = meter ? getComputedStyle(meter) : null;
+    const chapterStyle = chapter ? getComputedStyle(chapter) : null;
+    const stageGoalStyle = stageGoal ? getComputedStyle(stageGoal) : null;
+    const nextStyle = next ? getComputedStyle(next) : null;
+    const nextActionStyle = nextAction ? getComputedStyle(nextAction) : null;
+    const itemStyle = item ? getComputedStyle(item) : null;
+    return {
+      borderRadius: parseFloat(style.borderRadius),
+      borderWidth: parseFloat(style.borderTopWidth),
+      overflow: style.overflow,
+      background: style.backgroundImage,
+      shineContent: before.content,
+      tokenContent: after.content,
+      tokenWidth: parseFloat(after.width),
+      stepRadius: stepStyle ? parseFloat(stepStyle.borderRadius) : 0,
+      meterHeight: meter ? meter.getBoundingClientRect().height : 0,
+      meterOverflow: meterStyle ? meterStyle.overflow : "",
+      chapterRadius: chapterStyle ? parseFloat(chapterStyle.borderRadius) : 0,
+      stageGoalRadius: stageGoalStyle ? parseFloat(stageGoalStyle.borderRadius) : 0,
+      nextRadius: nextStyle ? parseFloat(nextStyle.borderRadius) : 0,
+      actionHeight: nextAction ? nextAction.getBoundingClientRect().height : 0,
+      actionRadius: nextActionStyle ? parseFloat(nextActionStyle.borderRadius) : 0,
+      itemRadius: itemStyle ? parseFloat(itemStyle.borderRadius) : 0,
+      itemHeight: item ? item.getBoundingClientRect().height : 0
+    };
+  });
+  if (storyArchiveMetrics.borderRadius < 16 || storyArchiveMetrics.borderWidth < 3 || storyArchiveMetrics.overflow !== "hidden" || !storyArchiveMetrics.background.includes("radial-gradient") || storyArchiveMetrics.shineContent === "none" || storyArchiveMetrics.tokenContent === "none" || storyArchiveMetrics.tokenWidth < 24 || storyArchiveMetrics.stepRadius < 14 || storyArchiveMetrics.meterHeight < 9 || storyArchiveMetrics.meterOverflow !== "hidden" || storyArchiveMetrics.chapterRadius < 14 || storyArchiveMetrics.stageGoalRadius < 14 || storyArchiveMetrics.nextRadius < 14 || storyArchiveMetrics.actionHeight < 44 || storyArchiveMetrics.actionRadius < 14 || storyArchiveMetrics.itemRadius < 14 || storyArchiveMetrics.itemHeight < 48) {
+    failures.push("[" + viewportName + "] Pantry story archive lost its polished request-log treatment: " + JSON.stringify(storyArchiveMetrics));
+  }
   await page.locator(".pantry-story-archive__next-action").click();
   await page.waitForTimeout(120);
   await expectVisible(page, ".pantry-story-delivery", viewportName);
