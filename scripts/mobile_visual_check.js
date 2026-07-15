@@ -2232,38 +2232,74 @@ async function verifyPantryPlacement(page, viewportName) {
     const pipStyle = pip ? getComputedStyle(pip) : null;
     const pipTail = pip ? getComputedStyle(pip, "::after") : null;
     const pipImageStyle = pipImage ? getComputedStyle(pipImage) : null;
+    const target = card.querySelector(".pantry-story-request__target");
+    const targetStyle = target ? getComputedStyle(target) : null;
+    const targetIcon = target ? getComputedStyle(target, "::before") : null;
+    const action = card.querySelector(".pantry-story-request__action");
+    const actionStyle = action ? getComputedStyle(action) : null;
+    const actionShine = action ? getComputedStyle(action, "::before") : null;
     return {
       width: rect.width,
       borderRadius: parseFloat(getComputedStyle(card).borderRadius) || 0,
+      borderWidth: parseFloat(getComputedStyle(card).borderTopWidth) || 0,
       overflow: getComputedStyle(card).overflow,
       background: getComputedStyle(card).backgroundImage,
+      boxShadow: getComputedStyle(card).boxShadow,
       shineContent: shine.content,
       shineHeight: parseFloat(shine.height) || 0,
       pipWidth: pipRect.width,
       pipHeight: pipRect.height,
+      pipBorderWidth: pipStyle ? parseFloat(pipStyle.borderTopWidth) || 0 : 0,
+      pipBoxShadow: pipStyle ? pipStyle.boxShadow : "",
       pipPointerEvents: pipStyle ? pipStyle.pointerEvents : "",
       pipTailContent: pipTail ? pipTail.content : "none",
       pipTailWidth: pipTail ? parseFloat(pipTail.width) || 0 : 0,
       pipImageDisplay: pipImageStyle ? pipImageStyle.display : "",
       pipImageZIndex: pipImageStyle ? pipImageStyle.zIndex : "",
-      pipImageAlt: pipImage ? pipImage.getAttribute("alt") : null
+      pipImageAlt: pipImage ? pipImage.getAttribute("alt") : null,
+      targetHeight: target ? target.getBoundingClientRect().height : 0,
+      targetBorderWidth: targetStyle ? parseFloat(targetStyle.borderTopWidth) || 0 : 0,
+      targetBackground: targetStyle ? targetStyle.backgroundImage : "",
+      targetIconContent: targetIcon ? targetIcon.content : "none",
+      targetIconWidth: targetIcon ? parseFloat(targetIcon.width) || 0 : 0,
+      actionHeight: action ? action.getBoundingClientRect().height : 0,
+      actionBorderWidth: actionStyle ? parseFloat(actionStyle.borderTopWidth) || 0 : 0,
+      actionRadius: actionStyle ? parseFloat(actionStyle.borderRadius) || 0 : 0,
+      actionBackground: actionStyle ? actionStyle.backgroundImage : "",
+      actionShineContent: actionShine ? actionShine.content : "none",
+      actionShineHeight: actionShine ? parseFloat(actionShine.height) || 0 : 0
     };
   });
   if (
     storyRequestMetrics.width < 180
     || storyRequestMetrics.borderRadius < 14
+    || storyRequestMetrics.borderWidth < 3
     || storyRequestMetrics.overflow !== "hidden"
     || !storyRequestMetrics.background.includes("radial-gradient")
+    || !storyRequestMetrics.boxShadow.includes("rgba")
     || storyRequestMetrics.shineContent === "none"
     || storyRequestMetrics.shineHeight < 10
     || storyRequestMetrics.pipWidth < 40
     || storyRequestMetrics.pipHeight < 40
+    || storyRequestMetrics.pipBorderWidth < 3
+    || !storyRequestMetrics.pipBoxShadow.includes("rgba")
     || storyRequestMetrics.pipPointerEvents !== "none"
     || storyRequestMetrics.pipTailContent === "none"
     || storyRequestMetrics.pipTailWidth < 8
     || storyRequestMetrics.pipImageDisplay !== "block"
     || storyRequestMetrics.pipImageZIndex !== "1"
     || storyRequestMetrics.pipImageAlt !== ""
+    || storyRequestMetrics.targetHeight < 30
+    || storyRequestMetrics.targetBorderWidth < 2
+    || !storyRequestMetrics.targetBackground.includes("radial-gradient")
+    || storyRequestMetrics.targetIconContent === "none"
+    || storyRequestMetrics.targetIconWidth < 10
+    || storyRequestMetrics.actionHeight < 46
+    || storyRequestMetrics.actionBorderWidth < 4
+    || storyRequestMetrics.actionRadius < 14
+    || !storyRequestMetrics.actionBackground.includes("radial-gradient")
+    || storyRequestMetrics.actionShineContent === "none"
+    || storyRequestMetrics.actionShineHeight < 8
   ) {
     failures.push("[" + viewportName + "] Pantry story request card lost Pip-led polished treatment: " + JSON.stringify(storyRequestMetrics));
   }

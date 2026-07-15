@@ -2612,3 +2612,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.359 and upgraded Pantry slot, rarity, availability, sort, filter-summary, and reset controls into the same tactile chip language as the polished shop cards.
 - Kept all filtering, sorting, visible-card limit, reset behavior, and selected-slot persistence unchanged; this is a visual consistency pass for the decoration browsing workflow.
 - Extended mobile QA to guard the filter-stack frame, active filter chips, active sort chip, sort label, filtered summary card, clear button, and empty-state reset button across mobile viewports.
+
+
+### v0.1.360 - Pantry Story Request CTA Polish
+- Bumped the visible app version to v0.1.360 and upgraded the first Pantry request target chip plus CTA button into the same tactile, spoon-token card language as the newer shop surfaces.
+- Kept request selection, starter decoration choice, ownership/equip checks, and action routing unchanged; this is a first-purchase guidance and touch-quality pass.
+- Extended mobile QA to guard the request card border/shadow, Pip cameo depth, target chip artwork, and CTA shine/border/radius treatment across mobile viewports.
