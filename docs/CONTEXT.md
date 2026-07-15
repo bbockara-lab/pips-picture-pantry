@@ -2703,3 +2703,9 @@ v1 Android decision:
 - Moved the stamp layering directly into the single .pantry-story-delivery__pip rule while keeping the frame, speech-tail accent, image sizing, delivery card behavior, and mobile QA expectations unchanged.
 - This is a small CSS hygiene pass to keep the polished Pantry story-card artwork easier to maintain before release QA.
 
+
+
+### v0.1.375 - Pantry Story Cards DOM Safety Polish
+- Bumped the visible app version to v0.1.375 and removed the remaining HTML string insertion paths from the Pantry story request, milestone, and archive cards.
+- Added a tiny shared DOM text helper so localized copy is assigned through textContent while preserving all existing class names, CTA wiring, progress math, and mobile QA selectors.
+- This keeps the Pantry story surfaces safer for Android WebView/CSP and reduces late-release copy/rendering risk without changing the user-facing flow.

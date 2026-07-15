@@ -8,6 +8,16 @@ import { t } from "../i18n/index.js";
 const roomStepTargets = [1, 3, 6, 10];
 const GUIDE_ART_ASSET_ID = "pip-chrome-v2";
 
+function appendTextElement(parent, tagName, className, text) {
+  const element = document.createElement(tagName);
+  if (className) {
+    element.className = className;
+  }
+  element.textContent = text;
+  parent.appendChild(element);
+  return element;
+}
+
 export function renderPantryStoryRequest(approvedDecorations, ownedIds, equippedDecorations, spoons, onStartRequest) {
   const starterRequest = approvedDecorations.find((decoration) => Number(decoration.cost || 0) === 0 && decoration.slot === "counter") || approvedDecorations[0];
   if (!starterRequest) {
@@ -44,11 +54,10 @@ export function renderPantryStoryRequest(approvedDecorations, ownedIds, equipped
 
   const copy = document.createElement("div");
   copy.className = "pantry-story-request__copy";
-  copy.innerHTML = ""
-    + '<p class="section-label">' + t("pantry.storyEyebrow") + "</p>"
-    + "<h3>" + t("pantry.story." + state + "Title", { item: t(starterRequest.titleKey), slot: slotLabel }) + "</h3>"
-    + "<p>" + t("pantry.story." + state + "Body", { item: t(starterRequest.titleKey), slot: slotLabel, spoons }) + "</p>"
-    + '<p class="pantry-story-request__target">' + t("pantry.storyTarget", { item: t(starterRequest.titleKey), slot: slotLabel }) + "</p>";
+  appendTextElement(copy, "p", "section-label", t("pantry.storyEyebrow"));
+  appendTextElement(copy, "h3", "", t("pantry.story." + state + "Title", { item: t(starterRequest.titleKey), slot: slotLabel }));
+  appendTextElement(copy, "p", "", t("pantry.story." + state + "Body", { item: t(starterRequest.titleKey), slot: slotLabel, spoons }));
+  appendTextElement(copy, "p", "pantry-story-request__target", t("pantry.storyTarget", { item: t(starterRequest.titleKey), slot: slotLabel }));
 
   const action = document.createElement("button");
   action.type = "button";
@@ -77,15 +86,15 @@ export function renderPantryStoryMilestone(approvedDecorations, ownedIds, equipp
 
   const copy = document.createElement("div");
   copy.className = "pantry-story-milestone__copy";
-  copy.innerHTML = ""
-    + '<p class="section-label">' + t("pantry.storyMilestoneEyebrow") + "</p>"
-    + "<h3>" + t("pantry.storyMilestoneTitle") + "</h3>"
-    + "<p>" + t("pantry.storyMilestoneBody") + "</p>";
+  appendTextElement(copy, "p", "section-label", t("pantry.storyMilestoneEyebrow"));
+  appendTextElement(copy, "h3", "", t("pantry.storyMilestoneTitle"));
+  appendTextElement(copy, "p", "", t("pantry.storyMilestoneBody"));
 
   const level = document.createElement("div");
   level.className = "pantry-story-milestone__level";
   level.setAttribute("aria-label", t("pantry.storyMilestoneLevelAria"));
-  level.innerHTML = '<span>' + t("pantry.storyMilestoneLevel") + '</span><strong>' + Math.max(1, Object.keys(equippedDecorations || {}).length) + "</strong>";
+  appendTextElement(level, "span", "", t("pantry.storyMilestoneLevel"));
+  appendTextElement(level, "strong", "", String(Math.max(1, Object.keys(equippedDecorations || {}).length)));
 
   milestone.append(copy, level);
 
@@ -233,26 +242,27 @@ export function renderPantryStoryArchive(approvedDecorations, completedGoalIds, 
 
   const copy = document.createElement("div");
   copy.className = "pantry-story-archive__copy";
-  copy.innerHTML = ""
-    + '<p class="section-label">' + t("pantry.storyArchiveEyebrow") + "</p>"
-    + "<h3>" + t("pantry.storyArchiveTitle", { count: completedDecorations.length }) + "</h3>"
-    + "<p>" + t("pantry.storyArchiveBody", { count: completedDecorations.length }) + "</p>";
+  appendTextElement(copy, "p", "section-label", t("pantry.storyArchiveEyebrow"));
+  appendTextElement(copy, "h3", "", t("pantry.storyArchiveTitle", { count: completedDecorations.length }));
+  appendTextElement(copy, "p", "", t("pantry.storyArchiveBody", { count: completedDecorations.length }));
 
   const step = document.createElement("div");
   step.className = "pantry-story-archive__step";
-  step.innerHTML = ""
-    + "<span>" + t("pantry.storyArchiveStepLabel") + "</span>"
-    + "<strong>" + t("pantry.storyArchiveStepProgress", { count: completedCount, target: nextTarget }) + "</strong>"
-    + '<div class="pantry-story-archive__meter" aria-hidden="true"><span></span></div>';
+  appendTextElement(step, "span", "", t("pantry.storyArchiveStepLabel"));
+  appendTextElement(step, "strong", "", t("pantry.storyArchiveStepProgress", { count: completedCount, target: nextTarget }));
+  const meter = document.createElement("div");
+  meter.className = "pantry-story-archive__meter";
+  meter.setAttribute("aria-hidden", "true");
+  meter.appendChild(document.createElement("span"));
+  step.appendChild(meter);
   copy.appendChild(step);
 
   const chapterIndex = Math.max(1, roomStepTargets.filter((target) => completedCount >= target).length + 1);
   const chapter = document.createElement("div");
   chapter.className = "pantry-story-archive__chapter";
-  chapter.innerHTML = ""
-    + "<span>" + t("pantry.storyArchiveChapterLabel") + "</span>"
-    + "<strong>" + t("pantry.storyArchiveChapterTitle", { chapter: chapterIndex }) + "</strong>"
-    + "<p>" + t("pantry.storyArchiveChapterBody", { count: completedCount, target: nextTarget }) + "</p>";
+  appendTextElement(chapter, "span", "", t("pantry.storyArchiveChapterLabel"));
+  appendTextElement(chapter, "strong", "", t("pantry.storyArchiveChapterTitle", { chapter: chapterIndex }));
+  appendTextElement(chapter, "p", "", t("pantry.storyArchiveChapterBody", { count: completedCount, target: nextTarget }));
   copy.appendChild(chapter);
 
   const nextStageGoal = getNextPantryStageGoal(completedCount);
@@ -262,17 +272,16 @@ export function renderPantryStoryArchive(approvedDecorations, completedGoalIds, 
     const stageCost = Math.max(0, Number(nextStageGoal.pack.unlockCost || 0));
     const stageSaved = Math.min(stageCost, Math.max(0, Number(spoons || 0)));
     const stageNeeded = Math.max(0, stageCost - stageSaved);
-    stageGoal.innerHTML = ""
-      + "<span>" + t("pantry.storyArchiveStageGoalLabel") + "</span>"
-      + "<strong>" + t("pantry.storyArchiveStageGoal", {
-        stage: t(nextStageGoal.pack.titleKey),
-        remaining: nextStageGoal.remaining
-      }) + "</strong>"
-      + "<p>" + t("pantry.storyArchiveStageCost", {
-        cost: stageCost,
-        saved: stageSaved,
-        needed: stageNeeded
-      }) + "</p>";
+    appendTextElement(stageGoal, "span", "", t("pantry.storyArchiveStageGoalLabel"));
+    appendTextElement(stageGoal, "strong", "", t("pantry.storyArchiveStageGoal", {
+      stage: t(nextStageGoal.pack.titleKey),
+      remaining: nextStageGoal.remaining
+    }));
+    appendTextElement(stageGoal, "p", "", t("pantry.storyArchiveStageCost", {
+      cost: stageCost,
+      saved: stageSaved,
+      needed: stageNeeded
+    }));
     copy.appendChild(stageGoal);
   }
 
@@ -285,12 +294,11 @@ export function renderPantryStoryArchive(approvedDecorations, completedGoalIds, 
     const slotLabel = slot ? t(slot.titleKey) : nextRequest.slot;
     const next = document.createElement("div");
     next.className = "pantry-story-archive__next";
-    next.innerHTML = ""
-      + "<div>"
-      + "<span>" + t("pantry.storyArchiveNextLabel") + "</span>"
-      + "<strong>" + t("pantry.storyArchiveNextTitle", { item: t(nextRequest.titleKey) }) + "</strong>"
-      + "<p>" + t("pantry.storyArchiveNextBody", { slot: slotLabel, cost: Number(nextRequest.cost || 0) }) + "</p>"
-      + "</div>";
+    const nextCopy = document.createElement("div");
+    appendTextElement(nextCopy, "span", "", t("pantry.storyArchiveNextLabel"));
+    appendTextElement(nextCopy, "strong", "", t("pantry.storyArchiveNextTitle", { item: t(nextRequest.titleKey) }));
+    appendTextElement(nextCopy, "p", "", t("pantry.storyArchiveNextBody", { slot: slotLabel, cost: Number(nextRequest.cost || 0) }));
+    next.appendChild(nextCopy);
     const action = document.createElement("button");
     action.type = "button";
     action.className = "pantry-story-archive__next-action";
