@@ -9780,3 +9780,149 @@ img {
     justify-self: start;
   }
 }
+
+
+/* v0.1.358 pantry economy plan cards polish */
+.pantry-savings-goal,
+.pantry-earning-plan {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 11px;
+  padding: 15px 16px 15px 48px;
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 18px;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.72),
+    0 5px 0 rgba(61, 43, 46, 0.1),
+    0 16px 28px rgba(78, 48, 54, 0.08);
+}
+
+.pantry-savings-goal {
+  border-color: rgba(207, 164, 59, 0.44);
+  background:
+    radial-gradient(circle at 88% 12%, rgba(255, 238, 158, 0.64), transparent 34%),
+    radial-gradient(circle at 8% 88%, rgba(184, 230, 210, 0.46), transparent 38%),
+    linear-gradient(135deg, rgba(255, 252, 241, 0.98), rgba(255, 244, 214, 0.9));
+}
+
+.pantry-earning-plan {
+  border-color: rgba(85, 149, 119, 0.42);
+  background:
+    radial-gradient(circle at 88% 12%, rgba(184, 230, 210, 0.64), transparent 34%),
+    radial-gradient(circle at 8% 88%, rgba(255, 238, 158, 0.44), transparent 38%),
+    linear-gradient(135deg, rgba(255, 252, 241, 0.98), rgba(230, 244, 223, 0.92));
+}
+
+.pantry-savings-goal::before,
+.pantry-earning-plan::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 17px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.8) 0 20%, transparent 21%),
+    linear-gradient(135deg, #f8d477, #dfa342);
+  box-shadow:
+    inset 0 0 0 3px rgba(132, 85, 56, 0.12),
+    0 3px 0 rgba(61, 43, 46, 0.12);
+  pointer-events: none;
+}
+
+.pantry-savings-goal::after,
+.pantry-earning-plan::after {
+  content: "";
+  position: absolute;
+  inset: 8px 48px auto 48px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+.pantry-savings-goal > *,
+.pantry-earning-plan > * {
+  position: relative;
+  z-index: 1;
+}
+
+.pantry-savings-goal h3,
+.pantry-earning-plan h3 {
+  font-size: 1.02rem;
+}
+
+.pantry-savings-meter {
+  height: 13px;
+  border-width: 2px;
+  border-color: rgba(106, 76, 58, 0.16);
+  background: rgba(255, 253, 243, 0.92);
+  box-shadow:
+    inset 0 2px 0 rgba(61, 43, 46, 0.06),
+    0 2px 0 rgba(61, 43, 46, 0.06);
+}
+
+.pantry-savings-meter span {
+  background:
+    radial-gradient(circle at 18% 35%, rgba(255, 255, 255, 0.68) 0 10%, transparent 11%),
+    linear-gradient(90deg, rgba(184, 230, 210, 0.98), rgba(255, 206, 84, 0.98));
+}
+
+.pantry-earning-action {
+  position: relative;
+  overflow: hidden;
+  min-height: 46px;
+  border-width: 3px;
+  border-radius: 15px;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.72) 0 10%, transparent 11%),
+    linear-gradient(180deg, #ffe7a5, #f2bd4b);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.72),
+    0 4px 0 rgba(61, 43, 46, 0.14);
+}
+
+.pantry-earning-action::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78) 0 20%, transparent 21%),
+    linear-gradient(135deg, #f8d477, #dfa342);
+  box-shadow: 0 2px 0 rgba(61, 43, 46, 0.12);
+}
+
+.pantry-earning-action:active {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.62),
+    0 2px 0 rgba(61, 43, 46, 0.12);
+}
+
+@media (max-width: 430px) {
+  .pantry-savings-goal,
+  .pantry-earning-plan {
+    padding: 14px 13px 14px 44px;
+  }
+
+  .pantry-savings-goal::before,
+  .pantry-earning-plan::before {
+    left: 13px;
+    width: 22px;
+    height: 22px;
+  }
+
+  .pantry-savings-goal::after,
+  .pantry-earning-plan::after {
+    inset-inline-start: 44px;
+    inset-inline-end: 38px;
+  }
+}

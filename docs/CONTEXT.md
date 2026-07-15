@@ -2600,3 +2600,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.357 and upgraded the Pantry collection progress board into the same framed, token-accented card language as the newer story and shop surfaces.
 - Kept collection counts, slot ownership math, room-path mission, spoon gate copy, and shop routing unchanged; this is a presentation/readability pass for the always-visible progress loop.
 - Extended mobile QA to guard the progress-board frame, clipped shine, token accent, summary pill, five slot cards, and slot-token artwork across mobile viewports.
+
+
+### v0.1.358 - Pantry Economy Plan Polish
+- Bumped the visible app version to v0.1.358 and upgraded the Pantry savings-goal and earning-plan cards into the same warm spoon-economy card language as the item savings chips.
+- Kept target-item selection, tracked-goal retargeting, spoon gap math, starter/daily run estimates, and Time Attack routing unchanged; this is a UI clarity pass for the spend/earn loop.
+- Extended mobile QA to guard the savings-goal frame, spoon token, shine layer, meter depth, earning-plan frame, and spoon-accented action button across mobile viewports.

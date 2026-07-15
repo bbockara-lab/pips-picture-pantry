@@ -2328,10 +2328,93 @@ async function verifyPantryPlacement(page, viewportName) {
   if (!savingsGoalText.includes("17") && !savingsGoalText.includes("Need 17")) {
     failures.push("[" + viewportName + "] Pantry savings goal should show the next 17-spoon gap at seeded balance, saw " + savingsGoalText);
   }
+  const savingsGoalVisualMetrics = await page.locator(".pantry-savings-goal").first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    const before = getComputedStyle(el, "::before");
+    const after = getComputedStyle(el, "::after");
+    const meter = el.querySelector(".pantry-savings-meter");
+    const fill = meter?.querySelector("span");
+    const meterStyle = meter ? getComputedStyle(meter) : null;
+    const fillStyle = fill ? getComputedStyle(fill) : null;
+    return {
+      borderRadius: parseFloat(style.borderRadius) || 0,
+      borderWidth: parseFloat(style.borderTopWidth) || 0,
+      overflow: style.overflow,
+      paddingLeft: parseFloat(style.paddingLeft) || 0,
+      background: style.backgroundImage,
+      tokenContent: before.content,
+      tokenWidth: parseFloat(before.width) || 0,
+      shineContent: after.content,
+      shineHeight: parseFloat(after.height) || 0,
+      meterHeight: meter ? meter.getBoundingClientRect().height : 0,
+      meterBorderWidth: meterStyle ? parseFloat(meterStyle.borderTopWidth) || 0 : 0,
+      fillBackground: fillStyle ? fillStyle.backgroundImage : ""
+    };
+  });
+  if (
+    savingsGoalVisualMetrics.borderRadius < 16 ||
+    savingsGoalVisualMetrics.borderWidth < 3 ||
+    savingsGoalVisualMetrics.overflow !== "hidden" ||
+    savingsGoalVisualMetrics.paddingLeft < 40 ||
+    !savingsGoalVisualMetrics.background.includes("radial-gradient") ||
+    savingsGoalVisualMetrics.tokenContent === "none" ||
+    savingsGoalVisualMetrics.tokenWidth < 20 ||
+    savingsGoalVisualMetrics.shineContent === "none" ||
+    savingsGoalVisualMetrics.shineHeight < 10 ||
+    savingsGoalVisualMetrics.meterHeight < 12 ||
+    savingsGoalVisualMetrics.meterBorderWidth < 2 ||
+    !savingsGoalVisualMetrics.fillBackground.includes("linear-gradient")
+  ) {
+    failures.push("[" + viewportName + "] Pantry savings goal lost its polished economy-card treatment: " + JSON.stringify(savingsGoalVisualMetrics));
+  }
 
   const earningPlanText = await page.locator(".pantry-earning-plan").first().innerText();
   if (!earningPlanText.includes("17") || !earningPlanText.includes("6") || !earningPlanText.includes("2")) {
     failures.push("[" + viewportName + "] Pantry earning plan should translate the 17-spoon gap into starter and daily runs, saw " + earningPlanText);
+  }
+  const earningPlanVisualMetrics = await page.locator(".pantry-earning-plan").first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    const before = getComputedStyle(el, "::before");
+    const after = getComputedStyle(el, "::after");
+    const action = el.querySelector(".pantry-earning-action");
+    const actionStyle = action ? getComputedStyle(action) : null;
+    const actionBefore = action ? getComputedStyle(action, "::before") : null;
+    return {
+      borderRadius: parseFloat(style.borderRadius) || 0,
+      borderWidth: parseFloat(style.borderTopWidth) || 0,
+      overflow: style.overflow,
+      paddingLeft: parseFloat(style.paddingLeft) || 0,
+      background: style.backgroundImage,
+      tokenContent: before.content,
+      tokenWidth: parseFloat(before.width) || 0,
+      shineContent: after.content,
+      shineHeight: parseFloat(after.height) || 0,
+      actionHeight: action ? action.getBoundingClientRect().height : 0,
+      actionRadius: actionStyle ? parseFloat(actionStyle.borderRadius) || 0 : 0,
+      actionBorderWidth: actionStyle ? parseFloat(actionStyle.borderTopWidth) || 0 : 0,
+      actionBackground: actionStyle ? actionStyle.backgroundImage : "",
+      actionTokenContent: actionBefore ? actionBefore.content : "none",
+      actionTokenWidth: actionBefore ? parseFloat(actionBefore.width) || 0 : 0
+    };
+  });
+  if (
+    earningPlanVisualMetrics.borderRadius < 16 ||
+    earningPlanVisualMetrics.borderWidth < 3 ||
+    earningPlanVisualMetrics.overflow !== "hidden" ||
+    earningPlanVisualMetrics.paddingLeft < 40 ||
+    !earningPlanVisualMetrics.background.includes("radial-gradient") ||
+    earningPlanVisualMetrics.tokenContent === "none" ||
+    earningPlanVisualMetrics.tokenWidth < 20 ||
+    earningPlanVisualMetrics.shineContent === "none" ||
+    earningPlanVisualMetrics.shineHeight < 10 ||
+    earningPlanVisualMetrics.actionHeight < 44 ||
+    earningPlanVisualMetrics.actionRadius < 14 ||
+    earningPlanVisualMetrics.actionBorderWidth < 3 ||
+    !earningPlanVisualMetrics.actionBackground.includes("radial-gradient") ||
+    earningPlanVisualMetrics.actionTokenContent === "none" ||
+    earningPlanVisualMetrics.actionTokenWidth < 14
+  ) {
+    failures.push("[" + viewportName + "] Pantry earning plan lost its polished spoon-plan card treatment: " + JSON.stringify(earningPlanVisualMetrics));
   }
 
   const firstSavingsText = await page.locator(".pantry-item-savings").first().innerText();
