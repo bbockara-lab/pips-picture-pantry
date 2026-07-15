@@ -10788,3 +10788,145 @@ img {
     inset 0 1px 0 rgba(255, 255, 255, 0.58),
     0 2px 0 rgba(61, 43, 46, 0.12);
 }
+
+
+/* v0.1.367 daily reward card polish */
+.daily-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 92px;
+  border-width: 3px;
+  border-color: rgba(61, 43, 46, 0.22);
+  border-radius: 18px;
+  padding: 14px;
+  background:
+    radial-gradient(circle at 10% 12%, rgba(255, 255, 255, 0.84) 0 8%, transparent 9%),
+    radial-gradient(circle at 82% 88%, rgba(168, 216, 194, 0.42) 0 18%, transparent 19%),
+    linear-gradient(135deg, rgba(255, 248, 232, 0.98), rgba(255, 226, 146, 0.84));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.78),
+    inset 0 -4px 0 rgba(122, 78, 53, 0.08),
+    0 5px 0 rgba(61, 43, 46, 0.1),
+    0 14px 24px rgba(122, 78, 53, 0.12);
+}
+
+.daily-card::before {
+  content: "";
+  position: absolute;
+  inset: 7px 42px auto 16px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+.daily-card::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  bottom: 11px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(61, 43, 46, 0.16);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78) 0 22%, transparent 23%),
+    linear-gradient(180deg, #ffe07b, #d88a45);
+  box-shadow:
+    inset 0 -2px 0 rgba(61, 43, 46, 0.12),
+    0 2px 0 rgba(61, 43, 46, 0.08);
+  pointer-events: none;
+}
+
+.daily-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.daily-card.active {
+  background:
+    radial-gradient(circle at 10% 12%, rgba(255, 255, 255, 0.84) 0 8%, transparent 9%),
+    radial-gradient(circle at 84% 86%, rgba(242, 201, 76, 0.36) 0 17%, transparent 18%),
+    linear-gradient(135deg, rgba(230, 249, 240, 0.98), rgba(161, 218, 190, 0.86));
+}
+
+.daily-card .section-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 25px;
+  margin-bottom: 3px;
+  border: 2px solid rgba(122, 78, 53, 0.1);
+  border-radius: 999px;
+  padding: 2px 10px;
+  background: rgba(255, 248, 232, 0.76);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.daily-reward-note {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 8px;
+  max-width: 100%;
+}
+
+.daily-reward-note br {
+  display: none;
+}
+
+.daily-reward-amount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  min-height: 31px;
+  border: 2px solid rgba(61, 43, 46, 0.13);
+  border-radius: 999px;
+  padding: 3px 9px;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.76) 0 12%, transparent 13%),
+    linear-gradient(180deg, rgba(255, 245, 202, 0.98), rgba(241, 191, 89, 0.76));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.76),
+    0 2px 0 rgba(61, 43, 46, 0.08);
+}
+
+.daily-button {
+  position: relative;
+  overflow: hidden;
+  min-width: 104px;
+  min-height: 52px;
+  border-width: 3px;
+  border-radius: 16px;
+  padding: 0 14px;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.7),
+    0 4px 0 rgba(61, 43, 46, 0.18),
+    0 10px 18px rgba(122, 78, 53, 0.14);
+}
+
+.daily-button::before {
+  content: "";
+  position: absolute;
+  inset: 5px 16px auto 12px;
+  height: 9px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+.daily-button:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.58),
+    0 2px 0 rgba(61, 43, 46, 0.16),
+    0 7px 14px rgba(122, 78, 53, 0.1);
+}
+
+.daily-button:disabled {
+  color: rgba(61, 43, 46, 0.68);
+  background:
+    radial-gradient(circle at 14% 20%, rgba(255, 255, 255, 0.62) 0 10%, transparent 11%),
+    linear-gradient(180deg, rgba(233, 250, 239, 0.96), rgba(172, 219, 193, 0.84));
+}

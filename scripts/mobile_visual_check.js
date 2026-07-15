@@ -37,6 +37,7 @@ for (const viewport of viewports) {
   await expectVisible(page, ".pip-strip__portrait", viewport.name);
   await expectVisible(page, ".currency-pill", viewport.name);
   await expectAppChromePolish(page, viewport.name);
+  await expectDailyRewardPolish(page, viewport.name);
   await expectResetDialogPolish(page, viewport.name);
   await expectStageCompleteRewardPolish(page, viewport.name);
   await expectVisible(page, ".pack-block", viewport.name);
@@ -1387,6 +1388,86 @@ async function expectPuzzleHubSelectionPolish(page, viewportName) {
     )
   ) {
     failures.push("[" + viewportName + "] Puzzle hub selection cards lost polished preview/chip treatment: " + JSON.stringify(metrics));
+  }
+}
+
+async function expectDailyRewardPolish(page, viewportName) {
+  await expectVisible(page, ".daily-card", viewportName);
+  await expectVisible(page, ".daily-button", viewportName);
+  const metrics = await page.evaluate(() => {
+    const card = document.querySelector(".daily-card");
+    const button = document.querySelector(".daily-button");
+    const reward = document.querySelector(".daily-reward-amount");
+    const note = document.querySelector(".daily-reward-note");
+    const cardRect = card?.getBoundingClientRect();
+    const buttonRect = button?.getBoundingClientRect();
+    const rewardRect = reward?.getBoundingClientRect();
+    const cardStyle = card ? getComputedStyle(card) : null;
+    const cardBefore = card ? getComputedStyle(card, "::before") : null;
+    const cardAfter = card ? getComputedStyle(card, "::after") : null;
+    const buttonStyle = button ? getComputedStyle(button) : null;
+    const buttonBefore = button ? getComputedStyle(button, "::before") : null;
+    const rewardStyle = reward ? getComputedStyle(reward) : null;
+    return {
+      cardWidth: cardRect?.width || 0,
+      cardHeight: cardRect?.height || 0,
+      cardRight: cardRect?.right || 0,
+      viewportWidth: window.innerWidth,
+      cardBorderWidth: cardStyle ? parseFloat(cardStyle.borderTopWidth) : 0,
+      cardRadius: cardStyle ? parseFloat(cardStyle.borderRadius) : 0,
+      cardBackground: cardStyle?.backgroundImage || "",
+      cardShadow: cardStyle?.boxShadow || "none",
+      cardOverflow: cardStyle?.overflow || "",
+      cardShineContent: cardBefore?.content || "none",
+      cardShineHeight: cardBefore ? parseFloat(cardBefore.height) : 0,
+      cardTokenContent: cardAfter?.content || "none",
+      cardTokenWidth: cardAfter ? parseFloat(cardAfter.width) : 0,
+      noteText: note?.textContent?.trim() || "",
+      rewardWidth: rewardRect?.width || 0,
+      rewardHeight: rewardRect?.height || 0,
+      rewardRadius: rewardStyle ? parseFloat(rewardStyle.borderRadius) : 0,
+      rewardBackground: rewardStyle?.backgroundImage || "",
+      buttonWidth: buttonRect?.width || 0,
+      buttonHeight: buttonRect?.height || 0,
+      buttonRadius: buttonStyle ? parseFloat(buttonStyle.borderRadius) : 0,
+      buttonBorderWidth: buttonStyle ? parseFloat(buttonStyle.borderTopWidth) : 0,
+      buttonBackground: buttonStyle?.backgroundImage || "",
+      buttonShadow: buttonStyle?.boxShadow || "none",
+      buttonOverflow: buttonStyle?.overflow || "",
+      buttonShineContent: buttonBefore?.content || "none",
+      buttonShineHeight: buttonBefore ? parseFloat(buttonBefore.height) : 0
+    };
+  });
+
+  if (
+    metrics.cardWidth < 240 ||
+    metrics.cardHeight < 88 ||
+    metrics.cardRight > metrics.viewportWidth + 1 ||
+    metrics.cardBorderWidth < 3 ||
+    metrics.cardRadius < 17 ||
+    !metrics.cardBackground.includes("radial-gradient") ||
+    metrics.cardShadow === "none" ||
+    metrics.cardOverflow !== "hidden" ||
+    metrics.cardShineContent === "none" ||
+    metrics.cardShineHeight < 10 ||
+    metrics.cardTokenContent === "none" ||
+    metrics.cardTokenWidth < 18 ||
+    !metrics.noteText.includes("+") ||
+    metrics.rewardWidth < 54 ||
+    metrics.rewardHeight < 30 ||
+    metrics.rewardRadius < 14 ||
+    !metrics.rewardBackground.includes("gradient") ||
+    metrics.buttonWidth < 104 ||
+    metrics.buttonHeight < 50 ||
+    metrics.buttonRadius < 15 ||
+    metrics.buttonBorderWidth < 3 ||
+    !metrics.buttonBackground.includes("gradient") ||
+    metrics.buttonShadow === "none" ||
+    metrics.buttonOverflow !== "hidden" ||
+    metrics.buttonShineContent === "none" ||
+    metrics.buttonShineHeight < 8
+  ) {
+    failures.push("[" + viewportName + "] Daily reward card lost polished economy treatment: " + JSON.stringify(metrics));
   }
 }
 
