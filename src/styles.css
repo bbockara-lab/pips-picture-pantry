@@ -8432,3 +8432,215 @@ img {
   border-style: solid;
   border-color: rgba(61, 43, 46, 0.38);
 }
+
+
+/* v0.1.347 pantry shop card polish */
+.pantry-shop-heading {
+  position: relative;
+  overflow: hidden;
+  padding: 16px;
+  border: 3px solid rgba(61, 43, 46, 0.18);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 16% 12%, rgba(255, 255, 255, 0.72) 0 9%, transparent 10%),
+    linear-gradient(135deg, rgba(255, 248, 232, 0.96), rgba(225, 245, 229, 0.82));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.7),
+    0 8px 0 rgba(61, 43, 46, 0.1),
+    0 16px 26px rgba(61, 43, 46, 0.1);
+}
+
+.pantry-shop-heading::before {
+  content: "";
+  position: absolute;
+  inset: 8px 34px auto 18px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+.pantry-shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 246px), 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+
+.pantry-item-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(92px, 0.42fr) minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  overflow: hidden;
+  min-height: 242px;
+  padding: 12px;
+  border: 3px solid rgba(61, 43, 46, 0.22);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.76) 0 8%, transparent 9%),
+    linear-gradient(150deg, rgba(255, 250, 236, 0.98) 0%, rgba(255, 241, 197, 0.9) 48%, rgba(225, 245, 229, 0.82) 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.7),
+    0 6px 0 rgba(61, 43, 46, 0.12),
+    0 14px 26px rgba(61, 43, 46, 0.1);
+}
+
+.pantry-item-card::before {
+  content: "";
+  position: absolute;
+  inset: 8px 36px auto 16px;
+  height: 11px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+.pantry-item-card.equipped {
+  border-color: rgba(85, 149, 119, 0.56);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.8) 0 8%, transparent 9%),
+    linear-gradient(150deg, rgba(238, 255, 239, 0.98), rgba(196, 236, 214, 0.9));
+}
+
+.pantry-item-card.rarity-rare {
+  border-color: rgba(132, 93, 178, 0.36);
+}
+
+.pantry-item-card.rarity-cozy {
+  border-color: rgba(213, 163, 60, 0.44);
+}
+
+.pantry-item-art {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 118px;
+  padding: 10px;
+  border: 3px solid rgba(61, 43, 46, 0.16);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.82) 0 14%, transparent 15%),
+    linear-gradient(180deg, rgba(255, 244, 192, 0.96), rgba(255, 252, 241, 0.88));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.68),
+    0 4px 0 rgba(61, 43, 46, 0.1);
+}
+
+.pantry-item-art::after {
+  content: "";
+  position: absolute;
+  inset: auto 16% 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(61, 43, 46, 0.1);
+  filter: blur(1px);
+}
+
+.pantry-item-art img {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 96px);
+  max-height: 104px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 0 rgba(61, 43, 46, 0.12));
+}
+
+.pantry-item-body {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.pantry-item-body h4 {
+  margin: 0;
+  color: var(--ink, #3d2b2e);
+  font-size: 1rem;
+  line-height: 1.16;
+}
+
+.pantry-item-body p:not(.pantry-item-status):not(.pantry-slot-note):not(.pantry-swap-note) {
+  margin: 0;
+  color: rgba(78, 48, 54, 0.78);
+  font-size: 0.84rem;
+  font-weight: 760;
+  line-height: 1.34;
+}
+
+.pantry-item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.pantry-item-rarity,
+.pantry-item-cost {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 4px 9px;
+  border: 2px solid rgba(61, 43, 46, 0.12);
+  border-radius: 999px;
+  color: var(--cocoa, #7a4e35);
+  font-size: 0.74rem;
+  font-weight: 950;
+  background: rgba(255, 252, 241, 0.84);
+}
+
+.pantry-item-cost {
+  color: var(--ink, #3d2b2e);
+  background: linear-gradient(180deg, rgba(255, 224, 118, 0.9), rgba(246, 190, 78, 0.86));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+
+.pantry-item-status,
+.pantry-slot-note,
+.pantry-swap-note {
+  position: relative;
+  z-index: 1;
+}
+
+.pantry-item-card > .pantry-item-savings,
+.pantry-item-card > .pantry-track-goal,
+.pantry-item-card > .pantry-item-action {
+  grid-column: 1 / -1;
+  position: relative;
+  z-index: 1;
+}
+
+.pantry-item-card > .pantry-track-goal {
+  justify-self: start;
+}
+
+.pantry-item-card > .pantry-item-action {
+  width: 100%;
+  min-height: 48px;
+}
+
+@media (max-width: 430px) {
+  .pantry-shop-grid {
+    gap: 12px;
+  }
+
+  .pantry-item-card {
+    grid-template-columns: 92px minmax(0, 1fr);
+    min-height: 224px;
+    padding: 10px;
+  }
+
+  .pantry-item-art {
+    min-height: 106px;
+    padding: 8px;
+  }
+
+  .pantry-item-art img {
+    width: min(100%, 82px);
+    max-height: 90px;
+  }
+}

@@ -2251,6 +2251,61 @@ async function verifyPantryPlacement(page, viewportName) {
     failures.push("[" + viewportName + "] Pantry item savings meter should show seeded spoon progress, saw " + firstSavingsText);
   }
 
+  const shopCardMetrics = await page.locator(".pantry-item-card").first().evaluate((card) => {
+    const rect = card.getBoundingClientRect();
+    const art = card.querySelector(".pantry-item-art");
+    const artRect = art ? art.getBoundingClientRect() : { width: 0, height: 0 };
+    const image = card.querySelector(".pantry-item-art img");
+    const imageRect = image ? image.getBoundingClientRect() : { width: 0, height: 0 };
+    const action = card.querySelector(".pantry-item-action");
+    const actionRect = action ? action.getBoundingClientRect() : { width: 0, height: 0 };
+    const meta = [...card.querySelectorAll(".pantry-item-meta span")].map((chip) => {
+      const chipRect = chip.getBoundingClientRect();
+      return { width: chipRect.width, height: chipRect.height, text: chip.textContent.trim() };
+    });
+    const shine = getComputedStyle(card, "::before");
+    return {
+      width: rect.width,
+      height: rect.height,
+      columns: getComputedStyle(card).gridTemplateColumns,
+      borderRadius: parseFloat(getComputedStyle(card).borderRadius) || 0,
+      borderWidth: parseFloat(getComputedStyle(card).borderTopWidth) || 0,
+      overflow: getComputedStyle(card).overflow,
+      background: getComputedStyle(card).backgroundImage,
+      shineContent: shine.content,
+      shineHeight: parseFloat(shine.height) || 0,
+      artWidth: artRect.width,
+      artHeight: artRect.height,
+      artRadius: art ? parseFloat(getComputedStyle(art).borderRadius) || 0 : 0,
+      imageWidth: imageRect.width,
+      imageHeight: imageRect.height,
+      actionWidth: actionRect.width,
+      actionHeight: actionRect.height,
+      meta
+    };
+  });
+  if (
+    shopCardMetrics.width < 180
+    || shopCardMetrics.height < 210
+    || !shopCardMetrics.columns.includes("px")
+    || shopCardMetrics.borderRadius < 16
+    || shopCardMetrics.borderWidth < 3
+    || shopCardMetrics.overflow !== "hidden"
+    || !shopCardMetrics.background.includes("radial-gradient")
+    || shopCardMetrics.shineContent === "none"
+    || shopCardMetrics.shineHeight < 8
+    || shopCardMetrics.artWidth < 80
+    || shopCardMetrics.artHeight < 96
+    || shopCardMetrics.artRadius < 14
+    || shopCardMetrics.imageWidth < 58
+    || shopCardMetrics.imageHeight < 48
+    || shopCardMetrics.actionWidth < 150
+    || shopCardMetrics.actionHeight < 44
+    || shopCardMetrics.meta.length !== 2
+  ) {
+    failures.push("[" + viewportName + "] Pantry shop card lost polished delivery-card treatment: " + JSON.stringify(shopCardMetrics));
+  }
+
   const totalPantryCardCount = 25;
   const allCardCount = await page.locator(".pantry-item-card").count();
   if (allCardCount !== 6) {

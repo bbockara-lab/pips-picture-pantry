@@ -2537,3 +2537,8 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.346 and upgraded the first Pantry request card with the approved Pip chrome art so the shop entry reads like a character-led request, not only an item catalog.
 - Kept Pantry purchase, slot filtering, story goals, completion archive, and spoon economy behavior unchanged; this is launch-facing presentation polish.
 - Extended mobile QA to guard the Pip cameo, shine layer, rounded card frame, and polished request-card treatment on mobile viewports.
+
+### v0.1.347 - Pantry Shop Delivery Card Polish
+- Bumped the visible app version to v0.1.347 and polished Pantry shop items into warm delivery-style cards with a framed item-art stage, shine layer, clearer rarity/cost chips, and full-width tactile action buttons.
+- Replaced the inline shop-card meta separator with structured rarity and spoon-cost chips so the catalog stays readable across Korean/English and Windows console encodings.
+- Kept purchase, equip, filtering, sorting, story goals, and spoon economy behavior unchanged while extending mobile QA to guard the card frame, art stage, meta chips, shine layer, and CTA tap target.

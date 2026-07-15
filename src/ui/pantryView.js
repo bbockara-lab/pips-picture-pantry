@@ -207,7 +207,10 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, track
   const placementSwapNote = renderSlotPlacementNote(decoration, equippedDecorations, equipped);
   const trackedGoal = trackedGoalId === decoration.id;
   body.innerHTML = ""
-    + '<p class="section-label">' + rarityLabel + " · " + priceLabel + "</p>"
+    + '<div class="pantry-item-meta">'
+    + '<span class="pantry-item-rarity">' + rarityLabel + "</span>"
+    + '<span class="pantry-item-cost">' + priceLabel + "</span>"
+    + "</div>"
     + '<p class="pantry-item-status status-' + statusKey + '">' + t("pantry.itemStatus." + statusKey) + "</p>"
     + "<h4>" + t(decoration.titleKey) + "</h4>"
     + '<p class="pantry-slot-note">' + t("pantry.placedInSlot", { slot: slotLabel }) + "</p>"
