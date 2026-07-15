@@ -21,10 +21,12 @@ export function renderSettingsDialog({
   dialog.setAttribute("role", "dialog");
   dialog.setAttribute("aria-modal", "true");
   dialog.setAttribute("aria-labelledby", "settings-dialog-title");
-  dialog.innerHTML = `
-    <h2 id="settings-dialog-title">${t("settings.title")}</h2>
-    <p>${t("settings.languageNote")}</p>
-  `;
+  const title = document.createElement("h2");
+  title.id = "settings-dialog-title";
+  title.textContent = t("settings.title");
+  const languageNote = document.createElement("p");
+  languageNote.textContent = t("settings.languageNote");
+  dialog.append(title, languageNote);
 
   const group = document.createElement("div");
   group.className = "language-options settings-choice-grid settings-choice-grid--language";
@@ -49,13 +51,22 @@ export function renderSettingsDialog({
 
   const playerForm = document.createElement("form");
   playerForm.className = "player-form";
-  playerForm.innerHTML = `
-    <label for="player-name-input">${t("settings.playerName")}</label>
-    <div>
-      <input id="player-name-input" name="playerName" maxlength="18" autocomplete="nickname" value="${escapeAttribute(playerName)}" />
-      <button type="submit" class="tool-button settings-choice settings-choice--save">${t("settings.savePlayer")}</button>
-    </div>
-  `;
+  const playerLabel = document.createElement("label");
+  playerLabel.setAttribute("for", "player-name-input");
+  playerLabel.textContent = t("settings.playerName");
+  const playerRow = document.createElement("div");
+  const playerInput = document.createElement("input");
+  playerInput.id = "player-name-input";
+  playerInput.name = "playerName";
+  playerInput.maxLength = 18;
+  playerInput.autocomplete = "nickname";
+  playerInput.value = playerName;
+  const playerSave = document.createElement("button");
+  playerSave.type = "submit";
+  playerSave.className = "tool-button settings-choice settings-choice--save";
+  playerSave.textContent = t("settings.savePlayer");
+  playerRow.append(playerInput, playerSave);
+  playerForm.append(playerLabel, playerRow);
   playerForm.addEventListener("submit", (event) => {
     event.preventDefault();
     onPlayerChange(new FormData(playerForm).get("playerName"));
@@ -63,7 +74,12 @@ export function renderSettingsDialog({
 
   const controlGroup = document.createElement("div");
   controlGroup.className = "control-options";
-  controlGroup.innerHTML = `<p class="section-label">${t("settings.controls")}</p><p>${t("settings.controlsNote")}</p>`;
+  const controlLabel = document.createElement("p");
+  controlLabel.className = "section-label";
+  controlLabel.textContent = t("settings.controls");
+  const controlNote = document.createElement("p");
+  controlNote.textContent = t("settings.controlsNote");
+  controlGroup.append(controlLabel, controlNote);
   const controlButtons = document.createElement("div");
   controlButtons.className = "language-options compact settings-choice-grid settings-choice-grid--control";
   controlButtons.setAttribute("role", "group");
@@ -87,7 +103,10 @@ export function renderSettingsDialog({
 
   const audioGroup = document.createElement("div");
   audioGroup.className = "audio-options";
-  audioGroup.innerHTML = `<p class="section-label">${t("settings.sound")}</p>`;
+  const audioLabel = document.createElement("p");
+  audioLabel.className = "section-label";
+  audioLabel.textContent = t("settings.sound");
+  audioGroup.appendChild(audioLabel);
   audioGroup.append(
     createAudioToggle(t("settings.sfx"), audio.sfx, onSfxChange),
     createAudioToggle(t("settings.music"), audio.music, onMusicChange)
@@ -121,12 +140,4 @@ function createModalBackdrop() {
   overlay.className = "modal-backdrop";
   overlay.setAttribute("role", "presentation");
   return overlay;
-}
-
-function escapeAttribute(value) {
-  return String(value || "")
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
 }

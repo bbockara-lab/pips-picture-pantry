@@ -2690,3 +2690,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.372 and rebuilt the Pantry room-path mission card with explicit DOM nodes instead of HTML string insertion.
 - Upgraded the mission card with a clipped shine layer, spoon-token accent, deeper framed surface, and stronger progress-meter depth while keeping room-step targets, spoon-gate math, and action routing unchanged.
 - Extended mobile QA to guard the mission card border, clipped shine, token accent, meter depth, route chips, facts, and action layout across mobile viewports.
+
+
+### v0.1.373 - Settings Dialog DOM Safety Polish
+- Bumped the visible app version to v0.1.373 and rebuilt the Settings dialog title, language note, player-name form, control copy, and audio label with explicit DOM nodes instead of HTML string insertion.
+- Removed the now-unneeded manual attribute escaping helper because the player name is assigned through the input value API.
+- Kept language selection, player-name save, control mode, audio toggles, close behavior, and existing tactile settings artwork unchanged while relying on the existing mobile QA settings guards.
