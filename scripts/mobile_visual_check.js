@@ -2238,6 +2238,54 @@ async function verifyPantryPlacement(page, viewportName) {
   if (!progressText.includes("0/25") || !progressText.includes("0/6")) {
     failures.push("[" + viewportName + "] Pantry progress board should show seeded 0/25 collection and counter 0/6 progress, saw " + progressText);
   }
+  const progressBoardMetrics = await page.locator(".pantry-progress-board").first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    const before = getComputedStyle(el, "::before");
+    const after = getComputedStyle(el, "::after");
+    const summary = el.querySelector(".pantry-progress-board__header > p");
+    const summaryStyle = summary ? getComputedStyle(summary) : null;
+    const slot = el.querySelector(".pantry-progress-slot");
+    const slotStyle = slot ? getComputedStyle(slot) : null;
+    const slotAfter = slot ? getComputedStyle(slot, "::after") : null;
+    return {
+      borderRadius: parseFloat(style.borderRadius) || 0,
+      borderWidth: parseFloat(style.borderTopWidth) || 0,
+      overflow: style.overflow,
+      background: style.backgroundImage,
+      shineContent: before.content,
+      shineHeight: parseFloat(before.height) || 0,
+      tokenContent: after.content,
+      tokenWidth: parseFloat(after.width) || 0,
+      summaryRadius: summaryStyle ? parseFloat(summaryStyle.borderRadius) || 0 : 0,
+      summaryHeight: summary ? summary.getBoundingClientRect().height : 0,
+      slotCount: el.querySelectorAll(".pantry-progress-slot").length,
+      slotRadius: slotStyle ? parseFloat(slotStyle.borderRadius) || 0 : 0,
+      slotBorderWidth: slotStyle ? parseFloat(slotStyle.borderTopWidth) || 0 : 0,
+      slotHeight: slot ? slot.getBoundingClientRect().height : 0,
+      slotTokenContent: slotAfter ? slotAfter.content : "none",
+      slotTokenWidth: slotAfter ? parseFloat(slotAfter.width) || 0 : 0
+    };
+  });
+  if (
+    progressBoardMetrics.borderRadius < 16 ||
+    progressBoardMetrics.borderWidth < 3 ||
+    progressBoardMetrics.overflow !== "hidden" ||
+    !progressBoardMetrics.background.includes("radial-gradient") ||
+    progressBoardMetrics.shineContent === "none" ||
+    progressBoardMetrics.shineHeight < 10 ||
+    progressBoardMetrics.tokenContent === "none" ||
+    progressBoardMetrics.tokenWidth < 24 ||
+    progressBoardMetrics.summaryRadius < 14 ||
+    progressBoardMetrics.summaryHeight < 30 ||
+    progressBoardMetrics.slotCount !== 5 ||
+    progressBoardMetrics.slotRadius < 12 ||
+    progressBoardMetrics.slotBorderWidth < 2 ||
+    progressBoardMetrics.slotHeight < 52 ||
+    progressBoardMetrics.slotTokenContent === "none" ||
+    progressBoardMetrics.slotTokenWidth < 14
+  ) {
+    failures.push("[" + viewportName + "] Pantry progress board lost its polished collection-card treatment: " + JSON.stringify(progressBoardMetrics));
+  }
 
   const progressMissionText = await page.locator(".pantry-progress-mission").first().innerText();
   if (!progressMissionText.includes("0/3") || !progressMissionText.includes("Next:") || !progressMissionText.includes("Stage spoons") || !progressMissionText.includes("80")) {

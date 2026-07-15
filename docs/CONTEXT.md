@@ -2594,3 +2594,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.356 and upgraded the completed-request archive into the same cozy framed card language as the newer Pantry story surfaces.
 - Kept completed-goal persistence, next-request planning, stage-gate math, and shop routing unchanged; this is a launch-facing polish pass for the loop summary that appears after a decoration request is fulfilled.
 - Extended mobile QA to guard the archive frame, progress meter, chapter card, stage-goal card, next-request CTA, and completed-item chips across mobile viewports.
+
+
+### v0.1.357 - Pantry Progress Board Polish
+- Bumped the visible app version to v0.1.357 and upgraded the Pantry collection progress board into the same framed, token-accented card language as the newer story and shop surfaces.
+- Kept collection counts, slot ownership math, room-path mission, spoon gate copy, and shop routing unchanged; this is a presentation/readability pass for the always-visible progress loop.
+- Extended mobile QA to guard the progress-board frame, clipped shine, token accent, summary pill, five slot cards, and slot-token artwork across mobile viewports.
