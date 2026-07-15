@@ -3,6 +3,16 @@ import { getCompletedPuzzleIds, getCompletionDates } from "../game/save.js";
 import { puzzleAlbumText, puzzleImageName, t } from "../i18n/index.js";
 import { renderColoredPuzzleArt } from "./coloredPuzzleArt.js";
 
+function appendTextElement(parent, tagName, className, text) {
+  const element = document.createElement(tagName);
+  if (className) {
+    element.className = className;
+  }
+  element.textContent = text;
+  parent.appendChild(element);
+  return element;
+}
+
 export function renderAlbumView() {
   const completedIds = new Set(getCompletedPuzzleIds());
   const completionDates = getCompletionDates();
@@ -10,15 +20,14 @@ export function renderAlbumView() {
   section.className = "album-panel content-panel";
 
   const completedCount = completedIds.size;
-  section.innerHTML = `
-    <div class="album-header">
-      <div>
-        <p class="section-label">${t("sections.pantryAlbum")}</p>
-        <h2>${t("album.count", { completed: completedCount, total: puzzles.length })}</h2>
-      </div>
-      <p class="album-note">${t("album.note")}</p>
-    </div>
-  `;
+  const header = document.createElement("div");
+  header.className = "album-header";
+  const headerCopy = document.createElement("div");
+  appendTextElement(headerCopy, "p", "section-label", t("sections.pantryAlbum"));
+  appendTextElement(headerCopy, "h2", "", t("album.count", { completed: completedCount, total: puzzles.length }));
+  appendTextElement(header, "p", "album-note", t("album.note"));
+  header.prepend(headerCopy);
+  section.appendChild(header);
 
   const grid = document.createElement("div");
   grid.className = "album-grid";
@@ -30,12 +39,12 @@ export function renderAlbumView() {
     card.appendChild(renderStamp(puzzle, isComplete));
 
     const copy = document.createElement("div");
-    copy.innerHTML = `
-      <span class="album-card__state">${isComplete ? t("completion.savedStamp") : t("album.hiddenTitle")}</span>
-      <h3>${isComplete ? puzzleImageName(puzzle) : t("album.hiddenTitle")}</h3>
-      <p>${isComplete ? puzzleAlbumText(puzzle) : t("album.hiddenText")}</p>
-      ${isComplete && completionDates[puzzle.id] ? `<small class="card-date">${formatCardDate(completionDates[puzzle.id])}</small>` : ""}
-    `;
+    appendTextElement(copy, "span", "album-card__state", isComplete ? t("completion.savedStamp") : t("album.hiddenTitle"));
+    appendTextElement(copy, "h3", "", isComplete ? puzzleImageName(puzzle) : t("album.hiddenTitle"));
+    appendTextElement(copy, "p", "", isComplete ? puzzleAlbumText(puzzle) : t("album.hiddenText"));
+    if (isComplete && completionDates[puzzle.id]) {
+      appendTextElement(copy, "small", "card-date", formatCardDate(completionDates[puzzle.id]));
+    }
     card.appendChild(copy);
     grid.appendChild(card);
   });

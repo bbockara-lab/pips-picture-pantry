@@ -2709,3 +2709,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.375 and removed the remaining HTML string insertion paths from the Pantry story request, milestone, and archive cards.
 - Added a tiny shared DOM text helper so localized copy is assigned through textContent while preserving all existing class names, CTA wiring, progress math, and mobile QA selectors.
 - This keeps the Pantry story surfaces safer for Android WebView/CSP and reduces late-release copy/rendering risk without changing the user-facing flow.
+
+
+### v0.1.376 - Album Map DOM Safety Polish
+- Bumped the visible app version to v0.1.376 and rebuilt the Album header/cards plus Pantry Map header with explicit DOM nodes instead of HTML string insertion.
+- Preserved all album/map class names, completion date formatting, badge progress math, and mobile QA selectors while assigning localized copy through textContent.
+- This continues the release-hardening pass on user-facing collection surfaces without changing progression, badge, or navigation behavior.

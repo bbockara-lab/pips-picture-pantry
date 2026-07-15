@@ -14,7 +14,12 @@ export function renderPantryMapView() {
   const header = document.createElement("div");
   header.className = "map-header";
   const title = document.createElement("div");
-  title.innerHTML = '<p class="section-label">' + t("sections.pantryMap") + '</p><h2>' + t("badges.collectionCount", { earned: earnedCount, total: statuses.length }) + '</h2>';
+  const eyebrow = document.createElement("p");
+  eyebrow.className = "section-label";
+  eyebrow.textContent = t("sections.pantryMap");
+  const heading = document.createElement("h2");
+  heading.textContent = t("badges.collectionCount", { earned: earnedCount, total: statuses.length });
+  title.append(eyebrow, heading);
   const note = document.createElement("p");
   note.className = "map-note";
   note.textContent = t("badges.collectionNote");
