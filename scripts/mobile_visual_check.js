@@ -3500,9 +3500,14 @@ async function verifyPantryPlacement(page, viewportName) {
     const before = getComputedStyle(el, "::before");
     const after = getComputedStyle(el, "::after");
     const art = el.querySelector(".pantry-story-delivery__art");
+    const pip = el.querySelector(".pantry-story-delivery__pip");
     const step = el.querySelector(".pantry-story-delivery__steps span");
     const action = el.querySelector(".pantry-story-delivery__action");
     const artStyle = art ? getComputedStyle(art) : null;
+    const pipStyle = pip ? getComputedStyle(pip) : null;
+    const pipAfter = pip ? getComputedStyle(pip, "::after") : null;
+    const pipImage = pip ? pip.querySelector("img") : null;
+    const pipImageRect = pipImage ? pipImage.getBoundingClientRect() : { width: 0, height: 0 };
     const stepStyle = step ? getComputedStyle(step) : null;
     const actionStyle = action ? getComputedStyle(action) : null;
     return {
@@ -3515,6 +3520,13 @@ async function verifyPantryPlacement(page, viewportName) {
       tokenContent: after.content,
       tokenWidth: parseFloat(after.width),
       artRadius: artStyle ? parseFloat(artStyle.borderRadius) : 0,
+      pipWidth: pip ? pip.getBoundingClientRect().width : 0,
+      pipRadius: pipStyle ? parseFloat(pipStyle.borderRadius) : 0,
+      pipBorderWidth: pipStyle ? parseFloat(pipStyle.borderTopWidth) : 0,
+      pipBackground: pipStyle ? pipStyle.backgroundImage : "",
+      pipTailContent: pipAfter ? pipAfter.content : "none",
+      pipImageWidth: pipImageRect.width,
+      pipImageHeight: pipImageRect.height,
       stepRadius: stepStyle ? parseFloat(stepStyle.borderRadius) : 0,
       actionHeight: action ? action.getBoundingClientRect().height : 0,
       actionRadius: actionStyle ? parseFloat(actionStyle.borderRadius) : 0
@@ -3522,6 +3534,9 @@ async function verifyPantryPlacement(page, viewportName) {
   });
   if (storyDeliveryMetrics.borderRadius < 16 || storyDeliveryMetrics.borderWidth < 3 || storyDeliveryMetrics.borderStyle !== "solid" || storyDeliveryMetrics.overflow !== "hidden" || !storyDeliveryMetrics.background.includes("radial-gradient") || storyDeliveryMetrics.shineContent === "none" || storyDeliveryMetrics.tokenContent === "none" || storyDeliveryMetrics.tokenWidth < 24 || storyDeliveryMetrics.artRadius < 14 || storyDeliveryMetrics.stepRadius < 20 || storyDeliveryMetrics.actionHeight < 44 || storyDeliveryMetrics.actionRadius < 14) {
     failures.push("[" + viewportName + "] Pantry story delivery lost its polished delivery-card treatment: " + JSON.stringify(storyDeliveryMetrics));
+  }
+  if (storyDeliveryMetrics.pipWidth < 42 || storyDeliveryMetrics.pipRadius < 14 || storyDeliveryMetrics.pipBorderWidth < 2 || !storyDeliveryMetrics.pipBackground.includes("radial-gradient") || storyDeliveryMetrics.pipTailContent === "none" || storyDeliveryMetrics.pipImageWidth < 34 || storyDeliveryMetrics.pipImageHeight < 34) {
+    failures.push("[" + viewportName + "] Pantry story delivery lost Pip stamp artwork: " + JSON.stringify(storyDeliveryMetrics));
   }
 
   await page.evaluate(() => {

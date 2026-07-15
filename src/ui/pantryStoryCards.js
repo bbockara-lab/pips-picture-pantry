@@ -136,6 +136,18 @@ export function renderPantryStoryDelivery(approvedDecorations, storyGoalId, owne
   const card = document.createElement("aside");
   card.className = "pantry-story-delivery";
 
+  if (isRuntimeGuideArtApproved(GUIDE_ART_ASSET_ID)) {
+    const pipStamp = document.createElement("div");
+    pipStamp.className = "pantry-story-delivery__pip";
+    pipStamp.setAttribute("aria-hidden", "true");
+    const pipImage = document.createElement("img");
+    pipImage.src = pipGuideSceneUrl;
+    pipImage.alt = "";
+    pipImage.setAttribute("aria-hidden", "true");
+    pipStamp.appendChild(pipImage);
+    card.appendChild(pipStamp);
+  }
+
   const art = document.createElement("div");
   art.className = "pantry-story-delivery__art";
   const image = document.createElement("img");
@@ -145,16 +157,22 @@ export function renderPantryStoryDelivery(approvedDecorations, storyGoalId, owne
 
   const copy = document.createElement("div");
   copy.className = "pantry-story-delivery__copy";
-  copy.innerHTML = ""
-    + '<p class="section-label">' + t("pantry.storyDeliveryEyebrow") + "</p>"
-    + "<h3>" + t("pantry.storyDeliveryTitle", { item: t(goal.titleKey) }) + "</h3>"
-    + "<p>" + t("pantry.storyDeliveryBody", { item: t(goal.titleKey), slot: slotLabel, needed }) + "</p>";
+  const eyebrow = document.createElement("p");
+  eyebrow.className = "section-label";
+  eyebrow.textContent = t("pantry.storyDeliveryEyebrow");
+  const title = document.createElement("h3");
+  title.textContent = t("pantry.storyDeliveryTitle", { item: t(goal.titleKey) });
+  const body = document.createElement("p");
+  body.textContent = t("pantry.storyDeliveryBody", { item: t(goal.titleKey), slot: slotLabel, needed });
+  copy.append(eyebrow, title, body);
 
   const steps = document.createElement("div");
   steps.className = "pantry-story-delivery__steps";
-  steps.innerHTML = ""
-    + "<span>" + t("pantry.storyDeliveryStepSpoons", { needed }) + "</span>"
-    + "<span>" + t("pantry.storyDeliveryStepSlot", { slot: slotLabel }) + "</span>";
+  const spoonStep = document.createElement("span");
+  spoonStep.textContent = t("pantry.storyDeliveryStepSpoons", { needed });
+  const slotStep = document.createElement("span");
+  slotStep.textContent = t("pantry.storyDeliveryStepSlot", { slot: slotLabel });
+  steps.append(spoonStep, slotStep);
 
   const actions = document.createElement("div");
   actions.className = "pantry-story-delivery__actions";

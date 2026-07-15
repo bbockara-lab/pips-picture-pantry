@@ -2678,3 +2678,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.370 and upgraded Pantry purchase, equip, and story-complete feedback cards with the approved Pip guide cameo asset.
 - Rebuilt the feedback copy with explicit DOM nodes instead of HTML string insertion while keeping purchase/equip/story completion logic, spoon accounting, and placement behavior unchanged.
 - Extended mobile QA to guard the Pip cameo frame, speech-tail accent, image size, reward frame, item art, and story-complete feedback treatment across mobile viewports.
+
+
+### v0.1.371 - Pantry Delivery Pip Stamp Polish
+- Bumped the visible app version to v0.1.371 and added the approved Pip guide art as a small delivery-stamp cameo on active Pantry delivery notes.
+- Rebuilt the delivery-note copy and step chips with explicit DOM nodes instead of HTML string insertion while keeping goal selection, spoon-gap math, persistence, and shop routing unchanged.
+- Extended mobile QA to guard the delivery Pip stamp frame, speech-tail accent, image size, delivery card frame, step chips, and action buttons across mobile viewports.
