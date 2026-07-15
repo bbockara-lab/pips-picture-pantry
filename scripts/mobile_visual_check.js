@@ -2446,6 +2446,38 @@ async function verifyPantryPlacement(page, viewportName) {
   if (!counterDisplayPlanText.includes("Counter") || !counterDisplayPlanText.includes("empty") || !counterDisplayPlanText.includes("Starter Counter Cloth")) {
     failures.push("[" + viewportName + "] Counter display plan should explain current empty spot and next upgrade, saw " + counterDisplayPlanText);
   }
+  const displayPlanMetrics = await page.locator(".pantry-display-plan").first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    const before = getComputedStyle(el, "::before");
+    const after = getComputedStyle(el, "::after");
+    const next = el.querySelector(".pantry-display-plan__next");
+    const nextStyle = next ? getComputedStyle(next) : null;
+    const nextStrong = next?.querySelector("strong");
+    const nextStrongBefore = nextStrong ? getComputedStyle(nextStrong, "::before") : null;
+    return {
+      borderRadius: parseFloat(style.borderRadius),
+      borderWidth: parseFloat(style.borderTopWidth),
+      overflow: style.overflow,
+      background: style.backgroundImage,
+      shineContent: before.content,
+      shineHeight: parseFloat(before.height),
+      tokenContent: after.content,
+      tokenWidth: parseFloat(after.width),
+      nextRadius: nextStyle ? parseFloat(nextStyle.borderRadius) : 0,
+      nextBorderWidth: nextStyle ? parseFloat(nextStyle.borderTopWidth) : 0,
+      nextIconContent: nextStrongBefore ? nextStrongBefore.content : "none",
+      nextIconWidth: nextStrongBefore ? parseFloat(nextStrongBefore.width) : 0
+    };
+  });
+  if (displayPlanMetrics.borderRadius < 16 || displayPlanMetrics.borderWidth < 3 || displayPlanMetrics.overflow !== "hidden" || !displayPlanMetrics.background.includes("radial-gradient")) {
+    failures.push("[" + viewportName + "] Pantry display plan lost its polished card frame: " + JSON.stringify(displayPlanMetrics));
+  }
+  if (displayPlanMetrics.shineContent === "none" || displayPlanMetrics.shineHeight < 8 || displayPlanMetrics.tokenContent === "none" || displayPlanMetrics.tokenWidth < 24) {
+    failures.push("[" + viewportName + "] Pantry display plan lost shine or token artwork: " + JSON.stringify(displayPlanMetrics));
+  }
+  if (displayPlanMetrics.nextRadius < 12 || displayPlanMetrics.nextBorderWidth < 2 || displayPlanMetrics.nextIconContent === "none" || displayPlanMetrics.nextIconWidth < 12) {
+    failures.push("[" + viewportName + "] Pantry display plan next-step chip lost its upgrade artwork: " + JSON.stringify(displayPlanMetrics));
+  }
 
   const counterCardCount = await page.locator(".pantry-item-card").count();
   if (counterCardCount !== 6) {

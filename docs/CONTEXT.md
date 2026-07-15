@@ -2564,3 +2564,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.351 and upgraded the Pantry placement advisor into a warm planning card with a spoon-token badge, clipped shine, deeper border, and clearer selected-slot explanation.
 - Kept slot selection, fixed placement capacity, shop filtering, and economy behavior unchanged; the card now better supports the user question of where a decoration will go before spending spoons.
 - Extended mobile QA to guard the advisor frame, left token spacing, token artwork, shine layer, and radial/linear card treatment on mobile viewports.
+
+
+### v0.1.352 - Pantry Display Plan Polish
+- Bumped the visible app version to v0.1.352 and upgraded the Pantry display plan into a matching upgrade card with clipped shine, a gold token accent, and a framed next-decoration step.
+- Kept selected-slot filtering, equipped-state copy, next decoration cost math, and shop behavior unchanged; this is a visual/readability pass on the same placement economy flow.
+- Extended mobile QA to guard the display plan frame, token artwork, shine layer, and next-step icon treatment on mobile viewports.
