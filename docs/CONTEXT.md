@@ -2630,3 +2630,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.362 and upgraded the three opening promise chips with a clipped shine layer, thicker framed border, deeper tactile shadow, and a tiny corner token accent.
 - Kept the studio bumper timing, player-name flow, start button, and promise copy unchanged; this is a first-impression visual consistency pass.
 - Extended mobile QA to guard the promise chip border depth, clipped shine, corner token, and no-overflow behavior across mobile viewports.
+
+
+### v0.1.363 - Reset Dialog Confirmation Polish
+- Bumped the visible app version to v0.1.363 and upgraded the reset confirmation dialog into a warm framed modal with shine, warning token, body card, and tactile cancel/confirm buttons.
+- Kept reset semantics unchanged; mobile QA opens the dialog and cancels it so no player progress is cleared during validation.
+- Extended mobile QA to guard reset dialog frame depth, title badge artwork, body-card treatment, button tap size, and no-overflow behavior across mobile viewports.

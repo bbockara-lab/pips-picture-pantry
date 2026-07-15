@@ -36,6 +36,7 @@ for (const viewport of viewports) {
   await expectVisible(page, ".pip-strip__portrait", viewport.name);
   await expectVisible(page, ".currency-pill", viewport.name);
   await expectAppChromePolish(page, viewport.name);
+  await expectResetDialogPolish(page, viewport.name);
   await expectStageCompleteRewardPolish(page, viewport.name);
   await expectVisible(page, ".pack-block", viewport.name);
   await expectVisible(page, ".pack-block.locked", viewport.name);
@@ -639,6 +640,78 @@ async function expectAppChromePolish(page, viewportName) {
     failures.push("[" + viewportName + "] Floating nav panel polish/layout regression: " + JSON.stringify(navMetrics));
   }
   await trigger.click();
+}
+
+async function expectResetDialogPolish(page, viewportName) {
+  await page.locator('button[aria-label="Reset progress"], button[aria-label="\uC9C4\uD589 \uC0C1\uD0DC \uCD08\uAE30\uD654"]').first().click();
+  await expectVisible(page, ".reset-dialog", viewportName);
+  const metrics = await page.locator(".reset-dialog").first().evaluate((dialog) => {
+    const rect = dialog.getBoundingClientRect();
+    const style = getComputedStyle(dialog);
+    const shine = getComputedStyle(dialog, "::before");
+    const title = dialog.querySelector("h2");
+    const titleBadge = title ? getComputedStyle(title, "::before") : null;
+    const body = dialog.querySelector("p");
+    const cancel = dialog.querySelector(".dialog-actions .tool-button:not(.danger)");
+    const confirm = dialog.querySelector(".dialog-actions .tool-button.danger");
+    const bodyRect = body?.getBoundingClientRect();
+    const cancelRect = cancel?.getBoundingClientRect();
+    const confirmRect = confirm?.getBoundingClientRect();
+    const bodyStyle = body ? getComputedStyle(body) : null;
+    const cancelStyle = cancel ? getComputedStyle(cancel) : null;
+    const confirmStyle = confirm ? getComputedStyle(confirm) : null;
+    return {
+      width: rect.width,
+      height: rect.height,
+      radius: parseFloat(style.borderRadius),
+      borderWidth: parseFloat(style.borderTopWidth),
+      background: style.backgroundImage,
+      shadow: style.boxShadow,
+      overflow: style.overflow,
+      shineContent: shine.content,
+      shineHeight: parseFloat(shine.height),
+      shineBackground: shine.backgroundImage,
+      titleBadgeWidth: parseFloat(titleBadge?.width) || 0,
+      titleBadgeBackground: titleBadge?.backgroundImage || "",
+      bodyHeight: bodyRect?.height || 0,
+      bodyRadius: bodyStyle ? parseFloat(bodyStyle.borderRadius) : 0,
+      bodyBackground: bodyStyle?.backgroundImage || "",
+      cancelHeight: cancelRect?.height || 0,
+      cancelRadius: cancelStyle ? parseFloat(cancelStyle.borderRadius) : 0,
+      cancelBackground: cancelStyle?.backgroundImage || "",
+      confirmHeight: confirmRect?.height || 0,
+      confirmRadius: confirmStyle ? parseFloat(confirmStyle.borderRadius) : 0,
+      confirmBackground: confirmStyle?.backgroundImage || "",
+      overflows: dialog.scrollWidth > Math.ceil(rect.width) + 1 || dialog.scrollHeight > Math.ceil(rect.height) + 1
+    };
+  });
+  if (
+    metrics.width < 280 ||
+    metrics.radius < 16 ||
+    metrics.borderWidth < 3 ||
+    !metrics.background.includes("gradient") ||
+    metrics.shadow === "none" ||
+    metrics.overflow !== "hidden" ||
+    metrics.shineContent === "none" ||
+    metrics.shineHeight < 10 ||
+    !metrics.shineBackground.includes("gradient") ||
+    metrics.titleBadgeWidth < 20 ||
+    !metrics.titleBadgeBackground.includes("gradient") ||
+    metrics.bodyHeight < 42 ||
+    metrics.bodyRadius < 12 ||
+    !metrics.bodyBackground.includes("gradient") ||
+    metrics.cancelHeight < 46 ||
+    metrics.cancelRadius < 14 ||
+    !metrics.cancelBackground.includes("gradient") ||
+    metrics.confirmHeight < 46 ||
+    metrics.confirmRadius < 14 ||
+    !metrics.confirmBackground.includes("gradient") ||
+    metrics.overflows
+  ) {
+    failures.push("[" + viewportName + "] Reset dialog lost polished confirmation treatment: " + JSON.stringify(metrics));
+  }
+  await page.locator(".reset-dialog .dialog-actions .tool-button:not(.danger)").click();
+  await page.locator(".reset-dialog").waitFor({ state: "detached", timeout: 2000 });
 }
 
 
