@@ -2642,3 +2642,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.364 and upgraded the in-puzzle previous/list/next navigation into a framed tactile card with clipped shine, stronger button depth, and CSS-drawn direction/list tokens.
 - Kept stage routing, disabled previous/next behavior, list navigation, Time Attack, and replay challenge flows unchanged; this is a presentation and touch-quality pass for the normal stage screen.
 - Extended mobile QA to guard the stage navigation frame, shine layer, three button variants, disabled-state treatment, icon artwork, and no-overflow behavior across mobile viewports.
+
+
+### v0.1.365 - Pip Guide Dialog Tactile Polish
+- Bumped the visible app version to v0.1.365 and rebuilt the first-run guide dialog rendering with explicit DOM nodes instead of HTML string insertion.
+- Upgraded the Pip guide scene with clipped shine, small spoon-token accents, deeper art framing, and tactile skip/next buttons while keeping guide step content, seen-guide saves, and puzzle/time-attack/pantry guide routing unchanged.
+- Extended mobile QA to guard the guide art frame, Pip image, bubble tail, token accents, button shine, and no-overflow behavior across mobile viewports.

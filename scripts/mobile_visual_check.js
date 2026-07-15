@@ -258,8 +258,27 @@ async function expectGuideDialogChromeArt(page, viewportName) {
     const artStyle = art ? getComputedStyle(art) : null;
     const imageStyle = image ? getComputedStyle(image) : null;
     const bubbleStyle = bubble ? getComputedStyle(bubble) : null;
+    const artBefore = art ? getComputedStyle(art, "::before") : null;
+    const artAfter = art ? getComputedStyle(art, "::after") : null;
+    const bubbleBefore = bubble ? getComputedStyle(bubble, "::before") : null;
     const bubbleAfter = bubble ? getComputedStyle(bubble, "::after") : null;
     const overlayStyle = overlay ? getComputedStyle(overlay) : null;
+    const buttons = [...dialog.querySelectorAll(".guide-dialog__actions button")].map((button) => {
+      const buttonRect = button.getBoundingClientRect();
+      const buttonStyle = getComputedStyle(button);
+      const buttonBefore = getComputedStyle(button, "::before");
+      return {
+        width: buttonRect.width,
+        height: buttonRect.height,
+        radius: parseFloat(buttonStyle.borderRadius),
+        borderWidth: parseFloat(buttonStyle.borderTopWidth),
+        background: buttonStyle.backgroundImage,
+        shadow: buttonStyle.boxShadow,
+        overflow: buttonStyle.overflow,
+        shineContent: buttonBefore.content,
+        shineHeight: parseFloat(buttonBefore.height)
+      };
+    });
     return {
       width: rect.width,
       height: rect.height,
@@ -270,13 +289,23 @@ async function expectGuideDialogChromeArt(page, viewportName) {
       imageHeight: imageRect?.height || 0,
       imageFit: imageStyle?.objectFit || "",
       artBackground: artStyle?.backgroundImage || "",
+      artOverflow: artStyle?.overflow || "",
+      artShineContent: artBefore?.content || "",
+      artShineHeight: artBefore ? parseFloat(artBefore.height) : 0,
+      artTokenContent: artAfter?.content || "",
+      artTokenWidth: artAfter ? parseFloat(artAfter.width) : 0,
       bubbleWidth: bubbleRect?.width || 0,
       bubbleHeight: bubbleRect?.height || 0,
       bubbleBackground: bubbleStyle?.backgroundImage || "",
       bubbleRadius: bubbleStyle ? parseFloat(bubbleStyle.borderRadius) : 0,
       bubbleShadow: bubbleStyle?.boxShadow || "",
+      bubbleOverflow: bubbleStyle?.overflow || "",
+      bubbleTailContent: bubbleBefore?.content || "",
+      bubbleTokenContent: bubbleAfter?.content || "",
+      bubbleTokenWidth: bubbleAfter ? parseFloat(bubbleAfter.width) : 0,
       bubbleAccentBackground: bubbleAfter?.backgroundImage || "",
       overlayPaddingBottom: overlayStyle ? parseFloat(overlayStyle.paddingBottom) : 0,
+      buttons,
       overflows: dialog.scrollWidth > Math.ceil(rect.width) + 1 || dialog.scrollHeight > Math.ceil(rect.height) + 1
     };
   });
@@ -288,11 +317,32 @@ async function expectGuideDialogChromeArt(page, viewportName) {
     guideMetrics.imageHeight < 80 ||
     guideMetrics.imageFit !== "contain" ||
     !guideMetrics.artBackground.includes("gradient") ||
+    guideMetrics.artOverflow !== "hidden" ||
+    guideMetrics.artShineContent === "none" ||
+    guideMetrics.artShineHeight < 10 ||
+    guideMetrics.artTokenContent === "none" ||
+    guideMetrics.artTokenWidth < 20 ||
     guideMetrics.bubbleWidth < 160 ||
     guideMetrics.bubbleHeight < 140 ||
     !guideMetrics.bubbleBackground.includes("gradient") ||
     guideMetrics.bubbleRadius < 16 ||
     guideMetrics.bubbleShadow === "none" ||
+    guideMetrics.bubbleOverflow !== "hidden" ||
+    guideMetrics.bubbleTailContent === "none" ||
+    guideMetrics.bubbleTokenContent === "none" ||
+    guideMetrics.bubbleTokenWidth < 16 ||
+    guideMetrics.buttons.length !== 2 ||
+    guideMetrics.buttons.some((button) =>
+      button.width < 110 ||
+      button.height < 46 ||
+      button.radius < 14 ||
+      button.borderWidth < 3 ||
+      !button.background.includes("gradient") ||
+      button.shadow === "none" ||
+      button.overflow !== "hidden" ||
+      button.shineContent === "none" ||
+      button.shineHeight < 8
+    ) ||
     guideMetrics.overlayPaddingBottom < 18 ||
     guideMetrics.overflows
   ) {

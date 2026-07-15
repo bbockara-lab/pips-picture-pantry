@@ -25,26 +25,65 @@ export function renderGuideDialog(guideId, onClose) {
 
   function draw() {
     const isLast = index >= steps.length - 1;
-    const artMarkup = isRuntimeGuideArtApproved(GUIDE_ART_ASSET_ID)
-      ? `<div class="guide-dialog__art" aria-hidden="true"><img src="${pipGuideSceneUrl}" alt="" /></div>`
-      : "";
-    card.innerHTML = `
-      ${artMarkup}
-      <div class="guide-dialog__bubble">
-        <p class="guide-dialog__eyebrow">${t("guide.eyebrow")}</p>
-        <h2 id="guide-dialog-title">${t(`guide.${guideId}.title`)}</h2>
-        <p>${t(steps[index])}</p>
-        <div class="guide-dialog__dots" aria-hidden="true">
-          ${steps.map((_, stepIndex) => `<span class="${stepIndex === index ? "active" : ""}"></span>`).join("")}
-        </div>
-        <div class="guide-dialog__actions">
-          <button type="button" class="guide-dialog__skip">${t("guide.skip")}</button>
-          <button type="button" class="guide-dialog__next">${isLast ? t("guide.done") : t("guide.next")}</button>
-        </div>
-      </div>
-    `;
-    card.querySelector(".guide-dialog__skip").addEventListener("click", onClose);
-    card.querySelector(".guide-dialog__next").addEventListener("click", () => {
+
+    const nodes = [];
+    if (isRuntimeGuideArtApproved(GUIDE_ART_ASSET_ID)) {
+      const art = document.createElement("div");
+      art.className = "guide-dialog__art";
+      art.setAttribute("aria-hidden", "true");
+
+      const image = document.createElement("img");
+      image.src = pipGuideSceneUrl;
+      image.alt = "";
+      art.appendChild(image);
+      nodes.push(art);
+    }
+
+    const bubble = document.createElement("div");
+    bubble.className = "guide-dialog__bubble";
+
+    const eyebrow = document.createElement("p");
+    eyebrow.className = "guide-dialog__eyebrow";
+    eyebrow.textContent = t("guide.eyebrow");
+
+    const title = document.createElement("h2");
+    title.id = "guide-dialog-title";
+    title.textContent = t(`guide.${guideId}.title`);
+
+    const body = document.createElement("p");
+    body.textContent = t(steps[index]);
+
+    const dots = document.createElement("div");
+    dots.className = "guide-dialog__dots";
+    dots.setAttribute("aria-hidden", "true");
+    steps.forEach((_, stepIndex) => {
+      const dot = document.createElement("span");
+      if (stepIndex === index) {
+        dot.className = "active";
+      }
+      dots.appendChild(dot);
+    });
+
+    const actions = document.createElement("div");
+    actions.className = "guide-dialog__actions";
+
+    const skipButton = document.createElement("button");
+    skipButton.type = "button";
+    skipButton.className = "guide-dialog__skip";
+    skipButton.textContent = t("guide.skip");
+
+    const nextButton = document.createElement("button");
+    nextButton.type = "button";
+    nextButton.className = "guide-dialog__next";
+    nextButton.textContent = isLast ? t("guide.done") : t("guide.next");
+
+    actions.append(skipButton, nextButton);
+    bubble.append(eyebrow, title, body, dots, actions);
+    nodes.push(bubble);
+
+    card.replaceChildren(...nodes);
+    skipButton.addEventListener("click", onClose);
+    nextButton.addEventListener("click", () => {
       if (isLast) {
         onClose();
         return;
