@@ -2582,3 +2582,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.354 and hardened the first Pantry request Pip cameo so the character image is built with explicit DOM nodes instead of HTML string insertion.
 - Kept request selection, purchase flow, slot filtering, card copy, and Pip artwork unchanged; this is a safety and launch-polish guard for the character-led shop entry surface.
 - Extended mobile QA to guard Pip cameo pointer behavior, speech-tail artwork, image layering, and decorative alt text so future card polish cannot accidentally turn Pip into a blocking or screen-reader-visible control.
+
+
+### v0.1.355 - Pantry Story Milestone Delivery Polish
+- Bumped the visible app version to v0.1.355 and upgraded the post-first-purchase milestone plus delivery-note cards with the same framed surface, shine, token, and tactile action language used by the newer Pantry shop cards.
+- Kept story goal selection, next-arrival persistence, purchase flow, spoon math, and slot placement unchanged; this is a launch-facing presentation pass for the first decoration story loop.
+- Extended mobile QA to guard milestone card frame, level/item chip polish, delivery-note solid card treatment, step chips, and 44px action controls on mobile viewports.

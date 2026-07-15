@@ -2678,6 +2678,31 @@ async function verifyPantryPlacement(page, viewportName) {
   if (!storyMilestoneText.includes("Pantry bond") || !storyMilestoneText.includes("Next arrivals")) {
     failures.push("[" + viewportName + "] First Pantry purchase did not reveal the story milestone, saw " + storyMilestoneText);
   }
+  const milestoneVisualMetrics = await page.locator(".pantry-story-milestone").first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    const before = getComputedStyle(el, "::before");
+    const after = getComputedStyle(el, "::after");
+    const level = el.querySelector(".pantry-story-milestone__level");
+    const item = el.querySelector(".pantry-story-milestone__item");
+    const levelStyle = level ? getComputedStyle(level) : null;
+    const itemStyle = item ? getComputedStyle(item) : null;
+    return {
+      borderRadius: parseFloat(style.borderRadius),
+      borderWidth: parseFloat(style.borderTopWidth),
+      overflow: style.overflow,
+      background: style.backgroundImage,
+      shineContent: before.content,
+      tokenContent: after.content,
+      tokenWidth: parseFloat(after.width),
+      levelRadius: levelStyle ? parseFloat(levelStyle.borderRadius) : 0,
+      itemRadius: itemStyle ? parseFloat(itemStyle.borderRadius) : 0,
+      itemHeight: item ? item.getBoundingClientRect().height : 0,
+      itemCount: el.querySelectorAll(".pantry-story-milestone__item").length
+    };
+  });
+  if (milestoneVisualMetrics.borderRadius < 16 || milestoneVisualMetrics.borderWidth < 3 || milestoneVisualMetrics.overflow !== "hidden" || !milestoneVisualMetrics.background.includes("radial-gradient") || milestoneVisualMetrics.shineContent === "none" || milestoneVisualMetrics.tokenContent === "none" || milestoneVisualMetrics.tokenWidth < 24 || milestoneVisualMetrics.levelRadius < 14 || milestoneVisualMetrics.itemRadius < 12 || milestoneVisualMetrics.itemHeight < 48 || milestoneVisualMetrics.itemCount < 1) {
+    failures.push("[" + viewportName + "] Pantry story milestone lost its polished reward-card treatment: " + JSON.stringify(milestoneVisualMetrics));
+  }
   const postPurchasePlanText = await page.locator(".pantry-display-plan").innerText();
   if (!postPurchasePlanText.includes("Counter") || !postPurchasePlanText.includes("Starter Counter Cloth") || !postPurchasePlanText.includes("currently displayed")) {
     failures.push("[" + viewportName + "] Pantry display plan did not preserve the filled counter context after purchase, saw " + postPurchasePlanText);
@@ -2688,6 +2713,35 @@ async function verifyPantryPlacement(page, viewportName) {
   const storyDeliveryText = await page.locator(".pantry-story-delivery").first().innerText();
   if (!storyDeliveryText.includes("Pip\'s delivery note") || !storyDeliveryText.includes("Show this goal")) {
     failures.push("[" + viewportName + "] Next arrival click did not pin a delivery note, saw " + storyDeliveryText);
+  }
+
+  const storyDeliveryMetrics = await page.locator(".pantry-story-delivery").first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    const before = getComputedStyle(el, "::before");
+    const after = getComputedStyle(el, "::after");
+    const art = el.querySelector(".pantry-story-delivery__art");
+    const step = el.querySelector(".pantry-story-delivery__steps span");
+    const action = el.querySelector(".pantry-story-delivery__action");
+    const artStyle = art ? getComputedStyle(art) : null;
+    const stepStyle = step ? getComputedStyle(step) : null;
+    const actionStyle = action ? getComputedStyle(action) : null;
+    return {
+      borderRadius: parseFloat(style.borderRadius),
+      borderWidth: parseFloat(style.borderTopWidth),
+      borderStyle: style.borderTopStyle,
+      overflow: style.overflow,
+      background: style.backgroundImage,
+      shineContent: before.content,
+      tokenContent: after.content,
+      tokenWidth: parseFloat(after.width),
+      artRadius: artStyle ? parseFloat(artStyle.borderRadius) : 0,
+      stepRadius: stepStyle ? parseFloat(stepStyle.borderRadius) : 0,
+      actionHeight: action ? action.getBoundingClientRect().height : 0,
+      actionRadius: actionStyle ? parseFloat(actionStyle.borderRadius) : 0
+    };
+  });
+  if (storyDeliveryMetrics.borderRadius < 16 || storyDeliveryMetrics.borderWidth < 3 || storyDeliveryMetrics.borderStyle !== "solid" || storyDeliveryMetrics.overflow !== "hidden" || !storyDeliveryMetrics.background.includes("radial-gradient") || storyDeliveryMetrics.shineContent === "none" || storyDeliveryMetrics.tokenContent === "none" || storyDeliveryMetrics.tokenWidth < 24 || storyDeliveryMetrics.artRadius < 14 || storyDeliveryMetrics.stepRadius < 20 || storyDeliveryMetrics.actionHeight < 44 || storyDeliveryMetrics.actionRadius < 14) {
+    failures.push("[" + viewportName + "] Pantry story delivery lost its polished delivery-card treatment: " + JSON.stringify(storyDeliveryMetrics));
   }
 
   await page.evaluate(() => {

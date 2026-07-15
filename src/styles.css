@@ -9353,3 +9353,146 @@ img {
     justify-self: stretch;
   }
 }
+
+
+/* v0.1.355 pantry story milestone and delivery polish */
+.pantry-story-milestone,
+.pantry-story-delivery {
+  position: relative;
+  overflow: hidden;
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.72),
+    0 6px 0 rgba(61, 43, 46, 0.1),
+    0 18px 32px rgba(78, 48, 54, 0.08);
+}
+
+.pantry-story-milestone::before,
+.pantry-story-delivery::before {
+  content: "";
+  position: absolute;
+  inset: 8px 46px auto 18px;
+  height: 13px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+.pantry-story-milestone::after,
+.pantry-story-delivery::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.8) 0 20%, transparent 21%),
+    linear-gradient(135deg, #f8d477, #dfa342);
+  box-shadow:
+    inset 0 0 0 3px rgba(132, 85, 56, 0.12),
+    0 3px 0 rgba(61, 43, 46, 0.12);
+  opacity: 0.78;
+  pointer-events: none;
+}
+
+.pantry-story-milestone {
+  border-color: rgba(207, 164, 59, 0.5);
+  background:
+    radial-gradient(circle at 88% 12%, rgba(255, 238, 158, 0.72), transparent 34%),
+    linear-gradient(135deg, rgba(255, 252, 238, 0.98), rgba(184, 230, 210, 0.58));
+}
+
+.pantry-story-delivery {
+  border-color: rgba(85, 149, 119, 0.42);
+  background:
+    radial-gradient(circle at 88% 14%, rgba(184, 230, 210, 0.72), transparent 34%),
+    linear-gradient(135deg, rgba(255, 252, 241, 0.98), rgba(230, 244, 223, 0.92));
+}
+
+.pantry-story-milestone__copy,
+.pantry-story-milestone__preview,
+.pantry-story-delivery__art,
+.pantry-story-delivery__copy,
+.pantry-story-delivery__steps,
+.pantry-story-delivery__actions {
+  position: relative;
+  z-index: 1;
+}
+
+.pantry-story-milestone__level,
+.pantry-story-delivery__art {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border-width: 3px;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.72) 0 11%, transparent 12%),
+    linear-gradient(180deg, rgba(255, 253, 244, 0.98), rgba(255, 244, 214, 0.84));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.72),
+    0 4px 0 rgba(61, 43, 46, 0.08);
+}
+
+.pantry-story-milestone__item {
+  position: relative;
+  overflow: hidden;
+  min-height: 52px;
+  border-width: 3px;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 13% 18%, rgba(255, 255, 255, 0.7) 0 10%, transparent 11%),
+    linear-gradient(180deg, rgba(255, 253, 244, 0.98), rgba(255, 244, 214, 0.86));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.72),
+    0 4px 0 rgba(61, 43, 46, 0.09);
+}
+
+.pantry-story-milestone__item:active,
+.pantry-story-delivery__action:active {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.62),
+    0 2px 0 rgba(61, 43, 46, 0.12);
+}
+
+.pantry-story-delivery__steps span {
+  border: 2px solid rgba(207, 164, 59, 0.24);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 16% 28%, rgba(255, 255, 255, 0.68) 0 12%, transparent 13%),
+    linear-gradient(180deg, rgba(255, 248, 226, 0.98), rgba(255, 220, 129, 0.42));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.66);
+}
+
+.pantry-story-delivery__action {
+  min-height: 44px;
+  border-width: 3px;
+  border-radius: 15px;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.68),
+    0 4px 0 rgba(61, 43, 46, 0.14);
+}
+
+.pantry-story-delivery__action.secondary {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.7) 0 10%, transparent 11%),
+    linear-gradient(180deg, rgba(255, 253, 244, 0.98), rgba(255, 244, 214, 0.9));
+}
+
+@media (max-width: 430px) {
+  .pantry-story-milestone,
+  .pantry-story-delivery {
+    padding: 12px;
+  }
+
+  .pantry-story-milestone::before,
+  .pantry-story-delivery::before {
+    right: 40px;
+  }
+}
