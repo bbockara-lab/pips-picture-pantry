@@ -358,19 +358,19 @@ function createStageNavigation(stageNavigation) {
   const actions = document.createElement("div");
   actions.className = "stage-navigation__actions";
   actions.append(
-    createStageNavButton(t("stageNav.previous"), !stageNavigation.hasPrevious, stageNavigation.onPrevious),
-    createStageNavButton(t("stageNav.list"), false, stageNavigation.onShowList),
-    createStageNavButton(t("stageNav.next"), !stageNavigation.hasNext, stageNavigation.onNext)
+    createStageNavButton(t("stageNav.previous"), !stageNavigation.hasPrevious, stageNavigation.onPrevious, "previous"),
+    createStageNavButton(t("stageNav.list"), false, stageNavigation.onShowList, "list"),
+    createStageNavButton(t("stageNav.next"), !stageNavigation.hasNext, stageNavigation.onNext, "next")
   );
 
   nav.append(copy, actions);
   return nav;
 }
 
-function createStageNavButton(label, disabled, onClick) {
+function createStageNavButton(label, disabled, onClick, variant) {
   const button = document.createElement("button");
   button.type = "button";
-  button.className = "stage-nav-button";
+  button.className = `stage-nav-button stage-nav-button--${variant}`;
   button.textContent = label;
   button.disabled = disabled;
   button.addEventListener("click", onClick);

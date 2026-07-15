@@ -2636,3 +2636,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.363 and upgraded the reset confirmation dialog into a warm framed modal with shine, warning token, body card, and tactile cancel/confirm buttons.
 - Kept reset semantics unchanged; mobile QA opens the dialog and cancels it so no player progress is cleared during validation.
 - Extended mobile QA to guard reset dialog frame depth, title badge artwork, body-card treatment, button tap size, and no-overflow behavior across mobile viewports.
+
+
+### v0.1.364 - Stage Navigation Button Polish
+- Bumped the visible app version to v0.1.364 and upgraded the in-puzzle previous/list/next navigation into a framed tactile card with clipped shine, stronger button depth, and CSS-drawn direction/list tokens.
+- Kept stage routing, disabled previous/next behavior, list navigation, Time Attack, and replay challenge flows unchanged; this is a presentation and touch-quality pass for the normal stage screen.
+- Extended mobile QA to guard the stage navigation frame, shine layer, three button variants, disabled-state treatment, icon artwork, and no-overflow behavior across mobile viewports.

@@ -31,7 +31,8 @@ for (const viewport of viewports) {
   await expectSettingsDialogPolish(page, viewport.name);
   if ((await page.locator(".play-screen").count()) > 0) {
     await expectVisible(page, ".play-screen", viewport.name);
-      await page.locator(".play-screen__back").click();
+    await expectStageNavigationPolish(page, viewport.name);
+    await page.locator(".play-screen__back").click();
   }
   await expectVisible(page, ".pip-strip__portrait", viewport.name);
   await expectVisible(page, ".currency-pill", viewport.name);
@@ -640,6 +641,94 @@ async function expectAppChromePolish(page, viewportName) {
     failures.push("[" + viewportName + "] Floating nav panel polish/layout regression: " + JSON.stringify(navMetrics));
   }
   await trigger.click();
+}
+
+async function expectStageNavigationPolish(page, viewportName) {
+  await expectVisible(page, ".stage-navigation", viewportName);
+  const metrics = await page.locator(".stage-navigation").first().evaluate((nav) => {
+    const rect = nav.getBoundingClientRect();
+    const style = getComputedStyle(nav);
+    const shine = getComputedStyle(nav, "::before");
+    const copy = nav.querySelector(".stage-navigation__copy");
+    const copyRect = copy?.getBoundingClientRect();
+    const actions = nav.querySelector(".stage-navigation__actions");
+    const actionsRect = actions?.getBoundingClientRect();
+    const buttons = [...nav.querySelectorAll(".stage-nav-button")].map((button) => {
+      const buttonRect = button.getBoundingClientRect();
+      const buttonStyle = getComputedStyle(button);
+      const icon = getComputedStyle(button, "::after");
+      const glint = getComputedStyle(button, "::before");
+      return {
+        text: (button.textContent || "").trim(),
+        className: button.className,
+        disabled: button.disabled,
+        width: buttonRect.width,
+        height: buttonRect.height,
+        left: buttonRect.left,
+        right: buttonRect.right,
+        borderWidth: parseFloat(buttonStyle.borderTopWidth),
+        radius: parseFloat(buttonStyle.borderRadius),
+        background: buttonStyle.backgroundImage,
+        boxShadow: buttonStyle.boxShadow,
+        overflow: buttonStyle.overflow,
+        iconContent: icon.content,
+        iconWidth: parseFloat(icon.width),
+        glintContent: glint.content,
+        glintHeight: parseFloat(glint.height)
+      };
+    });
+
+    return {
+      left: rect.left,
+      right: rect.right,
+      width: rect.width,
+      viewportWidth: window.innerWidth,
+      borderWidth: parseFloat(style.borderTopWidth),
+      radius: parseFloat(style.borderRadius),
+      background: style.backgroundImage,
+      boxShadow: style.boxShadow,
+      overflow: style.overflow,
+      shineContent: shine.content,
+      shineHeight: parseFloat(shine.height),
+      copyWidth: copyRect?.width || 0,
+      actionsWidth: actionsRect?.width || 0,
+      buttons
+    };
+  });
+
+  const buttonVariants = ["previous", "list", "next"];
+  if (
+    metrics.left < -1 ||
+    metrics.right > metrics.viewportWidth + 1 ||
+    metrics.borderWidth < 3 ||
+    metrics.radius < 16 ||
+    !metrics.background.includes("gradient") ||
+    metrics.boxShadow === "none" ||
+    metrics.overflow !== "hidden" ||
+    metrics.shineContent === "none" ||
+    metrics.shineHeight < 10 ||
+    metrics.copyWidth < 120 ||
+    metrics.actionsWidth < 180 ||
+    metrics.buttons.length !== 3 ||
+    metrics.buttons.some((button, index) =>
+      button.height < 42 ||
+      button.width < 70 ||
+      button.left < -1 ||
+      button.right > metrics.viewportWidth + 1 ||
+      button.borderWidth < 3 ||
+      button.radius < 14 ||
+      !button.background.includes("gradient") ||
+      button.boxShadow === "none" ||
+      button.overflow !== "hidden" ||
+      button.iconContent === "none" ||
+      button.iconWidth < 12 ||
+      button.glintContent === "none" ||
+      button.glintHeight < 8 ||
+      !button.className.includes(buttonVariants[index])
+    )
+  ) {
+    failures.push("[" + viewportName + "] Stage navigation lost tactile button polish: " + JSON.stringify(metrics));
+  }
 }
 
 async function expectResetDialogPolish(page, viewportName) {
