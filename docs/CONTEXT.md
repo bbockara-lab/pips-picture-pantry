@@ -2547,3 +2547,8 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.348 and upgraded the Pantry shop reveal control with a progress meter, shine layer, spoon-token CTA, and stronger mobile tap target.
 - Kept the progressive 6-card reveal logic unchanged; the new meter only makes the remaining decoration catalog feel intentional instead of like a plain pagination button.
 - Extended mobile QA to guard the reveal card frame, meter fill, clipped shine, spoon-token button accent, and responsive full-width CTA behavior.
+
+### v0.1.349 - Pantry Action Feedback Reward Polish
+- Bumped the visible app version to v0.1.349 and polished Pantry purchase/story-complete feedback into reward-style cards with a stronger framed surface, clipped shine, token accent, and deeper item-art stage.
+- Kept purchase, equip, room slot, story-goal, completion archive, and spoon economy behavior unchanged; this is presentation polish for the post-purchase reward moment.
+- Extended mobile QA to guard the feedback frame, shine/token artwork, item-art stage, dismiss tap target, and story-complete reward variant on mobile viewports.

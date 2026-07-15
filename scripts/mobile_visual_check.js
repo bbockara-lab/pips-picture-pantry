@@ -2482,6 +2482,43 @@ async function verifyPantryPlacement(page, viewportName) {
     failures.push("[" + viewportName + "] Pantry purchase feedback should celebrate the placed starter decoration, saw " + feedbackText);
   }
 
+  const purchaseFeedbackMetrics = await page.locator(".pantry-action-feedback").first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    const before = getComputedStyle(el, "::before");
+    const after = getComputedStyle(el, "::after");
+    const art = el.querySelector(".pantry-action-feedback__art");
+    const artStyle = art ? getComputedStyle(art) : null;
+    const img = el.querySelector(".pantry-action-feedback__art img");
+    const imgRect = img ? img.getBoundingClientRect() : { width: 0, height: 0 };
+    const dismiss = el.querySelector(".pantry-action-feedback__dismiss");
+    const dismissRect = dismiss ? dismiss.getBoundingClientRect() : { height: 0 };
+    return {
+      width: el.getBoundingClientRect().width,
+      borderRadius: parseFloat(style.borderRadius),
+      borderWidth: parseFloat(style.borderTopWidth),
+      overflow: style.overflow,
+      background: style.backgroundImage,
+      shineContent: before.content,
+      shineHeight: parseFloat(before.height),
+      tokenContent: after.content,
+      tokenWidth: parseFloat(after.width),
+      artWidth: art ? art.getBoundingClientRect().width : 0,
+      artRadius: artStyle ? parseFloat(artStyle.borderRadius) : 0,
+      imageWidth: imgRect.width,
+      imageHeight: imgRect.height,
+      dismissHeight: dismissRect.height
+    };
+  });
+  if (purchaseFeedbackMetrics.width < 300 || purchaseFeedbackMetrics.borderRadius < 16 || purchaseFeedbackMetrics.borderWidth < 3 || purchaseFeedbackMetrics.overflow !== "hidden" || !purchaseFeedbackMetrics.background.includes("radial-gradient")) {
+    failures.push("[" + viewportName + "] Pantry purchase feedback card lost its polished reward frame: " + JSON.stringify(purchaseFeedbackMetrics));
+  }
+  if (purchaseFeedbackMetrics.shineContent === "none" || purchaseFeedbackMetrics.shineHeight < 10 || purchaseFeedbackMetrics.tokenContent === "none" || purchaseFeedbackMetrics.tokenWidth < 24) {
+    failures.push("[" + viewportName + "] Pantry purchase feedback card lost shine/token artwork: " + JSON.stringify(purchaseFeedbackMetrics));
+  }
+  if (purchaseFeedbackMetrics.artWidth < 68 || purchaseFeedbackMetrics.artRadius < 14 || purchaseFeedbackMetrics.imageWidth < 44 || purchaseFeedbackMetrics.imageHeight < 44 || purchaseFeedbackMetrics.dismissHeight < 40) {
+    failures.push("[" + viewportName + "] Pantry purchase feedback art or dismiss target regressed: " + JSON.stringify(purchaseFeedbackMetrics));
+  }
+
   await expectVisible(page, ".pantry-progress-board", viewportName);
   const postPurchaseProgressText = await page.locator(".pantry-progress-board").innerText();
   if (!postPurchaseProgressText.includes("1/25") || !postPurchaseProgressText.includes("1/5")) {
@@ -2544,6 +2581,33 @@ async function verifyPantryPlacement(page, viewportName) {
   const storyCompleteText = await page.locator(".pantry-action-feedback.story-complete").first().innerText();
   if (!storyCompleteText.includes("Delivery complete") || !storyCompleteText.includes("Small Jam Jar")) {
     failures.push("[" + viewportName + "] Delivery goal purchase should show story-complete feedback, saw " + storyCompleteText);
+  }
+  const storyFeedbackMetrics = await page.locator(".pantry-action-feedback.story-complete").first().evaluate((el) => {
+    const style = getComputedStyle(el);
+    const before = getComputedStyle(el, "::before");
+    const after = getComputedStyle(el, "::after");
+    const art = el.querySelector(".pantry-action-feedback__art");
+    const artStyle = art ? getComputedStyle(art) : null;
+    const img = el.querySelector(".pantry-action-feedback__art img");
+    const imgRect = img ? img.getBoundingClientRect() : { width: 0, height: 0 };
+    return {
+      borderRadius: parseFloat(style.borderRadius),
+      borderWidth: parseFloat(style.borderTopWidth),
+      background: style.backgroundImage,
+      shineContent: before.content,
+      tokenContent: after.content,
+      tokenWidth: parseFloat(after.width),
+      artWidth: art ? art.getBoundingClientRect().width : 0,
+      artRadius: artStyle ? parseFloat(artStyle.borderRadius) : 0,
+      imageWidth: imgRect.width,
+      imageHeight: imgRect.height
+    };
+  });
+  if (storyFeedbackMetrics.borderRadius < 16 || storyFeedbackMetrics.borderWidth < 3 || !storyFeedbackMetrics.background.includes("radial-gradient") || storyFeedbackMetrics.shineContent === "none" || storyFeedbackMetrics.tokenContent === "none" || storyFeedbackMetrics.tokenWidth < 24) {
+    failures.push("[" + viewportName + "] Story-complete feedback card lost reward polish: " + JSON.stringify(storyFeedbackMetrics));
+  }
+  if (storyFeedbackMetrics.artWidth < 68 || storyFeedbackMetrics.artRadius < 14 || storyFeedbackMetrics.imageWidth < 44 || storyFeedbackMetrics.imageHeight < 44) {
+    failures.push("[" + viewportName + "] Story-complete feedback art regressed: " + JSON.stringify(storyFeedbackMetrics));
   }
   const completedStoryState = await page.evaluate(() => {
     const save = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:save:jay") || "{}");
