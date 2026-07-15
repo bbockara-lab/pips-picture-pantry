@@ -44,6 +44,7 @@ for (const viewport of viewports) {
   await expectLockedStageGate(page, viewport.name);
   await expectVisible(page, ".stage-preview", viewport.name);
   await expectStageArtPreviews(page, viewport.name);
+  await expectPuzzleHubSelectionPolish(page, viewport.name);
   await expectSeasonUpdateTeaser(page, viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
   await expectTapTargets(page, viewport.name);
@@ -1304,6 +1305,88 @@ async function expectStageArtPreviews(page, viewportName) {
   });
   if (tileIssues.length > 0) {
     failures.push("[" + viewportName + "] Stage artwork mosaic has invalid visible tiles: " + JSON.stringify(tileIssues.slice(0, 3)));
+  }
+}
+
+async function expectPuzzleHubSelectionPolish(page, viewportName) {
+  const metrics = await page.evaluate(() => {
+    const preview = document.querySelector(".stage-preview");
+    const previewRect = preview?.getBoundingClientRect();
+    const previewStyle = preview ? getComputedStyle(preview) : null;
+    const previewBefore = preview ? getComputedStyle(preview, "::before") : null;
+    const previewAfter = preview ? getComputedStyle(preview, "::after") : null;
+    const chips = [...document.querySelectorAll(".puzzle-chip")].slice(0, 4).map((chip) => {
+      const rect = chip.getBoundingClientRect();
+      const style = getComputedStyle(chip);
+      const shine = getComputedStyle(chip, "::before");
+      const token = getComputedStyle(chip, "::after");
+      return {
+        text: chip.textContent.trim(),
+        width: rect.width,
+        height: rect.height,
+        left: rect.left,
+        right: rect.right,
+        viewportWidth: window.innerWidth,
+        borderWidth: parseFloat(style.borderTopWidth),
+        radius: parseFloat(style.borderRadius),
+        background: style.backgroundImage,
+        shadow: style.boxShadow,
+        overflow: style.overflow,
+        shineContent: shine.content,
+        shineHeight: parseFloat(shine.height),
+        tokenContent: token.content,
+        tokenWidth: parseFloat(token.width),
+        overflows: chip.scrollWidth > Math.ceil(rect.width) + 1 || chip.scrollHeight > Math.ceil(rect.height) + 1
+      };
+    });
+    return {
+      previewWidth: previewRect?.width || 0,
+      previewHeight: previewRect?.height || 0,
+      previewRight: previewRect?.right || 0,
+      viewportWidth: window.innerWidth,
+      previewBorderWidth: previewStyle ? parseFloat(previewStyle.borderTopWidth) : 0,
+      previewRadius: previewStyle ? parseFloat(previewStyle.borderRadius) : 0,
+      previewBackground: previewStyle?.backgroundImage || "",
+      previewShadow: previewStyle?.boxShadow || "",
+      previewShineContent: previewBefore?.content || "",
+      previewShineHeight: previewBefore ? parseFloat(previewBefore.height) : 0,
+      previewTokenContent: previewAfter?.content || "",
+      previewTokenWidth: previewAfter ? parseFloat(previewAfter.width) : 0,
+      chips
+    };
+  });
+
+  if (
+    metrics.previewWidth < 240 ||
+    metrics.previewHeight < 110 ||
+    metrics.previewRight > metrics.viewportWidth + 1 ||
+    metrics.previewBorderWidth < 3 ||
+    metrics.previewRadius < 15 ||
+    !metrics.previewBackground.includes("gradient") ||
+    metrics.previewShadow === "none" ||
+    metrics.previewShineContent === "none" ||
+    metrics.previewShineHeight < 10 ||
+    metrics.previewTokenContent === "none" ||
+    metrics.previewTokenWidth < 16 ||
+    metrics.chips.length < 3 ||
+    metrics.chips.some((chip) =>
+      chip.width < 140 ||
+      chip.height < 54 ||
+      chip.left < -1 ||
+      chip.right > chip.viewportWidth + 1 ||
+      chip.borderWidth < 3 ||
+      chip.radius < 13 ||
+      !chip.background.includes("gradient") ||
+      chip.shadow === "none" ||
+      chip.overflow !== "hidden" ||
+      chip.shineContent === "none" ||
+      chip.shineHeight < 8 ||
+      chip.tokenContent === "none" ||
+      chip.tokenWidth < 11 ||
+      chip.overflows
+    )
+  ) {
+    failures.push("[" + viewportName + "] Puzzle hub selection cards lost polished preview/chip treatment: " + JSON.stringify(metrics));
   }
 }
 

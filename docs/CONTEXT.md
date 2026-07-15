@@ -2648,3 +2648,9 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.365 and rebuilt the first-run guide dialog rendering with explicit DOM nodes instead of HTML string insertion.
 - Upgraded the Pip guide scene with clipped shine, small spoon-token accents, deeper art framing, and tactile skip/next buttons while keeping guide step content, seen-guide saves, and puzzle/time-attack/pantry guide routing unchanged.
 - Extended mobile QA to guard the guide art frame, Pip image, bubble tail, token accents, button shine, and no-overflow behavior across mobile viewports.
+
+
+### v0.1.366 - Puzzle Hub Selection Polish
+- Bumped the visible app version to v0.1.366 and upgraded the stage preview plus puzzle chips with thicker framed surfaces, clipped shine, small token accents, and clearer active/complete/locked visual states.
+- Kept puzzle unlocking, pack gating, active puzzle selection, completion state, and 333-puzzle catalog behavior unchanged; this is a selection-surface polish pass.
+- Extended mobile QA to guard the stage preview frame, shine/token layers, puzzle chip tap size, active/locked card treatment, and no-overflow behavior across mobile viewports.
