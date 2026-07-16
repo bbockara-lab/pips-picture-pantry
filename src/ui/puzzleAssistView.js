@@ -5,42 +5,58 @@ import { t } from "../i18n/index.js";
 export function renderHowToPlayCard() {
   const card = document.createElement("section");
   card.className = "how-to-play visual-guide";
-  card.innerHTML = `
-    <div class="guide-pip-scene">
-      <img class="guide-pip-scene__pip" src="${pipGuideUrl}" alt="" aria-hidden="true" />
-      <div class="guide-copy guide-pip-scene__bubble">
-        <p class="section-label">${t("howToPlay.title")}</p>
-        <p>${t("howToPlay.goal")}</p>
-        <p class="how-to-play__line-hint">${t("controls.lineCompleteHint")}</p>
-      </div>
-    </div>
-    <div class="clue-guide" aria-hidden="true">
-      <div class="clue-guide__row">
-        <span class="clue-badge">3</span>
-        <span class="mini-cell filled"></span>
-        <span class="mini-cell filled"></span>
-        <span class="mini-cell filled"></span>
-        <span class="mini-cell auto-mark"></span>
-        <span class="mini-cell auto-mark"></span>
-        <span class="clue-caption">${t("howToPlay.clueTogether")}</span>
-      </div>
-      <div class="clue-guide__row">
-        <span class="clue-badge wide">1 1 1</span>
-        <span class="mini-cell filled"></span>
-        <span class="mini-cell auto-mark gap"></span>
-        <span class="mini-cell filled"></span>
-        <span class="mini-cell auto-mark gap"></span>
-        <span class="mini-cell filled"></span>
-        <span class="clue-caption">${t("howToPlay.clueApart")}</span>
-      </div>
-    </div>
-    <div class="guide-actions" aria-hidden="true">
-      <span>${t("controls.fill")}</span>
-      <span>${t("controls.mark")}</span>
-      <span>${t("controls.undo")}</span>
-    </div>
-  `;
+
+  const scene = document.createElement("div");
+  scene.className = "guide-pip-scene";
+  const pip = document.createElement("img");
+  pip.className = "guide-pip-scene__pip";
+  pip.src = pipGuideUrl;
+  pip.alt = "";
+  pip.setAttribute("aria-hidden", "true");
+
+  const bubble = document.createElement("div");
+  bubble.className = "guide-copy guide-pip-scene__bubble";
+  appendTextElement(bubble, "p", "section-label", t("howToPlay.title"));
+  appendTextElement(bubble, "p", "", t("howToPlay.goal"));
+  appendTextElement(bubble, "p", "how-to-play__line-hint", t("controls.lineCompleteHint"));
+  scene.append(pip, bubble);
+
+  const clueGuide = document.createElement("div");
+  clueGuide.className = "clue-guide";
+  clueGuide.setAttribute("aria-hidden", "true");
+  clueGuide.append(
+    buildClueGuideRow("3", ["filled", "filled", "filled", "auto-mark", "auto-mark"], t("howToPlay.clueTogether")),
+    buildClueGuideRow("1 1 1", ["filled", "auto-mark gap", "filled", "auto-mark gap", "filled"], t("howToPlay.clueApart"), true)
+  );
+
+  const actions = document.createElement("div");
+  actions.className = "guide-actions";
+  actions.setAttribute("aria-hidden", "true");
+  appendTextElement(actions, "span", "", t("controls.fill"));
+  appendTextElement(actions, "span", "", t("controls.mark"));
+  appendTextElement(actions, "span", "", t("controls.undo"));
+
+  card.append(scene, clueGuide, actions);
   return card;
+}
+
+function buildClueGuideRow(label, cells, caption, wide = false) {
+  const row = document.createElement("div");
+  row.className = "clue-guide__row";
+  appendTextElement(row, "span", wide ? "clue-badge wide" : "clue-badge", label);
+  cells.forEach((cellClass) => appendTextElement(row, "span", `mini-cell ${cellClass}`, ""));
+  appendTextElement(row, "span", "clue-caption", caption);
+  return row;
+}
+
+function appendTextElement(parent, tagName, className, text) {
+  const element = document.createElement(tagName);
+  if (className) {
+    element.className = className;
+  }
+  element.textContent = text;
+  parent.appendChild(element);
+  return element;
 }
 
 export function getHintLimit(puzzle) {
@@ -193,7 +209,12 @@ function renderHintConfirm(panel, { state, puzzle, update, hintCost, options }) 
   const costChip = document.createElement("div");
   costChip.className = "hint-panel__cost-chip";
   costChip.setAttribute("aria-label", t("controls.hintCostLabel", { cost: hintCost }));
-  costChip.innerHTML = '<span class="hint-panel__spoon-mark" aria-hidden="true"></span><strong>' + hintCost + '</strong>';
+  const spoonMark = document.createElement("span");
+  spoonMark.className = "hint-panel__spoon-mark";
+  spoonMark.setAttribute("aria-hidden", "true");
+  const costValue = document.createElement("strong");
+  costValue.textContent = String(hintCost);
+  costChip.append(spoonMark, costValue);
 
   const body = document.createElement("p");
   body.textContent = t("controls.hintConfirmBody", { cost: hintCost });

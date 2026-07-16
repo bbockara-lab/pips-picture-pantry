@@ -11,10 +11,8 @@ export function renderHeader(onSettings, onReset) {
 
   const titleGroup = document.createElement("div");
   titleGroup.className = "title-group";
-  titleGroup.innerHTML = `
-    <p class="studio-name">${t("app.studioName")}</p>
-    <h1>${t("app.title")}</h1>
-  `;
+  appendTextElement(titleGroup, "p", "studio-name", t("app.studioName"));
+  appendTextElement(titleGroup, "h1", "", t("app.title"));
 
   const actions = document.createElement("div");
   actions.className = "header-actions";
@@ -63,13 +61,15 @@ export function renderPipStrip(puzzle, activeView) {
       : activeView === "pantry"
         ? t("pipStrip.pantryNote")
         : t("pipStrip.puzzleNote", { title: puzzleName });
-  strip.innerHTML = `
-    <img class="pip-strip__portrait" src="${pipStripStickerUrl}" alt="" />
-    <div>
-      <p class="pip-line">${line}</p>
-      <p class="pip-note">${note}</p>
-    </div>
-  `;
+
+  const portrait = document.createElement("img");
+  portrait.className = "pip-strip__portrait";
+  portrait.src = pipStripStickerUrl;
+  portrait.alt = "";
+  const copy = document.createElement("div");
+  appendTextElement(copy, "p", "pip-line", line);
+  appendTextElement(copy, "p", "pip-note", note);
+  strip.append(portrait, copy);
   return strip;
 }
 
@@ -81,17 +81,22 @@ export function renderBadgeShelf() {
   const shelf = document.createElement("section");
   shelf.className = "badge-shelf earned";
   shelf.setAttribute("aria-label", t("badges.earnedShelfAria", { count: earnedBadges.length }));
-  shelf.innerHTML = earnedBadges.slice(0, 3).map((status) => `
-    <div class="badge-shelf__item">
-      <div class="badge-shelf__token" aria-hidden="true">
-        <img src="${getBadgeArtUrl(status.badge.id)}" alt="" />
-      </div>
-      <div>
-        <p>${t(status.badge.titleKey)}</p>
-        <small>${t("badges.earned")}</small>
-      </div>
-    </div>
-  `).join("");
+  earnedBadges.slice(0, 3).forEach((status) => {
+    const item = document.createElement("div");
+    item.className = "badge-shelf__item";
+    const token = document.createElement("div");
+    token.className = "badge-shelf__token";
+    token.setAttribute("aria-hidden", "true");
+    const image = document.createElement("img");
+    image.src = getBadgeArtUrl(status.badge.id);
+    image.alt = "";
+    token.appendChild(image);
+    const copy = document.createElement("div");
+    appendTextElement(copy, "p", "", t(status.badge.titleKey));
+    appendTextElement(copy, "small", "", t("badges.earned"));
+    item.append(token, copy);
+    shelf.appendChild(item);
+  });
   return shelf;
 }
 
@@ -103,10 +108,9 @@ export function renderResetDialog(onCancel, onConfirm) {
   dialog.setAttribute("role", "dialog");
   dialog.setAttribute("aria-modal", "true");
   dialog.setAttribute("aria-labelledby", "reset-dialog-title");
-  dialog.innerHTML = `
-    <h2 id="reset-dialog-title">${t("header.resetTitle")}</h2>
-    <p>${t("header.resetBody")}</p>
-  `;
+  const title = appendTextElement(dialog, "h2", "", t("header.resetTitle"));
+  title.id = "reset-dialog-title";
+  appendTextElement(dialog, "p", "", t("header.resetBody"));
 
   const actions = document.createElement("div");
   actions.className = "dialog-actions";
@@ -143,6 +147,16 @@ export function createSpoonIcon(size = "") {
   icon.alt = "";
   icon.setAttribute("aria-hidden", "true");
   return icon;
+}
+
+function appendTextElement(parent, tagName, className, text) {
+  const element = document.createElement(tagName);
+  if (className) {
+    element.className = className;
+  }
+  element.textContent = text;
+  parent.appendChild(element);
+  return element;
 }
 
 function getPipPuzzleLine(playerName, completedCount) {

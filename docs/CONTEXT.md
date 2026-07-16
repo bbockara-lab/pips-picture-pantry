@@ -2720,3 +2720,8 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.377 and rebuilt the stage-complete overlay with explicit DOM nodes instead of HTML string insertion.
 - Rebuilt the Sunny Spoon Studios opening intro and first-player name step with DOM/textContent while preserving the existing studio bumper timing, start CTA, player-name save, and version display.
 - This closes two launch-facing first-impression surfaces in the release-hardening pass without changing puzzle progression, rewards, or onboarding behavior.
+
+### v0.1.378 - App Chrome And Play Header DOM Safety Polish
+- Bumped the visible app version to v0.1.378 and rebuilt the global header, Pip strip, badge shelf, and reset dialog with explicit DOM nodes instead of HTML string insertion.
+- Rebuilt the play-screen title block and hint confirmation spoon-cost chip with textContent/DOM nodes while preserving existing classes, icons, event handlers, and mobile QA selectors.
+- This extends the release-hardening pass across the most common navigation and in-play surfaces without changing save data, puzzle state, hint economics, or reset behavior.

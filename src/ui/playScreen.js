@@ -40,7 +40,15 @@ export function renderPlayScreen(activePuzzle, options) {
 
   const title = document.createElement("div");
   title.className = "play-screen__title";
-  title.innerHTML = "<p>" + (isTimeAttack ? t("timeAttack.round", { current: timeAttackRoundIndex + 1, total: timeAttackTotalRounds }) : replayChallenge ? t("replayPicks.challengeLabel") : t("sections.currentPicture")) + "</p><h1>" + puzzleTitle(activePuzzle) + "</h1>";
+  const titleLabel = document.createElement("p");
+  titleLabel.textContent = isTimeAttack
+    ? t("timeAttack.round", { current: timeAttackRoundIndex + 1, total: timeAttackTotalRounds })
+    : replayChallenge
+      ? t("replayPicks.challengeLabel")
+      : t("sections.currentPicture");
+  const titleHeading = document.createElement("h1");
+  titleHeading.textContent = puzzleTitle(activePuzzle);
+  title.append(titleLabel, titleHeading);
   if (isTimeAttack) {
     const timer = document.createElement("p");
     timer.className = "play-screen__timer";
