@@ -17,7 +17,8 @@
     "cap:sync": "npm run build && cap sync",
     "android:open": "cap open android",
     "qa:release": "node scripts/android_release_gate.js",
-    "qa:release:final": "node scripts/android_release_gate.js --final"
+    "qa:release:final": "node scripts/android_release_gate.js --final",
+    "qa:candidate": "node scripts/release_candidate_check.js"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.1",

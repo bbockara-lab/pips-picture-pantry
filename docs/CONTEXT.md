@@ -2745,3 +2745,8 @@ v1 Android decision:
 - Added `scripts/android_release_gate.js` plus `npm run qa:release` and `npm run qa:release:final`.
 - The normal gate keeps package/UI version sync and release checklist coverage visible during polish, while the final gate blocks signed Play-upload builds if Android `versionCode` / `versionName` still match the last Play Console upload.
 - This keeps Android numbering as a deliberate final-release action instead of a silent manual note.
+
+### v0.1.381 Candidate QA Addendum
+- Added `scripts/release_candidate_check.js` plus `npm run qa:candidate` to run the launch-candidate validation ladder in one command.
+- The candidate gate runs Vitest, catalog, hygiene, asset manifest, production build, normal Android release gate, a temporary Vite dev server, mobile visual QA, and an HTTP 200 probe.
+- This keeps the final Android review loop faster and less error-prone while leaving `qa:release:final` as the stricter pre-AAB numbering block.
