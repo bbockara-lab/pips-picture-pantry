@@ -2762,3 +2762,6 @@ v1 Android decision:
 ### v0.1.381 Android Native Exit Guard Addendum
 - Hardened Android PowerShell build wrappers so native commands such as `npm`, `npx`, and `gradlew.bat` throw on non-zero exit codes under Windows PowerShell.
 - This ensures `build_android_signed_release_bundle.ps1` stops immediately at `qa:release:final` until Play upload numbering is bumped, instead of continuing into signing checks after a failed gate.
+### v0.1.381 Play Store Asset QA Addendum
+- Added `scripts/play_store_asset_check.js` plus `npm run qa:store` to verify Play Console app icon, feature graphic, phone screenshots, and tablet screenshots exist at their expected dimensions.
+- Wired the store asset check into `npm run qa:candidate` so final review catches missing or wrong-size graphics before Play Console upload work.

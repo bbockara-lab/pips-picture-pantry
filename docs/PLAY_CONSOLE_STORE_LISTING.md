@@ -37,6 +37,8 @@ App icon:
 
 Use store-assets/play-console/app-icon-512.png.
 
+Verification: run `npm run qa:store` to confirm all listed Play Console graphics are present at the expected dimensions.
+
 Feature graphic:
 
 Use store-assets/play-console/feature-graphic-1024x500.png.
