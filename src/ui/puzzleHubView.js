@@ -6,6 +6,20 @@ import { ECONOMY } from "../data/economyConfig.js";
 import { canUnlockPack, getCompletedPuzzleIds, getPackPantryRoomRequirement, getPantrySpoons, getReplayDailyCount, isPackUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 
+function appendTextElement(parent, tagName, className, text) {
+  const element = document.createElement(tagName);
+  if (className) {
+    element.className = className;
+  }
+  element.textContent = text;
+  parent.appendChild(element);
+  return element;
+}
+
+function createMeterFill() {
+  return document.createElement("span");
+}
+
 export function renderPuzzleHub(activePuzzle, onOpenPuzzle, options = {}) {
   const { onOpenPantry = () => {}, onUnlockPack = () => {}, onViewAlbum = () => {} } = options;
   const stack = document.createElement("div");
@@ -15,7 +29,9 @@ export function renderPuzzleHub(activePuzzle, onOpenPuzzle, options = {}) {
   panel.className = "puzzle-hub-panel content-panel";
 
   const copy = document.createElement("div");
-  copy.innerHTML = "<p class=\"section-label\">" + t("sections.currentPicture") + "</p><h2>" + puzzleTitle(activePuzzle) + "</h2><p>" + t("playScreen.hubNote") + "</p>";
+  appendTextElement(copy, "p", "section-label", t("sections.currentPicture"));
+  appendTextElement(copy, "h2", "", puzzleTitle(activePuzzle));
+  appendTextElement(copy, "p", "", t("playScreen.hubNote"));
 
   const action = document.createElement("button");
   action.type = "button";
@@ -54,11 +70,9 @@ function createSeasonProgressCard(actions = {}) {
   const header = document.createElement("div");
   header.className = "season-progress-card__header";
   const copy = document.createElement("div");
-  copy.innerHTML = [
-    "<p class=\"section-label\">" + t("seasonProgress.eyebrow") + "</p>",
-    "<h2>" + t("seasonProgress.title") + "</h2>",
-    "<p>" + t(bodyKey, bodyParams) + "</p>"
-  ].join("");
+  appendTextElement(copy, "p", "section-label", t("seasonProgress.eyebrow"));
+  appendTextElement(copy, "h2", "", t("seasonProgress.title"));
+  appendTextElement(copy, "p", "", t(bodyKey, bodyParams));
   const percentBadge = document.createElement("strong");
   percentBadge.className = "season-progress-card__percent";
   percentBadge.textContent = percent + "%";
@@ -67,7 +81,7 @@ function createSeasonProgressCard(actions = {}) {
   const meter = document.createElement("div");
   meter.className = "season-progress-meter";
   meter.setAttribute("aria-hidden", "true");
-  meter.innerHTML = "<span></span>";
+  meter.appendChild(createMeterFill());
 
   const stats = document.createElement("div");
   stats.className = "season-progress-stats";
@@ -81,16 +95,16 @@ function createSeasonProgressCard(actions = {}) {
 
   const teaser = document.createElement("div");
   teaser.className = "season-next-card";
-  teaser.innerHTML = [
-    "<span class=\"season-next-card__label\">" + t("seasonProgress.nextSeasonLabel") + "</span>",
-    "<strong>" + t("seasonProgress.nextSeasonTitle") + "</strong>",
-    "<p>" + t("seasonProgress.nextSeasonBody") + "</p>",
-    "<div class=\"season-next-card__chips\" aria-label=\"" + t("seasonProgress.nextSeasonChipsLabel") + "\">",
-    "<span>" + t("seasonProgress.nextSeasonChipDrop") + "</span>",
-    "<span>" + t("seasonProgress.nextSeasonChipSeason") + "</span>",
-    "<span>" + t("seasonProgress.nextSeasonChipCommunity") + "</span>",
-    "</div>"
-  ].join("");
+  appendTextElement(teaser, "span", "season-next-card__label", t("seasonProgress.nextSeasonLabel"));
+  appendTextElement(teaser, "strong", "", t("seasonProgress.nextSeasonTitle"));
+  appendTextElement(teaser, "p", "", t("seasonProgress.nextSeasonBody"));
+  const teaserChips = document.createElement("div");
+  teaserChips.className = "season-next-card__chips";
+  teaserChips.setAttribute("aria-label", t("seasonProgress.nextSeasonChipsLabel"));
+  appendTextElement(teaserChips, "span", "", t("seasonProgress.nextSeasonChipDrop"));
+  appendTextElement(teaserChips, "span", "", t("seasonProgress.nextSeasonChipSeason"));
+  appendTextElement(teaserChips, "span", "", t("seasonProgress.nextSeasonChipCommunity"));
+  teaser.appendChild(teaserChips);
 
   card.append(header, meter, stats, goal, teaser);
   return card;
@@ -132,7 +146,9 @@ function createSeasonGoalCard({ nextLockedPack, remaining, progressionPacks, onO
     body = t("seasonProgress.goalCompleteBody", { count: progressionPacks.length });
   }
 
-  goal.innerHTML = "<span>" + t("seasonProgress.goalEyebrow") + "</span><strong>" + title + "</strong><p>" + body + "</p>";
+  appendTextElement(goal, "span", "", t("seasonProgress.goalEyebrow"));
+  appendTextElement(goal, "strong", "", title);
+  appendTextElement(goal, "p", "", body);
   if (actionLabel && actionHandler) {
     const action = document.createElement("button");
     action.type = "button";
@@ -179,10 +195,8 @@ export function renderDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle, dai
   card.className = dailyPuzzle.id === activePuzzleId ? "daily-card active" : "daily-card";
 
   const text = document.createElement("div");
-  text.innerHTML = `
-    <p class="section-label">${t("daily.eyebrow")}</p>
-    <h2>${puzzleTitle(dailyPuzzle)}</h2>
-  `;
+  appendTextElement(text, "p", "section-label", t("daily.eyebrow"));
+  appendTextElement(text, "h2", "", puzzleTitle(dailyPuzzle));
 
   const rewardNote = document.createElement("p");
   rewardNote.className = "daily-reward-note";
@@ -218,13 +232,12 @@ export function renderReplayPicksCard(replayPicks, activePuzzleId, onSelectPuzzl
 
   const header = document.createElement("div");
   header.className = "replay-picks-card__header";
-  header.innerHTML = `
-    <div>
-      <p class="section-label">${t("replayPicks.eyebrow")}</p>
-      <h2>${t("replayPicks.title")}</h2>
-    </div>
-    <span>${t("replayPicks.count", { count: dailyCount, limit: dailyLimit })}</span>
-  `;
+  const headerCopy = document.createElement("div");
+  appendTextElement(headerCopy, "p", "section-label", t("replayPicks.eyebrow"));
+  appendTextElement(headerCopy, "h2", "", t("replayPicks.title"));
+  const count = document.createElement("span");
+  count.textContent = t("replayPicks.count", { count: dailyCount, limit: dailyLimit });
+  header.append(headerCopy, count);
 
   const body = document.createElement("p");
   body.className = "replay-picks-card__body";
@@ -237,7 +250,8 @@ export function renderReplayPicksCard(replayPicks, activePuzzleId, onSelectPuzzl
     button.type = "button";
     button.className = puzzle.id === activePuzzleId ? "replay-pick-button active" : "replay-pick-button";
     button.dataset.puzzleId = puzzle.id;
-    button.innerHTML = `<span>${puzzleTitle(puzzle)}</span><small>${t("replayPicks.challenge")}</small>`;
+    appendTextElement(button, "span", "", puzzleTitle(puzzle));
+    appendTextElement(button, "small", "", t("replayPicks.challenge"));
     button.addEventListener("click", () => onReplayPick(puzzle.id));
     list.appendChild(button);
   });
@@ -293,10 +307,8 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack,
     const header = document.createElement("div");
     header.className = "pack-header";
     const headerCopy = document.createElement("div");
-    headerCopy.innerHTML = `
-      <p class="section-label">${t(pack.titleKey)}</p>
-      <p class="pack-note">${t(pack.noteKey)}</p>
-    `;
+    appendTextElement(headerCopy, "p", "section-label", t(pack.titleKey));
+    appendTextElement(headerCopy, "p", "pack-note", t(pack.noteKey));
     header.append(headerCopy, createPackCatalogSummary(packPuzzles, completeCount, isBonusPreview));
     packBlock.appendChild(header);
     packBlock.appendChild(createStagePreview(pack, completeCount, packPuzzles.length));
@@ -431,7 +443,10 @@ function createStagePreview(pack, completeCount, total) {
   preview.style.setProperty("--stage-progress", `${Math.round(stageProgressRatio * 100)}%`);
   preview.style.setProperty("--stage-progress-ratio", String(Math.min(1, Math.max(0, stageProgressRatio))));
   if (isBonusPreview) {
-    preview.innerHTML = `<div class="future-mural-card"><span>${t(`map.sets.${pack.muralSet}`)}</span></div>`;
+    const future = document.createElement("div");
+    future.className = "future-mural-card";
+    appendTextElement(future, "span", "", t(`map.sets.${pack.muralSet}`));
+    preview.appendChild(future);
     return preview;
   }
   const wrap = document.createElement("div");
@@ -498,17 +513,20 @@ function createStageProgressMeter() {
   const meter = document.createElement("div");
   meter.className = "stage-progress-meter";
   meter.setAttribute("aria-hidden", "true");
-  meter.innerHTML = "<span></span>";
+  meter.appendChild(createMeterFill());
   return meter;
 }
 
 function createBonusPackPanel() {
   const panel = document.createElement("div");
   panel.className = "unlock-panel bonus-pack-panel";
-  panel.innerHTML = `
-    <p>${t("packs.paidPackHint")}</p>
-    <button type="button" class="tool-button" disabled>${t("packs.pricePreview")}</button>
-  `;
+  appendTextElement(panel, "p", "", t("packs.paidPackHint"));
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "tool-button";
+  button.disabled = true;
+  button.textContent = t("packs.pricePreview");
+  panel.appendChild(button);
   return panel;
 }
 
@@ -522,21 +540,35 @@ function createUnlockPanel(pack, onUnlockPack, onOpenPantry) {
     ? t("packs.needMore", { count: spoonGap })
     : t("packs.needPantryRoom");
   const planText = getUnlockPlanText(canOpen, roomRequirement, spoonGap);
-  panel.innerHTML = `
-    <div class="unlock-panel__requirements">
-      <p class="unlock-panel__cost"></p>
-      ${roomRequirement.required > 0 ? `<p class="unlock-panel__room">${t("packs.roomRequirement", roomRequirement)}</p>` : ""}
-      <p class="unlock-panel__plan">${planText}</p>
-    </div>
-    <div class="unlock-panel__actions">
-      <button type="button" class="tool-button" ${canOpen ? "" : "disabled"}>${canOpen ? t("packs.openStage") : disabledText}</button>
-      ${!roomRequirement.met ? `<button type="button" class="stage-gate-link">${t("packs.visitPantry")}</button>` : ""}
-    </div>
-  `;
-  const copy = panel.querySelector(".unlock-panel__cost");
+  const requirements = document.createElement("div");
+  requirements.className = "unlock-panel__requirements";
+  const copy = document.createElement("p");
+  copy.className = "unlock-panel__cost";
   copy.append(document.createTextNode(t("packs.unlockCostPrefix")), createSpoonIcon("small"), document.createTextNode(String(pack.unlockCost)));
-  panel.querySelector(".tool-button").addEventListener("click", () => onUnlockPack(pack.id));
-  panel.querySelector(".stage-gate-link")?.addEventListener("click", onOpenPantry);
+  requirements.appendChild(copy);
+  if (roomRequirement.required > 0) {
+    appendTextElement(requirements, "p", "unlock-panel__room", t("packs.roomRequirement", roomRequirement));
+  }
+  appendTextElement(requirements, "p", "unlock-panel__plan", planText);
+
+  const actions = document.createElement("div");
+  actions.className = "unlock-panel__actions";
+  const unlockButton = document.createElement("button");
+  unlockButton.type = "button";
+  unlockButton.className = "tool-button";
+  unlockButton.disabled = !canOpen;
+  unlockButton.textContent = canOpen ? t("packs.openStage") : disabledText;
+  unlockButton.addEventListener("click", () => onUnlockPack(pack.id));
+  actions.appendChild(unlockButton);
+  if (!roomRequirement.met) {
+    const pantryButton = document.createElement("button");
+    pantryButton.type = "button";
+    pantryButton.className = "stage-gate-link";
+    pantryButton.textContent = t("packs.visitPantry");
+    pantryButton.addEventListener("click", onOpenPantry);
+    actions.appendChild(pantryButton);
+  }
+  panel.append(requirements, actions);
   return panel;
 }
 

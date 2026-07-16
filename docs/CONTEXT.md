@@ -2730,3 +2730,8 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.379 and rebuilt the Time Attack intro and Pip coach copy with explicit DOM nodes instead of HTML string insertion.
 - Rebuilt the puzzle meta header with textContent and switched the puzzle redraw clear step to replaceChildren() while preserving completion, replay, hint, and board-control behavior.
 - This keeps the competitive Time Attack entry surface and main puzzle metadata safer for Android WebView/CSP without changing gameplay state or reward math.
+
+### v0.1.380 - Puzzle Hub DOM Safety Polish
+- Bumped the visible app version to v0.1.380 and rebuilt the puzzle hub, season progress, daily puzzle, replay picks, pack headers, stage preview, and unlock panels with explicit DOM nodes.
+- Removed HTML string insertion from puzzleHubView.js while preserving pack unlock actions, pantry routing, replay pick selection, stage meters, and spoon icon rendering.
+- This protects the launch hub from i18n/data insertion regressions and keeps the seasonal progression surface ready for Android WebView QA.
