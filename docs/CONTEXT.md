@@ -2820,3 +2820,8 @@ v1 Android decision:
 - Strengthened `npm run qa:release` so `docs/ANDROID_RELEASE_STATUS.md` must keep the launch-critical chain visible: candidate QA, Android candidate QA, live privacy QA, the signed AAB script, and the 333-puzzle Season 0 target.
 - This turns the release status document into a guarded checklist instead of a passive note, reducing the chance that final Play upload preparation drifts away from the actual QA path.
 - Verification: `node --check scripts\android_release_gate.js`, `npm run qa:release`, and `PPP_QA_PORT=5174 npm run qa:candidate` all passed. Expected Android final-upload version warnings remain only until the final `versionCode` / `versionName` bump.
+
+### v0.1.384 GitHub Verify Release QA Addendum
+- Expanded `.github/workflows/verify.yml` so GitHub Actions now checks Play Store graphics, Play Store listing copy, local privacy policy alignment, and the Android release gate in addition to hygiene, assets, catalog, tests, and build.
+- This gives Claude/GitHub review a faster signal when release-facing assets, policy copy, or Android numbering notes drift from the local candidate QA path.
+- Verification: `npm run qa:store`, `npm run qa:store-listing`, and `npm run qa:privacy` all passed locally after wiring the workflow steps.

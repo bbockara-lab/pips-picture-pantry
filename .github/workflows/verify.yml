@@ -30,8 +30,20 @@ jobs:
       - name: Asset manifest
         run: npm run qa:assets
 
+      - name: Play Store graphics
+        run: npm run qa:store
+
+      - name: Play Store listing
+        run: npm run qa:store-listing
+
+      - name: Privacy policy
+        run: npm run qa:privacy
+
       - name: Puzzle catalog
         run: npm run qa:catalog
+
+      - name: Android release gate
+        run: npm run qa:release
 
       - name: Unit tests
         run: npm run test
