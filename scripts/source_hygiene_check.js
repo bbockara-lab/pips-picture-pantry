@@ -6,6 +6,7 @@ const errors = [];
 
 const jsScanRoots = ["src", "scripts", "tests"];
 const runtimeHtmlScanRoots = ["src/ui", "src/game", "src/data"];
+const qaHtmlFixtureFiles = ["scripts/mobile_visual_check.js"];
 const textFiles = [
   "src/styles.css",
   "package.json",
@@ -62,6 +63,14 @@ for (const scanRoot of runtimeHtmlScanRoots) {
     }
   }
 }
+
+for (const file of qaHtmlFixtureFiles) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (/\b(?:innerHTML|outerHTML|insertAdjacentHTML|document\.write)\b/.test(source)) {
+    errors.push(file + ": QA fixtures must use createElement/textContent/append instead of HTML string insertion");
+  }
+}
+
 for (const file of textFiles) {
   const source = readFileSync(resolve(root, file), "utf8");
   if (source.charCodeAt(0) === 0xfeff) {
