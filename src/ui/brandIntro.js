@@ -11,48 +11,37 @@ const INTRO_EXIT_MS = 260;
 const STUDIO_BUMPER_ASSET_ID = "sunny-spoon-studios-bumper-v1";
 
 export function renderBrandIntro(root) {
-  const studioBumperArt = isRuntimeStudioBumperArtApproved(STUDIO_BUMPER_ASSET_ID)
-    ? `<div class="studio-bumper__art" aria-hidden="true"><img src="${studioBumperUrl}" alt="" /></div>`
-    : "";
   const intro = document.createElement("section");
   intro.className = "brand-intro studio-stage";
   intro.setAttribute("role", "status");
   intro.setAttribute("aria-label", t("brandIntro.ariaLabel"));
 
-  intro.innerHTML = `
-    <div class="brand-intro__grain" aria-hidden="true"></div>
-    <div class="studio-bumper" aria-label="Sunny Spoon Studios">
-      ${studioBumperArt}
-      <p>Sunny Spoon Studios</p>
-    </div>
-    <div class="brand-intro__content" aria-hidden="true">
-      <div class="brand-intro__key-visual" aria-hidden="true">
-        <img src="${openingKeyVisualUrl}" alt="" />
-      </div>
-      <div class="brand-intro__seal" aria-hidden="true">
-        <img src="${pipSealUrl}" alt="" />
-      </div>
-      <p class="brand-intro__studio">${t("app.studioName")}</p>
-      <h2>${t("app.title")}</h2>
-      <p class="brand-intro__launch-note">${t("brandIntro.launchNote")}</p>
-      <div class="brand-intro__promise-strip" aria-label="${t("brandIntro.promiseLabel")}">
-        <span class="brand-intro__promise-chip brand-intro__promise-chip--puzzle">
-          <i aria-hidden="true"></i>
-          <b>${t("brandIntro.promisePuzzle")}</b>
-        </span>
-        <span class="brand-intro__promise-chip brand-intro__promise-chip--pantry">
-          <i aria-hidden="true"></i>
-          <b>${t("brandIntro.promiseDecorate")}</b>
-        </span>
-        <span class="brand-intro__promise-chip brand-intro__promise-chip--time">
-          <i aria-hidden="true"></i>
-          <b>${t("brandIntro.promiseTimeAttack")}</b>
-        </span>
-      </div>
-      <p class="brand-intro__version">${t("app.versionLabel", { version: APP_VERSION })}</p>
-      <button class="brand-intro__skip" type="button">${t("brandIntro.skip")}</button>
-    </div>
-  `;
+  const grain = document.createElement("div");
+  grain.className = "brand-intro__grain";
+  grain.setAttribute("aria-hidden", "true");
+  intro.appendChild(grain);
+
+  const studioBumper = document.createElement("div");
+  studioBumper.className = "studio-bumper";
+  studioBumper.setAttribute("aria-label", "Sunny Spoon Studios");
+  if (isRuntimeStudioBumperArtApproved(STUDIO_BUMPER_ASSET_ID)) {
+    const bumperArt = document.createElement("div");
+    bumperArt.className = "studio-bumper__art";
+    bumperArt.setAttribute("aria-hidden", "true");
+    const bumperImage = document.createElement("img");
+    bumperImage.src = studioBumperUrl;
+    bumperImage.alt = "";
+    bumperArt.appendChild(bumperImage);
+    studioBumper.appendChild(bumperArt);
+  }
+  appendTextElement(studioBumper, "p", "", "Sunny Spoon Studios");
+  intro.appendChild(studioBumper);
+
+  const content = document.createElement("div");
+  content.className = "brand-intro__content";
+  content.setAttribute("aria-hidden", "true");
+  renderGameIdentity(content);
+  intro.appendChild(content);
 
   const showGameIdentity = () => {
     if (intro.classList.contains("leaving")) {
@@ -60,8 +49,8 @@ export function renderBrandIntro(root) {
     }
     intro.classList.remove("studio-stage");
     intro.classList.add("game-stage");
-    intro.querySelector(".studio-bumper").setAttribute("aria-hidden", "true");
-    intro.querySelector(".brand-intro__content").removeAttribute("aria-hidden");
+    studioBumper.setAttribute("aria-hidden", "true");
+    content.removeAttribute("aria-hidden");
   };
 
   const dismiss = () => {
@@ -73,31 +62,41 @@ export function renderBrandIntro(root) {
   };
 
   const requestPlayerName = () => {
-    const content = intro.querySelector(".brand-intro__content");
     content.classList.add("name-stage");
-    content.innerHTML = `
-      <div class="brand-intro__key-visual small" aria-hidden="true">
-        <img src="${openingKeyVisualUrl}" alt="" />
-      </div>
-      <div class="brand-intro__seal" aria-hidden="true">
-        <img src="${pipSealUrl}" alt="" />
-      </div>
-      <p class="brand-intro__studio">${t("app.studioName")}</p>
-      <h2>${t("playerIntro.title")}</h2>
-      <p class="player-intro-note">${t("playerIntro.note")}</p>
-      <div class="player-intro-pip">
-        <img src="${pipSealUrl}" alt="" aria-hidden="true" />
-        <span>${t("playerIntro.pipCue")}</span>
-      </div>
-      <p class="brand-intro__version">${t("app.versionLabel", { version: APP_VERSION })}</p>
-      <form class="player-intro-form">
-        <label for="player-intro-name">${t("playerIntro.label")}</label>
-        <input id="player-intro-name" name="playerName" maxlength="18" autocomplete="nickname" placeholder="${t("playerIntro.placeholder")}" />
-        <button class="brand-intro__skip" type="submit">${t("playerIntro.continue")}</button>
-      </form>
-    `;
-    const form = content.querySelector("form");
-    const input = content.querySelector("input");
+    replaceChildren(content, buildKeyVisual(true), buildSeal(), textElement("p", "brand-intro__studio", t("app.studioName")));
+    appendTextElement(content, "h2", "", t("playerIntro.title"));
+    appendTextElement(content, "p", "player-intro-note", t("playerIntro.note"));
+
+    const pipCue = document.createElement("div");
+    pipCue.className = "player-intro-pip";
+    const pipImage = document.createElement("img");
+    pipImage.src = pipSealUrl;
+    pipImage.alt = "";
+    pipImage.setAttribute("aria-hidden", "true");
+    pipCue.appendChild(pipImage);
+    appendTextElement(pipCue, "span", "", t("playerIntro.pipCue"));
+    content.appendChild(pipCue);
+
+    appendTextElement(content, "p", "brand-intro__version", t("app.versionLabel", { version: APP_VERSION }));
+
+    const form = document.createElement("form");
+    form.className = "player-intro-form";
+    const label = document.createElement("label");
+    label.htmlFor = "player-intro-name";
+    label.textContent = t("playerIntro.label");
+    const input = document.createElement("input");
+    input.id = "player-intro-name";
+    input.name = "playerName";
+    input.maxLength = 18;
+    input.autocomplete = "nickname";
+    input.placeholder = t("playerIntro.placeholder");
+    const submit = document.createElement("button");
+    submit.className = "brand-intro__skip";
+    submit.type = "submit";
+    submit.textContent = t("playerIntro.continue");
+    form.append(label, input, submit);
+    content.appendChild(form);
+
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       setActivePlayerName(new FormData(form).get("playerName"));
@@ -107,7 +106,7 @@ export function renderBrandIntro(root) {
     globalThis.setTimeout(() => input.focus(), 50);
   };
 
-  intro.querySelector("button").addEventListener("click", () => {
+  content.querySelector("button").addEventListener("click", () => {
     if (hasActivePlayer()) {
       dismiss();
       return;
@@ -122,6 +121,80 @@ export function renderBrandIntro(root) {
   }
 
   root.appendChild(intro);
+}
+
+function renderGameIdentity(content) {
+  content.append(buildKeyVisual(false), buildSeal(), textElement("p", "brand-intro__studio", t("app.studioName")));
+  appendTextElement(content, "h2", "", t("app.title"));
+  appendTextElement(content, "p", "brand-intro__launch-note", t("brandIntro.launchNote"));
+
+  const promiseStrip = document.createElement("div");
+  promiseStrip.className = "brand-intro__promise-strip";
+  promiseStrip.setAttribute("aria-label", t("brandIntro.promiseLabel"));
+  promiseStrip.append(
+    buildPromiseChip("brand-intro__promise-chip--puzzle", t("brandIntro.promisePuzzle")),
+    buildPromiseChip("brand-intro__promise-chip--pantry", t("brandIntro.promiseDecorate")),
+    buildPromiseChip("brand-intro__promise-chip--time", t("brandIntro.promiseTimeAttack")),
+  );
+  content.appendChild(promiseStrip);
+  appendTextElement(content, "p", "brand-intro__version", t("app.versionLabel", { version: APP_VERSION }));
+
+  const button = document.createElement("button");
+  button.className = "brand-intro__skip";
+  button.type = "button";
+  button.textContent = t("brandIntro.skip");
+  content.appendChild(button);
+}
+
+function buildKeyVisual(isSmall) {
+  const visual = document.createElement("div");
+  visual.className = isSmall ? "brand-intro__key-visual small" : "brand-intro__key-visual";
+  visual.setAttribute("aria-hidden", "true");
+  const image = document.createElement("img");
+  image.src = openingKeyVisualUrl;
+  image.alt = "";
+  visual.appendChild(image);
+  return visual;
+}
+
+function buildSeal() {
+  const seal = document.createElement("div");
+  seal.className = "brand-intro__seal";
+  seal.setAttribute("aria-hidden", "true");
+  const image = document.createElement("img");
+  image.src = pipSealUrl;
+  image.alt = "";
+  seal.appendChild(image);
+  return seal;
+}
+
+function buildPromiseChip(modifierClass, label) {
+  const chip = document.createElement("span");
+  chip.className = `brand-intro__promise-chip ${modifierClass}`;
+  const icon = document.createElement("i");
+  icon.setAttribute("aria-hidden", "true");
+  chip.appendChild(icon);
+  appendTextElement(chip, "b", "", label);
+  return chip;
+}
+
+function appendTextElement(parent, tagName, className, text) {
+  const element = textElement(tagName, className, text);
+  parent.appendChild(element);
+  return element;
+}
+
+function textElement(tagName, className, text) {
+  const element = document.createElement(tagName);
+  if (className) {
+    element.className = className;
+  }
+  element.textContent = text;
+  return element;
+}
+
+function replaceChildren(parent, ...children) {
+  parent.replaceChildren(...children);
 }
 
 function prefersReducedMotion() {

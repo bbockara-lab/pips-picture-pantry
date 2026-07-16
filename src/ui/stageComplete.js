@@ -11,28 +11,51 @@ export function renderStageCompleteOverlay(pack, onDismiss = () => {}, completio
 
   const card = document.createElement("section");
   card.className = "stage-complete-card";
-  const artMarkup = hasApprovedStageArt(pack.id)
-    ? `<img class="stage-complete-pip" src="${getStageArtUrl(pack.id)}" alt="" />`
-    : `<div class="stage-complete-pip stage-complete-pending-art" aria-hidden="true"><strong>${t("badges.artPendingShort")}</strong></div>`;
   const bonus = Math.max(0, Number(completionResult?.bonus || 0));
-  const stageBonusMarkup = bonus > 0
-    ? `<p class="stage-complete-bonus"><img src="${spoonTokenUrl}" alt="" /> ${t("stageComplete.bonus", { count: bonus })}</p>`
-    : "";
 
-  card.innerHTML = `
-    ${artMarkup}
-    <div class="stage-complete-copy">
-      <p class="stage-complete-eyebrow">${t("stageComplete.eyebrow")}</p>
-      <h2>${t(pack.titleKey)}</h2>
-      <p>${t("stageComplete.message")}</p>
-      ${stageBonusMarkup}
-      <div class="stage-complete-facts" aria-label="${t("stageComplete.factsLabel")}">
-        <span>${t("stageComplete.albumFact")}</span>
-        <span>${t("stageComplete.nextFact")}</span>
-      </div>
-      <button type="button" class="tool-button stage-complete-cta">${t("stageComplete.cta")}</button>
-    </div>
-  `;
+  if (hasApprovedStageArt(pack.id)) {
+    const art = document.createElement("img");
+    art.className = "stage-complete-pip";
+    art.src = getStageArtUrl(pack.id);
+    art.alt = "";
+    card.appendChild(art);
+  } else {
+    const pendingArt = document.createElement("div");
+    pendingArt.className = "stage-complete-pip stage-complete-pending-art";
+    pendingArt.setAttribute("aria-hidden", "true");
+    appendTextElement(pendingArt, "strong", "", t("badges.artPendingShort"));
+    card.appendChild(pendingArt);
+  }
+
+  const copy = document.createElement("div");
+  copy.className = "stage-complete-copy";
+  appendTextElement(copy, "p", "stage-complete-eyebrow", t("stageComplete.eyebrow"));
+  appendTextElement(copy, "h2", "", t(pack.titleKey));
+  appendTextElement(copy, "p", "", t("stageComplete.message"));
+
+  if (bonus > 0) {
+    const bonusLine = document.createElement("p");
+    bonusLine.className = "stage-complete-bonus";
+    const token = document.createElement("img");
+    token.src = spoonTokenUrl;
+    token.alt = "";
+    bonusLine.append(token, document.createTextNode(` ${t("stageComplete.bonus", { count: bonus })}`));
+    copy.appendChild(bonusLine);
+  }
+
+  const facts = document.createElement("div");
+  facts.className = "stage-complete-facts";
+  facts.setAttribute("aria-label", t("stageComplete.factsLabel"));
+  appendTextElement(facts, "span", "", t("stageComplete.albumFact"));
+  appendTextElement(facts, "span", "", t("stageComplete.nextFact"));
+  copy.appendChild(facts);
+
+  const cta = document.createElement("button");
+  cta.type = "button";
+  cta.className = "tool-button stage-complete-cta";
+  cta.textContent = t("stageComplete.cta");
+  copy.appendChild(cta);
+  card.appendChild(copy);
 
   function dismiss() {
     overlay.classList.add("stage-complete-overlay--exit");
@@ -42,7 +65,7 @@ export function renderStageCompleteOverlay(pack, onDismiss = () => {}, completio
     }, 180);
   }
 
-  card.querySelector("button").addEventListener("click", dismiss);
+  cta.addEventListener("click", dismiss);
   overlay.addEventListener("click", (event) => {
     if (event.target === overlay) {
       dismiss();
@@ -51,4 +74,14 @@ export function renderStageCompleteOverlay(pack, onDismiss = () => {}, completio
   card.addEventListener("click", (event) => event.stopPropagation());
   overlay.appendChild(card);
   return overlay;
+}
+
+function appendTextElement(parent, tagName, className, text) {
+  const element = document.createElement(tagName);
+  if (className) {
+    element.className = className;
+  }
+  element.textContent = text;
+  parent.appendChild(element);
+  return element;
 }

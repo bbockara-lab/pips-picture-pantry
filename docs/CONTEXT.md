@@ -2715,3 +2715,8 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.376 and rebuilt the Album header/cards plus Pantry Map header with explicit DOM nodes instead of HTML string insertion.
 - Preserved all album/map class names, completion date formatting, badge progress math, and mobile QA selectors while assigning localized copy through textContent.
 - This continues the release-hardening pass on user-facing collection surfaces without changing progression, badge, or navigation behavior.
+
+### v0.1.377 - Opening And Completion DOM Safety Polish
+- Bumped the visible app version to v0.1.377 and rebuilt the stage-complete overlay with explicit DOM nodes instead of HTML string insertion.
+- Rebuilt the Sunny Spoon Studios opening intro and first-player name step with DOM/textContent while preserving the existing studio bumper timing, start CTA, player-name save, and version display.
+- This closes two launch-facing first-impression surfaces in the release-hardening pass without changing puzzle progression, rewards, or onboarding behavior.
