@@ -12,6 +12,8 @@ const html = fs.readFileSync(htmlPath, "utf8");
 const listing = fs.readFileSync(listingPath, "utf8");
 const combined = markdown + "\n" + html;
 const errors = [];
+const liveUrl = "https://sunny-spoon-pantry.web.app/privacy-policy.html";
+const shouldCheckLive = process.argv.includes("--live");
 
 function requireInBoth(label, pattern) {
   if (!pattern.test(markdown)) errors.push(`Markdown privacy policy missing ${label}`);
@@ -22,7 +24,7 @@ function requireText(label, text, pattern) {
   if (!pattern.test(text)) errors.push(`${label} missing`);
 }
 
-requireInBoth("current date", /2026-07-15/);
+requireInBoth("current date", /2026-07-16/);
 requireInBoth("no collection statement", /does not collect, transmit, sell, or share personal information/);
 requireInBoth("local-only storage statement", /stored locally on your device|stored only on your device/);
 requireInBoth("no advertising or analytics SDKs", /does not include third-party advertising SDKs, analytics SDKs, or tracking SDKs/);
@@ -44,10 +46,39 @@ for (const pattern of forbiddenRuntimeClaims) {
   if (match) errors.push(`Privacy policy mentions unsupported runtime claim: "${match[0]}"`);
 }
 
+async function fetchLivePolicy() {
+  const response = await fetch(liveUrl, { cache: "no-store" });
+  if (!response.ok) {
+    errors.push(`Live privacy policy returned HTTP ${response.status}`);
+    return "";
+  }
+  return response.text();
+}
+
+if (shouldCheckLive) {
+  const livePolicy = await fetchLivePolicy();
+  if (livePolicy) {
+    const liveChecks = [
+      ["current date", /2026-07-16/],
+      ["no collection statement", /does not collect, transmit, sell, or share personal information/],
+      ["local-only storage statement", /stored locally on your device|stored only on your device/],
+      ["no advertising or analytics SDKs", /does not include third-party advertising SDKs, analytics SDKs, or tracking SDKs/],
+      ["no data sharing statement", /do not share user data with third parties/],
+      ["data deletion guidance", /delete it by using the reset option in the app or by uninstalling the app/],
+      ["contact email", /sunnyspoonstudios@gmail.com/]
+    ];
+    for (const [label, pattern] of liveChecks) {
+      if (!pattern.test(livePolicy)) {
+        errors.push(`Live privacy policy missing ${label}`);
+      }
+    }
+  }
+}
+
 if (errors.length > 0) {
   console.error("Privacy policy check failed:");
   for (const error of errors) console.error(`- ${error}`);
   process.exit(1);
 }
 
-console.log("Privacy policy check passed: Markdown and hosted HTML policy are aligned.");
+console.log("Privacy policy check passed: Markdown and hosted HTML policy are aligned" + (shouldCheckLive ? " with the live public URL." : "."));

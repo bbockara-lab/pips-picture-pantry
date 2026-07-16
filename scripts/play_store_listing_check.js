@@ -26,7 +26,7 @@ function sectionAfter(label) {
   return (end === -1 ? rest : rest.slice(0, end)).trim();
 }
 
-requireText("current update date", /^Last updated: 2026-07-15$/m);
+requireText("current update date", /^Last updated: 2026-07-16$/m);
 requireText("app name", /^Pip's Picture Pantry$/m);
 requireText("Sunny Spoon Studios", /Sunny Spoon Studios/);
 requireText("Season 0 catalog positioning", /Season 0/);

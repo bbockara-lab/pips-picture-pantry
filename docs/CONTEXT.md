@@ -2780,3 +2780,8 @@ v1 Android decision:
 - Refreshed both `docs/PRIVACY_POLICY.md` and hosted `store-assets/privacy-policy.html` to the current release-review date.
 - Added `scripts/privacy_policy_check.js` plus `npm run qa:privacy` to verify Markdown and hosted privacy policy copy stay aligned on local-only data, no ads/analytics/tracking SDKs, no data sharing, reset/uninstall deletion guidance, and contact email.
 - Wired the privacy policy check into `npm run qa:candidate` after Play Store listing validation so submission copy, public policy HTML, and candidate QA remain in sync.
+
+### v0.1.381 Live Privacy Policy Deployment Addendum
+- Refreshed Play Store listing and privacy policy dates to 2026-07-16, deployed `store-assets/privacy-policy.html` to Firebase Hosting, and verified the public policy URL returns HTTP 200.
+- Added `npm run qa:privacy:live` to compare the local Markdown/HTML privacy policy against `https://sunny-spoon-pantry.web.app/privacy-policy.html`.
+- Keep `qa:privacy` in the normal candidate gate for offline local checks, and run `qa:privacy:live` after any privacy policy hosting deploy or before final Play Console submission.

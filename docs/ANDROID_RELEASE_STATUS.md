@@ -1,6 +1,6 @@
 # Android Release Status
 
-Last updated: 2026-07-15
+Last updated: 2026-07-16
 
 ## Public Launch Checklist (release-safe, 2026-07-14)
 
@@ -50,6 +50,9 @@ versionName "1.1.0" // or the final public launch version name
 ## Verified Outputs
 
 - `npm run qa:candidate` passes with Vitest, catalog, hygiene, runtime asset manifest, Play Store graphics, production build, Android release gate, HTTP 200, and mobile visual QA.
+- `npm run qa:privacy:live` passes against the public Firebase Hosting privacy policy URL:
+  - https://sunny-spoon-pantry.web.app/privacy-policy.html
+  - Last verified after Firebase Hosting deploy on 2026-07-16.
 - `npm run qa:android:candidate` passes and builds the current unsigned candidate AAB:
   - android/app/build/outputs/bundle/release/app-release.aab
 - Current candidate AAB size: 10,551,496 bytes.
@@ -70,6 +73,7 @@ versionName "1.1.0" // or the final public launch version name
 ## Repeatable Commands Verified
 
 - `npm run qa:candidate` passed after adding Play Store graphics checks.
+- `npm run qa:privacy:live` passed after deploying the refreshed 2026-07-16 privacy policy HTML to Firebase Hosting.
 - `npm run qa:android:candidate` passed after hardening native PowerShell exit-code handling.
 - `scripts/build_android_signed_release_bundle.ps1` correctly fails fast while final upload numbering is still unchanged.
 
