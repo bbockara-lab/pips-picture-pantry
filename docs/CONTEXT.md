@@ -2825,3 +2825,8 @@ v1 Android decision:
 - Expanded `.github/workflows/verify.yml` so GitHub Actions now checks Play Store graphics, Play Store listing copy, local privacy policy alignment, and the Android release gate in addition to hygiene, assets, catalog, tests, and build.
 - This gives Claude/GitHub review a faster signal when release-facing assets, policy copy, or Android numbering notes drift from the local candidate QA path.
 - Verification: `npm run qa:store`, `npm run qa:store-listing`, and `npm run qa:privacy` all passed locally after wiring the workflow steps.
+
+### v0.1.384 Candidate QA Port Fallback Addendum
+- Updated `scripts/release_candidate_check.js` so `npm run qa:candidate` keeps an explicit `PPP_QA_PORT` strict, but automatically falls forward from 5173 to the next open local port when the default preview port is already busy.
+- This lets release QA run while a manual preview or browser session is open, reducing false failures during final Android review.
+- Verification: `node --check scripts\release_candidate_check.js`, `npm run qa:release`, and `npm run qa:candidate` all passed. Expected Android final-upload version warnings remain only until the final `versionCode` / `versionName` bump.

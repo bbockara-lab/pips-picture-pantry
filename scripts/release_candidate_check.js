@@ -2,8 +2,9 @@ import { spawn, spawnSync } from "node:child_process";
 import http from "node:http";
 
 const isWindows = process.platform === "win32";
-const port = Number(process.env.PPP_QA_PORT || 5173);
-const baseUrl = "http://127.0.0.1:" + port + "/";
+const explicitPort = process.env.PPP_QA_PORT ? Number(process.env.PPP_QA_PORT) : null;
+let port = explicitPort || 5173;
+let baseUrl = "http://127.0.0.1:" + port + "/";
 const checks = [
   ["test", "npm run test -- --run"],
   ["catalog", "npm run qa:catalog"],
@@ -50,6 +51,16 @@ function probe(url) {
   });
 }
 
+async function findAvailablePort(startPort) {
+  for (let candidate = startPort; candidate < startPort + 12; candidate += 1) {
+    const status = await probe("http://127.0.0.1:" + candidate + "/");
+    if (!status) {
+      return candidate;
+    }
+  }
+  throw new Error("No available local QA port found from " + startPort + " to " + (startPort + 11) + ".");
+}
+
 async function waitForServer(url) {
   for (let attempt = 0; attempt < 20; attempt += 1) {
     const status = await probe(url);
@@ -69,7 +80,13 @@ async function main() {
   console.log("\n== dev server + mobile QA ==");
   const occupiedStatus = await probe(baseUrl);
   if (occupiedStatus) {
-    throw new Error("Port " + port + " already responded with status " + occupiedStatus + ". Stop the existing dev server before running qa:candidate.");
+    if (explicitPort) {
+      throw new Error("Port " + port + " already responded with status " + occupiedStatus + ". Stop the existing dev server or choose a different PPP_QA_PORT before running qa:candidate.");
+    }
+    const fallbackPort = await findAvailablePort(port + 1);
+    console.log("Port " + port + " is busy; using fallback QA port " + fallbackPort + ".");
+    port = fallbackPort;
+    baseUrl = "http://127.0.0.1:" + port + "/";
   }
 
   const serverCommand = commandFor("npm run dev -- --port " + port + " --strictPort");
