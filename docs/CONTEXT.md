@@ -2740,3 +2740,8 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.381 and rebuilt the Pantry shop cards, savings goal, earning plan, collection progress, placement advisor, display plan, shop header, and shop limit meter with explicit DOM nodes.
 - Replaced Pantry and app-shell redraw clearing with replaceChildren() while preserving decoration buying, equipping, story requests, tracked goals, filters, and shop pagination.
 - This removes the remaining Pantry HTML string insertion path and keeps the decoration economy surface safer for Android WebView QA.
+
+### v0.1.381 Release Gate Addendum
+- Added `scripts/android_release_gate.js` plus `npm run qa:release` and `npm run qa:release:final`.
+- The normal gate keeps package/UI version sync and release checklist coverage visible during polish, while the final gate blocks signed Play-upload builds if Android `versionCode` / `versionName` still match the last Play Console upload.
+- This keeps Android numbering as a deliberate final-release action instead of a silent manual note.

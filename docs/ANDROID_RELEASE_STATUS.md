@@ -13,6 +13,8 @@ Last updated: 2026-07-14
 
 **Automation status:** `build.gradle` versionCode is still manually managed. `scripts/build_android_release_bundle.ps1` and signed-bundle scripts do not auto-increment it. Update it intentionally right before the next AAB upload.
 
+**Automated guard:** run `npm run qa:release` during normal QA and `npm run qa:release:final` immediately before building the signed Play upload AAB. The normal guard reports release-number warnings without blocking local polish; the final guard fails if `versionCode` / `versionName` still match the last uploaded Play build.
+
 **Minimum release patch example:**
 ```gradle
 // android/app/build.gradle defaultConfig
