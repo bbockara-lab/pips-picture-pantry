@@ -55,7 +55,7 @@ versionName "1.1.0" // or the final public launch version name
   - Last verified after Firebase Hosting deploy on 2026-07-16.
 - `npm run qa:android:candidate` passes and builds the current unsigned candidate AAB:
   - android/app/build/outputs/bundle/release/app-release.aab
-- Current candidate AAB size: 10,551,496 bytes.
+- Current candidate AAB size: 10,551,476 bytes.
 - `scripts/build_android_signed_release_bundle.ps1` now runs `npm run qa:candidate`, `npm run qa:privacy:live`, and `npm run qa:release:final` before signing. It intentionally stops until `android/app/build.gradle` is bumped above the last Play Console upload.
 
 ## Signing Status
@@ -75,6 +75,7 @@ versionName "1.1.0" // or the final public launch version name
 - `npm run qa:candidate` passed after adding Play Store graphics checks.
 - `npm run qa:privacy:live` passed after deploying the refreshed 2026-07-16 privacy policy HTML to Firebase Hosting.
 - `npm run qa:android:candidate` passed after hardening native PowerShell exit-code handling.
+- `npm run qa:android:candidate` passed again on 2026-07-16 after release-gate and GitHub Actions QA expansion; unsigned candidate AAB size: 10,551,476 bytes.
 - `scripts/build_android_signed_release_bundle.ps1` is wired to the full candidate QA chain plus live privacy verification before the final numbering gate and signing step.
 
 ## Next Android Actions
