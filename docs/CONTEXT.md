@@ -2809,3 +2809,9 @@ v1 Android decision:
 - Rebuilt the remaining mobile visual QA HTML fixtures with explicit DOM nodes so the launch QA layer follows the same no-HTML-string discipline as the runtime UI.
 - Consolidated the Pantry request Pip cameo CSS so the same border and shadow treatment lives in the base selector instead of a later duplicate override.
 - Verified `npm run qa:candidate` after both changes, and verified `npm run qa:android:candidate` after the CSS cleanup. The only remaining Android candidate warnings are the expected final-upload `versionCode` / `versionName` bump reminders.
+
+### v0.1.384 QA Fixture Hygiene Guard Addendum
+- Extended `npm run qa:hygiene` so `scripts/mobile_visual_check.js` also fails if controlled mobile QA fixtures reintroduce `innerHTML`, `outerHTML`, `insertAdjacentHTML`, or `document.write`.
+- This keeps the QA layer aligned with the runtime Android WebView/CSP hardening rule: fixtures and player-facing UI should use explicit DOM nodes and textContent instead of HTML string insertion.
+- Verification: `node --check scripts\source_hygiene_check.js`, `npm run qa:hygiene`, and `PPP_QA_PORT=5174 npm run qa:candidate` all passed. Expected Android final-upload version warnings remain only until the final `versionCode` / `versionName` bump.
+
