@@ -1,6 +1,6 @@
 # Play Console Store Listing Draft
 
-Last updated: June 30, 2026
+Last updated: 2026-07-15
 
 ## Basic Store Listing
 
@@ -10,26 +10,31 @@ Pip's Picture Pantry
 
 Short description:
 
-Cozy picture puzzles with Pip and Sunny Spoon Studios.
+Cozy picture puzzles, Pantry goals, and Time Attack with Pip.
 
 Full description:
 
 Pip's Picture Pantry is a cozy picture puzzle game from Sunny Spoon Studios.
 
-Solve gentle nonogram-style picture puzzles, reveal small cards, collect spoon rewards, and complete warm stage badges one step at a time.
+Solve gentle nonogram-style puzzles, reveal warm picture cards, collect spoon rewards, and help Pip bring a tiny Pantry room to life.
 
-Start with simple 5x5 puzzles, then unlock larger pantry stages as you progress. Each stage reveals a cheerful illustration and adds a new badge to your pantry album.
+Season 0 launches with 333 picture puzzles arranged as a cozy progression path. Start with simple 5x5 boards, then unlock larger Pantry stages, collectible album cards, and room goals as you earn spoons.
+
+When you want a faster challenge, Time Attack gives you a short run of random puzzles where each correct move pushes your record a little farther. Hints stay simple and player-friendly: use your starting hints first, then spend spoons only when you want extra help.
 
 Features:
 - Cozy nonogram and picross-style puzzles
 - Gentle 2D art with Pip and Sunny Spoon Studios
-- Simple tap controls for filling and checking empty cells
-- Free puzzle stages with local progress saving
+- Simple tap, drag, and large-board cursor controls
+- Season 0 launch catalog with 333 picture puzzles
+- Pantry room goals that connect decoration progress to new stages
+- Time Attack mode for quick record-chasing sessions
+- Spoon rewards, stage badges, and local progress saving
 - Optional sound effects and cozy background music
 - No login required
 - No third-party ads or tracking SDKs
 
-Pip's Picture Pantry is designed for quiet puzzle sessions and light daily play.
+Pip's Picture Pantry is designed for quiet daily play, friendly puzzle guidance, and a warm sense of "one more picture."
 
 ## Graphics
 

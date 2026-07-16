@@ -10,6 +10,7 @@ const checks = [
   ["hygiene", "npm run qa:hygiene"],
   ["assets", "npm run qa:assets"],
   ["store assets", "npm run qa:store"],
+  ["store listing", "npm run qa:store-listing"],
   ["build", "npm run build"],
   ["release gate", "npm run qa:release"]
 ];

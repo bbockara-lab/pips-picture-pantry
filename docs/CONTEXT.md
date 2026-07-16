@@ -2765,3 +2765,13 @@ v1 Android decision:
 ### v0.1.381 Play Store Asset QA Addendum
 - Added `scripts/play_store_asset_check.js` plus `npm run qa:store` to verify Play Console app icon, feature graphic, phone screenshots, and tablet screenshots exist at their expected dimensions.
 - Wired the store asset check into `npm run qa:candidate` so final review catches missing or wrong-size graphics before Play Console upload work.
+
+### v0.1.381 Play Store Listing QA Addendum
+- Refreshed `docs/PLAY_CONSOLE_STORE_LISTING.md` for the current launch shape: Season 0 with 333 puzzles, Pantry goals, Time Attack, spoon rewards, no login, and no third-party ads/tracking SDKs.
+- Added `scripts/play_store_listing_check.js` plus `npm run qa:store-listing` to guard the Play Console listing draft for current date, app name, short-description length, privacy URL, launch positioning, screenshot paths, and forbidden monetization wording.
+- Wired the listing check into `npm run qa:candidate` so final Android review validates both Play Store graphics and submission copy before upload.
+
+### v0.1.381 Candidate Mobile Port QA Addendum
+- Fixed `scripts/mobile_visual_check.js` so mobile QA respects `PPP_QA_PORT` when the release candidate runner starts a temporary Vite server on a non-default port.
+- Verified `PPP_QA_PORT=5174 npm run qa:candidate` end-to-end: Vitest 99 passed, catalog 333/333, hygiene, assets, store assets, store listing, production build, release gate, HTTP 200, and mobile QA across 360/390/430px all passed.
+- This keeps candidate QA usable even when the normal local preview on 5173 is stopped, busy, or reserved for manual review.

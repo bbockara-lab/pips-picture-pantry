@@ -1,6 +1,7 @@
 import { chromium } from "@playwright/test";
 
-const TARGET_URL = process.env.PPP_URL || "http://127.0.0.1:5173";
+const qaPort = process.env.PPP_QA_PORT || "5173";
+const TARGET_URL = process.env.PPP_URL || `http://127.0.0.1:${qaPort}/`;
 const viewports = [
   { width: 360, height: 740, name: "360x740" },
   { width: 390, height: 844, name: "390x844" },
