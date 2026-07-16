@@ -2804,3 +2804,8 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.384 and changed owned decoration actions from generic equip wording to slot-specific placement copy, for example `Place in Counter`.
 - Clarified the locked purchase CTA to include the spoon unit (`Need N spoons`) so the shop economy reads as one spoon-based system instead of an unexplained number.
 - Added i18n regression coverage for the Korean placement CTA and spoon-shortage copy.
+
+### v0.1.384 QA Hardening Addendum
+- Rebuilt the remaining mobile visual QA HTML fixtures with explicit DOM nodes so the launch QA layer follows the same no-HTML-string discipline as the runtime UI.
+- Consolidated the Pantry request Pip cameo CSS so the same border and shadow treatment lives in the base selector instead of a later duplicate override.
+- Verified `npm run qa:candidate` after both changes, and verified `npm run qa:android:candidate` after the CSS cleanup. The only remaining Android candidate warnings are the expected final-upload `versionCode` / `versionName` bump reminders.
