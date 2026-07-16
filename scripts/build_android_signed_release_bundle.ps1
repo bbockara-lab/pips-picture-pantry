@@ -19,6 +19,8 @@ function Invoke-NativeCommand {
 
 Push-Location $repoRoot
 try {
+  Invoke-NativeCommand "npm" @("run", "qa:candidate")
+  Invoke-NativeCommand "npm" @("run", "qa:privacy:live")
   Invoke-NativeCommand "npm" @("run", "qa:release:final")
 } finally {
   Pop-Location

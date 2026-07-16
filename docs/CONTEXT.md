@@ -2785,3 +2785,7 @@ v1 Android decision:
 - Refreshed Play Store listing and privacy policy dates to 2026-07-16, deployed `store-assets/privacy-policy.html` to Firebase Hosting, and verified the public policy URL returns HTTP 200.
 - Added `npm run qa:privacy:live` to compare the local Markdown/HTML privacy policy against `https://sunny-spoon-pantry.web.app/privacy-policy.html`.
 - Keep `qa:privacy` in the normal candidate gate for offline local checks, and run `qa:privacy:live` after any privacy policy hosting deploy or before final Play Console submission.
+
+### v0.1.381 Signed Upload QA Chain Addendum
+- Updated `scripts/build_android_signed_release_bundle.ps1` so the signed Play-upload path now runs `npm run qa:candidate`, `npm run qa:privacy:live`, and `npm run qa:release:final` before checking signing secrets or building the release bundle.
+- This keeps the final AAB path tied to the same web/mobile/store/privacy checks used during release review, with the stricter Android numbering gate still blocking until the final versionCode/versionName bump.

@@ -1,6 +1,6 @@
 # Android Signing Setup
 
-Last updated: 2026-06-28
+Last updated: 2026-07-16
 Mode: live-candidate release infrastructure
 
 ## Goal
@@ -59,7 +59,9 @@ Expected output:
 android\app\build\outputs\bundle\release\app-release.aab
 ```
 
-The script runs `npm run build`, `npx cap sync android`, `gradlew bundleRelease`, and `jarsigner -verify` using Android Studio's bundled JBR.
+The script first runs `npm run qa:candidate`, `npm run qa:privacy:live`, and `npm run qa:release:final`. It then runs `npm run build`, `npx cap sync android`, `gradlew bundleRelease`, and `jarsigner -verify` using Android Studio's bundled JBR.
+
+If `android/app/build.gradle` still uses the last Play Console upload values, the script stops before reading signing secrets or producing a Play-upload AAB.
 
 ## Play Console Next Step
 
