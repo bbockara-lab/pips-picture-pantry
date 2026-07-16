@@ -1181,7 +1181,7 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
   const metrics = await page.evaluate(() => {
     const overlay = document.createElement("div");
     overlay.className = "stage-complete-overlay";
-    overlay.innerHTML = '<section class="stage-complete-card"><div class="stage-complete-pip stage-complete-pending-art"><strong>ART</strong></div><div class="stage-complete-copy"><p class="stage-complete-eyebrow">Complete</p><h2>Starter Stage</h2><p>Reward copy</p><p class="stage-complete-bonus"><img alt=""> +5 spoons</p><div class="stage-complete-facts" aria-label="Stage rewards"><span>Album filled</span><span>Room path grows</span></div><button type="button" class="tool-button stage-complete-cta">OK</button></div></section>';
+    overlay.innerHTML = '<section class="stage-complete-card"><img class="stage-complete-pip stage-complete-pip--fallback" alt=""><div class="stage-complete-copy"><p class="stage-complete-eyebrow">Complete</p><h2>Starter Stage</h2><p>Reward copy</p><p class="stage-complete-bonus"><img alt=""> +5 spoons</p><div class="stage-complete-facts" aria-label="Stage rewards"><span>Album filled</span><span>Room path grows</span></div><button type="button" class="tool-button stage-complete-cta">OK</button></div></section>';
     document.body.appendChild(overlay);
     const card = overlay.querySelector(".stage-complete-card");
     const art = overlay.querySelector(".stage-complete-pip");
@@ -1194,6 +1194,7 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
     const cardBefore = card ? getComputedStyle(card, "::before") : null;
     const overlayStyle = getComputedStyle(overlay);
     const ctaStyle = cta ? getComputedStyle(cta) : null;
+    const artStyle = art ? getComputedStyle(art) : null;
     const result = {
       cardWidth: cardRect?.width || 0,
       cardHeight: cardRect?.height || 0,
@@ -1225,7 +1226,10 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
       cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore?.backgroundImage || "" : "",
       overlayBackground: overlayStyle.backgroundImage || "",
       overlayPaddingBottom: parseFloat(overlayStyle.paddingBottom) || 0,
-      ctaBackground: ctaStyle?.backgroundImage || ""
+      ctaBackground: ctaStyle?.backgroundImage || "",
+      pendingArtCount: overlay.querySelectorAll(".stage-complete-pending-art").length,
+      artBackground: artStyle?.backgroundImage || "",
+      artObjectFit: artStyle?.objectFit || ""
     };
     overlay.remove();
     return result;
@@ -1244,7 +1248,10 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
     !metrics.cardBackground.includes("linear-gradient") ||
     !metrics.overlayBackground.includes("radial-gradient") ||
     metrics.overlayPaddingBottom < 22 ||
-    !metrics.ctaBackground.includes("linear-gradient")
+    !metrics.ctaBackground.includes("linear-gradient") ||
+    metrics.pendingArtCount !== 0 ||
+    !metrics.artBackground.includes("radial-gradient") ||
+    metrics.artObjectFit !== "contain"
   ) {
     failures.push("[" + viewportName + "] Stage-complete reward polish regression: " + JSON.stringify(metrics));
   }

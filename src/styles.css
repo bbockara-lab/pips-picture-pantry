@@ -4297,11 +4297,13 @@ img {
     inset 0 1px 0 rgba(255, 255, 255, 0.72);
 }
 
-.stage-complete-pending-art {
-  min-height: 220px;
-  display: grid;
-  place-items: center;
-  color: rgba(61, 43, 46, 0.64);
+.stage-complete-pip--fallback {
+  min-height: min(220px, 42vh);
+  padding: 16px;
+  object-fit: contain;
+  background:
+    radial-gradient(circle at 50% 36%, rgba(255, 252, 244, 0.94) 0 32%, transparent 54%),
+    linear-gradient(135deg, rgba(181, 224, 202, 0.68), rgba(255, 239, 200, 0.82));
 }
 
 .stage-complete-copy {

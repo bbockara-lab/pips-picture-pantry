@@ -2789,3 +2789,8 @@ v1 Android decision:
 ### v0.1.381 Signed Upload QA Chain Addendum
 - Updated `scripts/build_android_signed_release_bundle.ps1` so the signed Play-upload path now runs `npm run qa:candidate`, `npm run qa:privacy:live`, and `npm run qa:release:final` before checking signing secrets or building the release bundle.
 - This keeps the final AAB path tied to the same web/mobile/store/privacy checks used during release review, with the stricter Android numbering gate still blocking until the final versionCode/versionName bump.
+
+### v0.1.382 - Stage Complete Fallback Art Polish
+- Bumped the visible app version to v0.1.382 and replaced the stage-complete pending-art text block with the approved `pip-completion-v2.png` fallback when a pack does not yet have dedicated stage art.
+- Added fallback-specific styling so the reward card still feels like a finished Sunny Spoon/Pip celebration instead of a construction placeholder.
+- Strengthened mobile visual QA so the stage-complete fixture now fails if `.stage-complete-pending-art` reappears or if the fallback art loses its radial cozy backdrop.

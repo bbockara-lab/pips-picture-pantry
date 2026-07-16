@@ -1,4 +1,5 @@
 import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
+import pipCompleteStickerUrl from "../assets/characters/pip-completion-v2.png";
 import { getStageArtUrl, hasApprovedStageArt } from "../data/stageArt.js";
 import { t } from "../i18n/index.js";
 
@@ -20,11 +21,12 @@ export function renderStageCompleteOverlay(pack, onDismiss = () => {}, completio
     art.alt = "";
     card.appendChild(art);
   } else {
-    const pendingArt = document.createElement("div");
-    pendingArt.className = "stage-complete-pip stage-complete-pending-art";
-    pendingArt.setAttribute("aria-hidden", "true");
-    appendTextElement(pendingArt, "strong", "", t("badges.artPendingShort"));
-    card.appendChild(pendingArt);
+    const fallbackArt = document.createElement("img");
+    fallbackArt.className = "stage-complete-pip stage-complete-pip--fallback";
+    fallbackArt.src = pipCompleteStickerUrl;
+    fallbackArt.alt = "";
+    fallbackArt.setAttribute("aria-hidden", "true");
+    card.appendChild(fallbackArt);
   }
 
   const copy = document.createElement("div");
