@@ -1,6 +1,6 @@
 # Android Release Status
 
-Last updated: 2026-07-14
+Last updated: 2026-07-15
 
 ## Public Launch Checklist (release-safe, 2026-07-14)
 
@@ -49,20 +49,17 @@ versionName "1.1.0" // or the final public launch version name
 
 ## Verified Outputs
 
-- Mobile visual QA passed at 360x740, 390x844, and 430x932.
-- Debug APK built successfully:
-  - android/app/build/outputs/apk/debug/app-debug.apk
-- Release AAB built successfully:
+- `npm run qa:candidate` passes with Vitest, catalog, hygiene, runtime asset manifest, Play Store graphics, production build, Android release gate, HTTP 200, and mobile visual QA.
+- `npm run qa:android:candidate` passes and builds the current unsigned candidate AAB:
   - android/app/build/outputs/bundle/release/app-release.aab
-- Signed release AAB built and verified successfully:
-  - android/app/build/outputs/bundle/release/app-release.aab
+- Current candidate AAB size: 10,551,496 bytes.
+- `scripts/build_android_signed_release_bundle.ps1` now intentionally stops at `npm run qa:release:final` until `android/app/build.gradle` is bumped above the last Play Console upload.
 
 ## Signing Status
 
 - Upload keystore exists outside the repo under D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Pip's Picture Pantry.
 - Local-only signing env file exists outside the repo and is not committed.
-- jarsigner -verify reports: jar verified.
-- Current blocker: upload the signed AAB to Google Play internal testing and confirm Play Console accepts it.
+- Current pre-upload blocker: choose the public launch Android `versionCode` / `versionName`, update `android/app/build.gradle`, run `npm run qa:release:final`, then build and verify the signed Play-upload AAB.
 
 ## Local Tooling Notes
 
@@ -72,16 +69,19 @@ versionName "1.1.0" // or the final public launch version name
 
 ## Repeatable Commands Verified
 
-- npm run cap:sync passed.
-- scripts/build_android_release_bundle.ps1 passed after final sync.
+- `npm run qa:candidate` passed after adding Play Store graphics checks.
+- `npm run qa:android:candidate` passed after hardening native PowerShell exit-code handling.
+- `scripts/build_android_signed_release_bundle.ps1` correctly fails fast while final upload numbering is still unchanged.
 
 ## Next Android Actions
 
-1. Upload the signed AAB to Google Play internal testing.
-2. Confirm Play Console accepts the upload key / bundle.
-3. Capture package/version details from Play Console.
-4. Install from internal testing and capture real-device screenshots.
-5. Keep the upload keystore/env file backed up outside the repo.
+1. Finish final human review on Android/WebView and visible store screenshots.
+2. Choose final public Android `versionCode` / `versionName` and bump `android/app/build.gradle`.
+3. Run `npm run qa:release:final`.
+4. Build the signed Play-upload AAB with `scripts/build_android_signed_release_bundle.ps1`.
+5. Upload the signed AAB to Google Play internal/closed testing and confirm Play Console accepts it.
+6. Capture accepted package/version details and real-device screenshots.
+7. Keep the upload keystore/env file backed up outside the repo.
 
 ## Verification Update - 2026-06-28 Game Loop Slice
 
