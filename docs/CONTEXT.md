@@ -2799,3 +2799,8 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.383 and replaced the Puzzle Hub stage preview text fallback with a textless cozy tile mosaic.
 - Removed unused `badges.artPending*` i18n keys so placeholder stage-art copy cannot resurface through the stage preview path.
 - Kept the mobile QA guard that fails if `.stage-art-pending` appears, while preserving existing approved stage art mosaics for the current launch packs.
+
+### v0.1.384 - Pantry Placement CTA Clarity
+- Bumped the visible app version to v0.1.384 and changed owned decoration actions from generic equip wording to slot-specific placement copy, for example `Place in Counter`.
+- Clarified the locked purchase CTA to include the spoon unit (`Need N spoons`) so the shop economy reads as one spoon-based system instead of an unexplained number.
+- Added i18n regression coverage for the Korean placement CTA and spoon-shortage copy.

@@ -273,7 +273,7 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, track
     button.disabled = true;
     button.textContent = t("pantry.equipped");
   } else if (owned) {
-    button.textContent = t("pantry.equip");
+    button.textContent = t("pantry.equipToSlot", { slot: slotLabel });
     button.addEventListener("click", () => {
       equipDecoration(decoration);
       setPantryActionFeedback(decoration.id === storyGoalId ? "storyComplete" : "equip", decoration);

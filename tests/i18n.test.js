@@ -245,6 +245,8 @@ describe("i18n", () => {
     expect(t("progress.lineGuided", { count: 1 })).toBe("1\uc904");
     expect(t("progress.linesGuided", { count: 3 })).toBe("3\uc904");
     expect(t("pantry.progressMissionPlanRequest")).toBe("\ub2e4\uc74c \ubd80\ud0c1 \uacc4\ud68d\ud558\uae30");
+    expect(t("pantry.equipToSlot", { slot: "\uce74\uc6b4\ud130" })).toBe("\uce74\uc6b4\ud130\uc5d0 \ub193\uae30");
+    expect(t("pantry.needMore", { count: 7 })).toBe("\uc2a4\ud47c 7\uac1c \ubd80\uc871");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - \uc644\ub8cc");
     expect(t("packs.preview")).toBe("\uc608\uace0");
     expect(t("packs.catalogProgress", { completed: 3, total: 12 })).toBe("3/12 \uc644\ub8cc");
