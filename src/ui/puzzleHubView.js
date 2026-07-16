@@ -456,7 +456,7 @@ function createStagePreview(pack, completeCount, total) {
   if (hasApprovedStageArt(pack.id)) {
     wrap.append(createStageTileMosaic(pack, previewCompleteCount, previewTileTotal), createStageProgressMeter());
   } else {
-    wrap.append(createStageArtPending(completeCount, total || 20), createStageProgressMeter());
+    wrap.append(createStageFallbackMosaic(previewCompleteCount, previewTileTotal), createStageProgressMeter());
   }
   preview.appendChild(wrap);
   return preview;
@@ -469,7 +469,7 @@ function createStageTileMosaic(pack, completeCount, total) {
   mosaic.className = "pip-tile-mosaic stage-tile-mosaic";
   const artUrl = getStageArtUrl(pack.id);
   if (!artUrl) {
-    return createStageArtPending(completeCount, total);
+    return createStageFallbackMosaic(completeCount, total);
   }
   const peekIndex = getPeekTileIndex(pack.id, total);
   for (let index = 0; index < total; index += 1) {
@@ -487,15 +487,20 @@ function createStageTileMosaic(pack, completeCount, total) {
   return mosaic;
 }
 
-function createStageArtPending(completeCount, total) {
-  const pending = document.createElement("div");
-  pending.className = "stage-art-pending";
-  const title = document.createElement("strong");
-  title.textContent = t("badges.artPendingShort");
-  const meta = document.createElement("small");
-  meta.textContent = t("badges.artPendingProgress", { completed: completeCount, total });
-  pending.append(title, meta);
-  return pending;
+function createStageFallbackMosaic(completeCount, total) {
+  const mosaic = document.createElement("div");
+  mosaic.className = "pip-tile-mosaic stage-tile-mosaic stage-tile-mosaic--fallback";
+  const safeTotal = Math.max(1, total || 20);
+  const safeComplete = Math.min(Math.max(0, completeCount || 0), safeTotal);
+  const peekIndex = Math.min(safeTotal - 1, Math.max(safeComplete, Math.floor(safeTotal / 2)));
+  for (let index = 0; index < safeTotal; index += 1) {
+    const tile = document.createElement("span");
+    const revealed = index < safeComplete;
+    const peek = !revealed && index === peekIndex;
+    tile.className = revealed ? "pip-tile revealed" : peek ? "pip-tile peek" : "pip-tile";
+    mosaic.appendChild(tile);
+  }
+  return mosaic;
 }
 
 function getPeekTileIndex(packId, total) {

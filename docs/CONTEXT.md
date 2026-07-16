@@ -2794,3 +2794,8 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.382 and replaced the stage-complete pending-art text block with the approved `pip-completion-v2.png` fallback when a pack does not yet have dedicated stage art.
 - Added fallback-specific styling so the reward card still feels like a finished Sunny Spoon/Pip celebration instead of a construction placeholder.
 - Strengthened mobile visual QA so the stage-complete fixture now fails if `.stage-complete-pending-art` reappears or if the fallback art loses its radial cozy backdrop.
+
+### v0.1.383 - Stage Preview Fallback Polish
+- Bumped the visible app version to v0.1.383 and replaced the Puzzle Hub stage preview text fallback with a textless cozy tile mosaic.
+- Removed unused `badges.artPending*` i18n keys so placeholder stage-art copy cannot resurface through the stage preview path.
+- Kept the mobile QA guard that fails if `.stage-art-pending` appears, while preserving existing approved stage art mosaics for the current launch packs.
