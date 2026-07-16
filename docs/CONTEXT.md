@@ -2753,3 +2753,6 @@ v1 Android decision:
 ### v0.1.381 Android Candidate QA Addendum
 - Added `scripts/android_candidate_check.ps1` plus `npm run qa:android:candidate` to chain the web candidate gate, Capacitor sync, unsigned Android release bundle build, and AAB output sanity check.
 - This is the fast pre-upload Android candidate lane. It does not replace `npm run qa:release:final`, which must still be run after the final `versionCode` / `versionName` bump before signed Play upload.
+### v0.1.381 Runtime HTML Hygiene Addendum
+- Extended `npm run qa:hygiene` to fail if runtime UI/data/game code reintroduces `innerHTML`, `outerHTML`, or `insertAdjacentHTML` paths.
+- QA scripts may still use controlled fixture markup, but player-facing Android WebView surfaces now stay guarded behind explicit DOM construction.

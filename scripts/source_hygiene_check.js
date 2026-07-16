@@ -5,6 +5,7 @@ const root = process.cwd();
 const errors = [];
 
 const jsScanRoots = ["src", "scripts", "tests"];
+const runtimeHtmlScanRoots = ["src/ui", "src/game", "src/data"];
 const textFiles = [
   "src/styles.css",
   "package.json",
@@ -50,6 +51,17 @@ for (const scanRoot of jsScanRoots) {
   }
 }
 
+for (const scanRoot of runtimeHtmlScanRoots) {
+  const base = resolve(root, scanRoot);
+  const files = collectFiles(base, (filePath) => filePath.endsWith(".js"));
+  for (const filePath of files) {
+    const source = readFileSync(filePath, "utf8");
+    const projectPath = toProjectPath(filePath);
+    if (/\b(?:innerHTML|outerHTML|insertAdjacentHTML)\b/.test(source)) {
+      errors.push(`${projectPath}: runtime HTML string insertion is not allowed; use createElement/textContent/replaceChildren`);
+    }
+  }
+}
 for (const file of textFiles) {
   const source = readFileSync(resolve(root, file), "utf8");
   if (source.charCodeAt(0) === 0xfeff) {
