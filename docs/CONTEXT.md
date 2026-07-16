@@ -2725,3 +2725,8 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.378 and rebuilt the global header, Pip strip, badge shelf, and reset dialog with explicit DOM nodes instead of HTML string insertion.
 - Rebuilt the play-screen title block and hint confirmation spoon-cost chip with textContent/DOM nodes while preserving existing classes, icons, event handlers, and mobile QA selectors.
 - This extends the release-hardening pass across the most common navigation and in-play surfaces without changing save data, puzzle state, hint economics, or reset behavior.
+
+### v0.1.379 - Time Attack And Puzzle Meta DOM Safety Polish
+- Bumped the visible app version to v0.1.379 and rebuilt the Time Attack intro and Pip coach copy with explicit DOM nodes instead of HTML string insertion.
+- Rebuilt the puzzle meta header with textContent and switched the puzzle redraw clear step to replaceChildren() while preserving completion, replay, hint, and board-control behavior.
+- This keeps the competitive Time Attack entry surface and main puzzle metadata safer for Android WebView/CSP without changing gameplay state or reward math.

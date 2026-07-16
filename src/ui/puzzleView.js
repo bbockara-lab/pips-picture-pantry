@@ -99,19 +99,23 @@ export function renderPuzzleView(puzzle, options = {}) {
   }
 
   function draw() {
-    section.innerHTML = "";
+    section.replaceChildren();
     section.className = state.completed ? "puzzle-panel content-panel completed" : "puzzle-panel content-panel";
     section.classList.toggle("replay-challenge", isReplayChallenge);
 
     const meta = document.createElement("div");
     meta.className = "puzzle-meta";
-    meta.innerHTML = `
-      <div>
-        <p class="section-label">${isReplayChallenge ? t("replayPicks.challengeLabel") : getPuzzleLabel(puzzle)}</p>
-        <h2>${puzzleTitle(puzzle)}</h2>
-      </div>
-      <p class="difficulty">${puzzle.size}\u00d7${puzzle.size}</p>
-    `;
+    const metaCopy = document.createElement("div");
+    const metaLabel = document.createElement("p");
+    metaLabel.className = "section-label";
+    metaLabel.textContent = isReplayChallenge ? t("replayPicks.challengeLabel") : getPuzzleLabel(puzzle);
+    const metaTitle = document.createElement("h2");
+    metaTitle.textContent = puzzleTitle(puzzle);
+    metaCopy.append(metaLabel, metaTitle);
+    const difficulty = document.createElement("p");
+    difficulty.className = "difficulty";
+    difficulty.textContent = `${puzzle.size}\u00d7${puzzle.size}`;
+    meta.append(metaCopy, difficulty);
     if (!options.compactHeader) {
       section.appendChild(meta);
     }

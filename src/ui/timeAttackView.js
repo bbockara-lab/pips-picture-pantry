@@ -7,11 +7,9 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
 
   const intro = document.createElement("div");
   intro.className = "time-attack-panel__intro";
-  intro.innerHTML = `
-    <p class="section-label">${t("timeAttack.eyebrow")}</p>
-    <h2>${t("timeAttack.title")}</h2>
-    <p>${t("timeAttack.body")}</p>
-  `;
+  appendTextElement(intro, "p", "section-label", t("timeAttack.eyebrow"));
+  appendTextElement(intro, "h2", "", t("timeAttack.title"));
+  appendTextElement(intro, "p", "", t("timeAttack.body"));
 
   const coach = createTimeAttackCoachCard();
   const ladder = createTimeAttackLadder();
@@ -54,11 +52,9 @@ function createTimeAttackCoachCard() {
 
   const copy = document.createElement("div");
   copy.className = "time-attack-coach-card__copy";
-  copy.innerHTML = `
-    <p class="section-label">${t("timeAttack.coachEyebrow")}</p>
-    <h3>${t("timeAttack.coachTitle")}</h3>
-    <p>${t("timeAttack.coachBody")}</p>
-  `;
+  appendTextElement(copy, "p", "section-label", t("timeAttack.coachEyebrow"));
+  appendTextElement(copy, "h3", "", t("timeAttack.coachTitle"));
+  appendTextElement(copy, "p", "", t("timeAttack.coachBody"));
 
   const chips = document.createElement("ul");
   chips.className = "time-attack-coach-card__chips";
@@ -71,6 +67,16 @@ function createTimeAttackCoachCard() {
   copy.appendChild(chips);
   card.append(portrait, copy);
   return card;
+}
+
+function appendTextElement(parent, tagName, className, text) {
+  const element = document.createElement(tagName);
+  if (className) {
+    element.className = className;
+  }
+  element.textContent = text;
+  parent.appendChild(element);
+  return element;
 }
 
 function createTimeAttackLadder() {
