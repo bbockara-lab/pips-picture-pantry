@@ -1,0 +1,50 @@
+$ErrorActionPreference = "Stop"
+
+$repoRoot = Split-Path -Parent $PSScriptRoot
+$aabPath = Join-Path $repoRoot "android\app\build\outputs\bundle\release\app-release.aab"
+
+function Invoke-Step {
+  param(
+    [Parameter(Mandatory = $true)][string]$Name,
+    [Parameter(Mandatory = $true)][scriptblock]$Command
+  )
+
+  Write-Host ""
+  Write-Host "== $Name =="
+  & $Command
+}
+
+Push-Location $repoRoot
+try {
+  Invoke-Step "web release candidate QA" {
+    npm run qa:candidate
+  }
+
+  Invoke-Step "Capacitor sync" {
+    npm run cap:sync
+  }
+
+  Invoke-Step "Android release bundle" {
+    & (Join-Path $PSScriptRoot "build_android_release_bundle.ps1")
+  }
+
+  Invoke-Step "AAB output check" {
+    if (-not (Test-Path -LiteralPath $aabPath)) {
+      throw "Release AAB was not produced: $aabPath"
+    }
+
+    $aab = Get-Item -LiteralPath $aabPath
+    if ($aab.Length -lt 1000000) {
+      throw "Release AAB is unexpectedly small: $($aab.Length) bytes"
+    }
+
+    Write-Host "Android candidate AAB ready: $aabPath"
+    Write-Host "Android candidate AAB size bytes: $($aab.Length)"
+  }
+
+  Write-Host ""
+  Write-Host "Android candidate check passed."
+  Write-Host "Before the signed Play upload, bump android/app/build.gradle versionCode/versionName and run npm run qa:release:final."
+} finally {
+  Pop-Location
+}

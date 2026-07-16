@@ -1605,3 +1605,9 @@ versionName "1.1.0" // or the final public launch version name
 - Puzzle progress chips now show a compact completed-line badge when solved rows/columns are available, reinforcing the friendly guidance loop without adding new puzzle rules.
 - Android bundle generation remains paused during the local rework; next handoff should include this play-guidance polish after full local QA passes.
 - Verification passed: syntax checks, full Vitest (89 tests), hygiene/catalog/assets QA, production build, HTTP 200 check, and mobile QA 360/390/430 all passed.
+## Verification Update - 2026-07-15 Android Candidate Gate
+
+- Added `npm run qa:android:candidate` as the fast Android candidate lane.
+- The lane runs the web candidate gate, Capacitor sync, unsigned Android release bundle build, and AAB output sanity check.
+- Verified the lane exits successfully and produces `android/app/build/outputs/bundle/release/app-release.aab`.
+- Expected pre-final warnings remain: Android `versionCode` / `versionName` still match the last Play upload until the final upload bump.

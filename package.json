@@ -18,7 +18,8 @@
     "android:open": "cap open android",
     "qa:release": "node scripts/android_release_gate.js",
     "qa:release:final": "node scripts/android_release_gate.js --final",
-    "qa:candidate": "node scripts/release_candidate_check.js"
+    "qa:candidate": "node scripts/release_candidate_check.js",
+    "qa:android:candidate": "powershell -ExecutionPolicy Bypass -File scripts/android_candidate_check.ps1"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.1",

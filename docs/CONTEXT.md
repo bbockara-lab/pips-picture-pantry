@@ -2750,3 +2750,6 @@ v1 Android decision:
 - Added `scripts/release_candidate_check.js` plus `npm run qa:candidate` to run the launch-candidate validation ladder in one command.
 - The candidate gate runs Vitest, catalog, hygiene, asset manifest, production build, normal Android release gate, a temporary Vite dev server, mobile visual QA, and an HTTP 200 probe.
 - This keeps the final Android review loop faster and less error-prone while leaving `qa:release:final` as the stricter pre-AAB numbering block.
+### v0.1.381 Android Candidate QA Addendum
+- Added `scripts/android_candidate_check.ps1` plus `npm run qa:android:candidate` to chain the web candidate gate, Capacitor sync, unsigned Android release bundle build, and AAB output sanity check.
+- This is the fast pre-upload Android candidate lane. It does not replace `npm run qa:release:final`, which must still be run after the final `versionCode` / `versionName` bump before signed Play upload.
