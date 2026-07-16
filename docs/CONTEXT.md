@@ -2775,3 +2775,8 @@ v1 Android decision:
 - Fixed `scripts/mobile_visual_check.js` so mobile QA respects `PPP_QA_PORT` when the release candidate runner starts a temporary Vite server on a non-default port.
 - Verified `PPP_QA_PORT=5174 npm run qa:candidate` end-to-end: Vitest 99 passed, catalog 333/333, hygiene, assets, store assets, store listing, production build, release gate, HTTP 200, and mobile QA across 360/390/430px all passed.
 - This keeps candidate QA usable even when the normal local preview on 5173 is stopped, busy, or reserved for manual review.
+
+### v0.1.381 Privacy Policy QA Addendum
+- Refreshed both `docs/PRIVACY_POLICY.md` and hosted `store-assets/privacy-policy.html` to the current release-review date.
+- Added `scripts/privacy_policy_check.js` plus `npm run qa:privacy` to verify Markdown and hosted privacy policy copy stay aligned on local-only data, no ads/analytics/tracking SDKs, no data sharing, reset/uninstall deletion guidance, and contact email.
+- Wired the privacy policy check into `npm run qa:candidate` after Play Store listing validation so submission copy, public policy HTML, and candidate QA remain in sync.

@@ -1,6 +1,6 @@
 # Pip's Picture Pantry Privacy Policy
 
-Last updated: June 30, 2026
+Last updated: 2026-07-15
 
 Pip's Picture Pantry is a cozy picture puzzle game by Sunny Spoon Studios.
 

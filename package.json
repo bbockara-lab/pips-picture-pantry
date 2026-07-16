@@ -21,7 +21,8 @@
     "qa:release:final": "node scripts/android_release_gate.js --final",
     "qa:candidate": "node scripts/release_candidate_check.js",
     "qa:android:candidate": "powershell -ExecutionPolicy Bypass -File scripts/android_candidate_check.ps1",
-    "qa:store-listing": "node scripts/play_store_listing_check.js"
+    "qa:store-listing": "node scripts/play_store_listing_check.js",
+    "qa:privacy": "node scripts/privacy_policy_check.js"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.1",
