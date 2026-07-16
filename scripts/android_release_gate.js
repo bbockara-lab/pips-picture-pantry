@@ -69,6 +69,19 @@ if (!/Mode: live-candidate/.test(releaseStatus)) {
   warnings.push("ANDROID_RELEASE_STATUS.md does not currently say Mode: live-candidate.");
 }
 
+const requiredReleaseStatusNotes = [
+  ["candidate QA command", /npm run qa:candidate/],
+  ["Android candidate QA command", /npm run qa:android:candidate/],
+  ["live privacy QA command", /npm run qa:privacy:live/],
+  ["signed AAB script", /scripts\/build_android_signed_release_bundle\.ps1/],
+  ["333 Season 0 launch target", /333/],
+];
+
+for (const [label, pattern] of requiredReleaseStatusNotes) {
+  if (!pattern.test(releaseStatus)) {
+    errors.push("docs/ANDROID_RELEASE_STATUS.md is missing the " + label + ".");
+  }
+}
 if (errors.length) {
   console.error("Android release gate failed:");
   for (const error of errors) {
