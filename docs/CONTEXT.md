@@ -2756,3 +2756,9 @@ v1 Android decision:
 ### v0.1.381 Runtime HTML Hygiene Addendum
 - Extended `npm run qa:hygiene` to fail if runtime UI/data/game code reintroduces `innerHTML`, `outerHTML`, or `insertAdjacentHTML` paths.
 - QA scripts may still use controlled fixture markup, but player-facing Android WebView surfaces now stay guarded behind explicit DOM construction.
+### v0.1.381 Signed AAB Final Gate Addendum
+- Updated `scripts/build_android_signed_release_bundle.ps1` so signed Play-upload builds run `npm run qa:release:final` before checking signing secrets or producing an AAB.
+- This prevents an accidental signed upload bundle with the last Play Console `versionCode` / `versionName` after local polish builds.
+### v0.1.381 Android Native Exit Guard Addendum
+- Hardened Android PowerShell build wrappers so native commands such as `npm`, `npx`, and `gradlew.bat` throw on non-zero exit codes under Windows PowerShell.
+- This ensures `build_android_signed_release_bundle.ps1` stops immediately at `qa:release:final` until Play upload numbering is bumped, instead of continuing into signing checks after a failed gate.

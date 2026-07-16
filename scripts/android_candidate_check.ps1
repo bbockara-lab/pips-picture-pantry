@@ -14,14 +14,26 @@ function Invoke-Step {
   & $Command
 }
 
+function Invoke-NativeCommand {
+  param(
+    [Parameter(Mandatory = $true)][string]$File,
+    [string[]]$Arguments = @()
+  )
+
+  & $File @Arguments
+  if ($LASTEXITCODE -ne 0) {
+    throw "$File $($Arguments -join ' ') failed with exit code $LASTEXITCODE"
+  }
+}
+
 Push-Location $repoRoot
 try {
   Invoke-Step "web release candidate QA" {
-    npm run qa:candidate
+    Invoke-NativeCommand "npm" @("run", "qa:candidate")
   }
 
   Invoke-Step "Capacitor sync" {
-    npm run cap:sync
+    Invoke-NativeCommand "npm" @("run", "cap:sync")
   }
 
   Invoke-Step "Android release bundle" {
