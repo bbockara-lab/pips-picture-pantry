@@ -36,6 +36,19 @@ const pantryViewState = {
   lastAction: null
 };
 
+function appendTextElement(parent, tagName, className, text) {
+  const element = document.createElement(tagName);
+  if (className) {
+    element.className = className;
+  }
+  element.textContent = text;
+  parent.appendChild(element);
+  return element;
+}
+
+function createMeterFill() {
+  return document.createElement("span");
+}
 
 function setPantryActionFeedback(type, decoration) {
   pantryViewState.lastAction = decoration?.id ? { type, decorationId: decoration.id } : null;
@@ -171,15 +184,16 @@ function compareDecorations(left, right, selectedSort, ownedIds, equippedDecorat
 
 function renderSlotPlacementNote(decoration, equippedDecorations, equipped) {
   if (equipped) {
-    return "";
+    return null;
   }
 
   const currentDecoration = getDecorationById(equippedDecorations[decoration.slot]);
-  if (currentDecoration && currentDecoration.id !== decoration.id) {
-    return '<p class="pantry-swap-note">' + t("pantry.swapNote", { current: t(currentDecoration.titleKey) }) + "</p>";
-  }
-
-  return '<p class="pantry-swap-note">' + t("pantry.emptyPlacementNote") + "</p>";
+  const note = document.createElement("p");
+  note.className = "pantry-swap-note";
+  note.textContent = currentDecoration && currentDecoration.id !== decoration.id
+    ? t("pantry.swapNote", { current: t(currentDecoration.titleKey) })
+    : t("pantry.emptyPlacementNote");
+  return note;
 }
 
 function renderItemSavings(decoration, owned, spoons) {
@@ -193,9 +207,12 @@ function renderItemSavings(decoration, owned, spoons) {
   const savings = document.createElement("div");
   savings.className = "pantry-item-savings";
   savings.style.setProperty("--item-savings-progress", progress + "%");
-  savings.innerHTML = ""
-    + "<p>" + t("pantry.itemSavings", { saved: Math.min(spoons, cost), cost, needed }) + "</p>"
-    + '<div class="pantry-item-savings-meter" aria-hidden="true"><span></span></div>';
+  appendTextElement(savings, "p", "", t("pantry.itemSavings", { saved: Math.min(spoons, cost), cost, needed }));
+  const meter = document.createElement("div");
+  meter.className = "pantry-item-savings-meter";
+  meter.setAttribute("aria-hidden", "true");
+  meter.appendChild(createMeterFill());
+  savings.appendChild(meter);
   return savings;
 }
 
@@ -224,16 +241,18 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, track
   const statusKey = getDecorationStatusKey(decoration, owned, equipped, affordable);
   const placementSwapNote = renderSlotPlacementNote(decoration, equippedDecorations, equipped);
   const trackedGoal = trackedGoalId === decoration.id;
-  body.innerHTML = ""
-    + '<div class="pantry-item-meta">'
-    + '<span class="pantry-item-rarity">' + rarityLabel + "</span>"
-    + '<span class="pantry-item-cost">' + priceLabel + "</span>"
-    + "</div>"
-    + '<p class="pantry-item-status status-' + statusKey + '">' + t("pantry.itemStatus." + statusKey) + "</p>"
-    + "<h4>" + t(decoration.titleKey) + "</h4>"
-    + '<p class="pantry-slot-note">' + t("pantry.placedInSlot", { slot: slotLabel }) + "</p>"
-    + placementSwapNote
-    + "<p>" + t(decoration.descriptionKey) + "</p>";
+  const meta = document.createElement("div");
+  meta.className = "pantry-item-meta";
+  appendTextElement(meta, "span", "pantry-item-rarity", rarityLabel);
+  appendTextElement(meta, "span", "pantry-item-cost", priceLabel);
+  const status = appendTextElement(body, "p", "pantry-item-status status-" + statusKey, t("pantry.itemStatus." + statusKey));
+  body.insertBefore(meta, status);
+  appendTextElement(body, "h4", "", t(decoration.titleKey));
+  appendTextElement(body, "p", "pantry-slot-note", t("pantry.placedInSlot", { slot: slotLabel }));
+  if (placementSwapNote) {
+    body.appendChild(placementSwapNote);
+  }
+  appendTextElement(body, "p", "", t(decoration.descriptionKey));
 
   const itemSavings = renderItemSavings(decoration, owned, spoons);
   const trackButton = document.createElement("button");
@@ -407,9 +426,8 @@ function renderSavingsGoal(selectedSlotId, approvedDecorations, ownedIds, spoons
   goalCard.className = "pantry-savings-goal";
 
   if (!goal) {
-    goalCard.innerHTML = ""
-      + "<h3>" + t("pantry.savingsCompleteTitle") + "</h3>"
-      + "<p>" + t("pantry.savingsCompleteBody") + "</p>";
+    appendTextElement(goalCard, "h3", "", t("pantry.savingsCompleteTitle"));
+    appendTextElement(goalCard, "p", "", t("pantry.savingsCompleteBody"));
     return goalCard;
   }
 
@@ -419,13 +437,15 @@ function renderSavingsGoal(selectedSlotId, approvedDecorations, ownedIds, spoons
   const slot = pantrySlots.find((candidate) => candidate.id === goal.slot);
   const slotLabel = slot ? t(slot.titleKey) : goal.slot;
   goalCard.style.setProperty("--savings-progress", progress + "%");
-  goalCard.innerHTML = ""
-    + "<div>"
-    + '<p class="section-label">' + t("pantry.savingsEyebrow") + "</p>"
-    + "<h3>" + t(goal.titleKey) + "</h3>"
-    + "<p>" + t("pantry.savingsBody", { slot: slotLabel, cost, needed }) + "</p>"
-    + "</div>"
-    + '<div class="pantry-savings-meter" aria-hidden="true"><span></span></div>';
+  const copy = document.createElement("div");
+  appendTextElement(copy, "p", "section-label", t("pantry.savingsEyebrow"));
+  appendTextElement(copy, "h3", "", t(goal.titleKey));
+  appendTextElement(copy, "p", "", t("pantry.savingsBody", { slot: slotLabel, cost, needed }));
+  const meter = document.createElement("div");
+  meter.className = "pantry-savings-meter";
+  meter.setAttribute("aria-hidden", "true");
+  meter.appendChild(createMeterFill());
+  goalCard.append(copy, meter);
   return goalCard;
 }
 
@@ -436,10 +456,9 @@ function renderEarningPlan(selectedSlotId, approvedDecorations, ownedIds, spoons
   plan.className = "pantry-earning-plan";
 
   if (!goal) {
-    plan.innerHTML = ""
-      + '<p class="section-label">' + t("pantry.earningEyebrow") + "</p>"
-      + "<h3>" + t("pantry.earningCompleteTitle") + "</h3>"
-      + "<p>" + t("pantry.earningCompleteBody") + "</p>";
+    appendTextElement(plan, "p", "section-label", t("pantry.earningEyebrow"));
+    appendTextElement(plan, "h3", "", t("pantry.earningCompleteTitle"));
+    appendTextElement(plan, "p", "", t("pantry.earningCompleteBody"));
     return plan;
   }
 
@@ -449,10 +468,9 @@ function renderEarningPlan(selectedSlotId, approvedDecorations, ownedIds, spoons
   const starterRuns = Math.max(0, Math.ceil(needed / starterReward));
   const dailyRuns = Math.max(0, Math.ceil(needed / Math.max(1, dailyReward)));
 
-  plan.innerHTML = ""
-    + '<p class="section-label">' + t("pantry.earningEyebrow") + "</p>"
-    + "<h3>" + t("pantry.earningTitle", { item: t(goal.titleKey) }) + "</h3>"
-    + "<p>" + t("pantry.earningBody", { needed, starterRuns, dailyRuns }) + "</p>";
+  appendTextElement(plan, "p", "section-label", t("pantry.earningEyebrow"));
+  appendTextElement(plan, "h3", "", t("pantry.earningTitle", { item: t(goal.titleKey) }));
+  appendTextElement(plan, "p", "", t("pantry.earningBody", { needed, starterRuns, dailyRuns }));
 
   if (needed > 0) {
     const action = document.createElement("button");
@@ -571,12 +589,12 @@ function renderCollectionProgress(approvedDecorations, ownedIds, equippedDecorat
   const completedRequestCount = Array.isArray(completedStoryGoalIds) ? completedStoryGoalIds.length : 0;
   const header = document.createElement("div");
   header.className = "pantry-progress-board__header";
-  header.innerHTML = ""
-    + "<div>"
-    + '<p class="section-label">' + t("pantry.progressEyebrow") + "</p>"
-    + "<h3>" + t("pantry.progressTitle") + "</h3>"
-    + "</div>"
-    + "<p>" + t("pantry.progressSummary", { owned: ownedCount, total: approvedDecorations.length, equipped: equippedCount, slots: pantrySlots.length }) + "</p>";
+  const headerCopy = document.createElement("div");
+  appendTextElement(headerCopy, "p", "section-label", t("pantry.progressEyebrow"));
+  appendTextElement(headerCopy, "h3", "", t("pantry.progressTitle"));
+  const summary = document.createElement("p");
+  summary.textContent = t("pantry.progressSummary", { owned: ownedCount, total: approvedDecorations.length, equipped: equippedCount, slots: pantrySlots.length });
+  header.append(headerCopy, summary);
 
   const list = document.createElement("div");
   list.className = "pantry-progress-slots";
@@ -585,7 +603,8 @@ function renderCollectionProgress(approvedDecorations, ownedIds, equippedDecorat
     const slotOwnedCount = slotDecorations.filter((decoration) => ownedSet.has(decoration.id)).length;
     const row = document.createElement("p");
     row.className = "pantry-progress-slot";
-    row.innerHTML = "<span>" + t(slot.titleKey) + "</span><strong>" + t("pantry.progressSlot", { owned: slotOwnedCount, total: slotDecorations.length }) + "</strong>";
+    appendTextElement(row, "span", "", t(slot.titleKey));
+    appendTextElement(row, "strong", "", t("pantry.progressSlot", { owned: slotOwnedCount, total: slotDecorations.length }));
     list.appendChild(row);
   });
 
@@ -601,9 +620,8 @@ function renderPlacementAdvisor(selectedSlotId, approvedDecorations, ownedIds) {
   advisor.className = "pantry-placement-advisor";
 
   if (selectedSlotId === "all") {
-    advisor.innerHTML = ""
-      + "<h3>" + t("pantry.advisorAllTitle") + "</h3>"
-      + "<p>" + t("pantry.advisorAllBody", { count: approvedDecorations.length, slots: pantrySlots.length }) + "</p>";
+    appendTextElement(advisor, "h3", "", t("pantry.advisorAllTitle"));
+    appendTextElement(advisor, "p", "", t("pantry.advisorAllBody", { count: approvedDecorations.length, slots: pantrySlots.length }));
     return advisor;
   }
 
@@ -615,9 +633,8 @@ function renderPlacementAdvisor(selectedSlotId, approvedDecorations, ownedIds) {
   const maxCost = Math.max(...costs);
   const ownedCount = slotDecorations.filter((decoration) => ownedIds.includes(decoration.id)).length;
 
-  advisor.innerHTML = ""
-    + "<h3>" + t("pantry.advisorSlotTitle", { slot: slotLabel }) + "</h3>"
-    + "<p>" + t("pantry.advisorSlotBody", { count: slotDecorations.length, owned: ownedCount, min: minCost, max: maxCost }) + "</p>";
+  appendTextElement(advisor, "h3", "", t("pantry.advisorSlotTitle", { slot: slotLabel }));
+  appendTextElement(advisor, "p", "", t("pantry.advisorSlotBody", { count: slotDecorations.length, owned: ownedCount, min: minCost, max: maxCost }));
   return advisor;
 }
 
@@ -628,10 +645,9 @@ function renderDisplayPlan(selectedSlotId, approvedDecorations, ownedIds, equipp
 
   if (selectedSlotId === "all") {
     const equippedCount = pantrySlots.filter((slot) => equippedDecorations[slot.id]).length;
-    plan.innerHTML = ""
-      + '<p class="section-label">' + t("pantry.displayPlanEyebrow") + "</p>"
-      + "<h3>" + t("pantry.displayPlanAllTitle") + "</h3>"
-      + "<p>" + t("pantry.displayPlanAllBody", { equipped: equippedCount, slots: pantrySlots.length }) + "</p>";
+    appendTextElement(plan, "p", "section-label", t("pantry.displayPlanEyebrow"));
+    appendTextElement(plan, "h3", "", t("pantry.displayPlanAllTitle"));
+    appendTextElement(plan, "p", "", t("pantry.displayPlanAllBody", { equipped: equippedCount, slots: pantrySlots.length }));
     return plan;
   }
 
@@ -646,19 +662,22 @@ function renderDisplayPlan(selectedSlotId, approvedDecorations, ownedIds, equipp
     ? t("pantry.displayPlanSlotFilledBody", { item: t(currentDecoration.titleKey), slot: slotLabel })
     : t("pantry.displayPlanSlotEmptyBody", { slot: slotLabel });
 
-  const nextBody = nextDecoration
-    ? '<p class="pantry-display-plan__next"><strong>' + t("pantry.displayPlanNextTitle") + '</strong> ' + t("pantry.displayPlanNextBody", {
+  appendTextElement(plan, "p", "section-label", t("pantry.displayPlanEyebrow"));
+  appendTextElement(plan, "h3", "", t("pantry.displayPlanSlotTitle", { slot: slotLabel }));
+  appendTextElement(plan, "p", "", currentBody);
+  const nextBody = document.createElement("p");
+  nextBody.className = nextDecoration ? "pantry-display-plan__next" : "pantry-display-plan__next complete";
+  if (nextDecoration) {
+    appendTextElement(nextBody, "strong", "", t("pantry.displayPlanNextTitle"));
+    nextBody.appendChild(document.createTextNode(" " + t("pantry.displayPlanNextBody", {
       item: t(nextDecoration.titleKey),
       cost: Number(nextDecoration.cost || 0),
       needed: Math.max(0, Number(nextDecoration.cost || 0) - spoons)
-    }) + "</p>"
-    : '<p class="pantry-display-plan__next complete">' + t("pantry.displayPlanComplete") + "</p>";
-
-  plan.innerHTML = ""
-    + '<p class="section-label">' + t("pantry.displayPlanEyebrow") + "</p>"
-    + "<h3>" + t("pantry.displayPlanSlotTitle", { slot: slotLabel }) + "</h3>"
-    + "<p>" + currentBody + "</p>"
-    + nextBody;
+    })));
+  } else {
+    nextBody.textContent = t("pantry.displayPlanComplete");
+  }
+  plan.appendChild(nextBody);
   return plan;
 }
 
@@ -677,7 +696,7 @@ function renderShopLimitControl(visibleCount, totalCount, onShowMore) {
   meter.className = "pantry-shop-limit__meter";
   meter.setAttribute("aria-hidden", "true");
   meter.style.setProperty("--shop-limit-progress", Math.min(100, Math.round((visibleCount / totalCount) * 100)) + "%");
-  meter.innerHTML = "<span></span>";
+  meter.appendChild(createMeterFill());
 
   const button = document.createElement("button");
   button.type = "button";
@@ -732,12 +751,11 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
 
   const header = document.createElement("div");
   header.className = "pantry-header";
-  header.innerHTML = ""
-    + "<div>"
-    + '<p class="section-label">' + t("sections.pantryRoom") + "</p>"
-    + "<h2>" + t("pantry.title") + "</h2>"
-    + "</div>"
-    + '<p class="pantry-spoon-note">' + t("pantry.spoonNote", { count: spoons }) + "</p>";
+  const headerCopy = document.createElement("div");
+  appendTextElement(headerCopy, "p", "section-label", t("sections.pantryRoom"));
+  appendTextElement(headerCopy, "h2", "", t("pantry.title"));
+  appendTextElement(header, "p", "pantry-spoon-note", t("pantry.spoonNote", { count: spoons }));
+  header.insertBefore(headerCopy, header.firstChild);
 
   const room = document.createElement("div");
   room.className = "pantry-room";
@@ -785,14 +803,15 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
 
   const shop = document.createElement("section");
   shop.className = "pantry-shop";
-  shop.innerHTML = ""
-    + '<div class="pantry-shop-heading">'
-    + "<div>"
-    + '<p class="section-label">' + t("pantry.shopEyebrow") + "</p>"
-    + "<h3>" + t("pantry.shopTitle") + "</h3>"
-    + "</div>"
-    + "<p>" + t("pantry.shopBody") + "</p>"
-    + "</div>";
+  const shopHeading = document.createElement("div");
+  shopHeading.className = "pantry-shop-heading";
+  const shopCopy = document.createElement("div");
+  appendTextElement(shopCopy, "p", "section-label", t("pantry.shopEyebrow"));
+  appendTextElement(shopCopy, "h3", "", t("pantry.shopTitle"));
+  const shopBody = document.createElement("p");
+  shopBody.textContent = t("pantry.shopBody");
+  shopHeading.append(shopCopy, shopBody);
+  shop.appendChild(shopHeading);
 
   const filtersMount = document.createElement("div");
   const grid = document.createElement("div");
@@ -802,8 +821,8 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   shop.append(filtersMount, grid, shopLimitMount);
 
   function drawDecorations() {
-    room.innerHTML = "";
-    actionFeedbackMount.innerHTML = "";
+    room.replaceChildren();
+    actionFeedbackMount.replaceChildren();
     const feedback = renderActionFeedback(equippedDecorations);
     if (feedback) {
       actionFeedbackMount.appendChild(feedback);
@@ -816,7 +835,7 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     storyMilestoneMount.replaceChildren(renderPantryStoryMilestone(approvedDecorations, ownedIds, equippedDecorations, selectStoryArrival));
     storyDeliveryMount.replaceChildren(renderPantryStoryDelivery(approvedDecorations, storyGoalId, ownedIds, spoons, showStoryGoal, onPlayForSpoons));
     storyArchiveMount.replaceChildren(renderPantryStoryArchive(approvedDecorations, completedStoryGoalIds, ownedIds, selectStoryArrival, spoons));
-    filtersMount.innerHTML = "";
+    filtersMount.replaceChildren();
     filtersMount.className = "pantry-filter-stack";
     advisorMount.replaceChildren(renderPlacementAdvisor(selectedSlotId, approvedDecorations, ownedIds));
     savingsGoalMount.replaceChildren(renderSavingsGoal(selectedSlotId, approvedDecorations, ownedIds, spoons, trackedGoalId));
@@ -849,8 +868,8 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
       renderFilterSummary(visibleDecorations.length, approvedDecorations.length, isFiltered, resetFilters)
     );
 
-    grid.innerHTML = "";
-    shopLimitMount.innerHTML = "";
+    grid.replaceChildren();
+    shopLimitMount.replaceChildren();
     if (visibleDecorations.length === 0) {
       grid.appendChild(renderEmptyShopState(resetFilters));
       return;

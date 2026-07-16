@@ -2735,3 +2735,8 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.380 and rebuilt the puzzle hub, season progress, daily puzzle, replay picks, pack headers, stage preview, and unlock panels with explicit DOM nodes.
 - Removed HTML string insertion from puzzleHubView.js while preserving pack unlock actions, pantry routing, replay pick selection, stage meters, and spoon icon rendering.
 - This protects the launch hub from i18n/data insertion regressions and keeps the seasonal progression surface ready for Android WebView QA.
+
+### v0.1.381 - Pantry And Shell DOM Safety Polish
+- Bumped the visible app version to v0.1.381 and rebuilt the Pantry shop cards, savings goal, earning plan, collection progress, placement advisor, display plan, shop header, and shop limit meter with explicit DOM nodes.
+- Replaced Pantry and app-shell redraw clearing with replaceChildren() while preserving decoration buying, equipping, story requests, tracked goals, filters, and shop pagination.
+- This removes the remaining Pantry HTML string insertion path and keeps the decoration economy surface safer for Android WebView QA.

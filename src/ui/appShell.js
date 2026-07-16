@@ -323,7 +323,7 @@ export function renderApp(root) {
       finishTimeAttackByTimeout();
       return;
     }
-    root.innerHTML = "";
+    root.replaceChildren();
     if (!activeGuide && activeView === "puzzle" && playOpen && !hasSeenGuide("puzzle")) {
       activeGuide = "puzzle";
     } else if (!activeGuide && activeView === "timeAttack" && !playOpen && !hasSeenGuide("timeAttack")) {
@@ -555,5 +555,3 @@ function createShell({
 
   return shell;
 }
-
-
