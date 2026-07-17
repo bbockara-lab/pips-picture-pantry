@@ -109,4 +109,4 @@ No restricted login-gated areas.
 
 In-app purchases:
 
-Yes. The release includes one optional support purchase for extra spoons. There are no third-party ads or tracking SDKs.
+Yes. The release includes one optional support purchase for extra spoons. Play Console managed product ID: `pip_cozy_support`. There are no third-party ads or tracking SDKs.

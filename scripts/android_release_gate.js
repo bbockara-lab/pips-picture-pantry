@@ -74,6 +74,7 @@ const requiredReleaseStatusNotes = [
   ["Android candidate QA command", /npm run qa:android:candidate/],
   ["Play Store graphics QA command", /npm run qa:store/],
   ["Play Store listing QA command", /npm run qa:store-listing/],
+  ["Billing QA command", /npm run qa:billing/],
   ["local privacy QA command", /npm run qa:privacy(?!:)/],
   ["live privacy QA command", /npm run qa:privacy:live/],
   ["signed AAB script", /scripts\/build_android_signed_release_bundle\.ps1/],

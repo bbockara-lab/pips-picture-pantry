@@ -2861,3 +2861,8 @@ v1 Android decision:
 - The purchase grants the existing COZY_PASS_SPOON_GRANT value of 250 spoons through the existing cozyPassPurchased save field, with a local duplicate guard so purchase/restore cannot double-grant spoons on the same profile.
 - Player-facing copy must avoid words like paid/free tier in the puzzle UI. The app should present this as an optional Pip Support Pack that adds spoons, while Play Store handles the actual purchase sheet.
 - v1 scope remains client-side purchase recognition only. Server-side receipt validation and cross-device account entitlement can be considered after launch if support-pack usage justifies it.
+
+### v0.1.411 Billing QA Guard Addendum
+- Added `npm run qa:billing` so the optional Pip Support Pack cannot drift away from Android Billing permissions, product ID wiring, i18n copy, policy docs, and Play Console listing disclosure.
+- Wired Billing QA into `npm run qa:candidate` and the Android release gate so final candidate checks include the monetization surface, not only gameplay and store graphics.
+- The player-facing copy remains one gentle support/spoon surface; the guard fails if support-pack UI copy reintroduces paid/free or 유료/무료 wording.
