@@ -2835,3 +2835,7 @@ v1 Android decision:
 - Bumped the visible app version to v0.1.385 and made the first-play how-to card read more like Pip speaking beside the player instead of a generic instruction card.
 - Added a dedicated Pip dialogue line above the clue explanation while keeping the existing completed-line safe-X guidance visible.
 - Strengthened mobile visual QA so the polished how-to card now fails if the Pip dialogue line disappears.
+
+### Guide Dialog Text QA Guard
+- Strengthened mobile visual QA so Pip guide dialogs now fail if the eyebrow, title, or body copy disappears while the chrome art and button frame remain visible.
+- This is a QA-only guard for the launch polish phase; no visible app version bump was needed.

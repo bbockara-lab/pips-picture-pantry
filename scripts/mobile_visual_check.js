@@ -308,6 +308,9 @@ async function expectGuideDialogChromeArt(page, viewportName) {
       bubbleTokenWidth: bubbleAfter ? parseFloat(bubbleAfter.width) : 0,
       bubbleAccentBackground: bubbleAfter?.backgroundImage || "",
       overlayPaddingBottom: overlayStyle ? parseFloat(overlayStyle.paddingBottom) : 0,
+      eyebrowText: dialog.querySelector(".guide-dialog__eyebrow")?.textContent.trim() || "",
+      titleText: dialog.querySelector("#guide-dialog-title")?.textContent.trim() || "",
+      bodyText: bubble?.querySelector("p:not(.guide-dialog__eyebrow)")?.textContent.trim() || "",
       buttons,
       overflows: dialog.scrollWidth > Math.ceil(rect.width) + 1 || dialog.scrollHeight > Math.ceil(rect.height) + 1
     };
@@ -334,6 +337,9 @@ async function expectGuideDialogChromeArt(page, viewportName) {
     guideMetrics.bubbleTailContent === "none" ||
     guideMetrics.bubbleTokenContent === "none" ||
     guideMetrics.bubbleTokenWidth < 16 ||
+    !guideMetrics.eyebrowText ||
+    !guideMetrics.titleText ||
+    !guideMetrics.bodyText ||
     guideMetrics.buttons.length !== 2 ||
     guideMetrics.buttons.some((button) =>
       button.width < 110 ||
