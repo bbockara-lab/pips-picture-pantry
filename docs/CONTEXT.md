@@ -1,5 +1,15 @@
 # Pip's Picture Pantry - Active Context
 
+## Current Launch Candidate Snapshot - 2026-07-17
+
+- Mode remains `live-candidate`, now focused on final Android release hardening rather than bulk feature expansion.
+- Season 0 launch catalog target is complete at 333 polished puzzles; future 1,000+ depth moves to seasonal/quarterly updates.
+- Android v1 should include one optional support purchase from launch: Play Console product ID `pip_cozy_support`, one-time non-consumable, suggested USD 0.99 / KRW 1,100, reward 250 spoons.
+- Monetization direction: no ads for v1, no hard puzzle paywall, no purchase interruption during active play. The support pack is framed as helping Pip and adding spoons, not as a paid tier.
+- Billing implementation exists in `src/game/billing.js` and is guarded by `npm run qa:billing`; Play Console managed product setup and final signed-device purchase test remain required.
+- Gameplay integrity priorities for the last release push: hint/undo no-refund semantics, replay reward anti-farming, Time Attack score fairness, Pantry placement persistence, and mobile WebView QA.
+- UI/art priorities for the last release push: support pack card polish, store/Pantry item presentation, Pip-led guide dialogs, completion effects, consistent Sunny Spoon/Pip artwork, and no placeholder-looking buttons/icons.
+- Final Android upload remains blocked until `android/app/build.gradle` versionCode/versionName are intentionally bumped beyond the last Play Console upload and the signed AAB passes the final release gate.
 Last updated: 2026-07-10
 
 ## Current Launch Strategy Snapshot - 2026-07-10
