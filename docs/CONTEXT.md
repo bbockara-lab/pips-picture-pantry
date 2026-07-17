@@ -2872,6 +2872,13 @@ v1 Android decision:
 - Player-facing copy must avoid words like paid/free tier in the puzzle UI. The app should present this as an optional Pip Support Pack that adds spoons, while Play Store handles the actual purchase sheet.
 - v1 scope remains client-side purchase recognition only. Server-side receipt validation and cross-device account entitlement can be considered after launch if support-pack usage justifies it.
 
+### v0.1.412 Pantry Support Pack Discovery
+
+- Bumped the visible app version to v0.1.412 and package version to 0.1.412.
+- Connected the Pantry earning-plan card to the Settings support pack card so players who are short on spoons can discover the optional Pip Support Pack from the natural economy moment, without using paid/free wording in the player-facing Pantry copy.
+- Added mobile QA coverage that verifies the earning plan still explains the spoon gap, exposes the support pack fallback, opens the support card, and closes back to Pantry cleanly across 360x740, 390x844, and 430x932.
+- Verification: syntax checks for appShell, pantryView, i18n, and mobile QA passed; full Vitest passed with 103 tests; qa:billing, qa:hygiene, and qa:mobile passed.
+
 ### v0.1.411 Billing QA Guard Addendum
 - Added `npm run qa:billing` so the optional Pip Support Pack cannot drift away from Android Billing permissions, product ID wiring, i18n copy, policy docs, and Play Console listing disclosure.
 - Wired Billing QA into `npm run qa:candidate` and the Android release gate so final candidate checks include the monetization surface, not only gameplay and store graphics.

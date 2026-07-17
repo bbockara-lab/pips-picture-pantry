@@ -3125,16 +3125,19 @@ async function verifyPantryPlacement(page, viewportName) {
   }
 
   const earningPlanText = await page.locator(".pantry-earning-plan").first().innerText();
-  if (!earningPlanText.includes("17") || !earningPlanText.includes("6") || !earningPlanText.includes("2")) {
-    failures.push("[" + viewportName + "] Pantry earning plan should translate the 17-spoon gap into starter and daily runs, saw " + earningPlanText);
+  if (!earningPlanText.includes("17") || !earningPlanText.includes("6") || !earningPlanText.includes("2") || !earningPlanText.includes("Support Pack")) {
+    failures.push("[" + viewportName + "] Pantry earning plan should translate the 17-spoon gap and expose support pack fallback, saw " + earningPlanText);
   }
   const earningPlanVisualMetrics = await page.locator(".pantry-earning-plan").first().evaluate((el) => {
     const style = getComputedStyle(el);
     const before = getComputedStyle(el, "::before");
     const after = getComputedStyle(el, "::after");
-    const action = el.querySelector(".pantry-earning-action");
+    const actions = Array.from(el.querySelectorAll(".pantry-earning-action"));
+    const action = actions[0];
+    const support = el.querySelector(".pantry-earning-support");
     const actionStyle = action ? getComputedStyle(action) : null;
     const actionBefore = action ? getComputedStyle(action, "::before") : null;
+    const supportStyle = support ? getComputedStyle(support) : null;
     return {
       borderRadius: parseFloat(style.borderRadius) || 0,
       borderWidth: parseFloat(style.borderTopWidth) || 0,
@@ -3145,12 +3148,15 @@ async function verifyPantryPlacement(page, viewportName) {
       tokenWidth: parseFloat(before.width) || 0,
       shineContent: after.content,
       shineHeight: parseFloat(after.height) || 0,
+      actionCount: actions.length,
       actionHeight: action ? action.getBoundingClientRect().height : 0,
       actionRadius: actionStyle ? parseFloat(actionStyle.borderRadius) || 0 : 0,
       actionBorderWidth: actionStyle ? parseFloat(actionStyle.borderTopWidth) || 0 : 0,
       actionBackground: actionStyle ? actionStyle.backgroundImage : "",
       actionTokenContent: actionBefore ? actionBefore.content : "none",
-      actionTokenWidth: actionBefore ? parseFloat(actionBefore.width) || 0 : 0
+      actionTokenWidth: actionBefore ? parseFloat(actionBefore.width) || 0 : 0,
+      supportHeight: support ? support.getBoundingClientRect().height : 0,
+      supportBackground: supportStyle ? supportStyle.backgroundImage : ""
     };
   });
   if (
@@ -3163,15 +3169,27 @@ async function verifyPantryPlacement(page, viewportName) {
     earningPlanVisualMetrics.tokenWidth < 20 ||
     earningPlanVisualMetrics.shineContent === "none" ||
     earningPlanVisualMetrics.shineHeight < 10 ||
+    earningPlanVisualMetrics.actionCount !== 2 ||
     earningPlanVisualMetrics.actionHeight < 44 ||
     earningPlanVisualMetrics.actionRadius < 14 ||
     earningPlanVisualMetrics.actionBorderWidth < 3 ||
     !earningPlanVisualMetrics.actionBackground.includes("radial-gradient") ||
     earningPlanVisualMetrics.actionTokenContent === "none" ||
-    earningPlanVisualMetrics.actionTokenWidth < 14
+    earningPlanVisualMetrics.actionTokenWidth < 14 ||
+    earningPlanVisualMetrics.supportHeight < 44 ||
+    !earningPlanVisualMetrics.supportBackground.includes("linear-gradient")
   ) {
     failures.push("[" + viewportName + "] Pantry earning plan lost its polished spoon-plan card treatment: " + JSON.stringify(earningPlanVisualMetrics));
   }
+
+  await page.locator(".pantry-earning-support").first().click();
+  await page.waitForSelector(".support-pack-card", { timeout: 2500 });
+  const supportCardText = await page.locator(".support-pack-card").first().innerText();
+  if (!supportCardText.includes("Support") || !supportCardText.includes("spoons")) {
+    failures.push("[" + viewportName + "] Pantry support action should open the support pack settings card, saw " + supportCardText);
+  }
+  await page.locator(".settings-close").first().click();
+  await page.waitForSelector(".settings-dialog", { state: "detached", timeout: 2500 });
 
   const firstSavingsText = await page.locator(".pantry-item-savings").first().innerText();
   if (!firstSavingsText.includes("3/") || !firstSavingsText.includes("more")) {

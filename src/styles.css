@@ -10488,10 +10488,17 @@ img {
     linear-gradient(90deg, rgba(184, 230, 210, 0.98), rgba(255, 206, 84, 0.98));
 }
 
+.pantry-earning-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
 .pantry-earning-action {
   position: relative;
   overflow: hidden;
   min-height: 46px;
+  padding-inline: 34px 12px;
   border-width: 3px;
   border-radius: 15px;
   background:
@@ -10515,6 +10522,19 @@ img {
     radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78) 0 20%, transparent 21%),
     linear-gradient(135deg, #f8d477, #dfa342);
   box-shadow: 0 2px 0 rgba(61, 43, 46, 0.12);
+}
+
+.pantry-earning-support {
+  border-color: rgba(91, 62, 70, 0.62);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.74) 0 10%, transparent 11%),
+    linear-gradient(180deg, #d7f0df, #9ed7bf);
+}
+
+.pantry-earning-support-note {
+  margin: 0;
+  font-size: 0.88rem;
+  color: rgba(61, 43, 46, 0.78);
 }
 
 .pantry-earning-action:active {
@@ -10541,6 +10561,10 @@ img {
   .pantry-earning-plan::after {
     inset-inline-start: 44px;
     inset-inline-end: 38px;
+  }
+
+  .pantry-earning-actions {
+    grid-template-columns: 1fr;
   }
 }
 

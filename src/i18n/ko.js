@@ -495,6 +495,8 @@ export const ko = {
     earningTitle: "{item}까지 가는 길",
     earningBody: "{needed} 스푼이 더 필요해요. 시작 퍼즐은 약 {starterRuns}개, 데일리 보너스까지 받으면 약 {dailyRuns}번이면 돼요.",
     earningAction: "스푼 벌러 가기",
+    earningSupportAction: "Pip 응원팩 보기",
+    earningSupportNote: "퍼즐을 풀어 모으는 것이 기본 길이에요. 응원팩은 스푼을 조금 더 빨리 준비하고 싶을 때만 열어두었어요.",
     earningCompleteTitle: "남은 스푼 목표가 없어요",
     earningCompleteBody: "이 필터의 장식은 이미 모두 모았어요. 다른 자리나 다음 장식 세트를 목표로 삼을 수 있어요.",
     progressEyebrow: "\ubc29 \uc9c4\ud589\ub3c4",

@@ -497,6 +497,8 @@ export const en = {
     earningTitle: "How to reach {item}",
     earningBody: "Need {needed} more spoons: about {starterRuns} starter puzzles, or {dailyRuns} daily-bonus runs.",
     earningAction: "Play for spoons",
+    earningSupportAction: "See Pip Support Pack",
+    earningSupportNote: "Solving puzzles stays the main path. The support pack is only there when you want extra spoons sooner.",
     earningCompleteTitle: "No spoon grind left",
     earningCompleteBody: "This filtered set is already complete, so your next goal can be another spot or future decor set.",
     progressEyebrow: "Room progress",

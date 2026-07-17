@@ -589,7 +589,7 @@ function createShell({
   } else if (activeView === "map") {
     shell.appendChild(renderPantryMapView());
   } else if (activeView === "pantry") {
-    shell.appendChild(renderPantryView(() => onSelectView("pantry"), onPantryFirstPurchase, () => onSelectView("puzzle")));
+    shell.appendChild(renderPantryView(() => onSelectView("pantry"), onPantryFirstPurchase, () => onSelectView("puzzle"), onRequestSettings));
   } else if (activeView === "timeAttack") {
     shell.appendChild(renderTimeAttackView({
       bestScores: getTimeAttackBestScores(),

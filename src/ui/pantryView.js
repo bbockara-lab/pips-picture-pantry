@@ -450,7 +450,7 @@ function renderSavingsGoal(selectedSlotId, approvedDecorations, ownedIds, spoons
 }
 
 
-function renderEarningPlan(selectedSlotId, approvedDecorations, ownedIds, spoons, trackedGoalId, onPlayForSpoons) {
+function renderEarningPlan(selectedSlotId, approvedDecorations, ownedIds, spoons, trackedGoalId, onPlayForSpoons, onOpenSupportPack) {
   const goal = getNextSavingsGoal(approvedDecorations, ownedIds, spoons, selectedSlotId, trackedGoalId);
   const plan = document.createElement("aside");
   plan.className = "pantry-earning-plan";
@@ -473,12 +473,25 @@ function renderEarningPlan(selectedSlotId, approvedDecorations, ownedIds, spoons
   appendTextElement(plan, "p", "", t("pantry.earningBody", { needed, starterRuns, dailyRuns }));
 
   if (needed > 0) {
+    const actions = document.createElement("div");
+    actions.className = "pantry-earning-actions";
+
     const action = document.createElement("button");
     action.type = "button";
     action.className = "pantry-earning-action";
     action.textContent = t("pantry.earningAction");
     action.addEventListener("click", () => onPlayForSpoons?.());
-    plan.appendChild(action);
+    actions.appendChild(action);
+
+    const support = document.createElement("button");
+    support.type = "button";
+    support.className = "pantry-earning-action pantry-earning-support";
+    support.textContent = t("pantry.earningSupportAction");
+    support.addEventListener("click", () => onOpenSupportPack?.());
+    actions.appendChild(support);
+
+    plan.appendChild(actions);
+    appendTextElement(plan, "p", "pantry-earning-support-note", t("pantry.earningSupportNote"));
   }
 
   return plan;
@@ -730,7 +743,7 @@ function renderFilterSummary(count, total, isFiltered, onResetFilters) {
   return summary;
 }
 
-export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {}, onPlayForSpoons = () => {}) {
+export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {}, onPlayForSpoons = () => {}, onOpenSupportPack = () => {}) {
   const panel = document.createElement("section");
   panel.className = "pantry-panel content-panel";
 
@@ -839,7 +852,7 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     filtersMount.className = "pantry-filter-stack";
     advisorMount.replaceChildren(renderPlacementAdvisor(selectedSlotId, approvedDecorations, ownedIds));
     savingsGoalMount.replaceChildren(renderSavingsGoal(selectedSlotId, approvedDecorations, ownedIds, spoons, trackedGoalId));
-    earningPlanMount.replaceChildren(renderEarningPlan(selectedSlotId, approvedDecorations, ownedIds, spoons, trackedGoalId, onPlayForSpoons));
+    earningPlanMount.replaceChildren(renderEarningPlan(selectedSlotId, approvedDecorations, ownedIds, spoons, trackedGoalId, onPlayForSpoons, onOpenSupportPack));
     progressMount.replaceChildren(renderCollectionProgress(approvedDecorations, ownedIds, equippedDecorations, completedStoryGoalIds, spoons, planNextRoomRequest, onPlayForSpoons));
     displayPlanMount.replaceChildren(renderDisplayPlan(selectedSlotId, approvedDecorations, ownedIds, equippedDecorations, spoons));
 
