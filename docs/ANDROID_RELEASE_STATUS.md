@@ -49,7 +49,10 @@ versionName "1.1.0" // or the final public launch version name
 
 ## Verified Outputs
 
-- `npm run qa:candidate` passes with Vitest, catalog, hygiene, runtime asset manifest, Play Store graphics, production build, Android release gate, HTTP 200, and mobile visual QA.
+- `npm run qa:candidate` passes with Vitest, catalog, hygiene, runtime asset manifest, Play Store graphics, Play Store listing copy, local privacy policy alignment, production build, Android release gate, HTTP 200, and mobile visual QA.
+- `npm run qa:store` verifies Play Store app icon, feature graphic, phone screenshots, and tablet screenshots.
+- `npm run qa:store-listing` verifies the Play Console listing draft, screenshot references, privacy URL, launch positioning, and monetization wording.
+- `npm run qa:privacy` verifies local Markdown/HTML privacy policy alignment before submission.
 - `npm run qa:privacy:live` passes against the public Firebase Hosting privacy policy URL:
   - https://sunny-spoon-pantry.web.app/privacy-policy.html
   - Last verified after Firebase Hosting deploy on 2026-07-16.

@@ -2843,3 +2843,9 @@ v1 Android decision:
 ### Time Attack Guide Story QA Guard
 - Strengthened mobile visual QA so the Time Attack first-run guide now validates all three story beats: mode framing, limited hints plus spoon continuation, and record chasing versus spoon saving.
 - This is a QA-only guard for the launch polish phase; no visible app version bump was needed.
+
+### Android Release Chain Store/Policy Guard Addendum
+- Strengthened `npm run qa:release` so the Android release status checklist must explicitly mention Play Store graphics QA, Play Store listing QA, local privacy QA, live privacy QA, Android candidate QA, the signed AAB script, and the 333-puzzle Season 0 target.
+- Updated `docs/ANDROID_RELEASE_STATUS.md` so the verified candidate output names store listing copy and local privacy policy alignment, not only generic candidate QA.
+- This is a QA/documentation guard for final Play upload readiness; no visible app version bump was needed.
+- Verification: `node --check scripts\\android_release_gate.js`, `npm run qa:release`, and `npm run qa:candidate` all passed. Expected Android final-upload version warnings remain only until the final `versionCode` / `versionName` bump.
