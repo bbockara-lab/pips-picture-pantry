@@ -306,10 +306,10 @@ export function renderApp(root) {
     return {
       onClose: closeSettings,
       onLanguageChange: changeLanguage,
-      onPlayerNameChange: changePlayerName,
+      onPlayerChange: changePlayerName,
       onResetRequest: requestReset,
-      onSfxToggle: changeSfx,
-      onMusicToggle: changeMusic,
+      onSfxChange: changeSfx,
+      onMusicChange: changeMusic,
       onControlModeChange: changeControlMode,
       controlMode,
       supportPack: cozySupportState,

@@ -502,6 +502,14 @@ async function expectSettingsDialogPolish(page, viewportName) {
         const titleBefore = title ? getComputedStyle(title, "::before") : null;
         const activeAfter = active ? getComputedStyle(active, "::after") : null;
         const saveStyle = save ? getComputedStyle(save) : null;
+        const supportCard = document.querySelector(".support-pack-card");
+        const supportLabel = supportCard?.querySelector(".section-label");
+        const supportBody = supportCard?.querySelector(".support-pack-card__body");
+        const supportStatus = supportCard?.querySelector(".support-pack-card__status");
+        const supportActions = [...(supportCard?.querySelectorAll("button") || [])];
+        const supportStyle = supportCard ? getComputedStyle(supportCard) : null;
+        const supportBefore = supportCard ? getComputedStyle(supportCard, "::before") : null;
+        const supportAfter = supportCard ? getComputedStyle(supportCard, "::after") : null;
         return {
           dialogRadius: dialogStyle ? parseFloat(dialogStyle.borderRadius) : 0,
           dialogBackground: dialogStyle?.backgroundImage || "",
@@ -526,6 +534,24 @@ async function expectSettingsDialogPolish(page, viewportName) {
           languageChoiceCount: languageChoices.length,
           controlChoiceCount: controlChoices.length,
           audioChoiceCount: audioChoices.length,
+          supportCard: {
+            exists: Boolean(supportCard),
+            labelText: supportLabel?.textContent?.trim() || "",
+            bodyText: supportBody?.textContent?.trim() || "",
+            statusText: supportStatus?.textContent?.trim() || "",
+            height: supportCard?.getBoundingClientRect().height || 0,
+            radius: supportStyle ? parseFloat(supportStyle.borderRadius) : 0,
+            background: supportStyle?.backgroundImage || "",
+            shadow: supportStyle?.boxShadow || "none",
+            shineHeight: supportBefore ? parseFloat(supportBefore.height) : 0,
+            shineBackground: supportBefore?.backgroundImage || "",
+            tokenWidth: supportAfter ? parseFloat(supportAfter.width) : 0,
+            tokenHeight: supportAfter ? parseFloat(supportAfter.height) : 0,
+            tokenBackground: supportAfter?.backgroundImage || "",
+            actionCount: supportActions.length,
+            actionHeights: supportActions.map((button) => button.getBoundingClientRect().height),
+            actionBackgrounds: supportActions.map((button) => getComputedStyle(button).backgroundImage || "")
+          },
           choiceGroupCards: [
             document.querySelector(".settings-choice-grid--language"),
             document.querySelector(".settings-choice-grid--control"),
@@ -584,6 +610,22 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.languageChoiceCount !== 3 ||
     metrics.settingsPolish.controlChoiceCount !== 3 ||
     metrics.settingsPolish.audioChoiceCount !== 2 ||
+    !metrics.settingsPolish.supportCard.exists ||
+    !metrics.settingsPolish.supportCard.labelText ||
+    !metrics.settingsPolish.supportCard.bodyText ||
+    !metrics.settingsPolish.supportCard.statusText ||
+    metrics.settingsPolish.supportCard.height < 120 ||
+    metrics.settingsPolish.supportCard.radius < 16 ||
+    !metrics.settingsPolish.supportCard.background.includes("gradient") ||
+    metrics.settingsPolish.supportCard.shadow === "none" ||
+    !metrics.settingsPolish.supportCard.shineBackground.includes("gradient") ||
+    metrics.settingsPolish.supportCard.shineHeight < 20 ||
+    metrics.settingsPolish.supportCard.tokenWidth < 24 ||
+    metrics.settingsPolish.supportCard.tokenHeight < 24 ||
+    !metrics.settingsPolish.supportCard.tokenBackground.includes("gradient") ||
+    metrics.settingsPolish.supportCard.actionCount !== 2 ||
+    metrics.settingsPolish.supportCard.actionHeights.some((height) => height < 44) ||
+    metrics.settingsPolish.supportCard.actionBackgrounds.some((background) => !background.includes("gradient")) ||
     metrics.settingsPolish.choiceGroupCards.length !== 3 ||
     metrics.settingsPolish.choiceGroupCards.some((card) => card.height < 64 || card.radius < 16 || !card.background.includes("gradient") || card.shadow === "none" || !card.shineBackground.includes("gradient") || card.shineHeight < 16) ||
     metrics.settingsPolish.choiceShines.length !== 8 ||
@@ -591,8 +633,16 @@ async function expectSettingsDialogPolish(page, viewportName) {
   ) {
     failures.push("[" + viewportName + "] Settings dialog polish regression: " + JSON.stringify(metrics));
   }
-  await page.locator(".settings-close").scrollIntoViewIfNeeded();
-  await page.locator(".settings-close").click();
+  const firstAudio = page.locator(".settings-choice--audio").first();
+  const beforePressed = await firstAudio.getAttribute("aria-pressed");
+  await firstAudio.click();
+  await page.waitForTimeout(120);
+  const afterPressed = await page.locator(".settings-choice--audio").first().getAttribute("aria-pressed");
+  if (beforePressed === afterPressed) {
+    failures.push("[" + viewportName + "] Settings audio toggle did not update after click.");
+  }
+  await page.locator("#player-name-input").fill("Jay");
+  await page.locator(".settings-choice--save").click();
   await page.locator(".settings-dialog").waitFor({ state: "detached", timeout: 2000 });
 }
 
