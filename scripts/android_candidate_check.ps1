@@ -56,7 +56,8 @@ try {
 
   Write-Host ""
   Write-Host "Android candidate check passed."
-  Write-Host "Before the signed Play upload, bump android/app/build.gradle versionCode/versionName and run npm run qa:release:final."
+  Write-Host "Before the signed Play upload, bump android/app/build.gradle versionCode/versionName."
+  Write-Host "Then run scripts/build_android_signed_release_bundle.ps1; it reruns qa:candidate, qa:privacy:live, and qa:release:final before signing."
 } finally {
   Pop-Location
 }

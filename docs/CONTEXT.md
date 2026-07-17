@@ -2849,3 +2849,8 @@ v1 Android decision:
 - Updated `docs/ANDROID_RELEASE_STATUS.md` so the verified candidate output names store listing copy and local privacy policy alignment, not only generic candidate QA.
 - This is a QA/documentation guard for final Play upload readiness; no visible app version bump was needed.
 - Verification: `node --check scripts\\android_release_gate.js`, `npm run qa:release`, and `npm run qa:candidate` all passed. Expected Android final-upload version warnings remain only until the final `versionCode` / `versionName` bump.
+
+### Android Candidate Signed-Upload Guidance Addendum
+- Updated `scripts/android_candidate_check.ps1` so a passing unsigned Android candidate points to the signed upload script, not only the final release-number gate.
+- The final console guidance now matches the real signed path: bump Android `versionCode` / `versionName`, then run `scripts/build_android_signed_release_bundle.ps1`, which reruns `qa:candidate`, `qa:privacy:live`, and `qa:release:final` before signing.
+- Verification: PowerShell parser syntax check passed for `scripts/android_candidate_check.ps1`.
