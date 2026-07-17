@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { COZY_SUPPORT_PRODUCT_ID, getBillingErrorStatus, isCozySupportEntitlement } from "../src/game/billing.js";
-import { getSupportPackStatus } from "../src/ui/settingsView.js";
+import { getSupportPackStatus, getSupportStatusTone } from "../src/ui/settingsView.js";
 
 describe("billing support pack guards", () => {
   it("recognizes the support product across common store response shapes", () => {
@@ -40,5 +40,25 @@ describe("billing support pack guards", () => {
     expect(getSupportPackStatus({ ...baseSupportPack, status: "network-error" })).toContain("network");
     expect(getSupportPackStatus({ ...baseSupportPack, status: "failed" })).toContain("could not finish");
     expect(getSupportPackStatus({ ...baseSupportPack, status: "wrong-product" })).toContain("could not finish");
+  });
+
+  it("separates support pack status tones for player feedback", () => {
+    const baseSupportPack = {
+      available: true,
+      owned: false,
+      loading: false,
+      priceString: "$0.99",
+      spoons: 250
+    };
+
+    expect(getSupportStatusTone({ ...baseSupportPack, loading: true })).toBe("checking");
+    expect(getSupportStatusTone({ ...baseSupportPack, owned: true })).toBe("success");
+    expect(getSupportStatusTone({ ...baseSupportPack, status: "purchased" })).toBe("success");
+    expect(getSupportStatusTone({ ...baseSupportPack, status: "restored" })).toBe("success");
+    expect(getSupportStatusTone({ ...baseSupportPack, status: "network-error" })).toBe("warning");
+    expect(getSupportStatusTone({ ...baseSupportPack, status: "failed" })).toBe("warning");
+    expect(getSupportStatusTone({ ...baseSupportPack, status: "wrong-product" })).toBe("warning");
+    expect(getSupportStatusTone({ ...baseSupportPack, status: "cancelled" })).toBe("warning");
+    expect(getSupportStatusTone({ ...baseSupportPack, available: false })).toBe("warning");
   });
 });

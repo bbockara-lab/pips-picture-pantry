@@ -169,7 +169,11 @@ function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestor
   body.textContent = getSupportPackBody(supportPack);
 
   const status = document.createElement("p");
-  status.className = "support-pack-card__status";
+  const statusTone = getSupportStatusTone(supportPack);
+  status.className = statusTone
+    ? `support-pack-card__status support-pack-card__status--${statusTone}`
+    : "support-pack-card__status";
+  status.setAttribute("aria-live", "polite");
   status.textContent = getSupportPackStatus(supportPack);
 
   const actions = document.createElement("div");
@@ -227,6 +231,27 @@ export function getSupportPackStatus(supportPack) {
     return t("settings.supportAndroidOnly");
   }
   return t("settings.supportReady");
+}
+
+export function getSupportStatusTone(supportPack) {
+  if (supportPack.loading) {
+    return "checking";
+  }
+  if (supportPack.owned || supportPack.status === "purchased" || supportPack.status === "restored") {
+    return "success";
+  }
+  if (
+    supportPack.status === "cancelled" ||
+    supportPack.status === "not-owned" ||
+    supportPack.status === "network-error" ||
+    supportPack.status === "wrong-product" ||
+    supportPack.status === "failed" ||
+    supportPack.status === "product-unavailable" ||
+    !supportPack.available
+  ) {
+    return "warning";
+  }
+  return "ready";
 }
 
 function getSupportPurchaseLabel(supportPack) {

@@ -2872,6 +2872,12 @@ v1 Android decision:
 - Player-facing copy must avoid words like paid/free tier in the puzzle UI. The app should present this as an optional Pip Support Pack that adds spoons, while Play Store handles the actual purchase sheet.
 - v1 scope remains client-side purchase recognition only. Server-side receipt validation and cross-device account entitlement can be considered after launch if support-pack usage justifies it.
 
+### v0.1.415 Support Pack Status Feedback Guard
+- Bumped the visible app version to v0.1.415 and package version to 0.1.415.
+- Added explicit status tones for the Pip Support Pack card so checking, success, warning, and ready states are visually distinct without introducing hard paid/free tier language.
+- Added `aria-live="polite"` to the support status line and extended unit/mobile QA coverage so purchase, restore, failure, network, and unsupported states keep honest player feedback.
+- This closes one more launch trust gap: if Play Billing is unavailable or a purchase fails, the app now looks intentionally recoverable rather than half-ready.
+
 ### v0.1.414 Billing Failure Copy Guard
 - Bumped the visible app version to v0.1.414 and package version to 0.1.414.
 - Added explicit support-pack status copy for network errors and failed/wrong-product store responses so the settings card never falls back to "ready" after a failed purchase or restore attempt.

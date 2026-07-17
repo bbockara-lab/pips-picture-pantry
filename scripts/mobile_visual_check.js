@@ -539,6 +539,8 @@ async function expectSettingsDialogPolish(page, viewportName) {
             labelText: supportLabel?.textContent?.trim() || "",
             bodyText: supportBody?.textContent?.trim() || "",
             statusText: supportStatus?.textContent?.trim() || "",
+            statusClass: supportStatus?.className || "",
+            statusAriaLive: supportStatus?.getAttribute("aria-live") || "",
             height: supportCard?.getBoundingClientRect().height || 0,
             radius: supportStyle ? parseFloat(supportStyle.borderRadius) : 0,
             background: supportStyle?.backgroundImage || "",
@@ -614,6 +616,8 @@ async function expectSettingsDialogPolish(page, viewportName) {
     !metrics.settingsPolish.supportCard.labelText ||
     !metrics.settingsPolish.supportCard.bodyText ||
     !metrics.settingsPolish.supportCard.statusText ||
+    !/support-pack-card__status--(ready|warning|success|checking)/.test(metrics.settingsPolish.supportCard.statusClass) ||
+    metrics.settingsPolish.supportCard.statusAriaLive !== "polite" ||
     metrics.settingsPolish.supportCard.height < 120 ||
     metrics.settingsPolish.supportCard.radius < 16 ||
     !metrics.settingsPolish.supportCard.background.includes("gradient") ||
