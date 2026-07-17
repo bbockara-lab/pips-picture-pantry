@@ -2830,3 +2830,8 @@ v1 Android decision:
 - Updated `scripts/release_candidate_check.js` so `npm run qa:candidate` keeps an explicit `PPP_QA_PORT` strict, but automatically falls forward from 5173 to the next open local port when the default preview port is already busy.
 - This lets release QA run while a manual preview or browser session is open, reducing false failures during final Android review.
 - Verification: `node --check scripts\release_candidate_check.js`, `npm run qa:release`, and `npm run qa:candidate` all passed. Expected Android final-upload version warnings remain only until the final `versionCode` / `versionName` bump.
+
+### v0.1.385 Pip-Led First-Play Guide Copy Polish
+- Bumped the visible app version to v0.1.385 and made the first-play how-to card read more like Pip speaking beside the player instead of a generic instruction card.
+- Added a dedicated Pip dialogue line above the clue explanation while keeping the existing completed-line safe-X guidance visible.
+- Strengthened mobile visual QA so the polished how-to card now fails if the Pip dialogue line disappears.

@@ -11196,3 +11196,12 @@ img {
   padding-left: 0;
   list-style-position: inside;
 }
+
+/* v0.1.385 Pip-led first-play guide copy polish */
+.how-to-play.visual-guide .how-to-play__pip-line {
+  margin-top: 6px;
+  color: #4c3a3d;
+  font-size: 0.92rem;
+  font-weight: 950;
+  line-height: 1.34;
+}

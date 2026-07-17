@@ -2137,6 +2137,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
           markHeight: parseFloat(markStyle.height) || 0
         };
       }),
+      pipLine: card.querySelector(".how-to-play__pip-line")?.textContent.trim() || "",
       lineHint: card.querySelector(".how-to-play__line-hint")?.textContent.trim() || "",
       clueRowAccentBackground: clueRowAfter?.backgroundImage || "",
       actionAccentContent: actionBefore?.content || "",
@@ -2181,6 +2182,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     howToPlayMetrics.miniCells !== 10 ||
     howToPlayMetrics.autoMarkCells !== 4 ||
     howToPlayMetrics.autoMarkStyles.some((cell) => cell.outlineStyle !== "dashed" || !cell.background.includes("gradient") || cell.markContent === "none" || !cell.markBackground.includes("gradient") || cell.markWidth < 10 || cell.markHeight < 10) ||
+    !howToPlayMetrics.pipLine ||
     !howToPlayMetrics.lineHint ||
     howToPlayMetrics.overflows
   ) {

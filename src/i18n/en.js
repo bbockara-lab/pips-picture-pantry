@@ -144,8 +144,9 @@ export const en = {
     cleanBroken: "Clean bonus missed this run. You can still finish for practice."
   },
   howToPlay: {
-    title: "Picture square guide",
-    goal: "Color that row by the numbers.",
+    title: "Pip's picture tip",
+    pipLine: "I'll watch this row with you. Fill the groups, and the soft X marks will tidy the safe blanks.",
+    goal: "Numbers show how many picture squares belong in each row.",
     clueTogether: "3 together",
     clueApart: "1 each, apart",
     stepFill: "Choose Color, then tap the picture squares.",

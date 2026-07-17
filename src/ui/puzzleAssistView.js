@@ -17,6 +17,7 @@ export function renderHowToPlayCard() {
   const bubble = document.createElement("div");
   bubble.className = "guide-copy guide-pip-scene__bubble";
   appendTextElement(bubble, "p", "section-label", t("howToPlay.title"));
+  appendTextElement(bubble, "p", "how-to-play__pip-line", t("howToPlay.pipLine"));
   appendTextElement(bubble, "p", "", t("howToPlay.goal"));
   appendTextElement(bubble, "p", "how-to-play__line-hint", t("controls.lineCompleteHint"));
   scene.append(pip, bubble);
