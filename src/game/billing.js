@@ -79,7 +79,7 @@ export async function purchaseCozySupportPack() {
       quantity: 1,
       autoAcknowledgePurchases: true
     });
-    if (!isCozySupportTransaction(transaction)) {
+    if (!isCozySupportEntitlement(transaction)) {
       return {
         ok: false,
         status: "wrong-product",
@@ -118,7 +118,7 @@ export async function restoreCozySupportPack() {
     const { purchases } = await NativePurchases.getPurchases({
       productType: PURCHASE_TYPE.INAPP
     });
-    const owned = Array.isArray(purchases) && purchases.some(isCozySupportTransaction);
+    const owned = isCozySupportEntitlement(purchases);
     if (!owned) {
       return {
         ok: false,
@@ -142,11 +142,32 @@ export async function restoreCozySupportPack() {
   }
 }
 
-function isCozySupportTransaction(transaction) {
-  return transaction?.productIdentifier === COZY_SUPPORT_PRODUCT_ID;
+export function isCozySupportEntitlement(payload) {
+  if (!payload) {
+    return false;
+  }
+  if (Array.isArray(payload)) {
+    return payload.some(isCozySupportEntitlement);
+  }
+  if (payload.productIdentifier === COZY_SUPPORT_PRODUCT_ID) {
+    return true;
+  }
+  if (payload.productId === COZY_SUPPORT_PRODUCT_ID || payload.productID === COZY_SUPPORT_PRODUCT_ID) {
+    return true;
+  }
+  if (payload.identifier === COZY_SUPPORT_PRODUCT_ID) {
+    return true;
+  }
+  if (Array.isArray(payload.products) && payload.products.includes(COZY_SUPPORT_PRODUCT_ID)) {
+    return true;
+  }
+  return isCozySupportEntitlement(payload.transaction)
+    || isCozySupportEntitlement(payload.purchase)
+    || isCozySupportEntitlement(payload.purchases)
+    || isCozySupportEntitlement(payload.result);
 }
 
-function getBillingErrorStatus(error) {
+export function getBillingErrorStatus(error) {
   const message = String(error?.message || error || "").toLowerCase();
   if (message.includes("cancel")) {
     return "cancelled";
