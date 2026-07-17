@@ -43,6 +43,7 @@ requireIncludes(billingSource, "@capgo/native-purchases", "src/game/billing.js")
 requireIncludes(billingSource, "NativePurchases.purchaseProduct", "src/game/billing.js");
 requireIncludes(billingSource, "NativePurchases.restorePurchases", "src/game/billing.js");
 requireIncludes(billingSource, "isCozySupportEntitlement", "src/game/billing.js");
+requireIncludes(billingSource, "already-owned", "src/game/billing.js");
 requireIncludes(billingSource, "grantCozySupportPack(\"purchase\")", "src/game/billing.js");
 requireIncludes(billingSource, "grantCozySupportPack(\"restore\")", "src/game/billing.js");
 requireIncludes(manifest, "com.android.vending.BILLING", "AndroidManifest.xml");
@@ -61,6 +62,7 @@ const requiredI18nKeys = [
   "supportCancelled",
   "supportNotFound",
   "supportNetworkError",
+  "supportAlreadyOwned",
   "supportFailed",
   "supportRestore",
   "supportBuy",

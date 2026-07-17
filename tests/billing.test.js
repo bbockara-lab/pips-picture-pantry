@@ -24,6 +24,8 @@ describe("billing support pack guards", () => {
 
   it("maps billing failures to player-safe statuses", () => {
     expect(getBillingErrorStatus(new Error("User canceled the purchase"))).toBe("cancelled");
+    expect(getBillingErrorStatus(new Error("Item already owned"))).toBe("already-owned");
+    expect(getBillingErrorStatus(new Error("ITEM_ALREADY_OWNED"))).toBe("already-owned");
     expect(getBillingErrorStatus(new Error("Network unavailable"))).toBe("network-error");
     expect(getBillingErrorStatus(new Error("Something else"))).toBe("failed");
   });
@@ -38,6 +40,8 @@ describe("billing support pack guards", () => {
     };
 
     expect(getSupportPackStatus({ ...baseSupportPack, status: "network-error" })).toContain("network");
+    expect(getSupportPackStatus({ ...baseSupportPack, status: "already-owned" })).toContain("Google Play");
+    expect(getSupportPackStatus({ ...baseSupportPack, status: "already-owned" })).toContain("Restore");
     expect(getSupportPackStatus({ ...baseSupportPack, status: "failed" })).toContain("could not finish");
     expect(getSupportPackStatus({ ...baseSupportPack, status: "wrong-product" })).toContain("could not finish");
   });
@@ -56,6 +60,7 @@ describe("billing support pack guards", () => {
     expect(getSupportStatusTone({ ...baseSupportPack, status: "purchased" })).toBe("success");
     expect(getSupportStatusTone({ ...baseSupportPack, status: "restored" })).toBe("success");
     expect(getSupportStatusTone({ ...baseSupportPack, status: "network-error" })).toBe("warning");
+    expect(getSupportStatusTone({ ...baseSupportPack, status: "already-owned" })).toBe("warning");
     expect(getSupportStatusTone({ ...baseSupportPack, status: "failed" })).toBe("warning");
     expect(getSupportStatusTone({ ...baseSupportPack, status: "wrong-product" })).toBe("warning");
     expect(getSupportStatusTone({ ...baseSupportPack, status: "cancelled" })).toBe("warning");

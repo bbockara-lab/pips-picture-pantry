@@ -10,6 +10,12 @@
 - Gameplay integrity priorities for the last release push: hint/undo no-refund semantics, replay reward anti-farming, Time Attack score fairness, Pantry placement persistence, and mobile WebView QA.
 - UI/art priorities for the last release push: support pack card polish, store/Pantry item presentation, Pip-led guide dialogs, completion effects, consistent Sunny Spoon/Pip artwork, and no placeholder-looking buttons/icons.
 - Final Android upload remains blocked until `android/app/build.gradle` versionCode/versionName are intentionally bumped beyond the last Play Console upload and the signed AAB passes the final release gate.
+
+### v0.1.416 Support Pack Already-Owned Guard
+
+- Bumped visible app version and package metadata to `v0.1.416`.
+- Added an `already-owned` Billing status so a Google Play non-consumable ownership conflict guides players toward Restore instead of a generic failed request.
+- Extended Billing i18n, unit tests, and release QA guards so this real-store edge case stays player-safe in Android testing.
 Last updated: 2026-07-10
 
 ## Current Launch Strategy Snapshot - 2026-07-10

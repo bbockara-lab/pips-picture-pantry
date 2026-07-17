@@ -172,6 +172,12 @@ export function getBillingErrorStatus(error) {
   if (message.includes("cancel")) {
     return "cancelled";
   }
+  if (
+    (message.includes("already") && (message.includes("own") || message.includes("purchas")))
+    || message.includes("item_already_owned")
+  ) {
+    return "already-owned";
+  }
   if (message.includes("network") || message.includes("offline")) {
     return "network-error";
   }

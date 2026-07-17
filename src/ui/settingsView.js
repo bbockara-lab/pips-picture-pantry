@@ -221,6 +221,9 @@ export function getSupportPackStatus(supportPack) {
   if (supportPack.status === "network-error") {
     return t("settings.supportNetworkError");
   }
+  if (supportPack.status === "already-owned") {
+    return t("settings.supportAlreadyOwned");
+  }
   if (supportPack.status === "wrong-product" || supportPack.status === "failed" || supportPack.status === "product-unavailable") {
     return t("settings.supportFailed");
   }
@@ -244,6 +247,7 @@ export function getSupportStatusTone(supportPack) {
     supportPack.status === "cancelled" ||
     supportPack.status === "not-owned" ||
     supportPack.status === "network-error" ||
+    supportPack.status === "already-owned" ||
     supportPack.status === "wrong-product" ||
     supportPack.status === "failed" ||
     supportPack.status === "product-unavailable" ||

@@ -75,6 +75,7 @@ export const en = {
     supportCancelled: "Purchase was cancelled. You can try again anytime.",
     supportNotFound: "No support pack purchase was found to restore.",
     supportNetworkError: "The store connection is resting. Try again when the network is steady.",
+    supportAlreadyOwned: "This pack may already be on your Google Play account. Tap Restore to bring it back here.",
     supportFailed: "The store could not finish that request. No spoons were spent.",
     supportRestore: "Restore purchase",
     supportBuy: "Support for {price}",
