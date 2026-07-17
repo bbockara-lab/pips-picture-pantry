@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { COZY_SUPPORT_PRODUCT_ID, getBillingErrorStatus, isCozySupportEntitlement } from "../src/game/billing.js";
-import { getSupportPackStatus, getSupportStatusTone } from "../src/ui/settingsView.js";
+import { canPurchaseSupportPack, canRestoreSupportPack, getSupportPackStatus, getSupportStatusTone } from "../src/ui/settingsView.js";
 
 describe("billing support pack guards", () => {
   it("recognizes the support product across common store response shapes", () => {
@@ -65,5 +65,22 @@ describe("billing support pack guards", () => {
     expect(getSupportStatusTone({ ...baseSupportPack, status: "wrong-product" })).toBe("warning");
     expect(getSupportStatusTone({ ...baseSupportPack, status: "cancelled" })).toBe("warning");
     expect(getSupportStatusTone({ ...baseSupportPack, available: false })).toBe("warning");
+  });
+
+  it("keeps restore available when catalog lookup fails but a restore may recover ownership", () => {
+    const baseSupportPack = {
+      available: false,
+      owned: false,
+      loading: false,
+      priceString: "$0.99",
+      spoons: 250
+    };
+
+    expect(canPurchaseSupportPack({ ...baseSupportPack, available: true })).toBe(true);
+    expect(canPurchaseSupportPack({ ...baseSupportPack, status: "product-unavailable" })).toBe(false);
+    expect(canRestoreSupportPack({ ...baseSupportPack, status: "product-unavailable" })).toBe(true);
+    expect(canRestoreSupportPack({ ...baseSupportPack, status: "already-owned" })).toBe(true);
+    expect(canRestoreSupportPack({ ...baseSupportPack, status: "native-store-required" })).toBe(false);
+    expect(canRestoreSupportPack({ ...baseSupportPack, owned: true, status: "already-owned" })).toBe(false);
   });
 });

@@ -31,7 +31,7 @@ import { renderPlayScreen } from "./playScreen.js";
 import { renderFloatingNav } from "./floatingNav.js";
 import { renderGuideDialog } from "./guideDialog.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
-import { renderSettingsDialog } from "./settingsView.js";
+import { canPurchaseSupportPack, canRestoreSupportPack, renderSettingsDialog } from "./settingsView.js";
 import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackElapsedSeconds, TIME_ATTACK_LIMIT_SECONDS, TIME_ATTACK_TRIAL_ROUNDS } from "./timeAttackFlow.js";
 import { renderTimeAttackView } from "./timeAttackView.js";
 
@@ -329,7 +329,7 @@ export function renderApp(root) {
   }
 
   async function buyCozySupportPack() {
-    if (cozySupportState.loading || cozySupportState.owned || !cozySupportState.available) return;
+    if (!canPurchaseSupportPack(cozySupportState)) return;
     cozySupportState = { ...cozySupportState, loading: true, status: "checking" };
     draw();
     const result = await purchaseCozySupportPack();
@@ -342,7 +342,7 @@ export function renderApp(root) {
   }
 
   async function restoreCozySupport() {
-    if (cozySupportState.loading || cozySupportState.owned || !cozySupportState.available) return;
+    if (!canRestoreSupportPack(cozySupportState)) return;
     cozySupportState = { ...cozySupportState, loading: true, status: "checking" };
     draw();
     const result = await restoreCozySupportPack();

@@ -16,6 +16,12 @@
 - Bumped visible app version and package metadata to `v0.1.416`.
 - Added an `already-owned` Billing status so a Google Play non-consumable ownership conflict guides players toward Restore instead of a generic failed request.
 - Extended Billing i18n, unit tests, and release QA guards so this real-store edge case stays player-safe in Android testing.
+
+### v0.1.417 Support Pack Restore Resilience
+
+- Bumped visible app version and package metadata to `v0.1.417`.
+- Split Support Pack purchase and restore button eligibility so a catalog lookup failure cannot block a player from restoring an already-owned Google Play purchase.
+- Reused the same eligibility helpers in Settings rendering and app-shell action guards, with Billing tests and release QA guards covering the shared contract.
 Last updated: 2026-07-10
 
 ## Current Launch Strategy Snapshot - 2026-07-10

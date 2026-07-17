@@ -46,6 +46,10 @@ requireIncludes(billingSource, "isCozySupportEntitlement", "src/game/billing.js"
 requireIncludes(billingSource, "already-owned", "src/game/billing.js");
 requireIncludes(billingSource, "grantCozySupportPack(\"purchase\")", "src/game/billing.js");
 requireIncludes(billingSource, "grantCozySupportPack(\"restore\")", "src/game/billing.js");
+const settingsSource = readProjectFile("src/ui/settingsView.js");
+requireIncludes(settingsSource, "canPurchaseSupportPack", "src/ui/settingsView.js");
+requireIncludes(settingsSource, "canRestoreSupportPack", "src/ui/settingsView.js");
+requireIncludes(settingsSource, "product-unavailable", "src/ui/settingsView.js");
 requireIncludes(manifest, "com.android.vending.BILLING", "AndroidManifest.xml");
 requireIncludes(saveSource, "cozyPassPurchased", "src/game/save.js");
 requireIncludes(saveSource, "grantCozySupportPack", "src/game/save.js");

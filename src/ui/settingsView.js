@@ -183,14 +183,14 @@ function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestor
   purchaseButton.type = "button";
   purchaseButton.className = "tool-button settings-choice settings-choice--support";
   purchaseButton.textContent = getSupportPurchaseLabel(supportPack);
-  purchaseButton.disabled = supportPack.owned || supportPack.loading || !supportPack.available;
+  purchaseButton.disabled = !canPurchaseSupportPack(supportPack);
   purchaseButton.addEventListener("click", onSupportPurchase);
 
   const restoreButton = document.createElement("button");
   restoreButton.type = "button";
   restoreButton.className = "tool-button settings-choice settings-choice--restore";
   restoreButton.textContent = t("settings.supportRestore");
-  restoreButton.disabled = supportPack.loading || supportPack.owned || !supportPack.available;
+  restoreButton.disabled = !canRestoreSupportPack(supportPack);
   restoreButton.addEventListener("click", onSupportRestore);
 
   actions.append(purchaseButton, restoreButton);
@@ -261,4 +261,25 @@ export function getSupportStatusTone(supportPack) {
 function getSupportPurchaseLabel(supportPack) {
   const price = supportPack.priceString || t("settings.supportPricePending");
   return t("settings.supportBuy", { price });
+}
+
+export function canPurchaseSupportPack(supportPack) {
+  return Boolean(supportPack?.available && !supportPack.loading && !supportPack.owned);
+}
+
+export function canRestoreSupportPack(supportPack) {
+  if (!supportPack || supportPack.loading || supportPack.owned) {
+    return false;
+  }
+  if (supportPack.available) {
+    return true;
+  }
+  return [
+    "already-owned",
+    "product-unavailable",
+    "network-error",
+    "failed",
+    "wrong-product",
+    "not-owned"
+  ].includes(supportPack.status);
 }
