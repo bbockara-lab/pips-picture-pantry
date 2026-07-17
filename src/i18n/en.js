@@ -360,9 +360,9 @@ export const en = {
   },
 
   packs: {
-    free: "Free",
+    free: "Included",
     unlockable: "Unlockable",
-    bonusPack: "Bonus pack",
+    bonusPack: "Future set",
     locked: "Locked",
     progress: "{completed}/{total}",
     catalogProgress: "{completed}/{total} done",
@@ -371,7 +371,7 @@ export const en = {
     catalogLargest: "up to {size}x{size}",
     catalogSummary: "{completed} of {total} pictures complete, {large} large boards, up to {size}x{size}",
     preview: "Preview",
-    pricePreview: "Optional add-on",
+    pricePreview: "Preview set",
     unlockCostPrefix: "Open with ",
     openStage: "Open stage",
     paidPackHint: "Future optional sets are hidden until the pantry decoration economy is ready.",
@@ -410,19 +410,19 @@ export const en = {
     },
     "bakery-morning-plus": {
       title: "Bakery Morning Plus",
-      note: "A future paid set for a bakery morning picture"
+      note: "A future optional set for a bakery morning picture"
     },
     "seasonal-pantry-plus": {
       title: "Seasonal Pantry Plus",
-      note: "A future paid set for a seasonal pantry picture"
+      note: "A future optional set for a seasonal pantry picture"
     },
     "village-picnic-plus": {
       title: "Village Picnic Plus",
-      note: "A future paid set for a village picnic picture"
+      note: "A future optional set for a village picnic picture"
     },
     "sunny-festival-plus": {
       title: "Sunny Festival Plus",
-      note: "A future paid set for a Sunny Spoon festival picture"
+      note: "A future optional set for a Sunny Spoon festival picture"
     }
   },
   pantry: {
@@ -581,7 +581,7 @@ export const en = {
     equipToSlot: "Place in {slot}",
     buy: "Buy",
     needMore: "Need {count} spoons",
-    free: "Free",
+    free: "Starter",
     spoonCost: "{count} spoons",
     rewardPlanAria: "Pantry reward flow",
     rewardPlanTitle: "Spoons will become decoration supplies",

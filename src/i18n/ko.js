@@ -358,9 +358,9 @@ export const ko = {
   },
 
   packs: {
-    free: "\ubb34\ub8cc",
+    free: "\uae30\ubcf8 \ud3ec\ud568",
     unlockable: "\uc5f4\uae30",
-    bonusPack: "\ubcf4\ub108\uc2a4 \ud329",
+    bonusPack: "\ub2e4\uc74c \uc138\ud2b8",
     locked: "\uc7a0\uae40",
     progress: "{completed}/{total}",
     catalogProgress: "{completed}/{total} \uc644\ub8cc",
@@ -369,7 +369,7 @@ export const ko = {
     catalogLargest: "\ucd5c\ub300 {size}x{size}",
     catalogSummary: "\uadf8\ub9bc {total}\uc7a5 \uc911 {completed}\uc7a5 \uc644\ub8cc, \ud070 \ud37c\uc990 {large}\uac1c, \ucd5c\ub300 {size}x{size}",
     preview: "\uc608\uace0",
-    pricePreview: "\uc120\ud0dd \ucd94\uac00 \uc138\ud2b8",
+    pricePreview: "\uc608\uace0 \uc138\ud2b8",
     unlockCostPrefix: "\uc5f4\uae30 ",
     openStage: "\uc2a4\ud14c\uc774\uc9c0 \uc5f4\uae30",
     paidPackHint: "\ud32c\ud2b8\ub9ac \uafb8\ubbf8\uae30 \uacbd\uc81c\uac00 \uc900\ube44\ub418\uba74 \uc120\ud0dd \ucd94\uac00 \uc138\ud2b8\ub97c \ubcf4\uc5ec\uc904\uac8c\uc694.",
@@ -408,19 +408,19 @@ export const ko = {
     },
     "bakery-morning-plus": {
       title: "Bakery Morning Plus",
-      note: "\ubca0\uc774\ucee4\ub9ac \uc544\uce68 \uadf8\ub9bc\uc744 \uc5ec\ub294 \ucd94\ud6c4 \uc720\ub8cc \uc138\ud2b8"
+      note: "\ubca0\uc774\ucee4\ub9ac \uc544\uce68 \uadf8\ub9bc\uc744 \uc5ec\ub294 \ucd94\ud6c4 \uc120\ud0dd \uc138\ud2b8"
     },
     "seasonal-pantry-plus": {
       title: "Seasonal Pantry Plus",
-      note: "\uc2dc\uc98c \ud32c\ud2b8\ub9ac \uadf8\ub9bc\uc744 \uc5ec\ub294 \ucd94\ud6c4 \uc720\ub8cc \uc138\ud2b8"
+      note: "\uc2dc\uc98c \ud32c\ud2b8\ub9ac \uadf8\ub9bc\uc744 \uc5ec\ub294 \ucd94\ud6c4 \uc120\ud0dd \uc138\ud2b8"
     },
     "village-picnic-plus": {
       title: "Village Picnic Plus",
-      note: "\ub9c8\uc744 \ud53c\ud06c\ub2c9 \uadf8\ub9bc\uc744 \uc5ec\ub294 \ucd94\ud6c4 \uc720\ub8cc \uc138\ud2b8"
+      note: "\ub9c8\uc744 \ud53c\ud06c\ub2c9 \uadf8\ub9bc\uc744 \uc5ec\ub294 \ucd94\ud6c4 \uc120\ud0dd \uc138\ud2b8"
     },
     "sunny-festival-plus": {
       title: "Sunny Festival Plus",
-      note: "Sunny Spoon \ucd95\uc81c \uadf8\ub9bc\uc744 \uc5ec\ub294 \ucd94\ud6c4 \uc720\ub8cc \uc138\ud2b8"
+      note: "Sunny Spoon \ucd95\uc81c \uadf8\ub9bc\uc744 \uc5ec\ub294 \ucd94\ud6c4 \uc120\ud0dd \uc138\ud2b8"
     }
   },
   pantry: {
@@ -579,7 +579,7 @@ export const ko = {
     equipToSlot: "{slot}에 놓기",
     buy: "구매하기",
     needMore: "스푼 {count}개 부족",
-    free: "무료",
+    free: "기본",
     spoonCost: "스푼 {count}개",
     rewardPlanAria: "팬트리 보상 흐름",
     rewardPlanTitle: "스푼은 꾸미기 재료예요",

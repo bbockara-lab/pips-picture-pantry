@@ -1,5 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { en as englishCopy } from "../src/i18n/en.js";
+import { ko as koreanCopy } from "../src/i18n/ko.js";
 
 const root = process.cwd();
 const errors = [];
@@ -76,6 +78,31 @@ const userVisibleSupportCopy = [
 const forbiddenCopy = /\bpaid\b|\bfree\b|유료|무료/i;
 if (forbiddenCopy.test(userVisibleSupportCopy)) {
   errors.push("Support Pack user-facing copy must not say paid/free/유료/무료.");
+}
+
+const futurePackCopy = [
+  englishCopy.packs.free,
+  englishCopy.packs.bonusPack,
+  englishCopy.packs.pricePreview,
+  englishCopy.packs.paidPackHint,
+  englishCopy.packs["cafe-window-plus"]?.note,
+  englishCopy.packs["bakery-morning-plus"]?.note,
+  englishCopy.packs["seasonal-pantry-plus"]?.note,
+  englishCopy.packs["village-picnic-plus"]?.note,
+  englishCopy.packs["sunny-festival-plus"]?.note,
+  koreanCopy.packs.free,
+  koreanCopy.packs.bonusPack,
+  koreanCopy.packs.pricePreview,
+  koreanCopy.packs.paidPackHint,
+  koreanCopy.packs["cafe-window-plus"]?.note,
+  koreanCopy.packs["bakery-morning-plus"]?.note,
+  koreanCopy.packs["seasonal-pantry-plus"]?.note,
+  koreanCopy.packs["village-picnic-plus"]?.note,
+  koreanCopy.packs["sunny-festival-plus"]?.note
+].filter(Boolean).join("\n");
+
+if (forbiddenCopy.test(futurePackCopy)) {
+  errors.push("Future pack player-facing copy must stay in included/optional-set language, not paid/free/유료/무료.");
 }
 
 for (const [label, source] of [

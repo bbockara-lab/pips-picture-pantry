@@ -61,7 +61,7 @@ describe("i18n", () => {
     expect(t("packs.catalogProgress", { completed: 3, total: 12 })).toBe("3/12 done");
     expect(t("packs.catalogLarge", { count: 7 })).toBe("7 large");
     expect(t("packs.catalogLargest", { size: 12 })).toBe("up to 12x12");
-    expect(t("packs.pricePreview")).toBe("Optional add-on");
+    expect(t("packs.pricePreview")).toBe("Preview set");
     expect(t("seasonProgress.catalogStat", { completed: 3, total: 333 })).toBe("3/333 pictures");
     expect(t("seasonProgress.stageStat", { unlocked: 2, total: 5 })).toBe("2/5 stages open");
     expect(t("seasonProgress.goalReadyTitle", { pack: "Bakery Window" })).toBe("Bakery Window is ready");

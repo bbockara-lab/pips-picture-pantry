@@ -2872,6 +2872,12 @@ v1 Android decision:
 - Player-facing copy must avoid words like paid/free tier in the puzzle UI. The app should present this as an optional Pip Support Pack that adds spoons, while Play Store handles the actual purchase sheet.
 - v1 scope remains client-side purchase recognition only. Server-side receipt validation and cross-device account entitlement can be considered after launch if support-pack usage justifies it.
 
+### v0.1.413 Monetization Copy Guard
+- Bumped the visible app version to v0.1.413 and package version to 0.1.413.
+- Reframed launch-facing pack and Pantry starter labels away from paid/free category language: starter/free items now read as included/basic, and future pack previews read as upcoming optional sets.
+- Hardened qa:billing so support-pack and future-pack player-facing copy is checked from actual i18n values and cannot reintroduce paid/free or Korean paid/free terms.
+- This keeps the v1 economy visible from launch while preserving the cozy, optional support framing.
+
 ### v0.1.412 Pantry Support Pack Discovery
 
 - Bumped the visible app version to v0.1.412 and package version to 0.1.412.
