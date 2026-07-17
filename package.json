@@ -1,6 +1,6 @@
 {
   "name": "pips-picture-pantry",
-  "version": "0.1.385",
+  "version": "0.1.411",
   "private": true,
   "type": "module",
   "scripts": {
@@ -28,6 +28,7 @@
   "dependencies": {
     "@capacitor/android": "^8.4.1",
     "@capacitor/core": "^8.4.1",
+    "@capgo/native-purchases": "^8.6.4",
     "@vitejs/plugin-basic-ssl": "^2.0.0",
     "vite": "^7.0.0"
   },

@@ -2854,3 +2854,10 @@ v1 Android decision:
 - Updated `scripts/android_candidate_check.ps1` so a passing unsigned Android candidate points to the signed upload script, not only the final release-number gate.
 - The final console guidance now matches the real signed path: bump Android `versionCode` / `versionName`, then run `scripts/build_android_signed_release_bundle.ps1`, which reruns `qa:candidate`, `qa:privacy:live`, and `qa:release:final` before signing.
 - Verification: PowerShell parser syntax check passed for `scripts/android_candidate_check.ps1`.
+
+### v0.1.410 - Cozy Support Pack Billing Foundation
+- Direction changed from deferred IAP to a v1-ready optional support purchase, because the first public impression should not teach players that the game has no store economy and then surprise them later.
+- Added the Capacitor 8-compatible @capgo/native-purchases plugin path for Android Google Play Billing, using one non-consumable product ID: pip_cozy_support.
+- The purchase grants the existing COZY_PASS_SPOON_GRANT value of 250 spoons through the existing cozyPassPurchased save field, with a local duplicate guard so purchase/restore cannot double-grant spoons on the same profile.
+- Player-facing copy must avoid words like paid/free tier in the puzzle UI. The app should present this as an optional Pip Support Pack that adds spoons, while Play Store handles the actual purchase sheet.
+- v1 scope remains client-side purchase recognition only. Server-side receipt validation and cross-device account entitlement can be considered after launch if support-pack usage justifies it.

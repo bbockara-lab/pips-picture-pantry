@@ -1619,3 +1619,10 @@ versionName "1.1.0" // or the final public launch version name
 - The lane runs the web candidate gate, Capacitor sync, unsigned Android release bundle build, and AAB output sanity check.
 - Verified the lane exits successfully and produces `android/app/build/outputs/bundle/release/app-release.aab`.
 - Expected pre-final warnings remain: Android `versionCode` / `versionName` still match the last Play upload until the final upload bump.
+
+## Billing / IAP Release Note - 2026-07-16
+
+- v1 Android now includes a minimal optional Google Play Billing path for one non-consumable support product: `pip_cozy_support`.
+- Play Console setup required before final store test: create the managed product, set price, activate it, and test purchase/restore on an internal tester account.
+- Android manifest includes `com.android.vending.BILLING`; Capacitor sync must be run after Billing plugin changes before building an AAB.
+- The app grants 250 spoons once per local profile after purchase or restore. Refund/revocation server reconciliation is deferred to v1.1+ unless Play Console testing exposes a blocking issue.

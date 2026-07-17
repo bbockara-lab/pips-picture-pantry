@@ -7,9 +7,11 @@ import {
   getCompletedPuzzleIds,
   getCompletionDates,
   getCompletedPantryStoryGoalIds,
+  grantCozySupportPack,
   getPackPantryRoomRequirement,
   getPlayerRecords,
   hasActivePlayer,
+  hasCozySupportPack,
   hasSeenGuide,
   getPantrySpoons,
   getPantryStoryGoalId,
@@ -411,5 +413,31 @@ describe("player save profiles", () => {
     expect(buyDecoration(goldenSign)).toBe(false);
     expect(getPantrySpoons()).toBe(22);
   });
+
+  it("grants the cozy support pack once", () => {
+    setActivePlayerName("Jay");
+    saveGame({ ...loadSave(), pantrySpoons: 12 });
+
+    expect(hasCozySupportPack()).toBe(false);
+    expect(grantCozySupportPack("purchase")).toEqual({
+      granted: true,
+      alreadyOwned: false,
+      balance: 262,
+      spoons: 250,
+      source: "purchase"
+    });
+    expect(hasCozySupportPack()).toBe(true);
+    expect(getPantrySpoons()).toBe(262);
+
+    expect(grantCozySupportPack("restore")).toEqual({
+      granted: false,
+      alreadyOwned: true,
+      balance: 262,
+      spoons: 0,
+      source: "restore"
+    });
+    expect(getPantrySpoons()).toBe(262);
+  });
+
 
 });

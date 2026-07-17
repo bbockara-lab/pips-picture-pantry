@@ -29,7 +29,7 @@ Pip's Picture Pantry does not include third-party advertising SDKs, analytics SD
 
 ## In-App Purchases
 
-The current release does not include active in-app purchases. If optional paid content is added in the future, payments will be processed through the official app store platform.
+Pip's Picture Pantry includes an optional in-app support purchase. Payments are processed by the official app store platform. The app does not collect, store, or receive your payment card details.
 
 ## Data Sharing
 

@@ -238,14 +238,17 @@ async function expectPlayerIntroPolish(page, viewportName) {
 
 
 async function dismissGuideIfPresent(page, viewportName) {
-  if ((await page.locator(".guide-overlay").count()) === 0) {
+  const overlay = page.locator(".guide-overlay");
+  try {
+    await overlay.first().waitFor({ state: "visible", timeout: 1200 });
+  } catch {
     return;
   }
   await expectVisible(page, ".guide-dialog", viewportName);
   await expectVisible(page, ".guide-dialog__art img", viewportName);
   await expectGuideDialogChromeArt(page, viewportName);
-  await page.locator(".guide-dialog__skip").click();
-  await page.locator(".guide-overlay").waitFor({ state: "detached", timeout: 2000 });
+  await page.locator(".guide-dialog__skip").first().click({ force: true });
+  await overlay.first().waitFor({ state: "detached", timeout: 3000 });
 }
 
 async function expectGuideDialogChromeArt(page, viewportName) {
@@ -588,6 +591,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
   ) {
     failures.push("[" + viewportName + "] Settings dialog polish regression: " + JSON.stringify(metrics));
   }
+  await page.locator(".settings-close").scrollIntoViewIfNeeded();
   await page.locator(".settings-close").click();
   await page.locator(".settings-dialog").waitFor({ state: "detached", timeout: 2000 });
 }

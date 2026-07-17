@@ -104,3 +104,9 @@ No. The current release has no third-party ads or ad SDKs.
 Login:
 
 No restricted login-gated areas.
+
+## Monetization Disclosure
+
+In-app purchases:
+
+Yes. The release includes one optional support purchase for extra spoons. There are no third-party ads or tracking SDKs.

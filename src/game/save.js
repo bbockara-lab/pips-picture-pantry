@@ -1,4 +1,4 @@
-import { getDailyReplayPickLimit, getDailyTimeAttackLimit, getReplayPickReward, getTimeAttackRecordBonus, getTimeAttackReward } from "../data/economyConfig.js";
+import { ECONOMY, getDailyReplayPickLimit, getDailyTimeAttackLimit, getReplayPickReward, getTimeAttackRecordBonus, getTimeAttackReward } from "../data/economyConfig.js";
 import { isDecorationArtApproved } from "../data/decorations.js";
 import { restoreState, serializeState } from "./puzzleState.js";
 
@@ -80,6 +80,35 @@ export function spendPantrySpoons(cost, reason = "spend") {
   save.pantrySpoons -= normalizedCost;
   saveGame(save);
   return { spent: normalizedCost, balance: save.pantrySpoons, allowed: true, reason };
+}
+
+export function hasCozySupportPack() {
+  return Boolean(loadSave()?.cozyPassPurchased);
+}
+
+export function grantCozySupportPack(source = "purchase") {
+  const save = loadSave() || createEmptySave();
+  if (save.cozyPassPurchased) {
+    return {
+      granted: false,
+      alreadyOwned: true,
+      balance: save.pantrySpoons,
+      spoons: 0,
+      source
+    };
+  }
+
+  const spoons = Math.max(0, Number(ECONOMY.COZY_PASS_SPOON_GRANT) || 0);
+  save.cozyPassPurchased = true;
+  save.pantrySpoons += spoons;
+  saveGame(save);
+  return {
+    granted: true,
+    alreadyOwned: false,
+    balance: save.pantrySpoons,
+    spoons,
+    source
+  };
 }
 
 export function getOwnedDecorationIds() {

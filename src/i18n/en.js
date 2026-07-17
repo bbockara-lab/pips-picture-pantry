@@ -65,6 +65,18 @@ export const en = {
     controlsAuto: "Auto for big boards",
     controlsDirect: "Tap cells",
     controlsCursor: "D-pad",
+    supportTitle: "Pip Support Pack",
+    supportBody: "Support Pip and add {spoons} spoons to your pantry.",
+    supportOwnedBody: "Thank you for supporting Pip. {spoons} spoons already joined your pantry.",
+    supportOwned: "Support pack is active.",
+    supportChecking: "Checking the store connection...",
+    supportAndroidOnly: "The store opens in the Android test build.",
+    supportReady: "Spoons arrive right after purchase.",
+    supportCancelled: "Purchase was cancelled. You can try again anytime.",
+    supportNotFound: "No support pack purchase was found to restore.",
+    supportRestore: "Restore purchase",
+    supportBuy: "Support for {price}",
+    supportPricePending: "store price",
     close: "Done"
   },
   badges: {

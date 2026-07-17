@@ -9,6 +9,7 @@ import {
   getTimeAttackBestScores,
   getTimeAttackDailyCount,
   getReplayDailyCount,
+  hasCozySupportPack,
   hasSeenGuide,
   isPackUnlocked,
   markGuideSeen,
@@ -17,6 +18,7 @@ import {
   setActivePlayerName,
   unlockPack
 } from "../game/save.js";
+import { getCozySupportProduct, purchaseCozySupportPack, restoreCozySupportPack } from "../game/billing.js";
 import { setLanguagePreference } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
 import { renderBadgeShelf, renderFooter, renderHeader, renderPipStrip, renderResetDialog } from "./appChrome.js";
@@ -55,6 +57,8 @@ export function renderApp(root) {
   let timeAttackLastResult = null;
   let activeGuide = null;
   let replayChallenge = false;
+  let cozySupportState = createDefaultCozySupportState();
+  let cozySupportRequestId = 0;
 
   function selectPuzzle(puzzleId, scrollTarget = "puzzle", options = {}) {
     const nextPuzzle = puzzles.find((puzzle) => puzzle.id === puzzleId) || dailyPuzzle;
@@ -243,6 +247,7 @@ export function renderApp(root) {
   function requestSettings() {
     settingsOpen = true;
     resetOpen = false;
+    loadCozySupportProduct();
     draw();
   }
 
@@ -284,6 +289,81 @@ export function renderApp(root) {
   function changeControlMode(mode) {
     controlMode = setControlModePreference(mode);
     draw();
+  }
+
+  function createDefaultCozySupportState(status = "idle") {
+    return {
+      available: false,
+      owned: hasCozySupportPack(),
+      loading: false,
+      priceString: "",
+      spoons: ECONOMY.COZY_PASS_SPOON_GRANT,
+      status
+    };
+  }
+
+  function getSettingsDialogProps() {
+    return {
+      onClose: closeSettings,
+      onLanguageChange: changeLanguage,
+      onPlayerNameChange: changePlayerName,
+      onResetRequest: requestReset,
+      onSfxToggle: changeSfx,
+      onMusicToggle: changeMusic,
+      onControlModeChange: changeControlMode,
+      controlMode,
+      supportPack: cozySupportState,
+      onSupportPurchase: buyCozySupportPack,
+      onSupportRestore: restoreCozySupport
+    };
+  }
+
+  async function loadCozySupportProduct() {
+    const requestId = ++cozySupportRequestId;
+    cozySupportState = { ...cozySupportState, owned: hasCozySupportPack(), loading: true, status: "checking" };
+    draw();
+    const result = await getCozySupportProduct();
+    if (requestId !== cozySupportRequestId) return;
+    cozySupportState = normalizeCozySupportState(result, result?.reason || "ready");
+    draw();
+  }
+
+  async function buyCozySupportPack() {
+    if (cozySupportState.loading || cozySupportState.owned || !cozySupportState.available) return;
+    cozySupportState = { ...cozySupportState, loading: true, status: "checking" };
+    draw();
+    const result = await purchaseCozySupportPack();
+    cozySupportState = normalizeCozySupportState({ ...cozySupportState, ...result }, result.status || "failed");
+    if (result.ok) {
+      await loadCozySupportProduct();
+      return;
+    }
+    draw();
+  }
+
+  async function restoreCozySupport() {
+    if (cozySupportState.loading || cozySupportState.owned || !cozySupportState.available) return;
+    cozySupportState = { ...cozySupportState, loading: true, status: "checking" };
+    draw();
+    const result = await restoreCozySupportPack();
+    cozySupportState = normalizeCozySupportState({ ...cozySupportState, ...result }, result.status || "failed");
+    if (result.ok) {
+      await loadCozySupportProduct();
+      return;
+    }
+    draw();
+  }
+
+  function normalizeCozySupportState(result, status = "idle") {
+    const product = result?.product || {};
+    return {
+      available: Boolean(result?.available),
+      owned: Boolean(result?.owned) || hasCozySupportPack(),
+      loading: false,
+      priceString: product.priceString || cozySupportState.priceString || "",
+      spoons: product.spoonGrant || ECONOMY.COZY_PASS_SPOON_GRANT,
+      status
+    };
   }
 
   function requestUnlockPack(packId) {
@@ -376,7 +456,9 @@ export function renderApp(root) {
       activeGuide,
       onReplayPick: (puzzleId) => selectPuzzle(puzzleId, "puzzle", { replayChallenge: true }),
       onCloseGuide: closeGuide,
-      onPantryFirstPurchase: requestPantryFirstPurchaseGuide
+      onPantryFirstPurchase: requestPantryFirstPurchaseGuide,
+      settingsDialogProps: getSettingsDialogProps(),
+      timeAttackLimitSeconds: TIME_ATTACK_LIMIT_SECONDS
     });
     root.appendChild(shell);
     scrollAfterDraw(root);
@@ -455,7 +537,8 @@ function createShell({
   timeAttackLastResult,
   activeGuide,
   onCloseGuide,
-  onPantryFirstPurchase
+  onPantryFirstPurchase,
+  settingsDialogProps
 }) {
   const shell = document.createElement("main");
   shell.className = "app-shell";
@@ -486,7 +569,7 @@ function createShell({
       replayPicked
     }));
     if (settingsOpen) {
-      shell.appendChild(renderSettingsDialog({ onClose: onCloseSettings, onLanguageChange, onPlayerChange, onSfxChange, onMusicChange, controlMode, onControlModeChange }));
+      shell.appendChild(renderSettingsDialog(settingsDialogProps));
     }
     if (activeGuide) {
       shell.appendChild(renderGuideDialog(activeGuide, onCloseGuide));
@@ -546,7 +629,7 @@ function createShell({
   }
 
   if (settingsOpen) {
-    shell.appendChild(renderSettingsDialog({ onClose: onCloseSettings, onLanguageChange, onPlayerChange, onSfxChange, onMusicChange, controlMode, onControlModeChange }));
+    shell.appendChild(renderSettingsDialog(settingsDialogProps));
   }
 
   if (activeGuide) {

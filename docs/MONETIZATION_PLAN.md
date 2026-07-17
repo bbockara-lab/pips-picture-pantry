@@ -50,3 +50,15 @@ Current implementation response:
 - Added one unlockable 10x10 data entry as structure only; no paid gate or billing UI exists yet.
 
 Near-term monetization posture remains unchanged: no forced ads, no energy, no lives, no timers, no gacha, and no purchase prompts during puzzle play.
+
+## v1 Cozy Support Pack Update - 2026-07-16
+
+The v1 Android release should include a small optional support purchase rather than launching with no visible store economy.
+
+- Product ID: `pip_cozy_support`.
+- Type: one-time non-consumable support pack.
+- Suggested price: about USD 0.99 / KRW 1,100, finalized in Play Console.
+- Reward: 250 spoons through `COZY_PASS_SPOON_GRANT`.
+- UX rule: present it as supporting Pip and adding spoons, not as a hard paywall or paid tier.
+- v1 validation: client-side Google Play Billing result plus local duplicate guard. Server validation is deferred until v1.1+ if needed.
+- Ads remain deferred.

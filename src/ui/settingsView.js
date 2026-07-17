@@ -9,7 +9,10 @@ export function renderSettingsDialog({
   onSfxChange,
   onMusicChange,
   controlMode,
-  onControlModeChange
+  onControlModeChange,
+  supportPack = null,
+  onSupportPurchase = () => {},
+  onSupportRestore = () => {}
 }) {
   const overlay = createModalBackdrop();
   const preference = getLanguagePreference();
@@ -112,13 +115,23 @@ export function renderSettingsDialog({
     createAudioToggle(t("settings.music"), audio.music, onMusicChange)
   );
 
+  const supportGroup = supportPack ? createSupportPackCard({
+    supportPack,
+    onSupportPurchase,
+    onSupportRestore
+  }) : null;
+
   const closeButton = document.createElement("button");
   closeButton.type = "button";
   closeButton.className = "tool-button settings-choice settings-choice--close settings-close";
   closeButton.textContent = t("settings.close");
   closeButton.addEventListener("click", onClose);
 
-  dialog.append(group, playerForm, controlGroup, audioGroup, closeButton);
+  dialog.append(group, playerForm, controlGroup, audioGroup);
+  if (supportGroup) {
+    dialog.appendChild(supportGroup);
+  }
+  dialog.appendChild(closeButton);
   overlay.appendChild(dialog);
   return overlay;
 }
@@ -140,4 +153,77 @@ function createModalBackdrop() {
   overlay.className = "modal-backdrop";
   overlay.setAttribute("role", "presentation");
   return overlay;
+}
+
+
+function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestore }) {
+  const group = document.createElement("div");
+  group.className = supportPack.owned ? "support-pack-card support-pack-card--owned" : "support-pack-card";
+
+  const label = document.createElement("p");
+  label.className = "section-label";
+  label.textContent = t("settings.supportTitle");
+
+  const body = document.createElement("p");
+  body.className = "support-pack-card__body";
+  body.textContent = getSupportPackBody(supportPack);
+
+  const status = document.createElement("p");
+  status.className = "support-pack-card__status";
+  status.textContent = getSupportPackStatus(supportPack);
+
+  const actions = document.createElement("div");
+  actions.className = "support-pack-card__actions";
+
+  const purchaseButton = document.createElement("button");
+  purchaseButton.type = "button";
+  purchaseButton.className = "tool-button settings-choice settings-choice--support";
+  purchaseButton.textContent = getSupportPurchaseLabel(supportPack);
+  purchaseButton.disabled = supportPack.owned || supportPack.loading || !supportPack.available;
+  purchaseButton.addEventListener("click", onSupportPurchase);
+
+  const restoreButton = document.createElement("button");
+  restoreButton.type = "button";
+  restoreButton.className = "tool-button settings-choice settings-choice--restore";
+  restoreButton.textContent = t("settings.supportRestore");
+  restoreButton.disabled = supportPack.loading || supportPack.owned || !supportPack.available;
+  restoreButton.addEventListener("click", onSupportRestore);
+
+  actions.append(purchaseButton, restoreButton);
+  group.append(label, body, status, actions);
+  return group;
+}
+
+function getSupportPackBody(supportPack) {
+  if (supportPack.owned) {
+    return t("settings.supportOwnedBody", { spoons: supportPack.spoons });
+  }
+  return t("settings.supportBody", { spoons: supportPack.spoons });
+}
+
+function getSupportPackStatus(supportPack) {
+  if (supportPack.loading) {
+    return t("settings.supportChecking");
+  }
+  if (supportPack.owned) {
+    return t("settings.supportOwned");
+  }
+  if (supportPack.status === "cancelled") {
+    return t("settings.supportCancelled");
+  }
+  if (supportPack.status === "not-owned") {
+    return t("settings.supportNotFound");
+  }
+  if (supportPack.status === "purchased" || supportPack.status === "restored") {
+    return t("settings.supportReady");
+  }
+  if (!supportPack.available) {
+    return t("settings.supportAndroidOnly");
+  }
+  return t("settings.supportReady");
+}
+
+function getSupportPurchaseLabel(supportPack) {
+  const price = supportPack.priceString || t("settings.supportPricePending");
+  return t("settings.supportBuy", { price });
 }
