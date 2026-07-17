@@ -201,7 +201,7 @@ function getSupportPackBody(supportPack) {
   return t("settings.supportBody", { spoons: supportPack.spoons });
 }
 
-function getSupportPackStatus(supportPack) {
+export function getSupportPackStatus(supportPack) {
   if (supportPack.loading) {
     return t("settings.supportChecking");
   }
@@ -213,6 +213,12 @@ function getSupportPackStatus(supportPack) {
   }
   if (supportPack.status === "not-owned") {
     return t("settings.supportNotFound");
+  }
+  if (supportPack.status === "network-error") {
+    return t("settings.supportNetworkError");
+  }
+  if (supportPack.status === "wrong-product" || supportPack.status === "failed" || supportPack.status === "product-unavailable") {
+    return t("settings.supportFailed");
   }
   if (supportPack.status === "purchased" || supportPack.status === "restored") {
     return t("settings.supportReady");

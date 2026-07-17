@@ -2872,6 +2872,12 @@ v1 Android decision:
 - Player-facing copy must avoid words like paid/free tier in the puzzle UI. The app should present this as an optional Pip Support Pack that adds spoons, while Play Store handles the actual purchase sheet.
 - v1 scope remains client-side purchase recognition only. Server-side receipt validation and cross-device account entitlement can be considered after launch if support-pack usage justifies it.
 
+### v0.1.414 Billing Failure Copy Guard
+- Bumped the visible app version to v0.1.414 and package version to 0.1.414.
+- Added explicit support-pack status copy for network errors and failed/wrong-product store responses so the settings card never falls back to "ready" after a failed purchase or restore attempt.
+- Exported the support-pack status resolver for focused tests, added billing coverage for failed store request copy, and extended `qa:billing` to require the new player-safe status keys.
+- This keeps the launch purchase path honest: cancelled, missing, offline, and failed flows remain clearly recoverable, with no implication that spoons were spent.
+
 ### v0.1.413 Monetization Copy Guard
 - Bumped the visible app version to v0.1.413 and package version to 0.1.413.
 - Reframed launch-facing pack and Pantry starter labels away from paid/free category language: starter/free items now read as included/basic, and future pack previews read as upcoming optional sets.

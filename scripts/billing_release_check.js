@@ -60,6 +60,8 @@ const requiredI18nKeys = [
   "supportReady",
   "supportCancelled",
   "supportNotFound",
+  "supportNetworkError",
+  "supportFailed",
   "supportRestore",
   "supportBuy",
   "supportPricePending"

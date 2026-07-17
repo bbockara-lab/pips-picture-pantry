@@ -74,6 +74,8 @@ export const en = {
     supportReady: "Spoons arrive right after purchase.",
     supportCancelled: "Purchase was cancelled. You can try again anytime.",
     supportNotFound: "No support pack purchase was found to restore.",
+    supportNetworkError: "The store connection is resting. Try again when the network is steady.",
+    supportFailed: "The store could not finish that request. No spoons were spent.",
     supportRestore: "Restore purchase",
     supportBuy: "Support for {price}",
     supportPricePending: "store price",

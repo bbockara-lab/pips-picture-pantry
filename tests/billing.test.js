@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { COZY_SUPPORT_PRODUCT_ID, getBillingErrorStatus, isCozySupportEntitlement } from "../src/game/billing.js";
+import { getSupportPackStatus } from "../src/ui/settingsView.js";
 
 describe("billing support pack guards", () => {
   it("recognizes the support product across common store response shapes", () => {
@@ -25,5 +26,19 @@ describe("billing support pack guards", () => {
     expect(getBillingErrorStatus(new Error("User canceled the purchase"))).toBe("cancelled");
     expect(getBillingErrorStatus(new Error("Network unavailable"))).toBe("network-error");
     expect(getBillingErrorStatus(new Error("Something else"))).toBe("failed");
+  });
+
+  it("keeps failed store requests out of the ready status copy", () => {
+    const baseSupportPack = {
+      available: true,
+      owned: false,
+      loading: false,
+      priceString: "$0.99",
+      spoons: 250
+    };
+
+    expect(getSupportPackStatus({ ...baseSupportPack, status: "network-error" })).toContain("network");
+    expect(getSupportPackStatus({ ...baseSupportPack, status: "failed" })).toContain("could not finish");
+    expect(getSupportPackStatus({ ...baseSupportPack, status: "wrong-product" })).toContain("could not finish");
   });
 });
