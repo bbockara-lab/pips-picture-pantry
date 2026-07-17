@@ -2839,3 +2839,7 @@ v1 Android decision:
 ### Guide Dialog Text QA Guard
 - Strengthened mobile visual QA so Pip guide dialogs now fail if the eyebrow, title, or body copy disappears while the chrome art and button frame remain visible.
 - This is a QA-only guard for the launch polish phase; no visible app version bump was needed.
+
+### Time Attack Guide Story QA Guard
+- Strengthened mobile visual QA so the Time Attack first-run guide now validates all three story beats: mode framing, limited hints plus spoon continuation, and record chasing versus spoon saving.
+- This is a QA-only guard for the launch polish phase; no visible app version bump was needed.

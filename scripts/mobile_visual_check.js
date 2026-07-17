@@ -1831,6 +1831,13 @@ async function expectTimeAttackGuideCopy(page, viewportName) {
     failures.push("[" + viewportName + "] Time Attack guide should explain limited hints and spoon continuation, saw " + hintStepText);
   }
 
+  await page.locator(".guide-dialog__next").click();
+  const recordStepText = await page.locator(".guide-dialog__bubble").first().innerText();
+  const mentionsRecord = /record|best|\uAE30\uB85D/i.test(recordStepText);
+  const mentionsChoice = /pantry|spoon|\uD32C\uD2B8\uB9AC|\uC2A4\uD47C/i.test(recordStepText);
+  if (!mentionsRecord || !mentionsChoice) {
+    failures.push("[" + viewportName + "] Time Attack guide final step should frame record chasing versus spoon saving, saw " + recordStepText);
+  }
   await page.locator(".guide-dialog__skip").click();
   await overlay.waitFor({ state: "detached", timeout: 2000 });
 }
