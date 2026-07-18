@@ -2982,3 +2982,6 @@ Current launch direction:
 ### Support Pack Visible Copy QA Guard
 - Mobile visual QA now verifies that the Settings Support Pack card renders with both support and restore actions, keeps the 250-spoon value visible, and does not expose paid/free tier wording in player-facing copy.
 - This closes the remaining Billing UI wiring gap before real Play Console product testing: code paths, startup restore sync, and visible support-card copy are now guarded locally.
+### Android Candidate Billing Reminder Guard
+- The Android candidate script now prints the Billing product activation and real-device purchase/restore evidence requirement immediately after the unsigned candidate AAB check passes.
+- This mirrors the hard `qa:release:final` gate, but surfaces the reminder earlier so the final signed upload is not blocked by a forgotten Play Console product setup step.
