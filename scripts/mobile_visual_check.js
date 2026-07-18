@@ -474,6 +474,8 @@ async function expectSettingsDialogPolish(page, viewportName) {
     const backdrop = document.querySelector(".modal-backdrop");
     const dialog = document.querySelector(".settings-dialog");
     const dialogRect = dialog?.getBoundingClientRect();
+    const backdropStyle = backdrop ? getComputedStyle(backdrop) : null;
+    const dialogStyle = dialog ? getComputedStyle(dialog) : null;
     const overflowItems = [...document.querySelectorAll(".settings-dialog button, .settings-dialog input")]
       .filter((el) => {
         const rect = el.getBoundingClientRect();
@@ -484,6 +486,9 @@ async function expectSettingsDialogPolish(page, viewportName) {
     return {
       height: dialogRect?.height || 0,
       backdropPaddingBottom: backdrop ? parseFloat(getComputedStyle(backdrop).paddingBottom) : 0,
+      backdropClass: backdrop?.className || "",
+      backdropOverflowY: backdropStyle?.overflowY || "",
+      dialogOverflowY: dialogStyle?.overflowY || "",
       overflowItems,
       settingsPolish: (() => {
         const active = document.querySelector(".settings-dialog .language-option.active");
@@ -634,7 +639,10 @@ async function expectSettingsDialogPolish(page, viewportName) {
   });
   if (
     metrics.height > viewport.height - 24 ||
-    metrics.backdropPaddingBottom < 18 ||
+    !metrics.backdropClass.includes("modal-backdrop--settings") ||
+    metrics.backdropPaddingBottom < 14 ||
+    metrics.backdropOverflowY !== "auto" ||
+    metrics.dialogOverflowY !== "auto" ||
     metrics.overflowItems.length ||
     metrics.settingsPolish.dialogRadius < 16 ||
     !metrics.settingsPolish.dialogBackground.includes("linear-gradient") ||

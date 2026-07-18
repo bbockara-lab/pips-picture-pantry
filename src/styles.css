@@ -11464,6 +11464,37 @@ img {
     linear-gradient(180deg, #ffe698, #f1bc54);
 }
 
+/* v0.1.428 settings billing sheet viewport guard */
+.modal-backdrop--settings {
+  place-items: start center;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-top: 14px;
+  padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+}
+
+.modal-backdrop--settings .settings-dialog {
+  max-height: calc(100dvh - 28px - env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.modal-backdrop--settings .settings-choice--close {
+  position: static;
+  margin-top: 14px;
+}
+
+.modal-backdrop--settings .settings-dialog::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-backdrop--settings .settings-dialog::-webkit-scrollbar-thumb {
+  border: 2px solid rgba(255, 250, 235, 0.9);
+  border-radius: 999px;
+  background: rgba(122, 78, 53, 0.24);
+}
+
 /* v0.1.427 mobile visual recovery for opening, guide, and play controls */
 .brand-intro__promise-strip .brand-intro__promise-chip {
   display: inline-grid;

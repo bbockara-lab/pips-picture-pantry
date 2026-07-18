@@ -3047,3 +3047,9 @@ Current launch direction:
 - The current tactile CSS symbols are functional enough for layout recovery, but they are not the final art standard.
 - Before release sign-off, shared controls should receive a reusable artwork pass: paint/fill, blank X, undo, hint spoon, Time Attack, Settings/reset, stage navigation, and cursor/D-pad arrows.
 - The priority order remains structure first, then artwork consolidation. This avoids disrupting the release QA spine while preserving the final quality bar: every repeated symbol should feel like Sunny Spoon Studios art, not a placeholder button glyph.
+
+### v0.1.428 Settings Billing Sheet Recovery
+- Bumped the visible app version to v0.1.428 and package version to 0.1.428.
+- Added a settings-specific modal backdrop class so the longer Settings/Billing surface behaves like a mobile sheet without changing reset or guide dialogs.
+- The Settings dialog now stays inside the viewport with its own scroll area, keeping the Done button and Billing cards from visually blending into the underlying puzzle screen.
+- Updated the visual review pack to scroll to the Support Pack card before capturing the Settings Billing surface, and strengthened mobile QA so the settings backdrop/dialog scroll contract is guarded.

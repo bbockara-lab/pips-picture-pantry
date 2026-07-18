@@ -17,6 +17,7 @@ export function renderSettingsDialog({
   onSpoonJarPurchase = () => {}
 }) {
   const overlay = createModalBackdrop();
+  overlay.classList.add("modal-backdrop--settings");
   const preference = getLanguagePreference();
   const playerName = getActivePlayerName();
   const audio = getAudioPreferences();

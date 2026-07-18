@@ -185,7 +185,8 @@ async function seedReturningPlayer(page) {
 
 async function captureSettings(page) {
   await page.locator('button[aria-label="Settings"], button[aria-label="설정"]').first().click();
-  await capture(page, "settings-billing-store", ".settings-dialog", { fullPage: true });
+  await page.locator(".support-pack-card--support").first().scrollIntoViewIfNeeded();
+  await capture(page, "settings-billing-store", ".modal-backdrop--settings", { settleMs: 320 });
   await page.locator(".settings-close").click();
 }
 
