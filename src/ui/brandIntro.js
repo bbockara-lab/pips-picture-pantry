@@ -61,7 +61,13 @@ export function renderBrandIntro(root) {
     globalThis.setTimeout(() => intro.remove(), INTRO_EXIT_MS);
   };
 
-  const requestPlayerName = () => {
+  const dispatchIntroOpenView = (view) => {
+    if (view) {
+      window.dispatchEvent(new CustomEvent("ppp:intro-open-view", { detail: { view } }));
+    }
+  };
+
+  const requestPlayerName = (pendingView = null) => {
     content.classList.add("name-stage");
     replaceChildren(content, buildKeyVisual(true), buildSeal(), textElement("p", "brand-intro__studio", t("app.studioName")));
     appendTextElement(content, "h2", "", t("playerIntro.title"));
@@ -101,17 +107,29 @@ export function renderBrandIntro(root) {
       event.preventDefault();
       setActivePlayerName(new FormData(form).get("playerName"));
       window.dispatchEvent(new CustomEvent("ppp:player-changed"));
+      dispatchIntroOpenView(pendingView);
       dismiss();
     });
     globalThis.setTimeout(() => input.focus(), 50);
   };
 
-  content.querySelector("button").addEventListener("click", () => {
+  content.querySelector(".brand-intro__skip").addEventListener("click", () => {
     if (hasActivePlayer()) {
       dismiss();
       return;
     }
     requestPlayerName();
+  });
+  content.querySelectorAll(".brand-intro__promise-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const targetView = chip.dataset.targetView;
+      if (hasActivePlayer()) {
+        dispatchIntroOpenView(targetView);
+        dismiss();
+        return;
+      }
+      requestPlayerName(targetView);
+    });
   });
 
   if (prefersReducedMotion()) {
@@ -132,9 +150,9 @@ function renderGameIdentity(content) {
   promiseStrip.className = "brand-intro__promise-strip";
   promiseStrip.setAttribute("aria-label", t("brandIntro.promiseLabel"));
   promiseStrip.append(
-    buildPromiseChip("brand-intro__promise-chip--puzzle", t("brandIntro.promisePuzzle")),
-    buildPromiseChip("brand-intro__promise-chip--pantry", t("brandIntro.promiseDecorate")),
-    buildPromiseChip("brand-intro__promise-chip--time", t("brandIntro.promiseTimeAttack")),
+    buildPromiseChip("brand-intro__promise-chip--puzzle", t("brandIntro.promisePuzzle"), "puzzle"),
+    buildPromiseChip("brand-intro__promise-chip--pantry", t("brandIntro.promiseDecorate"), "pantry"),
+    buildPromiseChip("brand-intro__promise-chip--time", t("brandIntro.promiseTimeAttack"), "timeAttack"),
   );
   content.appendChild(promiseStrip);
   appendTextElement(content, "p", "brand-intro__version", t("app.versionLabel", { version: APP_VERSION }));
@@ -168,9 +186,12 @@ function buildSeal() {
   return seal;
 }
 
-function buildPromiseChip(modifierClass, label) {
-  const chip = document.createElement("span");
+function buildPromiseChip(modifierClass, label, targetView) {
+  const chip = document.createElement("button");
   chip.className = `brand-intro__promise-chip ${modifierClass}`;
+  chip.type = "button";
+  chip.dataset.targetView = targetView;
+  chip.setAttribute("aria-label", label);
   const icon = document.createElement("i");
   icon.setAttribute("aria-hidden", "true");
   chip.appendChild(icon);

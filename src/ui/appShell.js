@@ -36,6 +36,7 @@ import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSess
 import { renderTimeAttackView } from "./timeAttackView.js";
 
 const DAILY_BONUS = ECONOMY.DAILY_BONUS;
+let introOpenViewHandler = null;
 
 export function renderApp(root) {
   const dailyPuzzle = getDailyPuzzle(getDailyPuzzleCandidates());
@@ -344,6 +345,13 @@ export function renderApp(root) {
     draw();
   }
 
+  function selectIntroView(view) {
+    if (!["puzzle", "pantry", "timeAttack"].includes(view)) {
+      return;
+    }
+    selectView(view);
+  }
+
   async function buySpoonJarSmall() {
     if (!canPurchaseSpoonJar(spoonJarState)) return;
     spoonJarState = { ...spoonJarState, loading: true, status: "checking" };
@@ -543,6 +551,11 @@ export function renderApp(root) {
   }
 
   syncCozySupportOnStartup();
+  if (introOpenViewHandler) {
+    window.removeEventListener("ppp:intro-open-view", introOpenViewHandler);
+  }
+  introOpenViewHandler = (event) => selectIntroView(event.detail?.view);
+  window.addEventListener("ppp:intro-open-view", introOpenViewHandler);
   draw();
 }
 

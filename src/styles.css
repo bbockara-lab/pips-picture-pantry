@@ -11545,6 +11545,7 @@ img {
 }
 
 .brand-intro__promise-strip .brand-intro__promise-chip {
+  appearance: none;
   grid-template-columns: 34px minmax(0, 1fr);
   min-height: 48px;
   border-color: rgba(68, 42, 47, 0.24);
@@ -11558,6 +11559,8 @@ img {
     0 12px 18px rgba(122, 78, 53, 0.12),
     inset 0 2px 0 rgba(255, 255, 255, 0.86),
     inset 0 -4px 0 rgba(122, 78, 53, 0.07);
+  cursor: pointer;
+  font: inherit;
 }
 
 .brand-intro__promise-strip .brand-intro__promise-chip::after {
@@ -11674,6 +11677,11 @@ img {
 .brand-intro__promise-chip b {
   font-size: clamp(0.74rem, 2.2vw, 0.84rem);
   line-height: 1.05;
+}
+
+.brand-intro__promise-chip:focus-visible {
+  outline: 3px solid rgba(153, 218, 190, 0.88);
+  outline-offset: 3px;
 }
 
 @media (max-height: 880px) {

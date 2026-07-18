@@ -3064,3 +3064,9 @@ Current launch direction:
 - Bumped the visible app version to v0.1.430 and package version to 0.1.430.
 - Polished the opening screen's puzzle, pantry, and time-attack promise chips so their embedded symbols read as reusable Sunny Spoon Studios UI artwork rather than temporary button glyphs.
 - Kept navigation behavior unchanged for this slice; direct mode entry from the opening screen remains a separate UX decision after the release shell is stable.
+
+### v0.1.431 Opening Mode Chip Entry Wiring
+- Bumped the visible app version to v0.1.431 and package version to 0.1.431.
+- Converted the opening promise chips into real buttons: puzzle opens the puzzle hub, pantry opens the pantry goals/shop path, and time attack opens the Time Attack panel.
+- Kept first-run player naming intact by deferring the selected destination until after the name form submits, then dispatching the same app-shell navigation event.
+- Added explicit button reset/focus styling for the chips so they remain tactile artwork while becoming discoverable entry points.
