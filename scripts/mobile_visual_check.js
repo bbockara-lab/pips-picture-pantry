@@ -401,6 +401,9 @@ async function expectOpeningIntroPolish(page, viewportName) {
     return {
       width: rect.width,
       height: rect.height,
+      top: rect.top,
+      bottom: rect.bottom,
+      viewportHeight: window.innerHeight,
       borderWidth: parseFloat(style.borderTopWidth),
       borderRadius: parseFloat(style.borderRadius),
       backgroundImage: style.backgroundImage,
@@ -418,7 +421,8 @@ async function expectOpeningIntroPolish(page, viewportName) {
   });
   const hasStartShine = buttonMetrics.shineContent !== "none" && buttonMetrics.shineHeight >= 10 && buttonMetrics.shineBackground.includes("linear-gradient");
   const hasStartToken = buttonMetrics.tokenContent !== "none" && buttonMetrics.tokenWidth >= 20 && buttonMetrics.tokenHeight >= 20 && buttonMetrics.tokenBackground.includes("linear-gradient") && buttonMetrics.tokenShadow !== "none";
-  if (buttonMetrics.width < 160 || buttonMetrics.height < 56 || buttonMetrics.borderWidth < 4 || buttonMetrics.borderRadius < 16 || !buttonMetrics.backgroundImage.includes("linear-gradient") || buttonMetrics.boxShadow === "none" || buttonMetrics.overflow !== "hidden" || !hasStartShine || !hasStartToken) {
+  const startButtonFitsViewport = buttonMetrics.top >= 0 && buttonMetrics.bottom <= buttonMetrics.viewportHeight - 8;
+  if (buttonMetrics.width < 160 || buttonMetrics.height < 56 || !startButtonFitsViewport || buttonMetrics.borderWidth < 4 || buttonMetrics.borderRadius < 16 || !buttonMetrics.backgroundImage.includes("linear-gradient") || buttonMetrics.boxShadow === "none" || buttonMetrics.overflow !== "hidden" || !hasStartShine || !hasStartToken) {
     failures.push("[" + viewportName + "] Opening start button lost its polished game-button treatment: " + JSON.stringify(buttonMetrics));
   }
   const promiseMetrics = await page.locator(".brand-intro__promise-chip").evaluateAll((chips) => chips.map((chip) => {
@@ -797,6 +801,7 @@ async function expectAppChromePolish(page, viewportName) {
     const menu = document.querySelector(".floating-nav__menu");
     const triggerButton = document.querySelector(".floating-nav__trigger");
     const activeItem = document.querySelector(".floating-nav__item.active");
+    const labels = [...document.querySelectorAll(".floating-nav__item span")].map((label) => label.textContent || "");
     const rect = menu?.getBoundingClientRect();
     const style = menu ? getComputedStyle(menu) : null;
     const triggerBefore = triggerButton ? getComputedStyle(triggerButton, "::before") : null;
@@ -817,9 +822,11 @@ async function expectAppChromePolish(page, viewportName) {
       activeShine: activeBefore?.backgroundImage || "",
       activeToken: activeAfter?.backgroundImage || "",
       activeTokenWidth: parseFloat(activeAfter?.width) || 0,
-      activePaddingLeft: activeItem ? parseFloat(getComputedStyle(activeItem).paddingLeft) || 0 : 0
+      activePaddingLeft: activeItem ? parseFloat(getComputedStyle(activeItem).paddingLeft) || 0 : 0,
+      labels
     };
   });
+  const hasExplicitTimeAttackEntry = navMetrics.labels.some((label) => /Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(label));
   if (
     navMetrics.open !== "true" ||
     navMetrics.left < -1 ||
@@ -832,7 +839,8 @@ async function expectAppChromePolish(page, viewportName) {
     !navMetrics.activeShine.includes("gradient") ||
     !navMetrics.activeToken.includes("gradient") ||
     navMetrics.activeTokenWidth < 8 ||
-    navMetrics.activePaddingLeft < 20
+    navMetrics.activePaddingLeft < 20 ||
+    !hasExplicitTimeAttackEntry
   ) {
     failures.push("[" + viewportName + "] Floating nav panel polish/layout regression: " + JSON.stringify(navMetrics));
   }

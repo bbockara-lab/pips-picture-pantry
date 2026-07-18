@@ -200,6 +200,41 @@ async function captureLargeBoard(page) {
   await capture(page, "large-board-cursor-controls", ".play-screen", { fullPage: true, settleMs: 400 });
 }
 
+async function captureFloatingNavMenu(page) {
+  await dismissGuideIfPresent(page);
+  if ((await page.locator(".floating-nav__trigger").count()) === 0 && (await page.locator(".play-screen__back").count()) > 0) {
+    await page.locator(".play-screen__back").click();
+  }
+  await page.locator(".floating-nav__trigger").first().waitFor({ state: "visible", timeout: 5000 });
+  await page.locator(".floating-nav__trigger").first().click();
+  await page.locator(".floating-nav[data-open='true'] .floating-nav__menu").waitFor({ state: "visible", timeout: 3000 });
+  await capture(page, "main-menu-time-attack-entry", ".floating-nav", { settleMs: 260 });
+  await page.locator(".floating-nav__trigger").first().click();
+}
+
+async function captureKoreanFirstRun(browser) {
+  const page = await browser.newPage({ viewport: manifest.viewport });
+  await page.addInitScript(() => {
+    localStorage.clear();
+    localStorage.setItem("pip-picture-pantry-language", "ko");
+  });
+  try {
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6500 });
+    await capture(page, "ko-opening-brand-intro", ".brand-intro.game-stage");
+    await dismissIntro(page);
+    await page.locator(".app-shell").waitFor({ state: "visible", timeout: 6000 });
+    if ((await page.locator(".guide-overlay").count()) > 0) {
+      await capture(page, "ko-pip-guide-dialog", ".guide-dialog");
+      await dismissGuideIfPresent(page);
+    }
+    await capture(page, "ko-first-puzzle-board", ".play-screen", { fullPage: true });
+    await captureFloatingNavMenu(page);
+  } finally {
+    await page.close();
+  }
+}
+
 async function main() {
   let server = null;
   if (!requestedUrl) {
@@ -232,6 +267,8 @@ async function main() {
       await dismissGuideIfPresent(page);
     }
     await capture(page, "first-puzzle-board", ".play-screen", { fullPage: true });
+    await captureFloatingNavMenu(page);
+    await captureKoreanFirstRun(browser);
 
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await seedReturningPlayer(page);

@@ -28,7 +28,7 @@ export const en = {
     album: "Album",
     pantry: "Pantry",
     map: "Badges",
-    timeAttack: "Time",
+    timeAttack: "Time Attack",
     puzzleHint: "Pick and solve",
     albumHint: "Saved pictures",
     pantryHint: "Decorate goals",

@@ -3036,3 +3036,9 @@ Current launch direction:
 ### Visual Review Guide Addendum
 - Added `docs/VISUAL_REVIEW_GUIDE.md` as the human art/UX review checklist for the screenshot pack.
 - The guide anchors launch review around Pip consistency, tactile UI symbols, Billing copy framing, Pantry goal clarity, and first-play friendliness so visual polish can be judged locally before device-only QA.
+
+### v0.1.427 Mobile Visual Recovery
+- Bumped the visible app version to v0.1.427 and package version to 0.1.427.
+- Added a launch-facing mobile layout recovery layer for the opening promise chips, start CTA, stage navigation card, Pip how-to dialogue card, clue examples, and puzzle control buttons.
+- The patch targets the visual review issues where Korean guide copy collapsed into one-character columns, stage navigation became a narrow vertical strip, and tactile CSS symbols overlapped or read as placeholder UI at mid-width mobile preview sizes.
+- Strengthened mobile visual QA so the opening start CTA must remain fully inside the first mobile viewport instead of merely having polished button chrome.

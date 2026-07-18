@@ -28,7 +28,7 @@ export const ko = {
     album: "\uc568\ubc94",
     pantry: "\ud32c\ud2b8\ub9ac",
     map: "\ubc30\uc9c0",
-    timeAttack: "\ud0c0\uc784",
+    timeAttack: "\ud0c0\uc784\uc5b4\ud0dd",
     puzzleHint: "\uace0\ub974\uace0 \ud480\uae30",
     albumHint: "\uc800\uc7a5\ud55c \uadf8\ub9bc",
     pantryHint: "\uafb8\ubbf8\uae30 \ubaa9\ud45c",
