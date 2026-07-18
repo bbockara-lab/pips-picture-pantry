@@ -3042,3 +3042,8 @@ Current launch direction:
 - Added a launch-facing mobile layout recovery layer for the opening promise chips, start CTA, stage navigation card, Pip how-to dialogue card, clue examples, and puzzle control buttons.
 - The patch targets the visual review issues where Korean guide copy collapsed into one-character columns, stage navigation became a narrow vertical strip, and tactile CSS symbols overlapped or read as placeholder UI at mid-width mobile preview sizes.
 - Strengthened mobile visual QA so the opening start CTA must remain fully inside the first mobile viewport instead of merely having polished button chrome.
+
+### Reusable Control Artwork Direction Addendum
+- The current tactile CSS symbols are functional enough for layout recovery, but they are not the final art standard.
+- Before release sign-off, shared controls should receive a reusable artwork pass: paint/fill, blank X, undo, hint spoon, Time Attack, Settings/reset, stage navigation, and cursor/D-pad arrows.
+- The priority order remains structure first, then artwork consolidation. This avoids disrupting the release QA spine while preserving the final quality bar: every repeated symbol should feel like Sunny Spoon Studios art, not a placeholder button glyph.
