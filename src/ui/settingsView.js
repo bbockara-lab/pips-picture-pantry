@@ -168,6 +168,14 @@ function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestor
   body.className = "support-pack-card__body";
   body.textContent = getSupportPackBody(supportPack);
 
+  const facts = document.createElement("div");
+  facts.className = "support-pack-card__facts";
+  getSupportPackFacts(supportPack).forEach((fact) => {
+    const chip = document.createElement("span");
+    chip.textContent = fact;
+    facts.appendChild(chip);
+  });
+
   const status = document.createElement("p");
   const statusTone = getSupportStatusTone(supportPack);
   status.className = statusTone
@@ -194,7 +202,7 @@ function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestor
   restoreButton.addEventListener("click", onSupportRestore);
 
   actions.append(purchaseButton, restoreButton);
-  group.append(label, body, status, actions);
+  group.append(label, body, facts, status, actions);
   return group;
 }
 
@@ -203,6 +211,14 @@ function getSupportPackBody(supportPack) {
     return t("settings.supportOwnedBody", { spoons: supportPack.spoons });
   }
   return t("settings.supportBody", { spoons: supportPack.spoons });
+}
+
+export function getSupportPackFacts(supportPack) {
+  return [
+    t("settings.supportFactSpoons", { spoons: supportPack?.spoons || 0 }),
+    supportPack?.available ? t("settings.supportFactStore") : t("settings.supportFactAndroid"),
+    t("settings.supportFactRestore")
+  ];
 }
 
 export function getSupportPackStatus(supportPack) {

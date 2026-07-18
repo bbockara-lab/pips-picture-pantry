@@ -69,6 +69,10 @@ const requiredI18nKeys = [
   "supportNetworkError",
   "supportAlreadyOwned",
   "supportFailed",
+  "supportFactSpoons",
+  "supportFactStore",
+  "supportFactAndroid",
+  "supportFactRestore",
   "supportRestore",
   "supportBuy",
   "supportPricePending"

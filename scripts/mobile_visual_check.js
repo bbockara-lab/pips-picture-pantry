@@ -505,6 +505,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
         const supportCard = document.querySelector(".support-pack-card");
         const supportLabel = supportCard?.querySelector(".section-label");
         const supportBody = supportCard?.querySelector(".support-pack-card__body");
+        const supportFacts = [...(supportCard?.querySelectorAll(".support-pack-card__facts span") || [])];
         const supportStatus = supportCard?.querySelector(".support-pack-card__status");
         const supportActions = [...(supportCard?.querySelectorAll("button") || [])];
         const supportStyle = supportCard ? getComputedStyle(supportCard) : null;
@@ -538,6 +539,9 @@ async function expectSettingsDialogPolish(page, viewportName) {
             exists: Boolean(supportCard),
             labelText: supportLabel?.textContent?.trim() || "",
             bodyText: supportBody?.textContent?.trim() || "",
+            factTexts: supportFacts.map((fact) => fact.textContent?.trim() || ""),
+            factHeights: supportFacts.map((fact) => fact.getBoundingClientRect().height || 0),
+            factBackgrounds: supportFacts.map((fact) => getComputedStyle(fact).backgroundImage || ""),
             statusText: supportStatus?.textContent?.trim() || "",
             statusClass: supportStatus?.className || "",
             statusAriaLive: supportStatus?.getAttribute("aria-live") || "",
@@ -615,6 +619,11 @@ async function expectSettingsDialogPolish(page, viewportName) {
     !metrics.settingsPolish.supportCard.exists ||
     !metrics.settingsPolish.supportCard.labelText ||
     !metrics.settingsPolish.supportCard.bodyText ||
+    metrics.settingsPolish.supportCard.factTexts.length !== 3 ||
+    !metrics.settingsPolish.supportCard.factTexts.join(" ").includes("250") ||
+    !metrics.settingsPolish.supportCard.factTexts.join(" ").includes("Restore") ||
+    metrics.settingsPolish.supportCard.factHeights.some((height) => height < 28) ||
+    metrics.settingsPolish.supportCard.factBackgrounds.some((background) => !background.includes("gradient")) ||
     !metrics.settingsPolish.supportCard.statusText ||
     !/support-pack-card__status--(ready|warning|success|checking)/.test(metrics.settingsPolish.supportCard.statusClass) ||
     metrics.settingsPolish.supportCard.statusAriaLive !== "polite" ||

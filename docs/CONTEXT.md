@@ -40,6 +40,12 @@
 - Bumped visible app version and package metadata to `v0.1.419`.
 - Reframed normal and Time Attack hint copy so players see one hint feature: starter hints first, then extra help that uses spoons.
 - Added tests that guard player-facing hint copy against paid/free category wording in English and Korean.
+
+### v0.1.420 Support Pack Value Chips
+
+- Bumped visible app version and package metadata to `v0.1.420`.
+- Added compact value chips to the Pip Support Pack card so the player can see the spoon grant, Google Play path, and restore safety before tapping the store button.
+- Extended Billing and mobile QA guards so the support card keeps a clear, polished purchase value summary without paid/free tier wording.
 Last updated: 2026-07-10
 
 ## Current Launch Strategy Snapshot - 2026-07-10
