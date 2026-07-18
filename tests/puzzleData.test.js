@@ -136,7 +136,13 @@ describe("puzzle data", () => {
 
     expect(puzzles.filter((puzzle) => puzzle.access === "free").length).toBeGreaterThanOrEqual(133);
     expect(puzzlePacks.filter((pack) => pack.access === "unlockable")).toHaveLength(4);
-    expect(puzzlePacks.filter((pack) => pack.access === "bonus-pack")).toHaveLength(5);
+    const bonusPacks = puzzlePacks.filter((pack) => pack.access === "bonus-pack");
+    expect(bonusPacks).toHaveLength(5);
+    bonusPacks.forEach((pack) => {
+      expect(pack.monetizationRole).toBe("future-theme-pack");
+      expect(puzzles.filter((puzzle) => puzzle.packId === pack.id)).toHaveLength(0);
+      expect(pack.id.endsWith("-plus")).toBe(true);
+    });
     expect(puzzlePacks.filter((pack) => pack.muralSet === "pip-portrait")).toHaveLength(5);
     puzzlePacks.filter((pack) => pack.muralSet === "pip-portrait").forEach((pack) => {
       expect(pack.badge?.id).toMatch(/^badge-/);

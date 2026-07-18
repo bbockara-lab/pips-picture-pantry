@@ -43,6 +43,7 @@ for (const viewport of viewports) {
   await expectStageCompleteRewardPolish(page, viewport.name);
   await expectVisible(page, ".pack-block", viewport.name);
   await expectVisible(page, ".pack-block.locked", viewport.name);
+  await expectHiddenBonusPacks(page, viewport.name);
   await expectLockedStageGate(page, viewport.name);
   await expectVisible(page, ".stage-preview", viewport.name);
   await expectStageArtPreviews(page, viewport.name);
@@ -1418,6 +1419,13 @@ async function expectLockedBadgeGate(page, viewportName) {
   const lockedText = await page.locator(".badge-card.locked").first().innerText();
   if (!lockedText.includes("Pantry room step") || !lockedText.includes("0/3")) {
     failures.push("[" + viewportName + "] Locked badge should explain pantry room progress, saw " + lockedText);
+  }
+}
+
+async function expectHiddenBonusPacks(page, viewportName) {
+  const leakCount = await page.locator('.pack-block[data-pack-id$="-plus"], .bonus-pack-panel').count();
+  if (leakCount > 0) {
+    failures.push(`${viewportName}: hidden bonus pack preview leaked into the launch puzzle picker.`);
   }
 }
 

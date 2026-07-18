@@ -2996,3 +2996,8 @@ Current launch direction:
 - Bumped the visible app version to v0.1.424 and package version to 0.1.424.
 - Connected the Small Spoon Jar product to the Settings Billing surface so opening Settings loads both `pip_cozy_support` and `pip_spoon_jar_small`, with separate product identifiers, status copy, and purchase/restore roles.
 - Strengthened Billing and mobile QA so Support Pack remains one-time/restorable, Small Spoon Jar remains repeatable, both cards avoid paid/free wording, and `npm run qa:candidate` only leaves the expected real-device Billing evidence warnings before final signed upload.
+
+### v0.1.425 Hidden Bonus Pack Launch Guard
+- Bumped the visible app version to v0.1.425 and package version to 0.1.425.
+- Locked the five future `bonus-pack` / `*-plus` theme packs behind an explicit launch guard: they remain authored in metadata for later seasonal/store expansion, but they do not render in the puzzle picker until their art, puzzles, and purchase path are ready.
+- Added `npm run qa:bonus-pack`, wired it into `npm run qa:candidate`, and extended mobile/unit coverage so hidden future packs cannot accidentally leak into launch UI while Pantry goals and unlock logic continue to ignore them.

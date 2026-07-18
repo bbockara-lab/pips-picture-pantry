@@ -290,6 +290,7 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack,
 
   puzzlePacks.forEach((pack) => {
     if (pack.access === "bonus-pack") {
+      // Future theme packs stay hidden until their art, puzzles, and store path are ready.
       return;
     }
     const packPuzzles = puzzles.filter((puzzle) => puzzle.packId === pack.id);
