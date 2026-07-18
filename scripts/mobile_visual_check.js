@@ -547,6 +547,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
           audioChoiceCount: audioChoices.length,
           supportCard: {
             exists: Boolean(supportCard),
+            productId: supportCard?.dataset?.billingProduct || "",
             labelText: supportLabel?.textContent?.trim() || "",
             bodyText: supportBody?.textContent?.trim() || "",
             visibleText: supportCard?.innerText?.trim() || "",
@@ -569,6 +570,32 @@ async function expectSettingsDialogPolish(page, viewportName) {
             actionTexts: supportActions.map((button) => button.textContent?.trim() || ""),
             actionHeights: supportActions.map((button) => button.getBoundingClientRect().height),
             actionBackgrounds: supportActions.map((button) => getComputedStyle(button).backgroundImage || "")
+          },
+          spoonJarCard: {
+            exists: Boolean(jarCard),
+            productId: jarCard?.dataset?.billingProduct || "",
+            labelText: jarLabel?.textContent?.trim() || "",
+            bodyText: jarBody?.textContent?.trim() || "",
+            visibleText: jarCard?.innerText?.trim() || "",
+            factTexts: jarFacts.map((fact) => fact.textContent?.trim() || ""),
+            factHeights: jarFacts.map((fact) => fact.getBoundingClientRect().height || 0),
+            factBackgrounds: jarFacts.map((fact) => getComputedStyle(fact).backgroundImage || ""),
+            statusText: jarStatus?.textContent?.trim() || "",
+            statusClass: jarStatus?.className || "",
+            statusAriaLive: jarStatus?.getAttribute("aria-live") || "",
+            height: jarCard?.getBoundingClientRect().height || 0,
+            radius: jarStyle ? parseFloat(jarStyle.borderRadius) : 0,
+            background: jarStyle?.backgroundImage || "",
+            shadow: jarStyle?.boxShadow || "none",
+            shineHeight: jarBefore ? parseFloat(jarBefore.height) : 0,
+            shineBackground: jarBefore?.backgroundImage || "",
+            tokenWidth: jarAfter ? parseFloat(jarAfter.width) : 0,
+            tokenHeight: jarAfter ? parseFloat(jarAfter.height) : 0,
+            tokenBackground: jarAfter?.backgroundImage || "",
+            actionCount: jarActions.length,
+            actionTexts: jarActions.map((button) => button.textContent?.trim() || ""),
+            actionHeights: jarActions.map((button) => button.getBoundingClientRect().height),
+            actionBackgrounds: jarActions.map((button) => getComputedStyle(button).backgroundImage || "")
           },
           choiceGroupCards: [
             document.querySelector(".settings-choice-grid--language"),
@@ -629,6 +656,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.controlChoiceCount !== 3 ||
     metrics.settingsPolish.audioChoiceCount !== 2 ||
     !metrics.settingsPolish.supportCard.exists ||
+    metrics.settingsPolish.supportCard.productId !== "pip_cozy_support" ||
     !metrics.settingsPolish.supportCard.labelText ||
     !metrics.settingsPolish.supportCard.bodyText ||
     metrics.settingsPolish.supportCard.factTexts.length !== 3 ||
@@ -654,6 +682,33 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.supportCard.actionCount !== 2 ||
     metrics.settingsPolish.supportCard.actionHeights.some((height) => height < 44) ||
     metrics.settingsPolish.supportCard.actionBackgrounds.some((background) => !background.includes("gradient")) ||
+    !metrics.settingsPolish.spoonJarCard.exists ||
+    metrics.settingsPolish.spoonJarCard.productId !== "pip_spoon_jar_small" ||
+    !metrics.settingsPolish.spoonJarCard.labelText ||
+    !metrics.settingsPolish.spoonJarCard.bodyText ||
+    metrics.settingsPolish.spoonJarCard.factTexts.length !== 3 ||
+    !metrics.settingsPolish.spoonJarCard.factTexts.join(" ").includes("750") ||
+    !/Repeat|\uB2E4\uC2DC/.test(metrics.settingsPolish.spoonJarCard.factTexts.join(" ")) ||
+    /(paid|free|\uC720\uB8CC|\uBB34\uB8CC)/i.test(metrics.settingsPolish.spoonJarCard.visibleText) ||
+    !metrics.settingsPolish.spoonJarCard.actionTexts.some((text) => /jar|\uD56D\uC544\uB9AC/i.test(text)) ||
+    metrics.settingsPolish.spoonJarCard.actionTexts.some((text) => /Restore|\uBCF5\uC6D0/.test(text)) ||
+    metrics.settingsPolish.spoonJarCard.factHeights.some((height) => height < 28) ||
+    metrics.settingsPolish.spoonJarCard.factBackgrounds.some((background) => !background.includes("gradient")) ||
+    !metrics.settingsPolish.spoonJarCard.statusText ||
+    !/support-pack-card__status--(ready|warning|success|checking)/.test(metrics.settingsPolish.spoonJarCard.statusClass) ||
+    metrics.settingsPolish.spoonJarCard.statusAriaLive !== "polite" ||
+    metrics.settingsPolish.spoonJarCard.height < 120 ||
+    metrics.settingsPolish.spoonJarCard.radius < 16 ||
+    !metrics.settingsPolish.spoonJarCard.background.includes("gradient") ||
+    metrics.settingsPolish.spoonJarCard.shadow === "none" ||
+    !metrics.settingsPolish.spoonJarCard.shineBackground.includes("gradient") ||
+    metrics.settingsPolish.spoonJarCard.shineHeight < 20 ||
+    metrics.settingsPolish.spoonJarCard.tokenWidth < 24 ||
+    metrics.settingsPolish.spoonJarCard.tokenHeight < 24 ||
+    !metrics.settingsPolish.spoonJarCard.tokenBackground.includes("gradient") ||
+    metrics.settingsPolish.spoonJarCard.actionCount !== 1 ||
+    metrics.settingsPolish.spoonJarCard.actionHeights.some((height) => height < 44) ||
+    metrics.settingsPolish.spoonJarCard.actionBackgrounds.some((background) => !background.includes("gradient")) ||
     metrics.settingsPolish.choiceGroupCards.length !== 3 ||
     metrics.settingsPolish.choiceGroupCards.some((card) => card.height < 64 || card.radius < 16 || !card.background.includes("gradient") || card.shadow === "none" || !card.shineBackground.includes("gradient") || card.shineHeight < 16) ||
     metrics.settingsPolish.choiceShines.length !== 8 ||
@@ -3218,10 +3273,15 @@ async function verifyPantryPlacement(page, viewportName) {
   }
 
   await page.locator(".pantry-earning-support").first().click();
-  await page.waitForSelector(".support-pack-card", { timeout: 2500 });
-  const supportCardText = await page.locator(".support-pack-card").first().innerText();
-  if (!supportCardText.includes("Support") || !supportCardText.includes("spoons")) {
+  await page.waitForSelector(".support-pack-card[data-billing-product='pip_cozy_support']", { timeout: 2500 });
+  await page.waitForSelector(".support-pack-card[data-billing-product='pip_spoon_jar_small']", { timeout: 2500 });
+  const supportCardText = await page.locator(".support-pack-card[data-billing-product='pip_cozy_support']").first().innerText();
+  const spoonJarCardText = await page.locator(".support-pack-card[data-billing-product='pip_spoon_jar_small']").first().innerText();
+  if (!supportCardText.includes("Support") || !supportCardText.includes("250") || !supportCardText.includes("Restore")) {
     failures.push("[" + viewportName + "] Pantry support action should open the support pack settings card, saw " + supportCardText);
+  }
+  if (!spoonJarCardText.includes("Spoon Jar") || !spoonJarCardText.includes("750") || /Restore/i.test(spoonJarCardText)) {
+    failures.push("[" + viewportName + "] Pantry support action should also expose the repeatable spoon jar without restore copy, saw " + spoonJarCardText);
   }
   await page.locator(".settings-close").first().click();
   await page.waitForSelector(".settings-dialog", { state: "detached", timeout: 2500 });

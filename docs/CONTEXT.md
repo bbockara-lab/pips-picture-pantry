@@ -3007,3 +3007,8 @@ Current launch direction:
 - The guard locks the two-condition stage gate UX: enough spoons but not enough Pantry progress must still show the Pantry request path and Go to Pantry action, while spoon shortages use the spoon-earning copy.
 - The same guard locks replay rewards to isReplayClean(replayCleanStatus), preserving the rule that hinted or mistake-corrected replays cannot earn clean replay rewards.
 - This is a release QA guard only; no visible app version bump was needed.
+
+### Billing Surface Mobile QA Guard Addendum
+- Strengthened mobile visual QA so the Settings billing surface must expose both launch products with distinct roles: `pip_cozy_support` remains the 250-spoon support/restore card, while `pip_spoon_jar_small` remains the 750-spoon repeatable jar without restore copy.
+- The Pantry spoon-shortage support action now has mobile coverage that verifies it opens Settings and lands on both Billing cards, preventing the natural economy path from hiding the repeatable jar.
+- This is a launch QA guard only; no visible app version bump was needed.
