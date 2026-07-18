@@ -3010,6 +3010,11 @@ async function verifyPantryPlacement(page, viewportName) {
     return;
   }
 
+  const pantryPanelText = await page.locator(".pantry-panel").first().innerText();
+  if (/\bnull\b/i.test(pantryPanelText)) {
+    failures.push("[" + viewportName + "] Pantry panel leaked a null placeholder into visible copy: " + pantryPanelText);
+  }
+
   const storyRequestMetrics = await page.locator(".pantry-story-request").first().evaluate((card) => {
     const rect = card.getBoundingClientRect();
     const pip = card.querySelector(".pantry-story-request__pip");

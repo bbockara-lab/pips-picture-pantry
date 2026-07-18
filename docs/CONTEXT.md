@@ -3077,6 +3077,12 @@ Current launch direction:
 - Kept board state, drag painting, auto-line marking, hint, and undo behavior unchanged; this is a presentation-only step toward the final shared artwork system.
 - Existing completed-line auto-mark artwork keeps its higher-specificity treatment, while ordinary marked cells and soft blank suggestions now share a reusable token language.
 
+### v0.1.433 Pantry Optional Card Null Leak Guard
+- Bumped the visible app version to v0.1.433 and package version to 0.1.433.
+- Replaced nullable Pantry mount rendering with a node-only helper so optional story, savings, progress, and display-plan cards no longer leak literal `null` text into the room/shop view.
+- Added mobile visual QA coverage that fails if the Pantry panel exposes `null` as visible copy, protecting the launch screenshot review path and Android WebView surface.
+- Kept Pantry slot selection, purchase/equip, story goals, and Billing behavior unchanged; this is a rendering integrity fix.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

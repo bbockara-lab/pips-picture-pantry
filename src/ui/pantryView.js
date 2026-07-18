@@ -46,6 +46,15 @@ function appendTextElement(parent, tagName, className, text) {
   return element;
 }
 
+function replaceWithOptional(parent, ...nodes) {
+  parent.replaceChildren();
+  nodes.forEach((node) => {
+    if (node && typeof node === "object" && "nodeType" in node) {
+      parent.appendChild(node);
+    }
+  });
+}
+
 function createMeterFill() {
   return document.createElement("span");
 }
@@ -844,17 +853,17 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
       room.appendChild(renderRoomSlot(slot, equippedDecorations, selectedSlotId, selectSlot));
     });
 
-    storyRequestMount.replaceChildren(renderPantryStoryRequest(approvedDecorations, ownedIds, equippedDecorations, spoons, startStoryRequest));
-    storyMilestoneMount.replaceChildren(renderPantryStoryMilestone(approvedDecorations, ownedIds, equippedDecorations, selectStoryArrival));
-    storyDeliveryMount.replaceChildren(renderPantryStoryDelivery(approvedDecorations, storyGoalId, ownedIds, spoons, showStoryGoal, onPlayForSpoons));
-    storyArchiveMount.replaceChildren(renderPantryStoryArchive(approvedDecorations, completedStoryGoalIds, ownedIds, selectStoryArrival, spoons));
+    replaceWithOptional(storyRequestMount, renderPantryStoryRequest(approvedDecorations, ownedIds, equippedDecorations, spoons, startStoryRequest));
+    replaceWithOptional(storyMilestoneMount, renderPantryStoryMilestone(approvedDecorations, ownedIds, equippedDecorations, selectStoryArrival));
+    replaceWithOptional(storyDeliveryMount, renderPantryStoryDelivery(approvedDecorations, storyGoalId, ownedIds, spoons, showStoryGoal, onPlayForSpoons));
+    replaceWithOptional(storyArchiveMount, renderPantryStoryArchive(approvedDecorations, completedStoryGoalIds, ownedIds, selectStoryArrival, spoons));
     filtersMount.replaceChildren();
     filtersMount.className = "pantry-filter-stack";
-    advisorMount.replaceChildren(renderPlacementAdvisor(selectedSlotId, approvedDecorations, ownedIds));
-    savingsGoalMount.replaceChildren(renderSavingsGoal(selectedSlotId, approvedDecorations, ownedIds, spoons, trackedGoalId));
-    earningPlanMount.replaceChildren(renderEarningPlan(selectedSlotId, approvedDecorations, ownedIds, spoons, trackedGoalId, onPlayForSpoons, onOpenSupportPack));
-    progressMount.replaceChildren(renderCollectionProgress(approvedDecorations, ownedIds, equippedDecorations, completedStoryGoalIds, spoons, planNextRoomRequest, onPlayForSpoons));
-    displayPlanMount.replaceChildren(renderDisplayPlan(selectedSlotId, approvedDecorations, ownedIds, equippedDecorations, spoons));
+    replaceWithOptional(advisorMount, renderPlacementAdvisor(selectedSlotId, approvedDecorations, ownedIds));
+    replaceWithOptional(savingsGoalMount, renderSavingsGoal(selectedSlotId, approvedDecorations, ownedIds, spoons, trackedGoalId));
+    replaceWithOptional(earningPlanMount, renderEarningPlan(selectedSlotId, approvedDecorations, ownedIds, spoons, trackedGoalId, onPlayForSpoons, onOpenSupportPack));
+    replaceWithOptional(progressMount, renderCollectionProgress(approvedDecorations, ownedIds, equippedDecorations, completedStoryGoalIds, spoons, planNextRoomRequest, onPlayForSpoons));
+    replaceWithOptional(displayPlanMount, renderDisplayPlan(selectedSlotId, approvedDecorations, ownedIds, equippedDecorations, spoons));
 
     const visibleDecorations = approvedDecorations
       .filter((decoration) => selectedSlotId === "all" || decoration.slot === selectedSlotId)
