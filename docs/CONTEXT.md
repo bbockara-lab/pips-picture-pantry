@@ -2979,3 +2979,6 @@ Current launch direction:
 - Strengthened `npm run qa:catalog` so any launch/playable pack with zero authored puzzles fails immediately, while `bonus-pack` entries may remain hidden future previews.
 - This protects the Season 0 launch flow from accidentally exposing an empty stage after the catalog pivot to 333 polished puzzles plus later seasonal drops.
 - The Billing QA forbidden-copy regex is already normalized to explicit Korean terms (`유료` / `무료`), so the guard remains readable and does not depend on mojibake fragments.
+### Support Pack Visible Copy QA Guard
+- Mobile visual QA now verifies that the Settings Support Pack card renders with both support and restore actions, keeps the 250-spoon value visible, and does not expose paid/free tier wording in player-facing copy.
+- This closes the remaining Billing UI wiring gap before real Play Console product testing: code paths, startup restore sync, and visible support-card copy are now guarded locally.

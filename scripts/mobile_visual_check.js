@@ -539,6 +539,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
             exists: Boolean(supportCard),
             labelText: supportLabel?.textContent?.trim() || "",
             bodyText: supportBody?.textContent?.trim() || "",
+            visibleText: supportCard?.innerText?.trim() || "",
             factTexts: supportFacts.map((fact) => fact.textContent?.trim() || ""),
             factHeights: supportFacts.map((fact) => fact.getBoundingClientRect().height || 0),
             factBackgrounds: supportFacts.map((fact) => getComputedStyle(fact).backgroundImage || ""),
@@ -555,6 +556,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
             tokenHeight: supportAfter ? parseFloat(supportAfter.height) : 0,
             tokenBackground: supportAfter?.backgroundImage || "",
             actionCount: supportActions.length,
+            actionTexts: supportActions.map((button) => button.textContent?.trim() || ""),
             actionHeights: supportActions.map((button) => button.getBoundingClientRect().height),
             actionBackgrounds: supportActions.map((button) => getComputedStyle(button).backgroundImage || "")
           },
@@ -622,6 +624,9 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.supportCard.factTexts.length !== 3 ||
     !metrics.settingsPolish.supportCard.factTexts.join(" ").includes("250") ||
     !metrics.settingsPolish.supportCard.factTexts.join(" ").includes("Restore") ||
+    /(paid|free|\uC720\uB8CC|\uBB34\uB8CC)/i.test(metrics.settingsPolish.supportCard.visibleText) ||
+    !metrics.settingsPolish.supportCard.actionTexts.some((text) => /Support|\uC751\uC6D0/.test(text)) ||
+    !metrics.settingsPolish.supportCard.actionTexts.some((text) => /Restore|\uBCF5\uC6D0/.test(text)) ||
     metrics.settingsPolish.supportCard.factHeights.some((height) => height < 28) ||
     metrics.settingsPolish.supportCard.factBackgrounds.some((background) => !background.includes("gradient")) ||
     !metrics.settingsPolish.supportCard.statusText ||
