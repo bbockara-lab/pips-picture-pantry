@@ -10,6 +10,7 @@ const warnings = [];
 const styles = readFileSync(resolve(root, "src/styles.css"), "utf8");
 const brandIntroSource = readFileSync(resolve(root, "src/ui/brandIntro.js"), "utf8");
 const runtimeArtSource = readFileSync(resolve(root, "src/data/runtimeArt.js"), "utf8");
+const decorationArtSource = readFileSync(resolve(root, "src/data/decorationArt.js"), "utf8");
 const pantryViewSource = readFileSync(resolve(root, "src/ui/pantryView.js"), "utf8");
 
 for (const asset of assetRegistry) {
@@ -149,6 +150,14 @@ for (const decoration of pantryDecorations) {
     errors.push(label + ": assetId " + decoration.assetId + " is not registered as pantry-decoration art");
   } else if (!artAsset.visible || artAsset.approval !== "approved") {
     errors.push(label + ": assetId " + decoration.assetId + " must be approved visible pantry-decoration art");
+  } else {
+    const artBasename = artAsset.path.split(/[\\/]/).pop();
+    if (!runtimeArtSource.includes(`"${decoration.assetId}"`)) {
+      errors.push(label + ": assetId " + decoration.assetId + " is missing from the runtime pantry decoration allowlist");
+    }
+    if (!decorationArtSource.includes(`"${decoration.assetId}"`) || !decorationArtSource.includes(artBasename)) {
+      errors.push(label + ": assetId " + decoration.assetId + " is not exported by decorationArt.js with approved art file " + artBasename);
+    }
   }
 }
 
