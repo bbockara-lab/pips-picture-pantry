@@ -80,6 +80,9 @@ export function buildPuzzleCatalogReport({ puzzleList = puzzles, packList = puzz
 
   const warningMessages = [];
   for (const pack of byPack) {
+    if (pack.access !== "bonus-pack" && pack.puzzleCount === 0) {
+      warningMessages.push(`${pack.id} is a playable pack with no authored puzzles`);
+    }
     if (pack.declaredSize && pack.largestPuzzleSize > pack.declaredSize) {
       warningMessages.push(`${pack.id} has ${pack.largestPuzzleSize}x${pack.largestPuzzleSize} puzzles but declares ${pack.declaredSize}x${pack.declaredSize}`);
     }

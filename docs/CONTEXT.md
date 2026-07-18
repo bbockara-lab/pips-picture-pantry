@@ -2956,3 +2956,8 @@ v1 Android decision:
 - Added `npm run qa:billing` so the optional Pip Support Pack cannot drift away from Android Billing permissions, product ID wiring, i18n copy, policy docs, and Play Console listing disclosure.
 - Wired Billing QA into `npm run qa:candidate` and the Android release gate so final candidate checks include the monetization surface, not only gameplay and store graphics.
 - The player-facing copy remains one gentle support/spoon surface; the guard fails if support-pack UI copy reintroduces paid/free or 유료/무료 wording.
+
+### Playable Pack Catalog Guard Addendum
+- Strengthened `npm run qa:catalog` so any launch/playable pack with zero authored puzzles fails immediately, while `bonus-pack` entries may remain hidden future previews.
+- This protects the Season 0 launch flow from accidentally exposing an empty stage after the catalog pivot to 333 polished puzzles plus later seasonal drops.
+- The Billing QA forbidden-copy regex is already normalized to explicit Korean terms (`유료` / `무료`), so the guard remains readable and does not depend on mojibake fragments.

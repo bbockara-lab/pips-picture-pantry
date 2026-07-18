@@ -37,6 +37,30 @@ describe("puzzle catalog report", () => {
     });
   });
 
+  it("guards against playable empty packs while allowing future bonus previews", () => {
+    const report = buildPuzzleCatalogReport({
+      packList: [
+        {
+          id: "launch-empty",
+          access: "unlockable",
+          monetizationRole: "free-progression",
+          size: 8
+        },
+        {
+          id: "future-preview",
+          access: "bonus-pack",
+          monetizationRole: "paid-theme-pack",
+          size: 8
+        }
+      ],
+      puzzleList: [],
+      dictionaries: { en: {}, ko: {} }
+    });
+
+    expect(report.warningMessages).toContain("launch-empty is a playable pack with no authored puzzles");
+    expect(report.warningMessages).not.toContain("future-preview is a playable pack with no authored puzzles");
+  });
+
   it("warns when recent large-board progression puzzles lack readable art briefs", () => {
     const report = buildPuzzleCatalogReport({
       packList: [
