@@ -27,7 +27,8 @@
     "qa:privacy:live": "node scripts/privacy_policy_check.js --live",
     "billing:evidence": "node scripts/billing_validation_template.js",
     "billing:evidence:check": "node scripts/billing_validation_template.js --check",
-    "qa:bonus-pack": "node scripts/bonus_pack_visibility_check.js"
+    "qa:bonus-pack": "node scripts/bonus_pack_visibility_check.js",
+    "qa:launch-integrity": "node scripts/launch_integrity_check.js"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.1",

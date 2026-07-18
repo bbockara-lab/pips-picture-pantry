@@ -3001,3 +3001,9 @@ Current launch direction:
 - Bumped the visible app version to v0.1.425 and package version to 0.1.425.
 - Locked the five future `bonus-pack` / `*-plus` theme packs behind an explicit launch guard: they remain authored in metadata for later seasonal/store expansion, but they do not render in the puzzle picker until their art, puzzles, and purchase path are ready.
 - Added `npm run qa:bonus-pack`, wired it into `npm run qa:candidate`, and extended mobile/unit coverage so hidden future packs cannot accidentally leak into launch UI while Pantry goals and unlock logic continue to ignore them.
+
+### v0.1.425 Launch Integrity QA Guard Addendum
+- Added npm run qa:launch-integrity and wired it into npm run qa:candidate so final Android upload numbering, pack unlock guidance, and replay-clean reward wiring are checked together before release.
+- The guard locks the two-condition stage gate UX: enough spoons but not enough Pantry progress must still show the Pantry request path and Go to Pantry action, while spoon shortages use the spoon-earning copy.
+- The same guard locks replay rewards to isReplayClean(replayCleanStatus), preserving the rule that hinted or mistake-corrected replays cannot earn clean replay rewards.
+- This is a release QA guard only; no visible app version bump was needed.
