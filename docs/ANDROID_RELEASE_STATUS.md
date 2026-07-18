@@ -1631,3 +1631,16 @@ versionName "1.1.0" // or the final public launch version name
 - Play Console setup required before final store test: follow `docs/PLAY_CONSOLE_BILLING_SETUP.md`, create the managed product, set price, activate it, and test purchase/restore on an internal tester account.
 - Android manifest includes `com.android.vending.BILLING`; Capacitor sync must be run after Billing plugin changes before building an AAB.
 - The app grants 250 spoons once per local profile after purchase or restore. Refund/revocation server reconciliation is deferred to v1.1+ unless Play Console testing exposes a blocking issue.
+
+## Billing / IAP Real-Device Validation - pending
+
+- Status: **pending**
+- Product ID: `pip_cozy_support`
+- Required before final signed Play-upload AAB:
+  - Play Console managed product is active for the internal/closed test track.
+  - Real Android install from Play can load the product.
+  - Purchase grants exactly 250 spoons once.
+  - Cancel/close grants no spoons.
+  - Repeated purchase or already-owned response does not duplicate spoons.
+  - Restore preserves or brings back the support state without duplicate spoons.
+- When complete, change the heading date and status to `Status: **passed**`, record tester/device/build details, and keep the words `purchase` and `restore` in this section so `npm run qa:release:final` can verify the release evidence.
