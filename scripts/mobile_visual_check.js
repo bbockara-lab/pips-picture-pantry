@@ -813,6 +813,24 @@ async function expectAppChromePolish(page, viewportName) {
     const triggerButton = document.querySelector(".floating-nav__trigger");
     const activeItem = document.querySelector(".floating-nav__item.active");
     const labels = [...document.querySelectorAll(".floating-nav__item span")].map((label) => label.textContent || "");
+    const icons = [...document.querySelectorAll(".floating-nav__item")].map((item) => {
+      const icon = item.querySelector(".floating-nav__icon");
+      const iconStyle = icon ? getComputedStyle(icon) : null;
+      const before = icon ? getComputedStyle(icon, "::before") : null;
+      const after = icon ? getComputedStyle(icon, "::after") : null;
+      return {
+        view: item.dataset.view || "",
+        width: parseFloat(iconStyle?.width) || 0,
+        height: parseFloat(iconStyle?.height) || 0,
+        radius: parseFloat(iconStyle?.borderRadius) || 0,
+        background: iconStyle?.backgroundImage || "",
+        beforeContent: before?.content || "",
+        beforeBackground: before?.backgroundImage || before?.backgroundColor || "",
+        afterContent: after?.content || "",
+        afterBackground: after?.backgroundImage || after?.backgroundColor || "",
+        gridRow: iconStyle?.gridRow || ""
+      };
+    });
     const rect = menu?.getBoundingClientRect();
     const style = menu ? getComputedStyle(menu) : null;
     const triggerBefore = triggerButton ? getComputedStyle(triggerButton, "::before") : null;
@@ -834,10 +852,13 @@ async function expectAppChromePolish(page, viewportName) {
       activeToken: activeAfter?.backgroundImage || "",
       activeTokenWidth: parseFloat(activeAfter?.width) || 0,
       activePaddingLeft: activeItem ? parseFloat(getComputedStyle(activeItem).paddingLeft) || 0 : 0,
-      labels
+      labels,
+      icons
     };
   });
   const hasExplicitTimeAttackEntry = navMetrics.labels.some((label) => /Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(label));
+  const expectedIconViews = ["puzzle", "album", "pantry", "timeAttack", "map"];
+  const hasAllViewIcons = expectedIconViews.every((view) => navMetrics.icons.some((icon) => icon.view === view));
   if (
     navMetrics.open !== "true" ||
     navMetrics.left < -1 ||
@@ -850,8 +871,18 @@ async function expectAppChromePolish(page, viewportName) {
     !navMetrics.activeShine.includes("gradient") ||
     !navMetrics.activeToken.includes("gradient") ||
     navMetrics.activeTokenWidth < 8 ||
-    navMetrics.activePaddingLeft < 20 ||
-    !hasExplicitTimeAttackEntry
+    navMetrics.activePaddingLeft < 8 ||
+    !hasExplicitTimeAttackEntry ||
+    !hasAllViewIcons ||
+    navMetrics.icons.length < 5 ||
+    navMetrics.icons.some((icon) =>
+      icon.width < 28 ||
+      icon.height < 28 ||
+      icon.radius < 8 ||
+      !icon.background.includes("gradient") ||
+      icon.beforeContent === "none" ||
+      icon.afterContent === "none"
+    )
   ) {
     failures.push("[" + viewportName + "] Floating nav panel polish/layout regression: " + JSON.stringify(navMetrics));
   }

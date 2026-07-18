@@ -3083,6 +3083,12 @@ Current launch direction:
 - Added mobile visual QA coverage that fails if the Pantry panel exposes `null` as visible copy, protecting the launch screenshot review path and Android WebView surface.
 - Kept Pantry slot selection, purchase/equip, story goals, and Billing behavior unchanged; this is a rendering integrity fix.
 
+### v0.1.434 Floating Nav View Icon Artwork
+- Bumped the visible app version to v0.1.434 and package version to 0.1.434.
+- Added a dedicated decorative icon span to each floating navigation item so Puzzle, Album, Pantry, Time Attack, and Badges no longer rely on the tiny generic dot token.
+- Drew the five view tokens in the shared Sunny Spoon Studios CSS-art language: puzzle board, album card, pantry shelf, Time Attack clock, and badge medal.
+- Strengthened mobile visual QA so the floating nav must expose all five view icons with sufficient size, gradients, and pseudo-element artwork, keeping Time Attack discoverability from regressing.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

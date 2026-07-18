@@ -49,13 +49,18 @@ export function renderFloatingNav(activeView, onSelectView) {
     item.dataset.view = view;
     item.setAttribute("aria-current", activeView === view ? "page" : "false");
 
+    const itemIcon = document.createElement("span");
+    itemIcon.className = "floating-nav__icon";
+    itemIcon.setAttribute("aria-hidden", "true");
+
     const itemLabel = document.createElement("span");
+    itemLabel.className = "floating-nav__label";
     itemLabel.textContent = t(labelKey);
 
     const itemHint = document.createElement("small");
     itemHint.textContent = t(hintKey);
 
-    item.append(itemLabel, itemHint);
+    item.append(itemIcon, itemLabel, itemHint);
     item.addEventListener("click", () => {
       setOpen(false);
       onSelectView(view);
