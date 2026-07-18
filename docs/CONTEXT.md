@@ -46,6 +46,12 @@
 - Bumped visible app version and package metadata to `v0.1.420`.
 - Added compact value chips to the Pip Support Pack card so the player can see the spoon grant, Google Play path, and restore safety before tapping the store button.
 - Extended Billing and mobile QA guards so the support card keeps a clear, polished purchase value summary without paid/free tier wording.
+
+### v0.1.421 Korean Pantry Copy Guard
+
+- Bumped visible app version and package metadata to `v0.1.421`.
+- Expanded Korean i18n tests across Pantry purchase feedback, placement planning, spoon earning, and item status copy so core live-economy UI cannot regress into mojibake or fallback wording.
+- This is release hardening only; no gameplay balance or purchase behavior changed.
 Last updated: 2026-07-10
 
 ## Current Launch Strategy Snapshot - 2026-07-10
