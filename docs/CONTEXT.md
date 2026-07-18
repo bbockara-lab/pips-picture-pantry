@@ -3070,3 +3070,8 @@ Current launch direction:
 - Converted the opening promise chips into real buttons: puzzle opens the puzzle hub, pantry opens the pantry goals/shop path, and time attack opens the Time Attack panel.
 - Kept first-run player naming intact by deferring the selected destination until after the name form submits, then dispatching the same app-shell navigation event.
 - Added explicit button reset/focus styling for the chips so they remain tactile artwork while becoming discoverable entry points.
+
+### V1 Visual Finish Backlog
+- Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
+- Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.
+- The opening screen now exposes the three major entry points, but the reusable icon system is not considered final until those symbols are upgraded from CSS construction to coherent approved assets or an equally polished shared icon layer.
