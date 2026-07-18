@@ -7,11 +7,11 @@ Last updated: 2026-07-18
 **versionCode management rule:**
 - Last Play Console upload: versionCode **27** / versionName **"1.0.26"** (v0.1.35, closed testing).
 - v0.1.36 through current local builds have not been uploaded as AABs; they are local/GitHub development versions only.
-- The next Play Console upload must increase `android/app/build.gradle` before building the release bundle:
-  - `versionCode` -> **28 or higher** (Play Console rejects duplicate or lower codes).
-  - `versionName` -> final public-launch label to be chosen at release time. Keep it separate from the web/internal app version in `package.json` and `src/data/appVersion.js`.
+- The next Play Console upload has been prepared in `android/app/build.gradle`:
+  - `versionCode` -> **28** (above the last uploaded Play Console code 27).
+  - `versionName` -> **"1.1.0"** for the public-launch Billing candidate. Keep it separate from the web/internal app version in `package.json` and `src/data/appVersion.js`.
 
-**Automation status:** `build.gradle` versionCode is still manually managed. `scripts/build_android_release_bundle.ps1` and signed-bundle scripts do not auto-increment it. Update it intentionally right before the next AAB upload.
+**Automation status:** `build.gradle` versionCode is still manually managed. `scripts/build_android_release_bundle.ps1` and signed-bundle scripts do not auto-increment it. The current prepared upload code is 28; increase it again only if another AAB is uploaded before this candidate.
 
 **Automated guard:** run `npm run qa:release` during normal QA and `npm run qa:release:final` immediately before building the signed Play upload AAB. The normal guard reports release-number warnings without blocking local polish; the final guard fails if `versionCode` / `versionName` still match the last uploaded Play build.
 
@@ -67,7 +67,7 @@ versionName "1.1.0" // or the final public launch version name
 
 - Upload keystore exists outside the repo under D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Pip's Picture Pantry.
 - Local-only signing env file exists outside the repo and is not committed.
-- Current pre-upload blocker: complete `docs/PLAY_CONSOLE_BILLING_SETUP.md`, create and activate the `pip_cozy_support` and `pip_spoon_jar_small` managed products, choose the public launch Android `versionCode` / `versionName`, update `android/app/build.gradle`, run `npm run qa:billing` and `npm run qa:release:final`, then build and verify the signed Play-upload AAB.
+- Current pre-upload blocker: complete `docs/PLAY_CONSOLE_BILLING_SETUP.md`, create and activate the `pip_cozy_support` and `pip_spoon_jar_small` managed products, record real-device purchase/restore/repeat evidence, run `npm run qa:billing` and `npm run qa:release:final`, then build and verify the signed Play-upload AAB.
 
 ## Billing Product Validation - 2026-07-18
 
@@ -100,7 +100,7 @@ versionName "1.1.0" // or the final public launch version name
 
 1. Finish final human review on Android/WebView and visible store screenshots.
 2. Complete `docs/PLAY_CONSOLE_BILLING_SETUP.md` for the `pip_cozy_support` and `pip_spoon_jar_small` managed products.
-3. Choose final public Android `versionCode` / `versionName` and bump `android/app/build.gradle`.
+3. Keep the prepared Android `versionCode 28` / `versionName "1.1.0"` unless another Play upload happens before launch.
 4. Run `npm run qa:billing` and `npm run qa:release:final`.
 5. Build the signed Play-upload AAB with `scripts/build_android_signed_release_bundle.ps1`.
 6. Upload the signed AAB to Google Play internal/closed testing and confirm Play Console accepts it.
@@ -1639,7 +1639,7 @@ versionName "1.1.0" // or the final public launch version name
 
 ## Billing / IAP Release Note - 2026-07-16
 
-- v1 Android now includes a minimal optional Google Play Billing path for one non-consumable support product: `pip_cozy_support`.
+- v1 Android now includes a minimal optional Google Play Billing path for two managed products: `pip_cozy_support` and `pip_spoon_jar_small`.
 - `npm run qa:billing` verifies the Billing dependency, Android Billing permission, product ID wiring, support-pack i18n keys, policy/listing references, and no paid/free wording in player-facing support copy.
 - Play Console setup required before final store test: follow `docs/PLAY_CONSOLE_BILLING_SETUP.md`, create the managed product, set price, activate it, and test purchase/restore on an internal tester account.
 - Android manifest includes `com.android.vending.BILLING`; Capacitor sync must be run after Billing plugin changes before building an AAB.
@@ -1648,12 +1648,22 @@ versionName "1.1.0" // or the final public launch version name
 ## Billing / IAP Real-Device Validation - pending
 
 - Status: **pending**
+- App build: current candidate / Android versionCode 28 / versionName 1.1.0
+- Track and tester:
+- Device and Android version:
+- Evidence files or screenshots:
 - Product ID: `pip_cozy_support`
-- Required before final signed Play-upload AAB:
-  - Play Console managed product is active for the internal/closed test track.
-  - Real Android install from Play can load the product.
-  - Purchase grants exactly 250 spoons once.
-  - Cancel/close grants no spoons.
-  - Repeated purchase or already-owned response does not duplicate spoons.
-  - Restore preserves or brings back the support state without duplicate spoons.
-- When complete, change the heading date and status to `Status: **passed**`, record tester/device/build details, and keep the words `purchase` and `restore` in this section so `npm run qa:release:final` can verify the release evidence.
+  - Product active in Play Console for the tester track:
+  - Store sheet loads:
+  - Purchase grants exactly 250 spoons once:
+  - Cancel/close grants no spoons:
+  - Already-owned/repeated tap does not duplicate spoons:
+  - Restore preserves or brings back support state without duplicate spoons:
+- Product ID: `pip_spoon_jar_small`
+  - Product active in Play Console for the tester track:
+  - Store sheet loads:
+  - First purchase grants exactly 750 spoons:
+  - Repeat purchase with another store token grants another 750 spoons:
+  - Replaying the same purchase token does not duplicate spoons:
+  - Cancel/close grants no spoons:
+- When complete, change the heading date and status to `Status: **passed**`, record tester/device/build details, and keep the words `purchase`, `restore`, and `repeat` in this section so `npm run qa:release:final` can verify the release evidence. Use `npm run billing:evidence` to print a fresh copy of this checklist.

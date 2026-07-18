@@ -24,7 +24,9 @@
     "qa:store-listing": "node scripts/play_store_listing_check.js",
     "qa:billing": "node scripts/billing_release_check.js",
     "qa:privacy": "node scripts/privacy_policy_check.js",
-    "qa:privacy:live": "node scripts/privacy_policy_check.js --live"
+    "qa:privacy:live": "node scripts/privacy_policy_check.js --live",
+    "billing:evidence": "node scripts/billing_validation_template.js",
+    "billing:evidence:check": "node scripts/billing_validation_template.js --check"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.1",

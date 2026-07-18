@@ -54,12 +54,15 @@ Before public launch, use a Google Play license tester or internal tester accoun
 - Replaying the same spoon jar purchase token does not grant twice.
 - Network or store-unavailable errors leave the player in a recoverable state.
 
+Use `npm run billing:evidence` to print the exact Markdown evidence block for `docs/ANDROID_RELEASE_STATUS.md`. Leave the status as `pending` until both products are tested on a Play-installed Android build, then change it to `passed` with tester/device/build details.
+
 ## Final Release Rule
 
 Do not build the final signed Play-upload AAB until:
 
 - Both Play Console managed products are active.
 - `npm run qa:billing` passes.
+- `npm run billing:evidence:check` passes after the real-device evidence block is marked passed.
 - `npm run qa:release:final` passes after the final Android version bump.
 - A real-device internal tester support purchase/restore pass is recorded in `docs/ANDROID_RELEASE_STATUS.md`.
 - A real-device internal tester spoon jar purchase/repeat pass is recorded in `docs/ANDROID_RELEASE_STATUS.md`.
