@@ -3032,3 +3032,7 @@ Current launch direction:
 - Added `npm run qa:visual-pack`, a local Playwright screenshot pack for the launch-facing UX and art review loop.
 - The pack captures the opening brand intro, Pip guide, first puzzle board, Settings Billing surface, Pantry room/shop, Time Attack coach, Album, Map, and a large-board cursor-control scene at a 390x844 mobile viewport.
 - Output is written under ignored `qa-artifacts/visual-review/<app-version>/` with a `manifest.json`, so Codex, Claude, and manual review can discuss the same screenshots without committing generated images.
+
+### Visual Review Guide Addendum
+- Added `docs/VISUAL_REVIEW_GUIDE.md` as the human art/UX review checklist for the screenshot pack.
+- The guide anchors launch review around Pip consistency, tactile UI symbols, Billing copy framing, Pantry goal clarity, and first-play friendliness so visual polish can be judged locally before device-only QA.
