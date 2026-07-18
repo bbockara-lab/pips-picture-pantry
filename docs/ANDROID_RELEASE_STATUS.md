@@ -1641,7 +1641,7 @@ versionName "1.1.0" // or the final public launch version name
 
 - v1 Android now includes a minimal optional Google Play Billing path for two managed products: `pip_cozy_support` and `pip_spoon_jar_small`.
 - `npm run qa:billing` verifies the Billing dependency, Android Billing permission, product ID wiring, support-pack i18n keys, policy/listing references, and no paid/free wording in player-facing support copy.
-- Play Console setup required before final store test: follow `docs/PLAY_CONSOLE_BILLING_SETUP.md`, create the managed product, set price, activate it, and test purchase/restore on an internal tester account.
+- Play Console setup required before final store test: follow `docs/PLAY_CONSOLE_BILLING_SETUP.md`, create and activate both managed products (`pip_cozy_support`, `pip_spoon_jar_small`), then record support purchase/restore and spoon jar purchase/repeat evidence on an internal tester account.
 - Android manifest includes `com.android.vending.BILLING`; Capacitor sync must be run after Billing plugin changes before building an AAB.
 - The app grants 250 spoons once per local profile after purchase or restore. Refund/revocation server reconciliation is deferred to v1.1+ unless Play Console testing exposes a blocking issue.
 

@@ -3012,3 +3012,8 @@ Current launch direction:
 - Strengthened mobile visual QA so the Settings billing surface must expose both launch products with distinct roles: `pip_cozy_support` remains the 250-spoon support/restore card, while `pip_spoon_jar_small` remains the 750-spoon repeatable jar without restore copy.
 - The Pantry spoon-shortage support action now has mobile coverage that verifies it opens Settings and lands on both Billing cards, preventing the natural economy path from hiding the repeatable jar.
 - This is a launch QA guard only; no visible app version bump was needed.
+
+### Android Billing Final Checklist Guard Addendum
+- Clarified the Android release note so the final Play Console step explicitly requires both launch managed products: `pip_cozy_support` and `pip_spoon_jar_small`.
+- Strengthened `npm run qa:billing` so the release status cannot regress to single-product setup wording before signed upload.
+- This is a release QA/documentation guard only; no visible app version bump was needed.

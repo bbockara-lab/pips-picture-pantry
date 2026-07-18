@@ -210,7 +210,7 @@ requireIncludes(billingSetup, "Korean title: Pip \uC751\uC6D0\uD329", "docs/PLAY
 requireIncludes(billingSetup, "Korean title: \uC791\uC740 \uC2A4\uD47C \uBCD1", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requirePattern(billingSetup, /internal tester[\s\S]*purchase\/restore/i, "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requirePattern(billingSetup, /spoon jar[\s\S]*repeat/i, "docs/PLAY_CONSOLE_BILLING_SETUP.md");
-requirePattern(releaseStatus, /Play Console setup required[\s\S]*managed product/i, "docs/ANDROID_RELEASE_STATUS.md");
+requirePattern(releaseStatus, /Play Console setup required[\s\S]*create and activate both managed products[\s\S]*pip_cozy_support[\s\S]*pip_spoon_jar_small/i, "docs/ANDROID_RELEASE_STATUS.md");
 requirePattern(releaseStatus, /PLAY_CONSOLE_BILLING_SETUP\.md/, "docs/ANDROID_RELEASE_STATUS.md");
 requirePattern(releaseStatus, /purchase\/restore/i, "docs/ANDROID_RELEASE_STATUS.md");
 requirePattern(releaseStatus, /pip_spoon_jar_small[\s\S]*purchase/i, "docs/ANDROID_RELEASE_STATUS.md");
