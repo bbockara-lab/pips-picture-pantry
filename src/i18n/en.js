@@ -274,14 +274,14 @@ export const en = {
     hintConfirmAction: "Use {cost}",
     hintCostLabel: "{cost} spoons",
     hintRemaining: "Hints {count}/{limit}",
-    hintMeterLabel: "{count} of {limit} free hints left",
+    hintMeterLabel: "{count} of {limit} starter hints left",
     extraHintTitle: "Extra hint",
     timeAttackHintTitle: "Time Attack hint",
     hintIntro: "A hint solves one sure square. Undo can clear the cell, but the hint still counts.",
     hintIntroMulti: "On this larger board, one hint solves up to {count} sure squares. Undo can clear them, but the hint still counts.",
-    timeAttackHintIntro: "Free hints are used up. The next hint uses {cost} spoons. Undo can clear the cell, but the hint use and spoons stay spent. Balance: {balance}.",
+    timeAttackHintIntro: "Starter hints are used up. The next hint uses {cost} spoons. Undo can clear the cell, but the hint use and spoons stay spent. Balance: {balance}.",
     timeAttackHintNeedMore: "The next hint needs {cost} spoons. Balance: {balance}.",
-    paidHintIntro: "Free hints are used up. Spend {cost} spoons to solve up to {count} useful squares. Undo can clear the cells, but the hint and spoons stay spent. Balance: {balance}.",
+    paidHintIntro: "Starter hints are used up. Spend {cost} spoons to solve up to {count} useful squares. Undo can clear the cells, but the hint and spoons stay spent. Balance: {balance}.",
     paidHintNeedMore: "The next hint needs {cost} spoons. Balance: {balance}.",
     hintEmpty: "No hints left on this puzzle. Keep solving or undo freely."
 

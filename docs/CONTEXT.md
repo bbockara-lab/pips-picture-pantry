@@ -34,6 +34,12 @@
 - Bumped visible app version and package metadata to `v0.1.418`.
 - Added a soft gate-reason chip to locked stage cards so players see whether a stage is blocked by Pantry requests, spoons, or both.
 - Extended English/Korean copy plus mobile QA coverage so the pack unlock economy remains explicit instead of feeling like a broken disabled button.
+
+### v0.1.419 Hint Copy Terminology
+
+- Bumped visible app version and package metadata to `v0.1.419`.
+- Reframed normal and Time Attack hint copy so players see one hint feature: starter hints first, then extra help that uses spoons.
+- Added tests that guard player-facing hint copy against paid/free category wording in English and Korean.
 Last updated: 2026-07-10
 
 ## Current Launch Strategy Snapshot - 2026-07-10

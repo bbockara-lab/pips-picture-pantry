@@ -199,7 +199,9 @@ describe("i18n", () => {
     expect(t("howToPlay.pipLine")).toContain("Pip");
     expect(t("controls.lineCompleteHint")).toContain("\uc548\uc804\ud55c \ube48\uce78");
     expect(t("controls.lineCompleteHint")).toContain("\uc790\ub3d9");
-    expect(t("controls.paidHintIntro", { cost: 9, count: 5, balance: 20 })).toContain("\uBB34\uB8CC \uD78C\uD2B8\uB97C \uB2E4 \uC37C\uC5B4\uC694");
+    expect(t("controls.paidHintIntro", { cost: 9, count: 5, balance: 20 })).toContain("\uAE30\uBCF8 \uD78C\uD2B8\uB97C \uB2E4 \uC37C\uC5B4\uC694");
+    expect(t("controls.paidHintIntro", { cost: 9, count: 5, balance: 20 })).not.toContain("\uBB34\uB8CC");
+    expect(t("controls.timeAttackHintIntro", { cost: 9, balance: 20 })).not.toContain("\uBB34\uB8CC");
     expect(t("controls.timeAttackHintIntro", { cost: 9, balance: 20 })).toContain("\uC2A4\uD47C 9\uAC1C");
     expect(t("replayPicks.eyebrow")).toBe("Pip\uC758 \uB2E4\uC2DC \uD480\uAE30 \uCD94\uCC9C");
     expect(t("replayPicks.title")).toBe("\uAE54\uB054\uD55C \uB2E4\uC2DC \uD480\uAE30 \uB3C4\uC804");
