@@ -2514,24 +2514,18 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Refined line-completion guide copy to explain that safe blanks are marked automatically only after a line is truly complete.
 - Extended mobile QA and Korean i18n coverage so the guide, auto-mark artwork, and user-facing copy stay aligned.
 
-## IAP / Cozy Pass Status (v1 Android Launch - 2026-07-13)
+## Superseded IAP / Cozy Pass Note (historical v0.1.340 context)
 
-Current state (v0.1.340):
-- `src/game/save.js` keeps `cozyPassPurchased: Boolean(...)` only as a reserved data field.
-- `src/data/economyConfig.js` defines `COZY_PASS_SPOON_GRANT: 250`, but no runtime flow reads it yet.
-- No code currently reads `cozyPassPurchased` for spoon grants or UI branching.
-- `pip-lucky-mug` exists as a `premium` pantry decoration, but it is not approved in `runtimeArt.js`, so it is not visible in the Pantry shop.
-- No Google Play Billing Capacitor plugin is installed.
+This block originally recorded the 2026-07-13 state where `cozyPassPurchased` and
+`COZY_PASS_SPOON_GRANT` were reserved only and no Google Play Billing plugin was
+installed. That is no longer the current launch plan.
 
-User exposure:
-- Five `bonus-pack` entries appear in the puzzle hub as disabled optional add-ons.
-- No Cozy Pass purchase button is visible.
-- The disabled future placeholder is acceptable for v1 as long as it remains non-purchasable.
-
-v1 Android decision:
-- No IAP implementation before v1.
-- Keep `cozyPassPurchased` and `COZY_PASS_SPOON_GRANT` as reserved fields until v1.1+.
-- When IAP starts, install and verify Google Play Billing Library v7+ through a Capacitor/native plugin.
+Current launch direction:
+- Android v1 includes one optional Play Billing support product: `pip_cozy_support`.
+- The product grants the existing 250-spoon support reward once per local profile after purchase or restore.
+- `@capgo/native-purchases` is installed and native Android debug compilation has passed.
+- Five `bonus-pack` entries remain hidden future previews until authored/approved; they are not playable empty packs.
+- Final release still requires Play Console managed-product activation and real-device purchase/restore validation. See `docs/PLAY_CONSOLE_BILLING_SETUP.md`, `docs/MONETIZATION_PLAN.md`, and the v0.1.410+ Billing sections below.
 
 ### v0.1.336 - Mobile Safe Area And Save Guard
 - Added body-level overlay safe-area padding so settings, Pip guides, brand intro, and stage-complete reward surfaces stay above Android gesture navigation and iOS home indicators.
