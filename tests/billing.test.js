@@ -9,6 +9,8 @@ describe("billing support pack guards", () => {
     expect(isCozySupportEntitlement({ productID: COZY_SUPPORT_PRODUCT_ID })).toBe(true);
     expect(isCozySupportEntitlement({ identifier: COZY_SUPPORT_PRODUCT_ID })).toBe(true);
     expect(isCozySupportEntitlement({ products: [COZY_SUPPORT_PRODUCT_ID] })).toBe(true);
+    expect(isCozySupportEntitlement({ products: [{ productIdentifier: COZY_SUPPORT_PRODUCT_ID }] })).toBe(true);
+    expect(isCozySupportEntitlement({ products: [{ productId: COZY_SUPPORT_PRODUCT_ID }] })).toBe(true);
     expect(isCozySupportEntitlement({ transaction: { productIdentifier: COZY_SUPPORT_PRODUCT_ID } })).toBe(true);
     expect(isCozySupportEntitlement({ purchase: { productId: COZY_SUPPORT_PRODUCT_ID } })).toBe(true);
     expect(isCozySupportEntitlement({ purchases: [{ productIdentifier: "other" }, { productIdentifier: COZY_SUPPORT_PRODUCT_ID }] })).toBe(true);
@@ -20,6 +22,7 @@ describe("billing support pack guards", () => {
     expect(isCozySupportEntitlement({})).toBe(false);
     expect(isCozySupportEntitlement({ productIdentifier: "other-product" })).toBe(false);
     expect(isCozySupportEntitlement([{ productIdentifier: "other-product" }])).toBe(false);
+    expect(isCozySupportEntitlement({ products: [{ productIdentifier: "other-product" }] })).toBe(false);
   });
 
   it("maps billing failures to player-safe statuses", () => {

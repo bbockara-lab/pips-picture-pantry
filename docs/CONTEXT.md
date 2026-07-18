@@ -17,6 +17,12 @@
 - Strengthened `npm run qa:billing` so the Billing guard now checks that the setup checklist exists, names the product ID, preserves non-consumable / 250-spoon / USD 0.99 / KRW 1,100 launch assumptions, and is referenced from the Android release status.
 - This is release-gate/documentation hardening only; no visible app version bump was needed.
 
+### Billing Entitlement Payload Guard
+
+- `isCozySupportEntitlement()` now accepts nested object arrays under `products`, in addition to direct product ID strings and transaction/purchase/purchases/result wrappers.
+- This protects the Pip Support Pack purchase and restore grant path from native Billing response-shape drift while preserving the duplicate-grant guard in `grantCozySupportPack()`.
+- Verified with Billing unit coverage plus `npm run qa:billing` and `npm run qa:hygiene`.
+
 ### Pantry Support Pack Path Guard
 
 - `pip_cozy_support` should stay discoverable from natural spoon-planning moments, not from active-puzzle interruptions or hard paywall copy.

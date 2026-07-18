@@ -158,8 +158,9 @@ export function isCozySupportEntitlement(payload) {
   if (payload.identifier === COZY_SUPPORT_PRODUCT_ID) {
     return true;
   }
-  if (Array.isArray(payload.products) && payload.products.includes(COZY_SUPPORT_PRODUCT_ID)) {
-    return true;
+  if (Array.isArray(payload.products)) {
+    return payload.products.includes(COZY_SUPPORT_PRODUCT_ID)
+      || payload.products.some(isCozySupportEntitlement);
   }
   return isCozySupportEntitlement(payload.transaction)
     || isCozySupportEntitlement(payload.purchase)
