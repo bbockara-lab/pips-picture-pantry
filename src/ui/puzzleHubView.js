@@ -440,7 +440,7 @@ function createStageFilterBar(hideCompletedStages, hiddenStageCount, onToggleHid
 function createStagePreview(pack, completeCount, total) {
   const preview = document.createElement("div");
   const isBonusPreview = pack.access === "bonus-pack";
-  preview.className = isBonusPreview ? "stage-preview paid-preview" : "stage-preview";
+  preview.className = isBonusPreview ? "stage-preview bonus-preview" : "stage-preview";
   preview.setAttribute("aria-hidden", "true");
   const stageProgressRatio = completeCount / Math.max(total || 20, 1);
   preview.style.setProperty("--stage-progress", `${Math.round(stageProgressRatio * 100)}%`);
@@ -528,7 +528,7 @@ function createStageProgressMeter() {
 function createBonusPackPanel() {
   const panel = document.createElement("div");
   panel.className = "unlock-panel bonus-pack-panel";
-  appendTextElement(panel, "p", "", t("packs.paidPackHint"));
+  appendTextElement(panel, "p", "", t("packs.futurePackHint"));
   const button = document.createElement("button");
   button.type = "button";
   button.className = "tool-button";

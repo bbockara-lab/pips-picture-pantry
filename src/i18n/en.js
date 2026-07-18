@@ -382,7 +382,7 @@ export const en = {
     pricePreview: "Preview set",
     unlockCostPrefix: "Open with ",
     openStage: "Open stage",
-    paidPackHint: "Future optional sets are hidden until the pantry decoration economy is ready.",
+    futurePackHint: "Future optional sets are hidden until the pantry decoration economy is ready.",
     comingSoon: "Coming soon",
     needMore: "Need {count} more",
     needPantryRoom: "Need pantry story",

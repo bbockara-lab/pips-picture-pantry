@@ -23,6 +23,11 @@
 - This protects the Pip Support Pack purchase and restore grant path from native Billing response-shape drift while preserving the duplicate-grant guard in `grantCozySupportPack()`.
 - Verified with Billing unit coverage plus `npm run qa:billing` and `npm run qa:hygiene`.
 
+### Future Set Naming Guard
+
+- Internal bonus-pack preview naming now uses `bonus-preview` / `futurePackHint` instead of old paid-pack wording.
+- Player copy was already safe, but this keeps code, QA guards, and future monetization work aligned with the v1 plan: one optional Support Pack now, future seasonal/bonus sets later.
+
 ### Pantry Support Pack Path Guard
 
 - `pip_cozy_support` should stay discoverable from natural spoon-planning moments, not from active-puzzle interruptions or hard paywall copy.
