@@ -167,7 +167,11 @@ function createModalBackdrop() {
 
 function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestore }) {
   const group = document.createElement("div");
-  group.className = supportPack.owned ? "support-pack-card support-pack-card--owned" : "support-pack-card";
+  group.className = supportPack.owned
+    ? "support-pack-card support-pack-card--support support-pack-card--owned"
+    : "support-pack-card support-pack-card--support";
+  group.dataset.billingProduct = "pip_cozy_support";
+  group.setAttribute("aria-label", t("settings.supportTitle"));
 
   const label = document.createElement("p");
   label.className = "section-label";
@@ -218,6 +222,8 @@ function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestor
 function createSpoonJarCard({ spoonJar, onSpoonJarPurchase }) {
   const group = document.createElement("div");
   group.className = "support-pack-card support-pack-card--jar";
+  group.dataset.billingProduct = "pip_spoon_jar_small";
+  group.setAttribute("aria-label", t("settings.spoonJarTitle"));
 
   const label = document.createElement("p");
   label.className = "section-label";

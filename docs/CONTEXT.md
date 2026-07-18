@@ -2991,3 +2991,8 @@ Current launch direction:
 - Added the second v1 Android store product: `pip_spoon_jar_small`, a repeatable Small Spoon Jar that grants 750 spoons through `SPOON_JAR_SMALL_GRANT`.
 - The Support Pack remains one-time and restorable; the Small Spoon Jar is consumable and uses `processedBillingPurchaseIds` to prevent duplicate local grants from the same store token.
 - Updated billing QA and release docs so final Play Console setup must activate both `pip_cozy_support` and `pip_spoon_jar_small` before signed upload testing.
+
+### v0.1.424 Spoon Jar Settings Billing Wiring
+- Bumped the visible app version to v0.1.424 and package version to 0.1.424.
+- Connected the Small Spoon Jar product to the Settings Billing surface so opening Settings loads both `pip_cozy_support` and `pip_spoon_jar_small`, with separate product identifiers, status copy, and purchase/restore roles.
+- Strengthened Billing and mobile QA so Support Pack remains one-time/restorable, Small Spoon Jar remains repeatable, both cards avoid paid/free wording, and `npm run qa:candidate` only leaves the expected real-device Billing evidence warnings before final signed upload.

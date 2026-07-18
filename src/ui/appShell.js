@@ -59,6 +59,8 @@ export function renderApp(root) {
   let replayChallenge = false;
   let cozySupportState = createDefaultCozySupportState();
   let cozySupportRequestId = 0;
+  let spoonJarState = createDefaultSpoonJarState();
+  let spoonJarRequestId = 0;
   let cozySupportStartupSyncStarted = false;
 
   function selectPuzzle(puzzleId, scrollTarget = "puzzle", options = {}) {
@@ -249,6 +251,7 @@ export function renderApp(root) {
     settingsOpen = true;
     resetOpen = false;
     loadCozySupportProduct();
+    loadSpoonJarProduct();
     draw();
   }
 
@@ -325,7 +328,9 @@ export function renderApp(root) {
       controlMode,
       supportPack: cozySupportState,
       onSupportPurchase: buyCozySupportPack,
-      onSupportRestore: restoreCozySupport
+      onSupportRestore: restoreCozySupport,
+      spoonJar: spoonJarState,
+      onSpoonJarPurchase: buySpoonJarSmall
     };
   }
 

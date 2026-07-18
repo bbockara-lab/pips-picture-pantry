@@ -502,7 +502,8 @@ async function expectSettingsDialogPolish(page, viewportName) {
         const titleBefore = title ? getComputedStyle(title, "::before") : null;
         const activeAfter = active ? getComputedStyle(active, "::after") : null;
         const saveStyle = save ? getComputedStyle(save) : null;
-        const supportCard = document.querySelector(".support-pack-card");
+        const supportCard = document.querySelector(".support-pack-card--support");
+        const jarCard = document.querySelector(".support-pack-card--jar");
         const supportLabel = supportCard?.querySelector(".section-label");
         const supportBody = supportCard?.querySelector(".support-pack-card__body");
         const supportFacts = [...(supportCard?.querySelectorAll(".support-pack-card__facts span") || [])];
@@ -511,6 +512,14 @@ async function expectSettingsDialogPolish(page, viewportName) {
         const supportStyle = supportCard ? getComputedStyle(supportCard) : null;
         const supportBefore = supportCard ? getComputedStyle(supportCard, "::before") : null;
         const supportAfter = supportCard ? getComputedStyle(supportCard, "::after") : null;
+        const jarLabel = jarCard?.querySelector(".section-label");
+        const jarBody = jarCard?.querySelector(".support-pack-card__body");
+        const jarFacts = [...(jarCard?.querySelectorAll(".support-pack-card__facts span") || [])];
+        const jarStatus = jarCard?.querySelector(".support-pack-card__status");
+        const jarActions = [...(jarCard?.querySelectorAll("button") || [])];
+        const jarStyle = jarCard ? getComputedStyle(jarCard) : null;
+        const jarBefore = jarCard ? getComputedStyle(jarCard, "::before") : null;
+        const jarAfter = jarCard ? getComputedStyle(jarCard, "::after") : null;
         return {
           dialogRadius: dialogStyle ? parseFloat(dialogStyle.borderRadius) : 0,
           dialogBackground: dialogStyle?.backgroundImage || "",
