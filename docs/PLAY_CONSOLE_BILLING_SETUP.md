@@ -21,7 +21,7 @@ This document is the non-secret Play Console setup checklist for the v1 Android 
 3. Create a managed product with ID `pip_cozy_support`.
 4. Set the title and description using support-pack language:
    - English title: Pip Support Pack
-   - Korean title: Pip Support Pack
+   - Korean title: Pip 응원팩
    - Mention 250 spoons in the description.
 5. Set the launch price near USD 0.99 / KRW 1,100.
 6. Activate the product.
@@ -46,4 +46,3 @@ Do not build the final signed Play-upload AAB until:
 - `npm run qa:billing` passes.
 - `npm run qa:release:final` passes after the final Android version bump.
 - A real-device internal tester purchase/restore pass is recorded in `docs/ANDROID_RELEASE_STATUS.md`.
-
