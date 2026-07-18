@@ -27,6 +27,7 @@ const billingSource = readProjectFile("src/game/billing.js");
 const manifest = readProjectFile("android/app/src/main/AndroidManifest.xml");
 const saveSource = readProjectFile("src/game/save.js");
 const economySource = readProjectFile("src/data/economyConfig.js");
+const pantrySource = readProjectFile("src/ui/pantryView.js");
 const english = readProjectFile("src/i18n/en.js");
 const korean = readProjectFile("src/i18n/ko.js");
 const monetizationPlan = readProjectFile("docs/MONETIZATION_PLAN.md");
@@ -55,6 +56,11 @@ requireIncludes(manifest, "com.android.vending.BILLING", "AndroidManifest.xml");
 requireIncludes(saveSource, "cozyPassPurchased", "src/game/save.js");
 requireIncludes(saveSource, "grantCozySupportPack", "src/game/save.js");
 requireIncludes(economySource, "COZY_PASS_SPOON_GRANT: 250", "src/data/economyConfig.js");
+requireIncludes(pantrySource, "onOpenSupportPack", "src/ui/pantryView.js");
+requireIncludes(pantrySource, "pantry-earning-support", "src/ui/pantryView.js");
+requireIncludes(pantrySource, "pantry.earningSupportAction", "src/ui/pantryView.js");
+requireIncludes(pantrySource, "pantry.earningSupportNote", "src/ui/pantryView.js");
+requirePattern(pantrySource, /if\s*\(\s*needed\s*>\s*0\s*\)[\s\S]*pantry-earning-support/, "src/ui/pantryView.js");
 
 const requiredI18nKeys = [
   "supportTitle",
@@ -85,7 +91,11 @@ for (const key of requiredI18nKeys) {
 
 const userVisibleSupportCopy = [
   english.match(/settings:\s*{[\s\S]*?\n  },\n  badges:/)?.[0] || "",
-  korean.match(/settings:\s*{[\s\S]*?\n  },\n  badges:/)?.[0] || ""
+  korean.match(/settings:\s*{[\s\S]*?\n  },\n  badges:/)?.[0] || "",
+  englishCopy.pantry.earningSupportAction,
+  englishCopy.pantry.earningSupportNote,
+  koreanCopy.pantry.earningSupportAction,
+  koreanCopy.pantry.earningSupportNote
 ].join("\n");
 
 const forbiddenCopy = /\bpaid\b|\bfree\b|유료|무료/i;

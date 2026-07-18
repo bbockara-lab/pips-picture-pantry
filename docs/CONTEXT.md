@@ -17,6 +17,12 @@
 - Strengthened `npm run qa:billing` so the Billing guard now checks that the setup checklist exists, names the product ID, preserves non-consumable / 250-spoon / USD 0.99 / KRW 1,100 launch assumptions, and is referenced from the Android release status.
 - This is release-gate/documentation hardening only; no visible app version bump was needed.
 
+### Pantry Support Pack Path Guard
+
+- `pip_cozy_support` should stay discoverable from natural spoon-planning moments, not from active-puzzle interruptions or hard paywall copy.
+- The Pantry earning plan may show the Pip Support Pack action only when a selected goal has a spoon shortfall (`needed > 0`), alongside the normal play-for-spoons route.
+- `npm run qa:billing` now guards the Pantry support action, explanatory note, callback wiring, and player-facing copy so this route cannot disappear or regress into paid/free tier language.
+
 ### v0.1.416 Support Pack Already-Owned Guard
 
 - Bumped visible app version and package metadata to `v0.1.416`.
