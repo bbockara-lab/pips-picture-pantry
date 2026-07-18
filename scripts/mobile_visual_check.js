@@ -2322,6 +2322,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       bubbleTailBackground: bubbleBefore?.backgroundImage || "",
       bubbleWidth: bubbleRect?.width || 0,
       bubbleHeight: bubbleRect?.height || 0,
+      bubbleAspect: bubbleRect?.width ? bubbleRect.height / bubbleRect.width : 99,
       bubbleBackground: bubbleStyle?.backgroundImage || "",
       bubbleRadius: bubbleStyle ? parseFloat(bubbleStyle.borderRadius) : 0,
       bubbleShadow: bubbleStyle?.boxShadow || "",
@@ -2372,8 +2373,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     !howToPlayMetrics.sceneBadgeBackground.includes("gradient") ||
     howToPlayMetrics.sceneBadgeShadow === "none" ||
     !howToPlayMetrics.bubbleTailBackground.includes("gradient") ||
-    howToPlayMetrics.bubbleWidth < 120 ||
+    howToPlayMetrics.bubbleWidth < 180 ||
     howToPlayMetrics.bubbleHeight < 70 ||
+    howToPlayMetrics.bubbleAspect > 1.45 ||
     !howToPlayMetrics.bubbleBackground.includes("gradient") ||
     howToPlayMetrics.bubbleRadius < 12 ||
     howToPlayMetrics.bubbleShadow === "none" ||
