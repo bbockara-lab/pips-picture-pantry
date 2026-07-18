@@ -135,6 +135,9 @@ function createSeasonGoalCard({ nextLockedPack, remaining, progressionPacks, onO
     } else if (!roomRequirement.met) {
       actionLabel = t("seasonProgress.goalPantryAction");
       actionHandler = onOpenPantry;
+    } else if (spoonGap > 0) {
+      actionLabel = t("seasonProgress.goalSpoonAction");
+      actionHandler = onOpenPantry;
     }
   } else if (remaining > 0) {
     title = t("seasonProgress.goalUnlockedTitle");

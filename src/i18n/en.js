@@ -356,6 +356,7 @@ export const en = {
     goalCompleteBody: "All {count} launch stages are complete. Save spoons for the next seasonal room.",
     goalOpenAction: "Open stage",
     goalPantryAction: "Go to Pantry",
+    goalSpoonAction: "Plan spoons",
     goalAlbumAction: "View album",
     nextSeasonLabel: "Update note",
     nextSeasonTitle: "Next seasonal drop is warming up",

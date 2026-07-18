@@ -53,6 +53,13 @@
 - Expanded Korean i18n tests across Pantry purchase feedback, placement planning, spoon earning, and item status copy so core live-economy UI cannot regress into mojibake or fallback wording.
 - This is release hardening only; no gameplay balance or purchase behavior changed.
 
+### v0.1.422 Locked Stage Spoon Plan Action
+
+- Bumped visible app version and package metadata to `v0.1.422`.
+- Added a stage-goal action for the case where Pantry room requests are complete but the next picture pack is still blocked by spoons.
+- The action routes players to the Pantry spoon plan instead of showing a direct purchase prompt, keeping the support-pack economy discoverable from a natural "what should I do next?" moment.
+- Added exact English/Korean i18n guards for the new action label so it stays framed as planning spoons, not paid/free tier language.
+
 ### Android Billing Native Build Check
 
 - Re-ran `npx cap sync android` after the support-pack and copy-guard work; Capacitor detected `@capgo/native-purchases@8.6.4` and produced no source changes.
