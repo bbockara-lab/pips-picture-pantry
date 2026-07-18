@@ -33,9 +33,9 @@ export function renderHowToPlayCard() {
   const actions = document.createElement("div");
   actions.className = "guide-actions";
   actions.setAttribute("aria-hidden", "true");
-  appendTextElement(actions, "span", "", t("controls.fill"));
-  appendTextElement(actions, "span", "", t("controls.mark"));
-  appendTextElement(actions, "span", "", t("controls.undo"));
+  appendGuideAction(actions, "fill", t("controls.fill"));
+  appendGuideAction(actions, "mark", t("controls.mark"));
+  appendGuideAction(actions, "undo", t("controls.undo"));
 
   card.append(scene, clueGuide, actions);
   return card;
@@ -58,6 +58,20 @@ function appendTextElement(parent, tagName, className, text) {
   element.textContent = text;
   parent.appendChild(element);
   return element;
+}
+
+function appendGuideAction(parent, action, label) {
+  const chip = document.createElement("span");
+  chip.className = "guide-action";
+  chip.dataset.action = action;
+  const icon = document.createElement("span");
+  icon.className = "guide-action__icon";
+  const text = document.createElement("span");
+  text.className = "guide-action__label";
+  text.textContent = label;
+  chip.append(icon, text);
+  parent.appendChild(chip);
+  return chip;
 }
 
 export function getHintLimit(puzzle) {

@@ -2289,15 +2289,35 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const bubbleAfter = bubble ? getComputedStyle(bubble, "::after") : null;
     const firstClueRow = card.querySelector(".clue-guide__row");
     const clueRowAfter = firstClueRow ? getComputedStyle(firstClueRow, "::after") : null;
-    const firstAction = card.querySelector(".guide-actions span");
-    const actionBefore = firstAction ? getComputedStyle(firstAction, "::before") : null;
+    const firstAction = card.querySelector(".guide-action");
+    const firstActionIcon = firstAction?.querySelector(".guide-action__icon");
+    const actionBefore = firstActionIcon ? getComputedStyle(firstActionIcon, "::before") : null;
     const clueRows = [...card.querySelectorAll(".clue-guide__row")].map((row) => {
       const rowRect = row.getBoundingClientRect();
       return { width: rowRect.width, height: rowRect.height };
     });
-    const actions = [...card.querySelectorAll(".guide-actions span")].map((chip) => {
+    const actions = [...card.querySelectorAll(".guide-action")].map((chip) => {
       const chipRect = chip.getBoundingClientRect();
-      return { width: chipRect.width, height: chipRect.height, text: chip.textContent.trim() };
+      const icon = chip.querySelector(".guide-action__icon");
+      const iconRect = icon?.getBoundingClientRect();
+      const iconStyle = icon ? getComputedStyle(icon) : null;
+      const iconBefore = icon ? getComputedStyle(icon, "::before") : null;
+      const iconAfter = icon ? getComputedStyle(icon, "::after") : null;
+      return {
+        width: chipRect.width,
+        height: chipRect.height,
+        text: chip.textContent.trim(),
+        action: chip.getAttribute("data-action") || "",
+        display: getComputedStyle(chip).display,
+        gridColumns: getComputedStyle(chip).gridTemplateColumns,
+        iconWidth: iconRect?.width || 0,
+        iconHeight: iconRect?.height || 0,
+        iconBackground: iconStyle?.backgroundImage || "",
+        iconBeforeContent: iconBefore?.content || "",
+        iconBeforeBackground: iconBefore?.backgroundImage || iconBefore?.borderRightColor || "",
+        iconAfterContent: iconAfter?.content || "",
+        iconAfterBackground: iconAfter?.backgroundImage || iconAfter?.borderRightColor || ""
+      };
     });
     return {
       left: rect.left,
@@ -2349,7 +2369,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       lineHint: card.querySelector(".how-to-play__line-hint")?.textContent.trim() || "",
       clueRowAccentBackground: clueRowAfter?.backgroundImage || "",
       actionAccentContent: actionBefore?.content || "",
-      actionAccentBackground: actionBefore?.backgroundImage || "",
+      actionAccentBackground: actionBefore?.backgroundImage || actionBefore?.borderRightColor || "",
       overflows: card.scrollWidth > Math.ceil(rect.width) + 1 || card.scrollHeight > Math.ceil(rect.height) + 1
     };
   });
@@ -2384,7 +2404,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     howToPlayMetrics.clueRows.length !== 2 ||
     howToPlayMetrics.clueRows.some((row) => row.height < 28) ||
     howToPlayMetrics.actions.length !== 3 ||
-    howToPlayMetrics.actions.some((chip) => chip.height < 22 || !chip.text) ||
+    howToPlayMetrics.actions.map((chip) => chip.action).join("|") !== "fill|mark|undo" ||
+    howToPlayMetrics.actions.some((chip) => chip.height < 26 || !chip.text || (chip.display !== "inline-grid" && chip.display !== "grid") || !chip.gridColumns.includes("20px") || chip.iconWidth < 18 || chip.iconHeight < 18 || !chip.iconBackground.includes("gradient") || chip.iconBeforeContent === "none") ||
+    howToPlayMetrics.actions.filter((chip) => chip.action !== "fill").some((chip) => chip.iconAfterContent === "none") ||
     !howToPlayMetrics.clueRowAccentBackground.includes("gradient") ||
     howToPlayMetrics.actionAccentContent === "none" ||
     !howToPlayMetrics.actionAccentBackground.includes("gradient") ||
