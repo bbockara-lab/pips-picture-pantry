@@ -3059,3 +3059,8 @@ Current launch direction:
 - Upgraded the shared puzzle control tokens for fill, blank-check, and undo from functional glyphs toward reusable Sunny Spoon Studios-style CSS artwork.
 - Stabilized the focused-play 12x12 board fit by accounting for grid gaps and widening the row clue lane so larger puzzles stay readable in mobile review captures.
 - Kept the change visual-only: puzzle state, undo behavior, hint accounting, and control event wiring are unchanged.
+
+### v0.1.430 Opening Mode Chip Artwork Pass
+- Bumped the visible app version to v0.1.430 and package version to 0.1.430.
+- Polished the opening screen's puzzle, pantry, and time-attack promise chips so their embedded symbols read as reusable Sunny Spoon Studios UI artwork rather than temporary button glyphs.
+- Kept navigation behavior unchanged for this slice; direct mode entry from the opening screen remains a separate UX decision after the release shell is stable.
