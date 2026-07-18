@@ -69,8 +69,10 @@ if (!/Mode: live-candidate/.test(releaseStatus)) {
   warnings.push("ANDROID_RELEASE_STATUS.md does not currently say Mode: live-candidate.");
 }
 
-const billingRealDeviceValidation = /Billing \/ IAP Real-Device Validation[\s\S]*Status:\s*\*\*passed\*\*[\s\S]*pip_cozy_support[\s\S]*purchase[\s\S]*restore/i;
-if (!billingRealDeviceValidation.test(releaseStatus)) {
+const supportPackRealDeviceValidation = /Billing \/ IAP Real-Device Validation[\s\S]*Status:\s*\*\*passed\*\*[\s\S]*pip_cozy_support[\s\S]*purchase[\s\S]*restore/i;
+const spoonJarRealDeviceValidation = /Billing \/ IAP Real-Device Validation[\s\S]*Status:\s*\*\*passed\*\*[\s\S]*pip_spoon_jar_small[\s\S]*purchase[\s\S]*(repeat|second|another|again)/i;
+
+if (!supportPackRealDeviceValidation.test(releaseStatus)) {
   const message = "docs/ANDROID_RELEASE_STATUS.md is missing a passed real-device Billing purchase/restore record for pip_cozy_support.";
   if (finalMode) {
     errors.push(message + " Complete Play Console internal-tester validation before the signed upload AAB.");
@@ -79,6 +81,14 @@ if (!billingRealDeviceValidation.test(releaseStatus)) {
   }
 }
 
+if (!spoonJarRealDeviceValidation.test(releaseStatus)) {
+  const message = "docs/ANDROID_RELEASE_STATUS.md is missing a passed real-device Billing purchase/repeat record for pip_spoon_jar_small.";
+  if (finalMode) {
+    errors.push(message + " Complete Play Console internal-tester consumable validation before the signed upload AAB.");
+  } else {
+    warnings.push(message + " Keep this on the final-upload checklist.");
+  }
+}
 const requiredReleaseStatusNotes = [
   ["candidate QA command", /npm run qa:candidate/],
   ["Android candidate QA command", /npm run qa:android:candidate/],

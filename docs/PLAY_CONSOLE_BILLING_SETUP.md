@@ -16,7 +16,7 @@ This document is the non-secret Play Console setup checklist for the v1 Android 
 - App copy framing: support Pip, restore purchase, spoons arrive
 - Do not describe the player-facing card as a paid tier or free tier.
 - English title: Pip Support Pack
-- Korean title: Pip Support Pack
+- Korean title: Pip 응원팩
 
 ### Small Spoon Jar
 
@@ -26,7 +26,7 @@ This document is the non-secret Play Console setup checklist for the v1 Android 
 - Player-facing reward: 750 spoons
 - App copy framing: fill the spoon jar for extra hints, room goals, and the next stage
 - English title: Small Spoon Jar
-- Korean title: Small Spoon Jar
+- Korean title: 작은 스푼 병
 
 ## Play Console Steps
 

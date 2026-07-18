@@ -200,7 +200,8 @@ requireIncludes(billingSetup, "KRW 1,100", "docs/PLAY_CONSOLE_BILLING_SETUP.md")
 requireIncludes(billingSetup, "USD 2.99", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requireIncludes(billingSetup, "English title: Pip Support Pack", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requireIncludes(billingSetup, "English title: Small Spoon Jar", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
-requireIncludes(billingSetup, "Korean title: Pip Support Pack", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
+requireIncludes(billingSetup, "Korean title: Pip 응원팩", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
+requireIncludes(billingSetup, "Korean title: 작은 스푼 병", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requirePattern(billingSetup, /internal tester[\s\S]*purchase\/restore/i, "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requirePattern(billingSetup, /spoon jar[\s\S]*repeat/i, "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requirePattern(releaseStatus, /Play Console setup required[\s\S]*managed product/i, "docs/ANDROID_RELEASE_STATUS.md");
