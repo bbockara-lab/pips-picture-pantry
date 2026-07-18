@@ -1,0 +1,270 @@
+import { spawn, spawnSync } from "node:child_process";
+import { mkdirSync, writeFileSync } from "node:fs";
+import http from "node:http";
+import { resolve } from "node:path";
+import { chromium } from "@playwright/test";
+import { APP_VERSION } from "../src/data/appVersion.js";
+
+const isWindows = process.platform === "win32";
+const requestedUrl = process.env.PPP_URL || "";
+const explicitPort = process.env.PPP_QA_PORT ? Number(process.env.PPP_QA_PORT) : null;
+let port = explicitPort || 5184;
+let baseUrl = requestedUrl || "http://127.0.0.1:" + port + "/";
+const outputRoot = resolve(process.cwd(), "qa-artifacts", "visual-review", APP_VERSION);
+const shotsDir = resolve(outputRoot, "screenshots");
+const manifest = {
+  version: APP_VERSION,
+  generatedAt: new Date().toISOString(),
+  baseUrl,
+  viewport: { width: 390, height: 844 },
+  screenshots: [],
+  notes: [
+    "Local visual review pack for launch art, UX, and Billing surface review.",
+    "Use this with qa:mobile: qa:mobile catches regressions, this pack creates screenshots for human art direction.",
+    "Screenshots are intentionally ignored by git under qa-artifacts/."
+  ]
+};
+
+mkdirSync(shotsDir, { recursive: true });
+
+function commandFor(command) {
+  return isWindows
+    ? { file: "cmd.exe", args: ["/d", "/s", "/c", command] }
+    : { file: "sh", args: ["-lc", command] };
+}
+
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function probe(url) {
+  return new Promise((resolve) => {
+    const req = http.request(url, { method: "HEAD", timeout: 1200 }, (res) => {
+      res.resume();
+      resolve(res.statusCode || 0);
+    });
+    req.on("timeout", () => {
+      req.destroy();
+      resolve(0);
+    });
+    req.on("error", () => resolve(0));
+    req.end();
+  });
+}
+
+async function findAvailablePort(startPort) {
+  for (let candidate = startPort; candidate < startPort + 12; candidate += 1) {
+    const status = await probe("http://127.0.0.1:" + candidate + "/");
+    if (!status) return candidate;
+  }
+  throw new Error("No available local visual review port found from " + startPort + " to " + (startPort + 11) + ".");
+}
+
+async function waitForServer(url) {
+  for (let attempt = 0; attempt < 24; attempt += 1) {
+    const status = await probe(url);
+    if (status >= 200 && status < 500) return status;
+    await wait(500);
+  }
+  throw new Error("Dev server did not respond at " + url);
+}
+
+async function capture(page, name, selector, options = {}) {
+  if (selector) {
+    await page.locator(selector).first().waitFor({ state: "visible", timeout: options.timeout || 6000 });
+  }
+  await page.waitForTimeout(options.settleMs || 220);
+  const fileName = String(manifest.screenshots.length + 1).padStart(2, "0") + "-" + name + ".png";
+  const filePath = resolve(shotsDir, fileName);
+  await page.screenshot({ path: filePath, fullPage: Boolean(options.fullPage) });
+  manifest.screenshots.push({
+    name,
+    fileName,
+    relativePath: "screenshots/" + fileName,
+    selector: selector || "viewport",
+    fullPage: Boolean(options.fullPage),
+    viewport: manifest.viewport,
+    path: filePath
+  });
+}
+
+function writeContactSheet() {
+  const cards = manifest.screenshots.map((shot) => `
+    <article class="shot-card">
+      <h2>${shot.fileName}</h2>
+      <p>${shot.name} &middot; ${shot.selector}</p>
+      <a href="${shot.relativePath}"><img src="${shot.relativePath}" alt="${shot.name} screenshot"></a>
+    </article>`).join("\n");
+  const html = `<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pip's Picture Pantry Visual Review ${manifest.version}</title>
+<style>
+  body { margin: 0; background: #f7eedc; color: #3d2b2e; font-family: system-ui, sans-serif; }
+  header { position: sticky; top: 0; z-index: 2; padding: 16px 20px; background: rgba(255, 250, 238, 0.94); border-bottom: 1px solid rgba(61, 43, 46, 0.16); }
+  h1 { margin: 0 0 4px; font-size: 20px; }
+  header p { margin: 0; color: #7b5741; }
+  main { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 390px)); gap: 18px; padding: 20px; align-items: start; }
+  .shot-card { background: #fff9ed; border: 1px solid rgba(61, 43, 46, 0.16); border-radius: 14px; box-shadow: 0 10px 22px rgba(61, 43, 46, 0.12); overflow: hidden; }
+  .shot-card h2 { margin: 14px 14px 4px; font-size: 15px; }
+  .shot-card p { margin: 0 14px 12px; color: #7b5741; font-size: 13px; }
+  .shot-card img { display: block; width: 100%; height: auto; background: #fff; }
+</style>
+<header>
+  <h1>Pip's Picture Pantry Visual Review ${manifest.version}</h1>
+  <p>${manifest.screenshots.length} screenshots &middot; ${manifest.viewport.width}x${manifest.viewport.height} viewport &middot; ${manifest.generatedAt}</p>
+</header>
+<main>
+${cards}
+</main>
+</html>
+`;
+  writeFileSync(resolve(outputRoot, "index.html"), html, "utf8");
+}
+
+async function dismissIntro(page) {
+  if ((await page.locator(".brand-intro").count()) === 0) return;
+  await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6500 });
+  await page.locator(".brand-intro__skip").first().click();
+  const input = page.locator("#player-intro-name");
+  try {
+    await input.waitFor({ state: "visible", timeout: 900 });
+    await input.fill("Jay");
+    await page.locator(".player-intro-form .brand-intro__skip").click();
+  } catch {
+    // Existing visual-review player skips the name stage.
+  }
+  await page.locator(".brand-intro").waitFor({ state: "detached", timeout: 3500 });
+}
+
+async function dismissGuideIfPresent(page) {
+  const overlay = page.locator(".guide-overlay");
+  try {
+    await overlay.first().waitFor({ state: "visible", timeout: 1200 });
+    await page.locator(".guide-dialog__skip").first().click({ force: true });
+    await overlay.first().waitFor({ state: "detached", timeout: 3000 });
+  } catch {
+    // Not every seeded route shows a guide.
+  }
+}
+
+async function openFloatingView(page, view) {
+  await dismissGuideIfPresent(page);
+  if ((await page.locator(".floating-nav__trigger").count()) === 0 && (await page.locator(".play-screen__back").count()) > 0) {
+    await page.locator(".play-screen__back").click();
+  }
+  await page.locator(".floating-nav__trigger").first().waitFor({ state: "visible", timeout: 5000 });
+  await page.locator(".floating-nav__trigger").first().click();
+  await page.locator(".floating-nav__item[data-view='" + view + "']").click();
+  const selectors = { album: ".album-panel", map: ".map-panel", pantry: ".pantry-panel", puzzle: ".pack-block", timeAttack: ".time-attack-panel" };
+  if (selectors[view]) await page.locator(selectors[view]).first().waitFor({ state: "visible", timeout: 6000 });
+}
+
+async function seedReturningPlayer(page) {
+  await page.evaluate(() => {
+    const player = { id: "jay", name: "Jay" };
+    const saveKey = "pips-picture-pantry:v0.1:save:jay";
+    localStorage.setItem("pips-picture-pantry:v0.1:active-player", JSON.stringify(player));
+    localStorage.setItem("pips-picture-pantry:v0.1:players", JSON.stringify([player]));
+    localStorage.setItem(saveKey, JSON.stringify({
+      completedPuzzleIds: ["pips-first-shelf-pip-face-1"],
+      rewardedPuzzleIds: ["pips-first-shelf-pip-face-1"],
+      unlockedPackIds: ["pips-first-shelf", "bakery-window", "village-pantry"],
+      pantrySpoons: 999,
+      dailyRewardedDates: [],
+      replayDailyCounts: [],
+      timeAttackDailyCounts: [],
+      pantryOwnedDecorationIds: ["starter-counter-cloth", "small-jam-jar", "linen-curtain"],
+      pantryDisplayedDecorationIds: ["starter-counter-cloth"],
+      pantryCompletedStoryGoalIds: [],
+      seenGuideIds: ["firstPuzzle", "pantryFirstPurchase", "timeAttackIntro"]
+    }));
+  });
+}
+
+async function captureSettings(page) {
+  await page.locator('button[aria-label="Settings"], button[aria-label="설정"]').first().click();
+  await capture(page, "settings-billing-store", ".settings-dialog", { fullPage: true });
+  await page.locator(".settings-close").click();
+}
+
+async function captureLargeBoard(page) {
+  await openFloatingView(page, "puzzle");
+  const back = page.locator(".play-screen__back");
+  if ((await back.count()) > 0) await back.first().click();
+  await page.locator(".pack-block").first().waitFor({ state: "visible", timeout: 6000 });
+  const target = page.locator(".puzzle-chip", { hasText: /Bakery Window Glow/ }).first();
+  if ((await target.count()) === 0) return;
+  await target.click();
+  await capture(page, "large-board-cursor-controls", ".play-screen", { fullPage: true, settleMs: 400 });
+}
+
+async function main() {
+  let server = null;
+  if (!requestedUrl) {
+    const occupiedStatus = await probe(baseUrl);
+    if (occupiedStatus) {
+      if (explicitPort) throw new Error("Port " + port + " already responded with status " + occupiedStatus + ". Stop it or choose another PPP_QA_PORT.");
+      port = await findAvailablePort(port + 1);
+      baseUrl = "http://127.0.0.1:" + port + "/";
+      manifest.baseUrl = baseUrl;
+    }
+    const serverCommand = commandFor("npm run dev -- --port " + port + " --strictPort");
+    server = spawn(serverCommand.file, serverCommand.args, { stdio: ["ignore", "pipe", "pipe"], shell: false, windowsHide: true });
+    server.stdout.on("data", (chunk) => process.stdout.write(chunk));
+    server.stderr.on("data", (chunk) => process.stderr.write(chunk));
+    await waitForServer(baseUrl);
+  } else {
+    await waitForServer(baseUrl);
+  }
+
+  const browser = await chromium.launch({ headless: true });
+  const page = await browser.newPage({ viewport: manifest.viewport });
+  try {
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6500 });
+    await capture(page, "opening-brand-intro", ".brand-intro.game-stage");
+    await dismissIntro(page);
+    await page.locator(".app-shell").waitFor({ state: "visible", timeout: 6000 });
+    if ((await page.locator(".guide-overlay").count()) > 0) {
+      await capture(page, "pip-guide-dialog", ".guide-dialog");
+      await dismissGuideIfPresent(page);
+    }
+    await capture(page, "first-puzzle-board", ".play-screen", { fullPage: true });
+
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await seedReturningPlayer(page);
+    await page.reload({ waitUntil: "networkidle" });
+    await dismissIntro(page);
+    await captureSettings(page);
+
+    await openFloatingView(page, "pantry");
+    await capture(page, "pantry-room-and-shop", ".pantry-panel", { fullPage: true });
+    await openFloatingView(page, "timeAttack");
+    await capture(page, "time-attack-coach", ".time-attack-panel", { fullPage: true });
+    await openFloatingView(page, "album");
+    await capture(page, "album-progress", ".album-panel", { fullPage: true });
+    await openFloatingView(page, "map");
+    await capture(page, "map-badges", ".map-panel", { fullPage: true });
+    await captureLargeBoard(page);
+  } finally {
+    await page.close();
+    await browser.close();
+    if (server) {
+      if (isWindows && server.pid) spawnSync("taskkill", ["/pid", String(server.pid), "/t", "/f"], { stdio: "ignore" });
+      else server.kill();
+      await wait(300);
+    }
+  }
+
+  writeFileSync(resolve(outputRoot, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n", "utf8");
+  writeContactSheet();
+  console.log("Visual review pack wrote " + manifest.screenshots.length + " screenshots to " + shotsDir);
+}
+
+main().catch((error) => {
+  console.error("Visual review pack failed:");
+  console.error(error.stack || error.message);
+  process.exit(1);
+});

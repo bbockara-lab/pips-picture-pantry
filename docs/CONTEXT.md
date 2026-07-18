@@ -3027,3 +3027,8 @@ Current launch direction:
 - Bumped the visible app version to v0.1.426 and package version to 0.1.426.
 - Split the Small Spoon Jar failure status copy from the Support Pack failure copy so each Billing product keeps its own player-facing wording.
 - Added Billing QA coverage for the new `spoonJarFailed` i18n key, keeping the two-product store surface clear without paid/free wording.
+
+### Visual Review Pack QA Addendum
+- Added `npm run qa:visual-pack`, a local Playwright screenshot pack for the launch-facing UX and art review loop.
+- The pack captures the opening brand intro, Pip guide, first puzzle board, Settings Billing surface, Pantry room/shop, Time Attack coach, Album, Map, and a large-board cursor-control scene at a 390x844 mobile viewport.
+- Output is written under ignored `qa-artifacts/visual-review/<app-version>/` with a `manifest.json`, so Codex, Claude, and manual review can discuss the same screenshots without committing generated images.
