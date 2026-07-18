@@ -3400,6 +3400,29 @@ img {
   line-height: 1.35;
 }
 
+/* v0.1.418 stage gate reason chip */
+.unlock-panel__gate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: start;
+  min-height: 30px;
+  margin: 2px 0 0;
+  padding: 5px 10px;
+  border: 2px solid rgba(132, 82, 54, 0.2);
+  border-radius: 999px;
+  color: #6f4634;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.78), transparent 22%),
+    linear-gradient(180deg, #fff0bd 0%, #f5cf76 100%);
+  box-shadow:
+    0 3px 0 rgba(68, 42, 47, 0.1),
+    inset 0 -2px 0 rgba(189, 124, 53, 0.12);
+  font-size: 0.72rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
 /* v0.1.141 stage gate action */
 .unlock-panel__actions {
   display: grid;

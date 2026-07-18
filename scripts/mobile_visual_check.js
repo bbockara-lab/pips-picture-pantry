@@ -1400,7 +1400,7 @@ async function expectLockedBadgeGate(page, viewportName) {
 
 async function expectLockedStageGate(page, viewportName) {
   const lockedText = await page.locator(".pack-block.locked").first().innerText();
-  if (!lockedText.includes("Pantry room step") || !lockedText.includes("0/3") || !lockedText.includes("Need pantry story") || !lockedText.includes("Go to Pantry")) {
+  if (!lockedText.includes("Pantry room step") || !lockedText.includes("0/3") || !lockedText.includes("Need pantry story") || !lockedText.includes("Go to Pantry") || !lockedText.includes("Blocked by") || !lockedText.includes("Pantry requests")) {
     failures.push("[" + viewportName + "] Locked stage should explain pantry story progress, saw " + lockedText);
   }
 }

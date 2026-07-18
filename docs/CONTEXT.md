@@ -28,6 +28,12 @@
 - Bumped visible app version and package metadata to `v0.1.417`.
 - Split Support Pack purchase and restore button eligibility so a catalog lookup failure cannot block a player from restoring an already-owned Google Play purchase.
 - Reused the same eligibility helpers in Settings rendering and app-shell action guards, with Billing tests and release QA guards covering the shared contract.
+
+### v0.1.418 Stage Gate Reason Chip
+
+- Bumped visible app version and package metadata to `v0.1.418`.
+- Added a soft gate-reason chip to locked stage cards so players see whether a stage is blocked by Pantry requests, spoons, or both.
+- Extended English/Korean copy plus mobile QA coverage so the pack unlock economy remains explicit instead of feeling like a broken disabled button.
 Last updated: 2026-07-10
 
 ## Current Launch Strategy Snapshot - 2026-07-10

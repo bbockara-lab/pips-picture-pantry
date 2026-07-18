@@ -555,6 +555,10 @@ function createUnlockPanel(pack, onUnlockPack, onOpenPantry) {
     appendTextElement(requirements, "p", "unlock-panel__room", t("packs.roomRequirement", roomRequirement));
   }
   appendTextElement(requirements, "p", "unlock-panel__plan", planText);
+  const gateReason = getUnlockGateReason(canOpen, roomRequirement, spoonGap);
+  if (gateReason) {
+    appendTextElement(requirements, "p", "unlock-panel__gate", gateReason);
+  }
 
   const actions = document.createElement("div");
   actions.className = "unlock-panel__actions";
@@ -588,6 +592,19 @@ function getUnlockPlanText(canOpen, roomRequirement, spoonGap) {
     return t("packs.unlockPlanNeedPantry", roomRequirement);
   }
   return t("packs.unlockPlanNeedSpoons", { count: spoonGap });
+}
+
+function getUnlockGateReason(canOpen, roomRequirement, spoonGap) {
+  if (canOpen) {
+    return "";
+  }
+  if (!roomRequirement.met && spoonGap > 0) {
+    return t("packs.unlockGateNeedBoth", { count: spoonGap, completed: roomRequirement.completed, required: roomRequirement.required });
+  }
+  if (!roomRequirement.met) {
+    return t("packs.unlockGateNeedPantry", roomRequirement);
+  }
+  return t("packs.unlockGateNeedSpoons", { count: spoonGap });
 }
 
 function createSpoonIcon(size = "") {

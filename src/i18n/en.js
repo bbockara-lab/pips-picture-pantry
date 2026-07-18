@@ -387,6 +387,9 @@ export const en = {
     unlockPlanNeedSpoons: "Earn {count} more spoons from daily picks, replay picks, or Time Attack.",
     unlockPlanNeedPantry: "Finish Pantry requests {completed}/{required} to make room for this stage.",
     unlockPlanNeedBoth: "Earn {count} more spoons and finish Pantry requests {completed}/{required} to open this stage.",
+    unlockGateNeedSpoons: "Blocked by spoons: {count} more needed.",
+    unlockGateNeedPantry: "Blocked by Pantry requests: {completed}/{required} done.",
+    unlockGateNeedBoth: "Blocked by spoons and Pantry requests: {count} spoons, {completed}/{required} requests.",
     "pips-first-shelf": {
       title: "Pip's First Shelf",
       note: "Start with tiny cozy pictures"
