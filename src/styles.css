@@ -7995,7 +7995,11 @@ img {
 }
 
 .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
-  --board-cell-size: clamp(18px, calc((100vw - 160px) / var(--board-size)), 44px);
+  --board-row-clue-width: 62px;
+  --board-cell-size: clamp(17px, calc((100vw - 184px) / var(--board-size)), 44px);
+  --board-grid-gap: 3px;
+  --board-grid-size: calc((var(--board-cell-size) * var(--board-size)) + (var(--board-grid-gap) * var(--board-gap-count)));
+  grid-template-columns: var(--board-row-clue-width) minmax(0, var(--board-grid-size));
   width: fit-content;
   max-width: 100%;
   margin: 12px auto 0;
@@ -8012,6 +8016,8 @@ img {
 }
 
 .puzzle-panel:not(.completed) .board-wrap:not(.locked) .puzzle-grid {
+  width: var(--board-grid-size);
+  gap: var(--board-grid-gap);
   border: 3px solid rgba(61, 43, 46, 0.15);
   border-radius: 14px;
   padding: 3px;
@@ -8036,8 +8042,9 @@ img {
 
 @media (max-width: 420px) {
   .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
-    --board-cell-size: clamp(17px, calc((100vw - 158px) / var(--board-size)), 42px);
-    grid-template-columns: 46px minmax(0, calc(var(--board-cell-size) * var(--board-size)));
+    --board-row-clue-width: 58px;
+    --board-cell-size: clamp(16px, calc((100vw - 182px) / var(--board-size)), 42px);
+    grid-template-columns: var(--board-row-clue-width) minmax(0, var(--board-grid-size));
     padding: 8px;
     border-radius: 16px;
   }
@@ -8914,7 +8921,7 @@ img {
 
 .puzzle-cell.completed-row.marked::before,
 .puzzle-cell.completed-column.marked::before {
-  inset: 7px;
+  inset: clamp(4px, 22%, 7px);
   border-radius: 6px;
   background:
     radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.7), transparent 30%),
@@ -8927,8 +8934,8 @@ img {
 .puzzle-cell.completed-row.marked::after,
 .puzzle-cell.completed-column.marked::after {
   inset: 50% auto auto 50%;
-  width: min(64%, 20px);
-  height: min(64%, 20px);
+  width: clamp(8px, 64%, 20px);
+  height: clamp(8px, 64%, 20px);
   background:
     linear-gradient(45deg, transparent 41%, rgba(72, 138, 122, 0.68) 42% 58%, transparent 59%),
     linear-gradient(135deg, transparent 41%, rgba(72, 138, 122, 0.68) 42% 58%, transparent 59%),
@@ -11625,6 +11632,102 @@ img {
 
 .control-button__icon--undo {
   border-radius: 999px;
+}
+
+/* v0.1.429 reusable control icon artwork pass */
+.control-button__icon {
+  width: 30px;
+  height: 30px;
+  border-width: 3px;
+  border-color: rgba(78, 54, 49, 0.36);
+  border-radius: 11px;
+  background:
+    radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.92) 0 13%, transparent 14%),
+    linear-gradient(145deg, #fff5ca 0%, #f9d371 50%, #df8b51 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.72),
+    inset 0 -4px 0 rgba(132, 78, 48, 0.18),
+    0 3px 0 rgba(61, 43, 46, 0.16),
+    0 8px 14px rgba(122, 78, 53, 0.12);
+}
+
+.control-button__icon--fill::before {
+  inset: 7px 6px 5px 8px;
+  border: 0;
+  border-radius: 7px 7px 9px 9px;
+  background:
+    radial-gradient(circle at 32% 21%, rgba(255, 255, 255, 0.88) 0 13%, transparent 14%),
+    linear-gradient(145deg, #fff1b6 0 24%, #f0aa62 25% 70%, #c67445 71% 100%);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 248, 223, 0.76),
+    inset 0 -5px 0 rgba(114, 70, 44, 0.16),
+    0 2px 0 rgba(94, 63, 49, 0.18);
+  transform: rotate(-4deg);
+}
+
+.control-button__icon--fill::after {
+  right: 5px;
+  bottom: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.84) 0 24%, transparent 25%),
+    linear-gradient(145deg, #ffe397, #e99b50);
+  box-shadow:
+    inset 0 -2px 0 rgba(130, 78, 45, 0.15),
+    0 1px 0 rgba(61, 43, 46, 0.12);
+}
+
+.control-button__icon--mark {
+  background:
+    radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.92) 0 13%, transparent 14%),
+    linear-gradient(145deg, #def8ea 0%, #a7d9c5 58%, #73b399 100%);
+}
+
+.control-button__icon--mark::before,
+.control-button__icon--mark::after {
+  left: 6px;
+  top: 13px;
+  width: 18px;
+  height: 4px;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.56), transparent 32%),
+    linear-gradient(180deg, #6db7a4, #3d7f73);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.58),
+    0 0 0 1px rgba(61, 43, 46, 0.12),
+    0 2px 0 rgba(61, 43, 46, 0.1);
+}
+
+.control-button__icon--undo {
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.92) 0 13%, transparent 14%),
+    conic-gradient(from 245deg, #fff0a7 0 18%, #e89b45 19% 58%, #fff0a7 59% 82%, #d08339 83% 100%);
+}
+
+.control-button__icon--undo::before {
+  left: 7px;
+  top: 7px;
+  width: 13px;
+  height: 13px;
+  border-width: 4px;
+  border-color: #775747;
+  border-right-color: transparent;
+  border-radius: 50%;
+  transform: rotate(30deg);
+}
+
+.control-button__icon--undo::after {
+  left: 4px;
+  top: 4px;
+  border-top-width: 6px;
+  border-bottom-width: 6px;
+  border-right-width: 9px;
+  border-right-color: #775747;
+  transform: rotate(-29deg);
 }
 
 .floating-nav__trigger,

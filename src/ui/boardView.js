@@ -8,6 +8,7 @@ export function renderBoard(puzzle, state, onCellPress, options = {}) {
   const board = document.createElement("div");
   board.className = options.locked ? "board-wrap locked" : "board-wrap";
   board.style.setProperty("--board-size", puzzle.size);
+  board.style.setProperty("--board-gap-count", Math.max(0, puzzle.size - 1));
 
   const cursor = options.cursorEnabled === false ? null : state.cursor;
   const lineGuidance = getLineGuidance(puzzle, state, options);

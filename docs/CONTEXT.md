@@ -3053,3 +3053,9 @@ Current launch direction:
 - Added a settings-specific modal backdrop class so the longer Settings/Billing surface behaves like a mobile sheet without changing reset or guide dialogs.
 - The Settings dialog now stays inside the viewport with its own scroll area, keeping the Done button and Billing cards from visually blending into the underlying puzzle screen.
 - Updated the visual review pack to scroll to the Support Pack card before capturing the Settings Billing surface, and strengthened mobile QA so the settings backdrop/dialog scroll contract is guarded.
+
+### v0.1.429 Reusable Control Icon Artwork Pass
+- Bumped the visible app version to v0.1.429 and package version to 0.1.429.
+- Upgraded the shared puzzle control tokens for fill, blank-check, and undo from functional glyphs toward reusable Sunny Spoon Studios-style CSS artwork.
+- Stabilized the focused-play 12x12 board fit by accounting for grid gaps and widening the row clue lane so larger puzzles stay readable in mobile review captures.
+- Kept the change visual-only: puzzle state, undo behavior, hint accounting, and control event wiring are unchanged.
