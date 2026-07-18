@@ -3071,6 +3071,12 @@ Current launch direction:
 - Kept first-run player naming intact by deferring the selected destination until after the name form submits, then dispatching the same app-shell navigation event.
 - Added explicit button reset/focus styling for the chips so they remain tactile artwork while becoming discoverable entry points.
 
+### v0.1.432 Puzzle Blank-Mark Token Artwork
+- Bumped the visible app version to v0.1.432 and package version to 0.1.432.
+- Upgraded ordinary blank-check cells and safe blank suggestions from visible text glyphs into layered CSS token artwork with a small glossy tile, diagonal X strokes, and hidden text color.
+- Kept board state, drag painting, auto-line marking, hint, and undo behavior unchanged; this is a presentation-only step toward the final shared artwork system.
+- Existing completed-line auto-mark artwork keeps its higher-specificity treatment, while ordinary marked cells and soft blank suggestions now share a reusable token language.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

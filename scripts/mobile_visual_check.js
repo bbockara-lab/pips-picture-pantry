@@ -2701,6 +2701,9 @@ async function expectCompletedLineGuidance(page, viewportName) {
     const safeSuggestion = document.createElement("button");
     safeSuggestion.className = "puzzle-cell safe-suggestion";
     document.body.appendChild(safeSuggestion);
+    const markedFixture = document.createElement("button");
+    markedFixture.className = "puzzle-cell marked";
+    document.body.appendChild(markedFixture);
     const glowCell = document.querySelector(".puzzle-cell.completed-row");
     const progressBadge = document.querySelector(".progress-line__badge");
     const progressBadgeStyle = progressBadge ? getComputedStyle(progressBadge) : null;
@@ -2727,6 +2730,8 @@ async function expectCompletedLineGuidance(page, viewportName) {
     };
     const safeSuggestionStyle = readStyle(safeSuggestion);
     safeSuggestion.remove();
+    const markedFixtureStyle = readStyle(markedFixture);
+    markedFixture.remove();
     const lockedLeakCount = document.querySelectorAll(".board-wrap.locked .line-complete, .board-wrap.locked .safe-suggestion, .board-wrap.locked .completed-row, .board-wrap.locked .completed-column").length;
     return {
       rowCompleteCount,
@@ -2735,6 +2740,7 @@ async function expectCompletedLineGuidance(page, viewportName) {
       rowClueStyle: readStyle(rowClue),
       safeCellStyle: readStyle(safeCell),
       safeSuggestionStyle,
+      markedFixtureStyle,
       glowCellStyle: readStyle(glowCell),
       progressBadgeText: (progressBadge?.textContent || "").trim(),
       progressBadgeWidth: progressBadgeRect?.width || 0,
@@ -2757,6 +2763,22 @@ async function expectCompletedLineGuidance(page, viewportName) {
     metrics.safeCellStyle.outlineStyle !== "dashed" ||
     metrics.safeSuggestionStyle.borderStyle !== "solid" ||
     metrics.safeSuggestionStyle.outlineStyle !== "dashed" ||
+    metrics.safeSuggestionStyle.color !== "rgba(0, 0, 0, 0)" ||
+    !metrics.safeSuggestionStyle.beforeBackground.includes("gradient") ||
+    metrics.safeSuggestionStyle.beforeBoxShadow === "none" ||
+    !metrics.safeSuggestionStyle.afterBackground.includes("linear-gradient") ||
+    metrics.safeSuggestionStyle.afterFilter === "none" ||
+    metrics.safeSuggestionStyle.afterTransform === "none" ||
+    metrics.safeSuggestionStyle.afterWidth < 8 ||
+    metrics.safeSuggestionStyle.afterHeight < 8 ||
+    metrics.markedFixtureStyle.color !== "rgba(0, 0, 0, 0)" ||
+    !metrics.markedFixtureStyle.beforeBackground.includes("gradient") ||
+    metrics.markedFixtureStyle.beforeBoxShadow === "none" ||
+    !metrics.markedFixtureStyle.afterBackground.includes("linear-gradient") ||
+    metrics.markedFixtureStyle.afterFilter === "none" ||
+    metrics.markedFixtureStyle.afterTransform === "none" ||
+    metrics.markedFixtureStyle.afterWidth < 8 ||
+    metrics.markedFixtureStyle.afterHeight < 8 ||
     !metrics.safeCellStyle.background.includes("gradient") ||
     metrics.safeCellStyle.color !== "rgba(0, 0, 0, 0)" ||
     !metrics.safeCellStyle.beforeBackground.includes("gradient") ||
