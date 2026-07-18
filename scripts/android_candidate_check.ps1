@@ -56,7 +56,7 @@ try {
 
   Write-Host ""
   Write-Host "Android candidate check passed."
-  Write-Host "Before the signed Play upload, bump android/app/build.gradle versionCode/versionName."
+  Write-Host "Before the signed Play upload, confirm android/app/build.gradle remains above the last Play upload (currently versionCode 28 / versionName 1.1.0)."
   Write-Host "Also create/activate the Play Console managed products pip_cozy_support and pip_spoon_jar_small, then record real-device purchase/restore/repeat validation in docs/ANDROID_RELEASE_STATUS.md."
   Write-Host "Then run scripts/build_android_signed_release_bundle.ps1; it reruns qa:candidate, qa:privacy:live, and qa:release:final before signing."
 } finally {

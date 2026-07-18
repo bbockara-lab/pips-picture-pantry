@@ -9,7 +9,7 @@
 - Billing implementation exists in `src/game/billing.js` and is guarded by `npm run qa:billing`; Play Console managed product setup and final signed-device purchase test remain required.
 - Gameplay integrity priorities for the last release push: hint/undo no-refund semantics, replay reward anti-farming, Time Attack score fairness, Pantry placement persistence, and mobile WebView QA.
 - UI/art priorities for the last release push: support pack card polish, store/Pantry item presentation, Pip-led guide dialogs, completion effects, consistent Sunny Spoon/Pip artwork, and no placeholder-looking buttons/icons.
-- Final Android upload remains blocked until `android/app/build.gradle` versionCode/versionName are intentionally bumped beyond the last Play Console upload and the signed AAB passes the final release gate.
+- Final Android upload numbering is prepared at `android/app/build.gradle` versionCode 28 / versionName 1.1.0; signed upload remains blocked until Play Console Billing evidence is recorded and the final release gate passes.
 
 ### Billing Console Setup Guard Addendum
 
@@ -2871,7 +2871,7 @@ Current launch direction:
 
 ### v0.1.381 Signed Upload QA Chain Addendum
 - Updated `scripts/build_android_signed_release_bundle.ps1` so the signed Play-upload path now runs `npm run qa:candidate`, `npm run qa:privacy:live`, and `npm run qa:release:final` before checking signing secrets or building the release bundle.
-- This keeps the final AAB path tied to the same web/mobile/store/privacy checks used during release review, with the stricter Android numbering gate still blocking until the final versionCode/versionName bump.
+- This keeps the final AAB path tied to the same web/mobile/store/privacy checks used during release review, with the stricter Android numbering and Billing evidence gates still protecting the signed upload.
 
 ### v0.1.382 - Stage Complete Fallback Art Polish
 - Bumped the visible app version to v0.1.382 and replaced the stage-complete pending-art text block with the approved `pip-completion-v2.png` fallback when a pack does not yet have dedicated stage art.
@@ -3017,3 +3017,8 @@ Current launch direction:
 - Clarified the Android release note so the final Play Console step explicitly requires both launch managed products: `pip_cozy_support` and `pip_spoon_jar_small`.
 - Strengthened `npm run qa:billing` so the release status cannot regress to single-product setup wording before signed upload.
 - This is a release QA/documentation guard only; no visible app version bump was needed.
+
+### Android Release Numbering Reminder Cleanup
+- Updated the Android candidate reminder and release notes to match the current prepared upload state: versionCode 28 / versionName 1.1.0 is already set for the public-launch Billing candidate.
+- The remaining signed-upload blocker is now framed correctly as Play Console product activation plus real-device Billing evidence, not another automatic version bump.
+- If another AAB is uploaded before this candidate, bump Android numbering again before rebuilding the signed bundle.

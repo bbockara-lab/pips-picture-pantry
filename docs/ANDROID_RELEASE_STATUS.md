@@ -1635,7 +1635,7 @@ versionName "1.1.0" // or the final public launch version name
 - Added `npm run qa:android:candidate` as the fast Android candidate lane.
 - The lane runs the web candidate gate, Capacitor sync, unsigned Android release bundle build, and AAB output sanity check.
 - Verified the lane exits successfully and produces `android/app/build/outputs/bundle/release/app-release.aab`.
-- Expected pre-final warnings remain: Android `versionCode` / `versionName` still match the last Play upload until the final upload bump.
+- Android upload numbering is now prepared at `versionCode 28` / `versionName "1.1.0"`; bump again only if another AAB is uploaded before this public-launch Billing candidate.
 
 ## Billing / IAP Release Note - 2026-07-16
 
