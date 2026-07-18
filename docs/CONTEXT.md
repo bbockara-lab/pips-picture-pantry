@@ -3022,3 +3022,8 @@ Current launch direction:
 - Updated the Android candidate reminder and release notes to match the current prepared upload state: versionCode 28 / versionName 1.1.0 is already set for the public-launch Billing candidate.
 - The remaining signed-upload blocker is now framed correctly as Play Console product activation plus real-device Billing evidence, not another automatic version bump.
 - If another AAB is uploaded before this candidate, bump Android numbering again before rebuilding the signed bundle.
+
+### v0.1.426 Spoon Jar Failure Copy Polish
+- Bumped the visible app version to v0.1.426 and package version to 0.1.426.
+- Split the Small Spoon Jar failure status copy from the Support Pack failure copy so each Billing product keeps its own player-facing wording.
+- Added Billing QA coverage for the new `spoonJarFailed` i18n key, keeping the two-product store surface clear without paid/free wording.

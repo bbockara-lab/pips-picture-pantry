@@ -88,6 +88,7 @@ export const en = {
     spoonJarFactSpoons: "{spoons} spoons",
     spoonJarFactRepeat: "Repeatable top-up",
     spoonJarReady: "Spoons arrive after each jar.",
+    spoonJarFailed: "The jar could not be filled. No spoons were spent.",
     spoonJarBuy: "Fill jar for {price}",
     supportPricePending: "store price",
     close: "Done"

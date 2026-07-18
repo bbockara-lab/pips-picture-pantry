@@ -370,7 +370,7 @@ export function getSpoonJarStatus(spoonJar) {
   if (spoonJar.loading) return t("settings.supportChecking");
   if (spoonJar.status === "cancelled") return t("settings.supportCancelled");
   if (spoonJar.status === "network-error") return t("settings.supportNetworkError");
-  if (["wrong-product", "failed", "product-unavailable", "missing-purchase-key"].includes(spoonJar.status)) return t("settings.supportFailed");
+  if (["wrong-product", "failed", "product-unavailable", "missing-purchase-key"].includes(spoonJar.status)) return t("settings.spoonJarFailed");
   if (spoonJar.status === "purchased" || spoonJar.status === "already-processed") return t("settings.spoonJarReady");
   if (!spoonJar.available) return t("settings.supportAndroidOnly");
   return t("settings.spoonJarReady");

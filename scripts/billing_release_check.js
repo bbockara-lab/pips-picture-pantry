@@ -109,6 +109,7 @@ const requiredI18nKeys = [
   "spoonJarFactSpoons",
   "spoonJarFactRepeat",
   "spoonJarReady",
+  "spoonJarFailed",
   "spoonJarBuy"
 ];
 

@@ -159,7 +159,7 @@ describe("billing support pack guards", () => {
 
     expect(getSpoonJarFacts(baseSpoonJar)).toEqual(["750 spoons", "Google Play", "Repeatable top-up"]);
     expect(getSpoonJarStatus({ ...baseSpoonJar, status: "purchased" })).toContain("Spoons arrive");
-    expect(getSpoonJarStatus({ ...baseSpoonJar, status: "missing-purchase-key" })).toContain("could not finish");
+    expect(getSpoonJarStatus({ ...baseSpoonJar, status: "missing-purchase-key" })).toContain("jar could not be filled");
     expect(getSpoonJarStatusTone({ ...baseSpoonJar, loading: true })).toBe("checking");
     expect(getSpoonJarStatusTone({ ...baseSpoonJar, status: "purchased" })).toBe("success");
     expect(getSpoonJarStatusTone({ ...baseSpoonJar, available: false })).toBe("warning");
