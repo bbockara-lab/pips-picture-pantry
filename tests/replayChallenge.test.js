@@ -54,6 +54,26 @@ describe("replay challenge reward guard", () => {
     expect(state.hintsUsed).toBe(1);
     expect(isReplayClean(status)).toBe(false);
   });
+
+  it("blocks replay spoon rewards after a hinted completion", () => {
+    let state = createPuzzleState(replayPuzzle);
+    let status = createReplayCleanStatus();
+
+    state = useHint(state, solution, { revealCount: 5 });
+    state = { ...state, completed: true };
+    status = getReplayCleanStatusAfterState(true, status, state, solution);
+
+    const result = recordReplayReward({
+      puzzleId: replayPuzzle.id,
+      picked: true,
+      clean: isReplayClean(status),
+      dateKey: "2026-07-07"
+    });
+
+    expect(result).toMatchObject({ rewardAllowed: false, reason: "not-eligible" });
+    expect(getPantrySpoons()).toBe(3);
+  });
+
   it("keeps replay unclean after a hint is undone", () => {
     let state = createPuzzleState(replayPuzzle);
     let status = createReplayCleanStatus();
