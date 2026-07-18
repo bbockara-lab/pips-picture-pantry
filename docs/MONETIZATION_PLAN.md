@@ -47,7 +47,7 @@ The support pack also protects fast players from a dead end if they exhaust spoo
 - `src/game/billing.js` handles product lookup, purchase, restore, cancellation/network/failure status, and entitlement response variants.
 - `src/game/save.js` already stores `cozyPassPurchased` and grants the one-time spoon reward with duplicate protection.
 - `scripts/billing_release_check.js` guards dependency, manifest permission, i18n keys, policy docs, product ID, purchase/restore wiring, and player-facing copy hygiene.
-- Play Console managed product setup is still required before final signed upload testing.
+- Play Console managed product setup is still required before final signed upload testing; follow `docs/PLAY_CONSOLE_BILLING_SETUP.md`.
 - v1 validation is client-side Google Play Billing result plus local duplicate guard. Server validation, refund revocation handling, and richer support products are deferred until v1.1+ if needed.
 
 ## Deferred

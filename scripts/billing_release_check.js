@@ -30,6 +30,7 @@ const economySource = readProjectFile("src/data/economyConfig.js");
 const english = readProjectFile("src/i18n/en.js");
 const korean = readProjectFile("src/i18n/ko.js");
 const monetizationPlan = readProjectFile("docs/MONETIZATION_PLAN.md");
+const billingSetup = readProjectFile("docs/PLAY_CONSOLE_BILLING_SETUP.md");
 const releaseStatus = readProjectFile("docs/ANDROID_RELEASE_STATUS.md");
 const privacyPolicy = readProjectFile("docs/PRIVACY_POLICY.md");
 const storeListing = readProjectFile("docs/PLAY_CONSOLE_STORE_LISTING.md");
@@ -115,6 +116,7 @@ if (forbiddenCopy.test(futurePackCopy)) {
 
 for (const [label, source] of [
   ["docs/MONETIZATION_PLAN.md", monetizationPlan],
+  ["docs/PLAY_CONSOLE_BILLING_SETUP.md", billingSetup],
   ["docs/ANDROID_RELEASE_STATUS.md", releaseStatus],
   ["docs/PRIVACY_POLICY.md", privacyPolicy],
   ["docs/PLAY_CONSOLE_STORE_LISTING.md", storeListing]
@@ -124,7 +126,14 @@ for (const [label, source] of [
 
 requireIncludes(monetizationPlan, "USD 0.99", "docs/MONETIZATION_PLAN.md");
 requireIncludes(monetizationPlan, "KRW 1,100", "docs/MONETIZATION_PLAN.md");
+requireIncludes(billingSetup, "managed product", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
+requireIncludes(billingSetup, "non-consumable", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
+requireIncludes(billingSetup, "250 spoons", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
+requireIncludes(billingSetup, "USD 0.99", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
+requireIncludes(billingSetup, "KRW 1,100", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
+requirePattern(billingSetup, /internal tester[\s\S]*purchase\/restore/i, "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requirePattern(releaseStatus, /Play Console setup required[\s\S]*managed product/i, "docs/ANDROID_RELEASE_STATUS.md");
+requirePattern(releaseStatus, /PLAY_CONSOLE_BILLING_SETUP\.md/, "docs/ANDROID_RELEASE_STATUS.md");
 requirePattern(releaseStatus, /purchase\/restore/i, "docs/ANDROID_RELEASE_STATUS.md");
 
 if (errors.length) {

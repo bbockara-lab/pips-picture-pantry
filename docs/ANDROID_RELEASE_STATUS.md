@@ -65,7 +65,7 @@ versionName "1.1.0" // or the final public launch version name
 
 - Upload keystore exists outside the repo under D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Pip's Picture Pantry.
 - Local-only signing env file exists outside the repo and is not committed.
-- Current pre-upload blocker: choose the public launch Android `versionCode` / `versionName`, update `android/app/build.gradle`, run `npm run qa:release:final`, then build and verify the signed Play-upload AAB.
+- Current pre-upload blocker: complete `docs/PLAY_CONSOLE_BILLING_SETUP.md`, create and activate the `pip_cozy_support` managed product, choose the public launch Android `versionCode` / `versionName`, update `android/app/build.gradle`, run `npm run qa:billing` and `npm run qa:release:final`, then build and verify the signed Play-upload AAB.
 
 ## Local Tooling Notes
 
@@ -84,12 +84,14 @@ versionName "1.1.0" // or the final public launch version name
 ## Next Android Actions
 
 1. Finish final human review on Android/WebView and visible store screenshots.
-2. Choose final public Android `versionCode` / `versionName` and bump `android/app/build.gradle`.
-3. Run `npm run qa:release:final`.
-4. Build the signed Play-upload AAB with `scripts/build_android_signed_release_bundle.ps1`.
-5. Upload the signed AAB to Google Play internal/closed testing and confirm Play Console accepts it.
-6. Capture accepted package/version details and real-device screenshots.
-7. Keep the upload keystore/env file backed up outside the repo.
+2. Complete `docs/PLAY_CONSOLE_BILLING_SETUP.md` for the `pip_cozy_support` managed product.
+3. Choose final public Android `versionCode` / `versionName` and bump `android/app/build.gradle`.
+4. Run `npm run qa:billing` and `npm run qa:release:final`.
+5. Build the signed Play-upload AAB with `scripts/build_android_signed_release_bundle.ps1`.
+6. Upload the signed AAB to Google Play internal/closed testing and confirm Play Console accepts it.
+7. Verify real-device purchase/restore on an internal tester account.
+8. Capture accepted package/version details and real-device screenshots.
+9. Keep the upload keystore/env file backed up outside the repo.
 
 ## Verification Update - 2026-06-28 Game Loop Slice
 
@@ -1624,6 +1626,6 @@ versionName "1.1.0" // or the final public launch version name
 
 - v1 Android now includes a minimal optional Google Play Billing path for one non-consumable support product: `pip_cozy_support`.
 - `npm run qa:billing` verifies the Billing dependency, Android Billing permission, product ID wiring, support-pack i18n keys, policy/listing references, and no paid/free wording in player-facing support copy.
-- Play Console setup required before final store test: create the managed product, set price, activate it, and test purchase/restore on an internal tester account.
+- Play Console setup required before final store test: follow `docs/PLAY_CONSOLE_BILLING_SETUP.md`, create the managed product, set price, activate it, and test purchase/restore on an internal tester account.
 - Android manifest includes `com.android.vending.BILLING`; Capacitor sync must be run after Billing plugin changes before building an AAB.
 - The app grants 250 spoons once per local profile after purchase or restore. Refund/revocation server reconciliation is deferred to v1.1+ unless Play Console testing exposes a blocking issue.

@@ -11,6 +11,12 @@
 - UI/art priorities for the last release push: support pack card polish, store/Pantry item presentation, Pip-led guide dialogs, completion effects, consistent Sunny Spoon/Pip artwork, and no placeholder-looking buttons/icons.
 - Final Android upload remains blocked until `android/app/build.gradle` versionCode/versionName are intentionally bumped beyond the last Play Console upload and the signed AAB passes the final release gate.
 
+### Billing Console Setup Guard Addendum
+
+- Added `docs/PLAY_CONSOLE_BILLING_SETUP.md` as the non-secret Play Console checklist for the `pip_cozy_support` managed product: product type, suggested price, player framing, activation, and real internal-tester purchase/restore validation.
+- Strengthened `npm run qa:billing` so the Billing guard now checks that the setup checklist exists, names the product ID, preserves non-consumable / 250-spoon / USD 0.99 / KRW 1,100 launch assumptions, and is referenced from the Android release status.
+- This is release-gate/documentation hardening only; no visible app version bump was needed.
+
 ### v0.1.416 Support Pack Already-Owned Guard
 
 - Bumped visible app version and package metadata to `v0.1.416`.
