@@ -154,6 +154,7 @@ for (const legacyNeedle of [
   "pips_spoons_950",
   "@capacitor-community/in-app-purchases",
   "cordova-plugin-purchase",
+  "paid-theme-pack",
   "Tiny Jar",
   "Cookie Tin",
   "Full Pantry"

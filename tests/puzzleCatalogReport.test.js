@@ -49,7 +49,7 @@ describe("puzzle catalog report", () => {
         {
           id: "future-preview",
           access: "bonus-pack",
-          monetizationRole: "paid-theme-pack",
+          monetizationRole: "future-theme-pack",
           size: 8
         }
       ],

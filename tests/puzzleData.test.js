@@ -15,7 +15,7 @@ describe("puzzle data", () => {
   });
 
   it("ships a scalable free progression catalog", () => {
-    const progressionPacks = puzzlePacks.filter((pack) => pack.monetizationRole !== "paid-theme-pack");
+    const progressionPacks = puzzlePacks.filter((pack) => pack.monetizationRole !== "future-theme-pack");
     const progressionPuzzles = puzzles.filter((puzzle) =>
       progressionPacks.some((pack) => pack.id === puzzle.packId)
     );
@@ -30,7 +30,7 @@ describe("puzzle data", () => {
   it("keeps larger boards limited to larger-board progression packs", () => {
     const progressionPacksById = new Map(
       puzzlePacks
-        .filter((pack) => pack.monetizationRole !== "paid-theme-pack")
+        .filter((pack) => pack.monetizationRole !== "future-theme-pack")
         .map((pack) => [pack.id, pack])
     );
     const progressionPuzzles = puzzles.filter((puzzle) => progressionPacksById.has(puzzle.packId));
@@ -51,7 +51,7 @@ describe("puzzle data", () => {
 
   it("keeps each progression pack aligned to its declared max board size", () => {
     puzzlePacks
-      .filter((pack) => pack.monetizationRole !== "paid-theme-pack")
+      .filter((pack) => pack.monetizationRole !== "future-theme-pack")
       .forEach((pack) => {
         const packPuzzles = puzzles.filter((puzzle) => puzzle.packId === pack.id);
         const packSizes = packPuzzles.map((puzzle) => puzzle.size);

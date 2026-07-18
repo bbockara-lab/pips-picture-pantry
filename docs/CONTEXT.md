@@ -26,6 +26,7 @@
 ### Future Set Naming Guard
 
 - Internal bonus-pack preview naming now uses `bonus-preview` / `futurePackHint` instead of old paid-pack wording.
+- Future pack metadata now uses `future-theme-pack` so hidden later-season content does not inherit the old paid-theme naming.
 - Player copy was already safe, but this keeps code, QA guards, and future monetization work aligned with the v1 plan: one optional Support Pack now, future seasonal/bonus sets later.
 
 ### Pantry Support Pack Path Guard
