@@ -31,6 +31,7 @@ const pantrySource = readProjectFile("src/ui/pantryView.js");
 const english = readProjectFile("src/i18n/en.js");
 const korean = readProjectFile("src/i18n/ko.js");
 const monetizationPlan = readProjectFile("docs/MONETIZATION_PLAN.md");
+const economyDesignSpec = readProjectFile("docs/ECONOMY_DESIGN_SPEC.md");
 const billingSetup = readProjectFile("docs/PLAY_CONSOLE_BILLING_SETUP.md");
 const releaseStatus = readProjectFile("docs/ANDROID_RELEASE_STATUS.md");
 const privacyPolicy = readProjectFile("docs/PRIVACY_POLICY.md");
@@ -130,6 +131,7 @@ if (forbiddenCopy.test(futurePackCopy)) {
 
 for (const [label, source] of [
   ["docs/MONETIZATION_PLAN.md", monetizationPlan],
+  ["docs/ECONOMY_DESIGN_SPEC.md", economyDesignSpec],
   ["docs/PLAY_CONSOLE_BILLING_SETUP.md", billingSetup],
   ["docs/ANDROID_RELEASE_STATUS.md", releaseStatus],
   ["docs/PRIVACY_POLICY.md", privacyPolicy],
@@ -140,6 +142,26 @@ for (const [label, source] of [
 
 requireIncludes(monetizationPlan, "USD 0.99", "docs/MONETIZATION_PLAN.md");
 requireIncludes(monetizationPlan, "KRW 1,100", "docs/MONETIZATION_PLAN.md");
+requireIncludes(economyDesignSpec, "Pip Support Pack", "docs/ECONOMY_DESIGN_SPEC.md");
+requireIncludes(economyDesignSpec, "USD 0.99", "docs/ECONOMY_DESIGN_SPEC.md");
+requireIncludes(economyDesignSpec, "KRW 1,100", "docs/ECONOMY_DESIGN_SPEC.md");
+requireIncludes(economyDesignSpec, "@capgo/native-purchases", "docs/ECONOMY_DESIGN_SPEC.md");
+requirePattern(economyDesignSpec, /COZY_SUPPORT_PRODUCT_ID[\s\S]*pip_cozy_support/, "docs/ECONOMY_DESIGN_SPEC.md");
+for (const legacyNeedle of [
+  "com.sunnyspoonstudios.pipspicturepantry.cozy_pass",
+  "pips_spoons_150",
+  "pips_spoons_400",
+  "pips_spoons_950",
+  "@capacitor-community/in-app-purchases",
+  "cordova-plugin-purchase",
+  "Tiny Jar",
+  "Cookie Tin",
+  "Full Pantry"
+]) {
+  if (economyDesignSpec.includes(legacyNeedle)) {
+    errors.push("docs/ECONOMY_DESIGN_SPEC.md still references legacy Billing product `" + legacyNeedle + "`.");
+  }
+}
 requireIncludes(billingSetup, "managed product", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requireIncludes(billingSetup, "non-consumable", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requireIncludes(billingSetup, "250 spoons", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
