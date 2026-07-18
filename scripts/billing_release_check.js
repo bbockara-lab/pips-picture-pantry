@@ -49,7 +49,12 @@ requireIncludes(billingSource, "isCozySupportEntitlement", "src/game/billing.js"
 requireIncludes(billingSource, "already-owned", "src/game/billing.js");
 requireIncludes(billingSource, "grantCozySupportPack(\"purchase\")", "src/game/billing.js");
 requireIncludes(billingSource, "grantCozySupportPack(\"restore\")", "src/game/billing.js");
+requireIncludes(billingSource, "syncCozySupportEntitlement", "src/game/billing.js");
 const settingsSource = readProjectFile("src/ui/settingsView.js");
+const appShellSource = readProjectFile("src/ui/appShell.js");
+requireIncludes(appShellSource, "syncCozySupportOnStartup", "src/ui/appShell.js");
+requireIncludes(appShellSource, "syncCozySupportEntitlement()", "src/ui/appShell.js");
+requirePattern(appShellSource, /syncCozySupportEntitlement\(\)[\s\S]*grant\?\.granted[\s\S]*draw\(\)/, "src/ui/appShell.js");
 requireIncludes(settingsSource, "canPurchaseSupportPack", "src/ui/settingsView.js");
 requireIncludes(settingsSource, "canRestoreSupportPack", "src/ui/settingsView.js");
 requireIncludes(settingsSource, "product-unavailable", "src/ui/settingsView.js");

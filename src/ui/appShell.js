@@ -18,7 +18,7 @@ import {
   setActivePlayerName,
   unlockPack
 } from "../game/save.js";
-import { getCozySupportProduct, purchaseCozySupportPack, restoreCozySupportPack } from "../game/billing.js";
+import { getCozySupportProduct, purchaseCozySupportPack, restoreCozySupportPack, syncCozySupportEntitlement } from "../game/billing.js";
 import { setLanguagePreference } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
 import { renderBadgeShelf, renderFooter, renderHeader, renderPipStrip, renderResetDialog } from "./appChrome.js";
@@ -59,6 +59,7 @@ export function renderApp(root) {
   let replayChallenge = false;
   let cozySupportState = createDefaultCozySupportState();
   let cozySupportRequestId = 0;
+  let cozySupportStartupSyncStarted = false;
 
   function selectPuzzle(puzzleId, scrollTarget = "puzzle", options = {}) {
     const nextPuzzle = puzzles.find((puzzle) => puzzle.id === puzzleId) || dailyPuzzle;
@@ -354,6 +355,21 @@ export function renderApp(root) {
     draw();
   }
 
+  function syncCozySupportOnStartup() {
+    if (cozySupportStartupSyncStarted || hasCozySupportPack()) return;
+    cozySupportStartupSyncStarted = true;
+    syncCozySupportEntitlement()
+      .then((result) => {
+        if (!result?.ok || !result?.grant?.granted) return;
+        cozySupportState = normalizeCozySupportState(
+          { ...cozySupportState, ...result, owned: true },
+          result.status || "restored"
+        );
+        draw();
+      })
+      .catch(() => {});
+  }
+
   function normalizeCozySupportState(result, status = "idle") {
     const product = result?.product || {};
     return {
@@ -481,6 +497,7 @@ export function renderApp(root) {
     }, 0);
   }
 
+  syncCozySupportOnStartup();
   draw();
 }
 

@@ -17,6 +17,12 @@
 - Strengthened `npm run qa:billing` so the Billing guard now checks that the setup checklist exists, names the product ID, preserves non-consumable / 250-spoon / USD 0.99 / KRW 1,100 launch assumptions, and is referenced from the Android release status.
 - This is release-gate/documentation hardening only; no visible app version bump was needed.
 
+### Billing Startup Restore Guard
+
+- App startup now runs one silent native restore sync for the Pip Support Pack before the player opens Settings.
+- The sync is a no-op on web/non-Android and uses the existing duplicate-grant guard, so owned players can recover the 250-spoon entitlement without creating a second grant.
+- Billing QA now guards that the app shell imports and calls the startup sync path, keeping purchase UI, restore UI, and app-start restoration connected.
+
 ### Billing Entitlement Payload Guard
 
 - `isCozySupportEntitlement()` now accepts nested object arrays under `products`, in addition to direct product ID strings and transaction/purchase/purchases/result wrappers.

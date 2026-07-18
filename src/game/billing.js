@@ -142,6 +142,17 @@ export async function restoreCozySupportPack() {
   }
 }
 
+export async function syncCozySupportEntitlement() {
+  if (hasCozySupportPack()) {
+    return {
+      ok: true,
+      status: "already-owned",
+      grant: null
+    };
+  }
+  return restoreCozySupportPack();
+}
+
 export function isCozySupportEntitlement(payload) {
   if (!payload) {
     return false;

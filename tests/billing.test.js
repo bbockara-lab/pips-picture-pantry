@@ -1,6 +1,28 @@
 import { describe, expect, it } from "vitest";
-import { COZY_SUPPORT_PRODUCT_ID, getBillingErrorStatus, isCozySupportEntitlement } from "../src/game/billing.js";
+import { COZY_SUPPORT_PRODUCT_ID, getBillingErrorStatus, isCozySupportEntitlement, syncCozySupportEntitlement } from "../src/game/billing.js";
 import { canPurchaseSupportPack, canRestoreSupportPack, getSupportPackFacts, getSupportPackStatus, getSupportStatusTone } from "../src/ui/settingsView.js";
+
+class LocalStorageMock {
+  constructor() {
+    this.store = new Map();
+  }
+
+  getItem(key) {
+    return this.store.has(key) ? this.store.get(key) : null;
+  }
+
+  setItem(key, value) {
+    this.store.set(key, String(value));
+  }
+
+  removeItem(key) {
+    this.store.delete(key);
+  }
+
+  clear() {
+    this.store.clear();
+  }
+}
 
 describe("billing support pack guards", () => {
   it("recognizes the support product across common store response shapes", () => {
@@ -81,6 +103,17 @@ describe("billing support pack guards", () => {
 
     expect(getSupportPackFacts(baseSupportPack)).toEqual(["250 spoons", "Google Play", "Restore-ready"]);
     expect(getSupportPackFacts({ ...baseSupportPack, available: false })).toEqual(["250 spoons", "Android test build", "Restore-ready"]);
+  });
+
+  it("short-circuits startup entitlement sync when local support ownership already exists", async () => {
+    globalThis.localStorage = new LocalStorageMock();
+    localStorage.setItem("pips-picture-pantry:v0.1:save", JSON.stringify({ cozyPassPurchased: true }));
+
+    await expect(syncCozySupportEntitlement()).resolves.toEqual({
+      ok: true,
+      status: "already-owned",
+      grant: null
+    });
   });
 
   it("keeps restore available when catalog lookup fails but a restore may recover ownership", () => {
