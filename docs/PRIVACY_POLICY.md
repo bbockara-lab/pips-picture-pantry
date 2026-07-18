@@ -1,6 +1,6 @@
 # Pip's Picture Pantry Privacy Policy
 
-Last updated: 2026-07-16
+Last updated: 2026-07-18
 
 Pip's Picture Pantry is a cozy picture puzzle game by Sunny Spoon Studios.
 
@@ -29,7 +29,7 @@ Pip's Picture Pantry does not include third-party advertising SDKs, analytics SD
 
 ## In-App Purchases
 
-Pip's Picture Pantry includes an optional in-app support purchase. Payments are processed by the official app store platform. The app does not collect, store, or receive your payment card details. Store product identifier for release tracking: `pip_cozy_support`.
+Pip's Picture Pantry includes optional in-app support purchases for app-store processed spoon support and top-up items. Payments are processed by the official app store platform. The app does not collect, store, or receive your payment card details. Store product identifiers for release tracking: `pip_cozy_support`, `pip_spoon_jar_small`.
 
 ## Data Sharing
 

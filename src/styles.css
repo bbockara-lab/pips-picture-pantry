@@ -11431,3 +11431,35 @@ img {
   z-index: 3;
   margin-top: 2px;
 }
+
+
+/* v0.1.423 spoon jar billing card */
+.support-pack-card--jar {
+  border-color: rgba(121, 91, 48, 0.42);
+  background:
+    radial-gradient(circle at 16% 18%, rgba(255, 255, 255, 0.92), transparent 22%),
+    linear-gradient(135deg, rgba(255, 247, 218, 0.98), rgba(225, 246, 224, 0.9));
+}
+
+.support-pack-card--jar::after {
+  width: 42px;
+  height: 42px;
+  border-radius: 15px 15px 18px 18px;
+  background:
+    radial-gradient(circle at 34% 24%, rgba(255, 255, 255, 0.95) 0 11%, transparent 12%),
+    linear-gradient(145deg, #ffe9a7 0 18%, #f2b24f 19% 58%, #c9783e 59% 100%);
+  box-shadow:
+    inset 0 0 0 3px rgba(255, 251, 228, 0.82),
+    inset 0 -7px 0 rgba(120, 72, 39, 0.16),
+    0 9px 16px rgba(88, 59, 46, 0.18);
+}
+
+.support-pack-card__actions--single {
+  grid-template-columns: 1fr;
+}
+
+.settings-choice--spoon-jar {
+  background:
+    radial-gradient(circle at 13% 18%, rgba(255, 255, 255, 0.8), transparent 12%),
+    linear-gradient(180deg, #ffe698, #f1bc54);
+}

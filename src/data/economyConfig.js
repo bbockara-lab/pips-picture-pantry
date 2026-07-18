@@ -33,7 +33,8 @@ export const ECONOMY = {
   },
   REPLAY_PICK_REWARD: 1,
   REPLAY_PICK_DAILY_LIMIT: 3,
-  COZY_PASS_SPOON_GRANT: 250
+  COZY_PASS_SPOON_GRANT: 250,
+  SPOON_JAR_SMALL_GRANT: 750
 };
 
 export function getPuzzleReward(size) {

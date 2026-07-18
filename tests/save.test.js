@@ -8,6 +8,7 @@ import {
   getCompletionDates,
   getCompletedPantryStoryGoalIds,
   grantCozySupportPack,
+  grantSpoonJarPurchase,
   getPackPantryRoomRequirement,
   getPlayerRecords,
   hasActivePlayer,
@@ -437,6 +438,33 @@ describe("player save profiles", () => {
       source: "restore"
     });
     expect(getPantrySpoons()).toBe(262);
+  });
+
+  it("grants the small spoon jar once per store purchase token", () => {
+    setActivePlayerName("Jay");
+    saveGame({ ...loadSave(), pantrySpoons: 20 });
+
+    expect(grantSpoonJarPurchase("pip_spoon_jar_small:token-a", "purchase")).toEqual({
+      granted: true,
+      duplicate: false,
+      balance: 770,
+      spoons: 750,
+      source: "purchase",
+      reason: "granted"
+    });
+    expect(getPantrySpoons()).toBe(770);
+
+    expect(grantSpoonJarPurchase("pip_spoon_jar_small:token-a", "purchase")).toEqual({
+      granted: false,
+      duplicate: true,
+      balance: 770,
+      spoons: 0,
+      source: "purchase",
+      reason: "already-processed"
+    });
+    expect(getPantrySpoons()).toBe(770);
+
+    expect(grantSpoonJarPurchase("", "purchase").reason).toBe("missing-purchase-key");
   });
 
 

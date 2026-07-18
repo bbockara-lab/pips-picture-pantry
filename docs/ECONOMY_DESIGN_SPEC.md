@@ -1,6 +1,6 @@
 ﻿# Pip's Picture Pantry — Economy Design Spec
 
-Last updated: 2026-07-17
+Last updated: 2026-07-18
 Author: Claude (design) / Codex (implementation)
 Status: v1 launch direction aligned with `docs/MONETIZATION_PLAN.md`
 
@@ -514,3 +514,36 @@ Pantry should become a progression soft gate, not a hostile hard paywall. Future
 ### v0.1.127 Replay Clean Undo Guard
 - Clean replay means no wrong filled cell and no hint use at any point in the replay session. Undo can repair the board for practice, but it cannot restore replay reward eligibility.
 - This closes the replay exploit where a player could test a move or hint, undo it, and still claim a clean reward.
+
+
+---
+
+## 6. v1 Android Billing Products
+
+v1 Android launch uses two Google Play managed products. Both are optional and should be introduced as spoons/support/jar language, not as paid/free tiers.
+
+### Pip Support Pack
+
+- Code constant: `COZY_SUPPORT_PRODUCT_ID`
+- Product ID: `pip_cozy_support`
+- Type: one-time managed product / non-consumable
+- Suggested price: USD 0.99 / KRW 1,100
+- Spoon grant: 250 spoons through `COZY_PASS_SPOON_GRANT`
+- Save guard: `cozyPassPurchased` prevents duplicate purchase/restore grants
+- Plugin path: `@capgo/native-purchases`
+
+### Small Spoon Jar
+
+- Code constant: `SPOON_JAR_SMALL_PRODUCT_ID`
+- Product ID: `pip_spoon_jar_small`
+- Type: managed product / consumable repeatable top-up
+- Suggested price: USD 2.99 / KRW 3,300-4,400
+- Spoon grant: 750 spoons through `SPOON_JAR_SMALL_GRANT`
+- Save guard: `processedBillingPurchaseIds` keeps the same purchase token from granting twice
+- Plugin path: `@capgo/native-purchases`
+
+### v1 Validation Scope
+
+- Client-side Play Billing result recognition is enough for v1 because the reward values are modest and local-only.
+- Server-side receipt validation, refund revocation sync, cross-device entitlement sync, and larger product tiers are v1.1+ candidates after real play data.
+- Play Console must activate both product IDs before the final signed AAB test.

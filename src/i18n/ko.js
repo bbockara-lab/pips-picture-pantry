@@ -83,6 +83,12 @@ export const ko = {
     supportFactRestore: "\ubcf5\uc6d0 \uac00\ub2a5",
     supportRestore: "\uad6c\ub9e4 \ubcf5\uc6d0",
     supportBuy: "{price}\ub85c \uc751\uc6d0\ud558\uae30",
+    spoonJarTitle: "\uc791\uc740 \uc2a4\ud47c \ud56d\uc544\ub9ac",
+    spoonJarBody: "\ucd94\uac00 \ud78c\ud2b8, \ubc29 \ubaa9\ud45c, \ub2e4\uc74c \uc2a4\ud14c\uc774\uc9c0\ub97c \uc704\ud574 \uc2a4\ud47c {spoons}\uac1c\ub97c \ub354\ud574\uc694.",
+    spoonJarFactSpoons: "\uc2a4\ud47c {spoons}\uac1c",
+    spoonJarFactRepeat: "\ud544\uc694\ud560 \ub54c \ub2e4\uc2dc \ucc44\uc6b0\uae30",
+    spoonJarReady: "\ud56d\uc544\ub9ac\ub97c \ucc44\uc6b0\uba74 \uc2a4\ud47c\uc774 \ubc14\ub85c \ub4e4\uc5b4\uc640\uc694.",
+    spoonJarBuy: "{price}\ub85c \ud56d\uc544\ub9ac \ucc44\uc6b0\uae30",
     supportPricePending: "\uc2a4\ud1a0\uc5b4 \uac00\uaca9",
     close: "\uc644\ub8cc"
   },

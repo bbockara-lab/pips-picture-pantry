@@ -12,7 +12,9 @@ export function renderSettingsDialog({
   onControlModeChange,
   supportPack = null,
   onSupportPurchase = () => {},
-  onSupportRestore = () => {}
+  onSupportRestore = () => {},
+  spoonJar = null,
+  onSpoonJarPurchase = () => {}
 }) {
   const overlay = createModalBackdrop();
   const preference = getLanguagePreference();
@@ -120,6 +122,10 @@ export function renderSettingsDialog({
     onSupportPurchase,
     onSupportRestore
   }) : null;
+  const spoonJarGroup = spoonJar ? createSpoonJarCard({
+    spoonJar,
+    onSpoonJarPurchase
+  }) : null;
 
   const closeButton = document.createElement("button");
   closeButton.type = "button";
@@ -130,6 +136,9 @@ export function renderSettingsDialog({
   dialog.append(group, playerForm, controlGroup, audioGroup);
   if (supportGroup) {
     dialog.appendChild(supportGroup);
+  }
+  if (spoonJarGroup) {
+    dialog.appendChild(spoonJarGroup);
   }
   dialog.appendChild(closeButton);
   overlay.appendChild(dialog);
@@ -202,6 +211,49 @@ function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestor
   restoreButton.addEventListener("click", onSupportRestore);
 
   actions.append(purchaseButton, restoreButton);
+  group.append(label, body, facts, status, actions);
+  return group;
+}
+
+function createSpoonJarCard({ spoonJar, onSpoonJarPurchase }) {
+  const group = document.createElement("div");
+  group.className = "support-pack-card support-pack-card--jar";
+
+  const label = document.createElement("p");
+  label.className = "section-label";
+  label.textContent = t("settings.spoonJarTitle");
+
+  const body = document.createElement("p");
+  body.className = "support-pack-card__body";
+  body.textContent = t("settings.spoonJarBody", { spoons: spoonJar.spoons });
+
+  const facts = document.createElement("div");
+  facts.className = "support-pack-card__facts";
+  getSpoonJarFacts(spoonJar).forEach((fact) => {
+    const chip = document.createElement("span");
+    chip.textContent = fact;
+    facts.appendChild(chip);
+  });
+
+  const status = document.createElement("p");
+  const statusTone = getSpoonJarStatusTone(spoonJar);
+  status.className = statusTone
+    ? `support-pack-card__status support-pack-card__status--${statusTone}`
+    : "support-pack-card__status";
+  status.setAttribute("aria-live", "polite");
+  status.textContent = getSpoonJarStatus(spoonJar);
+
+  const actions = document.createElement("div");
+  actions.className = "support-pack-card__actions support-pack-card__actions--single";
+
+  const purchaseButton = document.createElement("button");
+  purchaseButton.type = "button";
+  purchaseButton.className = "tool-button settings-choice settings-choice--spoon-jar";
+  purchaseButton.textContent = getSpoonJarPurchaseLabel(spoonJar);
+  purchaseButton.disabled = !canPurchaseSpoonJar(spoonJar);
+  purchaseButton.addEventListener("click", onSpoonJarPurchase);
+
+  actions.appendChild(purchaseButton);
   group.append(label, body, facts, status, actions);
   return group;
 }
@@ -298,4 +350,38 @@ export function canRestoreSupportPack(supportPack) {
     "wrong-product",
     "not-owned"
   ].includes(supportPack.status);
+}
+
+export function getSpoonJarFacts(spoonJar) {
+  return [
+    t("settings.spoonJarFactSpoons", { spoons: spoonJar?.spoons || 0 }),
+    spoonJar?.available ? t("settings.supportFactStore") : t("settings.supportFactAndroid"),
+    t("settings.spoonJarFactRepeat")
+  ];
+}
+
+export function getSpoonJarStatus(spoonJar) {
+  if (spoonJar.loading) return t("settings.supportChecking");
+  if (spoonJar.status === "cancelled") return t("settings.supportCancelled");
+  if (spoonJar.status === "network-error") return t("settings.supportNetworkError");
+  if (["wrong-product", "failed", "product-unavailable", "missing-purchase-key"].includes(spoonJar.status)) return t("settings.supportFailed");
+  if (spoonJar.status === "purchased" || spoonJar.status === "already-processed") return t("settings.spoonJarReady");
+  if (!spoonJar.available) return t("settings.supportAndroidOnly");
+  return t("settings.spoonJarReady");
+}
+
+export function getSpoonJarStatusTone(spoonJar) {
+  if (spoonJar.loading) return "checking";
+  if (spoonJar.status === "purchased" || spoonJar.status === "already-processed") return "success";
+  if (["cancelled", "network-error", "wrong-product", "failed", "product-unavailable", "missing-purchase-key"].includes(spoonJar.status) || !spoonJar.available) return "warning";
+  return "ready";
+}
+
+function getSpoonJarPurchaseLabel(spoonJar) {
+  const price = spoonJar.priceString || t("settings.supportPricePending");
+  return t("settings.spoonJarBuy", { price });
+}
+
+export function canPurchaseSpoonJar(spoonJar) {
+  return Boolean(spoonJar?.available && !spoonJar.loading);
 }

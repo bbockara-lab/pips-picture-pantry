@@ -26,7 +26,7 @@ function sectionAfter(label) {
   return (end === -1 ? rest : rest.slice(0, end)).trim();
 }
 
-requireText("current update date", /^Last updated: 2026-07-16$/m);
+requireText("current update date", /^Last updated: 2026-07-18$/m);
 requireText("app name", /^Pip's Picture Pantry$/m);
 requireText("Sunny Spoon Studios", /Sunny Spoon Studios/);
 requireText("Season 0 catalog positioning", /Season 0/);
@@ -34,6 +34,8 @@ requireText("333 launch puzzle positioning", /333/);
 requireText("Pantry progression", /Pantry goals?|Pantry room/i);
 requireText("Time Attack positioning", /Time Attack/);
 requireText("spoon reward economy", /spoon rewards?|spoons/i);
+requireText("cozy support product id", /pip_cozy_support/);
+requireText("small spoon jar product id", /pip_spoon_jar_small/);
 requireText("no ads statement", /No third-party ads or tracking SDKs/);
 requireText("privacy policy URL", /https:\/\/sunny-spoon-pantry\.web\.app\/privacy-policy\.html/);
 requireText("store asset QA command", /npm run qa:store/);

@@ -18,7 +18,7 @@ import {
   setActivePlayerName,
   unlockPack
 } from "../game/save.js";
-import { getCozySupportProduct, purchaseCozySupportPack, restoreCozySupportPack, syncCozySupportEntitlement } from "../game/billing.js";
+import { getCozySupportProduct, getSpoonJarSmallProduct, purchaseCozySupportPack, purchaseSpoonJarSmall, restoreCozySupportPack, syncCozySupportEntitlement } from "../game/billing.js";
 import { setLanguagePreference } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
 import { renderBadgeShelf, renderFooter, renderHeader, renderPipStrip, renderResetDialog } from "./appChrome.js";
@@ -31,7 +31,7 @@ import { renderPlayScreen } from "./playScreen.js";
 import { renderFloatingNav } from "./floatingNav.js";
 import { renderGuideDialog } from "./guideDialog.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
-import { canPurchaseSupportPack, canRestoreSupportPack, renderSettingsDialog } from "./settingsView.js";
+import { canPurchaseSpoonJar, canPurchaseSupportPack, canRestoreSupportPack, renderSettingsDialog } from "./settingsView.js";
 import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackElapsedSeconds, TIME_ATTACK_LIMIT_SECONDS, TIME_ATTACK_TRIAL_ROUNDS } from "./timeAttackFlow.js";
 import { renderTimeAttackView } from "./timeAttackView.js";
 
@@ -303,6 +303,16 @@ export function renderApp(root) {
     };
   }
 
+  function createDefaultSpoonJarState(status = "idle") {
+    return {
+      available: false,
+      loading: false,
+      priceString: "",
+      spoons: ECONOMY.SPOON_JAR_SMALL_GRANT,
+      status
+    };
+  }
+
   function getSettingsDialogProps() {
     return {
       onClose: closeSettings,
@@ -317,6 +327,25 @@ export function renderApp(root) {
       onSupportPurchase: buyCozySupportPack,
       onSupportRestore: restoreCozySupport
     };
+  }
+
+  async function loadSpoonJarProduct() {
+    const requestId = ++spoonJarRequestId;
+    spoonJarState = { ...spoonJarState, loading: true, status: "checking" };
+    draw();
+    const result = await getSpoonJarSmallProduct();
+    if (requestId !== spoonJarRequestId) return;
+    spoonJarState = normalizeSpoonJarState(result, result?.reason || "ready");
+    draw();
+  }
+
+  async function buySpoonJarSmall() {
+    if (!canPurchaseSpoonJar(spoonJarState)) return;
+    spoonJarState = { ...spoonJarState, loading: true, status: "checking" };
+    draw();
+    const result = await purchaseSpoonJarSmall();
+    spoonJarState = normalizeSpoonJarState({ ...spoonJarState, ...result }, result.status || "failed");
+    draw();
   }
 
   async function loadCozySupportProduct() {
@@ -378,6 +407,17 @@ export function renderApp(root) {
       loading: false,
       priceString: product.priceString || cozySupportState.priceString || "",
       spoons: product.spoonGrant || ECONOMY.COZY_PASS_SPOON_GRANT,
+      status
+    };
+  }
+
+  function normalizeSpoonJarState(result, status = "idle") {
+    const product = result?.product || {};
+    return {
+      available: Boolean(result?.available),
+      loading: false,
+      priceString: product.priceString || spoonJarState.priceString || "",
+      spoons: product.spoonGrant || ECONOMY.SPOON_JAR_SMALL_GRANT,
       status
     };
   }

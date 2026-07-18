@@ -83,6 +83,12 @@ export const en = {
     supportFactRestore: "Restore-ready",
     supportRestore: "Restore purchase",
     supportBuy: "Support for {price}",
+    spoonJarTitle: "Small Spoon Jar",
+    spoonJarBody: "Add {spoons} spoons for extra hints, room goals, and the next stage.",
+    spoonJarFactSpoons: "{spoons} spoons",
+    spoonJarFactRepeat: "Repeatable top-up",
+    spoonJarReady: "Spoons arrive after each jar.",
+    spoonJarBuy: "Fill jar for {price}",
     supportPricePending: "store price",
     close: "Done"
   },

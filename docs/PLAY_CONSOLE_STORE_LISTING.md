@@ -1,6 +1,6 @@
 # Play Console Store Listing Draft
 
-Last updated: 2026-07-16
+Last updated: 2026-07-18
 
 ## Basic Store Listing
 
@@ -109,4 +109,4 @@ No restricted login-gated areas.
 
 In-app purchases:
 
-Yes. The release includes one optional support purchase for extra spoons. Play Console managed product ID: `pip_cozy_support`. There are no third-party ads or tracking SDKs.
+Yes. The release includes optional in-app purchases for extra spoons: `pip_cozy_support` and `pip_spoon_jar_small`. There are no third-party ads or tracking SDKs.

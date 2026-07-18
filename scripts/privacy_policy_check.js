@@ -24,11 +24,13 @@ function requireText(label, text, pattern) {
   if (!pattern.test(text)) errors.push(`${label} missing`);
 }
 
-requireInBoth("current date", /2026-07-16/);
+requireInBoth("current date", /2026-07-18/);
 requireInBoth("no collection statement", /does not collect, transmit, sell, or share personal information/);
 requireInBoth("local-only storage statement", /stored locally on your device|stored only on your device/);
 requireInBoth("no advertising or analytics SDKs", /does not include third-party advertising SDKs, analytics SDKs, or tracking SDKs/);
-requireInBoth("optional in-app support purchase", /optional in-app support purchase/);
+requireInBoth("optional in-app support purchase", /optional in-app support purchases?/);
+requireInBoth("cozy support product id", /pip_cozy_support/);
+requireInBoth("small spoon jar product id", /pip_spoon_jar_small/);
 requireInBoth("no payment card collection", /does not collect, store, or receive your payment card details/);
 requireInBoth("no data sharing statement", /do not share user data with third parties/);
 requireInBoth("data deletion guidance", /delete it by using the reset option in the app or by uninstalling the app/);
@@ -61,11 +63,13 @@ if (shouldCheckLive) {
   const livePolicy = await fetchLivePolicy();
   if (livePolicy) {
     const liveChecks = [
-      ["current date", /2026-07-16/],
+      ["current date", /2026-07-18/],
       ["no collection statement", /does not collect, transmit, sell, or share personal information/],
       ["local-only storage statement", /stored locally on your device|stored only on your device/],
       ["no advertising or analytics SDKs", /does not include third-party advertising SDKs, analytics SDKs, or tracking SDKs/],
-      ["live in-app purchase statement", /optional in-app support purchase/],
+      ["live in-app purchase statement", /optional in-app support purchases?/],
+      ["live cozy support product id", /pip_cozy_support/],
+      ["live small spoon jar product id", /pip_spoon_jar_small/],
       ["live no payment card collection", /does not collect, store, or receive your payment card details/],
       ["no data sharing statement", /do not share user data with third parties/],
       ["data deletion guidance", /delete it by using the reset option in the app or by uninstalling the app/],

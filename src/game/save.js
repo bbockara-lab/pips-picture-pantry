@@ -11,6 +11,7 @@ const DEFAULT_PLAYER_NAME = "Friend";
 const STARTER_PACK_ID = "pips-first-shelf";
 const TIME_ATTACK_DAILY_COUNT_RETENTION_DAYS = 30;
 const REPLAY_REWARD_RETENTION_DAYS = 30;
+const PROCESSED_BILLING_PURCHASE_RETENTION = 80;
 
 export function loadSave() {
   const payload = localStorage.getItem(getActiveSaveKey());
@@ -108,6 +109,46 @@ export function grantCozySupportPack(source = "purchase") {
     balance: save.pantrySpoons,
     spoons,
     source
+  };
+}
+
+export function grantSpoonJarPurchase(purchaseKey, source = "purchase") {
+  const normalizedKey = String(purchaseKey || "").trim();
+  const save = loadSave() || createEmptySave();
+  if (!normalizedKey) {
+    return {
+      granted: false,
+      duplicate: false,
+      balance: save.pantrySpoons,
+      spoons: 0,
+      source,
+      reason: "missing-purchase-key"
+    };
+  }
+
+  if (save.processedBillingPurchaseIds.includes(normalizedKey)) {
+    return {
+      granted: false,
+      duplicate: true,
+      balance: save.pantrySpoons,
+      spoons: 0,
+      source,
+      reason: "already-processed"
+    };
+  }
+
+  const spoons = Math.max(0, Number(ECONOMY.SPOON_JAR_SMALL_GRANT) || 0);
+  save.pantrySpoons += spoons;
+  save.processedBillingPurchaseIds = [...save.processedBillingPurchaseIds, normalizedKey]
+    .slice(-PROCESSED_BILLING_PURCHASE_RETENTION);
+  saveGame(save);
+  return {
+    granted: true,
+    duplicate: false,
+    balance: save.pantrySpoons,
+    spoons,
+    source,
+    reason: "granted"
   };
 }
 
@@ -482,6 +523,10 @@ function normalizeSave(parsed) {
     timeAttackDailyCount: pruneTimeAttackDailyCount(parsed?.timeAttackDailyCount),
     replayRewardedPuzzleIdsByDate: pruneReplayRewardedPuzzleIdsByDate(parsed?.replayRewardedPuzzleIdsByDate),
     seenGuideIds: Array.isArray(parsed?.seenGuideIds) ? Array.from(new Set(parsed.seenGuideIds.map(normalizeGuideId).filter(Boolean))) : [],
+    processedBillingPurchaseIds: Array.isArray(parsed?.processedBillingPurchaseIds)
+      ? Array.from(new Set(parsed.processedBillingPurchaseIds.map((id) => String(id || "").trim()).filter(Boolean)))
+        .slice(-PROCESSED_BILLING_PURCHASE_RETENTION)
+      : [],
     cozyPassPurchased: Boolean(parsed?.cozyPassPurchased)
   };
 }

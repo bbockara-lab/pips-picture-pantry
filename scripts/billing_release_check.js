@@ -42,13 +42,19 @@ if (!packageJson.dependencies?.["@capgo/native-purchases"]) {
 }
 
 requireIncludes(billingSource, "COZY_SUPPORT_PRODUCT_ID = \"pip_cozy_support\"", "src/game/billing.js");
+requireIncludes(billingSource, "SPOON_JAR_SMALL_PRODUCT_ID = \"pip_spoon_jar_small\"", "src/game/billing.js");
 requireIncludes(billingSource, "@capgo/native-purchases", "src/game/billing.js");
 requireIncludes(billingSource, "NativePurchases.purchaseProduct", "src/game/billing.js");
 requireIncludes(billingSource, "NativePurchases.restorePurchases", "src/game/billing.js");
 requireIncludes(billingSource, "isCozySupportEntitlement", "src/game/billing.js");
+requireIncludes(billingSource, "isSpoonJarSmallPurchase", "src/game/billing.js");
+requireIncludes(billingSource, "purchaseSpoonJarSmall", "src/game/billing.js");
+requireIncludes(billingSource, "isConsumable: true", "src/game/billing.js");
+requireIncludes(billingSource, "getPurchaseKey", "src/game/billing.js");
 requireIncludes(billingSource, "already-owned", "src/game/billing.js");
 requireIncludes(billingSource, "grantCozySupportPack(\"purchase\")", "src/game/billing.js");
 requireIncludes(billingSource, "grantCozySupportPack(\"restore\")", "src/game/billing.js");
+requireIncludes(billingSource, "grantSpoonJarPurchase", "src/game/billing.js");
 requireIncludes(billingSource, "syncCozySupportEntitlement", "src/game/billing.js");
 const settingsSource = readProjectFile("src/ui/settingsView.js");
 const appShellSource = readProjectFile("src/ui/appShell.js");
@@ -57,11 +63,15 @@ requireIncludes(appShellSource, "syncCozySupportEntitlement()", "src/ui/appShell
 requirePattern(appShellSource, /syncCozySupportEntitlement\(\)[\s\S]*grant\?\.granted[\s\S]*draw\(\)/, "src/ui/appShell.js");
 requireIncludes(settingsSource, "canPurchaseSupportPack", "src/ui/settingsView.js");
 requireIncludes(settingsSource, "canRestoreSupportPack", "src/ui/settingsView.js");
+requireIncludes(settingsSource, "canPurchaseSpoonJar", "src/ui/settingsView.js");
 requireIncludes(settingsSource, "product-unavailable", "src/ui/settingsView.js");
 requireIncludes(manifest, "com.android.vending.BILLING", "AndroidManifest.xml");
 requireIncludes(saveSource, "cozyPassPurchased", "src/game/save.js");
 requireIncludes(saveSource, "grantCozySupportPack", "src/game/save.js");
+requireIncludes(saveSource, "grantSpoonJarPurchase", "src/game/save.js");
+requireIncludes(saveSource, "processedBillingPurchaseIds", "src/game/save.js");
 requireIncludes(economySource, "COZY_PASS_SPOON_GRANT: 250", "src/data/economyConfig.js");
+requireIncludes(economySource, "SPOON_JAR_SMALL_GRANT: 750", "src/data/economyConfig.js");
 requireIncludes(pantrySource, "onOpenSupportPack", "src/ui/pantryView.js");
 requireIncludes(pantrySource, "pantry-earning-support", "src/ui/pantryView.js");
 requireIncludes(pantrySource, "pantry.earningSupportAction", "src/ui/pantryView.js");
@@ -87,7 +97,13 @@ const requiredI18nKeys = [
   "supportFactRestore",
   "supportRestore",
   "supportBuy",
-  "supportPricePending"
+  "supportPricePending",
+  "spoonJarTitle",
+  "spoonJarBody",
+  "spoonJarFactSpoons",
+  "spoonJarFactRepeat",
+  "spoonJarReady",
+  "spoonJarBuy"
 ];
 
 for (const key of requiredI18nKeys) {
@@ -104,9 +120,9 @@ const userVisibleSupportCopy = [
   koreanCopy.pantry.earningSupportNote
 ].join("\n");
 
-const forbiddenCopy = /\bpaid\b|\bfree\b|유료|무료/i;
+const forbiddenCopy = /\bpaid\b|\bfree\b|\uC720\uB8CC|\uBB34\uB8CC/i;
 if (forbiddenCopy.test(userVisibleSupportCopy)) {
-  errors.push("Support Pack user-facing copy must not say paid/free/유료/무료.");
+  errors.push("Support Pack user-facing copy must not say paid/free/??/??.");
 }
 
 const futurePackCopy = [
@@ -131,7 +147,7 @@ const futurePackCopy = [
 ].filter(Boolean).join("\n");
 
 if (forbiddenCopy.test(futurePackCopy)) {
-  errors.push("Future pack player-facing copy must stay in included/optional-set language, not paid/free/유료/무료.");
+  errors.push("Future pack player-facing copy must stay in included/optional-set language, not paid/free/??/??.");
 }
 
 for (const [label, source] of [
@@ -143,15 +159,21 @@ for (const [label, source] of [
   ["docs/PLAY_CONSOLE_STORE_LISTING.md", storeListing]
 ]) {
   requireIncludes(source, "pip_cozy_support", label);
+  requireIncludes(source, "pip_spoon_jar_small", label);
 }
 
 requireIncludes(monetizationPlan, "USD 0.99", "docs/MONETIZATION_PLAN.md");
 requireIncludes(monetizationPlan, "KRW 1,100", "docs/MONETIZATION_PLAN.md");
+requireIncludes(monetizationPlan, "USD 2.99", "docs/MONETIZATION_PLAN.md");
+requireIncludes(monetizationPlan, "750 spoons", "docs/MONETIZATION_PLAN.md");
 requireIncludes(economyDesignSpec, "Pip Support Pack", "docs/ECONOMY_DESIGN_SPEC.md");
+requireIncludes(economyDesignSpec, "Small Spoon Jar", "docs/ECONOMY_DESIGN_SPEC.md");
 requireIncludes(economyDesignSpec, "USD 0.99", "docs/ECONOMY_DESIGN_SPEC.md");
 requireIncludes(economyDesignSpec, "KRW 1,100", "docs/ECONOMY_DESIGN_SPEC.md");
+requireIncludes(economyDesignSpec, "USD 2.99", "docs/ECONOMY_DESIGN_SPEC.md");
 requireIncludes(economyDesignSpec, "@capgo/native-purchases", "docs/ECONOMY_DESIGN_SPEC.md");
 requirePattern(economyDesignSpec, /COZY_SUPPORT_PRODUCT_ID[\s\S]*pip_cozy_support/, "docs/ECONOMY_DESIGN_SPEC.md");
+requirePattern(economyDesignSpec, /SPOON_JAR_SMALL_PRODUCT_ID[\s\S]*pip_spoon_jar_small/, "docs/ECONOMY_DESIGN_SPEC.md");
 for (const legacyNeedle of [
   "com.sunnyspoonstudios.pipspicturepantry.cozy_pass",
   "pips_spoons_150",
@@ -170,15 +192,21 @@ for (const legacyNeedle of [
 }
 requireIncludes(billingSetup, "managed product", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requireIncludes(billingSetup, "non-consumable", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
+requireIncludes(billingSetup, "consumable", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requireIncludes(billingSetup, "250 spoons", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
+requireIncludes(billingSetup, "750 spoons", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requireIncludes(billingSetup, "USD 0.99", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requireIncludes(billingSetup, "KRW 1,100", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
+requireIncludes(billingSetup, "USD 2.99", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requireIncludes(billingSetup, "English title: Pip Support Pack", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
-requireIncludes(billingSetup, "Korean title: Pip 응원팩", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
+requireIncludes(billingSetup, "English title: Small Spoon Jar", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
+requireIncludes(billingSetup, "Korean title: Pip Support Pack", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requirePattern(billingSetup, /internal tester[\s\S]*purchase\/restore/i, "docs/PLAY_CONSOLE_BILLING_SETUP.md");
+requirePattern(billingSetup, /spoon jar[\s\S]*repeat/i, "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requirePattern(releaseStatus, /Play Console setup required[\s\S]*managed product/i, "docs/ANDROID_RELEASE_STATUS.md");
 requirePattern(releaseStatus, /PLAY_CONSOLE_BILLING_SETUP\.md/, "docs/ANDROID_RELEASE_STATUS.md");
 requirePattern(releaseStatus, /purchase\/restore/i, "docs/ANDROID_RELEASE_STATUS.md");
+requirePattern(releaseStatus, /pip_spoon_jar_small[\s\S]*purchase/i, "docs/ANDROID_RELEASE_STATUS.md");
 
 if (errors.length) {
   console.error("Billing release check failed:");
@@ -190,3 +218,4 @@ if (errors.length) {
 
 console.log("Billing release check passed.");
 console.log("Product: pip_cozy_support / one-time support pack / 250 spoons.");
+console.log("Product: pip_spoon_jar_small / repeatable small spoon jar / 750 spoons.");

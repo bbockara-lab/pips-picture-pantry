@@ -1,6 +1,6 @@
 # Android Release Status
 
-Last updated: 2026-07-17
+Last updated: 2026-07-18
 
 ## Public Launch Checklist (release-safe, 2026-07-14)
 
@@ -67,7 +67,20 @@ versionName "1.1.0" // or the final public launch version name
 
 - Upload keystore exists outside the repo under D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Pip's Picture Pantry.
 - Local-only signing env file exists outside the repo and is not committed.
-- Current pre-upload blocker: complete `docs/PLAY_CONSOLE_BILLING_SETUP.md`, create and activate the `pip_cozy_support` managed product, choose the public launch Android `versionCode` / `versionName`, update `android/app/build.gradle`, run `npm run qa:billing` and `npm run qa:release:final`, then build and verify the signed Play-upload AAB.
+- Current pre-upload blocker: complete `docs/PLAY_CONSOLE_BILLING_SETUP.md`, create and activate the `pip_cozy_support` and `pip_spoon_jar_small` managed products, choose the public launch Android `versionCode` / `versionName`, update `android/app/build.gradle`, run `npm run qa:billing` and `npm run qa:release:final`, then build and verify the signed Play-upload AAB.
+
+## Billing Product Validation - 2026-07-18
+
+- v1 Android store products now require two active Play Console managed products before final signed upload:
+  - `pip_cozy_support`: one-time support pack, 250 spoons, restore required.
+  - `pip_spoon_jar_small`: repeatable Small Spoon Jar, 750 spoons per completed purchase.
+- `npm run qa:billing` must pass before release candidate signing.
+- Real-device evidence still pending:
+  - Support purchase grants 250 spoons once.
+  - Support restore recognizes ownership without duplicate grant.
+  - Spoon jar purchase grants 750 spoons.
+  - Spoon jar repeat purchase grants another 750 spoons with a new store token.
+  - Cancelled or failed purchase sheets do not grant spoons.
 
 ## Local Tooling Notes
 
@@ -86,12 +99,12 @@ versionName "1.1.0" // or the final public launch version name
 ## Next Android Actions
 
 1. Finish final human review on Android/WebView and visible store screenshots.
-2. Complete `docs/PLAY_CONSOLE_BILLING_SETUP.md` for the `pip_cozy_support` managed product.
+2. Complete `docs/PLAY_CONSOLE_BILLING_SETUP.md` for the `pip_cozy_support` and `pip_spoon_jar_small` managed products.
 3. Choose final public Android `versionCode` / `versionName` and bump `android/app/build.gradle`.
 4. Run `npm run qa:billing` and `npm run qa:release:final`.
 5. Build the signed Play-upload AAB with `scripts/build_android_signed_release_bundle.ps1`.
 6. Upload the signed AAB to Google Play internal/closed testing and confirm Play Console accepts it.
-7. Verify real-device purchase/restore on an internal tester account.
+7. Verify real-device support purchase/restore and spoon jar purchase/repeat on an internal tester account.
 8. Capture accepted package/version details and real-device screenshots.
 9. Keep the upload keystore/env file backed up outside the repo.
 

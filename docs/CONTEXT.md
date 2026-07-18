@@ -2985,3 +2985,9 @@ Current launch direction:
 ### Android Candidate Billing Reminder Guard
 - The Android candidate script now prints the Billing product activation and real-device purchase/restore evidence requirement immediately after the unsigned candidate AAB check passes.
 - This mirrors the hard `qa:release:final` gate, but surfaces the reminder earlier so the final signed upload is not blocked by a forgotten Play Console product setup step.
+
+
+### v0.1.423 Small Spoon Jar Billing Product
+- Added the second v1 Android store product: `pip_spoon_jar_small`, a repeatable Small Spoon Jar that grants 750 spoons through `SPOON_JAR_SMALL_GRANT`.
+- The Support Pack remains one-time and restorable; the Small Spoon Jar is consumable and uses `processedBillingPurchaseIds` to prevent duplicate local grants from the same store token.
+- Updated billing QA and release docs so final Play Console setup must activate both `pip_cozy_support` and `pip_spoon_jar_small` before signed upload testing.

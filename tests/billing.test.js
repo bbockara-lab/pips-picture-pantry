@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { COZY_SUPPORT_PRODUCT_ID, getBillingErrorStatus, isCozySupportEntitlement, syncCozySupportEntitlement } from "../src/game/billing.js";
-import { canPurchaseSupportPack, canRestoreSupportPack, getSupportPackFacts, getSupportPackStatus, getSupportStatusTone } from "../src/ui/settingsView.js";
+import { COZY_SUPPORT_PRODUCT_ID, SPOON_JAR_SMALL_PRODUCT_ID, getBillingErrorStatus, getPurchaseKey, isCozySupportEntitlement, isSpoonJarSmallPurchase, syncCozySupportEntitlement } from "../src/game/billing.js";
+import { canPurchaseSpoonJar, canPurchaseSupportPack, canRestoreSupportPack, getSpoonJarFacts, getSpoonJarStatus, getSpoonJarStatusTone, getSupportPackFacts, getSupportPackStatus, getSupportStatusTone } from "../src/ui/settingsView.js";
 
 class LocalStorageMock {
   constructor() {
@@ -131,5 +131,40 @@ describe("billing support pack guards", () => {
     expect(canRestoreSupportPack({ ...baseSupportPack, status: "already-owned" })).toBe(true);
     expect(canRestoreSupportPack({ ...baseSupportPack, status: "native-store-required" })).toBe(false);
     expect(canRestoreSupportPack({ ...baseSupportPack, owned: true, status: "already-owned" })).toBe(false);
+  });
+
+  it("recognizes spoon jar purchases and extracts a duplicate-safe purchase key", () => {
+    const payload = {
+      result: {
+        productIdentifier: SPOON_JAR_SMALL_PRODUCT_ID,
+        purchaseToken: "token-123"
+      }
+    };
+
+    expect(isSpoonJarSmallPurchase(payload)).toBe(true);
+    expect(isSpoonJarSmallPurchase({ products: [{ productId: SPOON_JAR_SMALL_PRODUCT_ID }] })).toBe(true);
+    expect(isSpoonJarSmallPurchase({ productIdentifier: COZY_SUPPORT_PRODUCT_ID })).toBe(false);
+    expect(getPurchaseKey(payload)).toBe(SPOON_JAR_SMALL_PRODUCT_ID + ":token-123");
+    expect(getPurchaseKey({ productIdentifier: SPOON_JAR_SMALL_PRODUCT_ID })).toBe("");
+  });
+
+  it("keeps spoon jar copy and controls distinct from support restore", () => {
+    const baseSpoonJar = {
+      available: true,
+      loading: false,
+      priceString: "$2.99",
+      spoons: 750,
+      status: "ready"
+    };
+
+    expect(getSpoonJarFacts(baseSpoonJar)).toEqual(["750 spoons", "Google Play", "Repeatable top-up"]);
+    expect(getSpoonJarStatus({ ...baseSpoonJar, status: "purchased" })).toContain("Spoons arrive");
+    expect(getSpoonJarStatus({ ...baseSpoonJar, status: "missing-purchase-key" })).toContain("could not finish");
+    expect(getSpoonJarStatusTone({ ...baseSpoonJar, loading: true })).toBe("checking");
+    expect(getSpoonJarStatusTone({ ...baseSpoonJar, status: "purchased" })).toBe("success");
+    expect(getSpoonJarStatusTone({ ...baseSpoonJar, available: false })).toBe("warning");
+    expect(canPurchaseSpoonJar(baseSpoonJar)).toBe(true);
+    expect(canPurchaseSpoonJar({ ...baseSpoonJar, loading: true })).toBe(false);
+    expect(canPurchaseSpoonJar({ ...baseSpoonJar, available: false })).toBe(false);
   });
 });
