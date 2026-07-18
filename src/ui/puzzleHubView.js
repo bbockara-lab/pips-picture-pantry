@@ -224,6 +224,30 @@ export function renderDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle, dai
   card.append(text, button);
   return card;
 }
+
+export function renderTimeAttackTeaserCard(onOpenTimeAttack = () => {}) {
+  const card = document.createElement("section");
+  card.className = "time-attack-teaser-card";
+
+  const badge = document.createElement("span");
+  badge.className = "time-attack-teaser-card__badge";
+  badge.setAttribute("aria-hidden", "true");
+
+  const copy = document.createElement("div");
+  appendTextElement(copy, "p", "section-label", t("timeAttack.hubEyebrow"));
+  appendTextElement(copy, "h2", "", t("timeAttack.hubTitle"));
+  appendTextElement(copy, "p", "", t("timeAttack.hubBody"));
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "tool-button time-attack-teaser-card__action";
+  button.textContent = t("timeAttack.hubAction");
+  button.addEventListener("click", onOpenTimeAttack);
+
+  card.append(badge, copy, button);
+  return card;
+}
+
 export function renderReplayPicksCard(replayPicks, activePuzzleId, onSelectPuzzle, options = {}) {
   if (!Array.isArray(replayPicks) || replayPicks.length === 0) {
     return null;

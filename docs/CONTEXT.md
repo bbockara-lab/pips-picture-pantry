@@ -3099,6 +3099,12 @@ Current launch direction:
 - Replaced the first-play guide action chips' generic dot accent with structured mini action icons for fill, blank-check, and undo, using the same CSS-art language as the live puzzle controls.
 - Strengthened mobile visual QA so the how-to card must keep three named action chips, each with a real icon slot, gradient artwork, and action-specific pseudo-element marks instead of placeholder decoration.
 
+### v0.1.437 Time Attack Hub Entry
+- Bumped the visible app version to v0.1.437 and package version to 0.1.437.
+- Added a polished Time Attack teaser card directly to the puzzle hub so players can discover the mode without opening the floating navigation menu.
+- The card uses a clock badge, spoon-run copy, and a tactile start CTA while preserving the existing Time Attack panel, guide, scoring, and hint economy behavior.
+- Mobile visual QA now guards the hub entry's card chrome, clock artwork, CTA tap target, and localized Time Attack copy.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

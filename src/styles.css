@@ -12516,3 +12516,155 @@ img {
   border-right: 7px solid #775747;
   transform: rotate(-29deg);
 }
+
+/* v0.1.437 Time Attack hub entry */
+.time-attack-teaser-card {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px 14px;
+  align-items: center;
+  width: min(100%, 720px);
+  margin: 16px auto;
+  padding: 18px;
+  overflow: hidden;
+  border: 3px solid rgba(61, 43, 46, 0.22);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 14% 12%, rgba(255, 255, 255, 0.92) 0 10%, transparent 11%),
+    radial-gradient(circle at 88% 82%, rgba(164, 218, 188, 0.5) 0 20%, transparent 21%),
+    linear-gradient(135deg, rgba(255, 247, 214, 0.98), rgba(255, 226, 157, 0.92) 48%, rgba(219, 245, 225, 0.92));
+  box-shadow:
+    0 5px 0 rgba(61, 43, 46, 0.16),
+    0 18px 34px rgba(111, 72, 35, 0.16);
+}
+
+.time-attack-teaser-card::before {
+  content: "";
+  position: absolute;
+  inset: 7px 18px auto 18px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+  opacity: 0.78;
+  pointer-events: none;
+}
+
+.time-attack-teaser-card::after {
+  content: "";
+  position: absolute;
+  right: 20px;
+  bottom: 18px;
+  width: 22px;
+  height: 22px;
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.92) 0 17%, transparent 18%),
+    linear-gradient(145deg, #ffe89c 0%, #f0aa45 52%, #b56b35 100%);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 248, 224, 0.74),
+    0 2px 0 rgba(61, 43, 46, 0.14);
+  transform: rotate(-7deg);
+  pointer-events: none;
+}
+
+.time-attack-teaser-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.time-attack-teaser-card__badge {
+  position: relative;
+  display: block;
+  width: 58px;
+  height: 58px;
+  border: 4px solid rgba(61, 43, 46, 0.72);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 31% 24%, rgba(255, 255, 255, 0.92) 0 12%, transparent 13%),
+    conic-gradient(from -32deg, #70483d 0 11%, #fff5cf 12% 22%, #e6a044 23% 36%, #fff5cf 37% 48%, #70483d 49% 61%, #fff5cf 62% 74%, #e6a044 75% 87%, #fff5cf 88% 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -5px 0 rgba(111, 72, 35, 0.16),
+    0 5px 0 rgba(61, 43, 46, 0.18);
+}
+
+.time-attack-teaser-card__badge::before,
+.time-attack-teaser-card__badge::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  border-radius: 999px;
+  background: #533936;
+  transform-origin: 50% 100%;
+  box-shadow: 0 0 0 1px rgba(255, 250, 224, 0.55);
+}
+
+.time-attack-teaser-card__badge::before {
+  height: 19px;
+  transform: translate(-50%, -100%) rotate(31deg);
+}
+
+.time-attack-teaser-card__badge::after {
+  height: 14px;
+  transform: translate(-50%, -100%) rotate(-58deg);
+}
+
+.time-attack-teaser-card h2,
+.time-attack-teaser-card p {
+  margin: 0;
+}
+
+.time-attack-teaser-card h2 {
+  color: var(--cocoa);
+  font-size: clamp(1.1rem, 4.8vw, 1.55rem);
+  line-height: 1.08;
+}
+
+.time-attack-teaser-card p:not(.section-label) {
+  color: var(--cocoa-soft);
+  font-size: 0.9rem;
+  font-weight: 850;
+  line-height: 1.28;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.time-attack-teaser-card__action {
+  position: relative;
+  grid-column: 1 / -1;
+  min-height: 52px;
+  padding-inline: 18px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 18%, rgba(255, 255, 255, 0.75) 0 9%, transparent 10%),
+    linear-gradient(180deg, #ffe690 0%, #f6bf50 60%, #dd8f3d 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.72),
+    0 4px 0 rgba(61, 43, 46, 0.18),
+    0 12px 20px rgba(111, 72, 35, 0.16);
+}
+
+.time-attack-teaser-card__action::before {
+  content: "";
+  position: absolute;
+  inset: 6px 40px auto 16px;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+@media (min-width: 620px) {
+  .time-attack-teaser-card {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .time-attack-teaser-card__action {
+    grid-column: auto;
+    min-width: 156px;
+  }
+}

@@ -39,6 +39,7 @@ for (const viewport of viewports) {
   await expectVisible(page, ".currency-pill", viewport.name);
   await expectAppChromePolish(page, viewport.name);
   await expectDailyRewardPolish(page, viewport.name);
+  await expectTimeAttackHubEntry(page, viewport.name);
   await expectResetDialogPolish(page, viewport.name);
   await expectStageCompleteRewardPolish(page, viewport.name);
   await expectVisible(page, ".pack-block", viewport.name);
@@ -1773,6 +1774,80 @@ async function expectDailyRewardPolish(page, viewportName) {
     metrics.buttonShineHeight < 8
   ) {
     failures.push("[" + viewportName + "] Daily reward card lost polished economy treatment: " + JSON.stringify(metrics));
+  }
+}
+
+async function expectTimeAttackHubEntry(page, viewportName) {
+  await expectVisible(page, ".time-attack-teaser-card", viewportName);
+  await expectVisible(page, ".time-attack-teaser-card__action", viewportName);
+  const metrics = await page.evaluate(() => {
+    const card = document.querySelector(".time-attack-teaser-card");
+    const badge = document.querySelector(".time-attack-teaser-card__badge");
+    const action = document.querySelector(".time-attack-teaser-card__action");
+    const cardRect = card?.getBoundingClientRect();
+    const badgeRect = badge?.getBoundingClientRect();
+    const actionRect = action?.getBoundingClientRect();
+    const cardStyle = card ? getComputedStyle(card) : null;
+    const cardBefore = card ? getComputedStyle(card, "::before") : null;
+    const cardAfter = card ? getComputedStyle(card, "::after") : null;
+    const badgeStyle = badge ? getComputedStyle(badge) : null;
+    const badgeBefore = badge ? getComputedStyle(badge, "::before") : null;
+    const actionStyle = action ? getComputedStyle(action) : null;
+    const actionBefore = action ? getComputedStyle(action, "::before") : null;
+    return {
+      text: card?.textContent?.trim() || "",
+      cardWidth: cardRect?.width || 0,
+      cardHeight: cardRect?.height || 0,
+      cardRight: cardRect?.right || 0,
+      viewportWidth: window.innerWidth,
+      cardBorderWidth: cardStyle ? parseFloat(cardStyle.borderTopWidth) : 0,
+      cardRadius: cardStyle ? parseFloat(cardStyle.borderRadius) : 0,
+      cardBackground: cardStyle?.backgroundImage || "",
+      cardShadow: cardStyle?.boxShadow || "none",
+      cardOverflow: cardStyle?.overflow || "",
+      cardShineContent: cardBefore?.content || "none",
+      cardShineHeight: cardBefore ? parseFloat(cardBefore.height) : 0,
+      cardTokenContent: cardAfter?.content || "none",
+      cardTokenWidth: cardAfter ? parseFloat(cardAfter.width) : 0,
+      badgeWidth: badgeRect?.width || 0,
+      badgeHeight: badgeRect?.height || 0,
+      badgeBackground: badgeStyle?.backgroundImage || "",
+      badgeHandContent: badgeBefore?.content || "none",
+      actionWidth: actionRect?.width || 0,
+      actionHeight: actionRect?.height || 0,
+      actionBackground: actionStyle?.backgroundImage || "",
+      actionShadow: actionStyle?.boxShadow || "none",
+      actionShineContent: actionBefore?.content || "none",
+      actionShineHeight: actionBefore ? parseFloat(actionBefore.height) : 0
+    };
+  });
+
+  if (
+    metrics.cardWidth < 240 ||
+    metrics.cardHeight < 128 ||
+    metrics.cardRight > metrics.viewportWidth + 1 ||
+    metrics.cardBorderWidth < 3 ||
+    metrics.cardRadius < 18 ||
+    !metrics.cardBackground.includes("radial-gradient") ||
+    metrics.cardShadow === "none" ||
+    metrics.cardOverflow !== "hidden" ||
+    metrics.cardShineContent === "none" ||
+    metrics.cardShineHeight < 8 ||
+    metrics.cardTokenContent === "none" ||
+    metrics.cardTokenWidth < 16 ||
+    !/Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(metrics.text) ||
+    metrics.badgeWidth < 50 ||
+    metrics.badgeHeight < 50 ||
+    !metrics.badgeBackground.includes("conic-gradient") ||
+    metrics.badgeHandContent === "none" ||
+    metrics.actionWidth < 132 ||
+    metrics.actionHeight < 48 ||
+    !metrics.actionBackground.includes("gradient") ||
+    metrics.actionShadow === "none" ||
+    metrics.actionShineContent === "none" ||
+    metrics.actionShineHeight < 8
+  ) {
+    failures.push("[" + viewportName + "] Time Attack hub entry lost discoverable polished treatment: " + JSON.stringify(metrics));
   }
 }
 

@@ -26,7 +26,7 @@ import { playStageComplete, setMusicEnabled, setSfxEnabled, startMusic } from ".
 import { renderPantryMapView } from "./mapView.js";
 import { renderPantryView } from "./pantryView.js";
 import { getControlModePreference, getHideCompletedStagesPreference, setControlModePreference, setHideCompletedStagesPreference } from "./preferences.js";
-import { getStageNavigation, renderDailyCard, renderPuzzleHub, renderPuzzlePicker, renderReplayPicksCard } from "./puzzleHubView.js";
+import { getStageNavigation, renderDailyCard, renderPuzzleHub, renderPuzzlePicker, renderReplayPicksCard, renderTimeAttackTeaserCard } from "./puzzleHubView.js";
 import { renderPlayScreen } from "./playScreen.js";
 import { renderFloatingNav } from "./floatingNav.js";
 import { renderGuideDialog } from "./guideDialog.js";
@@ -680,6 +680,7 @@ function createShell({
       onViewAlbum: () => onSelectView("album")
     }));
     shell.appendChild(renderDailyCard(dailyPuzzle, activePuzzle.id, onSelectPuzzle, DAILY_BONUS));
+    shell.appendChild(renderTimeAttackTeaserCard(() => onSelectView("timeAttack")));
     const replayPicksCard = renderReplayPicksCard(
       getDailyReplayPicks({ allPuzzles: getDailyPuzzleCandidates(), completedPuzzleIds: getCompletedPuzzleIds() }),
       activePuzzle.id,
