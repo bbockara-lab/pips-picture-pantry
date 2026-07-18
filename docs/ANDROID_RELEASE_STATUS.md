@@ -1,6 +1,6 @@
 # Android Release Status
 
-Last updated: 2026-07-16
+Last updated: 2026-07-17
 
 ## Public Launch Checklist (release-safe, 2026-07-14)
 
@@ -50,6 +50,8 @@ versionName "1.1.0" // or the final public launch version name
 ## Verified Outputs
 
 - `npm run qa:candidate` passes with Vitest, catalog, hygiene, runtime asset manifest, Play Store graphics, Play Store listing copy, local privacy policy alignment, production build, Android release gate, HTTP 200, and mobile visual QA.
+- `npx cap sync android` passes after the Billing integration and detects `@capgo/native-purchases@8.6.4`.
+- Android debug native compile passes with Android Studio JBR: `:app:assembleDebug` builds the `:capgo-native-purchases` module successfully.
 - `npm run qa:store` verifies Play Store app icon, feature graphic, phone screenshots, and tablet screenshots.
 - `npm run qa:store-listing` verifies the Play Console listing draft, screenshot references, privacy URL, launch positioning, and monetization wording.
 - `npm run qa:privacy` verifies local Markdown/HTML privacy policy alignment before submission.

@@ -52,6 +52,12 @@
 - Bumped visible app version and package metadata to `v0.1.421`.
 - Expanded Korean i18n tests across Pantry purchase feedback, placement planning, spoon earning, and item status copy so core live-economy UI cannot regress into mojibake or fallback wording.
 - This is release hardening only; no gameplay balance or purchase behavior changed.
+
+### Android Billing Native Build Check
+
+- Re-ran `npx cap sync android` after the support-pack and copy-guard work; Capacitor detected `@capgo/native-purchases@8.6.4` and produced no source changes.
+- Verified the native Android debug compile with Android Studio JBR by running `:app:assembleDebug`; Gradle compiled the `:capgo-native-purchases` module successfully.
+- Remaining Billing risk is now Play Console/product/runtime validation, not local native compilation: create/activate `pip_cozy_support`, build the final signed AAB after the Android version bump, then test purchase/restore on an internal tester device.
 Last updated: 2026-07-10
 
 ## Current Launch Strategy Snapshot - 2026-07-10
