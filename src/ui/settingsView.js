@@ -162,14 +162,25 @@ function createGuideReplayCard(onReplayGuide) {
   body.className = "settings-guide-card__body";
   body.textContent = t("settings.guideReplayBody");
 
+  const actions = document.createElement("div");
+  actions.className = "settings-guide-card__actions";
+  actions.append(
+    createGuideReplayButton(t("settings.guideReplayPuzzleAction"), "puzzle", "puzzle", onReplayGuide),
+    createGuideReplayButton(t("settings.guideReplayTimeAttackAction"), "timeAttack", "time", onReplayGuide)
+  );
+
+  group.append(label, body, actions);
+  return group;
+}
+
+function createGuideReplayButton(label, guideId, modifier, onReplayGuide) {
   const button = document.createElement("button");
   button.type = "button";
-  button.className = "tool-button settings-choice settings-choice--guide-replay";
-  button.textContent = t("settings.guideReplayAction");
-  button.addEventListener("click", onReplayGuide);
-
-  group.append(label, body, button);
-  return group;
+  button.className = `tool-button settings-choice settings-choice--guide-replay settings-choice--guide-replay-${modifier}`;
+  button.dataset.guideTarget = guideId;
+  button.textContent = label;
+  button.addEventListener("click", () => onReplayGuide(guideId));
+  return button;
 }
 
 function createAudioToggle(label, active, onChange) {

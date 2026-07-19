@@ -129,10 +129,10 @@ export function renderApp(root) {
     }
   }
 
-  function replayGuideFromSettings() {
+  function replayGuideFromSettings(guideId = null) {
     settingsOpen = false;
     resetOpen = false;
-    activeGuide = activeView === "timeAttack" ? "timeAttack" : "puzzle";
+    activeGuide = guideId || (activeView === "timeAttack" ? "timeAttack" : "puzzle");
     draw();
   }
 

@@ -3294,6 +3294,13 @@ Current launch direction:
 - Switched the narrow mobile quick-travel menu to a stacked readable shelf and tightened labels/hints so the shop, pantry, album, and Time Attack routes remain discoverable after opening the lower-right launcher.
 - Strengthened mobile visual QA to fail when quick-travel icons shrink, lose gradient artwork, or when menu labels/hints clip inside their cards.
 
+### v0.1.470 Pip Guide Replay Split
+- Bumped the visible app version to v0.1.470 and package version to 0.1.470.
+- Split the settings guide replay card into separate Picture Guide and Time Attack Guide buttons so players can intentionally reopen the onboarding flow they need.
+- Repaired the Korean Pip guide copy and kept both puzzle and Time Attack guide text in Pip's first-person helper voice instead of detached instruction-card wording.
+- Strengthened mobile visual QA to guard two replay buttons, their route targets, no text overflow, tactile icon treatment, and button sizing on Android review viewports.
+- Kept Billing, Pantry state, puzzle play, Time Attack scoring, floating navigation, and save behavior unchanged; this is a launch-facing help/discoverability polish pass.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

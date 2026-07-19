@@ -20,7 +20,8 @@ export function renderGuideDialog(guideId, onClose) {
   overlay.setAttribute("aria-labelledby", "guide-dialog-title");
 
   const card = document.createElement("section");
-  card.className = "guide-dialog";
+  card.className = `guide-dialog guide-dialog--${guideId}`;
+  card.dataset.guideId = guideId;
   overlay.appendChild(card);
 
   function draw() {
@@ -51,6 +52,7 @@ export function renderGuideDialog(guideId, onClose) {
     title.textContent = t(`guide.${guideId}.title`);
 
     const body = document.createElement("p");
+    body.className = "guide-dialog__line";
     body.textContent = t(steps[index]);
 
     const dots = document.createElement("div");

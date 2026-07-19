@@ -13885,8 +13885,24 @@ img {
   overflow-wrap: break-word;
 }
 
+.settings-guide-card__actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  align-items: stretch;
+}
+
 .settings-choice--guide-replay {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 0;
   min-height: 48px;
+  padding-inline: 10px;
+  line-height: 1.06;
+  word-break: keep-all;
+  overflow-wrap: normal;
   background:
     radial-gradient(circle at 12% 20%, rgba(255, 255, 255, 0.84) 0 8%, transparent 9%),
     linear-gradient(180deg, rgba(255, 235, 178, 0.98), rgba(255, 249, 235, 0.96));
@@ -13897,9 +13913,10 @@ img {
   position: static;
   inset: auto;
   display: inline-block;
+  flex: 0 0 22px;
   width: 22px;
   height: 22px;
-  margin-right: 8px;
+  margin-right: 0;
   border: 2px solid rgba(61, 43, 46, 0.22);
   border-radius: 44% 56% 46% 54%;
   vertical-align: -5px;
@@ -13910,6 +13927,21 @@ img {
   box-shadow:
     inset 0 -3px 0 rgba(61, 43, 46, 0.12),
     0 2px 0 rgba(61, 43, 46, 0.14);
+}
+
+.settings-dialog .tool-button.settings-choice--guide-replay-time::before {
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.9) 0 15%, transparent 16%),
+    conic-gradient(from 310deg, #8c5940 0 13%, transparent 13% 56%, #8c5940 56% 64%, transparent 64%),
+    linear-gradient(135deg, #ffd96d, #f49a4d);
+}
+
+.guide-dialog__line {
+  margin: 0;
+  line-height: 1.38;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 @media (max-width: 430px) {
@@ -13935,6 +13967,10 @@ img {
 
   .settings-guide-card {
     padding: 14px;
+  }
+
+  .settings-guide-card__actions {
+    grid-template-columns: 1fr;
   }
 }
 

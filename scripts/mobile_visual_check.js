@@ -682,13 +682,30 @@ async function expectSettingsDialogPolish(page, viewportName) {
         const supportArtBefore = supportArt ? getComputedStyle(supportArt, "::before") : null;
         const supportArtAfter = supportArt ? getComputedStyle(supportArt, "::after") : null;
         const guideCard = document.querySelector(".settings-guide-card");
-        const guideButton = guideCard?.querySelector(".settings-choice--guide-replay");
+        const guideButtons = [...(guideCard?.querySelectorAll(".settings-choice--guide-replay") || [])];
         const guideBody = guideCard?.querySelector(".settings-guide-card__body");
         const guideLabel = guideCard?.querySelector(".section-label");
         const guideStyle = guideCard ? getComputedStyle(guideCard) : null;
         const guideBefore = guideCard ? getComputedStyle(guideCard, "::before") : null;
-        const guideButtonStyle = guideButton ? getComputedStyle(guideButton) : null;
-        const guideButtonBefore = guideButton ? getComputedStyle(guideButton, "::before") : null;
+        const guideButtonMetrics = guideButtons.map((button) => {
+          const style = getComputedStyle(button);
+          const before = getComputedStyle(button, "::before");
+          const rect = button.getBoundingClientRect();
+          return {
+            tag: button.tagName,
+            type: button.getAttribute("type") || "",
+            target: button.dataset?.guideTarget || "",
+            text: button.textContent?.trim() || "",
+            width: rect.width,
+            height: rect.height,
+            clientWidth: button.clientWidth,
+            scrollWidth: button.scrollWidth,
+            background: style.backgroundImage || "",
+            tokenWidth: parseFloat(before.width) || 0,
+            tokenRadius: parseFloat(before.borderRadius) || 0,
+            tokenBackground: before.backgroundImage || ""
+          };
+        });
         const jarLabel = jarCard?.querySelector(".section-label");
         const jarBody = jarCard?.querySelector(".support-pack-card__body");
         const jarFacts = [...(jarCard?.querySelectorAll(".support-pack-card__facts span") || [])];
@@ -741,19 +758,23 @@ async function expectSettingsDialogPolish(page, viewportName) {
             exists: Boolean(guideCard),
             labelText: guideLabel?.textContent?.trim() || "",
             bodyText: guideBody?.textContent?.trim() || "",
-            buttonTag: guideButton?.tagName || "",
-            buttonType: guideButton?.getAttribute("type") || "",
-            buttonText: guideButton?.textContent?.trim() || "",
+            buttonCount: guideButtons.length,
+            buttonTags: guideButtonMetrics.map((button) => button.tag),
+            buttonTypes: guideButtonMetrics.map((button) => button.type),
+            buttonTargets: guideButtonMetrics.map((button) => button.target),
+            buttonTexts: guideButtonMetrics.map((button) => button.text),
+            buttonOverflows: guideButtonMetrics.map((button) => button.scrollWidth > button.clientWidth + 1),
             height: guideCard?.getBoundingClientRect().height || 0,
             radius: guideStyle ? parseFloat(guideStyle.borderRadius) : 0,
             background: guideStyle?.backgroundImage || "",
             shadow: guideStyle?.boxShadow || "none",
             shineHeight: guideBefore ? parseFloat(guideBefore.height) : 0,
             shineBackground: guideBefore?.backgroundImage || "",
-            buttonHeight: guideButton?.getBoundingClientRect().height || 0,
-            buttonBackground: guideButtonStyle?.backgroundImage || "",
-            tokenWidth: guideButtonBefore ? parseFloat(guideButtonBefore.width) : 0,
-            tokenBackground: guideButtonBefore?.backgroundImage || ""
+            buttonHeights: guideButtonMetrics.map((button) => button.height),
+            buttonBackgrounds: guideButtonMetrics.map((button) => button.background),
+            tokenWidths: guideButtonMetrics.map((button) => button.tokenWidth),
+            tokenRadii: guideButtonMetrics.map((button) => button.tokenRadius),
+            tokenBackgrounds: guideButtonMetrics.map((button) => button.tokenBackground)
           },
           supportCard: {
             exists: Boolean(supportCard),
@@ -898,19 +919,23 @@ async function expectSettingsDialogPolish(page, viewportName) {
     !metrics.settingsPolish.guideCard.exists ||
     !metrics.settingsPolish.guideCard.labelText ||
     !metrics.settingsPolish.guideCard.bodyText ||
-    !/guide|\uAC00\uC774\uB4DC/i.test(metrics.settingsPolish.guideCard.buttonText) ||
-    metrics.settingsPolish.guideCard.buttonTag !== "BUTTON" ||
-    metrics.settingsPolish.guideCard.buttonType !== "button" ||
+    metrics.settingsPolish.guideCard.buttonCount !== 2 ||
+    !metrics.settingsPolish.guideCard.buttonTargets.includes("puzzle") ||
+    !metrics.settingsPolish.guideCard.buttonTargets.includes("timeAttack") ||
+    metrics.settingsPolish.guideCard.buttonTags.some((tag) => tag !== "BUTTON") ||
+    metrics.settingsPolish.guideCard.buttonTypes.some((type) => type !== "button") ||
+    metrics.settingsPolish.guideCard.buttonTexts.some((text) => !/guide|\uAC00\uC774\uB4DC/i.test(text)) ||
+    metrics.settingsPolish.guideCard.buttonOverflows.some(Boolean) ||
     metrics.settingsPolish.guideCard.height < 86 ||
     metrics.settingsPolish.guideCard.radius < 16 ||
     !metrics.settingsPolish.guideCard.background.includes("gradient") ||
     metrics.settingsPolish.guideCard.shadow === "none" ||
     !metrics.settingsPolish.guideCard.shineBackground.includes("gradient") ||
     metrics.settingsPolish.guideCard.shineHeight < 16 ||
-    metrics.settingsPolish.guideCard.buttonHeight < 46 ||
-    !metrics.settingsPolish.guideCard.buttonBackground.includes("gradient") ||
-    metrics.settingsPolish.guideCard.tokenWidth < 18 ||
-    !metrics.settingsPolish.guideCard.tokenBackground.includes("gradient") ||
+    metrics.settingsPolish.guideCard.buttonHeights.some((height) => height < 44) ||
+    metrics.settingsPolish.guideCard.buttonBackgrounds.some((background) => !background.includes("gradient")) ||
+    metrics.settingsPolish.guideCard.tokenWidths.some((width) => width < 20) ||
+    metrics.settingsPolish.guideCard.tokenBackgrounds.some((background) => !background.includes("gradient")) ||
     !metrics.settingsPolish.supportCard.exists ||
     metrics.settingsPolish.supportCard.productId !== "pip_cozy_support" ||
     !metrics.settingsPolish.supportCard.labelText ||

@@ -70,8 +70,10 @@ export const ko = {
     controlsDirect: "\uce78 \uc9c1\uc811 \ub204\ub974\uae30",
     controlsCursor: "\ubc29\ud5a5\ud0a4 \uc0ac\uc6a9",
     guideReplayTitle: "Pip\uc758 \uac00\uc774\ub4dc",
-    guideReplayBody: "\uaddc\uce59\uc774 \ud5f7\uac08\ub9b4 \ub54c\uba74 Pip\uc774 \uc606\uc5d0\uc11c \ucc28\uadfc\ucc28\uadfc \ub2e4\uc2dc \uc54c\ub824\uc904\uac8c\uc694.",
-    guideReplayAction: "Pip \uac00\uc774\ub4dc \ubcf4\uae30",
+    guideReplayBody: "Pip이 그림 풀이와 타임어택을 다시 옆에서 짚어줄게요.",
+    guideReplayAction: "Pip 가이드 보기",
+    guideReplayPuzzleAction: "그림 가이드",
+    guideReplayTimeAttackAction: "타임어택 가이드",
     supportTitle: "Pip \uc751\uc6d0\ud329",
     supportBody: "Pip\uc758 \ud32c\ud2b8\ub9ac\ub97c \uc751\uc6d0\ud558\uba74 \uc2a4\ud47c {spoons}\uac1c\uac00 \ud568\uaed8 \ub4e4\uc5b4\uc640\uc694.",
     supportOwnedBody: "\uc751\uc6d0 \uace0\ub9c8\uc6cc\uc694. \uc2a4\ud47c {spoons}\uac1c\uac00 \uc774\ubbf8 \ud32c\ud2b8\ub9ac\uc5d0 \ub4e4\uc5b4\uc654\uc5b4\uc694.",
@@ -242,22 +244,22 @@ export const ko = {
     next: "다음",
     done: "시작하기",
     puzzle: {
-      title: "Pip이 첫 카드를 안내할게요",
-      step1: "내가 같이 볼게요. 줄과 칸 옆 숫자는 우리가 칠할 그림 칸의 묶음을 알려줘요.",
-      step2: "예를 들어 3은 붙은 3칸, 1 1 1은 사이에 빈칸을 두고 떨어진 작은 묶음이에요.",
-      step3: "확실히 비는 칸은 빈칸 체크로 살짝 표시해요. 헷갈리면 천천히, Pip이 옆에서 같이 볼게요!"
+      title: "제가 첫 그림을 같이 볼게요",
+      step1: "줄 옆 숫자는 제가 찾아야 할 그림 칸의 묶음이에요. 먼저 쉬운 줄부터 같이 짚어볼게요.",
+      step2: "3은 붙은 3칸, 1 1 1은 한 칸씩 떨어진 작은 묶음이에요. 빈칸이 꼭 하나는 사이에 있어요.",
+      step3: "줄이 완성되면 제가 안전한 빈칸에 X 길잡이를 남겨둘게요. 막히면 천천히 힌트도 써봐요."
     },
     timeAttack: {
-      title: "빠른 팬트리 도전 준비됐나요?",
-      step1: "타임어택에 오면 내가 랜덤 퍼즐을 바로 꺼내 줄게요. 한 칸이라도 더 가면 오늘 기록이 자라요.",
-      step2: "처음 힌트는 조금 챙겨뒀어요. 다 쓰고 나면 스푼을 써서 이어갈 수 있고, 쓸수록 필요한 스푼이 올라가요.",
-      step3: "기록이 눈앞이면 과감히 힌트를 써도 좋아요. 오늘은 우리 최고 기록을 한 번 노려봐요!"
+      title: "제가 빠른 도전을 열어둘게요",
+      step1: "타임어택에서는 제가 랜덤 퍼즐 3판을 꺼내줄게요. 한 칸이라도 더 맞히면 기록이 자라요.",
+      step2: "처음 힌트는 조금 챙겨뒀어요. 그 다음부터는 스푼을 써서 이어갈 수 있고, 힌트를 고를수록 기록 선택이 더 중요해져요.",
+      step3: "기록이 눈앞이면 힌트에 스푼을 써도 좋아요. 오늘은 우리 최고 기록을 한 칸 더 밀어봐요!"
     },
     pantryFirstPurchase: {
-      title: "첫 팬트리 장식이 도착했어요!",
-      step1: "좋은 선택이에요! 이 장식은 내가 팬트리에 잘 보관해 두고, 어울리는 자리부터 보여줄게요.",
-      step2: "자리는 카운터, 창문, 선반, 바닥, 뒷벽처럼 정해져 있고 한 자리에는 장식 하나만 보여요. 같은 자리 장식을 새로 고르면 전시가 바뀌어요.",
-      step3: "퍼즐로 스푼을 모으고 마음에 드는 장식을 하나씩 골라 봐요. 우리 팬트리를 천천히 포근하게 채워요."
+      title: "첫 팬트리 장식을 놓아볼게요",
+      step1: "좋은 선택이에요. 이 장식은 제가 팬트리에 잘 보관하고, 어울리는 자리를 보여줄게요.",
+      step2: "자리는 카운터, 창문, 선반, 바닥, 배경처럼 정해져 있어요. 같은 자리에 새 장식을 고르면 바로 바뀌어요.",
+      step3: "퍼즐로 스푼을 모으고 마음에 드는 장식을 하나씩 골라봐요. 우리 팬트리를 천천히 포근하게 채워요."
     }
   },
   stageNav: {
