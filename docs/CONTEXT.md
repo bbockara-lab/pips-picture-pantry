@@ -3234,6 +3234,18 @@ Current launch direction:
 - Added a mobile visual QA guard for the first 5x5 starter puzzle so column and row clue centers must align with their corresponding puzzle cells within 1px.
 - Kept board CSS, gameplay, guide copy, Billing, Pantry, Time Attack, and save behavior unchanged; this locks the repaired starter-board layout without introducing new UI behavior.
 
+### v0.1.460 Opening Promise Chip Readability
+- Bumped the visible app version to v0.1.460 and package version to 0.1.460.
+- Rebuilt the three opening promise chips so icon, promise text, and action badge use a measured grid instead of an absolute badge that can overlap or clip copy.
+- On narrow Android review viewports, the three chips now stack into full-width rows so "Solve", "Decorate", and "Challenge" remain readable entry cues for puzzles, pantry goals, and Time Attack.
+- Strengthened mobile visual QA to fail when promise chip text overlaps the action badge, overflows the chip, or loses its tactile badge structure.
+
+### v0.1.461 Fixed Navigation And Guide Replay
+- Bumped the visible app version to v0.1.461 and package version to 0.1.461.
+- Play screens now append the floating navigation as well, and the nav is fixed to the lower-right viewport edge so Puzzle, Album, Pantry, Time Attack, and Map remain reachable without scrolling.
+- Settings now includes a Pip guide replay card, letting the player reopen the puzzle or Time Attack guide after first-run onboarding.
+- Strengthened mobile visual QA to guard fixed nav placement and the guide replay card's tactile treatment.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

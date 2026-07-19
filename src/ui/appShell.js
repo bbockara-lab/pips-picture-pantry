@@ -129,6 +129,13 @@ export function renderApp(root) {
     }
   }
 
+  function replayGuideFromSettings() {
+    settingsOpen = false;
+    resetOpen = false;
+    activeGuide = activeView === "timeAttack" ? "timeAttack" : "puzzle";
+    draw();
+  }
+
   function requestPantryFirstPurchaseGuide() {
     if (!hasSeenGuide("pantryFirstPurchase")) {
       activeGuide = "pantryFirstPurchase";
@@ -327,6 +334,7 @@ export function renderApp(root) {
       onMusicChange: changeMusic,
       onControlModeChange: changeControlMode,
       controlMode,
+      onReplayGuide: replayGuideFromSettings,
       supportPack: cozySupportState,
       onSupportPurchase: buyCozySupportPack,
       onSupportRestore: restoreCozySupport,
@@ -649,6 +657,7 @@ function createShell({
     if (activeGuide) {
       shell.appendChild(renderGuideDialog(activeGuide, onCloseGuide));
     }
+    shell.appendChild(renderFloatingNav(activeView, onSelectView));
     return shell;
   }
 

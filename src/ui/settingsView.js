@@ -10,6 +10,7 @@ export function renderSettingsDialog({
   onMusicChange,
   controlMode,
   onControlModeChange,
+  onReplayGuide = () => {},
   supportPack = null,
   onSupportPurchase = () => {},
   onSupportRestore = () => {},
@@ -118,6 +119,8 @@ export function renderSettingsDialog({
     createAudioToggle(t("settings.music"), audio.music, onMusicChange)
   );
 
+  const guideGroup = createGuideReplayCard(onReplayGuide);
+
   const supportGroup = supportPack ? createSupportPackCard({
     supportPack,
     onSupportPurchase,
@@ -134,7 +137,7 @@ export function renderSettingsDialog({
   closeButton.textContent = t("settings.close");
   closeButton.addEventListener("click", onClose);
 
-  dialog.append(group, playerForm, controlGroup, audioGroup);
+  dialog.append(group, playerForm, controlGroup, audioGroup, guideGroup);
   if (supportGroup) {
     dialog.appendChild(supportGroup);
   }
@@ -144,6 +147,29 @@ export function renderSettingsDialog({
   dialog.appendChild(closeButton);
   overlay.appendChild(dialog);
   return overlay;
+}
+
+function createGuideReplayCard(onReplayGuide) {
+  const group = document.createElement("div");
+  group.className = "settings-guide-card";
+  group.setAttribute("aria-label", t("settings.guideReplayTitle"));
+
+  const label = document.createElement("p");
+  label.className = "section-label";
+  label.textContent = t("settings.guideReplayTitle");
+
+  const body = document.createElement("p");
+  body.className = "settings-guide-card__body";
+  body.textContent = t("settings.guideReplayBody");
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "tool-button settings-choice settings-choice--guide-replay";
+  button.textContent = t("settings.guideReplayAction");
+  button.addEventListener("click", onReplayGuide);
+
+  group.append(label, body, button);
+  return group;
 }
 
 function createAudioToggle(label, active, onChange) {

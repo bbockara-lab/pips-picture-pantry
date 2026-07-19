@@ -474,9 +474,14 @@ async function expectOpeningIntroPolish(page, viewportName) {
     const shineStyle = getComputedStyle(chip, "::before");
     const tokenStyle = getComputedStyle(chip, "::after");
     const iconRect = icon?.getBoundingClientRect();
+    const textRect = text?.getBoundingClientRect();
     const actionRect = action?.getBoundingClientRect();
+    const textStyle = text ? getComputedStyle(text) : null;
     const actionStyle = action ? getComputedStyle(action) : null;
     const actionArrowStyle = action ? getComputedStyle(action, "::after") : null;
+    const textActionOverlap = textRect && actionRect
+      ? !(textRect.right <= actionRect.left - 4 || actionRect.right <= textRect.left - 4 || textRect.bottom <= actionRect.top - 2 || actionRect.bottom <= textRect.top - 2)
+      : false;
     return {
       text: (text?.textContent || "").trim(),
       actionText: (action?.textContent || "").trim(),
@@ -498,11 +503,23 @@ async function expectOpeningIntroPolish(page, viewportName) {
       tokenBackground: tokenStyle.backgroundImage,
       iconWidth: iconRect?.width || 0,
       iconHeight: iconRect?.height || 0,
+      textWidth: textRect?.width || 0,
+      textHeight: textRect?.height || 0,
+      textLeft: textRect?.left || 0,
+      textRight: textRect?.right || 0,
+      textWhiteSpace: textStyle?.whiteSpace || "",
+      chipLeft: rect.left,
+      chipRight: rect.right,
       actionWidth: actionRect?.width || 0,
       actionHeight: actionRect?.height || 0,
+      actionLeft: actionRect?.left || 0,
+      actionRight: actionRect?.right || 0,
       actionBackground: actionStyle?.backgroundImage || "",
       actionRadius: actionStyle ? parseFloat(actionStyle.borderRadius) : 0,
+      actionPosition: actionStyle?.position || "",
       actionArrowContent: actionArrowStyle?.content || "",
+      actionOverflows: action ? action.scrollWidth > Math.ceil(actionRect?.width || 0) + 1 || action.scrollHeight > Math.ceil(actionRect?.height || 0) + 1 : true,
+      textActionOverlap,
       overflows: chip.scrollWidth > Math.ceil(rect.width) + 1 || chip.scrollHeight > Math.ceil(rect.height) + 1
     };
   }));
@@ -519,7 +536,8 @@ async function expectOpeningIntroPolish(page, viewportName) {
     const hasChipShine = metrics.shineContent !== "none" && metrics.shineHeight >= 7 && metrics.shineBackground.includes("linear-gradient");
     const hasCornerToken = metrics.tokenContent !== "none" && metrics.tokenWidth >= 8 && metrics.tokenHeight >= 8 && metrics.tokenBackground.includes("gradient");
     const hasActionCue = expectedPromiseActions[index].includes(metrics.actionText) && metrics.actionWidth >= 24 && metrics.actionHeight >= 18 && metrics.actionRadius >= 8 && metrics.actionBackground.includes("linear-gradient") && metrics.actionArrowContent !== "none";
-    if (metrics.tagName !== "BUTTON" || metrics.targetView !== expectedPromiseTargets[index] || !metrics.text || metrics.width < 70 || metrics.height < 34 || metrics.borderWidth < 3 || metrics.borderRadius < 14 || !metrics.backgroundImage.includes("linear-gradient") || metrics.boxShadow === "none" || metrics.overflow !== "hidden" || !hasChipShine || !hasCornerToken || metrics.iconWidth < 14 || metrics.iconHeight < 14 || !hasActionCue || metrics.overflows) {
+    const hasReadableLayout = metrics.textWidth >= 36 && metrics.textHeight >= 10 && metrics.textWhiteSpace !== "nowrap" && metrics.actionPosition === "static" && !metrics.textActionOverlap && !metrics.actionOverflows && metrics.textLeft >= metrics.chipLeft + 4 && metrics.actionRight <= metrics.chipRight - 4;
+    if (metrics.tagName !== "BUTTON" || metrics.targetView !== expectedPromiseTargets[index] || !metrics.text || metrics.width < 70 || metrics.height < 34 || metrics.borderWidth < 3 || metrics.borderRadius < 14 || !metrics.backgroundImage.includes("linear-gradient") || metrics.boxShadow === "none" || metrics.overflow !== "hidden" || !hasChipShine || !hasCornerToken || metrics.iconWidth < 14 || metrics.iconHeight < 14 || !hasActionCue || !hasReadableLayout || metrics.overflows) {
       failures.push("[" + viewportName + "] Opening promise chip " + (index + 1) + " lost readable tactile treatment: " + JSON.stringify(metrics));
     }
   });
@@ -585,6 +603,14 @@ async function expectSettingsDialogPolish(page, viewportName) {
         const supportArtStyle = supportArt ? getComputedStyle(supportArt) : null;
         const supportArtBefore = supportArt ? getComputedStyle(supportArt, "::before") : null;
         const supportArtAfter = supportArt ? getComputedStyle(supportArt, "::after") : null;
+        const guideCard = document.querySelector(".settings-guide-card");
+        const guideButton = guideCard?.querySelector(".settings-choice--guide-replay");
+        const guideBody = guideCard?.querySelector(".settings-guide-card__body");
+        const guideLabel = guideCard?.querySelector(".section-label");
+        const guideStyle = guideCard ? getComputedStyle(guideCard) : null;
+        const guideBefore = guideCard ? getComputedStyle(guideCard, "::before") : null;
+        const guideButtonStyle = guideButton ? getComputedStyle(guideButton) : null;
+        const guideButtonBefore = guideButton ? getComputedStyle(guideButton, "::before") : null;
         const jarLabel = jarCard?.querySelector(".section-label");
         const jarBody = jarCard?.querySelector(".support-pack-card__body");
         const jarFacts = [...(jarCard?.querySelectorAll(".support-pack-card__facts span") || [])];
@@ -633,6 +659,24 @@ async function expectSettingsDialogPolish(page, viewportName) {
           languageChoiceCount: languageChoices.length,
           controlChoiceCount: controlChoices.length,
           audioChoiceCount: audioChoices.length,
+          guideCard: {
+            exists: Boolean(guideCard),
+            labelText: guideLabel?.textContent?.trim() || "",
+            bodyText: guideBody?.textContent?.trim() || "",
+            buttonTag: guideButton?.tagName || "",
+            buttonType: guideButton?.getAttribute("type") || "",
+            buttonText: guideButton?.textContent?.trim() || "",
+            height: guideCard?.getBoundingClientRect().height || 0,
+            radius: guideStyle ? parseFloat(guideStyle.borderRadius) : 0,
+            background: guideStyle?.backgroundImage || "",
+            shadow: guideStyle?.boxShadow || "none",
+            shineHeight: guideBefore ? parseFloat(guideBefore.height) : 0,
+            shineBackground: guideBefore?.backgroundImage || "",
+            buttonHeight: guideButton?.getBoundingClientRect().height || 0,
+            buttonBackground: guideButtonStyle?.backgroundImage || "",
+            tokenWidth: guideButtonBefore ? parseFloat(guideButtonBefore.width) : 0,
+            tokenBackground: guideButtonBefore?.backgroundImage || ""
+          },
           supportCard: {
             exists: Boolean(supportCard),
             productId: supportCard?.dataset?.billingProduct || "",
@@ -772,6 +816,22 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.languageChoiceCount !== 3 ||
     metrics.settingsPolish.controlChoiceCount !== 3 ||
     metrics.settingsPolish.audioChoiceCount !== 2 ||
+    !metrics.settingsPolish.guideCard.exists ||
+    !metrics.settingsPolish.guideCard.labelText ||
+    !metrics.settingsPolish.guideCard.bodyText ||
+    !/guide|\uAC00\uC774\uB4DC/i.test(metrics.settingsPolish.guideCard.buttonText) ||
+    metrics.settingsPolish.guideCard.buttonTag !== "BUTTON" ||
+    metrics.settingsPolish.guideCard.buttonType !== "button" ||
+    metrics.settingsPolish.guideCard.height < 86 ||
+    metrics.settingsPolish.guideCard.radius < 16 ||
+    !metrics.settingsPolish.guideCard.background.includes("gradient") ||
+    metrics.settingsPolish.guideCard.shadow === "none" ||
+    !metrics.settingsPolish.guideCard.shineBackground.includes("gradient") ||
+    metrics.settingsPolish.guideCard.shineHeight < 16 ||
+    metrics.settingsPolish.guideCard.buttonHeight < 46 ||
+    !metrics.settingsPolish.guideCard.buttonBackground.includes("gradient") ||
+    metrics.settingsPolish.guideCard.tokenWidth < 18 ||
+    !metrics.settingsPolish.guideCard.tokenBackground.includes("gradient") ||
     !metrics.settingsPolish.supportCard.exists ||
     metrics.settingsPolish.supportCard.productId !== "pip_cozy_support" ||
     !metrics.settingsPolish.supportCard.labelText ||
@@ -948,7 +1008,9 @@ async function expectAppChromePolish(page, viewportName) {
       };
     });
     const rect = menu?.getBoundingClientRect();
+    const navRect = nav?.getBoundingClientRect();
     const style = menu ? getComputedStyle(menu) : null;
+    const navStyle = nav ? getComputedStyle(nav) : null;
     const triggerBefore = triggerButton ? getComputedStyle(triggerButton, "::before") : null;
     const triggerAfter = triggerButton ? getComputedStyle(triggerButton, "::after") : null;
     const activeBefore = activeItem ? getComputedStyle(activeItem, "::before") : null;
@@ -959,6 +1021,11 @@ async function expectAppChromePolish(page, viewportName) {
       right: rect?.right || 0,
       width: rect?.width || 0,
       viewportWidth: window.innerWidth,
+      navPosition: navStyle?.position || "",
+      navRightGap: navRect ? Math.round(window.innerWidth - navRect.right) : -999,
+      navBottomGap: navRect ? Math.round(window.innerHeight - navRect.bottom) : -999,
+      navTop: navRect ? Math.round(navRect.top) : -999,
+      menuBottomGap: rect ? Math.round(window.innerHeight - rect.bottom) : -999,
       borderRadius: style ? parseFloat(style.borderRadius) : 0,
       backgroundImage: style?.backgroundImage || "",
       triggerShine: triggerBefore?.backgroundImage || "",
@@ -977,6 +1044,13 @@ async function expectAppChromePolish(page, viewportName) {
   const hasAllViewIcons = expectedIconViews.every((view) => navMetrics.icons.some((icon) => icon.view === view));
   if (
     navMetrics.open !== "true" ||
+    navMetrics.navPosition !== "fixed" ||
+    navMetrics.navRightGap < 0 ||
+    navMetrics.navRightGap > 24 ||
+    navMetrics.navBottomGap < 0 ||
+    navMetrics.navBottomGap > 120 ||
+    navMetrics.navTop < 0 ||
+    navMetrics.menuBottomGap < 0 ||
     navMetrics.left < -1 ||
     navMetrics.right > navMetrics.viewportWidth + 1 ||
     navMetrics.borderRadius < 12 ||
