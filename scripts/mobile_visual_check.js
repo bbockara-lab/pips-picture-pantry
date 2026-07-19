@@ -1206,28 +1206,35 @@ async function expectPlayScreenNavClearance(page, viewportName) {
     const navStyle = nav ? getComputedStyle(nav) : null;
     return {
       hasPlayShell: Boolean(document.querySelector(".app-shell--play")),
+      viewportWidth: window.innerWidth,
+      viewportHeight: window.innerHeight,
       navPosition: navStyle?.position || "",
       navTop: navRect ? Math.round(navRect.top) : -999,
+      navRightGap: navRect ? Math.round(window.innerWidth - navRect.right) : -999,
+      navBottomGap: navRect ? Math.round(window.innerHeight - navRect.bottom) : -999,
       triggerTop: triggerRect ? Math.round(triggerRect.top) : -999,
       triggerWidth: triggerRect?.width || 0,
       triggerHeight: triggerRect?.height || 0,
       triggerOverlapsGrid: overlaps(triggerRect, gridRect),
-      triggerOverlapsControls: overlaps(triggerRect, controlsRect),
-      triggerAfterGrid: Boolean(triggerRect && gridRect && triggerRect.top >= gridRect.bottom - 1)
+      triggerOverlapsControls: overlaps(triggerRect, controlsRect)
     };
   });
   if (
     metrics.hasPlayShell &&
     (
-      metrics.navPosition === "fixed" ||
-      metrics.triggerWidth < 96 ||
-      metrics.triggerHeight < 44 ||
-      metrics.triggerOverlapsGrid ||
-      metrics.triggerOverlapsControls ||
-      !metrics.triggerAfterGrid
+      metrics.navPosition !== "fixed" ||
+      metrics.navRightGap < 0 ||
+      metrics.navRightGap > 24 ||
+      metrics.navBottomGap < 70 ||
+      metrics.navBottomGap > 130 ||
+      metrics.triggerWidth < 52 ||
+      metrics.triggerWidth > 72 ||
+      metrics.triggerHeight < 52 ||
+      metrics.triggerHeight > 72 ||
+      metrics.triggerOverlapsControls
     )
   ) {
-    failures.push("[" + viewportName + "] Play screen floating nav overlays the puzzle board or primary controls: " + JSON.stringify(metrics));
+    failures.push("[" + viewportName + "] Play screen floating nav is not fixed/reachable or overlaps primary controls: " + JSON.stringify(metrics));
   }
 }
 

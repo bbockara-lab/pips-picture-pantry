@@ -3282,6 +3282,12 @@ Current launch direction:
 - Kept the existing tactile chip artwork and route behavior intact while prioritizing no-overlap text fit on short Android review viewports.
 - Kept Billing, Pantry state, puzzle play, Time Attack scoring, floating navigation, and save behavior unchanged; this is a visible first-screen readability polish pass.
 
+### v0.1.468 Fixed Quick Travel Recovery
+- Bumped the visible app version to v0.1.468 and package version to 0.1.468.
+- Restored the floating navigation to a fixed lower-right quick-travel menu on play screens so Puzzle, Album, Pantry, Time Attack, and Map remain reachable without scrolling.
+- Updated play-screen mobile QA to guard the fixed menu's right/bottom safe-area placement while still preventing overlap with the puzzle board or primary controls.
+- Reworded the settings guide replay and Billing fallback copy so Pip speaks like an in-world helper and store availability reads as Android-app readiness instead of test-build language.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

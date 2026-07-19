@@ -13798,15 +13798,17 @@ img {
   bottom: max(86px, calc(env(safe-area-inset-bottom, 0px) + 86px));
 }
 
-/* v0.1.466 play-screen nav clearance */
+/* v0.1.468 play-screen fixed quick travel */
 .app-shell--play .floating-nav {
-  position: relative;
-  right: auto;
-  bottom: auto;
-  z-index: 12;
-  width: min(100%, 336px);
-  max-width: 100%;
-  margin: 12px auto 0;
+  position: fixed;
+  right: max(10px, calc(env(safe-area-inset-right, 0px) + 10px));
+  bottom: max(86px, calc(env(safe-area-inset-bottom, 0px) + 86px));
+  left: auto;
+  z-index: 90;
+  width: min(336px, calc(100vw - 24px));
+  max-width: calc(100vw - 24px);
+  margin: 0;
+  justify-items: end;
 }
 
 .app-shell--play .floating-nav__menu {
@@ -13814,6 +13816,32 @@ img {
   bottom: calc(100% + 10px);
   width: min(336px, calc(100vw - 24px));
   max-width: calc(100vw - 24px);
+}
+
+.app-shell--play .floating-nav__trigger {
+  grid-template-columns: 1fr;
+  place-items: center;
+  width: 58px;
+  min-width: 58px;
+  min-height: 58px;
+  padding: 0;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.app-shell--play .floating-nav__trigger-icon {
+  grid-column: 1;
+  grid-row: 1;
+  transform: scale(1.08);
+}
+
+.app-shell--play .floating-nav__trigger-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .settings-guide-card {
@@ -13898,11 +13926,11 @@ img {
   }
 
   .app-shell--play .floating-nav {
-    right: auto;
-    bottom: auto;
-    width: min(100%, 320px);
-    max-width: 100%;
-    margin-top: 12px;
+    right: 10px;
+    bottom: max(86px, calc(env(safe-area-inset-bottom, 0px) + 86px));
+    width: min(336px, calc(100vw - 20px));
+    max-width: calc(100vw - 20px);
+    margin: 0;
   }
 
   .settings-guide-card {
