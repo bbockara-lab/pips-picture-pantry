@@ -35,11 +35,12 @@ export const ko = {
     timeAttack: "\ud0c0\uc784\uc5b4\ud0dd",
     puzzleHint: "\uace0\ub974\uace0 \ud480\uae30",
     albumHint: "\uc800\uc7a5\ud55c \uadf8\ub9bc",
-    pantryHint: "\uafb8\ubbf8\uae30 \ubaa9\ud45c",
-    timeAttackHint: "\uae30\ub85d \ub3c4\uc804",
+    pantryHint: "\uc0c1\uc810\uacfc \uafb8\ubbf8\uae30",
+    timeAttackHint: "\uc2a4\ud47c \uae30\ub85d \ub3c4\uc804",
     mapHint: "\uc2a4\ud14c\uc774\uc9c0 \ubc30\uc9c0",
     navLabel: "\uc8fc\uc694 \ud654\uba74",
-    menu: "\uba54\ub274"
+    menu: "\uba54\ub274",
+    quickJump: "\uc774\ub3d9"
   },
   header: {
     settings: "\uc124\uc815",
@@ -70,7 +71,7 @@ export const ko = {
     controlsDirect: "\uce78 \uc9c1\uc811 \ub204\ub974\uae30",
     controlsCursor: "\ubc29\ud5a5\ud0a4 \uc0ac\uc6a9",
     guideReplayTitle: "Pip\uc758 \uac00\uc774\ub4dc",
-    guideReplayBody: "Pip이 그림 풀이와 타임어택을 다시 옆에서 짚어줄게요.",
+    guideReplayBody: "Pip이 그림 풀이와 타임어택을 다시 옆에서 차근차근 보여줄게요.",
     guideReplayAction: "Pip 가이드 보기",
     guideReplayPuzzleAction: "그림 가이드",
     guideReplayTimeAttackAction: "타임어택 가이드",

@@ -35,11 +35,12 @@ export const en = {
     timeAttack: "Time Attack",
     puzzleHint: "Pick and solve",
     albumHint: "Saved pictures",
-    pantryHint: "Decorate goals",
-    timeAttackHint: "Beat your run",
+    pantryHint: "Shop and decorate",
+    timeAttackHint: "Spoon score run",
     mapHint: "Stage badges",
     navLabel: "Main views",
-    menu: "Menu"
+    menu: "Menu",
+    quickJump: "Jump"
   },
   header: {
     settings: "Settings",

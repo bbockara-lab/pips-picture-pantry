@@ -1092,6 +1092,9 @@ async function expectAppChromePolish(page, viewportName) {
     const menu = document.querySelector(".floating-nav__menu");
     const triggerButton = document.querySelector(".floating-nav__trigger");
     const triggerIcon = triggerButton?.querySelector(".floating-nav__trigger-icon");
+    const triggerText = triggerButton?.querySelector(".floating-nav__trigger-text");
+    const triggerLabel = triggerButton?.querySelector(".floating-nav__trigger-label");
+    const triggerCue = triggerButton?.querySelector(".floating-nav__trigger-cue");
     const activeItem = document.querySelector(".floating-nav__item.active");
     const labels = [...document.querySelectorAll(".floating-nav__item span")].map((label) => label.textContent || "");
     const icons = [...document.querySelectorAll(".floating-nav__item")].map((item) => {
@@ -1128,6 +1131,7 @@ async function expectAppChromePolish(page, viewportName) {
     const triggerIconStyle = triggerIcon ? getComputedStyle(triggerIcon) : null;
     const triggerIconBefore = triggerIcon ? getComputedStyle(triggerIcon, "::before") : null;
     const triggerIconAfter = triggerIcon ? getComputedStyle(triggerIcon, "::after") : null;
+    const triggerTextStyle = triggerText ? getComputedStyle(triggerText) : null;
     const triggerCurrent = triggerButton?.querySelector("strong");
     const activeBefore = activeItem ? getComputedStyle(activeItem, "::before") : null;
     const activeAfter = activeItem ? getComputedStyle(activeItem, "::after") : null;
@@ -1157,6 +1161,10 @@ async function expectAppChromePolish(page, viewportName) {
         beforeContent: triggerIconBefore?.content || "",
         afterContent: triggerIconAfter?.content || ""
       },
+      triggerTextWidth: triggerText?.getBoundingClientRect().width || 0,
+      triggerTextClipPath: triggerTextStyle?.clipPath || "",
+      triggerLabelText: (triggerLabel?.textContent || "").trim(),
+      triggerCueText: (triggerCue?.textContent || "").trim(),
       triggerCurrentText: (triggerCurrent?.textContent || "").trim(),
       triggerCurrentOverflow: triggerCurrent ? Math.max(0, triggerCurrent.scrollWidth - triggerCurrent.clientWidth) : 999,
       activeShine: activeBefore?.backgroundImage || "",
@@ -1192,6 +1200,10 @@ async function expectAppChromePolish(page, viewportName) {
     !navMetrics.triggerIcon.background.includes("gradient") ||
     navMetrics.triggerIcon.beforeContent === "none" ||
     navMetrics.triggerIcon.afterContent === "none" ||
+    navMetrics.triggerTextWidth < 24 ||
+    navMetrics.triggerTextClipPath.includes("inset") ||
+    !navMetrics.triggerLabelText ||
+    !navMetrics.triggerCueText ||
     !navMetrics.triggerCurrentText ||
     navMetrics.triggerCurrentOverflow > 1 ||
     !navMetrics.activeShine.includes("gradient") ||
@@ -1233,6 +1245,10 @@ async function expectPlayScreenNavClearance(page, viewportName) {
     );
     const nav = document.querySelector(".floating-nav");
     const trigger = document.querySelector(".floating-nav__trigger");
+    const triggerText = trigger?.querySelector(".floating-nav__trigger-text");
+    const triggerLabel = trigger?.querySelector(".floating-nav__trigger-label");
+    const triggerCue = trigger?.querySelector(".floating-nav__trigger-cue");
+    const triggerCurrent = trigger?.querySelector("strong");
     const grid = document.querySelector(".puzzle-grid");
     const controls = document.querySelector(".puzzle-panel > .controls");
     const navRect = nav?.getBoundingClientRect();
@@ -1240,6 +1256,7 @@ async function expectPlayScreenNavClearance(page, viewportName) {
     const gridRect = grid?.getBoundingClientRect();
     const controlsRect = controls?.getBoundingClientRect();
     const navStyle = nav ? getComputedStyle(nav) : null;
+    const triggerTextStyle = triggerText ? getComputedStyle(triggerText) : null;
     return {
       hasPlayShell: Boolean(document.querySelector(".app-shell--play")),
       viewportWidth: window.innerWidth,
@@ -1251,6 +1268,12 @@ async function expectPlayScreenNavClearance(page, viewportName) {
       triggerTop: triggerRect ? Math.round(triggerRect.top) : -999,
       triggerWidth: triggerRect?.width || 0,
       triggerHeight: triggerRect?.height || 0,
+      triggerTextWidth: triggerText?.getBoundingClientRect().width || 0,
+      triggerTextClipPath: triggerTextStyle?.clipPath || "",
+      triggerLabelText: (triggerLabel?.textContent || "").trim(),
+      triggerCueText: (triggerCue?.textContent || "").trim(),
+      triggerCurrentText: (triggerCurrent?.textContent || "").trim(),
+      triggerCurrentOverflow: triggerCurrent ? Math.max(0, triggerCurrent.scrollWidth - triggerCurrent.clientWidth) : 999,
       triggerOverlapsGrid: overlaps(triggerRect, gridRect),
       triggerOverlapsControls: overlaps(triggerRect, controlsRect)
     };
@@ -1263,10 +1286,16 @@ async function expectPlayScreenNavClearance(page, viewportName) {
       metrics.navRightGap > 24 ||
       metrics.navBottomGap < 70 ||
       metrics.navBottomGap > 130 ||
-      metrics.triggerWidth < 52 ||
-      metrics.triggerWidth > 72 ||
+      metrics.triggerWidth < 88 ||
+      metrics.triggerWidth > 172 ||
       metrics.triggerHeight < 52 ||
-      metrics.triggerHeight > 72 ||
+      metrics.triggerHeight > 74 ||
+      metrics.triggerTextWidth < 24 ||
+      metrics.triggerTextClipPath.includes("inset") ||
+      !metrics.triggerLabelText ||
+      !metrics.triggerCueText ||
+      !metrics.triggerCurrentText ||
+      metrics.triggerCurrentOverflow > 1 ||
       metrics.triggerOverlapsControls
     )
   ) {

@@ -48,7 +48,7 @@ describe("i18n", () => {
     expect(t("controls.undo")).toBe("Undo last move");
     expect(t("daily.eyebrow")).toBe("Today's pick");
     expect(t("views.map")).toBe("Badges");
-    expect(t("views.pantryHint")).toBe("Decorate goals");
+    expect(t("views.pantryHint")).toBe("Shop and decorate");
     expect(t("pantry.progressMissionBody", { remaining: 2, stage: "Sunny Spoon Sign" })).toContain("2 more Pip requests");
     expect(t("pantry.progressMissionPlanRequest")).toBe("Plan next request");
     expect(t("pipStrip.puzzleLine", { player: "Jay" })).toBe("Jay, use the numbers to color the picture.");
@@ -262,7 +262,7 @@ describe("i18n", () => {
     expect(t("controls.fill")).toBe("\uce60\ud558\uae30");
     expect(t("controls.mark")).toBe("\ube48\uce78 \uccb4\ud06c");
     expect(t("views.map")).toBe("\ubc30\uc9c0");
-    expect(t("views.pantryHint")).toBe("\uafb8\ubbf8\uae30 \ubaa9\ud45c");
+    expect(t("views.pantryHint")).toBe("\uc0c1\uc810\uacfc \uafb8\ubbf8\uae30");
     expect(t("pantry.progressMissionRequests", { count: 1, target: 3 })).toBe("\ubd80\ud0c1 1/3\uac1c");
     expect(t("progress.lineGuided", { count: 1 })).toBe("1\uc904");
     expect(t("progress.linesGuided", { count: 3 })).toBe("3\uc904");

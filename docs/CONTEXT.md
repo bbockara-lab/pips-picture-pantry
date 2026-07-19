@@ -3301,6 +3301,13 @@ Current launch direction:
 - Strengthened mobile visual QA to guard two replay buttons, their route targets, no text overflow, tactile icon treatment, and button sizing on Android review viewports.
 - Kept Billing, Pantry state, puzzle play, Time Attack scoring, floating navigation, and save behavior unchanged; this is a launch-facing help/discoverability polish pass.
 
+### v0.1.471 Quick Travel Meaning Pass
+- Bumped the visible app version to v0.1.471 and package version to 0.1.471.
+- Reworked the fixed play-screen quick-travel trigger from an icon-only puck into a compact labeled route badge with Menu/current-view/Jump text, so Pantry, Album, Time Attack, and Badges are discoverable without scrolling or guessing.
+- Reworded the Pantry and Time Attack route hints to explicitly mention shop/decorating and spoon-score runs, matching the monetization and progression loops now present in the release candidate.
+- Tightened Korean guide replay copy in settings so Pip sounds like an in-world helper and mobile QA now guards visible quick-travel trigger text instead of allowing the old visually-hidden label pattern to return.
+- Kept Billing, Pantry state, puzzle play, Time Attack scoring, save behavior, and the deferred final raster icon pass unchanged; this is a navigation clarity and launch-readability patch.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.
