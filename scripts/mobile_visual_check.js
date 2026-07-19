@@ -23,11 +23,13 @@ for (const viewport of viewports) {
   await expectVisible(page, ".brand-intro__seal", viewport.name);
   await expectVisible(page, ".brand-intro__version", viewport.name);
   await expectOpeningIntroPolish(page, viewport.name);
+  await expectOpeningPromiseRoutes(browser, viewport);
   await expectAbsent(page, ".brand-intro__cast", viewport.name);
   await dismissIntro(page, "Jay", viewport.name);
 
   await expectVisible(page, ".app-shell", viewport.name);
   await expectSafeAreaChromeGuard(page, viewport.name);
+  await expectFloatingNavHiddenDuringBlockingOverlay(page, viewport.name);
   await dismissGuideIfPresent(page, viewport.name);
   await expectSettingsDialogPolish(page, viewport.name);
   if ((await page.locator(".play-screen").count()) > 0) {
@@ -150,6 +152,75 @@ async function dismissIntro(page, playerName, viewportName) {
     // Returning players skip the name form and the intro can close immediately.
   }
   await page.locator(".brand-intro").waitFor({ state: "detached", timeout: 2000 });
+}
+
+async function expectOpeningPromiseRoutes(browser, viewport) {
+  const routes = [
+    { view: "puzzle", label: "Puzzle", selector: ".pack-block, .play-screen" },
+    { view: "pantry", label: "Pantry", selector: ".pantry-panel" },
+    { view: "timeAttack", label: "Time Attack", selector: ".time-attack-panel" }
+  ];
+
+  for (const route of routes) {
+    const context = await browser.newContext({
+      viewport: { width: viewport.width, height: viewport.height }
+    });
+    const page = await context.newPage();
+    try {
+      await page.goto(TARGET_URL, { waitUntil: "networkidle" });
+      await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6000 });
+      await page.waitForTimeout(300);
+      const chip = page.locator(`.brand-intro__promise-chip[data-target-view="${route.view}"]`).first();
+      await chip.waitFor({ state: "visible", timeout: 3000 });
+      await chip.click();
+
+      const nameInput = page.locator("#player-intro-name");
+      try {
+        await nameInput.waitFor({ state: "visible", timeout: 900 });
+        await nameInput.fill("Route QA");
+        await page.locator(".player-intro-form button").click();
+      } catch {
+        // Returning-player storage can route directly without the name stage.
+      }
+
+      await page.locator(".brand-intro").waitFor({ state: "detached", timeout: 2500 });
+      const target = page.locator(route.selector).first();
+      await target.waitFor({ state: "visible", timeout: 5000 });
+      const metrics = await target.evaluate((el) => {
+        const rect = el.getBoundingClientRect();
+        const style = getComputedStyle(el);
+        return {
+          width: rect.width,
+          height: rect.height,
+          display: style.display,
+          visibility: style.visibility
+        };
+      });
+      if (
+        metrics.width < 24 ||
+        metrics.height < 24 ||
+        metrics.display === "none" ||
+        metrics.visibility === "hidden"
+      ) {
+        failures.push(`[${viewport.name}] Opening promise ${route.label} route target is not visible enough: ${JSON.stringify(metrics)}`);
+      }
+    } catch (error) {
+      failures.push(`[${viewport.name}] Opening promise ${route.label} route failed: ${error?.message || error}`);
+    } finally {
+      await context.close();
+    }
+  }
+}
+
+async function expectFloatingNavHiddenDuringBlockingOverlay(page, viewportName) {
+  const metrics = await page.evaluate(() => ({
+    guideOverlayCount: document.querySelectorAll(".guide-overlay").length,
+    modalBackdropCount: document.querySelectorAll(".modal-backdrop").length,
+    floatingNavCount: document.querySelectorAll(".floating-nav").length
+  }));
+  if ((metrics.guideOverlayCount > 0 || metrics.modalBackdropCount > 0) && metrics.floatingNavCount > 0) {
+    failures.push(`[${viewportName}] Floating nav is visible during a blocking overlay: ${JSON.stringify(metrics)}`);
+  }
 }
 
 async function expectPlayerIntroPolish(page, viewportName) {

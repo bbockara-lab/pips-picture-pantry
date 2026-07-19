@@ -3257,6 +3257,12 @@ Current launch direction:
 - Strengthened mobile visual QA to measure label scroll overflow directly, so "solve/decorate/challenge" entry chips cannot silently truncate or overlap again.
 - Kept intro navigation, Billing, Pantry, puzzle play, Time Attack, and save behavior unchanged; this is a launch-facing readability and discoverability guard.
 
+### v0.1.464 Opening Promise Route Guard
+- Bumped the visible app version to v0.1.464 and package version to 0.1.464.
+- Strengthened mobile visual QA so each opening promise chip is clicked from a fresh first-run context and must route to a visible Puzzle, Pantry, or Time Attack surface.
+- Added a direct blocking-overlay guard so the fixed floating navigation cannot reappear above Pip guide or modal layers while they are active.
+- Kept UI copy, Billing, Pantry state, puzzle logic, Time Attack scoring, and save behavior unchanged; this is a release-facing discoverability and overlay safety guard.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.
