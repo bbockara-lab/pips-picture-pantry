@@ -2407,6 +2407,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       background: style.backgroundImage,
       cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
       radius: parseFloat(style.borderRadius),
+      titleLeft: titleRect?.left || 0,
+      titleRight: titleRect?.right || 0,
       titleWidth: titleRect?.width || 0,
       titleOverflow: title ? title.scrollWidth > Math.ceil(titleRect?.width || 0) + 1 : true,
       controls
@@ -2420,7 +2422,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     !playHeaderMetrics.background.includes("gradient") ||
     playHeaderMetrics.titleWidth < 90 ||
     playHeaderMetrics.titleOverflow ||
-    playHeaderMetrics.controls.some((control) => control.height < 30 || control.left < -1 || control.right > playHeaderMetrics.viewportWidth + 1)
+    playHeaderMetrics.controls.some((control) => control.height < 30 || control.left < -1 || control.right > playHeaderMetrics.viewportWidth + 1) ||
+    playHeaderMetrics.controls.some((control) => /x/i.test(control.text) && control.left < playHeaderMetrics.titleRight + 8 && control.right > playHeaderMetrics.titleLeft - 8)
   ) {
     failures.push("[" + viewportName + "] Play header lost compact HUD polish: " + JSON.stringify(playHeaderMetrics));
   }
@@ -2492,6 +2495,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       sceneBadgeHeight: parseFloat(sceneBefore?.height) || 0,
       sceneBadgeBackground: sceneBefore?.backgroundImage || "",
       sceneBadgeShadow: sceneBefore?.boxShadow || "none",
+      sceneGridColumns: scene ? getComputedStyle(scene).gridTemplateColumns : "",
+      pipRight: pipRect?.right || 0,
+      bubbleLeft: bubbleRect?.left || 0,
       bubbleTailBackground: bubbleBefore?.backgroundImage || "",
       bubbleWidth: bubbleRect?.width || 0,
       bubbleHeight: bubbleRect?.height || 0,
@@ -2545,6 +2551,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     howToPlayMetrics.sceneBadgeHeight < 16 ||
     !howToPlayMetrics.sceneBadgeBackground.includes("gradient") ||
     howToPlayMetrics.sceneBadgeShadow === "none" ||
+    !howToPlayMetrics.sceneGridColumns.includes(" ") ||
+    howToPlayMetrics.bubbleLeft < howToPlayMetrics.pipRight - 1 ||
     !howToPlayMetrics.bubbleTailBackground.includes("gradient") ||
     howToPlayMetrics.bubbleWidth < 180 ||
     howToPlayMetrics.bubbleHeight < 70 ||
@@ -2581,6 +2589,36 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   const boardSize = await page.locator(".board-wrap").first().evaluate((board) => getComputedStyle(board).getPropertyValue("--board-size").trim());
   if (boardSize !== "12") {
     failures.push("[" + viewportName + "] 12x12 board CSS variable should be 12, saw " + boardSize);
+  }
+
+  const boardFrameMetrics = await page.locator(".board-wrap").first().evaluate((board) => {
+    const rect = board.getBoundingClientRect();
+    const style = getComputedStyle(board);
+    const grid = board.querySelector(".puzzle-grid");
+    const gridRect = grid?.getBoundingClientRect();
+    const firstColumnClue = board.querySelector(".column-clue");
+    const firstColumnRect = firstColumnClue?.getBoundingClientRect();
+    return {
+      left: rect.left,
+      right: rect.right,
+      width: rect.width,
+      viewportWidth: window.innerWidth,
+      overflowX: style.overflowX,
+      overflowY: style.overflowY,
+      gridLeft: gridRect?.left || 0,
+      gridRight: gridRect?.right || 0,
+      firstColumnLeft: firstColumnRect?.left || 0,
+      firstColumnWidth: firstColumnRect?.width || 0
+    };
+  });
+  if (
+    boardFrameMetrics.left < -1 ||
+    boardFrameMetrics.right > boardFrameMetrics.viewportWidth + 1 ||
+    boardFrameMetrics.overflowX === "visible" ||
+    boardFrameMetrics.overflowY === "visible" ||
+    Math.abs(boardFrameMetrics.firstColumnLeft - boardFrameMetrics.gridLeft) > 8
+  ) {
+    failures.push("[" + viewportName + "] Puzzle board frame should stay clipped and aligned on mobile: " + JSON.stringify(boardFrameMetrics));
   }
 
   const hintText = await page.locator(".hint-panel").first().innerText();

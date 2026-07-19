@@ -3148,6 +3148,12 @@ Current launch direction:
 - Added view-specific floating-nav item/icon classes and strengthened the Time Attack nav item treatment without changing routing, guide copy, scoring, or spoon-hint economy behavior.
 - Strengthened mobile visual QA so the hub CTA must keep its clock artwork, action label, arrow cue, grid layout, and localized Time Attack copy at the 360/390/430px Android viewports.
 
+### v0.1.444 Mobile Play Layout Recovery
+- Bumped the visible app version to v0.1.444 and package version to 0.1.444.
+- Recovered the first-play Pip guide dialogue on narrow mobile screens so Pip and the speech bubble stay in a two-column layout instead of collapsing into a one-character vertical text strip.
+- Repaired the play header HUD so the puzzle title, settings button, and size badge keep separate tracks at 360-380px widths rather than letting the difficulty badge overlap the title.
+- Clipped the active board frame and brand intro horizontal layer overflow, then strengthened mobile visual QA to catch guide-column collapse, title/badge overlap, visible board-frame overflow, and clue/grid drift.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.
