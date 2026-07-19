@@ -13798,6 +13798,24 @@ img {
   bottom: max(86px, calc(env(safe-area-inset-bottom, 0px) + 86px));
 }
 
+/* v0.1.466 play-screen nav clearance */
+.app-shell--play .floating-nav {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  z-index: 12;
+  width: min(100%, 336px);
+  max-width: 100%;
+  margin: 12px auto 0;
+}
+
+.app-shell--play .floating-nav__menu {
+  right: 0;
+  bottom: calc(100% + 10px);
+  width: min(336px, calc(100vw - 24px));
+  max-width: calc(100vw - 24px);
+}
+
 .settings-guide-card {
   position: relative;
   display: grid;
@@ -13880,7 +13898,11 @@ img {
   }
 
   .app-shell--play .floating-nav {
-    bottom: max(82px, calc(env(safe-area-inset-bottom, 0px) + 82px));
+    right: auto;
+    bottom: auto;
+    width: min(100%, 320px);
+    max-width: 100%;
+    margin-top: 12px;
   }
 
   .settings-guide-card {

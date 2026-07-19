@@ -209,9 +209,13 @@ async function openFloatingView(page, view) {
 async function returnToPuzzleHub(page) {
   await dismissGuideIfPresent(page);
   if ((await page.locator(".floating-nav__trigger").count()) === 0 && (await page.locator(".play-screen__back").count()) > 0) {
-    await page.locator(".play-screen__back").click();
+    await page.locator(".play-screen__back").first().click();
   }
   await page.locator(".app-shell").first().waitFor({ state: "visible", timeout: 6000 });
+  if ((await page.locator(".time-attack-teaser-card").count()) === 0 && (await page.locator(".floating-nav__trigger").count()) > 0) {
+    await openFloatingView(page, "puzzle");
+  }
+  await page.locator(".time-attack-teaser-card, .pack-block").first().waitFor({ state: "visible", timeout: 6000 });
 }
 
 async function seedReturningPlayer(page) {
@@ -265,6 +269,9 @@ async function captureFloatingNavMenu(page) {
 
 async function capturePuzzleHubTimeAttackTeaser(page, name = "puzzle-hub-time-attack-teaser") {
   await returnToPuzzleHub(page);
+  if ((await page.locator(".time-attack-teaser-card").count()) === 0) {
+    await openFloatingView(page, "puzzle");
+  }
   await capture(page, name, ".time-attack-teaser-card", { settleMs: 260 });
 }
 

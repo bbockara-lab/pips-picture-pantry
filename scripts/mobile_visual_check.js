@@ -36,6 +36,7 @@ for (const viewport of viewports) {
     await expectVisible(page, ".play-screen", viewport.name);
     await expectStarterBoardAlignment(page, viewport.name);
     await expectStageNavigationPolish(page, viewport.name);
+    await expectPlayScreenNavClearance(page, viewport.name);
     await page.locator(".play-screen__back").click();
   }
   await expectVisible(page, ".pip-strip__portrait", viewport.name);
@@ -1179,6 +1180,55 @@ async function expectAppChromePolish(page, viewportName) {
     failures.push("[" + viewportName + "] Floating nav panel polish/layout regression: " + JSON.stringify(navMetrics));
   }
   await trigger.click();
+}
+
+async function expectPlayScreenNavClearance(page, viewportName) {
+  const metrics = await page.evaluate(() => {
+    const overlaps = (a, b) => Boolean(
+      a && b &&
+      a.width > 0 &&
+      a.height > 0 &&
+      b.width > 0 &&
+      b.height > 0 &&
+      a.left < b.right &&
+      a.right > b.left &&
+      a.top < b.bottom &&
+      a.bottom > b.top
+    );
+    const nav = document.querySelector(".floating-nav");
+    const trigger = document.querySelector(".floating-nav__trigger");
+    const grid = document.querySelector(".puzzle-grid");
+    const controls = document.querySelector(".puzzle-panel > .controls");
+    const navRect = nav?.getBoundingClientRect();
+    const triggerRect = trigger?.getBoundingClientRect();
+    const gridRect = grid?.getBoundingClientRect();
+    const controlsRect = controls?.getBoundingClientRect();
+    const navStyle = nav ? getComputedStyle(nav) : null;
+    return {
+      hasPlayShell: Boolean(document.querySelector(".app-shell--play")),
+      navPosition: navStyle?.position || "",
+      navTop: navRect ? Math.round(navRect.top) : -999,
+      triggerTop: triggerRect ? Math.round(triggerRect.top) : -999,
+      triggerWidth: triggerRect?.width || 0,
+      triggerHeight: triggerRect?.height || 0,
+      triggerOverlapsGrid: overlaps(triggerRect, gridRect),
+      triggerOverlapsControls: overlaps(triggerRect, controlsRect),
+      triggerAfterGrid: Boolean(triggerRect && gridRect && triggerRect.top >= gridRect.bottom - 1)
+    };
+  });
+  if (
+    metrics.hasPlayShell &&
+    (
+      metrics.navPosition === "fixed" ||
+      metrics.triggerWidth < 96 ||
+      metrics.triggerHeight < 44 ||
+      metrics.triggerOverlapsGrid ||
+      metrics.triggerOverlapsControls ||
+      !metrics.triggerAfterGrid
+    )
+  ) {
+    failures.push("[" + viewportName + "] Play screen floating nav overlays the puzzle board or primary controls: " + JSON.stringify(metrics));
+  }
 }
 
 async function expectStageNavigationPolish(page, viewportName) {

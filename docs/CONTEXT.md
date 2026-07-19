@@ -3270,6 +3270,12 @@ Current launch direction:
 - Rewrote the first puzzle, Time Attack, and first-purchase guide copy in Korean and English so Pip speaks in a warmer first-person helper voice while preserving the same rule/economy guidance.
 - Kept routing, Billing, Pantry state, puzzle logic, Time Attack scoring, save behavior, and deferred raster artwork scope unchanged; this is a launch-facing discoverability and onboarding-copy polish pass.
 
+### v0.1.466 Play Screen Nav Clearance
+- Bumped the visible app version to v0.1.466 and package version to 0.1.466.
+- Kept the floating navigation fixed on hub-style screens while moving it into the normal play-screen flow, so Puzzle, Album, Pantry, Time Attack, and Map remain reachable without the nav trigger covering puzzle cells or the control shelf.
+- Strengthened mobile visual QA to fail if the play-screen floating nav becomes fixed again or overlaps the puzzle grid/controls.
+- Stabilized the visual review pack's return-to-hub path so the Time Attack teaser screenshot is captured from the intended Puzzle Hub surface instead of whatever screen happened to be active.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.
