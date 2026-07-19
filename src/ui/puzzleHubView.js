@@ -241,7 +241,17 @@ export function renderTimeAttackTeaserCard(onOpenTimeAttack = () => {}) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "tool-button time-attack-teaser-card__action";
-  button.textContent = t("timeAttack.hubAction");
+  button.setAttribute("aria-label", t("timeAttack.hubAction"));
+
+  const actionIcon = document.createElement("span");
+  actionIcon.className = "time-attack-teaser-card__action-icon";
+  actionIcon.setAttribute("aria-hidden", "true");
+
+  const actionLabel = document.createElement("span");
+  actionLabel.className = "time-attack-teaser-card__action-label";
+  actionLabel.textContent = t("timeAttack.hubAction");
+
+  button.append(actionIcon, actionLabel);
   button.addEventListener("click", onOpenTimeAttack);
 
   card.append(badge, copy, button);

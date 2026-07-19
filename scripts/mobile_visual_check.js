@@ -1841,8 +1841,15 @@ async function expectTimeAttackHubEntry(page, viewportName) {
     const cardAfter = card ? getComputedStyle(card, "::after") : null;
     const badgeStyle = badge ? getComputedStyle(badge) : null;
     const badgeBefore = badge ? getComputedStyle(badge, "::before") : null;
+    const actionIcon = action?.querySelector(".time-attack-teaser-card__action-icon");
+    const actionLabel = action?.querySelector(".time-attack-teaser-card__action-label");
+    const actionIconRect = actionIcon?.getBoundingClientRect();
+    const actionIconStyle = actionIcon ? getComputedStyle(actionIcon) : null;
+    const actionIconBefore = actionIcon ? getComputedStyle(actionIcon, "::before") : null;
+    const actionIconAfter = actionIcon ? getComputedStyle(actionIcon, "::after") : null;
     const actionStyle = action ? getComputedStyle(action) : null;
     const actionBefore = action ? getComputedStyle(action, "::before") : null;
+    const actionAfter = action ? getComputedStyle(action, "::after") : null;
     return {
       text: card?.textContent?.trim() || "",
       cardWidth: cardRect?.width || 0,
@@ -1866,8 +1873,19 @@ async function expectTimeAttackHubEntry(page, viewportName) {
       actionHeight: actionRect?.height || 0,
       actionBackground: actionStyle?.backgroundImage || "",
       actionShadow: actionStyle?.boxShadow || "none",
+      actionDisplay: actionStyle?.display || "",
+      actionGridColumns: actionStyle?.gridTemplateColumns || "",
       actionShineContent: actionBefore?.content || "none",
-      actionShineHeight: actionBefore ? parseFloat(actionBefore.height) : 0
+      actionShineHeight: actionBefore ? parseFloat(actionBefore.height) : 0,
+      actionArrowContent: actionAfter?.content || "none",
+      actionArrowWidth: actionAfter ? parseFloat(actionAfter.width) : 0,
+      actionIconWidth: actionIconRect?.width || 0,
+      actionIconHeight: actionIconRect?.height || 0,
+      actionIconBackground: actionIconStyle?.backgroundImage || "",
+      actionIconBorderWidth: actionIconStyle ? parseFloat(actionIconStyle.borderTopWidth) : 0,
+      actionIconBeforeContent: actionIconBefore?.content || "none",
+      actionIconAfterContent: actionIconAfter?.content || "none",
+      actionLabelText: actionLabel?.textContent?.trim() || ""
     };
   });
 
@@ -1893,8 +1911,19 @@ async function expectTimeAttackHubEntry(page, viewportName) {
     metrics.actionHeight < 48 ||
     !metrics.actionBackground.includes("gradient") ||
     metrics.actionShadow === "none" ||
+    metrics.actionDisplay !== "grid" ||
+    !metrics.actionGridColumns.includes("px") ||
     metrics.actionShineContent === "none" ||
-    metrics.actionShineHeight < 8
+    metrics.actionShineHeight < 8 ||
+    metrics.actionArrowContent === "none" ||
+    metrics.actionArrowWidth < 10 ||
+    metrics.actionIconWidth < 28 ||
+    metrics.actionIconHeight < 28 ||
+    metrics.actionIconBorderWidth < 2 ||
+    !metrics.actionIconBackground.includes("conic-gradient") ||
+    metrics.actionIconBeforeContent === "none" ||
+    metrics.actionIconAfterContent === "none" ||
+    !/Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(metrics.actionLabelText)
   ) {
     failures.push("[" + viewportName + "] Time Attack hub entry lost discoverable polished treatment: " + JSON.stringify(metrics));
   }

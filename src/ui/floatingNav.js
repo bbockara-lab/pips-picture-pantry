@@ -45,12 +45,12 @@ export function renderFloatingNav(activeView, onSelectView) {
   NAV_ITEMS.forEach(([view, labelKey, hintKey]) => {
     const item = document.createElement("button");
     item.type = "button";
-    item.className = activeView === view ? "floating-nav__item active" : "floating-nav__item";
+    item.className = "floating-nav__item floating-nav__item--" + view + (activeView === view ? " active" : "");
     item.dataset.view = view;
     item.setAttribute("aria-current", activeView === view ? "page" : "false");
 
     const itemIcon = document.createElement("span");
-    itemIcon.className = "floating-nav__icon";
+    itemIcon.className = "floating-nav__icon floating-nav__icon--" + view;
     itemIcon.setAttribute("aria-hidden", "true");
 
     const itemLabel = document.createElement("span");
