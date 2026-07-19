@@ -102,7 +102,7 @@ describe("billing support pack guards", () => {
     };
 
     expect(getSupportPackFacts(baseSupportPack)).toEqual(["250 spoons", "Google Play", "Restore-ready"]);
-    expect(getSupportPackFacts({ ...baseSupportPack, available: false })).toEqual(["250 spoons", "Android app", "Restore-ready"]);
+    expect(getSupportPackFacts({ ...baseSupportPack, available: false })).toEqual(["250 spoons", "Google Play app", "Restore-ready"]);
   });
 
   it("short-circuits startup entitlement sync when local support ownership already exists", async () => {
