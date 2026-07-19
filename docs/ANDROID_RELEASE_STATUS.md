@@ -1,6 +1,6 @@
 # Android Release Status
 
-Last updated: 2026-07-18
+Last updated: 2026-07-19
 
 ## Public Launch Checklist (release-safe, 2026-07-14)
 
@@ -81,6 +81,22 @@ versionName "1.1.0" // or the final public launch version name
   - Spoon jar purchase grants 750 spoons.
   - Spoon jar repeat purchase grants another 750 spoons with a new store token.
   - Cancelled or failed purchase sheets do not grant spoons.
+
+## Candidate Gate Refresh - 2026-07-19
+
+- Current verified app version: `v0.1.459`.
+- `npm run qa:candidate` passed after the latest opening, board-alignment, Billing, and visual-polish slices.
+- Verified launch catalog state:
+  - Total puzzles: 333.
+  - Free puzzles: 333.
+  - Large boards 10x10+: 243.
+  - Large boards 12x12+: 116.
+- Verified release checks in the candidate gate:
+  - Vitest: 113 passed.
+  - Catalog, bonus-pack visibility, launch integrity, source hygiene, asset manifest, Play Store graphics, Play Store listing, Billing wiring, privacy policy, production build, Android release gate, HTTP probe, and mobile visual QA all passed.
+- `npm run qa:release:final` intentionally remains blocked until the two real-device Billing evidence records are added:
+  - `pip_cozy_support` purchase + restore.
+  - `pip_spoon_jar_small` purchase + repeat purchase.
 
 ## Local Tooling Notes
 
