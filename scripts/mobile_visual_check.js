@@ -2598,6 +2598,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const gridRect = grid?.getBoundingClientRect();
     const firstColumnClue = board.querySelector(".column-clue");
     const firstColumnRect = firstColumnClue?.getBoundingClientRect();
+    const firstCell = board.querySelector(".puzzle-cell");
+    const firstCellRect = firstCell?.getBoundingClientRect();
     const widestRowClue = [...board.querySelectorAll(".row-clue")].reduce((widest, clue) => {
       const clueRect = clue.getBoundingClientRect();
       return !widest || clueRect.width > widest.width ? clueRect : widest;
@@ -2613,6 +2615,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       gridRight: gridRect?.right || 0,
       firstColumnLeft: firstColumnRect?.left || 0,
       firstColumnWidth: firstColumnRect?.width || 0,
+      firstColumnCenter: firstColumnRect ? firstColumnRect.left + firstColumnRect.width / 2 : 0,
+      firstCellCenter: firstCellRect ? firstCellRect.left + firstCellRect.width / 2 : 0,
       widestRowClueLeft: widestRowClue?.left || 0,
       widestRowClueRight: widestRowClue?.right || 0
     };
@@ -2624,7 +2628,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     boardFrameMetrics.overflowY === "visible" ||
     boardFrameMetrics.widestRowClueLeft < boardFrameMetrics.left - 1 ||
     boardFrameMetrics.widestRowClueRight > boardFrameMetrics.gridLeft - 2 ||
-    Math.abs(boardFrameMetrics.firstColumnLeft - boardFrameMetrics.gridLeft) > 8
+    Math.abs(boardFrameMetrics.firstColumnCenter - boardFrameMetrics.firstCellCenter) > 2
   ) {
     failures.push("[" + viewportName + "] Puzzle board frame should stay clipped and aligned on mobile: " + JSON.stringify(boardFrameMetrics));
   }

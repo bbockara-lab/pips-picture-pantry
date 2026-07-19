@@ -3159,6 +3159,11 @@ Current launch direction:
 - Widened the mobile row-clue tray while reducing the derived cell size slightly so multi-token clues such as "1 1 1" stay inside the active board frame instead of spilling toward the card edge.
 - Strengthened mobile visual QA so the widest row clue must remain inside the board frame and stop before the puzzle grid begins.
 
+### v0.1.446 Mobile Column Clue Alignment
+- Bumped the visible app version to v0.1.446 and package version to 0.1.446.
+- Matched the column-clue tray to the puzzle grid's inner cell area so top clue tokens align with cell centers instead of sitting on the grid's outer frame.
+- Strengthened mobile visual QA to compare first column clue and first cell centers directly, closing the remaining measured clue/cell offset.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

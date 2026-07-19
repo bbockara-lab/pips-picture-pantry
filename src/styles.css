@@ -8047,6 +8047,10 @@ img {
     0 3px 0 rgba(61, 43, 46, 0.07);
 }
 
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .column-clues {
+  padding-inline: 6px;
+}
+
 .puzzle-panel:not(.completed) .board-wrap:not(.locked) .column-clue,
 .puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clue {
   border-radius: 999px;
