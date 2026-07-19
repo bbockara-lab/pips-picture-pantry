@@ -3328,6 +3328,13 @@ Current launch direction:
 - Extended mobile QA to verify guide replay icon size, gradients, pseudo-details, and label overflow directly.
 - Deferred the full Sunny Spoon Studios raster icon replacement pass until after the release gates; this slice improves the current shared artwork layer without changing save, Billing, or navigation logic.
 
+### v0.1.475 Floating Quick Travel Artwork Pass
+- Bumped the visible app version to v0.1.475 and package version to 0.1.475.
+- Rebuilt the fixed quick-travel menu rows into an icon-plus-copy grid so Puzzle, Album, Pantry, Time Attack, and Map have clear route cards instead of compressed text beside rough symbols.
+- Added view-specific CSS artwork tokens for the floating menu: puzzle board, album card, pantry jar, Time Attack clock, and map pin now share the same tactile Sunny Spoon button language.
+- Extended mobile QA to guard the quick-travel copy wrapper, icon size, gradient artwork, pseudo-details, and label/hint overflow so shop, pantry, album, and Time Attack access cannot silently become unreadable again.
+- Kept Billing product IDs, purchase/restore behavior, Pantry state, puzzle play, Time Attack scoring, and save behavior unchanged; this is a navigation clarity and visual readability pass.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

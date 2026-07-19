@@ -1123,9 +1123,11 @@ async function expectAppChromePolish(page, viewportName) {
     const labels = [...document.querySelectorAll(".floating-nav__item span")].map((label) => label.textContent || "");
     const icons = [...document.querySelectorAll(".floating-nav__item")].map((item) => {
       const icon = item.querySelector(".floating-nav__icon");
+      const copy = item.querySelector(".floating-nav__copy");
       const label = item.querySelector(".floating-nav__label");
       const hint = item.querySelector("small");
       const iconStyle = icon ? getComputedStyle(icon) : null;
+      const copyStyle = copy ? getComputedStyle(copy) : null;
       const itemStyle = getComputedStyle(item);
       const before = icon ? getComputedStyle(icon, "::before") : null;
       const after = icon ? getComputedStyle(icon, "::after") : null;
@@ -1142,6 +1144,8 @@ async function expectAppChromePolish(page, viewportName) {
         afterContent: after?.content || "",
         afterBackground: after?.backgroundImage || after?.backgroundColor || "",
         gridRow: iconStyle?.gridRow || "",
+        copyDisplay: copyStyle?.display || "",
+        copyWidth: copy?.getBoundingClientRect().width || 0,
         labelOverflow: label ? Math.max(0, label.scrollWidth - label.clientWidth) : 999,
         hintOverflow: hint ? Math.max(0, hint.scrollWidth - hint.clientWidth) : 999
       };
@@ -1245,6 +1249,8 @@ async function expectAppChromePolish(page, viewportName) {
       !icon.background.includes("gradient") ||
       icon.beforeContent === "none" ||
       icon.afterContent === "none" ||
+      icon.copyDisplay !== "grid" ||
+      icon.copyWidth < 80 ||
       icon.labelOverflow > 1 ||
       icon.hintOverflow > 1
     )
