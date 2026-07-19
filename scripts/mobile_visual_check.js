@@ -953,6 +953,7 @@ async function expectStageNavigationPolish(page, viewportName) {
         overflow: buttonStyle.overflow,
         iconContent: icon.content,
         iconWidth: parseFloat(icon.width),
+        iconBackground: icon.backgroundImage,
         glintContent: glint.content,
         glintHeight: parseFloat(glint.height)
       };
@@ -1005,6 +1006,7 @@ async function expectStageNavigationPolish(page, viewportName) {
       button.overflow !== "hidden" ||
       button.iconContent === "none" ||
       button.iconWidth < 12 ||
+      !button.iconBackground.includes("gradient") ||
       button.glintContent === "none" ||
       button.glintHeight < 8 ||
       !button.className.includes(buttonVariants[index])

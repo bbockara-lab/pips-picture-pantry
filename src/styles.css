@@ -7841,20 +7841,39 @@ img {
 }
 
 .stage-nav-button--previous::after {
-  border-radius: 4px 7px 7px 4px;
-  transform: translateY(-50%) rotate(45deg) translateX(2px);
+  left: 11px;
+  width: 18px;
+  height: 18px;
+  border-radius: 7px;
+  background:
+    radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.78), transparent 23%),
+    linear-gradient(135deg, #ffe49a 0 20%, #f0ba54 20% 48%, #8ed1be 48% 100%);
+  clip-path: polygon(70% 12%, 26% 50%, 70% 88%, 58% 50%);
+  transform: translateY(-50%);
 }
 
 .stage-nav-button--next::after {
-  border-radius: 7px 4px 4px 7px;
-  transform: translateY(-50%) rotate(45deg) translateX(-2px);
+  left: 12px;
+  width: 18px;
+  height: 18px;
+  border-radius: 7px;
+  background:
+    radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.78), transparent 23%),
+    linear-gradient(135deg, #ffe49a 0 20%, #f0ba54 20% 48%, #8ed1be 48% 100%);
+  clip-path: polygon(30% 12%, 74% 50%, 30% 88%, 42% 50%);
+  transform: translateY(-50%);
 }
 
 .stage-nav-button--list::after {
-  border-radius: 5px;
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0) 30%),
-    repeating-linear-gradient(180deg, #ffd768 0 3px, #a8d8c2 3px 6px, #f1a062 6px 9px);
+    radial-gradient(circle at 25% 18%, rgba(255, 255, 255, 0.82), transparent 22%),
+    linear-gradient(180deg, #fff3b9 0 18%, transparent 18% 100%),
+    repeating-linear-gradient(180deg, #8ed1be 0 3px, transparent 3px 5px),
+    linear-gradient(135deg, #ffe5a2, #f4bd62);
+  transform: translateY(-50%) rotate(-5deg);
 }
 
 .stage-nav-button:active:not(:disabled) {
@@ -12807,8 +12826,8 @@ img {
 
   .stage-nav-button::after {
     left: 9px;
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
   }
 }
 
