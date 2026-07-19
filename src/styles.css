@@ -8017,8 +8017,10 @@ img {
   --board-row-clue-width: 62px;
   --board-cell-size: clamp(17px, calc((100vw - 184px) / var(--board-size)), 44px);
   --board-grid-gap: 3px;
+  --board-grid-frame-inset: 6px;
   --board-grid-size: calc((var(--board-cell-size) * var(--board-size)) + (var(--board-grid-gap) * var(--board-gap-count)));
-  grid-template-columns: var(--board-row-clue-width) minmax(0, var(--board-grid-size));
+  --board-grid-frame-size: calc(var(--board-grid-size) + (var(--board-grid-frame-inset) * 2));
+  grid-template-columns: var(--board-row-clue-width) minmax(0, var(--board-grid-frame-size));
   width: fit-content;
   max-width: 100%;
   margin: 12px auto 0;
@@ -8035,7 +8037,7 @@ img {
 }
 
 .puzzle-panel:not(.completed) .board-wrap:not(.locked) .puzzle-grid {
-  width: var(--board-grid-size);
+  width: var(--board-grid-frame-size);
   gap: var(--board-grid-gap);
   border: 3px solid rgba(61, 43, 46, 0.15);
   border-radius: 14px;
@@ -8048,7 +8050,19 @@ img {
 }
 
 .puzzle-panel:not(.completed) .board-wrap:not(.locked) .column-clues {
-  padding-inline: 6px;
+  box-sizing: border-box;
+  width: var(--board-grid-frame-size);
+  padding-inline: var(--board-grid-frame-inset);
+  grid-template-columns: repeat(var(--board-size), var(--board-cell-size));
+  gap: var(--board-grid-gap);
+}
+
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clues {
+  box-sizing: border-box;
+  height: var(--board-grid-frame-size);
+  padding-block: var(--board-grid-frame-inset);
+  grid-template-rows: repeat(var(--board-size), var(--board-cell-size));
+  gap: var(--board-grid-gap);
 }
 
 .puzzle-panel:not(.completed) .board-wrap:not(.locked) .column-clue,

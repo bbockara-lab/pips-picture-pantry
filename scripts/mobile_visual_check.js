@@ -2596,10 +2596,23 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const style = getComputedStyle(board);
     const grid = board.querySelector(".puzzle-grid");
     const gridRect = grid?.getBoundingClientRect();
-    const firstColumnClue = board.querySelector(".column-clue");
+    const columnClues = [...board.querySelectorAll(".column-clue")];
+    const rowClues = [...board.querySelectorAll(".row-clue")];
+    const cells = [...board.querySelectorAll(".puzzle-cell")];
+    const firstColumnClue = columnClues[0];
+    const lastColumnClue = columnClues[columnClues.length - 1];
+    const firstRowClue = rowClues[0];
+    const lastRowClue = rowClues[rowClues.length - 1];
     const firstColumnRect = firstColumnClue?.getBoundingClientRect();
-    const firstCell = board.querySelector(".puzzle-cell");
+    const lastColumnRect = lastColumnClue?.getBoundingClientRect();
+    const firstRowRect = firstRowClue?.getBoundingClientRect();
+    const lastRowRect = lastRowClue?.getBoundingClientRect();
+    const firstCell = cells[0];
+    const lastColumnCell = cells[columnClues.length - 1];
+    const lastCell = cells[cells.length - 1];
     const firstCellRect = firstCell?.getBoundingClientRect();
+    const lastColumnCellRect = lastColumnCell?.getBoundingClientRect();
+    const lastCellRect = lastCell?.getBoundingClientRect();
     const widestRowClue = [...board.querySelectorAll(".row-clue")].reduce((widest, clue) => {
       const clueRect = clue.getBoundingClientRect();
       return !widest || clueRect.width > widest.width ? clueRect : widest;
@@ -2616,7 +2629,13 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       firstColumnLeft: firstColumnRect?.left || 0,
       firstColumnWidth: firstColumnRect?.width || 0,
       firstColumnCenter: firstColumnRect ? firstColumnRect.left + firstColumnRect.width / 2 : 0,
+      lastColumnCenter: lastColumnRect ? lastColumnRect.left + lastColumnRect.width / 2 : 0,
+      firstRowCenter: firstRowRect ? firstRowRect.top + firstRowRect.height / 2 : 0,
+      lastRowCenter: lastRowRect ? lastRowRect.top + lastRowRect.height / 2 : 0,
       firstCellCenter: firstCellRect ? firstCellRect.left + firstCellRect.width / 2 : 0,
+      lastColumnCellCenter: lastColumnCellRect ? lastColumnCellRect.left + lastColumnCellRect.width / 2 : 0,
+      firstRowCellCenter: firstCellRect ? firstCellRect.top + firstCellRect.height / 2 : 0,
+      lastCellRowCenter: lastCellRect ? lastCellRect.top + lastCellRect.height / 2 : 0,
       widestRowClueLeft: widestRowClue?.left || 0,
       widestRowClueRight: widestRowClue?.right || 0
     };
@@ -2628,7 +2647,10 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     boardFrameMetrics.overflowY === "visible" ||
     boardFrameMetrics.widestRowClueLeft < boardFrameMetrics.left - 1 ||
     boardFrameMetrics.widestRowClueRight > boardFrameMetrics.gridLeft - 2 ||
-    Math.abs(boardFrameMetrics.firstColumnCenter - boardFrameMetrics.firstCellCenter) > 2
+    Math.abs(boardFrameMetrics.firstColumnCenter - boardFrameMetrics.firstCellCenter) > 2 ||
+    Math.abs(boardFrameMetrics.lastColumnCenter - boardFrameMetrics.lastColumnCellCenter) > 2 ||
+    Math.abs(boardFrameMetrics.firstRowCenter - boardFrameMetrics.firstRowCellCenter) > 2 ||
+    Math.abs(boardFrameMetrics.lastRowCenter - boardFrameMetrics.lastCellRowCenter) > 2
   ) {
     failures.push("[" + viewportName + "] Puzzle board frame should stay clipped and aligned on mobile: " + JSON.stringify(boardFrameMetrics));
   }
