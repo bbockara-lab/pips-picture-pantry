@@ -127,9 +127,11 @@ button {
 }
 
 .board-wrap {
+  --board-gap-size: 3px;
   --board-cell-size: clamp(25px, calc((100vw - 132px) / var(--board-size)), 52px);
+  --board-grid-width: calc((var(--board-cell-size) * var(--board-size)) + (var(--board-gap-size) * var(--board-gap-count)));
   display: grid;
-  grid-template-columns: 58px minmax(0, calc(var(--board-cell-size) * var(--board-size)));
+  grid-template-columns: 58px minmax(0, var(--board-grid-width));
   grid-template-rows: auto 1fr;
   gap: 6px;
   width: 100%;
@@ -139,15 +141,16 @@ button {
 .column-clues {
   grid-column: 2;
   display: grid;
-  grid-template-columns: repeat(var(--board-size), minmax(0, 1fr));
-  gap: 3px;
+  width: var(--board-grid-width);
+  grid-template-columns: repeat(var(--board-size), var(--board-cell-size));
+  gap: var(--board-gap-size);
 }
 
 .row-clues {
   grid-row: 2;
   display: grid;
-  grid-template-rows: repeat(var(--board-size), minmax(0, 1fr));
-  gap: 3px;
+  grid-template-rows: repeat(var(--board-size), var(--board-cell-size));
+  gap: var(--board-gap-size);
 }
 
 .column-clue,
@@ -176,10 +179,10 @@ button {
 
 .puzzle-grid {
   display: grid;
-  width: calc(var(--board-cell-size) * var(--board-size));
+  width: var(--board-grid-width);
   grid-template-columns: repeat(var(--board-size), var(--board-cell-size));
   grid-template-rows: repeat(var(--board-size), var(--board-cell-size));
-  gap: 3px;
+  gap: var(--board-gap-size);
   aspect-ratio: 1;
 }
 
