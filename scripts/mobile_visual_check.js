@@ -944,6 +944,7 @@ async function expectStageNavigationPolish(page, viewportName) {
         width: buttonRect.width,
         height: buttonRect.height,
         left: buttonRect.left,
+        top: buttonRect.top,
         right: buttonRect.right,
         borderWidth: parseFloat(buttonStyle.borderTopWidth),
         radius: parseFloat(buttonStyle.borderRadius),
@@ -976,6 +977,8 @@ async function expectStageNavigationPolish(page, viewportName) {
   });
 
   const buttonVariants = ["previous", "list", "next"];
+  const buttonTops = metrics.buttons.map((button) => button.top);
+  const maxButtonTopDrift = buttonTops.length > 1 ? Math.max(...buttonTops) - Math.min(...buttonTops) : 0;
   if (
     metrics.left < -1 ||
     metrics.right > metrics.viewportWidth + 1 ||
@@ -989,6 +992,7 @@ async function expectStageNavigationPolish(page, viewportName) {
     metrics.copyWidth < 120 ||
     metrics.actionsWidth < 180 ||
     metrics.buttons.length !== 3 ||
+    maxButtonTopDrift > 8 ||
     metrics.buttons.some((button, index) =>
       button.height < 42 ||
       button.width < 70 ||
