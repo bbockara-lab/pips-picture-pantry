@@ -3212,6 +3212,11 @@ Current launch direction:
 - Upgraded the generated visual review contact sheet with a manual-play card and launch art/UX checklist so screenshot review and live play review share the same quality criteria.
 - Kept gameplay, Billing, Pantry, Time Attack, and puzzle-state behavior unchanged; this is a launch-review workflow pass for catching graphics, overlap, copy-fit, and discoverability issues faster.
 
+### v0.1.456 Full Board Clue Alignment Guard
+- Bumped the visible app version to v0.1.456 and package version to 0.1.456.
+- Strengthened mobile visual QA to compare every column clue and row clue center against its corresponding puzzle cell, not only the first and last tracks.
+- Kept board CSS and gameplay unchanged; this locks the 12x12+ alignment contract and prevents padding fixes that improve one edge while drifting another.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

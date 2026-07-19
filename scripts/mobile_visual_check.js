@@ -2637,20 +2637,27 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const columnClues = [...board.querySelectorAll(".column-clue")];
     const rowClues = [...board.querySelectorAll(".row-clue")];
     const cells = [...board.querySelectorAll(".puzzle-cell")];
-    const firstColumnClue = columnClues[0];
-    const lastColumnClue = columnClues[columnClues.length - 1];
-    const firstRowClue = rowClues[0];
-    const lastRowClue = rowClues[rowClues.length - 1];
-    const firstColumnRect = firstColumnClue?.getBoundingClientRect();
-    const lastColumnRect = lastColumnClue?.getBoundingClientRect();
-    const firstRowRect = firstRowClue?.getBoundingClientRect();
-    const lastRowRect = lastRowClue?.getBoundingClientRect();
     const firstCell = cells[0];
     const lastColumnCell = cells[columnClues.length - 1];
     const lastCell = cells[cells.length - 1];
     const firstCellRect = firstCell?.getBoundingClientRect();
     const lastColumnCellRect = lastColumnCell?.getBoundingClientRect();
     const lastCellRect = lastCell?.getBoundingClientRect();
+    const centerOf = (rect, axis) => axis === "x"
+      ? rect.left + rect.width / 2
+      : rect.top + rect.height / 2;
+    const columnCenterDeltas = columnClues.map((clue, columnIndex) => {
+      const clueRect = clue.getBoundingClientRect();
+      const cellRect = cells[columnIndex]?.getBoundingClientRect();
+      return cellRect ? centerOf(clueRect, "x") - centerOf(cellRect, "x") : 999;
+    });
+    const rowCenterDeltas = rowClues.map((clue, rowIndex) => {
+      const clueRect = clue.getBoundingClientRect();
+      const cellRect = cells[rowIndex * columnClues.length]?.getBoundingClientRect();
+      return cellRect ? centerOf(clueRect, "y") - centerOf(cellRect, "y") : 999;
+    });
+    const maxColumnCenterDelta = columnCenterDeltas.reduce((max, delta) => Math.max(max, Math.abs(delta)), 0);
+    const maxRowCenterDelta = rowCenterDeltas.reduce((max, delta) => Math.max(max, Math.abs(delta)), 0);
     const widestRowClue = [...board.querySelectorAll(".row-clue")].reduce((widest, clue) => {
       const clueRect = clue.getBoundingClientRect();
       return !widest || clueRect.width > widest.width ? clueRect : widest;
@@ -2682,12 +2689,10 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       overflowY: style.overflowY,
       gridLeft: gridRect?.left || 0,
       gridRight: gridRect?.right || 0,
-      firstColumnLeft: firstColumnRect?.left || 0,
-      firstColumnWidth: firstColumnRect?.width || 0,
-      firstColumnCenter: firstColumnRect ? firstColumnRect.left + firstColumnRect.width / 2 : 0,
-      lastColumnCenter: lastColumnRect ? lastColumnRect.left + lastColumnRect.width / 2 : 0,
-      firstRowCenter: firstRowRect ? firstRowRect.top + firstRowRect.height / 2 : 0,
-      lastRowCenter: lastRowRect ? lastRowRect.top + lastRowRect.height / 2 : 0,
+      columnCenterDeltas,
+      rowCenterDeltas,
+      maxColumnCenterDelta,
+      maxRowCenterDelta,
       firstCellCenter: firstCellRect ? firstCellRect.left + firstCellRect.width / 2 : 0,
       lastColumnCellCenter: lastColumnCellRect ? lastColumnCellRect.left + lastColumnCellRect.width / 2 : 0,
       firstRowCellCenter: firstCellRect ? firstCellRect.top + firstCellRect.height / 2 : 0,
@@ -2706,10 +2711,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     boardFrameMetrics.widestRowClueLeft < boardFrameMetrics.left - 1 ||
     boardFrameMetrics.rowClueTokenOverflow ||
     boardFrameMetrics.widestRowClueRight > boardFrameMetrics.gridLeft - 2 ||
-    Math.abs(boardFrameMetrics.firstColumnCenter - boardFrameMetrics.firstCellCenter) > 2 ||
-    Math.abs(boardFrameMetrics.lastColumnCenter - boardFrameMetrics.lastColumnCellCenter) > 2 ||
-    Math.abs(boardFrameMetrics.firstRowCenter - boardFrameMetrics.firstRowCellCenter) > 2 ||
-    Math.abs(boardFrameMetrics.lastRowCenter - boardFrameMetrics.lastCellRowCenter) > 2
+    boardFrameMetrics.maxColumnCenterDelta > 2 ||
+    boardFrameMetrics.maxRowCenterDelta > 2
   ) {
     failures.push("[" + viewportName + "] Puzzle board frame should stay clipped and aligned on mobile: " + JSON.stringify(boardFrameMetrics));
   }
