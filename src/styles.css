@@ -8081,7 +8081,7 @@ img {
   .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
     --board-row-clue-width: 58px;
     --board-cell-size: clamp(16px, calc((100vw - 182px) / var(--board-size)), 42px);
-    grid-template-columns: var(--board-row-clue-width) minmax(0, var(--board-grid-size));
+    grid-template-columns: var(--board-row-clue-width) minmax(0, var(--board-grid-frame-size));
     padding: 8px;
     border-radius: 16px;
   }
@@ -12856,20 +12856,27 @@ img {
 }
 
 /* v0.1.445 mobile clue tray recovery */
-@media (max-width: 420px) {
+@media (max-width: 560px) {
   .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
-    --board-row-clue-width: 66px;
-    --board-cell-size: clamp(15px, calc((100vw - 194px) / var(--board-size)), 42px);
+    --board-row-clue-width: 72px;
+    --board-cell-size: clamp(15px, calc((100vw - 208px) / var(--board-size)), 42px);
   }
 
   .puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clue {
-    gap: 2px;
+    gap: 1px;
     padding-right: 4px;
   }
 
   .puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clue span {
-    min-width: 20px;
-    min-height: 20px;
+    box-sizing: border-box;
+    min-width: 12px;
+    min-height: 18px;
+    padding: 0 1px;
+    font-size: clamp(0.66rem, 2vw, 0.78rem);
+  }
+
+  .puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clue span + span {
+    margin-left: 0;
   }
 }
 

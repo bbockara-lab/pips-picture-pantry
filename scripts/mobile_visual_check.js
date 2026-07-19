@@ -2645,6 +2645,24 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       const clueRect = clue.getBoundingClientRect();
       return !widest || clueRect.width > widest.width ? clueRect : widest;
     }, null);
+    let rowClueTokenOverflowSample = null;
+    const rowClueTokenOverflow = [...board.querySelectorAll(".row-clue")].some((clue) => {
+      const clueRect = clue.getBoundingClientRect();
+      return [...clue.querySelectorAll("span")].some((span) => {
+        const tokenRect = span.getBoundingClientRect();
+        const overflows = tokenRect.left < clueRect.left - 1 || tokenRect.right > clueRect.right + 1;
+        if (overflows && !rowClueTokenOverflowSample) {
+          rowClueTokenOverflowSample = {
+            text: clue.textContent.trim(),
+            clueLeft: clueRect.left,
+            clueRight: clueRect.right,
+            tokenLeft: tokenRect.left,
+            tokenRight: tokenRect.right
+          };
+        }
+        return overflows;
+      });
+    });
     return {
       left: rect.left,
       right: rect.right,
@@ -2665,7 +2683,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       firstRowCellCenter: firstCellRect ? firstCellRect.top + firstCellRect.height / 2 : 0,
       lastCellRowCenter: lastCellRect ? lastCellRect.top + lastCellRect.height / 2 : 0,
       widestRowClueLeft: widestRowClue?.left || 0,
-      widestRowClueRight: widestRowClue?.right || 0
+      widestRowClueRight: widestRowClue?.right || 0,
+      rowClueTokenOverflow,
+      rowClueTokenOverflowSample
     };
   });
   if (
@@ -2674,6 +2694,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     boardFrameMetrics.overflowX === "visible" ||
     boardFrameMetrics.overflowY === "visible" ||
     boardFrameMetrics.widestRowClueLeft < boardFrameMetrics.left - 1 ||
+    boardFrameMetrics.rowClueTokenOverflow ||
     boardFrameMetrics.widestRowClueRight > boardFrameMetrics.gridLeft - 2 ||
     Math.abs(boardFrameMetrics.firstColumnCenter - boardFrameMetrics.firstCellCenter) > 2 ||
     Math.abs(boardFrameMetrics.lastColumnCenter - boardFrameMetrics.lastColumnCellCenter) > 2 ||

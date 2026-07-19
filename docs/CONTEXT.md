@@ -3180,6 +3180,12 @@ Current launch direction:
 - Tightened purchase/restore button chrome inside Billing cards, preserving the one-time Support Pack and repeatable Spoon Jar behavior without touching purchase logic.
 - Strengthened mobile visual QA so Billing product art cannot overlap the title, body, chips, status, or purchase buttons at the Android review viewports.
 
+### v0.1.450 Mobile Board Track Alignment
+- Bumped the visible app version to v0.1.450 and package version to 0.1.450.
+- Re-synced the narrow mobile board frame track so column clues and puzzle cells share the same framed width at 360-420px viewports.
+- Preserved the clipped board frame and widened the row clue tray enough for three-token 12x12 clues while removing the small-screen grid-size/frame-size mismatch that could shift end-column clue centers.
+- Strengthened mobile visual QA so large-board clue/cell centers remain aligned and row clue number tokens cannot be clipped on Android review widths.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.
