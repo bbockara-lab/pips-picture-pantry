@@ -2502,6 +2502,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
         iconWidth: iconRect?.width || 0,
         iconHeight: iconRect?.height || 0,
         iconBackground: iconStyle?.backgroundImage || "",
+        iconBorderRadius: parseFloat(iconStyle?.borderRadius) || 0,
+        iconShadow: iconStyle?.boxShadow || "",
         iconBeforeContent: iconBefore?.content || "",
         iconBeforeBackground: iconBefore?.backgroundImage || iconBefore?.borderRightColor || "",
         iconAfterContent: iconAfter?.content || "",
@@ -2604,7 +2606,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     howToPlayMetrics.clueRows.some((row) => row.height < 28) ||
     howToPlayMetrics.actions.length !== 3 ||
     howToPlayMetrics.actions.map((chip) => chip.action).join("|") !== "fill|mark|undo" ||
-    howToPlayMetrics.actions.some((chip) => chip.height < 26 || !chip.text || (chip.display !== "inline-grid" && chip.display !== "grid") || !chip.gridColumns.includes("20px") || chip.iconWidth < 18 || chip.iconHeight < 18 || !chip.iconBackground.includes("gradient") || chip.iconBeforeContent === "none") ||
+    howToPlayMetrics.actions.some((chip) => chip.height < 26 || !chip.text || (chip.display !== "inline-grid" && chip.display !== "grid") || !chip.gridColumns.includes("20px") || chip.iconWidth < 20 || chip.iconHeight < 20 || chip.iconBorderRadius < 7 || !chip.iconBackground.includes("gradient") || chip.iconShadow === "none" || chip.iconBeforeContent === "none") ||
     howToPlayMetrics.actions.filter((chip) => chip.action !== "fill").some((chip) => chip.iconAfterContent === "none") ||
     !howToPlayMetrics.clueRowAccentBackground.includes("gradient") ||
     howToPlayMetrics.actionAccentContent === "none" ||
@@ -2812,7 +2814,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   const undoToken = controlMetrics.find((metrics) => metrics.className.includes("control-button__icon--undo"));
   if (
     controlMetrics.length !== 3 ||
-    controlMetrics.some((metrics) => !metrics.text || metrics.height < 52 || !metrics.background.includes("gradient") || metrics.iconWidth < 20 || metrics.iconHeight < 20 || !metrics.iconBackground.includes("gradient") || metrics.iconShadow === "none" || !metrics.symbolBackground || metrics.shineContent === "none" || !metrics.ariaLabel || metrics.overflows) ||
+    controlMetrics.some((metrics) => !metrics.text || metrics.height < 52 || !metrics.background.includes("gradient") || metrics.iconWidth < 30 || metrics.iconHeight < 30 || !metrics.iconBackground.includes("gradient") || metrics.iconShadow === "none" || !metrics.symbolBackground || metrics.shineContent === "none" || !metrics.ariaLabel || metrics.overflows) ||
     !fillToken ||
     !markToken ||
     !undoToken ||
