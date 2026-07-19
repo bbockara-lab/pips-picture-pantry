@@ -553,6 +553,18 @@ async function expectSettingsDialogPolish(page, viewportName) {
         const jarArtStyle = jarArt ? getComputedStyle(jarArt) : null;
         const jarArtBefore = jarArt ? getComputedStyle(jarArt, "::before") : null;
         const jarArtAfter = jarArt ? getComputedStyle(jarArt, "::after") : null;
+        const overlaps = (a, b) => Boolean(
+          a &&
+          b &&
+          a.width > 0 &&
+          b.width > 0 &&
+          a.left < b.right &&
+          a.right > b.left &&
+          a.top < b.bottom &&
+          a.bottom > b.top
+        );
+        const supportArtRect = supportArt?.getBoundingClientRect();
+        const jarArtRect = jarArt?.getBoundingClientRect();
         return {
           dialogRadius: dialogStyle ? parseFloat(dialogStyle.borderRadius) : 0,
           dialogBackground: dialogStyle?.backgroundImage || "",
@@ -604,6 +616,13 @@ async function expectSettingsDialogPolish(page, viewportName) {
             productArtBackground: supportArtStyle?.backgroundImage || "",
             productArtBeforeBackground: supportArtBefore?.backgroundImage || "",
             productArtAfterBackground: supportArtAfter?.backgroundImage || "",
+            productArtOverlapsContent: [
+              supportLabel,
+              supportBody,
+              supportStatus,
+              ...supportFacts,
+              ...supportActions
+            ].some((node) => overlaps(supportArtRect, node?.getBoundingClientRect())),
             actionCount: supportActions.length,
             actionTexts: supportActions.map((button) => button.textContent?.trim() || ""),
             actionHeights: supportActions.map((button) => button.getBoundingClientRect().height),
@@ -636,6 +655,13 @@ async function expectSettingsDialogPolish(page, viewportName) {
             productArtBackground: jarArtStyle?.backgroundImage || "",
             productArtBeforeBackground: jarArtBefore?.backgroundImage || "",
             productArtAfterBackground: jarArtAfter?.backgroundImage || "",
+            productArtOverlapsContent: [
+              jarLabel,
+              jarBody,
+              jarStatus,
+              ...jarFacts,
+              ...jarActions
+            ].some((node) => overlaps(jarArtRect, node?.getBoundingClientRect())),
             actionCount: jarActions.length,
             actionTexts: jarActions.map((button) => button.textContent?.trim() || ""),
             actionHeights: jarActions.map((button) => button.getBoundingClientRect().height),
@@ -732,6 +758,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
     !metrics.settingsPolish.supportCard.productArtBackground.includes("gradient") ||
     !metrics.settingsPolish.supportCard.productArtBeforeBackground.includes("gradient") ||
     !metrics.settingsPolish.supportCard.productArtAfterBackground.includes("gradient") ||
+    metrics.settingsPolish.supportCard.productArtOverlapsContent ||
     metrics.settingsPolish.supportCard.actionCount !== 2 ||
     metrics.settingsPolish.supportCard.actionHeights.some((height) => height < 44) ||
     metrics.settingsPolish.supportCard.actionBackgrounds.some((background) => !background.includes("gradient")) ||
@@ -765,6 +792,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
     !metrics.settingsPolish.spoonJarCard.productArtBackground.includes("gradient") ||
     !metrics.settingsPolish.spoonJarCard.productArtBeforeBackground.includes("gradient") ||
     !metrics.settingsPolish.spoonJarCard.productArtAfterBackground.includes("gradient") ||
+    metrics.settingsPolish.spoonJarCard.productArtOverlapsContent ||
     metrics.settingsPolish.spoonJarCard.actionCount !== 1 ||
     metrics.settingsPolish.spoonJarCard.actionHeights.some((height) => height < 44) ||
     metrics.settingsPolish.spoonJarCard.actionBackgrounds.some((background) => !background.includes("gradient")) ||

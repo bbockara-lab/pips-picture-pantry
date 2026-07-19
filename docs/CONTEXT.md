@@ -3174,6 +3174,12 @@ Current launch direction:
 - Reworked the reusable fill, blank-check, and undo button tokens with a stronger shared glossy base, clearer internal silhouettes, and separate per-action shapes so the puzzle controls no longer read as plain placeholder marks.
 - Strengthened mobile visual QA so all three puzzle control tokens must remain present, gradient-backed, non-overflowing, and action-specific at the 360/390/430px Android viewports.
 
+### v0.1.449 Billing Card Trust Polish
+- Bumped the visible app version to v0.1.449 and package version to 0.1.449.
+- Separated Billing card decorative layers so the Support Pack and Small Spoon Jar product art reads as a clear badge while the background token stays a soft watermark.
+- Tightened purchase/restore button chrome inside Billing cards, preserving the one-time Support Pack and repeatable Spoon Jar behavior without touching purchase logic.
+- Strengthened mobile visual QA so Billing product art cannot overlap the title, body, chips, status, or purchase buttons at the Android review viewports.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.
