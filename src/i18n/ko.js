@@ -12,6 +12,7 @@ export const ko = {
     promisePuzzle: "\uadf8\ub9bc 333\uac1c",
     promiseDecorate: "\ud32c\ud2b8\ub9ac \ubaa9\ud45c",
     promiseTimeAttack: "\ud0c0\uc784\uc5b4\ud0dd",
+    promiseAction: "\uc5f4\uae30",
     skip: "\uc2dc\uc791"
   },
   playerIntro: {

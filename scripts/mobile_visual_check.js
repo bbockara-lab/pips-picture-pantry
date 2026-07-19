@@ -430,12 +430,17 @@ async function expectOpeningIntroPolish(page, viewportName) {
     const rect = chip.getBoundingClientRect();
     const icon = chip.querySelector("i");
     const text = chip.querySelector("b");
+    const action = chip.querySelector(".brand-intro__promise-action");
     const style = getComputedStyle(chip);
     const shineStyle = getComputedStyle(chip, "::before");
     const tokenStyle = getComputedStyle(chip, "::after");
     const iconRect = icon?.getBoundingClientRect();
+    const actionRect = action?.getBoundingClientRect();
+    const actionStyle = action ? getComputedStyle(action) : null;
+    const actionArrowStyle = action ? getComputedStyle(action, "::after") : null;
     return {
       text: (text?.textContent || "").trim(),
+      actionText: (action?.textContent || "").trim(),
       tagName: chip.tagName,
       targetView: chip.getAttribute("data-target-view"),
       width: rect.width,
@@ -454,6 +459,11 @@ async function expectOpeningIntroPolish(page, viewportName) {
       tokenBackground: tokenStyle.backgroundImage,
       iconWidth: iconRect?.width || 0,
       iconHeight: iconRect?.height || 0,
+      actionWidth: actionRect?.width || 0,
+      actionHeight: actionRect?.height || 0,
+      actionBackground: actionStyle?.backgroundImage || "",
+      actionRadius: actionStyle ? parseFloat(actionStyle.borderRadius) : 0,
+      actionArrowContent: actionArrowStyle?.content || "",
       overflows: chip.scrollWidth > Math.ceil(rect.width) + 1 || chip.scrollHeight > Math.ceil(rect.height) + 1
     };
   }));
@@ -464,7 +474,8 @@ async function expectOpeningIntroPolish(page, viewportName) {
   promiseMetrics.forEach((metrics, index) => {
     const hasChipShine = metrics.shineContent !== "none" && metrics.shineHeight >= 7 && metrics.shineBackground.includes("linear-gradient");
     const hasCornerToken = metrics.tokenContent !== "none" && metrics.tokenWidth >= 8 && metrics.tokenHeight >= 8 && metrics.tokenBackground.includes("gradient");
-    if (metrics.tagName !== "BUTTON" || metrics.targetView !== expectedPromiseTargets[index] || !metrics.text || metrics.width < 70 || metrics.height < 34 || metrics.borderWidth < 3 || metrics.borderRadius < 14 || !metrics.backgroundImage.includes("linear-gradient") || metrics.boxShadow === "none" || metrics.overflow !== "hidden" || !hasChipShine || !hasCornerToken || metrics.iconWidth < 14 || metrics.iconHeight < 14 || metrics.overflows) {
+    const hasActionCue = ["Open", "\uC5F4\uAE30"].includes(metrics.actionText) && metrics.actionWidth >= 24 && metrics.actionHeight >= 18 && metrics.actionRadius >= 8 && metrics.actionBackground.includes("linear-gradient") && metrics.actionArrowContent !== "none";
+    if (metrics.tagName !== "BUTTON" || metrics.targetView !== expectedPromiseTargets[index] || !metrics.text || metrics.width < 70 || metrics.height < 34 || metrics.borderWidth < 3 || metrics.borderRadius < 14 || !metrics.backgroundImage.includes("linear-gradient") || metrics.boxShadow === "none" || metrics.overflow !== "hidden" || !hasChipShine || !hasCornerToken || metrics.iconWidth < 14 || metrics.iconHeight < 14 || !hasActionCue || metrics.overflows) {
       failures.push("[" + viewportName + "] Opening promise chip " + (index + 1) + " lost readable tactile treatment: " + JSON.stringify(metrics));
     }
   });

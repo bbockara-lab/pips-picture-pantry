@@ -11845,6 +11845,48 @@ img {
   outline-offset: 3px;
 }
 
+/* v0.1.442 opening mode chip action affordance */
+.brand-intro__promise-strip .brand-intro__promise-chip {
+  grid-template-columns: 34px minmax(0, 1fr);
+}
+
+.brand-intro__promise-action {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 18px;
+  padding: 1px 6px 2px;
+  border: 2px solid rgba(73, 50, 54, 0.18);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.82), transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 236, 174, 0.64));
+  box-shadow:
+    inset 0 -2px 0 rgba(128, 82, 48, 0.12),
+    0 2px 0 rgba(73, 50, 54, 0.12);
+  color: #70472f;
+  font-size: 0.56rem;
+  font-weight: 950;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.brand-intro__promise-action::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  margin-left: 3px;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0.78;
+}
+
 @media (max-height: 880px) {
   .brand-intro.game-stage .brand-intro__content:not(.name-stage) {
     min-height: auto;
@@ -12386,6 +12428,15 @@ img {
     text-align: left;
   }
 
+  .brand-intro__promise-action {
+    right: 7px;
+    bottom: 5px;
+    min-width: 26px;
+    min-height: 17px;
+    padding-inline: 5px;
+    font-size: 0.52rem;
+  }
+
   .stage-navigation__copy {
     grid-template-columns: 1fr;
   }
@@ -12461,6 +12512,15 @@ img {
   .brand-intro__promise-chip b {
     font-size: 0.66rem;
     line-height: 1.04;
+  }
+
+  .brand-intro__promise-action {
+    right: 6px;
+    bottom: 5px;
+    min-width: 25px;
+    min-height: 16px;
+    padding-inline: 5px;
+    font-size: 0.5rem;
   }
 }
 

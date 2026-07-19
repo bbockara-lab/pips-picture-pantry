@@ -3137,6 +3137,11 @@ Current launch direction:
 - Reworked the previous/list/next stage navigation tokens so they read as small arrow and picture-list artwork instead of generic diamond markers, while keeping button labels, disabled states, and routing unchanged.
 - Strengthened mobile visual QA so stage-navigation buttons must keep gradient-backed icon artwork in addition to the compact one-row layout guard.
 
+### v0.1.442 Opening Mode Chip Action Affordance
+- Bumped the visible app version to v0.1.442 and package version to 0.1.442.
+- Added a small Open/열기 capsule to the opening Puzzle/Pantry/Time Attack chips so the launch promises read as tappable entry points without changing routing or the player-name pending-view flow.
+- Strengthened mobile visual QA so every opening mode chip must keep the action capsule, arrow cue, gradient body, and no-overflow treatment at the 360/390/430px Android viewports.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

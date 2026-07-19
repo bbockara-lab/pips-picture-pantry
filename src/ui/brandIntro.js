@@ -196,6 +196,11 @@ function buildPromiseChip(modifierClass, label, targetView) {
   icon.setAttribute("aria-hidden", "true");
   chip.appendChild(icon);
   appendTextElement(chip, "b", "", label);
+  const action = document.createElement("span");
+  action.className = "brand-intro__promise-action";
+  action.setAttribute("aria-hidden", "true");
+  action.textContent = t("brandIntro.promiseAction");
+  chip.appendChild(action);
   return chip;
 }
 

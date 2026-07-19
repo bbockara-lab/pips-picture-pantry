@@ -12,6 +12,7 @@ export const en = {
     promisePuzzle: "333 pictures",
     promiseDecorate: "Pantry goals",
     promiseTimeAttack: "Time Attack",
+    promiseAction: "Open",
     skip: "Start"
   },
   playerIntro: {
