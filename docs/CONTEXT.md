@@ -3321,6 +3321,13 @@ Current launch direction:
 - Refined the Pip how-to copy in Korean and English toward a warmer first-person guide voice while preserving the same nonogram rules.
 - Kept Billing product IDs, purchase/restore behavior, Pantry state, puzzle play, Time Attack scoring, floating navigation, and save behavior unchanged; this is launch-facing readability polish.
 
+### v0.1.474 Guide Replay And Quick Travel Artwork Pass
+- Bumped the visible app version to v0.1.474 and package version to 0.1.474.
+- Converted the settings guide replay actions into real icon-and-label DOM tokens so the puzzle and Time Attack guide buttons no longer depend on button pseudo-elements for their primary artwork.
+- Added a launch-layer polish pass for the fixed quick-travel trigger: stronger token surface, clearer current-destination hierarchy, and tighter play-screen sizing.
+- Extended mobile QA to verify guide replay icon size, gradients, pseudo-details, and label overflow directly.
+- Deferred the full Sunny Spoon Studios raster icon replacement pass until after the release gates; this slice improves the current shared artwork layer without changing save, Billing, or navigation logic.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

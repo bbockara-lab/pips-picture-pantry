@@ -690,6 +690,11 @@ async function expectSettingsDialogPolish(page, viewportName) {
         const guideButtonMetrics = guideButtons.map((button) => {
           const style = getComputedStyle(button);
           const before = getComputedStyle(button, "::before");
+          const icon = button.querySelector(".settings-choice__guide-icon");
+          const iconStyle = icon ? getComputedStyle(icon) : null;
+          const iconBefore = icon ? getComputedStyle(icon, "::before") : null;
+          const iconAfter = icon ? getComputedStyle(icon, "::after") : null;
+          const label = button.querySelector(".settings-choice__guide-label");
           const rect = button.getBoundingClientRect();
           return {
             tag: button.tagName,
@@ -703,7 +708,14 @@ async function expectSettingsDialogPolish(page, viewportName) {
             background: style.backgroundImage || "",
             tokenWidth: parseFloat(before.width) || 0,
             tokenRadius: parseFloat(before.borderRadius) || 0,
-            tokenBackground: before.backgroundImage || ""
+            tokenBackground: before.backgroundImage || "",
+            iconWidth: icon?.getBoundingClientRect().width || 0,
+            iconHeight: icon?.getBoundingClientRect().height || 0,
+            iconRadius: iconStyle ? parseFloat(iconStyle.borderRadius) : 0,
+            iconBackground: iconStyle?.backgroundImage || "",
+            iconBeforeContent: iconBefore?.content || "none",
+            iconAfterContent: iconAfter?.content || "none",
+            labelOverflow: label ? Math.max(0, label.scrollWidth - label.clientWidth) : 999
           };
         });
         const jarLabel = jarCard?.querySelector(".section-label");
@@ -774,7 +786,14 @@ async function expectSettingsDialogPolish(page, viewportName) {
             buttonBackgrounds: guideButtonMetrics.map((button) => button.background),
             tokenWidths: guideButtonMetrics.map((button) => button.tokenWidth),
             tokenRadii: guideButtonMetrics.map((button) => button.tokenRadius),
-            tokenBackgrounds: guideButtonMetrics.map((button) => button.tokenBackground)
+            tokenBackgrounds: guideButtonMetrics.map((button) => button.tokenBackground),
+            iconWidths: guideButtonMetrics.map((button) => button.iconWidth),
+            iconHeights: guideButtonMetrics.map((button) => button.iconHeight),
+            iconRadii: guideButtonMetrics.map((button) => button.iconRadius),
+            iconBackgrounds: guideButtonMetrics.map((button) => button.iconBackground),
+            iconBeforeContents: guideButtonMetrics.map((button) => button.iconBeforeContent),
+            iconAfterContents: guideButtonMetrics.map((button) => button.iconAfterContent),
+            labelOverflows: guideButtonMetrics.map((button) => button.labelOverflow)
           },
           supportCard: {
             exists: Boolean(supportCard),
@@ -934,8 +953,13 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.guideCard.shineHeight < 16 ||
     metrics.settingsPolish.guideCard.buttonHeights.some((height) => height < 44) ||
     metrics.settingsPolish.guideCard.buttonBackgrounds.some((background) => !background.includes("gradient")) ||
-    metrics.settingsPolish.guideCard.tokenWidths.some((width) => width < 20) ||
-    metrics.settingsPolish.guideCard.tokenBackgrounds.some((background) => !background.includes("gradient")) ||
+    metrics.settingsPolish.guideCard.iconWidths.some((width) => width < 28) ||
+    metrics.settingsPolish.guideCard.iconHeights.some((height) => height < 28) ||
+    metrics.settingsPolish.guideCard.iconRadii.some((radius) => radius < 10) ||
+    metrics.settingsPolish.guideCard.iconBackgrounds.some((background) => !background.includes("gradient")) ||
+    metrics.settingsPolish.guideCard.iconBeforeContents.some((content) => content === "none") ||
+    metrics.settingsPolish.guideCard.iconAfterContents.some((content) => content === "none") ||
+    metrics.settingsPolish.guideCard.labelOverflows.some((overflow) => overflow > 1) ||
     !metrics.settingsPolish.supportCard.exists ||
     metrics.settingsPolish.supportCard.productId !== "pip_cozy_support" ||
     !metrics.settingsPolish.supportCard.labelText ||

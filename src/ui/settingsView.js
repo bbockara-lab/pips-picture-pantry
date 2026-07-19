@@ -178,7 +178,16 @@ function createGuideReplayButton(label, guideId, modifier, onReplayGuide) {
   button.type = "button";
   button.className = `tool-button settings-choice settings-choice--guide-replay settings-choice--guide-replay-${modifier}`;
   button.dataset.guideTarget = guideId;
-  button.textContent = label;
+
+  const icon = document.createElement("span");
+  icon.className = `settings-choice__guide-icon settings-choice__guide-icon--${modifier}`;
+  icon.setAttribute("aria-hidden", "true");
+
+  const text = document.createElement("span");
+  text.className = "settings-choice__guide-label";
+  text.textContent = label;
+
+  button.append(icon, text);
   button.addEventListener("click", () => onReplayGuide(guideId));
   return button;
 }
