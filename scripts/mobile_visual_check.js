@@ -337,12 +337,15 @@ async function expectGuideDialogChromeArt(page, viewportName) {
     const art = dialog.querySelector(".guide-dialog__art");
     const image = dialog.querySelector(".guide-dialog__art img");
     const bubble = dialog.querySelector(".guide-dialog__bubble");
+    const speaker = dialog.querySelector(".guide-dialog__speaker");
     const artRect = art?.getBoundingClientRect();
     const imageRect = image?.getBoundingClientRect();
     const bubbleRect = bubble?.getBoundingClientRect();
+    const speakerRect = speaker?.getBoundingClientRect();
     const artStyle = art ? getComputedStyle(art) : null;
     const imageStyle = image ? getComputedStyle(image) : null;
     const bubbleStyle = bubble ? getComputedStyle(bubble) : null;
+    const speakerStyle = speaker ? getComputedStyle(speaker) : null;
     const artBefore = art ? getComputedStyle(art, "::before") : null;
     const artAfter = art ? getComputedStyle(art, "::after") : null;
     const bubbleBefore = bubble ? getComputedStyle(bubble, "::before") : null;
@@ -389,20 +392,27 @@ async function expectGuideDialogChromeArt(page, viewportName) {
       bubbleTokenContent: bubbleAfter?.content || "",
       bubbleTokenWidth: bubbleAfter ? parseFloat(bubbleAfter.width) : 0,
       bubbleAccentBackground: bubbleAfter?.backgroundImage || "",
+      step: dialog.dataset.step || "",
+      speakerText: speaker?.textContent.trim() || "",
+      speakerWidth: speakerRect?.width || 0,
+      speakerHeight: speakerRect?.height || 0,
+      speakerBackground: speakerStyle?.backgroundImage || "",
+      speakerRadius: speakerStyle ? parseFloat(speakerStyle.borderRadius) : 0,
+      speakerOverflows: speaker ? speaker.scrollWidth > Math.ceil(speakerRect?.width || 0) + 1 || speaker.scrollHeight > Math.ceil(speakerRect?.height || 0) + 1 : true,
       overlayPaddingBottom: overlayStyle ? parseFloat(overlayStyle.paddingBottom) : 0,
       eyebrowText: dialog.querySelector(".guide-dialog__eyebrow")?.textContent.trim() || "",
       titleText: dialog.querySelector("#guide-dialog-title")?.textContent.trim() || "",
-      bodyText: bubble?.querySelector("p:not(.guide-dialog__eyebrow)")?.textContent.trim() || "",
+      bodyText: bubble?.querySelector(".guide-dialog__line")?.textContent.trim() || "",
       buttons,
       overflows: dialog.scrollWidth > Math.ceil(rect.width) + 1 || dialog.scrollHeight > Math.ceil(rect.height) + 1
     };
   });
   if (
     !guideMetrics.imageSrc.includes("pip-chrome-v2") ||
-    guideMetrics.artWidth < 90 ||
-    guideMetrics.artHeight < 120 ||
-    guideMetrics.imageWidth < 80 ||
-    guideMetrics.imageHeight < 80 ||
+    guideMetrics.artWidth < 72 ||
+    guideMetrics.artHeight < 108 ||
+    guideMetrics.imageWidth < 66 ||
+    guideMetrics.imageHeight < 66 ||
     guideMetrics.imageFit !== "contain" ||
     !guideMetrics.artBackground.includes("gradient") ||
     guideMetrics.artOverflow !== "hidden" ||
@@ -419,9 +429,17 @@ async function expectGuideDialogChromeArt(page, viewportName) {
     guideMetrics.bubbleTailContent === "none" ||
     guideMetrics.bubbleTokenContent === "none" ||
     guideMetrics.bubbleTokenWidth < 16 ||
+    guideMetrics.step !== "1" ||
+    !guideMetrics.speakerText.includes("Pip") ||
+    guideMetrics.speakerWidth < 74 ||
+    guideMetrics.speakerHeight < 18 ||
+    !guideMetrics.speakerBackground.includes("gradient") ||
+    guideMetrics.speakerRadius < 10 ||
+    guideMetrics.speakerOverflows ||
     !guideMetrics.eyebrowText ||
     !guideMetrics.titleText ||
     !guideMetrics.bodyText ||
+    guideMetrics.bodyText.length < 20 ||
     guideMetrics.buttons.length !== 2 ||
     guideMetrics.buttons.some((button) =>
       button.width < 110 ||

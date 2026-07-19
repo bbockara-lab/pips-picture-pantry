@@ -3335,6 +3335,12 @@ Current launch direction:
 - Extended mobile QA to guard the quick-travel copy wrapper, icon size, gradient artwork, pseudo-details, and label/hint overflow so shop, pantry, album, and Time Attack access cannot silently become unreadable again.
 - Kept Billing product IDs, purchase/restore behavior, Pantry state, puzzle play, Time Attack scoring, and save behavior unchanged; this is a navigation clarity and visual readability pass.
 
+### v0.1.476 Pip Guide Conversation Lock
+- Bumped the visible app version to v0.1.476 and package version to 0.1.476.
+- Rebuilt the guide dialog copy and chrome so Pip is visibly the speaker, with a speaker chip, compact side-by-side Pip art, and first-person helper copy for puzzle, Time Attack, and first-purchase flows.
+- Strengthened mobile QA and i18n tests to guard guide speaker presence, no text overflow, visible guide step state, and Korean guide readability.
+- Kept Billing product IDs, purchase/restore behavior, Pantry state, puzzle play, Time Attack scoring, floating navigation, and save behavior unchanged; this is a launch-facing onboarding trust polish pass.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

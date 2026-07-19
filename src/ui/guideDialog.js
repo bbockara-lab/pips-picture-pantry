@@ -26,6 +26,7 @@ export function renderGuideDialog(guideId, onClose) {
 
   function draw() {
     const isLast = index >= steps.length - 1;
+    card.dataset.step = String(index + 1);
 
     const nodes = [];
     if (isRuntimeGuideArtApproved(GUIDE_ART_ASSET_ID)) {
@@ -46,6 +47,10 @@ export function renderGuideDialog(guideId, onClose) {
     const eyebrow = document.createElement("p");
     eyebrow.className = "guide-dialog__eyebrow";
     eyebrow.textContent = t("guide.eyebrow");
+
+    const speaker = document.createElement("div");
+    speaker.className = "guide-dialog__speaker";
+    speaker.textContent = t("guide.speaker");
 
     const title = document.createElement("h2");
     title.id = "guide-dialog-title";
@@ -80,7 +85,7 @@ export function renderGuideDialog(guideId, onClose) {
     nextButton.textContent = isLast ? t("guide.done") : t("guide.next");
 
     actions.append(skipButton, nextButton);
-    bubble.append(eyebrow, title, body, dots, actions);
+    bubble.append(eyebrow, speaker, title, body, dots, actions);
     nodes.push(bubble);
 
     card.replaceChildren(...nodes);

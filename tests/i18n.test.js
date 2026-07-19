@@ -141,6 +141,7 @@ describe("i18n", () => {
 
     const keys = [
       "guide.eyebrow",
+      "guide.speaker",
       "guide.skip",
       "guide.next",
       "guide.done",
@@ -152,6 +153,10 @@ describe("i18n", () => {
       "guide.timeAttack.step1",
       "guide.timeAttack.step2",
       "guide.timeAttack.step3",
+      "guide.pantryFirstPurchase.title",
+      "guide.pantryFirstPurchase.step1",
+      "guide.pantryFirstPurchase.step2",
+      "guide.pantryFirstPurchase.step3",
       "timeAttack.coachEyebrow",
       "timeAttack.coachTitle",
       "timeAttack.coachBody",
@@ -201,7 +206,11 @@ describe("i18n", () => {
       expect(value).not.toContain("\uFFFD");
       expect(value).not.toContain("\u5360");
     });
-    expect(t("guide.eyebrow")).toBe("Pip \uAC00\uC774\uB4DC");
+    expect(t("guide.eyebrow")).toBe("Pip\uc758 \uc791\uc740 \uc548\ub0b4");
+    expect(t("guide.speaker")).toContain("Pip");
+    expect(t("guide.puzzle.step1")).toContain("\uc81c\uac00");
+    expect(t("guide.timeAttack.step2")).toContain("\uc2a4\ud47c");
+    expect(t("guide.pantryFirstPurchase.step3")).toContain("\ud32c\ud2b8\ub9ac");
     expect(t("controls.hintRemaining", { count: 1, limit: 3 })).toBe("\uD78C\uD2B8 1/3");
     expect(t("controls.hintIntroMulti", { count: 5 })).toContain("5");
     expect(t("howToPlay.pipLine")).toContain("Pip");

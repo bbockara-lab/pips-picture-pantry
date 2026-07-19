@@ -241,27 +241,28 @@ export const en = {
     remaining: "Time left {time}"
   },
   guide: {
-    eyebrow: "Pip guide",
-    skip: "Skip",
-    next: "Next",
-    done: "Let's play",
+    eyebrow: "Pip's cozy guide",
+    speaker: "Pip is talking with you",
+    skip: "Not now",
+    next: "Keep listening",
+    done: "Start together",
     puzzle: {
-      title: "Pip will guide your first card",
-      step1: "I'll look with you. The numbers beside each row and column show the little groups we need to color.",
-      step2: "For example, 3 means three squares stay together. 1 1 1 means tiny groups with at least one blank between them.",
-      step3: "When a square is surely empty, mark it with Blank Check. Take it slowly, Pip is right here with you!"
+      title: "I'll solve the first picture beside you",
+      step1: "These numbers are the picture pieces we need to color. I'll help you spot the gentle rows first.",
+      step2: "3 means three squares stay together. 1 1 1 means tiny pieces with at least one blank between them.",
+      step3: "When a line is truly finished, I'll leave soft X marks on safe blanks. If you get stuck, a hint is okay."
     },
     timeAttack: {
-      title: "Ready for a speedy pantry run?",
-      step1: "When you enter Time Attack, I'll pull random puzzles for you. Even one more square can grow today's record.",
-      step2: "I packed a few starter hints. After those are gone, you can keep going with spoons, and each extra hint asks for more.",
-      step3: "If a new record is close, a hint can be worth it. Let's chase our best run today!"
+      title: "I'll open the quick challenge with you",
+      step1: "Time Attack gives us three random puzzles. Even one more correct square can grow today's record.",
+      step2: "I packed a few starter hints. After that, you can spend spoons to keep going, so choose the moment carefully.",
+      step3: "When a new record is close, spending spoons on a hint can be worth it. Let's push your best one square farther!"
     },
     pantryFirstPurchase: {
-      title: "Your first pantry decoration is home!",
-      step1: "Great pick! I'll keep this decoration safe in the pantry and show you its coziest matching spot.",
-      step2: "Each spot holds one decoration at a time: counter, window, shelf, floor, or back wall. Buying another item for the same spot swaps the display.",
-      step3: "Gather spoons from puzzles, then choose each decoration you love. We'll make the pantry warmer one treasure at a time."
+      title: "I'll show your first decoration spot",
+      step1: "Lovely choice. I'll save this decoration in the pantry and show where it fits best.",
+      step2: "Decorations live in set spots like the counter, window, shelf, floor, and backdrop. Choosing a new piece for the same spot swaps it in.",
+      step3: "Solve pictures for spoons, then pick the decorations you love. We'll make the pantry cozy one piece at a time."
     }
   },
   stageNav: {

@@ -1688,6 +1688,101 @@ body {
   }
 }
 
+/* v0.1.476 Pip guide conversation lock */
+.guide-dialog {
+  grid-template-columns: minmax(92px, 0.4fr) minmax(0, 1fr);
+  align-items: center;
+  width: min(calc(100vw - 28px), 560px);
+}
+
+.guide-dialog__bubble {
+  gap: 9px;
+  margin-left: -10px;
+  padding: clamp(16px, 4vw, 22px);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.guide-dialog__speaker {
+  justify-self: start;
+  max-width: 100%;
+  padding: 4px 10px;
+  border: 1px solid rgba(132, 85, 56, 0.24);
+  border-radius: 999px;
+  color: #845538;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.82), transparent 26%),
+    linear-gradient(180deg, rgba(255, 238, 175, 0.96), rgba(244, 221, 183, 0.92));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.76),
+    0 2px 0 rgba(61, 43, 46, 0.08);
+  font-size: 0.76rem;
+  font-weight: 950;
+  line-height: 1.2;
+  letter-spacing: 0;
+  white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.guide-dialog__line,
+.guide-dialog__bubble p:not(.guide-dialog__eyebrow) {
+  margin: 0;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 520px) {
+  .guide-dialog {
+    grid-template-columns: minmax(78px, 86px) minmax(0, 1fr);
+    align-items: end;
+  }
+
+  .guide-dialog__art {
+    min-height: 126px;
+    border-radius: 20px 0 0 20px;
+  }
+
+  .guide-dialog__art img {
+    width: min(84px, 23vw);
+    max-height: 116px;
+  }
+
+  .guide-dialog__bubble {
+    margin: 0 0 8px -4px;
+    padding: 14px;
+    border-radius: 20px;
+  }
+
+  .guide-dialog__bubble::before {
+    left: -9px;
+    top: 34px;
+    border: 0;
+    border-left: 3px solid rgba(61, 43, 46, 0.92);
+    border-bottom: 3px solid rgba(61, 43, 46, 0.92);
+    transform: rotate(45deg);
+  }
+}
+
+@media (max-width: 380px) {
+  .guide-dialog {
+    grid-template-columns: minmax(72px, 80px) minmax(0, 1fr);
+  }
+
+  .guide-dialog__art {
+    min-height: 118px;
+  }
+
+  .guide-dialog__art img {
+    width: min(78px, 22vw);
+    max-height: 106px;
+  }
+
+  .guide-dialog__bubble {
+    padding: 13px;
+  }
+}
+
 
 
 .badge-art-token {
