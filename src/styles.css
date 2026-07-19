@@ -12638,6 +12638,24 @@ img {
   }
 }
 
+/* v0.1.445 mobile clue tray recovery */
+@media (max-width: 420px) {
+  .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --board-row-clue-width: 66px;
+    --board-cell-size: clamp(15px, calc((100vw - 194px) / var(--board-size)), 42px);
+  }
+
+  .puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clue {
+    gap: 2px;
+    padding-right: 4px;
+  }
+
+  .puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clue span {
+    min-width: 20px;
+    min-height: 20px;
+  }
+}
+
 .guide-actions .guide-action {
   position: relative;
   display: inline-grid;
