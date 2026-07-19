@@ -3229,6 +3229,11 @@ Current launch direction:
 - Strengthened mobile visual QA to guard the seal size, gradient frame, clipped art mask, object-fit, transform, and drop shadow across Android review viewports.
 - Kept intro flow, promise chips, Billing, puzzle logic, Pantry, Time Attack, and save behavior unchanged; this is a first-impression artwork presentation pass.
 
+### v0.1.459 Starter Board Alignment Guard
+- Bumped the visible app version to v0.1.459 and package version to 0.1.459.
+- Added a mobile visual QA guard for the first 5x5 starter puzzle so column and row clue centers must align with their corresponding puzzle cells within 1px.
+- Kept board CSS, gameplay, guide copy, Billing, Pantry, Time Attack, and save behavior unchanged; this locks the repaired starter-board layout without introducing new UI behavior.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

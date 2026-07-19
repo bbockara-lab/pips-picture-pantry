@@ -32,6 +32,7 @@ for (const viewport of viewports) {
   await expectSettingsDialogPolish(page, viewport.name);
   if ((await page.locator(".play-screen").count()) > 0) {
     await expectVisible(page, ".play-screen", viewport.name);
+    await expectStarterBoardAlignment(page, viewport.name);
     await expectStageNavigationPolish(page, viewport.name);
     await page.locator(".play-screen__back").click();
   }
@@ -1095,6 +1096,42 @@ async function expectStageNavigationPolish(page, viewportName) {
     )
   ) {
     failures.push("[" + viewportName + "] Stage navigation lost tactile button polish: " + JSON.stringify(metrics));
+  }
+}
+
+async function expectStarterBoardAlignment(page, viewportName) {
+  const boardMetrics = await page.locator(".board-wrap").first().evaluate((board) => {
+    const cells = [...board.querySelectorAll(".puzzle-cell")];
+    const columnClues = [...board.querySelectorAll(".column-clue")];
+    const rowClues = [...board.querySelectorAll(".row-clue")];
+    const centerOf = (rect, axis) => axis === "x"
+      ? rect.left + rect.width / 2
+      : rect.top + rect.height / 2;
+    const columnDeltas = columnClues.map((clue, columnIndex) => {
+      const clueRect = clue.getBoundingClientRect();
+      const cellRect = cells[columnIndex]?.getBoundingClientRect();
+      return cellRect ? centerOf(clueRect, "x") - centerOf(cellRect, "x") : 999;
+    });
+    const rowDeltas = rowClues.map((clue, rowIndex) => {
+      const clueRect = clue.getBoundingClientRect();
+      const cellRect = cells[rowIndex * columnClues.length]?.getBoundingClientRect();
+      return cellRect ? centerOf(clueRect, "y") - centerOf(cellRect, "y") : 999;
+    });
+    return {
+      boardSize: getComputedStyle(board).getPropertyValue("--board-size").trim(),
+      columnDeltas,
+      rowDeltas,
+      maxColumnDelta: columnDeltas.reduce((max, delta) => Math.max(max, Math.abs(delta)), 0),
+      maxRowDelta: rowDeltas.reduce((max, delta) => Math.max(max, Math.abs(delta)), 0)
+    };
+  });
+
+  if (
+    boardMetrics.boardSize !== "5" ||
+    boardMetrics.maxColumnDelta > 1 ||
+    boardMetrics.maxRowDelta > 1
+  ) {
+    failures.push("[" + viewportName + "] Starter 5x5 clues should align with puzzle cells: " + JSON.stringify(boardMetrics));
   }
 }
 
