@@ -10,6 +10,7 @@ const viewports = [
 
 const browser = await chromium.launch({ headless: true });
 const failures = [];
+const BILLING_DEV_COPY_PATTERN = /(Android test build|Google Play app|Google Play price|Android \uD14C\uC2A4\uD2B8|Google Play \uC571|Google Play \uAC00\uACA9)/i;
 
 for (const viewport of viewports) {
   const page = await browser.newPage({ viewport });
@@ -986,6 +987,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
     !metrics.settingsPolish.supportCard.factTexts.join(" ").includes("250") ||
     !metrics.settingsPolish.supportCard.factTexts.join(" ").includes("Restore") ||
     /(paid|free|\uC720\uB8CC|\uBB34\uB8CC)/i.test(metrics.settingsPolish.supportCard.visibleText) ||
+    BILLING_DEV_COPY_PATTERN.test(metrics.settingsPolish.supportCard.visibleText) ||
     !metrics.settingsPolish.supportCard.actionTexts.some((text) => /Support|\uC751\uC6D0/.test(text)) ||
     !metrics.settingsPolish.supportCard.actionTexts.some((text) => /Restore|\uBCF5\uC6D0/.test(text)) ||
     metrics.settingsPolish.supportCard.factHeights.some((height) => height < 28) ||
@@ -1020,6 +1022,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
     !metrics.settingsPolish.spoonJarCard.factTexts.join(" ").includes("750") ||
     !/Repeat|\uB2E4\uC2DC/.test(metrics.settingsPolish.spoonJarCard.factTexts.join(" ")) ||
     /(paid|free|\uC720\uB8CC|\uBB34\uB8CC)/i.test(metrics.settingsPolish.spoonJarCard.visibleText) ||
+    BILLING_DEV_COPY_PATTERN.test(metrics.settingsPolish.spoonJarCard.visibleText) ||
     !metrics.settingsPolish.spoonJarCard.actionTexts.some((text) => /jar|\uD56D\uC544\uB9AC/i.test(text)) ||
     metrics.settingsPolish.spoonJarCard.actionTexts.some((text) => /Restore|\uBCF5\uC6D0/.test(text)) ||
     metrics.settingsPolish.spoonJarCard.factHeights.some((height) => height < 28) ||

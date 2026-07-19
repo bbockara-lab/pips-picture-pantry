@@ -80,7 +80,7 @@ export const en = {
     supportOwnedBody: "Thank you for supporting Pip. {spoons} spoons already joined your pantry.",
     supportOwned: "Support pack is active.",
     supportChecking: "Checking the store connection...",
-    supportAndroidOnly: "The Google Play app loads the store price.",
+    supportAndroidOnly: "Store connection is being prepared.",
     supportReady: "Spoons arrive right after purchase.",
     supportCancelled: "Purchase was cancelled. You can try again anytime.",
     supportNotFound: "No support pack purchase was found to restore.",
@@ -89,7 +89,7 @@ export const en = {
     supportFailed: "The store could not finish that request. No spoons were spent.",
     supportFactSpoons: "{spoons} spoons",
     supportFactStore: "Google Play",
-    supportFactAndroid: "Google Play app",
+    supportFactAndroid: "Store preparing",
     supportFactRestore: "Restore-ready",
     supportRestore: "Restore purchase",
     supportBuy: "Support for {price}",
@@ -100,7 +100,7 @@ export const en = {
     spoonJarReady: "Spoons arrive after each jar.",
     spoonJarFailed: "The jar could not be filled. No spoons were spent.",
     spoonJarBuy: "Fill jar for {price}",
-    supportPricePending: "Google Play price",
+    supportPricePending: "Store price",
     close: "Done"
   },
   badges: {

@@ -3341,6 +3341,12 @@ Current launch direction:
 - Strengthened mobile QA and i18n tests to guard guide speaker presence, no text overflow, visible guide step state, and Korean guide readability.
 - Kept Billing product IDs, purchase/restore behavior, Pantry state, puzzle play, Time Attack scoring, floating navigation, and save behavior unchanged; this is a launch-facing onboarding trust polish pass.
 
+### v0.1.477 Billing Store Readiness Copy Guard
+- Bumped the visible app version to v0.1.477 and package version to 0.1.477.
+- Reworded Support Pack and Spoon Jar fallback copy so web/native-unavailable states read as store preparation instead of Android test-build or raw Google Play app wording.
+- Added i18n and mobile QA guards against developer/test Billing copy in the visible settings cards while keeping product IDs, purchase/restore, pantry state, puzzle play, Time Attack, floating navigation, and save behavior unchanged.
+- Remaining external release evidence is unchanged: activate Play Console products and record real-device purchase/restore for both Billing items.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.
