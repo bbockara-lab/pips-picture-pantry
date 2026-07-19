@@ -19,6 +19,23 @@ qa-artifacts/visual-review/<app-version>/screenshots/
 
 Open `index.html` in a browser to review all screenshots as a contact sheet.
 
+## Play Locally
+
+Use this when a screenshot shows a questionable layout and you want to reproduce it interactively in Codex or a browser:
+
+```powershell
+cd "D:\Users\bbock\OneDrive\00. Private\10. Development\03. Pip's Picture Pantry"
+npm run review:play
+```
+
+Then open:
+
+```text
+http://127.0.0.1:5173/
+```
+
+The visual pack is the fixed screenshot checklist; the local play URL is the hands-on pass for scrolling, tapping, Time Attack entry, Settings Billing, Pantry placement, and first-run guide flow.
+
 ## Review Order
 
 The pack is intentionally ordered as a first-impression pass first, then release-critical returning-player surfaces.

@@ -18,6 +18,18 @@ const manifest = {
   baseUrl,
   viewport: { width: 390, height: 844 },
   screenshots: [],
+  manualPlay: {
+    command: "npm run review:play",
+    url: "http://127.0.0.1:5173/"
+  },
+  checklist: [
+    "Pip and Sunny Spoon Studios artwork must look consistent across opening, guide, Pantry, Billing, and Time Attack.",
+    "Repeated control symbols should read as intentional tactile artwork, not placeholder glyphs.",
+    "Korean and English copy must fit without one-character wrapping, overlap, or clipped buttons.",
+    "Time Attack must be discoverable from both the opening/puzzle hub and the floating menu.",
+    "Billing should feel optional and supportive, with Support Pack and Spoon Jar roles visually distinct.",
+    "Pantry/shop cards should make the next action obvious: decorate, earn spoons, buy, equip, or open a stage."
+  ],
   notes: [
     "Local visual review pack for launch art, UX, and Billing surface review.",
     "Use this with qa:mobile: qa:mobile catches regressions, this pack creates screenshots for human art direction.",
@@ -36,6 +48,14 @@ function commandFor(command) {
 
 function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
 }
 
 function probe(url) {
@@ -94,30 +114,52 @@ async function capture(page, name, selector, options = {}) {
 function writeContactSheet() {
   const cards = manifest.screenshots.map((shot) => `
     <article class="shot-card">
-      <h2>${shot.fileName}</h2>
-      <p>${shot.name} &middot; ${shot.selector}</p>
-      <a href="${shot.relativePath}"><img src="${shot.relativePath}" alt="${shot.name} screenshot"></a>
+      <h2>${escapeHtml(shot.fileName)}</h2>
+      <p>${escapeHtml(shot.name)} &middot; ${escapeHtml(shot.selector)}</p>
+      <a href="${escapeHtml(shot.relativePath)}"><img src="${escapeHtml(shot.relativePath)}" alt="${escapeHtml(shot.name)} screenshot"></a>
     </article>`).join("\n");
+  const checklist = manifest.checklist.map((item) => `<li>${escapeHtml(item)}</li>`).join("\n");
   const html = `<!doctype html>
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pip's Picture Pantry Visual Review ${manifest.version}</title>
+<title>Pip's Picture Pantry Visual Review ${escapeHtml(manifest.version)}</title>
 <style>
   body { margin: 0; background: #f7eedc; color: #3d2b2e; font-family: system-ui, sans-serif; }
   header { position: sticky; top: 0; z-index: 2; padding: 16px 20px; background: rgba(255, 250, 238, 0.94); border-bottom: 1px solid rgba(61, 43, 46, 0.16); }
   h1 { margin: 0 0 4px; font-size: 20px; }
   header p { margin: 0; color: #7b5741; }
+  .review-brief { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 360px); gap: 16px; padding: 18px 20px 0; }
+  .brief-card { background: #fff9ed; border: 1px solid rgba(61, 43, 46, 0.16); border-radius: 14px; box-shadow: 0 10px 22px rgba(61, 43, 46, 0.1); padding: 14px 16px; }
+  .brief-card h2 { margin: 0 0 8px; font-size: 15px; }
+  .brief-card p { margin: 0 0 10px; color: #7b5741; font-size: 13px; line-height: 1.45; }
+  .brief-card code { display: inline-block; padding: 3px 6px; border-radius: 8px; background: rgba(252, 205, 92, 0.22); color: #68442d; font-size: 12px; }
+  .brief-card ul { margin: 0; padding-left: 18px; color: #5c4139; font-size: 13px; line-height: 1.5; }
+  .brief-card li + li { margin-top: 4px; }
   main { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 390px)); gap: 18px; padding: 20px; align-items: start; }
   .shot-card { background: #fff9ed; border: 1px solid rgba(61, 43, 46, 0.16); border-radius: 14px; box-shadow: 0 10px 22px rgba(61, 43, 46, 0.12); overflow: hidden; }
   .shot-card h2 { margin: 14px 14px 4px; font-size: 15px; }
   .shot-card p { margin: 0 14px 12px; color: #7b5741; font-size: 13px; }
   .shot-card img { display: block; width: 100%; height: auto; background: #fff; }
+  @media (max-width: 760px) { .review-brief { grid-template-columns: 1fr; } }
 </style>
 <header>
-  <h1>Pip's Picture Pantry Visual Review ${manifest.version}</h1>
-  <p>${manifest.screenshots.length} screenshots &middot; ${manifest.viewport.width}x${manifest.viewport.height} viewport &middot; ${manifest.generatedAt}</p>
+  <h1>Pip's Picture Pantry Visual Review ${escapeHtml(manifest.version)}</h1>
+  <p>${manifest.screenshots.length} screenshots &middot; ${manifest.viewport.width}x${manifest.viewport.height} viewport &middot; ${escapeHtml(manifest.generatedAt)}</p>
 </header>
+<section class="review-brief" aria-label="Visual review brief">
+  <article class="brief-card">
+    <h2>Manual Play</h2>
+    <p>Use the screenshots for repeatable review, then run the app locally for hands-on checks in the Codex/browser preview.</p>
+    <p><code>${escapeHtml(manifest.manualPlay.command)}</code> then open <code>${escapeHtml(manifest.manualPlay.url)}</code></p>
+  </article>
+  <article class="brief-card">
+    <h2>Launch Art And UX Checklist</h2>
+    <ul>
+${checklist}
+    </ul>
+  </article>
+</section>
 <main>
 ${cards}
 </main>
