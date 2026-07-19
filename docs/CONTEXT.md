@@ -3251,6 +3251,12 @@ Current launch direction:
 - Floating navigation is now withheld while reset, settings, or Pip guide overlays are open, preventing the fixed lower-right menu from sitting above modal layers.
 - Strengthened mobile visual QA to fail if the floating navigation is present during a Pip guide or settings modal.
 
+### v0.1.463 Opening Promise Chip No-Clip Guard
+- Bumped the visible app version to v0.1.463 and package version to 0.1.463.
+- Re-locked the opening promise chips so narrow desktop, tablet, and Android review widths stack into readable rows instead of squeezing the icon, label, and action cue into clipped columns.
+- Strengthened mobile visual QA to measure label scroll overflow directly, so "solve/decorate/challenge" entry chips cannot silently truncate or overlap again.
+- Kept intro navigation, Billing, Pantry, puzzle play, Time Attack, and save behavior unchanged; this is a launch-facing readability and discoverability guard.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.
