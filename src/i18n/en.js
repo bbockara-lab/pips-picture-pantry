@@ -10,7 +10,7 @@ export const en = {
     launchNote: "Season 0 opens with 333 cozy pictures, pantry goals, and spoon rewards.",
     promiseLabel: "Launch season highlights",
     promisePuzzle: "333 pictures",
-    promiseDecorate: "Pantry goals",
+    promiseDecorate: "Shop & pantry",
     promiseTimeAttack: "Time Attack",
     promiseAction: "Open",
     promisePuzzleAction: "Solve",
@@ -35,8 +35,8 @@ export const en = {
     timeAttack: "Time Attack",
     puzzleHint: "Pick and solve",
     albumHint: "Saved pictures",
-    pantryHint: "Shop and decorate",
-    timeAttackHint: "Spoon score run",
+    pantryHint: "Shop/decorate",
+    timeAttackHint: "Score run",
     mapHint: "Stage badges",
     navLabel: "Main views",
     menu: "Menu",
@@ -181,13 +181,13 @@ export const en = {
   },
   howToPlay: {
     title: "Pip's picture tip",
-    pipLine: "I'll watch with you. Fill the groups, and safe blanks tidy into X marks.",
-    goal: "Numbers show how many picture squares belong in each row.",
+    pipLine: "I'll stay beside you. Fill the numbered groups, and safe blanks will tidy into X marks.",
+    goal: "Side numbers show the hidden picture groups in that row.",
     clueTogether: "3 together",
     clueApart: "1 each, apart",
-    stepFill: "Choose Color, then tap the picture squares.",
+    stepFill: "Choose Color, then tap the squares that belong to the picture.",
     stepClues: "3 means three squares in a row. 1 1 means color one square, leave at least one empty square, then color one more.",
-    stepMark: "Use Blank Check when you are sure a square should stay empty."
+    stepMark: "When a square is surely empty, use Blank Check to mark it gently."
   },
   timeAttack: {
     eyebrow: "New challenge",

@@ -14341,3 +14341,109 @@ img {
     max-width: 100%;
   }
 }
+
+/* v0.1.473 opening promise chip stable reading pass */
+.brand-intro__promise-strip .brand-intro__promise-chip {
+  grid-template-columns: 34px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-content: center;
+  row-gap: 2px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.brand-intro__promise-strip .brand-intro__promise-chip i {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: center;
+}
+
+.brand-intro__promise-chip b {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  max-width: 100%;
+  line-height: 1.08;
+}
+
+.brand-intro__promise-action {
+  position: static;
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: start;
+  align-self: start;
+  min-width: 0;
+  max-width: 100%;
+  padding: 2px 14px 2px 8px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+@media (min-width: 621px) {
+  .brand-intro__promise-strip .brand-intro__promise-chip {
+    min-height: 66px;
+    padding-inline: 9px;
+  }
+}
+
+@media (max-width: 780px), (max-height: 820px) {
+  .brand-intro__promise-strip .brand-intro__promise-chip {
+    grid-template-columns: 34px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    min-height: 54px;
+  }
+
+  .brand-intro__promise-action {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 380px), (max-height: 780px) {
+  .brand-intro__promise-strip .brand-intro__promise-chip {
+    grid-template-columns: 32px minmax(0, 1fr);
+    min-height: 56px;
+  }
+
+  .brand-intro__promise-action {
+    font-size: 0.6rem;
+  }
+}
+
+/* v0.1.473 opening start button safe-fit guard */
+@media (max-width: 430px), (max-height: 860px) {
+  .brand-intro.game-stage .brand-intro__content:not(.name-stage) {
+    gap: 5px;
+    padding: 10px 14px 12px;
+  }
+
+  .brand-intro.game-stage .brand-intro__key-visual {
+    width: min(100%, 286px);
+  }
+
+  .brand-intro.game-stage .brand-intro__content:not(.name-stage) .brand-intro__skip {
+    margin-top: 4px;
+  }
+}
+
+@media (max-height: 780px) {
+  .brand-intro.game-stage .brand-intro__content:not(.name-stage) {
+    gap: 4px;
+    padding: 8px 12px 10px;
+  }
+
+  .brand-intro.game-stage .brand-intro__key-visual {
+    width: min(100%, 210px);
+  }
+
+  .brand-intro.game-stage .brand-intro__launch-note {
+    font-size: 0.75rem;
+    line-height: 1.12;
+  }
+
+  .brand-intro.game-stage .brand-intro__content:not(.name-stage) .brand-intro__skip {
+    margin-top: 2px;
+  }
+}
