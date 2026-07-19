@@ -471,10 +471,15 @@ async function expectOpeningIntroPolish(page, viewportName) {
     failures.push("[" + viewportName + "] Opening promise strip should show 3 tactile chips, saw " + promiseMetrics.length);
   }
   const expectedPromiseTargets = ["puzzle", "pantry", "timeAttack"];
+  const expectedPromiseActions = [
+    ["Solve", "\uD480\uAE30"],
+    ["Decorate", "\uAFB8\uBBF8\uAE30"],
+    ["Challenge", "\uB3C4\uC804"]
+  ];
   promiseMetrics.forEach((metrics, index) => {
     const hasChipShine = metrics.shineContent !== "none" && metrics.shineHeight >= 7 && metrics.shineBackground.includes("linear-gradient");
     const hasCornerToken = metrics.tokenContent !== "none" && metrics.tokenWidth >= 8 && metrics.tokenHeight >= 8 && metrics.tokenBackground.includes("gradient");
-    const hasActionCue = ["Open", "\uC5F4\uAE30"].includes(metrics.actionText) && metrics.actionWidth >= 24 && metrics.actionHeight >= 18 && metrics.actionRadius >= 8 && metrics.actionBackground.includes("linear-gradient") && metrics.actionArrowContent !== "none";
+    const hasActionCue = expectedPromiseActions[index].includes(metrics.actionText) && metrics.actionWidth >= 24 && metrics.actionHeight >= 18 && metrics.actionRadius >= 8 && metrics.actionBackground.includes("linear-gradient") && metrics.actionArrowContent !== "none";
     if (metrics.tagName !== "BUTTON" || metrics.targetView !== expectedPromiseTargets[index] || !metrics.text || metrics.width < 70 || metrics.height < 34 || metrics.borderWidth < 3 || metrics.borderRadius < 14 || !metrics.backgroundImage.includes("linear-gradient") || metrics.boxShadow === "none" || metrics.overflow !== "hidden" || !hasChipShine || !hasCornerToken || metrics.iconWidth < 14 || metrics.iconHeight < 14 || !hasActionCue || metrics.overflows) {
       failures.push("[" + viewportName + "] Opening promise chip " + (index + 1) + " lost readable tactile treatment: " + JSON.stringify(metrics));
     }

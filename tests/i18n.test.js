@@ -68,6 +68,9 @@ describe("i18n", () => {
     expect(t("seasonProgress.goalOpenAction")).toBe("Open stage");
     expect(t("seasonProgress.goalSpoonAction")).toBe("Plan spoons");
     expect(t("brandIntro.launchNote")).toBe("Season 0 opens with 333 cozy pictures, pantry goals, and spoon rewards.");
+    expect(t("brandIntro.promisePuzzleAction")).toBe("Solve");
+    expect(t("brandIntro.promiseDecorateAction")).toBe("Decorate");
+    expect(t("brandIntro.promiseTimeAttackAction")).toBe("Challenge");
     expect(t("packs.unlockPlanNeedBoth", { count: 12, completed: 2, required: 3 })).toBe("Earn 12 more spoons and finish Pantry requests 2/3 to open this stage.");
     expect(t("packs.unlockGateNeedPantry", { completed: 2, required: 3 })).toBe("Blocked by Pantry requests: 2/3 done.");
     expect(t("badges.progress", { completed: 3, total: 100 })).toBe("3/100 cards");
@@ -123,6 +126,9 @@ describe("i18n", () => {
     expect(t("views.puzzle")).toBe("\ud37c\uc990");
     expect(t("brandIntro.promisePuzzle")).toBe("\uadf8\ub9bc 333\uac1c");
     expect(t("brandIntro.promiseAction")).toBe("\uc5f4\uae30");
+    expect(t("brandIntro.promisePuzzleAction")).toBe("\ud480\uae30");
+    expect(t("brandIntro.promiseDecorateAction")).toBe("\uafb8\ubbf8\uae30");
+    expect(t("brandIntro.promiseTimeAttackAction")).toBe("\ub3c4\uc804");
     expect(t("playerIntro.pipCue")).toBe("\ud32c\ud2b8\ub9ac \uce74\ub4dc\ub294 Pip\uc774 \uae54\ub054\ud558\uac8c \uc815\ub9ac\ud574\ub458\uac8c\uc694.");
 
     setActiveLocale("unsupported");

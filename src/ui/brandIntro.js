@@ -150,9 +150,9 @@ function renderGameIdentity(content) {
   promiseStrip.className = "brand-intro__promise-strip";
   promiseStrip.setAttribute("aria-label", t("brandIntro.promiseLabel"));
   promiseStrip.append(
-    buildPromiseChip("brand-intro__promise-chip--puzzle", t("brandIntro.promisePuzzle"), "puzzle"),
-    buildPromiseChip("brand-intro__promise-chip--pantry", t("brandIntro.promiseDecorate"), "pantry"),
-    buildPromiseChip("brand-intro__promise-chip--time", t("brandIntro.promiseTimeAttack"), "timeAttack"),
+    buildPromiseChip("brand-intro__promise-chip--puzzle", t("brandIntro.promisePuzzle"), "puzzle", t("brandIntro.promisePuzzleAction")),
+    buildPromiseChip("brand-intro__promise-chip--pantry", t("brandIntro.promiseDecorate"), "pantry", t("brandIntro.promiseDecorateAction")),
+    buildPromiseChip("brand-intro__promise-chip--time", t("brandIntro.promiseTimeAttack"), "timeAttack", t("brandIntro.promiseTimeAttackAction")),
   );
   content.appendChild(promiseStrip);
   appendTextElement(content, "p", "brand-intro__version", t("app.versionLabel", { version: APP_VERSION }));
@@ -186,7 +186,7 @@ function buildSeal() {
   return seal;
 }
 
-function buildPromiseChip(modifierClass, label, targetView) {
+function buildPromiseChip(modifierClass, label, targetView, actionLabel = t("brandIntro.promiseAction")) {
   const chip = document.createElement("button");
   chip.className = `brand-intro__promise-chip ${modifierClass}`;
   chip.type = "button";
@@ -199,7 +199,7 @@ function buildPromiseChip(modifierClass, label, targetView) {
   const action = document.createElement("span");
   action.className = "brand-intro__promise-action";
   action.setAttribute("aria-hidden", "true");
-  action.textContent = t("brandIntro.promiseAction");
+  action.textContent = actionLabel;
   chip.appendChild(action);
   return chip;
 }

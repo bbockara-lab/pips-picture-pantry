@@ -13,6 +13,9 @@ export const ko = {
     promiseDecorate: "\ud32c\ud2b8\ub9ac \ubaa9\ud45c",
     promiseTimeAttack: "\ud0c0\uc784\uc5b4\ud0dd",
     promiseAction: "\uc5f4\uae30",
+    promisePuzzleAction: "\ud480\uae30",
+    promiseDecorateAction: "\uafb8\ubbf8\uae30",
+    promiseTimeAttackAction: "\ub3c4\uc804",
     skip: "\uc2dc\uc791"
   },
   playerIntro: {

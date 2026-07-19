@@ -13,6 +13,9 @@ export const en = {
     promiseDecorate: "Pantry goals",
     promiseTimeAttack: "Time Attack",
     promiseAction: "Open",
+    promisePuzzleAction: "Solve",
+    promiseDecorateAction: "Decorate",
+    promiseTimeAttackAction: "Challenge",
     skip: "Start"
   },
   playerIntro: {

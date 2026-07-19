@@ -3186,6 +3186,11 @@ Current launch direction:
 - Preserved the clipped board frame and widened the row clue tray enough for three-token 12x12 clues while removing the small-screen grid-size/frame-size mismatch that could shift end-column clue centers.
 - Strengthened mobile visual QA so large-board clue/cell centers remain aligned and row clue number tokens cannot be clipped on Android review widths.
 
+### v0.1.451 Opening Mode Action Copy
+- Bumped the visible app version to v0.1.451 and package version to 0.1.451.
+- Split the opening promise chip action labels by destination so the first screen reads as three clear entry points: solve puzzles, decorate the pantry, or challenge Time Attack.
+- Kept the legacy generic Open label as a fallback key, while mobile visual QA now guards the destination-specific action copy on all three launch chips.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.
