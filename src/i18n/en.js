@@ -155,8 +155,8 @@ export const en = {
     eyebrow: "Today's pick",
     play: "Play for bonus",
     selected: "Playing this",
-    notePrefix: "Finish this card today to get",
-    noteSuffix: "."
+    notePrefix: "Finish today for",
+    noteSuffix: ""
   },
   replayPicks: {
     eyebrow: "Pip's replay picks",

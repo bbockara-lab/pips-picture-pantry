@@ -3105,6 +3105,17 @@ Current launch direction:
 - The card uses a clock badge, spoon-run copy, and a tactile start CTA while preserving the existing Time Attack panel, guide, scoring, and hint economy behavior.
 - Mobile visual QA now guards the hub entry's card chrome, clock artwork, CTA tap target, and localized Time Attack copy.
 
+### Visual Review Pack Time Attack Addendum
+- The visual review pack now captures the puzzle hub Time Attack teaser as its own screenshot before opening the floating navigation menu.
+- This keeps Time Attack discoverability review split into two clear surfaces: the in-hub teaser card and the floating-nav entry.
+- The change is QA tooling only; runtime navigation, Time Attack scoring, guide copy, and Billing behavior are unchanged.
+
+### v0.1.438 Visual Review Pack and Daily Card Copy Guard
+- Bumped the visible app version to v0.1.438 and package version to 0.1.438.
+- The visual review pack now clears its ignored output folder before each run, so stale screenshots cannot mix with the current manifest during Codex/Claude art review.
+- Added dedicated English and Korean puzzle-hub Time Attack teaser captures before the floating navigation menu capture, making the hub entry and nav entry reviewable as separate surfaces.
+- Shortened the English and Korean daily bonus notes so the spoon reward chip stands on its own cleanly, preventing lone punctuation or dangling Korean particles from appearing in narrow mobile cards.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

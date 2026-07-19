@@ -1,5 +1,5 @@
 import { spawn, spawnSync } from "node:child_process";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import http from "node:http";
 import { resolve } from "node:path";
 import { chromium } from "@playwright/test";
@@ -25,6 +25,7 @@ const manifest = {
   ]
 };
 
+rmSync(outputRoot, { recursive: true, force: true });
 mkdirSync(shotsDir, { recursive: true });
 
 function commandFor(command) {
@@ -71,7 +72,9 @@ async function waitForServer(url) {
 
 async function capture(page, name, selector, options = {}) {
   if (selector) {
-    await page.locator(selector).first().waitFor({ state: "visible", timeout: options.timeout || 6000 });
+    const target = page.locator(selector).first();
+    await target.waitFor({ state: "visible", timeout: options.timeout || 6000 });
+    await target.scrollIntoViewIfNeeded();
   }
   await page.waitForTimeout(options.settleMs || 220);
   const fileName = String(manifest.screenshots.length + 1).padStart(2, "0") + "-" + name + ".png";
@@ -161,6 +164,14 @@ async function openFloatingView(page, view) {
   if (selectors[view]) await page.locator(selectors[view]).first().waitFor({ state: "visible", timeout: 6000 });
 }
 
+async function returnToPuzzleHub(page) {
+  await dismissGuideIfPresent(page);
+  if ((await page.locator(".floating-nav__trigger").count()) === 0 && (await page.locator(".play-screen__back").count()) > 0) {
+    await page.locator(".play-screen__back").click();
+  }
+  await page.locator(".app-shell").first().waitFor({ state: "visible", timeout: 6000 });
+}
+
 async function seedReturningPlayer(page) {
   await page.evaluate(() => {
     const player = { id: "jay", name: "Jay" };
@@ -202,15 +213,17 @@ async function captureLargeBoard(page) {
 }
 
 async function captureFloatingNavMenu(page) {
-  await dismissGuideIfPresent(page);
-  if ((await page.locator(".floating-nav__trigger").count()) === 0 && (await page.locator(".play-screen__back").count()) > 0) {
-    await page.locator(".play-screen__back").click();
-  }
+  await returnToPuzzleHub(page);
   await page.locator(".floating-nav__trigger").first().waitFor({ state: "visible", timeout: 5000 });
   await page.locator(".floating-nav__trigger").first().click();
   await page.locator(".floating-nav[data-open='true'] .floating-nav__menu").waitFor({ state: "visible", timeout: 3000 });
   await capture(page, "main-menu-time-attack-entry", ".floating-nav", { settleMs: 260 });
   await page.locator(".floating-nav__trigger").first().click();
+}
+
+async function capturePuzzleHubTimeAttackTeaser(page, name = "puzzle-hub-time-attack-teaser") {
+  await returnToPuzzleHub(page);
+  await capture(page, name, ".time-attack-teaser-card", { settleMs: 260 });
 }
 
 async function captureKoreanFirstRun(browser) {
@@ -230,6 +243,7 @@ async function captureKoreanFirstRun(browser) {
       await dismissGuideIfPresent(page);
     }
     await capture(page, "ko-first-puzzle-board", ".play-screen", { fullPage: true });
+    await capturePuzzleHubTimeAttackTeaser(page, "ko-puzzle-hub-time-attack-teaser");
     await captureFloatingNavMenu(page);
   } finally {
     await page.close();
@@ -268,6 +282,7 @@ async function main() {
       await dismissGuideIfPresent(page);
     }
     await capture(page, "first-puzzle-board", ".play-screen", { fullPage: true });
+    await capturePuzzleHubTimeAttackTeaser(page);
     await captureFloatingNavMenu(page);
     await captureKoreanFirstRun(browser);
 

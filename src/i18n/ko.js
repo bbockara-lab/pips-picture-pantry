@@ -154,8 +154,8 @@ export const ko = {
     eyebrow: "\uc624\ub298\uc758 \ucd94\ucc9c",
     play: "\ubcf4\ub108\uc2a4 \ubc1b\uae30",
     selected: "\uc9c0\uae08 \ud480\uace0 \uc788\uc5b4\uc694",
-    notePrefix: "\uc624\ub298 \uc774 \uce74\ub4dc\ub97c \uc644\uc131\ud558\uba74",
-    noteSuffix: "\uc744 \ubc1b\uc544\uc694."
+    notePrefix: "\uc624\ub298 \ubcf4\ub108\uc2a4",
+    noteSuffix: ""
   },
   replayPicks: {
     eyebrow: "Pip\uC758 \uB2E4\uC2DC \uD480\uAE30 \uCD94\uCC9C",
