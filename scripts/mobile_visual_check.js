@@ -2723,6 +2723,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const afterStyle = icon ? getComputedStyle(icon, "::after") : null;
     return {
       text: (label?.textContent || "").trim(),
+      className: icon?.className || "",
       width: rect.width,
       height: rect.height,
       background: style.backgroundImage,
@@ -2731,13 +2732,44 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       iconHeight: iconRect?.height || 0,
       iconBackground: iconStyle?.backgroundImage || "",
       iconShadow: iconStyle?.boxShadow || "",
+      beforeWidth: parseFloat(beforeStyle?.width) || 0,
+      beforeHeight: parseFloat(beforeStyle?.height) || 0,
+      beforeTransform: beforeStyle?.transform || "",
+      beforeBoxShadow: beforeStyle?.boxShadow || "",
+      afterWidth: parseFloat(afterStyle?.width) || 0,
+      afterHeight: parseFloat(afterStyle?.height) || 0,
+      afterTransform: afterStyle?.transform || "",
       symbolBackground: beforeStyle?.backgroundImage || beforeStyle?.backgroundColor || "",
       shineContent: afterStyle?.content || "",
       ariaLabel: button.getAttribute("aria-label") || "",
       overflows: button.scrollWidth > Math.ceil(rect.width) + 1 || button.scrollHeight > Math.ceil(rect.height) + 1
     };
   }));
-  if (controlMetrics.length !== 3 || controlMetrics.some((metrics) => !metrics.text || metrics.height < 52 || !metrics.background.includes("gradient") || metrics.iconWidth < 20 || metrics.iconHeight < 20 || !metrics.iconBackground.includes("gradient") || metrics.iconShadow === "none" || !metrics.symbolBackground || metrics.shineContent === "none" || !metrics.ariaLabel || metrics.overflows)) {
+  const fillToken = controlMetrics.find((metrics) => metrics.className.includes("control-button__icon--fill"));
+  const markToken = controlMetrics.find((metrics) => metrics.className.includes("control-button__icon--mark"));
+  const undoToken = controlMetrics.find((metrics) => metrics.className.includes("control-button__icon--undo"));
+  if (
+    controlMetrics.length !== 3 ||
+    controlMetrics.some((metrics) => !metrics.text || metrics.height < 52 || !metrics.background.includes("gradient") || metrics.iconWidth < 20 || metrics.iconHeight < 20 || !metrics.iconBackground.includes("gradient") || metrics.iconShadow === "none" || !metrics.symbolBackground || metrics.shineContent === "none" || !metrics.ariaLabel || metrics.overflows) ||
+    !fillToken ||
+    !markToken ||
+    !undoToken ||
+    fillToken.beforeWidth < 10 ||
+    fillToken.beforeHeight < 12 ||
+    !fillToken.beforeTransform.includes("matrix") ||
+    fillToken.afterWidth < 8 ||
+    fillToken.afterHeight < 8 ||
+    !fillToken.afterTransform.includes("matrix") ||
+    markToken.beforeWidth < 18 ||
+    markToken.afterWidth < 18 ||
+    !markToken.beforeTransform.includes("matrix") ||
+    !markToken.afterTransform.includes("matrix") ||
+    undoToken.beforeWidth < 12 ||
+    undoToken.beforeHeight < 12 ||
+    undoToken.afterWidth < 0 ||
+    !undoToken.beforeBoxShadow ||
+    !undoToken.beforeTransform.includes("matrix")
+  ) {
     failures.push("[" + viewportName + "] Puzzle controls lost polished icon+tactile mobile treatment: " + JSON.stringify(controlMetrics));
   }
 

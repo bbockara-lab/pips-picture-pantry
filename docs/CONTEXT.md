@@ -3169,6 +3169,11 @@ Current launch direction:
 - Replaced the mobile column-clue padding correction with shared board frame variables so the clue trays and puzzle grid use the same cell width, gap, and frame inset across both axes.
 - Strengthened mobile visual QA to compare first and last column clue centers plus first and last row clue centers against their matching cells, preventing first-column-only fixes from hiding edge drift.
 
+### v0.1.448 Puzzle Control Token Artwork Pass
+- Bumped the visible app version to v0.1.448 and package version to 0.1.448.
+- Reworked the reusable fill, blank-check, and undo button tokens with a stronger shared glossy base, clearer internal silhouettes, and separate per-action shapes so the puzzle controls no longer read as plain placeholder marks.
+- Strengthened mobile visual QA so all three puzzle control tokens must remain present, gradient-backed, non-overflowing, and action-specific at the 360/390/430px Android viewports.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

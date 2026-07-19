@@ -12097,6 +12097,119 @@ img {
   transform: rotate(-29deg);
 }
 
+/* v0.1.448 reusable puzzle control token artwork */
+.control-button__icon {
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 29% 20%, rgba(255, 255, 255, 0.94) 0 12%, transparent 13%),
+    radial-gradient(circle at 72% 76%, rgba(255, 255, 255, 0.22) 0 12%, transparent 13%),
+    linear-gradient(145deg, #fff2bf 0%, #f7c45d 51%, #d97f47 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.78),
+    inset 0 -4px 0 rgba(118, 70, 46, 0.18),
+    0 2px 0 rgba(73, 45, 43, 0.2),
+    0 7px 12px rgba(120, 80, 55, 0.14);
+}
+
+.control-button__icon::before,
+.control-button__icon::after {
+  z-index: 1;
+}
+
+.control-button__icon--fill::before {
+  left: 6px;
+  top: 5px;
+  width: 14px;
+  height: 18px;
+  border-radius: 7px 7px 9px 9px;
+  background:
+    radial-gradient(circle at 34% 20%, rgba(255, 255, 255, 0.92) 0 14%, transparent 15%),
+    linear-gradient(160deg, #fff4bd 0 22%, #f5ba65 23% 68%, #c97145 69% 100%);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 251, 230, 0.72),
+    inset 0 -5px 0 rgba(106, 63, 44, 0.15),
+    0 2px 0 rgba(82, 52, 45, 0.18);
+  transform: rotate(-5deg);
+}
+
+.control-button__icon--fill::after {
+  right: 4px;
+  bottom: 4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 55% 45% 58% 42%;
+  background:
+    radial-gradient(circle at 35% 24%, rgba(255, 255, 255, 0.86) 0 22%, transparent 23%),
+    linear-gradient(145deg, #ffe9a4, #e9954d);
+  box-shadow:
+    inset 0 -2px 0 rgba(126, 75, 44, 0.17),
+    0 1px 0 rgba(61, 43, 46, 0.15);
+  transform: rotate(14deg);
+}
+
+.control-button__icon--mark {
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.95) 0 12%, transparent 13%),
+    radial-gradient(circle at 74% 78%, rgba(255, 255, 255, 0.22) 0 12%, transparent 13%),
+    linear-gradient(145deg, #e6fbef 0%, #acd9c8 58%, #72b199 100%);
+}
+
+.control-button__icon--mark::before,
+.control-button__icon--mark::after {
+  left: 5px;
+  top: 13px;
+  width: 20px;
+  height: 4px;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.62), transparent 34%),
+    linear-gradient(180deg, #76bdac, #3d8175);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.58),
+    0 0 0 1px rgba(61, 43, 46, 0.13),
+    0 2px 0 rgba(61, 43, 46, 0.11);
+}
+
+.control-button__icon--mark::before {
+  transform: rotate(44deg);
+}
+
+.control-button__icon--mark::after {
+  transform: rotate(-44deg);
+}
+
+.control-button__icon--undo {
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.94) 0 12%, transparent 13%),
+    conic-gradient(from 232deg, #fff1a5 0 17%, #e69643 18% 58%, #fff0a8 59% 82%, #cc7d36 83% 100%);
+}
+
+.control-button__icon--undo::before {
+  left: 7px;
+  top: 7px;
+  width: 13px;
+  height: 13px;
+  border-width: 4px;
+  border-color: #765342;
+  border-right-color: transparent;
+  border-radius: 50%;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 248, 222, 0.18),
+    0 1px 0 rgba(255, 255, 255, 0.52);
+  transform: rotate(31deg);
+}
+
+.control-button__icon--undo::after {
+  left: 3px;
+  top: 4px;
+  border-top-width: 6px;
+  border-bottom-width: 6px;
+  border-right-width: 10px;
+  border-right-color: #765342;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.44));
+  transform: rotate(-28deg);
+}
+
 .floating-nav__trigger,
 .floating-nav__item {
   word-break: keep-all;
