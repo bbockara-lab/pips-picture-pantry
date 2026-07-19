@@ -250,6 +250,10 @@ async function dismissGuideIfPresent(page, viewportName) {
   await expectVisible(page, ".guide-dialog", viewportName);
   await expectVisible(page, ".guide-dialog__art img", viewportName);
   await expectGuideDialogChromeArt(page, viewportName);
+  const navCount = await page.locator(".floating-nav").count();
+  if (navCount > 0) {
+    failures.push("[" + viewportName + "] Floating navigation should be hidden while the Pip guide overlay is open.");
+  }
   await page.locator(".guide-dialog__skip").first().click({ force: true });
   await overlay.first().waitFor({ state: "detached", timeout: 3000 });
 }
@@ -566,6 +570,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
       backdropClass: backdrop?.className || "",
       backdropOverflowY: backdropStyle?.overflowY || "",
       dialogOverflowY: dialogStyle?.overflowY || "",
+      floatingNavCount: document.querySelectorAll(".floating-nav").length,
       overflowItems,
       settingsPolish: (() => {
         const active = document.querySelector(".settings-dialog .language-option.active");
@@ -792,6 +797,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.backdropPaddingBottom < 14 ||
     metrics.backdropOverflowY !== "auto" ||
     metrics.dialogOverflowY !== "auto" ||
+    metrics.floatingNavCount !== 0 ||
     metrics.overflowItems.length ||
     metrics.settingsPolish.dialogRadius < 16 ||
     !metrics.settingsPolish.dialogBackground.includes("linear-gradient") ||

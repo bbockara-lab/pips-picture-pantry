@@ -625,6 +625,7 @@ function createShell({
 }) {
   const shell = document.createElement("main");
   shell.className = "app-shell";
+  const hasBlockingOverlay = Boolean(resetOpen || settingsOpen || activeGuide);
 
   if ((activeView === "puzzle" || activeView === "timeAttack") && playOpen) {
     shell.classList.add("app-shell--play");
@@ -657,7 +658,9 @@ function createShell({
     if (activeGuide) {
       shell.appendChild(renderGuideDialog(activeGuide, onCloseGuide));
     }
-    shell.appendChild(renderFloatingNav(activeView, onSelectView));
+    if (!hasBlockingOverlay) {
+      shell.appendChild(renderFloatingNav(activeView, onSelectView));
+    }
     return shell;
   }
 
@@ -707,7 +710,9 @@ function createShell({
   }
 
   shell.appendChild(renderFooter(APP_VERSION));
-  shell.appendChild(renderFloatingNav(activeView, onSelectView));
+  if (!hasBlockingOverlay) {
+    shell.appendChild(renderFloatingNav(activeView, onSelectView));
+  }
 
   if (resetOpen) {
     shell.appendChild(renderResetDialog(onCancelReset, onConfirmReset));
