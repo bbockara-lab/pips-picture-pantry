@@ -94,6 +94,11 @@ versionName "1.1.0" // or the final public launch version name
 - Verified release checks in the candidate gate:
   - Vitest: 113 passed.
   - Catalog, bonus-pack visibility, launch integrity, source hygiene, asset manifest, Play Store graphics, Play Store listing, Billing wiring, privacy policy, production build, Android release gate, HTTP probe, and mobile visual QA all passed.
+- `npm run qa:android:candidate` also passed after the same candidate refresh.
+- Current unsigned candidate AAB:
+  - Path: `android/app/build/outputs/bundle/release/app-release.aab`.
+  - Size: 12,077,297 bytes.
+  - Local build time: 2026-07-19 09:13.
 - `npm run qa:release:final` intentionally remains blocked until the two real-device Billing evidence records are added:
   - `pip_cozy_support` purchase + restore.
   - `pip_spoon_jar_small` purchase + repeat purchase.
