@@ -21,8 +21,17 @@ export function renderFloatingNav(activeView, onSelectView) {
   const trigger = document.createElement("button");
   trigger.type = "button";
   trigger.className = "floating-nav__trigger";
+  trigger.dataset.view = activeItem[0];
   trigger.setAttribute("aria-expanded", "false");
   trigger.setAttribute("aria-label", t("views.menu") + ": " + t(activeItem[1]));
+
+  const triggerIcon = document.createElement("span");
+  triggerIcon.className = "floating-nav__icon floating-nav__trigger-icon floating-nav__icon--" + activeItem[0];
+  triggerIcon.dataset.view = activeItem[0];
+  triggerIcon.setAttribute("aria-hidden", "true");
+
+  const triggerText = document.createElement("span");
+  triggerText.className = "floating-nav__trigger-text";
 
   const triggerLabel = document.createElement("span");
   triggerLabel.className = "floating-nav__trigger-label";
@@ -31,7 +40,8 @@ export function renderFloatingNav(activeView, onSelectView) {
   const triggerCurrent = document.createElement("strong");
   triggerCurrent.textContent = t(activeItem[1]);
 
-  trigger.append(triggerLabel, triggerCurrent);
+  triggerText.append(triggerLabel, triggerCurrent);
+  trigger.append(triggerIcon, triggerText);
 
   function setOpen(open) {
     nav.dataset.open = String(open);

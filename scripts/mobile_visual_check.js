@@ -1065,6 +1065,7 @@ async function expectAppChromePolish(page, viewportName) {
     const nav = document.querySelector(".floating-nav");
     const menu = document.querySelector(".floating-nav__menu");
     const triggerButton = document.querySelector(".floating-nav__trigger");
+    const triggerIcon = triggerButton?.querySelector(".floating-nav__trigger-icon");
     const activeItem = document.querySelector(".floating-nav__item.active");
     const labels = [...document.querySelectorAll(".floating-nav__item span")].map((label) => label.textContent || "");
     const icons = [...document.querySelectorAll(".floating-nav__item")].map((item) => {
@@ -1091,6 +1092,10 @@ async function expectAppChromePolish(page, viewportName) {
     const navStyle = nav ? getComputedStyle(nav) : null;
     const triggerBefore = triggerButton ? getComputedStyle(triggerButton, "::before") : null;
     const triggerAfter = triggerButton ? getComputedStyle(triggerButton, "::after") : null;
+    const triggerIconStyle = triggerIcon ? getComputedStyle(triggerIcon) : null;
+    const triggerIconBefore = triggerIcon ? getComputedStyle(triggerIcon, "::before") : null;
+    const triggerIconAfter = triggerIcon ? getComputedStyle(triggerIcon, "::after") : null;
+    const triggerCurrent = triggerButton?.querySelector("strong");
     const activeBefore = activeItem ? getComputedStyle(activeItem, "::before") : null;
     const activeAfter = activeItem ? getComputedStyle(activeItem, "::after") : null;
     return {
@@ -1109,6 +1114,17 @@ async function expectAppChromePolish(page, viewportName) {
       triggerShine: triggerBefore?.backgroundImage || "",
       triggerArrow: triggerAfter?.borderBottomWidth || "",
       triggerArrowTransform: triggerAfter?.transform || "",
+      triggerIcon: {
+        view: triggerIcon?.dataset.view || "",
+        width: parseFloat(triggerIconStyle?.width) || 0,
+        height: parseFloat(triggerIconStyle?.height) || 0,
+        radius: parseFloat(triggerIconStyle?.borderRadius) || 0,
+        background: triggerIconStyle?.backgroundImage || "",
+        beforeContent: triggerIconBefore?.content || "",
+        afterContent: triggerIconAfter?.content || ""
+      },
+      triggerCurrentText: (triggerCurrent?.textContent || "").trim(),
+      triggerCurrentOverflow: triggerCurrent ? Math.max(0, triggerCurrent.scrollWidth - triggerCurrent.clientWidth) : 999,
       activeShine: activeBefore?.backgroundImage || "",
       activeToken: activeAfter?.backgroundImage || "",
       activeTokenWidth: parseFloat(activeAfter?.width) || 0,
@@ -1136,6 +1152,14 @@ async function expectAppChromePolish(page, viewportName) {
     !navMetrics.triggerShine.includes("gradient") ||
     navMetrics.triggerArrow === "0px" ||
     navMetrics.triggerArrowTransform === "none" ||
+    navMetrics.triggerIcon.width < 28 ||
+    navMetrics.triggerIcon.height < 28 ||
+    navMetrics.triggerIcon.radius < 8 ||
+    !navMetrics.triggerIcon.background.includes("gradient") ||
+    navMetrics.triggerIcon.beforeContent === "none" ||
+    navMetrics.triggerIcon.afterContent === "none" ||
+    !navMetrics.triggerCurrentText ||
+    navMetrics.triggerCurrentOverflow > 1 ||
     !navMetrics.activeShine.includes("gradient") ||
     !navMetrics.activeToken.includes("gradient") ||
     navMetrics.activeTokenWidth < 8 ||

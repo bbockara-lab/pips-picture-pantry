@@ -3263,6 +3263,13 @@ Current launch direction:
 - Added a direct blocking-overlay guard so the fixed floating navigation cannot reappear above Pip guide or modal layers while they are active.
 - Kept UI copy, Billing, Pantry state, puzzle logic, Time Attack scoring, and save behavior unchanged; this is a release-facing discoverability and overlay safety guard.
 
+### v0.1.465 Floating Nav Entry And Pip Guide Voice
+- Bumped the visible app version to v0.1.465 and package version to 0.1.465.
+- Added the active-view artwork token to the always-visible floating navigation trigger, so the player can identify the current destination before opening the menu.
+- Reused the existing five-view CSS icon language for the trigger icon and strengthened mobile visual QA to guard trigger icon size, gradient artwork, pseudo-element detail, and current-label overflow.
+- Rewrote the first puzzle, Time Attack, and first-purchase guide copy in Korean and English so Pip speaks in a warmer first-person helper voice while preserving the same rule/economy guidance.
+- Kept routing, Billing, Pantry state, puzzle logic, Time Attack scoring, save behavior, and deferred raster artwork scope unchanged; this is a launch-facing discoverability and onboarding-copy polish pass.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

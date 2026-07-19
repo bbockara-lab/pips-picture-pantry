@@ -244,21 +244,21 @@ export const en = {
     done: "Let's play",
     puzzle: {
       title: "Pip will guide your first card",
-      step1: "Look at the numbers beside each row and column. They tell you which picture squares should be colored.",
-      step2: "A 3 means three colored squares stay together. 1 1 1 means tiny groups with at least one blank between them.",
-      step3: "Use Blank Check when you are sure a square should stay empty. No rush, I'll cheer from the pantry!"
+      step1: "I'll look with you. The numbers beside each row and column show the little groups we need to color.",
+      step2: "For example, 3 means three squares stay together. 1 1 1 means tiny groups with at least one blank between them.",
+      step3: "When a square is surely empty, mark it with Blank Check. Take it slowly, Pip is right here with you!"
     },
     timeAttack: {
       title: "Ready for a speedy pantry run?",
-      step1: "Time Attack gives you random puzzles in a row. Finish the run to earn daily spoons and raise your local record.",
-      step2: "Each run gives you a few hints. After those are gone, the next hint uses spoons and the price climbs.",
-      step3: "Use hints when a new record is close, or save your spoons for the Pantry. Pip believes this run can be your new best!"
+      step1: "When you enter Time Attack, I'll pull random puzzles for you. Even one more square can grow today's record.",
+      step2: "I packed a few starter hints. After those are gone, you can keep going with spoons, and each extra hint asks for more.",
+      step3: "If a new record is close, a hint can be worth it. Let's chase our best run today!"
     },
     pantryFirstPurchase: {
       title: "Your first pantry decoration is home!",
-      step1: "Great pick! Bought decorations are saved forever, then Pip places them in their matching pantry spot for you.",
+      step1: "Great pick! I'll keep this decoration safe in the pantry and show you its coziest matching spot.",
       step2: "Each spot holds one decoration at a time: counter, window, shelf, floor, or back wall. Buying another item for the same spot swaps the display.",
-      step3: "Keep solving puzzles for spoons, then choose the look you like best. The coziest pantry is built one little treasure at a time."
+      step3: "Gather spoons from puzzles, then choose each decoration you love. We'll make the pantry warmer one treasure at a time."
     }
   },
   stageNav: {
