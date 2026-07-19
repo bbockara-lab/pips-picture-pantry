@@ -177,6 +177,7 @@ function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestor
   const label = document.createElement("p");
   label.className = "section-label";
   label.textContent = t("settings.supportTitle");
+  const art = createBillingProductArt("support");
 
   const body = document.createElement("p");
   body.className = "support-pack-card__body";
@@ -216,7 +217,7 @@ function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestor
   restoreButton.addEventListener("click", onSupportRestore);
 
   actions.append(purchaseButton, restoreButton);
-  group.append(label, body, facts, status, actions);
+  group.append(label, art, body, facts, status, actions);
   return group;
 }
 
@@ -229,6 +230,7 @@ function createSpoonJarCard({ spoonJar, onSpoonJarPurchase }) {
   const label = document.createElement("p");
   label.className = "section-label";
   label.textContent = t("settings.spoonJarTitle");
+  const art = createBillingProductArt("jar");
 
   const body = document.createElement("p");
   body.className = "support-pack-card__body";
@@ -261,8 +263,15 @@ function createSpoonJarCard({ spoonJar, onSpoonJarPurchase }) {
   purchaseButton.addEventListener("click", onSpoonJarPurchase);
 
   actions.appendChild(purchaseButton);
-  group.append(label, body, facts, status, actions);
+  group.append(label, art, body, facts, status, actions);
   return group;
+}
+
+function createBillingProductArt(kind) {
+  const art = document.createElement("span");
+  art.className = `support-pack-card__art support-pack-card__art--${kind}`;
+  art.setAttribute("aria-hidden", "true");
+  return art;
 }
 
 function getSupportPackBody(supportPack) {

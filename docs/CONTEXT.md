@@ -3121,6 +3121,12 @@ Current launch direction:
 - Time Attack discoverability is reviewed in two places on purpose: the puzzle hub teaser card and the floating menu entry.
 - The guide explicitly treats Korean as a first-class launch flow, not an overflow-only regression case.
 
+### v0.1.439 Billing Product Artwork Slots
+- Bumped the visible app version to v0.1.439 and package version to 0.1.439.
+- Added dedicated decorative product-art slots to the Settings Billing cards so Pip Support Pack and Small Spoon Jar no longer rely only on a generic corner token.
+- The Support Pack art reads as a spoon/support badge, while the Spoon Jar art reads as a jar of spoon tokens; both remain CSS-built, aria-hidden decorative UI layers.
+- Strengthened mobile visual QA so both Billing products must keep distinct product-art slots, gradient/pseudo-element artwork, and the existing one-time/restore vs repeatable purchase roles.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

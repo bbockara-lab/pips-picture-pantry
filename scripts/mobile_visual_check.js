@@ -523,17 +523,25 @@ async function expectSettingsDialogPolish(page, viewportName) {
         const supportFacts = [...(supportCard?.querySelectorAll(".support-pack-card__facts span") || [])];
         const supportStatus = supportCard?.querySelector(".support-pack-card__status");
         const supportActions = [...(supportCard?.querySelectorAll("button") || [])];
+        const supportArt = supportCard?.querySelector(".support-pack-card__art--support");
         const supportStyle = supportCard ? getComputedStyle(supportCard) : null;
         const supportBefore = supportCard ? getComputedStyle(supportCard, "::before") : null;
         const supportAfter = supportCard ? getComputedStyle(supportCard, "::after") : null;
+        const supportArtStyle = supportArt ? getComputedStyle(supportArt) : null;
+        const supportArtBefore = supportArt ? getComputedStyle(supportArt, "::before") : null;
+        const supportArtAfter = supportArt ? getComputedStyle(supportArt, "::after") : null;
         const jarLabel = jarCard?.querySelector(".section-label");
         const jarBody = jarCard?.querySelector(".support-pack-card__body");
         const jarFacts = [...(jarCard?.querySelectorAll(".support-pack-card__facts span") || [])];
         const jarStatus = jarCard?.querySelector(".support-pack-card__status");
         const jarActions = [...(jarCard?.querySelectorAll("button") || [])];
+        const jarArt = jarCard?.querySelector(".support-pack-card__art--jar");
         const jarStyle = jarCard ? getComputedStyle(jarCard) : null;
         const jarBefore = jarCard ? getComputedStyle(jarCard, "::before") : null;
         const jarAfter = jarCard ? getComputedStyle(jarCard, "::after") : null;
+        const jarArtStyle = jarArt ? getComputedStyle(jarArt) : null;
+        const jarArtBefore = jarArt ? getComputedStyle(jarArt, "::before") : null;
+        const jarArtAfter = jarArt ? getComputedStyle(jarArt, "::after") : null;
         return {
           dialogRadius: dialogStyle ? parseFloat(dialogStyle.borderRadius) : 0,
           dialogBackground: dialogStyle?.backgroundImage || "",
@@ -579,6 +587,12 @@ async function expectSettingsDialogPolish(page, viewportName) {
             tokenWidth: supportAfter ? parseFloat(supportAfter.width) : 0,
             tokenHeight: supportAfter ? parseFloat(supportAfter.height) : 0,
             tokenBackground: supportAfter?.backgroundImage || "",
+            productArtWidth: supportArt?.getBoundingClientRect().width || 0,
+            productArtHeight: supportArt?.getBoundingClientRect().height || 0,
+            productArtAriaHidden: supportArt?.getAttribute("aria-hidden") || "",
+            productArtBackground: supportArtStyle?.backgroundImage || "",
+            productArtBeforeBackground: supportArtBefore?.backgroundImage || "",
+            productArtAfterBackground: supportArtAfter?.backgroundImage || "",
             actionCount: supportActions.length,
             actionTexts: supportActions.map((button) => button.textContent?.trim() || ""),
             actionHeights: supportActions.map((button) => button.getBoundingClientRect().height),
@@ -605,6 +619,12 @@ async function expectSettingsDialogPolish(page, viewportName) {
             tokenWidth: jarAfter ? parseFloat(jarAfter.width) : 0,
             tokenHeight: jarAfter ? parseFloat(jarAfter.height) : 0,
             tokenBackground: jarAfter?.backgroundImage || "",
+            productArtWidth: jarArt?.getBoundingClientRect().width || 0,
+            productArtHeight: jarArt?.getBoundingClientRect().height || 0,
+            productArtAriaHidden: jarArt?.getAttribute("aria-hidden") || "",
+            productArtBackground: jarArtStyle?.backgroundImage || "",
+            productArtBeforeBackground: jarArtBefore?.backgroundImage || "",
+            productArtAfterBackground: jarArtAfter?.backgroundImage || "",
             actionCount: jarActions.length,
             actionTexts: jarActions.map((button) => button.textContent?.trim() || ""),
             actionHeights: jarActions.map((button) => button.getBoundingClientRect().height),
@@ -695,6 +715,12 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.supportCard.tokenWidth < 24 ||
     metrics.settingsPolish.supportCard.tokenHeight < 24 ||
     !metrics.settingsPolish.supportCard.tokenBackground.includes("gradient") ||
+    metrics.settingsPolish.supportCard.productArtWidth < 44 ||
+    metrics.settingsPolish.supportCard.productArtHeight < 44 ||
+    metrics.settingsPolish.supportCard.productArtAriaHidden !== "true" ||
+    !metrics.settingsPolish.supportCard.productArtBackground.includes("gradient") ||
+    !metrics.settingsPolish.supportCard.productArtBeforeBackground.includes("gradient") ||
+    !metrics.settingsPolish.supportCard.productArtAfterBackground.includes("gradient") ||
     metrics.settingsPolish.supportCard.actionCount !== 2 ||
     metrics.settingsPolish.supportCard.actionHeights.some((height) => height < 44) ||
     metrics.settingsPolish.supportCard.actionBackgrounds.some((background) => !background.includes("gradient")) ||
@@ -722,6 +748,12 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.spoonJarCard.tokenWidth < 24 ||
     metrics.settingsPolish.spoonJarCard.tokenHeight < 24 ||
     !metrics.settingsPolish.spoonJarCard.tokenBackground.includes("gradient") ||
+    metrics.settingsPolish.spoonJarCard.productArtWidth < 44 ||
+    metrics.settingsPolish.spoonJarCard.productArtHeight < 44 ||
+    metrics.settingsPolish.spoonJarCard.productArtAriaHidden !== "true" ||
+    !metrics.settingsPolish.spoonJarCard.productArtBackground.includes("gradient") ||
+    !metrics.settingsPolish.spoonJarCard.productArtBeforeBackground.includes("gradient") ||
+    !metrics.settingsPolish.spoonJarCard.productArtAfterBackground.includes("gradient") ||
     metrics.settingsPolish.spoonJarCard.actionCount !== 1 ||
     metrics.settingsPolish.spoonJarCard.actionHeights.some((height) => height < 44) ||
     metrics.settingsPolish.spoonJarCard.actionBackgrounds.some((background) => !background.includes("gradient")) ||
