@@ -21,15 +21,32 @@ Open `index.html` in a browser to review all screenshots as a contact sheet.
 
 ## Review Order
 
+The pack is intentionally ordered as a first-impression pass first, then release-critical returning-player surfaces.
+
+English first-run sequence:
+
 1. Opening brand intro
 2. Pip guide dialog
 3. First puzzle board
-4. Settings Billing surface
-5. Pantry room and shop
-6. Time Attack coach
-7. Album progress
-8. Map badges
-9. Large-board cursor controls
+4. Puzzle hub Time Attack teaser
+5. Main menu Time Attack entry
+
+Korean first-run sequence:
+
+6. Korean opening brand intro
+7. Korean Pip guide dialog
+8. Korean first puzzle board
+9. Korean puzzle hub Time Attack teaser
+10. Korean main menu Time Attack entry
+
+Returning-player and release surfaces:
+
+11. Settings Billing surface
+12. Pantry room and shop
+13. Time Attack coach
+14. Album progress
+15. Map badges
+16. Large-board cursor controls
 
 ## Acceptance Checklist
 
@@ -42,6 +59,8 @@ Open `index.html` in a browser to review all screenshots as a contact sheet.
 - No card should look like a placeholder, flat PPT block, or unrelated imported art.
 - Text must fit without overlap at the captured 390x844 viewport.
 - The first-play flow should feel friendly before it feels commercial.
+- Time Attack must be discoverable from both the puzzle hub teaser and the floating menu.
+- English and Korean first-run flows should feel equally intentional; do not let Korean be the overflow-only case.
 
 ## Reusable Icon Artwork Pass
 

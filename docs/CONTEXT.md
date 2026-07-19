@@ -3116,6 +3116,11 @@ Current launch direction:
 - Added dedicated English and Korean puzzle-hub Time Attack teaser captures before the floating navigation menu capture, making the hub entry and nav entry reviewable as separate surfaces.
 - Shortened the English and Korean daily bonus notes so the spoon reward chip stands on its own cleanly, preventing lone punctuation or dangling Korean particles from appearing in narrow mobile cards.
 
+### Visual Review Guide 16-Shot Order
+- `docs/VISUAL_REVIEW_GUIDE.md` now mirrors the actual visual review pack order: English first-run, Korean first-run, then returning-player/release surfaces.
+- Time Attack discoverability is reviewed in two places on purpose: the puzzle hub teaser card and the floating menu entry.
+- The guide explicitly treats Korean as a first-class launch flow, not an overflow-only regression case.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.
