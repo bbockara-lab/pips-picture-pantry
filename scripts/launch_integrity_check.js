@@ -76,11 +76,26 @@ function checkReplayCleanRewardPath() {
   expectIncludes("tests/replayChallenge.test.js", "keeps replay unclean after a hint is undone", "hint undo remains unclean regression test");
 }
 
+function checkOpeningModeActions() {
+  const intro = "src/ui/brandIntro.js";
+  [
+    "promisePuzzleAction",
+    "promiseDecorateAction",
+    "promiseTimeAttackAction",
+    "\"timeAttack\""
+  ].forEach((needle) => expectIncludes(intro, needle));
+
+  expectOrder(intro, "promiseTimeAttack", "promiseTimeAttackAction", "Time Attack launch chip has a specific action cue");
+  expectIncludes("scripts/mobile_visual_check.js", "expectedPromiseActions", "opening promise action copy visual guard");
+  expectIncludes("scripts/mobile_visual_check.js", "[\"Challenge\", \"\\uB3C4\\uC804\"]", "Time Attack challenge action visual guard");
+}
+
 function main() {
   checkAndroidVersion();
   checkPackUnlockGuidance();
   checkReplayCleanRewardPath();
-  console.log("Launch integrity guard passed: Android numbering, pack unlock guidance, and replay clean rewards are locked.");
+  checkOpeningModeActions();
+  console.log("Launch integrity guard passed: Android numbering, pack unlock guidance, replay clean rewards, and opening mode actions are locked.");
 }
 
 main();
