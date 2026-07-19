@@ -5465,6 +5465,35 @@ img {
   height: 56px;
 }
 
+/* v0.1.458 opening Pip seal art polish */
+.brand-intro.game-stage .brand-intro__key-visual + .brand-intro__seal {
+  width: clamp(64px, 18vw, 74px);
+  height: clamp(64px, 18vw, 74px);
+  margin-top: clamp(-43px, -10vw, -36px);
+  border: 3px solid rgba(61, 43, 46, 0.82);
+  border-radius: 20px;
+  padding: 3px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.92) 0 11%, transparent 12%),
+    radial-gradient(circle at 74% 72%, rgba(255, 204, 74, 0.45), transparent 32%),
+    linear-gradient(145deg, rgba(255, 253, 243, 0.98), rgba(219, 245, 221, 0.9));
+  box-shadow:
+    0 5px 0 rgba(61, 43, 46, 0.18),
+    0 15px 24px rgba(122, 78, 53, 0.2),
+    inset 0 2px 0 rgba(255, 255, 255, 0.8);
+}
+
+.brand-intro.game-stage .brand-intro__key-visual + .brand-intro__seal img {
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  object-fit: contain;
+  object-position: 50% 74%;
+  transform: scale(1.18) translateY(3px);
+  filter: drop-shadow(0 5px 0 rgba(61, 43, 46, 0.12));
+}
+
 .brand-intro.game-stage .brand-intro__skip {
   min-width: 156px;
   min-height: 56px;
@@ -12006,14 +12035,14 @@ img {
   }
 
   .brand-intro.game-stage .brand-intro__key-visual + .brand-intro__seal {
-    width: 60px;
-    height: 60px;
-    margin-top: -35px;
+    width: 64px;
+    height: 64px;
+    margin-top: -38px;
   }
 
   .brand-intro.game-stage .brand-intro__key-visual + .brand-intro__seal img {
-    width: 48px;
-    height: 48px;
+    width: 100%;
+    height: 100%;
   }
 
   .brand-intro.game-stage .brand-intro__launch-note {
@@ -12034,14 +12063,14 @@ img {
   }
 
   .brand-intro.game-stage .brand-intro__key-visual + .brand-intro__seal {
-    width: 54px;
-    height: 54px;
-    margin-top: -31px;
+    width: 58px;
+    height: 58px;
+    margin-top: -34px;
   }
 
   .brand-intro.game-stage .brand-intro__key-visual + .brand-intro__seal img {
-    width: 43px;
-    height: 43px;
+    width: 100%;
+    height: 100%;
   }
 
   .brand-intro.game-stage h2 {

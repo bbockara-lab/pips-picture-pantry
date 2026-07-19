@@ -389,6 +389,44 @@ async function expectOpeningIntroPolish(page, viewportName) {
     failures.push("[" + viewportName + "] Opening seal should use current Pip chrome art, saw " + sealSrc);
   }
 
+  const sealMetrics = await page.locator(".brand-intro__seal").first().evaluate((seal) => {
+    const image = seal.querySelector("img");
+    const rect = seal.getBoundingClientRect();
+    const imageRect = image?.getBoundingClientRect();
+    const style = getComputedStyle(seal);
+    const imageStyle = image ? getComputedStyle(image) : null;
+    return {
+      width: rect.width,
+      height: rect.height,
+      borderWidth: parseFloat(style.borderTopWidth),
+      borderRadius: parseFloat(style.borderRadius),
+      backgroundImage: style.backgroundImage,
+      boxShadow: style.boxShadow,
+      overflow: style.overflow,
+      imageWidth: imageRect?.width || 0,
+      imageHeight: imageRect?.height || 0,
+      imageObjectFit: imageStyle?.objectFit || "",
+      imageTransform: imageStyle?.transform || "",
+      imageFilter: imageStyle?.filter || ""
+    };
+  });
+  if (
+    sealMetrics.width < 58 ||
+    sealMetrics.height < 58 ||
+    sealMetrics.borderWidth < 3 ||
+    sealMetrics.borderRadius < 18 ||
+    !sealMetrics.backgroundImage.includes("gradient") ||
+    sealMetrics.boxShadow === "none" ||
+    sealMetrics.overflow !== "hidden" ||
+    sealMetrics.imageWidth < 52 ||
+    sealMetrics.imageHeight < 52 ||
+    sealMetrics.imageObjectFit !== "contain" ||
+    sealMetrics.imageTransform === "none" ||
+    sealMetrics.imageFilter === "none"
+  ) {
+    failures.push("[" + viewportName + "] Opening Pip seal lost its polished art-medallion treatment: " + JSON.stringify(sealMetrics));
+  }
+
   const versionText = await page.locator(".brand-intro__version").first().textContent();
   if (!String(versionText || "").includes("v0.1.")) {
     failures.push("[" + viewportName + "] Opening version chip is missing the visible app version: " + versionText);
