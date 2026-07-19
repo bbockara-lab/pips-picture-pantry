@@ -12937,6 +12937,100 @@ img {
   min-width: 0;
 }
 
+/* v0.1.453 mobile first-play guide compaction */
+@media (max-width: 560px) {
+  .how-to-play.visual-guide {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .how-to-play.visual-guide::before {
+    opacity: 0.42;
+  }
+
+  .how-to-play.visual-guide .guide-pip-scene {
+    grid-template-columns: 56px minmax(0, 1fr);
+    align-items: center;
+    gap: 7px;
+    min-height: 0;
+  }
+
+  .how-to-play.visual-guide .guide-pip-scene__pip {
+    width: 56px;
+    height: 56px;
+  }
+
+  .how-to-play.visual-guide .guide-pip-scene__bubble {
+    padding: 8px 10px;
+  }
+
+  .how-to-play.visual-guide .guide-pip-scene__bubble .section-label {
+    margin-bottom: 3px;
+  }
+
+  .how-to-play.visual-guide .guide-pip-scene__bubble .how-to-play__pip-line,
+  .how-to-play.visual-guide .guide-pip-scene__bubble .how-to-play__line-hint {
+    font-size: clamp(0.74rem, 2vw, 0.84rem);
+    line-height: 1.24;
+  }
+
+  .how-to-play.visual-guide .guide-pip-scene__bubble .how-to-play__line-hint {
+    display: none;
+  }
+
+  .how-to-play.visual-guide .guide-pip-scene__bubble > p:not(.section-label):not(.how-to-play__pip-line):not(.how-to-play__line-hint) {
+    display: none;
+  }
+
+  .how-to-play.visual-guide .clue-guide {
+    gap: 6px;
+  }
+
+  .how-to-play.visual-guide .clue-guide__row {
+    grid-template-columns: 34px repeat(5, 15px) minmax(0, 1fr);
+    gap: 4px;
+    min-height: 32px;
+    padding: 5px 7px;
+  }
+
+  .how-to-play.visual-guide .clue-badge {
+    min-width: 30px;
+    min-height: 24px;
+    padding: 1px 7px;
+    font-size: 0.82rem;
+  }
+
+  .how-to-play.visual-guide .clue-badge.wide {
+    min-width: 34px;
+    padding-inline: 5px;
+  }
+
+  .how-to-play.visual-guide .mini-cell {
+    width: 15px;
+    height: 15px;
+    border-radius: 6px;
+  }
+
+  .how-to-play.visual-guide .clue-caption {
+    font-size: 0.66rem;
+    line-height: 1.08;
+  }
+
+  .how-to-play.visual-guide .guide-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .how-to-play.visual-guide .guide-actions .guide-action {
+    width: 100%;
+    justify-content: center;
+    min-height: 26px;
+    padding: 3px 5px;
+    font-size: 0.66rem;
+  }
+}
+
 .guide-action__icon::before,
 .guide-action__icon::after {
   content: "";

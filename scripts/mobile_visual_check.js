@@ -2512,6 +2512,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       left: rect.left,
       right: rect.right,
       width: rect.width,
+      height: rect.height,
+      bottom: rect.bottom,
+      viewportHeight: window.innerHeight,
       viewportWidth: window.innerWidth,
       radius: parseFloat(style.borderRadius),
       background: style.backgroundImage,
@@ -2569,6 +2572,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     howToPlayMetrics.left < -1 ||
     howToPlayMetrics.right > howToPlayMetrics.viewportWidth + 1 ||
     howToPlayMetrics.width > 570 ||
+    howToPlayMetrics.height > 330 ||
+    howToPlayMetrics.bottom > howToPlayMetrics.viewportHeight + 8 ||
     howToPlayMetrics.radius < 16 ||
     !howToPlayMetrics.background.includes("gradient") ||
     !howToPlayMetrics.cardBeforeBackground.includes("gradient") ||

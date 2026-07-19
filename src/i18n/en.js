@@ -175,7 +175,7 @@ export const en = {
   },
   howToPlay: {
     title: "Pip's picture tip",
-    pipLine: "I'll watch this row with you. Fill the groups, and the soft X marks will tidy the safe blanks.",
+    pipLine: "I'll watch with you. Fill the groups, and safe blanks tidy into X marks.",
     goal: "Numbers show how many picture squares belong in each row.",
     clueTogether: "3 together",
     clueApart: "1 each, apart",
@@ -276,7 +276,7 @@ export const en = {
     cursorStatusEmpty: "Selected: Empty",
     cursorStatusFilled: "Selected: Colored",
     cursorStatusMarked: "Selected: Blank",
-    lineCompleteHint: "When a line is truly complete, soft X marks fill the safe blanks for you.",
+    lineCompleteHint: "When a line is complete, safe blanks become X marks.",
     cursorUp: "Move up",
     cursorDown: "Move down",
     cursorLeft: "Move left",
