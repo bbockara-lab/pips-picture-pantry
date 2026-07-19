@@ -1071,11 +1071,16 @@ async function expectAppChromePolish(page, viewportName) {
     const labels = [...document.querySelectorAll(".floating-nav__item span")].map((label) => label.textContent || "");
     const icons = [...document.querySelectorAll(".floating-nav__item")].map((item) => {
       const icon = item.querySelector(".floating-nav__icon");
+      const label = item.querySelector(".floating-nav__label");
+      const hint = item.querySelector("small");
       const iconStyle = icon ? getComputedStyle(icon) : null;
+      const itemStyle = getComputedStyle(item);
       const before = icon ? getComputedStyle(icon, "::before") : null;
       const after = icon ? getComputedStyle(icon, "::after") : null;
       return {
         view: item.dataset.view || "",
+        itemHeight: item.getBoundingClientRect().height,
+        columns: itemStyle.gridTemplateColumns || "",
         width: parseFloat(iconStyle?.width) || 0,
         height: parseFloat(iconStyle?.height) || 0,
         radius: parseFloat(iconStyle?.borderRadius) || 0,
@@ -1084,7 +1089,9 @@ async function expectAppChromePolish(page, viewportName) {
         beforeBackground: before?.backgroundImage || before?.backgroundColor || "",
         afterContent: after?.content || "",
         afterBackground: after?.backgroundImage || after?.backgroundColor || "",
-        gridRow: iconStyle?.gridRow || ""
+        gridRow: iconStyle?.gridRow || "",
+        labelOverflow: label ? Math.max(0, label.scrollWidth - label.clientWidth) : 999,
+        hintOverflow: hint ? Math.max(0, hint.scrollWidth - hint.clientWidth) : 999
       };
     });
     const rect = menu?.getBoundingClientRect();
@@ -1110,6 +1117,7 @@ async function expectAppChromePolish(page, viewportName) {
       navBottomGap: navRect ? Math.round(window.innerHeight - navRect.bottom) : -999,
       navTop: navRect ? Math.round(navRect.top) : -999,
       menuBottomGap: rect ? Math.round(window.innerHeight - rect.bottom) : -999,
+      menuColumns: style?.gridTemplateColumns || "",
       borderRadius: style ? parseFloat(style.borderRadius) : 0,
       backgroundImage: style?.backgroundImage || "",
       triggerShine: triggerBefore?.backgroundImage || "",
@@ -1169,12 +1177,15 @@ async function expectAppChromePolish(page, viewportName) {
     !hasAllViewIcons ||
     navMetrics.icons.length < 5 ||
     navMetrics.icons.some((icon) =>
-      icon.width < 28 ||
-      icon.height < 28 ||
-      icon.radius < 8 ||
+      icon.itemHeight < 54 ||
+      icon.width < 34 ||
+      icon.height < 34 ||
+      icon.radius < 10 ||
       !icon.background.includes("gradient") ||
       icon.beforeContent === "none" ||
-      icon.afterContent === "none"
+      icon.afterContent === "none" ||
+      icon.labelOverflow > 1 ||
+      icon.hintOverflow > 1
     )
   ) {
     failures.push("[" + viewportName + "] Floating nav panel polish/layout regression: " + JSON.stringify(navMetrics));
