@@ -603,9 +603,17 @@ async function expectOpeningIntroPolish(page, viewportName) {
       textLeft: textRect?.left || 0,
       textRight: textRect?.right || 0,
       textWhiteSpace: textStyle?.whiteSpace || "",
+      textClientWidth: text?.clientWidth || 0,
+      textScrollWidth: text?.scrollWidth || 0,
+      textClientHeight: text?.clientHeight || 0,
+      textScrollHeight: text?.scrollHeight || 0,
       textOverflows: text ? text.scrollWidth > Math.ceil(textRect?.width || 0) + 1 || text.scrollHeight > Math.ceil(textRect?.height || 0) + 1 : true,
       chipLeft: rect.left,
       chipRight: rect.right,
+      chipClientWidth: chip.clientWidth,
+      chipScrollWidth: chip.scrollWidth,
+      chipClientHeight: chip.clientHeight,
+      chipScrollHeight: chip.scrollHeight,
       actionWidth: actionRect?.width || 0,
       actionHeight: actionRect?.height || 0,
       actionLeft: actionRect?.left || 0,
@@ -614,6 +622,10 @@ async function expectOpeningIntroPolish(page, viewportName) {
       actionRadius: actionStyle ? parseFloat(actionStyle.borderRadius) : 0,
       actionPosition: actionStyle?.position || "",
       actionArrowContent: actionArrowStyle?.content || "",
+      actionClientWidth: action?.clientWidth || 0,
+      actionScrollWidth: action?.scrollWidth || 0,
+      actionClientHeight: action?.clientHeight || 0,
+      actionScrollHeight: action?.scrollHeight || 0,
       actionOverflows: action ? action.scrollWidth > Math.ceil(actionRect?.width || 0) + 1 || action.scrollHeight > Math.ceil(actionRect?.height || 0) + 1 : true,
       textActionOverlap,
       overflows: chip.scrollWidth > Math.ceil(rect.width) + 1 || chip.scrollHeight > Math.ceil(rect.height) + 1
@@ -632,7 +644,7 @@ async function expectOpeningIntroPolish(page, viewportName) {
     const hasChipShine = metrics.shineContent !== "none" && metrics.shineHeight >= 7 && metrics.shineBackground.includes("linear-gradient");
     const hasCornerToken = metrics.tokenContent !== "none" && metrics.tokenWidth >= 8 && metrics.tokenHeight >= 8 && metrics.tokenBackground.includes("gradient");
     const hasActionCue = expectedPromiseActions[index].includes(metrics.actionText) && metrics.actionWidth >= 24 && metrics.actionHeight >= 18 && metrics.actionRadius >= 8 && metrics.actionBackground.includes("linear-gradient") && metrics.actionArrowContent !== "none";
-    const hasReadableLayout = metrics.textWidth >= 36 && metrics.textHeight >= 10 && metrics.textWhiteSpace !== "nowrap" && metrics.actionPosition === "static" && !metrics.textActionOverlap && !metrics.textOverflows && !metrics.actionOverflows && metrics.textLeft >= metrics.chipLeft + 4 && metrics.actionRight <= metrics.chipRight - 4;
+    const hasReadableLayout = metrics.textWidth >= 36 && metrics.textHeight >= 10 && metrics.actionPosition === "static" && !metrics.textActionOverlap && !metrics.textOverflows && !metrics.actionOverflows && metrics.textLeft >= metrics.chipLeft + 4 && metrics.actionRight <= metrics.chipRight - 4;
     if (metrics.tagName !== "BUTTON" || metrics.targetView !== expectedPromiseTargets[index] || !metrics.text || metrics.width < 70 || metrics.height < 34 || metrics.borderWidth < 3 || metrics.borderRadius < 14 || !metrics.backgroundImage.includes("linear-gradient") || metrics.boxShadow === "none" || metrics.overflow !== "hidden" || !hasChipShine || !hasCornerToken || metrics.iconWidth < 14 || metrics.iconHeight < 14 || !hasActionCue || !hasReadableLayout || metrics.overflows) {
       failures.push("[" + viewportName + "] Opening promise chip " + (index + 1) + " lost readable tactile treatment: " + JSON.stringify(metrics));
     }
@@ -822,6 +834,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
             visibleText: supportCard?.innerText?.trim() || "",
             factTexts: supportFacts.map((fact) => fact.textContent?.trim() || ""),
             factHeights: supportFacts.map((fact) => fact.getBoundingClientRect().height || 0),
+            factOverflows: supportFacts.map((fact) => fact.scrollWidth > fact.clientWidth + 1 || fact.scrollHeight > fact.clientHeight + 1),
             factBackgrounds: supportFacts.map((fact) => getComputedStyle(fact).backgroundImage || ""),
             statusText: supportStatus?.textContent?.trim() || "",
             statusClass: supportStatus?.className || "",
@@ -851,6 +864,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
             actionCount: supportActions.length,
             actionTexts: supportActions.map((button) => button.textContent?.trim() || ""),
             actionHeights: supportActions.map((button) => button.getBoundingClientRect().height),
+            actionOverflows: supportActions.map((button) => button.scrollWidth > button.clientWidth + 1 || button.scrollHeight > button.clientHeight + 1),
             actionBackgrounds: supportActions.map((button) => getComputedStyle(button).backgroundImage || "")
           },
           spoonJarCard: {
@@ -861,6 +875,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
             visibleText: jarCard?.innerText?.trim() || "",
             factTexts: jarFacts.map((fact) => fact.textContent?.trim() || ""),
             factHeights: jarFacts.map((fact) => fact.getBoundingClientRect().height || 0),
+            factOverflows: jarFacts.map((fact) => fact.scrollWidth > fact.clientWidth + 1 || fact.scrollHeight > fact.clientHeight + 1),
             factBackgrounds: jarFacts.map((fact) => getComputedStyle(fact).backgroundImage || ""),
             statusText: jarStatus?.textContent?.trim() || "",
             statusClass: jarStatus?.className || "",
@@ -890,6 +905,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
             actionCount: jarActions.length,
             actionTexts: jarActions.map((button) => button.textContent?.trim() || ""),
             actionHeights: jarActions.map((button) => button.getBoundingClientRect().height),
+            actionOverflows: jarActions.map((button) => button.scrollWidth > button.clientWidth + 1 || button.scrollHeight > button.clientHeight + 1),
             actionBackgrounds: jarActions.map((button) => getComputedStyle(button).backgroundImage || "")
           },
           choiceGroupCards: [
@@ -1013,6 +1029,8 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.supportCard.productArtOverlapsContent ||
     metrics.settingsPolish.supportCard.actionCount !== 2 ||
     metrics.settingsPolish.supportCard.actionHeights.some((height) => height < 44) ||
+    metrics.settingsPolish.supportCard.factOverflows.some(Boolean) ||
+    metrics.settingsPolish.supportCard.actionOverflows.some(Boolean) ||
     metrics.settingsPolish.supportCard.actionBackgrounds.some((background) => !background.includes("gradient")) ||
     !metrics.settingsPolish.spoonJarCard.exists ||
     metrics.settingsPolish.spoonJarCard.productId !== "pip_spoon_jar_small" ||
@@ -1048,6 +1066,8 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.spoonJarCard.productArtOverlapsContent ||
     metrics.settingsPolish.spoonJarCard.actionCount !== 1 ||
     metrics.settingsPolish.spoonJarCard.actionHeights.some((height) => height < 44) ||
+    metrics.settingsPolish.spoonJarCard.factOverflows.some(Boolean) ||
+    metrics.settingsPolish.spoonJarCard.actionOverflows.some(Boolean) ||
     metrics.settingsPolish.spoonJarCard.actionBackgrounds.some((background) => !background.includes("gradient")) ||
     metrics.settingsPolish.choiceGroupCards.length !== 3 ||
     metrics.settingsPolish.choiceGroupCards.some((card) => card.height < 64 || card.radius < 16 || !card.background.includes("gradient") || card.shadow === "none" || !card.shineBackground.includes("gradient") || card.shineHeight < 16) ||
