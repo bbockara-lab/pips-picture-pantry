@@ -15418,3 +15418,23 @@ img {
     grid-template-columns: 1fr;
   }
 }
+
+/* v0.1.480 release-candidate promise chip legibility guard */
+.brand-intro__promise-chip b {
+  min-width: 0;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+.brand-intro__promise-strip .brand-intro__promise-chip {
+  min-height: 62px;
+}
+
+@media (max-width: 430px) {
+  .brand-intro__promise-strip .brand-intro__promise-chip {
+    min-height: 50px;
+  }
+}

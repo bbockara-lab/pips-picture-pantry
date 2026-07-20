@@ -603,6 +603,9 @@ async function expectOpeningIntroPolish(page, viewportName) {
       textLeft: textRect?.left || 0,
       textRight: textRect?.right || 0,
       textWhiteSpace: textStyle?.whiteSpace || "",
+      textOverflowStyle: textStyle?.textOverflow || "",
+      textOverflowXStyle: textStyle?.overflowX || "",
+      textLineHeight: textStyle ? parseFloat(textStyle.lineHeight) : 0,
       textClientWidth: text?.clientWidth || 0,
       textScrollWidth: text?.scrollWidth || 0,
       textClientHeight: text?.clientHeight || 0,
@@ -644,7 +647,9 @@ async function expectOpeningIntroPolish(page, viewportName) {
     const hasChipShine = metrics.shineContent !== "none" && metrics.shineHeight >= 7 && metrics.shineBackground.includes("linear-gradient");
     const hasCornerToken = metrics.tokenContent !== "none" && metrics.tokenWidth >= 8 && metrics.tokenHeight >= 8 && metrics.tokenBackground.includes("gradient");
     const hasActionCue = expectedPromiseActions[index].includes(metrics.actionText) && metrics.actionWidth >= 24 && metrics.actionHeight >= 18 && metrics.actionRadius >= 8 && metrics.actionBackground.includes("linear-gradient") && metrics.actionArrowContent !== "none";
-    const hasReadableLayout = metrics.textWidth >= 36 && metrics.textHeight >= 10 && metrics.actionPosition === "static" && !metrics.textActionOverlap && !metrics.textOverflows && !metrics.actionOverflows && metrics.textLeft >= metrics.chipLeft + 4 && metrics.actionRight <= metrics.chipRight - 4;
+    const textAllowsFullCopy = metrics.textWhiteSpace !== "nowrap" && metrics.textOverflowStyle !== "ellipsis" && metrics.textOverflowXStyle !== "hidden";
+    const textLineCount = metrics.textLineHeight > 0 ? metrics.textHeight / metrics.textLineHeight : 1;
+    const hasReadableLayout = metrics.textWidth >= 36 && metrics.textHeight >= 10 && metrics.actionPosition === "static" && !metrics.textActionOverlap && !metrics.textOverflows && !metrics.actionOverflows && textAllowsFullCopy && textLineCount <= 2.4 && metrics.textLeft >= metrics.chipLeft + 4 && metrics.actionRight <= metrics.chipRight - 4;
     if (metrics.tagName !== "BUTTON" || metrics.targetView !== expectedPromiseTargets[index] || !metrics.text || metrics.width < 70 || metrics.height < 34 || metrics.borderWidth < 3 || metrics.borderRadius < 14 || !metrics.backgroundImage.includes("linear-gradient") || metrics.boxShadow === "none" || metrics.overflow !== "hidden" || !hasChipShine || !hasCornerToken || metrics.iconWidth < 14 || metrics.iconHeight < 14 || !hasActionCue || !hasReadableLayout || metrics.overflows) {
       failures.push("[" + viewportName + "] Opening promise chip " + (index + 1) + " lost readable tactile treatment: " + JSON.stringify(metrics));
     }
