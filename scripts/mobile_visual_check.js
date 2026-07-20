@@ -5,7 +5,8 @@ const TARGET_URL = process.env.PPP_URL || `http://127.0.0.1:${qaPort}/`;
 const viewports = [
   { width: 360, height: 740, name: "360x740" },
   { width: 390, height: 844, name: "390x844" },
-  { width: 430, height: 932, name: "430x932" }
+  { width: 430, height: 932, name: "430x932" },
+  { width: 675, height: 900, name: "675x900" }
 ];
 
 const browser = await chromium.launch({ headless: true });
@@ -3019,11 +3020,12 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       overflows: card.scrollWidth > Math.ceil(rect.width) + 1 || card.scrollHeight > Math.ceil(rect.height) + 1
     };
   });
+  const maxHowToPlayHeight = howToPlayMetrics.viewportWidth >= 600 ? 430 : 330;
   if (
     howToPlayMetrics.left < -1 ||
     howToPlayMetrics.right > howToPlayMetrics.viewportWidth + 1 ||
     howToPlayMetrics.width > 570 ||
-    howToPlayMetrics.height > 330 ||
+    howToPlayMetrics.height > maxHowToPlayHeight ||
     howToPlayMetrics.bottom > howToPlayMetrics.viewportHeight + 8 ||
     howToPlayMetrics.radius < 16 ||
     !howToPlayMetrics.background.includes("gradient") ||

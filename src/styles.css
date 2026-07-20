@@ -8160,6 +8160,9 @@ img {
   --board-grid-frame-inset: 6px;
   --board-grid-size: calc((var(--board-cell-size) * var(--board-size)) + (var(--board-grid-gap) * var(--board-gap-count)));
   --board-grid-frame-size: calc(var(--board-grid-size) + (var(--board-grid-frame-inset) * 2));
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
   grid-template-columns: var(--board-row-clue-width) minmax(0, var(--board-grid-frame-size));
   width: fit-content;
   max-width: 100%;
@@ -8177,6 +8180,8 @@ img {
 }
 
 .puzzle-panel:not(.completed) .board-wrap:not(.locked) .puzzle-grid {
+  position: relative;
+  z-index: 2;
   width: var(--board-grid-frame-size);
   gap: var(--board-grid-gap);
   border: 3px solid rgba(61, 43, 46, 0.15);
@@ -8187,6 +8192,11 @@ img {
   box-shadow:
     inset 0 2px 0 rgba(255, 255, 255, 0.74),
     0 3px 0 rgba(61, 43, 46, 0.07);
+}
+
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .puzzle-cell {
+  position: relative;
+  z-index: 3;
 }
 
 .puzzle-panel:not(.completed) .board-wrap:not(.locked) .column-clues {
@@ -15436,5 +15446,81 @@ img {
 @media (max-width: 430px) {
   .brand-intro__promise-strip .brand-intro__promise-chip {
     min-height: 50px;
+  }
+}
+
+/* v0.1.481 opening route chips: keep preview-width layouts readable */
+@media (min-width: 431px) and (max-width: 780px) {
+  .brand-intro__promise-strip {
+    width: min(100%, 456px);
+    max-width: 456px;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .brand-intro__promise-strip .brand-intro__promise-chip {
+    min-height: 54px;
+    grid-template-columns: 40px minmax(0, 1fr) max-content;
+    padding: 7px 10px;
+    column-gap: 10px;
+  }
+
+  .brand-intro__promise-chip b {
+    font-size: clamp(0.9rem, 2.2vw, 1rem);
+    line-height: 1.12;
+  }
+
+  .brand-intro__promise-action {
+    min-width: 58px;
+    justify-content: center;
+    padding-inline: 10px 20px;
+  }
+}
+
+/* v0.1.481 preview-width board sizing: keep large boards inside the tray */
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+  --board-row-clue-width: clamp(62px, 13vw, 74px);
+  --board-cell-size: clamp(16px, calc((min(100vw, 520px) - 250px) / var(--board-size)), 32px);
+}
+
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clue {
+  gap: 1px;
+  padding-right: 3px;
+}
+
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clue span {
+  box-sizing: border-box;
+  min-width: 10px;
+  min-height: 18px;
+  padding: 0 1px;
+  font-size: clamp(0.62rem, 1.8vw, 0.76rem);
+}
+
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clue span + span {
+  margin-left: 0;
+}
+
+@media (min-width: 560px) and (max-width: 780px) {
+  .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --board-row-clue-width: 82px;
+    --board-cell-size: clamp(16px, calc((min(100vw, 520px) - 286px) / var(--board-size)), 30px);
+  }
+
+  .floating-nav__menu {
+    width: min(432px, calc(100vw - 24px));
+  }
+
+  .floating-nav__item {
+    grid-template-columns: 42px minmax(0, 1fr);
+    column-gap: 9px;
+    padding-inline: 8px 10px;
+  }
+
+  .floating-nav__item small {
+    font-size: 0.68rem;
+    line-height: 1.08;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
   }
 }
