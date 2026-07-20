@@ -1238,14 +1238,14 @@ async function expectAppChromePolish(page, viewportName) {
     navMetrics.menuBottomGap < 0 ||
     navMetrics.left < -1 ||
     navMetrics.right > navMetrics.viewportWidth + 1 ||
-    navMetrics.borderRadius < 12 ||
+    navMetrics.borderRadius < 20 ||
     !navMetrics.backgroundImage.includes("linear-gradient") ||
     !navMetrics.triggerShine.includes("gradient") ||
     navMetrics.triggerArrow === "0px" ||
     navMetrics.triggerArrowTransform === "none" ||
-    navMetrics.triggerIcon.width < 28 ||
-    navMetrics.triggerIcon.height < 28 ||
-    navMetrics.triggerIcon.radius < 8 ||
+    navMetrics.triggerIcon.width < 34 ||
+    navMetrics.triggerIcon.height < 34 ||
+    navMetrics.triggerIcon.radius < 12 ||
     !navMetrics.triggerIcon.background.includes("gradient") ||
     navMetrics.triggerIcon.beforeContent === "none" ||
     navMetrics.triggerIcon.afterContent === "none" ||
@@ -1263,10 +1263,10 @@ async function expectAppChromePolish(page, viewportName) {
     !hasAllViewIcons ||
     navMetrics.icons.length < 5 ||
     navMetrics.icons.some((icon) =>
-      icon.itemHeight < 54 ||
-      icon.width < 34 ||
-      icon.height < 34 ||
-      icon.radius < 10 ||
+      icon.itemHeight < 58 ||
+      icon.width < 38 ||
+      icon.height < 38 ||
+      icon.radius < 13 ||
       !icon.background.includes("gradient") ||
       icon.beforeContent === "none" ||
       icon.afterContent === "none" ||
