@@ -3086,6 +3086,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const rect = board.getBoundingClientRect();
     const style = getComputedStyle(board);
     const grid = board.querySelector(".puzzle-grid");
+    const gridStyle = grid ? getComputedStyle(grid) : null;
     const gridRect = grid?.getBoundingClientRect();
     const columnClues = [...board.querySelectorAll(".column-clue")];
     const rowClues = [...board.querySelectorAll(".row-clue")];
@@ -3138,8 +3139,11 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       right: rect.right,
       width: rect.width,
       viewportWidth: window.innerWidth,
+      isolation: style.isolation,
       overflowX: style.overflowX,
       overflowY: style.overflowY,
+      gridPosition: gridStyle?.position || "",
+      gridZIndex: gridStyle?.zIndex || "",
       gridLeft: gridRect?.left || 0,
       gridRight: gridRect?.right || 0,
       columnCenterDeltas,
@@ -3159,8 +3163,11 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   if (
     boardFrameMetrics.left < -1 ||
     boardFrameMetrics.right > boardFrameMetrics.viewportWidth + 1 ||
+    boardFrameMetrics.isolation !== "isolate" ||
     boardFrameMetrics.overflowX === "visible" ||
     boardFrameMetrics.overflowY === "visible" ||
+    boardFrameMetrics.gridPosition !== "relative" ||
+    Number(boardFrameMetrics.gridZIndex) !== 2 ||
     boardFrameMetrics.widestRowClueLeft < boardFrameMetrics.left - 1 ||
     boardFrameMetrics.rowClueTokenOverflow ||
     boardFrameMetrics.widestRowClueRight > boardFrameMetrics.gridLeft - 2 ||
