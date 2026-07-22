@@ -13,4 +13,9 @@ describe("play screen wiring", () => {
     expect(playScreenSource).toMatch(/timeAttackLimitSeconds\s*=\s*0/);
     expect(playScreenSource).toMatch(/Math\.max\(0,\s*Number\(timeAttackLimitSeconds/);
   });
+
+  it("routes the standard completion card to the album while preserving replay close behavior", () => {
+    expect(playScreenSource).toMatch(/onClosePuzzle,\s*\n\s*onViewAlbum,/);
+    expect(playScreenSource).toMatch(/onViewAlbum:\s*replayChallenge\s*\?\s*onClosePuzzle\s*:\s*onViewAlbum/);
+  });
 });

@@ -3371,6 +3371,12 @@ Current launch direction:
 - Extended mobile QA to guard the intro-open state, floating-nav visibility, and pointer-event containment before the intro is dismissed.
 - Kept post-intro navigation, puzzle play, Pantry, Time Attack, Billing behavior, and the two remaining real-device Billing evidence items unchanged.
 
+### v0.1.491 Completion Album Route Recovery
+- Bumped the visible app version to v0.1.491 and package version to 0.1.491.
+- Restored the standard completed-puzzle "View Album" action so it leaves focused play, resets the carried scroll position, and opens the Album from its header, while replay challenges keep their existing return behavior.
+- Extended unit and mobile QA to guard the completion-to-Album route, and changed the 333-card Album review image from an unreadably tall full-page capture to a useful viewport capture.
+- Kept puzzle completion rewards, save data, replay rewards, Pantry, Time Attack, Billing behavior, and the two remaining real-device Billing evidence items unchanged.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

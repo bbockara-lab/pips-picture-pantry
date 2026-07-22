@@ -408,7 +408,7 @@ async function main() {
     await openFloatingView(page, "timeAttack");
     await capture(page, "time-attack-coach", ".time-attack-panel", { fullPage: true });
     await openFloatingView(page, "album");
-    await capture(page, "album-progress", ".album-panel", { fullPage: true });
+    await capture(page, "album-progress", ".album-panel");
     await openFloatingView(page, "map");
     await capture(page, "map-badges", ".map-panel", { fullPage: true });
     await captureLargeBoard(page);

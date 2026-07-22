@@ -70,9 +70,8 @@ for (const viewport of viewports) {
   await expectVisible(page, ".completion-pip", viewport.name);
   await expectVisible(page, ".completion-reveal", viewport.name);
   await expectCompletionRewardPolish(page, viewport.name);
-  if ((await page.locator(".play-screen__back").count()) > 0) {
-    await page.locator(".play-screen__back").click();
-  }
+  await expectCompletionAlbumRoute(page, viewport.name);
+  await openFloatingView(page, "puzzle");
   await expectVisible(page, ".replay-picks-card", viewport.name);
   await expectVisible(page, ".replay-pick-button", viewport.name);
   await expectReplayPicksPolish(page, viewport.name);
@@ -246,6 +245,24 @@ async function expectFloatingNavHiddenDuringBrandIntro(page, viewportName) {
       (metrics.navCount > 0 && (metrics.navVisibility !== "hidden" || metrics.navPointerEvents !== "none")))
   ) {
     failures.push(`[${viewportName}] Floating navigation can cover the brand intro: ${JSON.stringify(metrics)}`);
+  }
+}
+
+async function expectCompletionAlbumRoute(page, viewportName) {
+  const albumButton = page.locator(".completion-actions .tool-button").first();
+  await albumButton.click();
+  try {
+    await page.locator(".album-panel").first().waitFor({ state: "visible", timeout: 3000 });
+    await page.waitForTimeout(100);
+    const routeMetrics = await page.evaluate(() => ({
+      scrollY: window.scrollY,
+      albumTop: document.querySelector(".album-panel")?.getBoundingClientRect().top ?? -1
+    }));
+    if (routeMetrics.scrollY > 2 || routeMetrics.albumTop < 0) {
+      failures.push(`[${viewportName}] Completed puzzle Album route did not reset to a readable top position: ${JSON.stringify(routeMetrics)}`);
+    }
+  } catch {
+    failures.push(`[${viewportName}] Completed puzzle Album button did not open the Album view.`);
   }
 }
 

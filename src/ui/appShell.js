@@ -118,6 +118,7 @@ export function renderApp(root) {
     playOpen = false;
     resetOpen = false;
     settingsOpen = false;
+    pendingScrollTarget = "view";
     draw();
   }
 
@@ -553,8 +554,10 @@ export function renderApp(root) {
     globalThis.setTimeout(() => {
       const selector = target === "picker"
         ? `[data-pack-id="${activePuzzle.packId}"]`
-        : ".puzzle-panel";
-      container.querySelector(selector)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        : target === "view"
+          ? ".app-shell"
+          : ".puzzle-panel";
+      container.querySelector(selector)?.scrollIntoView({ behavior: target === "view" ? "auto" : "smooth", block: "start" });
     }, 0);
   }
 

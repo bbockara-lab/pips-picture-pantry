@@ -7,6 +7,7 @@ export function renderPlayScreen(activePuzzle, options) {
     dailyBonus = 0,
     controlMode,
     onClosePuzzle,
+    onViewAlbum,
     onRequestSettings,
     onNextPuzzle,
     onPreviousStagePuzzle,
@@ -86,7 +87,7 @@ export function renderPlayScreen(activePuzzle, options) {
     isTimeAttack,
     getTimeAttackHintCost,
     onPuzzleStateChange,
-    onViewAlbum: replayChallenge ? onClosePuzzle : undefined,
+    onViewAlbum: replayChallenge ? onClosePuzzle : onViewAlbum,
     onPuzzleComplete
   }));
 
