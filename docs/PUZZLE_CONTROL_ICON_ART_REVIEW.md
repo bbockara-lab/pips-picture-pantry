@@ -45,3 +45,5 @@ Do not import any candidate from runtime source while its manifest entry is hidd
 4. removal of the replaced pseudo-element construction only for raster-backed icons.
 
 All five live derivatives are isolated under `puzzle-controls-v1` and guarded by the runtime allowlist. The generated candidates and sources remain hidden review history and must not be imported directly.
+
+The 20px how-to legend remains on its compact CSS tokens. A v0.1.499 reuse trial showed that the 256px control art's transparent margins collapse the three silhouettes at legend scale, while enlarging the slot makes the 360px guide card taller and wraps Undo. Use dedicated tightly cropped micro-icons for that surface rather than shrinking these runtime masters.
