@@ -137,7 +137,11 @@ export function renderApp(root) {
     draw();
   }
 
-  function requestPantryFirstPurchaseGuide() {
+  function requestPantryFirstPurchaseGuide(_decoration, action = {}) {
+    if (action.storyCompleted && !hasSeenGuide("pantryRoomStory")) {
+      activeGuide = "pantryRoomStory";
+      return;
+    }
     if (!hasSeenGuide("pantryFirstPurchase")) {
       activeGuide = "pantryFirstPurchase";
     }

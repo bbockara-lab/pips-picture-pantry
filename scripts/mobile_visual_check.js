@@ -4705,14 +4705,22 @@ async function verifyPantryPlacement(page, viewportName) {
   } else {
     await expectVisible(page, ".guide-dialog", viewportName);
     await expectGuideDialogChromeArt(page, viewportName);
-    await page.locator(".guide-dialog__skip").click();
+    const firstPantryGuide = await page.locator(".guide-dialog").evaluate((dialog) => ({
+      guideId: dialog.dataset.guideId || "",
+      title: dialog.querySelector("h2")?.textContent || "",
+      line: dialog.querySelector(".guide-dialog__line")?.textContent || ""
+    }));
+    if (firstPantryGuide.guideId !== "pantryRoomStory" || !/next neighbor/i.test(firstPantryGuide.title) || !/warmer|neighbor/i.test(firstPantryGuide.line)) {
+      failures.push("[" + viewportName + "] Starter Pantry request should open Pip's next-neighbor story: " + JSON.stringify(firstPantryGuide));
+    }
+    await page.locator(".guide-dialog__skip").click({ force: true });
     await page.locator(".guide-overlay").waitFor({ state: "detached", timeout: 2000 });
   }
 
   await expectVisible(page, ".pantry-action-feedback", viewportName);
   const feedbackText = await page.locator(".pantry-action-feedback").innerText();
-  if (!feedbackText.includes("Starter Counter Cloth") || !feedbackText.includes("Pantry updated")) {
-    failures.push("[" + viewportName + "] Pantry purchase feedback should celebrate the placed starter decoration, saw " + feedbackText);
+  if (!feedbackText.includes("Starter Counter Cloth") || !feedbackText.includes("Delivery complete")) {
+    failures.push("[" + viewportName + "] Starter room request should celebrate the placed decoration as a completed delivery, saw " + feedbackText);
   }
 
   const purchaseFeedbackMetrics = await page.locator(".pantry-action-feedback").first().evaluate((el) => {
@@ -4894,6 +4902,7 @@ async function verifyPantryPlacement(page, viewportName) {
   await page.waitForTimeout(120);
   await page.locator(".pantry-item-card", { hasText: /Small Jam Jar/ }).first().locator(".pantry-item-action").click();
   await page.waitForTimeout(120);
+  await dismissGuideIfPresent(page, viewportName);
   await expectVisible(page, ".pantry-action-feedback.story-complete", viewportName);
   const storyCompleteText = await page.locator(".pantry-action-feedback.story-complete").first().innerText();
   if (!storyCompleteText.includes("Delivery complete") || !storyCompleteText.includes("Small Jam Jar")) {

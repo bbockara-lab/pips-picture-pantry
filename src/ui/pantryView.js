@@ -229,6 +229,7 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, track
   const owned = ownedIds.includes(decoration.id);
   const equipped = equippedDecorations[decoration.slot] === decoration.id;
   const affordable = spoons >= Number(decoration.cost || 0);
+  const isStarterRoomRequest = Number(decoration.cost || 0) === 0 && decoration.slot === "counter";
   const artUrl = getDecorationArtUrl(decoration.assetId);
   const slot = pantrySlots.find((candidate) => candidate.id === decoration.slot);
   const slotLabel = slot ? t(slot.titleKey) : decoration.slot;
@@ -284,11 +285,13 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, track
   } else if (owned) {
     button.textContent = t("pantry.equipToSlot", { slot: slotLabel });
     button.addEventListener("click", () => {
+      const storyCompleted = decoration.id === storyGoalId || isStarterRoomRequest;
       equipDecoration(decoration);
-      setPantryActionFeedback(decoration.id === storyGoalId ? "storyComplete" : "equip", decoration);
-      if (decoration.id === storyGoalId) {
+      setPantryActionFeedback(storyCompleted ? "storyComplete" : "equip", decoration);
+      if (storyCompleted) {
         storyGoalId = null;
         pantryViewState.storyGoalId = null;
+        onFirstPurchase?.(decoration, { storyCompleted: true });
       }
       onRefresh?.();
     });
@@ -297,12 +300,13 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, track
     button.textContent = affordable ? t("pantry.buy") : t("pantry.needMore", { count: Math.max(0, decoration.cost - spoons) });
     button.addEventListener("click", () => {
       if (buyDecoration(decoration)) {
-        setPantryActionFeedback(decoration.id === storyGoalId ? "storyComplete" : "buy", decoration);
-        if (decoration.id === storyGoalId) {
+        const storyCompleted = decoration.id === storyGoalId || isStarterRoomRequest;
+        setPantryActionFeedback(storyCompleted ? "storyComplete" : "buy", decoration);
+        if (storyCompleted) {
           storyGoalId = null;
           pantryViewState.storyGoalId = null;
         }
-        onFirstPurchase?.(decoration);
+        onFirstPurchase?.(decoration, { storyCompleted });
         onRefresh?.();
       }
     });

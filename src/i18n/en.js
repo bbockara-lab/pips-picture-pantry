@@ -263,6 +263,12 @@ export const en = {
       step1: "Lovely choice. I'll save this decoration in the pantry and show where it fits best.",
       step2: "Decorations live in set spots like the counter, window, shelf, floor, and backdrop. Choosing a new piece for the same spot swaps it in.",
       step3: "Solve pictures for spoons, then pick the decorations you love. We'll make the pantry cozy one piece at a time."
+    },
+    pantryRoomStory: {
+      title: "Let's make room for our next neighbor",
+      step1: "That decoration made the pantry feel warmer already. Little changes like this help a new neighbor feel at home.",
+      step2: "A few village friends are still waiting for a place of their own. Finish the next request, and we'll hear one of their stories.",
+      step3: "Let's solve pictures for spoons and choose the next decoration together. I wonder who will visit our pantry next!"
     }
   },
   stageNav: {

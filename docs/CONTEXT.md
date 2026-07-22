@@ -3468,3 +3468,10 @@ Current launch direction:
 - Removed floating quick travel from active puzzle and Time Attack sessions so the board and puzzle controls read as a separate gameplay screen instead of a card embedded in the hub.
 - Kept Back and Settings in the play header; players return to the hub before using Puzzle, Album, Pantry, Time Attack, or Map quick travel.
 - Preserved puzzle state, stage navigation, board sizing, cursor controls, completion routes, settings overlays, and Billing behavior.
+
+### v0.1.501 Pantry Room Story Conversation
+- Bumped the visible app version and package metadata to v0.1.501.
+- Promoted the starter counter request and the first completed tracked Pantry room request from a small inline acknowledgement into Pip's full-screen three-step conversation on mobile.
+- Connected decorating to a clear story promise: the room feels warmer, village neighbors are waiting for a place, and the next request reveals another neighbor story.
+- Triggered the story beat whether the requested decoration is newly purchased or already owned and equipped, while preserving the existing inline completion feedback.
+- Stored the one-time acknowledgement as `pantryRoomStory` alongside the existing guide IDs so existing saves remain compatible and the conversation does not repeat unexpectedly.
