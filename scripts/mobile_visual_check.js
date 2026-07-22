@@ -2812,10 +2812,17 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const style = getComputedStyle(panel);
     const position = panel.querySelector(".cursor-controls__position");
     const dpad = panel.querySelector(".cursor-dpad");
+    const actionsArea = panel.querySelector(".cursor-actions");
+    const nav = document.querySelector(".floating-nav");
     const status = panel.querySelector(".cursor-controls__status");
+    const dpadRect = dpad?.getBoundingClientRect();
+    const actionsRect = actionsArea?.getBoundingClientRect();
+    const navRect = nav?.getBoundingClientRect();
     const statusRect = status?.getBoundingClientRect();
     const statusStyle = status ? getComputedStyle(status) : null;
     const statusTokenStyle = status ? getComputedStyle(status, "::before") : null;
+    const intersects = (first, second) =>
+      Boolean(first && second && first.left < second.right && first.right > second.left && first.top < second.bottom && first.bottom > second.top);
     const moves = [...panel.querySelectorAll(".cursor-move")].map((button) => {
       const buttonRect = button.getBoundingClientRect();
       const buttonStyle = getComputedStyle(button);
@@ -2861,7 +2868,13 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       statusTokenHeight: parseFloat(statusTokenStyle?.height) || 0,
       statusTokenBackground: statusTokenStyle?.backgroundImage || "",
       statusTokenShadow: statusTokenStyle?.boxShadow || "",
-      dpadWidth: dpad?.getBoundingClientRect().width || 0,
+      dpadWidth: dpadRect?.width || 0,
+      navVisible: Boolean(navRect && navRect.width > 0 && navRect.height > 0),
+      navOverlapActions: intersects(navRect, actionsRect),
+      navOverlapDpad: intersects(navRect, dpadRect),
+      navTop: navRect?.top || 0,
+      actionsBottom: actionsRect?.bottom || 0,
+      dpadBottom: dpadRect?.bottom || 0,
       moves,
       actions,
       overflows: panel.scrollWidth > Math.ceil(rect.width) + 1 || panel.scrollHeight > Math.ceil(rect.height) + 1
@@ -2881,6 +2894,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     !cursorPadMetrics.statusTokenBackground.includes("gradient") ||
     cursorPadMetrics.statusTokenShadow === "none" ||
     cursorPadMetrics.dpadWidth < 132 ||
+    !cursorPadMetrics.navVisible ||
+    cursorPadMetrics.navOverlapActions ||
+    cursorPadMetrics.navOverlapDpad ||
     cursorPadMetrics.moves.length !== 4 ||
     cursorPadMetrics.moves.some((button) => button.width < 40 || button.height < 40 || !button.background.includes("gradient") || !button.label || !button.shineBackground.includes("gradient") || button.shineHeight < 10) ||
     cursorPadMetrics.actions.length !== 2 ||

@@ -8489,6 +8489,11 @@ img {
   box-shadow: 0 12px 24px rgba(67, 45, 51, 0.12);
 }
 
+/* v0.1.489 keep the fixed quick-travel tray clear of large-board cursor controls */
+.app-shell--play .cursor-controls {
+  margin-bottom: max(112px, calc(env(safe-area-inset-bottom, 0px) + 112px));
+}
+
 .cursor-controls__hint {
   margin: 0;
   color: var(--ink);

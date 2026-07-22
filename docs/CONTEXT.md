@@ -3359,6 +3359,12 @@ Current launch direction:
 - Extended mobile QA to reject nowrap, ellipsis, excessive line counts, and copy overflow inside Billing cards while preserving the existing artwork, no-overlap, and product ID guards.
 - Remaining external release evidence is unchanged: activate Play Console products and record real-device purchase/restore for both Billing items.
 
+### v0.1.489 Large Board Quick Travel Clearance
+- Bumped the visible app version to v0.1.489 and package version to 0.1.489.
+- Added play-screen bottom clearance below the large-board cursor controls so the fixed quick-travel tray cannot cover the D-pad or action buttons on mobile.
+- Extended mobile QA to measure the real floating-nav, D-pad, and cursor-action rectangles and fail if the fixed tray overlaps the large-board controls.
+- Remaining external release evidence is unchanged: activate Play Console products and record real-device purchase/restore for both Billing items.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.
