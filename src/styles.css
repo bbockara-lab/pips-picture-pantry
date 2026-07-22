@@ -14680,6 +14680,7 @@ img {
   align-content: center;
   gap: 2px;
   min-width: 0;
+  overflow: visible;
 }
 
 .floating-nav__trigger-label {
@@ -14691,12 +14692,14 @@ img {
 
 .floating-nav__trigger strong {
   min-width: 0;
-  overflow: hidden;
+  overflow: visible;
   color: #3d2b2e;
   font-size: 0.86rem;
   line-height: 1.02;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: normal;
+  text-overflow: clip;
+  white-space: normal;
+  word-break: keep-all;
 }
 
 .floating-nav__trigger-cue {
@@ -14709,9 +14712,11 @@ img {
   font-size: 0.64rem;
   font-weight: 900;
   line-height: 1.02;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow: visible;
+  overflow-wrap: normal;
+  text-overflow: clip;
+  white-space: normal;
+  word-break: keep-all;
 }
 
 .floating-nav__trigger-cue::before {
@@ -14815,6 +14820,7 @@ img {
   align-content: center;
   gap: 3px;
   min-width: 0;
+  overflow: visible;
 }
 
 .floating-nav__label {
@@ -14826,9 +14832,11 @@ img {
   font-weight: 950;
   line-height: 1.02;
   letter-spacing: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow: visible;
+  overflow-wrap: normal;
+  text-overflow: clip;
+  white-space: normal;
+  word-break: keep-all;
 }
 
 .floating-nav__item small {
@@ -14839,9 +14847,11 @@ img {
   font-size: 0.72rem;
   font-weight: 850;
   line-height: 1.1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow: visible;
+  overflow-wrap: normal;
+  text-overflow: clip;
+  white-space: normal;
+  word-break: keep-all;
 }
 
 .floating-nav__icon {
