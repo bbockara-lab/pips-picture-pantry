@@ -11,6 +11,7 @@ const INTRO_EXIT_MS = 260;
 const STUDIO_BUMPER_ASSET_ID = "sunny-spoon-studios-bumper-v1";
 
 export function renderBrandIntro(root) {
+  root.dataset.introOpen = "true";
   const intro = document.createElement("section");
   intro.className = "brand-intro studio-stage";
   intro.setAttribute("role", "status");
@@ -58,7 +59,10 @@ export function renderBrandIntro(root) {
       return;
     }
     intro.classList.add("leaving");
-    globalThis.setTimeout(() => intro.remove(), INTRO_EXIT_MS);
+    globalThis.setTimeout(() => {
+      intro.remove();
+      delete root.dataset.introOpen;
+    }, INTRO_EXIT_MS);
   };
 
   const dispatchIntroOpenView = (view) => {

@@ -15691,3 +15691,7 @@ img {
     text-overflow: clip;
   }
 }
+#app[data-intro-open="true"] .floating-nav {
+  visibility: hidden;
+  pointer-events: none;
+}

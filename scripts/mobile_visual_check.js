@@ -25,6 +25,7 @@ for (const viewport of viewports) {
   await expectVisible(page, ".brand-intro__seal", viewport.name);
   await expectVisible(page, ".brand-intro__version", viewport.name);
   await expectOpeningIntroPolish(page, viewport.name);
+  await expectFloatingNavHiddenDuringBrandIntro(page, viewport.name);
   await expectOpeningPromiseRoutes(browser, viewport);
   await expectAbsent(page, ".brand-intro__cast", viewport.name);
   await dismissIntro(page, "Jay", viewport.name);
@@ -223,6 +224,28 @@ async function expectFloatingNavHiddenDuringBlockingOverlay(page, viewportName) 
   }));
   if ((metrics.guideOverlayCount > 0 || metrics.modalBackdropCount > 0) && metrics.floatingNavCount > 0) {
     failures.push(`[${viewportName}] Floating nav is visible during a blocking overlay: ${JSON.stringify(metrics)}`);
+  }
+}
+
+async function expectFloatingNavHiddenDuringBrandIntro(page, viewportName) {
+  const metrics = await page.evaluate(() => {
+    const intro = document.querySelector(".brand-intro");
+    const nav = document.querySelector(".floating-nav");
+    const navStyle = nav ? getComputedStyle(nav) : null;
+    return {
+      introCount: intro ? 1 : 0,
+      introOpenState: document.querySelector("#app")?.dataset.introOpen || "",
+      navCount: nav ? 1 : 0,
+      navVisibility: navStyle?.visibility || "absent",
+      navPointerEvents: navStyle?.pointerEvents || "absent"
+    };
+  });
+  if (
+    metrics.introCount > 0 &&
+    (metrics.introOpenState !== "true" ||
+      (metrics.navCount > 0 && (metrics.navVisibility !== "hidden" || metrics.navPointerEvents !== "none")))
+  ) {
+    failures.push(`[${viewportName}] Floating navigation can cover the brand intro: ${JSON.stringify(metrics)}`);
   }
 }
 
