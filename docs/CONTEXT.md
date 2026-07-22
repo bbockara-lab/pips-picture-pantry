@@ -3389,6 +3389,12 @@ Current launch direction:
 - Extended mobile QA to guard hidden fallback glyphs, arrow dimensions, gradient fill, clipped silhouette, shadow depth, direction transforms, and the existing 44px tap targets.
 - Kept cursor movement, selected-cell actions, control-mode preferences, puzzle state, and Billing behavior unchanged.
 
+### v0.1.494 Mid-width Time Attack Entry Readability
+- Bumped the visible app version to v0.1.494 and package version to 0.1.494.
+- Reflowed the Time Attack hub teaser at 620-780px so its clock badge and warm explanatory copy keep the first row while the full-width challenge CTA gets a clear second row instead of compressing the title and body into a narrow column.
+- Extended mobile QA at the 675px review width to guard CTA row placement, usable copy width, and near-card-width action sizing.
+- Kept Time Attack rules, daily limits, rewards, hint costs, navigation behavior, and Billing behavior unchanged.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

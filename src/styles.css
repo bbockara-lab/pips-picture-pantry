@@ -15732,3 +15732,15 @@ img {
   width: min(100%, 370px);
   max-width: 100%;
 }
+
+/* v0.1.494 mid-width Time Attack entry readability */
+@media (min-width: 620px) and (max-width: 780px) {
+  .time-attack-teaser-card {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .time-attack-teaser-card__action {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}

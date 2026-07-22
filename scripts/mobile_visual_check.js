@@ -2465,6 +2465,7 @@ async function expectTimeAttackHubEntry(page, viewportName) {
     const cardRect = card?.getBoundingClientRect();
     const badgeRect = badge?.getBoundingClientRect();
     const actionRect = action?.getBoundingClientRect();
+    const copyRect = card?.children?.[1]?.getBoundingClientRect();
     const cardStyle = card ? getComputedStyle(card) : null;
     const cardBefore = card ? getComputedStyle(card, "::before") : null;
     const cardAfter = card ? getComputedStyle(card, "::after") : null;
@@ -2500,6 +2501,10 @@ async function expectTimeAttackHubEntry(page, viewportName) {
       badgeHandContent: badgeBefore?.content || "none",
       actionWidth: actionRect?.width || 0,
       actionHeight: actionRect?.height || 0,
+      actionTop: actionRect?.top || 0,
+      badgeBottom: badgeRect?.bottom || 0,
+      copyWidth: copyRect?.width || 0,
+      isMidWidth: window.innerWidth >= 620 && window.innerWidth <= 780,
       actionBackground: actionStyle?.backgroundImage || "",
       actionShadow: actionStyle?.boxShadow || "none",
       actionDisplay: actionStyle?.display || "",
@@ -2537,6 +2542,7 @@ async function expectTimeAttackHubEntry(page, viewportName) {
     !metrics.badgeBackground.includes("conic-gradient") ||
     metrics.badgeHandContent === "none" ||
     metrics.actionWidth < 132 ||
+    (metrics.isMidWidth && (metrics.actionTop < metrics.badgeBottom + 8 || metrics.actionWidth < metrics.cardWidth - 42 || metrics.copyWidth < 300)) ||
     metrics.actionHeight < 48 ||
     !metrics.actionBackground.includes("gradient") ||
     metrics.actionShadow === "none" ||
