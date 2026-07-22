@@ -3499,3 +3499,11 @@ Current launch direction:
 - Removed the neighbor image `drop-shadow` filter after repeated isolated captures proved its transparent-layer composition could corrupt the action-button pixels beneath Lily in headless Chromium and potentially lower-end Android WebViews.
 - Hardened the 27-frame visual review pack: each resident reveal now runs in an isolated page, resets scroll position, records dialog/bubble/line/button geometry and button text in `manifest.json`, and fails if any required element escapes its viewport or own content box.
 - Manual 390x844 review confirmed all three resident portraits, Korean titles, body copy, progress dots, and both action labels render inside their intended sections with no overlap or clipping.
+
+### v0.1.505 Korean Resident Names and Conversation Polish
+- Bumped the visible app version and package metadata to v0.1.505.
+- Localized human resident names in Korean story scenes as `박 선생님`, `릴리`, and `마테오`; retained `Pip` as the established character and product brand name.
+- Rewrote translation-like guide phrases across the first puzzle, Time Attack, first room story, and all three resident arrivals into shorter natural Korean conversation while preserving the original mechanics and story beats.
+- Added i18n regression checks that require the three Korean resident names and reject `Mr. Park`, `Lily`, or `Mateo` in their Korean introduction copy.
+- Hardened resident screenshots to wait for decoded character images, loaded fonts, and two completed animation frames before capture; this prevents partially painted speech panels from being mistaken for text overflow or section intrusion.
+- Manually reviewed the Korean first-puzzle guide and all three 390x844 resident captures for name rendering, sentence rhythm, line breaks, speech-panel boundaries, progress dots, and action labels.

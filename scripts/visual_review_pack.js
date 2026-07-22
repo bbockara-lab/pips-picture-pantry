@@ -282,6 +282,11 @@ async function capturePantryNeighborReveal(page, options) {
   const guideDialog = page.locator(`.guide-dialog[data-guide-id="${options.guideId}"]`);
   await guideDialog.waitFor({ state: "visible", timeout: 3000 });
   await page.evaluate(() => window.scrollTo(0, 0));
+  await page.evaluate(async () => {
+    if (document.fonts?.ready) await document.fonts.ready;
+    await Promise.all([...document.images].map((image) => image.complete ? Promise.resolve() : image.decode().catch(() => {})));
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  });
   const layout = await guideDialog.evaluate((dialog) => {
     const rect = dialog.getBoundingClientRect();
     const bubble = dialog.querySelector(".guide-dialog__bubble");
@@ -313,7 +318,7 @@ async function capturePantryNeighborReveal(page, options) {
   if (!layout.dialogFits || !layout.lineFits || !layout.buttonsFit) {
     throw new Error(`${options.guideId} visual layout escaped its viewport: ${JSON.stringify(layout)}`);
   }
-  await capture(page, options.captureName, ".guide-dialog", { settleMs: 320 });
+  await capture(page, options.captureName, ".guide-dialog", { settleMs: 700 });
 }
 
 async function captureIsolatedPantryNeighborReveal(browser, options) {

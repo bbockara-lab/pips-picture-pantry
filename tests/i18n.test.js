@@ -227,6 +227,17 @@ describe("i18n", () => {
     expect(t("guide.puzzle.step1")).toContain("\uc81c\uac00");
     expect(t("guide.timeAttack.step2")).toContain("\uc2a4\ud47c");
     expect(t("guide.pantryFirstPurchase.step3")).toContain("\ud32c\ud2b8\ub9ac");
+    expect(t("guide.pantryNeighborMrPark.title")).toContain("박 선생님");
+    expect(t("guide.pantryNeighborLily.title")).toContain("릴리");
+    expect(t("guide.pantryNeighborMateo.title")).toContain("마테오");
+    [
+      "guide.pantryNeighborMrPark.title",
+      "guide.pantryNeighborMrPark.step1",
+      "guide.pantryNeighborLily.title",
+      "guide.pantryNeighborLily.step1",
+      "guide.pantryNeighborMateo.title",
+      "guide.pantryNeighborMateo.step1"
+    ].forEach((key) => expect(t(key)).not.toMatch(/Mr\.? Park|Lily|Mateo/));
     expect(t("controls.hintRemaining", { count: 1, limit: 3 })).toBe("\uD78C\uD2B8 1/3");
     expect(t("controls.hintIntroMulti", { count: 5 })).toContain("5");
     expect(t("howToPlay.pipLine")).toContain("Pip");
