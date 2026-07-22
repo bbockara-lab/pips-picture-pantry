@@ -3461,3 +3461,10 @@ Current launch direction:
 - Gave Pip the main visual stage, an opaque Sunny Spoon room backdrop, and a bottom speech panel with two reachable actions so information delivery feels like a direct conversation.
 - Preserved guide step order, localized copy, replay behavior, skip/continue actions, focus semantics, approved Pip artwork, save-state marking, and desktop dialog behavior.
 - Mobile QA now treats full viewport coverage and a substantially enlarged Pip portrait as required behavior while keeping speech text, controls, and overflow checks.
+
+### v0.1.500 Dedicated Mobile Puzzle Play Screen
+- Bumped the visible app version and package metadata to v0.1.500.
+- Reinforced the existing `playOpen` early-return architecture with a full-width, full-height mobile play shell, sticky focused-play header, and dedicated board background.
+- Removed floating quick travel from active puzzle and Time Attack sessions so the board and puzzle controls read as a separate gameplay screen instead of a card embedded in the hub.
+- Kept Back and Settings in the play header; players return to the hub before using Puzzle, Album, Pantry, Time Attack, or Map quick travel.
+- Preserved puzzle state, stage navigation, board sizing, cursor controls, completion routes, settings overlays, and Billing behavior.

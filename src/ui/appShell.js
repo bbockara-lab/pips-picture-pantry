@@ -661,9 +661,6 @@ function createShell({
     if (activeGuide) {
       shell.appendChild(renderGuideDialog(activeGuide, onCloseGuide));
     }
-    if (!hasBlockingOverlay) {
-      shell.appendChild(renderFloatingNav(activeView, onSelectView));
-    }
     return shell;
   }
 

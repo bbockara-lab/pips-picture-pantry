@@ -121,21 +121,34 @@ async function expectSafeAreaChromeGuard(page, viewportName) {
   const metrics = await page.evaluate(() => {
     const viewportMeta = document.querySelector('meta[name="viewport"]')?.getAttribute("content") || "";
     const shell = document.querySelector(".app-shell");
+    const playHeader = document.querySelector(".app-shell--play .play-screen__header");
     const shellRect = shell?.getBoundingClientRect();
     const shellStyle = shell ? getComputedStyle(shell) : null;
+    const playHeaderStyle = playHeader ? getComputedStyle(playHeader) : null;
     return {
       viewportMeta,
       shellTop: shellRect?.top || 0,
       paddingTop: shellStyle ? parseFloat(shellStyle.paddingTop) : 0,
       paddingLeft: shellStyle ? parseFloat(shellStyle.paddingLeft) : 0,
-      paddingRight: shellStyle ? parseFloat(shellStyle.paddingRight) : 0
+      paddingRight: shellStyle ? parseFloat(shellStyle.paddingRight) : 0,
+      hasDedicatedPlayShell: Boolean(playHeader && shellRect?.width >= window.innerWidth - 1),
+      playHeaderPaddingTop: playHeaderStyle ? parseFloat(playHeaderStyle.paddingTop) : 0,
+      playHeaderPaddingLeft: playHeaderStyle ? parseFloat(playHeaderStyle.paddingLeft) : 0,
+      playHeaderPaddingRight: playHeaderStyle ? parseFloat(playHeaderStyle.paddingRight) : 0
     };
   });
   if (
     !metrics.viewportMeta.includes("viewport-fit=cover") ||
-    metrics.paddingTop < 16 ||
-    metrics.paddingLeft < 16 ||
-    metrics.paddingRight < 16
+    (!metrics.hasDedicatedPlayShell && (
+      metrics.paddingTop < 16 ||
+      metrics.paddingLeft < 16 ||
+      metrics.paddingRight < 16
+    )) ||
+    (metrics.hasDedicatedPlayShell && (
+      metrics.playHeaderPaddingTop < 10 ||
+      metrics.playHeaderPaddingLeft < 10 ||
+      metrics.playHeaderPaddingRight < 10
+    ))
   ) {
     failures.push("[" + viewportName + "] Safe-area chrome guard regression: " + JSON.stringify(metrics));
   }
@@ -1463,96 +1476,44 @@ async function expectAppChromePolish(page, viewportName) {
 
 async function expectPlayScreenNavClearance(page, viewportName) {
   const metrics = await page.evaluate(() => {
-    const overlaps = (a, b) => Boolean(
-      a && b &&
-      a.width > 0 &&
-      a.height > 0 &&
-      b.width > 0 &&
-      b.height > 0 &&
-      a.left < b.right &&
-      a.right > b.left &&
-      a.top < b.bottom &&
-      a.bottom > b.top
-    );
-    const nav = document.querySelector(".floating-nav");
-    const trigger = document.querySelector(".floating-nav__trigger");
-    const triggerText = trigger?.querySelector(".floating-nav__trigger-text");
-    const triggerLabel = trigger?.querySelector(".floating-nav__trigger-label");
-    const triggerCue = trigger?.querySelector(".floating-nav__trigger-cue");
-    const triggerCurrent = trigger?.querySelector("strong");
-    const grid = document.querySelector(".puzzle-grid");
-    const controls = document.querySelector(".puzzle-panel > .controls");
-    const navRect = nav?.getBoundingClientRect();
-    const triggerRect = trigger?.getBoundingClientRect();
-    const gridRect = grid?.getBoundingClientRect();
-    const controlsRect = controls?.getBoundingClientRect();
-    const navStyle = nav ? getComputedStyle(nav) : null;
-    const triggerTextStyle = triggerText ? getComputedStyle(triggerText) : null;
-    const triggerCurrentStyle = triggerCurrent ? getComputedStyle(triggerCurrent) : null;
-    const triggerCueStyle = triggerCue ? getComputedStyle(triggerCue) : null;
-    const triggerCurrentLineHeight = parseFloat(triggerCurrentStyle?.lineHeight) || 0;
-    const triggerCueLineHeight = parseFloat(triggerCueStyle?.lineHeight) || 0;
+    const shell = document.querySelector(".app-shell--play");
+    const screen = document.querySelector(".play-screen");
+    const header = document.querySelector(".play-screen__header");
+    const shellRect = shell?.getBoundingClientRect();
+    const screenRect = screen?.getBoundingClientRect();
+    const headerRect = header?.getBoundingClientRect();
+    const headerStyle = header ? getComputedStyle(header) : null;
     return {
-      hasPlayShell: Boolean(document.querySelector(".app-shell--play")),
+      hasPlayShell: Boolean(shell),
       viewportWidth: window.innerWidth,
       viewportHeight: window.innerHeight,
-      navPosition: navStyle?.position || "",
-      navTop: navRect ? Math.round(navRect.top) : -999,
-      navRightGap: navRect ? Math.round(window.innerWidth - navRect.right) : -999,
-      navBottomGap: navRect ? Math.round(window.innerHeight - navRect.bottom) : -999,
-      triggerTop: triggerRect ? Math.round(triggerRect.top) : -999,
-      triggerWidth: triggerRect?.width || 0,
-      triggerHeight: triggerRect?.height || 0,
-      triggerTextWidth: triggerText?.getBoundingClientRect().width || 0,
-      triggerTextClipPath: triggerTextStyle?.clipPath || "",
-      triggerLabelText: (triggerLabel?.textContent || "").trim(),
-      triggerCueText: (triggerCue?.textContent || "").trim(),
-      triggerCurrentText: (triggerCurrent?.textContent || "").trim(),
-      triggerCurrentWhiteSpace: triggerCurrentStyle?.whiteSpace || "",
-      triggerCurrentTextOverflow: triggerCurrentStyle?.textOverflow || "",
-      triggerCurrentOverflowX: triggerCurrentStyle?.overflowX || "",
-      triggerCurrentLineCount: triggerCurrentLineHeight ? triggerCurrent.getBoundingClientRect().height / triggerCurrentLineHeight : 1,
-      triggerCurrentOverflow: triggerCurrent ? Math.max(0, triggerCurrent.scrollWidth - triggerCurrent.clientWidth) : 999,
-      triggerCueWhiteSpace: triggerCueStyle?.whiteSpace || "",
-      triggerCueTextOverflow: triggerCueStyle?.textOverflow || "",
-      triggerCueOverflowX: triggerCueStyle?.overflowX || "",
-      triggerCueLineCount: triggerCueLineHeight ? triggerCue.getBoundingClientRect().height / triggerCueLineHeight : 1,
-      triggerCueOverflow: triggerCue ? Math.max(0, triggerCue.scrollWidth - triggerCue.clientWidth) : 999,
-      triggerOverlapsGrid: overlaps(triggerRect, gridRect),
-      triggerOverlapsControls: overlaps(triggerRect, controlsRect)
+      navCount: document.querySelectorAll(".floating-nav").length,
+      shellWidth: shellRect?.width || 0,
+      shellMinHeight: parseFloat(shell ? getComputedStyle(shell).minHeight : "0") || 0,
+      screenWidth: screenRect?.width || 0,
+      screenHeight: screenRect?.height || 0,
+      headerWidth: headerRect?.width || 0,
+      headerPosition: headerStyle?.position || "",
+      headerTop: headerRect?.top || 0,
+      headerBackground: headerStyle?.backgroundImage || "",
+      headerRadius: parseFloat(headerStyle?.borderBottomLeftRadius) || 0
     };
   });
   if (
-    metrics.hasPlayShell &&
-    (
-      metrics.navPosition !== "fixed" ||
-      metrics.navRightGap < 0 ||
-      metrics.navRightGap > 24 ||
-      metrics.navBottomGap < 70 ||
-      metrics.navBottomGap > 130 ||
-      metrics.triggerWidth < 88 ||
-      metrics.triggerWidth > 172 ||
-      metrics.triggerHeight < 52 ||
-      metrics.triggerHeight > 74 ||
-      metrics.triggerTextWidth < 24 ||
-      metrics.triggerTextClipPath.includes("inset") ||
-      !metrics.triggerLabelText ||
-      !metrics.triggerCueText ||
-      !metrics.triggerCurrentText ||
-      metrics.triggerCurrentWhiteSpace === "nowrap" ||
-      metrics.triggerCurrentTextOverflow === "ellipsis" ||
-      metrics.triggerCurrentOverflowX === "hidden" ||
-      metrics.triggerCurrentLineCount > 2.4 ||
-      metrics.triggerCurrentOverflow > 1 ||
-      metrics.triggerCueWhiteSpace === "nowrap" ||
-      metrics.triggerCueTextOverflow === "ellipsis" ||
-      metrics.triggerCueOverflowX === "hidden" ||
-      metrics.triggerCueLineCount > 2.4 ||
-      metrics.triggerCueOverflow > 1 ||
-      metrics.triggerOverlapsControls
-    )
+    !metrics.hasPlayShell ||
+    metrics.navCount !== 0 ||
+    (metrics.viewportWidth <= 520 && (
+      metrics.shellWidth < metrics.viewportWidth ||
+      metrics.screenWidth < metrics.viewportWidth ||
+      metrics.screenHeight < metrics.viewportHeight ||
+      metrics.headerWidth < metrics.viewportWidth ||
+      metrics.headerPosition !== "sticky" ||
+      Math.abs(metrics.headerTop) > 1 ||
+      !metrics.headerBackground.includes("gradient") ||
+      metrics.headerRadius < 18
+    ))
   ) {
-    failures.push("[" + viewportName + "] Play screen floating nav is not fixed/reachable or overlaps primary controls: " + JSON.stringify(metrics));
+    failures.push("[" + viewportName + "] Puzzle play should own a dedicated full-width screen without floating quick travel: " + JSON.stringify(metrics));
   }
 }
 
@@ -2659,6 +2620,7 @@ async function openFloatingView(page, view, viewportName = view) {
         width: rect.width,
         height: rect.height,
         radius: parseFloat(style.borderRadius),
+        bottomRadius: parseFloat(style.borderBottomLeftRadius),
         background: style.backgroundImage,
         shadow: style.boxShadow,
         topShine: cardBefore.backgroundImage,
@@ -2993,7 +2955,6 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     !cursorPadMetrics.statusTokenBackground.includes("gradient") ||
     cursorPadMetrics.statusTokenShadow === "none" ||
     cursorPadMetrics.dpadWidth < 132 ||
-    !cursorPadMetrics.navVisible ||
     cursorPadMetrics.navOverlapActions ||
     cursorPadMetrics.navOverlapDpad ||
     cursorPadMetrics.moves.length !== 4 ||
@@ -3096,6 +3057,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       background: style.backgroundImage,
       cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
       radius: parseFloat(style.borderRadius),
+      bottomRadius: parseFloat(style.borderBottomLeftRadius),
       titleLeft: titleRect?.left || 0,
       titleRight: titleRect?.right || 0,
       titleWidth: titleRect?.width || 0,
@@ -3107,7 +3069,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     playHeaderMetrics.left < -1 ||
     playHeaderMetrics.right > playHeaderMetrics.viewportWidth + 1 ||
     playHeaderMetrics.height < 64 ||
-    playHeaderMetrics.radius < 14 ||
+    Math.max(playHeaderMetrics.radius, playHeaderMetrics.bottomRadius) < 14 ||
     !playHeaderMetrics.background.includes("gradient") ||
     playHeaderMetrics.titleWidth < 90 ||
     playHeaderMetrics.titleOverflow ||
@@ -3552,8 +3514,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
         width: rect.width,
         height: rect.height,
         radius: parseFloat(style.borderRadius),
+        bottomRadius: parseFloat(style.borderBottomLeftRadius),
         background: style.backgroundImage,
-      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
+        cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
         marginTop: parseFloat(style.marginTop) || 0
       };
     };
@@ -3712,7 +3675,7 @@ async function expectPuzzleBoardFramePolish(page, viewportName) {
     metrics.meta.width > 530 ||
     metrics.meta.left < -1 ||
     metrics.meta.right > metrics.viewportWidth + 1 ||
-    metrics.meta.radius < 16 ||
+    Math.max(metrics.meta.radius, metrics.meta.bottomRadius) < 16 ||
     !metrics.meta.background.includes("gradient") ||
     metrics.board.left < -1 ||
     metrics.board.right > metrics.viewportWidth + 1 ||
