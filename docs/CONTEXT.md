@@ -3421,3 +3421,8 @@ Current launch direction:
 - Added `docs/art-review/puzzle-control-icon-review-v1.html` and `docs/PUZZLE_CONTROL_ICON_ART_REVIEW.md` so the set can be compared at 144px, 48px, and 32px without silently promoting a semantically wrong icon.
 - Kept the live CSS controls, puzzle behavior, accessible labels, package version, Billing, and save state unchanged; this remains a hidden experimental art-production lane.
 - Re-ran `qa:mobile`, the 24-frame visual pack, and the full release-candidate gate after both candidate sets were committed. All checks passed, candidate filenames were absent from `dist`, and the only warnings remained the two external real-device Billing evidence records.
+
+### Experimental Undo Raster Candidate v2
+- Regenerated the blocked Undo control candidate while preserving the broad glossy counter-clockwise arrow and replacing the jigsaw-shaped center with a straight-sided nonogram cell tile.
+- Archived the generated magenta source, produced a transparent 256x256 RGBA candidate, and kept both files hidden in the asset manifest; no runtime import, CSS fallback removal, package version bump, or Billing behavior change was made.
+- Updated the puzzle-control review board to compare Undo v2 at 144px, 48px, and 32px. Undo v1 remains archived as rejected-direction evidence rather than being overwritten.

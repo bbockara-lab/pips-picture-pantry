@@ -23,6 +23,7 @@
     .grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
     .card { display: grid; justify-items: center; gap: 10px; padding: 16px; text-align: center; }
     .card.blocked { border-color: #b75d4c; background: #fff1e3; }
+    .card.replaced { border-color: #d7a848; background: #fff9e9; }
     .card h2 { font-size: 1.05rem; }
     .large { width: 144px; height: 144px; object-fit: contain; }
     .sizes { display: flex; align-items: center; gap: 14px; min-height: 58px; padding: 8px 14px; border-radius: 18px; background: linear-gradient(180deg, #fff8df, #f6dba4); box-shadow: inset 0 0 0 2px rgba(65,45,45,.14); }
@@ -31,6 +32,7 @@
     .sizes img { object-fit: contain; }
     .badge { border-radius: 999px; padding: 4px 9px; background: #9dc9ad; color: #30483a; font-size: .72rem; font-weight: 900; text-transform: uppercase; }
     .blocked .badge { background: #e59979; color: #5d2d26; }
+    .replaced .badge { background: #f1cf74; color: #5e461a; }
     .section { margin-top: 30px; }
     .checks { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 14px; }
     .check { padding: 16px; border-left: 6px solid #91bea5; line-height: 1.45; }
@@ -39,12 +41,12 @@
 </head>
 <body>
   <main>
-    <header><p class="eyebrow">Sunny Spoon Studios Art Review</p><h1>Puzzle Controls v1</h1><p class="summary">Individually generated hidden raster candidates. Compare the authored art at 144px, control scale at 48px, and compact scale at 32px. Undo is intentionally blocked for semantic drift.</p></header>
-    <section class="status"><div class="pill"><small>Runtime</small><strong>Not imported</strong></div><div class="pill"><small>Manifest</small><strong>5 candidates / hidden</strong></div><div class="pill"><small>Decision</small><strong>4 promising, Undo regenerate</strong></div></section>
+    <header><p class="eyebrow">Sunny Spoon Studios Art Review</p><h1>Puzzle Controls v1</h1><p class="summary">Individually generated hidden raster candidates. Compare the authored art at 144px, control scale at 48px, and compact scale at 32px. Undo v2 replaces the blocked jigsaw-like v1 candidate but remains review-only.</p></header>
+    <section class="status"><div class="pill"><small>Runtime</small><strong>Not imported</strong></div><div class="pill"><small>Manifest</small><strong>6 candidates / hidden</strong></div><div class="pill"><small>Decision</small><strong>5 promising, review together</strong></div></section>
     <section class="grid" aria-label="Puzzle control candidates">
       <article class="card"><h2>Fill</h2><img class="large" src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-fill-candidate-v1.png" alt="Fill control icon candidate"><div class="sizes"><img src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-fill-candidate-v1.png" alt=""><img src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-fill-candidate-v1.png" alt=""></div><span class="badge">candidate</span></article>
       <article class="card"><h2>Blank Check</h2><img class="large" src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-mark-candidate-v1.png" alt="Blank check control icon candidate"><div class="sizes"><img src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-mark-candidate-v1.png" alt=""><img src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-mark-candidate-v1.png" alt=""></div><span class="badge">candidate</span></article>
-      <article class="card blocked"><h2>Undo</h2><img class="large" src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-undo-candidate-v1.png" alt="Undo control icon candidate needing regeneration"><div class="sizes"><img src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-undo-candidate-v1.png" alt=""><img src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-undo-candidate-v1.png" alt=""></div><span class="badge">regenerate</span></article>
+      <article class="card replaced"><h2>Undo v2</h2><img class="large" src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-undo-candidate-v2.png" alt="Regenerated Undo control icon candidate with a square nonogram cell"><div class="sizes"><img src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-undo-candidate-v2.png" alt=""><img src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-undo-candidate-v2.png" alt=""></div><span class="badge">candidate</span></article>
       <article class="card"><h2>Hint</h2><img class="large" src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-hint-candidate-v1.png" alt="Hint control icon candidate"><div class="sizes"><img src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-hint-candidate-v1.png" alt=""><img src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-hint-candidate-v1.png" alt=""></div><span class="badge">candidate</span></article>
       <article class="card"><h2>Settings</h2><img class="large" src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-settings-candidate-v1.png" alt="Settings control icon candidate"><div class="sizes"><img src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-settings-candidate-v1.png" alt=""><img src="../../src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-settings-candidate-v1.png" alt=""></div><span class="badge">candidate</span></article>
     </section>

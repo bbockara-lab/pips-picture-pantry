@@ -13,11 +13,12 @@ Review board: `docs/art-review/puzzle-control-icon-review-v1.html`
 
 - `puzzle-control-fill-candidate-v1.png`: strong first-pass candidate
 - `puzzle-control-mark-candidate-v1.png`: strong first-pass candidate
-- `puzzle-control-undo-candidate-v1.png`: regenerate before promotion; center reads as a jigsaw piece
+- `puzzle-control-undo-candidate-v1.png`: superseded; center reads as a jigsaw piece
+- `puzzle-control-undo-candidate-v2.png`: promising regenerated candidate; center is a square nonogram cell
 - `puzzle-control-hint-candidate-v1.png`: strong first-pass candidate
 - `puzzle-control-settings-candidate-v1.png`: strong first-pass candidate
 
-All candidates are transparent RGBA 256x256 PNGs with alpha range 0-255 and transparent corners. Each has a separate archived magenta chroma source because the assets were generated individually.
+All active candidates are transparent RGBA 256x256 PNGs with alpha range 0-255 and transparent corners. Each has a separate archived magenta chroma source because the assets were generated individually. Undo v1 remains archived as evidence for the rejected semantic direction.
 
 ## Shared Prompt Intent
 
@@ -32,13 +33,13 @@ All candidates are transparent RGBA 256x256 PNGs with alpha range 0-255 and tran
 
 Fill, Blank Check, Hint, and Settings form a coherent tactile set and stay recognizable at compact sizes. Fill makes the brush/cell relationship clearer than the current CSS token; Hint naturally ties the light-bulb metaphor to the approved spoon economy; Settings has a friendly six-tooth silhouette.
 
-Undo is deliberately blocked. Although its counter-clockwise arrow reads well, the generated center is a jigsaw puzzle piece rather than a square nonogram cell. Its manifest status carries `candidate-needs-regeneration` and it must not be promoted with the others.
+Undo v1 remains deliberately blocked because its center is a jigsaw puzzle piece rather than a nonogram cell. Undo v2 preserves the broad counter-clockwise arrow while replacing that center with a straight-sided cream tile and amber filled-square inset. It resolves the known semantic blocker and joins the other four promising candidates for set-level review, but it is not approved for runtime use yet.
 
 ## Approval Rule
 
 Do not import any candidate from runtime source while its manifest entry is hidden. A future promotion must either:
 
-1. regenerate and approve Undo, then promote the coherent five-icon set together, or
+1. approve Undo v2 and promote the coherent five-icon set together, or
 2. deliberately scope a smaller approved set while leaving Undo on the existing CSS fallback.
 
 Any runtime slice must update the approved runtime allowlist, remove only the replaced CSS construction, preserve accessible labels, and pass mobile QA plus the full visual pack.

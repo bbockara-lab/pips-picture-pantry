@@ -143,6 +143,28 @@ export const assetRegistry = [
     }
   ])),
   {
+    id: "puzzle-control-undo-source-v2-raw",
+    usage: "puzzle-control-icon-source",
+    path: "src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-undo-candidate-v2-raw.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "candidate-needs-ui-review",
+    note: "Built-in image generation chroma source for the regenerated hidden Undo candidate. Never import the magenta source into runtime UI."
+  },
+  {
+    id: "puzzle-control-undo-candidate-v2",
+    usage: "puzzle-control-icon-candidate",
+    path: "src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-undo-candidate-v2.png",
+    sourceType: "raster",
+    approval: "candidate",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "candidate-needs-ui-review",
+    note: "Regenerated Undo candidate with a square nonogram cell instead of the blocked v1 jigsaw center. Hidden until the five-control set is reviewed together at 32px and 48px."
+  },
+  {
     id: "pip-complete-sticker-v1",
     usage: "stage-reward-art",
     path: "src/assets/characters/pip-complete-sticker-v1.png",
