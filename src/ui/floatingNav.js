@@ -1,4 +1,5 @@
 import { t } from "../i18n/index.js";
+import { getQuickTravelArt } from "../data/quickTravelArt.js";
 
 const NAV_ITEMS = [
   ["puzzle", "views.puzzle", "views.puzzleHint"],
@@ -7,6 +8,23 @@ const NAV_ITEMS = [
   ["timeAttack", "views.timeAttack", "views.timeAttackHint"],
   ["map", "views.map", "views.mapHint"]
 ];
+
+function createQuickTravelIcon(view, extraClass = "") {
+  const icon = document.createElement("span");
+  icon.className = `floating-nav__icon floating-nav__icon--raster floating-nav__icon--${view}${extraClass ? ` ${extraClass}` : ""}`;
+  icon.dataset.view = view;
+  icon.setAttribute("aria-hidden", "true");
+
+  const art = getQuickTravelArt(view);
+  if (art) {
+    const image = document.createElement("img");
+    image.src = art.src;
+    image.alt = "";
+    image.dataset.assetId = art.assetId;
+    icon.appendChild(image);
+  }
+  return icon;
+}
 
 export function renderFloatingNav(activeView, onSelectView) {
   const nav = document.createElement("nav");
@@ -27,10 +45,7 @@ export function renderFloatingNav(activeView, onSelectView) {
   trigger.setAttribute("aria-label", triggerLabelText);
   trigger.title = triggerLabelText;
 
-  const triggerIcon = document.createElement("span");
-  triggerIcon.className = "floating-nav__icon floating-nav__trigger-icon floating-nav__icon--" + activeItem[0];
-  triggerIcon.dataset.view = activeItem[0];
-  triggerIcon.setAttribute("aria-hidden", "true");
+  const triggerIcon = createQuickTravelIcon(activeItem[0], "floating-nav__trigger-icon");
 
   const triggerText = document.createElement("span");
   triggerText.className = "floating-nav__trigger-text";
@@ -68,9 +83,7 @@ export function renderFloatingNav(activeView, onSelectView) {
     item.setAttribute("aria-label", itemLabelText);
     item.title = itemLabelText;
 
-    const itemIcon = document.createElement("span");
-    itemIcon.className = "floating-nav__icon floating-nav__icon--" + view;
-    itemIcon.setAttribute("aria-hidden", "true");
+    const itemIcon = createQuickTravelIcon(view);
 
     const itemCopy = document.createElement("span");
     itemCopy.className = "floating-nav__copy";

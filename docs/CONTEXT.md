@@ -3432,3 +3432,10 @@ Current launch direction:
 - Moved the mobile Pip portrait card from the bottom of tall guide dialogs to the start of the speech bubble, keeping Pip beside the existing bubble tail instead of visually disconnecting the speaker from the conversation.
 - Preserved guide copy, step order, skip/continue actions, approved Pip artwork, desktop layout, navigation containment, and Billing behavior.
 - Extended mobile QA to compare the Pip art and speech-bubble top edges on viewports up to 520px so the conversation relationship cannot silently drift apart again.
+
+### v0.1.496 Quick Travel Raster Artwork Promotion
+- Bumped the visible app version and package metadata to v0.1.496.
+- Promoted the reviewed Puzzle, Album, Pantry, Time Attack, and Map quick-travel set into candidate-free runtime PNG assets while preserving the original hidden candidate/source files as review history.
+- Replaced the five layered CSS icon constructions in both the floating trigger and expanded menu with approved raster images behind a dedicated runtime allowlist and view-to-asset map; accessible route labels, hints, titles, active state, and navigation behavior remain unchanged.
+- Updated mobile QA to require the exact five approved asset IDs, 256x256 loaded source dimensions, and absence of the old icon pseudo-elements while retaining all existing route clarity, text-fit, fixed-position, and large-board clearance checks.
+- Billing behavior and the two remaining real-device Billing evidence items are unchanged.

@@ -1,5 +1,12 @@
 const APPROVED_GUIDE_ART_IDS = new Set(["pip-chrome-v2"]);
 const APPROVED_STUDIO_BUMPER_ART_IDS = new Set(["sunny-spoon-studios-bumper-v1"]);
+const APPROVED_QUICK_TRAVEL_ART_IDS = new Set([
+  "quick-travel-puzzle-v1",
+  "quick-travel-album-v1",
+  "quick-travel-pantry-v1",
+  "quick-travel-time-attack-v1",
+  "quick-travel-map-v1"
+]);
 
 export function isRuntimeGuideArtApproved(assetId) {
   return APPROVED_GUIDE_ART_IDS.has(assetId);
@@ -7,6 +14,10 @@ export function isRuntimeGuideArtApproved(assetId) {
 
 export function isRuntimeStudioBumperArtApproved(assetId) {
   return APPROVED_STUDIO_BUMPER_ART_IDS.has(assetId);
+}
+
+export function isRuntimeQuickTravelArtApproved(assetId) {
+  return APPROVED_QUICK_TRAVEL_ART_IDS.has(assetId);
 }
 
 const APPROVED_PANTRY_DECORATION_ASSET_IDS = new Set([

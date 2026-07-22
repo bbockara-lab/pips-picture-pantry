@@ -1,11 +1,11 @@
 # Quick Travel Icon Art Review
 
 Last updated: 2026-07-22
-Mode: experimental candidate review
+Mode: approved runtime artwork
 
 ## Purpose
 
-This set is the first raster replacement candidate for the shared Puzzle, Album, Pantry, Time Attack, and Map quick-travel symbols. It remains hidden from runtime UI until the five icons are reviewed together for Sunny Spoon world fit, small-size legibility, and route recognition.
+This set began as the first raster replacement candidate for the shared Puzzle, Album, Pantry, Time Attack, and Map quick-travel symbols. The five icons were reviewed together for Sunny Spoon world fit, small-size legibility, and route recognition, then promoted as the v0.1.496 runtime navigation set.
 
 Review board: `docs/art-review/quick-travel-icon-review-v1.html`
 
@@ -19,6 +19,8 @@ Review board: `docs/art-review/quick-travel-icon-review-v1.html`
 
 All five files are RGBA 256x256 PNGs with transparent corners. The raw and transparent source sheets are archived beside the crops.
 
+Approved runtime derivatives live under `src/assets/icons/quick-travel-v1/` with candidate-free filenames. The original candidate crops remain hidden as review history.
+
 ## Prompt Intent
 
 Built-in image generation used the approved opening pantry visual and approved golden spoon token as style references. The prompt requested exactly five isolated, text-free, character-free route objects on a flat magenta chroma background:
@@ -31,7 +33,7 @@ Built-in image generation used the approved opening pantry visual and approved g
 
 The target language is warm cream enamel, cocoa outline, amber highlights, and sage/mint accents with readable silhouettes at 48px.
 
-## Initial Assessment
+## Promotion Assessment
 
 Positive:
 
@@ -39,18 +41,18 @@ Positive:
 - Puzzle, Album, Time Attack, and Map remain distinct at 48px.
 - Material, outline, heart motifs, and palette align well with the approved spoon token and Sunny Spoon pantry artwork.
 
-Review risks:
+Accepted tradeoffs:
 
-- Pantry currently reads as a cookie jar first; confirm that this is acceptable for the Pantry/shop destination.
-- Album contains more scenic detail than the other tokens and needs a 32px recognition check.
-- The set is visually richer than adjacent settings and puzzle-control tokens, so runtime promotion should be a deliberate navigation-only slice with screenshot comparison.
+- Pantry reads as a cookie jar first, but the route label and shop/decorate hint keep the destination explicit.
+- Album carries more scenic detail than the other tokens, but its book silhouette remains distinct at compact trigger/menu sizes.
+- The set is intentionally richer than adjacent CSS controls; promotion is limited to the shared navigation surface while puzzle controls remain a separate review lane.
 
 ## Approval Rule
 
-Do not import these files from `src/ui`, `src/styles.css`, or any runtime art map while their manifest entries are `candidate` and `visible: false`. Promotion requires:
+The original candidate files remain hidden and must not be imported directly. The approved runtime derivatives are allowlisted through `src/data/runtimeArt.js` and mapped by `src/data/quickTravelArt.js`. Any future replacement requires:
 
-1. explicit five-icon set approval,
-2. manifest status change to approved visible assets,
-3. a small runtime mapping module,
-4. removal of the replaced CSS icon construction,
+1. explicit five-icon set review,
+2. new approved visible manifest entries,
+3. runtime allowlist and mapping updates,
+4. removal of the replaced construction without changing accessible route copy,
 5. mobile QA at 360/390/430/675 widths and a full visual-pack comparison.

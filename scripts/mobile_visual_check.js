@@ -1263,6 +1263,7 @@ async function expectAppChromePolish(page, viewportName) {
       const copy = item.querySelector(".floating-nav__copy");
       const label = item.querySelector(".floating-nav__label");
       const hint = item.querySelector("small");
+      const image = icon?.querySelector("img");
       const iconStyle = icon ? getComputedStyle(icon) : null;
       const copyStyle = copy ? getComputedStyle(copy) : null;
       const labelStyle = label ? getComputedStyle(label) : null;
@@ -1284,6 +1285,10 @@ async function expectAppChromePolish(page, viewportName) {
         height: parseFloat(iconStyle?.height) || 0,
         radius: parseFloat(iconStyle?.borderRadius) || 0,
         background: iconStyle?.backgroundImage || "",
+        imageSrc: image?.getAttribute("src") || "",
+        assetId: image?.dataset.assetId || "",
+        imageNaturalWidth: image?.naturalWidth || 0,
+        imageNaturalHeight: image?.naturalHeight || 0,
         beforeContent: before?.content || "",
         beforeBackground: before?.backgroundImage || before?.backgroundColor || "",
         afterContent: after?.content || "",
@@ -1312,6 +1317,7 @@ async function expectAppChromePolish(page, viewportName) {
     const triggerIconStyle = triggerIcon ? getComputedStyle(triggerIcon) : null;
     const triggerIconBefore = triggerIcon ? getComputedStyle(triggerIcon, "::before") : null;
     const triggerIconAfter = triggerIcon ? getComputedStyle(triggerIcon, "::after") : null;
+    const triggerImage = triggerIcon?.querySelector("img");
     const triggerTextStyle = triggerText ? getComputedStyle(triggerText) : null;
     const triggerCurrent = triggerButton?.querySelector("strong");
     const activeBefore = activeItem ? getComputedStyle(activeItem, "::before") : null;
@@ -1339,6 +1345,10 @@ async function expectAppChromePolish(page, viewportName) {
         height: parseFloat(triggerIconStyle?.height) || 0,
         radius: parseFloat(triggerIconStyle?.borderRadius) || 0,
         background: triggerIconStyle?.backgroundImage || "",
+        imageSrc: triggerImage?.getAttribute("src") || "",
+        assetId: triggerImage?.dataset.assetId || "",
+        imageNaturalWidth: triggerImage?.naturalWidth || 0,
+        imageNaturalHeight: triggerImage?.naturalHeight || 0,
         beforeContent: triggerIconBefore?.content || "",
         afterContent: triggerIconAfter?.content || ""
       },
@@ -1389,10 +1399,12 @@ async function expectAppChromePolish(page, viewportName) {
     navMetrics.triggerArrowTransform === "none" ||
     navMetrics.triggerIcon.width < 34 ||
     navMetrics.triggerIcon.height < 34 ||
-    navMetrics.triggerIcon.radius < 12 ||
-    !navMetrics.triggerIcon.background.includes("gradient") ||
-    navMetrics.triggerIcon.beforeContent === "none" ||
-    navMetrics.triggerIcon.afterContent === "none" ||
+    !navMetrics.triggerIcon.imageSrc.includes("quick-travel-") ||
+    navMetrics.triggerIcon.assetId !== `quick-travel-${navMetrics.triggerIcon.view === "timeAttack" ? "time-attack" : navMetrics.triggerIcon.view}-v1` ||
+    navMetrics.triggerIcon.imageNaturalWidth !== 256 ||
+    navMetrics.triggerIcon.imageNaturalHeight !== 256 ||
+    navMetrics.triggerIcon.beforeContent !== "none" ||
+    navMetrics.triggerIcon.afterContent !== "none" ||
     navMetrics.triggerTextWidth < 24 ||
     navMetrics.triggerTextClipPath.includes("inset") ||
     !navMetrics.triggerLabelText ||
@@ -1412,10 +1424,12 @@ async function expectAppChromePolish(page, viewportName) {
       icon.itemHeight < 58 ||
       icon.width < 38 ||
       icon.height < 38 ||
-      icon.radius < 13 ||
-      !icon.background.includes("gradient") ||
-      icon.beforeContent === "none" ||
-      icon.afterContent === "none" ||
+      !icon.imageSrc.includes("quick-travel-") ||
+      icon.assetId !== `quick-travel-${icon.view === "timeAttack" ? "time-attack" : icon.view}-v1` ||
+      icon.imageNaturalWidth !== 256 ||
+      icon.imageNaturalHeight !== 256 ||
+      icon.beforeContent !== "none" ||
+      icon.afterContent !== "none" ||
       icon.copyDisplay !== "grid" ||
       icon.copyWidth < 80 ||
       icon.labelWhiteSpace === "nowrap" ||

@@ -113,6 +113,23 @@ export const assetRegistry = [
     note: `${label} candidate for the shared quick-travel trigger/menu. Hidden until the five-icon set is reviewed together at 32px, 48px, and mobile menu scale.`
   })),
   ...[
+    ["puzzle", "Puzzle board"],
+    ["album", "Album book"],
+    ["pantry", "Pantry jar"],
+    ["time-attack", "Spoon stopwatch"],
+    ["map", "Pantry map"]
+  ].map(([view, label]) => ({
+    id: `quick-travel-${view}-v1`,
+    usage: "navigation-icon",
+    path: `src/assets/icons/quick-travel-v1/quick-travel-${view}-v1.png`,
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "original-ui-approved",
+    note: `${label} artwork promoted from the reviewed v1 set for the shared quick-travel trigger and menu.`
+  })),
+  ...[
     ["fill", "Fill brush", "candidate-needs-ui-review"],
     ["mark", "Blank-check tile", "candidate-needs-ui-review"],
     ["undo", "Undo arrow", "candidate-needs-regeneration"],

@@ -1771,6 +1771,30 @@ body {
   }
 }
 
+/* v0.1.496 approved raster artwork for shared quick travel */
+.floating-nav__icon.floating-nav__icon--raster {
+  display: grid;
+  place-items: center;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.floating-nav__icon.floating-nav__icon--raster::before,
+.floating-nav__icon.floating-nav__icon--raster::after {
+  content: none;
+}
+
+.floating-nav__icon--raster img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 0 rgba(61, 43, 46, 0.16));
+}
+
 @media (max-width: 380px) {
   .guide-dialog {
     grid-template-columns: minmax(72px, 80px) minmax(0, 1fr);
