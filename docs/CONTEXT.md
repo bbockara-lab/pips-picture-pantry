@@ -3413,3 +3413,10 @@ Current launch direction:
 - Added `docs/art-review/quick-travel-icon-review-v1.html` to compare each icon at 144px, 48px, and 32px, plus `docs/QUICK_TRAVEL_ICON_ART_REVIEW.md` with prompt intent, initial assessment, risks, and the promotion gate.
 - Kept the entire set out of runtime UI. The current CSS navigation tokens remain live until the five raster icons are explicitly approved together; no package/UI version bump is needed for this docs-only experimental lane.
 - Candidate validation passed: RGBA transparency with alpha range 0-255, five isolated source runs, asset manifest with 129 registered assets, 115 unit tests, and production build.
+
+### Experimental Puzzle Control Raster Candidates v1
+- Generated Fill, Blank Check, Undo, Hint, and Settings candidates individually so each repeated control could keep a strong 32px silhouette while sharing the new cream/cocoa/amber/mint raster language.
+- Archived each flat-magenta source and produced a transparent 256x256 RGBA review candidate with alpha range 0-255 and transparent corners; none are imported by runtime code.
+- Marked Fill, Blank Check, Hint, and Settings as promising first-pass candidates. Undo is explicitly `candidate-needs-regeneration` because its central object drifted into a jigsaw piece instead of a square nonogram cell.
+- Added `docs/art-review/puzzle-control-icon-review-v1.html` and `docs/PUZZLE_CONTROL_ICON_ART_REVIEW.md` so the set can be compared at 144px, 48px, and 32px without silently promoting a semantically wrong icon.
+- Kept the live CSS controls, puzzle behavior, accessible labels, package version, Billing, and save state unchanged; this remains a hidden experimental art-production lane.

@@ -112,6 +112,36 @@ export const assetRegistry = [
     identityStatus: "candidate-needs-ui-review",
     note: `${label} candidate for the shared quick-travel trigger/menu. Hidden until the five-icon set is reviewed together at 32px, 48px, and mobile menu scale.`
   })),
+  ...[
+    ["fill", "Fill brush", "candidate-needs-ui-review"],
+    ["mark", "Blank-check tile", "candidate-needs-ui-review"],
+    ["undo", "Undo arrow", "candidate-needs-regeneration"],
+    ["hint", "Spoon hint bulb", "candidate-needs-ui-review"],
+    ["settings", "Settings gear", "candidate-needs-ui-review"]
+  ].flatMap(([control, label, identityStatus]) => ([
+    {
+      id: `puzzle-control-${control}-source-v1-raw`,
+      usage: "puzzle-control-icon-source",
+      path: `src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-${control}-candidate-v1-raw.png`,
+      sourceType: "raster",
+      approval: "source-archived",
+      visible: false,
+      mustReplaceBeforeMajorArtPass: false,
+      identityStatus,
+      note: `Built-in image generation chroma source for the hidden ${label} candidate. Never import the magenta source into runtime UI.`
+    },
+    {
+      id: `puzzle-control-${control}-candidate-v1`,
+      usage: "puzzle-control-icon-candidate",
+      path: `src/assets/icons/puzzle-controls-candidate-v1/puzzle-control-${control}-candidate-v1.png`,
+      sourceType: "raster",
+      approval: "candidate",
+      visible: false,
+      mustReplaceBeforeMajorArtPass: false,
+      identityStatus,
+      note: `${label} candidate for the shared puzzle controls. Hidden until the set is reviewed at 32px and 48px; Undo requires regeneration because its center reads as a jigsaw piece.`
+    }
+  ])),
   {
     id: "pip-complete-sticker-v1",
     usage: "stage-reward-art",

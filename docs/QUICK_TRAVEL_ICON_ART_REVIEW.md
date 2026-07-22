@@ -1,6 +1,6 @@
 # Quick Travel Icon Art Review
 
-Last updated: 2026-07-22  
+Last updated: 2026-07-22
 Mode: experimental candidate review
 
 ## Purpose
@@ -54,4 +54,3 @@ Do not import these files from `src/ui`, `src/styles.css`, or any runtime art ma
 3. a small runtime mapping module,
 4. removal of the replaced CSS icon construction,
 5. mobile QA at 360/390/430/675 widths and a full visual-pack comparison.
-
