@@ -3454,3 +3454,10 @@ Current launch direction:
 - Added a small shared image factory so puzzle controls, the Hint panel, the app header, and the focused-play header all receive the same allowlisted asset metadata without duplicating DOM construction.
 - Preserved the 54px Hint and 44px Settings tactile button surfaces, accessible names, disabled/pressed behavior, settings flow, hint allowance meter, and spoon-economy copy.
 - Extended mobile QA to require exact approved asset IDs and 256x256 source dimensions for both surfaces while confirming the retired Settings pseudo-elements remain absent.
+
+### v0.1.499 Full-Screen Mobile Pip Conversation
+- Bumped the visible app version and package metadata to v0.1.499.
+- Reframed puzzle, Time Attack, and first Pantry purchase guides as full-viewport mobile conversation scenes instead of compact cards floating over the current screen.
+- Gave Pip the main visual stage, an opaque Sunny Spoon room backdrop, and a bottom speech panel with two reachable actions so information delivery feels like a direct conversation.
+- Preserved guide step order, localized copy, replay behavior, skip/continue actions, focus semantics, approved Pip artwork, save-state marking, and desktop dialog behavior.
+- Mobile QA now treats full viewport coverage and a substantially enlarged Pip portrait as required behavior while keeping speech text, controls, and overflow checks.

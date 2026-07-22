@@ -393,6 +393,7 @@ async function expectGuideDialogChromeArt(page, viewportName) {
     const bubbleBefore = bubble ? getComputedStyle(bubble, "::before") : null;
     const bubbleAfter = bubble ? getComputedStyle(bubble, "::after") : null;
     const overlayStyle = overlay ? getComputedStyle(overlay) : null;
+    const overlayRect = overlay?.getBoundingClientRect();
     const buttons = [...dialog.querySelectorAll(".guide-dialog__actions button")].map((button) => {
       const buttonRect = button.getBoundingClientRect();
       const buttonStyle = getComputedStyle(button);
@@ -411,8 +412,14 @@ async function expectGuideDialogChromeArt(page, viewportName) {
     });
     return {
       viewportWidth: window.innerWidth,
+      viewportHeight: window.innerHeight,
       width: rect.width,
       height: rect.height,
+      top: rect.top,
+      overlayWidth: overlayRect?.width || 0,
+      overlayHeight: overlayRect?.height || 0,
+      overlayPosition: overlayStyle?.position || "",
+      overlayBackground: overlayStyle?.backgroundImage || "",
       imageSrc: image?.getAttribute("src") || "",
       artWidth: artRect?.width || 0,
       artHeight: artRect?.height || 0,
@@ -456,9 +463,9 @@ async function expectGuideDialogChromeArt(page, viewportName) {
     !guideMetrics.imageSrc.includes("pip-chrome-v2") ||
     guideMetrics.artWidth < 72 ||
     guideMetrics.artHeight < 108 ||
-    (guideMetrics.viewportWidth <= 520 && Math.abs(guideMetrics.artTop - guideMetrics.bubbleTop) > 12) ||
-    guideMetrics.imageWidth < 66 ||
-    guideMetrics.imageHeight < 66 ||
+    (guideMetrics.viewportWidth <= 520 && (guideMetrics.overlayPosition !== "fixed" || guideMetrics.overlayWidth < guideMetrics.viewportWidth || guideMetrics.overlayHeight < guideMetrics.viewportHeight || guideMetrics.width < guideMetrics.viewportWidth || guideMetrics.height < guideMetrics.viewportHeight || Math.abs(guideMetrics.top) > 1 || !guideMetrics.overlayBackground.includes("gradient"))) ||
+    guideMetrics.imageWidth < (guideMetrics.viewportWidth <= 520 ? 150 : 66) ||
+    guideMetrics.imageHeight < (guideMetrics.viewportWidth <= 520 ? 150 : 66) ||
     guideMetrics.imageFit !== "contain" ||
     !guideMetrics.artBackground.includes("gradient") ||
     guideMetrics.artOverflow !== "hidden" ||
@@ -498,7 +505,7 @@ async function expectGuideDialogChromeArt(page, viewportName) {
       button.shineContent === "none" ||
       button.shineHeight < 8
     ) ||
-    guideMetrics.overlayPaddingBottom < 18 ||
+    (guideMetrics.viewportWidth > 520 && guideMetrics.overlayPaddingBottom < 18) ||
     guideMetrics.overflows
   ) {
     failures.push("[" + viewportName + "] Guide dialog lost current Pip chrome art treatment: " + JSON.stringify(guideMetrics));
