@@ -64,6 +64,26 @@ export const assetRegistry = [
     note: "Approved polished golden spoon currency token promoted after user review in v0.1.91."
   },
   {
+    id: "support-pack-gift-v1",
+    usage: "billing-product-icon",
+    path: "src/assets/billing/support-pack-gift-v1.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    note: "Approved warm gift-pouch icon replacing the CSS-drawn Pip Support Pack symbol in v0.1.509."
+  },
+  {
+    id: "spoon-jar-small-v1",
+    usage: "billing-product-icon",
+    path: "src/assets/billing/spoon-jar-small-v1.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    note: "Approved small spoon-jar icon replacing the CSS-drawn repeatable jar symbol in v0.1.509."
+  },
+  {
     id: "spoon-token-candidate-v2",
     usage: "currency-candidate",
     path: "src/assets/icons/spoon-token-candidate-v2.png",

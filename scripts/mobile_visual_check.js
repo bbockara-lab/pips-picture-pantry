@@ -786,6 +786,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
         const supportStatus = supportCard?.querySelector(".support-pack-card__status");
         const supportActions = [...(supportCard?.querySelectorAll("button") || [])];
         const supportArt = supportCard?.querySelector(".support-pack-card__art--support");
+        const supportArtImage = supportArt?.querySelector(".support-pack-card__art-image");
         const supportStyle = supportCard ? getComputedStyle(supportCard) : null;
         const supportBefore = supportCard ? getComputedStyle(supportCard, "::before") : null;
         const supportAfter = supportCard ? getComputedStyle(supportCard, "::after") : null;
@@ -835,6 +836,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
         const jarStatus = jarCard?.querySelector(".support-pack-card__status");
         const jarActions = [...(jarCard?.querySelectorAll("button") || [])];
         const jarArt = jarCard?.querySelector(".support-pack-card__art--jar");
+        const jarArtImage = jarArt?.querySelector(".support-pack-card__art-image");
         const jarStyle = jarCard ? getComputedStyle(jarCard) : null;
         const jarBefore = jarCard ? getComputedStyle(jarCard, "::before") : null;
         const jarAfter = jarCard ? getComputedStyle(jarCard, "::after") : null;
@@ -942,8 +944,12 @@ async function expectSettingsDialogPolish(page, viewportName) {
             productArtHeight: supportArt?.getBoundingClientRect().height || 0,
             productArtAriaHidden: supportArt?.getAttribute("aria-hidden") || "",
             productArtBackground: supportArtStyle?.backgroundImage || "",
-            productArtBeforeBackground: supportArtBefore?.backgroundImage || "",
-            productArtAfterBackground: supportArtAfter?.backgroundImage || "",
+            productArtBeforeContent: supportArtBefore?.content || "",
+            productArtAfterContent: supportArtAfter?.content || "",
+            productArtAssetId: supportArtImage?.dataset?.assetId || "",
+            productArtImageSrc: supportArtImage?.currentSrc || supportArtImage?.src || "",
+            productArtNaturalWidth: supportArtImage?.naturalWidth || 0,
+            productArtNaturalHeight: supportArtImage?.naturalHeight || 0,
             productArtOverlapsContent: [
               supportLabel,
               supportBody,
@@ -989,8 +995,12 @@ async function expectSettingsDialogPolish(page, viewportName) {
             productArtHeight: jarArt?.getBoundingClientRect().height || 0,
             productArtAriaHidden: jarArt?.getAttribute("aria-hidden") || "",
             productArtBackground: jarArtStyle?.backgroundImage || "",
-            productArtBeforeBackground: jarArtBefore?.backgroundImage || "",
-            productArtAfterBackground: jarArtAfter?.backgroundImage || "",
+            productArtBeforeContent: jarArtBefore?.content || "",
+            productArtAfterContent: jarArtAfter?.content || "",
+            productArtAssetId: jarArtImage?.dataset?.assetId || "",
+            productArtImageSrc: jarArtImage?.currentSrc || jarArtImage?.src || "",
+            productArtNaturalWidth: jarArtImage?.naturalWidth || 0,
+            productArtNaturalHeight: jarArtImage?.naturalHeight || 0,
             productArtOverlapsContent: [
               jarLabel,
               jarBody,
@@ -1128,8 +1138,12 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.supportCard.productArtHeight < 50 ||
     metrics.settingsPolish.supportCard.productArtAriaHidden !== "true" ||
     !metrics.settingsPolish.supportCard.productArtBackground.includes("gradient") ||
-    !metrics.settingsPolish.supportCard.productArtBeforeBackground.includes("gradient") ||
-    !metrics.settingsPolish.supportCard.productArtAfterBackground.includes("gradient") ||
+    metrics.settingsPolish.supportCard.productArtBeforeContent !== "none" ||
+    metrics.settingsPolish.supportCard.productArtAfterContent !== "none" ||
+    metrics.settingsPolish.supportCard.productArtAssetId !== "support-pack-gift-v1" ||
+    !metrics.settingsPolish.supportCard.productArtImageSrc.includes("support-pack-gift-v1") ||
+    metrics.settingsPolish.supportCard.productArtNaturalWidth !== 256 ||
+    metrics.settingsPolish.supportCard.productArtNaturalHeight !== 256 ||
     metrics.settingsPolish.supportCard.productArtOverlapsContent ||
     metrics.settingsPolish.supportCard.actionCount !== 2 ||
     metrics.settingsPolish.supportCard.actionHeights.some((height) => height < 50) ||
@@ -1171,8 +1185,12 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.spoonJarCard.productArtHeight < 50 ||
     metrics.settingsPolish.spoonJarCard.productArtAriaHidden !== "true" ||
     !metrics.settingsPolish.spoonJarCard.productArtBackground.includes("gradient") ||
-    !metrics.settingsPolish.spoonJarCard.productArtBeforeBackground.includes("gradient") ||
-    !metrics.settingsPolish.spoonJarCard.productArtAfterBackground.includes("gradient") ||
+    metrics.settingsPolish.spoonJarCard.productArtBeforeContent !== "none" ||
+    metrics.settingsPolish.spoonJarCard.productArtAfterContent !== "none" ||
+    metrics.settingsPolish.spoonJarCard.productArtAssetId !== "spoon-jar-small-v1" ||
+    !metrics.settingsPolish.spoonJarCard.productArtImageSrc.includes("spoon-jar-small-v1") ||
+    metrics.settingsPolish.spoonJarCard.productArtNaturalWidth !== 256 ||
+    metrics.settingsPolish.spoonJarCard.productArtNaturalHeight !== 256 ||
     metrics.settingsPolish.spoonJarCard.productArtOverlapsContent ||
     metrics.settingsPolish.spoonJarCard.actionCount !== 1 ||
     metrics.settingsPolish.spoonJarCard.actionHeights.some((height) => height < 50) ||

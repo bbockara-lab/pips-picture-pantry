@@ -3528,3 +3528,11 @@ Current launch direction:
 - Replaced the fallback player address `Friend` with `친구`, so Pip does not switch back to an English human name when a Korean player has no saved display name.
 - Kept `Pip` and the English locale unchanged because Pip is the established character and product brand.
 - Verification: 115 unit tests and mobile visual QA at 360x740, 390x844, 430x932, and 675x900 passed.
+
+### v0.1.509 Billing Product Raster Artwork
+- Bumped the visible app version and package metadata to v0.1.509.
+- Replaced the CSS-drawn Pip Support Pack and Small Spoon Jar symbols with two reviewed 256x256 transparent raster icons: a warm ribboned spoon gift pouch and a ceramic jar visibly filled with spoon tokens.
+- Kept the existing tactile card frames but disabled the retired product-art pseudo-elements, so CSS no longer constructs either product illustration.
+- Added both assets to the approved runtime manifest and strengthened mobile QA to require their exact asset IDs, source filenames, 256px dimensions, and absent pseudo-element content.
+- Manual review of the Korean 390x844 Billing capture confirmed both icons remain distinct at 46px, stay inside their card slots, and do not overlap titles, body copy, facts, status messages, or purchase actions.
+- Verification: 115 unit tests, asset manifest QA with 156 registered assets, production build, mobile QA at four viewports, the 29-frame visual review pack, and the full candidate gate passed.

@@ -127,3 +127,8 @@ Before wiring new art:
 - Added a reusable studio bumper image for Sunny Spoon Studios as the first opening-stage art.
 - The runtime asset is `src/assets/brand/sunny-spoon-studios-bumper-v1.webp`; source PNG is archived at `src/assets/brand/sunny-spoon-studios-bumper-v1.png`.
 - The image intentionally contains no text, no puzzle grid, and no Pantry-only clutter; studio name remains UI text for reuse and localization safety.
+
+## v0.1.509 Billing Product Icons
+- Replaced the visible CSS-drawn Support Pack and Small Spoon Jar product symbols with approved transparent PNG artwork.
+- Runtime assets are `src/assets/billing/support-pack-gift-v1.png` and `src/assets/billing/spoon-jar-small-v1.png`.
+- Both icons use the established honey-gold spoon palette, contain no baked text or real-money symbols, and remain readable in the Settings card's 46-62px artwork slot.

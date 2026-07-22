@@ -1,6 +1,19 @@
 import { getActivePlayerName } from "../game/save.js";
 import { getLanguagePreference, t } from "../i18n/index.js";
 import { getAudioPreferences } from "./audio.js";
+import supportPackGiftUrl from "../assets/billing/support-pack-gift-v1.png";
+import spoonJarSmallUrl from "../assets/billing/spoon-jar-small-v1.png";
+
+const BILLING_PRODUCT_ART = {
+  support: {
+    assetId: "support-pack-gift-v1",
+    src: supportPackGiftUrl
+  },
+  jar: {
+    assetId: "spoon-jar-small-v1",
+    src: spoonJarSmallUrl
+  }
+};
 
 export function renderSettingsDialog({
   onClose,
@@ -317,6 +330,15 @@ function createBillingProductArt(kind) {
   const art = document.createElement("span");
   art.className = `support-pack-card__art support-pack-card__art--${kind}`;
   art.setAttribute("aria-hidden", "true");
+  const asset = BILLING_PRODUCT_ART[kind];
+  const image = document.createElement("img");
+  image.className = "support-pack-card__art-image";
+  image.src = asset.src;
+  image.alt = "";
+  image.dataset.assetId = asset.assetId;
+  image.width = 256;
+  image.height = 256;
+  art.appendChild(image);
   return art;
 }
 

@@ -15916,6 +15916,32 @@ img {
   }
 }
 
+/* v0.1.509 reviewed raster Billing product artwork */
+.support-pack-card__art {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.94) 0 10%, transparent 11%),
+    linear-gradient(145deg, #fff5c4 0%, #f3c85f 100%);
+}
+
+.support-pack-card__art::before,
+.support-pack-card__art::after,
+.support-pack-card__art--support::before,
+.support-pack-card__art--support::after,
+.support-pack-card__art--jar::before,
+.support-pack-card__art--jar::after {
+  content: none;
+}
+
+.support-pack-card__art-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 /* v0.1.500 dedicated mobile puzzle play screen */
 @media (max-width: 520px) {
   .app-shell.app-shell--play {
