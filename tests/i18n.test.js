@@ -227,7 +227,9 @@ describe("i18n", () => {
     expect(t("guide.puzzle.step1")).toContain("\uc81c\uac00");
     expect(t("guide.timeAttack.step2")).toContain("\uc2a4\ud47c");
     expect(t("guide.pantryFirstPurchase.step3")).toContain("\ud32c\ud2b8\ub9ac");
-    expect(t("guide.pantryNeighborMrPark.title")).toContain("박 선생님");
+    expect(t("guide.pantryNeighborMrPark.title")).toContain("시계 할아버지");
+    expect(t("guide.pantryNeighborMrPark.step2")).toContain("할아버지는");
+    expect(t("guide.pantryNeighborMrPark.step2")).not.toContain("시계 할아버지");
     expect(t("guide.pantryNeighborLily.title")).toContain("릴리");
     expect(t("guide.pantryNeighborMateo.title")).toContain("마테오");
     [

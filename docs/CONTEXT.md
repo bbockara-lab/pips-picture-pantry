@@ -3507,3 +3507,9 @@ Current launch direction:
 - Added i18n regression checks that require the three Korean resident names and reject `Mr. Park`, `Lily`, or `Mateo` in their Korean introduction copy.
 - Hardened resident screenshots to wait for decoded character images, loaded fonts, and two completed animation frames before capture; this prevents partially painted speech panels from being mistaken for text overflow or section intrusion.
 - Manually reviewed the Korean first-puzzle guide and all three 390x844 resident captures for name rendering, sentence rhythm, line breaks, speech-panel boundaries, progress dots, and action labels.
+
+### v0.1.506 Korean Clock Grandpa Naming
+- Bumped the visible app version and package metadata to v0.1.506.
+- Replaced the formal `박 선생님` localization with the warmer role-based name `시계 할아버지` in his Korean title and first introduction.
+- Uses the shorter `할아버지` after the introduction so repeated sentences sound natural while the clock remains his memorable first-encounter identity.
+- Kept the English `Mr. Park`, internal guide ID, save-state marker, artwork mapping, and milestone behavior unchanged.
