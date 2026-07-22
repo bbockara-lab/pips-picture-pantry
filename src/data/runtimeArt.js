@@ -7,6 +7,11 @@ const APPROVED_QUICK_TRAVEL_ART_IDS = new Set([
   "quick-travel-time-attack-v1",
   "quick-travel-map-v1"
 ]);
+const APPROVED_PUZZLE_CONTROL_ART_IDS = new Set([
+  "puzzle-control-fill-v1",
+  "puzzle-control-mark-v1",
+  "puzzle-control-undo-v1"
+]);
 
 export function isRuntimeGuideArtApproved(assetId) {
   return APPROVED_GUIDE_ART_IDS.has(assetId);
@@ -18,6 +23,10 @@ export function isRuntimeStudioBumperArtApproved(assetId) {
 
 export function isRuntimeQuickTravelArtApproved(assetId) {
   return APPROVED_QUICK_TRAVEL_ART_IDS.has(assetId);
+}
+
+export function isRuntimePuzzleControlArtApproved(assetId) {
+  return APPROVED_PUZZLE_CONTROL_ART_IDS.has(assetId);
 }
 
 const APPROVED_PANTRY_DECORATION_ASSET_IDS = new Set([

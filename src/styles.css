@@ -15775,3 +15775,27 @@ img {
     width: 100%;
   }
 }
+
+/* v0.1.497 approved raster artwork for primary puzzle controls */
+.control-button__icon.control-button__icon--raster {
+  display: grid;
+  place-items: center;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.control-button__icon.control-button__icon--raster::before,
+.control-button__icon.control-button__icon--raster::after {
+  content: none;
+}
+
+.control-button__icon--raster img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 1px rgba(82, 53, 31, 0.18));
+}

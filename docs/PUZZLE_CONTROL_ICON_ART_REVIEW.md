@@ -1,20 +1,20 @@
 # Puzzle Control Icon Art Review
 
 Last updated: 2026-07-22
-Mode: experimental candidate review
+Mode: mixed live / experimental review
 
 ## Purpose
 
-This hidden set explores raster replacements for the most repeated CSS control symbols: Fill, Blank Check, Undo, Hint, and Settings. The candidates use the approved spoon token plus the new quick-travel candidate language as visual references, but remain outside runtime UI until reviewed together.
+This set explores raster replacements for the most repeated CSS control symbols: Fill, Blank Check, Undo, Hint, and Settings. Fill, Blank Check, and regenerated Undo v2 passed compact UI review and were promoted to the live puzzle shelf in v0.1.497. Hint and Settings remain hidden experimental candidates because they appear on distinct surfaces that need a separate integration pass.
 
 Review board: `docs/art-review/puzzle-control-icon-review-v1.html`
 
 ## Candidate Set
 
-- `puzzle-control-fill-candidate-v1.png`: strong first-pass candidate
-- `puzzle-control-mark-candidate-v1.png`: strong first-pass candidate
+- `puzzle-control-fill-candidate-v1.png`: promoted as `puzzle-control-fill-v1.png`
+- `puzzle-control-mark-candidate-v1.png`: promoted as `puzzle-control-mark-v1.png`
 - `puzzle-control-undo-candidate-v1.png`: superseded; center reads as a jigsaw piece
-- `puzzle-control-undo-candidate-v2.png`: promising regenerated candidate; center is a square nonogram cell
+- `puzzle-control-undo-candidate-v2.png`: promoted as `puzzle-control-undo-v1.png`; center is a square nonogram cell
 - `puzzle-control-hint-candidate-v1.png`: strong first-pass candidate
 - `puzzle-control-settings-candidate-v1.png`: strong first-pass candidate
 
@@ -33,13 +33,15 @@ All active candidates are transparent RGBA 256x256 PNGs with alpha range 0-255 a
 
 Fill, Blank Check, Hint, and Settings form a coherent tactile set and stay recognizable at compact sizes. Fill makes the brush/cell relationship clearer than the current CSS token; Hint naturally ties the light-bulb metaphor to the approved spoon economy; Settings has a friendly six-tooth silhouette.
 
-Undo v1 remains deliberately blocked because its center is a jigsaw puzzle piece rather than a nonogram cell. Undo v2 preserves the broad counter-clockwise arrow while replacing that center with a straight-sided cream tile and amber filled-square inset. It resolves the known semantic blocker and joins the other four promising candidates for set-level review, but it is not approved for runtime use yet.
+Undo v1 remains deliberately blocked because its center is a jigsaw puzzle piece rather than a nonogram cell. Undo v2 preserves the broad counter-clockwise arrow while replacing that center with a straight-sided cream tile and amber filled-square inset. Together with Fill and Blank Check, it now forms the approved live three-action shelf. The runtime copies are isolated under `puzzle-controls-v1`; archived candidates remain hidden for provenance and rollback.
 
 ## Approval Rule
 
-Do not import any candidate from runtime source while its manifest entry is hidden. A future promotion must either:
+Do not import any candidate from runtime source while its manifest entry is hidden. The v0.1.497 promotion deliberately scoped the live set to the three primary shelf actions and required:
 
-1. approve Undo v2 and promote the coherent five-icon set together, or
-2. deliberately scope a smaller approved set while leaving Undo on the existing CSS fallback.
+1. approved runtime copies plus an explicit allowlist,
+2. unchanged accessible button names and puzzle behavior,
+3. exact 256x256 raster identity checks in mobile QA,
+4. removal of the replaced pseudo-element construction only for raster-backed icons.
 
-Any runtime slice must update the approved runtime allowlist, remove only the replaced CSS construction, preserve accessible labels, and pass mobile QA plus the full visual pack.
+Hint and Settings still follow the original hidden-candidate rule. Promote them only after reviewing their individual button contexts and completing mobile QA plus the full visual pack.

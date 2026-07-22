@@ -3439,3 +3439,11 @@ Current launch direction:
 - Replaced the five layered CSS icon constructions in both the floating trigger and expanded menu with approved raster images behind a dedicated runtime allowlist and view-to-asset map; accessible route labels, hints, titles, active state, and navigation behavior remain unchanged.
 - Updated mobile QA to require the exact five approved asset IDs, 256x256 loaded source dimensions, and absence of the old icon pseudo-elements while retaining all existing route clarity, text-fit, fixed-position, and large-board clearance checks.
 - Billing behavior and the two remaining real-device Billing evidence items are unchanged.
+
+### v0.1.497 Primary Puzzle Control Raster Promotion
+- Bumped the visible app version and package metadata to v0.1.497.
+- Promoted the reviewed Fill, Blank Check, and regenerated Undo artwork into isolated approved runtime assets under `src/assets/icons/puzzle-controls-v1`.
+- Added a puzzle-control runtime allowlist and data mapper so hidden candidate/source files remain provenance only and cannot enter the live UI accidentally.
+- Replaced only the three primary puzzle shelf CSS constructions with raster images while preserving button labels, actions, focus/disabled states, and tactile button surfaces.
+- Left Hint and Settings hidden for a later surface-specific pass instead of widening this rollback unit.
+- Mobile QA now verifies the exact approved asset IDs, 256x256 source dimensions, cleared pseudo-elements, accessible labels, and control containment.

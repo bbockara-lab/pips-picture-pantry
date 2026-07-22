@@ -10,6 +10,7 @@ import {
   undoLastMove
 } from "../game/puzzleState.js";
 import { getPuzzleExtraHintCost } from "../data/economyConfig.js";
+import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
 import { getPantrySpoons, loadPuzzleState, recordReplayReward, savePuzzleState, spendPantrySpoons } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { playComplete, playCursorAction, playCursorMove, playTap } from "./audio.js";
@@ -271,8 +272,17 @@ function createModeButton(label, active, onClick, iconName) {
 
 function createControlIcon(name) {
   const icon = document.createElement("span");
-  icon.className = `control-button__icon control-button__icon--${name}`;
+  icon.className = `control-button__icon control-button__icon--raster control-button__icon--${name}`;
   icon.setAttribute("aria-hidden", "true");
+
+  const art = getPuzzleControlArt(name);
+  if (art) {
+    const image = document.createElement("img");
+    image.src = art.src;
+    image.alt = "";
+    image.dataset.assetId = art.assetId;
+    icon.appendChild(image);
+  }
   return icon;
 }
 

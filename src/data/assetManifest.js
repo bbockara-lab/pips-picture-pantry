@@ -181,6 +181,21 @@ export const assetRegistry = [
     identityStatus: "candidate-needs-ui-review",
     note: "Regenerated Undo candidate with a square nonogram cell instead of the blocked v1 jigsaw center. Hidden until the five-control set is reviewed together at 32px and 48px."
   },
+  ...[
+    ["fill", "Fill brush"],
+    ["mark", "Blank-check tile"],
+    ["undo", "Undo arrow"]
+  ].map(([control, label]) => ({
+    id: `puzzle-control-${control}-v1`,
+    usage: "puzzle-control-icon",
+    path: `src/assets/icons/puzzle-controls-v1/puzzle-control-${control}-v1.png`,
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "original-ui-approved",
+    note: `${label} artwork promoted for the primary puzzle Fill, Blank, and Undo control shelf.`
+  })),
   {
     id: "pip-complete-sticker-v1",
     usage: "stage-reward-art",

@@ -3437,6 +3437,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const iconStyle = icon ? getComputedStyle(icon) : null;
     const beforeStyle = icon ? getComputedStyle(icon, "::before") : null;
     const afterStyle = icon ? getComputedStyle(icon, "::after") : null;
+    const image = icon?.querySelector("img");
     return {
       text: (label?.textContent || "").trim(),
       className: icon?.className || "",
@@ -3448,6 +3449,10 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       iconHeight: iconRect?.height || 0,
       iconBackground: iconStyle?.backgroundImage || "",
       iconShadow: iconStyle?.boxShadow || "",
+      assetId: image?.dataset.assetId || "",
+      imageSrc: image?.getAttribute("src") || "",
+      imageNaturalWidth: image?.naturalWidth || 0,
+      imageNaturalHeight: image?.naturalHeight || 0,
       beforeWidth: parseFloat(beforeStyle?.width) || 0,
       beforeHeight: parseFloat(beforeStyle?.height) || 0,
       beforeTransform: beforeStyle?.transform || "",
@@ -3464,29 +3469,20 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   const fillToken = controlMetrics.find((metrics) => metrics.className.includes("control-button__icon--fill"));
   const markToken = controlMetrics.find((metrics) => metrics.className.includes("control-button__icon--mark"));
   const undoToken = controlMetrics.find((metrics) => metrics.className.includes("control-button__icon--undo"));
+  const expectedControlAssets = new Map([
+    [fillToken, "puzzle-control-fill-v1"],
+    [markToken, "puzzle-control-mark-v1"],
+    [undoToken, "puzzle-control-undo-v1"]
+  ]);
   if (
     controlMetrics.length !== 3 ||
-    controlMetrics.some((metrics) => !metrics.text || metrics.height < 52 || !metrics.background.includes("gradient") || metrics.iconWidth < 30 || metrics.iconHeight < 30 || !metrics.iconBackground.includes("gradient") || metrics.iconShadow === "none" || !metrics.symbolBackground || metrics.shineContent === "none" || !metrics.ariaLabel || metrics.overflows) ||
+    controlMetrics.some((metrics) => !metrics.text || metrics.height < 52 || !metrics.background.includes("gradient") || metrics.iconWidth < 30 || metrics.iconHeight < 30 || metrics.iconBackground !== "none" || metrics.iconShadow !== "none" || metrics.shineContent !== "none" || !metrics.ariaLabel || metrics.overflows) ||
     !fillToken ||
     !markToken ||
     !undoToken ||
-    fillToken.beforeWidth < 10 ||
-    fillToken.beforeHeight < 12 ||
-    !fillToken.beforeTransform.includes("matrix") ||
-    fillToken.afterWidth < 8 ||
-    fillToken.afterHeight < 8 ||
-    !fillToken.afterTransform.includes("matrix") ||
-    markToken.beforeWidth < 18 ||
-    markToken.afterWidth < 18 ||
-    !markToken.beforeTransform.includes("matrix") ||
-    !markToken.afterTransform.includes("matrix") ||
-    undoToken.beforeWidth < 12 ||
-    undoToken.beforeHeight < 12 ||
-    undoToken.afterWidth < 0 ||
-    !undoToken.beforeBoxShadow ||
-    !undoToken.beforeTransform.includes("matrix")
+    [...expectedControlAssets].some(([metrics, assetId]) => !metrics || metrics.assetId !== assetId || !metrics.imageSrc.includes(assetId) || metrics.imageNaturalWidth !== 256 || metrics.imageNaturalHeight !== 256)
   ) {
-    failures.push("[" + viewportName + "] Puzzle controls lost polished icon+tactile mobile treatment: " + JSON.stringify(controlMetrics));
+    failures.push("[" + viewportName + "] Puzzle controls lost approved raster artwork or tactile mobile treatment: " + JSON.stringify(controlMetrics));
   }
 
   const progressMetrics = await page.locator(".progress-line").first().evaluate((line) => {
