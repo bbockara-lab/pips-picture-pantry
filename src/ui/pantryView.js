@@ -229,7 +229,7 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, track
   const owned = ownedIds.includes(decoration.id);
   const equipped = equippedDecorations[decoration.slot] === decoration.id;
   const affordable = spoons >= Number(decoration.cost || 0);
-  const isStarterRoomRequest = Number(decoration.cost || 0) === 0 && decoration.slot === "counter";
+  const isStarterRoomRequest = decoration.id === "starter-counter-cloth";
   const artUrl = getDecorationArtUrl(decoration.assetId);
   const slot = pantrySlots.find((candidate) => candidate.id === decoration.slot);
   const slotLabel = slot ? t(slot.titleKey) : decoration.slot;

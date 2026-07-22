@@ -73,6 +73,9 @@ if (!brandIntroSource.includes("pipSealUrl")) {
 if (/\.spoon-icon::(?:before|after)\s*\{[^}]*content\s*:\s*[\"'][^\"']+[\"']/s.test(styles)) {
   errors.push("src/styles.css: .spoon-icon pseudo-elements still draw CSS currency art");
 }
+if (/\.support-pack-card__art(?:--support|--jar)?::(?:before|after)\s*\{/s.test(styles)) {
+  errors.push("src/styles.css: Billing product pseudo-elements must not replace approved raster artwork");
+}
 
 
 const cssArtSelectors = [

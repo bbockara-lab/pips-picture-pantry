@@ -3545,3 +3545,12 @@ Current launch direction:
 - Added regression coverage for room-story priority, first-purchase priority, upgraded saves eligible for multiple residents, ordered Mr. Park/Lily/Mateo reveals, and the fully seen state.
 - Updated the resident mobile-QA fixture to mark the two prerequisite Pantry guides as seen, keeping the resident reveal check isolated from the newly enforced queue order.
 - Verification: 119 unit tests, production build, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900 passed.
+
+### v0.1.511 Claude Review P3 Cleanup
+- Bumped the visible app version and package metadata to v0.1.511.
+- Replaced the broad zero-cost counter heuristic with the exact `starter-counter-cloth` ID, preventing future free counter decorations from completing the starter room request accidentally.
+- Stacked Support Pack purchase and restore actions at every Settings width so the long Korean store-price label receives the full card width instead of wrapping into an uneven three-line half-width button at 675px.
+- Removed both historical sets of CSS-drawn Support Pack and Spoon Jar product shapes now that approved raster icons own those visuals.
+- Extended asset QA to reject any future Billing product `::before` or `::after` artwork rule, while preserving the tactile raster frame and card decoration layers.
+- Manual review of the regenerated 675x900 Billing capture confirmed the Korean purchase label now fits on one line at full card width and aligns cleanly with Restore, with no icon or section overlap.
+- Verification: 119 unit tests, asset QA, production build, the 29-frame visual review pack, mobile QA at four viewports, and the full candidate gate passed.
