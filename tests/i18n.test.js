@@ -223,6 +223,10 @@ describe("i18n", () => {
       expect(value).not.toContain("\u5360");
     });
     expect(t("guide.eyebrow")).toBe("Pip\uc758 \uc791\uc740 \uc548\ub0b4");
+    expect(t("playerIntro.placeholder")).toBe("하늘");
+    expect(t("playerIntro.defaultName")).toBe("친구");
+    expect(t("playerIntro.placeholder")).not.toBe("Jay");
+    expect(t("playerIntro.defaultName")).not.toBe("Friend");
     expect(t("guide.speaker")).toContain("Pip");
     expect(t("guide.puzzle.step1")).toContain("\uc81c\uac00");
     expect(t("guide.timeAttack.step2")).toContain("\uc2a4\ud47c");

@@ -23,9 +23,9 @@ export const ko = {
     note: "\uc774 \uc774\ub984\uc73c\ub85c \uc9c4\ud589\uc774 \uc774 \uae30\uae30\uc5d0 \uc800\uc7a5\ub3fc\uc694.",
     pipCue: "\ud32c\ud2b8\ub9ac \uce74\ub4dc\ub294 Pip\uc774 \uae54\ub054\ud558\uac8c \uc815\ub9ac\ud574\ub458\uac8c\uc694.",
     label: "\uc774\ub984",
-    placeholder: "Jay",
+    placeholder: "하늘",
     continue: "\uacc4\uc18d",
-    defaultName: "Friend"
+    defaultName: "친구"
   },
   views: {
     puzzle: "\ud37c\uc990",

@@ -3521,3 +3521,10 @@ Current launch direction:
 - Expanded the visual review pack from 27 to 29 screenshots with deterministic Korean returning-player captures for Settings/Billing and the full Pantry room/shop surface.
 - Manual 390x844 review confirmed the revised Billing copy stays inside its cards and buttons, while the full Pantry capture keeps headings, progress panels, filter controls, item cards, and action buttons in their intended sections without visible overlap.
 - Verification: 115 unit tests, the 29-frame visual review pack, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, and the full candidate gate passed. The two real-device Billing evidence records remain external blockers.
+
+### v0.1.508 Korean Player Name Defaults
+- Bumped the visible app version and package metadata to v0.1.508.
+- Replaced the English `Jay` name-field example with the natural Korean example `하늘` when the app is displayed in Korean.
+- Replaced the fallback player address `Friend` with `친구`, so Pip does not switch back to an English human name when a Korean player has no saved display name.
+- Kept `Pip` and the English locale unchanged because Pip is the established character and product brand.
+- Verification: 115 unit tests and mobile visual QA at 360x740, 390x844, 430x932, and 675x900 passed.
