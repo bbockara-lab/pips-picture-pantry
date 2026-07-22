@@ -410,11 +410,13 @@ async function expectGuideDialogChromeArt(page, viewportName) {
       };
     });
     return {
+      viewportWidth: window.innerWidth,
       width: rect.width,
       height: rect.height,
       imageSrc: image?.getAttribute("src") || "",
       artWidth: artRect?.width || 0,
       artHeight: artRect?.height || 0,
+      artTop: artRect?.top || 0,
       imageWidth: imageRect?.width || 0,
       imageHeight: imageRect?.height || 0,
       imageFit: imageStyle?.objectFit || "",
@@ -426,6 +428,7 @@ async function expectGuideDialogChromeArt(page, viewportName) {
       artTokenWidth: artAfter ? parseFloat(artAfter.width) : 0,
       bubbleWidth: bubbleRect?.width || 0,
       bubbleHeight: bubbleRect?.height || 0,
+      bubbleTop: bubbleRect?.top || 0,
       bubbleBackground: bubbleStyle?.backgroundImage || "",
       bubbleRadius: bubbleStyle ? parseFloat(bubbleStyle.borderRadius) : 0,
       bubbleShadow: bubbleStyle?.boxShadow || "",
@@ -453,6 +456,7 @@ async function expectGuideDialogChromeArt(page, viewportName) {
     !guideMetrics.imageSrc.includes("pip-chrome-v2") ||
     guideMetrics.artWidth < 72 ||
     guideMetrics.artHeight < 108 ||
+    (guideMetrics.viewportWidth <= 520 && Math.abs(guideMetrics.artTop - guideMetrics.bubbleTop) > 12) ||
     guideMetrics.imageWidth < 66 ||
     guideMetrics.imageHeight < 66 ||
     guideMetrics.imageFit !== "contain" ||

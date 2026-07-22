@@ -3426,3 +3426,9 @@ Current launch direction:
 - Regenerated the blocked Undo control candidate while preserving the broad glossy counter-clockwise arrow and replacing the jigsaw-shaped center with a straight-sided nonogram cell tile.
 - Archived the generated magenta source, produced a transparent 256x256 RGBA candidate, and kept both files hidden in the asset manifest; no runtime import, CSS fallback removal, package version bump, or Billing behavior change was made.
 - Updated the puzzle-control review board to compare Undo v2 at 144px, 48px, and 32px. Undo v1 remains archived as rejected-direction evidence rather than being overwritten.
+
+### v0.1.495 Mobile Pip Guide Speaker Alignment
+- Bumped the visible app version and package metadata to v0.1.495.
+- Moved the mobile Pip portrait card from the bottom of tall guide dialogs to the start of the speech bubble, keeping Pip beside the existing bubble tail instead of visually disconnecting the speaker from the conversation.
+- Preserved guide copy, step order, skip/continue actions, approved Pip artwork, desktop layout, navigation containment, and Billing behavior.
+- Extended mobile QA to compare the Pip art and speech-bubble top edges on viewports up to 520px so the conversation relationship cannot silently drift apart again.

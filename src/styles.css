@@ -1735,7 +1735,7 @@ body {
 @media (max-width: 520px) {
   .guide-dialog {
     grid-template-columns: minmax(78px, 86px) minmax(0, 1fr);
-    align-items: end;
+    align-items: start;
   }
 
   .guide-dialog__art {
@@ -1761,6 +1761,13 @@ body {
     border-left: 3px solid rgba(61, 43, 46, 0.92);
     border-bottom: 3px solid rgba(61, 43, 46, 0.92);
     transform: rotate(45deg);
+  }
+}
+
+/* v0.1.495 keep Pip beside the start of the mobile speech bubble */
+@media (max-width: 520px) {
+  .guide-dialog__art {
+    align-self: start;
   }
 }
 
