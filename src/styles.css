@@ -11838,6 +11838,32 @@ img {
   scrollbar-width: thin;
 }
 
+/* v0.1.493 reusable D-pad arrow artwork */
+.cursor-move {
+  font-size: 0;
+}
+
+.cursor-move::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  width: 23px;
+  height: 19px;
+  background: linear-gradient(135deg, #fff5a8 0 18%, #df9348 19% 66%, #8f4f3f 67% 100%);
+  clip-path: polygon(0 38%, 54% 38%, 54% 8%, 100% 50%, 54% 92%, 54% 62%, 0 62%);
+  filter: drop-shadow(0 2px 0 rgba(61, 43, 46, 0.28));
+  transform: translate(-50%, -50%) rotate(var(--cursor-arrow-rotation, 0deg));
+  transform-origin: center;
+  pointer-events: none;
+}
+
+.cursor-move--up { --cursor-arrow-rotation: -90deg; }
+.cursor-move--left { --cursor-arrow-rotation: 180deg; }
+.cursor-move--right { --cursor-arrow-rotation: 0deg; }
+.cursor-move--down { --cursor-arrow-rotation: 90deg; }
+
 .modal-backdrop--settings .settings-choice--close {
   position: static;
   margin-top: 14px;

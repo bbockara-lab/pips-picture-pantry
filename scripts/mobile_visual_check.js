@@ -2881,12 +2881,20 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const moves = [...panel.querySelectorAll(".cursor-move")].map((button) => {
       const buttonRect = button.getBoundingClientRect();
       const buttonStyle = getComputedStyle(button);
+      const arrowStyle = getComputedStyle(button, "::before");
       const shineStyle = getComputedStyle(button, "::after");
       return {
         width: buttonRect.width,
         height: buttonRect.height,
         background: buttonStyle.backgroundImage,
         label: button.getAttribute("aria-label") || "",
+        visibleFontSize: parseFloat(buttonStyle.fontSize) || 0,
+        arrowWidth: parseFloat(arrowStyle.width) || 0,
+        arrowHeight: parseFloat(arrowStyle.height) || 0,
+        arrowBackground: arrowStyle.backgroundImage || "",
+        arrowClipPath: arrowStyle.clipPath || "",
+        arrowFilter: arrowStyle.filter || "",
+        arrowTransform: arrowStyle.transform || "",
         shineBackground: shineStyle.backgroundImage,
         shineHeight: parseFloat(shineStyle.height) || 0
       };
@@ -2953,7 +2961,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     cursorPadMetrics.navOverlapActions ||
     cursorPadMetrics.navOverlapDpad ||
     cursorPadMetrics.moves.length !== 4 ||
-    cursorPadMetrics.moves.some((button) => button.width < 40 || button.height < 40 || !button.background.includes("gradient") || !button.label || !button.shineBackground.includes("gradient") || button.shineHeight < 10) ||
+    cursorPadMetrics.moves.some((button) => button.width < 40 || button.height < 40 || !button.background.includes("gradient") || !button.label || button.visibleFontSize !== 0 || button.arrowWidth < 20 || button.arrowHeight < 16 || !button.arrowBackground.includes("gradient") || button.arrowClipPath === "none" || button.arrowFilter === "none" || button.arrowTransform === "none" || !button.shineBackground.includes("gradient") || button.shineHeight < 10) ||
     cursorPadMetrics.actions.length !== 2 ||
     cursorPadMetrics.actions.some((button) => button.width < 120 || button.height < 44 || !button.background.includes("gradient") || !button.text || !button.iconBackground.includes("gradient") || button.iconRadius < 6 || button.iconShadow === "none") ||
     cursorPadMetrics.overflows

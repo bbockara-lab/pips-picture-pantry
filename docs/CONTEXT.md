@@ -3383,6 +3383,12 @@ Current launch direction:
 - Removed the accidental horizontal settings scrollbar and extended mobile QA to measure backdrop/dialog scroll widths plus both padded side boundaries.
 - Kept settings behavior, guide replay, Billing product wiring, purchase/restore behavior, puzzle play, and the two remaining real-device Billing evidence items unchanged.
 
+### v0.1.493 Shared D-pad Arrow Artwork
+- Bumped the visible app version to v0.1.493 and package version to 0.1.493.
+- Replaced the large-board D-pad's raw arrow characters with one reusable layered CSS arrow token, rotated consistently for all four directions while preserving the existing localized accessible labels.
+- Extended mobile QA to guard hidden fallback glyphs, arrow dimensions, gradient fill, clipped silhouette, shadow depth, direction transforms, and the existing 44px tap targets.
+- Kept cursor movement, selected-cell actions, control-mode preferences, puzzle state, and Billing behavior unchanged.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.
