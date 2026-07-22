@@ -705,6 +705,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
     const backdrop = document.querySelector(".modal-backdrop");
     const dialog = document.querySelector(".settings-dialog");
     const dialogRect = dialog?.getBoundingClientRect();
+    const backdropRect = backdrop?.getBoundingClientRect();
     const backdropStyle = backdrop ? getComputedStyle(backdrop) : null;
     const dialogStyle = dialog ? getComputedStyle(dialog) : null;
     const overflowItems = [...document.querySelectorAll(".settings-dialog button, .settings-dialog input")]
@@ -720,6 +721,15 @@ async function expectSettingsDialogPolish(page, viewportName) {
       backdropClass: backdrop?.className || "",
       backdropOverflowY: backdropStyle?.overflowY || "",
       dialogOverflowY: dialogStyle?.overflowY || "",
+      backdropOverflowX: backdropStyle?.overflowX || "",
+      backdropScrollWidth: backdrop?.scrollWidth || 0,
+      backdropClientWidth: backdrop?.clientWidth || 0,
+      dialogScrollWidth: dialog?.scrollWidth || 0,
+      dialogClientWidth: dialog?.clientWidth || 0,
+      dialogLeft: dialogRect?.left || 0,
+      dialogRight: dialogRect?.right || 0,
+      backdropInnerLeft: backdropRect ? backdropRect.left + parseFloat(backdropStyle.paddingLeft) : 0,
+      backdropInnerRight: backdropRect ? backdropRect.right - parseFloat(backdropStyle.paddingRight) : 0,
       floatingNavCount: document.querySelectorAll(".floating-nav").length,
       overflowItems,
       settingsPolish: (() => {
@@ -1010,6 +1020,11 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.backdropPaddingBottom < 14 ||
     metrics.backdropOverflowY !== "auto" ||
     metrics.dialogOverflowY !== "auto" ||
+    metrics.backdropOverflowX !== "hidden" ||
+    metrics.backdropScrollWidth > metrics.backdropClientWidth + 1 ||
+    metrics.dialogScrollWidth > metrics.dialogClientWidth + 1 ||
+    metrics.dialogLeft < metrics.backdropInnerLeft - 1 ||
+    metrics.dialogRight > metrics.backdropInnerRight + 1 ||
     metrics.floatingNavCount !== 0 ||
     metrics.overflowItems.length ||
     metrics.settingsPolish.dialogRadius < 16 ||

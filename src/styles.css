@@ -15695,3 +15695,14 @@ img {
   visibility: hidden;
   pointer-events: none;
 }
+
+/* v0.1.492 settings sheet horizontal containment */
+.modal-backdrop--settings {
+  overflow-x: hidden;
+}
+
+.modal-backdrop--settings .settings-dialog {
+  box-sizing: border-box;
+  width: min(100%, 370px);
+  max-width: 100%;
+}
