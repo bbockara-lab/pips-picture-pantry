@@ -10,7 +10,6 @@ import {
   undoLastMove
 } from "../game/puzzleState.js";
 import { getPuzzleExtraHintCost } from "../data/economyConfig.js";
-import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
 import { getPantrySpoons, loadPuzzleState, recordReplayReward, savePuzzleState, spendPantrySpoons } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { playComplete, playCursorAction, playCursorMove, playTap } from "./audio.js";
@@ -18,6 +17,7 @@ import { getHintLimit, getHintRevealCount, renderHintPanel, renderHowToPlayCard,
 import { moveSelectedCell, renderCursorControls, shouldShowCursorControls, toggleSelectedCell } from "./puzzleCursorControls.js";
 import { getLineGuidance, renderBoard } from "./boardView.js";
 import { renderCompletionBanner } from "./pipReaction.js";
+import { createPuzzleControlArtImage } from "./puzzleControlArt.js";
 
 export function renderPuzzleView(puzzle, options = {}) {
   const isReplayChallenge = Boolean(options.replayChallenge);
@@ -275,12 +275,8 @@ function createControlIcon(name) {
   icon.className = `control-button__icon control-button__icon--raster control-button__icon--${name}`;
   icon.setAttribute("aria-hidden", "true");
 
-  const art = getPuzzleControlArt(name);
-  if (art) {
-    const image = document.createElement("img");
-    image.src = art.src;
-    image.alt = "";
-    image.dataset.assetId = art.assetId;
+  const image = createPuzzleControlArtImage(name);
+  if (image) {
     icon.appendChild(image);
   }
   return icon;

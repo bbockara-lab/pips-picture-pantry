@@ -1,6 +1,7 @@
 import { useHint } from "../game/puzzleState.js";
 import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
 import { t } from "../i18n/index.js";
+import { createPuzzleControlArtImage } from "./puzzleControlArt.js";
 
 export function renderHowToPlayCard() {
   const card = document.createElement("section");
@@ -191,19 +192,9 @@ export function getHintMeterState({ remaining, hintLimit }) {
 
 function createHintIcon() {
   const icon = document.createElement("span");
-  icon.className = "hint-button__icon";
+  icon.className = "hint-button__icon hint-button__icon--raster";
   icon.setAttribute("aria-hidden", "true");
-
-  const bowl = document.createElement("span");
-  bowl.className = "hint-button__bowl";
-
-  const handle = document.createElement("span");
-  handle.className = "hint-button__handle";
-
-  const sparkle = document.createElement("span");
-  sparkle.className = "hint-button__sparkle";
-
-  icon.append(bowl, handle, sparkle);
+  icon.appendChild(createPuzzleControlArtImage("hint", "hint-button__raster-art"));
   return icon;
 }
 

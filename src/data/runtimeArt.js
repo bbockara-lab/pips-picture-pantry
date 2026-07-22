@@ -10,7 +10,9 @@ const APPROVED_QUICK_TRAVEL_ART_IDS = new Set([
 const APPROVED_PUZZLE_CONTROL_ART_IDS = new Set([
   "puzzle-control-fill-v1",
   "puzzle-control-mark-v1",
-  "puzzle-control-undo-v1"
+  "puzzle-control-undo-v1",
+  "puzzle-control-hint-v1",
+  "puzzle-control-settings-v1"
 ]);
 
 export function isRuntimeGuideArtApproved(assetId) {

@@ -1,11 +1,11 @@
 # Puzzle Control Icon Art Review
 
 Last updated: 2026-07-22
-Mode: mixed live / experimental review
+Mode: live set with archived experimental history
 
 ## Purpose
 
-This set explores raster replacements for the most repeated CSS control symbols: Fill, Blank Check, Undo, Hint, and Settings. Fill, Blank Check, and regenerated Undo v2 passed compact UI review and were promoted to the live puzzle shelf in v0.1.497. Hint and Settings remain hidden experimental candidates because they appear on distinct surfaces that need a separate integration pass.
+This set replaces the most repeated CSS control symbols: Fill, Blank Check, Undo, Hint, and Settings. Fill, Blank Check, and regenerated Undo v2 were promoted to the live puzzle shelf in v0.1.497. Hint and Settings passed their separate 54px and 44px context reviews and completed the approved runtime set in v0.1.498.
 
 Review board: `docs/art-review/puzzle-control-icon-review-v1.html`
 
@@ -15,8 +15,8 @@ Review board: `docs/art-review/puzzle-control-icon-review-v1.html`
 - `puzzle-control-mark-candidate-v1.png`: promoted as `puzzle-control-mark-v1.png`
 - `puzzle-control-undo-candidate-v1.png`: superseded; center reads as a jigsaw piece
 - `puzzle-control-undo-candidate-v2.png`: promoted as `puzzle-control-undo-v1.png`; center is a square nonogram cell
-- `puzzle-control-hint-candidate-v1.png`: strong first-pass candidate
-- `puzzle-control-settings-candidate-v1.png`: strong first-pass candidate
+- `puzzle-control-hint-candidate-v1.png`: promoted as `puzzle-control-hint-v1.png`
+- `puzzle-control-settings-candidate-v1.png`: promoted as `puzzle-control-settings-v1.png`
 
 All active candidates are transparent RGBA 256x256 PNGs with alpha range 0-255 and transparent corners. Each has a separate archived magenta chroma source because the assets were generated individually. Undo v1 remains archived as evidence for the rejected semantic direction.
 
@@ -44,4 +44,4 @@ Do not import any candidate from runtime source while its manifest entry is hidd
 3. exact 256x256 raster identity checks in mobile QA,
 4. removal of the replaced pseudo-element construction only for raster-backed icons.
 
-Hint and Settings still follow the original hidden-candidate rule. Promote them only after reviewing their individual button contexts and completing mobile QA plus the full visual pack.
+All five live derivatives are isolated under `puzzle-controls-v1` and guarded by the runtime allowlist. The generated candidates and sources remain hidden review history and must not be imported directly.

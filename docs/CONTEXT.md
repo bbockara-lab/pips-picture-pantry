@@ -3447,3 +3447,10 @@ Current launch direction:
 - Replaced only the three primary puzzle shelf CSS constructions with raster images while preserving button labels, actions, focus/disabled states, and tactile button surfaces.
 - Left Hint and Settings hidden for a later surface-specific pass instead of widening this rollback unit.
 - Mobile QA now verifies the exact approved asset IDs, 256x256 source dimensions, cleared pseudo-elements, accessible labels, and control containment.
+
+### v0.1.498 Hint and Settings Raster Promotion
+- Bumped the visible app version and package metadata to v0.1.498.
+- Completed the reviewed puzzle-control artwork set by promoting the spoon-bulb Hint icon and mint-gear Settings icon into approved runtime copies.
+- Added a small shared image factory so puzzle controls, the Hint panel, the app header, and the focused-play header all receive the same allowlisted asset metadata without duplicating DOM construction.
+- Preserved the 54px Hint and 44px Settings tactile button surfaces, accessible names, disabled/pressed behavior, settings flow, hint allowance meter, and spoon-economy copy.
+- Extended mobile QA to require exact approved asset IDs and 256x256 source dimensions for both surfaces while confirming the retired Settings pseudo-elements remain absent.

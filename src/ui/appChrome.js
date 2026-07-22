@@ -4,6 +4,7 @@ import { getBadgeArtUrl } from "../data/badgeArt.js";
 import { getEarnedPackBadges } from "../game/badges.js";
 import { getActivePlayerName, getCompletedPuzzleIds, getPantrySpoons } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
+import { createPuzzleControlArtImage } from "./puzzleControlArt.js";
 
 export function renderHeader(onSettings, onReset) {
   const header = document.createElement("header");
@@ -27,6 +28,7 @@ export function renderHeader(onSettings, onReset) {
   settingsButton.type = "button";
   settingsButton.title = t("header.settings");
   settingsButton.setAttribute("aria-label", t("header.settings"));
+  settingsButton.appendChild(createPuzzleControlArtImage("settings", "icon-button__raster-art"));
   settingsButton.addEventListener("click", onSettings);
 
   const resetButton = document.createElement("button");

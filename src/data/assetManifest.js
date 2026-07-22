@@ -184,7 +184,9 @@ export const assetRegistry = [
   ...[
     ["fill", "Fill brush"],
     ["mark", "Blank-check tile"],
-    ["undo", "Undo arrow"]
+    ["undo", "Undo arrow"],
+    ["hint", "Spoon hint bulb"],
+    ["settings", "Settings gear"]
   ].map(([control, label]) => ({
     id: `puzzle-control-${control}-v1`,
     usage: "puzzle-control-icon",
@@ -194,7 +196,7 @@ export const assetRegistry = [
     visible: true,
     mustReplaceBeforeMajorArtPass: false,
     identityStatus: "original-ui-approved",
-    note: `${label} artwork promoted for the primary puzzle Fill, Blank, and Undo control shelf.`
+    note: `${label} artwork promoted for the approved puzzle control and app chrome set.`
   })),
   {
     id: "pip-complete-sticker-v1",

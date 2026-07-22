@@ -1204,6 +1204,7 @@ async function expectAppChromePolish(page, viewportName) {
     const settingsAfter = settings ? getComputedStyle(settings, "::after") : null;
     const resetBefore = reset ? getComputedStyle(reset, "::before") : null;
     const resetAfter = reset ? getComputedStyle(reset, "::after") : null;
+    const settingsArt = settings?.querySelector(".icon-button__raster-art");
     return {
       topBarHeight: topBarRect?.height || 0,
       currencyHeight: currencyRect?.height || 0,
@@ -1217,9 +1218,11 @@ async function expectAppChromePolish(page, viewportName) {
       resetHeight: resetRect?.height || 0,
       settingsBackground: settingsStyle?.backgroundImage || "",
       resetBackground: resetStyle?.backgroundImage || "",
-      settingsGearWidth: parseFloat(settingsBefore?.width) || 0,
-      settingsGearBorder: settingsBefore?.borderTopWidth || "",
-      settingsHubWidth: parseFloat(settingsAfter?.width) || 0,
+      settingsBeforeContent: settingsBefore?.content || "",
+      settingsAfterContent: settingsAfter?.content || "",
+      settingsAssetId: settingsArt?.dataset.assetId || "",
+      settingsImageNaturalWidth: settingsArt?.naturalWidth || 0,
+      settingsImageNaturalHeight: settingsArt?.naturalHeight || 0,
       resetRingWidth: parseFloat(resetBefore?.width) || 0,
       resetArrowBorder: resetAfter?.borderLeftWidth || ""
     };
@@ -1237,9 +1240,11 @@ async function expectAppChromePolish(page, viewportName) {
     chromeMetrics.resetHeight < 44 ||
     !chromeMetrics.settingsBackground.includes("gradient") ||
     !chromeMetrics.resetBackground.includes("gradient") ||
-    chromeMetrics.settingsGearWidth < 18 ||
-    chromeMetrics.settingsGearBorder === "0px" ||
-    chromeMetrics.settingsHubWidth < 5 ||
+    chromeMetrics.settingsBeforeContent !== "none" ||
+    chromeMetrics.settingsAfterContent !== "none" ||
+    chromeMetrics.settingsAssetId !== "puzzle-control-settings-v1" ||
+    chromeMetrics.settingsImageNaturalWidth !== 256 ||
+    chromeMetrics.settingsImageNaturalHeight !== 256 ||
     chromeMetrics.resetRingWidth < 20 ||
     chromeMetrics.resetArrowBorder === "0px"
   ) {
@@ -3380,6 +3385,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const meter = document.querySelector(".hint-panel__meter");
     const meterRect = meter?.getBoundingClientRect();
     const meterStyle = meter ? getComputedStyle(meter) : null;
+    const image = button.querySelector(".hint-button__raster-art");
     const dots = [...document.querySelectorAll(".hint-panel__meter-dot")].map((dot) => {
       const dotRect = dot.getBoundingClientRect();
       const dotStyle = getComputedStyle(dot);
@@ -3401,6 +3407,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       visibleText: button.textContent.trim(),
       ariaLabel: button.getAttribute("aria-label") || "",
       iconCount: button.querySelectorAll(".hint-button__icon").length,
+      assetId: image?.dataset.assetId || "",
+      imageNaturalWidth: image?.naturalWidth || 0,
+      imageNaturalHeight: image?.naturalHeight || 0,
       meterWidth: meterRect?.width || 0,
       meterHeight: meterRect?.height || 0,
       meterBackground: meterStyle?.backgroundImage || "",
@@ -3417,6 +3426,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     hintButtonMetrics.visibleText.length > 0 ||
     !hintButtonMetrics.ariaLabel ||
     hintButtonMetrics.iconCount !== 1 ||
+    hintButtonMetrics.assetId !== "puzzle-control-hint-v1" ||
+    hintButtonMetrics.imageNaturalWidth !== 256 ||
+    hintButtonMetrics.imageNaturalHeight !== 256 ||
     hintButtonMetrics.meterHeight < 22 ||
     !hintButtonMetrics.meterBackground.includes("gradient") ||
     hintButtonMetrics.meterShadow === "none" ||
