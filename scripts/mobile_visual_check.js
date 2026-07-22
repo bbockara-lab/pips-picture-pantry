@@ -473,7 +473,7 @@ async function expectGuideDialogChromeArt(page, viewportName) {
     };
   });
   if (
-    !guideMetrics.imageSrc.includes("pip-chrome-v2") ||
+    (!guideMetrics.imageSrc.includes("pip-chrome-v2") && !guideMetrics.imageSrc.includes("story-friends-sheet-v1-clean")) ||
     guideMetrics.artWidth < 72 ||
     guideMetrics.artHeight < 108 ||
     (guideMetrics.viewportWidth <= 520 && (guideMetrics.overlayPosition !== "fixed" || guideMetrics.overlayWidth < guideMetrics.viewportWidth || guideMetrics.overlayHeight < guideMetrics.viewportHeight || guideMetrics.width < guideMetrics.viewportWidth || guideMetrics.height < guideMetrics.viewportHeight || Math.abs(guideMetrics.top) > 1 || !guideMetrics.overlayBackground.includes("gradient"))) ||
@@ -4881,6 +4881,7 @@ async function verifyPantryPlacement(page, viewportName) {
     const saveKey = "pips-picture-pantry:v0.1:save:jay";
     const save = JSON.parse(localStorage.getItem(saveKey) || "{}");
     save.pantrySpoons = 25;
+    save.pantryCompletedStoryGoalIds = ["sunny-window-curtains", "recipe-card-shelf"];
     localStorage.setItem(saveKey, JSON.stringify(save));
   });
   await openFloatingView(page, "puzzle");
@@ -4902,6 +4903,19 @@ async function verifyPantryPlacement(page, viewportName) {
   await page.waitForTimeout(120);
   await page.locator(".pantry-item-card", { hasText: /Small Jam Jar/ }).first().locator(".pantry-item-action").click();
   await page.waitForTimeout(120);
+  const neighborGuide = page.locator('.guide-dialog[data-guide-id="pantryNeighborMrPark"]');
+  if ((await neighborGuide.count()) !== 1) {
+    failures.push("[" + viewportName + "] Three completed Pantry requests should reveal Mr. Park through Pip's full-screen story.");
+  } else {
+    const neighborCopy = await neighborGuide.evaluate((dialog) => ({
+      title: dialog.querySelector("h2")?.textContent || "",
+      line: dialog.querySelector(".guide-dialog__line")?.textContent || "",
+      imageSrc: dialog.querySelector(".guide-dialog__neighbor-sheet")?.getAttribute("src") || ""
+    }));
+    if (!/Mr\. Park/i.test(neighborCopy.title) || !/clock|pantry|village/i.test(neighborCopy.line) || !neighborCopy.imageSrc.includes("story-friends-sheet-v1-clean")) {
+      failures.push("[" + viewportName + "] Mr. Park reveal lost its character, story, or approved artwork: " + JSON.stringify(neighborCopy));
+    }
+  }
   await dismissGuideIfPresent(page, viewportName);
   await expectVisible(page, ".pantry-action-feedback.story-complete", viewportName);
   const storyCompleteText = await page.locator(".pantry-action-feedback.story-complete").first().innerText();
@@ -4960,7 +4974,7 @@ async function verifyPantryPlacement(page, viewportName) {
   await expectVisible(page, ".pantry-story-archive", viewportName);
   const storyArchiveText = await page.locator(".pantry-story-archive").first().innerText();
   const normalizedStoryArchiveText = storyArchiveText.toLowerCase();
-  if (!storyArchiveText.includes("Pip's request log") || !storyArchiveText.includes("Small Jam Jar") || !storyArchiveText.includes("Next room step") || !storyArchiveText.includes("1/3") || !normalizedStoryArchiveText.includes("room chapter") || !storyArchiveText.includes("Chapter 2") || !storyArchiveText.includes("Next puzzle stage") || !storyArchiveText.includes("2 more requests") || !storyArchiveText.includes("Stage key") || !storyArchiveText.includes("/80 spoons") || !normalizedStoryArchiveText.includes("next pip request") || !storyArchiveText.includes("Plan request")) {
+  if (!storyArchiveText.includes("Pip's request log") || !storyArchiveText.includes("Small Jam Jar") || !storyArchiveText.includes("Next room step") || !storyArchiveText.includes("3/6") || !normalizedStoryArchiveText.includes("room chapter") || !storyArchiveText.includes("Chapter 3") || !storyArchiveText.includes("Next puzzle stage") || !storyArchiveText.includes("3 more requests") || !storyArchiveText.includes("Apron Drawer") || !storyArchiveText.includes("Stage key") || !storyArchiveText.includes("/160 spoons") || !normalizedStoryArchiveText.includes("next pip request") || !storyArchiveText.includes("Plan request")) {
     failures.push("[" + viewportName + "] Delivery completion archive did not show request progress, saw " + storyArchiveText);
   }
   await expectVisible(page, ".pantry-story-archive__meter", viewportName);

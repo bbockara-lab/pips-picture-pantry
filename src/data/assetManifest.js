@@ -240,13 +240,14 @@ export const assetRegistry = [
   },
   {
     id: "story-friends-sheet-v1-clean",
-    usage: "stage-reward-art",
+    usage: "story-character-art",
     path: "src/assets/characters/story-friends-sheet-v1-clean.png",
     sourceType: "raster",
-    approval: "temporary-hidden",
-    visible: false,
-    mustReplaceBeforeMajorArtPass: true,
-    note: "Hidden by v0.1.48 art gate. Do not use as badge or stage reward art; create dedicated approved raster art instead."
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "Approved in v0.1.502 for clipped one-character Pantry neighbor reveals; not approved as badge or stage reward art."
   },
   {
     id: "pips-first-shelf-reward-candidate-v1",

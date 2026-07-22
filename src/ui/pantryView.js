@@ -291,7 +291,10 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, track
       if (storyCompleted) {
         storyGoalId = null;
         pantryViewState.storyGoalId = null;
-        onFirstPurchase?.(decoration, { storyCompleted: true });
+        onFirstPurchase?.(decoration, {
+          storyCompleted: true,
+          completedRequestCount: getCompletedPantryStoryGoalIds().length
+        });
       }
       onRefresh?.();
     });
@@ -306,7 +309,10 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, track
           storyGoalId = null;
           pantryViewState.storyGoalId = null;
         }
-        onFirstPurchase?.(decoration, { storyCompleted });
+        onFirstPurchase?.(decoration, {
+          storyCompleted,
+          completedRequestCount: getCompletedPantryStoryGoalIds().length
+        });
         onRefresh?.();
       }
     });

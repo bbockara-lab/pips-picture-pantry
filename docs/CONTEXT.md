@@ -3475,3 +3475,11 @@ Current launch direction:
 - Connected decorating to a clear story promise: the room feels warmer, village neighbors are waiting for a place, and the next request reveals another neighbor story.
 - Triggered the story beat whether the requested decoration is newly purchased or already owned and equipped, while preserving the existing inline completion feedback.
 - Stored the one-time acknowledgement as `pantryRoomStory` alongside the existing guide IDs so existing saves remain compatible and the conversation does not repeat unexpectedly.
+
+### v0.1.502 First Pantry Neighbor Reveal
+- Bumped the visible app version and package metadata to v0.1.502.
+- Added a one-time full-screen Pip conversation after three completed tracked Pantry requests, revealing Mr. Park as the first village neighbor drawn to the decorated room.
+- Reused the approved high-quality `story-friends-sheet-v1-clean` artwork through a clipped character frame instead of introducing another CSS silhouette or temporary icon.
+- Connected the reveal to a repeatable story promise: every few completed requests can welcome another neighbor and open another room story.
+- Updated the character continuity data to match the current product: Pip is the active Picture Pantry host who speaks in short, warm guide sentences, while Elena remains a wider Sunny Spoon Village lead.
+- Extended mobile QA to seed the third request, require the Mr. Park guide ID/copy/artwork, and verify the blocking full-screen conversation before continuing Pantry checks.

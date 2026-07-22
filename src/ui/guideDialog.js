@@ -1,13 +1,16 @@
 import pipGuideSceneUrl from "../assets/characters/pip-chrome-v2.png";
+import storyFriendsSheetUrl from "../assets/characters/story-friends-sheet-v1-clean.png";
 import { isRuntimeGuideArtApproved } from "../data/runtimeArt.js";
 import { t } from "../i18n/index.js";
 
 const GUIDE_ART_ASSET_ID = "pip-chrome-v2";
+const NEIGHBOR_ART_ASSET_ID = "story-friends-sheet-v1-clean";
 const GUIDE_STEPS = {
   puzzle: ["guide.puzzle.step1", "guide.puzzle.step2", "guide.puzzle.step3"],
   timeAttack: ["guide.timeAttack.step1", "guide.timeAttack.step2", "guide.timeAttack.step3"],
   pantryFirstPurchase: ["guide.pantryFirstPurchase.step1", "guide.pantryFirstPurchase.step2", "guide.pantryFirstPurchase.step3"],
-  pantryRoomStory: ["guide.pantryRoomStory.step1", "guide.pantryRoomStory.step2", "guide.pantryRoomStory.step3"]
+  pantryRoomStory: ["guide.pantryRoomStory.step1", "guide.pantryRoomStory.step2", "guide.pantryRoomStory.step3"],
+  pantryNeighborMrPark: ["guide.pantryNeighborMrPark.step1", "guide.pantryNeighborMrPark.step2", "guide.pantryNeighborMrPark.step3"]
 };
 
 export function renderGuideDialog(guideId, onClose) {
@@ -30,7 +33,18 @@ export function renderGuideDialog(guideId, onClose) {
     card.dataset.step = String(index + 1);
 
     const nodes = [];
-    if (isRuntimeGuideArtApproved(GUIDE_ART_ASSET_ID)) {
+    if (guideId === "pantryNeighborMrPark" && isRuntimeGuideArtApproved(NEIGHBOR_ART_ASSET_ID)) {
+      const art = document.createElement("div");
+      art.className = "guide-dialog__art guide-dialog__art--neighbor guide-dialog__art--mr-park";
+      art.setAttribute("aria-hidden", "true");
+
+      const image = document.createElement("img");
+      image.className = "guide-dialog__neighbor-sheet";
+      image.src = storyFriendsSheetUrl;
+      image.alt = "";
+      art.appendChild(image);
+      nodes.push(art);
+    } else if (isRuntimeGuideArtApproved(GUIDE_ART_ASSET_ID)) {
       const art = document.createElement("div");
       art.className = "guide-dialog__art";
       art.setAttribute("aria-hidden", "true");

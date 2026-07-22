@@ -269,6 +269,12 @@ export const en = {
       step1: "That decoration made the pantry feel warmer already. Little changes like this help a new neighbor feel at home.",
       step2: "A few village friends are still waiting for a place of their own. Finish the next request, and we'll hear one of their stories.",
       step3: "Let's solve pictures for spoons and choose the next decoration together. I wonder who will visit our pantry next!"
+    },
+    pantryNeighborMrPark: {
+      title: "Mr. Park found our pantry",
+      step1: "Do you hear that little clock? Mr. Park visits the village at the same cozy hour each day, and today he stopped at our door.",
+      step2: "He likes a quiet seat and a warm bowl of soup. The three requests you finished made this room feel ready to welcome him.",
+      step3: "Let's prepare the next pantry corner together. Every few requests can bring another neighbor and a new story to our door."
     }
   },
   stageNav: {

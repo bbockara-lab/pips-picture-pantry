@@ -1,4 +1,4 @@
-const APPROVED_GUIDE_ART_IDS = new Set(["pip-chrome-v2"]);
+const APPROVED_GUIDE_ART_IDS = new Set(["pip-chrome-v2", "story-friends-sheet-v1-clean"]);
 const APPROVED_STUDIO_BUMPER_ART_IDS = new Set(["sunny-spoon-studios-bumper-v1"]);
 const APPROVED_QUICK_TRAVEL_ART_IDS = new Set([
   "quick-travel-puzzle-v1",

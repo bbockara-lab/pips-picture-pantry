@@ -138,6 +138,10 @@ export function renderApp(root) {
   }
 
   function requestPantryFirstPurchaseGuide(_decoration, action = {}) {
+    if (Number(action.completedRequestCount || 0) >= 3 && !hasSeenGuide("pantryNeighborMrPark")) {
+      activeGuide = "pantryNeighborMrPark";
+      return;
+    }
     if (action.storyCompleted && !hasSeenGuide("pantryRoomStory")) {
       activeGuide = "pantryRoomStory";
       return;

@@ -250,6 +250,30 @@ async function seedReturningPlayer(page) {
   });
 }
 
+async function captureMrParkNeighborReveal(page) {
+  await page.evaluate(() => {
+    const saveKey = "pips-picture-pantry:v0.1:save:jay";
+    const save = JSON.parse(localStorage.getItem(saveKey) || "{}");
+    save.pantrySpoons = 999;
+    save.ownedDecorationIds = (save.ownedDecorationIds || save.pantryOwnedDecorationIds || []).filter((id) => id !== "small-jam-jar");
+    save.pantryOwnedDecorationIds = [...save.ownedDecorationIds];
+    save.equippedDecorations = { ...(save.equippedDecorations || {}), counter: "starter-counter-cloth" };
+    save.pantryCompletedStoryGoalIds = ["sunny-window-curtains", "recipe-card-shelf"];
+    save.pantryStoryGoalId = "small-jam-jar";
+    save.seenGuideIds = Array.from(new Set([...(save.seenGuideIds || []), "puzzle", "pantryFirstPurchase", "pantryRoomStory"])).filter((id) => id !== "pantryNeighborMrPark");
+    localStorage.setItem(saveKey, JSON.stringify(save));
+    localStorage.setItem("pip-picture-pantry-language", "ko");
+  });
+  await page.reload({ waitUntil: "networkidle" });
+  await dismissIntro(page);
+  await dismissGuideIfPresent(page);
+  await openFloatingView(page, "pantry");
+  const jamCard = page.locator(".pantry-item-card", { hasText: /Small Jam Jar|작은 잼 병/ }).first();
+  await jamCard.locator(".pantry-item-action").click();
+  await page.locator('.guide-dialog[data-guide-id="pantryNeighborMrPark"]').waitFor({ state: "visible", timeout: 3000 });
+  await capture(page, "pantry-neighbor-mr-park", ".guide-dialog", { settleMs: 320 });
+}
+
 async function captureSettings(page, options = {}) {
   const namePrefix = options.namePrefix || "";
   const viewportName = options.viewportName || "mobile";
@@ -412,6 +436,7 @@ async function main() {
     await openFloatingView(page, "map");
     await capture(page, "map-badges", ".map-panel", { fullPage: true });
     await captureLargeBoard(page);
+    await captureMrParkNeighborReveal(page);
   } finally {
     await page.close();
     await browser.close();
