@@ -777,6 +777,13 @@ async function expectSettingsDialogPolish(page, viewportName) {
           a.top < b.bottom &&
           a.bottom > b.top
         );
+        const readableLineCount = (node) => {
+          if (!node) return 0;
+          const style = getComputedStyle(node);
+          const fontSize = parseFloat(style.fontSize) || 16;
+          const lineHeight = parseFloat(style.lineHeight) || fontSize * 1.2;
+          return node.getBoundingClientRect().height / lineHeight;
+        };
         const supportArtRect = supportArt?.getBoundingClientRect();
         const jarArtRect = jarArt?.getBoundingClientRect();
         return {
@@ -840,6 +847,9 @@ async function expectSettingsDialogPolish(page, viewportName) {
             visibleText: supportCard?.innerText?.trim() || "",
             factTexts: supportFacts.map((fact) => fact.textContent?.trim() || ""),
             factHeights: supportFacts.map((fact) => fact.getBoundingClientRect().height || 0),
+            factLineCounts: supportFacts.map(readableLineCount),
+            factWhiteSpaces: supportFacts.map((fact) => getComputedStyle(fact).whiteSpace || ""),
+            factTextOverflows: supportFacts.map((fact) => getComputedStyle(fact).textOverflow || ""),
             factOverflows: supportFacts.map((fact) => fact.scrollWidth > fact.clientWidth + 1 || fact.scrollHeight > fact.clientHeight + 1),
             factBackgrounds: supportFacts.map((fact) => getComputedStyle(fact).backgroundImage || ""),
             statusText: supportStatus?.textContent?.trim() || "",
@@ -870,6 +880,9 @@ async function expectSettingsDialogPolish(page, viewportName) {
             actionCount: supportActions.length,
             actionTexts: supportActions.map((button) => button.textContent?.trim() || ""),
             actionHeights: supportActions.map((button) => button.getBoundingClientRect().height),
+            actionLineCounts: supportActions.map(readableLineCount),
+            actionWhiteSpaces: supportActions.map((button) => getComputedStyle(button).whiteSpace || ""),
+            actionTextOverflows: supportActions.map((button) => getComputedStyle(button).textOverflow || ""),
             actionOverflows: supportActions.map((button) => button.scrollWidth > button.clientWidth + 1 || button.scrollHeight > button.clientHeight + 1),
             actionBackgrounds: supportActions.map((button) => getComputedStyle(button).backgroundImage || "")
           },
@@ -881,6 +894,9 @@ async function expectSettingsDialogPolish(page, viewportName) {
             visibleText: jarCard?.innerText?.trim() || "",
             factTexts: jarFacts.map((fact) => fact.textContent?.trim() || ""),
             factHeights: jarFacts.map((fact) => fact.getBoundingClientRect().height || 0),
+            factLineCounts: jarFacts.map(readableLineCount),
+            factWhiteSpaces: jarFacts.map((fact) => getComputedStyle(fact).whiteSpace || ""),
+            factTextOverflows: jarFacts.map((fact) => getComputedStyle(fact).textOverflow || ""),
             factOverflows: jarFacts.map((fact) => fact.scrollWidth > fact.clientWidth + 1 || fact.scrollHeight > fact.clientHeight + 1),
             factBackgrounds: jarFacts.map((fact) => getComputedStyle(fact).backgroundImage || ""),
             statusText: jarStatus?.textContent?.trim() || "",
@@ -911,6 +927,9 @@ async function expectSettingsDialogPolish(page, viewportName) {
             actionCount: jarActions.length,
             actionTexts: jarActions.map((button) => button.textContent?.trim() || ""),
             actionHeights: jarActions.map((button) => button.getBoundingClientRect().height),
+            actionLineCounts: jarActions.map(readableLineCount),
+            actionWhiteSpaces: jarActions.map((button) => getComputedStyle(button).whiteSpace || ""),
+            actionTextOverflows: jarActions.map((button) => getComputedStyle(button).textOverflow || ""),
             actionOverflows: jarActions.map((button) => button.scrollWidth > button.clientWidth + 1 || button.scrollHeight > button.clientHeight + 1),
             actionBackgrounds: jarActions.map((button) => getComputedStyle(button).backgroundImage || "")
           },
@@ -1035,6 +1054,12 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.supportCard.productArtOverlapsContent ||
     metrics.settingsPolish.supportCard.actionCount !== 2 ||
     metrics.settingsPolish.supportCard.actionHeights.some((height) => height < 50) ||
+    metrics.settingsPolish.supportCard.factLineCounts.some((count) => count > 2.6) ||
+    metrics.settingsPolish.supportCard.actionLineCounts.some((count) => count > 3.4) ||
+    metrics.settingsPolish.supportCard.factWhiteSpaces.some((value) => value === "nowrap") ||
+    metrics.settingsPolish.supportCard.actionWhiteSpaces.some((value) => value === "nowrap") ||
+    metrics.settingsPolish.supportCard.factTextOverflows.some((value) => value === "ellipsis") ||
+    metrics.settingsPolish.supportCard.actionTextOverflows.some((value) => value === "ellipsis") ||
     metrics.settingsPolish.supportCard.factOverflows.some(Boolean) ||
     metrics.settingsPolish.supportCard.actionOverflows.some(Boolean) ||
     metrics.settingsPolish.supportCard.actionBackgrounds.some((background) => !background.includes("gradient")) ||
@@ -1072,6 +1097,12 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.spoonJarCard.productArtOverlapsContent ||
     metrics.settingsPolish.spoonJarCard.actionCount !== 1 ||
     metrics.settingsPolish.spoonJarCard.actionHeights.some((height) => height < 50) ||
+    metrics.settingsPolish.spoonJarCard.factLineCounts.some((count) => count > 2.6) ||
+    metrics.settingsPolish.spoonJarCard.actionLineCounts.some((count) => count > 3.4) ||
+    metrics.settingsPolish.spoonJarCard.factWhiteSpaces.some((value) => value === "nowrap") ||
+    metrics.settingsPolish.spoonJarCard.actionWhiteSpaces.some((value) => value === "nowrap") ||
+    metrics.settingsPolish.spoonJarCard.factTextOverflows.some((value) => value === "ellipsis") ||
+    metrics.settingsPolish.spoonJarCard.actionTextOverflows.some((value) => value === "ellipsis") ||
     metrics.settingsPolish.spoonJarCard.factOverflows.some(Boolean) ||
     metrics.settingsPolish.spoonJarCard.actionOverflows.some(Boolean) ||
     metrics.settingsPolish.spoonJarCard.actionBackgrounds.some((background) => !background.includes("gradient")) ||

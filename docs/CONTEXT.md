@@ -3353,6 +3353,12 @@ Current launch direction:
 - Strengthened mobile QA thresholds for Billing card artwork size and button height while preserving existing no-overlap, no-developer-copy, and store-readiness guards.
 - Remaining external release evidence is unchanged: activate Play Console products and record real-device purchase/restore for both Billing items.
 
+### v0.1.488 Billing Card Copy Wrap Guard
+- Bumped the visible app version to v0.1.488 and package version to 0.1.488.
+- Locked the Support Pack and Spoon Jar fact chips/actions to readable wrapping copy instead of nowrap/ellipsis truncation, preserving the store-preparation language without exposing developer/test phrasing.
+- Extended mobile QA to reject nowrap, ellipsis, excessive line counts, and copy overflow inside Billing cards while preserving the existing artwork, no-overlap, and product ID guards.
+- Remaining external release evidence is unchanged: activate Play Console products and record real-device purchase/restore for both Billing items.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

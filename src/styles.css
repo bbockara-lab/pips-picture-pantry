@@ -15567,6 +15567,19 @@ img {
   min-height: 31px;
 }
 
+/* v0.1.488 billing card copy wrapping guard */
+.support-pack-card__facts span,
+.support-pack-card__actions .settings-choice {
+  white-space: normal;
+  text-overflow: clip;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.support-pack-card__facts span {
+  line-height: 1.12;
+}
+
 @media (max-width: 430px) {
   .support-pack-card {
     grid-template-columns: minmax(0, 1fr) 54px;
