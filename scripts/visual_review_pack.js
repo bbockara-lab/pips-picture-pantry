@@ -399,6 +399,24 @@ async function captureKoreanFirstRun(browser) {
   } finally {
     await page.close();
   }
+
+  const returningPage = await browser.newPage({ viewport: reviewViewports.mobile });
+  try {
+    await returningPage.goto(baseUrl, { waitUntil: "networkidle" });
+    await returningPage.evaluate(() => localStorage.setItem("pip-picture-pantry-language", "ko"));
+    await seedReturningPlayer(returningPage);
+    await returningPage.reload({ waitUntil: "networkidle" });
+    await dismissIntro(returningPage);
+    await dismissGuideIfPresent(returningPage);
+    await captureSettings(returningPage, { namePrefix: "ko-" });
+    await openFloatingView(returningPage, "pantry");
+    await capture(returningPage, "ko-pantry-room-and-shop", ".pantry-panel", {
+      fullPage: true,
+      settleMs: 400
+    });
+  } finally {
+    await returningPage.close();
+  }
 }
 
 async function captureWidePreviewReview(browser) {

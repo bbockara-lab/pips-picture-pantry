@@ -3513,3 +3513,11 @@ Current launch direction:
 - Replaced the formal `박 선생님` localization with the warmer role-based name `시계 할아버지` in his Korean title and first introduction.
 - Uses the shorter `할아버지` after the introduction so repeated sentences sound natural while the clock remains his memorable first-encounter identity.
 - Kept the English `Mr. Park`, internal guide ID, save-state marker, artwork mapping, and milestone behavior unchanged.
+
+### v0.1.507 Korean Pantry and Spoon Copy Polish
+- Bumped the visible app version and package metadata to v0.1.507.
+- Rewrote translation-like Korean copy in the Settings Billing cards and Pantry story/progress surfaces so support purchases read as filling Pip's spoon economy rather than a paid tier.
+- Clarified the next Pantry request, room-story milestone, request archive, decoration progress, and spoon-shortfall language without changing prices, rewards, progression, Billing wiring, or save data.
+- Expanded the visual review pack from 27 to 29 screenshots with deterministic Korean returning-player captures for Settings/Billing and the full Pantry room/shop surface.
+- Manual 390x844 review confirmed the revised Billing copy stays inside its cards and buttons, while the full Pantry capture keeps headings, progress panels, filter controls, item cards, and action buttons in their intended sections without visible overlap.
+- Verification: 115 unit tests, the 29-frame visual review pack, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, and the full candidate gate passed. The two real-device Billing evidence records remain external blockers.

@@ -275,8 +275,8 @@ describe("i18n", () => {
     );
     expect(t("pantry.story.completeTitle")).toBe("\uCCAB \uBD80\uD0C1 \uC644\uB8CC");
     expect(t("pantry.storyMilestoneEyebrow")).toBe("\uD32C\uD2B8\uB9AC \uCE5C\uBC00\uB3C4");
-    expect(t("pantry.storyNextArrivalAction", { item: "\uD5C8\uBE0C \uD654\uBD84" })).toBe("\uD5C8\uBE0C \uD654\uBD84 \uBAA9\uD45C \uBCF4\uAE30");
-    expect(t("pantry.storyDeliveryEyebrow")).toBe("Pip\uC758 \uBC30\uC1A1 \uBA54\uBAA8");
+    expect(t("pantry.storyNextArrivalAction", { item: "\uD5C8\uBE0C \uD654\uBD84" })).toBe("허브 화분 부탁 살펴보기");
+    expect(t("pantry.storyDeliveryEyebrow")).toBe("Pip의 부탁 메모");
     expect(t("pantry.storyDeliveryEarn")).toBe("\uC2A4\uD47C \uBC8C\uB7EC \uAC00\uAE30");
     expect(t("pantry.storyArchiveEyebrow")).toBe("Pip\uC758 \uBD80\uD0C1 \uAE30\uB85D");
     expect(t("pantry.feedbackStoryCompleteEyebrow")).toBe("\uBC30\uC1A1 \uC644\uB8CC");
