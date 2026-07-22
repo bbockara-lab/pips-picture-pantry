@@ -3420,3 +3420,4 @@ Current launch direction:
 - Marked Fill, Blank Check, Hint, and Settings as promising first-pass candidates. Undo is explicitly `candidate-needs-regeneration` because its central object drifted into a jigsaw piece instead of a square nonogram cell.
 - Added `docs/art-review/puzzle-control-icon-review-v1.html` and `docs/PUZZLE_CONTROL_ICON_ART_REVIEW.md` so the set can be compared at 144px, 48px, and 32px without silently promoting a semantically wrong icon.
 - Kept the live CSS controls, puzzle behavior, accessible labels, package version, Billing, and save state unchanged; this remains a hidden experimental art-production lane.
+- Re-ran `qa:mobile`, the 24-frame visual pack, and the full release-candidate gate after both candidate sets were committed. All checks passed, candidate filenames were absent from `dist`, and the only warnings remained the two external real-device Billing evidence records.

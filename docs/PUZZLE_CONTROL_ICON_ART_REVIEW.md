@@ -42,4 +42,3 @@ Do not import any candidate from runtime source while its manifest entry is hidd
 2. deliberately scope a smaller approved set while leaving Undo on the existing CSS fallback.
 
 Any runtime slice must update the approved runtime allowlist, remove only the replaced CSS construction, preserve accessible labels, and pass mobile QA plus the full visual pack.
-
