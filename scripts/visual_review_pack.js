@@ -250,28 +250,36 @@ async function seedReturningPlayer(page) {
   });
 }
 
-async function captureMrParkNeighborReveal(page) {
-  await page.evaluate(() => {
+async function capturePantryNeighborReveal(page, options) {
+  await dismissGuideIfPresent(page);
+  await page.evaluate(({ completedStoryGoalIds, guideId, earlierGuideIds }) => {
     const saveKey = "pips-picture-pantry:v0.1:save:jay";
     const save = JSON.parse(localStorage.getItem(saveKey) || "{}");
     save.pantrySpoons = 999;
     save.ownedDecorationIds = (save.ownedDecorationIds || save.pantryOwnedDecorationIds || []).filter((id) => id !== "small-jam-jar");
     save.pantryOwnedDecorationIds = [...save.ownedDecorationIds];
     save.equippedDecorations = { ...(save.equippedDecorations || {}), counter: "starter-counter-cloth" };
-    save.pantryCompletedStoryGoalIds = ["sunny-window-curtains", "recipe-card-shelf"];
+    save.pantryCompletedStoryGoalIds = completedStoryGoalIds;
     save.pantryStoryGoalId = "small-jam-jar";
-    save.seenGuideIds = Array.from(new Set([...(save.seenGuideIds || []), "puzzle", "pantryFirstPurchase", "pantryRoomStory"])).filter((id) => id !== "pantryNeighborMrPark");
+    const neighborGuideIds = ["pantryNeighborMrPark", "pantryNeighborLily", "pantryNeighborMateo"];
+    save.seenGuideIds = Array.from(new Set([
+      ...(save.seenGuideIds || []).filter((id) => !neighborGuideIds.includes(id)),
+      "puzzle",
+      "pantryFirstPurchase",
+      "pantryRoomStory",
+      ...earlierGuideIds
+    ])).filter((id) => id !== guideId);
     localStorage.setItem(saveKey, JSON.stringify(save));
     localStorage.setItem("pip-picture-pantry-language", "ko");
-  });
+  }, options);
   await page.reload({ waitUntil: "networkidle" });
   await dismissIntro(page);
   await dismissGuideIfPresent(page);
   await openFloatingView(page, "pantry");
   const jamCard = page.locator(".pantry-item-card", { hasText: /Small Jam Jar|작은 잼 병/ }).first();
   await jamCard.locator(".pantry-item-action").click();
-  await page.locator('.guide-dialog[data-guide-id="pantryNeighborMrPark"]').waitFor({ state: "visible", timeout: 3000 });
-  await capture(page, "pantry-neighbor-mr-park", ".guide-dialog", { settleMs: 320 });
+  await page.locator(`.guide-dialog[data-guide-id="${options.guideId}"]`).waitFor({ state: "visible", timeout: 3000 });
+  await capture(page, options.captureName, ".guide-dialog", { settleMs: 320 });
 }
 
 async function captureSettings(page, options = {}) {
@@ -436,7 +444,35 @@ async function main() {
     await openFloatingView(page, "map");
     await capture(page, "map-badges", ".map-panel", { fullPage: true });
     await captureLargeBoard(page);
-    await captureMrParkNeighborReveal(page);
+    const neighborRequestIds = [
+      "sunny-window-curtains",
+      "recipe-card-shelf",
+      "mint-check-rug",
+      "herb-pot",
+      "cork-board",
+      "tiny-succulent",
+      "spoon-wall-clock",
+      "berry-tea-tins",
+      "ribbon-rolling-pin"
+    ];
+    await capturePantryNeighborReveal(page, {
+      completedStoryGoalIds: neighborRequestIds.slice(0, 2),
+      guideId: "pantryNeighborMrPark",
+      earlierGuideIds: [],
+      captureName: "pantry-neighbor-mr-park"
+    });
+    await capturePantryNeighborReveal(page, {
+      completedStoryGoalIds: neighborRequestIds.slice(0, 5),
+      guideId: "pantryNeighborLily",
+      earlierGuideIds: ["pantryNeighborMrPark"],
+      captureName: "pantry-neighbor-lily"
+    });
+    await capturePantryNeighborReveal(page, {
+      completedStoryGoalIds: neighborRequestIds,
+      guideId: "pantryNeighborMateo",
+      earlierGuideIds: ["pantryNeighborMrPark", "pantryNeighborLily"],
+      captureName: "pantry-neighbor-mateo"
+    });
   } finally {
     await page.close();
     await browser.close();

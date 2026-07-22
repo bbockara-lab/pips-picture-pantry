@@ -275,6 +275,18 @@ export const en = {
       step1: "Do you hear that little clock? Mr. Park visits the village at the same cozy hour each day, and today he stopped at our door.",
       step2: "He likes a quiet seat and a warm bowl of soup. The three requests you finished made this room feel ready to welcome him.",
       step3: "Let's prepare the next pantry corner together. Every few requests can bring another neighbor and a new story to our door."
+    },
+    pantryNeighborLily: {
+      title: "Lily brought a tea-party idea",
+      step1: "Lily noticed our warm little table and wondered if the pantry could host a village tea party.",
+      step2: "The six requests you finished made this room feel inviting. She already has a berry-tea recipe she wants to share.",
+      step3: "Let's make the next corner cozy together. A welcoming pantry gives every neighbor a reason to return with a new idea."
+    },
+    pantryNeighborMateo: {
+      title: "Mateo found a quiet reading corner",
+      step1: "Mateo followed the scent of jam to our door. He says this sunny corner would be perfect for reading after lunch.",
+      step2: "Ten finished requests turned the pantry into a real village meeting place. Every decoration now holds a little memory.",
+      step3: "There are more neighbors beyond the hill. Let's keep solving pictures and leave a warm seat ready for the next story."
     }
   },
   stageNav: {

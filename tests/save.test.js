@@ -179,8 +179,20 @@ describe("player save profiles", () => {
     markGuideSeen("pantryRoomStory");
     expect(hasSeenGuide("pantryRoomStory")).toBe(true);
     markGuideSeen("pantryNeighborMrPark");
+    markGuideSeen("pantryNeighborLily");
+    markGuideSeen("pantryNeighborMateo");
     expect(hasSeenGuide("pantryNeighborMrPark")).toBe(true);
-    expect(loadSave().seenGuideIds).toEqual(["puzzle", "timeAttack", "pantryFirstPurchase", "pantryRoomStory", "pantryNeighborMrPark"]);
+    expect(hasSeenGuide("pantryNeighborLily")).toBe(true);
+    expect(hasSeenGuide("pantryNeighborMateo")).toBe(true);
+    expect(loadSave().seenGuideIds).toEqual([
+      "puzzle",
+      "timeAttack",
+      "pantryFirstPurchase",
+      "pantryRoomStory",
+      "pantryNeighborMrPark",
+      "pantryNeighborLily",
+      "pantryNeighborMateo"
+    ]);
   });
 
   it("limits replay rewards to clean Pip picks", () => {

@@ -138,8 +138,14 @@ export function renderApp(root) {
   }
 
   function requestPantryFirstPurchaseGuide(_decoration, action = {}) {
-    if (Number(action.completedRequestCount || 0) >= 3 && !hasSeenGuide("pantryNeighborMrPark")) {
-      activeGuide = "pantryNeighborMrPark";
+    const completedRequestCount = Number(action.completedRequestCount || 0);
+    const nextNeighbor = [
+      { count: 3, guideId: "pantryNeighborMrPark" },
+      { count: 6, guideId: "pantryNeighborLily" },
+      { count: 10, guideId: "pantryNeighborMateo" }
+    ].find(({ count, guideId }) => completedRequestCount >= count && !hasSeenGuide(guideId));
+    if (nextNeighbor) {
+      activeGuide = nextNeighbor.guideId;
       return;
     }
     if (action.storyCompleted && !hasSeenGuide("pantryRoomStory")) {

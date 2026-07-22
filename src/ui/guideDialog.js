@@ -10,7 +10,14 @@ const GUIDE_STEPS = {
   timeAttack: ["guide.timeAttack.step1", "guide.timeAttack.step2", "guide.timeAttack.step3"],
   pantryFirstPurchase: ["guide.pantryFirstPurchase.step1", "guide.pantryFirstPurchase.step2", "guide.pantryFirstPurchase.step3"],
   pantryRoomStory: ["guide.pantryRoomStory.step1", "guide.pantryRoomStory.step2", "guide.pantryRoomStory.step3"],
-  pantryNeighborMrPark: ["guide.pantryNeighborMrPark.step1", "guide.pantryNeighborMrPark.step2", "guide.pantryNeighborMrPark.step3"]
+  pantryNeighborMrPark: ["guide.pantryNeighborMrPark.step1", "guide.pantryNeighborMrPark.step2", "guide.pantryNeighborMrPark.step3"],
+  pantryNeighborLily: ["guide.pantryNeighborLily.step1", "guide.pantryNeighborLily.step2", "guide.pantryNeighborLily.step3"],
+  pantryNeighborMateo: ["guide.pantryNeighborMateo.step1", "guide.pantryNeighborMateo.step2", "guide.pantryNeighborMateo.step3"]
+};
+const NEIGHBOR_GUIDE_CLASSES = {
+  pantryNeighborMrPark: "mr-park",
+  pantryNeighborLily: "lily",
+  pantryNeighborMateo: "mateo"
 };
 
 export function renderGuideDialog(guideId, onClose) {
@@ -33,9 +40,10 @@ export function renderGuideDialog(guideId, onClose) {
     card.dataset.step = String(index + 1);
 
     const nodes = [];
-    if (guideId === "pantryNeighborMrPark" && isRuntimeGuideArtApproved(NEIGHBOR_ART_ASSET_ID)) {
+    const neighborClass = NEIGHBOR_GUIDE_CLASSES[guideId];
+    if (neighborClass && isRuntimeGuideArtApproved(NEIGHBOR_ART_ASSET_ID)) {
       const art = document.createElement("div");
-      art.className = "guide-dialog__art guide-dialog__art--neighbor guide-dialog__art--mr-park";
+      art.className = `guide-dialog__art guide-dialog__art--neighbor guide-dialog__art--${neighborClass}`;
       art.setAttribute("aria-hidden", "true");
 
       const image = document.createElement("img");

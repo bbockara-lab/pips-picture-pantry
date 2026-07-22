@@ -15983,6 +15983,14 @@ img {
   filter: drop-shadow(0 12px 0 rgba(61, 43, 46, 0.1));
 }
 
+.guide-dialog__art--lily .guide-dialog__neighbor-sheet {
+  transform: translateX(-20%);
+}
+
+.guide-dialog__art--mateo .guide-dialog__neighbor-sheet {
+  transform: translateX(-40%);
+}
+
 @media (max-width: 520px) {
   .guide-dialog__art--neighbor {
     align-self: center;

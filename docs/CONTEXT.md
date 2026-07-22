@@ -3483,3 +3483,12 @@ Current launch direction:
 - Connected the reveal to a repeatable story promise: every few completed requests can welcome another neighbor and open another room story.
 - Updated the character continuity data to match the current product: Pip is the active Picture Pantry host who speaks in short, warm guide sentences, while Elena remains a wider Sunny Spoon Village lead.
 - Extended mobile QA to seed the third request, require the Mr. Park guide ID/copy/artwork, and verify the blocking full-screen conversation before continuing Pantry checks.
+
+### v0.1.503 Pantry Neighbor Progression
+- Bumped the visible app version and package metadata to v0.1.503.
+- Extended the Pantry's full-screen resident story from the first three-request reveal to Lily after six completed requests and Mateo after ten.
+- Reused the approved `story-friends-sheet-v1-clean` character sheet with isolated sprite positions, keeping the resident art coherent without adding CSS placeholder characters.
+- Selects the earliest unseen eligible neighbor so upgraded saves meet Mr. Park, Lily, and Mateo in order instead of silently skipping older story beats.
+- Added warm Pip-led English and Korean conversations that connect each decorated corner to a new village use: Mr. Park's quiet visit, Lily's tea party, and Mateo's reading seat.
+- Expanded the visual review pack from 25 to 27 screenshots with deterministic Korean captures for all three resident milestones.
+- Verification: 115 unit tests passed, the 27-frame visual pack completed, and mobile visual QA passed at 360x740, 390x844, 430x932, and 675x900. The two real-device Billing evidence records remain the only external blockers.
