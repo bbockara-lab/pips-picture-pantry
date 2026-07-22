@@ -74,7 +74,7 @@ Returning-player and release surfaces:
 - The Support Pack and Small Spoon Jar should both be discoverable from Settings, with distinct one-time vs repeatable roles.
 - Pantry goals should make the next action obvious: decorate more, earn spoons, open stage, or view album.
 - No card should look like a placeholder, flat PPT block, or unrelated imported art.
-- Text must fit without overlap at the captured 390x844 viewport.
+- Text must fit without overlap at the captured 390x844 mobile viewport and the 675x900 Codex preview viewport.
 - The first-play flow should feel friendly before it feels commercial.
 - Time Attack must be discoverable from both the puzzle hub teaser and the floating menu.
 - English and Korean first-run flows should feel equally intentional; do not let Korean be the overflow-only case.
@@ -98,4 +98,4 @@ Acceptance standard: each token should look tactile, rounded, slightly glossy, a
 
 `npm run qa:mobile` catches layout regressions across 360x740, 390x844, and 430x932.
 
-`npm run qa:visual-pack` creates the human-review screenshots. It is intentionally not a replacement for mobile QA; it is the art direction layer on top.
+`npm run qa:visual-pack` creates the human-review screenshots at 390x844 mobile and 675x900 Codex preview sizes. It is intentionally not a replacement for mobile QA; it is the art direction layer on top.

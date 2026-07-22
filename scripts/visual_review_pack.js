@@ -12,11 +12,19 @@ let port = explicitPort || 5184;
 let baseUrl = requestedUrl || "http://127.0.0.1:" + port + "/";
 const outputRoot = resolve(process.cwd(), "qa-artifacts", "visual-review", APP_VERSION);
 const shotsDir = resolve(outputRoot, "screenshots");
+const reviewViewports = {
+  mobile: { width: 390, height: 844 },
+  widePreview: { width: 675, height: 900 }
+};
 const manifest = {
   version: APP_VERSION,
   generatedAt: new Date().toISOString(),
   baseUrl,
-  viewport: { width: 390, height: 844 },
+  viewport: reviewViewports.mobile,
+  viewports: [
+    { name: "mobile", ...reviewViewports.mobile },
+    { name: "wide-preview", ...reviewViewports.widePreview }
+  ],
   screenshots: [],
   manualPlay: {
     command: "npm run review:play",
@@ -106,7 +114,8 @@ async function capture(page, name, selector, options = {}) {
     relativePath: "screenshots/" + fileName,
     selector: selector || "viewport",
     fullPage: Boolean(options.fullPage),
-    viewport: manifest.viewport,
+    viewport: page.viewportSize() || manifest.viewport,
+    viewportName: options.viewportName || "mobile",
     path: filePath
   });
 }
@@ -115,10 +124,11 @@ function writeContactSheet() {
   const cards = manifest.screenshots.map((shot) => `
     <article class="shot-card">
       <h2>${escapeHtml(shot.fileName)}</h2>
-      <p>${escapeHtml(shot.name)} &middot; ${escapeHtml(shot.selector)}</p>
+      <p>${escapeHtml(shot.name)} &middot; ${escapeHtml(shot.viewportName)} ${escapeHtml(shot.viewport.width)}x${escapeHtml(shot.viewport.height)} &middot; ${escapeHtml(shot.selector)}</p>
       <a href="${escapeHtml(shot.relativePath)}"><img src="${escapeHtml(shot.relativePath)}" alt="${escapeHtml(shot.name)} screenshot"></a>
     </article>`).join("\n");
   const checklist = manifest.checklist.map((item) => `<li>${escapeHtml(item)}</li>`).join("\n");
+  const viewportSummary = manifest.viewports.map((viewport) => `${viewport.name} ${viewport.width}x${viewport.height}`).join(", ");
   const html = `<!doctype html>
 <html lang="en">
 <meta charset="utf-8">
@@ -145,7 +155,7 @@ function writeContactSheet() {
 </style>
 <header>
   <h1>Pip's Picture Pantry Visual Review ${escapeHtml(manifest.version)}</h1>
-  <p>${manifest.screenshots.length} screenshots &middot; ${manifest.viewport.width}x${manifest.viewport.height} viewport &middot; ${escapeHtml(manifest.generatedAt)}</p>
+  <p>${manifest.screenshots.length} screenshots &middot; ${escapeHtml(viewportSummary)} &middot; ${escapeHtml(manifest.generatedAt)}</p>
 </header>
 <section class="review-brief" aria-label="Visual review brief">
   <article class="brief-card">
@@ -240,10 +250,15 @@ async function seedReturningPlayer(page) {
   });
 }
 
-async function captureSettings(page) {
+async function captureSettings(page, options = {}) {
+  const namePrefix = options.namePrefix || "";
+  const viewportName = options.viewportName || "mobile";
   await page.locator('button[aria-label="Settings"], button[aria-label="설정"]').first().click();
   await page.locator(".support-pack-card--support").first().scrollIntoViewIfNeeded();
-  await capture(page, "settings-billing-store", ".modal-backdrop--settings", { settleMs: 320 });
+  await capture(page, namePrefix + "settings-billing-store", ".modal-backdrop--settings", {
+    settleMs: 320,
+    viewportName
+  });
   await page.locator(".settings-close").click();
 }
 
@@ -258,25 +273,31 @@ async function captureLargeBoard(page) {
   await capture(page, "large-board-cursor-controls", ".play-screen", { fullPage: true, settleMs: 400 });
 }
 
-async function captureFloatingNavMenu(page) {
+async function captureFloatingNavMenu(page, options = {}) {
+  const namePrefix = options.namePrefix || "";
+  const viewportName = options.viewportName || "mobile";
   await returnToPuzzleHub(page);
   await page.locator(".floating-nav__trigger").first().waitFor({ state: "visible", timeout: 5000 });
   await page.locator(".floating-nav__trigger").first().click();
   await page.locator(".floating-nav[data-open='true'] .floating-nav__menu").waitFor({ state: "visible", timeout: 3000 });
-  await capture(page, "main-menu-time-attack-entry", ".floating-nav", { settleMs: 260 });
+  await capture(page, namePrefix + "main-menu-time-attack-entry", ".floating-nav", {
+    settleMs: 260,
+    viewportName
+  });
   await page.locator(".floating-nav__trigger").first().click();
 }
 
-async function capturePuzzleHubTimeAttackTeaser(page, name = "puzzle-hub-time-attack-teaser") {
+async function capturePuzzleHubTimeAttackTeaser(page, name = "puzzle-hub-time-attack-teaser", options = {}) {
+  const viewportName = options.viewportName || "mobile";
   await returnToPuzzleHub(page);
   if ((await page.locator(".time-attack-teaser-card").count()) === 0) {
     await openFloatingView(page, "puzzle");
   }
-  await capture(page, name, ".time-attack-teaser-card", { settleMs: 260 });
+  await capture(page, name, ".time-attack-teaser-card", { settleMs: 260, viewportName });
 }
 
 async function captureKoreanFirstRun(browser) {
-  const page = await browser.newPage({ viewport: manifest.viewport });
+  const page = await browser.newPage({ viewport: reviewViewports.mobile });
   await page.addInitScript(() => {
     localStorage.clear();
     localStorage.setItem("pip-picture-pantry-language", "ko");
@@ -293,7 +314,47 @@ async function captureKoreanFirstRun(browser) {
     }
     await capture(page, "ko-first-puzzle-board", ".play-screen", { fullPage: true });
     await capturePuzzleHubTimeAttackTeaser(page, "ko-puzzle-hub-time-attack-teaser");
-    await captureFloatingNavMenu(page);
+    await captureFloatingNavMenu(page, { namePrefix: "ko-" });
+  } finally {
+    await page.close();
+  }
+}
+
+async function captureWidePreviewReview(browser) {
+  const page = await browser.newPage({ viewport: reviewViewports.widePreview });
+  const captureWide = (name, selector, options = {}) => capture(page, "wide-" + name, selector, {
+    ...options,
+    viewportName: "wide-preview"
+  });
+  await page.addInitScript(() => {
+    localStorage.clear();
+    localStorage.setItem("pip-picture-pantry-language", "ko");
+  });
+  try {
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6500 });
+    await captureWide("opening-brand-intro", ".brand-intro.game-stage");
+    await dismissIntro(page);
+    await page.locator(".app-shell").waitFor({ state: "visible", timeout: 6000 });
+    if ((await page.locator(".guide-overlay").count()) > 0) {
+      await captureWide("pip-guide-dialog", ".guide-dialog");
+      await dismissGuideIfPresent(page);
+    }
+    await captureWide("first-puzzle-board", ".play-screen", { fullPage: true });
+    await capturePuzzleHubTimeAttackTeaser(page, "wide-puzzle-hub-time-attack-teaser", { viewportName: "wide-preview" });
+    await captureFloatingNavMenu(page, { namePrefix: "wide-", viewportName: "wide-preview" });
+
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await seedReturningPlayer(page);
+    await page.reload({ waitUntil: "networkidle" });
+    await dismissIntro(page);
+    await dismissGuideIfPresent(page);
+    await captureSettings(page, { namePrefix: "wide-", viewportName: "wide-preview" });
+
+    await openFloatingView(page, "pantry");
+    await captureWide("pantry-room-and-shop", ".pantry-panel", { fullPage: true });
+    await openFloatingView(page, "timeAttack");
+    await captureWide("time-attack-coach", ".time-attack-panel", { fullPage: true });
   } finally {
     await page.close();
   }
@@ -319,7 +380,7 @@ async function main() {
   }
 
   const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage({ viewport: manifest.viewport });
+  const page = await browser.newPage({ viewport: reviewViewports.mobile });
   try {
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6500 });
@@ -334,6 +395,7 @@ async function main() {
     await capturePuzzleHubTimeAttackTeaser(page);
     await captureFloatingNavMenu(page);
     await captureKoreanFirstRun(browser);
+    await captureWidePreviewReview(browser);
 
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await seedReturningPlayer(page);
