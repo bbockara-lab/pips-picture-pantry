@@ -3399,3 +3399,10 @@ Current launch direction:
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.
 - The opening screen now exposes the three major entry points, but the reusable icon system is not considered final until those symbols are upgraded from CSS construction to coherent approved assets or an equally polished shared icon layer.
+
+### Post-v0.1.494 Release-facing UI Audit
+- Reviewed the current 24-frame visual pack across opening, Pip guide, first puzzle, floating navigation, Pantry/shop, Billing, Album, badges, Time Attack, and large-board cursor controls after the v0.1.493-v0.1.494 artwork/readability slices.
+- Confirmed the shared CSS icon layer now reads consistently enough for the current release candidate: control labels remain legible, Pip reads as the guide speaker, quick travel exposes all five destinations, and no new overlap or truncation defect justified another speculative UI patch.
+- Kept final raster replacement as a separately reviewed art-production lane. Do not expand player-facing CSS illustration further; replace the shared control/navigation tokens only when a coherent approved PNG/WebP set is ready.
+- Additional release checks passed: asset manifest (122 registered assets), Play Store graphics (14 required assets), source hygiene, 333-puzzle catalog target, Billing wiring, Android release gate, and launch-integrity guard.
+- The only remaining external evidence is unchanged: real-device `pip_cozy_support` purchase/restore and `pip_spoon_jar_small` purchase/repeat records. No signed AAB was built in this UI/UX pass.
