@@ -3492,3 +3492,10 @@ Current launch direction:
 - Added warm Pip-led English and Korean conversations that connect each decorated corner to a new village use: Mr. Park's quiet visit, Lily's tea party, and Mateo's reading seat.
 - Expanded the visual review pack from 25 to 27 screenshots with deterministic Korean captures for all three resident milestones.
 - Verification: 115 unit tests passed, the 27-frame visual pack completed, and mobile visual QA passed at 360x740, 390x844, 430x932, and 675x900. The two real-device Billing evidence records remain the only external blockers.
+
+### v0.1.504 Neighbor Artwork Render Stability
+- Bumped the visible app version and package metadata to v0.1.504 after a manual pixel review found Lily's action labels visually corrupted even though the DOM overflow metrics passed.
+- Replaced runtime movement of the five-column story sheet with three lossless approved character crops for Mr. Park, Lily, and Mateo, preserving the exact artwork while reducing fragile sprite compositing.
+- Removed the neighbor image `drop-shadow` filter after repeated isolated captures proved its transparent-layer composition could corrupt the action-button pixels beneath Lily in headless Chromium and potentially lower-end Android WebViews.
+- Hardened the 27-frame visual review pack: each resident reveal now runs in an isolated page, resets scroll position, records dialog/bubble/line/button geometry and button text in `manifest.json`, and fails if any required element escapes its viewport or own content box.
+- Manual 390x844 review confirmed all three resident portraits, Korean titles, body copy, progress dots, and both action labels render inside their intended sections with no overlap or clipping.

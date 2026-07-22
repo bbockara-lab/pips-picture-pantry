@@ -26,6 +26,7 @@ const manifest = {
     { name: "wide-preview", ...reviewViewports.widePreview }
   ],
   screenshots: [],
+  layoutChecks: [],
   manualPlay: {
     command: "npm run review:play",
     url: "http://127.0.0.1:5173/"
@@ -278,8 +279,51 @@ async function capturePantryNeighborReveal(page, options) {
   await openFloatingView(page, "pantry");
   const jamCard = page.locator(".pantry-item-card", { hasText: /Small Jam Jar|작은 잼 병/ }).first();
   await jamCard.locator(".pantry-item-action").click();
-  await page.locator(`.guide-dialog[data-guide-id="${options.guideId}"]`).waitFor({ state: "visible", timeout: 3000 });
+  const guideDialog = page.locator(`.guide-dialog[data-guide-id="${options.guideId}"]`);
+  await guideDialog.waitFor({ state: "visible", timeout: 3000 });
+  await page.evaluate(() => window.scrollTo(0, 0));
+  const layout = await guideDialog.evaluate((dialog) => {
+    const rect = dialog.getBoundingClientRect();
+    const bubble = dialog.querySelector(".guide-dialog__bubble");
+    const line = dialog.querySelector(".guide-dialog__line");
+    const buttons = [...dialog.querySelectorAll(".guide-dialog__actions button")];
+    const boxFor = (element) => {
+      const box = element?.getBoundingClientRect();
+      return box ? { left: box.left, top: box.top, right: box.right, bottom: box.bottom, width: box.width, height: box.height } : null;
+    };
+    const elementFits = (element) => {
+      if (!element) return false;
+      const box = element.getBoundingClientRect();
+      return box.left >= -1 && box.top >= -1 && box.right <= window.innerWidth + 1 && box.bottom <= window.innerHeight + 1
+        && element.scrollWidth <= element.clientWidth + 1 && element.scrollHeight <= element.clientHeight + 1;
+    };
+    return {
+      dialogFits: rect.left >= -1 && rect.top >= -1 && rect.right <= window.innerWidth + 1 && rect.bottom <= window.innerHeight + 1,
+      lineFits: elementFits(line),
+      buttonsFit: buttons.length === 2 && buttons.every(elementFits),
+      rect: { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom },
+      bubbleRect: boxFor(bubble),
+      lineRect: boxFor(line),
+      buttonRects: buttons.map(boxFor),
+      buttonText: buttons.map((button) => button.textContent.trim()),
+      viewport: { width: window.innerWidth, height: window.innerHeight }
+    };
+  });
+  manifest.layoutChecks.push({ name: options.captureName, ...layout });
+  if (!layout.dialogFits || !layout.lineFits || !layout.buttonsFit) {
+    throw new Error(`${options.guideId} visual layout escaped its viewport: ${JSON.stringify(layout)}`);
+  }
   await capture(page, options.captureName, ".guide-dialog", { settleMs: 320 });
+}
+
+async function captureIsolatedPantryNeighborReveal(browser, options) {
+  const page = await browser.newPage({ viewport: reviewViewports.mobile });
+  try {
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await capturePantryNeighborReveal(page, options);
+  } finally {
+    await page.close();
+  }
 }
 
 async function captureSettings(page, options = {}) {
@@ -455,19 +499,19 @@ async function main() {
       "berry-tea-tins",
       "ribbon-rolling-pin"
     ];
-    await capturePantryNeighborReveal(page, {
+    await captureIsolatedPantryNeighborReveal(browser, {
       completedStoryGoalIds: neighborRequestIds.slice(0, 2),
       guideId: "pantryNeighborMrPark",
       earlierGuideIds: [],
       captureName: "pantry-neighbor-mr-park"
     });
-    await capturePantryNeighborReveal(page, {
+    await captureIsolatedPantryNeighborReveal(browser, {
       completedStoryGoalIds: neighborRequestIds.slice(0, 5),
       guideId: "pantryNeighborLily",
       earlierGuideIds: ["pantryNeighborMrPark"],
       captureName: "pantry-neighbor-lily"
     });
-    await capturePantryNeighborReveal(page, {
+    await captureIsolatedPantryNeighborReveal(browser, {
       completedStoryGoalIds: neighborRequestIds,
       guideId: "pantryNeighborMateo",
       earlierGuideIds: ["pantryNeighborMrPark", "pantryNeighborLily"],

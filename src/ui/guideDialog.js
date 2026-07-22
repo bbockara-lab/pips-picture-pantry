@@ -1,10 +1,11 @@
 import pipGuideSceneUrl from "../assets/characters/pip-chrome-v2.png";
-import storyFriendsSheetUrl from "../assets/characters/story-friends-sheet-v1-clean.png";
+import mrParkArtUrl from "../assets/characters/story-friend-mr-park-v1.png";
+import lilyArtUrl from "../assets/characters/story-friend-lily-v1.png";
+import mateoArtUrl from "../assets/characters/story-friend-mateo-v1.png";
 import { isRuntimeGuideArtApproved } from "../data/runtimeArt.js";
 import { t } from "../i18n/index.js";
 
 const GUIDE_ART_ASSET_ID = "pip-chrome-v2";
-const NEIGHBOR_ART_ASSET_ID = "story-friends-sheet-v1-clean";
 const GUIDE_STEPS = {
   puzzle: ["guide.puzzle.step1", "guide.puzzle.step2", "guide.puzzle.step3"],
   timeAttack: ["guide.timeAttack.step1", "guide.timeAttack.step2", "guide.timeAttack.step3"],
@@ -15,9 +16,9 @@ const GUIDE_STEPS = {
   pantryNeighborMateo: ["guide.pantryNeighborMateo.step1", "guide.pantryNeighborMateo.step2", "guide.pantryNeighborMateo.step3"]
 };
 const NEIGHBOR_GUIDE_CLASSES = {
-  pantryNeighborMrPark: "mr-park",
-  pantryNeighborLily: "lily",
-  pantryNeighborMateo: "mateo"
+  pantryNeighborMrPark: { className: "mr-park", assetId: "story-friend-mr-park-v1", url: mrParkArtUrl },
+  pantryNeighborLily: { className: "lily", assetId: "story-friend-lily-v1", url: lilyArtUrl },
+  pantryNeighborMateo: { className: "mateo", assetId: "story-friend-mateo-v1", url: mateoArtUrl }
 };
 
 export function renderGuideDialog(guideId, onClose) {
@@ -40,15 +41,15 @@ export function renderGuideDialog(guideId, onClose) {
     card.dataset.step = String(index + 1);
 
     const nodes = [];
-    const neighborClass = NEIGHBOR_GUIDE_CLASSES[guideId];
-    if (neighborClass && isRuntimeGuideArtApproved(NEIGHBOR_ART_ASSET_ID)) {
+    const neighborArt = NEIGHBOR_GUIDE_CLASSES[guideId];
+    if (neighborArt && isRuntimeGuideArtApproved(neighborArt.assetId)) {
       const art = document.createElement("div");
-      art.className = `guide-dialog__art guide-dialog__art--neighbor guide-dialog__art--${neighborClass}`;
+      art.className = `guide-dialog__art guide-dialog__art--neighbor guide-dialog__art--${neighborArt.className}`;
       art.setAttribute("aria-hidden", "true");
 
       const image = document.createElement("img");
       image.className = "guide-dialog__neighbor-sheet";
-      image.src = storyFriendsSheetUrl;
+      image.src = neighborArt.url;
       image.alt = "";
       art.appendChild(image);
       nodes.push(art);

@@ -15972,23 +15972,13 @@ img {
 }
 
 .guide-dialog__art--neighbor .guide-dialog__neighbor-sheet {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 500%;
-  height: auto;
-  max-width: none;
-  max-height: none;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 12px 0 rgba(61, 43, 46, 0.1));
-}
-
-.guide-dialog__art--lily .guide-dialog__neighbor-sheet {
-  transform: translateX(-20%);
-}
-
-.guide-dialog__art--mateo .guide-dialog__neighbor-sheet {
-  transform: translateX(-40%);
+  filter: none;
 }
 
 @media (max-width: 520px) {
@@ -16006,7 +15996,7 @@ img {
   }
 
   .guide-dialog__art--neighbor .guide-dialog__neighbor-sheet {
-    width: 500%;
-    max-height: none;
+    width: 100%;
+    max-height: 100%;
   }
 }

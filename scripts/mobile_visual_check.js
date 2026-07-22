@@ -473,7 +473,7 @@ async function expectGuideDialogChromeArt(page, viewportName) {
     };
   });
   if (
-    (!guideMetrics.imageSrc.includes("pip-chrome-v2") && !guideMetrics.imageSrc.includes("story-friends-sheet-v1-clean")) ||
+    (!guideMetrics.imageSrc.includes("pip-chrome-v2") && !guideMetrics.imageSrc.includes("story-friend-")) ||
     guideMetrics.artWidth < 72 ||
     guideMetrics.artHeight < 108 ||
     (guideMetrics.viewportWidth <= 520 && (guideMetrics.overlayPosition !== "fixed" || guideMetrics.overlayWidth < guideMetrics.viewportWidth || guideMetrics.overlayHeight < guideMetrics.viewportHeight || guideMetrics.width < guideMetrics.viewportWidth || guideMetrics.height < guideMetrics.viewportHeight || Math.abs(guideMetrics.top) > 1 || !guideMetrics.overlayBackground.includes("gradient"))) ||
@@ -4912,7 +4912,7 @@ async function verifyPantryPlacement(page, viewportName) {
       line: dialog.querySelector(".guide-dialog__line")?.textContent || "",
       imageSrc: dialog.querySelector(".guide-dialog__neighbor-sheet")?.getAttribute("src") || ""
     }));
-    if (!/Mr\. Park/i.test(neighborCopy.title) || !/clock|pantry|village/i.test(neighborCopy.line) || !neighborCopy.imageSrc.includes("story-friends-sheet-v1-clean")) {
+    if (!/Mr\. Park/i.test(neighborCopy.title) || !/clock|pantry|village/i.test(neighborCopy.line) || !neighborCopy.imageSrc.includes("story-friend-mr-park-v1")) {
       failures.push("[" + viewportName + "] Mr. Park reveal lost its character, story, or approved artwork: " + JSON.stringify(neighborCopy));
     }
   }

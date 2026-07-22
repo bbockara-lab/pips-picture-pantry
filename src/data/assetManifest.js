@@ -250,6 +250,39 @@ export const assetRegistry = [
     note: "Approved in v0.1.502 for clipped one-character Pantry neighbor reveals; not approved as badge or stage reward art."
   },
   {
+    id: "story-friend-mr-park-v1",
+    usage: "story-character-art",
+    path: "src/assets/characters/story-friend-mr-park-v1.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "Lossless first-row crop from the approved story friends sheet for stable runtime rendering."
+  },
+  {
+    id: "story-friend-lily-v1",
+    usage: "story-character-art",
+    path: "src/assets/characters/story-friend-lily-v1.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "Lossless first-row crop from the approved story friends sheet for stable runtime rendering."
+  },
+  {
+    id: "story-friend-mateo-v1",
+    usage: "story-character-art",
+    path: "src/assets/characters/story-friend-mateo-v1.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "Lossless first-row crop from the approved story friends sheet for stable runtime rendering."
+  },
+  {
     id: "pips-first-shelf-reward-candidate-v1",
     usage: "stage-reward-art-candidate",
     path: "src/assets/stage-rewards/pips-first-shelf-reward-candidate-v1.png",
