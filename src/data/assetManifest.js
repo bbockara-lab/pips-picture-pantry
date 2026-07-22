@@ -74,6 +74,45 @@ export const assetRegistry = [
     note: "High-resolution generated source candidate archived after approval/downscale into spoon-token-v2. Do not import directly into runtime UI."
   },
   {
+    id: "quick-travel-sheet-source-v1-raw",
+    usage: "navigation-icon-source",
+    path: "src/assets/icons/quick-travel-candidate-v1/quick-travel-sheet-v1-raw.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "candidate-needs-ui-review",
+    note: "Built-in image generation source sheet for the five Sunny Spoon quick-travel icon candidates. Magenta chroma source is review-only and must never be imported by runtime UI."
+  },
+  {
+    id: "quick-travel-sheet-source-v1",
+    usage: "navigation-icon-source",
+    path: "src/assets/icons/quick-travel-candidate-v1/quick-travel-sheet-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "candidate-needs-ui-review",
+    note: "Transparent source sheet for the five hidden quick-travel candidates. Individual 256px crops are used by the docs-only review board."
+  },
+  ...[
+    ["puzzle", "Puzzle board"],
+    ["album", "Album book"],
+    ["pantry", "Pantry jar"],
+    ["time-attack", "Spoon stopwatch"],
+    ["map", "Pantry map"]
+  ].map(([view, label]) => ({
+    id: `quick-travel-${view}-candidate-v1`,
+    usage: "navigation-icon-candidate",
+    path: `src/assets/icons/quick-travel-candidate-v1/quick-travel-${view}-candidate-v1.png`,
+    sourceType: "raster",
+    approval: "candidate",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "candidate-needs-ui-review",
+    note: `${label} candidate for the shared quick-travel trigger/menu. Hidden until the five-icon set is reviewed together at 32px, 48px, and mobile menu scale.`
+  })),
+  {
     id: "pip-complete-sticker-v1",
     usage: "stage-reward-art",
     path: "src/assets/characters/pip-complete-sticker-v1.png",

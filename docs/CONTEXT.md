@@ -3406,3 +3406,10 @@ Current launch direction:
 - Kept final raster replacement as a separately reviewed art-production lane. Do not expand player-facing CSS illustration further; replace the shared control/navigation tokens only when a coherent approved PNG/WebP set is ready.
 - Additional release checks passed: asset manifest (122 registered assets), Play Store graphics (14 required assets), source hygiene, 333-puzzle catalog target, Billing wiring, Android release gate, and launch-integrity guard.
 - The only remaining external evidence is unchanged: real-device `pip_cozy_support` purchase/restore and `pip_spoon_jar_small` purchase/repeat records. No signed AAB was built in this UI/UX pass.
+
+### Experimental Quick Travel Raster Candidate v1
+- Generated a hidden five-icon raster candidate set for Puzzle, Album, Pantry, Time Attack, and Map using the approved opening pantry visual and golden spoon token as style references.
+- Removed the flat magenta chroma background, split the source into five transparent 256x256 PNG candidates, and registered the raw source, transparent source, and individual crops in the asset manifest as non-visible review assets.
+- Added `docs/art-review/quick-travel-icon-review-v1.html` to compare each icon at 144px, 48px, and 32px, plus `docs/QUICK_TRAVEL_ICON_ART_REVIEW.md` with prompt intent, initial assessment, risks, and the promotion gate.
+- Kept the entire set out of runtime UI. The current CSS navigation tokens remain live until the five raster icons are explicitly approved together; no package/UI version bump is needed for this docs-only experimental lane.
+- Candidate validation passed: RGBA transparency with alpha range 0-255, five isolated source runs, asset manifest with 129 registered assets, 115 unit tests, and production build.
