@@ -1,7 +1,7 @@
 import { useHint } from "../game/puzzleState.js";
 import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
 import { t } from "../i18n/index.js";
-import { createPuzzleControlArtImage } from "./puzzleControlArt.js";
+import { appendPuzzleControlArt } from "./puzzleControlArt.js";
 
 export function renderHowToPlayCard() {
   const card = document.createElement("section");
@@ -194,7 +194,7 @@ function createHintIcon() {
   const icon = document.createElement("span");
   icon.className = "hint-button__icon hint-button__icon--raster";
   icon.setAttribute("aria-hidden", "true");
-  icon.appendChild(createPuzzleControlArtImage("hint", "hint-button__raster-art"));
+  appendPuzzleControlArt(icon, "hint", "hint-button__raster-art");
   return icon;
 }
 

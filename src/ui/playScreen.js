@@ -1,6 +1,6 @@
 import { puzzleTitle, t } from "../i18n/index.js";
 import { renderPuzzleView } from "./puzzleView.js";
-import { createPuzzleControlArtImage } from "./puzzleControlArt.js";
+import { appendPuzzleControlArt } from "./puzzleControlArt.js";
 
 export function renderPlayScreen(activePuzzle, options) {
   const {
@@ -70,7 +70,7 @@ export function renderPlayScreen(activePuzzle, options) {
   settingsButton.className = "play-screen__settings icon-button icon-button--settings";
   settingsButton.title = t("header.settings");
   settingsButton.setAttribute("aria-label", t("header.settings"));
-  settingsButton.appendChild(createPuzzleControlArtImage("settings", "icon-button__raster-art"));
+  appendPuzzleControlArt(settingsButton, "settings", "icon-button__raster-art");
   settingsButton.addEventListener("click", onRequestSettings);
 
   header.append(backButton, title, settingsButton, size);

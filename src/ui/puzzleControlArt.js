@@ -15,3 +15,11 @@ export function createPuzzleControlArtImage(control, className = "") {
   }
   return image;
 }
+
+export function appendPuzzleControlArt(parent, control, className = "") {
+  const image = createPuzzleControlArtImage(control, className);
+  if (image) {
+    parent.appendChild(image);
+  }
+  return image;
+}

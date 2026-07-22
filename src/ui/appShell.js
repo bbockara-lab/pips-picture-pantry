@@ -25,6 +25,7 @@ import { renderBadgeShelf, renderFooter, renderHeader, renderPipStrip, renderRes
 import { playStageComplete, setMusicEnabled, setSfxEnabled, startMusic } from "./audio.js";
 import { renderPantryMapView } from "./mapView.js";
 import { renderPantryView } from "./pantryView.js";
+import { getNextPantryGuideId } from "./pantryGuideFlow.js";
 import { getControlModePreference, getHideCompletedStagesPreference, setControlModePreference, setHideCompletedStagesPreference } from "./preferences.js";
 import { getStageNavigation, renderDailyCard, renderPuzzleHub, renderPuzzlePicker, renderReplayPicksCard, renderTimeAttackTeaserCard } from "./puzzleHubView.js";
 import { renderPlayScreen } from "./playScreen.js";
@@ -138,23 +139,11 @@ export function renderApp(root) {
   }
 
   function requestPantryFirstPurchaseGuide(_decoration, action = {}) {
-    const completedRequestCount = Number(action.completedRequestCount || 0);
-    const nextNeighbor = [
-      { count: 3, guideId: "pantryNeighborMrPark" },
-      { count: 6, guideId: "pantryNeighborLily" },
-      { count: 10, guideId: "pantryNeighborMateo" }
-    ].find(({ count, guideId }) => completedRequestCount >= count && !hasSeenGuide(guideId));
-    if (nextNeighbor) {
-      activeGuide = nextNeighbor.guideId;
-      return;
-    }
-    if (action.storyCompleted && !hasSeenGuide("pantryRoomStory")) {
-      activeGuide = "pantryRoomStory";
-      return;
-    }
-    if (!hasSeenGuide("pantryFirstPurchase")) {
-      activeGuide = "pantryFirstPurchase";
-    }
+    activeGuide = getNextPantryGuideId({
+      completedRequestCount: action.completedRequestCount,
+      storyCompleted: action.storyCompleted,
+      hasSeen: hasSeenGuide
+    });
   }
 
   function startTimeAttackRun() {

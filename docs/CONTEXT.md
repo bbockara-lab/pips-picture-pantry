@@ -3536,3 +3536,12 @@ Current launch direction:
 - Added both assets to the approved runtime manifest and strengthened mobile QA to require their exact asset IDs, source filenames, 256px dimensions, and absent pseudo-element content.
 - Manual review of the Korean 390x844 Billing capture confirmed both icons remain distinct at 46px, stay inside their card slots, and do not overlap titles, body copy, facts, status messages, or purchase actions.
 - Verification: 115 unit tests, asset manifest QA with 156 registered assets, production build, mobile QA at four viewports, the 29-frame visual review pack, and the full candidate gate passed.
+
+### v0.1.510 Claude Review P2 Guards
+- Bumped the visible app version and package metadata to v0.1.510.
+- Added a shared null-safe puzzle-control artwork append helper and moved the header Settings, focused-play Settings, and Hint surfaces onto it, matching the defensive pattern already used by the floating navigation and puzzle controls.
+- Extracted Pantry guide selection into a pure tested flow with the explicit priority `room story -> first-purchase guide -> earliest unseen eligible neighbor`.
+- This preserves the existing starter-room story beat while preventing an eligible resident reveal from appearing before a skipped first-purchase guide.
+- Added regression coverage for room-story priority, first-purchase priority, upgraded saves eligible for multiple residents, ordered Mr. Park/Lily/Mateo reveals, and the fully seen state.
+- Updated the resident mobile-QA fixture to mark the two prerequisite Pantry guides as seen, keeping the resident reveal check isolated from the newly enforced queue order.
+- Verification: 119 unit tests, production build, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900 passed.

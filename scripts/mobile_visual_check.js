@@ -4900,6 +4900,11 @@ async function verifyPantryPlacement(page, viewportName) {
     const save = JSON.parse(localStorage.getItem(saveKey) || "{}");
     save.pantrySpoons = 25;
     save.pantryCompletedStoryGoalIds = ["sunny-window-curtains", "recipe-card-shelf"];
+    save.seenGuideIds = Array.from(new Set([
+      ...(Array.isArray(save.seenGuideIds) ? save.seenGuideIds : []),
+      "pantryFirstPurchase",
+      "pantryRoomStory"
+    ]));
     localStorage.setItem(saveKey, JSON.stringify(save));
   });
   await openFloatingView(page, "puzzle");
