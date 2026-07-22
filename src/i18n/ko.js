@@ -33,14 +33,14 @@ export const ko = {
     pantry: "\ud32c\ud2b8\ub9ac",
     map: "\ubc30\uc9c0",
     timeAttack: "\ud0c0\uc784\uc5b4\ud0dd",
-    puzzleHint: "\uace0\ub974\uace0 \ud480\uae30",
-    albumHint: "\uc800\uc7a5\ud55c \uadf8\ub9bc",
-    pantryHint: "\uc0c1\uc810/\uafb8\ubbf8\uae30",
-    timeAttackHint: "\uae30\ub85d \ub3c4\uc804",
-    mapHint: "\uc2a4\ud14c\uc774\uc9c0 \ubc30\uc9c0",
+    puzzleHint: "\ud37c\uc990 \ud480\uae30",
+    albumHint: "\uc644\uc131 \uadf8\ub9bc",
+    pantryHint: "\uc0c1\uc810\uacfc \uafb8\ubbf8\uae30",
+    timeAttackHint: "\uc2a4\ud47c \ub3c4\uc804",
+    mapHint: "\ub2e4\uc74c \ubaa9\ud45c",
     navLabel: "\uc8fc\uc694 \ud654\uba74",
     menu: "\uba54\ub274",
-    quickJump: "\uc774\ub3d9"
+    quickJump: "\ud654\uba74 \uc774\ub3d9"
   },
   header: {
     settings: "\uc124\uc815",

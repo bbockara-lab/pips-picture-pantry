@@ -1184,6 +1184,10 @@ async function expectAppChromePolish(page, viewportName) {
       const hintLineHeight = parseFloat(hintStyle?.lineHeight) || 0;
       return {
         view: item.dataset.view || "",
+        labelText: (label?.textContent || "").trim(),
+        hintText: (hint?.textContent || "").trim(),
+        ariaLabel: item.getAttribute("aria-label") || "",
+        title: item.getAttribute("title") || "",
         itemHeight: item.getBoundingClientRect().height,
         columns: itemStyle.gridTemplateColumns || "",
         width: parseFloat(iconStyle?.width) || 0,
@@ -1265,6 +1269,18 @@ async function expectAppChromePolish(page, viewportName) {
   const hasExplicitTimeAttackEntry = navMetrics.labels.some((label) => /Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(label));
   const expectedIconViews = ["puzzle", "album", "pantry", "timeAttack", "map"];
   const hasAllViewIcons = expectedIconViews.every((view) => navMetrics.icons.some((icon) => icon.view === view));
+  const expectedHintsByView = {
+    puzzle: ["Solve puzzles", "\uD37C\uC990 \uD480\uAE30"],
+    album: ["Finished art", "\uC644\uC131 \uADF8\uB9BC"],
+    pantry: ["Shop and decorate", "\uC0C1\uC810\uACFC \uAFB8\uBBF8\uAE30"],
+    timeAttack: ["Spoon challenge", "\uC2A4\uD47C \uB3C4\uC804"],
+    map: ["Next goals", "\uB2E4\uC74C \uBAA9\uD45C"]
+  };
+  const hasClearRouteHints = expectedIconViews.every((view) => {
+    const icon = navMetrics.icons.find((item) => item.view === view);
+    return Boolean(icon && expectedHintsByView[view].includes(icon.hintText));
+  });
+  const triggerExplainsSwitching = ["Switch screens", "\uD654\uBA74 \uC774\uB3D9"].includes(navMetrics.triggerCueText);
   if (
     navMetrics.open !== "true" ||
     navMetrics.navPosition !== "fixed" ||
@@ -1299,6 +1315,8 @@ async function expectAppChromePolish(page, viewportName) {
     navMetrics.activePaddingLeft < 8 ||
     !hasExplicitTimeAttackEntry ||
     !hasAllViewIcons ||
+    !hasClearRouteHints ||
+    !triggerExplainsSwitching ||
     navMetrics.icons.length < 5 ||
     navMetrics.icons.some((icon) =>
       icon.itemHeight < 58 ||

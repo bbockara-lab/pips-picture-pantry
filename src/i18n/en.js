@@ -33,14 +33,14 @@ export const en = {
     pantry: "Pantry",
     map: "Badges",
     timeAttack: "Time Attack",
-    puzzleHint: "Pick and solve",
-    albumHint: "Saved pictures",
-    pantryHint: "Shop/decorate",
-    timeAttackHint: "Score run",
-    mapHint: "Stage badges",
+    puzzleHint: "Solve puzzles",
+    albumHint: "Finished art",
+    pantryHint: "Shop and decorate",
+    timeAttackHint: "Spoon challenge",
+    mapHint: "Next goals",
     navLabel: "Main views",
     menu: "Menu",
-    quickJump: "Jump"
+    quickJump: "Switch screens"
   },
   header: {
     settings: "Settings",
