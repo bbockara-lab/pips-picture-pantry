@@ -15297,6 +15297,37 @@ img {
   }
 }
 
+/* v0.1.483 release candidate: quick-travel copy must stay readable. */
+.floating-nav__trigger strong,
+.floating-nav__trigger-cue,
+.floating-nav__label,
+.floating-nav__item small {
+  overflow: visible;
+  overflow-wrap: normal;
+  text-overflow: clip;
+  white-space: normal;
+  word-break: keep-all;
+}
+
+.floating-nav__trigger strong,
+.floating-nav__trigger-cue,
+.floating-nav__label {
+  line-height: 1.08;
+}
+
+.floating-nav__item small {
+  line-height: 1.12;
+}
+
+/* v0.1.483 release candidate: play-mode quick-travel has stronger selectors. */
+.app-shell--play .floating-nav__trigger strong,
+.app-shell--play .floating-nav__trigger-cue {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  word-break: keep-all;
+}
+
 /* v0.1.479 release-candidate mobile fit hardening */
 .brand-intro__promise-strip {
   width: min(100%, 640px);
@@ -15337,9 +15368,11 @@ img {
   max-width: 100%;
   font-size: clamp(0.72rem, 2.65vw, 0.92rem);
   line-height: 1.08;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: visible;
+  overflow-wrap: normal;
+  text-overflow: clip;
+  word-break: keep-all;
 }
 
 .brand-intro__promise-action {

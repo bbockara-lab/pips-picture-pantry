@@ -1175,9 +1175,13 @@ async function expectAppChromePolish(page, viewportName) {
       const hint = item.querySelector("small");
       const iconStyle = icon ? getComputedStyle(icon) : null;
       const copyStyle = copy ? getComputedStyle(copy) : null;
+      const labelStyle = label ? getComputedStyle(label) : null;
+      const hintStyle = hint ? getComputedStyle(hint) : null;
       const itemStyle = getComputedStyle(item);
       const before = icon ? getComputedStyle(icon, "::before") : null;
       const after = icon ? getComputedStyle(icon, "::after") : null;
+      const labelLineHeight = parseFloat(labelStyle?.lineHeight) || 0;
+      const hintLineHeight = parseFloat(hintStyle?.lineHeight) || 0;
       return {
         view: item.dataset.view || "",
         itemHeight: item.getBoundingClientRect().height,
@@ -1193,7 +1197,15 @@ async function expectAppChromePolish(page, viewportName) {
         gridRow: iconStyle?.gridRow || "",
         copyDisplay: copyStyle?.display || "",
         copyWidth: copy?.getBoundingClientRect().width || 0,
+        labelWhiteSpace: labelStyle?.whiteSpace || "",
+        labelTextOverflow: labelStyle?.textOverflow || "",
+        labelOverflowX: labelStyle?.overflowX || "",
+        labelLineCount: labelLineHeight ? label.getBoundingClientRect().height / labelLineHeight : 1,
         labelOverflow: label ? Math.max(0, label.scrollWidth - label.clientWidth) : 999,
+        hintWhiteSpace: hintStyle?.whiteSpace || "",
+        hintTextOverflow: hintStyle?.textOverflow || "",
+        hintOverflowX: hintStyle?.overflowX || "",
+        hintLineCount: hintLineHeight ? hint.getBoundingClientRect().height / hintLineHeight : 1,
         hintOverflow: hint ? Math.max(0, hint.scrollWidth - hint.clientWidth) : 999
       };
     });
@@ -1298,7 +1310,15 @@ async function expectAppChromePolish(page, viewportName) {
       icon.afterContent === "none" ||
       icon.copyDisplay !== "grid" ||
       icon.copyWidth < 80 ||
+      icon.labelWhiteSpace === "nowrap" ||
+      icon.labelTextOverflow === "ellipsis" ||
+      icon.labelOverflowX === "hidden" ||
+      icon.labelLineCount > 2.4 ||
       icon.labelOverflow > 1 ||
+      icon.hintWhiteSpace === "nowrap" ||
+      icon.hintTextOverflow === "ellipsis" ||
+      icon.hintOverflowX === "hidden" ||
+      icon.hintLineCount > 2.4 ||
       icon.hintOverflow > 1
     )
   ) {
@@ -1334,6 +1354,10 @@ async function expectPlayScreenNavClearance(page, viewportName) {
     const controlsRect = controls?.getBoundingClientRect();
     const navStyle = nav ? getComputedStyle(nav) : null;
     const triggerTextStyle = triggerText ? getComputedStyle(triggerText) : null;
+    const triggerCurrentStyle = triggerCurrent ? getComputedStyle(triggerCurrent) : null;
+    const triggerCueStyle = triggerCue ? getComputedStyle(triggerCue) : null;
+    const triggerCurrentLineHeight = parseFloat(triggerCurrentStyle?.lineHeight) || 0;
+    const triggerCueLineHeight = parseFloat(triggerCueStyle?.lineHeight) || 0;
     return {
       hasPlayShell: Boolean(document.querySelector(".app-shell--play")),
       viewportWidth: window.innerWidth,
@@ -1350,7 +1374,16 @@ async function expectPlayScreenNavClearance(page, viewportName) {
       triggerLabelText: (triggerLabel?.textContent || "").trim(),
       triggerCueText: (triggerCue?.textContent || "").trim(),
       triggerCurrentText: (triggerCurrent?.textContent || "").trim(),
+      triggerCurrentWhiteSpace: triggerCurrentStyle?.whiteSpace || "",
+      triggerCurrentTextOverflow: triggerCurrentStyle?.textOverflow || "",
+      triggerCurrentOverflowX: triggerCurrentStyle?.overflowX || "",
+      triggerCurrentLineCount: triggerCurrentLineHeight ? triggerCurrent.getBoundingClientRect().height / triggerCurrentLineHeight : 1,
       triggerCurrentOverflow: triggerCurrent ? Math.max(0, triggerCurrent.scrollWidth - triggerCurrent.clientWidth) : 999,
+      triggerCueWhiteSpace: triggerCueStyle?.whiteSpace || "",
+      triggerCueTextOverflow: triggerCueStyle?.textOverflow || "",
+      triggerCueOverflowX: triggerCueStyle?.overflowX || "",
+      triggerCueLineCount: triggerCueLineHeight ? triggerCue.getBoundingClientRect().height / triggerCueLineHeight : 1,
+      triggerCueOverflow: triggerCue ? Math.max(0, triggerCue.scrollWidth - triggerCue.clientWidth) : 999,
       triggerOverlapsGrid: overlaps(triggerRect, gridRect),
       triggerOverlapsControls: overlaps(triggerRect, controlsRect)
     };
@@ -1372,7 +1405,16 @@ async function expectPlayScreenNavClearance(page, viewportName) {
       !metrics.triggerLabelText ||
       !metrics.triggerCueText ||
       !metrics.triggerCurrentText ||
+      metrics.triggerCurrentWhiteSpace === "nowrap" ||
+      metrics.triggerCurrentTextOverflow === "ellipsis" ||
+      metrics.triggerCurrentOverflowX === "hidden" ||
+      metrics.triggerCurrentLineCount > 2.4 ||
       metrics.triggerCurrentOverflow > 1 ||
+      metrics.triggerCueWhiteSpace === "nowrap" ||
+      metrics.triggerCueTextOverflow === "ellipsis" ||
+      metrics.triggerCueOverflowX === "hidden" ||
+      metrics.triggerCueLineCount > 2.4 ||
+      metrics.triggerCueOverflow > 1 ||
       metrics.triggerOverlapsControls
     )
   ) {
