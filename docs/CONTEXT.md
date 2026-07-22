@@ -3347,6 +3347,12 @@ Current launch direction:
 - Added i18n and mobile QA guards against developer/test Billing copy in the visible settings cards while keeping product IDs, purchase/restore, pantry state, puzzle play, Time Attack, floating navigation, and save behavior unchanged.
 - Remaining external release evidence is unchanged: activate Play Console products and record real-device purchase/restore for both Billing items.
 
+### v0.1.486 Billing Card Artwork Pass
+- Bumped the visible app version to v0.1.486 and package version to 0.1.486.
+- Refined the Support Pack and Spoon Jar card token artwork with larger layered CSS medallions so the monetization cards no longer read as rough placeholders in settings and web preview.
+- Strengthened mobile QA thresholds for Billing card artwork size and button height while preserving existing no-overlap, no-developer-copy, and store-readiness guards.
+- Remaining external release evidence is unchanged: activate Play Console products and record real-device purchase/restore for both Billing items.
+
 ### V1 Visual Finish Backlog
 - Keep the current CSS-only control symbols as functional placeholders until the release shell is stable, then replace reusable button symbols with approved Sunny Spoon Studios artwork: fill, blank-check, undo, D-pad directions, hint, settings, Time Attack, pantry/shop, and pack/status chips.
 - Treat this as a final art pass rather than a piecemeal feature detour: artwork quality, line alignment, text fit, and icon consistency must be checked together across opening, puzzle play, guide dialogs, pantry/shop, billing, and Time Attack.

@@ -1026,15 +1026,15 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.supportCard.tokenWidth < 24 ||
     metrics.settingsPolish.supportCard.tokenHeight < 24 ||
     !metrics.settingsPolish.supportCard.tokenBackground.includes("gradient") ||
-    metrics.settingsPolish.supportCard.productArtWidth < 44 ||
-    metrics.settingsPolish.supportCard.productArtHeight < 44 ||
+    metrics.settingsPolish.supportCard.productArtWidth < 50 ||
+    metrics.settingsPolish.supportCard.productArtHeight < 50 ||
     metrics.settingsPolish.supportCard.productArtAriaHidden !== "true" ||
     !metrics.settingsPolish.supportCard.productArtBackground.includes("gradient") ||
     !metrics.settingsPolish.supportCard.productArtBeforeBackground.includes("gradient") ||
     !metrics.settingsPolish.supportCard.productArtAfterBackground.includes("gradient") ||
     metrics.settingsPolish.supportCard.productArtOverlapsContent ||
     metrics.settingsPolish.supportCard.actionCount !== 2 ||
-    metrics.settingsPolish.supportCard.actionHeights.some((height) => height < 44) ||
+    metrics.settingsPolish.supportCard.actionHeights.some((height) => height < 50) ||
     metrics.settingsPolish.supportCard.factOverflows.some(Boolean) ||
     metrics.settingsPolish.supportCard.actionOverflows.some(Boolean) ||
     metrics.settingsPolish.supportCard.actionBackgrounds.some((background) => !background.includes("gradient")) ||
@@ -1063,15 +1063,15 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.settingsPolish.spoonJarCard.tokenWidth < 24 ||
     metrics.settingsPolish.spoonJarCard.tokenHeight < 24 ||
     !metrics.settingsPolish.spoonJarCard.tokenBackground.includes("gradient") ||
-    metrics.settingsPolish.spoonJarCard.productArtWidth < 44 ||
-    metrics.settingsPolish.spoonJarCard.productArtHeight < 44 ||
+    metrics.settingsPolish.spoonJarCard.productArtWidth < 50 ||
+    metrics.settingsPolish.spoonJarCard.productArtHeight < 50 ||
     metrics.settingsPolish.spoonJarCard.productArtAriaHidden !== "true" ||
     !metrics.settingsPolish.spoonJarCard.productArtBackground.includes("gradient") ||
     !metrics.settingsPolish.spoonJarCard.productArtBeforeBackground.includes("gradient") ||
     !metrics.settingsPolish.spoonJarCard.productArtAfterBackground.includes("gradient") ||
     metrics.settingsPolish.spoonJarCard.productArtOverlapsContent ||
     metrics.settingsPolish.spoonJarCard.actionCount !== 1 ||
-    metrics.settingsPolish.spoonJarCard.actionHeights.some((height) => height < 44) ||
+    metrics.settingsPolish.spoonJarCard.actionHeights.some((height) => height < 50) ||
     metrics.settingsPolish.spoonJarCard.factOverflows.some(Boolean) ||
     metrics.settingsPolish.spoonJarCard.actionOverflows.some(Boolean) ||
     metrics.settingsPolish.spoonJarCard.actionBackgrounds.some((background) => !background.includes("gradient")) ||
