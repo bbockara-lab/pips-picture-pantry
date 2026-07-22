@@ -1,6 +1,6 @@
 # Android Release Status
 
-Last updated: 2026-07-19
+Last updated: 2026-07-21
 
 ## Public Launch Checklist (release-safe, 2026-07-14)
 
@@ -26,11 +26,12 @@ versionName "1.1.0" // or the final public launch version name
 
 ---
 
-## Closed Testing Access Window - 2026-07-14
+## Closed Testing Access Window - 2026-07-21
 
-- User reported that Google Play production access eligibility now shows **9 of 14 days complete**.
-- Remaining release work should assume about five eligibility days remain, with a working goal to finish the Android-ready candidate in the next three development days and reserve the final window for review, real-device checks, AAB upload, and store-listing cleanup.
-- Priority order for the three-day push: first-session polish, Pantry purpose/economy clarity, Android/WebView QA, release numbering, signed AAB rebuild, and rollback notes.
+- User reported that Google Play production access requirements are now completed and the Play Console production request button is available.
+- Production timing is now product-quality driven rather than eligibility-window driven.
+- Remaining release work should focus on final Android/WebView visual review, real-device Billing evidence, signed AAB rebuild, and Play Console upload/promotion checks.
+- User also received the 2026-07-22 Google Play notice about optional US third-party Android app store listing-info sharing. No app-code action is required; manage the Play Console environment option separately if needed.
 
 ---
 
@@ -82,20 +83,21 @@ versionName "1.1.0" // or the final public launch version name
   - Spoon jar repeat purchase grants another 750 spoons with a new store token.
   - Cancelled or failed purchase sheets do not grant spoons.
 
-## Candidate Gate Refresh - 2026-07-19
+## Candidate Gate Refresh - 2026-07-21
 
-- Current verified app version: `v0.1.459`.
-- `npm run qa:candidate` passed after the latest opening, board-alignment, Billing, and visual-polish slices.
+- Current verified app version: `v0.1.485`.
+- `npm run qa:candidate` passed after the latest opening, board-alignment, Billing, floating-navigation, promise-chip, guide, and visual-review-pack slices.
+- `npm run qa:visual-pack` passed and now captures both the 390x844 mobile review viewport and the 675x900 Codex/wide-preview viewport.
 - Verified launch catalog state:
   - Total puzzles: 333.
   - Free puzzles: 333.
   - Large boards 10x10+: 243.
   - Large boards 12x12+: 116.
+  - Large-board readable briefs: 195.
 - Verified release checks in the candidate gate:
-  - Vitest: 113 passed.
+  - Vitest: 114 passed.
   - Catalog, bonus-pack visibility, launch integrity, source hygiene, asset manifest, Play Store graphics, Play Store listing, Billing wiring, privacy policy, production build, Android release gate, HTTP probe, and mobile visual QA all passed.
-- `npm run qa:android:candidate` also passed after the same candidate refresh.
-- Current unsigned candidate AAB:
+- Last recorded unsigned candidate AAB:
   - Path: `android/app/build/outputs/bundle/release/app-release.aab`.
   - Size: 12,077,297 bytes.
   - Local build time: 2026-07-19 09:13.
