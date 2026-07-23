@@ -1,7 +1,7 @@
 # Pip's Picture Pantry Art Asset Backlog
 
-Last updated: 2026-07-05
-Mode: experimental major rework
+Last updated: 2026-07-22
+Mode: live release-candidate final polish
 
 ## Non-Negotiable Art Rule
 

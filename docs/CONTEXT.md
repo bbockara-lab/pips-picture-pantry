@@ -3551,6 +3551,9 @@ Current launch direction:
 - Replaced the broad zero-cost counter heuristic with the exact `starter-counter-cloth` ID, preventing future free counter decorations from completing the starter room request accidentally.
 - Stacked Support Pack purchase and restore actions at every Settings width so the long Korean store-price label receives the full card width instead of wrapping into an uneven three-line half-width button at 675px.
 - Removed both historical sets of CSS-drawn Support Pack and Spoon Jar product shapes now that approved raster icons own those visuals.
+- Extended asset QA to reject any future Billing product `::before` or `::after` artwork rule, while preserving the tactile raster frame and card decoration layers.
+- Manual review of the regenerated 675x900 Billing capture confirmed the Korean purchase label now fits on one line at full card width and aligns cleanly with Restore, with no icon or section overlap.
+- Verification: 119 unit tests, asset QA, production build, the 29-frame visual review pack, mobile QA at four viewports, and the full candidate gate passed.
 
 ### v0.1.512 Progress Reset Raster Artwork
 - Bumped the visible app version and package metadata to v0.1.512.
@@ -3559,6 +3562,10 @@ Current launch direction:
 - Updated asset and mobile visual QA contracts to require the exact reset asset, 256px source dimensions, and disabled reset pseudo-element artwork.
 - Made Settings visual measurement wait for both Billing product PNGs to finish decoding, removing a startup race that could report zero natural dimensions before layout inspection.
 - Verification: 119 unit tests, 157-asset manifest QA, production build, 29-frame visual pack, mobile QA at 360/390/430/675px, and the full release-candidate gate passed.
-- Extended asset QA to reject any future Billing product `::before` or `::after` artwork rule, while preserving the tactile raster frame and card decoration layers.
-- Manual review of the regenerated 675x900 Billing capture confirmed the Korean purchase label now fits on one line at full card width and aligns cleanly with Restore, with no icon or section overlap.
-- Verification: 119 unit tests, asset QA, production build, the 29-frame visual review pack, mobile QA at four viewports, and the full candidate gate passed.
+
+### v0.1.513 Header Raster Cleanup
+- Bumped the visible app version and package metadata to v0.1.513.
+- Removed the retired CSS-drawn Settings gear that had remained hidden behind a later `content: none` override after the approved raster Settings icon was promoted.
+- Strengthened asset QA to reject pseudo-element artwork for both header controls, keeping Settings and Progress Reset on the same approved raster-only contract.
+- Reclassified the art backlog from experimental major rework to live release-candidate final polish; no visible placeholder artwork remains on the launch-critical header controls.
+- Verification: 119 unit tests, 157-asset QA, production build, 29-frame visual pack, mobile QA at 360/390/430/675px, and the full release-candidate gate passed.

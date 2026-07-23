@@ -9076,32 +9076,6 @@ img {
     inset 0 2px 0 rgba(255, 255, 255, 0.72);
 }
 
-.icon-button--settings::before,
-.icon-button--settings::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-}
-
-.icon-button--settings::before {
-  width: 22px;
-  height: 22px;
-  border: 4px solid rgba(72, 49, 54, 0.86);
-  border-radius: 999px;
-  background:
-    radial-gradient(circle, rgba(255, 248, 232, 0.96) 0 32%, transparent 34%),
-    conic-gradient(from 10deg, transparent 0 10deg, rgba(72, 49, 54, 0.82) 10deg 30deg, transparent 30deg 60deg, rgba(72, 49, 54, 0.82) 60deg 82deg, transparent 82deg 112deg, rgba(72, 49, 54, 0.82) 112deg 134deg, transparent 134deg 180deg, rgba(72, 49, 54, 0.82) 180deg 202deg, transparent 202deg 232deg, rgba(72, 49, 54, 0.82) 232deg 254deg, transparent 254deg 286deg, rgba(72, 49, 54, 0.82) 286deg 308deg, transparent 308deg 360deg);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
-}
-
-.icon-button--settings::after {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: rgba(72, 49, 54, 0.9);
-  box-shadow: 0 0 0 3px rgba(255, 248, 232, 0.92);
-}
-
 /* v0.1.334 Completed Line Auto Mark Artwork */
 .puzzle-cell.completed-row.marked,
 .puzzle-cell.completed-column.marked {
@@ -15647,11 +15621,6 @@ img {
 
 .hint-button__raster-art {
   filter: drop-shadow(0 2px 1px rgba(82, 53, 31, 0.2));
-}
-
-.icon-button--settings::before,
-.icon-button--settings::after {
-  content: none;
 }
 
 .icon-button__raster-art {

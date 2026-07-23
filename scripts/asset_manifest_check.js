@@ -76,8 +76,8 @@ if (/\.spoon-icon::(?:before|after)\s*\{[^}]*content\s*:\s*[\"'][^\"']+[\"']/s.t
 if (/\.support-pack-card__art(?:--support|--jar)?::(?:before|after)\s*\{/s.test(styles)) {
   errors.push("src/styles.css: Billing product pseudo-elements must not replace approved raster artwork");
 }
-if (/\.icon-button--reset::(?:before|after)\s*\{/s.test(styles)) {
-  errors.push("src/styles.css: progress reset pseudo-elements must not replace approved raster artwork");
+if (/\.icon-button--(?:settings|reset)::(?:before|after)\s*\{/s.test(styles)) {
+  errors.push("src/styles.css: header control pseudo-elements must not replace approved raster artwork");
 }
 
 
