@@ -132,3 +132,8 @@ Before wiring new art:
 - Replaced the visible CSS-drawn Support Pack and Small Spoon Jar product symbols with approved transparent PNG artwork.
 - Runtime assets are `src/assets/billing/support-pack-gift-v1.png` and `src/assets/billing/spoon-jar-small-v1.png`.
 - Both icons use the established honey-gold spoon palette, contain no baked text or real-money symbols, and remain readable in the Settings card's 46-62px artwork slot.
+
+## v0.1.512 Progress Reset Icon
+- Replaced the CSS-drawn header reset arrow with `src/assets/icons/puzzle-controls-v1/puzzle-control-reset-v1.png`.
+- The approved 256px transparent icon uses a golden circular arrow and sprouting Pantry tile so progress reset reads as a gentle fresh start rather than deletion.
+- Runtime approval, asset-manifest, and mobile visual checks now guard the exact raster asset and prevent pseudo-element artwork from returning.

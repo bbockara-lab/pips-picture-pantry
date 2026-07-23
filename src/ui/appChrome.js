@@ -36,6 +36,7 @@ export function renderHeader(onSettings, onReset) {
   resetButton.type = "button";
   resetButton.title = t("header.resetProgress");
   resetButton.setAttribute("aria-label", t("header.resetProgress"));
+  appendPuzzleControlArt(resetButton, "reset", "icon-button__raster-art");
   resetButton.addEventListener("click", onReset);
 
   actions.append(currency, settingsButton, resetButton);

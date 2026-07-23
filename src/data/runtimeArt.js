@@ -17,7 +17,8 @@ const APPROVED_PUZZLE_CONTROL_ART_IDS = new Set([
   "puzzle-control-mark-v1",
   "puzzle-control-undo-v1",
   "puzzle-control-hint-v1",
-  "puzzle-control-settings-v1"
+  "puzzle-control-settings-v1",
+  "puzzle-control-reset-v1"
 ]);
 
 export function isRuntimeGuideArtApproved(assetId) {

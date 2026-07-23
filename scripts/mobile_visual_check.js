@@ -724,6 +724,10 @@ async function expectOpeningIntroPolish(page, viewportName) {
 async function expectSettingsDialogPolish(page, viewportName) {
   await page.locator('button[aria-label="Settings"], button[aria-label="\uC124\uC815"]').first().click();
   await expectVisible(page, ".settings-dialog", viewportName);
+  await page.waitForFunction(() => {
+    const images = [...document.querySelectorAll(".settings-dialog .support-pack-card__art-image")];
+    return images.length === 2 && images.every((image) => image.complete && image.naturalWidth === 256 && image.naturalHeight === 256);
+  }, null, { timeout: 5000 });
   const viewport = page.viewportSize() || { height: 844 };
   const metrics = await page.evaluate(() => {
     const backdrop = document.querySelector(".modal-backdrop");
@@ -1243,6 +1247,7 @@ async function expectAppChromePolish(page, viewportName) {
     const resetBefore = reset ? getComputedStyle(reset, "::before") : null;
     const resetAfter = reset ? getComputedStyle(reset, "::after") : null;
     const settingsArt = settings?.querySelector(".icon-button__raster-art");
+    const resetArt = reset?.querySelector(".icon-button__raster-art");
     return {
       topBarHeight: topBarRect?.height || 0,
       currencyHeight: currencyRect?.height || 0,
@@ -1261,8 +1266,11 @@ async function expectAppChromePolish(page, viewportName) {
       settingsAssetId: settingsArt?.dataset.assetId || "",
       settingsImageNaturalWidth: settingsArt?.naturalWidth || 0,
       settingsImageNaturalHeight: settingsArt?.naturalHeight || 0,
-      resetRingWidth: parseFloat(resetBefore?.width) || 0,
-      resetArrowBorder: resetAfter?.borderLeftWidth || ""
+      resetBeforeContent: resetBefore?.content || "",
+      resetAfterContent: resetAfter?.content || "",
+      resetAssetId: resetArt?.dataset.assetId || "",
+      resetImageNaturalWidth: resetArt?.naturalWidth || 0,
+      resetImageNaturalHeight: resetArt?.naturalHeight || 0
     };
   });
   if (
@@ -1283,8 +1291,11 @@ async function expectAppChromePolish(page, viewportName) {
     chromeMetrics.settingsAssetId !== "puzzle-control-settings-v1" ||
     chromeMetrics.settingsImageNaturalWidth !== 256 ||
     chromeMetrics.settingsImageNaturalHeight !== 256 ||
-    chromeMetrics.resetRingWidth < 20 ||
-    chromeMetrics.resetArrowBorder === "0px"
+    chromeMetrics.resetBeforeContent !== "none" ||
+    chromeMetrics.resetAfterContent !== "none" ||
+    chromeMetrics.resetAssetId !== "puzzle-control-reset-v1" ||
+    chromeMetrics.resetImageNaturalWidth !== 256 ||
+    chromeMetrics.resetImageNaturalHeight !== 256
   ) {
     failures.push("[" + viewportName + "] App chrome lost polished HUD/icon treatment: " + JSON.stringify(chromeMetrics));
   }

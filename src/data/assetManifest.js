@@ -206,7 +206,8 @@ export const assetRegistry = [
     ["mark", "Blank-check tile"],
     ["undo", "Undo arrow"],
     ["hint", "Spoon hint bulb"],
-    ["settings", "Settings gear"]
+    ["settings", "Settings gear"],
+    ["reset", "Progress reset sprout"]
   ].map(([control, label]) => ({
     id: `puzzle-control-${control}-v1`,
     usage: "puzzle-control-icon",
