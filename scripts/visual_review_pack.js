@@ -409,6 +409,10 @@ async function captureKoreanFirstRun(browser) {
     await dismissIntro(returningPage);
     await dismissGuideIfPresent(returningPage);
     await captureSettings(returningPage, { namePrefix: "ko-" });
+    await openFloatingView(returningPage, "album");
+    await capture(returningPage, "ko-album-progress", ".album-panel", {
+      settleMs: 320
+    });
     await openFloatingView(returningPage, "pantry");
     await capture(returningPage, "ko-pantry-room-and-shop", ".pantry-panel", {
       fullPage: true,

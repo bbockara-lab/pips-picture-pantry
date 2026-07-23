@@ -15550,6 +15550,12 @@ img {
     overflow: visible;
     text-overflow: clip;
   }
+
+  .floating-nav__item:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    width: calc(50% - 5px);
+    justify-self: center;
+  }
 }
 #app[data-intro-open="true"] .floating-nav {
   visibility: hidden;

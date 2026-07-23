@@ -1334,6 +1334,8 @@ async function expectAppChromePolish(page, viewportName) {
         ariaLabel: item.getAttribute("aria-label") || "",
         title: item.getAttribute("title") || "",
         itemHeight: item.getBoundingClientRect().height,
+        itemLeft: item.getBoundingClientRect().left,
+        itemWidth: item.getBoundingClientRect().width,
         columns: itemStyle.gridTemplateColumns || "",
         width: parseFloat(iconStyle?.width) || 0,
         height: parseFloat(iconStyle?.height) || 0,
@@ -1388,6 +1390,7 @@ async function expectAppChromePolish(page, viewportName) {
       navTop: navRect ? Math.round(navRect.top) : -999,
       menuBottomGap: rect ? Math.round(window.innerHeight - rect.bottom) : -999,
       menuColumns: style?.gridTemplateColumns || "",
+      menuCenter: rect ? rect.left + rect.width / 2 : 0,
       borderRadius: style ? parseFloat(style.borderRadius) : 0,
       backgroundImage: style?.backgroundImage || "",
       triggerShine: triggerBefore?.backgroundImage || "",
@@ -1435,6 +1438,8 @@ async function expectAppChromePolish(page, viewportName) {
     return Boolean(icon && expectedHintsByView[view].includes(icon.hintText));
   });
   const triggerExplainsSwitching = ["Switch screens", "\uD654\uBA74 \uC774\uB3D9"].includes(navMetrics.triggerCueText);
+  const lastNavItem = navMetrics.icons.at(-1);
+  const wideOddItemIsCentered = navMetrics.viewportWidth < 560 || !lastNavItem || Math.abs((lastNavItem.itemLeft + lastNavItem.itemWidth / 2) - navMetrics.menuCenter) <= 2;
   if (
     navMetrics.open !== "true" ||
     navMetrics.navPosition !== "fixed" ||
@@ -1473,6 +1478,7 @@ async function expectAppChromePolish(page, viewportName) {
     !hasAllViewIcons ||
     !hasClearRouteHints ||
     !triggerExplainsSwitching ||
+    !wideOddItemIsCentered ||
     navMetrics.icons.length < 5 ||
     navMetrics.icons.some((icon) =>
       icon.itemHeight < 58 ||

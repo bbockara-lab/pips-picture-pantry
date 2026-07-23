@@ -3569,3 +3569,11 @@ Current launch direction:
 - Strengthened asset QA to reject pseudo-element artwork for both header controls, keeping Settings and Progress Reset on the same approved raster-only contract.
 - Reclassified the art backlog from experimental major rework to live release-candidate final polish; no visible placeholder artwork remains on the launch-critical header controls.
 - Verification: 119 unit tests, 157-asset QA, production build, 29-frame visual pack, mobile QA at 360/390/430/675px, and the full release-candidate gate passed.
+
+### v0.1.514 Final Visual Coverage
+- Bumped the visible app version and package metadata to v0.1.514.
+- Centered the fifth quick-travel destination on the final row at 560-780px preview widths, removing the asymmetric orphan item while preserving the two-column scan pattern.
+- Added an explicit wide-layout geometry contract that requires the odd final destination to remain centered in its menu.
+- Expanded the visual review pack from 29 to 30 screenshots with a Korean Album viewport capture, closing the last locale-specific visual coverage gap without producing an impractical 333-card full-page image.
+- Manual review confirmed the centered 675px five-item menu and Korean Album title, count, saved card, description, and locked-card preview render without clipping or section intrusion.
+- Verification: 119 unit tests, 157-asset QA, production build, 30-frame visual pack, mobile QA at 360/390/430/675px, and the full release-candidate gate passed.
