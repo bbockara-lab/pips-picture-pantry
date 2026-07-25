@@ -154,4 +154,16 @@ describe("puzzle art audit", () => {
 
     expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
   });
+
+  it("keeps the fifth repaired Bakery density group out of the art-review queue", () => {
+    const report = buildPuzzleArtAudit();
+    const repairedIds = new Set([
+      "bakery-window-hazelnut-praline-square-86",
+      "bakery-window-honey-lavender-canele-105",
+      "bakery-window-lavender-shortbread-tin-80",
+      "bakery-window-lemon-curd-rosette-87"
+    ]);
+
+    expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
+  });
 });

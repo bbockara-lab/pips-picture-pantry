@@ -3910,3 +3910,11 @@ Current launch direction:
 - Redrew Cocoa Pear Tartlet, Fig Honey Pinwheel, Ginger Honey Madeleine, and Hazelnut Cocoa Tart with distinct fruit arcs, radial folds, shell ridges, and scalloped crust.
 - Added a regression test keeping all five reviewed silhouettes out of the art-audit queue.
 - Verification: 145 unit tests, 85-candidate art audit, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+
+### v0.1.556 Bakery Density Repair Group E
+
+- Redrew Hazelnut Praline Square, Honey Lavender Canele, Lavender Shortbread Tin, and Lemon Curd Rosette as distinct 12x12 compositions.
+- Replaced near-solid blocks with a framed nut grid, vertical canele flutes, an asymmetric labeled tin, and a readable lemon spiral.
+- Added an art-audit regression test keeping all four out of the review queue.
+- Verification: 146 unit tests, 81-candidate art audit, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
