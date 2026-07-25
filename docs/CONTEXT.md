@@ -3894,3 +3894,11 @@ Current launch direction:
 - Replaced near-solid blocks with distinct folded crust, framed square, radial pinwheel, and braided-ring compositions while preserving readable edge clues.
 - Added an art-audit regression test keeping all four out of the review queue.
 - Verification: 143 unit tests, 93-candidate art audit, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+
+### v0.1.554 Bakery Density Repair Group C
+
+- Redrew Caramel Pear Muffin, Cherry Cream Brioche, Cinnamon Honey Twist, and Cocoa Almond Biscuit as distinct 12x12 compositions.
+- Added readable muffin cup folds, twin cherry topping and cream pocket, a diagonal braided twist, and an almond-cut oval biscuit instead of near-solid blocks.
+- Added an art-audit regression test keeping all four out of the review queue.
+- Verification: 144 unit tests, 89-candidate art audit, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
