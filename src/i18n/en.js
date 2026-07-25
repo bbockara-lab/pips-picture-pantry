@@ -240,10 +240,11 @@ export const en = {
   },
   guide: {
     practiceLabel: "A practice row with Pip",
-    practicePrompt: "The clue is 5, so tap all five cells.",
+    practicePrompt: "Slide from the first cell to the last one.",
     practiceCell: "Cell {number}",
-    practiceTryAgain: "Let's color all five cells in the row.",
-    practiceComplete: "Lovely! The clue 5 matches all five cells.",
+    practiceTryAgain: "Keep your finger down and color all five cells.",
+    practiceComplete: "That’s it. A 5 means five connected cells.",
+    practiceSeparated: "1 1 1 means three single groups, with a blank between them.",
     eyebrow: "Pip's cozy guide",
     speaker: "Pip is talking with you",
     skip: "Not now",
@@ -251,9 +252,9 @@ export const en = {
     done: "Start together",
     puzzle: {
       title: "I'll solve the first picture beside you",
-      step1: "These numbers are the picture pieces we need to color. I'll help you spot the gentle rows first.",
-      step2: "A single 5 means every cell in this five-cell row is filled. Want to finish the row below?",
-      step3: "More than one number means more than one filled group, with at least one blank between groups. If you get stuck, I'll offer a hint."
+      step1: "Each clue tells us how many connected cells to color in that line. Let’s begin with 5.",
+      step2: "A 5 means all five cells are connected. Slide across the row in one stroke.",
+      step3: "1 1 1 means three single groups. Leave at least one blank between each group."
     },
     timeAttack: {
       title: "I'll open the quick challenge with you",

@@ -16008,3 +16008,30 @@ img {
   border: 1px solid var(--ink);
   box-shadow: none;
 }
+
+
+/* v0.1.558: one clue grammar and direct first-guide practice. */
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) { --clue-token-size: clamp(16px, var(--board-cell-size), 24px); }
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .column-clue span,
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clue span {
+  display: grid; flex: 0 0 var(--clue-token-size); place-items: center; box-sizing: border-box;
+  width: var(--clue-token-size); min-width: var(--clue-token-size); max-width: var(--clue-token-size);
+  height: var(--clue-token-size); min-height: var(--clue-token-size); max-height: var(--clue-token-size);
+  padding: 0; border-radius: 50%; background: #fff4d2; box-shadow: 0 1px 0 rgba(61, 43, 46, 0.1); overflow: visible; line-height: 1;
+}
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .column-clue span::before,
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clue span::before { content: none; }
+.guide-dialog--puzzle .guide-dialog__line { max-width: 29ch; margin-inline: auto; line-height: 1.45; text-wrap: balance; }
+.guide-practice__row { touch-action: none; user-select: none; }
+.guide-practice__clue--wide { font-size: 0.82rem; letter-spacing: 0.04em; }
+.guide-practice--example .guide-practice__cell { display: grid; place-items: center; }
+.play-screen[data-puzzle-size="5"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) { --board-row-clue-width: 82px; }
+.play-screen[data-puzzle-size="12"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) { --clue-token-size: 14px; }
+@media (max-width: 430px) {
+  .play-screen[data-puzzle-size="12"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) { --clue-token-size: 11px; }
+}
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clue.line-complete span,
+.puzzle-panel:not(.completed) .board-wrap:not(.locked) .column-clue.line-complete span {
+  background: #d9efdc;
+  box-shadow: none;
+}

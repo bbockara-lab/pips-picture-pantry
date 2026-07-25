@@ -237,7 +237,7 @@ describe("i18n", () => {
     expect(t("playerIntro.placeholder")).not.toBe("Jay");
     expect(t("playerIntro.defaultName")).not.toBe("Friend");
     expect(t("guide.speaker")).toContain("Pip");
-    expect(t("guide.puzzle.step1")).toContain("\uc81c\uac00");
+    expect(t("guide.puzzle.step1")).toContain("\uc774\uc5b4");
     expect(t("guide.timeAttack.step2")).toContain("\uc2a4\ud47c");
     expect(t("guide.pantryFirstPurchase.step3")).toContain("\ud32c\ud2b8\ub9ac");
     expect(t("guide.pantryNeighborMrPark.title")).toContain("시계 할아버지");

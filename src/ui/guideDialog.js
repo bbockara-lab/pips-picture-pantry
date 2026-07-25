@@ -9,7 +9,11 @@ const GUIDE_ART_ASSET_ID = "pip-chrome-v2";
 export const PUZZLE_PRACTICE = Object.freeze({
   clue: 5,
   cellCount: 5,
-  targetIndexes: Object.freeze([0, 1, 2, 3, 4])
+  targetIndexes: Object.freeze([0, 1, 2, 3, 4]),
+  separatedClue: Object.freeze({
+    clue: "1 1 1",
+    filledIndexes: Object.freeze([0, 2, 4])
+  })
 });
 const GUIDE_STEPS = {
   puzzle: ["guide.puzzle.step1", "guide.puzzle.step2", "guide.puzzle.step3"],
@@ -78,7 +82,11 @@ export function renderGuideDialog(guideId, onClose) {
     body.id = "guide-dialog-title";
     body.textContent = t(steps[index]);
 
-    const practice = guideId === "puzzle" && index === 1 ? createPuzzlePractice() : null;
+    const practice = guideId === "puzzle" && index === 1
+      ? createPuzzlePractice()
+      : guideId === "puzzle" && index === 2
+        ? createSeparatedClueExample()
+        : null;
 
     const dots = document.createElement("div");
     dots.className = "guide-dialog__dots";
@@ -120,7 +128,7 @@ export function renderGuideDialog(guideId, onClose) {
       index += 1;
       draw();
     });
-    if (practice) {
+    if (practice?.onComplete) {
       nextButton.disabled = true;
       practice.onComplete(() => {
         nextButton.disabled = false;
@@ -148,44 +156,92 @@ function createPuzzlePractice() {
   status.textContent = t("guide.practicePrompt");
   const targetIndexes = new Set(PUZZLE_PRACTICE.targetIndexes);
   const filledIndexes = new Set();
+  let dragging = false;
   let complete = false;
   let completionHandler = () => {};
+
+  function fillCell(cell) {
+    if (complete || !cell?.classList.contains("guide-practice__cell")) return;
+    const index = Number(cell.dataset.index);
+    if (!targetIndexes.has(index)) {
+      status.textContent = t("guide.practiceTryAgain");
+      return;
+    }
+    filledIndexes.add(index);
+    cell.classList.add("is-filled");
+    cell.setAttribute("aria-pressed", "true");
+    if (filledIndexes.size === targetIndexes.size) {
+      complete = true;
+      dragging = false;
+      [...row.children].forEach((rowCell) => { rowCell.disabled = true; });
+      status.textContent = t("guide.practiceComplete");
+      completionHandler();
+    }
+  }
+
+  function finishDrag(event) {
+    dragging = false;
+    if (event?.pointerId != null && row.hasPointerCapture?.(event.pointerId)) {
+      row.releasePointerCapture(event.pointerId);
+    }
+  }
 
   for (let index = 0; index < PUZZLE_PRACTICE.cellCount; index += 1) {
     const cell = document.createElement("button");
     cell.type = "button";
     cell.className = "guide-practice__cell";
+    cell.dataset.index = String(index);
     cell.setAttribute("aria-label", t("guide.practiceCell", { number: index + 1 }));
-    cell.addEventListener("click", () => {
-      if (complete) return;
-      if (!targetIndexes.has(index)) {
-        status.textContent = t("guide.practiceTryAgain");
-        return;
-      }
-      filledIndexes.add(index);
-      cell.classList.add("is-filled");
-      cell.setAttribute("aria-pressed", "true");
-      if (filledIndexes.size === targetIndexes.size) {
-        complete = true;
-        [...row.children].forEach((rowCell, rowIndex) => {
-          rowCell.disabled = true;
-          if (!targetIndexes.has(rowIndex)) {
-            rowCell.classList.add("is-marked");
-            rowCell.textContent = "×";
-          }
-        });
-        status.textContent = t("guide.practiceComplete");
-        completionHandler();
-      }
-    });
+    cell.setAttribute("aria-pressed", "false");
+    cell.addEventListener("click", () => fillCell(cell));
     row.appendChild(cell);
   }
+
+  row.addEventListener("pointerdown", (event) => {
+    const cell = event.target.closest(".guide-practice__cell");
+    if (!cell || complete) return;
+    event.preventDefault();
+    dragging = true;
+    row.setPointerCapture?.(event.pointerId);
+    fillCell(cell);
+  });
+  row.addEventListener("pointermove", (event) => {
+    if (!dragging || complete) return;
+    event.preventDefault();
+    const cell = document.elementFromPoint(event.clientX, event.clientY)?.closest(".guide-practice__cell");
+    if (cell && row.contains(cell)) fillCell(cell);
+  });
+  row.addEventListener("pointerup", finishDrag);
+  row.addEventListener("pointercancel", finishDrag);
+
   element.append(clue, row, status);
   return {
     element,
-    onComplete(handler) {
-      completionHandler = handler;
-    }
+    onComplete(handler) { completionHandler = handler; }
   };
 }
 
+function createSeparatedClueExample() {
+  const element = document.createElement("div");
+  element.className = "guide-practice guide-practice--example";
+  const clue = document.createElement("span");
+  clue.className = "guide-practice__clue guide-practice__clue--wide";
+  clue.textContent = PUZZLE_PRACTICE.separatedClue.clue;
+  const row = document.createElement("div");
+  row.className = "guide-practice__row";
+  row.setAttribute("aria-hidden", "true");
+  const filledIndexes = new Set(PUZZLE_PRACTICE.separatedClue.filledIndexes);
+  for (let index = 0; index < PUZZLE_PRACTICE.cellCount; index += 1) {
+    const cell = document.createElement("span");
+    cell.className = filledIndexes.has(index)
+      ? "guide-practice__cell is-filled"
+      : "guide-practice__cell is-marked";
+    cell.textContent = filledIndexes.has(index) ? "" : "×";
+    row.appendChild(cell);
+  }
+  const status = document.createElement("p");
+  status.className = "guide-practice__status";
+  status.textContent = t("guide.practiceSeparated");
+  element.append(clue, row, status);
+  return { element };
+}

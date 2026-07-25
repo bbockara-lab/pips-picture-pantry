@@ -229,3 +229,7 @@ Done when:
 
 - Current slice: v0.1.557 repairs four additional Bakery silhouettes and reduces the audit queue from 81 to 77 candidates.
 - Verification: 147 unit tests, 77-candidate art audit, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+
+- Current slice: v0.1.558 prioritizes first-session comprehension: natural Pip dialogue, drag practice, a visible 1-1-1 example, a clearer first-shelf label, no legacy progress icon, and one circular clue-token grammar.
+- Verification: 147 tests, full candidate gate, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900 passed.

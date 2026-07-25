@@ -3926,3 +3926,12 @@ Current launch direction:
 - Replaced near-solid blocks with a rectangular seeded slice, diagonal lemon ribbon, side-on cream spiral, and open twisted cruller ring.
 - Added an art-audit regression test keeping all four out of the review queue.
 - Verification: 147 unit tests, 77-candidate art audit, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+
+### v0.1.558 First Puzzle Teaching and Clue Grammar
+
+- Rewrote Pip's first puzzle lesson in natural, shorter Korean and English, with balanced dialogue width.
+- Added pointer-drag painting to the five-cell practice row and a visible 1-1-1 separated-group example on the following dialogue step.
+- Renamed the Korean first pack from a singular first stage to Pip's First Shelf so 2/20 reads correctly as the second saved picture.
+- Removed the obsolete CSS-drawn progress marker and unified row/column clue numbers as equal circular tokens, with mobile geometry guards for size, shape, alignment, and overflow.
+- Verification: 147 tests, full candidate gate, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900 passed.

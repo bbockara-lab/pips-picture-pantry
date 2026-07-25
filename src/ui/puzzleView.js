@@ -311,11 +311,6 @@ function countGuidedLines(state, puzzle) {
 function createProgressLine(state, puzzle) {
   const line = document.createElement("p");
   line.className = "progress-line";
-
-  const mark = document.createElement("span");
-  mark.className = "progress-line__mark";
-  mark.setAttribute("aria-hidden", "true");
-
   const text = document.createElement("span");
   text.className = "progress-line__text";
 
@@ -323,7 +318,7 @@ function createProgressLine(state, puzzle) {
     line.classList.add("complete");
     line.style.setProperty("--progress-ratio", "1");
     text.textContent = t("progress.complete");
-    line.append(mark, text);
+    line.append(text);
     return line;
   }
 
@@ -345,11 +340,11 @@ function createProgressLine(state, puzzle) {
     const lineAriaKey = guidedLineCount === 1 ? "progress.lineGuidedAria" : "progress.linesGuidedAria";
     badge.textContent = t(lineCopyKey, { count: guidedLineCount });
     badge.setAttribute("aria-label", t(lineAriaKey, { count: guidedLineCount }));
-    line.append(mark, text, badge);
+    line.append(text, badge);
     return line;
   }
 
-  line.append(mark, text);
+  line.append(text);
   return line;
 }
 

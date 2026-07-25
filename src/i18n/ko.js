@@ -239,10 +239,11 @@ export const ko = {
   },
   guide: {
     practiceLabel: "Pip\uacfc \ud568\uaed8 \uce60\ud574\ubcf4\ub294 \uc5f0\uc2b5 \uc904",
-    practicePrompt: "\uc22b\uc790 5\uc5d0 \ub9de\ucdb0 \ub2e4\uc12f \uce78\uc744 \ubaa8\ub450 \ub20c\ub7ec\ubcf4\uc138\uc694.",
+    practicePrompt: "첫 칸부터 끝 칸까지 손가락으로 쭉 밀어 칠해보세요.",
     practiceCell: "{number}\ubc88 \uce78",
-    practiceTryAgain: "\ub2e4\uc12f \uce78\uc744 \ucc28\ub840\ub85c \ubaa8\ub450 \uce60\ud574\ubcfc\uae4c\uc694?",
-    practiceComplete: "\uc88b\uc544\uc694! \uc22b\uc790 5\uc640 \ub2e4\uc12f \uce78\uc774 \ub531 \ub9de\uc558\uc5b4\uc694.",
+    practiceTryAgain: "손가락을 떼지 말고 다섯 칸을 이어 칠해볼까요?",
+    practiceComplete: "맞아요. 5는 이어진 다섯 칸이에요.",
+    practiceSeparated: "1 1 1은 한 칸씩 세 묶음이에요. 묶음 사이는 비워두세요.",
     eyebrow: "Pip의 작은 안내",
     speaker: "Pip이 옆에서 말해요",
     skip: "나중에 볼게요",
@@ -250,9 +251,9 @@ export const ko = {
     done: "같이 시작",
     puzzle: {
       title: "첫 그림은 제가 옆에서 함께 풀어볼게요",
-      step1: "여기 숫자는 칠해야 할 칸의 묶음을 알려줘요. 쉬운 줄부터 제가 같이 짚어볼게요.",
-      step2: "숫자 5 하나가 보이면 이 줄의 다섯 칸을 모두 칠해요. 아래 줄을 끝까지 눌러볼까요?",
-      step3: "숫자가 여러 개면 칠할 묶음도 여러 개예요. 묶음 사이에는 빈칸이 하나 이상 필요해요. 막히면 제가 힌트를 줄게요."
+      step1: "숫자는 이 줄에서 이어 칠할 칸 수예요. 먼저 5를 같이 해볼까요?",
+      step2: "5는 다섯 칸이 모두 이어진다는 뜻이에요. 손가락으로 한 번에 쭉 칠해보세요.",
+      step3: "1 1 1은 한 칸씩 세 묶음이에요. 각 묶음 사이는 꼭 한 칸 이상 비워요."
     },
     timeAttack: {
       title: "빠른 도전도 제가 함께할게요",
@@ -446,7 +447,7 @@ export const ko = {
     unlockGateNeedPantry: "\ud32c\ud2b8\ub9ac \ubd80\ud0c1\uc774 \uc544\uc9c1 {completed}/{required}\uac1c\uc608\uc694.",
     unlockGateNeedBoth: "\uc2a4\ud47c {count}\uac1c\uc640 \ud32c\ud2b8\ub9ac \ubd80\ud0c1 {completed}/{required}\uac1c\uac00 \ud544\uc694\ud574\uc694.",
     "pips-first-shelf": {
-      title: "Pip\uc758 \uccab \uc2a4\ud14c\uc774\uc9c0",
+      title: "Pip의 첫 선반",
       note: "\uc791\uace0 \uc26c\uc6b4 \uccab \uadf8\ub9bc"
     },
     "sunny-spoon-sign": {

@@ -2262,6 +2262,13 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     });
     const maxColumnCenterDelta = columnCenterDeltas.reduce((max, delta) => Math.max(max, Math.abs(delta)), 0);
     const maxRowCenterDelta = rowCenterDeltas.reduce((max, delta) => Math.max(max, Math.abs(delta)), 0);
+    const clueTokens = [...board.querySelectorAll(".column-clue span, .row-clue span")].map((token) => {
+      const tokenRect = token.getBoundingClientRect();
+      return { width: tokenRect.width, height: tokenRect.height, radius: parseFloat(getComputedStyle(token).borderRadius) };
+    });
+    const maxClueTokenAspectDelta = clueTokens.reduce((max, token) => Math.max(max, Math.abs(token.width - token.height)), 0);
+    const minClueTokenSize = clueTokens.reduce((min, token) => Math.min(min, token.width, token.height), Infinity);
+    const minClueTokenRadius = clueTokens.reduce((min, token) => Math.min(min, token.radius), Infinity);
     const widestRowClue = [...board.querySelectorAll(".row-clue")].reduce((widest, clue) => {
       const clueRect = clue.getBoundingClientRect();
       return !widest || clueRect.width > widest.width ? clueRect : widest;
@@ -2300,6 +2307,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       rowCenterDeltas,
       maxColumnCenterDelta,
       maxRowCenterDelta,
+      maxClueTokenAspectDelta,
+      minClueTokenSize,
+      minClueTokenRadius,
       firstCellCenter: firstCellRect ? firstCellRect.left + firstCellRect.width / 2 : 0,
       lastColumnCellCenter: lastColumnCellRect ? lastColumnCellRect.left + lastColumnCellRect.width / 2 : 0,
       firstRowCellCenter: firstCellRect ? firstCellRect.top + firstCellRect.height / 2 : 0,
@@ -2320,6 +2330,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     Number(boardFrameMetrics.gridZIndex) !== 2 ||
     boardFrameMetrics.widestRowClueLeft < boardFrameMetrics.left - 1 ||
     boardFrameMetrics.rowClueTokenOverflow ||
+    boardFrameMetrics.maxClueTokenAspectDelta > 1 ||
+    boardFrameMetrics.minClueTokenSize < 10.5 ||
+    boardFrameMetrics.minClueTokenRadius < boardFrameMetrics.minClueTokenSize * 0.45 ||
     boardFrameMetrics.widestRowClueRight > boardFrameMetrics.gridLeft - 2 ||
     boardFrameMetrics.maxColumnCenterDelta > 2 ||
     boardFrameMetrics.maxRowCenterDelta > 2
@@ -2467,7 +2480,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       overflows: line.scrollWidth > Math.ceil(rect.width) + 1 || line.scrollHeight > Math.ceil(rect.height) + 1
     };
   });
-  if (progressMetrics.width > progressMetrics.viewportWidth || progressMetrics.height < 32 || progressMetrics.borderRadius < 16 || !progressMetrics.background.includes("gradient") || progressMetrics.markWidth < 18 || progressMetrics.markHeight < 18 || !progressMetrics.text || !progressMetrics.text.includes("/") || progressMetrics.progressRatio === "" || progressMetrics.overflow !== "hidden" || progressMetrics.overflows) {
+  if (progressMetrics.width > progressMetrics.viewportWidth || progressMetrics.height < 32 || progressMetrics.borderRadius < 16 || !progressMetrics.background.includes("gradient") || progressMetrics.markWidth !== 0 || progressMetrics.markHeight !== 0 || !progressMetrics.text || !progressMetrics.text.includes("/") || progressMetrics.progressRatio === "" || progressMetrics.overflow !== "hidden" || progressMetrics.overflows) {
     failures.push("[" + viewportName + "] Puzzle progress line lost compact chip treatment: " + JSON.stringify(progressMetrics));
   }
 
@@ -2732,10 +2745,8 @@ async function expectCompletedLineGuidance(page, viewportName) {
     failures.push("[" + viewportName + "] Completed-line guidance did not appear after finishing the first 12x12 row: " + JSON.stringify(metrics));
   }
   if (
-    !metrics.rowClueStyle.background.includes("gradient") ||
-    metrics.rowClueStyle.boxShadow === "none" ||
-    metrics.rowClueStyle.beforeContent === "none" ||
-    !metrics.rowClueStyle.beforeBackground.includes("gradient") ||
+    metrics.rowClueStyle.beforeContent !== "none" ||
+    metrics.rowClueStyle.background.includes("radial-gradient") ||
     metrics.glowCellStyle.boxShadow === "none" ||
     metrics.safeCellStyle.borderStyle !== "dashed" ||
     metrics.safeCellStyle.outlineStyle !== "dashed" ||
@@ -2772,7 +2783,7 @@ async function expectCompletedLineGuidance(page, viewportName) {
     metrics.progressBadgeHeight < 18 ||
     !metrics.progressBadgeBackground.includes("gradient")
   ) {
-    failures.push("[" + viewportName + "] Completed-line guidance lost polished glow/auto-X treatment: " + JSON.stringify(metrics));
+    failures.push("[" + viewportName + "] Completed-line guidance lost flat clue and auto-X treatment: " + JSON.stringify(metrics));
   }
   if (metrics.lockedLeakCount > 0) {
     failures.push("[" + viewportName + "] Completed-line guidance leaked into a locked board: " + JSON.stringify(metrics));
