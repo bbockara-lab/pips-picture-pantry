@@ -1466,6 +1466,11 @@ async function expectStageArtPreviews(page, viewportName) {
 }
 
 async function expectPuzzleHubSelectionPolish(page, viewportName) {
+  const hubMetrics = await page.locator(".puzzle-hub-panel").first().evaluate((panel) => ({
+    sectionLabelCount: panel.querySelectorAll(".section-label").length,
+    headingText: (panel.querySelector("h2")?.textContent || "").trim(),
+    overflows: panel.scrollWidth > panel.clientWidth + 1 || panel.scrollHeight > panel.clientHeight + 1
+  }));
   const metrics = await page.locator(".puzzle-chip").evaluateAll((chips) => chips.slice(0, 20).map((chip) => {
     const label = chip.querySelector(":scope > span");
     const meta = chip.querySelector(":scope > small");
@@ -1480,8 +1485,8 @@ async function expectPuzzleHubSelectionPolish(page, viewportName) {
       after: getComputedStyle(chip, "::after").content
     };
   }));
-  if (!metrics.length || metrics.some((chip) => !chip.label || !chip.meta || chip.width < 120 || chip.height < 80 || chip.overflows || chip.hasRewardImage || chip.before !== "none" || chip.after !== "none" || /5x5|8x8|10x10|12x12/.test(chip.label))) {
-    failures.push("[" + viewportName + "] Compact puzzle choices regressed: " + JSON.stringify(metrics));
+  if (!hubMetrics.headingText || hubMetrics.sectionLabelCount !== 0 || hubMetrics.overflows || !metrics.length || metrics.some((chip) => !chip.label || !chip.meta || chip.width < 120 || chip.height < 80 || chip.overflows || chip.hasRewardImage || chip.before !== "none" || chip.after !== "none" || /5x5|8x8|10x10|12x12/.test(chip.label))) {
+    failures.push("[" + viewportName + "] Compact puzzle choices regressed: " + JSON.stringify({ hubMetrics, metrics }));
   }
 }
 
@@ -1608,7 +1613,9 @@ async function expectTimeAttackStartSurface(page, viewportName) {
         height: introRect.height,
         radius: parseFloat(introStyle.borderRadius),
         background: introStyle.backgroundImage,
-        shadow: introStyle.boxShadow
+        shadow: introStyle.boxShadow,
+        sectionLabelCount: intro.querySelectorAll(".section-label").length,
+        title: (intro.querySelector("h2")?.textContent || "").trim()
       } : null,
       start: startRect ? {
         width: startRect.width,
@@ -1635,7 +1642,7 @@ async function expectTimeAttackStartSurface(page, viewportName) {
     };
   });
 
-  const introLooksPolished = metrics.intro && metrics.intro.height >= 72 && metrics.intro.radius >= 14 && metrics.intro.background === "none" && metrics.intro.shadow === "none";
+  const introLooksPolished = metrics.intro && metrics.intro.height >= 56 && metrics.intro.radius >= 14 && metrics.intro.background === "none" && metrics.intro.shadow === "none" && metrics.intro.sectionLabelCount === 0 && metrics.intro.title.length > 0;
   const startLooksTactile = metrics.start && metrics.start.width >= 220 && metrics.start.height >= 52 && metrics.start.radius >= 16 && metrics.start.background === "none" && metrics.start.shadow !== "none";
   const statusFits = metrics.status && metrics.status.width > 0 && metrics.status.height >= 28;
   const recordsAreUseful = !metrics.records || (

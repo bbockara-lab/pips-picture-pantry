@@ -29,7 +29,6 @@ export function renderPuzzleHub(activePuzzle, onOpenPuzzle) {
   panel.className = "puzzle-hub-panel content-panel";
 
   const copy = document.createElement("div");
-  appendTextElement(copy, "p", "section-label", t("sections.currentPicture"));
   appendTextElement(copy, "h2", "", puzzleTitle(activePuzzle));
 
   const action = document.createElement("button");

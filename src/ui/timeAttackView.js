@@ -6,7 +6,6 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
 
   const intro = document.createElement("div");
   intro.className = "time-attack-panel__intro";
-  appendTextElement(intro, "p", "section-label", t("timeAttack.eyebrow"));
   appendTextElement(intro, "h2", "", t("timeAttack.title"));
 
   const ladder = createTimeAttackLadder();

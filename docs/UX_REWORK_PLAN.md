@@ -343,3 +343,8 @@ Done when:
 - Pip speaks in the first-run full-screen Time Attack guide, not again in a persistent utility card.
 - The Time Attack surface now keeps its three-round ladder, one start action, daily status, and earned records only.
 - Hygiene and mobile QA reject the retired coach-card markup, copy, and CSS from returning.
+
+### v0.1.581 checkpoint
+
+- The hub now names the active picture once; it no longer repeats a `Current picture` eyebrow over that same title.
+- Time Attack begins with its title, ladder, and Start rather than a second `New challenge` label.

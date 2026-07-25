@@ -161,7 +161,6 @@ export const en = {
     stepMark: "When a square is surely empty, use Blank Check to mark it gently."
   },
   timeAttack: {
-    eyebrow: "New challenge",
     title: "Time Attack",
     body: "Three puzzles. Each one a little bigger.",
     hubEyebrow: "Time Attack",
