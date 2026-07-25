@@ -3886,3 +3886,11 @@ Current launch direction:
 - Reduced their filled-cell density from 85-88% to 60-66%, using distinct negative space for tart filling, crown peaks, crescent curvature, and custard-bar stripes.
 - Added an art-audit regression test keeping all four out of the review queue.
 - Verification: 142 unit tests, 97-candidate art audit, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+
+### v0.1.553 Bakery Density Repair Group B
+
+- Redrew four more high-density 12x12 Bakery Window silhouettes: Blackberry Vanilla Galette, Blueberry Almond Square, Blueberry Cream Pinwheel, and Caramel Fig Danish.
+- Replaced near-solid blocks with distinct folded crust, framed square, radial pinwheel, and braided-ring compositions while preserving readable edge clues.
+- Added an art-audit regression test keeping all four out of the review queue.
+- Verification: 143 unit tests, 93-candidate art audit, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
