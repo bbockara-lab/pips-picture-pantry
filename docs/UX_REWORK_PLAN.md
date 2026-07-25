@@ -1,7 +1,7 @@
 # Pip's Picture Pantry UX Rework Plan
 
-Status: live-quality recovery, Phases A-C implemented
-Baseline: v0.1.542
+Status: release-quality recovery complete in code, Phases A-E implemented
+Baseline: v0.1.582
 Goal: replace screen-by-screen patching with one coherent first-session and navigation experience before release.
 
 ## Why this pass exists
@@ -166,7 +166,7 @@ Done when:
 - Phase C: empty-slot repetition removed; first shop page reduced to three choices; Spoon Shop stays below Pantry; Settings copy and decoration reduced.
 - Completion art: the first shelf has authored motif palettes; Sunny Spoon Sign has a stage palette; Apron Drawer now has 20 unique sewing-themed silhouettes and a stage palette instead of reusing Sunny Spoon Sign puzzles.
 - Completion art: all exact duplicates, repeated titles, and the prioritized Village/Bakery blank-edge compositions are repaired and documented. The art queue now starts with high-density Bakery 12x12 candidates.
-- Release audit: keep regenerating the 51-frame visual pack and rerun the candidate gate after each completed art/UX slice.
+- Release audit: regenerate the 61-frame visual pack and rerun the candidate gate after each completed art/UX slice.
 - Current slice: v0.1.539 protects visual-QA cleanup with an owned-directory guard and simplifies Time Attack from a report-like card stack to Pip, the three-round ladder, one start action, a compact daily status, and records.
 - Verification: v0.1.539 passes 141 unit tests, the 101-candidate art audit, launch-integrity QA, production build, Android release gate, four-width mobile QA, the full candidate gate, and a regenerated 51-frame visual pack.
 - Current slice: v0.1.540 nests the optional paid packs inside the Pantry shop after all spoon-priced decoration controls and cards. Mobile QA now locks both containment and ordering.
@@ -352,3 +352,4 @@ Done when:
 ### v0.1.582 checkpoint
 
 - Puzzle choices now show the picture and board size only. Spoon rewards remain a completion moment, not a pre-play report on every card.
+- Phase E code verification is complete. The only remaining release work is real-device Billing evidence for the two configured products.
