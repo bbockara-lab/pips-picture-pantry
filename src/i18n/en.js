@@ -2,7 +2,6 @@ export const en = {
   app: {
     title: "Pip's Picture Pantry",
     studioName: "Sunny Spoon Studios",
-    versionLabel: "Version {version}"
   },
   brandIntro: {
     ariaLabel: "Sunny Spoon Studios and Pip's Picture Pantry opening screens",
@@ -123,20 +122,6 @@ export const en = {
     bakeryWindowDesc: "Pantry friends badge complete",
     villagePantry: "Village Pantry Badge",
     villagePantryDesc: "Sunny Spoon cast badge complete"
-  },
-  pipStrip: {
-    puzzleLine: "{player}, use the numbers to color the picture.",
-    puzzleLineFirst: "{player}, let's start with the first picture.",
-    puzzleLineEarly: "{player}, you're building something cozy.",
-    puzzleLineMid: "{player}, the pantry wall is filling up!",
-    puzzleLineLate: "{player}, you really know this pantry.",
-    puzzleNote: "Now playing: {title}",
-    albumLine: "Finished cards are saved here.",
-    albumNote: "Finished cards are stored here.",
-    pantryLine: "Decorate Pip's pantry with your spoons.",
-    pantryNote: "Your spoons are waiting for new decorations.",
-    mapLine: "Finish a stage to earn its badge.",
-    mapNote: "Your stage badges are collected here."
   },
   stageFilter: {
     note: "Keep the list short while you play.",

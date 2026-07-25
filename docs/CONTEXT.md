@@ -4034,3 +4034,10 @@ Current launch direction:
 - Removed the never-called season teaser QA helper while retaining the launch regression that requires the retired dashboard to stay absent.
 - Added source-hygiene guards across puzzleHubView, KO/EN translations, and CSS so the report UI cannot silently return.
 - Verification: 160 unit tests, source hygiene, clean full-candidate QA, four-width mobile QA, production build, Android release gate, and the regenerated 61-frame visual pack pass.
+
+### v0.1.572 retired intro and Pip-strip cleanup
+- Removed the unmounted small Pip strip and player-facing version footer functions, along with their KO/EN translations.
+- Used selector-aware CSS cleanup to remove 105 retired selectors for the Pip strip, version footer, intro seal, feature promise strip, launch note, version chip, and cast strip while preserving any active selectors sharing a rule.
+- Kept legacy hidden artwork entries in the asset manifest as audit history; no approved runtime art was removed.
+- Added source-hygiene guards so the retired strip, footer, intro marketing copy, and ornamental CSS cannot silently return.
+- Verification passed: 160 unit tests, source hygiene, the full candidate gate, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, build, Android release gate, and the 61-frame visual review pack.

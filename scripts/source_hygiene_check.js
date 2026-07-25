@@ -98,6 +98,18 @@ for (const file of releaseDocMojibakeFiles) {
     errors.push(`${file}: release notes contain common mojibake fragments`);
   }
 }
+const retiredChromeSources = [
+  ["src/ui/appChrome.js", /renderPipStrip|renderFooter|getPipPuzzleLine/],
+  ["src/i18n/en.js", /\bpipStrip\s*:|versionLabel\s*:/],
+  ["src/i18n/ko.js", /\bpipStrip\s*:|versionLabel\s*:/]
+];
+for (const [file, pattern] of retiredChromeSources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": retired player-facing Pip strip or version footer must stay removed");
+  }
+}
+
 const retiredSeasonSources = [
   ["src/ui/puzzleHubView.js", /createSeasonProgressCard|season-next-card/],
   ["src/i18n/en.js", /\bseasonProgress\s*:/],
@@ -127,6 +139,10 @@ const staleCssRules = [
   {
     label: "retired season progress report styles",
     pattern: /\.season-(?:progress|next-card)/
+  },
+  {
+    label: "retired player-facing intro and Pip-strip styles",
+    pattern: /\.(?:pip-strip|app-footer|brand-intro__(?:seal|launch-note|promise-strip|version|cast))/
   }
 ];
 

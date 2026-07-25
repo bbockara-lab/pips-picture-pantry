@@ -50,7 +50,6 @@ describe("i18n", () => {
     expect(t("daily.eyebrow")).toBe("Today's picture");
     expect(t("views.map")).toBe("Badges");
     expect(t("views.pantryHint")).toBe("Shop and decorate");
-    expect(t("pipStrip.puzzleLine", { player: "Jay" })).toBe("Jay, use the numbers to color the picture.");
     expect(t("puzzlePicker.sizeReward", { size: 5, count: 3 })).toBe("5×5 · +3");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - Complete");
     expect(t("album.count", { completed: 1, total: 100 })).toBe("1/100 pictures");

@@ -1,9 +1,8 @@
-import pipStripStickerUrl from "../assets/characters/pip-chrome-v2.png";
 import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
 import { getBadgeArtUrl } from "../data/badgeArt.js";
 import { getEarnedPackBadges } from "../game/badges.js";
-import { getActivePlayerName, getCompletedPuzzleIds, getPantrySpoons } from "../game/save.js";
-import { puzzleTitle, t } from "../i18n/index.js";
+import { getCompletedPuzzleIds, getPantrySpoons } from "../game/save.js";
+import { t } from "../i18n/index.js";
 import { appendPuzzleControlArt } from "./puzzleControlArt.js";
 
 export function renderHeader(onSettings, onReset) {
@@ -42,38 +41,6 @@ export function renderHeader(onSettings, onReset) {
   actions.append(currency, settingsButton, resetButton);
   header.append(titleGroup, actions);
   return header;
-}
-
-export function renderPipStrip(puzzle, activeView) {
-  const strip = document.createElement("section");
-  strip.className = "pip-strip";
-  const playerName = getActivePlayerName() || t("playerIntro.defaultName");
-  const puzzleName = puzzleTitle(puzzle);
-  const completedCount = getCompletedPuzzleIds().length;
-  const line = activeView === "album"
-    ? t("pipStrip.albumLine")
-    : activeView === "map"
-      ? t("pipStrip.mapLine")
-      : activeView === "pantry"
-        ? t("pipStrip.pantryLine")
-        : getPipPuzzleLine(playerName, completedCount);
-  const note = activeView === "album"
-    ? t("pipStrip.albumNote")
-    : activeView === "map"
-      ? t("pipStrip.mapNote")
-      : activeView === "pantry"
-        ? t("pipStrip.pantryNote")
-        : t("pipStrip.puzzleNote", { title: puzzleName });
-
-  const portrait = document.createElement("img");
-  portrait.className = "pip-strip__portrait";
-  portrait.src = pipStripStickerUrl;
-  portrait.alt = "";
-  const copy = document.createElement("div");
-  appendTextElement(copy, "p", "pip-line", line);
-  appendTextElement(copy, "p", "pip-note", note);
-  strip.append(portrait, copy);
-  return strip;
 }
 
 export function renderBadgeShelf() {
@@ -136,13 +103,6 @@ export function renderResetDialog(onCancel, onConfirm) {
   return overlay;
 }
 
-export function renderFooter(version) {
-  const footer = document.createElement("footer");
-  footer.className = "app-footer";
-  footer.textContent = t("app.versionLabel", { version });
-  return footer;
-}
-
 export function createSpoonIcon(size = "") {
   const icon = document.createElement("img");
   icon.className = size ? `spoon-icon ${size}` : "spoon-icon";
@@ -160,19 +120,6 @@ function appendTextElement(parent, tagName, className, text) {
   element.textContent = text;
   parent.appendChild(element);
   return element;
-}
-
-function getPipPuzzleLine(playerName, completedCount) {
-  if (completedCount === 0) {
-    return t("pipStrip.puzzleLineFirst", { player: playerName });
-  }
-  if (completedCount < 5) {
-    return t("pipStrip.puzzleLineEarly", { player: playerName });
-  }
-  if (completedCount < 15) {
-    return t("pipStrip.puzzleLineMid", { player: playerName });
-  }
-  return t("pipStrip.puzzleLineLate", { player: playerName });
 }
 
 function createModalBackdrop() {

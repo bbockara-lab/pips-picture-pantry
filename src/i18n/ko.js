@@ -2,7 +2,6 @@ export const ko = {
   app: {
     title: "Pip's Picture Pantry",
     studioName: "Sunny Spoon Studios",
-    versionLabel: "\ubc84\uc804 {version}"
   },
   brandIntro: {
     ariaLabel: "Sunny Spoon Studios\uc640 Pip's Picture Pantry \uc2dc\uc791 \ud654\uba74",
@@ -123,20 +122,6 @@ export const ko = {
     bakeryWindowDesc: "\ud32c\ud2b8\ub9ac \uce5c\uad6c\ub4e4 \ubc30\uc9c0 \uc644\uc131",
     villagePantry: "Village Pantry \ubc30\uc9c0",
     villagePantryDesc: "Sunny Spoon \uce90\uc2a4\ud2b8 \ubc30\uc9c0 \uc644\uc131"
-  },
-  pipStrip: {
-    puzzleLine: "{player}, \uc22b\uc790\ub97c \ubcf4\uace0 \uadf8\ub9bc\uc744 \uce60\ud574\uc694.",
-    puzzleLineFirst: "{player}, \uccab \uadf8\ub9bc\ubd80\ud130 \ud568\uaed8 \uc2dc\uc791\ud574\uc694.",
-    puzzleLineEarly: "{player}, \uc544\ub291\ud55c \uadf8\ub9bc\uc774 \ud558\ub098\uc529 \uc313\uc774\uace0 \uc788\uc5b4\uc694.",
-    puzzleLineMid: "{player}, \ud32c\ud2b8\ub9ac \ubcbd\uc774 \ucc44\uc6cc\uc9c0\uace0 \uc788\uc5b4\uc694!",
-    puzzleLineLate: "{player}, \uc774\uc81c \ud32c\ud2b8\ub9ac\ub97c \uc815\ub9d0 \uc798 \uc544\ub124\uc694.",
-    puzzleNote: "\uc9c0\uae08 \uadf8\ub9bc: {title}",
-    albumLine: "\uc644\uc131\ud55c \uce74\ub4dc\uac00 \uc5ec\uae30\uc5d0 \uc800\uc7a5\ub3fc\uc694.",
-    albumNote: "\uc644\uc131\ud55c \uce74\ub4dc\ub97c \ubcf4\uad00\ud574\uc694.",
-    pantryLine: "\uc2a4\ud47c\uc73c\ub85c Pip\uc758 \ud32c\ud2b8\ub9ac\ub97c \uafb8\uba70\uc694.",
-    pantryNote: "\ubaa8\uc544\ub454 \uc2a4\ud47c\uc740 \uc0c8 \uc18c\ud488\uc744 \uae30\ub2e4\ub9ac\uace0 \uc788\uc5b4\uc694.",
-    mapLine: "\uc2a4\ud14c\uc774\uc9c0\ub97c \uc644\uc131\ud558\uba74 \ubc30\uc9c0\ub97c \ubc1b\uc544\uc694.",
-    mapNote: "\uc644\uc131\ud55c \uc2a4\ud14c\uc774\uc9c0 \ubc30\uc9c0\ub97c \ubaa8\uc544\ub450\ub294 \uacf3\uc774\uc5d0\uc694."
   },
   stageFilter: {
     note: "\ud50c\ub808\uc774\ud560 \uadf8\ub9bc\ub9cc \uac00\ubccd\uac8c \ubcf4\uc5ec\uc694.",

@@ -295,3 +295,8 @@ Done when:
 - The old Season 0 dashboard is now removed from source, not merely hidden from players.
 - The puzzle hub keeps only the current-picture decision; stage requirements remain at the locked stage where the player can act on them.
 - Source hygiene protects the one-screen-one-question rule against restoring season metrics or update-plan cards.
+
+### v0.1.572 checkpoint
+- The removed feature chips, visible version label, and small side-commentary Pip strip are now absent from implementation as well as the screen.
+- Pip remains present where conversation or celebration matters; persistent report-style commentary chrome stays retired.
+- Selector-aware cleanup preserves active intro art and buttons while blocking the old ornamental layers.
