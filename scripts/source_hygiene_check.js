@@ -98,6 +98,18 @@ for (const file of releaseDocMojibakeFiles) {
     errors.push(`${file}: release notes contain common mojibake fragments`);
   }
 }
+const retiredReplayCopySources = [
+  ["src/ui/puzzleHubView.js", /replayPicks\.(?:eyebrow|body|challenge)\b/],
+  ["src/i18n/en.js", /eyebrow:\s*"Pip's replay picks"|body:\s*"Completed pictures|challenge:\s*"Replay"/],
+  ["src/i18n/ko.js", /replayPicks:[\s\S]{0,500}(?:eyebrow|body|challenge):/]
+];
+for (const [file, pattern] of retiredReplayCopySources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": replay picks must keep one title, count, and direct picture choices");
+  }
+}
+
 const retiredCollectionCopySources = [
   ["src/ui/albumView.js", /album\.note|album-note/],
   ["src/ui/appChrome.js", /t\("badges\.earned"\)/],
@@ -157,6 +169,10 @@ const staleCssRules = [
   {
     label: "retired player-facing intro and Pip-strip styles",
     pattern: /\.(?:pip-strip|app-footer|brand-intro__(?:seal|launch-note|promise-strip|version|cast))/
+  },
+  {
+    label: "retired replay glare and explainer styles",
+    pattern: /\.replay-(?:picks-card::after|pick-button::before|picks-card__body)/
   }
 ];
 

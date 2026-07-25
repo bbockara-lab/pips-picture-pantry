@@ -48,6 +48,7 @@ describe("i18n", () => {
     expect(t("controls.mark")).toBe("Blank Check");
     expect(t("controls.undo")).toBe("Undo last move");
     expect(t("daily.eyebrow")).toBe("Today's picture");
+    expect(t("daily.reward", { count: 8 })).toBe("Completion reward \u00B7 8 spoons");
     expect(t("views.map")).toBe("Badges");
     expect(t("views.pantryHint")).toBe("Shop and decorate");
     expect(t("puzzlePicker.sizeReward", { size: 5, count: 3 })).toBe("5×5 · +3");
@@ -252,8 +253,8 @@ describe("i18n", () => {
     expect(t("controls.paidHintIntro", { cost: 9, count: 5, balance: 20 })).not.toContain("\uBB34\uB8CC");
     expect(t("controls.timeAttackHintIntro", { cost: 9, balance: 20 })).not.toContain("\uBB34\uB8CC");
     expect(t("controls.timeAttackHintIntro", { cost: 9, balance: 20 })).toContain("\uC2A4\uD47C 9\uAC1C");
-    expect(t("replayPicks.eyebrow")).toBe("Pip\uC758 \uB2E4\uC2DC \uD480\uAE30 \uCD94\uCC9C");
-    expect(t("replayPicks.title")).toBe("\uAE54\uB054\uD55C \uB2E4\uC2DC \uD480\uAE30 \uB3C4\uC804");
+    expect(t("replayPicks.title")).toBe("\uB2E4\uC2DC \uD480\uAE30");
+    expect(t("replayPicks.cleanRule")).toContain("\uC2A4\uD47C 1\uAC1C");
   });
 
   it("keeps all non-puzzle Korean UI copy free of mojibake fragments", () => {

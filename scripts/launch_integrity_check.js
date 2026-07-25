@@ -95,6 +95,8 @@ function checkPlayerFacingClarity() {
   expectExcludes("src/ui/pipReaction.js", "completion-reveal__meta", "completion reveal double label");
   expectExcludes("src/ui/pantryView.js", "shopLimitSummary", "shop item-count explainer");
   expectExcludes("src/ui/puzzleHubView.js", "t(\"replayPicks.body\")", "replay explainer paragraph");
+  expectExcludes("src/ui/puzzleHubView.js", "t(\"replayPicks.eyebrow\")", "replay duplicate eyebrow");
+  expectExcludes("src/ui/puzzleHubView.js", "t(\"replayPicks.challenge\")", "repeated replay button label");
   expectIncludes("src/ui/settingsView.js", "localizedPlaceholder !== \"Jay\"", "localized legacy-name display guard");
   expectIncludes("src/i18n/en.js", "Add {spoons} spoons when you need them.", "concise spoon jar copy");
 }

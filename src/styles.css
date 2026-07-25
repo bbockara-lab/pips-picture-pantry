@@ -2346,8 +2346,7 @@ body {
 }
 
 .replay-picks-card__header h2,
-.replay-picks-card__header p,
-.replay-picks-card__body {
+.replay-picks-card__header p {
   margin: 0;
 }
 
@@ -2366,13 +2365,6 @@ body {
   font-size: 0.76rem;
   font-weight: 900;
   white-space: nowrap;
-}
-
-.replay-picks-card__body {
-  color: rgba(75, 48, 54, 0.84);
-  font-size: 0.84rem;
-  font-weight: 780;
-  line-height: 1.38;
 }
 
 .replay-picks-list {
@@ -2396,18 +2388,11 @@ body {
   box-shadow: 0 3px 0 rgba(78, 48, 54, 0.14);
 }
 
-.replay-pick-button span,
-.replay-pick-button small {
+.replay-pick-button span {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.replay-pick-button small {
-  color: var(--cocoa);
-  font-size: 0.72rem;
-  font-weight: 850;
 }
 
 .replay-pick-button.active {
@@ -4749,21 +4734,7 @@ img {
     inset 0 2px 0 rgba(255, 255, 255, 0.72);
 }
 
-.replay-picks-card::after {
-  content: "";
-  position: absolute;
-  inset: auto -18px -20px auto;
-  width: 124px;
-  height: 82px;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 35% 42%, rgba(255, 220, 123, 0.42), transparent 36%),
-    radial-gradient(circle at 66% 56%, rgba(157, 216, 188, 0.4), transparent 34%);
-  pointer-events: none;
-}
-
 .replay-picks-card__header,
-.replay-picks-card__body,
 .replay-picks-list {
   position: relative;
   z-index: 1;
@@ -4794,12 +4765,6 @@ img {
     inset 0 1px 0 rgba(255, 255, 255, 0.76);
 }
 
-.replay-picks-card__body {
-  color: #6d4637;
-  font-size: 0.88rem;
-  line-height: 1.36;
-}
-
 .replay-pick-button {
   position: relative;
   min-height: 58px;
@@ -4813,21 +4778,6 @@ img {
     0 4px 0 rgba(61, 43, 46, 0.18),
     0 9px 16px rgba(122, 78, 53, 0.1),
     inset 0 2px 0 rgba(255, 255, 255, 0.74);
-}
-
-.replay-pick-button::before {
-  content: "";
-  position: absolute;
-  inset: 6px auto auto 8px;
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.44);
-  pointer-events: none;
-}
-
-.replay-pick-button small {
-  color: #85563c;
 }
 
 .replay-pick-button.active {

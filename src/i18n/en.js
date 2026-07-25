@@ -150,15 +150,12 @@ export const en = {
     reward: "Completion reward · {count} spoons",
   },
   replayPicks: {
-    eyebrow: "Pip's replay picks",
-    title: "Clean replay challenge",
-    body: "Completed pictures can come back as tiny daily challenges. Only Pip's picks can earn replay spoons, so replay stays fun without becoming an endless farm.",
+    title: "Replay picks",
     count: "{count}/{limit} today",
     review: "Review",
-    challenge: "Replay",
     challengeLabel: "Replay challenge",
-    cleanRule: "Finish without hints or wrong fills to earn today's replay spoon.",
-    cleanBroken: "Clean bonus missed this run. You can still finish for practice."
+    cleanRule: "No hints. No wrong fills. Finish clean for +1 spoon.",
+    cleanBroken: "Bonus missed. Keep going for practice."
   },
   howToPlay: {
     title: "Pip's picture tip",

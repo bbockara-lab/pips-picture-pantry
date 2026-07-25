@@ -305,3 +305,9 @@ Done when:
 
 - Album and earned-badge surfaces now keep only identity, artwork, useful count/date/progress, and direct actions.
 - Repeated explanatory state labels were removed without changing save data or progression behavior.
+
+### v0.1.574 checkpoint
+
+- Replay choices now read like a game selection instead of a feature report.
+- Legacy glare and background-blob decoration is removed from the live replay surface; the picture names and daily count carry the interaction.
+- Daily and replay reward copy now uses clean KO/EN punctuation and short outcome language.

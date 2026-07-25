@@ -4048,3 +4048,11 @@ Current launch direction:
 - Removed repeated "Badge earned" labels from the earned badge shelf and badge room; artwork and badge names now carry the state, while accessible shelf labeling remains.
 - Removed the matching dead translations and CSS selectors and added source-hygiene guards against reintroducing report-like collection copy.
 - Verification passed: 160 unit tests, source hygiene, the full candidate gate, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, build, Android release gate, and the 61-frame visual review pack.
+
+### v0.1.574 replay surface and encoding cleanup
+
+- Reduced the replay-picks card to one title, today's count, and direct picture choices; removed the duplicate eyebrow and repeated per-button replay label.
+- Removed the legacy replay-card color blobs and button glare pseudo-elements, plus their unused explainer styles and translations.
+- Shortened the clean-replay rule/result while preserving the one-spoon reward contract, and repaired the corrupted daily-reward separator in both locales.
+- Added translation, launch-integrity, and source-hygiene guards for the compact replay grammar and retired ornament layers.
+- Verification passed: 160 unit tests, source hygiene, launch integrity, the full candidate gate, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, build, Android release gate, and the 61-frame visual review pack.

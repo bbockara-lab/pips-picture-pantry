@@ -132,7 +132,6 @@ export function renderReplayPicksCard(replayPicks, activePuzzleId, onSelectPuzzl
   const header = document.createElement("div");
   header.className = "replay-picks-card__header";
   const headerCopy = document.createElement("div");
-  appendTextElement(headerCopy, "p", "section-label", t("replayPicks.eyebrow"));
   appendTextElement(headerCopy, "h2", "", t("replayPicks.title"));
   const count = document.createElement("span");
   count.textContent = t("replayPicks.count", { count: dailyCount, limit: dailyLimit });
@@ -146,7 +145,6 @@ export function renderReplayPicksCard(replayPicks, activePuzzleId, onSelectPuzzl
     button.className = puzzle.id === activePuzzleId ? "replay-pick-button active" : "replay-pick-button";
     button.dataset.puzzleId = puzzle.id;
     appendTextElement(button, "span", "", puzzleTitle(puzzle));
-    appendTextElement(button, "small", "", t("replayPicks.challenge"));
     button.addEventListener("click", () => onReplayPick(puzzle.id));
     list.appendChild(button);
   });
