@@ -14,16 +14,9 @@ import {
 import { t } from "../i18n/index.js";
 import { renderPantryStoryDelivery, renderPantryStoryMilestone, renderPantryStoryRequest } from "./pantryStoryCards.js";
 
-const rarityFilters = ["all", "starter", "common", "cozy", "rare"];
-const availabilityFilters = ["all", "canBuy", "owned"];
-const sortOptions = ["featured", "priceLow", "priceHigh", "rarity"];
-const rarityRank = { starter: 0, common: 1, cozy: 2, rare: 3, premium: 4 };
 const defaultShopCardLimit = 3;
 const pantryViewState = {
   selectedSlotId: "all",
-  selectedRarity: "all",
-  selectedAvailability: "all",
-  selectedSort: "featured",
   shopVisibleLimit: defaultShopCardLimit,
   storyGoalId: null,
   lastAction: null
@@ -122,23 +115,13 @@ function renderRoomSlot(slot, equippedDecorations, selectedSlotId, onSelectSlot)
   return slotElement;
 }
 
-function compareDecorations(left, right, selectedSort, ownedIds, equippedDecorations, spoons) {
+function compareDecorations(left, right, ownedIds, equippedDecorations, spoons) {
   const leftOwned = ownedIds.includes(left.id);
   const rightOwned = ownedIds.includes(right.id);
   const leftEquipped = equippedDecorations[left.slot] === left.id;
   const rightEquipped = equippedDecorations[right.slot] === right.id;
   const leftAffordable = !leftOwned && spoons >= Number(left.cost || 0);
   const rightAffordable = !rightOwned && spoons >= Number(right.cost || 0);
-
-  if (selectedSort === "priceLow") {
-    return Number(left.cost || 0) - Number(right.cost || 0) || left.id.localeCompare(right.id);
-  }
-  if (selectedSort === "priceHigh") {
-    return Number(right.cost || 0) - Number(left.cost || 0) || left.id.localeCompare(right.id);
-  }
-  if (selectedSort === "rarity") {
-    return (rarityRank[right.rarity] || 0) - (rarityRank[left.rarity] || 0) || Number(left.cost || 0) - Number(right.cost || 0) || left.id.localeCompare(right.id);
-  }
 
   const score = (decoration, owned, equipped, affordable) => {
     if (equipped) return 70;
@@ -244,65 +227,6 @@ function renderSlotFilters(selectedSlotId, onSelectSlot) {
   return filters;
 }
 
-function renderRarityFilters(selectedRarity, onSelectRarity) {
-  const filters = document.createElement("div");
-  filters.className = "pantry-filter-row pantry-rarity-filters";
-  filters.setAttribute("aria-label", t("pantry.rarityFilterLabel"));
-
-  rarityFilters.forEach((rarity) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = selectedRarity === rarity ? "pantry-rarity-filter active" : "pantry-rarity-filter";
-    button.setAttribute("aria-pressed", String(selectedRarity === rarity));
-    button.textContent = rarity === "all" ? t("pantry.allRarities") : t("pantry.rarities." + rarity);
-    button.addEventListener("click", () => onSelectRarity(rarity));
-    filters.appendChild(button);
-  });
-
-  return filters;
-}
-
-function renderAvailabilityFilters(selectedAvailability, onSelectAvailability) {
-  const filters = document.createElement("div");
-  filters.className = "pantry-filter-row pantry-availability-filters";
-  filters.setAttribute("aria-label", t("pantry.availabilityFilterLabel"));
-
-  availabilityFilters.forEach((availability) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = selectedAvailability === availability ? "pantry-availability-filter active" : "pantry-availability-filter";
-    button.setAttribute("aria-pressed", String(selectedAvailability === availability));
-    button.textContent = t("pantry.availability." + availability);
-    button.addEventListener("click", () => onSelectAvailability(availability));
-    filters.appendChild(button);
-  });
-
-  return filters;
-}
-
-function renderSortControls(selectedSort, onSelectSort) {
-  const sortBar = document.createElement("div");
-  sortBar.className = "pantry-sort-bar";
-  sortBar.setAttribute("aria-label", t("pantry.sortLabel"));
-
-  const label = document.createElement("span");
-  label.className = "pantry-sort-label";
-  label.textContent = t("pantry.sortTitle");
-  sortBar.appendChild(label);
-
-  sortOptions.forEach((sortOption) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = selectedSort === sortOption ? "pantry-sort-option active" : "pantry-sort-option";
-    button.setAttribute("aria-pressed", String(selectedSort === sortOption));
-    button.textContent = t("pantry.sortOptions." + sortOption);
-    button.addEventListener("click", () => onSelectSort(sortOption));
-    sortBar.appendChild(button);
-  });
-
-  return sortBar;
-}
-
 function renderEmptyShopState(onResetFilters) {
   const emptyState = document.createElement("article");
   emptyState.className = "pantry-empty-state";
@@ -339,28 +263,6 @@ function renderShopLimitControl(visibleCount, totalCount, onShowMore) {
   return control;
 }
 
-function renderFilterSummary(count, total, isFiltered, onResetFilters) {
-  const summary = document.createElement("div");
-  summary.className = "pantry-filter-summary";
-
-  const text = document.createElement("p");
-  text.textContent = isFiltered
-    ? t("pantry.filterSummary", { count, total })
-    : t("pantry.filterSummaryAll", { count: total });
-  summary.appendChild(text);
-
-  if (isFiltered) {
-    const clearButton = document.createElement("button");
-    clearButton.className = "pantry-clear-filters";
-    clearButton.type = "button";
-    clearButton.textContent = t("pantry.clearFilters");
-    clearButton.addEventListener("click", () => onResetFilters?.());
-    summary.appendChild(clearButton);
-  }
-
-  return summary;
-}
-
 export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {}, onPlayForSpoons = () => {}, spoonStore = null) {
   const panel = document.createElement("section");
   panel.className = "pantry-panel content-panel";
@@ -369,11 +271,7 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   const ownedIds = getOwnedDecorationIds();
   const equippedDecorations = getEquippedDecorations();
   const approvedDecorations = getApprovedPantryDecorations();
-  const equippedCount = pantrySlots.filter((slot) => equippedDecorations[slot.id]).length;
   let selectedSlotId = pantryViewState.selectedSlotId || "all";
-  let selectedRarity = rarityFilters.includes(pantryViewState.selectedRarity) ? pantryViewState.selectedRarity : "all";
-  let selectedAvailability = availabilityFilters.includes(pantryViewState.selectedAvailability) ? pantryViewState.selectedAvailability : "all";
-  let selectedSort = sortOptions.includes(pantryViewState.selectedSort) ? pantryViewState.selectedSort : "featured";
   let shopVisibleLimit = Math.max(defaultShopCardLimit, Number(pantryViewState.shopVisibleLimit || defaultShopCardLimit));
   let storyGoalId = pantryViewState.storyGoalId || getPantryStoryGoalId() || null;
   pantryViewState.storyGoalId = storyGoalId;
@@ -383,16 +281,11 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   const headerCopy = document.createElement("div");
   appendTextElement(headerCopy, "p", "section-label", t("sections.pantryRoom"));
   appendTextElement(headerCopy, "h2", "", t("pantry.title"));
-  appendTextElement(header, "p", "pantry-spoon-note", t("pantry.spoonNote", { count: spoons }));
   header.insertBefore(headerCopy, header.firstChild);
 
   const room = document.createElement("div");
   room.className = "pantry-room";
   room.setAttribute("aria-label", t("pantry.roomAria"));
-
-  const placementNote = document.createElement("p");
-  placementNote.className = "pantry-placement-note";
-  placementNote.textContent = t("pantry.placementNote", { count: equippedCount, total: pantrySlots.length });
 
   const storyRequestMount = document.createElement("div");
   storyRequestMount.className = "pantry-story-request-mount";
@@ -443,24 +336,12 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     filtersMount.className = "pantry-filter-stack";
 
     const visibleDecorations = approvedDecorations
-      .filter((decoration) => selectedSlotId === "all" || decoration.slot === selectedSlotId)
-      .filter((decoration) => selectedRarity === "all" || decoration.rarity === selectedRarity)
-      .filter((decoration) => {
-        if (selectedAvailability === "owned") {
-          return ownedIds.includes(decoration.id);
-        }
-        if (selectedAvailability === "canBuy") {
-          return !ownedIds.includes(decoration.id) && spoons >= Number(decoration.cost || 0);
-        }
-        return true;
-      });
+      .filter((decoration) => selectedSlotId === "all" || decoration.slot === selectedSlotId);
 
     const sortedDecorations = [...visibleDecorations]
-      .sort((left, right) => compareDecorations(left, right, selectedSort, ownedIds, equippedDecorations, spoons));
+      .sort((left, right) => compareDecorations(left, right, ownedIds, equippedDecorations, spoons));
     const visibleShopDecorations = sortedDecorations.slice(0, shopVisibleLimit);
-    const isFiltered = selectedSlotId !== "all" || selectedRarity !== "all" || selectedAvailability !== "all";
     filtersMount.append(renderSlotFilters(selectedSlotId, selectSlot));
-    if (isFiltered) filtersMount.appendChild(renderFilterSummary(visibleDecorations.length, approvedDecorations.length, isFiltered, resetFilters));
 
     grid.replaceChildren();
     shopLimitMount.replaceChildren();
@@ -496,13 +377,9 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     }
     storyGoalId = decoration.id;
     selectedSlotId = decoration.slot || "all";
-    selectedAvailability = "all";
-    selectedRarity = "all";
     setPantryStoryGoalId(storyGoalId);
     pantryViewState.storyGoalId = storyGoalId;
     pantryViewState.selectedSlotId = selectedSlotId;
-    pantryViewState.selectedAvailability = selectedAvailability;
-    pantryViewState.selectedRarity = selectedRarity;
     shopVisibleLimit = defaultShopCardLimit;
     pantryViewState.shopVisibleLimit = shopVisibleLimit;
     drawDecorations();
@@ -513,11 +390,7 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
       return;
     }
     selectedSlotId = decoration.slot || "all";
-    selectedAvailability = "all";
-    selectedRarity = "all";
     pantryViewState.selectedSlotId = selectedSlotId;
-    pantryViewState.selectedAvailability = selectedAvailability;
-    pantryViewState.selectedRarity = selectedRarity;
     shopVisibleLimit = defaultShopCardLimit;
     pantryViewState.shopVisibleLimit = shopVisibleLimit;
     drawDecorations();
@@ -528,11 +401,7 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
       return;
     }
     selectedSlotId = decoration.slot || "all";
-    selectedAvailability = ownedIds.includes(decoration.id) ? "owned" : "canBuy";
-    selectedRarity = "all";
     pantryViewState.selectedSlotId = selectedSlotId;
-    pantryViewState.selectedAvailability = selectedAvailability;
-    pantryViewState.selectedRarity = selectedRarity;
     pantryViewState.storyGoalId = storyGoalId;
     shopVisibleLimit = defaultShopCardLimit;
     pantryViewState.shopVisibleLimit = shopVisibleLimit;
@@ -547,37 +416,9 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     drawDecorations();
   }
 
-  function selectRarity(rarity) {
-    selectedRarity = rarityFilters.includes(rarity) ? rarity : "all";
-    pantryViewState.selectedRarity = selectedRarity;
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
-  function selectAvailability(availability) {
-    selectedAvailability = availabilityFilters.includes(availability) ? availability : "all";
-    pantryViewState.selectedAvailability = selectedAvailability;
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
-  function selectSort(sortOption) {
-    selectedSort = sortOptions.includes(sortOption) ? sortOption : "featured";
-    pantryViewState.selectedSort = selectedSort;
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
   function resetFilters() {
     selectedSlotId = "all";
-    selectedRarity = "all";
-    selectedAvailability = "all";
     pantryViewState.selectedSlotId = selectedSlotId;
-    pantryViewState.selectedRarity = selectedRarity;
-    pantryViewState.selectedAvailability = selectedAvailability;
     shopVisibleLimit = defaultShopCardLimit;
     pantryViewState.shopVisibleLimit = shopVisibleLimit;
     drawDecorations();

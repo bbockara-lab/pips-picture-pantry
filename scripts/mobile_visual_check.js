@@ -2856,7 +2856,7 @@ async function verifyPantryPlacement(page, viewportName) {
   await expectVisible(page, ".pantry-shop", viewportName);
   await expectVisible(page, ".spoon-store", viewportName);
   await expectAbsent(page, ".pantry-planning-deck", viewportName);
-  await expectAbsent(page, ".pantry-placement-note", viewportName);
+  await expectAbsent(page, ".pantry-placement-note, .pantry-spoon-note", viewportName);
   await expectAbsent(page, ".pantry-item-status, .pantry-item-rarity, .pantry-slot-note, .pantry-swap-note, .pantry-track-goal, .pantry-item-savings", viewportName);
 
   const metrics = await page.evaluate(() => {

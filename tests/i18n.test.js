@@ -216,7 +216,6 @@ describe("i18n", () => {
       "howToPlay.pipLine",
       "controls.lineCompleteHint",
       "controls.hintIntro",
-      "controls.hintIntroMulti",
       "controls.timeAttackHintIntro",
       "controls.timeAttackHintNeedMore",
       "controls.paidHintIntro",
@@ -254,7 +253,6 @@ describe("i18n", () => {
       "guide.pantryNeighborMateo.step1"
     ].forEach((key) => expect(t(key)).not.toMatch(/Mr\.? Park|Lily|Mateo/));
     expect(t("controls.hintRemaining", { count: 1, limit: 3 })).toBe("\uD78C\uD2B8 1/3");
-    expect(t("controls.hintIntroMulti", { count: 5 })).toBe("\uD78C\uD2B8\uB97C \uC4F8\uAE4C\uC694?");
     expect(t("howToPlay.pipLine")).toContain("Pip");
     expect(t("controls.lineCompleteHint")).toContain("\uc548\uc804\ud55c \ube48\uce78");
     expect(t("controls.lineCompleteHint")).toContain("\uc790\ub3d9");

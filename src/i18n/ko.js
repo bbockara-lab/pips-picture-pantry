@@ -333,7 +333,6 @@ export const ko = {
     extraHintTitle: "\uCD94\uAC00 \uD78C\uD2B8",
     timeAttackHintTitle: "\uD0C0\uC784\uC5B4\uD0DD \uD78C\uD2B8",
     hintIntro: "\uD78C\uD2B8\uB97C \uC4F8\uAE4C\uC694?",
-    hintIntroMulti: "\uD78C\uD2B8\uB97C \uC4F8\uAE4C\uC694?",
     timeAttackHintIntro: "\uC2A4\uD47C {cost}\uAC1C\uB85C \uD78C\uD2B8\uB97C \uC4F8\uAE4C\uC694? \uBCF4\uC720 {balance}\uAC1C.",
     timeAttackHintNeedMore: "\uC2A4\uD47C\uC774 {cost}\uAC1C \uD544\uC694\uD574\uC694. \uBCF4\uC720 {balance}\uAC1C.",
     paidHintIntro: "\uC2A4\uD47C {cost}\uAC1C\uB85C \uD78C\uD2B8\uB97C \uC4F8\uAE4C\uC694? \uBCF4\uC720 {balance}\uAC1C.",

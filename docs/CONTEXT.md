@@ -4006,3 +4006,11 @@ Current launch direction:
 - Restored the Korean neighbor guide copy in Unicode-safe form and strengthened the non-puzzle Korean mojibake test to reject CJK corruption fragments.
 - Reduced the large-board tap-mode Pip card to one instruction plus its visual clue examples; duplicate automatic-X explanations no longer compete with the board.
 - Focused i18n and Pantry guide-flow tests pass. Full visual-pack and candidate gates remain the next verification step.
+
+
+### v0.1.568 Phase E Pantry visibility cleanup
+- Removed the duplicate Pantry spoon count and the unmounted placement-report node so the room, request, decorations, and paid packs remain the visible hierarchy.
+- Removed legacy rarity, availability, and sort state that no longer had visible controls but could still hide decoration cards for returning sessions.
+- Pantry filtering now follows only the visible room-slot choice, with the featured affordability ordering preserved.
+- Unified starter-hint body copy on one key; large-board reveal count remains an interaction result rather than explanatory text.
+- Full unit tests and four-width mobile visual QA pass before the final candidate rerun.

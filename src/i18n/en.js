@@ -334,7 +334,6 @@ export const en = {
     extraHintTitle: "Extra hint",
     timeAttackHintTitle: "Time Attack hint",
     hintIntro: "Use a hint?",
-    hintIntroMulti: "Use a hint?",
     timeAttackHintIntro: "Use {cost} spoons for a hint? You have {balance}.",
     timeAttackHintNeedMore: "You need {cost} spoons. You have {balance}.",
     paidHintIntro: "Use {cost} spoons for a hint? You have {balance}.",

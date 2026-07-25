@@ -265,7 +265,7 @@ function getHintBodyText({ remaining, hintCost, balance, revealCount, timeAttack
   if (remaining <= 0) {
     return t("controls.hintEmpty");
   }
-  return revealCount > 1 ? t("controls.hintIntroMulti", { count: revealCount }) : t("controls.hintIntro");
+  return t("controls.hintIntro");
 }
 
 export function getHintTitleText({ remaining, hintLimit }) {

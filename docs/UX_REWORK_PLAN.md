@@ -274,3 +274,9 @@ Done when:
 - Phase E copy pass is active: hints and Pip story dialogue now answer only the immediate player question.
 - Korean neighbor dialogue was recovered from encoding corruption and is protected by a broader mojibake regression test.
 - The large-board tap-mode helper keeps one instruction and visual examples; measured four-width visual review is the current gate.
+
+
+### v0.1.568 checkpoint
+- Pantry now exposes only the filter the player can actually control: the selected room spot.
+- Hidden legacy rarity, availability, and sorting state can no longer make decoration cards disappear without an explanation.
+- Duplicate Pantry spoon and placement-report text is absent at all four QA widths.
