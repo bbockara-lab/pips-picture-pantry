@@ -430,13 +430,16 @@ async function expectAppChromePolish(page, viewportName) {
     const currency = document.querySelector(".currency-pill");
     const settings = document.querySelector(".icon-button--settings");
     const reset = document.querySelector(".icon-button--reset");
+    const title = document.querySelector(".title-group h1");
     const topBarRect = topBar?.getBoundingClientRect();
     const currencyRect = currency?.getBoundingClientRect();
     const settingsRect = settings?.getBoundingClientRect();
     const resetRect = reset?.getBoundingClientRect();
+    const titleRect = title?.getBoundingClientRect();
     const style = topBar ? getComputedStyle(topBar) : null;
     const settingsStyle = settings ? getComputedStyle(settings) : null;
     const resetStyle = reset ? getComputedStyle(reset) : null;
+    const titleStyle = title ? getComputedStyle(title) : null;
     const settingsBefore = settings ? getComputedStyle(settings, "::before") : null;
     const settingsAfter = settings ? getComputedStyle(settings, "::after") : null;
     const resetBefore = reset ? getComputedStyle(reset, "::before") : null;
@@ -446,6 +449,9 @@ async function expectAppChromePolish(page, viewportName) {
     return {
       topBarHeight: topBarRect?.height || 0,
       currencyHeight: currencyRect?.height || 0,
+      titleHeight: titleRect?.height || 0,
+      titleLineHeight: titleStyle ? parseFloat(titleStyle.lineHeight) : 0,
+      titleOverflows: title ? title.scrollWidth > title.clientWidth + 1 : true,
       borderRadius: style ? parseFloat(style.borderRadius) : 0,
       backgroundImage: style?.backgroundImage || "",
       settingsText: (settings?.textContent || "").trim(),
@@ -471,6 +477,10 @@ async function expectAppChromePolish(page, viewportName) {
   if (
     chromeMetrics.topBarHeight < 68 ||
     chromeMetrics.currencyHeight < 36 ||
+    chromeMetrics.titleHeight <= 0 ||
+    chromeMetrics.titleLineHeight <= 0 ||
+    chromeMetrics.titleHeight > chromeMetrics.titleLineHeight * 1.55 ||
+    chromeMetrics.titleOverflows ||
     chromeMetrics.borderRadius < 12 ||
     !chromeMetrics.backgroundImage.includes("linear-gradient") ||
     chromeMetrics.settingsText ||

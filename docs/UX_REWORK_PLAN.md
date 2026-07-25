@@ -322,3 +322,4 @@ Done when:
 - Hub cards now keep the immediate choice only: the daily picture no longer previews its reward, and the Time Attack entry no longer narrates its size range.
 - Time Attack starts without an empty-record card; earned records remain visible once they exist.
 - The four-width QA explicitly rejects the retired daily reward note and any record panel with no useful result rows.
+- Narrow app chrome keeps the game title to one visible line while preserving 44px settings and reset targets.
