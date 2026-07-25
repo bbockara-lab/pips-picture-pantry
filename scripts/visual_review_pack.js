@@ -667,6 +667,26 @@ async function main() {
     });
     await capturePuzzleSelectionArtContactSheet(browser, {
       puzzleIds: [
+        "bakery-window-raspberry-lattice-tart-112",
+        "bakery-window-rose-cream-eclair-85",
+        "bakery-window-strawberry-charlotte-dome-76",
+        "bakery-window-strawberry-vanilla-puff-100"
+      ],
+      name: "bakery-density-repairs-group-i",
+      playerId: "bakery-density-review-i"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
+        "bakery-window-sugar-dusted-bundt-91",
+        "bakery-window-vanilla-bean-cupcake-88",
+        "bakery-window-vanilla-checker-tile-119",
+        "bakery-window-vanilla-eclair-59"
+      ],
+      name: "bakery-density-repairs-group-j",
+      playerId: "bakery-density-review-j"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
         "village-pantry-blue-gingham-cloth-66",
         "village-pantry-wooden-egg-crate-76",
         "village-pantry-checkered-tea-towel-77",

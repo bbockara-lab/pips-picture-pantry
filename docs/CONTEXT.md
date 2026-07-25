@@ -3977,3 +3977,9 @@ Current launch direction:
 - Shortened cursor status chips to the state itself and normalized their height, padding, and baseline against the row/column position chip.
 - Simplified Time Attack to the playable essentials: Pip, a short prompt, 5x5 to 8x8 to 10x10, Start, reward status, and records. Removed report-like round descriptions, decorative orb/glare layers, and card shadows.
 - Mobile visual QA passed at 360x740, 390x844, 430x932, and 675x900 after updating the flat-card regression contract.
+
+### v0.1.564 Bakery Density Repair Group I
+
+- Redrew the final eight high-density Bakery 12x12 candidates as distinct tart, eclair, dome, puff, bundt, cupcake, checker-cookie, and cream-band compositions.
+- Reduced near-solid 81-86% blocks to 54-67% silhouettes with readable negative space and object-specific contours.
+- Added two art-audit regression tests and two dedicated four-card completion contact sheets for review at actual rendered size.

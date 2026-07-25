@@ -254,3 +254,7 @@ Done when:
 ### v0.1.563 checkpoint
 - Dialogue, clue tokens, cursor status, and Time Attack now share the same compact game-language and flat-card rules.
 - Remaining visual review should prioritize authored completion-art quality and any screen that still depends on legacy ornamental CSS rather than approved raster art.
+
+### v0.1.564 checkpoint
+- Completion-art Phase D closes the remaining eight high-density Bakery 12x12 candidates with two dedicated visual contact sheets.
+- The automated art-review queue is reduced from 69 to 61 candidates; the next priority is Village Pantry 10x10 density repair.

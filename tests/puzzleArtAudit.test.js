@@ -204,4 +204,28 @@ describe("puzzle art audit", () => {
     expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
   });
 
+  it("keeps the ninth repaired Bakery density group out of the art-review queue", () => {
+    const report = buildPuzzleArtAudit();
+    const repairedIds = new Set([
+      "bakery-window-raspberry-lattice-tart-112",
+      "bakery-window-rose-cream-eclair-85",
+      "bakery-window-strawberry-charlotte-dome-76",
+      "bakery-window-strawberry-vanilla-puff-100"
+    ]);
+
+    expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
+  });
+
+  it("keeps the tenth repaired Bakery density group out of the art-review queue", () => {
+    const report = buildPuzzleArtAudit();
+    const repairedIds = new Set([
+      "bakery-window-sugar-dusted-bundt-91",
+      "bakery-window-vanilla-bean-cupcake-88",
+      "bakery-window-vanilla-checker-tile-119",
+      "bakery-window-vanilla-eclair-59"
+    ]);
+
+    expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
+  });
+
 });
