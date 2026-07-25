@@ -103,6 +103,10 @@ const staleCssRules = [
   {
     label: "legacy unlockable puzzle chip dot",
     pattern: /\.puzzle-chip\[data-access=["']unlockable["']\]::after/
+  },
+  {
+    label: "retired Pantry planning and report styles",
+    pattern: /\.pantry-(?:placement-advisor|savings-goal|earning-plan|earning-action|progress-board|progress-mission|progress-slot|display-plan|planning-deck)/
   }
 ];
 

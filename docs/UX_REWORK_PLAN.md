@@ -197,3 +197,6 @@ Done when:
 
 - Current slice: v0.1.548 removes the retired Pantry report vocabulary from both locales and their tests, preventing hidden dashboard copy from returning through future UI work.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+- Current slice: v0.1.549 removes the retired Pantry report CSS and adds a hygiene guard against its return while preserving live decoration savings feedback.
+- Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.

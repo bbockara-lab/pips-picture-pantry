@@ -3858,3 +3858,10 @@ Current launch direction:
 - Removed the unused bilingual planning, savings, progress-report, mission-route, placement-advisor, and display-plan copy after their UI builders were retired.
 - Removed the matching translation assertions so tests cover only player-facing Pantry language.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+### v0.1.549 Retired Pantry CSS Removal
+
+- Removed the unused placement-advisor, savings-goal, earning-plan, progress-board, mission-route, display-plan, and planning-deck CSS after their DOM builders were retired.
+- Preserved the live per-decoration savings meter and the mobile QA assertion that the old planning deck is absent.
+- Added a source-hygiene guard that blocks the retired report selectors from returning.
+- Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
