@@ -164,8 +164,6 @@ export const ko = {
     play: "\ub3c4\uc804\ud558\uae30",
     selected: "\uc120\ud0dd\ub428",
     reward: "\uc644\uc131 \ubcf4\uc0c1 · \uc2a4\ud47c {count}\uac1c",
-    notePrefix: "\uc624\ub298 \ubcf4\ub108\uc2a4",
-    noteSuffix: ""
   },
   replayPicks: {
     eyebrow: "Pip\uC758 \uB2E4\uC2DC \uD480\uAE30 \uCD94\uCC9C",

@@ -165,8 +165,6 @@ export const en = {
     play: "Play",
     selected: "Selected",
     reward: "Completion reward · {count} spoons",
-    notePrefix: "Finish today for",
-    noteSuffix: ""
   },
   replayPicks: {
     eyebrow: "Pip's replay picks",

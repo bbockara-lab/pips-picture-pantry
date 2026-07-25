@@ -2844,6 +2844,8 @@ async function verifyPantryPlacement(page, viewportName) {
     const panel = document.querySelector(".pantry-panel");
     const room = document.querySelector(".pantry-room");
     const store = document.querySelector(".spoon-store");
+    const shop = document.querySelector(".pantry-shop");
+    const shopGrid = shop?.querySelector(".pantry-shop-grid");
     const cards = [...document.querySelectorAll(".pantry-item-card")];
     return {
       panelOverflowsX: panel ? panel.scrollWidth > panel.clientWidth + 1 : true,
@@ -2852,12 +2854,14 @@ async function verifyPantryPlacement(page, viewportName) {
       cardCount: cards.length,
       cardOverflowCount: cards.filter((card) => card.scrollWidth > card.clientWidth + 1).length,
       storeProductCount: store?.querySelectorAll(".support-pack-card").length || 0,
+      storeInsideShop: Boolean(shop && store && shop.contains(store)),
+      storeAfterDecorations: Boolean(shopGrid && store && (shopGrid.compareDocumentPosition(store) & Node.DOCUMENT_POSITION_FOLLOWING)),
       storeOverflowsX: store ? store.scrollWidth > store.clientWidth + 1 : true,
       storeGlareCount: store ? [...store.querySelectorAll("button, .support-pack-card, .support-pack-card__art")]
         .filter((item) => getComputedStyle(item, "::before").content !== "none" || getComputedStyle(item, "::after").content !== "none").length : 1
     };
   });
-  if (metrics.panelOverflowsX || metrics.roomSlotCount !== 5 || metrics.filterGroupCount !== 1 || metrics.cardCount < 1 || metrics.cardCount > 6 || metrics.cardOverflowCount || metrics.storeProductCount !== 2 || metrics.storeOverflowsX || metrics.storeGlareCount) {
+  if (metrics.panelOverflowsX || metrics.roomSlotCount !== 5 || metrics.filterGroupCount !== 1 || metrics.cardCount < 1 || metrics.cardCount > 6 || metrics.cardOverflowCount || metrics.storeProductCount !== 2 || !metrics.storeInsideShop || !metrics.storeAfterDecorations || metrics.storeOverflowsX || metrics.storeGlareCount) {
     failures.push("[" + viewportName + "] Simplified Pantry layout regressed: " + JSON.stringify(metrics));
   }
 

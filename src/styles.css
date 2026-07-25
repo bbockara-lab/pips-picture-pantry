@@ -157,6 +157,14 @@ button {
   content: none;
 }
 
+/* v0.1.540: paid packs are the final aisle inside the decoration shop. */
+.pantry-shop > .spoon-store {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin: 24px 0 0;
+}
+
 .column-clues {
   grid-column: 2;
   display: grid;

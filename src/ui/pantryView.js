@@ -750,7 +750,7 @@ function renderFilterSummary(count, total, isFiltered, onResetFilters) {
   return summary;
 }
 
-export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {}, onPlayForSpoons = () => {}, onOpenSupportPack = () => {}) {
+export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {}, onPlayForSpoons = () => {}, spoonStore = null) {
   const panel = document.createElement("section");
   panel.className = "pantry-panel content-panel";
 
@@ -836,6 +836,9 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   const shopLimitMount = document.createElement("div");
   shopLimitMount.className = "pantry-shop-limit-mount";
   shop.append(filtersMount, grid, shopLimitMount);
+  if (spoonStore) {
+    shop.appendChild(spoonStore);
+  }
 
   function drawDecorations() {
     room.replaceChildren();

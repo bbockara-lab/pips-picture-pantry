@@ -3792,4 +3792,11 @@ Current launch direction:
 - Shortened Korean and English Time Attack copy and disabled the retired decorative pseudo-element shine/tokens on the coach and records surfaces.
 - Verification: 141 unit tests, the 101-candidate art audit, launch-integrity QA, production build, Android release gate, four-width mobile QA, the full release-candidate gate, and the regenerated 51-frame v0.1.539 visual pack pass.
 - Real-device Billing purchase/restore and consumable-repeat evidence remain the only external release blockers.
+
+### v0.1.540 Pantry Store Ordering
+
+- Moved the Support Pack and Small Spoon Jar into the Pantry shop itself. Spoon-priced decoration filters, cards, and the “show more” action always appear first; paid packs follow as the final shop section.
+- Kept purchases out of Settings and added measured mobile QA guards for both Pantry-shop containment and decoration-before-paid-pack ordering.
+- Removed the unused Daily `notePrefix` and `noteSuffix` translation keys identified by Claude review.
+- Visual review confirms the Pantry order is room and request, spoon-priced decorations, “show more,” then Support Pack and Small Spoon Jar. The full candidate gate and 51-frame v0.1.540 visual pack pass.
 - Manual review confirms the 12x12 clue tokens are uniform, the status chips share a baseline, the cross-shaped D-pad preserves direction, and the compact hint card contains no explanatory body copy.

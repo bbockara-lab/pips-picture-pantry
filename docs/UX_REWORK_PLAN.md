@@ -1,7 +1,7 @@
 # Pip's Picture Pantry UX Rework Plan
 
 Status: live-quality recovery, Phases A-C implemented
-Baseline: v0.1.539
+Baseline: v0.1.540
 Goal: replace screen-by-screen patching with one coherent first-session and navigation experience before release.
 
 ## Why this pass exists
@@ -169,3 +169,5 @@ Done when:
 - Release audit: keep regenerating the 51-frame visual pack and rerun the candidate gate after each completed art/UX slice.
 - Current slice: v0.1.539 protects visual-QA cleanup with an owned-directory guard and simplifies Time Attack from a report-like card stack to Pip, the three-round ladder, one start action, a compact daily status, and records.
 - Verification: v0.1.539 passes 141 unit tests, the 101-candidate art audit, launch-integrity QA, production build, Android release gate, four-width mobile QA, the full candidate gate, and a regenerated 51-frame visual pack.
+- Current slice: v0.1.540 nests the optional paid packs inside the Pantry shop after all spoon-priced decoration controls and cards. Mobile QA now locks both containment and ordering.
+- Verification: v0.1.540 passes 141 unit tests, the full release-candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame visual pack.
