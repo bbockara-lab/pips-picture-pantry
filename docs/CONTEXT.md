@@ -3902,3 +3902,11 @@ Current launch direction:
 - Added readable muffin cup folds, twin cherry topping and cream pocket, a diagonal braided twist, and an almond-cut oval biscuit instead of near-solid blocks.
 - Added an art-audit regression test keeping all four out of the review queue.
 - Verification: 144 unit tests, 89-candidate art audit, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+
+### v0.1.555 Bakery Density Repair Group D
+
+- Closed Claude Review 12 note by redrawing Cocoa Almond Biscuit so its oval rim and almond pieces read without the earlier diagonal-X impression.
+- Redrew Cocoa Pear Tartlet, Fig Honey Pinwheel, Ginger Honey Madeleine, and Hazelnut Cocoa Tart with distinct fruit arcs, radial folds, shell ridges, and scalloped crust.
+- Added a regression test keeping all five reviewed silhouettes out of the art-audit queue.
+- Verification: 145 unit tests, 85-candidate art audit, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
