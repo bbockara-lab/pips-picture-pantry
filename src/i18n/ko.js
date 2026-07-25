@@ -105,7 +105,6 @@ export const ko = {
     collectionCount: "{earned}/{total}\uac1c \ubc30\uc9c0 \ud68d\ub4dd",
     collectionNote: "\uc2a4\ud14c\uc774\uc9c0\ub9c8\ub2e4 \uc11c\ub85c \ub2e4\ub978 \uadf8\ub9bc\uc774 \uc788\uc5b4\uc694. 20\uc7a5\uc744 \ubaa8\ub450 \uc644\uc131\ud558\uba74 \ubc30\uc9c0\ub85c \ubcf4\uad00\ub3fc\uc694.",
     nextBadge: "\ub2e4\uc74c \ubc30\uc9c0",
-    earned: "\ubc30\uc9c0 \ud68d\ub4dd",
     progress: "{completed}/{total}\uc7a5",
     earnedAria: "Pip \ucd08\uc0c1\ud654 \ubc30\uc9c0 \ud68d\ub4dd",
     progressAria: "Pip \ucd08\uc0c1\ud654 \ubc30\uc9c0 \uc9c4\ud589 {completed}/{total}",
@@ -355,7 +354,6 @@ export const ko = {
   },
   album: {
     count: "{completed}/{total}\uc7a5",
-    note: "\uc644\uc131\ud55c \uce74\ub4dc\uac00 \uc5ec\uae30\uc5d0 \ubcf4\uc5ec\uc694.",
     genericSaved: "{title} \uce74\ub4dc\ub97c \uc800\uc7a5\ud588\uc5b4\uc694.",
     hiddenTitle: "\uc228\uc740 \uadf8\ub9bc",
     hiddenText: "\ud37c\uc990\uc744 \uc644\uc131\ud558\uba74 \uc800\uc7a5\ub3fc\uc694.",

@@ -63,7 +63,6 @@ export function renderBadgeShelf() {
     token.appendChild(image);
     const copy = document.createElement("div");
     appendTextElement(copy, "p", "", t(status.badge.titleKey));
-    appendTextElement(copy, "small", "", t("badges.earned"));
     item.append(token, copy);
     shelf.appendChild(item);
   });

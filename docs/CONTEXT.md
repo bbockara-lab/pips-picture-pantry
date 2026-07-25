@@ -4041,3 +4041,10 @@ Current launch direction:
 - Kept legacy hidden artwork entries in the asset manifest as audit history; no approved runtime art was removed.
 - Added source-hygiene guards so the retired strip, footer, intro marketing copy, and ornamental CSS cannot silently return.
 - Verification passed: 160 unit tests, source hygiene, the full candidate gate, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, build, Android release gate, and the 61-frame visual review pack.
+
+### v0.1.573 collection-surface copy cleanup
+
+- Removed the Album note that repeated what the completed-picture grid already shows.
+- Removed repeated "Badge earned" labels from the earned badge shelf and badge room; artwork and badge names now carry the state, while accessible shelf labeling remains.
+- Removed the matching dead translations and CSS selectors and added source-hygiene guards against reintroducing report-like collection copy.
+- Verification passed: 160 unit tests, source hygiene, the full candidate gate, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, build, Android release gate, and the 61-frame visual review pack.

@@ -98,6 +98,20 @@ for (const file of releaseDocMojibakeFiles) {
     errors.push(`${file}: release notes contain common mojibake fragments`);
   }
 }
+const retiredCollectionCopySources = [
+  ["src/ui/albumView.js", /album\.note|album-note/],
+  ["src/ui/appChrome.js", /t\("badges\.earned"\)/],
+  ["src/ui/mapView.js", /badge-card__state|badges\.earned/],
+  ["src/i18n/en.js", /earned:\s*"Badge earned"|note:\s*"Finished cards appear here\."/],
+  ["src/i18n/ko.js", /earned:\s*"\u|note:\s*"\u/],
+];
+for (const [file, pattern] of retiredCollectionCopySources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": redundant Album note or earned-badge label must stay removed");
+  }
+}
+
 const retiredChromeSources = [
   ["src/ui/appChrome.js", /renderPipStrip|renderFooter|getPipPuzzleLine/],
   ["src/i18n/en.js", /\bpipStrip\s*:|versionLabel\s*:/],

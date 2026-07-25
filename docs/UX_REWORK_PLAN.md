@@ -300,3 +300,8 @@ Done when:
 - The removed feature chips, visible version label, and small side-commentary Pip strip are now absent from implementation as well as the screen.
 - Pip remains present where conversation or celebration matters; persistent report-style commentary chrome stays retired.
 - Selector-aware cleanup preserves active intro art and buttons while blocking the old ornamental layers.
+
+### v0.1.573 checkpoint
+
+- Album and earned-badge surfaces now keep only identity, artwork, useful count/date/progress, and direct actions.
+- Repeated explanatory state labels were removed without changing save data or progression behavior.

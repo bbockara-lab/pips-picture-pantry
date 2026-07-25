@@ -68,16 +68,9 @@ function createBadgeCollectionCard(status) {
   art.appendChild(createBadgeArt(status));
 
   const copy = document.createElement("div");
-  const state = document.createElement("span");
-  state.className = "badge-card__state";
-  state.textContent = status.earned
-    ? t("badges.earned")
-    : unlocked
-      ? t("badges.progress", { completed: status.completed, total: status.total })
-      : t("map.locked");
   const title = document.createElement("h3");
   title.textContent = t(status.badge.titleKey);
-  copy.append(state, title);
+  copy.appendChild(title);
 
   card.append(art, copy);
   return card;

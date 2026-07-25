@@ -105,7 +105,6 @@ export const en = {
     collectionCount: "{earned}/{total} badges earned",
     collectionNote: "Each stage has its own picture. Finish all 20 cards in a stage to turn it into a badge.",
     nextBadge: "Next badge",
-    earned: "Badge earned",
     progress: "{completed}/{total} cards",
     earnedAria: "Pip Portrait badge earned",
     progressAria: "Pip Portrait badge progress {completed} of {total}",
@@ -357,7 +356,6 @@ export const en = {
   },
   album: {
     count: "{completed}/{total} pictures",
-    note: "Finished cards appear here.",
     genericSaved: "{title} is saved in the album.",
     hiddenTitle: "Hidden picture",
     hiddenText: "Finish the puzzle to save this card.",

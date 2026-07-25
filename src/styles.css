@@ -351,16 +351,6 @@ button {
   font-size: 1.2rem;
 }
 
-.album-note {
-  max-width: none;
-  margin: 0;
-  color: #7a4e35;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-align: right;
-  white-space: nowrap;
-}
-
 .album-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4891,7 +4881,6 @@ img {
   line-height: 1.1;
 }
 
-.album-note,
 .map-note {
   max-width: 18ch;
   min-height: 30px;
@@ -5008,8 +4997,7 @@ img {
   line-height: 1.15;
 }
 
-.album-card__state,
-.badge-card__state {
+.album-card__state {
   display: inline-flex;
   align-items: center;
   min-height: 22px;
@@ -5026,8 +5014,7 @@ img {
   line-height: 1.1;
 }
 
-.album-card.locked .album-card__state,
-.badge-card.locked .badge-card__state {
+.album-card.locked .album-card__state {
   color: rgba(61, 43, 46, 0.62);
   background:
     linear-gradient(180deg, rgba(255, 252, 244, 0.72), rgba(231, 222, 208, 0.7));
@@ -5116,7 +5103,6 @@ img {
     grid-template-columns: 1fr;
   }
 
-  .album-note,
   .map-note {
     justify-self: start;
     max-width: 100%;
@@ -14513,10 +14499,6 @@ img {
   align-items: end;
 }
 
-.album-note {
-  display: none;
-}
-
 .album-grid {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
 }
@@ -15276,8 +15258,7 @@ img {
   padding-inline: clamp(14px, 4vw, 28px);
   overflow-x: hidden;
 }
-.settings-dialog :is(.player-form, .control-options, .audio-options, .settings-guide-card),
-.settings-dialog :is(.settings-choice-grid, .player-form > div, .settings-guide-card__actions) {
+.settings-dialog :is(.player-form, .control-options, .audio-options, .settings-guide-card), .settings-dialog :is(.settings-choice-grid, .player-form > div, .settings-guide-card__actions) {
   box-sizing: border-box;
   min-width: 0;
   max-width: 100%;
