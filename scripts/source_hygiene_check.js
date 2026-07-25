@@ -98,6 +98,18 @@ for (const file of releaseDocMojibakeFiles) {
     errors.push(`${file}: release notes contain common mojibake fragments`);
   }
 }
+const retiredStageLockReportSources = [
+  ["src/ui/puzzleHubView.js", /unlock(?:Plan|Gate)|unlock-panel__(?:plan|gate)/],
+  ["src/i18n/en.js", /unlock(?:Plan|Gate)/],
+  ["src/i18n/ko.js", /unlock(?:Plan|Gate)/]
+];
+for (const [file, pattern] of retiredStageLockReportSources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": stage locks must show cost, Pantry step, and direct action without duplicate reports");
+  }
+}
+
 const retiredReplayCopySources = [
   ["src/ui/puzzleHubView.js", /replayPicks\.(?:eyebrow|body|challenge)\b/],
   ["src/i18n/en.js", /eyebrow:\s*"Pip's replay picks"|body:\s*"Completed pictures|challenge:\s*"Replay"/],
@@ -173,6 +185,10 @@ const staleCssRules = [
   {
     label: "retired replay glare and explainer styles",
     pattern: /\.replay-(?:picks-card::after|pick-button::before|picks-card__body)/
+  },
+  {
+    label: "retired duplicate stage-lock report styles",
+    pattern: /\.unlock-panel__(?:plan|gate)/
   }
 ];
 

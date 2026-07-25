@@ -381,7 +381,6 @@ function createUnlockPanel(pack, onUnlockPack, onOpenPantry) {
   const disabledText = roomRequirement.met
     ? t("packs.needMore", { count: spoonGap })
     : t("packs.needPantryRoom");
-  const planText = getUnlockPlanText(canOpen, roomRequirement, spoonGap);
   const requirements = document.createElement("div");
   requirements.className = "unlock-panel__requirements";
   const copy = document.createElement("p");
@@ -390,11 +389,6 @@ function createUnlockPanel(pack, onUnlockPack, onOpenPantry) {
   requirements.appendChild(copy);
   if (roomRequirement.required > 0) {
     appendTextElement(requirements, "p", "unlock-panel__room", t("packs.roomRequirement", roomRequirement));
-  }
-  appendTextElement(requirements, "p", "unlock-panel__plan", planText);
-  const gateReason = getUnlockGateReason(canOpen, roomRequirement, spoonGap);
-  if (gateReason) {
-    appendTextElement(requirements, "p", "unlock-panel__gate", gateReason);
   }
 
   const actions = document.createElement("div");
@@ -416,32 +410,6 @@ function createUnlockPanel(pack, onUnlockPack, onOpenPantry) {
   }
   panel.append(requirements, actions);
   return panel;
-}
-
-function getUnlockPlanText(canOpen, roomRequirement, spoonGap) {
-  if (canOpen) {
-    return t("packs.unlockPlanReady");
-  }
-  if (!roomRequirement.met && spoonGap > 0) {
-    return t("packs.unlockPlanNeedBoth", { count: spoonGap, completed: roomRequirement.completed, required: roomRequirement.required });
-  }
-  if (!roomRequirement.met) {
-    return t("packs.unlockPlanNeedPantry", roomRequirement);
-  }
-  return t("packs.unlockPlanNeedSpoons", { count: spoonGap });
-}
-
-function getUnlockGateReason(canOpen, roomRequirement, spoonGap) {
-  if (canOpen) {
-    return "";
-  }
-  if (!roomRequirement.met && spoonGap > 0) {
-    return t("packs.unlockGateNeedBoth", { count: spoonGap, completed: roomRequirement.completed, required: roomRequirement.required });
-  }
-  if (!roomRequirement.met) {
-    return t("packs.unlockGateNeedPantry", roomRequirement);
-  }
-  return t("packs.unlockGateNeedSpoons", { count: spoonGap });
 }
 
 function createSpoonIcon(size = "") {

@@ -4056,3 +4056,11 @@ Current launch direction:
 - Shortened the clean-replay rule/result while preserving the one-spoon reward contract, and repaired the corrupted daily-reward separator in both locales.
 - Added translation, launch-integrity, and source-hygiene guards for the compact replay grammar and retired ornament layers.
 - Verification passed: 160 unit tests, source hygiene, launch integrity, the full candidate gate, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, build, Android release gate, and the 61-frame visual review pack.
+
+### v0.1.575 locked-stage decision cleanup
+
+- Reduced each locked stage to the unlock cost, Pantry request progress when required, and the action available now.
+- Removed the duplicate plan paragraph and gate-reason chip, along with their seven KO/EN translation keys, helper functions, and CSS selectors.
+- Kept the live unlock checks, disabled-button reason, Pantry route, spoon balance, and save behavior unchanged.
+- Updated launch-integrity and source-hygiene contracts to protect the compact lock state.
+- Verification passed: 160 unit tests, source hygiene, launch integrity, the full candidate gate, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, build, Android release gate, and the 61-frame visual review pack.

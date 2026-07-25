@@ -311,3 +311,8 @@ Done when:
 - Replay choices now read like a game selection instead of a feature report.
 - Legacy glare and background-blob decoration is removed from the live replay surface; the picture names and daily count carry the interaction.
 - Daily and replay reward copy now uses clean KO/EN punctuation and short outcome language.
+
+### v0.1.575 checkpoint
+
+- A locked stage now answers only: what does it cost, which Pantry step is missing, and where can the player act.
+- Repeated planning and blocked-state reports are removed from implementation rather than hidden by CSS.

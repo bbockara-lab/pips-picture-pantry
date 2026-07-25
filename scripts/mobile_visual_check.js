@@ -1458,9 +1458,11 @@ async function expectHiddenBonusPacks(page, viewportName) {
 }
 
 async function expectLockedStageGate(page, viewportName) {
-  const lockedText = await page.locator(".pack-block.locked").first().innerText();
-  if (!lockedText.includes("Pantry room step") || !lockedText.includes("0/3") || !lockedText.includes("Need pantry story") || !lockedText.includes("Go to Pantry") || !lockedText.includes("Blocked by") || !lockedText.includes("Pantry requests")) {
-    failures.push("[" + viewportName + "] Locked stage should explain pantry story progress, saw " + lockedText);
+  const lockedStage = page.locator(".pack-block.locked").first();
+  const lockedText = await lockedStage.innerText();
+  const duplicateReportCount = await lockedStage.locator(".unlock-panel__plan, .unlock-panel__gate").count();
+  if (!lockedText.includes("Pantry room step") || !lockedText.includes("0/3") || !lockedText.includes("Need pantry story") || !lockedText.includes("Go to Pantry") || lockedText.includes("Blocked by") || duplicateReportCount > 0) {
+    failures.push("[" + viewportName + "] Locked stage should show cost, Pantry progress, and one route without duplicate reports; saw " + lockedText);
   }
 }
 

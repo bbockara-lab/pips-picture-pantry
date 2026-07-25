@@ -47,30 +47,27 @@ function checkAndroidVersion() {
 function checkPackUnlockGuidance() {
   const hub = "src/ui/puzzleHubView.js";
   [
+    "stage-gate-link",
+    "t(\"packs.visitPantry\")",
+    "t(\"packs.needPantryRoom\")",
+    "t(\"packs.needMore\"",
+    "t(\"packs.roomRequirement\""
+  ].forEach((needle) => expectIncludes(hub, needle));
+  [
     "unlockPlanNeedSpoons",
     "unlockPlanNeedPantry",
     "unlockPlanNeedBoth",
     "unlockGateNeedSpoons",
     "unlockGateNeedPantry",
     "unlockGateNeedBoth",
-    "stage-gate-link",
-    "t(\"packs.visitPantry\")",
-    "t(\"packs.needPantryRoom\")"
-  ].forEach((needle) => expectIncludes(hub, needle));
+    "unlock-panel__plan",
+    "unlock-panel__gate"
+  ].forEach((needle) => expectExcludes(hub, needle, "retired duplicate stage-lock report copy"));
   expectRegex(hub, /roomRequirement\.met\s*\?\s*t\("packs\.needMore"[\s\S]*:\s*t\("packs\.needPantryRoom"\)/, "Pantry-step lock button copy branch");
   expectOrder(hub, "!roomRequirement.met", "t(\"packs.visitPantry\")", "Pantry CTA appears only when Pantry progress is blocking");
 
   ["src/i18n/en.js", "src/i18n/ko.js"].forEach((file) => {
-    [
-      "needPantryRoom",
-      "visitPantry",
-      "unlockPlanNeedSpoons",
-      "unlockPlanNeedPantry",
-      "unlockPlanNeedBoth",
-      "unlockGateNeedSpoons",
-      "unlockGateNeedPantry",
-      "unlockGateNeedBoth"
-    ].forEach((needle) => expectIncludes(file, needle));
+    ["needPantryRoom", "visitPantry", "needMore", "roomRequirement"].forEach((needle) => expectIncludes(file, needle));
   });
 }
 
