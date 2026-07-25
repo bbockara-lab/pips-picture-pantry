@@ -344,9 +344,7 @@ export const ko = {
   },
   puzzlePicker: {
     size: "{size}×{size}",
-    sizeReward: "{size}×{size} · +{count}",
     complete: "\uc644\ub8cc",
-    rewardLabel: "{size}x{size}, \ubcf4\uc0c1 {count}",
     sizeComplete: "{size}x{size} - \uc644\ub8cc"
   },
   packs: {

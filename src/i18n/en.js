@@ -346,9 +346,7 @@ export const en = {
   },
   puzzlePicker: {
     size: "{size}×{size}",
-    sizeReward: "{size}×{size} · +{count}",
     complete: "Complete",
-    rewardLabel: "{size}x{size}, reward {count}",
     sizeComplete: "{size}x{size} - Complete"
   },
   packs: {

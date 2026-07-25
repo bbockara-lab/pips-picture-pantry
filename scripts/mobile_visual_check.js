@@ -1481,11 +1481,12 @@ async function expectPuzzleHubSelectionPolish(page, viewportName) {
       height: chip.getBoundingClientRect().height,
       overflows: chip.scrollWidth > chip.clientWidth + 1 || chip.scrollHeight > chip.clientHeight + 1,
       hasRewardImage: Boolean(chip.querySelector("img")),
+      hasRewardReport: /(?:\+\d|reward|\ubcf4\uc0c1)/i.test(meta?.textContent || ""),
       before: getComputedStyle(chip, "::before").content,
       after: getComputedStyle(chip, "::after").content
     };
   }));
-  if (!hubMetrics.headingText || hubMetrics.sectionLabelCount !== 0 || hubMetrics.overflows || !metrics.length || metrics.some((chip) => !chip.label || !chip.meta || chip.width < 120 || chip.height < 80 || chip.overflows || chip.hasRewardImage || chip.before !== "none" || chip.after !== "none" || /5x5|8x8|10x10|12x12/.test(chip.label))) {
+  if (!hubMetrics.headingText || hubMetrics.sectionLabelCount !== 0 || hubMetrics.overflows || !metrics.length || metrics.some((chip) => !chip.label || !chip.meta || chip.width < 120 || chip.height < 80 || chip.overflows || chip.hasRewardImage || chip.hasRewardReport || chip.before !== "none" || chip.after !== "none" || /5x5|8x8|10x10|12x12/.test(chip.label))) {
     failures.push("[" + viewportName + "] Compact puzzle choices regressed: " + JSON.stringify({ hubMetrics, metrics }));
   }
 }

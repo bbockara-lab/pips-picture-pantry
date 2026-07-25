@@ -49,7 +49,7 @@ describe("i18n", () => {
     expect(t("controls.undo")).toBe("Undo last move");
     expect(t("daily.eyebrow")).toBe("Today's picture");
     expect(t("views.map")).toBe("Badges");
-    expect(t("puzzlePicker.sizeReward", { size: 5, count: 3 })).toBe("5×5 · +3");
+    expect(t("puzzlePicker.size", { size: 5 })).toBe("5×5");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - Complete");
     expect(t("album.count", { completed: 1, total: 100 })).toBe("1/100 pictures");
     expect(t("settings.playerName")).toBe("Player name");

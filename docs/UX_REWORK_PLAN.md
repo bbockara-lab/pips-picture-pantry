@@ -348,3 +348,7 @@ Done when:
 
 - The hub now names the active picture once; it no longer repeats a `Current picture` eyebrow over that same title.
 - Time Attack begins with its title, ladder, and Start rather than a second `New challenge` label.
+
+### v0.1.582 checkpoint
+
+- Puzzle choices now show the picture and board size only. Spoon rewards remain a completion moment, not a pre-play report on every card.

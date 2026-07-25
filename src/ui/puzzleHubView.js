@@ -232,10 +232,10 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack,
       if (complete) {
         meta.textContent = t("puzzlePicker.complete");
       } else {
-        meta.textContent = t("puzzlePicker.sizeReward", { size: puzzle.size, count: puzzle.reward || 0 });
+        meta.textContent = t("puzzlePicker.size", { size: puzzle.size });
       }
       button.appendChild(meta);
-      button.setAttribute("aria-label", `${puzzleTitle(puzzle)} - ${complete ? meta.textContent : t("puzzlePicker.rewardLabel", { size: puzzle.size, count: puzzle.reward || 0 })}`);
+      button.setAttribute("aria-label", `${puzzleTitle(puzzle)} - ${meta.textContent}`);
       button.addEventListener("click", () => onSelectPuzzle(puzzle.id));
 
       list.appendChild(button);

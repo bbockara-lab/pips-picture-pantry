@@ -183,6 +183,18 @@ for (const [file, pattern] of retiredSeasonSources) {
   }
 }
 
+const retiredPuzzleChoiceRewardSources = [
+  ["src/ui/puzzleHubView.js", /puzzlePicker\.(?:sizeReward|rewardLabel)/],
+  ["src/i18n/en.js", /(?:sizeReward|rewardLabel):/],
+  ["src/i18n/ko.js", /(?:sizeReward|rewardLabel):/]
+];
+for (const [file, pattern] of retiredPuzzleChoiceRewardSources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": puzzle choices must show the picture and board size, not pre-play reward reports");
+  }
+}
+
 const styles = readFileSync(resolve(root, "src/styles.css"), "utf8");
 const staleCssRules = [
   {
