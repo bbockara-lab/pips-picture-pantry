@@ -13222,15 +13222,6 @@ img {
   z-index: 1;
 }
 
-.settings-guide-card__body {
-  margin: 0;
-  color: #875438;
-  font-weight: 850;
-  line-height: 1.32;
-  word-break: keep-all;
-  overflow-wrap: break-word;
-}
-
 .settings-guide-card__actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

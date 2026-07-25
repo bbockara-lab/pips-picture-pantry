@@ -285,3 +285,8 @@ Done when:
 - Time Attack now answers three immediate questions only: what sizes are next, how to start, and what the last/best result was.
 - Record rows no longer expose board diagnostics or unused-hint counts; zero-hint metadata is absent rather than reported.
 - Four-width visual review should confirm the shorter record and result rows retain the flat-card spacing contract.
+
+### v0.1.570 checkpoint
+- Settings guide replay now follows the one-question rule: choose Picture guide or Time Attack guide without a paragraph explaining the buttons.
+- Review 16 Time Attack translation leftovers are removed rather than carried as test-only compatibility keys.
+- Visual review should confirm the shorter settings card keeps balanced spacing at all four QA widths.

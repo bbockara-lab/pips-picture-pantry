@@ -178,10 +178,6 @@ function createGuideReplayCard(onReplayGuide) {
   label.className = "section-label";
   label.textContent = t("settings.guideReplayTitle");
 
-  const body = document.createElement("p");
-  body.className = "settings-guide-card__body";
-  body.textContent = t("settings.guideReplayBody");
-
   const actions = document.createElement("div");
   actions.className = "settings-guide-card__actions";
   actions.append(
@@ -189,7 +185,7 @@ function createGuideReplayCard(onReplayGuide) {
     createGuideReplayButton(t("settings.guideReplayTimeAttackAction"), "timeAttack", "time", onReplayGuide)
   );
 
-  group.append(label, body, actions);
+  group.append(label, actions);
   return group;
 }
 

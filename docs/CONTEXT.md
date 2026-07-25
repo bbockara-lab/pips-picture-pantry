@@ -4021,3 +4021,9 @@ Current launch direction:
 - Result cards show hint usage only when a hint was actually used, and timeout copy is now a short game response instead of an economy report.
 - Removed the now-unused board-progress formatter and added KO/EN regression coverage for the compact result format.
 - Verification: 160 unit tests, four-width mobile QA, the regenerated 61-frame visual pack, full candidate gate, production build, and Android release gate pass.
+
+### v0.1.570 Phase E settings choice cleanup
+- Removed the explanatory sentence above the two guide replay buttons; the settings screen now presents only the guide label and direct choices.
+- Removed the retired Time Attack board-progress and best-summary translation keys noted in Review 16, plus the unused guide-body style and translation.
+- Settings remains preferences-only; paid spoon packs stay below Pantry decorations in the Pantry shop.
+- Verification: 160 unit tests, source hygiene, four-width mobile QA, the regenerated 61-frame visual pack, full candidate gate, production build, and Android release gate pass.

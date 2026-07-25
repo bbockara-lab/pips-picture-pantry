@@ -200,8 +200,6 @@ describe("i18n", () => {
       "timeAttack.timeoutReward",
       "timeAttack.timeoutNoReward",
       "timeAttack.resultMeta",
-      "timeAttack.boardProgress",
-      "timeAttack.boardProgressFallback",
       "timeAttack.remaining",
       "controls.hint",
       "controls.hintWithCost",
