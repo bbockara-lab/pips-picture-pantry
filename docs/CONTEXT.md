@@ -3998,3 +3998,11 @@ Current launch direction:
 - Reworked six blank-edge compositions and synchronized their progression and quality overrides so runtime art matches source data.
 - Closed the 273-puzzle Bakery/Village audit at zero duplicate silhouettes, zero repeated titles, and zero review candidates.
 - Added a zero-queue regression test and a six-card contact sheet for the final composition repairs.
+
+
+### v0.1.567 Phase E concise dialogue pass
+- Shortened active KO/EN hint prompts to the choice, spoon cost, and balance needed at the moment of action.
+- Rewrote Time Attack, first Pantry placement, room-story, and three neighbor guide steps as short character dialogue instead of feature reports.
+- Restored the Korean neighbor guide copy in Unicode-safe form and strengthened the non-puzzle Korean mojibake test to reject CJK corruption fragments.
+- Reduced the large-board tap-mode Pip card to one instruction plus its visual clue examples; duplicate automatic-X explanations no longer compete with the board.
+- Focused i18n and Pantry guide-flow tests pass. Full visual-pack and candidate gates remain the next verification step.

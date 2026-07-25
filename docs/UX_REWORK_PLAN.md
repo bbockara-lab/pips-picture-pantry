@@ -268,3 +268,9 @@ Done when:
 ### v0.1.566 checkpoint
 - Completion-art Phase D automated audit is closed: 273 Bakery/Village puzzles, zero duplicate silhouettes, zero repeated titles, and zero review candidates.
 - Phase E now becomes the active queue: whole-flow visual hierarchy, copy, and interaction review while real-device Billing evidence remains external.
+
+
+### v0.1.567 checkpoint
+- Phase E copy pass is active: hints and Pip story dialogue now answer only the immediate player question.
+- Korean neighbor dialogue was recovered from encoding corruption and is protected by a broader mojibake regression test.
+- The large-board tap-mode helper keeps one instruction and visual examples; measured four-width visual review is the current gate.

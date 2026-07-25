@@ -11,7 +11,7 @@ import {
 } from "../src/i18n/index.js";
 import { ko } from "../src/i18n/ko.js";
 
-const KOREAN_MOJIBAKE_PATTERN = /[揶쏅슦쎄쑴뽰눘維쒙쭪疫꿰빊吏紐]/;
+const KOREAN_MOJIBAKE_PATTERN = /[\u3400-\u4DBF\u4E00-\u9FFF\uFFFD]|\?{2,}/;
 
 function collectStrings(source, path = [], strings = []) {
   Object.entries(source || {}).forEach(([key, value]) => {
@@ -238,11 +238,11 @@ describe("i18n", () => {
     expect(t("playerIntro.defaultName")).not.toBe("Friend");
     expect(t("guide.speaker")).toContain("Pip");
     expect(t("guide.puzzle.step1")).toContain("\uc774\uc5b4");
-    expect(t("guide.timeAttack.step2")).toContain("\uc2a4\ud47c");
-    expect(t("guide.pantryFirstPurchase.step3")).toContain("\ud32c\ud2b8\ub9ac");
+    expect(t("guide.timeAttack.step2")).toBe("\uB9C9\uD790 \uB54C\uB9CC \uD78C\uD2B8\uB97C \uACE8\uB77C\uC694.");
+    expect(t("guide.pantryFirstPurchase.step3")).toContain("\uC2A4\uD47C");
     expect(t("guide.pantryNeighborMrPark.title")).toContain("시계 할아버지");
-    expect(t("guide.pantryNeighborMrPark.step2")).toContain("할아버지는");
-    expect(t("guide.pantryNeighborMrPark.step2")).not.toContain("시계 할아버지");
+    expect(t("guide.pantryNeighborMrPark.step2")).toContain("\uB530\uB73B\uD55C \uC218\uD504");
+    expect(t("guide.pantryNeighborMrPark.step2")).not.toContain("\uC2DC\uACC4 \uD560\uC544\uBC84\uC9C0");
     expect(t("guide.pantryNeighborLily.title")).toContain("릴리");
     expect(t("guide.pantryNeighborMateo.title")).toContain("마테오");
     [
@@ -254,11 +254,11 @@ describe("i18n", () => {
       "guide.pantryNeighborMateo.step1"
     ].forEach((key) => expect(t(key)).not.toMatch(/Mr\.? Park|Lily|Mateo/));
     expect(t("controls.hintRemaining", { count: 1, limit: 3 })).toBe("\uD78C\uD2B8 1/3");
-    expect(t("controls.hintIntroMulti", { count: 5 })).toContain("5");
+    expect(t("controls.hintIntroMulti", { count: 5 })).toBe("\uD78C\uD2B8\uB97C \uC4F8\uAE4C\uC694?");
     expect(t("howToPlay.pipLine")).toContain("Pip");
     expect(t("controls.lineCompleteHint")).toContain("\uc548\uc804\ud55c \ube48\uce78");
     expect(t("controls.lineCompleteHint")).toContain("\uc790\ub3d9");
-    expect(t("controls.paidHintIntro", { cost: 9, count: 5, balance: 20 })).toContain("\uAE30\uBCF8 \uD78C\uD2B8\uB97C \uB2E4 \uC37C\uC5B4\uC694");
+    expect(t("controls.paidHintIntro", { cost: 9, count: 5, balance: 20 })).toContain("\uC2A4\uD47C 9\uAC1C");
     expect(t("controls.paidHintIntro", { cost: 9, count: 5, balance: 20 })).not.toContain("\uBB34\uB8CC");
     expect(t("controls.timeAttackHintIntro", { cost: 9, balance: 20 })).not.toContain("\uBB34\uB8CC");
     expect(t("controls.timeAttackHintIntro", { cost: 9, balance: 20 })).toContain("\uC2A4\uD47C 9\uAC1C");

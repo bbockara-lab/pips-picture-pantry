@@ -28,7 +28,7 @@ describe("puzzle assist hint copy", () => {
     expect(englishCopy.toLowerCase()).not.toContain("paid");
     expect(englishCopy.toLowerCase()).not.toContain("free");
     expect(englishCopy).toContain("spoons");
-    expect(englishCopy).toContain("Starter hints");
+    expect(englishCopy.toLowerCase()).toContain("starter hints");
 
     setLanguagePreference("ko");
     const koreanCopy = [

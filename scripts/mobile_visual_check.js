@@ -1771,24 +1771,22 @@ async function expectTimeAttackGuideCopy(page, viewportName) {
   await expectGuideDialogChromeArt(page, viewportName);
 
   const firstStepText = await page.locator(".guide-dialog__bubble").first().innerText();
-  if (!/Time Attack|\uD0C0\uC784\uC5B4\uD0DD|\uB3C4\uC804/i.test(firstStepText)) {
-    failures.push("[" + viewportName + "] Time Attack guide first step should frame the mode, saw " + firstStepText);
+  if (!/three random|three puzzles|\uC138 \uD310|\uC138 \uAC1C/i.test(firstStepText)) {
+    failures.push("[" + viewportName + "] Time Attack guide first step should explain the three-board run, saw " + firstStepText);
   }
 
   await page.locator(".guide-dialog__next").click();
   const hintStepText = await page.locator(".guide-dialog__bubble").first().innerText();
   const mentionsHint = /hint|\uD78C\uD2B8/i.test(hintStepText);
-  const mentionsSpoons = /spoon|\uC2A4\uD47C/i.test(hintStepText);
-  if (!mentionsHint || !mentionsSpoons) {
-    failures.push("[" + viewportName + "] Time Attack guide should explain limited hints and spoon continuation, saw " + hintStepText);
+  if (!mentionsHint) {
+    failures.push("[" + viewportName + "] Time Attack guide should reserve hints for stuck moments, saw " + hintStepText);
   }
 
   await page.locator(".guide-dialog__next").click();
   const recordStepText = await page.locator(".guide-dialog__bubble").first().innerText();
   const mentionsRecord = /record|best|\uAE30\uB85D/i.test(recordStepText);
-  const mentionsChoice = /pantry|spoon|\uD32C\uD2B8\uB9AC|\uC2A4\uD47C/i.test(recordStepText);
-  if (!mentionsRecord || !mentionsChoice) {
-    failures.push("[" + viewportName + "] Time Attack guide final step should frame record chasing versus spoon saving, saw " + recordStepText);
+  if (!mentionsRecord) {
+    failures.push("[" + viewportName + "] Time Attack guide final step should invite a new record, saw " + recordStepText);
   }
   await page.locator(".guide-dialog__next").click();
   await overlay.waitFor({ state: "detached", timeout: 2000 });

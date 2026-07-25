@@ -180,7 +180,7 @@ export const en = {
   howToPlay: {
     title: "Pip's picture tip",
     pipLine: "I'll stay beside you. Fill the numbered groups, and safe blanks will tidy into X marks.",
-    goal: "Side numbers show the hidden picture groups in that row.",
+    goal: "Color each group to match its clue.",
     clueTogether: "3 together",
     clueApart: "1 each, apart",
     stepFill: "Choose Color, then tap the squares that belong to the picture.",
@@ -260,39 +260,39 @@ export const en = {
     },
     timeAttack: {
       title: "I'll open the quick challenge with you",
-      step1: "Time Attack gives us three random puzzles. Even one more correct square can grow today's record.",
-      step2: "I packed a few starter hints. After that, you can spend spoons to keep going, so choose the moment carefully.",
-      step3: "When a new record is close, spending spoons on a hint can be worth it. Let's push your best one square farther!"
+      step1: "Solve three random puzzles in a row.",
+      step2: "Save hints for when you get stuck.",
+      step3: "Ready to beat today's record?"
     },
     pantryFirstPurchase: {
       title: "I'll show your first decoration spot",
-      step1: "Lovely choice. I'll save this decoration in the pantry and show where it fits best.",
-      step2: "Decorations live in set spots like the counter, window, shelf, floor, and backdrop. Choosing a new piece for the same spot swaps it in.",
-      step3: "Solve pictures for spoons, then pick the decorations you love. We'll make the pantry cozy one piece at a time."
+      step1: "Lovely choice. Let's find its coziest spot.",
+      step2: "Tap a spot whenever you want to swap its decoration.",
+      step3: "Solve pictures and fill the pantry little by little."
     },
     pantryRoomStory: {
       title: "Let's make room for our next neighbor",
-      step1: "That decoration made the pantry feel warmer already. Little changes like this help a new neighbor feel at home.",
-      step2: "A few village friends are still waiting for a place of their own. Finish the next request, and we'll hear one of their stories.",
-      step3: "Let's solve pictures for spoons and choose the next decoration together. I wonder who will visit our pantry next!"
+      step1: "One decoration made the pantry feel much warmer.",
+      step2: "Decorate the next spot and a new neighbor may visit.",
+      step3: "I wonder who will visit first!"
     },
     pantryNeighborMrPark: {
-      title: "Mr. Park found our pantry",
-      step1: "Do you hear that little clock? Mr. Park visits the village at the same cozy hour each day, and today he stopped at our door.",
-      step2: "He likes a quiet seat and a warm bowl of soup. The three requests you finished made this room feel ready to welcome him.",
-      step3: "Let's prepare the next pantry corner together. Every few requests can bring another neighbor and a new story to our door."
+      title: "Grandpa Clock is here",
+      step1: "Tick-tock... Grandpa Clock is at our door.",
+      step2: "He loves a quiet seat and warm soup.",
+      step3: "Shall we prepare the next spot together?"
     },
     pantryNeighborLily: {
-      title: "Lily brought a tea-party idea",
-      step1: "Lily noticed our warm little table and wondered if the pantry could host a village tea party.",
-      step2: "The six requests you finished made this room feel inviting. She already has a berry-tea recipe she wants to share.",
-      step3: "Let's make the next corner cozy together. A welcoming pantry gives every neighbor a reason to return with a new idea."
+      title: "Lily wants to host tea",
+      step1: "Lily wants to host tea at our little table.",
+      step2: "She brought a berry-tea recipe too.",
+      step3: "Let's make another cozy spot for friends."
     },
     pantryNeighborMateo: {
-      title: "Mateo found a quiet reading corner",
-      step1: "Mateo followed the scent of jam to our door. He says this sunny corner would be perfect for reading after lunch.",
-      step2: "Ten finished requests turned the pantry into a real village meeting place. Every decoration now holds a little memory.",
-      step3: "There are more neighbors beyond the hill. Let's keep solving pictures and leave a warm seat ready for the next story."
+      title: "Mateo followed the scent of jam",
+      step1: "Mateo followed the scent of jam to our door.",
+      step2: "He wants to read in the sunny corner.",
+      step3: "Shall we save a spot for the next neighbor?"
     }
   },
   stageNav: {
@@ -325,7 +325,7 @@ export const en = {
     hint: "Use hint",
     hintWithCost: "Use hint",
     hintConfirmTitle: "Use spoons for a hint?",
-    hintConfirmBody: "This uses {cost} spoons now. Undo can remove the hint cells, but the hint use and spoons stay spent.",
+    hintConfirmBody: "Use {cost} spoons?",
     hintCancel: "Not now",
     hintConfirmAction: "Use {cost}",
     hintCostLabel: "{cost} spoons",
@@ -333,13 +333,13 @@ export const en = {
     hintMeterLabel: "{count} of {limit} starter hints left",
     extraHintTitle: "Extra hint",
     timeAttackHintTitle: "Time Attack hint",
-    hintIntro: "A hint solves one sure square. Undo can clear the cell, but the hint still counts.",
-    hintIntroMulti: "On this larger board, one hint solves up to {count} sure squares. Undo can clear them, but the hint still counts.",
-    timeAttackHintIntro: "Starter hints are used up. The next hint uses {cost} spoons. Undo can clear the cell, but the hint use and spoons stay spent. Balance: {balance}.",
-    timeAttackHintNeedMore: "The next hint needs {cost} spoons. Balance: {balance}.",
-    paidHintIntro: "Starter hints are used up. Spend {cost} spoons to solve up to {count} useful squares. Undo can clear the cells, but the hint and spoons stay spent. Balance: {balance}.",
-    paidHintNeedMore: "The next hint needs {cost} spoons. Balance: {balance}.",
-    hintEmpty: "No hints left on this puzzle. Keep solving or undo freely."
+    hintIntro: "Use a hint?",
+    hintIntroMulti: "Use a hint?",
+    timeAttackHintIntro: "Use {cost} spoons for a hint? You have {balance}.",
+    timeAttackHintNeedMore: "You need {cost} spoons. You have {balance}.",
+    paidHintIntro: "Use {cost} spoons for a hint? You have {balance}.",
+    paidHintNeedMore: "You need {cost} spoons. You have {balance}.",
+    hintEmpty: "No hints left for this picture."
 
   },
   progress: {

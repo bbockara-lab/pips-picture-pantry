@@ -179,7 +179,7 @@ export const ko = {
   howToPlay: {
     title: "Pip\uc758 \uadf8\ub9bc \ud301",
     pipLine: "Pip\uc774 \uc606\uc5d0\uc11c \uac19\uc774 \ubcfc\uac8c\uc694. \uc22b\uc790\ub9cc\ud07c \uc774\uc5b4\uc11c \uce60\ud558\uba74, \uc548\uc804\ud55c \ube48\uce78\uc740 X\ub85c \uc815\ub9ac\ub3fc\uc694.",
-    goal: "\uc904 \uc606 \uc22b\uc790\ub294 \uadf8 \uc904\uc5d0 \uc228\uc5b4 \uc788\ub294 \uadf8\ub9bc \uce78 \ubb36\uc74c\uc774\uc5d0\uc694.",
+    goal: "\uC22B\uC790\uB9CC\uD07C \uC774\uC5B4\uC11C \uCE60\uD574\uC694.",
     clueTogether: "\ubd99\uc5b4\uc11c 3\uce78",
     clueApart: "\ub5a8\uc5b4\uc838\uc11c 1\uce78\uc529",
     stepFill: "\uce60\ud558\uae30\ub97c \uace0\ub974\uace0, \uadf8\ub9bc\uc774 \ub4e4\uc5b4\uac08 \uce78\uc744 \ub204\ub974\uc138\uc694.",
@@ -259,39 +259,39 @@ export const ko = {
     },
     timeAttack: {
       title: "빠른 도전도 제가 함께할게요",
-      step1: "타임어택에서는 무작위 퍼즐 세 개를 차례로 풀어요. 한 칸이라도 더 맞히면 오늘 기록이 더 좋아져요.",
-      step2: "처음 쓸 힌트는 제가 조금 챙겨뒀어요. 그다음부터는 스푼으로 힌트를 더 쓸 수 있으니 꼭 필요할 때 골라요.",
-      step3: "새 기록이 눈앞에 보이면 힌트에 스푼을 써도 좋아요. 오늘 최고 기록을 한 칸 더 높여봐요!"
+      step1: "\uBB34\uC791\uC704 \uD37C\uC990 \uC138 \uD310\uC744 \uCC28\uB840\uB85C \uD480\uC5B4\uC694.",
+      step2: "\uB9C9\uD790 \uB54C\uB9CC \uD78C\uD2B8\uB97C \uACE8\uB77C\uC694.",
+      step3: "\uC624\uB298 \uAE30\uB85D\uC744 \uD55C \uCE78 \uB354 \uB192\uC5EC\uBCFC\uAE4C\uC694?"
     },
     pantryFirstPurchase: {
       title: "제가 첫 장식 자리를 보여줄게요",
-      step1: "좋은 선택이에요. 이 장식은 제가 팬트리에 잘 보관하고, 가장 어울리는 자리를 보여줄게요.",
-      step2: "자리는 카운터, 창문, 선반, 바닥, 배경처럼 정해져 있어요. 같은 자리에 새 장식을 고르면 바로 바뀌어요.",
-      step3: "퍼즐로 스푼을 모으고 마음에 드는 장식을 하나씩 골라봐요. 우리 팬트리를 천천히 포근하게 채워요."
+      step1: "\uC88B\uC740 \uC120\uD0DD\uC774\uC5D0\uC694. \uAC00\uC7A5 \uC5B4\uC6B8\uB9AC\uB294 \uC790\uB9AC\uB97C \uCC3E\uC544\uBCFC\uAE4C\uC694?",
+      step2: "\uC790\uB9AC\uB97C \uB204\uB974\uBA74 \uC7A5\uC2DD\uC744 \uBC14\uAFC0 \uC218 \uC788\uC5B4\uC694.",
+      step3: "\uD37C\uC990\uB85C \uC2A4\uD47C\uC744 \uBAA8\uC544 \uCC9C\uCC9C\uD788 \uCC44\uC6CC\uBD10\uC694."
     },
     pantryRoomStory: {
       title: "다음 이웃을 위한 자리를 같이 만들어요",
-      step1: "방금 놓은 장식 덕분에 팬트리가 한결 포근해졌어요. 이렇게 조금씩 꾸미면 새 이웃도 편하게 들어올 수 있어요.",
-      step2: "마을에는 아직 머물 자리를 기다리는 이웃들이 있어요. 다음 부탁을 들어주면 그 이웃의 이야기도 만나게 될 거예요.",
-      step3: "그림을 풀어 스푼을 모으고, 다음 장식을 골라봐요. 누가 이 팬트리를 찾아올지 저도 궁금해요!"
+      step1: "\uC7A5\uC2DD \uD558\uB098\uB85C \uD32C\uD2B8\uB9AC\uAC00 \uD6E8\uC52C \uD3EC\uADFC\uD574\uC84C\uC5B4\uC694.",
+      step2: "\uB2E4\uC74C \uC790\uB9AC\uB97C \uAFB8\uBBF8\uBA74 \uC0C8 \uC774\uC6C3\uB3C4 \uCC3E\uC544\uC62C \uAC70\uC608\uC694.",
+      step3: "\uB204\uAC00 \uBA3C\uC800 \uC62C\uC9C0 \uC800\uB3C4 \uAD81\uAE08\uD574\uC694!"
     },
     pantryNeighborMrPark: {
-      title: "시계 할아버지가 우리 팬트리를 찾아왔어요",
-      step1: "작은 시계 소리가 들리나요? 시계 할아버지는 늘 비슷한 시간에 마을을 산책해요. 오늘은 팬트리 문 앞에 멈춰 섰네요.",
-      step2: "할아버지는 조용한 자리와 따뜻한 수프 한 그릇을 좋아해요. 부탁 세 개를 마친 덕분에 손님을 맞을 준비가 됐어요.",
-      step3: "다음 자리도 같이 준비해요. 부탁을 몇 개씩 마칠 때마다 새로운 이웃이 자기 이야기를 들고 찾아올 거예요."
+      title: "\uC2DC\uACC4 \uD560\uC544\uBC84\uC9C0\uAC00 \uC654\uC5B4\uC694",
+      step1: "\uB611\uB531\uB611\uB531… \uC2DC\uACC4 \uD560\uC544\uBC84\uC9C0\uAC00 \uBB38 \uC55E\uC5D0 \uC654\uC5B4\uC694.",
+      step2: "\uC870\uC6A9\uD55C \uC790\uB9AC\uC640 \uB530\uB73B\uD55C \uC218\uD504\uB97C \uC88B\uC544\uD558\uC2E0\uB300\uC694.",
+      step3: "\uB2E4\uC74C \uC790\uB9AC\uB3C4 \uD568\uAED8 \uC900\uBE44\uD574\uBCFC\uAE4C\uC694?"
     },
     pantryNeighborLily: {
-      title: "릴리가 다과회 아이디어를 가져왔어요",
-      step1: "릴리는 포근한 작은 테이블을 보고, 이곳에서 마을 친구들과 다과회를 열면 좋겠다고 생각했대요.",
-      step2: "부탁 여섯 개를 마친 덕분에 누구나 머물고 싶은 방이 됐어요. 릴리는 함께 나눌 산딸기 차 레시피도 가져왔어요.",
-      step3: "다음 자리도 같이 포근하게 만들어요. 편안한 팬트리가 있으면 이웃들이 새로운 생각을 들고 다시 찾아올 거예요."
+      title: "\uB9B4\uB9AC\uAC00 \uB2E4\uACFC\uD68C\uB97C \uC5F4\uACE0 \uC2F6\uB300\uC694",
+      step1: "\uB9B4\uB9AC\uAC00 \uC774 \uC791\uC740 \uD14C\uC774\uBE14\uC5D0\uC11C \uB2E4\uACFC\uD68C\uB97C \uC5F4\uACE0 \uC2F6\uB300\uC694.",
+      step2: "\uC0B0\uB538\uAE30 \uCC28 \uB808\uC2DC\uD53C\uB3C4 \uAC00\uC838\uC654\uC5B4\uC694.",
+      step3: "\uCE5C\uAD6C\uB4E4\uC774 \uBA38\uBB3C \uB2E4\uC74C \uC790\uB9AC\uB3C4 \uAFB8\uBA70\uBD10\uC694."
     },
     pantryNeighborMateo: {
-      title: "마테오가 조용한 독서 자리를 찾았어요",
-      step1: "마테오는 잼 향기를 따라 팬트리까지 왔어요. 햇살이 드는 이 구석에서 점심을 먹고 책을 읽고 싶대요.",
-      step2: "부탁 열 개를 마치면서 팬트리는 어느새 마을 친구들이 모이는 곳이 됐어요. 장식마다 작은 추억도 생겼고요.",
-      step3: "언덕 너머에도 더 많은 이웃이 있어요. 그림을 계속 풀면서 다음 이야기를 위한 따뜻한 자리를 남겨둬요."
+      title: "\uB9C8\uD14C\uC624\uAC00 \uC7BC \uD5A5\uAE30\uB97C \uB530\uB77C\uC654\uC5B4\uC694",
+      step1: "\uB9C8\uD14C\uC624\uAC00 \uC7BC \uD5A5\uAE30\uB97C \uB530\uB77C \uCC3E\uC544\uC654\uC5B4\uC694.",
+      step2: "\uD587\uC0B4 \uB4DC\uB294 \uACF3\uC5D0\uC11C \uCC45\uC744 \uC77D\uACE0 \uC2F6\uB300\uC694.",
+      step3: "\uB2E4\uC74C \uC774\uC6C3\uC744 \uC704\uD55C \uC790\uB9AC\uB3C4 \uB0A8\uACA8\uB458\uAE4C\uC694?"
     }
   },
   stageNav: {
@@ -324,7 +324,7 @@ export const ko = {
     hint: "\uD78C\uD2B8 \uC4F0\uAE30",
     hintWithCost: "\uD78C\uD2B8 \uC4F0\uAE30",
     hintConfirmTitle: "\uC2A4\uD47C\uC73C\uB85C \uD78C\uD2B8\uB97C \uBCFC\uAE4C\uC694?",
-    hintConfirmBody: "지금 스푼 {cost}개를 사용해요. 되돌리기로 힌트 칸을 지울 수는 있지만, 힌트 사용과 스푼 사용은 그대로 남아요.",
+    hintConfirmBody: "\uC2A4\uD47C {cost}\uAC1C\uB97C \uC0AC\uC6A9\uD560\uAE4C\uC694?",
     hintCancel: "\uC544\uC9C1 \uC548 \uC4F0\uAE30",
     hintConfirmAction: "{cost}\uAC1C \uC4F0\uAE30",
     hintCostLabel: "\uC2A4\uD47C {cost}\uAC1C",
@@ -332,13 +332,13 @@ export const ko = {
     hintMeterLabel: "\uAE30\uBCF8 \uD78C\uD2B8 {limit}\uAC1C \uC911 {count}\uAC1C \uB0A8\uC74C",
     extraHintTitle: "\uCD94\uAC00 \uD78C\uD2B8",
     timeAttackHintTitle: "\uD0C0\uC784\uC5B4\uD0DD \uD78C\uD2B8",
-    hintIntro: "힌트가 확실한 한 칸을 해결해요. 되돌리기로 칸을 지울 수는 있지만, 힌트 사용은 그대로 기록돼요.",
-    hintIntroMulti: "이 큰 퍼즐에서는 힌트 한 번이 확실한 칸 {count}개까지 해결해요. 되돌리기로 칸을 지울 수는 있지만, 힌트 사용은 그대로 기록돼요.",
-    timeAttackHintIntro: "\uAE30\uBCF8 \uD78C\uD2B8\uB97C \uB2E4 \uC37C\uC5B4\uC694. \uB2E4\uC74C \uD78C\uD2B8\uB294 \uC2A4\uD47C {cost}\uAC1C\uB97C \uC0AC\uC6A9\uD574\uC694. \uB418\uB3CC\uB9AC\uAE30\uB85C \uCE78\uC744 \uC9C0\uC6B8 \uC218\uB294 \uC788\uC9C0\uB9CC \uD78C\uD2B8 \uC0AC\uC6A9\uACFC \uC2A4\uD47C \uC0AC\uC6A9\uC740 \uADF8\uB300\uB85C \uB0A8\uC544\uC694. \uBCF4\uC720 {balance}\uAC1C.",
-    timeAttackHintNeedMore: "\uB2E4\uC74C \uD78C\uD2B8\uB294 \uC2A4\uD47C {cost}\uAC1C\uAC00 \uD544\uC694\uD574\uC694. \uBCF4\uC720 {balance}\uAC1C.",
-    paidHintIntro: "\uAE30\uBCF8 \uD78C\uD2B8\uB97C \uB2E4 \uC37C\uC5B4\uC694. \uC2A4\uD47C {cost}\uAC1C\uB97C \uC0AC\uC6A9\uD558\uBA74 \uB3C4\uC6C0\uB418\uB294 \uCE78 {count}\uAC1C\uAE4C\uC9C0 \uD574\uACB0\uD574\uC694. \uB418\uB3CC\uB9AC\uAE30\uB85C \uCE78\uC744 \uC9C0\uC6B8 \uC218\uB294 \uC788\uC9C0\uB9CC, \uD78C\uD2B8\uC640 \uC2A4\uD47C \uC0AC\uC6A9\uC740 \uADF8\uB300\uB85C \uB0A8\uC544\uC694. \uBCF4\uC720 {balance}\uAC1C.",
-    paidHintNeedMore: "\uB2E4\uC74C \uD78C\uD2B8\uB294 \uC2A4\uD47C {cost}\uAC1C\uAC00 \uD544\uC694\uD574\uC694. \uBCF4\uC720 {balance}\uAC1C.",
-    hintEmpty: "\uC774 \uADF8\uB9BC\uC5D0\uC11C \uC4F8 \uC218 \uC788\uB294 \uD78C\uD2B8\uB97C \uBAA8\uB450 \uC0AC\uC6A9\uD588\uC5B4\uC694. \uACC4\uC18D \uD480\uAC70\uB098 \uC790\uC720\uB86D\uAC8C \uB418\uB3CC\uB9B4 \uC218 \uC788\uC5B4\uC694."
+    hintIntro: "\uD78C\uD2B8\uB97C \uC4F8\uAE4C\uC694?",
+    hintIntroMulti: "\uD78C\uD2B8\uB97C \uC4F8\uAE4C\uC694?",
+    timeAttackHintIntro: "\uC2A4\uD47C {cost}\uAC1C\uB85C \uD78C\uD2B8\uB97C \uC4F8\uAE4C\uC694? \uBCF4\uC720 {balance}\uAC1C.",
+    timeAttackHintNeedMore: "\uC2A4\uD47C\uC774 {cost}\uAC1C \uD544\uC694\uD574\uC694. \uBCF4\uC720 {balance}\uAC1C.",
+    paidHintIntro: "\uC2A4\uD47C {cost}\uAC1C\uB85C \uD78C\uD2B8\uB97C \uC4F8\uAE4C\uC694? \uBCF4\uC720 {balance}\uAC1C.",
+    paidHintNeedMore: "\uC2A4\uD47C\uC774 {cost}\uAC1C \uD544\uC694\uD574\uC694. \uBCF4\uC720 {balance}\uAC1C.",
+    hintEmpty: "\uC774 \uADF8\uB9BC\uC758 \uD78C\uD2B8\uB97C \uBAA8\uB450 \uC0AC\uC6A9\uD588\uC5B4\uC694."
   },
   progress: {
     filled: "{count}\uce78 \ucc44\uc6c0",
