@@ -16,7 +16,7 @@ import {
   setPantryStoryGoalId
 } from "../game/save.js";
 import { t } from "../i18n/index.js";
-import { renderPantryStoryArchive, renderPantryStoryDelivery, renderPantryStoryMilestone, renderPantryStoryRequest } from "./pantryStoryCards.js";
+import { renderPantryStoryDelivery, renderPantryStoryMilestone, renderPantryStoryRequest } from "./pantryStoryCards.js";
 
 const rarityFilters = ["all", "starter", "common", "cozy", "rare"];
 const availabilityFilters = ["all", "canBuy", "owned"];
@@ -797,9 +797,6 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   const actionFeedbackMount = document.createElement("div");
   actionFeedbackMount.className = "pantry-action-feedback-mount";
 
-  const storyArchiveMount = document.createElement("div");
-  storyArchiveMount.className = "pantry-story-archive-mount";
-
   const planningDeck = document.createElement("section");
   planningDeck.className = "pantry-planning-deck";
   planningDeck.setAttribute("aria-label", t("pantry.planningDeckAria"));
@@ -854,7 +851,6 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     replaceWithOptional(storyRequestMount, renderPantryStoryRequest(approvedDecorations, ownedIds, equippedDecorations, spoons, startStoryRequest));
     replaceWithOptional(storyMilestoneMount, renderPantryStoryMilestone(approvedDecorations, ownedIds, equippedDecorations, selectStoryArrival));
     replaceWithOptional(storyDeliveryMount, renderPantryStoryDelivery(approvedDecorations, storyGoalId, ownedIds, spoons, showStoryGoal, onPlayForSpoons));
-    replaceWithOptional(storyArchiveMount, renderPantryStoryArchive(approvedDecorations, completedStoryGoalIds, ownedIds, selectStoryArrival, spoons));
     filtersMount.replaceChildren();
     filtersMount.className = "pantry-filter-stack";
 
@@ -1027,6 +1023,6 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   }
 
   drawDecorations();
-  panel.append(header, room, storyRequestMount, storyMilestoneMount, storyDeliveryMount, actionFeedbackMount, storyArchiveMount, shop);
+  panel.append(header, room, storyRequestMount, storyMilestoneMount, storyDeliveryMount, actionFeedbackMount, shop);
   return panel;
 }

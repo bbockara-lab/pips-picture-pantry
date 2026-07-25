@@ -179,3 +179,6 @@ Done when:
 - Current slice: v0.1.542 removes the repeated first-request target chip and reduces each first-request state to one short sentence.
 
 - Verification: v0.1.542 passes 141 unit tests, the full candidate gate, four-width mobile QA, production build, and Android release gate.
+
+- Current slice: v0.1.543 removes the Pantry request archive, room-level counter, chapter/stage calculations, and milestone narration from the rendered flow. The first completed request now leads directly to three next-decoration choices while full-screen story guides remain intact.
+- Verification: 141 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.543 visual pack pass.

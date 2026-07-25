@@ -3817,3 +3817,10 @@ Current launch direction:
 - Reduced the start, placement, and completion bodies to one short conversational sentence in Korean and English.
 
 - Verification: 141 unit tests, the full release-candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+### v0.1.543 Pantry Action Focus
+
+- Removed the completed-request archive, room-level counter, chapter meter, and stage-cost report from the Pantry screen. Story progress remains in save data and still triggers the existing full-screen Pip and neighbor dialogue.
+- After the first request, the inline milestone now asks only which of the next three decorations the player wants to view.
+- Shortened the Korean and English labels to `다음 소품` / `Next decoration` and concise item actions.
+- Verification: 141 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.543 visual pack pass. Real-device Billing evidence remains external.

@@ -40,7 +40,6 @@ if (bonusReturnIndex < 0 || packBlockIndex < 0 || bonusReturnIndex > packBlockIn
   failures.push("src/ui/puzzleHubView.js: bonus-pack return must happen before creating a pack block.");
 }
 
-expectIncludes("src/ui/pantryStoryCards.js", 'pack.access !== "bonus-pack"', "pantry story goals must ignore hidden future packs.");
 expectIncludes("src/ui/pantryView.js", 'pack.access !== "bonus-pack"', "pantry progress cards must ignore hidden future packs.");
 expectIncludes("src/game/save.js", 'pack?.access !== "bonus-pack"', "save unlock checks must keep future bonus packs locked.");
 expectIncludes("src/ui/appShell.js", 'pack.access === "bonus-pack"', "unlock action must ignore future bonus packs.");
