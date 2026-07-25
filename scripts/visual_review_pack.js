@@ -757,6 +757,18 @@ async function main() {
     });
     await capturePuzzleSelectionArtContactSheet(browser, {
       puzzleIds: [
+        "bakery-window-pantry-jar-13",
+        "bakery-window-tiny-bow-5",
+        "bakery-window-whisk-16",
+        "village-pantry-cornflower-tea-canister-87",
+        "village-pantry-hanging-ladle-59",
+        "village-pantry-potted-basil-42"
+      ],
+      name: "final-blank-edge-composition-repairs",
+      playerId: "blank-edge-repair-review"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
         "village-pantry-blue-gingham-cloth-66",
         "village-pantry-wooden-egg-crate-76",
         "village-pantry-checkered-tea-towel-77",

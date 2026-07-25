@@ -263,3 +263,8 @@ Done when:
 ### v0.1.565 checkpoint
 - Completion-art Phase D closes all twenty-eight Village Pantry high-density candidates with seven dedicated contact sheets.
 - The automated art-review queue is reduced from 61 to 33 candidates; the next slice audits missing art briefs and any silhouettes they expose.
+
+
+### v0.1.566 checkpoint
+- Completion-art Phase D automated audit is closed: 273 Bakery/Village puzzles, zero duplicate silhouettes, zero repeated titles, and zero review candidates.
+- Phase E now becomes the active queue: whole-flow visual hierarchy, copy, and interaction review while real-device Billing evidence remains external.

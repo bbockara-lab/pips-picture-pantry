@@ -3990,3 +3990,11 @@ Current launch direction:
 - Redrew all twenty-eight high-density Village Pantry 10x10 candidates across containers, utensils, linens, cookware, and storage objects.
 - Replaced near-solid 79-91% blocks with distinct silhouettes using readable handles, holes, checks, nesting, woven gaps, labels, mesh, and open ceramic space.
 - Added seven art-audit regression tests and seven dedicated four-card completion contact sheets.
+
+
+### v0.1.566 Launch Art Audit Closure
+
+- Added specific silhouette, color-mood, and tag briefs to all 27 legacy Bakery Window and Village Pantry puzzles that lacked authored art guidance.
+- Reworked six blank-edge compositions and synchronized their progression and quality overrides so runtime art matches source data.
+- Closed the 273-puzzle Bakery/Village audit at zero duplicate silhouettes, zero repeated titles, and zero review candidates.
+- Added a zero-queue regression test and a six-card contact sheet for the final composition repairs.
