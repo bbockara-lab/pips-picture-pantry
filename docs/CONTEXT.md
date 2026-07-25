@@ -4064,3 +4064,12 @@ Current launch direction:
 - Kept the live unlock checks, disabled-button reason, Pantry route, spoon balance, and save behavior unchanged.
 - Updated launch-integrity and source-hygiene contracts to protect the compact lock state.
 - Verification passed: 160 unit tests, source hygiene, launch integrity, the full candidate gate, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, build, Android release gate, and the 61-frame visual review pack.
+
+### v0.1.576-v0.1.580 Phase E release-surface polish
+
+- Removed the remaining hub, replay, lock, and quick-travel report copy so each surface leads with one player decision rather than a feature explanation.
+- Kept Quick Travel reachable with approved raster art while reducing its phone trigger to a 48px icon, avoiding Pantry-card title collisions. The three language choices now remain on one compact line at phone widths.
+- Moved Pip's Time Attack presence to the full-screen guide only. The live Time Attack screen now shows the 5x5 / 8x8 / 10x10 ladder, Start, daily status, and earned records.
+- Corrected the visual-review pack so its Time Attack capture closes the one-time guide before recording the actual start screen.
+- Verification: 160 unit tests, source hygiene, the 61-frame visual review pack, full candidate gate, production build, Android release gate, and measured mobile QA at 360x740 / 390x844 / 430x932 / 675x900 pass at v0.1.580.
+- External release evidence remains unchanged: real-device Billing purchase/restore for `pip_cozy_support` and purchase/repeat for `pip_spoon_jar_small`.
