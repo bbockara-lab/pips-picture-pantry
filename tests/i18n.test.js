@@ -61,11 +61,6 @@ describe("i18n", () => {
     expect(t("packs.catalogLarge", { count: 7 })).toBe("7 large");
     expect(t("packs.catalogLargest", { size: 12 })).toBe("up to 12x12");
     expect(t("packs.pricePreview")).toBe("Preview set");
-    expect(t("seasonProgress.catalogStat", { completed: 3, total: 333 })).toBe("3/333 pictures");
-    expect(t("seasonProgress.stageStat", { unlocked: 2, total: 5 })).toBe("2/5 stages open");
-    expect(t("seasonProgress.goalReadyTitle", { pack: "Bakery Window" })).toBe("Bakery Window is ready");
-    expect(t("seasonProgress.goalOpenAction")).toBe("Open stage");
-    expect(t("seasonProgress.goalSpoonAction")).toBe("Plan spoons");
     expect(t("brandIntro.launchNote")).toBe("Season 0 opens with 333 cozy pictures, pantry goals, and spoon rewards.");
     expect(t("brandIntro.promisePuzzleAction")).toBe("Solve");
     expect(t("brandIntro.promiseDecorateAction")).toBe("Decorate");
@@ -332,9 +327,6 @@ describe("i18n", () => {
     expect(t("packs.catalogProgress", { completed: 3, total: 12 })).toBe("3/12 \uc644\ub8cc");
     expect(t("packs.catalogLarge", { count: 7 })).toBe("\ud070 \ud37c\uc990 7\uac1c");
     expect(t("packs.catalogLargest", { size: 12 })).toBe("\ucd5c\ub300 12x12");
-    expect(t("seasonProgress.catalogStat", { completed: 3, total: 333 })).toBe("3/333 \uADF8\uB9BC");
-    expect(t("seasonProgress.stageStat", { unlocked: 2, total: 5 })).toBe("2/5 \uC2A4\uD14C\uC774\uC9C0 \uC5F4\uB9BC");
-    expect(t("seasonProgress.goalSpoonAction")).toBe("\uC2A4\uD47C \uACC4\uD68D \uBCF4\uAE30");
     expect(t("packs.unlockPlanNeedBoth", { count: 12, completed: 2, required: 3 })).toBe("\uC2A4\uD47C 12\uAC1C\uB97C \uB354 \uBAA8\uC73C\uACE0 \uD32C\uD2B8\uB9AC \uBD80\uD0C1 2/3\uAC1C\uB97C \uB9C8\uCE58\uBA74 \uC5F4\uB9B4 \uAC70\uC608\uC694.");
     expect(t("packs.unlockGateNeedPantry", { completed: 2, required: 3 })).toBe("\ud32c\ud2b8\ub9ac \ubd80\ud0c1\uc774 \uc544\uc9c1 2/3\uac1c\uc608\uc694.");
     expect(t("badges.pipPortrait")).toBe("Pip \ucd08\uc0c1\ud654");

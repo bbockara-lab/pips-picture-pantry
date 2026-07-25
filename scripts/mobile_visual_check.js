@@ -1464,50 +1464,6 @@ async function expectLockedStageGate(page, viewportName) {
   }
 }
 
-async function expectSeasonUpdateTeaser(page, viewportName) {
-  await expectVisible(page, ".season-next-card", viewportName);
-  await expectVisible(page, ".season-next-card__label", viewportName);
-  await expectVisible(page, ".season-next-card__chips span", viewportName);
-  const text = await page.locator(".season-next-card").first().innerText();
-  const normalizedText = text.toLowerCase();
-  if (!normalizedText.includes("update note") || !text.includes("333") || !text.includes("Puzzle drop") || !text.includes("Pip news")) {
-    failures.push("[" + viewportName + "] Season update teaser should explain the post-launch drop plan, saw " + text);
-  }
-
-  const metrics = await page.locator(".season-next-card").first().evaluate((card) => {
-    const rect = card.getBoundingClientRect();
-    const style = getComputedStyle(card);
-    const cardBefore = getComputedStyle(card, "::before");
-    const label = card.querySelector(".season-next-card__label");
-    const chips = [...card.querySelectorAll(".season-next-card__chips span")].map((chip) => {
-      const chipRect = chip.getBoundingClientRect();
-      return { width: chipRect.width, height: chipRect.height, text: chip.textContent.trim() };
-    });
-    return {
-      width: rect.width,
-      right: rect.right,
-      viewportWidth: window.innerWidth,
-      radius: parseFloat(style.borderRadius),
-      background: style.backgroundImage,
-      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
-      labelText: label?.textContent?.trim() || "",
-      chipCount: chips.length,
-      chips
-    };
-  });
-  if (
-    metrics.width < 260 ||
-    metrics.right > metrics.viewportWidth + 1 ||
-    metrics.radius < 12 ||
-    !metrics.background.includes("linear-gradient") ||
-    metrics.labelText.length === 0 ||
-    metrics.chipCount !== 3 ||
-    metrics.chips.some((chip) => chip.height < 26 || chip.width < 58)
-  ) {
-    failures.push("[" + viewportName + "] Season update teaser mobile layout regressed: " + JSON.stringify(metrics));
-  }
-}
-
 async function expectStageArtPreviews(page, viewportName) {
   const tileCount = await page.locator(".stage-tile-mosaic .pip-tile").count();
   if (tileCount === 0) {

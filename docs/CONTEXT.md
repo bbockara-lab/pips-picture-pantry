@@ -4027,3 +4027,10 @@ Current launch direction:
 - Removed the retired Time Attack board-progress and best-summary translation keys noted in Review 16, plus the unused guide-body style and translation.
 - Settings remains preferences-only; paid spoon packs stay below Pantry decorations in the Pantry shop.
 - Verification: 160 unit tests, source hygiene, four-width mobile QA, the regenerated 61-frame visual pack, full candidate gate, production build, and Android release gate pass.
+
+### v0.1.571 retired season report removal
+- Removed the unmounted Season 0 progress dashboard, its 333-picture metrics, next-season marketing teaser, goal cards, translations, and CSS.
+- Simplified the puzzle-hub call back to its active responsibility: show the current picture and open it. Stage unlock and Pantry routing remain owned by the live puzzle picker.
+- Removed the never-called season teaser QA helper while retaining the launch regression that requires the retired dashboard to stay absent.
+- Added source-hygiene guards across puzzleHubView, KO/EN translations, and CSS so the report UI cannot silently return.
+- Verification: 160 unit tests, source hygiene, clean full-candidate QA, four-width mobile QA, production build, Android release gate, and the regenerated 61-frame visual pack pass.

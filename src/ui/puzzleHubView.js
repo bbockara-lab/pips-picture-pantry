@@ -21,8 +21,7 @@ function createMeterFill() {
   return document.createElement("span");
 }
 
-export function renderPuzzleHub(activePuzzle, onOpenPuzzle, options = {}) {
-  const { onOpenPantry = () => {}, onUnlockPack = () => {}, onViewAlbum = () => {} } = options;
+export function renderPuzzleHub(activePuzzle, onOpenPuzzle) {
   const stack = document.createElement("div");
   stack.className = "puzzle-hub-stack";
 
@@ -43,139 +42,6 @@ export function renderPuzzleHub(activePuzzle, onOpenPuzzle, options = {}) {
   stack.append(panel);
   return stack;
 }
-
-function createSeasonProgressCard(actions = {}) {
-  const progressionPacks = puzzlePacks.filter((pack) => pack.access !== "bonus-pack");
-  const progressionPackIds = new Set(progressionPacks.map((pack) => pack.id));
-  const seasonPuzzles = puzzles.filter((puzzle) => progressionPackIds.has(puzzle.packId));
-  const completedSet = new Set(getCompletedPuzzleIds());
-  const completed = seasonPuzzles.filter((puzzle) => completedSet.has(puzzle.id)).length;
-  const total = seasonPuzzles.length || 1;
-  const remaining = Math.max(0, total - completed);
-  const unlockedCount = progressionPacks.filter((pack) => isPackUnlocked(pack)).length;
-  const nextLockedPack = progressionPacks.find((pack) => !isPackUnlocked(pack));
-  const percent = Math.min(100, Math.round((completed / total) * 100));
-
-  const card = document.createElement("section");
-  card.className = "season-progress-card content-panel";
-  card.style.setProperty("--season-progress", percent + "%");
-
-  const bodyKey = nextLockedPack
-    ? "seasonProgress.bodyLocked"
-    : remaining > 0
-      ? "seasonProgress.bodyUnlocked"
-      : "seasonProgress.bodyComplete";
-  const bodyParams = nextLockedPack ? { pack: t(nextLockedPack.titleKey) } : {};
-
-  const header = document.createElement("div");
-  header.className = "season-progress-card__header";
-  const copy = document.createElement("div");
-  appendTextElement(copy, "p", "section-label", t("seasonProgress.eyebrow"));
-  appendTextElement(copy, "h2", "", t("seasonProgress.title"));
-  appendTextElement(copy, "p", "", t(bodyKey, bodyParams));
-  const percentBadge = document.createElement("strong");
-  percentBadge.className = "season-progress-card__percent";
-  percentBadge.textContent = percent + "%";
-  header.append(copy, percentBadge);
-
-  const meter = document.createElement("div");
-  meter.className = "season-progress-meter";
-  meter.setAttribute("aria-hidden", "true");
-  meter.appendChild(createMeterFill());
-
-  const stats = document.createElement("div");
-  stats.className = "season-progress-stats";
-  stats.append(
-    createSeasonStat(t("seasonProgress.catalogStat", { completed, total })),
-    createSeasonStat(t("seasonProgress.stageStat", { unlocked: unlockedCount, total: progressionPacks.length })),
-    createSpoonSeasonStat(t("seasonProgress.spoonStat", { count: getPantrySpoons() }))
-  );
-
-  const goal = createSeasonGoalCard({ nextLockedPack, remaining, progressionPacks, ...actions });
-
-  const teaser = document.createElement("div");
-  teaser.className = "season-next-card";
-  appendTextElement(teaser, "span", "season-next-card__label", t("seasonProgress.nextSeasonLabel"));
-  appendTextElement(teaser, "strong", "", t("seasonProgress.nextSeasonTitle"));
-  appendTextElement(teaser, "p", "", t("seasonProgress.nextSeasonBody"));
-  const teaserChips = document.createElement("div");
-  teaserChips.className = "season-next-card__chips";
-  teaserChips.setAttribute("aria-label", t("seasonProgress.nextSeasonChipsLabel"));
-  appendTextElement(teaserChips, "span", "", t("seasonProgress.nextSeasonChipDrop"));
-  appendTextElement(teaserChips, "span", "", t("seasonProgress.nextSeasonChipSeason"));
-  appendTextElement(teaserChips, "span", "", t("seasonProgress.nextSeasonChipCommunity"));
-  teaser.appendChild(teaserChips);
-
-  card.append(header, meter, stats, goal, teaser);
-  return card;
-}
-
-function createSeasonGoalCard({ nextLockedPack, remaining, progressionPacks, onOpenPantry, onUnlockPack, onViewAlbum }) {
-  const goal = document.createElement("div");
-  goal.className = "season-progress-goal";
-
-  let title = "";
-  let body = "";
-  let actionLabel = "";
-  let actionHandler = null;
-  if (nextLockedPack) {
-    const packName = t(nextLockedPack.titleKey);
-    const roomRequirement = getPackPantryRoomRequirement(nextLockedPack);
-    const spoonGap = Math.max(0, Number(nextLockedPack.unlockCost || 0) - getPantrySpoons());
-    const ready = canUnlockPack(nextLockedPack);
-    title = ready
-      ? t("seasonProgress.goalReadyTitle", { pack: packName })
-      : t("seasonProgress.goalLockedTitle", { pack: packName });
-    body = ready
-      ? t("seasonProgress.goalReadyBody")
-      : getUnlockPlanText(ready, roomRequirement, spoonGap);
-    if (ready) {
-      actionLabel = t("seasonProgress.goalOpenAction");
-      actionHandler = () => onUnlockPack(nextLockedPack.id);
-    } else if (!roomRequirement.met) {
-      actionLabel = t("seasonProgress.goalPantryAction");
-      actionHandler = onOpenPantry;
-    } else if (spoonGap > 0) {
-      actionLabel = t("seasonProgress.goalSpoonAction");
-      actionHandler = onOpenPantry;
-    }
-  } else if (remaining > 0) {
-    title = t("seasonProgress.goalUnlockedTitle");
-    body = t("seasonProgress.goalUnlockedBody", { count: remaining });
-    actionLabel = t("seasonProgress.goalAlbumAction");
-    actionHandler = onViewAlbum;
-  } else {
-    title = t("seasonProgress.goalCompleteTitle");
-    body = t("seasonProgress.goalCompleteBody", { count: progressionPacks.length });
-  }
-
-  appendTextElement(goal, "span", "", t("seasonProgress.goalEyebrow"));
-  appendTextElement(goal, "strong", "", title);
-  appendTextElement(goal, "p", "", body);
-  if (actionLabel && actionHandler) {
-    const action = document.createElement("button");
-    action.type = "button";
-    action.className = "tool-button season-progress-goal__action";
-    action.textContent = actionLabel;
-    action.addEventListener("click", actionHandler);
-    goal.appendChild(action);
-  }
-  return goal;
-}
-
-function createSeasonStat(text) {
-  const stat = document.createElement("span");
-  stat.textContent = text;
-  return stat;
-}
-
-function createSpoonSeasonStat(text) {
-  const stat = document.createElement("span");
-  stat.className = "season-progress-stats__spoons";
-  stat.append(createSpoonIcon("small"), document.createTextNode(text));
-  return stat;
-}
-
 
 export function getStageNavigation(activePuzzle, onPrevious, onNext, onShowList) {
   const pack = puzzlePacks.find((candidate) => candidate.id === activePuzzle.packId);

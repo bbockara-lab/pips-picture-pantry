@@ -290,3 +290,8 @@ Done when:
 - Settings guide replay now follows the one-question rule: choose Picture guide or Time Attack guide without a paragraph explaining the buttons.
 - Review 16 Time Attack translation leftovers are removed rather than carried as test-only compatibility keys.
 - Visual review should confirm the shorter settings card keeps balanced spacing at all four QA widths.
+
+### v0.1.571 checkpoint
+- The old Season 0 dashboard is now removed from source, not merely hidden from players.
+- The puzzle hub keeps only the current-picture decision; stage requirements remain at the locked stage where the player can act on them.
+- Source hygiene protects the one-screen-one-question rule against restoring season metrics or update-plan cards.

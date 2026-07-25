@@ -692,11 +692,7 @@ function createShell({
       onStart: onStartTimeAttack
     }));
   } else {
-    shell.appendChild(renderPuzzleHub(activePuzzle, onOpenPuzzle, {
-      onOpenPantry: () => onSelectView("pantry"),
-      onUnlockPack,
-      onViewAlbum: () => onSelectView("album")
-    }));
+    shell.appendChild(renderPuzzleHub(activePuzzle, onOpenPuzzle));
     shell.appendChild(renderDailyCard(dailyPuzzle, activePuzzle.id, onSelectPuzzle, DAILY_BONUS));
     shell.appendChild(renderTimeAttackTeaserCard(() => onSelectView("timeAttack")));
     const replayPicksCard = renderReplayPicksCard(

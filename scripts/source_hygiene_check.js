@@ -98,6 +98,18 @@ for (const file of releaseDocMojibakeFiles) {
     errors.push(`${file}: release notes contain common mojibake fragments`);
   }
 }
+const retiredSeasonSources = [
+  ["src/ui/puzzleHubView.js", /createSeasonProgressCard|season-next-card/],
+  ["src/i18n/en.js", /\bseasonProgress\s*:/],
+  ["src/i18n/ko.js", /\bseasonProgress\s*:/]
+];
+for (const [file, pattern] of retiredSeasonSources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": retired season progress report UI must stay removed");
+  }
+}
+
 const styles = readFileSync(resolve(root, "src/styles.css"), "utf8");
 const staleCssRules = [
   {
@@ -111,6 +123,10 @@ const staleCssRules = [
   {
     label: "retired Pantry decoration card report styles",
     pattern: /\.pantry-(?:item-status|item-rarity|slot-note|swap-note|track-goal|item-savings(?:-meter)?)/
+  },
+  {
+    label: "retired season progress report styles",
+    pattern: /\.season-(?:progress|next-card)/
   }
 ];
 
