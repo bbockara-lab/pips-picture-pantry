@@ -4073,3 +4073,11 @@ Current launch direction:
 - Corrected the visual-review pack so its Time Attack capture closes the one-time guide before recording the actual start screen.
 - Verification: 160 unit tests, source hygiene, the 61-frame visual review pack, full candidate gate, production build, Android release gate, and measured mobile QA at 360x740 / 390x844 / 430x932 / 675x900 pass at v0.1.580.
 - External release evidence remains unchanged: real-device Billing purchase/restore for `pip_cozy_support` and purchase/repeat for `pip_spoon_jar_small`.
+
+### v0.1.581-v0.1.582 final play-choice polish
+
+- Removed duplicated hub and Time Attack labels; each surface now begins with the active picture or mode title rather than an extra category label.
+- Puzzle choices now show only the picture name and board size. Spoon awards remain a completion moment instead of a pre-play report on every card.
+- Regression checks reject restoring reward-report metadata to puzzle choices.
+- Verification: 160 unit tests, source hygiene, the regenerated 61-frame visual review pack, full candidate gate, production build, Android release gate, and measured mobile QA at 360x740 / 390x844 / 430x932 / 675x900 pass at v0.1.582.
+- Remaining release evidence is external only: real-device Billing purchase/restore for `pip_cozy_support` and purchase/repeat for `pip_spoon_jar_small`.
