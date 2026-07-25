@@ -87,11 +87,7 @@ function createTimeAttackLadder() {
     size.className = "time-attack-ladder__size";
     size.textContent = t(`timeAttack.${sizeKey}`);
 
-    const body = document.createElement("span");
-    body.className = "time-attack-ladder__body";
-    body.textContent = t(`timeAttack.${bodyKey}`);
-
-    item.append(round, size, body);
+    item.append(round, size);
     ladder.appendChild(item);
   });
 

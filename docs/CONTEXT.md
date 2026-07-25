@@ -3970,3 +3970,10 @@ Current launch direction:
 - Compressed the current-picture hub card and stage unlock presentation; spoon requirements now use a restrained 30px token instead of a dominant standalone reward image.
 - Updated mobile and visual-review automation to play through both interactive tutorial rows.
 - Verification: 149 tests passed; mobile visual QA passed at 360x740, 390x844, 430x932, and 675x900. Full candidate and visual-pack gates remain next.
+### v0.1.563 Balanced Dialogue and Time Attack Cleanup
+- Constrained Pip dialogue to a centered 20-22 character reading measure with balanced wrapping, so two-line Korean copy keeps a stable visual center.
+- Rebuilt the `1 1 1` tutorial clue as three independent circular clue tokens matching the live puzzle board grammar.
+- Changed the final tutorial action from the awkward `같이 시작` / `Start together` to `자, 가보자!` / `Ready? Go!`.
+- Shortened cursor status chips to the state itself and normalized their height, padding, and baseline against the row/column position chip.
+- Simplified Time Attack to the playable essentials: Pip, a short prompt, 5x5 to 8x8 to 10x10, Start, reward status, and records. Removed report-like round descriptions, decorative orb/glare layers, and card shadows.
+- Mobile visual QA passed at 360x740, 390x844, 430x932, and 675x900 after updating the flat-card regression contract.

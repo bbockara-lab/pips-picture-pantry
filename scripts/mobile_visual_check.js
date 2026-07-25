@@ -1656,13 +1656,13 @@ async function openFloatingView(page, view, viewportName = view) {
       coachMetrics.width <= 0 ||
       coachMetrics.height < 96 ||
       coachMetrics.radius < 12 ||
-      !coachMetrics.background.includes("linear-gradient") ||
-      coachMetrics.shadow === "none" ||
+      coachMetrics.background !== "none" ||
+      coachMetrics.shadow !== "none" ||
       coachMetrics.pipWidth < 62 ||
       coachMetrics.pipHeight < 62 ||
-      coachMetrics.pipRadius < 18 ||
-      !coachMetrics.pipBackground.includes("gradient") ||
-      coachMetrics.pipShadow === "none"
+      coachMetrics.pipRadius !== 0 ||
+      coachMetrics.pipBackground !== "none" ||
+      coachMetrics.pipShadow !== "none"
     ) {
       failures.push("Time Attack coach card lost its Pip/economy guidance treatment: " + JSON.stringify(coachMetrics));
     }
@@ -1678,7 +1678,7 @@ async function openFloatingView(page, view, viewportName = view) {
       return { width: rect.width, height: rect.height, text, steps };
     });
     const ladderHasRun = /5x5/.test(ladderMetrics.text) && /8x8/.test(ladderMetrics.text) && /10x10/.test(ladderMetrics.text);
-    const ladderLooksPolished = ladderMetrics.steps.length === 3 && ladderMetrics.steps.every((step) => step.width > 0 && step.height >= 48 && step.radius >= 12 && step.background.includes("linear-gradient"));
+    const ladderLooksPolished = ladderMetrics.steps.length === 3 && ladderMetrics.steps.every((step) => step.width > 0 && step.height >= 48 && step.radius >= 12 && step.background === "none");
     if (ladderMetrics.width <= 0 || ladderMetrics.height <= 0 || !ladderHasRun || !ladderLooksPolished) {
       failures.push("Time Attack ladder lost the 5x5/8x8/10x10 run preview: " + JSON.stringify(ladderMetrics));
     }
@@ -1742,15 +1742,15 @@ async function expectTimeAttackStartSurface(page, viewportName) {
     };
   });
 
-  const introLooksPolished = metrics.intro && metrics.intro.height >= 72 && metrics.intro.radius >= 14 && metrics.intro.background.includes("linear-gradient") && metrics.intro.shadow !== "none";
-  const startLooksTactile = metrics.start && metrics.start.width >= 220 && metrics.start.height >= 52 && metrics.start.radius >= 16 && metrics.start.background.includes("linear-gradient") && metrics.start.shadow !== "none";
+  const introLooksPolished = metrics.intro && metrics.intro.height >= 72 && metrics.intro.radius >= 14 && metrics.intro.background === "none" && metrics.intro.shadow === "none";
+  const startLooksTactile = metrics.start && metrics.start.width >= 220 && metrics.start.height >= 52 && metrics.start.radius >= 16 && metrics.start.background === "none" && metrics.start.shadow !== "none";
   const statusFits = metrics.status && metrics.status.width > 0 && metrics.status.height >= 28;
   const recordsLooksPolished = metrics.records &&
     metrics.records.width > 0 &&
     metrics.records.radius >= 14 &&
-    metrics.records.background.includes("linear-gradient") &&
+    metrics.records.background === "none" &&
     metrics.records.overflow === "hidden" &&
-    metrics.records.shadow !== "none" &&
+    metrics.records.shadow === "none" &&
     metrics.records.textLength > 0 &&
     metrics.records.itemHeights.every((height) => height >= 28);
   const staysInViewport = metrics.panelWidth > 0 && metrics.panelRight <= metrics.viewportWidth + 1;

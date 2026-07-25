@@ -251,3 +251,6 @@ Done when:
 - First-session guide now uses direct interaction for both `5` and `1 1 1`, with one forward action and no opt-out clutter.
 - Shared mobile rhythm rules now cover settings, progress, current-picture, and locked-stage surfaces.
 - Next review focus: visual-pack inspection of the remaining catalog artwork and any residual long-form copy; real-device Billing evidence remains external.
+### v0.1.563 checkpoint
+- Dialogue, clue tokens, cursor status, and Time Attack now share the same compact game-language and flat-card rules.
+- Remaining visual review should prioritize authored completion-art quality and any screen that still depends on legacy ornamental CSS rather than approved raster art.

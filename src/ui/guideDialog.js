@@ -218,9 +218,14 @@ function createPuzzlePractice() {
 function createSeparatedClueExample() {
   const element = document.createElement("div");
   element.className = "guide-practice guide-practice--example";
-  const clue = document.createElement("span");
-  clue.className = "guide-practice__clue guide-practice__clue--wide";
-  clue.textContent = PUZZLE_PRACTICE.separatedClue.clue;
+  const clue = document.createElement("div");
+  clue.className = "guide-practice__clue guide-practice__clue--tokens";
+  PUZZLE_PRACTICE.separatedClue.clue.split(" ").forEach((value) => {
+    const token = document.createElement("span");
+    token.className = "guide-practice__clue-token";
+    token.textContent = value;
+    clue.appendChild(token);
+  });
   const row = document.createElement("div");
   row.className = "guide-practice__row";
   row.setAttribute("role", "group");
