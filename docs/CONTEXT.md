@@ -3952,3 +3952,13 @@ Current launch direction:
 - Replaced dense pastry blocks with an airy berry-and-cream puff and a folded oval plum danish.
 - Added an art-audit regression test keeping all four out of the review queue.
 - Verification: 149 unit tests, 69-candidate art audit, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame visual pack pass.
+
+
+### v0.1.561 Korean Game Typography
+
+- Replaced the report-like Korean system-font stack with a locally bundled two-tier game typography system.
+- Korean titles, Pip dialogue, section labels, and primary actions use Jua; short supporting copy uses Gowun Dodum.
+- Puzzle clues, counters, timers, stage positions, and currency values stay on a compact rounded system stack so gameplay numbers remain stable and highly legible.
+- Kept English typography unchanged and bundled only Korean WOFF2 files, avoiding runtime network requests and legacy WOFF payload.
+- Player-facing copy direction is now explicit: remove explanatory reporting, keep necessary lines short, and let interaction teach obvious outcomes.
+- Verification: 149 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame visual pack pass.

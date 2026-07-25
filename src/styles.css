@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "Jua";
+  src: url("./assets/fonts/jua-korean-400-normal.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gowun Dodum";
+  src: url("./assets/fonts/gowun-dodum-korean-400-normal.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 :root {
   color: #3d2b2e;
   background: #fff7e6;
@@ -16034,4 +16050,51 @@ img {
 .puzzle-panel:not(.completed) .board-wrap:not(.locked) .column-clue.line-complete span {
   background: #d9efdc;
   box-shadow: none;
+}
+
+
+/* v0.1.561: Korean game typography, not report typography. */
+:root:lang(ko) {
+  --font-ko-display: "Jua", "Gowun Dodum", "Apple SD Gothic Neo", sans-serif;
+  --font-ko-body: "Gowun Dodum", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-family: var(--font-ko-body);
+  letter-spacing: -0.015em;
+}
+
+:root:lang(ko) :is(
+  h1, h2, h3,
+  button,
+  .section-label,
+  .eyebrow,
+  .brand-intro__studio,
+  .brand-intro__title,
+  .guide-dialog__line,
+  .guide-practice__prompt,
+  .guide-practice__feedback,
+  .completion-banner__title,
+  .stage-complete-title,
+  .pantry-story-request__title,
+  .support-pack-card__title
+) {
+  font-family: var(--font-ko-display);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+:root:lang(ko) :is(
+  .row-clue span,
+  .column-clue span,
+  .stage-position,
+  .puzzle-size-badge,
+  .progress-line,
+  .spoon-balance,
+  .timer-value
+) {
+  font-family: "Segoe UI Rounded", ui-rounded, "Segoe UI", system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+:root:lang(ko) :is(p, .card-copy, .support-pack-card__body) {
+  line-height: 1.55;
 }
