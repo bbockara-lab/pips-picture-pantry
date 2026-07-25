@@ -3962,3 +3962,11 @@ Current launch direction:
 - Kept English typography unchanged and bundled only Korean WOFF2 files, avoiding runtime network requests and legacy WOFF payload.
 - Player-facing copy direction is now explicit: remove explanatory reporting, keep necessary lines short, and let interaction teach obvious outcomes.
 - Verification: 149 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame visual pack pass.
+
+### v0.1.562 Direct Guide and Mobile Rhythm
+- Changed the `1 1 1` Pip lesson from a pre-filled diagram into a required three-cell interaction, so the player performs the rule instead of watching an answer appear.
+- Removed the secondary `Not now` / `나중에 볼게요` action from Pip conversations; story and tutorial moments now present one clear next action.
+- Added compact, no-wrap puzzle progress treatment and responsive settings grids for 360px through 675px layouts.
+- Compressed the current-picture hub card and stage unlock presentation; spoon requirements now use a restrained 30px token instead of a dominant standalone reward image.
+- Updated mobile and visual-review automation to play through both interactive tutorial rows.
+- Verification: 149 tests passed; mobile visual QA passed at 360x740, 390x844, 430x932, and 675x900. Full candidate and visual-pack gates remain next.

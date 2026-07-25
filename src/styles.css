@@ -16098,3 +16098,135 @@ img {
 :root:lang(ko) :is(p, .card-copy, .support-pack-card__body) {
   line-height: 1.55;
 }
+
+/* v0.1.562: compact mobile rhythm and direct-action UI. */
+.guide-dialog__actions {
+  grid-template-columns: minmax(0, 1fr);
+}
+.guide-dialog__actions .guide-dialog__next {
+  width: 100%;
+}
+.guide-practice--example .guide-practice__cell:not(.is-filled):not(.is-marked) {
+  background: #fffdf7;
+}
+
+.progress-line {
+  display: inline-flex;
+  width: auto;
+  min-width: 132px;
+  max-width: 100%;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 8px;
+  white-space: nowrap;
+}
+.progress-line__text,
+.progress-line__badge {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.puzzle-hub-panel {
+  min-height: 0;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  padding: 18px 20px;
+}
+.puzzle-hub-panel h2,
+.puzzle-hub-panel p {
+  margin-block: 0;
+}
+.puzzle-hub-panel .tool-button {
+  min-width: 84px;
+}
+
+.unlock-panel {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+.unlock-panel__requirements {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.unlock-panel__cost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+.unlock-panel__cost .spoon-icon,
+.unlock-panel__cost .spoon-icon.small {
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px;
+  object-fit: contain;
+}
+.unlock-panel__room,
+.unlock-panel__gate {
+  margin: 0;
+}
+.unlock-panel__plan {
+  display: none;
+}
+
+.settings-dialog,
+.modal-backdrop--settings .settings-dialog {
+  box-sizing: border-box;
+  width: min(580px, calc(100vw - 16px));
+  max-width: calc(100vw - 16px);
+  padding-inline: clamp(14px, 4vw, 28px);
+  overflow-x: hidden;
+}
+.settings-dialog :is(.player-form, .control-options, .audio-options, .settings-guide-card),
+.settings-dialog :is(.settings-choice-grid, .player-form > div, .settings-guide-card__actions) {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+}
+.settings-choice {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 430px) {
+  .settings-choice-grid--language,
+  .settings-choice-grid--control {
+    grid-template-columns: 1fr;
+  }
+  .player-form > div,
+  .audio-options,
+  .settings-guide-card__actions {
+    grid-template-columns: 1fr;
+  }
+  .guide-dialog__line {
+    max-width: 24ch;
+    margin-inline: auto;
+    text-align: center;
+  }
+  .guide-practice {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 8px;
+    width: 100%;
+  }
+  .guide-practice__clue {
+    width: 36px;
+    height: 36px;
+  }
+  .guide-practice__cell {
+    min-height: 36px;
+  }
+  .puzzle-hub-panel {
+    padding: 14px;
+  }
+  .progress-line {
+    margin-inline: 0;
+    min-width: 124px;
+    padding-inline: 10px;
+    font-size: 0.82rem;
+  }
+}

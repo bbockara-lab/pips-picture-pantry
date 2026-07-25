@@ -313,7 +313,16 @@ async function dismissGuideIfPresent(page, viewportName) {
   if (navCount > 0) {
     failures.push("[" + viewportName + "] Floating navigation should be hidden while the Pip guide overlay is open.");
   }
-  await page.locator(".guide-dialog__skip").first().click({ force: true });
+  for (let step = 0; step < 4 && await overlay.first().isVisible(); step += 1) {
+    const practice = page.locator(".guide-practice");
+    if (await practice.count()) {
+      const cells = practice.locator(".guide-practice__cell");
+      const stepNumber = Number(await page.locator(".guide-dialog").getAttribute("data-step"));
+      const targets = stepNumber === 3 ? [0, 2, 4] : [0, 1, 2, 3, 4];
+      for (const index of targets) await cells.nth(index).click({ force: true });
+    }
+    await page.locator(".guide-dialog__next").first().click({ force: true });
+  }
   await overlay.first().waitFor({ state: "detached", timeout: 3000 });
 }
 
@@ -345,7 +354,7 @@ async function expectGuideDialogChromeArt(page, viewportName) {
     };
   });
   const mobileFullScreen = metrics.viewportWidth > 520 || (metrics.width >= metrics.viewportWidth - 1 && metrics.height >= metrics.viewportHeight - 1);
-  if (!metrics.overlayFixed || !mobileFullScreen || metrics.imageWidth < 150 || metrics.imageHeight < 150 || metrics.bodyText.length < 12 || metrics.buttonCount !== 2 || metrics.hasLegacyLabels || metrics.artBefore !== "none" || metrics.artAfter !== "none" || metrics.bubbleBefore !== "none" || metrics.bubbleAfter !== "none" || metrics.overflows) {
+  if (!metrics.overlayFixed || !mobileFullScreen || metrics.imageWidth < 150 || metrics.imageHeight < 150 || metrics.bodyText.length < 12 || metrics.buttonCount !== 1 || metrics.hasLegacyLabels || metrics.artBefore !== "none" || metrics.artAfter !== "none" || metrics.bubbleBefore !== "none" || metrics.bubbleAfter !== "none" || metrics.overflows) {
     failures.push("[" + viewportName + "] Clean Pip conversation regressed: " + JSON.stringify(metrics));
   }
 }
@@ -1781,7 +1790,7 @@ async function expectTimeAttackGuideCopy(page, viewportName) {
   if (!mentionsRecord || !mentionsChoice) {
     failures.push("[" + viewportName + "] Time Attack guide final step should frame record chasing versus spoon saving, saw " + recordStepText);
   }
-  await page.locator(".guide-dialog__skip").click();
+  await page.locator(".guide-dialog__next").click();
   await overlay.waitFor({ state: "detached", timeout: 2000 });
 }
 async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
@@ -2895,8 +2904,7 @@ async function verifyPantryPlacement(page, viewportName) {
     await page.waitForTimeout(120);
     if ((await page.locator(".guide-overlay").count()) > 0) {
       await expectGuideDialogChromeArt(page, viewportName);
-      await page.locator(".guide-dialog__skip").click({ force: true });
-      await page.locator(".guide-overlay").waitFor({ state: "detached", timeout: 2000 });
+      await dismissGuideIfPresent(page, viewportName);
     }
   }
   await expectNoHorizontalOverflow(page, viewportName);

@@ -213,7 +213,15 @@ async function dismissGuideIfPresent(page) {
   const overlay = page.locator(".guide-overlay");
   try {
     await overlay.first().waitFor({ state: "visible", timeout: 1200 });
-    await page.locator(".guide-dialog__skip").first().click({ force: true });
+    for (let step = 0; step < 4 && await overlay.first().isVisible(); step += 1) {
+      const practice = page.locator(".guide-practice");
+      if (await practice.count()) {
+        const cells = practice.locator(".guide-practice__cell");
+        const stepNumber = Number(await page.locator(".guide-dialog").getAttribute("data-step"));
+        for (const index of (stepNumber === 3 ? [0, 2, 4] : [0, 1, 2, 3, 4])) await cells.nth(index).click({ force: true });
+      }
+      await page.locator(".guide-dialog__next").first().click({ force: true });
+    }
     await overlay.first().waitFor({ state: "detached", timeout: 3000 });
   } catch {
     // Not every seeded route shows a guide.
@@ -390,7 +398,7 @@ async function capturePantryNeighborReveal(page, options) {
     return {
       dialogFits: rect.left >= -1 && rect.top >= -1 && rect.right <= window.innerWidth + 1 && rect.bottom <= window.innerHeight + 1,
       lineFits: elementFits(line),
-      buttonsFit: buttons.length === 2 && buttons.every(elementFits),
+      buttonsFit: buttons.length === 1 && buttons.every(elementFits),
       rect: { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom },
       bubbleRect: boxFor(bubble),
       lineRect: boxFor(line),

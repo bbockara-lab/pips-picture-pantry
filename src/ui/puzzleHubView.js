@@ -522,7 +522,7 @@ function createUnlockPanel(pack, onUnlockPack, onOpenPantry) {
   requirements.className = "unlock-panel__requirements";
   const copy = document.createElement("p");
   copy.className = "unlock-panel__cost";
-  copy.append(document.createTextNode(t("packs.unlockCostPrefix")), createSpoonIcon("small"), document.createTextNode(String(pack.unlockCost)));
+  copy.append(createSpoonIcon("small"), document.createTextNode(String(pack.unlockCost)));
   requirements.appendChild(copy);
   if (roomRequirement.required > 0) {
     appendTextElement(requirements, "p", "unlock-panel__room", t("packs.roomRequirement", roomRequirement));

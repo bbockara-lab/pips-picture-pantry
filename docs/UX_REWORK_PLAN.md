@@ -246,3 +246,8 @@ Done when:
 - Current slice: v0.1.561 establishes Korean game typography: Jua for characterful titles/dialogue/actions, Gowun Dodum for concise body copy, and stable numeric typography for puzzle information.
 - Copy rule: every Korean screen should prefer a short playable prompt over feature explanation, calculation, status reporting, or repeated labels.
 - Verification: 149 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame visual pack pass.
+
+### v0.1.562 checkpoint
+- First-session guide now uses direct interaction for both `5` and `1 1 1`, with one forward action and no opt-out clutter.
+- Shared mobile rhythm rules now cover settings, progress, current-picture, and locked-stage surfaces.
+- Next review focus: visual-pack inspection of the remaining catalog artwork and any residual long-form copy; real-device Billing evidence remains external.

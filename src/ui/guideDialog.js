@@ -102,24 +102,18 @@ export function renderGuideDialog(guideId, onClose) {
     const actions = document.createElement("div");
     actions.className = "guide-dialog__actions";
 
-    const skipButton = document.createElement("button");
-    skipButton.type = "button";
-    skipButton.className = "guide-dialog__skip";
-    skipButton.textContent = t("guide.skip");
-
     const nextButton = document.createElement("button");
     nextButton.type = "button";
     nextButton.className = "guide-dialog__next";
     nextButton.textContent = isLast ? t("guide.done") : t("guide.next");
 
-    actions.append(skipButton, nextButton);
+    actions.append(nextButton);
     bubble.append(body);
     if (practice) bubble.appendChild(practice.element);
     bubble.append(dots, actions);
     nodes.push(bubble);
 
     card.replaceChildren(...nodes);
-    skipButton.addEventListener("click", onClose);
     nextButton.addEventListener("click", () => {
       if (isLast) {
         onClose();
@@ -229,19 +223,55 @@ function createSeparatedClueExample() {
   clue.textContent = PUZZLE_PRACTICE.separatedClue.clue;
   const row = document.createElement("div");
   row.className = "guide-practice__row";
-  row.setAttribute("aria-hidden", "true");
-  const filledIndexes = new Set(PUZZLE_PRACTICE.separatedClue.filledIndexes);
-  for (let index = 0; index < PUZZLE_PRACTICE.cellCount; index += 1) {
-    const cell = document.createElement("span");
-    cell.className = filledIndexes.has(index)
-      ? "guide-practice__cell is-filled"
-      : "guide-practice__cell is-marked";
-    cell.textContent = filledIndexes.has(index) ? "" : "×";
-    row.appendChild(cell);
-  }
+  row.setAttribute("role", "group");
+  row.setAttribute("aria-label", t("guide.practiceLabel"));
   const status = document.createElement("p");
   status.className = "guide-practice__status";
   status.textContent = t("guide.practiceSeparated");
+  const targetIndexes = new Set(PUZZLE_PRACTICE.separatedClue.filledIndexes);
+  const chosenIndexes = new Set();
+  let completionHandler = () => {};
+  let complete = false;
+
+  for (let index = 0; index < PUZZLE_PRACTICE.cellCount; index += 1) {
+    const cell = document.createElement("button");
+    cell.type = "button";
+    cell.className = "guide-practice__cell";
+    cell.setAttribute("aria-label", t("guide.practiceCell", { number: index + 1 }));
+    cell.setAttribute("aria-pressed", "false");
+    cell.addEventListener("click", () => {
+      if (complete) return;
+      if (!targetIndexes.has(index)) {
+        chosenIndexes.clear();
+        [...row.children].forEach((rowCell) => {
+          rowCell.classList.remove("is-filled");
+          rowCell.setAttribute("aria-pressed", "false");
+        });
+        status.textContent = t("guide.practiceSeparatedTryAgain");
+        return;
+      }
+      chosenIndexes.add(index);
+      cell.classList.add("is-filled");
+      cell.setAttribute("aria-pressed", "true");
+      if (chosenIndexes.size === targetIndexes.size) {
+        complete = true;
+        [...row.children].forEach((rowCell, rowIndex) => {
+          rowCell.disabled = true;
+          if (!targetIndexes.has(rowIndex)) {
+            rowCell.classList.add("is-marked");
+            rowCell.textContent = "×";
+          }
+        });
+        status.textContent = t("guide.practiceSeparatedComplete");
+        completionHandler();
+      }
+    });
+    row.appendChild(cell);
+  }
+
   element.append(clue, row, status);
-  return { element };
+  return {
+    element,
+    onComplete(handler) { completionHandler = handler; }
+  };
 }
