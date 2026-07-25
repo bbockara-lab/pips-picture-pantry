@@ -3800,3 +3800,12 @@ Current launch direction:
 - Removed the unused Daily `notePrefix` and `noteSuffix` translation keys identified by Claude review.
 - Visual review confirms the Pantry order is room and request, spoon-priced decorations, “show more,” then Support Pack and Small Spoon Jar. The full candidate gate and 51-frame v0.1.540 visual pack pass.
 - Manual review confirms the 12x12 clue tokens are uniform, the status chips share a baseline, the cross-shaped D-pad preserves direction, and the compact hint card contains no explanatory body copy.
+
+
+### v0.1.541 Pantry Shop Visual Grammar
+
+- Unified decoration and paid-pack cards around one 76px artwork frame, 16px card radius, 1px border, flat background, 44px actions, and shared spacing.
+- Removed the paid section's nested store-container appearance and separated it with one quiet divider after the spoon-priced decoration list.
+- Shortened the two shop section titles and renamed the ambiguous Korean starter item from 첫 카운터 보 to 체크 카운터보.
+
+- Verification: 141 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.541 visual pack pass.

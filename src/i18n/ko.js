@@ -73,7 +73,7 @@ export const ko = {
     guideReplayAction: "Pip 가이드 보기",
     guideReplayPuzzleAction: "그림 가이드",
     guideReplayTimeAttackAction: "타임어택 가이드",
-    spoonStoreTitle: "\uc2a4\ud47c \uc0c1\uc810",
+    spoonStoreTitle: "\uc2a4\ud47c \ub354 \ucc44\uc6b0\uae30",
     supportTitle: "Pip \uc751\uc6d0\ud329",
     supportBody: "Pip의 팬트리를 응원하고 스푼 {spoons}개를 받아요.",
     supportOwnedBody: "응원해 주셔서 고마워요. 스푼 {spoons}개가 이미 팬트리에 담겼어요.",
@@ -491,7 +491,7 @@ export const ko = {
     spoonNote: "모아둔 스푼: {count}",
     roomAria: "Pip이 꾸민 팬트리",
     shopEyebrow: "꾸미기 팬트리",
-    shopTitle: "햇살 가득한 작은 장식",
+    shopTitle: "\uafb8\ubbf8\uae30 \uc18c\ud488",
     shopBody: "방의 자리를 고른 뒤, 그 자리에 어울리는 장식을 골라요. 한 자리에는 가장 좋아하는 장식 하나만 보여요.",
     planningDeckAria: "\ud32c\ud2b8\ub9ac \ubc29 \uacc4\ud68d\uacfc \uc2a4\ud47c \ubaa9\ud45c",
     placementNote: "팬트리 자리 {total}곳 중 {count}곳을 꾸몄어요. 자리를 누르면 그곳에 놓을 장식을 볼 수 있어요.",
@@ -657,7 +657,7 @@ export const ko = {
       floor: "바닥"
     },
     items: {
-      starterCounter: { title: "첫 카운터 보", description: "Pip의 첫 서빙 자리를 덮어 주는 부드러운 체크 보예요." },
+      starterCounter: { title: "\uccb4\ud06c \uce74\uc6b4\ud130\ubcf4", description: "Pip\uc758 \uccab \uc11c\ube59 \uc790\ub9ac\ub97c \ub36e\uc5b4 \uc8fc\ub294 \ubd80\ub4dc\ub7ec\uc6b4 \uccb4\ud06c\ubcf4\uc608\uc694." },
       sunnyCurtains: { title: "햇살 창문 커튼", description: "팬트리가 막 문을 연 것처럼 따뜻해지는 커튼이에요." },
       recipeShelf: { title: "레시피 카드 선반", description: "Pip이 아끼는 메모와 작은 병들이 놓인 선반이에요." },
       mintRug: { title: "민트 체크 러그", description: "방을 산뜻하고 부드럽게 잡아 주는 바닥 러그예요." },

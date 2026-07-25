@@ -17008,3 +17008,173 @@ img {
     box-shadow: none;
   }
 }
+
+/* v0.1.541: one visual grammar for every Pantry shop product. */
+.pantry-shop {
+  gap: 12px;
+}
+
+.pantry-shop-heading {
+  overflow: visible;
+  margin: 0;
+  padding: 0 2px 8px;
+  border: 0;
+  border-bottom: 1px solid #d8cbae;
+  border-radius: 0;
+  background: transparent;
+  background-image: none;
+  box-shadow: none;
+}
+
+.pantry-shop-heading::before {
+  content: none;
+}
+
+.pantry-shop-heading h3,
+.spoon-store__heading h2 {
+  margin: 0;
+  color: #3d2b2e;
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+
+.pantry-shop-grid,
+.spoon-store__products {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.pantry-item-card,
+.spoon-store .support-pack-card {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 8px 12px;
+  align-items: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 12px;
+  border: 1px solid #d8cbae;
+  border-radius: 16px;
+  background: #fffdf7;
+  background-image: none;
+  box-shadow: none;
+}
+
+.pantry-item-art,
+.spoon-store .support-pack-card__art {
+  box-sizing: border-box;
+  grid-column: 1;
+  grid-row: 1;
+  width: 76px;
+  height: 76px;
+  min-height: 76px;
+  padding: 7px;
+  border: 1px solid #dfcf9f;
+  border-radius: 14px;
+  background: #f6e7b6;
+  background-image: none;
+  box-shadow: none;
+}
+
+.pantry-item-art::after {
+  content: none;
+}
+
+.pantry-item-art img,
+.spoon-store .support-pack-card__art-image {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: contain;
+  filter: none;
+}
+
+.pantry-item-body {
+  grid-column: 2;
+  grid-row: 1;
+  align-content: center;
+  gap: 6px;
+}
+
+.pantry-item-body h4 {
+  order: -1;
+  font-size: 1rem;
+  line-height: 1.25;
+  word-break: keep-all;
+}
+
+.pantry-item-meta {
+  gap: 6px;
+}
+
+.pantry-item-cost {
+  min-height: 24px;
+  padding: 3px 8px;
+  border: 1px solid #dfcfb2;
+  font-size: 0.74rem;
+}
+
+.pantry-item-card > .pantry-track-goal,
+.pantry-item-card > .pantry-item-action,
+.spoon-store .support-pack-card__actions {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+.pantry-track-goal,
+.pantry-item-action,
+.spoon-store .settings-choice {
+  box-sizing: border-box;
+  min-height: 44px;
+  border-width: 1px;
+  border-radius: 12px;
+  font-size: 0.92rem;
+  box-shadow: none;
+}
+
+.pantry-shop > .spoon-store {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin: 12px 0 0;
+  padding: 18px 0 0;
+  border: 0;
+  border-top: 1px solid #d8cbae;
+  border-radius: 0;
+  background: transparent;
+}
+
+.spoon-store__heading {
+  margin: 0 2px 10px;
+}
+
+.spoon-store .section-label {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1.25;
+  word-break: keep-all;
+}
+
+.spoon-store .support-pack-card__body {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+  margin: 24px 0 0;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  word-break: keep-all;
+}
+
+.spoon-store .support-pack-card__status {
+  display: none;
+}
+
+.spoon-store .support-pack-card__actions {
+  gap: 8px;
+}
