@@ -228,4 +228,81 @@ describe("puzzle art audit", () => {
     expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
   });
 
+  it("keeps the first repaired Village density group out of the art-review queue", () => {
+    const report = buildPuzzleArtAudit();
+    const repairedIds = new Set([
+      "village-pantry-blue-check-sugar-tin-100",
+      "village-pantry-blue-enamel-colander-79",
+      "village-pantry-blue-linen-bowl-cover-106",
+      "village-pantry-ceramic-honey-spoon-rest-90"
+    ]);
+    expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
+  });
+
+  it("keeps the second repaired Village density group out of the art-review queue", () => {
+    const report = buildPuzzleArtAudit();
+    const repairedIds = new Set([
+      "village-pantry-checked-pot-holder-56",
+      "village-pantry-checked-recipe-folder-125",
+      "village-pantry-copper-measuring-cups-99",
+      "village-pantry-daisy-checked-teapot-104"
+    ]);
+    expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
+  });
+
+  it("keeps the third repaired Village density group out of the art-review queue", () => {
+    const report = buildPuzzleArtAudit();
+    const repairedIds = new Set([
+      "village-pantry-floral-rolling-pin-96",
+      "village-pantry-gingham-butter-cloche-83",
+      "village-pantry-lace-jam-spoon-93",
+      "village-pantry-little-linen-basket-102"
+    ]);
+    expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
+  });
+
+  it("keeps the fourth repaired Village density group out of the art-review queue", () => {
+    const report = buildPuzzleArtAudit();
+    const repairedIds = new Set([
+      "village-pantry-little-recipe-box-86",
+      "village-pantry-little-spice-drawer-97",
+      "village-pantry-mint-label-flour-tin-94",
+      "village-pantry-pearl-sugar-bowl-82"
+    ]);
+    expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
+  });
+
+  it("keeps repaired Village density group F out of the art-review queue", () => {
+    const report = buildPuzzleArtAudit();
+    const repairedIds = new Set([
+      "village-pantry-poppy-seed-mortar-109",
+      "village-pantry-porcelain-butter-dish-72",
+      "village-pantry-pressed-flower-frame-84",
+      "village-pantry-quilted-pot-mat-92"
+    ]);
+    expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
+  });
+
+  it("keeps repaired Village density group G out of the art-review queue", () => {
+    const report = buildPuzzleArtAudit();
+    const repairedIds = new Set([
+      "village-pantry-ribboned-bread-basket-88",
+      "village-pantry-rose-label-jam-pot-105",
+      "village-pantry-sage-butter-dish-108",
+      "village-pantry-sage-thread-spool-89"
+    ]);
+    expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
+  });
+
+  it("keeps repaired Village density group H out of the art-review queue", () => {
+    const report = buildPuzzleArtAudit();
+    const repairedIds = new Set([
+      "village-pantry-scalloped-plate-67",
+      "village-pantry-striped-pantry-towel-110",
+      "village-pantry-striped-pickle-jar-85",
+      "village-pantry-sunflower-flour-sieve-112"
+    ]);
+    expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
+  });
+
 });

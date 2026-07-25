@@ -687,6 +687,76 @@ async function main() {
     });
     await capturePuzzleSelectionArtContactSheet(browser, {
       puzzleIds: [
+        "village-pantry-blue-check-sugar-tin-100",
+        "village-pantry-blue-enamel-colander-79",
+        "village-pantry-blue-linen-bowl-cover-106",
+        "village-pantry-ceramic-honey-spoon-rest-90"
+      ],
+      name: "village-density-repairs-group-a",
+      playerId: "village-density-review-a"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
+        "village-pantry-checked-pot-holder-56",
+        "village-pantry-checked-recipe-folder-125",
+        "village-pantry-copper-measuring-cups-99",
+        "village-pantry-daisy-checked-teapot-104"
+      ],
+      name: "village-density-repairs-group-b",
+      playerId: "village-density-review-b"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
+        "village-pantry-floral-rolling-pin-96",
+        "village-pantry-gingham-butter-cloche-83",
+        "village-pantry-lace-jam-spoon-93",
+        "village-pantry-little-linen-basket-102"
+      ],
+      name: "village-density-repairs-group-c",
+      playerId: "village-density-review-c"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
+        "village-pantry-little-recipe-box-86",
+        "village-pantry-little-spice-drawer-97",
+        "village-pantry-mint-label-flour-tin-94",
+        "village-pantry-pearl-sugar-bowl-82"
+      ],
+      name: "village-density-repairs-group-d",
+      playerId: "village-density-review-d"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
+        "village-pantry-poppy-seed-mortar-109",
+        "village-pantry-porcelain-butter-dish-72",
+        "village-pantry-pressed-flower-frame-84",
+        "village-pantry-quilted-pot-mat-92"
+      ],
+      name: "village-density-repairs-group-f",
+      playerId: "village-density-review-f"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
+        "village-pantry-ribboned-bread-basket-88",
+        "village-pantry-rose-label-jam-pot-105",
+        "village-pantry-sage-butter-dish-108",
+        "village-pantry-sage-thread-spool-89"
+      ],
+      name: "village-density-repairs-group-g",
+      playerId: "village-density-review-g"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
+        "village-pantry-scalloped-plate-67",
+        "village-pantry-striped-pantry-towel-110",
+        "village-pantry-striped-pickle-jar-85",
+        "village-pantry-sunflower-flour-sieve-112"
+      ],
+      name: "village-density-repairs-group-h",
+      playerId: "village-density-review-h"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
         "village-pantry-blue-gingham-cloth-66",
         "village-pantry-wooden-egg-crate-76",
         "village-pantry-checkered-tea-towel-77",

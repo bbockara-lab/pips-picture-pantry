@@ -3983,3 +3983,10 @@ Current launch direction:
 - Redrew the final eight high-density Bakery 12x12 candidates as distinct tart, eclair, dome, puff, bundt, cupcake, checker-cookie, and cream-band compositions.
 - Reduced near-solid 81-86% blocks to 54-67% silhouettes with readable negative space and object-specific contours.
 - Added two art-audit regression tests and two dedicated four-card completion contact sheets for review at actual rendered size.
+
+
+### v0.1.565 Village Density Repair Groups A-B
+
+- Redrew all twenty-eight high-density Village Pantry 10x10 candidates across containers, utensils, linens, cookware, and storage objects.
+- Replaced near-solid 79-91% blocks with distinct silhouettes using readable handles, holes, checks, nesting, woven gaps, labels, mesh, and open ceramic space.
+- Added seven art-audit regression tests and seven dedicated four-card completion contact sheets.

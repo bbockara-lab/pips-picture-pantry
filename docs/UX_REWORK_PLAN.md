@@ -258,3 +258,8 @@ Done when:
 ### v0.1.564 checkpoint
 - Completion-art Phase D closes the remaining eight high-density Bakery 12x12 candidates with two dedicated visual contact sheets.
 - The automated art-review queue is reduced from 69 to 61 candidates; the next priority is Village Pantry 10x10 density repair.
+
+
+### v0.1.565 checkpoint
+- Completion-art Phase D closes all twenty-eight Village Pantry high-density candidates with seven dedicated contact sheets.
+- The automated art-review queue is reduced from 61 to 33 candidates; the next slice audits missing art briefs and any silhouettes they expose.
