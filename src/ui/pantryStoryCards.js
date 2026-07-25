@@ -57,7 +57,7 @@ export function renderPantryStoryRequest(approvedDecorations, ownedIds, equipped
   appendTextElement(copy, "p", "section-label", t("pantry.storyEyebrow"));
   appendTextElement(copy, "h3", "", t("pantry.story." + state + "Title", { item: t(starterRequest.titleKey), slot: slotLabel }));
   appendTextElement(copy, "p", "", t("pantry.story." + state + "Body", { item: t(starterRequest.titleKey), slot: slotLabel, spoons }));
-  appendTextElement(copy, "p", "pantry-story-request__target", t("pantry.storyTarget", { item: t(starterRequest.titleKey), slot: slotLabel }));
+
 
   const action = document.createElement("button");
   action.type = "button";

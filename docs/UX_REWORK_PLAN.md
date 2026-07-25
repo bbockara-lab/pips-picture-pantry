@@ -1,7 +1,7 @@
 # Pip's Picture Pantry UX Rework Plan
 
 Status: live-quality recovery, Phases A-C implemented
-Baseline: v0.1.541
+Baseline: v0.1.542
 Goal: replace screen-by-screen patching with one coherent first-session and navigation experience before release.
 
 ## Why this pass exists
@@ -175,3 +175,7 @@ Done when:
 - Current slice: v0.1.541 applies one flat card grammar to spoon-priced decorations and paid packs, with concise section labels and no nested paid-store frame.
 
 - Verification: v0.1.541 passes 141 unit tests, the full candidate gate, four-width mobile QA, production build, Android release gate, and the regenerated 51-frame visual pack.
+
+- Current slice: v0.1.542 removes the repeated first-request target chip and reduces each first-request state to one short sentence.
+
+- Verification: v0.1.542 passes 141 unit tests, the full candidate gate, four-width mobile QA, production build, and Android release gate.

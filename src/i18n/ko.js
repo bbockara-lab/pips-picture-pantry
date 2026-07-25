@@ -496,16 +496,16 @@ export const ko = {
     planningDeckAria: "\ud32c\ud2b8\ub9ac \ubc29 \uacc4\ud68d\uacfc \uc2a4\ud47c \ubaa9\ud45c",
     placementNote: "팬트리 자리 {total}곳 중 {count}곳을 꾸몄어요. 자리를 누르면 그곳에 놓을 장식을 볼 수 있어요.",
     storyEyebrow: 'Pip의 부탁',
-    storyTarget: '부탁한 소품: {slot} 자리에 {item}',
+
     story: {
       startTitle: '{slot} 자리를 먼저 따뜻하게 해볼까요?',
-      startBody: 'Pip이 첫 빈자리를 발견했어요. {item}부터 골라 두면 팬트리가 단순한 상점이 아니라 작은 이야기가 있는 방처럼 느껴질 거예요.',
+      startBody: '{item}을 여기에 놓아볼까요?',
       startAction: '이 소품 보기',
       placeTitle: '{item}을 놓을 준비가 됐어요',
-      placeBody: '거의 다 왔어요. {slot} 자리에 놓아 주면 Pip의 첫 팬트리 부탁이 완성돼요.',
+      placeBody: '{slot} 자리에 놓아주세요.',
       placeAction: '자리 보여주기',
       completeTitle: '첫 부탁 완료',
-      completeBody: '{slot} 자리에 첫 포근함이 생겼어요. 다음 소품에도 새로운 부탁과 이웃 이야기가 기다리고 있어요.',
+      completeBody: '{slot} 자리가 한결 따뜻해졌어요.',
       completeAction: '완료'
     },
     storyMilestoneEyebrow: "\uD32C\uD2B8\uB9AC \uCE5C\uBC00\uB3C4",

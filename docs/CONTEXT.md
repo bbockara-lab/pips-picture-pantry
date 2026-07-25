@@ -3809,3 +3809,11 @@ Current launch direction:
 - Shortened the two shop section titles and renamed the ambiguous Korean starter item from 첫 카운터 보 to 체크 카운터보.
 
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.541 visual pack pass.
+
+
+### v0.1.542 Pantry Request Copy Reduction
+
+- Removed the repeated 부탁한 소품 target chip from the first Pantry request card; the artwork, title, and action already identify the item.
+- Reduced the start, placement, and completion bodies to one short conversational sentence in Korean and English.
+
+- Verification: 141 unit tests, the full release-candidate gate, production build, Android release gate, and four-width mobile QA pass.

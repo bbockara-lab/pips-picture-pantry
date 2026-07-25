@@ -498,16 +498,16 @@ export const en = {
     planningDeckAria: "Pantry room plan and spoon goals",
     placementNote: "{count}/{total} pantry spots are decorated. Tap a spot to shop for that place.",
     storyEyebrow: "Pip's request",
-    storyTarget: "Request item: {item} for the {slot} spot",
+
     story: {
       startTitle: "Can we warm up the {slot}?",
-      startBody: "Pip found the first empty corner. Choose {item} and the pantry will feel like it has a real purpose, not just a shop list.",
+      startBody: "Let's place {item} here.",
       startAction: "Show this item",
       placeTitle: "{item} is ready to place",
-      placeBody: "This request is almost done. Put it in the {slot} spot so Pip can start building the room story.",
+      placeBody: "Place it in the {slot} spot.",
       placeAction: "Show the spot",
       completeTitle: "First request complete",
-      completeBody: "The {slot} has its first cozy touch. Future decorations should arrive with little requests, reactions, and reward moments like this.",
+      completeBody: "The {slot} feels warmer now.",
       completeAction: "Complete"
     },
     storyMilestoneEyebrow: "Pantry bond",

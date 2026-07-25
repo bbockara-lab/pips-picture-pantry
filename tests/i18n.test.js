@@ -282,9 +282,6 @@ describe("i18n", () => {
     setActiveLocale("ko");
 
     expect(t("pantry.storyEyebrow")).toBe("Pip\uC758 \uBD80\uD0C1");
-    expect(t("pantry.storyTarget", { item: "\uCCAB \uCE74\uC6B4\uD130 \uBCF4", slot: "\uCE74\uC6B4\uD130" })).toBe(
-      "\uBD80\uD0C1\uD55C \uC18C\uD488: \uCE74\uC6B4\uD130 \uC790\uB9AC\uC5D0 \uCCAB \uCE74\uC6B4\uD130 \uBCF4"
-    );
     expect(t("pantry.story.startTitle", { slot: "\uCE74\uC6B4\uD130" })).toBe(
       "\uCE74\uC6B4\uD130 \uC790\uB9AC\uB97C \uBA3C\uC800 \uB530\uB73B\uD558\uAC8C \uD574\uBCFC\uAE4C\uC694?"
     );
