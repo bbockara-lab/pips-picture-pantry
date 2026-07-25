@@ -50,8 +50,6 @@ describe("i18n", () => {
     expect(t("daily.eyebrow")).toBe("Today's picture");
     expect(t("views.map")).toBe("Badges");
     expect(t("views.pantryHint")).toBe("Shop and decorate");
-    expect(t("pantry.progressMissionBody", { remaining: 2, stage: "Sunny Spoon Sign" })).toContain("2 more Pip requests");
-    expect(t("pantry.progressMissionPlanRequest")).toBe("Plan next request");
     expect(t("pipStrip.puzzleLine", { player: "Jay" })).toBe("Jay, use the numbers to color the picture.");
     expect(t("puzzlePicker.sizeReward", { size: 5, count: 3 })).toBe("5×5 · +3");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - Complete");
@@ -288,12 +286,9 @@ describe("i18n", () => {
     expect(t("pantry.storyDeliveryNeed", { slot: "카운터", needed: 17 })).toBe("카운터 · 스푼 17개 더");
     expect(t("pantry.storyDeliveryEarn")).toBe("\uC2A4\uD47C \uBC8C\uB7EC \uAC00\uAE30");
     expect(t("pantry.feedbackBuyTitle", { item: "\uC791\uC740 \uC7BC \uBCD1" })).toBe("\uC791\uC740 \uC7BC \uBCD1\uC774 \uD32C\uD2B8\uB9AC\uC5D0 \uC654\uC5B4\uC694");
-    expect(t("pantry.displayPlanAllTitle")).toBe("\uD55C \uC790\uB9AC\uB97C \uACE8\uB77C \uACC4\uD68D\uD558\uAE30");
-    expect(t("pantry.displayPlanNextBody", { item: "\uD5C8\uBE0C \uD654\uBD84", cost: 32, needed: 9 })).toBe("\uD5C8\uBE0C \uD654\uBD84\uC740 32 \uC2A4\uD47C\uC774\uACE0, \uC9C0\uAE08\uC740 9 \uC2A4\uD47C\uC774 \uB354 \uD544\uC694\uD574\uC694.");
     expect(t("pantry.availability.canBuy")).toBe("\uC0B4 \uC218 \uC788\uC74C");
     expect(t("pantry.itemStatus.equipped")).toBe("\uC804\uC2DC \uC911");
     expect(t("pantry.shopLimitAction")).toBe("\uC7A5\uC2DD \uB354 \uBCF4\uAE30");
-    expect(t("pantry.planningDeckAria")).toBe("\uD32C\uD2B8\uB9AC \uBC29 \uACC4\uD68D\uACFC \uC2A4\uD47C \uBAA9\uD45C");
   });
 
   it("keeps Billing readiness copy launch-facing instead of test-build wording", () => {
@@ -323,10 +318,8 @@ describe("i18n", () => {
     expect(t("controls.mark")).toBe("\ube48\uce78 \uccb4\ud06c");
     expect(t("views.map")).toBe("\ubc30\uc9c0");
     expect(t("views.pantryHint")).toBe("\uc0c1\uc810\uacfc \uafb8\ubbf8\uae30");
-    expect(t("pantry.progressMissionRequests", { count: 1, target: 3 })).toBe("\ubd80\ud0c1 1/3\uac1c");
     expect(t("progress.lineGuided", { count: 1 })).toBe("1\uc904");
     expect(t("progress.linesGuided", { count: 3 })).toBe("3\uc904");
-    expect(t("pantry.progressMissionPlanRequest")).toBe("\ub2e4\uc74c \ubd80\ud0c1 \uacc4\ud68d\ud558\uae30");
     expect(t("pantry.equipToSlot", { slot: "\uce74\uc6b4\ud130" })).toBe("\uce74\uc6b4\ud130\uc5d0 \ub193\uae30");
     expect(t("pantry.needMore", { count: 7 })).toBe("\uc2a4\ud47c 7\uac1c \ubd80\uc871");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - \uc644\ub8cc");

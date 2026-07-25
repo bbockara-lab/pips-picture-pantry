@@ -3852,3 +3852,9 @@ Current launch direction:
 - Removed their dormant mount tree plus pack/economy dependencies while preserving the completed-request count used by live story and neighbor-guide progression.
 - This prevents the previously rejected report dashboard from returning through an accidental append or future partial refactor.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.547 visual pack pass.
+
+### v0.1.548 Retired Pantry Copy Removal
+
+- Removed the unused bilingual planning, savings, progress-report, mission-route, placement-advisor, and display-plan copy after their UI builders were retired.
+- Removed the matching translation assertions so tests cover only player-facing Pantry language.
+- Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.

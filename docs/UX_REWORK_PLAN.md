@@ -194,3 +194,6 @@ Done when:
 
 - Current slice: v0.1.547 removes the dormant Pantry planning/report implementation rather than relying on hidden mounts. Live purchasing, placement, story completion, and neighbor guide progression remain intact.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.547 visual pack pass.
+
+- Current slice: v0.1.548 removes the retired Pantry report vocabulary from both locales and their tests, preventing hidden dashboard copy from returning through future UI work.
+- Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
