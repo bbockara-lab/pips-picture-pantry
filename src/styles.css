@@ -15515,3 +15515,21 @@ img {
     padding-right: 9px;
   }
 }
+
+/* v0.1.578: language choices stay scanable as one compact row. */
+@media (max-width: 430px) {
+  .settings-dialog > .settings-choice-grid--language:not(.compact) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .settings-choice--language {
+    min-height: 44px;
+    padding-inline: 5px;
+    font-size: clamp(0.66rem, 3.05vw, 0.78rem);
+    letter-spacing: -0.035em;
+    overflow-wrap: normal;
+    white-space: nowrap;
+  }
+}

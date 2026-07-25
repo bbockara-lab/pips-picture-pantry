@@ -411,10 +411,25 @@ async function expectSettingsDialogPolish(page, viewportName) {
   const metrics = await page.locator(".settings-dialog").evaluate((dialog) => ({
     overflowsX: dialog.scrollWidth > dialog.clientWidth + 1,
     width: dialog.getBoundingClientRect().width,
+    viewportWidth: window.innerWidth,
     controlCount: dialog.querySelectorAll("button, input").length,
-    purchaseCopy: /pip_cozy_support|pip_spoon_jar_small|Play Store|Google Play/.test(dialog.textContent || "")
+    purchaseCopy: /pip_cozy_support|pip_spoon_jar_small|Play Store|Google Play/.test(dialog.textContent || ""),
+    languageChoices: [...dialog.querySelectorAll(".settings-choice--language")].map((button) => {
+      const style = getComputedStyle(button);
+      return {
+        overflow: button.scrollWidth > button.clientWidth + 1,
+        whiteSpace: style.whiteSpace || ""
+      };
+    })
   }));
-  if (metrics.overflowsX || metrics.width < 280 || metrics.controlCount < 7 || metrics.purchaseCopy) {
+  if (
+    metrics.overflowsX ||
+    metrics.width < 280 ||
+    metrics.controlCount < 7 ||
+    metrics.purchaseCopy ||
+    metrics.languageChoices.length !== 3 ||
+    (metrics.viewportWidth <= 430 && metrics.languageChoices.some((choice) => choice.overflow || choice.whiteSpace !== "nowrap"))
+  ) {
     failures.push("[" + viewportName + "] Settings should contain preferences only: " + JSON.stringify(metrics));
   }
   await page.locator(".settings-close").click();

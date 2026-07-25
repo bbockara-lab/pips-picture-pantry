@@ -328,3 +328,8 @@ Done when:
 
 - Quick travel is reduced to destination names and approved raster art; it no longer floats a current-screen report or repeated navigation helper text over the play surface.
 - The compact trigger and two-column picker keep every destination reachable without competing with Pantry cards or purchase actions.
+
+### v0.1.578 checkpoint
+
+- Language selection remains a three-choice scan at phone widths, but each label is a single compact line rather than a broken word.
+- Mobile QA now measures each language choice for horizontal clipping and accidental multi-line rendering.
