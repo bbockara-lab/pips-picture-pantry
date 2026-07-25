@@ -4014,3 +4014,10 @@ Current launch direction:
 - Pantry filtering now follows only the visible room-slot choice, with the featured affordability ordering preserved.
 - Unified starter-hint body copy on one key; large-board reveal count remains an interaction result rather than explanatory text.
 - Full unit tests and four-width mobile visual QA pass before the final candidate rerun.
+
+### v0.1.569 Phase E Time Attack result cleanup
+- Removed the extra intro sentence so the Time Attack screen moves directly from its title to Pip, the three board sizes, and Start.
+- Reduced stored records to board size, solved cells, and elapsed time; current-board diagnostics and zero-use hint reports are no longer shown to players.
+- Result cards show hint usage only when a hint was actually used, and timeout copy is now a short game response instead of an economy report.
+- Removed the now-unused board-progress formatter and added KO/EN regression coverage for the compact result format.
+- Verification: 160 unit tests, four-width mobile QA, the regenerated 61-frame visual pack, full candidate gate, production build, and Android release gate pass.

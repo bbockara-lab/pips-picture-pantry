@@ -307,6 +307,16 @@ describe("i18n", () => {
     expect(t("settings.supportFactAndroid")).not.toMatch(/Android \uD14C\uC2A4\uD2B8|Google Play \uC571|Google Play \uAC00\uACA9/);
   });
 
+  it("keeps Time Attack results compact in both languages", () => {
+    setActiveLocale("en");
+    expect(t("timeAttack.recordLine", { size: 8, progress: 42, time: "1:23" })).toBe("8x8 \u00b7 42 cells \u00b7 1:23");
+    expect(t("timeAttack.lastScore", { progress: 42, time: "1:23" })).toBe("42 cells \u00b7 1:23");
+
+    setActiveLocale("ko");
+    expect(t("timeAttack.recordLine", { size: 8, progress: 42, time: "1:23" })).toBe("8x8 \u00b7 42\uce78 \u00b7 1:23");
+    expect(t("timeAttack.lastScore", { progress: 42, time: "1:23" })).toBe("42\uce78 \u00b7 1:23");
+  });
+
   it("supports system language default and in-app overrides", () => {
     setLanguagePreference("system", "ko-KR");
     expect(getLanguagePreference()).toBe("system");

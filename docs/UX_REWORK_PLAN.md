@@ -280,3 +280,8 @@ Done when:
 - Pantry now exposes only the filter the player can actually control: the selected room spot.
 - Hidden legacy rarity, availability, and sorting state can no longer make decoration cards disappear without an explanation.
 - Duplicate Pantry spoon and placement-report text is absent at all four QA widths.
+
+### v0.1.569 checkpoint
+- Time Attack now answers three immediate questions only: what sizes are next, how to start, and what the last/best result was.
+- Record rows no longer expose board diagnostics or unused-hint counts; zero-hint metadata is absent rather than reported.
+- Four-width visual review should confirm the shorter record and result rows retain the flat-card spacing contract.

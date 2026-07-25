@@ -9,7 +9,6 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
   intro.className = "time-attack-panel__intro";
   appendTextElement(intro, "p", "section-label", t("timeAttack.eyebrow"));
   appendTextElement(intro, "h2", "", t("timeAttack.title"));
-  appendTextElement(intro, "p", "", t("timeAttack.body"));
 
   const coach = createTimeAttackCoachCard();
   const ladder = createTimeAttackLadder();
@@ -72,10 +71,10 @@ function createTimeAttackLadder() {
   ladder.setAttribute("aria-label", t("timeAttack.ladderAria"));
 
   [
-    ["ladderRound1", "ladderSize1", "ladderWarmup"],
-    ["ladderRound2", "ladderSize2", "ladderTempo"],
-    ["ladderRound3", "ladderSize3", "ladderFinal"]
-  ].forEach(([roundKey, sizeKey, bodyKey], index) => {
+    ["ladderRound1", "ladderSize1"],
+    ["ladderRound2", "ladderSize2"],
+    ["ladderRound3", "ladderSize3"]
+  ].forEach(([roundKey, sizeKey], index) => {
     const item = document.createElement("li");
     item.className = index === 2 ? "time-attack-ladder__step is-final" : "time-attack-ladder__step";
 
@@ -116,9 +115,7 @@ function createRecordsPanel(bestScores) {
       item.textContent = t("timeAttack.recordLine", {
         size: record.size || "?",
         progress: getRecordProgress(record),
-        boardProgress: getRecordBoardProgress(record),
-        time: formatElapsedSeconds(record.elapsedSeconds || 0),
-        hints: getRecordHints(record)
+        time: formatElapsedSeconds(record.elapsedSeconds || 0)
       });
       list.appendChild(item);
     });
@@ -152,17 +149,20 @@ function createLastResultPanel(lastResult) {
   score.className = "time-attack-panel__score";
   score.textContent = t("timeAttack.lastScore", {
     progress: getRecordProgress(lastResult),
-    boardProgress: getRecordBoardProgress(lastResult),
     time: formatElapsedSeconds(lastResult.elapsedSeconds || 0)
   });
 
-  const meta = document.createElement("p");
-  meta.className = "time-attack-panel__meta";
-  meta.textContent = t("timeAttack.resultMeta", {
-    hints: Math.max(0, Number(lastResult.hintsUsed || 0))
-  });
-
-  result.append(title, score, meta, reward);
+  result.append(title, score);
+  const hintsUsed = getRecordHints(lastResult);
+  if (hintsUsed > 0) {
+    const meta = document.createElement("p");
+    meta.className = "time-attack-panel__meta";
+    meta.textContent = t("timeAttack.resultMeta", {
+      hints: hintsUsed
+    });
+    result.appendChild(meta);
+  }
+  result.appendChild(reward);
   return result;
 }
 
@@ -176,16 +176,6 @@ function getRecordProgress(record) {
     return Math.floor(storedProgress);
   }
   return Math.max(0, Math.floor(Number(record?.score || 0) / 1000));
-}
-
-function getRecordBoardProgress(record) {
-  const current = Math.max(0, Math.floor(Number(record?.currentRoundCorrectCells || 0)));
-  const total = Math.max(current, Math.floor(Number(record?.currentRoundTotalCells || 0)));
-  const round = Math.max(1, Math.floor(Number(record?.currentRoundNumber || record?.completedRounds || 1)));
-  if (!total) {
-    return t("timeAttack.boardProgressFallback", { round, current });
-  }
-  return t("timeAttack.boardProgress", { round, current, total });
 }
 
 function formatElapsedSeconds(seconds) {
