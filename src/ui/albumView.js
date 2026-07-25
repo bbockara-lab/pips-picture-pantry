@@ -1,6 +1,6 @@
 import { puzzles } from "../data/puzzles.js";
 import { getCompletedPuzzleIds, getCompletionDates } from "../game/save.js";
-import { puzzleAlbumText, puzzleImageName, t } from "../i18n/index.js";
+import { puzzleImageName, t } from "../i18n/index.js";
 import { renderColoredPuzzleArt } from "./coloredPuzzleArt.js";
 
 function appendTextElement(parent, tagName, className, text) {
@@ -13,7 +13,7 @@ function appendTextElement(parent, tagName, className, text) {
   return element;
 }
 
-export function renderAlbumView() {
+export function renderAlbumView(onPlay = () => {}) {
   const completedIds = new Set(getCompletedPuzzleIds());
   const completionDates = getCompletionDates();
   const section = document.createElement("section");
@@ -32,39 +32,39 @@ export function renderAlbumView() {
   const grid = document.createElement("div");
   grid.className = "album-grid";
 
-  puzzles.forEach((puzzle) => {
-    const isComplete = completedIds.has(puzzle.id);
+  puzzles.filter((puzzle) => completedIds.has(puzzle.id)).forEach((puzzle) => {
     const card = document.createElement("article");
-    card.className = isComplete ? "album-card complete" : "album-card locked";
-    card.appendChild(renderStamp(puzzle, isComplete));
+    card.className = "album-card complete";
+    card.appendChild(renderStamp(puzzle));
 
     const copy = document.createElement("div");
-    appendTextElement(copy, "span", "album-card__state", isComplete ? t("completion.savedStamp") : t("album.hiddenTitle"));
-    appendTextElement(copy, "h3", "", isComplete ? puzzleImageName(puzzle) : t("album.hiddenTitle"));
-    appendTextElement(copy, "p", "", isComplete ? puzzleAlbumText(puzzle) : t("album.hiddenText"));
-    if (isComplete && completionDates[puzzle.id]) {
+    appendTextElement(copy, "h3", "", puzzleImageName(puzzle));
+    if (completionDates[puzzle.id]) {
       appendTextElement(copy, "small", "card-date", formatCardDate(completionDates[puzzle.id]));
     }
     card.appendChild(copy);
     grid.appendChild(card);
   });
 
+  if (!grid.children.length) {
+    const empty = document.createElement("div");
+    empty.className = "album-empty";
+    appendTextElement(empty, "p", "", t("album.emptyTitle"));
+    const action = document.createElement("button");
+    action.type = "button";
+    action.className = "tool-button";
+    action.textContent = t("album.emptyAction");
+    action.addEventListener("click", onPlay);
+    empty.appendChild(action);
+    grid.appendChild(empty);
+  }
+
   section.appendChild(grid);
   return section;
 }
 
-function renderStamp(puzzle, isComplete) {
-  const stamp = document.createElement("div");
-  stamp.className = isComplete ? "album-stamp picture" : "album-stamp locked-stamp";
-  stamp.setAttribute("aria-hidden", "true");
-
-  if (!isComplete) {
-    stamp.textContent = t("album.lockedSymbol");
-    return stamp;
-  }
-
-  return renderColoredPuzzleArt(puzzle, { className: stamp.className });
-
+function renderStamp(puzzle) {
+  return renderColoredPuzzleArt(puzzle, { className: "album-stamp picture" });
 }
 function formatCardDate(dateKey) {
   const [year, month, day] = String(dateKey).split("-");

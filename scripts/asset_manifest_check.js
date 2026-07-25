@@ -60,14 +60,11 @@ if (approvedStudioBumperAssets.length !== 1) {
 }
 
 // Opening seal must use the current approved Pip chrome asset, not the older app-icon crop.
-if (brandIntroSource.includes("../assets/app-icons/app-icon-192.png") || brandIntroSource.includes("../assets/app-icons/app-icon-512.png")) {
-  errors.push("src/ui/brandIntro.js: opening seal must not import old app-icon crops; use approved Pip character chrome art");
+if (!brandIntroSource.includes("opening-key-visual-v1.webp")) {
+  errors.push("src/ui/brandIntro.js: simple opening must use the approved key visual");
 }
-if (!brandIntroSource.includes("pip-chrome-v2.png")) {
-  errors.push("src/ui/brandIntro.js: opening seal must import approved pip-chrome-v2 art");
-}
-if (!brandIntroSource.includes("pipSealUrl")) {
-  errors.push("src/ui/brandIntro.js: opening seal image should be explicit and easy to update during the final icon swap");
+if (brandIntroSource.includes("pipSealUrl") || brandIntroSource.includes("brand-intro__seal")) {
+  errors.push("src/ui/brandIntro.js: the retired opening medallion must not return");
 }
 
 if (/\.spoon-icon::(?:before|after)\s*\{[^}]*content\s*:\s*[\"'][^\"']+[\"']/s.test(styles)) {

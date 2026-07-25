@@ -1,5 +1,12 @@
 import pipCompleteStickerUrl from "../assets/characters/pip-completion-v2.png";
+import { getCompletionPaletteId } from "../data/completionPalettes.js";
 import { puzzleAlbumText, puzzleImageName, puzzleTitle, t } from "../i18n/index.js";
+
+export const FIRST_PIP_FACE_PUZZLE_ID = "pips-first-shelf-pip-face-1";
+
+export function isFirstPipFacePuzzle(puzzle) {
+  return puzzle?.id === FIRST_PIP_FACE_PUZZLE_ID;
+}
 
 export function getCompletionMessage(puzzle) {
   return t("completion.saved", {
@@ -10,6 +17,10 @@ export function getCompletionMessage(puzzle) {
 export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle, replayChallenge = false, replayResult = null } = {}) {
   const banner = document.createElement("div");
   banner.className = "completion-banner";
+  const isFirstPipFace = isFirstPipFacePuzzle(puzzle);
+  if (isFirstPipFace) {
+    banner.classList.add("completion-banner--first-pip-face");
+  }
 
   const reaction = document.createElement("img");
   reaction.className = "completion-pip";
@@ -19,22 +30,10 @@ export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle, repl
   const copy = document.createElement("div");
   copy.className = "completion-copy";
 
-  const title = document.createElement("p");
-  title.className = "completion-title";
-  title.textContent = t("progress.complete");
-
   const message = document.createElement("p");
   message.textContent = getCompletionBannerMessage(puzzle, { replayChallenge, replayResult });
 
-  copy.append(title, message);
-
-  const facts = document.createElement("div");
-  facts.className = "completion-reward-facts";
-  ["completion.rewardFactAlbum", "completion.rewardFactRoom", "completion.rewardFactNext"].forEach((key) => {
-    const chip = document.createElement("span");
-    chip.textContent = t(key);
-    facts.appendChild(chip);
-  });
+  copy.appendChild(message);
 
   const reveal = renderSolvedReveal(puzzle);
 
@@ -54,7 +53,11 @@ export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle, repl
   nextButton.addEventListener("click", () => onNextPuzzle?.());
 
   actions.append(albumButton, nextButton);
-  banner.append(reaction, copy, facts, reveal, actions);
+  if (isFirstPipFace) {
+    banner.append(copy, reveal, actions);
+  } else {
+    banner.append(reaction, copy, reveal, actions);
+  }
   return banner;
 }
 
@@ -71,33 +74,41 @@ function getCompletionBannerMessage(puzzle, options = {}) {
 function renderSolvedReveal(puzzle) {
   const card = document.createElement("div");
   card.className = "completion-reveal-card";
-
-  const meta = document.createElement("div");
-  meta.className = "completion-reveal__meta";
-
-  const eyebrow = document.createElement("span");
-  eyebrow.className = "completion-reveal__eyebrow";
-  eyebrow.textContent = t("completion.albumCard");
-
-  const stamp = document.createElement("span");
-  stamp.className = "completion-reveal__stamp";
-  stamp.textContent = t("completion.savedStamp");
-
-  meta.append(eyebrow, stamp);
+  const isFirstPipFace = isFirstPipFacePuzzle(puzzle);
+  if (isFirstPipFace) {
+    card.classList.add("completion-reveal-card--pip-face");
+  }
 
   const reveal = document.createElement("div");
   reveal.className = "completion-reveal";
+  const paletteId = getCompletionPaletteId(puzzle);
+  if (paletteId) {
+    reveal.classList.add(`completion-reveal--${paletteId}`);
+  }
+  if (isFirstPipFace) {
+    reveal.classList.add("completion-reveal--pip-face");
+  }
   reveal.setAttribute("aria-label", puzzleImageName(puzzle));
   reveal.style.setProperty("--reveal-size", puzzle.size);
 
-  puzzle.solution.forEach((row) => {
-    [...row].forEach((cell) => {
+  puzzle.solution.forEach((row, rowIndex) => {
+    [...row].forEach((cell, columnIndex) => {
       const tile = document.createElement("span");
       tile.className = cell === "1" ? "reveal-cell filled" : "reveal-cell";
+      tile.dataset.row = String(rowIndex);
+      tile.dataset.column = String(columnIndex);
       reveal.appendChild(tile);
     });
   });
 
-  card.append(meta, reveal);
+  if (isFirstPipFace) {
+    const character = document.createElement("img");
+    character.className = "completion-reveal__character";
+    character.src = pipCompleteStickerUrl;
+    character.alt = puzzleImageName(puzzle);
+    card.append(character, reveal);
+  } else {
+    card.appendChild(reveal);
+  }
   return card;
 }

@@ -29,6 +29,7 @@ export function renderPlayScreen(activePuzzle, options) {
 
   const screen = document.createElement("section");
   screen.className = isTimeAttack ? "play-screen play-screen--time-attack" : replayChallenge ? "play-screen play-screen--replay" : "play-screen";
+  screen.dataset.puzzleSize = String(activePuzzle.size);
   screen.setAttribute("aria-label", t("playScreen.aria"));
 
   const header = document.createElement("header");
@@ -63,7 +64,7 @@ export function renderPlayScreen(activePuzzle, options) {
 
   const size = document.createElement("p");
   size.className = "difficulty";
-  size.textContent = `${activePuzzle.size}x${activePuzzle.size}`;
+  size.textContent = `${activePuzzle.size}×${activePuzzle.size}`;
 
   const settingsButton = document.createElement("button");
   settingsButton.type = "button";

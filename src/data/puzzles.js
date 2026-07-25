@@ -1,3 +1,7 @@
+import { APRON_DRAWER_PUZZLE_OVERRIDES } from "./apronDrawerPuzzles.js";
+import { PROGRESSION_PUZZLE_OVERRIDES } from "./progressionPuzzleOverrides.js";
+import { QUALITY_PUZZLE_OVERRIDES } from "./qualityPuzzleOverrides.js";
+
 export const puzzles = [
   {
     "id": "pips-first-shelf-pip-face-1",
@@ -7,8 +11,9 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "pip-face",
     "solution": [
-      "01110",
+      "11011",
       "11111",
       "10101",
       "11111",
@@ -23,6 +28,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "soup-bowl",
     "solution": [
       "00000",
       "11111",
@@ -39,6 +45,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "golden-spoon",
     "solution": [
       "01100",
       "01100",
@@ -55,6 +62,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "recipe-card",
     "solution": [
       "11111",
       "10001",
@@ -71,6 +79,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "berry-bow",
     "solution": [
       "10001",
       "11011",
@@ -87,6 +96,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "mint-teacup",
     "solution": [
       "01110",
       "10001",
@@ -103,6 +113,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "honey-cookie",
     "solution": [
       "01110",
       "10101",
@@ -119,6 +130,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "bread-loaf",
     "solution": [
       "00100",
       "01110",
@@ -135,6 +147,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "tiny-house",
     "solution": [
       "00100",
       "01110",
@@ -151,6 +164,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "apple",
     "solution": [
       "00100",
       "01110",
@@ -167,6 +181,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "pip-face",
     "solution": [
       "01110",
       "11111",
@@ -183,6 +198,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "soup-bowl",
     "solution": [
       "00000",
       "11111",
@@ -199,6 +215,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "golden-spoon",
     "solution": [
       "01100",
       "01100",
@@ -215,6 +232,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "recipe-card",
     "solution": [
       "11111",
       "10001",
@@ -231,6 +249,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "berry-bow",
     "solution": [
       "10001",
       "11011",
@@ -247,6 +266,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "mint-teacup",
     "solution": [
       "01110",
       "10001",
@@ -263,6 +283,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "honey-cookie",
     "solution": [
       "01110",
       "10101",
@@ -279,6 +300,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "bread-loaf",
     "solution": [
       "00100",
       "01110",
@@ -295,6 +317,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "tiny-house",
     "solution": [
       "00100",
       "01110",
@@ -311,6 +334,7 @@ export const puzzles = [
     "size": 5,
     "difficulty": "starter",
     "reward": 3,
+    "completionPalette": "apple",
     "solution": [
       "00100",
       "01110",
@@ -8682,6 +8706,18 @@ export const puzzles = [
   }
 
 ];
+
+puzzles.forEach((puzzle) => {
+  const override = APRON_DRAWER_PUZZLE_OVERRIDES[puzzle.id]
+    || PROGRESSION_PUZZLE_OVERRIDES[puzzle.id]
+    || QUALITY_PUZZLE_OVERRIDES[puzzle.id];
+  if (override) {
+    Object.assign(puzzle, override);
+    if (override.title) {
+      puzzle.runtimeTitle = override.title;
+    }
+  }
+});
 
 export function getPuzzleById(id) {
   return puzzles.find((puzzle) => puzzle.id === id) || puzzles[0];

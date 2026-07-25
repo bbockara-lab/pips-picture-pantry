@@ -1,20 +1,23 @@
 import { spawn, spawnSync } from "node:child_process";
 import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import http from "node:http";
-import { resolve } from "node:path";
+import { relative, resolve, sep } from "node:path";
 import { chromium } from "@playwright/test";
 import { APP_VERSION } from "../src/data/appVersion.js";
+import { puzzles } from "../src/data/puzzles.js";
 
 const isWindows = process.platform === "win32";
 const requestedUrl = process.env.PPP_URL || "";
 const explicitPort = process.env.PPP_QA_PORT ? Number(process.env.PPP_QA_PORT) : null;
 let port = explicitPort || 5184;
 let baseUrl = requestedUrl || "http://127.0.0.1:" + port + "/";
-const outputRoot = resolve(process.cwd(), "qa-artifacts", "visual-review", APP_VERSION);
+const visualReviewRoot = resolve(process.cwd(), "qa-artifacts", "visual-review");
+const outputRoot = resolve(visualReviewRoot, APP_VERSION);
 const shotsDir = resolve(outputRoot, "screenshots");
 const reviewViewports = {
   mobile: { width: 390, height: 844 },
-  widePreview: { width: 675, height: 900 }
+  widePreview: { width: 675, height: 900 },
+  artContactSheet: { width: 1200, height: 1000 }
 };
 const manifest = {
   version: APP_VERSION,
@@ -23,7 +26,8 @@ const manifest = {
   viewport: reviewViewports.mobile,
   viewports: [
     { name: "mobile", ...reviewViewports.mobile },
-    { name: "wide-preview", ...reviewViewports.widePreview }
+    { name: "wide-preview", ...reviewViewports.widePreview },
+    { name: "art-contact-sheet", ...reviewViewports.artContactSheet }
   ],
   screenshots: [],
   layoutChecks: [],
@@ -45,6 +49,16 @@ const manifest = {
     "Screenshots are intentionally ignored by git under qa-artifacts/."
   ]
 };
+
+const outputRelativePath = relative(visualReviewRoot, outputRoot);
+const outputIsOwnedVersionFolder =
+  outputRelativePath === APP_VERSION &&
+  !outputRelativePath.startsWith(".." + sep) &&
+  outputRelativePath !== "..";
+
+if (!outputIsOwnedVersionFolder) {
+  throw new Error(`Refusing to clear visual QA output outside its owned version folder: ${outputRoot}`);
+}
 
 rmSync(outputRoot, { recursive: true, force: true });
 mkdirSync(shotsDir, { recursive: true });
@@ -105,6 +119,7 @@ async function capture(page, name, selector, options = {}) {
     await target.waitFor({ state: "visible", timeout: options.timeout || 6000 });
     await target.scrollIntoViewIfNeeded();
   }
+  await page.evaluate(() => window.scrollTo({ left: 0, top: window.scrollY, behavior: "instant" }));
   await page.waitForTimeout(options.settleMs || 220);
   const fileName = String(manifest.screenshots.length + 1).padStart(2, "0") + "-" + name + ".png";
   const filePath = resolve(shotsDir, fileName);
@@ -229,15 +244,18 @@ async function returnToPuzzleHub(page) {
   await page.locator(".time-attack-teaser-card, .pack-block").first().waitFor({ state: "visible", timeout: 6000 });
 }
 
-async function seedReturningPlayer(page) {
-  await page.evaluate(() => {
-    const player = { id: "jay", name: "Jay" };
-    const saveKey = "pips-picture-pantry:v0.1:save:jay";
+async function seedReturningPlayer(page, options = {}) {
+  const name = options.name || "Jay";
+  const id = options.id || "jay";
+  const completedPuzzleIds = options.completedPuzzleIds || ["pips-first-shelf-pip-face-1"];
+  await page.evaluate(({ name, id, completedPuzzleIds }) => {
+    const player = { id, name };
+    const saveKey = "pips-picture-pantry:v0.1:save:" + id;
     localStorage.setItem("pips-picture-pantry:v0.1:active-player", JSON.stringify(player));
     localStorage.setItem("pips-picture-pantry:v0.1:players", JSON.stringify([player]));
     localStorage.setItem(saveKey, JSON.stringify({
-      completedPuzzleIds: ["pips-first-shelf-pip-face-1"],
-      rewardedPuzzleIds: ["pips-first-shelf-pip-face-1"],
+      completedPuzzleIds,
+      rewardedPuzzleIds: completedPuzzleIds,
       unlockedPackIds: ["pips-first-shelf", "bakery-window", "village-pantry"],
       pantrySpoons: 999,
       dailyRewardedDates: [],
@@ -248,7 +266,74 @@ async function seedReturningPlayer(page) {
       pantryCompletedStoryGoalIds: [],
       seenGuideIds: ["firstPuzzle", "pantryFirstPurchase", "timeAttackIntro"]
     }));
-  });
+  }, { name, id, completedPuzzleIds });
+}
+
+async function capturePackArtContactSheet(browser, { packId, name, playerId, maxCount = Infinity }) {
+  const completedPuzzleIds = puzzles
+    .filter((puzzle) => puzzle.packId === packId)
+    .slice(0, maxCount)
+    .map((puzzle) => puzzle.id);
+  if (completedPuzzleIds.length === 0) {
+    throw new Error(`No puzzles found for completion-art contact sheet: ${packId}`);
+  }
+  const page = await browser.newPage({ viewport: reviewViewports.artContactSheet });
+  try {
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.evaluate(() => localStorage.setItem("pip-picture-pantry-language", "ko"));
+    await seedReturningPlayer(page, {
+      name: "하늘",
+      id: playerId,
+      completedPuzzleIds
+    });
+    await page.reload({ waitUntil: "networkidle" });
+    await dismissIntro(page);
+    await dismissGuideIfPresent(page);
+    await openFloatingView(page, "album");
+    await page.addStyleTag({ content: `
+      .app-shell { width: min(1180px, calc(100vw - 24px)) !important; max-width: none !important; }
+      .album-panel { width: 100% !important; max-width: none !important; }
+      .album-grid { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
+      .album-card.complete { min-width: 0 !important; }
+      .album-card.complete .album-stamp.picture { width: 100% !important; }
+      .floating-nav { display: none !important; }
+    ` });
+    await capture(page, name, ".album-panel", {
+      fullPage: true,
+      settleMs: 500,
+      viewportName: "art-contact-sheet"
+    });
+  } finally {
+    await page.close();
+  }
+}
+
+async function capturePuzzleSelectionArtContactSheet(browser, { puzzleIds, name, playerId }) {
+  const page = await browser.newPage({ viewport: reviewViewports.artContactSheet });
+  try {
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.evaluate(() => localStorage.setItem("pip-picture-pantry-language", "ko"));
+    await seedReturningPlayer(page, { name: "하늘", id: playerId, completedPuzzleIds: puzzleIds });
+    await page.reload({ waitUntil: "networkidle" });
+    await dismissIntro(page);
+    await dismissGuideIfPresent(page);
+    await openFloatingView(page, "album");
+    await page.addStyleTag({ content: `
+      .app-shell { width: min(1180px, calc(100vw - 24px)) !important; max-width: none !important; }
+      .album-panel { width: 100% !important; max-width: none !important; }
+      .album-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+      .album-card.complete { min-width: 0 !important; }
+      .album-card.complete .album-stamp.picture { width: 100% !important; }
+      .floating-nav { display: none !important; }
+    ` });
+    await capture(page, name, ".album-panel", {
+      fullPage: true,
+      settleMs: 500,
+      viewportName: "art-contact-sheet"
+    });
+  } finally {
+    await page.close();
+  }
 }
 
 async function capturePantryNeighborReveal(page, options) {
@@ -335,8 +420,7 @@ async function captureSettings(page, options = {}) {
   const namePrefix = options.namePrefix || "";
   const viewportName = options.viewportName || "mobile";
   await page.locator('button[aria-label="Settings"], button[aria-label="설정"]').first().click();
-  await page.locator(".support-pack-card--support").first().scrollIntoViewIfNeeded();
-  await capture(page, namePrefix + "settings-billing-store", ".modal-backdrop--settings", {
+  await capture(page, namePrefix + "settings-preferences", ".modal-backdrop--settings", {
     settleMs: 320,
     viewportName
   });
@@ -391,9 +475,22 @@ async function captureKoreanFirstRun(browser) {
     await page.locator(".app-shell").waitFor({ state: "visible", timeout: 6000 });
     if ((await page.locator(".guide-overlay").count()) > 0) {
       await capture(page, "ko-pip-guide-dialog", ".guide-dialog");
+      await page.locator(".guide-dialog__next").click();
+      await page.locator(".guide-practice").waitFor({ state: "visible", timeout: 2000 });
+      await capture(page, "ko-pip-guide-practice", ".guide-dialog");
       await dismissGuideIfPresent(page);
     }
     await capture(page, "ko-first-puzzle-board", ".play-screen", { fullPage: true });
+    await completePuzzle(page, ["11011", "11111", "10101", "11111", "01110"]);
+    await capture(page, "ko-first-puzzle-completion", ".completion-banner", { settleMs: 500 });
+    await page.locator(".completion-actions button").last().click();
+    await page.locator(".puzzle-grid .puzzle-cell").first().waitFor({ state: "visible", timeout: 3000 });
+    await completePuzzle(page, ["00000", "11111", "10001", "11111", "01110"]);
+    await capture(page, "ko-second-puzzle-completion", ".completion-banner", { settleMs: 500 });
+    await page.locator(".completion-actions button").last().click();
+    await page.locator(".puzzle-grid .puzzle-cell").first().waitFor({ state: "visible", timeout: 3000 });
+    await completePuzzle(page, ["01100", "01100", "00100", "00100", "00100"]);
+    await capture(page, "ko-third-puzzle-completion", ".completion-banner", { settleMs: 500 });
     await capturePuzzleHubTimeAttackTeaser(page, "ko-puzzle-hub-time-attack-teaser");
     await captureFloatingNavMenu(page, { namePrefix: "ko-" });
   } finally {
@@ -404,7 +501,7 @@ async function captureKoreanFirstRun(browser) {
   try {
     await returningPage.goto(baseUrl, { waitUntil: "networkidle" });
     await returningPage.evaluate(() => localStorage.setItem("pip-picture-pantry-language", "ko"));
-    await seedReturningPlayer(returningPage);
+    await seedReturningPlayer(returningPage, { name: "하늘", id: "haneul" });
     await returningPage.reload({ waitUntil: "networkidle" });
     await dismissIntro(returningPage);
     await dismissGuideIfPresent(returningPage);
@@ -418,9 +515,25 @@ async function captureKoreanFirstRun(browser) {
       fullPage: true,
       settleMs: 400
     });
+    await returningPage.locator(".spoon-store").scrollIntoViewIfNeeded();
+    await capture(returningPage, "ko-spoon-store", ".spoon-store", {
+      settleMs: 400
+    });
   } finally {
     await returningPage.close();
   }
+}
+
+async function completePuzzle(page, solution) {
+  const cells = page.locator(".puzzle-grid .puzzle-cell");
+  for (let row = 0; row < solution.length; row += 1) {
+    for (let column = 0; column < solution[row].length; column += 1) {
+      if (solution[row][column] === "1") {
+        await cells.nth(row * solution[row].length + column).click();
+      }
+    }
+  }
+  await page.locator(".completion-banner").waitFor({ state: "visible", timeout: 4000 });
 }
 
 async function captureWidePreviewReview(browser) {
@@ -441,6 +554,9 @@ async function captureWidePreviewReview(browser) {
     await page.locator(".app-shell").waitFor({ state: "visible", timeout: 6000 });
     if ((await page.locator(".guide-overlay").count()) > 0) {
       await captureWide("pip-guide-dialog", ".guide-dialog");
+      await page.locator(".guide-dialog__next").click();
+      await page.locator(".guide-practice").waitFor({ state: "visible", timeout: 2000 });
+      await captureWide("pip-guide-practice", ".guide-dialog");
       await dismissGuideIfPresent(page);
     }
     await captureWide("first-puzzle-board", ".play-screen", { fullPage: true });
@@ -448,7 +564,7 @@ async function captureWidePreviewReview(browser) {
     await captureFloatingNavMenu(page, { namePrefix: "wide-", viewportName: "wide-preview" });
 
     await page.goto(baseUrl, { waitUntil: "networkidle" });
-    await seedReturningPlayer(page);
+    await seedReturningPlayer(page, { name: "하늘", id: "haneul" });
     await page.reload({ waitUntil: "networkidle" });
     await dismissIntro(page);
     await dismissGuideIfPresent(page);
@@ -456,6 +572,8 @@ async function captureWidePreviewReview(browser) {
 
     await openFloatingView(page, "pantry");
     await captureWide("pantry-room-and-shop", ".pantry-panel", { fullPage: true });
+    await page.locator(".spoon-store").scrollIntoViewIfNeeded();
+    await captureWide("spoon-store", ".spoon-store");
     await openFloatingView(page, "timeAttack");
     await captureWide("time-attack-coach", ".time-attack-panel", { fullPage: true });
   } finally {
@@ -492,6 +610,9 @@ async function main() {
     await page.locator(".app-shell").waitFor({ state: "visible", timeout: 6000 });
     if ((await page.locator(".guide-overlay").count()) > 0) {
       await capture(page, "pip-guide-dialog", ".guide-dialog");
+      await page.locator(".guide-dialog__next").click();
+      await page.locator(".guide-practice").waitFor({ state: "visible", timeout: 2000 });
+      await capture(page, "pip-guide-practice", ".guide-dialog");
       await dismissGuideIfPresent(page);
     }
     await capture(page, "first-puzzle-board", ".play-screen", { fullPage: true });
@@ -499,6 +620,132 @@ async function main() {
     await captureFloatingNavMenu(page);
     await captureKoreanFirstRun(browser);
     await captureWidePreviewReview(browser);
+    await capturePackArtContactSheet(browser, {
+      packId: "pips-first-shelf",
+      name: "starter-20-completion-art-contact-sheet",
+      playerId: "starter-art-review"
+    });
+    await capturePackArtContactSheet(browser, {
+      packId: "sunny-spoon-sign",
+      name: "sunny-sign-20-completion-art-contact-sheet",
+      playerId: "sunny-sign-art-review"
+    });
+    await capturePackArtContactSheet(browser, {
+      packId: "apron-drawer",
+      name: "apron-drawer-20-completion-art-contact-sheet",
+      playerId: "apron-drawer-art-review"
+    });
+    await capturePackArtContactSheet(browser, {
+      packId: "bakery-window",
+      name: "bakery-window-first-20-completion-art-contact-sheet",
+      playerId: "bakery-window-art-review",
+      maxCount: 20
+    });
+    await capturePackArtContactSheet(browser, {
+      packId: "village-pantry",
+      name: "village-pantry-first-20-completion-art-contact-sheet",
+      playerId: "village-pantry-art-review",
+      maxCount: 20
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
+        "bakery-window-plum-cardamom-braid-104",
+        "bakery-window-cherry-almond-biscotti-110",
+        "bakery-window-cherry-cream-crown-122",
+        "bakery-window-lemon-thyme-crown-136"
+      ],
+      name: "bakery-repaired-12x12-duplicate-groups",
+      playerId: "bakery-duplicate-repair-review"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
+        "village-pantry-blue-gingham-cloth-66",
+        "village-pantry-wooden-egg-crate-76",
+        "village-pantry-checkered-tea-towel-77",
+        "village-pantry-cornflower-tea-canister-87",
+        "village-pantry-daisy-milk-bottle-91",
+        "village-pantry-blue-ribbon-mason-jar-95",
+        "village-pantry-gingham-egg-cup-107"
+      ],
+      name: "village-repaired-10x10-duplicate-groups",
+      playerId: "village-duplicate-repair-review"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
+        "village-pantry-checkered-napkin-ring-98",
+        "village-pantry-green-label-tea-tin-101",
+        "village-pantry-honey-label-crock-103",
+        "village-pantry-little-cocoa-scoop-111",
+        "village-pantry-copper-berry-scoop-128",
+        "village-pantry-copper-honey-measure-135"
+      ],
+      name: "village-final-10x10-duplicate-repairs",
+      playerId: "village-final-duplicate-review"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
+        "bakery-window-recipe-card-4",
+        "bakery-window-macaron-box-24",
+        "bakery-window-tiny-bow-5",
+        "bakery-window-cocoa-tin-25",
+        "bakery-window-cookie-7",
+        "bakery-window-berry-tart-27",
+        "bakery-window-bread-loaf-8",
+        "bakery-window-pie-lattice-28",
+        "bakery-window-apple-10",
+        "bakery-window-scone-basket-30",
+        "bakery-window-jam-jar-15",
+        "bakery-window-berry-jam-pot-37",
+        "bakery-window-kettle-19",
+        "village-pantry-copper-kettle-47",
+        "village-pantry-spoon-3",
+        "village-pantry-market-basket-21",
+        "village-pantry-market-basket-38",
+        "village-pantry-cafe-window-11",
+        "village-pantry-garden-window-22"
+      ],
+      name: "repaired-player-facing-title-groups",
+      playerId: "title-repair-review"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
+        "village-pantry-tea-tray-25",
+        "village-pantry-flour-sack-27",
+        "village-pantry-pickle-crocks-33",
+        "village-pantry-copper-ladle-35",
+        "village-pantry-potato-sack-36",
+        "village-pantry-herb-bundle-39",
+        "village-pantry-garden-window-22"
+      ],
+      name: "village-centered-composition-repairs",
+      playerId: "village-composition-review"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
+        "bakery-window-berry-jam-pot-37",
+        "bakery-window-berry-tart-27",
+        "bakery-window-cinnamon-rolls-32",
+        "bakery-window-cocoa-tin-25",
+        "bakery-window-cookie-jar-row-29",
+        "bakery-window-croissant-22",
+        "bakery-window-cup-stack-33"
+      ],
+      name: "bakery-centered-composition-repairs-a",
+      playerId: "bakery-composition-review-a"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
+        "bakery-window-honey-jar-shelf-26",
+        "bakery-window-lemon-tart-34",
+        "bakery-window-milk-glass-31",
+        "bakery-window-pie-lattice-28",
+        "bakery-window-pretzel-twist-36",
+        "bakery-window-scone-basket-30",
+        "bakery-window-tiered-cakes-23"
+      ],
+      name: "bakery-centered-composition-repairs-b",
+      playerId: "bakery-composition-review-b"
+    });
 
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await seedReturningPlayer(page);
@@ -508,6 +755,8 @@ async function main() {
 
     await openFloatingView(page, "pantry");
     await capture(page, "pantry-room-and-shop", ".pantry-panel", { fullPage: true });
+    await page.locator(".spoon-store").scrollIntoViewIfNeeded();
+    await capture(page, "spoon-store", ".spoon-store");
     await openFloatingView(page, "timeAttack");
     await capture(page, "time-attack-coach", ".time-attack-panel", { fullPage: true });
     await openFloatingView(page, "album");

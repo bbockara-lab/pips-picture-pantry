@@ -123,15 +123,22 @@ export function renderPuzzleView(puzzle, options = {}) {
     if (isReplayChallenge) {
       section.appendChild(createReplayChallengeNote(!isReplayClean(replayCleanStatus)));
     }
-    if (options.stageNavigation) {
+    if (state.completed) {
+      section.appendChild(renderCompletionBanner(puzzle, { ...options, replayResult }));
+      return;
+    }
+    const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode);
+    if (options.stageNavigation && !cursorControlsEnabled) {
       section.appendChild(createStageNavigation(options.stageNavigation));
     }
 
-    if (!state.completed) {
+    // Cursor mode already explains movement and the two available actions
+    // beside its D-pad. Repeating the full Pip lesson and tap controls above
+    // a large board makes the board feel secondary.
+    if (!state.completed && puzzle.size >= 10 && !cursorControlsEnabled) {
       section.appendChild(renderHowToPlayCard());
     }
 
-    const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode);
     section.appendChild(renderBoard(puzzle, state, (row, column, action = {}) => {
       playTap();
       const cursorState = setCursor(state, row, column, puzzle.size);
@@ -145,7 +152,12 @@ export function renderPuzzleView(puzzle, options = {}) {
       locked: state.completed,
       cursorEnabled: cursorControlsEnabled
     }));
-    section.appendChild(createControls(state, update));
+    if (!cursorControlsEnabled) {
+      section.appendChild(createControls(state, update));
+    }
+    if (!state.completed && cursorControlsEnabled) {
+      section.appendChild(renderCursorControls(state, puzzle, update));
+    }
     const baseHintLimit = getHintLimit(puzzle);
     const hintLimit = isTimeAttack ? Math.min(baseHintLimit, 3) : baseHintLimit;
     if (!state.completed && hintLimit > 0) {
@@ -165,13 +177,11 @@ export function renderPuzzleView(puzzle, options = {}) {
         balance: hintCost > 0 ? getPantrySpoons() : 0,
         paid: hintCost > 0,
         timeAttack: isTimeAttack,
+        compact: cursorControlsEnabled,
         onSpendHint: hintCost > 0
           ? (cost) => spendPantrySpoons(cost, isTimeAttack ? "time-attack-hint" : "puzzle-extra-hint").allowed
           : null
       }));
-    }
-    if (!state.completed && cursorControlsEnabled) {
-      section.appendChild(renderCursorControls(state, puzzle, update));
     }
     section.appendChild(createProgressLine(state, puzzle));
 
@@ -179,9 +189,6 @@ export function renderPuzzleView(puzzle, options = {}) {
       section.appendChild(renderMarkHint());
     }
 
-    if (state.completed) {
-      section.appendChild(renderCompletionBanner(puzzle, { ...options, replayResult }));
-    }
   }
 
   draw();
@@ -369,7 +376,6 @@ function createStageNavigation(stageNavigation) {
   actions.className = "stage-navigation__actions";
   actions.append(
     createStageNavButton(t("stageNav.previous"), !stageNavigation.hasPrevious, stageNavigation.onPrevious, "previous"),
-    createStageNavButton(t("stageNav.list"), false, stageNavigation.onShowList, "list"),
     createStageNavButton(t("stageNav.next"), !stageNavigation.hasNext, stageNavigation.onNext, "next")
   );
 

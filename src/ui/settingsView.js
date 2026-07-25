@@ -44,9 +44,7 @@ export function renderSettingsDialog({
   const title = document.createElement("h2");
   title.id = "settings-dialog-title";
   title.textContent = t("settings.title");
-  const languageNote = document.createElement("p");
-  languageNote.textContent = t("settings.languageNote");
-  dialog.append(title, languageNote);
+  dialog.appendChild(title);
 
   const group = document.createElement("div");
   group.className = "language-options settings-choice-grid settings-choice-grid--language";
@@ -80,7 +78,11 @@ export function renderSettingsDialog({
   playerInput.name = "playerName";
   playerInput.maxLength = 18;
   playerInput.autocomplete = "nickname";
-  playerInput.value = playerName;
+  const localizedPlaceholder = t("playerIntro.placeholder");
+  playerInput.placeholder = localizedPlaceholder;
+  playerInput.value = playerName === "Jay" && localizedPlaceholder !== "Jay"
+    ? localizedPlaceholder
+    : playerName;
   const playerSave = document.createElement("button");
   playerSave.type = "submit";
   playerSave.className = "tool-button settings-choice settings-choice--save";
@@ -97,9 +99,7 @@ export function renderSettingsDialog({
   const controlLabel = document.createElement("p");
   controlLabel.className = "section-label";
   controlLabel.textContent = t("settings.controls");
-  const controlNote = document.createElement("p");
-  controlNote.textContent = t("settings.controlsNote");
-  controlGroup.append(controlLabel, controlNote);
+  controlGroup.appendChild(controlLabel);
   const controlButtons = document.createElement("div");
   controlButtons.className = "language-options compact settings-choice-grid settings-choice-grid--control";
   controlButtons.setAttribute("role", "group");
@@ -134,16 +134,6 @@ export function renderSettingsDialog({
 
   const guideGroup = createGuideReplayCard(onReplayGuide);
 
-  const supportGroup = supportPack ? createSupportPackCard({
-    supportPack,
-    onSupportPurchase,
-    onSupportRestore
-  }) : null;
-  const spoonJarGroup = spoonJar ? createSpoonJarCard({
-    spoonJar,
-    onSpoonJarPurchase
-  }) : null;
-
   const closeButton = document.createElement("button");
   closeButton.type = "button";
   closeButton.className = "tool-button settings-choice settings-choice--close settings-close";
@@ -151,15 +141,32 @@ export function renderSettingsDialog({
   closeButton.addEventListener("click", onClose);
 
   dialog.append(group, playerForm, controlGroup, audioGroup, guideGroup);
-  if (supportGroup) {
-    dialog.appendChild(supportGroup);
-  }
-  if (spoonJarGroup) {
-    dialog.appendChild(spoonJarGroup);
-  }
   dialog.appendChild(closeButton);
   overlay.appendChild(dialog);
   return overlay;
+}
+
+export function renderSpoonStore({
+  supportPack = null,
+  onSupportPurchase = () => {},
+  onSupportRestore = () => {},
+  spoonJar = null,
+  onSpoonJarPurchase = () => {}
+} = {}) {
+  if (!supportPack && !spoonJar) return null;
+  const store = document.createElement("section");
+  store.className = "spoon-store";
+  const heading = document.createElement("div");
+  heading.className = "spoon-store__heading";
+  const title = document.createElement("h2");
+  title.textContent = t("settings.spoonStoreTitle");
+  heading.appendChild(title);
+  const products = document.createElement("div");
+  products.className = "spoon-store__products";
+  if (supportPack) products.appendChild(createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestore }));
+  if (spoonJar) products.appendChild(createSpoonJarCard({ spoonJar, onSpoonJarPurchase }));
+  store.append(heading, products);
+  return store;
 }
 
 function createGuideReplayCard(onReplayGuide) {
@@ -242,14 +249,6 @@ function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestor
   body.className = "support-pack-card__body";
   body.textContent = getSupportPackBody(supportPack);
 
-  const facts = document.createElement("div");
-  facts.className = "support-pack-card__facts";
-  getSupportPackFacts(supportPack).forEach((fact) => {
-    const chip = document.createElement("span");
-    chip.textContent = fact;
-    facts.appendChild(chip);
-  });
-
   const status = document.createElement("p");
   const statusTone = getSupportStatusTone(supportPack);
   status.className = statusTone
@@ -276,7 +275,7 @@ function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestor
   restoreButton.addEventListener("click", onSupportRestore);
 
   actions.append(purchaseButton, restoreButton);
-  group.append(label, art, body, facts, status, actions);
+  group.append(label, art, body, status, actions);
   return group;
 }
 
@@ -294,14 +293,6 @@ function createSpoonJarCard({ spoonJar, onSpoonJarPurchase }) {
   const body = document.createElement("p");
   body.className = "support-pack-card__body";
   body.textContent = t("settings.spoonJarBody", { spoons: spoonJar.spoons });
-
-  const facts = document.createElement("div");
-  facts.className = "support-pack-card__facts";
-  getSpoonJarFacts(spoonJar).forEach((fact) => {
-    const chip = document.createElement("span");
-    chip.textContent = fact;
-    facts.appendChild(chip);
-  });
 
   const status = document.createElement("p");
   const statusTone = getSpoonJarStatusTone(spoonJar);
@@ -322,7 +313,7 @@ function createSpoonJarCard({ spoonJar, onSpoonJarPurchase }) {
   purchaseButton.addEventListener("click", onSpoonJarPurchase);
 
   actions.appendChild(purchaseButton);
-  group.append(label, art, body, facts, status, actions);
+  group.append(label, art, body, status, actions);
   return group;
 }
 
@@ -383,7 +374,7 @@ export function getSupportPackStatus(supportPack) {
     return t("settings.supportReady");
   }
   if (!supportPack.available) {
-    return t("settings.supportAndroidOnly");
+    return "";
   }
   return t("settings.supportReady");
 }
@@ -411,7 +402,8 @@ export function getSupportStatusTone(supportPack) {
 }
 
 function getSupportPurchaseLabel(supportPack) {
-  const price = supportPack.priceString || t("settings.supportPricePending");
+  if (!supportPack.priceString) return t("settings.supportPricePending");
+  const price = supportPack.priceString;
   return t("settings.supportBuy", { price });
 }
 
@@ -450,7 +442,7 @@ export function getSpoonJarStatus(spoonJar) {
   if (spoonJar.status === "network-error") return t("settings.supportNetworkError");
   if (["wrong-product", "failed", "product-unavailable", "missing-purchase-key"].includes(spoonJar.status)) return t("settings.spoonJarFailed");
   if (spoonJar.status === "purchased" || spoonJar.status === "already-processed") return t("settings.spoonJarReady");
-  if (!spoonJar.available) return t("settings.supportAndroidOnly");
+  if (!spoonJar.available) return "";
   return t("settings.spoonJarReady");
 }
 
@@ -462,8 +454,9 @@ export function getSpoonJarStatusTone(spoonJar) {
 }
 
 function getSpoonJarPurchaseLabel(spoonJar) {
-  const price = spoonJar.priceString || t("settings.supportPricePending");
-  return t("settings.spoonJarBuy", { price });
+  if (!spoonJar.priceString) return t("settings.supportPricePending");
+  const price = spoonJar.priceString;
+  return t("settings.spoonJarBuy", { price, spoons: spoonJar.spoons });
 }
 
 export function canPurchaseSpoonJar(spoonJar) {

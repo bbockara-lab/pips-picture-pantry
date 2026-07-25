@@ -23,7 +23,7 @@ const availabilityFilters = ["all", "canBuy", "owned"];
 const sortOptions = ["featured", "priceLow", "priceHigh", "rarity"];
 const rarityRank = { starter: 0, common: 1, cozy: 2, rare: 3, premium: 4 };
 const roomStepTargets = [1, 3, 6, 10];
-const defaultShopCardLimit = 6;
+const defaultShopCardLimit = 3;
 const PIP_CAMEO_ASSET_ID = "pip-chrome-v2";
 const pantryViewState = {
   selectedSlotId: "all",
@@ -140,9 +140,12 @@ function renderRoomSlot(slot, equippedDecorations, selectedSlotId, onSelectSlot)
 
   const label = document.createElement("span");
   label.textContent = t(slot.titleKey);
-  const value = document.createElement("strong");
-  value.textContent = decoration ? t(decoration.titleKey) : t("pantry.emptySlot");
-  slotElement.append(label, value);
+  slotElement.appendChild(label);
+  if (decoration) {
+    const value = document.createElement("strong");
+    value.textContent = t(decoration.titleKey);
+    slotElement.appendChild(value);
+  }
   slotElement.addEventListener("click", () => onSelectSlot(selected ? "all" : slot.id));
   return slotElement;
 }
@@ -262,9 +265,6 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, track
   if (placementSwapNote) {
     body.appendChild(placementSwapNote);
   }
-  appendTextElement(body, "p", "", t(decoration.descriptionKey));
-
-  const itemSavings = renderItemSavings(decoration, owned, spoons);
   const trackButton = document.createElement("button");
   const canTrackGoal = !owned && Number(decoration.cost || 0) > 0;
   if (canTrackGoal) {
@@ -319,9 +319,6 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, track
   }
 
   card.append(art, body);
-  if (itemSavings) {
-    card.appendChild(itemSavings);
-  }
   if (canTrackGoal) {
     card.appendChild(trackButton);
   }
@@ -721,22 +718,13 @@ function renderShopLimitControl(visibleCount, totalCount, onShowMore) {
   const control = document.createElement("div");
   control.className = "pantry-shop-limit";
 
-  const text = document.createElement("p");
-  text.textContent = t("pantry.shopLimitSummary", { visible: visibleCount, total: totalCount });
-
-  const meter = document.createElement("div");
-  meter.className = "pantry-shop-limit__meter";
-  meter.setAttribute("aria-hidden", "true");
-  meter.style.setProperty("--shop-limit-progress", Math.min(100, Math.round((visibleCount / totalCount) * 100)) + "%");
-  meter.appendChild(createMeterFill());
-
   const button = document.createElement("button");
   button.type = "button";
   button.className = "pantry-shop-limit__action";
   button.textContent = t("pantry.shopLimitAction");
   button.addEventListener("click", () => onShowMore?.());
 
-  control.append(text, meter, button);
+  control.appendChild(button);
   return control;
 }
 
@@ -838,11 +826,8 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   const shopHeading = document.createElement("div");
   shopHeading.className = "pantry-shop-heading";
   const shopCopy = document.createElement("div");
-  appendTextElement(shopCopy, "p", "section-label", t("pantry.shopEyebrow"));
   appendTextElement(shopCopy, "h3", "", t("pantry.shopTitle"));
-  const shopBody = document.createElement("p");
-  shopBody.textContent = t("pantry.shopBody");
-  shopHeading.append(shopCopy, shopBody);
+  shopHeading.appendChild(shopCopy);
   shop.appendChild(shopHeading);
 
   const filtersMount = document.createElement("div");
@@ -869,11 +854,6 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     replaceWithOptional(storyArchiveMount, renderPantryStoryArchive(approvedDecorations, completedStoryGoalIds, ownedIds, selectStoryArrival, spoons));
     filtersMount.replaceChildren();
     filtersMount.className = "pantry-filter-stack";
-    replaceWithOptional(advisorMount, renderPlacementAdvisor(selectedSlotId, approvedDecorations, ownedIds));
-    replaceWithOptional(savingsGoalMount, renderSavingsGoal(selectedSlotId, approvedDecorations, ownedIds, spoons, trackedGoalId));
-    replaceWithOptional(earningPlanMount, renderEarningPlan(selectedSlotId, approvedDecorations, ownedIds, spoons, trackedGoalId, onPlayForSpoons, onOpenSupportPack));
-    replaceWithOptional(progressMount, renderCollectionProgress(approvedDecorations, ownedIds, equippedDecorations, completedStoryGoalIds, spoons, planNextRoomRequest, onPlayForSpoons));
-    replaceWithOptional(displayPlanMount, renderDisplayPlan(selectedSlotId, approvedDecorations, ownedIds, equippedDecorations, spoons));
 
     const visibleDecorations = approvedDecorations
       .filter((decoration) => selectedSlotId === "all" || decoration.slot === selectedSlotId)
@@ -892,13 +872,8 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
       .sort((left, right) => compareDecorations(left, right, selectedSort, ownedIds, equippedDecorations, spoons));
     const visibleShopDecorations = sortedDecorations.slice(0, shopVisibleLimit);
     const isFiltered = selectedSlotId !== "all" || selectedRarity !== "all" || selectedAvailability !== "all";
-    filtersMount.append(
-      renderSlotFilters(selectedSlotId, selectSlot),
-      renderRarityFilters(selectedRarity, selectRarity),
-      renderAvailabilityFilters(selectedAvailability, selectAvailability),
-      renderSortControls(selectedSort, selectSort),
-      renderFilterSummary(visibleDecorations.length, approvedDecorations.length, isFiltered, resetFilters)
-    );
+    filtersMount.append(renderSlotFilters(selectedSlotId, selectSlot));
+    if (isFiltered) filtersMount.appendChild(renderFilterSummary(visibleDecorations.length, approvedDecorations.length, isFiltered, resetFilters));
 
     grid.replaceChildren();
     shopLimitMount.replaceChildren();
@@ -1049,6 +1024,6 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   }
 
   drawDecorations();
-  panel.append(header, room, placementNote, storyRequestMount, storyMilestoneMount, storyDeliveryMount, actionFeedbackMount, storyArchiveMount, planningDeck, shop);
+  panel.append(header, room, storyRequestMount, storyMilestoneMount, storyDeliveryMount, actionFeedbackMount, storyArchiveMount, shop);
   return panel;
 }

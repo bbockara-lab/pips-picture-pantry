@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import {
   getActiveLocale,
   getLanguagePreference,
+  puzzleAlbumText,
   puzzleText,
   puzzleTitle,
   setActiveLocale,
@@ -46,13 +47,13 @@ describe("i18n", () => {
     expect(t("controls.fill")).toBe("Color");
     expect(t("controls.mark")).toBe("Blank Check");
     expect(t("controls.undo")).toBe("Undo last move");
-    expect(t("daily.eyebrow")).toBe("Today's pick");
+    expect(t("daily.eyebrow")).toBe("Today's picture");
     expect(t("views.map")).toBe("Badges");
     expect(t("views.pantryHint")).toBe("Shop and decorate");
     expect(t("pantry.progressMissionBody", { remaining: 2, stage: "Sunny Spoon Sign" })).toContain("2 more Pip requests");
     expect(t("pantry.progressMissionPlanRequest")).toBe("Plan next request");
     expect(t("pipStrip.puzzleLine", { player: "Jay" })).toBe("Jay, use the numbers to color the picture.");
-    expect(t("puzzlePicker.sizeReward", { size: 5, count: 3 })).toBe("5x5 +3");
+    expect(t("puzzlePicker.sizeReward", { size: 5, count: 3 })).toBe("5×5 · +3");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - Complete");
     expect(t("album.count", { completed: 1, total: 100 })).toBe("1/100 pictures");
     expect(t("settings.playerName")).toBe("Player name");
@@ -93,6 +94,16 @@ describe("i18n", () => {
     expect(puzzleTitle({ id: "village-pantry-market-basket-21", title: "Market Basket" })).toBe("\uc2dc\uc7a5 \ubc14\uad6c\ub2c8");
   });
 
+  it("uses the localized image name in generic Korean album copy", () => {
+    setActiveLocale("ko");
+    const copy = puzzleAlbumText({
+      id: "pips-first-shelf-soup-bowl-2",
+      title: "Soup Bowl"
+    });
+    expect(copy).toContain("\uc218\ud504 \uadf8\ub987");
+    expect(copy).not.toContain("Soup Bowl");
+  });
+
   it("keeps newest Korean large-board puzzle names readable", () => {
     setActiveLocale("ko");
 
@@ -129,7 +140,7 @@ describe("i18n", () => {
     expect(t("brandIntro.promisePuzzleAction")).toBe("\ud480\uae30");
     expect(t("brandIntro.promiseDecorateAction")).toBe("\uafb8\ubbf8\uae30");
     expect(t("brandIntro.promiseTimeAttackAction")).toBe("\ub3c4\uc804");
-    expect(t("playerIntro.pipCue")).toBe("\ud32c\ud2b8\ub9ac \uce74\ub4dc\ub294 Pip\uc774 \uae54\ub054\ud558\uac8c \uc815\ub9ac\ud574\ub458\uac8c\uc694.");
+    expect(t("guide.next")).toBe("\ub2e4\uc74c");
 
     setActiveLocale("unsupported");
     expect(t("views.puzzle")).toBe("Puzzle");
@@ -302,7 +313,7 @@ describe("i18n", () => {
 
     expect(t("settings.supportAndroidOnly")).toBe("Store connection is being prepared.");
     expect(t("settings.supportFactAndroid")).toBe("Store preparing");
-    expect(t("settings.supportPricePending")).toBe("Store price");
+    expect(t("settings.supportPricePending")).toBe("Check price");
     expect(t("settings.supportAndroidOnly")).not.toMatch(/Android test build|Google Play app|Google Play price/i);
     expect(t("settings.supportFactAndroid")).not.toMatch(/Android test build|Google Play app|Google Play price/i);
     expect(t("settings.supportPricePending")).not.toMatch(/Android test build|Google Play app|Google Play price/i);
@@ -311,7 +322,7 @@ describe("i18n", () => {
 
     expect(t("settings.supportAndroidOnly")).toContain("Play \uC2A4\uD1A0\uC5B4");
     expect(t("settings.supportFactAndroid")).toBe("\uC2A4\uD1A0\uC5B4 \uC900\uBE44 \uC911");
-    expect(t("settings.supportPricePending")).toBe("\uC2A4\uD1A0\uC5B4 \uAC00\uACA9 \uD655\uC778");
+    expect(t("settings.supportPricePending")).toBe("\uAC00\uACA9 \uD655\uC778");
     expect(t("settings.supportAndroidOnly")).not.toMatch(/Android \uD14C\uC2A4\uD2B8|Google Play \uC571|Google Play \uAC00\uACA9/);
     expect(t("settings.supportFactAndroid")).not.toMatch(/Android \uD14C\uC2A4\uD2B8|Google Play \uC571|Google Play \uAC00\uACA9/);
   });
@@ -345,5 +356,22 @@ describe("i18n", () => {
     setLanguagePreference("en", "ko-KR");
     expect(getLanguagePreference()).toBe("en");
     expect(t("views.album")).toBe("Album");
+  });
+
+  it("localizes early stage picture names in Korean", () => {
+    setActiveLocale("ko");
+    expect(puzzleTitle({ id: "sunny-spoon-sign-cafe-window-1", title: "Cafe Window" })).toBe("카페 창가");
+    expect(puzzleTitle({ id: "apron-drawer-rolling-pin-2-20", title: "Rolling Pin 2" })).toBe("두 번째 밀대");
+    setActiveLocale("en");
+  });
+
+  it("lets intentionally replaced puzzle art use its new localized title", () => {
+    setActiveLocale("ko");
+    expect(puzzleTitle({
+      id: "village-pantry-jam-jar-15",
+      title: "Jam Jar",
+      runtimeTitle: "Jam Shelf"
+    })).toBe("잼 선반");
+    setActiveLocale("en");
   });
 });

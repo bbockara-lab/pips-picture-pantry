@@ -20,8 +20,6 @@ export const ko = {
   },
   playerIntro: {
     title: "Pip\uc774 \ubb50\ub77c\uace0 \ubd80\ub974\uba74 \ub420\uae4c\uc694?",
-    note: "\uc774 \uc774\ub984\uc73c\ub85c \uc9c4\ud589\uc774 \uc774 \uae30\uae30\uc5d0 \uc800\uc7a5\ub3fc\uc694.",
-    pipCue: "\ud32c\ud2b8\ub9ac \uce74\ub4dc\ub294 Pip\uc774 \uae54\ub054\ud558\uac8c \uc815\ub9ac\ud574\ub458\uac8c\uc694.",
     label: "\uc774\ub984",
     placeholder: "하늘",
     continue: "\uacc4\uc18d",
@@ -63,20 +61,21 @@ export const ko = {
     playerName: "\uc774\ub984",
     savePlayer: "\uc774 \uc774\ub984 \uc0ac\uc6a9",
     sound: "\uc18c\ub9ac",
-    sfx: "\ud6a8\uacfc\uc74c \ucf1c\uae30/\ub044\uae30",
-    music: "\uc544\ub291\ud55c \uc74c\uc545 \ucf1c\uae30/\ub044\uae30",
+    sfx: "\ud6a8\uacfc\uc74c",
+    music: "\uc74c\uc545",
     controls: "\uc870\uc791 \ubc29\uc2dd",
     controlsNote: "\ud070 \ud37c\uc990\uc5d0\uc11c \uc6c0\uc9c1\uc774\ub294 \ubc29\uc2dd\uc744 \uace0\ub974\uc138\uc694.",
     controlsAuto: "\ud070 \ud310\uc5d0\uc11c \uc790\ub3d9",
     controlsDirect: "\uce78 \uc9c1\uc811 \ub204\ub974\uae30",
     controlsCursor: "\ubc29\ud5a5\ud0a4 \uc0ac\uc6a9",
     guideReplayTitle: "Pip\uc758 \uac00\uc774\ub4dc",
-    guideReplayBody: "Pip이 그림 풀이와 타임어택을 다시 옆에서 차근차근 보여줄게요.",
+    guideReplayBody: "필요할 때 Pip과 다시 연습해요.",
     guideReplayAction: "Pip 가이드 보기",
     guideReplayPuzzleAction: "그림 가이드",
     guideReplayTimeAttackAction: "타임어택 가이드",
+    spoonStoreTitle: "\uc2a4\ud47c \uc0c1\uc810",
     supportTitle: "Pip \uc751\uc6d0\ud329",
-    supportBody: "Pip의 팬트리를 응원해 주면 스푼 {spoons}개도 함께 받아요.",
+    supportBody: "Pip의 팬트리를 응원하고 스푼 {spoons}개를 받아요.",
     supportOwnedBody: "응원해 주셔서 고마워요. 스푼 {spoons}개가 이미 팬트리에 담겼어요.",
     supportOwned: "\uc751\uc6d0\ud329\uc774 \uc801\uc6a9\ub418\uc5b4 \uc788\uc5b4\uc694.",
     supportChecking: "\uc2a4\ud1a0\uc5b4 \uc5f0\uacb0\uc744 \ud655\uc778\ud558\uace0 \uc788\uc5b4\uc694.",
@@ -94,13 +93,13 @@ export const ko = {
     supportRestore: "\uad6c\ub9e4 \ubcf5\uc6d0",
     supportBuy: "{price}\ub85c \uc751\uc6d0\ud558\uae30",
     spoonJarTitle: "\uc791\uc740 \uc2a4\ud47c \ud56d\uc544\ub9ac",
-    spoonJarBody: "힌트가 더 필요하거나 팬트리를 꾸밀 때 쓸 스푼 {spoons}개를 채워요.",
+    spoonJarBody: "팬트리를 꾸밀 때 쓸 스푼 {spoons}개를 채워요.",
     spoonJarFactSpoons: "\uc2a4\ud47c {spoons}\uac1c",
     spoonJarFactRepeat: "\ud544\uc694\ud560 \ub54c \ub2e4\uc2dc \ucc44\uc6b0\uae30",
     spoonJarReady: "\ud56d\uc544\ub9ac\ub97c \ucc44\uc6b0\uba74 \uc2a4\ud47c\uc774 \ubc14\ub85c \ub4e4\uc5b4\uc640\uc694.",
     spoonJarFailed: "항아리를 채우지 못했어요. 결제되거나 스푼이 추가되지는 않았어요.",
-    spoonJarBuy: "{price}\ub85c \ud56d\uc544\ub9ac \ucc44\uc6b0\uae30",
-    supportPricePending: "\uc2a4\ud1a0\uc5b4 \uac00\uaca9 \ud655\uc778",
+    spoonJarBuy: "{price} · \uc2a4\ud47c {spoons}\uac1c",
+    supportPricePending: "\uac00\uaca9 \ud655\uc778",
     close: "\uc644\ub8cc"
   },
   badges: {
@@ -117,9 +116,9 @@ export const ko = {
     packProgress: "{name}\uae4c\uc9c0 {completed}/{total}\uc7a5",
     pipsFirstShelf: "\uccab \uc120\ubc18 \ubc30\uc9c0",
     pipsFirstShelfDesc: "Pip \uadf8\ub9bc \ubc30\uc9c0 \uc644\uc131",
-    sunnySpoonSign: "Sunny Spoon Sign \ubc30\uc9c0",
+    sunnySpoonSign: "\ud587\uc0b4 \uc2a4\ud47c \uac04\ud310 \ubc30\uc9c0",
     sunnySpoonSignDesc: "Sunny Spoon \ub85c\uace0 \ubc30\uc9c0 \uc644\uc131",
-    apronDrawer: "Apron Drawer \ubc30\uc9c0",
+    apronDrawer: "\uc55e\uce58\ub9c8 \uc11c\ub78d \ubc30\uc9c0",
     apronDrawerDesc: "Pip \ub3c4\uc6b0\ubbf8 \ubc30\uc9c0 \uc644\uc131",
     bakeryWindow: "Bakery Window \ubc30\uc9c0",
     bakeryWindowDesc: "\ud32c\ud2b8\ub9ac \uce5c\uad6c\ub4e4 \ubc30\uc9c0 \uc644\uc131",
@@ -161,9 +160,10 @@ export const ko = {
     open: "\ud480\uae30",
     hubNote: "\uadf8\ub9bc\uc744 \uace0\ub978 \ub4a4 \ud37c\uc990\ub9cc \ubcf4\uc774\ub294 \ud654\uba74\uc5d0\uc11c \ucc28\ubd84\ud788 \ud480\uc5b4\uc694."
   },  daily: {
-    eyebrow: "\uc624\ub298\uc758 \ucd94\ucc9c",
-    play: "\ubcf4\ub108\uc2a4 \ubc1b\uae30",
-    selected: "\uc9c0\uae08 \ud480\uace0 \uc788\uc5b4\uc694",
+    eyebrow: "\uc624\ub298\uc758 \uadf8\ub9bc",
+    play: "\ub3c4\uc804\ud558\uae30",
+    selected: "\uc120\ud0dd\ub428",
+    reward: "\uc644\uc131 \ubcf4\uc0c1 · \uc2a4\ud47c {count}\uac1c",
     notePrefix: "\uc624\ub298 \ubcf4\ub108\uc2a4",
     noteSuffix: ""
   },
@@ -191,14 +191,14 @@ export const ko = {
   timeAttack: {
     eyebrow: "\uc0c8 \ub3c4\uc804",
     title: "\ud0c0\uc784\uc5b4\ud0dd",
-    body: "\ub79c\ub364 3\ud310\uc744 \uc774\uc5b4\uc11c \ud480\uba70 \uc624\ub298\uc758 \uc2a4\ud47c\uc744 \ubc8c\uace0, \uae30\ub85d\uc744 \uae68\ub294 \ubaa8\ub4dc\uc608\uc694. \ub9c9\ud788\uba74 \uc2a4\ud47c\uc73c\ub85c \ud78c\ud2b8\ub97c \uc0ac\uc6a9\ud560 \uc218 \uc788\uc5b4\uc694.",
-    hubEyebrow: "\ube60\ub978 \uc2a4\ud47c \ub3c4\uc804",
-    hubTitle: "\ud0c0\uc784\uc5b4\ud0dd\uc774 \uc900\ube44\ub410\uc5b4\uc694",
-    hubBody: "\ub79c\ub364 \ud310 3\uac1c\ub97c \uc774\uc5b4\uc11c \ud480\uace0, \ud55c \uc218\ub77c\ub3c4 \ub354 \ub098\uc544\uac04 \uae30\ub85d\uc744 \ub0a8\uaca8\ubcf4\uc138\uc694. \ud78c\ud2b8\uac00 \uaf2d \ud544\uc694\ud560 \ub54c\ub9cc \uc2a4\ud47c\uc744 \uc4f0\uba74 \ub3fc\uc694.",
-    hubAction: "\ud0c0\uc784\uc5b4\ud0dd \uc2dc\uc791",
+    body: "\ud06c\uae30\uac00 \ucee4\uc9c0\ub294 \ud37c\uc990 3\ud310\uc5d0 \ub3c4\uc804\ud574\uc694.",
+    hubEyebrow: "\ud0c0\uc784\uc5b4\ud0dd",
+    hubTitle: "\ud37c\uc990 3\uac1c \uc5f0\uc18d \ub3c4\uc804",
+    hubBody: "\uc81c\ud55c \uc2dc\uac04 \uc548\uc5d0 \uc5b4\ub514\uae4c\uc9c0 \ud480 \uc218 \uc788\uc744\uae4c\uc694?",
+    hubAction: "\uc2dc\uc791",
     coachEyebrow: "Pip\uc758 \ub3c4\uc804 \uba54\ubaa8",
-    coachTitle: "\uc2a4\ud47c\uc744 \ubc8c\uace0, \uc704\ud5d8\uc744 \uace0\ub974\uc138\uc694",
-    coachBody: "\uc5ec\uae30\ub294 \uc2a4\ud47c\uc744 \ub354 \ubc8c \uc218 \uc788\ub294 \ube60\ub978 \ub3c4\uc804\uc774\uc5d0\uc694. \ub79c\ub364 \ud37c\uc990\uc774\ub77c \ub9e4\ubc88 \uc0c8\ub86d\uace0, \uae30\ub85d\uc774 \ub208\uc55e\uc774\uba74 \uc2a4\ud47c\uc744 \uc4f0\uace0 \ud78c\ud2b8\ub97c \uace0\ub97c \uc218 \uc788\uc5b4\uc694.",
+    coachTitle: "\uc138 \ud310\uc744 \uc5b4\ub514\uae4c\uc9c0 \ud480 \uc218 \uc788\uc744\uae4c\uc694?",
+    coachBody: "\ub9c9\ud790 \ub54c\ub9cc \ud78c\ud2b8\ub97c \uace8\ub77c\uc694.",
     coachEarn: "\uc624\ub298\uc758 \ub3c4\uc804 \uc2a4\ud47c \ubc8c\uae30",
     coachSpend: "\uc911\uc694\ud560 \ub54c\ub9cc \ud78c\ud2b8\uc5d0 \uc2a4\ud47c \uc4f0\uae30",
     coachRecord: "\ub0b4 \ucd5c\uace0 \uae30\ub85d \uae68\uae30",
@@ -222,8 +222,8 @@ export const ko = {
     runPlanTitle: "\ub3c4\uc804 \ud750\ub984",
     runPlanBody: "\ub79c\ub364 \ud37c\uc990 3\ud310. \ud78c\ud2b8\ub294 \ub3c4\uc804\uc744 \uc0b4\ub9b4 \uc218 \uc788\uc9c0\ub9cc, \uc0ac\uc6a9\ud560 \ub54c\ub9c8\ub2e4 \uc2a4\ud47c\uc744 \uc4f0\uac8c \ub3fc\uc694.",
     rewardTitle: "\uc624\ub298 \ubcf4\uc0c1",
-    rewardReady: "\uc624\ub298 {count}/{limit}\ud68c \ubc1b\uc558\uc5b4\uc694. \ubcf4\uc0c1\uc774 \ub0a8\uc544 \uc788\uc5b4\uc694.",
-    rewardUsed: "\uc624\ub298 {count}/{limit}\ud68c \ubc1b\uc558\uc5b4\uc694. \uae30\ub85d\uc740 \uacc4\uc18d \ub0a8\uc544\uc694.",
+    rewardReady: "\uc624\ub298\uc758 \uc2a4\ud47c {count}/{limit}",
+    rewardUsed: "\uc624\ub298\uc758 \uc2a4\ud47c\uc744 \ubaa8\ub450 \ubc1b\uc558\uc5b4\uc694",
     bestTitle: "\ucd5c\uace0 \uae30\ub85d",
     bestSummary: "{progress}\uce78, {boardProgress} / {time} / \ud78c\ud2b8 {hints}\ud68c",
     newRecord: "\uc0c8 \ucd5c\uace0 \uae30\ub85d",
@@ -240,16 +240,21 @@ export const ko = {
     remaining: "\ub0a8\uc740 \uc2dc\uac04 {time}"
   },
   guide: {
+    practiceLabel: "Pip\uacfc \ud568\uaed8 \uce60\ud574\ubcf4\ub294 \uc5f0\uc2b5 \uc904",
+    practicePrompt: "\uc22b\uc790 5\uc5d0 \ub9de\ucdb0 \ub2e4\uc12f \uce78\uc744 \ubaa8\ub450 \ub20c\ub7ec\ubcf4\uc138\uc694.",
+    practiceCell: "{number}\ubc88 \uce78",
+    practiceTryAgain: "\ub2e4\uc12f \uce78\uc744 \ucc28\ub840\ub85c \ubaa8\ub450 \uce60\ud574\ubcfc\uae4c\uc694?",
+    practiceComplete: "\uc88b\uc544\uc694! \uc22b\uc790 5\uc640 \ub2e4\uc12f \uce78\uc774 \ub531 \ub9de\uc558\uc5b4\uc694.",
     eyebrow: "Pip의 작은 안내",
     speaker: "Pip이 옆에서 말해요",
     skip: "나중에 볼게요",
-    next: "계속 듣기",
+    next: "다음",
     done: "같이 시작",
     puzzle: {
       title: "첫 그림은 제가 옆에서 함께 풀어볼게요",
       step1: "여기 숫자는 칠해야 할 칸의 묶음을 알려줘요. 쉬운 줄부터 제가 같이 짚어볼게요.",
-      step2: "3은 붙어서 3칸, 1 1 1은 한 칸씩 떨어진 작은 조각이에요. 조각 사이에는 빈칸이 꼭 하나 필요해요.",
-      step3: "줄이 맞게 완성되면 제가 안전한 빈칸에 부드러운 X를 남겨둘게요. 막히면 천천히 힌트를 써도 괜찮아요."
+      step2: "숫자 5 하나가 보이면 이 줄의 다섯 칸을 모두 칠해요. 아래 줄을 끝까지 눌러볼까요?",
+      step3: "숫자가 여러 개면 칠할 묶음도 여러 개예요. 묶음 사이에는 빈칸이 하나 이상 필요해요. 막히면 제가 힌트를 줄게요."
     },
     timeAttack: {
       title: "빠른 도전도 제가 함께할게요",
@@ -289,7 +294,7 @@ export const ko = {
     }
   },
   stageNav: {
-    position: "{current}/{total}\uBC88\uC9F8",
+    position: "{current} / {total}",
     previous: "\uC774\uC804 \uADF8\uB9BC",
     list: "\uADF8\uB9BC \uBAA9\uB85D",
     next: "\uB2E4\uC74C \uADF8\uB9BC"
@@ -373,11 +378,14 @@ export const ko = {
     genericSaved: "{title} \uce74\ub4dc\ub97c \uc800\uc7a5\ud588\uc5b4\uc694.",
     hiddenTitle: "\uc228\uc740 \uadf8\ub9bc",
     hiddenText: "\ud37c\uc990\uc744 \uc644\uc131\ud558\uba74 \uc800\uc7a5\ub3fc\uc694.",
+    emptyTitle: "\uccab \uadf8\ub9bc\uc744 \uc644\uc131\ud574\ubcfc\uae4c\uc694?",
+    emptyAction: "\uadf8\ub9bc \ud480\uae30",
     lockedSymbol: "?"
   },
   puzzlePicker: {
-    size: "{size}x{size}",
-    sizeReward: "{size}x{size} +{count}",
+    size: "{size}×{size}",
+    sizeReward: "{size}×{size} · +{count}",
+    complete: "\uc644\ub8cc",
     rewardLabel: "{size}x{size}, \ubcf4\uc0c1 {count}",
     sizeComplete: "{size}x{size} - \uc644\ub8cc"
   },
@@ -444,19 +452,19 @@ export const ko = {
       note: "\uc791\uace0 \uc26c\uc6b4 \uccab \uadf8\ub9bc"
     },
     "sunny-spoon-sign": {
-      title: "Sunny Spoon Sign",
+      title: "\ud587\uc0b4 \uc2a4\ud47c \uac04\ud310",
       note: "\uac00\uac8c \uac04\ud310\uacfc \uc791\uc740 \uc18c\ud488"
     },
     "apron-drawer": {
-      title: "Apron Drawer",
+      title: "\uc55e\uce58\ub9c8 \uc11c\ub78d",
       note: "\uc55e\uce58\ub9c8, \uc8fc\ubc29 \ub3c4\uad6c, \ub530\ub73b\ud55c \ubaa8\uc591"
     },
     "bakery-window": {
-      title: "Bakery Window",
+      title: "\ubca0\uc774\ucee4\ub9ac \ucc3d\uac00",
       note: "\ube75, \ub514\uc800\ud2b8, \ucc3d\uac00\uc758 \ub530\ub73b\ud55c \ube5b"
     },
     "village-pantry": {
-      title: "Village Pantry",
+      title: "\ub9c8\uc744 \ud32c\ud2b8\ub9ac",
       note: "\uccab \ub85c\ub4dc\ub9f5\uc744 \ub9c8\ubb34\ub9ac\ud558\ub294 \uadf8\ub9bc"
     }    ,
     "cafe-window-plus": {
@@ -709,10 +717,29 @@ export const ko = {
   },
   puzzles: {
     "pips-first-shelf-pip-face-1": {
-      title: "Pip Face",
-      imageName: "Pip Face",
+      title: "Pip \uc5bc\uad74",
+      imageName: "Pip \uc5bc\uad74",
       albumText: "\uccab \uadf8\ub9bc\uc744 \uc800\uc7a5\ud588\uc5b4\uc694."
     },
+    "pips-first-shelf-soup-bowl-2": { title: "\uc218\ud504 \uadf8\ub987", imageName: "\uc218\ud504 \uadf8\ub987" },
+    "pips-first-shelf-spoon-3": { title: "\uc2a4\ud47c", imageName: "\uc2a4\ud47c" },
+    "pips-first-shelf-recipe-card-4": { title: "\ub808\uc2dc\ud53c \uce74\ub4dc", imageName: "\ub808\uc2dc\ud53c \uce74\ub4dc" },
+    "pips-first-shelf-tiny-bow-5": { title: "\uc791\uc740 \ub9ac\ubcf8", imageName: "\uc791\uc740 \ub9ac\ubcf8" },
+    "pips-first-shelf-teacup-6": { title: "\ucc3b\uc794", imageName: "\ucc3b\uc794" },
+    "pips-first-shelf-cookie-7": { title: "\ucfe0\ud0a4", imageName: "\ucfe0\ud0a4" },
+    "pips-first-shelf-bread-loaf-8": { title: "\uc2dd\ube75", imageName: "\uc2dd\ube75" },
+    "pips-first-shelf-tiny-house-9": { title: "\uc791\uc740 \uc9d1", imageName: "\uc791\uc740 \uc9d1" },
+    "pips-first-shelf-apple-10": { title: "\uc0ac\uacfc", imageName: "\uc0ac\uacfc" },
+    "pips-first-shelf-pip-face-2-11": { title: "\uc6c3\ub294 Pip", imageName: "\uc6c3\ub294 Pip" },
+    "pips-first-shelf-soup-bowl-2-12": { title: "\ub530\ub73b\ud55c \uc218\ud504", imageName: "\ub530\ub73b\ud55c \uc218\ud504" },
+    "pips-first-shelf-spoon-2-13": { title: "\ubc18\uc9dd\uc774\ub294 \uc2a4\ud47c", imageName: "\ubc18\uc9dd\uc774\ub294 \uc2a4\ud47c" },
+    "pips-first-shelf-recipe-card-2-14": { title: "\ube44\ubc00 \ub808\uc2dc\ud53c", imageName: "\ube44\ubc00 \ub808\uc2dc\ud53c" },
+    "pips-first-shelf-tiny-bow-2-15": { title: "\ub450 \ubc88\uc9f8 \ub9ac\ubcf8", imageName: "\ub450 \ubc88\uc9f8 \ub9ac\ubcf8" },
+    "pips-first-shelf-teacup-2-16": { title: "\uaf43\ubb34\ub2ac \ucc3b\uc794", imageName: "\uaf43\ubb34\ub2ac \ucc3b\uc794" },
+    "pips-first-shelf-cookie-2-17": { title: "\ubc84\ud130 \ucfe0\ud0a4", imageName: "\ubc84\ud130 \ucfe0\ud0a4" },
+    "pips-first-shelf-bread-loaf-2-18": { title: "\uac13 \uad6c\uc6b4 \uc2dd\ube75", imageName: "\uac13 \uad6c\uc6b4 \uc2dd\ube75" },
+    "pips-first-shelf-tiny-house-2-19": { title: "\ud32c\ud2b8\ub9ac \uc9d1", imageName: "\ud32c\ud2b8\ub9ac \uc9d1" },
+    "pips-first-shelf-apple-2-20": { title: "\uc798 \uc775\uc740 \uc0ac\uacfc", imageName: "\uc798 \uc775\uc740 \uc0ac\uacfc" },
     "village-pantry-flour-sack-27": {
       title: "\ubc00\uac00\ub8e8 \ud3ec\ub300",
       imageName: "\ubc00\uac00\ub8e8 \ud3ec\ub300"

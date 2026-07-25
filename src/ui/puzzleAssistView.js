@@ -114,7 +114,7 @@ export function renderHintPanel(state, puzzle, update, hintLimit = getHintLimit(
   const used = Math.max(0, Number(state.hintsUsed || 0));
   const remaining = Math.max(0, hintLimit - used);
   const panel = document.createElement("div");
-  panel.className = "hint-panel";
+  panel.className = options.compact ? "hint-panel hint-panel--compact" : "hint-panel";
 
   const copy = document.createElement("div");
   copy.className = "hint-panel__copy";
@@ -140,7 +140,9 @@ export function renderHintPanel(state, puzzle, update, hintLimit = getHintLimit(
   if (meter) {
     copy.append(meter);
   }
-  copy.append(body);
+  if (!options.compact) {
+    copy.append(body);
+  }
 
   const button = document.createElement("button");
   button.type = "button";

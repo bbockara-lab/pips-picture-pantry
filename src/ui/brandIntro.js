@@ -1,7 +1,5 @@
-import pipSealUrl from "../assets/characters/pip-chrome-v2.png";
 import openingKeyVisualUrl from "../assets/brand/opening-key-visual-v1.webp";
 import studioBumperUrl from "../assets/brand/sunny-spoon-studios-bumper-v1.webp";
-import { APP_VERSION } from "../data/appVersion.js";
 import { isRuntimeStudioBumperArtApproved } from "../data/runtimeArt.js";
 import { hasActivePlayer, setActivePlayerName } from "../game/save.js";
 import { t } from "../i18n/index.js";
@@ -65,29 +63,10 @@ export function renderBrandIntro(root) {
     }, INTRO_EXIT_MS);
   };
 
-  const dispatchIntroOpenView = (view) => {
-    if (view) {
-      window.dispatchEvent(new CustomEvent("ppp:intro-open-view", { detail: { view } }));
-    }
-  };
-
-  const requestPlayerName = (pendingView = null) => {
+  const requestPlayerName = () => {
     content.classList.add("name-stage");
-    replaceChildren(content, buildKeyVisual(true), buildSeal(), textElement("p", "brand-intro__studio", t("app.studioName")));
+    replaceChildren(content, buildKeyVisual(true));
     appendTextElement(content, "h2", "", t("playerIntro.title"));
-    appendTextElement(content, "p", "player-intro-note", t("playerIntro.note"));
-
-    const pipCue = document.createElement("div");
-    pipCue.className = "player-intro-pip";
-    const pipImage = document.createElement("img");
-    pipImage.src = pipSealUrl;
-    pipImage.alt = "";
-    pipImage.setAttribute("aria-hidden", "true");
-    pipCue.appendChild(pipImage);
-    appendTextElement(pipCue, "span", "", t("playerIntro.pipCue"));
-    content.appendChild(pipCue);
-
-    appendTextElement(content, "p", "brand-intro__version", t("app.versionLabel", { version: APP_VERSION }));
 
     const form = document.createElement("form");
     form.className = "player-intro-form";
@@ -111,7 +90,6 @@ export function renderBrandIntro(root) {
       event.preventDefault();
       setActivePlayerName(new FormData(form).get("playerName"));
       window.dispatchEvent(new CustomEvent("ppp:player-changed"));
-      dispatchIntroOpenView(pendingView);
       dismiss();
     });
     globalThis.setTimeout(() => input.focus(), 50);
@@ -124,17 +102,6 @@ export function renderBrandIntro(root) {
     }
     requestPlayerName();
   });
-  content.querySelectorAll(".brand-intro__promise-chip").forEach((chip) => {
-    chip.addEventListener("click", () => {
-      const targetView = chip.dataset.targetView;
-      if (hasActivePlayer()) {
-        dispatchIntroOpenView(targetView);
-        dismiss();
-        return;
-      }
-      requestPlayerName(targetView);
-    });
-  });
 
   if (prefersReducedMotion()) {
     showGameIdentity();
@@ -146,20 +113,8 @@ export function renderBrandIntro(root) {
 }
 
 function renderGameIdentity(content) {
-  content.append(buildKeyVisual(false), buildSeal(), textElement("p", "brand-intro__studio", t("app.studioName")));
+  content.append(buildKeyVisual(false));
   appendTextElement(content, "h2", "", t("app.title"));
-  appendTextElement(content, "p", "brand-intro__launch-note", t("brandIntro.launchNote"));
-
-  const promiseStrip = document.createElement("div");
-  promiseStrip.className = "brand-intro__promise-strip";
-  promiseStrip.setAttribute("aria-label", t("brandIntro.promiseLabel"));
-  promiseStrip.append(
-    buildPromiseChip("brand-intro__promise-chip--puzzle", t("brandIntro.promisePuzzle"), "puzzle", t("brandIntro.promisePuzzleAction")),
-    buildPromiseChip("brand-intro__promise-chip--pantry", t("brandIntro.promiseDecorate"), "pantry", t("brandIntro.promiseDecorateAction")),
-    buildPromiseChip("brand-intro__promise-chip--time", t("brandIntro.promiseTimeAttack"), "timeAttack", t("brandIntro.promiseTimeAttackAction")),
-  );
-  content.appendChild(promiseStrip);
-  appendTextElement(content, "p", "brand-intro__version", t("app.versionLabel", { version: APP_VERSION }));
 
   const button = document.createElement("button");
   button.className = "brand-intro__skip";
@@ -177,35 +132,6 @@ function buildKeyVisual(isSmall) {
   image.alt = "";
   visual.appendChild(image);
   return visual;
-}
-
-function buildSeal() {
-  const seal = document.createElement("div");
-  seal.className = "brand-intro__seal";
-  seal.setAttribute("aria-hidden", "true");
-  const image = document.createElement("img");
-  image.src = pipSealUrl;
-  image.alt = "";
-  seal.appendChild(image);
-  return seal;
-}
-
-function buildPromiseChip(modifierClass, label, targetView, actionLabel = t("brandIntro.promiseAction")) {
-  const chip = document.createElement("button");
-  chip.className = `brand-intro__promise-chip ${modifierClass}`;
-  chip.type = "button";
-  chip.dataset.targetView = targetView;
-  chip.setAttribute("aria-label", label);
-  const icon = document.createElement("i");
-  icon.setAttribute("aria-hidden", "true");
-  chip.appendChild(icon);
-  appendTextElement(chip, "b", "", label);
-  const action = document.createElement("span");
-  action.className = "brand-intro__promise-action";
-  action.setAttribute("aria-hidden", "true");
-  action.textContent = actionLabel;
-  chip.appendChild(action);
-  return chip;
 }
 
 function appendTextElement(parent, tagName, className, text) {

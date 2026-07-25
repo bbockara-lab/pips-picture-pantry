@@ -1,0 +1,109 @@
+import { describe, expect, it } from "vitest";
+import { buildPuzzleArtAudit } from "../scripts/puzzle_art_audit.js";
+
+describe("puzzle art audit", () => {
+  it("prioritizes duplicate silhouettes before softer composition warnings", () => {
+    const report = buildPuzzleArtAudit({
+      packIds: ["test-pack"],
+      puzzleList: [
+        { id: "a", title: "A", packId: "test-pack", size: 5, solution: ["11111", "10001", "10101", "10001", "11111"] },
+        { id: "b", title: "B", packId: "test-pack", size: 5, solution: ["11111", "10001", "10101", "10001", "11111"] },
+        { id: "c", title: "C", packId: "test-pack", size: 5, solution: ["00100", "00100", "00100", "00100", "00100"] }
+      ]
+    });
+
+    expect(report.totals.duplicateSolutionGroups).toBe(1);
+    expect(report.candidates[0].reasons).toContain("duplicate silhouette");
+    expect(report.candidates[1].reasons).toContain("duplicate silhouette");
+  });
+
+  it("flags extreme density and multiple blank edges", () => {
+    const report = buildPuzzleArtAudit({
+      packIds: ["test-pack"],
+      puzzleList: [
+        { id: "thin", title: "Thin", packId: "test-pack", size: 5, solution: ["00000", "00100", "00100", "00100", "00000"] }
+      ]
+    });
+
+    expect(report.candidates[0].reasons).toContain("extreme density 12%");
+    expect(report.candidates[0].blankEdges).toBe(4);
+  });
+
+  it("keeps repaired Bakery and Village groups out of exact-duplicate findings", () => {
+    const report = buildPuzzleArtAudit();
+    const repairedIds = new Set([
+      "bakery-window-plum-cardamom-braid-104",
+      "bakery-window-cherry-almond-biscotti-110",
+      "bakery-window-cherry-cream-crown-122",
+      "bakery-window-lemon-thyme-crown-136",
+      "village-pantry-blue-gingham-cloth-66",
+      "village-pantry-wooden-egg-crate-76",
+      "village-pantry-checkered-tea-towel-77",
+      "village-pantry-cornflower-tea-canister-87",
+      "village-pantry-daisy-milk-bottle-91",
+      "village-pantry-blue-ribbon-mason-jar-95",
+      "village-pantry-gingham-egg-cup-107",
+      "village-pantry-checkered-napkin-ring-98",
+      "village-pantry-green-label-tea-tin-101",
+      "village-pantry-honey-label-crock-103",
+      "village-pantry-little-cocoa-scoop-111",
+      "village-pantry-copper-berry-scoop-128",
+      "village-pantry-copper-honey-measure-135"
+    ]);
+
+    expect(report.duplicateSolutions.some((group) => group.some((id) => repairedIds.has(id)))).toBe(false);
+    expect(report.totals.duplicateSolutionGroups).toBe(0);
+  });
+
+  it("keeps every Bakery and Village player-facing title distinct", () => {
+    const report = buildPuzzleArtAudit();
+
+    expect(report.duplicateTitles).toEqual([]);
+    expect(report.totals.duplicateTitleGroups).toBe(0);
+  });
+
+  it("keeps the repaired Village compositions out of the art-review queue", () => {
+    const report = buildPuzzleArtAudit();
+    const repairedIds = new Set([
+      "village-pantry-tea-tray-25",
+      "village-pantry-flour-sack-27",
+      "village-pantry-pickle-crocks-33",
+      "village-pantry-copper-ladle-35",
+      "village-pantry-potato-sack-36",
+      "village-pantry-herb-bundle-39",
+      "village-pantry-garden-window-22"
+    ]);
+
+    expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
+  });
+
+  it("keeps the first repaired Bakery compositions out of the art-review queue", () => {
+    const report = buildPuzzleArtAudit();
+    const repairedIds = new Set([
+      "bakery-window-berry-jam-pot-37",
+      "bakery-window-berry-tart-27",
+      "bakery-window-cinnamon-rolls-32",
+      "bakery-window-cocoa-tin-25",
+      "bakery-window-cookie-jar-row-29",
+      "bakery-window-croissant-22",
+      "bakery-window-cup-stack-33"
+    ]);
+
+    expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
+  });
+
+  it("keeps the final repaired Bakery compositions out of the art-review queue", () => {
+    const report = buildPuzzleArtAudit();
+    const repairedIds = new Set([
+      "bakery-window-honey-jar-shelf-26",
+      "bakery-window-lemon-tart-34",
+      "bakery-window-milk-glass-31",
+      "bakery-window-pie-lattice-28",
+      "bakery-window-pretzel-twist-36",
+      "bakery-window-scone-basket-30",
+      "bakery-window-tiered-cakes-23"
+    ]);
+
+    expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
+  });
+});

@@ -1,4 +1,3 @@
-import { APP_VERSION } from "../data/appVersion.js";
 import { getPackById } from "../data/packs.js";
 import { ECONOMY, getTimeAttackHintCost } from "../data/economyConfig.js";
 import { puzzles } from "../data/puzzles.js";
@@ -21,7 +20,7 @@ import {
 import { getCozySupportProduct, getSpoonJarSmallProduct, purchaseCozySupportPack, purchaseSpoonJarSmall, restoreCozySupportPack, syncCozySupportEntitlement } from "../game/billing.js";
 import { setLanguagePreference } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
-import { renderBadgeShelf, renderFooter, renderHeader, renderPipStrip, renderResetDialog } from "./appChrome.js";
+import { renderBadgeShelf, renderHeader, renderResetDialog } from "./appChrome.js";
 import { playStageComplete, setMusicEnabled, setSfxEnabled, startMusic } from "./audio.js";
 import { renderPantryMapView } from "./mapView.js";
 import { renderPantryView } from "./pantryView.js";
@@ -32,7 +31,7 @@ import { renderPlayScreen } from "./playScreen.js";
 import { renderFloatingNav } from "./floatingNav.js";
 import { renderGuideDialog } from "./guideDialog.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
-import { canPurchaseSpoonJar, canPurchaseSupportPack, canRestoreSupportPack, renderSettingsDialog } from "./settingsView.js";
+import { canPurchaseSpoonJar, canPurchaseSupportPack, canRestoreSupportPack, renderSettingsDialog, renderSpoonStore } from "./settingsView.js";
 import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackElapsedSeconds, TIME_ATTACK_LIMIT_SECONDS, TIME_ATTACK_TRIAL_ROUNDS } from "./timeAttackFlow.js";
 import { renderTimeAttackView } from "./timeAttackView.js";
 
@@ -672,14 +671,14 @@ function createShell({
   if (earnedBadgeShelf) {
     shell.appendChild(earnedBadgeShelf);
   }
-  shell.appendChild(renderPipStrip(activePuzzle, activeView));
-
   if (activeView === "album") {
-    shell.appendChild(renderAlbumView());
+    shell.appendChild(renderAlbumView(() => onSelectView("puzzle")));
   } else if (activeView === "map") {
     shell.appendChild(renderPantryMapView());
   } else if (activeView === "pantry") {
     shell.appendChild(renderPantryView(() => onSelectView("pantry"), onPantryFirstPurchase, () => onSelectView("puzzle"), onRequestSettings));
+    const spoonStore = renderSpoonStore(settingsDialogProps);
+    if (spoonStore) shell.appendChild(spoonStore);
   } else if (activeView === "timeAttack") {
     shell.appendChild(renderTimeAttackView({
       bestScores: getTimeAttackBestScores(),
@@ -712,7 +711,6 @@ function createShell({
     }));
   }
 
-  shell.appendChild(renderFooter(APP_VERSION));
   if (!hasBlockingOverlay) {
     shell.appendChild(renderFloatingNav(activeView, onSelectView));
   }

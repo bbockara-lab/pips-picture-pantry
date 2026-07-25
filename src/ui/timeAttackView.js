@@ -20,23 +20,19 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
   startButton.textContent = t("timeAttack.start");
   startButton.addEventListener("click", () => onStart?.());
 
-  const summary = document.createElement("div");
-  summary.className = "time-attack-summary";
-  summary.append(
-    createSummaryCard(t("timeAttack.runPlanTitle"), t("timeAttack.runPlanBody")),
-    createSummaryCard(t("timeAttack.rewardTitle"), getRewardStatusText(dailyCount, dailyLimit)),
-    createSummaryCard(t("timeAttack.bestTitle"), getBestSummaryText(bestScores))
-  );
+  const status = document.createElement("p");
+  status.className = "time-attack-status";
+  status.textContent = getRewardStatusText(dailyCount, dailyLimit);
 
   const records = createRecordsPanel(bestScores);
 
   if (lastResult) {
     const result = createLastResultPanel(lastResult);
-    panel.append(intro, coach, ladder, startButton, summary, result, records);
+    panel.append(intro, coach, ladder, startButton, status, result, records);
     return panel;
   }
 
-  panel.append(intro, coach, ladder, startButton, summary, records);
+  panel.append(intro, coach, ladder, startButton, status, records);
   return panel;
 }
 
@@ -56,15 +52,6 @@ function createTimeAttackCoachCard() {
   appendTextElement(copy, "h3", "", t("timeAttack.coachTitle"));
   appendTextElement(copy, "p", "", t("timeAttack.coachBody"));
 
-  const chips = document.createElement("ul");
-  chips.className = "time-attack-coach-card__chips";
-  ["coachEarn", "coachSpend", "coachRecord"].forEach((key) => {
-    const item = document.createElement("li");
-    item.textContent = t(`timeAttack.${key}`);
-    chips.appendChild(item);
-  });
-
-  copy.appendChild(chips);
   card.append(portrait, copy);
   return card;
 }
@@ -111,17 +98,6 @@ function createTimeAttackLadder() {
   return ladder;
 }
 
-function createSummaryCard(titleText, bodyText) {
-  const card = document.createElement("article");
-  card.className = "time-attack-summary__card";
-  const title = document.createElement("h3");
-  title.textContent = titleText;
-  const body = document.createElement("p");
-  body.textContent = bodyText;
-  card.append(title, body);
-  return card;
-}
-
 function getRewardStatusText(dailyCount, dailyLimit) {
   const used = Math.min(Number(dailyCount) || 0, Number(dailyLimit) || 0);
   const limit = Number(dailyLimit) || 0;
@@ -129,19 +105,6 @@ function getRewardStatusText(dailyCount, dailyLimit) {
     return t("timeAttack.rewardUsed", { count: used, limit });
   }
   return t("timeAttack.rewardReady", { count: used, limit });
-}
-
-function getBestSummaryText(bestScores) {
-  const best = getBestRecord(bestScores);
-  if (!best) {
-    return t("timeAttack.noRecord");
-  }
-  return t("timeAttack.bestSummary", {
-    progress: getRecordProgress(best),
-    boardProgress: getRecordBoardProgress(best),
-    time: formatElapsedSeconds(best.elapsedSeconds || 0),
-    hints: getRecordHints(best)
-  });
 }
 
 function createRecordsPanel(bestScores) {
@@ -227,15 +190,6 @@ function getRecordBoardProgress(record) {
     return t("timeAttack.boardProgressFallback", { round, current });
   }
   return t("timeAttack.boardProgress", { round, current, total });
-}
-
-function getBestRecord(bestScores) {
-  return Object.values(bestScores).reduce((best, record) => {
-    if (!best || Number(record.score || 0) > Number(best.score || 0)) {
-      return record;
-    }
-    return best;
-  }, null);
 }
 
 function formatElapsedSeconds(seconds) {

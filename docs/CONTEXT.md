@@ -3577,3 +3577,219 @@ Current launch direction:
 - Expanded the visual review pack from 29 to 30 screenshots with a Korean Album viewport capture, closing the last locale-specific visual coverage gap without producing an impractical 333-card full-page image.
 - Manual review confirmed the centered 675px five-item menu and Korean Album title, count, saved card, description, and locked-card preview render without clipping or section intrusion.
 - Verification: 119 unit tests, 157-asset QA, production build, 30-frame visual pack, mobile QA at 360/390/430/675px, and the full release-candidate gate passed.
+
+### v0.1.515 Player-First Visual Reset (In Progress)
+- Reopened release visual review after owner playtesting identified excessive explanatory copy, decorative glare/orbs, cramped cards, and Settings-hosted purchases as launch blockers despite prior geometry QA passing.
+- Simplified the opening to the key visual, title, and Start action; removed the pre-start mode cards, season/count pitch, version chip, studio label, Pip seal, and decorative button glare.
+- Simplified the player-name step to the question and form, removing device-storage and developer-facing helper copy.
+- Rebuilt Pip guidance as a full-screen character-and-dialogue scene without eyebrow/speaker labels, floating tokens, or light-orb decoration. The first puzzle guide now includes a tappable five-cell practice row inside the conversation and will not continue until the player fills the requested three connected cells.
+- Removed Billing products from Settings and placed them in a dedicated Spoon Shop below the Pantry, with shorter price-and-spoon actions and no decorative pseudo-element art.
+- Generated `pip-pantry-v3-source.png` from the current opening-art Pip identity and produced web, Play Console, and Android launcher candidates. This remains an owner-review candidate, not an approved final icon.
+- Replaced legacy mobile-QA expectations that required glare, medallions, version chips, and opening mode cards. The new contract rejects those elements, keeps Settings preference-only, checks the Spoon Shop location, and validates clean full-screen Pip dialogue.
+- Reworked the launch puzzle hub after owner flow review: removed the season/report card and persistent Pip banner, collapsed daily rewards to one text line, replaced the CSS Time Attack symbol with approved raster art, localized the first-stage titles, and separated puzzle names from compact size/reward metadata.
+- Removed the oversized spoon reward illustration and decorative stage-preview orb/glare. Stage filters now appear only after a stage is actually complete.
+- Redrew the first 5x5 solution with visible Pip ears and added a dedicated warm-brown completion palette so the mandatory first solve reads as a character reveal rather than a hollow skull-like face. A regression test now locks the first silhouette.
+- Corrected the interactive tutorial after review found that clue `3` in a five-cell row had three valid placements but the practice accepted only the middle placement. The practice now uses the unambiguous clue `5`, accepts all five cells, and has a pure-data regression contract.
+- Added `docs/UX_REWORK_PLAN.md` to turn recurring owner feedback into shared product rules, phased screen audits, and explicit acceptance criteria instead of continuing isolated screenshot patches.
+- Continued Phase A with a dedicated flat starter-play surface at mobile widths: removed the duplicated in-board Pip tutorial card, stripped starter navigation/control glare and pseudo-icons, shortened the stage position to `1 / 20`, and made the three starter controls text-first.
+- Expanded the visual pack with explicit English, Korean, and wide interactive-practice captures plus a scripted Korean first-completion capture, growing coverage from 33 to 37 frames.
+- Reworked the first completion into a reveal-focused state: completed boards and controls no longer remain above the reward, the three report-like fact chips are gone, and the saved card pairs the authored Pip celebration art with a small colored 5x5 result.
+- Current verification: 121 unit tests, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, 37-frame visual review pack generation, production build, and the full candidate gate pass. Phase A still needs the second and third starter completion-art audit before promotion.
+
+### v0.1.516 UX Recovery Phases A-C
+- Promoted the owner-feedback reset into a coherent first-session, navigation, and Pantry recovery pass rather than continuing isolated screenshot patches.
+- Finished the first three starter completion treatments with authored Pip, soup-bowl, and golden-spoon palettes. Pip's 5x5 result now distinguishes ears, eyes, muzzle, and face colors in the completion reveal and Album.
+- Simplified the puzzle hub stage headings by removing catalog summaries, pack notes, reward-token decoration, and report-like stage metadata.
+- Changed the Album from a 333-card locked catalog to a shelf of completed pictures only. Empty locked placeholders, duplicate saved-state chips, and the explanatory note are absent.
+- Changed Badges from a full locked roadmap to the nearest badge plus badges the player has actually earned.
+- Reduced the Pantry's initial decoration list from six cards to three, removed repeated empty-slot sentences, stripped remaining room/button glare, and kept the Spoon Shop below the decorating flow.
+- Reduced Settings to visible choices: explanatory language/control paragraphs, decorative header/name orbs, choice glare, and repeated Billing fact chips are removed. Korean audio and store copy is shorter and conversational.
+- Completed the first-shelf art metadata pass: all 20 starter puzzles now select an authored motif palette, with paired variants sharing the same Pip, bowl, spoon, recipe-card, bow, teacup, cookie, loaf, house, or apple color language instead of falling back to a random catalog palette.
+- Updated measured mobile QA to enforce the earned-only Album and next-badge presentation while retaining four-width overflow and tap-target coverage.
+- Verification: 123 unit tests, the 39-frame v0.1.516 visual review pack, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, the full release-candidate gate, and production build passed.
+- The only release evidence still outside local automation is the existing real-device Billing pair: `pip_cozy_support` purchase/restore and `pip_spoon_jar_small` purchase/repeat.
+
+### v0.1.517 Completion Identity Guard
+- Unified the first-Pip completion treatment behind the exact `pips-first-shelf-pip-face-1` ID. Later Pip-face puzzles can share the authored face palette without accidentally receiving the first-completion character scene.
+- Added a regression test covering both the first and second Pip-face puzzle IDs.
+- Replaced the zero-picture Album's generic hidden-card sentence with one friendly question and a direct route back to picture selection.
+- Replaced the starter artwork's diagonal color-cycling formula with motif-specific regions: recipe-card borders, bow center, teacup base, cookie chips, loaf crust, house roof/windows, and apple leaf/body now use intentional positions.
+- Added a 1200px first-shelf contact sheet to the visual pack, showing all 20 completed starter cards in one five-column review image.
+- Fixed generic Korean Album copy to interpolate localized image names instead of leaking English source titles, then removed the repeated saved-card sentence from Album cards because the visible title already communicates it.
+- Verification: 126 unit tests, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, the full release-candidate gate, and the expanded 40-frame v0.1.517 visual pack passed.
+
+### v0.1.518 Stage Completion Art Expansion
+- Extended the completed-picture color system beyond the first shelf. Sunny Spoon Sign, Apron Drawer, Bakery Window, and Village Pantry now each resolve through a documented stage palette while puzzle-specific authored palettes still take priority.
+- Applied the same stage identity to the immediate completion reveal and the saved Album card instead of allowing the two surfaces to drift.
+- Expanded visual review with five-column contact sheets for the first shelf, Sunny Spoon Sign, and Apron Drawer. The 42-frame pack now exposes 60 completed cards for side-by-side silhouette, palette, title-wrap, and spacing review.
+- Localized the recurring Sunny Spoon Sign and Apron Drawer picture names used by the first 40 post-starter puzzles, including natural `두 번째 ...` variants, and localized their Korean stage/badge names.
+- The contact-sheet audit also exposed that Sunny Spoon Sign and Apron Drawer currently reuse the same 20 base silhouettes. This is recorded as the next content-art replacement slice rather than hidden by color changes.
+- Verification: 129 unit tests, the localized 42-frame visual pack, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, source diff check, and the full release-candidate gate passed.
+
+### v0.1.519 Apron Drawer Identity Recovery
+- Replaced Apron Drawer's copied Sunny Spoon Sign content with 20 pack-specific 8x8 silhouettes while preserving every existing puzzle ID and therefore save compatibility.
+- The new set uses ten sewing and drawer motifs plus ten distinct variants: pocket apron, patch pocket, four-hole button, thread spool, sewing scissors, needle, pincushion, apron bow, folded gingham, and drawer handle.
+- Added natural Korean titles for all ten motifs and their `두 번째 ...` variants; changed the technically valid but awkward `실패` label to the clearer player-facing `실타래`.
+- Replaced diagonal/confetti stage coloring with region-based palettes. Edges, centers, and upper/lower regions now form coherent Sunny Spoon, apron, bakery, and village color groupings.
+- Added a data contract requiring all 20 Apron Drawer solutions to be unique and none to duplicate a Sunny Spoon Sign solution.
+- Visual review: the refreshed Apron Drawer contact sheet now shows a distinct sewing-themed shelf with stable title wrapping and no repeated Sunny Spoon silhouettes.
+- Verification: 130 unit tests, the refreshed 42-frame v0.1.519 visual pack, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, source diff check, and the full release-candidate gate passed.
+
+### v0.1.520 Bakery and Village Opening Art
+- Added dedicated first-20 completion contact sheets for Bakery Window and Village Pantry, expanding visual QA from 42 to 44 screenshots.
+- Replaced the first ten copied starter silhouettes in each stage with 20 distinct 5x5 motifs while preserving puzzle IDs and save compatibility.
+- Bakery Window now opens with bakery-window, croissant, tiered cake, macaron box, cocoa tin, honey jar, berry tart, lattice pie, cookie jar, and scone basket pictures.
+- Village Pantry now opens with a cottage, apple tree, market basket, daisy pot, fence, watering can, bird, mushroom, porch lantern, and picnic blanket.
+- Added natural Korean titles for the new pictures and a regression contract requiring the 20 replacement solutions to remain mutually distinct.
+- Contact-sheet review confirmed stable Korean title wrapping, coherent stage-region colors, and visibly different Bakery/Village first rows. The sheets also make the remaining repeated 8x8/10x10 lower row explicit for the next art batch.
+- Verification: 131 unit tests, the 44-frame v0.1.520 visual pack, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, source diff check, and the full release-candidate gate passed.
+
+### v0.1.521 Village Pantry First-20 Recovery
+- Replaced Village Pantry's remaining repeated 8x8/10x10 opening pictures with ten village-specific scenes: garden window, produce crate, herb jar, milk churn, jam shelf, garden rake, straw hat, flower basket, wheelbarrow, and village sign.
+- Preserved all original puzzle IDs while changing titles and solutions, keeping completed/save references compatible.
+- Added localized Korean titles and corrected title precedence so intentionally replaced artwork does not get renamed back to an older translation-key title.
+- Added regression coverage requiring the first 20 Village Pantry solutions to be unique and separate from the first 60 pictures in Sunny Spoon Sign, Apron Drawer, and Bakery Window.
+- Contact-sheet review confirmed the complete four-row Village Pantry opening shelf is now distinct and all replacement Korean titles fit their cards.
+- Verification: 133 unit tests, the refreshed 44-frame v0.1.521 visual pack, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, source diff check, and the full release-candidate gate passed.
+
+### v0.1.522 Bakery Window First-20 Recovery
+- Replaced Bakery Window's repeated 8x8/10x10 lower opening row with ten bakery-specific pictures: baguette basket, cinnamon roll, flour jar, milk pitcher, berry jam pot, balloon whisk, baker cap, cupcake tray, copper kettle, and rolling-pin rack.
+- Preserved puzzle IDs and routed replacement titles through the runtime-title localization path so older per-ID translations cannot override the new artwork names.
+- Added a regression contract requiring Bakery Window's first 20 solutions to be unique and distinct from Sunny Spoon Sign and Apron Drawer.
+- Contact-sheet review confirmed the complete Bakery Window opening shelf now reads as one coherent bakery collection, with concise Korean titles and stable card geometry.
+- Verification: 134 unit tests, the refreshed 44-frame v0.1.522 visual pack, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, source diff check, and the full release-candidate gate passed.
+
+### v0.1.523 Large-Catalog Art Audit
+- Added `npm run qa:art-audit`, a deterministic quality report for the 273 Bakery Window and Village Pantry puzzles.
+- The audit groups exact duplicate solutions and repeated titles, then ranks extreme fill density, multiple blank edges, and missing readable-art briefs without failing the build merely because known content debt exists.
+- Added the audit to the release-candidate pipeline so new work always prints the current top 30 replacement candidates.
+- Current baseline: 7 exact duplicate-silhouette groups, 9 repeated-title groups, and 144 review candidates. The highest-priority items are two 90%-filled Bakery 12x12 duplicates and several Village 10x10 multi-copy groups.
+- Added unit coverage proving exact duplicates outrank softer warnings and validating extreme-density/blank-edge detection.
+- This changes the next art process from sequential bulk editing to evidence-based batches: duplicate groups first, then density, then edge composition.
+- Verification: 136 unit tests, the art-audit command, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, source diff check, and the full release-candidate gate passed.
+
+### v0.1.524 First 12x12 Duplicate Repairs
+- Re-authored the two exact-duplicate Bakery Window 12x12 groups identified at the top of the art audit.
+- Plum Cardamom Braid now uses a tucked braided pastry silhouette; Cherry Almond Biscotti uses a crossed pair with angled ends instead of sharing the same 90%-filled block.
+- Cherry Cream Crown and Lemon Thyme Crown now have separate crown constructions, peak spacing, bases, and negative-space patterns.
+- Reduced exact duplicate-silhouette groups from 7 to 5 and total review candidates from 144 to 140 without changing puzzle IDs, titles, rewards, or save references.
+- Added regression coverage that keeps all four repaired IDs out of exact-duplicate findings.
+- Added a four-card 12x12 repair contact sheet to visual QA; manual review confirmed the silhouettes are distinct, Korean titles fit, and stage color regions remain coherent.
+- Verification: 137 unit tests, the art-audit command, the expanded 45-frame v0.1.524 visual pack, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, source diff check, and the full release-candidate gate passed.
+
+### v0.1.525 Village Multi-Copy Repair
+- Re-authored the two largest remaining Village Pantry 10x10 duplicate groups while preserving puzzle IDs, rewards, and save compatibility.
+- Blue Gingham Cloth, Wooden Egg Crate, and Checkered Tea Towel now use separate textile, crate, and hanging-cloth silhouettes.
+- Cornflower Tea Canister, Daisy Milk Bottle, Blue Ribbon Mason Jar, and Gingham Egg Cup now use distinct vessel shapes instead of one shared rounded block.
+- Reduced exact duplicate-silhouette groups from 5 to 3 and review candidates from 140 to 134.
+- Added a seven-card completion contact sheet; manual review confirmed distinct shapes, stable Korean labels, and no card overflow.
+
+### v0.1.526 Zero Exact-Duplicate Art Baseline
+- Re-authored the final three exact-duplicate Village Pantry 10x10 groups: Checkered Napkin Ring / Green Label Tea Tin, Honey Label Crock / Little Cocoa Scoop, and Copper Berry Scoop / Copper Honey Measure.
+- The deterministic Bakery/Village audit now reports zero exact duplicate-silhouette groups across 273 puzzles. Remaining findings are softer quality work: 9 repeated-title groups plus density, blank-edge, and missing-brief candidates.
+- Extended the repaired-ID regression contract so any future exact-solution reuse among the 17 repaired Bakery/Village pictures fails unit tests.
+- Added a six-card final-repair contact sheet. Manual review confirmed the ring, tin, crock, two scoop profiles, and measuring cup remain recognizable and separately composed at actual 10x10 completion size.
+- Verification: 137 unit tests, zero-duplicate art audit, the 47-frame v0.1.526 visual review pack, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, source diff check, and the full release-candidate gate passed.
+
+### v0.1.527 Distinct Player-Facing Picture Names
+- Removed all nine repeated-title groups reported across the 273 Bakery Window and Village Pantry puzzles without changing puzzle IDs or save references.
+- Named visually related pictures by their distinguishing detail: ribbon versus plain macaron boxes, label cocoa tin, berry rosette tart, woven lattice pie, picnic scone basket, preserve pot, farmstand/harvest baskets, cottage garden window, and hearth copper kettle.
+- Added natural Korean equivalents for every new runtime title so the repair does not fall back to English in Korean play.
+- Added a regression contract requiring zero repeated player-facing titles in the audited packs.
+- Added a 19-card comparison sheet containing every former title group. Manual review confirmed the Korean names remain inside the cards and clarify the visible differences.
+- Audit baseline now reports zero exact duplicate silhouettes, zero repeated-title groups, and 122 softer review candidates.
+- Verification: 138 unit tests, art audit, the 48-frame v0.1.527 visual review pack, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, source diff check, and the full release-candidate gate passed.
+
+### v0.1.528 Village Composition and Readability Repair
+- Re-authored the seven highest-priority Village Pantry blank-edge candidates: Tea Tray, Flour Sack, Pickle Crocks, Copper Ladle, Potato Sack, Herb Bundle, and Cottage Garden Window.
+- Rebalanced each 10x10 composition to use the board deliberately rather than leaving two or three accidental empty edges. Object-specific negative space remains where it improves recognition.
+- Added readable-art briefs and motif tags for all seven pictures so future audits and completion-art work retain the intended tray, vessel, tool, textile, and plant forms.
+- Added a regression contract requiring all seven repaired IDs to stay out of the automated art-review queue.
+- Added a seven-card completion contact sheet. Manual review confirmed centered silhouettes, distinct objects, stable Korean titles, and no card overflow.
+- Reduced softer art-review candidates from 122 to 115 while retaining zero exact duplicates and zero repeated titles.
+- Verification: 139 unit tests, art audit, the 49-frame v0.1.528 visual review pack, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, source diff check, and the full release-candidate gate passed.
+
+### v0.1.529 Bakery Composition Repair A
+- Re-authored the first seven Bakery Window 12x12 blank-edge candidates: Berry Preserve Pot, Berry Rosette Tart, Cinnamon Rolls, Cocoa Label Tin, Cookie Jar Row, Croissant Tray, and Cup Stack.
+- Enlarged each subject across the board while keeping meaningful holes, handles, rims, spirals, labels, and layered pastry gaps so the completion result remains readable instead of becoming a dense block.
+- Added readable-art briefs and motif tags for all seven pictures and a regression contract keeping them out of the automated review queue.
+- Added a seven-card completion contact sheet. Manual review confirmed distinct silhouettes, stable Korean labels, intentional negative space, and no card overflow.
+- Reduced softer art-review candidates from 115 to 108 while retaining zero exact duplicates and zero repeated titles.
+- Verification: 140 unit tests, art audit, the 50-frame v0.1.529 visual review pack, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, source diff check, and the full release-candidate gate passed.
+
+### v0.1.530 Bakery Composition Repair B
+- Re-authored the final seven prioritized Bakery Window 12x12 blank-edge candidates: Honey Jar Shelf, Lemon Tart, Milk Glass, Woven Lattice Pie, Pretzel Twist, Scone Picnic Basket, and Tiered Cakes.
+- Preserved meaningful negative space while extending handles, rims, shelves, platters, and pastry edges across the board so each solved picture has a deliberate centered composition.
+- Added readable-art briefs and motif tags for all seven pictures and a regression contract keeping them out of the automated review queue.
+- Added a seven-card completion contact sheet. Manual review confirmed recognizable tiers, jars, pie weave, basket, glass, citrus wedges, and pretzel loops with stable Korean labels.
+- The top art-audit queue now contains density candidates only. Softer review candidates fell from 108 to 101 while exact duplicates and repeated titles remain at zero.
+- Verification: 141 unit tests, art audit, the 51-frame v0.1.530 visual review pack, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, source diff check, and the full release-candidate gate passed.
+
+### v0.1.531 Claude Visual Review Clarity Fixes
+- Removed the development version footer from player-facing screens while retaining the internal package and source version contract.
+- Localized the seeded legacy player name `Jay` to the current-language placeholder in Settings, so Korean play no longer exposes an English setup artifact.
+- Reduced the first completion reveal to one clear saved-to-album sentence and the solved artwork; redundant completion and saved-state labels were removed.
+- Removed the Pantry shop item counter/progress explainer and the replay recommendation body paragraph.
+- Simplified the English spoon-jar description so it no longer refers to an abstract next stage.
+- Added launch-integrity source guards for all five clarity decisions.
+- Verification: 141 unit tests, launch-integrity QA, and the regenerated 51-frame v0.1.531 visual pack pass. Targeted visual inspection confirmed the Korean name, completion reveal, footer removal, Pantry shop, and replay-card changes.
+
+### v0.1.532 Large-board Focus Pass
+- Cursor-mode large boards no longer repeat the full Pip lesson card above the board.
+- Cursor-mode large boards no longer render the separate tap-mode Color / Blank Check / Undo strip; the D-pad panel remains the single source of movement and cell actions.
+- The change makes the 12x12 board the primary visual and removes two duplicate instruction/control regions without changing tap or automatic control modes.
+- Updated mobile QA to protect the reduced cursor-mode hierarchy and the simplified first-completion reveal instead of requiring the removed legacy cards and labels.
+- Verification: 141 unit tests, launch-integrity QA, art/catalog/assets/store/Billing/privacy checks, production build, Android release gate, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, the full release-candidate gate, and the regenerated 51-frame v0.1.532 visual pack pass.
+- Manual review of the large-board capture confirms the board now follows stage navigation directly and the D-pad is the only action panel.
+
+### v0.1.533 Mobile Play Header Clearance
+- Removed sticky positioning from the dedicated play header so it remains above the puzzle instead of floating across the board during scroll or full-page capture.
+- Retained the full-width safe-area header and its back, title, Settings, and size controls.
+- Updated mobile QA to require a normal-flow play header. This protects the board from future sticky-header overlap regressions.
+- Verification: 141 unit tests, the full release-candidate gate, production build, Android release gate, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, and the regenerated 51-frame v0.1.533 visual pack pass.
+- Manual review of the 12x12 full-page capture confirms the play header, stage navigation, board, hint card, and cursor controls now appear in normal document order without overlap.
+
+### v0.1.534 Play Navigation Deduplication
+- Removed the second `Picture list` button from the stage-navigation row because the dedicated play header already provides the same exit.
+- Stage navigation now answers one question only: move to the previous or next picture.
+- Expanded the two remaining buttons evenly and updated mobile QA to reject a return to the redundant three-button layout.
+- Verification: 141 unit tests, the full release-candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.534 visual pack pass.
+- Manual review confirms the large-board capture has no floating overlap and the two-button stage row leaves more horizontal room for translated labels.
+
+### v0.1.535 Cursor Action Artwork
+- Replaced the cursor-mode Color and Blank CSS tokens with the approved 256x256 fill-brush and mark-X raster artwork already used by the main puzzle controls.
+- Removed both cursor-action pseudo-elements, including the unexplained circular highlight inside each button.
+- Kept the dynamic Clear labels while retaining the same visual asset for each action family.
+- Updated mobile QA to require the approved asset IDs, decoded 256x256 sources, minimum rendered size, and no pseudo-element fallback art.
+- Verification: 141 unit tests, the full release-candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.535 visual pack pass.
+- Manual review confirms the unexplained CSS highlight tokens are gone and both cursor actions now use the same approved illustrated assets as the main puzzle controls.
+
+### v0.1.536 Compact Large-board Controls
+- Large cursor-mode boards no longer render the Previous / Next stage card while a puzzle is active. Picture-list exit remains in the dedicated play header, and completion keeps the next-picture route.
+- Removed the two repeated instructional paragraphs from 10x10+ cursor panels while retaining localized accessible labels on every control.
+- Reflowed the four directional buttons into one horizontal row and Color / Blank into a second two-button row.
+- Kept current row/column and selected-cell state as compact status chips above the controls.
+- The large-board page now prioritizes header, board, and one short control dock rather than stacking navigation, lessons, hints, and a tall D-pad.
+- Verification: 141 unit tests, the full release-candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.536 visual pack pass.
+- In the 390px capture, the full 12x12 board and compact movement/action dock fit together above the optional hint card. The 360x740 contract also passes without horizontal overflow or control overlap.
+
+### v0.1.537 Large-board Visual Grammar
+- Restored the directional controls to a true compact cross layout and placed the two action buttons beside it, preserving directional meaning without returning to the tall original panel.
+- Replaced the negative-margin status alignment with a shared two-column status row so position and selected-cell chips use the same baseline and height contract.
+- Standardized 12x12 row and column clue tokens to one 17x17 size, one font size, and zero inter-token margin to prevent mixed circles and collisions.
+- Removed the large-board hint explanation sentence. The hint allowance and button remain; the revealed cells demonstrate the result directly.
+
+### v0.1.538 Obsolete Play Clearance Removal
+- Removed the 112px cursor-panel bottom margin that previously reserved space for a fixed quick-travel tray.
+- Dedicated play screens no longer mount that tray, so the old clearance created an unexplained empty band between controls and hints.
+- The hint allowance now follows the compact controls at the normal card gap.
+- Verification: 141 unit tests, the full release-candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.538 visual pack pass.
+
+### v0.1.539 QA Cleanup Safety and Time Attack Simplification
+
+- Confirmed Playwright uses the OS temporary directory rather than a persistent browser profile in the OneDrive checkout. Added a fail-closed path ownership check before the visual review script clears its versioned output folder.
+- Removed the three report-like Time Attack summary cards and the coach card's repeated economy chips. The start surface now centers Pip, the 5x5/8x8/10x10 ladder, one start action, a compact daily-spoon status, and existing records.
+- Shortened Korean and English Time Attack copy and disabled the retired decorative pseudo-element shine/tokens on the coach and records surfaces.
+- Verification: 141 unit tests, the 101-candidate art audit, launch-integrity QA, production build, Android release gate, four-width mobile QA, the full release-candidate gate, and the regenerated 51-frame v0.1.539 visual pack pass.
+- Real-device Billing purchase/restore and consumable-repeat evidence remain the only external release blockers.
+- Manual review confirms the 12x12 clue tokens are uniform, the status chips share a baseline, the cross-shaped D-pad preserves direction, and the compact hint card contains no explanatory body copy.

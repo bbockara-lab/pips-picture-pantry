@@ -5,6 +5,7 @@ import { getStageArtUrl, hasApprovedStageArt } from "../data/stageArt.js";
 import { ECONOMY } from "../data/economyConfig.js";
 import { canUnlockPack, getCompletedPuzzleIds, getPackPantryRoomRequirement, getPantrySpoons, getReplayDailyCount, isPackUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
+import { getQuickTravelArt } from "../data/quickTravelArt.js";
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -31,7 +32,6 @@ export function renderPuzzleHub(activePuzzle, onOpenPuzzle, options = {}) {
   const copy = document.createElement("div");
   appendTextElement(copy, "p", "section-label", t("sections.currentPicture"));
   appendTextElement(copy, "h2", "", puzzleTitle(activePuzzle));
-  appendTextElement(copy, "p", "", t("playScreen.hubNote"));
 
   const action = document.createElement("button");
   action.type = "button";
@@ -40,7 +40,7 @@ export function renderPuzzleHub(activePuzzle, onOpenPuzzle, options = {}) {
   action.addEventListener("click", onOpenPuzzle);
 
   panel.append(copy, action);
-  stack.append(panel, createSeasonProgressCard({ onOpenPantry, onUnlockPack, onViewAlbum }));
+  stack.append(panel);
   return stack;
 }
 
@@ -203,15 +203,7 @@ export function renderDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle, dai
 
   const rewardNote = document.createElement("p");
   rewardNote.className = "daily-reward-note";
-  const rewardAmount = document.createElement("span");
-  rewardAmount.className = "daily-reward-amount";
-  rewardAmount.append(createSpoonIcon("small"), document.createTextNode("+" + String(dailyBonus || 0)));
-  rewardNote.append(
-    document.createTextNode(t("daily.notePrefix")),
-    document.createElement("br"),
-    rewardAmount,
-    document.createTextNode(t("daily.noteSuffix"))
-  );
+  rewardNote.textContent = t("daily.reward", { count: dailyBonus || 0 });
   text.appendChild(rewardNote);
 
   const button = document.createElement("button");
@@ -232,6 +224,14 @@ export function renderTimeAttackTeaserCard(onOpenTimeAttack = () => {}) {
   const badge = document.createElement("span");
   badge.className = "time-attack-teaser-card__badge";
   badge.setAttribute("aria-hidden", "true");
+  const timeAttackArt = getQuickTravelArt("timeAttack");
+  if (timeAttackArt) {
+    const image = document.createElement("img");
+    image.src = timeAttackArt.src;
+    image.alt = "";
+    image.dataset.assetId = timeAttackArt.assetId;
+    badge.appendChild(image);
+  }
 
   const copy = document.createElement("div");
   appendTextElement(copy, "p", "section-label", t("timeAttack.hubEyebrow"));
@@ -243,15 +243,11 @@ export function renderTimeAttackTeaserCard(onOpenTimeAttack = () => {}) {
   button.className = "tool-button time-attack-teaser-card__action";
   button.setAttribute("aria-label", t("timeAttack.hubAction"));
 
-  const actionIcon = document.createElement("span");
-  actionIcon.className = "time-attack-teaser-card__action-icon";
-  actionIcon.setAttribute("aria-hidden", "true");
-
   const actionLabel = document.createElement("span");
   actionLabel.className = "time-attack-teaser-card__action-label";
   actionLabel.textContent = t("timeAttack.hubAction");
 
-  button.append(actionIcon, actionLabel);
+  button.append(actionLabel);
   button.addEventListener("click", onOpenTimeAttack);
 
   card.append(badge, copy, button);
@@ -276,10 +272,6 @@ export function renderReplayPicksCard(replayPicks, activePuzzleId, onSelectPuzzl
   count.textContent = t("replayPicks.count", { count: dailyCount, limit: dailyLimit });
   header.append(headerCopy, count);
 
-  const body = document.createElement("p");
-  body.className = "replay-picks-card__body";
-  body.textContent = t("replayPicks.body");
-
   const list = document.createElement("div");
   list.className = "replay-picks-list";
   replayPicks.forEach((puzzle) => {
@@ -293,7 +285,7 @@ export function renderReplayPicksCard(replayPicks, activePuzzleId, onSelectPuzzl
     list.appendChild(button);
   });
 
-  card.append(header, body, list);
+  card.append(header, list);
   return card;
 }
 
@@ -319,8 +311,10 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack,
         complete: packPuzzles.length > 0 && completeCount >= packPuzzles.length
       };
     });
-  const hiddenStageCount = hideCompletedStages ? stageStats.filter((stat) => stat.complete).length : 0;
-  section.appendChild(createStageFilterBar(hideCompletedStages, hiddenStageCount, onToggleHideCompletedStages));
+  const completedStageCount = stageStats.filter((stat) => stat.complete).length;
+  if (completedStageCount > 0) {
+    section.appendChild(createStageFilterBar(hideCompletedStages, completedStageCount, onToggleHideCompletedStages));
+  }
 
   puzzlePacks.forEach((pack) => {
     if (pack.access === "bonus-pack") {
@@ -346,8 +340,7 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack,
     header.className = "pack-header";
     const headerCopy = document.createElement("div");
     appendTextElement(headerCopy, "p", "section-label", t(pack.titleKey));
-    appendTextElement(headerCopy, "p", "pack-note", t(pack.noteKey));
-    header.append(headerCopy, createPackCatalogSummary(packPuzzles, completeCount, isBonusPreview));
+    header.append(headerCopy);
     packBlock.appendChild(header);
     packBlock.appendChild(createStagePreview(pack, completeCount, packPuzzles.length));
 
@@ -381,13 +374,9 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack,
 
       const meta = document.createElement("small");
       if (complete) {
-        meta.textContent = t("puzzlePicker.sizeComplete", { size: puzzle.size });
+        meta.textContent = t("puzzlePicker.complete");
       } else {
-        meta.append(
-          document.createTextNode(t("puzzlePicker.size", { size: puzzle.size }) + "  "),
-          createSpoonIcon("small"),
-          document.createTextNode("+" + String(puzzle.reward || 0))
-        );
+        meta.textContent = t("puzzlePicker.sizeReward", { size: puzzle.size, count: puzzle.reward || 0 });
       }
       button.appendChild(meta);
       button.setAttribute("aria-label", `${puzzleTitle(puzzle)} - ${complete ? meta.textContent : t("puzzlePicker.rewardLabel", { size: puzzle.size, count: puzzle.reward || 0 })}`);
@@ -403,63 +392,9 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack,
   return section;
 }
 
-function createPackCatalogSummary(packPuzzles, completeCount, isBonusPreview) {
-  const summary = document.createElement("div");
-  summary.className = "pack-catalog-summary";
-
-  if (isBonusPreview) {
-    const preview = document.createElement("span");
-    preview.className = "pack-catalog-summary__progress";
-    preview.textContent = t("packs.preview");
-    summary.appendChild(preview);
-    return summary;
-  }
-
-  const total = packPuzzles.length;
-  const largeCount = packPuzzles.filter((puzzle) => Number(puzzle.size) >= 10).length;
-  const largestSize = packPuzzles.reduce((largest, puzzle) => Math.max(largest, Number(puzzle.size) || 0), 0);
-
-  const progress = document.createElement("span");
-  progress.className = "pack-catalog-summary__progress";
-  progress.textContent = t("packs.catalogProgress", { completed: completeCount, total });
-  summary.appendChild(progress);
-
-  const totalChip = document.createElement("span");
-  totalChip.className = "pack-catalog-summary__total";
-  totalChip.textContent = t("packs.catalogTotal", { count: total });
-  summary.appendChild(totalChip);
-
-  if (largeCount > 0) {
-    const largeChip = document.createElement("span");
-    largeChip.className = "pack-catalog-summary__large";
-    largeChip.textContent = t("packs.catalogLarge", { count: largeCount });
-    summary.appendChild(largeChip);
-  }
-
-  if (largestSize > 0) {
-    const sizeChip = document.createElement("span");
-    sizeChip.className = "pack-catalog-summary__largest";
-    sizeChip.textContent = t("packs.catalogLargest", { size: largestSize });
-    summary.appendChild(sizeChip);
-  }
-
-  summary.setAttribute("aria-label", t("packs.catalogSummary", {
-    completed: completeCount,
-    total,
-    large: largeCount,
-    size: largestSize
-  }));
-  return summary;
-}
-
 function createStageFilterBar(hideCompletedStages, hiddenStageCount, onToggleHideCompletedStages) {
   const bar = document.createElement("div");
   bar.className = "stage-filter-bar";
-
-  const text = document.createElement("p");
-  text.textContent = hideCompletedStages && hiddenStageCount > 0
-    ? t("stageFilter.hiddenNotice", { count: hiddenStageCount })
-    : t("stageFilter.note");
 
   const button = document.createElement("button");
   button.type = "button";
@@ -468,7 +403,7 @@ function createStageFilterBar(hideCompletedStages, hiddenStageCount, onToggleHid
   button.textContent = hideCompletedStages ? t("stageFilter.showCompleted") : t("stageFilter.hideCompleted");
   button.addEventListener("click", onToggleHideCompletedStages);
 
-  bar.append(text, button);
+  bar.append(button);
   return bar;
 }
 

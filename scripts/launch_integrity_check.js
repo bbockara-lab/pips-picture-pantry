@@ -22,6 +22,12 @@ function expectRegex(file, regex, label) {
   }
 }
 
+function expectExcludes(file, needle, label = needle) {
+  if (read(file).includes(needle)) {
+    fail(file + " still contains " + label);
+  }
+}
+
 function expectOrder(file, beforeNeedle, afterNeedle, label) {
   const text = read(file);
   const before = text.indexOf(beforeNeedle);
@@ -76,26 +82,30 @@ function checkReplayCleanRewardPath() {
   expectIncludes("tests/replayChallenge.test.js", "keeps replay unclean after a hint is undone", "hint undo remains unclean regression test");
 }
 
-function checkOpeningModeActions() {
+function checkSimpleOpening() {
   const intro = "src/ui/brandIntro.js";
-  [
-    "promisePuzzleAction",
-    "promiseDecorateAction",
-    "promiseTimeAttackAction",
-    "\"timeAttack\""
-  ].forEach((needle) => expectIncludes(intro, needle));
+  expectIncludes(intro, "buildKeyVisual(false)", "opening key visual");
+  expectIncludes(intro, "brand-intro__skip", "single Start action");
+  expectExcludes(intro, "buildPromiseChip", "pre-start mode cards");
+  expectIncludes("scripts/mobile_visual_check.js", "brand-intro__promise-strip", "removed mode-card regression guard");
+}
 
-  expectOrder(intro, "promiseTimeAttack", "promiseTimeAttackAction", "Time Attack launch chip has a specific action cue");
-  expectIncludes("scripts/mobile_visual_check.js", "expectedPromiseActions", "opening promise action copy visual guard");
-  expectIncludes("scripts/mobile_visual_check.js", "[\"Challenge\", \"\\uB3C4\\uC804\"]", "Time Attack challenge action visual guard");
+function checkPlayerFacingClarity() {
+  expectExcludes("src/ui/appShell.js", "renderFooter", "player-facing version footer");
+  expectExcludes("src/ui/pipReaction.js", "completion-reveal__meta", "completion reveal double label");
+  expectExcludes("src/ui/pantryView.js", "shopLimitSummary", "shop item-count explainer");
+  expectExcludes("src/ui/puzzleHubView.js", "t(\"replayPicks.body\")", "replay explainer paragraph");
+  expectIncludes("src/ui/settingsView.js", "localizedPlaceholder !== \"Jay\"", "localized legacy-name display guard");
+  expectIncludes("src/i18n/en.js", "Add {spoons} spoons when you need them.", "concise spoon jar copy");
 }
 
 function main() {
   checkAndroidVersion();
   checkPackUnlockGuidance();
   checkReplayCleanRewardPath();
-  checkOpeningModeActions();
-  console.log("Launch integrity guard passed: Android numbering, pack unlock guidance, replay clean rewards, and opening mode actions are locked.");
+  checkSimpleOpening();
+  checkPlayerFacingClarity();
+  console.log("Launch integrity guard passed: Android numbering, unlock guidance, replay rewards, simple opening, and player-facing clarity are locked.");
 }
 
 main();

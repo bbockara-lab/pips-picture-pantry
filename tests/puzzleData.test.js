@@ -2,8 +2,45 @@ import { describe, expect, it } from "vitest";
 import { puzzlePacks } from "../src/data/packs.js";
 import { puzzles } from "../src/data/puzzles.js";
 import { computeClues } from "../src/game/nonogram.js";
+import { getNamedCompletionColor } from "../src/ui/coloredPuzzleArt.js";
 
 describe("puzzle data", () => {
+  it("keeps the first puzzle shaped like Pip instead of a hollow face", () => {
+    const firstPuzzle = puzzles.find((puzzle) => puzzle.id === "pips-first-shelf-pip-face-1");
+
+    expect(firstPuzzle?.size).toBe(5);
+    expect(firstPuzzle?.solution).toEqual([
+      "11011",
+      "11111",
+      "10101",
+      "11111",
+      "01110"
+    ]);
+  });
+
+  it("authors completion palettes for the first three reveals", () => {
+    expect(puzzles.slice(0, 3).map((puzzle) => puzzle.completionPalette)).toEqual([
+      "pip-face",
+      "soup-bowl",
+      "golden-spoon"
+    ]);
+  });
+
+  it("authors a completion palette for every first-shelf puzzle", () => {
+    expect(puzzles.slice(0, 20).every((puzzle) => (
+      typeof puzzle.completionPalette === "string" && puzzle.completionPalette.length > 0
+    ))).toBe(true);
+  });
+
+  it("uses motif regions instead of diagonal palette cycling", () => {
+    expect(getNamedCompletionColor("recipe-card", 0, 2)).toBe("#d78b4b");
+    expect(getNamedCompletionColor("recipe-card", 2, 2)).toBe("#78aa72");
+    expect(getNamedCompletionColor("berry-bow", 2, 2)).toBe("#8f4d63");
+    expect(getNamedCompletionColor("mint-teacup", 4, 2)).toBe("#f0c45d");
+    expect(getNamedCompletionColor("tiny-house", 0, 2)).toBe("#c55d4d");
+    expect(getNamedCompletionColor("apple", 0, 2)).toBe("#6f9c59");
+  });
+
   it("keeps every solution row aligned to puzzle size", () => {
     puzzles.forEach((puzzle) => {
       expect(puzzle.solution).toHaveLength(puzzle.size);
@@ -12,6 +49,64 @@ describe("puzzle data", () => {
         expect(row).toMatch(/^[01]+$/);
       });
     });
+  });
+
+  it("gives Apron Drawer its own twenty solved silhouettes", () => {
+    const sunnySolutions = new Set(
+      puzzles
+        .filter((puzzle) => puzzle.packId === "sunny-spoon-sign")
+        .map((puzzle) => puzzle.solution.join("/"))
+    );
+    const apronPuzzles = puzzles.filter((puzzle) => puzzle.packId === "apron-drawer");
+    const apronSolutions = new Set(apronPuzzles.map((puzzle) => puzzle.solution.join("/")));
+
+    expect(apronPuzzles).toHaveLength(20);
+    expect(apronSolutions).toHaveLength(20);
+    apronSolutions.forEach((solution) => expect(sunnySolutions.has(solution)).toBe(false));
+  });
+
+  it("starts the bakery and village stages with distinct themed silhouettes", () => {
+    const openingPuzzles = puzzles.filter((puzzle) =>
+      ["bakery-window", "village-pantry"].includes(puzzle.packId)
+      && Number(puzzle.id.match(/-(\d+)$/)?.[1]) <= 10
+    );
+    const solutions = openingPuzzles.map((puzzle) => puzzle.solution.join("/"));
+
+    expect(openingPuzzles).toHaveLength(20);
+    expect(new Set(solutions)).toHaveLength(20);
+    expect(openingPuzzles.find((puzzle) => puzzle.id === "bakery-window-pip-face-1")?.title)
+      .toBe("Little Bakery Window");
+    expect(openingPuzzles.find((puzzle) => puzzle.id === "village-pantry-pip-face-1")?.title)
+      .toBe("Pantry Cottage");
+  });
+
+  it("keeps the first twenty Village Pantry pictures separate from earlier stages", () => {
+    const villagePuzzles = puzzles.filter((puzzle) => puzzle.packId === "village-pantry").slice(0, 20);
+    const earlierSolutions = new Set(
+      puzzles
+        .filter((puzzle) => ["sunny-spoon-sign", "apron-drawer", "bakery-window"].includes(puzzle.packId))
+        .slice(0, 60)
+        .map((puzzle) => puzzle.solution.join("/"))
+    );
+    const villageSolutions = villagePuzzles.map((puzzle) => puzzle.solution.join("/"));
+
+    expect(villagePuzzles).toHaveLength(20);
+    expect(new Set(villageSolutions)).toHaveLength(20);
+    villageSolutions.forEach((solution) => expect(earlierSolutions.has(solution)).toBe(false));
+  });
+
+  it("keeps the first twenty Bakery Window pictures separate from the earlier shelves", () => {
+    const bakeryPuzzles = puzzles.filter((puzzle) => puzzle.packId === "bakery-window").slice(0, 20);
+    const earlierSolutions = new Set(
+      puzzles
+        .filter((puzzle) => ["sunny-spoon-sign", "apron-drawer"].includes(puzzle.packId))
+        .map((puzzle) => puzzle.solution.join("/"))
+    );
+    const bakerySolutions = bakeryPuzzles.map((puzzle) => puzzle.solution.join("/"));
+
+    expect(bakeryPuzzles).toHaveLength(20);
+    expect(new Set(bakerySolutions)).toHaveLength(20);
+    bakerySolutions.forEach((solution) => expect(earlierSolutions.has(solution)).toBe(false));
   });
 
   it("ships a scalable free progression catalog", () => {

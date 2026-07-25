@@ -8,6 +8,7 @@ let baseUrl = "http://127.0.0.1:" + port + "/";
 const checks = [
   ["test", "npm run test -- --run"],
   ["catalog", "npm run qa:catalog"],
+  ["art quality audit", "npm run qa:art-audit"],
   ["bonus pack visibility", "npm run qa:bonus-pack"],
   ["launch integrity", "npm run qa:launch-integrity"],
   ["hygiene", "npm run qa:hygiene"],

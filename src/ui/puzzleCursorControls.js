@@ -2,6 +2,7 @@ import { moveCursor, toggleCursorCell } from "../game/puzzleState.js";
 import { CELL } from "../game/nonogram.js";
 import { t } from "../i18n/index.js";
 import { playCursorAction, playCursorMove } from "./audio.js";
+import { appendPuzzleControlArt } from "./puzzleControlArt.js";
 
 export function shouldShowCursorControls(puzzle, controlMode) {
   if (controlMode === "direct") {
@@ -14,8 +15,9 @@ export function shouldShowCursorControls(puzzle, controlMode) {
 }
 
 export function renderCursorControls(state, puzzle, update) {
+  const compact = Number(puzzle.size || 0) >= 10;
   const controls = document.createElement("section");
-  controls.className = "cursor-controls";
+  controls.className = compact ? "cursor-controls cursor-controls--compact" : "cursor-controls";
   controls.setAttribute("aria-label", t("controls.cursorPanel"));
 
   const hint = document.createElement("p");
@@ -56,7 +58,14 @@ export function renderCursorControls(state, puzzle, update) {
   body.className = "cursor-controls__body";
   body.append(dpad, actions);
 
-  controls.append(hint, position, status, lineHint, body);
+  if (compact) {
+    const statusRow = document.createElement("div");
+    statusRow.className = "cursor-controls__status-row";
+    statusRow.append(position, status);
+    controls.append(statusRow, body);
+  } else {
+    controls.append(hint, position, status, lineHint, body);
+  }
   return controls;
 }
 
@@ -124,7 +133,15 @@ function createCursorActionButton(action, onClick) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "cursor-action-button cursor-action-button--" + action.intent;
-  button.textContent = action.label;
+  appendPuzzleControlArt(
+    button,
+    action.intent === "mark" || action.intent === "clear-mark" ? "mark" : "fill",
+    "cursor-action-button__art"
+  );
+  const label = document.createElement("span");
+  label.className = "cursor-action-button__label";
+  label.textContent = action.label;
+  button.appendChild(label);
   button.setAttribute("aria-label", action.label);
   button.addEventListener("click", onClick);
   return button;

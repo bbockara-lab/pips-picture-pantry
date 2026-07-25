@@ -1,15 +1,16 @@
 {
-    "version":  "v1.36",
-    "status":  "final-approved",
-    "candidate":  "pip-soup-badge-v2",
-    "approvedAt":  "2026-06-24",
-    "approvalBasis":  "Owner authorized final icon approval; Pip Soup Badge v2 selected for stronger 60 px readability and mascot-first silhouette.",
-    "source":  "store-assets\\app-icon\\v1.36\\finalists\\pip-soup-badge-v2-app-store-1024.png",
-    "sourceSha256":  "2f34f230e66109f79e1957b11e9230adb1bab0202b2263cb79a76d4b4af15538",
+    "version":  "v0.1.515",
+    "status":  "owner-review-candidate",
+    "candidate":  "pip-pantry-v3",
+    "approvedAt":  null,
+    "approvalBasis":  "Current opening-art Pip, golden spoon, and picture-tile identity; removes the legacy flower and soup-bowl motif.",
+    "source":  "store-assets\\app-icon-candidates\\pip-pantry-v3-source.png",
+    "sourceSha256":  "56cfed1dde7d7cbdcae18b7c8709af80371861dd9275d2b1d95b2ea09c9cc14c",
     "outputs":  [
-                    "store-assets/app-icon/v1.36/AppIcon.appiconset",
-                    "src/assets/app-icon-192.png",
-                    "src/assets/app-icon-512.png",
-                    "src/assets/apple-touch-icon-180.png"
+                    "src/assets/app-icons/app-icon-192.png",
+                    "src/assets/app-icons/app-icon-512.png",
+                    "src/assets/app-icons/apple-touch-icon-180.png",
+                    "store-assets/play-console/app-icon-512.png",
+                    "android/app/src/main/res/mipmap-*/ic_launcher*.png"
                 ]
 }

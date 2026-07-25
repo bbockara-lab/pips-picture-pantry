@@ -22,11 +22,11 @@ for (const viewport of viewports) {
   await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6000 });
   await page.waitForTimeout(800);
   await expectVisible(page, ".brand-intro.game-stage", viewport.name);
-  await expectVisible(page, ".brand-intro__seal", viewport.name);
-  await expectVisible(page, ".brand-intro__version", viewport.name);
+  await expectAbsent(page, ".brand-intro__seal", viewport.name);
+  await expectAbsent(page, ".brand-intro__version", viewport.name);
+  await expectAbsent(page, ".brand-intro__promise-strip", viewport.name);
   await expectOpeningIntroPolish(page, viewport.name);
   await expectFloatingNavHiddenDuringBrandIntro(page, viewport.name);
-  await expectOpeningPromiseRoutes(browser, viewport);
   await expectAbsent(page, ".brand-intro__cast", viewport.name);
   await dismissIntro(page, "Jay", viewport.name);
 
@@ -42,7 +42,7 @@ for (const viewport of viewports) {
     await expectPlayScreenNavClearance(page, viewport.name);
     await page.locator(".play-screen__back").click();
   }
-  await expectVisible(page, ".pip-strip__portrait", viewport.name);
+  await expectAbsent(page, ".pip-strip", viewport.name);
   await expectVisible(page, ".currency-pill", viewport.name);
   await expectAppChromePolish(page, viewport.name);
   await expectDailyRewardPolish(page, viewport.name);
@@ -56,7 +56,7 @@ for (const viewport of viewports) {
   await expectVisible(page, ".stage-preview", viewport.name);
   await expectStageArtPreviews(page, viewport.name);
   await expectPuzzleHubSelectionPolish(page, viewport.name);
-  await expectSeasonUpdateTeaser(page, viewport.name);
+  await expectAbsent(page, ".season-progress-card", viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
   await expectTapTargets(page, viewport.name);
 
@@ -67,7 +67,7 @@ for (const viewport of viewports) {
   await expectVisible(page, ".brand-intro.game-stage", viewport.name);
   await dismissIntro(page, "Jay", viewport.name);
   await dismissGuideIfPresent(page, viewport.name);
-  await expectVisible(page, ".completion-pip", viewport.name);
+  await expectVisible(page, ".completion-reveal__character", viewport.name);
   await expectVisible(page, ".completion-reveal", viewport.name);
   await expectCompletionRewardPolish(page, viewport.name);
   await expectCompletionAlbumRoute(page, viewport.name);
@@ -90,9 +90,8 @@ for (const viewport of viewports) {
 
   await openFloatingView(page, "map");
   await expectVisible(page, ".map-panel", viewport.name);
-  await expectVisible(page, ".badge-card", viewport.name);
+  await expectVisible(page, ".next-stage-badge", viewport.name);
   await expectMapPolish(page, viewport.name);
-  await expectLockedBadgeGate(page, viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
 
   await openFloatingView(page, "pantry");
@@ -280,92 +279,25 @@ async function expectCompletionAlbumRoute(page, viewportName) {
 }
 
 async function expectPlayerIntroPolish(page, viewportName) {
-  const metrics = await page.locator(".brand-intro__content.name-stage").first().evaluate((content) => {
-    const note = content.querySelector(".player-intro-note");
-    const pipCue = content.querySelector(".player-intro-pip");
-    const pipCueImage = pipCue?.querySelector("img");
-    const pipCueText = pipCue?.querySelector("span");
-    const form = content.querySelector(".player-intro-form");
-    const label = form?.querySelector("label");
-    const input = form?.querySelector("input");
-    const button = form?.querySelector("button");
-    const formRect = form?.getBoundingClientRect();
-    const pipCueRect = pipCue?.getBoundingClientRect();
-    const pipCueImageRect = pipCueImage?.getBoundingClientRect();
-    const inputRect = input?.getBoundingClientRect();
-    const buttonRect = button?.getBoundingClientRect();
-    const formStyle = form ? getComputedStyle(form) : null;
-    const formBefore = form ? getComputedStyle(form, "::before") : null;
-    const pipCueStyle = pipCue ? getComputedStyle(pipCue) : null;
-    const pipCueAfter = pipCue ? getComputedStyle(pipCue, "::after") : null;
-    const labelStyle = label ? getComputedStyle(label) : null;
-    const inputStyle = input ? getComputedStyle(input) : null;
-    const buttonStyle = button ? getComputedStyle(button) : null;
+  await expectAbsent(page, ".player-intro__note", viewportName);
+  await expectAbsent(page, ".player-intro__pip-cue", viewportName);
+  await expectAbsent(page, ".brand-intro__version", viewportName);
+  const metrics = await page.locator(".player-intro-form").evaluate((form) => {
+    const input = form.querySelector("input");
+    const button = form.querySelector("button");
     return {
-      noteText: note?.textContent?.trim() || "",
-      noteWidth: note?.getBoundingClientRect().width || 0,
-      formWidth: formRect?.width || 0,
-      formRadius: formStyle ? parseFloat(formStyle.borderRadius) : 0,
-      formBackground: formStyle?.backgroundImage || "",
-      formShadow: formStyle?.boxShadow || "none",
-      shineContent: formBefore?.content || "none",
-      shineHeight: formBefore ? parseFloat(formBefore.height) : 0,
-      shineBackground: formBefore?.backgroundImage || "",
-      pipCueText: pipCueText?.textContent?.trim() || "",
-      pipCueWidth: pipCueRect?.width || 0,
-      pipCueImageWidth: pipCueImageRect?.width || 0,
-      pipCueRadius: pipCueStyle ? parseFloat(pipCueStyle.borderRadius) : 0,
-      pipCueBackground: pipCueStyle?.backgroundImage || "",
-      pipCueShadow: pipCueStyle?.boxShadow || "none",
-      pipCueTailContent: pipCueAfter?.content || "none",
-      labelText: label?.textContent?.trim() || "",
-      labelBackground: labelStyle?.backgroundImage || "",
-      labelRadius: labelStyle ? parseFloat(labelStyle.borderRadius) : 0,
-      inputHeight: inputRect?.height || 0,
-      inputRadius: inputStyle ? parseFloat(inputStyle.borderRadius) : 0,
-      inputBackground: inputStyle?.backgroundImage || "",
-      inputShadow: inputStyle?.boxShadow || "none",
-      buttonWidth: buttonRect?.width || 0,
-      buttonHeight: buttonRect?.height || 0,
-      buttonBackground: buttonStyle?.backgroundImage || "",
-      buttonShadow: buttonStyle?.boxShadow || "none",
-      overflows: form ? form.scrollWidth > Math.ceil(formRect.width) + 1 || form.scrollHeight > Math.ceil(formRect.height) + 1 : true
+      width: form.getBoundingClientRect().width,
+      overflows: form.scrollWidth > form.clientWidth + 1,
+      inputHeight: input?.getBoundingClientRect().height || 0,
+      buttonHeight: button?.getBoundingClientRect().height || 0,
+      buttonBefore: button ? getComputedStyle(button, "::before").content : "",
+      buttonAfter: button ? getComputedStyle(button, "::after").content : ""
     };
   });
-  if (
-    !metrics.noteText ||
-    metrics.noteWidth < 190 ||
-    metrics.formWidth < 250 ||
-    metrics.formRadius < 16 ||
-    !metrics.formBackground.includes("linear-gradient") ||
-    metrics.formShadow === "none" ||
-    metrics.shineContent === "none" ||
-    metrics.shineHeight < 10 ||
-    !metrics.shineBackground.includes("linear-gradient") ||
-    !metrics.pipCueText ||
-    metrics.pipCueWidth < 240 ||
-    metrics.pipCueImageWidth < 46 ||
-    metrics.pipCueRadius < 16 ||
-    !metrics.pipCueBackground.includes("linear-gradient") ||
-    metrics.pipCueShadow === "none" ||
-    metrics.pipCueTailContent === "none" ||
-    !metrics.labelText ||
-    !metrics.labelBackground.includes("linear-gradient") ||
-    metrics.labelRadius < 14 ||
-    metrics.inputHeight < 50 ||
-    metrics.inputRadius < 12 ||
-    !metrics.inputBackground.includes("linear-gradient") ||
-    metrics.inputShadow === "none" ||
-    metrics.buttonWidth < 240 ||
-    metrics.buttonHeight < 54 ||
-    !metrics.buttonBackground.includes("linear-gradient") ||
-    metrics.buttonShadow === "none" ||
-    metrics.overflows
-  ) {
-    failures.push("[" + viewportName + "] Player name intro lost polished invitation treatment: " + JSON.stringify(metrics));
+  if (metrics.width < 250 || metrics.overflows || metrics.inputHeight < 50 || metrics.buttonHeight < 52 || metrics.buttonBefore !== "none" || metrics.buttonAfter !== "none") {
+    failures.push("[" + viewportName + "] Clean player-name form regressed: " + JSON.stringify(metrics));
   }
 }
-
 
 async function dismissGuideIfPresent(page, viewportName) {
   const overlay = page.locator(".guide-overlay");
@@ -386,144 +318,38 @@ async function dismissGuideIfPresent(page, viewportName) {
 }
 
 async function expectGuideDialogChromeArt(page, viewportName) {
-  const guideMetrics = await page.locator(".guide-dialog").first().evaluate((dialog) => {
+  const metrics = await page.locator(".guide-dialog").first().evaluate((dialog) => {
     const overlay = document.querySelector(".guide-overlay");
-    const rect = dialog.getBoundingClientRect();
     const art = dialog.querySelector(".guide-dialog__art");
-    const image = dialog.querySelector(".guide-dialog__art img");
+    const image = art?.querySelector("img");
     const bubble = dialog.querySelector(".guide-dialog__bubble");
-    const speaker = dialog.querySelector(".guide-dialog__speaker");
-    const artRect = art?.getBoundingClientRect();
+    const line = dialog.querySelector(".guide-dialog__line");
+    const rect = dialog.getBoundingClientRect();
     const imageRect = image?.getBoundingClientRect();
-    const bubbleRect = bubble?.getBoundingClientRect();
-    const speakerRect = speaker?.getBoundingClientRect();
-    const artStyle = art ? getComputedStyle(art) : null;
-    const imageStyle = image ? getComputedStyle(image) : null;
-    const bubbleStyle = bubble ? getComputedStyle(bubble) : null;
-    const speakerStyle = speaker ? getComputedStyle(speaker) : null;
-    const artBefore = art ? getComputedStyle(art, "::before") : null;
-    const artAfter = art ? getComputedStyle(art, "::after") : null;
-    const bubbleBefore = bubble ? getComputedStyle(bubble, "::before") : null;
-    const bubbleAfter = bubble ? getComputedStyle(bubble, "::after") : null;
-    const overlayStyle = overlay ? getComputedStyle(overlay) : null;
-    const overlayRect = overlay?.getBoundingClientRect();
-    const buttons = [...dialog.querySelectorAll(".guide-dialog__actions button")].map((button) => {
-      const buttonRect = button.getBoundingClientRect();
-      const buttonStyle = getComputedStyle(button);
-      const buttonBefore = getComputedStyle(button, "::before");
-      return {
-        width: buttonRect.width,
-        height: buttonRect.height,
-        radius: parseFloat(buttonStyle.borderRadius),
-        borderWidth: parseFloat(buttonStyle.borderTopWidth),
-        background: buttonStyle.backgroundImage,
-        shadow: buttonStyle.boxShadow,
-        overflow: buttonStyle.overflow,
-        shineContent: buttonBefore.content,
-        shineHeight: parseFloat(buttonBefore.height)
-      };
-    });
     return {
       viewportWidth: window.innerWidth,
       viewportHeight: window.innerHeight,
       width: rect.width,
       height: rect.height,
-      top: rect.top,
-      overlayWidth: overlayRect?.width || 0,
-      overlayHeight: overlayRect?.height || 0,
-      overlayPosition: overlayStyle?.position || "",
-      overlayBackground: overlayStyle?.backgroundImage || "",
-      imageSrc: image?.getAttribute("src") || "",
-      artWidth: artRect?.width || 0,
-      artHeight: artRect?.height || 0,
-      artTop: artRect?.top || 0,
       imageWidth: imageRect?.width || 0,
       imageHeight: imageRect?.height || 0,
-      imageFit: imageStyle?.objectFit || "",
-      artBackground: artStyle?.backgroundImage || "",
-      artOverflow: artStyle?.overflow || "",
-      artShineContent: artBefore?.content || "",
-      artShineHeight: artBefore ? parseFloat(artBefore.height) : 0,
-      artTokenContent: artAfter?.content || "",
-      artTokenWidth: artAfter ? parseFloat(artAfter.width) : 0,
-      bubbleWidth: bubbleRect?.width || 0,
-      bubbleHeight: bubbleRect?.height || 0,
-      bubbleTop: bubbleRect?.top || 0,
-      bubbleBackground: bubbleStyle?.backgroundImage || "",
-      bubbleRadius: bubbleStyle ? parseFloat(bubbleStyle.borderRadius) : 0,
-      bubbleShadow: bubbleStyle?.boxShadow || "",
-      bubbleOverflow: bubbleStyle?.overflow || "",
-      bubbleTailContent: bubbleBefore?.content || "",
-      bubbleTokenContent: bubbleAfter?.content || "",
-      bubbleTokenWidth: bubbleAfter ? parseFloat(bubbleAfter.width) : 0,
-      bubbleAccentBackground: bubbleAfter?.backgroundImage || "",
-      step: dialog.dataset.step || "",
-      speakerText: speaker?.textContent.trim() || "",
-      speakerWidth: speakerRect?.width || 0,
-      speakerHeight: speakerRect?.height || 0,
-      speakerBackground: speakerStyle?.backgroundImage || "",
-      speakerRadius: speakerStyle ? parseFloat(speakerStyle.borderRadius) : 0,
-      speakerOverflows: speaker ? speaker.scrollWidth > Math.ceil(speakerRect?.width || 0) + 1 || speaker.scrollHeight > Math.ceil(speakerRect?.height || 0) + 1 : true,
-      overlayPaddingBottom: overlayStyle ? parseFloat(overlayStyle.paddingBottom) : 0,
-      eyebrowText: dialog.querySelector(".guide-dialog__eyebrow")?.textContent.trim() || "",
-      titleText: dialog.querySelector("#guide-dialog-title")?.textContent.trim() || "",
-      bodyText: bubble?.querySelector(".guide-dialog__line")?.textContent.trim() || "",
-      buttons,
-      overflows: dialog.scrollWidth > Math.ceil(rect.width) + 1 || dialog.scrollHeight > Math.ceil(rect.height) + 1
+      bodyText: (line?.textContent || "").trim(),
+      buttonCount: dialog.querySelectorAll(".guide-dialog__actions button").length,
+      hasLegacyLabels: Boolean(dialog.querySelector(".guide-dialog__eyebrow, .guide-dialog__speaker")),
+      artBefore: art ? getComputedStyle(art, "::before").content : "",
+      artAfter: art ? getComputedStyle(art, "::after").content : "",
+      bubbleBefore: bubble ? getComputedStyle(bubble, "::before").content : "",
+      bubbleAfter: bubble ? getComputedStyle(bubble, "::after").content : "",
+      overflows: dialog.scrollWidth > dialog.clientWidth + 1 || dialog.scrollHeight > dialog.clientHeight + 1,
+      overlayFixed: overlay ? getComputedStyle(overlay).position === "fixed" : false
     };
   });
-  if (
-    (!guideMetrics.imageSrc.includes("pip-chrome-v2") && !guideMetrics.imageSrc.includes("story-friend-")) ||
-    guideMetrics.artWidth < 72 ||
-    guideMetrics.artHeight < 108 ||
-    (guideMetrics.viewportWidth <= 520 && (guideMetrics.overlayPosition !== "fixed" || guideMetrics.overlayWidth < guideMetrics.viewportWidth || guideMetrics.overlayHeight < guideMetrics.viewportHeight || guideMetrics.width < guideMetrics.viewportWidth || guideMetrics.height < guideMetrics.viewportHeight || Math.abs(guideMetrics.top) > 1 || !guideMetrics.overlayBackground.includes("gradient"))) ||
-    guideMetrics.imageWidth < (guideMetrics.viewportWidth <= 520 ? 150 : 66) ||
-    guideMetrics.imageHeight < (guideMetrics.viewportWidth <= 520 ? 150 : 66) ||
-    guideMetrics.imageFit !== "contain" ||
-    !guideMetrics.artBackground.includes("gradient") ||
-    guideMetrics.artOverflow !== "hidden" ||
-    guideMetrics.artShineContent === "none" ||
-    guideMetrics.artShineHeight < 10 ||
-    guideMetrics.artTokenContent === "none" ||
-    guideMetrics.artTokenWidth < 20 ||
-    guideMetrics.bubbleWidth < 160 ||
-    guideMetrics.bubbleHeight < 140 ||
-    !guideMetrics.bubbleBackground.includes("gradient") ||
-    guideMetrics.bubbleRadius < 16 ||
-    guideMetrics.bubbleShadow === "none" ||
-    guideMetrics.bubbleOverflow !== "hidden" ||
-    guideMetrics.bubbleTailContent === "none" ||
-    guideMetrics.bubbleTokenContent === "none" ||
-    guideMetrics.bubbleTokenWidth < 16 ||
-    guideMetrics.step !== "1" ||
-    !guideMetrics.speakerText.includes("Pip") ||
-    guideMetrics.speakerWidth < 74 ||
-    guideMetrics.speakerHeight < 18 ||
-    !guideMetrics.speakerBackground.includes("gradient") ||
-    guideMetrics.speakerRadius < 10 ||
-    guideMetrics.speakerOverflows ||
-    !guideMetrics.eyebrowText ||
-    !guideMetrics.titleText ||
-    !guideMetrics.bodyText ||
-    guideMetrics.bodyText.length < 20 ||
-    guideMetrics.buttons.length !== 2 ||
-    guideMetrics.buttons.some((button) =>
-      button.width < 110 ||
-      button.height < 46 ||
-      button.radius < 14 ||
-      button.borderWidth < 3 ||
-      !button.background.includes("gradient") ||
-      button.shadow === "none" ||
-      button.overflow !== "hidden" ||
-      button.shineContent === "none" ||
-      button.shineHeight < 8
-    ) ||
-    (guideMetrics.viewportWidth > 520 && guideMetrics.overlayPaddingBottom < 18) ||
-    guideMetrics.overflows
-  ) {
-    failures.push("[" + viewportName + "] Guide dialog lost current Pip chrome art treatment: " + JSON.stringify(guideMetrics));
+  const mobileFullScreen = metrics.viewportWidth > 520 || (metrics.width >= metrics.viewportWidth - 1 && metrics.height >= metrics.viewportHeight - 1);
+  if (!metrics.overlayFixed || !mobileFullScreen || metrics.imageWidth < 150 || metrics.imageHeight < 150 || metrics.bodyText.length < 12 || metrics.buttonCount !== 2 || metrics.hasLegacyLabels || metrics.artBefore !== "none" || metrics.artAfter !== "none" || metrics.bubbleBefore !== "none" || metrics.bubbleAfter !== "none" || metrics.overflows) {
+    failures.push("[" + viewportName + "] Clean Pip conversation regressed: " + JSON.stringify(metrics));
   }
 }
+
 async function expectAbsent(page, selector, viewportName) {
   const count = await page.locator(selector).count();
   if (count > 0) {
@@ -545,691 +371,51 @@ async function expectVisible(page, selector, viewportName) {
 }
 
 async function expectOpeningIntroPolish(page, viewportName) {
-  const sealSrc = await page.locator(".brand-intro__seal img").first().getAttribute("src");
-  if (!String(sealSrc || "").includes("pip-chrome-v2")) {
-    failures.push("[" + viewportName + "] Opening seal should use current Pip chrome art, saw " + sealSrc);
-  }
-
-  const sealMetrics = await page.locator(".brand-intro__seal").first().evaluate((seal) => {
-    const image = seal.querySelector("img");
-    const rect = seal.getBoundingClientRect();
-    const imageRect = image?.getBoundingClientRect();
-    const style = getComputedStyle(seal);
-    const imageStyle = image ? getComputedStyle(image) : null;
+  const metrics = await page.locator(".brand-intro__content").first().evaluate((content) => {
+    const button = content.querySelector(".brand-intro__skip");
+    const visual = content.querySelector(".brand-intro__key-visual img");
+    const buttonRect = button?.getBoundingClientRect();
+    const visualRect = visual?.getBoundingClientRect();
+    const before = button ? getComputedStyle(button, "::before") : null;
+    const after = button ? getComputedStyle(button, "::after") : null;
     return {
-      width: rect.width,
-      height: rect.height,
-      borderWidth: parseFloat(style.borderTopWidth),
-      borderRadius: parseFloat(style.borderRadius),
-      backgroundImage: style.backgroundImage,
-      boxShadow: style.boxShadow,
-      overflow: style.overflow,
-      imageWidth: imageRect?.width || 0,
-      imageHeight: imageRect?.height || 0,
-      imageObjectFit: imageStyle?.objectFit || "",
-      imageTransform: imageStyle?.transform || "",
-      imageFilter: imageStyle?.filter || ""
+      contentOverflow: content.scrollWidth > content.clientWidth + 1 || content.scrollHeight > content.clientHeight + 1,
+      buttonWidth: buttonRect?.width || 0,
+      buttonHeight: buttonRect?.height || 0,
+      buttonBottom: buttonRect?.bottom || 0,
+      visualWidth: visualRect?.width || 0,
+      visualHeight: visualRect?.height || 0,
+      beforeContent: before?.content || "",
+      afterContent: after?.content || "",
+      viewportHeight: window.innerHeight
     };
   });
-  if (
-    sealMetrics.width < 58 ||
-    sealMetrics.height < 58 ||
-    sealMetrics.borderWidth < 3 ||
-    sealMetrics.borderRadius < 18 ||
-    !sealMetrics.backgroundImage.includes("gradient") ||
-    sealMetrics.boxShadow === "none" ||
-    sealMetrics.overflow !== "hidden" ||
-    sealMetrics.imageWidth < 52 ||
-    sealMetrics.imageHeight < 52 ||
-    sealMetrics.imageObjectFit !== "contain" ||
-    sealMetrics.imageTransform === "none" ||
-    sealMetrics.imageFilter === "none"
-  ) {
-    failures.push("[" + viewportName + "] Opening Pip seal lost its polished art-medallion treatment: " + JSON.stringify(sealMetrics));
+  if (metrics.contentOverflow || metrics.buttonWidth < 150 || metrics.buttonHeight < 52 || metrics.buttonBottom > metrics.viewportHeight || metrics.visualWidth < 190 || metrics.visualHeight < 240 || metrics.beforeContent !== "none" || metrics.afterContent !== "none") {
+    failures.push("[" + viewportName + "] Clean opening layout regressed: " + JSON.stringify(metrics));
   }
-
-  const versionText = await page.locator(".brand-intro__version").first().textContent();
-  if (!String(versionText || "").includes("v0.1.")) {
-    failures.push("[" + viewportName + "] Opening version chip is missing the visible app version: " + versionText);
-  }
-
-  const buttonMetrics = await page.locator(".brand-intro__skip").first().evaluate((button) => {
-    const rect = button.getBoundingClientRect();
-    const style = getComputedStyle(button);
-    const shineStyle = getComputedStyle(button, "::before");
-    const tokenStyle = getComputedStyle(button, "::after");
-    return {
-      width: rect.width,
-      height: rect.height,
-      top: rect.top,
-      bottom: rect.bottom,
-      viewportHeight: window.innerHeight,
-      borderWidth: parseFloat(style.borderTopWidth),
-      borderRadius: parseFloat(style.borderRadius),
-      backgroundImage: style.backgroundImage,
-      boxShadow: style.boxShadow,
-      overflow: style.overflow,
-      shineContent: shineStyle.content,
-      shineHeight: parseFloat(shineStyle.height),
-      shineBackground: shineStyle.backgroundImage,
-      tokenContent: tokenStyle.content,
-      tokenWidth: parseFloat(tokenStyle.width),
-      tokenHeight: parseFloat(tokenStyle.height),
-      tokenBackground: tokenStyle.backgroundImage,
-      tokenShadow: tokenStyle.boxShadow
-    };
-  });
-  const hasStartShine = buttonMetrics.shineContent !== "none" && buttonMetrics.shineHeight >= 10 && buttonMetrics.shineBackground.includes("linear-gradient");
-  const hasStartToken = buttonMetrics.tokenContent !== "none" && buttonMetrics.tokenWidth >= 20 && buttonMetrics.tokenHeight >= 20 && buttonMetrics.tokenBackground.includes("linear-gradient") && buttonMetrics.tokenShadow !== "none";
-  const startButtonFitsViewport = buttonMetrics.top >= 0 && buttonMetrics.bottom <= buttonMetrics.viewportHeight - 8;
-  if (buttonMetrics.width < 160 || buttonMetrics.height < 56 || !startButtonFitsViewport || buttonMetrics.borderWidth < 4 || buttonMetrics.borderRadius < 16 || !buttonMetrics.backgroundImage.includes("linear-gradient") || buttonMetrics.boxShadow === "none" || buttonMetrics.overflow !== "hidden" || !hasStartShine || !hasStartToken) {
-    failures.push("[" + viewportName + "] Opening start button lost its polished game-button treatment: " + JSON.stringify(buttonMetrics));
-  }
-  const promiseMetrics = await page.locator(".brand-intro__promise-chip").evaluateAll((chips) => chips.map((chip) => {
-    const rect = chip.getBoundingClientRect();
-    const icon = chip.querySelector("i");
-    const text = chip.querySelector("b");
-    const action = chip.querySelector(".brand-intro__promise-action");
-    const style = getComputedStyle(chip);
-    const shineStyle = getComputedStyle(chip, "::before");
-    const tokenStyle = getComputedStyle(chip, "::after");
-    const iconRect = icon?.getBoundingClientRect();
-    const textRect = text?.getBoundingClientRect();
-    const actionRect = action?.getBoundingClientRect();
-    const textStyle = text ? getComputedStyle(text) : null;
-    const actionStyle = action ? getComputedStyle(action) : null;
-    const actionArrowStyle = action ? getComputedStyle(action, "::after") : null;
-    const textActionOverlap = textRect && actionRect
-      ? !(textRect.right <= actionRect.left - 4 || actionRect.right <= textRect.left - 4 || textRect.bottom <= actionRect.top - 2 || actionRect.bottom <= textRect.top - 2)
-      : false;
-    return {
-      text: (text?.textContent || "").trim(),
-      actionText: (action?.textContent || "").trim(),
-      tagName: chip.tagName,
-      targetView: chip.getAttribute("data-target-view"),
-      width: rect.width,
-      height: rect.height,
-      borderWidth: parseFloat(style.borderTopWidth),
-      borderRadius: parseFloat(style.borderRadius),
-      backgroundImage: style.backgroundImage,
-      boxShadow: style.boxShadow,
-      overflow: style.overflow,
-      shineContent: shineStyle.content,
-      shineHeight: parseFloat(shineStyle.height),
-      shineBackground: shineStyle.backgroundImage,
-      tokenContent: tokenStyle.content,
-      tokenWidth: parseFloat(tokenStyle.width),
-      tokenHeight: parseFloat(tokenStyle.height),
-      tokenBackground: tokenStyle.backgroundImage,
-      iconWidth: iconRect?.width || 0,
-      iconHeight: iconRect?.height || 0,
-      textWidth: textRect?.width || 0,
-      textHeight: textRect?.height || 0,
-      textLeft: textRect?.left || 0,
-      textRight: textRect?.right || 0,
-      textWhiteSpace: textStyle?.whiteSpace || "",
-      textOverflowStyle: textStyle?.textOverflow || "",
-      textOverflowXStyle: textStyle?.overflowX || "",
-      textLineHeight: textStyle ? parseFloat(textStyle.lineHeight) : 0,
-      textClientWidth: text?.clientWidth || 0,
-      textScrollWidth: text?.scrollWidth || 0,
-      textClientHeight: text?.clientHeight || 0,
-      textScrollHeight: text?.scrollHeight || 0,
-      textOverflows: text ? text.scrollWidth > Math.ceil(textRect?.width || 0) + 1 || text.scrollHeight > Math.ceil(textRect?.height || 0) + 1 : true,
-      chipLeft: rect.left,
-      chipRight: rect.right,
-      chipClientWidth: chip.clientWidth,
-      chipScrollWidth: chip.scrollWidth,
-      chipClientHeight: chip.clientHeight,
-      chipScrollHeight: chip.scrollHeight,
-      actionWidth: actionRect?.width || 0,
-      actionHeight: actionRect?.height || 0,
-      actionLeft: actionRect?.left || 0,
-      actionRight: actionRect?.right || 0,
-      actionBackground: actionStyle?.backgroundImage || "",
-      actionRadius: actionStyle ? parseFloat(actionStyle.borderRadius) : 0,
-      actionPosition: actionStyle?.position || "",
-      actionArrowContent: actionArrowStyle?.content || "",
-      actionClientWidth: action?.clientWidth || 0,
-      actionScrollWidth: action?.scrollWidth || 0,
-      actionClientHeight: action?.clientHeight || 0,
-      actionScrollHeight: action?.scrollHeight || 0,
-      actionOverflows: action ? action.scrollWidth > Math.ceil(actionRect?.width || 0) + 1 || action.scrollHeight > Math.ceil(actionRect?.height || 0) + 1 : true,
-      textActionOverlap,
-      overflows: chip.scrollWidth > Math.ceil(rect.width) + 1 || chip.scrollHeight > Math.ceil(rect.height) + 1
-    };
-  }));
-  if (promiseMetrics.length !== 3) {
-    failures.push("[" + viewportName + "] Opening promise strip should show 3 tactile chips, saw " + promiseMetrics.length);
-  }
-  const expectedPromiseTargets = ["puzzle", "pantry", "timeAttack"];
-  const expectedPromiseActions = [
-    ["Solve", "\uD480\uAE30"],
-    ["Decorate", "\uAFB8\uBBF8\uAE30"],
-    ["Challenge", "\uB3C4\uC804"]
-  ];
-  promiseMetrics.forEach((metrics, index) => {
-    const hasChipShine = metrics.shineContent !== "none" && metrics.shineHeight >= 7 && metrics.shineBackground.includes("linear-gradient");
-    const hasCornerToken = metrics.tokenContent !== "none" && metrics.tokenWidth >= 8 && metrics.tokenHeight >= 8 && metrics.tokenBackground.includes("gradient");
-    const hasActionCue = expectedPromiseActions[index].includes(metrics.actionText) && metrics.actionWidth >= 24 && metrics.actionHeight >= 18 && metrics.actionRadius >= 8 && metrics.actionBackground.includes("linear-gradient") && metrics.actionArrowContent !== "none";
-    const textAllowsFullCopy = metrics.textWhiteSpace !== "nowrap" && metrics.textOverflowStyle !== "ellipsis" && metrics.textOverflowXStyle !== "hidden";
-    const textLineCount = metrics.textLineHeight > 0 ? metrics.textHeight / metrics.textLineHeight : 1;
-    const hasReadableLayout = metrics.textWidth >= 36 && metrics.textHeight >= 10 && metrics.actionPosition === "static" && !metrics.textActionOverlap && !metrics.textOverflows && !metrics.actionOverflows && textAllowsFullCopy && textLineCount <= 2.4 && metrics.textLeft >= metrics.chipLeft + 4 && metrics.actionRight <= metrics.chipRight - 4;
-    if (metrics.tagName !== "BUTTON" || metrics.targetView !== expectedPromiseTargets[index] || !metrics.text || metrics.width < 70 || metrics.height < 34 || metrics.borderWidth < 3 || metrics.borderRadius < 14 || !metrics.backgroundImage.includes("linear-gradient") || metrics.boxShadow === "none" || metrics.overflow !== "hidden" || !hasChipShine || !hasCornerToken || metrics.iconWidth < 14 || metrics.iconHeight < 14 || !hasActionCue || !hasReadableLayout || metrics.overflows) {
-      failures.push("[" + viewportName + "] Opening promise chip " + (index + 1) + " lost readable tactile treatment: " + JSON.stringify(metrics));
-    }
-  });
 }
 
 async function expectSettingsDialogPolish(page, viewportName) {
   await page.locator('button[aria-label="Settings"], button[aria-label="\uC124\uC815"]').first().click();
   await expectVisible(page, ".settings-dialog", viewportName);
-  await page.waitForFunction(() => {
-    const images = [...document.querySelectorAll(".settings-dialog .support-pack-card__art-image")];
-    return images.length === 2 && images.every((image) => image.complete && image.naturalWidth === 256 && image.naturalHeight === 256);
-  }, null, { timeout: 5000 });
-  const viewport = page.viewportSize() || { height: 844 };
-  const metrics = await page.evaluate(() => {
-    const backdrop = document.querySelector(".modal-backdrop");
-    const dialog = document.querySelector(".settings-dialog");
-    const dialogRect = dialog?.getBoundingClientRect();
-    const backdropRect = backdrop?.getBoundingClientRect();
-    const backdropStyle = backdrop ? getComputedStyle(backdrop) : null;
-    const dialogStyle = dialog ? getComputedStyle(dialog) : null;
-    const overflowItems = [...document.querySelectorAll(".settings-dialog button, .settings-dialog input")]
-      .filter((el) => {
-        const rect = el.getBoundingClientRect();
-        const parentRect = el.parentElement?.getBoundingClientRect();
-        return parentRect && (rect.left < parentRect.left - 1 || rect.right > parentRect.right + 1);
-      })
-      .map((el) => el.textContent || el.getAttribute("aria-label") || el.className);
-    return {
-      height: dialogRect?.height || 0,
-      backdropPaddingBottom: backdrop ? parseFloat(getComputedStyle(backdrop).paddingBottom) : 0,
-      backdropClass: backdrop?.className || "",
-      backdropOverflowY: backdropStyle?.overflowY || "",
-      dialogOverflowY: dialogStyle?.overflowY || "",
-      backdropOverflowX: backdropStyle?.overflowX || "",
-      backdropScrollWidth: backdrop?.scrollWidth || 0,
-      backdropClientWidth: backdrop?.clientWidth || 0,
-      dialogScrollWidth: dialog?.scrollWidth || 0,
-      dialogClientWidth: dialog?.clientWidth || 0,
-      dialogLeft: dialogRect?.left || 0,
-      dialogRight: dialogRect?.right || 0,
-      backdropInnerLeft: backdropRect ? backdropRect.left + parseFloat(backdropStyle.paddingLeft) : 0,
-      backdropInnerRight: backdropRect ? backdropRect.right - parseFloat(backdropStyle.paddingRight) : 0,
-      floatingNavCount: document.querySelectorAll(".floating-nav").length,
-      overflowItems,
-      settingsPolish: (() => {
-        const active = document.querySelector(".settings-dialog .language-option.active");
-        const playerForm = document.querySelector(".player-form");
-
-        const input = document.querySelector(".settings-dialog input");
-        const close = document.querySelector(".settings-close");
-        const title = document.querySelector(".settings-dialog h2");
-        const save = document.querySelector(".settings-choice--save");
-        const languageChoices = [...document.querySelectorAll(".settings-choice--language")];
-        const controlChoices = [...document.querySelectorAll(".settings-choice--control")];
-        const audioChoices = [...document.querySelectorAll(".settings-choice--audio")];
-        const activeStyle = active ? getComputedStyle(active) : null;
-        const dialogStyle = dialog ? getComputedStyle(dialog) : null;
-        const playerFormStyle = playerForm ? getComputedStyle(playerForm) : null;
-
-        const playerFormBefore = playerForm ? getComputedStyle(playerForm, "::before") : null;
-
-        const inputStyle = input ? getComputedStyle(input) : null;
-        const closeStyle = close ? getComputedStyle(close) : null;
-        const titleBefore = title ? getComputedStyle(title, "::before") : null;
-        const activeAfter = active ? getComputedStyle(active, "::after") : null;
-        const saveStyle = save ? getComputedStyle(save) : null;
-        const supportCard = document.querySelector(".support-pack-card--support");
-        const jarCard = document.querySelector(".support-pack-card--jar");
-        const supportLabel = supportCard?.querySelector(".section-label");
-        const supportBody = supportCard?.querySelector(".support-pack-card__body");
-        const supportFacts = [...(supportCard?.querySelectorAll(".support-pack-card__facts span") || [])];
-        const supportStatus = supportCard?.querySelector(".support-pack-card__status");
-        const supportActions = [...(supportCard?.querySelectorAll("button") || [])];
-        const supportArt = supportCard?.querySelector(".support-pack-card__art--support");
-        const supportArtImage = supportArt?.querySelector(".support-pack-card__art-image");
-        const supportStyle = supportCard ? getComputedStyle(supportCard) : null;
-        const supportBefore = supportCard ? getComputedStyle(supportCard, "::before") : null;
-        const supportAfter = supportCard ? getComputedStyle(supportCard, "::after") : null;
-        const supportArtStyle = supportArt ? getComputedStyle(supportArt) : null;
-        const supportArtBefore = supportArt ? getComputedStyle(supportArt, "::before") : null;
-        const supportArtAfter = supportArt ? getComputedStyle(supportArt, "::after") : null;
-        const guideCard = document.querySelector(".settings-guide-card");
-        const guideButtons = [...(guideCard?.querySelectorAll(".settings-choice--guide-replay") || [])];
-        const guideBody = guideCard?.querySelector(".settings-guide-card__body");
-        const guideLabel = guideCard?.querySelector(".section-label");
-        const guideStyle = guideCard ? getComputedStyle(guideCard) : null;
-        const guideBefore = guideCard ? getComputedStyle(guideCard, "::before") : null;
-        const guideButtonMetrics = guideButtons.map((button) => {
-          const style = getComputedStyle(button);
-          const before = getComputedStyle(button, "::before");
-          const icon = button.querySelector(".settings-choice__guide-icon");
-          const iconStyle = icon ? getComputedStyle(icon) : null;
-          const iconBefore = icon ? getComputedStyle(icon, "::before") : null;
-          const iconAfter = icon ? getComputedStyle(icon, "::after") : null;
-          const label = button.querySelector(".settings-choice__guide-label");
-          const rect = button.getBoundingClientRect();
-          return {
-            tag: button.tagName,
-            type: button.getAttribute("type") || "",
-            target: button.dataset?.guideTarget || "",
-            text: button.textContent?.trim() || "",
-            width: rect.width,
-            height: rect.height,
-            clientWidth: button.clientWidth,
-            scrollWidth: button.scrollWidth,
-            background: style.backgroundImage || "",
-            tokenWidth: parseFloat(before.width) || 0,
-            tokenRadius: parseFloat(before.borderRadius) || 0,
-            tokenBackground: before.backgroundImage || "",
-            iconWidth: icon?.getBoundingClientRect().width || 0,
-            iconHeight: icon?.getBoundingClientRect().height || 0,
-            iconRadius: iconStyle ? parseFloat(iconStyle.borderRadius) : 0,
-            iconBackground: iconStyle?.backgroundImage || "",
-            iconBeforeContent: iconBefore?.content || "none",
-            iconAfterContent: iconAfter?.content || "none",
-            labelOverflow: label ? Math.max(0, label.scrollWidth - label.clientWidth) : 999
-          };
-        });
-        const jarLabel = jarCard?.querySelector(".section-label");
-        const jarBody = jarCard?.querySelector(".support-pack-card__body");
-        const jarFacts = [...(jarCard?.querySelectorAll(".support-pack-card__facts span") || [])];
-        const jarStatus = jarCard?.querySelector(".support-pack-card__status");
-        const jarActions = [...(jarCard?.querySelectorAll("button") || [])];
-        const jarArt = jarCard?.querySelector(".support-pack-card__art--jar");
-        const jarArtImage = jarArt?.querySelector(".support-pack-card__art-image");
-        const jarStyle = jarCard ? getComputedStyle(jarCard) : null;
-        const jarBefore = jarCard ? getComputedStyle(jarCard, "::before") : null;
-        const jarAfter = jarCard ? getComputedStyle(jarCard, "::after") : null;
-        const jarArtStyle = jarArt ? getComputedStyle(jarArt) : null;
-        const jarArtBefore = jarArt ? getComputedStyle(jarArt, "::before") : null;
-        const jarArtAfter = jarArt ? getComputedStyle(jarArt, "::after") : null;
-        const overlaps = (a, b) => Boolean(
-          a &&
-          b &&
-          a.width > 0 &&
-          b.width > 0 &&
-          a.left < b.right &&
-          a.right > b.left &&
-          a.top < b.bottom &&
-          a.bottom > b.top
-        );
-        const readableLineCount = (node) => {
-          if (!node) return 0;
-          const style = getComputedStyle(node);
-          const fontSize = parseFloat(style.fontSize) || 16;
-          const lineHeight = parseFloat(style.lineHeight) || fontSize * 1.2;
-          return node.getBoundingClientRect().height / lineHeight;
-        };
-        const supportArtRect = supportArt?.getBoundingClientRect();
-        const jarArtRect = jarArt?.getBoundingClientRect();
-        return {
-          dialogRadius: dialogStyle ? parseFloat(dialogStyle.borderRadius) : 0,
-          dialogBackground: dialogStyle?.backgroundImage || "",
-          titleBadgeWidth: titleBefore ? parseFloat(titleBefore.width) : 0,
-          activeHeight: active?.getBoundingClientRect().height || 0,
-          activeBackground: activeStyle?.backgroundImage || "",
-          activeMarkerBackground: activeAfter?.backgroundImage || "",
-
-          playerFormRadius: playerFormStyle ? parseFloat(playerFormStyle.borderRadius) : 0,
-
-          playerFormBackground: playerFormStyle?.backgroundImage || "",
-
-          playerFormShadow: playerFormStyle?.boxShadow || "none",
-
-          playerFormBadgeWidth: playerFormBefore ? parseFloat(playerFormBefore.width) : 0,
-          inputHeight: input?.getBoundingClientRect().height || 0,
-          inputRadius: inputStyle ? parseFloat(inputStyle.borderRadius) : 0,
-          saveHeight: save?.getBoundingClientRect().height || 0,
-          saveBackground: saveStyle?.backgroundImage || "",
-          closeHeight: close?.getBoundingClientRect().height || 0,
-          closeBackground: closeStyle?.backgroundImage || "",
-          languageChoiceCount: languageChoices.length,
-          controlChoiceCount: controlChoices.length,
-          audioChoiceCount: audioChoices.length,
-          guideCard: {
-            exists: Boolean(guideCard),
-            labelText: guideLabel?.textContent?.trim() || "",
-            bodyText: guideBody?.textContent?.trim() || "",
-            buttonCount: guideButtons.length,
-            buttonTags: guideButtonMetrics.map((button) => button.tag),
-            buttonTypes: guideButtonMetrics.map((button) => button.type),
-            buttonTargets: guideButtonMetrics.map((button) => button.target),
-            buttonTexts: guideButtonMetrics.map((button) => button.text),
-            buttonOverflows: guideButtonMetrics.map((button) => button.scrollWidth > button.clientWidth + 1),
-            height: guideCard?.getBoundingClientRect().height || 0,
-            radius: guideStyle ? parseFloat(guideStyle.borderRadius) : 0,
-            background: guideStyle?.backgroundImage || "",
-            shadow: guideStyle?.boxShadow || "none",
-            shineHeight: guideBefore ? parseFloat(guideBefore.height) : 0,
-            shineBackground: guideBefore?.backgroundImage || "",
-            buttonHeights: guideButtonMetrics.map((button) => button.height),
-            buttonBackgrounds: guideButtonMetrics.map((button) => button.background),
-            tokenWidths: guideButtonMetrics.map((button) => button.tokenWidth),
-            tokenRadii: guideButtonMetrics.map((button) => button.tokenRadius),
-            tokenBackgrounds: guideButtonMetrics.map((button) => button.tokenBackground),
-            iconWidths: guideButtonMetrics.map((button) => button.iconWidth),
-            iconHeights: guideButtonMetrics.map((button) => button.iconHeight),
-            iconRadii: guideButtonMetrics.map((button) => button.iconRadius),
-            iconBackgrounds: guideButtonMetrics.map((button) => button.iconBackground),
-            iconBeforeContents: guideButtonMetrics.map((button) => button.iconBeforeContent),
-            iconAfterContents: guideButtonMetrics.map((button) => button.iconAfterContent),
-            labelOverflows: guideButtonMetrics.map((button) => button.labelOverflow)
-          },
-          supportCard: {
-            exists: Boolean(supportCard),
-            productId: supportCard?.dataset?.billingProduct || "",
-            labelText: supportLabel?.textContent?.trim() || "",
-            bodyText: supportBody?.textContent?.trim() || "",
-            visibleText: supportCard?.innerText?.trim() || "",
-            factTexts: supportFacts.map((fact) => fact.textContent?.trim() || ""),
-            factHeights: supportFacts.map((fact) => fact.getBoundingClientRect().height || 0),
-            factLineCounts: supportFacts.map(readableLineCount),
-            factWhiteSpaces: supportFacts.map((fact) => getComputedStyle(fact).whiteSpace || ""),
-            factTextOverflows: supportFacts.map((fact) => getComputedStyle(fact).textOverflow || ""),
-            factOverflows: supportFacts.map((fact) => fact.scrollWidth > fact.clientWidth + 1 || fact.scrollHeight > fact.clientHeight + 1),
-            factBackgrounds: supportFacts.map((fact) => getComputedStyle(fact).backgroundImage || ""),
-            statusText: supportStatus?.textContent?.trim() || "",
-            statusClass: supportStatus?.className || "",
-            statusAriaLive: supportStatus?.getAttribute("aria-live") || "",
-            height: supportCard?.getBoundingClientRect().height || 0,
-            radius: supportStyle ? parseFloat(supportStyle.borderRadius) : 0,
-            background: supportStyle?.backgroundImage || "",
-            shadow: supportStyle?.boxShadow || "none",
-            shineHeight: supportBefore ? parseFloat(supportBefore.height) : 0,
-            shineBackground: supportBefore?.backgroundImage || "",
-            tokenWidth: supportAfter ? parseFloat(supportAfter.width) : 0,
-            tokenHeight: supportAfter ? parseFloat(supportAfter.height) : 0,
-            tokenBackground: supportAfter?.backgroundImage || "",
-            productArtWidth: supportArt?.getBoundingClientRect().width || 0,
-            productArtHeight: supportArt?.getBoundingClientRect().height || 0,
-            productArtAriaHidden: supportArt?.getAttribute("aria-hidden") || "",
-            productArtBackground: supportArtStyle?.backgroundImage || "",
-            productArtBeforeContent: supportArtBefore?.content || "",
-            productArtAfterContent: supportArtAfter?.content || "",
-            productArtAssetId: supportArtImage?.dataset?.assetId || "",
-            productArtImageSrc: supportArtImage?.currentSrc || supportArtImage?.src || "",
-            productArtNaturalWidth: supportArtImage?.naturalWidth || 0,
-            productArtNaturalHeight: supportArtImage?.naturalHeight || 0,
-            productArtOverlapsContent: [
-              supportLabel,
-              supportBody,
-              supportStatus,
-              ...supportFacts,
-              ...supportActions
-            ].some((node) => overlaps(supportArtRect, node?.getBoundingClientRect())),
-            actionCount: supportActions.length,
-            actionTexts: supportActions.map((button) => button.textContent?.trim() || ""),
-            actionHeights: supportActions.map((button) => button.getBoundingClientRect().height),
-            actionLineCounts: supportActions.map(readableLineCount),
-            actionWhiteSpaces: supportActions.map((button) => getComputedStyle(button).whiteSpace || ""),
-            actionTextOverflows: supportActions.map((button) => getComputedStyle(button).textOverflow || ""),
-            actionOverflows: supportActions.map((button) => button.scrollWidth > button.clientWidth + 1 || button.scrollHeight > button.clientHeight + 1),
-            actionBackgrounds: supportActions.map((button) => getComputedStyle(button).backgroundImage || "")
-          },
-          spoonJarCard: {
-            exists: Boolean(jarCard),
-            productId: jarCard?.dataset?.billingProduct || "",
-            labelText: jarLabel?.textContent?.trim() || "",
-            bodyText: jarBody?.textContent?.trim() || "",
-            visibleText: jarCard?.innerText?.trim() || "",
-            factTexts: jarFacts.map((fact) => fact.textContent?.trim() || ""),
-            factHeights: jarFacts.map((fact) => fact.getBoundingClientRect().height || 0),
-            factLineCounts: jarFacts.map(readableLineCount),
-            factWhiteSpaces: jarFacts.map((fact) => getComputedStyle(fact).whiteSpace || ""),
-            factTextOverflows: jarFacts.map((fact) => getComputedStyle(fact).textOverflow || ""),
-            factOverflows: jarFacts.map((fact) => fact.scrollWidth > fact.clientWidth + 1 || fact.scrollHeight > fact.clientHeight + 1),
-            factBackgrounds: jarFacts.map((fact) => getComputedStyle(fact).backgroundImage || ""),
-            statusText: jarStatus?.textContent?.trim() || "",
-            statusClass: jarStatus?.className || "",
-            statusAriaLive: jarStatus?.getAttribute("aria-live") || "",
-            height: jarCard?.getBoundingClientRect().height || 0,
-            radius: jarStyle ? parseFloat(jarStyle.borderRadius) : 0,
-            background: jarStyle?.backgroundImage || "",
-            shadow: jarStyle?.boxShadow || "none",
-            shineHeight: jarBefore ? parseFloat(jarBefore.height) : 0,
-            shineBackground: jarBefore?.backgroundImage || "",
-            tokenWidth: jarAfter ? parseFloat(jarAfter.width) : 0,
-            tokenHeight: jarAfter ? parseFloat(jarAfter.height) : 0,
-            tokenBackground: jarAfter?.backgroundImage || "",
-            productArtWidth: jarArt?.getBoundingClientRect().width || 0,
-            productArtHeight: jarArt?.getBoundingClientRect().height || 0,
-            productArtAriaHidden: jarArt?.getAttribute("aria-hidden") || "",
-            productArtBackground: jarArtStyle?.backgroundImage || "",
-            productArtBeforeContent: jarArtBefore?.content || "",
-            productArtAfterContent: jarArtAfter?.content || "",
-            productArtAssetId: jarArtImage?.dataset?.assetId || "",
-            productArtImageSrc: jarArtImage?.currentSrc || jarArtImage?.src || "",
-            productArtNaturalWidth: jarArtImage?.naturalWidth || 0,
-            productArtNaturalHeight: jarArtImage?.naturalHeight || 0,
-            productArtOverlapsContent: [
-              jarLabel,
-              jarBody,
-              jarStatus,
-              ...jarFacts,
-              ...jarActions
-            ].some((node) => overlaps(jarArtRect, node?.getBoundingClientRect())),
-            actionCount: jarActions.length,
-            actionTexts: jarActions.map((button) => button.textContent?.trim() || ""),
-            actionHeights: jarActions.map((button) => button.getBoundingClientRect().height),
-            actionLineCounts: jarActions.map(readableLineCount),
-            actionWhiteSpaces: jarActions.map((button) => getComputedStyle(button).whiteSpace || ""),
-            actionTextOverflows: jarActions.map((button) => getComputedStyle(button).textOverflow || ""),
-            actionOverflows: jarActions.map((button) => button.scrollWidth > button.clientWidth + 1 || button.scrollHeight > button.clientHeight + 1),
-            actionBackgrounds: jarActions.map((button) => getComputedStyle(button).backgroundImage || "")
-          },
-          choiceGroupCards: [
-            document.querySelector(".settings-choice-grid--language"),
-            document.querySelector(".settings-choice-grid--control"),
-            document.querySelector(".audio-options")
-          ].map((group) => {
-            const rect = group?.getBoundingClientRect() || { height: 0 };
-            const style = group ? getComputedStyle(group) : null;
-            const shine = group ? getComputedStyle(group, "::before") : null;
-            return {
-              height: rect.height,
-              radius: style ? parseFloat(style.borderRadius) : 0,
-              background: style?.backgroundImage || "",
-              shadow: style?.boxShadow || "none",
-              shineBackground: shine?.backgroundImage || "",
-              shineHeight: shine ? parseFloat(shine.height) : 0
-            };
-          }),
-          choiceShines: [...languageChoices, ...controlChoices, ...audioChoices].map((choice) => {
-            const shine = getComputedStyle(choice, "::before");
-            const marker = getComputedStyle(choice, "::after");
-            return {
-              shineWidth: parseFloat(shine.width) || 0,
-              shineHeight: parseFloat(shine.height) || 0,
-              shineBackground: shine.backgroundImage || "",
-              markerBackground: marker.backgroundImage || ""
-            };
-          })
-        };
-      })()
-    };
-  });
-  if (
-    metrics.height > viewport.height - 24 ||
-    !metrics.backdropClass.includes("modal-backdrop--settings") ||
-    metrics.backdropPaddingBottom < 14 ||
-    metrics.backdropOverflowY !== "auto" ||
-    metrics.dialogOverflowY !== "auto" ||
-    metrics.backdropOverflowX !== "hidden" ||
-    metrics.backdropScrollWidth > metrics.backdropClientWidth + 1 ||
-    metrics.dialogScrollWidth > metrics.dialogClientWidth + 1 ||
-    metrics.dialogLeft < metrics.backdropInnerLeft - 1 ||
-    metrics.dialogRight > metrics.backdropInnerRight + 1 ||
-    metrics.floatingNavCount !== 0 ||
-    metrics.overflowItems.length ||
-    metrics.settingsPolish.dialogRadius < 16 ||
-    !metrics.settingsPolish.dialogBackground.includes("linear-gradient") ||
-    metrics.settingsPolish.titleBadgeWidth < 18 ||
-    metrics.settingsPolish.activeHeight < 48 ||
-    !metrics.settingsPolish.activeBackground.includes("linear-gradient") ||
-    !metrics.settingsPolish.activeMarkerBackground.includes("radial-gradient") ||
-
-    metrics.settingsPolish.playerFormRadius < 16 ||
-
-    !metrics.settingsPolish.playerFormBackground.includes("linear-gradient") ||
-
-    metrics.settingsPolish.playerFormShadow === "none" ||
-
-    metrics.settingsPolish.playerFormBadgeWidth < 20 ||
-    metrics.settingsPolish.inputHeight < 42 ||
-    metrics.settingsPolish.inputRadius < 8 ||
-    metrics.settingsPolish.saveHeight < 48 ||
-    !metrics.settingsPolish.saveBackground.includes("linear-gradient") ||
-    metrics.settingsPolish.closeHeight < 50 ||
-    !metrics.settingsPolish.closeBackground.includes("linear-gradient") ||
-    metrics.settingsPolish.languageChoiceCount !== 3 ||
-    metrics.settingsPolish.controlChoiceCount !== 3 ||
-    metrics.settingsPolish.audioChoiceCount !== 2 ||
-    !metrics.settingsPolish.guideCard.exists ||
-    !metrics.settingsPolish.guideCard.labelText ||
-    !metrics.settingsPolish.guideCard.bodyText ||
-    metrics.settingsPolish.guideCard.buttonCount !== 2 ||
-    !metrics.settingsPolish.guideCard.buttonTargets.includes("puzzle") ||
-    !metrics.settingsPolish.guideCard.buttonTargets.includes("timeAttack") ||
-    metrics.settingsPolish.guideCard.buttonTags.some((tag) => tag !== "BUTTON") ||
-    metrics.settingsPolish.guideCard.buttonTypes.some((type) => type !== "button") ||
-    metrics.settingsPolish.guideCard.buttonTexts.some((text) => !/guide|\uAC00\uC774\uB4DC/i.test(text)) ||
-    metrics.settingsPolish.guideCard.buttonOverflows.some(Boolean) ||
-    metrics.settingsPolish.guideCard.height < 86 ||
-    metrics.settingsPolish.guideCard.radius < 16 ||
-    !metrics.settingsPolish.guideCard.background.includes("gradient") ||
-    metrics.settingsPolish.guideCard.shadow === "none" ||
-    !metrics.settingsPolish.guideCard.shineBackground.includes("gradient") ||
-    metrics.settingsPolish.guideCard.shineHeight < 16 ||
-    metrics.settingsPolish.guideCard.buttonHeights.some((height) => height < 44) ||
-    metrics.settingsPolish.guideCard.buttonBackgrounds.some((background) => !background.includes("gradient")) ||
-    metrics.settingsPolish.guideCard.iconWidths.some((width) => width < 28) ||
-    metrics.settingsPolish.guideCard.iconHeights.some((height) => height < 28) ||
-    metrics.settingsPolish.guideCard.iconRadii.some((radius) => radius < 10) ||
-    metrics.settingsPolish.guideCard.iconBackgrounds.some((background) => !background.includes("gradient")) ||
-    metrics.settingsPolish.guideCard.iconBeforeContents.some((content) => content === "none") ||
-    metrics.settingsPolish.guideCard.iconAfterContents.some((content) => content === "none") ||
-    metrics.settingsPolish.guideCard.labelOverflows.some((overflow) => overflow > 1) ||
-    !metrics.settingsPolish.supportCard.exists ||
-    metrics.settingsPolish.supportCard.productId !== "pip_cozy_support" ||
-    !metrics.settingsPolish.supportCard.labelText ||
-    !metrics.settingsPolish.supportCard.bodyText ||
-    metrics.settingsPolish.supportCard.factTexts.length !== 3 ||
-    !metrics.settingsPolish.supportCard.factTexts.join(" ").includes("250") ||
-    !metrics.settingsPolish.supportCard.factTexts.join(" ").includes("Restore") ||
-    /(paid|free|\uC720\uB8CC|\uBB34\uB8CC)/i.test(metrics.settingsPolish.supportCard.visibleText) ||
-    BILLING_DEV_COPY_PATTERN.test(metrics.settingsPolish.supportCard.visibleText) ||
-    !metrics.settingsPolish.supportCard.actionTexts.some((text) => /Support|\uC751\uC6D0/.test(text)) ||
-    !metrics.settingsPolish.supportCard.actionTexts.some((text) => /Restore|\uBCF5\uC6D0/.test(text)) ||
-    metrics.settingsPolish.supportCard.factHeights.some((height) => height < 28) ||
-    metrics.settingsPolish.supportCard.factBackgrounds.some((background) => !background.includes("gradient")) ||
-    !metrics.settingsPolish.supportCard.statusText ||
-    !/support-pack-card__status--(ready|warning|success|checking)/.test(metrics.settingsPolish.supportCard.statusClass) ||
-    metrics.settingsPolish.supportCard.statusAriaLive !== "polite" ||
-    metrics.settingsPolish.supportCard.height < 120 ||
-    metrics.settingsPolish.supportCard.radius < 16 ||
-    !metrics.settingsPolish.supportCard.background.includes("gradient") ||
-    metrics.settingsPolish.supportCard.shadow === "none" ||
-    !metrics.settingsPolish.supportCard.shineBackground.includes("gradient") ||
-    metrics.settingsPolish.supportCard.shineHeight < 20 ||
-    metrics.settingsPolish.supportCard.tokenWidth < 24 ||
-    metrics.settingsPolish.supportCard.tokenHeight < 24 ||
-    !metrics.settingsPolish.supportCard.tokenBackground.includes("gradient") ||
-    metrics.settingsPolish.supportCard.productArtWidth < 50 ||
-    metrics.settingsPolish.supportCard.productArtHeight < 50 ||
-    metrics.settingsPolish.supportCard.productArtAriaHidden !== "true" ||
-    !metrics.settingsPolish.supportCard.productArtBackground.includes("gradient") ||
-    metrics.settingsPolish.supportCard.productArtBeforeContent !== "none" ||
-    metrics.settingsPolish.supportCard.productArtAfterContent !== "none" ||
-    metrics.settingsPolish.supportCard.productArtAssetId !== "support-pack-gift-v1" ||
-    !metrics.settingsPolish.supportCard.productArtImageSrc.includes("support-pack-gift-v1") ||
-    metrics.settingsPolish.supportCard.productArtNaturalWidth !== 256 ||
-    metrics.settingsPolish.supportCard.productArtNaturalHeight !== 256 ||
-    metrics.settingsPolish.supportCard.productArtOverlapsContent ||
-    metrics.settingsPolish.supportCard.actionCount !== 2 ||
-    metrics.settingsPolish.supportCard.actionHeights.some((height) => height < 50) ||
-    metrics.settingsPolish.supportCard.factLineCounts.some((count) => count > 2.6) ||
-    metrics.settingsPolish.supportCard.actionLineCounts.some((count) => count > 3.4) ||
-    metrics.settingsPolish.supportCard.factWhiteSpaces.some((value) => value === "nowrap") ||
-    metrics.settingsPolish.supportCard.actionWhiteSpaces.some((value) => value === "nowrap") ||
-    metrics.settingsPolish.supportCard.factTextOverflows.some((value) => value === "ellipsis") ||
-    metrics.settingsPolish.supportCard.actionTextOverflows.some((value) => value === "ellipsis") ||
-    metrics.settingsPolish.supportCard.factOverflows.some(Boolean) ||
-    metrics.settingsPolish.supportCard.actionOverflows.some(Boolean) ||
-    metrics.settingsPolish.supportCard.actionBackgrounds.some((background) => !background.includes("gradient")) ||
-    !metrics.settingsPolish.spoonJarCard.exists ||
-    metrics.settingsPolish.spoonJarCard.productId !== "pip_spoon_jar_small" ||
-    !metrics.settingsPolish.spoonJarCard.labelText ||
-    !metrics.settingsPolish.spoonJarCard.bodyText ||
-    metrics.settingsPolish.spoonJarCard.factTexts.length !== 3 ||
-    !metrics.settingsPolish.spoonJarCard.factTexts.join(" ").includes("750") ||
-    !/Repeat|\uB2E4\uC2DC/.test(metrics.settingsPolish.spoonJarCard.factTexts.join(" ")) ||
-    /(paid|free|\uC720\uB8CC|\uBB34\uB8CC)/i.test(metrics.settingsPolish.spoonJarCard.visibleText) ||
-    BILLING_DEV_COPY_PATTERN.test(metrics.settingsPolish.spoonJarCard.visibleText) ||
-    !metrics.settingsPolish.spoonJarCard.actionTexts.some((text) => /jar|\uD56D\uC544\uB9AC/i.test(text)) ||
-    metrics.settingsPolish.spoonJarCard.actionTexts.some((text) => /Restore|\uBCF5\uC6D0/.test(text)) ||
-    metrics.settingsPolish.spoonJarCard.factHeights.some((height) => height < 28) ||
-    metrics.settingsPolish.spoonJarCard.factBackgrounds.some((background) => !background.includes("gradient")) ||
-    !metrics.settingsPolish.spoonJarCard.statusText ||
-    !/support-pack-card__status--(ready|warning|success|checking)/.test(metrics.settingsPolish.spoonJarCard.statusClass) ||
-    metrics.settingsPolish.spoonJarCard.statusAriaLive !== "polite" ||
-    metrics.settingsPolish.spoonJarCard.height < 120 ||
-    metrics.settingsPolish.spoonJarCard.radius < 16 ||
-    !metrics.settingsPolish.spoonJarCard.background.includes("gradient") ||
-    metrics.settingsPolish.spoonJarCard.shadow === "none" ||
-    !metrics.settingsPolish.spoonJarCard.shineBackground.includes("gradient") ||
-    metrics.settingsPolish.spoonJarCard.shineHeight < 20 ||
-    metrics.settingsPolish.spoonJarCard.tokenWidth < 24 ||
-    metrics.settingsPolish.spoonJarCard.tokenHeight < 24 ||
-    !metrics.settingsPolish.spoonJarCard.tokenBackground.includes("gradient") ||
-    metrics.settingsPolish.spoonJarCard.productArtWidth < 50 ||
-    metrics.settingsPolish.spoonJarCard.productArtHeight < 50 ||
-    metrics.settingsPolish.spoonJarCard.productArtAriaHidden !== "true" ||
-    !metrics.settingsPolish.spoonJarCard.productArtBackground.includes("gradient") ||
-    metrics.settingsPolish.spoonJarCard.productArtBeforeContent !== "none" ||
-    metrics.settingsPolish.spoonJarCard.productArtAfterContent !== "none" ||
-    metrics.settingsPolish.spoonJarCard.productArtAssetId !== "spoon-jar-small-v1" ||
-    !metrics.settingsPolish.spoonJarCard.productArtImageSrc.includes("spoon-jar-small-v1") ||
-    metrics.settingsPolish.spoonJarCard.productArtNaturalWidth !== 256 ||
-    metrics.settingsPolish.spoonJarCard.productArtNaturalHeight !== 256 ||
-    metrics.settingsPolish.spoonJarCard.productArtOverlapsContent ||
-    metrics.settingsPolish.spoonJarCard.actionCount !== 1 ||
-    metrics.settingsPolish.spoonJarCard.actionHeights.some((height) => height < 50) ||
-    metrics.settingsPolish.spoonJarCard.factLineCounts.some((count) => count > 2.6) ||
-    metrics.settingsPolish.spoonJarCard.actionLineCounts.some((count) => count > 3.4) ||
-    metrics.settingsPolish.spoonJarCard.factWhiteSpaces.some((value) => value === "nowrap") ||
-    metrics.settingsPolish.spoonJarCard.actionWhiteSpaces.some((value) => value === "nowrap") ||
-    metrics.settingsPolish.spoonJarCard.factTextOverflows.some((value) => value === "ellipsis") ||
-    metrics.settingsPolish.spoonJarCard.actionTextOverflows.some((value) => value === "ellipsis") ||
-    metrics.settingsPolish.spoonJarCard.factOverflows.some(Boolean) ||
-    metrics.settingsPolish.spoonJarCard.actionOverflows.some(Boolean) ||
-    metrics.settingsPolish.spoonJarCard.actionBackgrounds.some((background) => !background.includes("gradient")) ||
-    metrics.settingsPolish.choiceGroupCards.length !== 3 ||
-    metrics.settingsPolish.choiceGroupCards.some((card) => card.height < 64 || card.radius < 16 || !card.background.includes("gradient") || card.shadow === "none" || !card.shineBackground.includes("gradient") || card.shineHeight < 16) ||
-    metrics.settingsPolish.choiceShines.length !== 8 ||
-    metrics.settingsPolish.choiceShines.some((choice) => choice.shineWidth < 16 || choice.shineHeight < 6 || !choice.shineBackground.includes("gradient") || !choice.markerBackground.includes("gradient"))
-  ) {
-    failures.push("[" + viewportName + "] Settings dialog polish regression: " + JSON.stringify(metrics));
+  await expectAbsent(page, ".settings-dialog .support-pack-card", viewportName);
+  const metrics = await page.locator(".settings-dialog").evaluate((dialog) => ({
+    overflowsX: dialog.scrollWidth > dialog.clientWidth + 1,
+    width: dialog.getBoundingClientRect().width,
+    controlCount: dialog.querySelectorAll("button, input").length,
+    purchaseCopy: /pip_cozy_support|pip_spoon_jar_small|Play Store|Google Play/.test(dialog.textContent || "")
+  }));
+  if (metrics.overflowsX || metrics.width < 280 || metrics.controlCount < 7 || metrics.purchaseCopy) {
+    failures.push("[" + viewportName + "] Settings should contain preferences only: " + JSON.stringify(metrics));
   }
-  const firstAudio = page.locator(".settings-choice--audio").first();
-  const beforePressed = await firstAudio.getAttribute("aria-pressed");
-  await firstAudio.click();
-  await page.waitForTimeout(120);
-  const afterPressed = await page.locator(".settings-choice--audio").first().getAttribute("aria-pressed");
-  if (beforePressed === afterPressed) {
-    failures.push("[" + viewportName + "] Settings audio toggle did not update after click.");
-  }
-  await page.locator("#player-name-input").fill("Jay");
-  await page.locator(".settings-choice--save").click();
-  await page.locator(".settings-dialog").waitFor({ state: "detached", timeout: 2000 });
+  await page.locator(".settings-close").click();
 }
 
 async function expectAppChromePolish(page, viewportName) {
   await expectVisible(page, ".top-bar", viewportName);
   await expectVisible(page, ".header-actions", viewportName);
+  await page.waitForFunction(() => [...document.querySelectorAll(".header-actions .icon-button__raster-art")]
+    .every((image) => image.complete && image.naturalWidth === 256 && image.naturalHeight === 256));
   const chromeMetrics = await page.evaluate(() => {
     const topBar = document.querySelector(".top-bar");
     const currency = document.querySelector(".currency-pill");
@@ -1284,8 +470,6 @@ async function expectAppChromePolish(page, viewportName) {
     chromeMetrics.settingsHeight < 44 ||
     chromeMetrics.resetWidth < 44 ||
     chromeMetrics.resetHeight < 44 ||
-    !chromeMetrics.settingsBackground.includes("gradient") ||
-    !chromeMetrics.resetBackground.includes("gradient") ||
     chromeMetrics.settingsBeforeContent !== "none" ||
     chromeMetrics.settingsAfterContent !== "none" ||
     chromeMetrics.settingsAssetId !== "puzzle-control-settings-v1" ||
@@ -1302,6 +486,10 @@ async function expectAppChromePolish(page, viewportName) {
   const trigger = page.locator(".floating-nav__trigger").first();
   await trigger.click();
   await page.locator(".floating-nav[data-open='true'] .floating-nav__menu").waitFor({ state: "visible", timeout: 3000 });
+  await page.waitForFunction(() => {
+    const images = [...document.querySelectorAll(".floating-nav[data-open='true'] img")];
+    return images.length >= 6 && images.every((image) => image.complete && image.naturalWidth === 256 && image.naturalHeight === 256);
+  }, null, { timeout: 5000 });
   const navMetrics = await page.evaluate(() => {
     const nav = document.querySelector(".floating-nav");
     const menu = document.querySelector(".floating-nav__menu");
@@ -1531,7 +719,8 @@ async function expectPlayScreenNavClearance(page, viewportName) {
       headerPosition: headerStyle?.position || "",
       headerTop: headerRect?.top || 0,
       headerBackground: headerStyle?.backgroundImage || "",
-      headerRadius: parseFloat(headerStyle?.borderBottomLeftRadius) || 0
+      headerRadius: parseFloat(headerStyle?.borderBottomLeftRadius) || 0,
+      flatStarter: screen?.dataset.puzzleSize === "5" && window.innerWidth <= 520
     };
   });
   if (
@@ -1542,10 +731,11 @@ async function expectPlayScreenNavClearance(page, viewportName) {
       metrics.screenWidth < metrics.viewportWidth ||
       metrics.screenHeight < metrics.viewportHeight ||
       metrics.headerWidth < metrics.viewportWidth ||
-      metrics.headerPosition !== "sticky" ||
+      metrics.headerPosition !== "static" ||
       Math.abs(metrics.headerTop) > 1 ||
-      !metrics.headerBackground.includes("gradient") ||
-      metrics.headerRadius < 18
+      (metrics.flatStarter
+        ? metrics.headerBackground !== "none" || metrics.headerRadius !== 0
+        : !metrics.headerBackground.includes("gradient") || metrics.headerRadius < 18)
     ))
   ) {
     failures.push("[" + viewportName + "] Puzzle play should own a dedicated full-width screen without floating quick travel: " + JSON.stringify(metrics));
@@ -1603,27 +793,38 @@ async function expectStageNavigationPolish(page, viewportName) {
       shineHeight: parseFloat(shine.height),
       copyWidth: copyRect?.width || 0,
       actionsWidth: actionsRect?.width || 0,
+      flatStarter: nav.closest(".play-screen")?.dataset.puzzleSize === "5" && window.innerWidth <= 520,
       buttons
     };
   });
 
-  const buttonVariants = ["previous", "list", "next"];
+  const buttonVariants = ["previous", "next"];
   const buttonTops = metrics.buttons.map((button) => button.top);
   const maxButtonTopDrift = buttonTops.length > 1 ? Math.max(...buttonTops) - Math.min(...buttonTops) : 0;
-  if (
-    metrics.left < -1 ||
-    metrics.right > metrics.viewportWidth + 1 ||
+  const flatStarterFrameInvalid = metrics.flatStarter && (
+    metrics.borderWidth < 1 ||
+    metrics.radius < 12 ||
+    metrics.background !== "none" ||
+    metrics.boxShadow !== "none" ||
+    metrics.shineContent !== "none" ||
+    metrics.buttons.some((button) =>
+      button.height < 42 ||
+      button.width < 70 ||
+      button.left < -1 ||
+      button.right > metrics.viewportWidth + 1 ||
+      button.background !== "none" ||
+      button.boxShadow !== "none" ||
+      button.iconContent !== "none" ||
+      button.glintContent !== "none"
+    )
+  );
+  const tactileFrameInvalid = !metrics.flatStarter && (
     metrics.borderWidth < 3 ||
     metrics.radius < 16 ||
     !metrics.background.includes("gradient") ||
     metrics.boxShadow === "none" ||
-    metrics.overflow !== "hidden" ||
     metrics.shineContent === "none" ||
     metrics.shineHeight < 10 ||
-    metrics.copyWidth < 120 ||
-    metrics.actionsWidth < 180 ||
-    metrics.buttons.length !== 3 ||
-    maxButtonTopDrift > 8 ||
     metrics.buttons.some((button, index) =>
       button.height < 42 ||
       button.width < 70 ||
@@ -1641,6 +842,17 @@ async function expectStageNavigationPolish(page, viewportName) {
       button.glintHeight < 8 ||
       !button.className.includes(buttonVariants[index])
     )
+  );
+  if (
+    metrics.left < -1 ||
+    metrics.right > metrics.viewportWidth + 1 ||
+    metrics.overflow !== "hidden" ||
+    metrics.copyWidth < 120 ||
+    metrics.actionsWidth < 180 ||
+    metrics.buttons.length !== 2 ||
+    maxButtonTopDrift > 8 ||
+    flatStarterFrameInvalid ||
+    tactileFrameInvalid
   ) {
     failures.push("[" + viewportName + "] Stage navigation lost tactile button polish: " + JSON.stringify(metrics));
   }
@@ -1796,7 +1008,8 @@ async function expectAlbumPolish(page, viewportName) {
     const album = document.querySelector(".album-panel");
     const albumCard = document.querySelector(".album-card");
     const albumStamp = document.querySelector(".album-stamp");
-    const albumState = document.querySelector(".album-card__state");
+    const albumStateCount = document.querySelectorAll(".album-card__state, .album-card.locked").length;
+    const repeatedCopyCount = document.querySelectorAll(".album-card > div > p").length;
 
     const readBox = (el) => {
       const rect = el?.getBoundingClientRect();
@@ -1815,22 +1028,23 @@ async function expectAlbumPolish(page, viewportName) {
       album: readBox(album),
       albumCard: readBox(albumCard),
       albumStamp: readBox(albumStamp),
-      albumState: readBox(albumState),
+      albumStateCount,
+      repeatedCopyCount,
 
     };
   });
-  const boxes = [metrics.album, metrics.albumCard, metrics.albumStamp, metrics.albumState];
+  const boxes = [metrics.album, metrics.albumCard, metrics.albumStamp];
   const outside = boxes.some((box) => box.left < -1 || box.right > metrics.viewportWidth + 1);
   if (
     outside ||
     metrics.album.radius < 14 ||
     metrics.albumCard.radius < 12 ||
     metrics.albumStamp.height < 64 ||
-    metrics.albumState.height < 20 ||
-    metrics.albumState.radius < 10 ||
+    metrics.albumStamp.width > 322 ||
+    metrics.albumStateCount !== 0 ||
+    metrics.repeatedCopyCount !== 0 ||
     !metrics.album.background.includes("linear-gradient") ||
-    !metrics.albumCard.background.includes("linear-gradient") ||
-    !metrics.albumState.background.includes("linear-gradient")
+    !metrics.albumCard.background.includes("linear-gradient")
   ) {
     failures.push("[" + viewportName + "] Album polish regression: " + JSON.stringify(metrics));
   }
@@ -1839,9 +1053,9 @@ async function expectAlbumPolish(page, viewportName) {
 async function expectMapPolish(page, viewportName) {
   const metrics = await page.evaluate(() => {
     const map = document.querySelector(".map-panel");
-    const badgeCard = document.querySelector(".badge-card");
-    const badgeToken = document.querySelector(".badge-art-token");
-    const badgeState = document.querySelector(".badge-card__state");
+    const badgeCard = document.querySelector(".next-stage-badge");
+    const badgeToken = document.querySelector(".roadmap-badge__token");
+    const lockedCardCount = document.querySelectorAll(".badge-card.locked").length;
     const readBox = (el) => {
       const rect = el?.getBoundingClientRect();
       const style = el ? getComputedStyle(el) : null;
@@ -1859,21 +1073,18 @@ async function expectMapPolish(page, viewportName) {
       map: readBox(map),
       badgeCard: readBox(badgeCard),
       badgeToken: readBox(badgeToken),
-      badgeState: readBox(badgeState)
+      lockedCardCount
     };
   });
-  const boxes = [metrics.map, metrics.badgeCard, metrics.badgeToken, metrics.badgeState];
+  const boxes = [metrics.map, metrics.badgeCard, metrics.badgeToken];
   const outside = boxes.some((box) => box.left < -1 || box.right > metrics.viewportWidth + 1);
   if (
     outside ||
     metrics.map.radius < 14 ||
     metrics.badgeCard.radius < 12 ||
-    metrics.badgeToken.height < 80 ||
-    metrics.badgeState.height < 20 ||
-    metrics.badgeState.radius < 10 ||
-    !metrics.map.background.includes("linear-gradient") ||
-    !metrics.badgeCard.background.includes("linear-gradient") ||
-    !metrics.badgeState.background.includes("linear-gradient")
+    metrics.badgeToken.height < 40 ||
+    metrics.lockedCardCount !== 0 ||
+    !metrics.map.background.includes("linear-gradient")
   ) {
     failures.push("[" + viewportName + "] Map polish regression: " + JSON.stringify(metrics));
   }
@@ -1933,6 +1144,7 @@ async function expectCompletionRewardPolish(page, viewportName) {
     const pip = document.querySelector(".completion-pip");
     const card = document.querySelector(".completion-reveal-card");
     const reveal = document.querySelector(".completion-reveal");
+    const character = document.querySelector(".completion-reveal__character");
     const stamp = document.querySelector(".completion-reveal__stamp");
     const eyebrow = document.querySelector(".completion-reveal__eyebrow");
     const actions = document.querySelector(".completion-actions");
@@ -1946,6 +1158,7 @@ async function expectCompletionRewardPolish(page, viewportName) {
     const pipRect = pip?.getBoundingClientRect();
     const cardRect = card?.getBoundingClientRect();
     const revealRect = reveal?.getBoundingClientRect();
+    const characterRect = character?.getBoundingClientRect();
     const stampRect = stamp?.getBoundingClientRect();
     const eyebrowRect = eyebrow?.getBoundingClientRect();
     const actionsRect = actions?.getBoundingClientRect();
@@ -1964,6 +1177,9 @@ async function expectCompletionRewardPolish(page, viewportName) {
       cardHeight: cardRect?.height || 0,
       revealWidth: revealRect?.width || 0,
       revealHeight: revealRect?.height || 0,
+      characterWidth: characterRect?.width || 0,
+      characterHeight: characterRect?.height || 0,
+      firstPipFace: card?.classList.contains("completion-reveal-card--pip-face") || false,
       stampWidth: stampRect?.width || 0,
       stampHeight: stampRect?.height || 0,
       eyebrowWidth: eyebrowRect?.width || 0,
@@ -1983,27 +1199,27 @@ async function expectCompletionRewardPolish(page, viewportName) {
   if (
     metrics.bannerLeft < -1 ||
     metrics.bannerRight > metrics.viewportWidth + 1 ||
-    metrics.pipWidth < 60 ||
-    metrics.pipHeight < 60 ||
+    (!metrics.firstPipFace && (metrics.pipWidth < 60 || metrics.pipHeight < 60)) ||
     metrics.cardWidth < 180 ||
-    metrics.cardHeight < metrics.revealHeight + 30 ||
-    metrics.revealWidth < 150 ||
+    metrics.cardHeight < (metrics.firstPipFace ? metrics.revealHeight + 30 : Math.max(metrics.revealHeight, metrics.characterHeight) + 30) ||
+    metrics.revealWidth < (metrics.firstPipFace ? 90 : 150) ||
     Math.abs(metrics.revealWidth - metrics.revealHeight) > 2 ||
-    metrics.stampWidth < 42 ||
-    metrics.stampHeight < 22 ||
-    metrics.eyebrowWidth < 56 ||
+    (metrics.firstPipFace && (metrics.characterWidth < 90 || metrics.characterHeight < 90)) ||
+    (!metrics.firstPipFace && metrics.stampWidth < 42) ||
+    (!metrics.firstPipFace && metrics.stampHeight < 22) ||
+    (!metrics.firstPipFace && metrics.eyebrowWidth < 56) ||
+    (metrics.firstPipFace && (metrics.stampWidth !== 0 || metrics.eyebrowWidth !== 0)) ||
     metrics.actionsWidth < metrics.bannerWidth * 0.72 ||
-    metrics.rewardFactRects.length !== 3 ||
-    metrics.rewardFactRects.some((chip) => chip.width < 72 || chip.height < 26 || !chip.background.includes("linear-gradient") || !chip.text) ||
+    metrics.rewardFactRects.length !== 0 ||
     metrics.bannerRadius < 14 ||
     metrics.cardRadius < 16 ||
     metrics.revealRadius < 10 ||
     !metrics.bannerBackground.includes("linear-gradient") ||
-    !metrics.cardBackground.includes("linear-gradient") ||
+    (!metrics.firstPipFace && !metrics.cardBackground.includes("linear-gradient")) ||
     !metrics.revealBackground.includes("linear-gradient") ||
-    !metrics.stampBackground.includes("linear-gradient") ||
-    !metrics.stampText ||
-    !metrics.eyebrowText
+    (!metrics.firstPipFace && !metrics.stampBackground.includes("linear-gradient")) ||
+    (!metrics.firstPipFace && !metrics.stampText) ||
+    (!metrics.firstPipFace && !metrics.eyebrowText)
   ) {
     failures.push("[" + viewportName + "] Completion reward polish regression: " + JSON.stringify(metrics));
   }
@@ -2225,13 +1441,6 @@ async function expectNoHorizontalOverflow(page, viewportName) {
   }
 }
 
-async function expectLockedBadgeGate(page, viewportName) {
-  const lockedText = await page.locator(".badge-card.locked").first().innerText();
-  if (!lockedText.includes("Pantry room step") || !lockedText.includes("0/3")) {
-    failures.push("[" + viewportName + "] Locked badge should explain pantry room progress, saw " + lockedText);
-  }
-}
-
 async function expectHiddenBonusPacks(page, viewportName) {
   const leakCount = await page.locator('.pack-block[data-pack-id$="-plus"], .bonus-pack-panel').count();
   if (leakCount > 0) {
@@ -2320,273 +1529,58 @@ async function expectStageArtPreviews(page, viewportName) {
 }
 
 async function expectPuzzleHubSelectionPolish(page, viewportName) {
-  const metrics = await page.evaluate(() => {
-    const preview = document.querySelector(".stage-preview");
-    const previewRect = preview?.getBoundingClientRect();
-    const previewStyle = preview ? getComputedStyle(preview) : null;
-    const previewBefore = preview ? getComputedStyle(preview, "::before") : null;
-    const previewAfter = preview ? getComputedStyle(preview, "::after") : null;
-    const chips = [...document.querySelectorAll(".puzzle-chip")].slice(0, 4).map((chip) => {
-      const rect = chip.getBoundingClientRect();
-      const style = getComputedStyle(chip);
-      const shine = getComputedStyle(chip, "::before");
-      const token = getComputedStyle(chip, "::after");
-      return {
-        text: chip.textContent.trim(),
-        width: rect.width,
-        height: rect.height,
-        left: rect.left,
-        right: rect.right,
-        viewportWidth: window.innerWidth,
-        borderWidth: parseFloat(style.borderTopWidth),
-        radius: parseFloat(style.borderRadius),
-        background: style.backgroundImage,
-        shadow: style.boxShadow,
-        overflow: style.overflow,
-        shineContent: shine.content,
-        shineHeight: parseFloat(shine.height),
-        tokenContent: token.content,
-        tokenWidth: parseFloat(token.width),
-        overflows: chip.scrollWidth > Math.ceil(rect.width) + 1 || chip.scrollHeight > Math.ceil(rect.height) + 1
-      };
-    });
+  const metrics = await page.locator(".puzzle-chip").evaluateAll((chips) => chips.slice(0, 20).map((chip) => {
+    const label = chip.querySelector(":scope > span");
+    const meta = chip.querySelector(":scope > small");
     return {
-      previewWidth: previewRect?.width || 0,
-      previewHeight: previewRect?.height || 0,
-      previewRight: previewRect?.right || 0,
-      viewportWidth: window.innerWidth,
-      previewBorderWidth: previewStyle ? parseFloat(previewStyle.borderTopWidth) : 0,
-      previewRadius: previewStyle ? parseFloat(previewStyle.borderRadius) : 0,
-      previewBackground: previewStyle?.backgroundImage || "",
-      previewShadow: previewStyle?.boxShadow || "",
-      previewShineContent: previewBefore?.content || "",
-      previewShineHeight: previewBefore ? parseFloat(previewBefore.height) : 0,
-      previewTokenContent: previewAfter?.content || "",
-      previewTokenWidth: previewAfter ? parseFloat(previewAfter.width) : 0,
-      chips
+      label: (label?.textContent || "").trim(),
+      meta: (meta?.textContent || "").trim(),
+      width: chip.getBoundingClientRect().width,
+      height: chip.getBoundingClientRect().height,
+      overflows: chip.scrollWidth > chip.clientWidth + 1 || chip.scrollHeight > chip.clientHeight + 1,
+      hasRewardImage: Boolean(chip.querySelector("img")),
+      before: getComputedStyle(chip, "::before").content,
+      after: getComputedStyle(chip, "::after").content
     };
-  });
-
-  if (
-    metrics.previewWidth < 240 ||
-    metrics.previewHeight < 110 ||
-    metrics.previewRight > metrics.viewportWidth + 1 ||
-    metrics.previewBorderWidth < 3 ||
-    metrics.previewRadius < 15 ||
-    !metrics.previewBackground.includes("gradient") ||
-    metrics.previewShadow === "none" ||
-    metrics.previewShineContent === "none" ||
-    metrics.previewShineHeight < 10 ||
-    metrics.previewTokenContent === "none" ||
-    metrics.previewTokenWidth < 16 ||
-    metrics.chips.length < 3 ||
-    metrics.chips.some((chip) =>
-      chip.width < 140 ||
-      chip.height < 54 ||
-      chip.left < -1 ||
-      chip.right > chip.viewportWidth + 1 ||
-      chip.borderWidth < 3 ||
-      chip.radius < 13 ||
-      !chip.background.includes("gradient") ||
-      chip.shadow === "none" ||
-      chip.overflow !== "hidden" ||
-      chip.shineContent === "none" ||
-      chip.shineHeight < 8 ||
-      chip.tokenContent === "none" ||
-      chip.tokenWidth < 11 ||
-      chip.overflows
-    )
-  ) {
-    failures.push("[" + viewportName + "] Puzzle hub selection cards lost polished preview/chip treatment: " + JSON.stringify(metrics));
+  }));
+  if (!metrics.length || metrics.some((chip) => !chip.label || !chip.meta || chip.width < 120 || chip.height < 80 || chip.overflows || chip.hasRewardImage || chip.before !== "none" || chip.after !== "none" || /5x5|8x8|10x10|12x12/.test(chip.label))) {
+    failures.push("[" + viewportName + "] Compact puzzle choices regressed: " + JSON.stringify(metrics));
   }
 }
 
 async function expectDailyRewardPolish(page, viewportName) {
   await expectVisible(page, ".daily-card", viewportName);
-  await expectVisible(page, ".daily-button", viewportName);
-  const metrics = await page.evaluate(() => {
-    const card = document.querySelector(".daily-card");
-    const button = document.querySelector(".daily-button");
-    const reward = document.querySelector(".daily-reward-amount");
-    const note = document.querySelector(".daily-reward-note");
-    const cardRect = card?.getBoundingClientRect();
-    const buttonRect = button?.getBoundingClientRect();
-    const rewardRect = reward?.getBoundingClientRect();
-    const cardStyle = card ? getComputedStyle(card) : null;
-    const cardBefore = card ? getComputedStyle(card, "::before") : null;
-    const cardAfter = card ? getComputedStyle(card, "::after") : null;
-    const buttonStyle = button ? getComputedStyle(button) : null;
-    const buttonBefore = button ? getComputedStyle(button, "::before") : null;
-    const rewardStyle = reward ? getComputedStyle(reward) : null;
-    return {
-      cardWidth: cardRect?.width || 0,
-      cardHeight: cardRect?.height || 0,
-      cardRight: cardRect?.right || 0,
-      viewportWidth: window.innerWidth,
-      cardBorderWidth: cardStyle ? parseFloat(cardStyle.borderTopWidth) : 0,
-      cardRadius: cardStyle ? parseFloat(cardStyle.borderRadius) : 0,
-      cardBackground: cardStyle?.backgroundImage || "",
-      cardShadow: cardStyle?.boxShadow || "none",
-      cardOverflow: cardStyle?.overflow || "",
-      cardShineContent: cardBefore?.content || "none",
-      cardShineHeight: cardBefore ? parseFloat(cardBefore.height) : 0,
-      cardTokenContent: cardAfter?.content || "none",
-      cardTokenWidth: cardAfter ? parseFloat(cardAfter.width) : 0,
-      noteText: note?.textContent?.trim() || "",
-      rewardWidth: rewardRect?.width || 0,
-      rewardHeight: rewardRect?.height || 0,
-      rewardRadius: rewardStyle ? parseFloat(rewardStyle.borderRadius) : 0,
-      rewardBackground: rewardStyle?.backgroundImage || "",
-      buttonWidth: buttonRect?.width || 0,
-      buttonHeight: buttonRect?.height || 0,
-      buttonRadius: buttonStyle ? parseFloat(buttonStyle.borderRadius) : 0,
-      buttonBorderWidth: buttonStyle ? parseFloat(buttonStyle.borderTopWidth) : 0,
-      buttonBackground: buttonStyle?.backgroundImage || "",
-      buttonShadow: buttonStyle?.boxShadow || "none",
-      buttonOverflow: buttonStyle?.overflow || "",
-      buttonShineContent: buttonBefore?.content || "none",
-      buttonShineHeight: buttonBefore ? parseFloat(buttonBefore.height) : 0
-    };
-  });
-
-  if (
-    metrics.cardWidth < 240 ||
-    metrics.cardHeight < 88 ||
-    metrics.cardRight > metrics.viewportWidth + 1 ||
-    metrics.cardBorderWidth < 3 ||
-    metrics.cardRadius < 17 ||
-    !metrics.cardBackground.includes("radial-gradient") ||
-    metrics.cardShadow === "none" ||
-    metrics.cardOverflow !== "hidden" ||
-    metrics.cardShineContent === "none" ||
-    metrics.cardShineHeight < 10 ||
-    metrics.cardTokenContent === "none" ||
-    metrics.cardTokenWidth < 18 ||
-    !metrics.noteText.includes("+") ||
-    metrics.rewardWidth < 54 ||
-    metrics.rewardHeight < 30 ||
-    metrics.rewardRadius < 14 ||
-    !metrics.rewardBackground.includes("gradient") ||
-    metrics.buttonWidth < 104 ||
-    metrics.buttonHeight < 50 ||
-    metrics.buttonRadius < 15 ||
-    metrics.buttonBorderWidth < 3 ||
-    !metrics.buttonBackground.includes("gradient") ||
-    metrics.buttonShadow === "none" ||
-    metrics.buttonOverflow !== "hidden" ||
-    metrics.buttonShineContent === "none" ||
-    metrics.buttonShineHeight < 8
-  ) {
-    failures.push("[" + viewportName + "] Daily reward card lost polished economy treatment: " + JSON.stringify(metrics));
+  const metrics = await page.locator(".daily-card").evaluate((card) => ({
+    text: (card.textContent || "").trim(),
+    overflows: card.scrollWidth > card.clientWidth + 1 || card.scrollHeight > card.clientHeight + 1,
+    hasRewardImage: Boolean(card.querySelector(".daily-reward-note img")),
+    before: getComputedStyle(card, "::before").content,
+    after: getComputedStyle(card, "::after").content,
+    buttonHeight: card.querySelector("button")?.getBoundingClientRect().height || 0
+  }));
+  if (metrics.overflows || metrics.hasRewardImage || metrics.before !== "none" || metrics.after !== "none" || metrics.buttonHeight < 44 || !/spoon|\uC2A4\uD47C/i.test(metrics.text)) {
+    failures.push("[" + viewportName + "] Compact daily card regressed: " + JSON.stringify(metrics));
   }
 }
 
 async function expectTimeAttackHubEntry(page, viewportName) {
   await expectVisible(page, ".time-attack-teaser-card", viewportName);
-  await expectVisible(page, ".time-attack-teaser-card__action", viewportName);
-  const metrics = await page.evaluate(() => {
-    const card = document.querySelector(".time-attack-teaser-card");
-    const badge = document.querySelector(".time-attack-teaser-card__badge");
-    const action = document.querySelector(".time-attack-teaser-card__action");
-    const cardRect = card?.getBoundingClientRect();
-    const badgeRect = badge?.getBoundingClientRect();
-    const actionRect = action?.getBoundingClientRect();
-    const copyRect = card?.children?.[1]?.getBoundingClientRect();
-    const cardStyle = card ? getComputedStyle(card) : null;
-    const cardBefore = card ? getComputedStyle(card, "::before") : null;
-    const cardAfter = card ? getComputedStyle(card, "::after") : null;
-    const badgeStyle = badge ? getComputedStyle(badge) : null;
-    const badgeBefore = badge ? getComputedStyle(badge, "::before") : null;
-    const actionIcon = action?.querySelector(".time-attack-teaser-card__action-icon");
-    const actionLabel = action?.querySelector(".time-attack-teaser-card__action-label");
-    const actionIconRect = actionIcon?.getBoundingClientRect();
-    const actionIconStyle = actionIcon ? getComputedStyle(actionIcon) : null;
-    const actionIconBefore = actionIcon ? getComputedStyle(actionIcon, "::before") : null;
-    const actionIconAfter = actionIcon ? getComputedStyle(actionIcon, "::after") : null;
-    const actionStyle = action ? getComputedStyle(action) : null;
-    const actionBefore = action ? getComputedStyle(action, "::before") : null;
-    const actionAfter = action ? getComputedStyle(action, "::after") : null;
+  const metrics = await page.locator(".time-attack-teaser-card").evaluate((card) => {
+    const image = card.querySelector(".time-attack-teaser-card__badge img");
+    const action = card.querySelector(".time-attack-teaser-card__action");
     return {
-      text: card?.textContent?.trim() || "",
-      cardWidth: cardRect?.width || 0,
-      cardHeight: cardRect?.height || 0,
-      cardRight: cardRect?.right || 0,
-      viewportWidth: window.innerWidth,
-      cardBorderWidth: cardStyle ? parseFloat(cardStyle.borderTopWidth) : 0,
-      cardRadius: cardStyle ? parseFloat(cardStyle.borderRadius) : 0,
-      cardBackground: cardStyle?.backgroundImage || "",
-      cardShadow: cardStyle?.boxShadow || "none",
-      cardOverflow: cardStyle?.overflow || "",
-      cardShineContent: cardBefore?.content || "none",
-      cardShineHeight: cardBefore ? parseFloat(cardBefore.height) : 0,
-      cardTokenContent: cardAfter?.content || "none",
-      cardTokenWidth: cardAfter ? parseFloat(cardAfter.width) : 0,
-      badgeWidth: badgeRect?.width || 0,
-      badgeHeight: badgeRect?.height || 0,
-      badgeBackground: badgeStyle?.backgroundImage || "",
-      badgeHandContent: badgeBefore?.content || "none",
-      actionWidth: actionRect?.width || 0,
-      actionHeight: actionRect?.height || 0,
-      actionTop: actionRect?.top || 0,
-      badgeBottom: badgeRect?.bottom || 0,
-      copyWidth: copyRect?.width || 0,
-      isMidWidth: window.innerWidth >= 620 && window.innerWidth <= 780,
-      actionBackground: actionStyle?.backgroundImage || "",
-      actionShadow: actionStyle?.boxShadow || "none",
-      actionDisplay: actionStyle?.display || "",
-      actionGridColumns: actionStyle?.gridTemplateColumns || "",
-      actionShineContent: actionBefore?.content || "none",
-      actionShineHeight: actionBefore ? parseFloat(actionBefore.height) : 0,
-      actionArrowContent: actionAfter?.content || "none",
-      actionArrowWidth: actionAfter ? parseFloat(actionAfter.width) : 0,
-      actionIconWidth: actionIconRect?.width || 0,
-      actionIconHeight: actionIconRect?.height || 0,
-      actionIconBackground: actionIconStyle?.backgroundImage || "",
-      actionIconBorderWidth: actionIconStyle ? parseFloat(actionIconStyle.borderTopWidth) : 0,
-      actionIconBeforeContent: actionIconBefore?.content || "none",
-      actionIconAfterContent: actionIconAfter?.content || "none",
-      actionLabelText: actionLabel?.textContent?.trim() || ""
+      text: (card.textContent || "").trim(),
+      overflows: card.scrollWidth > card.clientWidth + 1 || card.scrollHeight > card.clientHeight + 1,
+      assetId: image?.dataset.assetId || "",
+      naturalWidth: image?.naturalWidth || 0,
+      hasLegacyActionIcon: Boolean(card.querySelector(".time-attack-teaser-card__action-icon")),
+      before: getComputedStyle(card, "::before").content,
+      after: getComputedStyle(card, "::after").content,
+      actionHeight: action?.getBoundingClientRect().height || 0
     };
   });
-
-  if (
-    metrics.cardWidth < 240 ||
-    metrics.cardHeight < 128 ||
-    metrics.cardRight > metrics.viewportWidth + 1 ||
-    metrics.cardBorderWidth < 3 ||
-    metrics.cardRadius < 18 ||
-    !metrics.cardBackground.includes("radial-gradient") ||
-    metrics.cardShadow === "none" ||
-    metrics.cardOverflow !== "hidden" ||
-    metrics.cardShineContent === "none" ||
-    metrics.cardShineHeight < 8 ||
-    metrics.cardTokenContent === "none" ||
-    metrics.cardTokenWidth < 16 ||
-    !/Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(metrics.text) ||
-    metrics.badgeWidth < 50 ||
-    metrics.badgeHeight < 50 ||
-    !metrics.badgeBackground.includes("conic-gradient") ||
-    metrics.badgeHandContent === "none" ||
-    metrics.actionWidth < 132 ||
-    (metrics.isMidWidth && (metrics.actionTop < metrics.badgeBottom + 8 || metrics.actionWidth < metrics.cardWidth - 42 || metrics.copyWidth < 300)) ||
-    metrics.actionHeight < 48 ||
-    !metrics.actionBackground.includes("gradient") ||
-    metrics.actionShadow === "none" ||
-    metrics.actionDisplay !== "grid" ||
-    !metrics.actionGridColumns.includes("px") ||
-    metrics.actionShineContent === "none" ||
-    metrics.actionShineHeight < 8 ||
-    metrics.actionArrowContent === "none" ||
-    metrics.actionArrowWidth < 10 ||
-    metrics.actionIconWidth < 28 ||
-    metrics.actionIconHeight < 28 ||
-    metrics.actionIconBorderWidth < 2 ||
-    !metrics.actionIconBackground.includes("conic-gradient") ||
-    metrics.actionIconBeforeContent === "none" ||
-    metrics.actionIconAfterContent === "none" ||
-    !/Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(metrics.actionLabelText)
-  ) {
-    failures.push("[" + viewportName + "] Time Attack hub entry lost discoverable polished treatment: " + JSON.stringify(metrics));
+  if (metrics.overflows || metrics.assetId !== "quick-travel-time-attack-v1" || metrics.naturalWidth !== 256 || metrics.hasLegacyActionIcon || metrics.before !== "none" || metrics.after !== "none" || metrics.actionHeight < 44 || !/Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(metrics.text)) {
+    failures.push("[" + viewportName + "] Compact Time Attack entry regressed: " + JSON.stringify(metrics));
   }
 }
 
@@ -2632,25 +1626,9 @@ async function openFloatingView(page, view, viewportName = view) {
     const coachMetrics = await page.locator(".time-attack-coach-card").first().evaluate((card) => {
       const rect = card.getBoundingClientRect();
       const style = getComputedStyle(card);
-      const cardBefore = getComputedStyle(card, "::before");
-      const cardAfter = getComputedStyle(card, "::after");
       const pip = card.querySelector(".time-attack-coach-card__pip");
       const pipRect = pip?.getBoundingClientRect() || { width: 0, height: 0 };
       const pipStyle = pip ? getComputedStyle(pip) : null;
-      const chips = Array.from(card.querySelectorAll(".time-attack-coach-card__chips li")).map((chip) => {
-        const chipRect = chip.getBoundingClientRect();
-        const chipStyle = getComputedStyle(chip);
-        const tokenStyle = getComputedStyle(chip, "::before");
-        const shineStyle = getComputedStyle(chip, "::after");
-        return {
-          height: chipRect.height,
-          background: chipStyle.backgroundImage,
-          tokenContent: tokenStyle.content,
-          tokenWidth: parseFloat(tokenStyle.width),
-          tokenBackground: tokenStyle.backgroundImage,
-          shineBackground: shineStyle.backgroundImage
-        };
-      });
       return {
         width: rect.width,
         height: rect.height,
@@ -2658,14 +1636,11 @@ async function openFloatingView(page, view, viewportName = view) {
         bottomRadius: parseFloat(style.borderBottomLeftRadius),
         background: style.backgroundImage,
         shadow: style.boxShadow,
-        topShine: cardBefore.backgroundImage,
-        backToken: cardAfter.backgroundImage,
         pipWidth: pipRect.width,
         pipHeight: pipRect.height,
         pipRadius: pipStyle ? parseFloat(pipStyle.borderRadius) : 0,
         pipBackground: pipStyle?.backgroundImage || "",
-        pipShadow: pipStyle?.boxShadow || "none",
-        chips
+        pipShadow: pipStyle?.boxShadow || "none"
       };
     });
     if (
@@ -2674,15 +1649,11 @@ async function openFloatingView(page, view, viewportName = view) {
       coachMetrics.radius < 12 ||
       !coachMetrics.background.includes("linear-gradient") ||
       coachMetrics.shadow === "none" ||
-      !coachMetrics.topShine.includes("linear-gradient") ||
-      !coachMetrics.backToken.includes("gradient") ||
       coachMetrics.pipWidth < 62 ||
       coachMetrics.pipHeight < 62 ||
       coachMetrics.pipRadius < 18 ||
       !coachMetrics.pipBackground.includes("gradient") ||
-      coachMetrics.pipShadow === "none" ||
-      coachMetrics.chips.length < 3 ||
-      coachMetrics.chips.some((chip) => chip.height < 26 || !chip.background.includes("gradient") || chip.tokenContent === "none" || chip.tokenWidth < 8 || !chip.tokenBackground.includes("gradient") || !chip.shineBackground.includes("gradient"))
+      coachMetrics.pipShadow === "none"
     ) {
       failures.push("Time Attack coach card lost its Pip/economy guidance treatment: " + JSON.stringify(coachMetrics));
     }
@@ -2709,43 +1680,23 @@ async function openFloatingView(page, view, viewportName = view) {
 async function expectTimeAttackStartSurface(page, viewportName) {
   await expectVisible(page, ".time-attack-panel__intro", "Time Attack intro");
   await expectVisible(page, ".time-attack-panel__start", "Time Attack start button");
-  await expectVisible(page, ".time-attack-summary", "Time Attack summary cards");
+  await expectVisible(page, ".time-attack-status", "Time Attack daily status");
   await expectVisible(page, ".time-attack-records", "Time Attack records panel");
 
   const metrics = await page.locator(".time-attack-panel").first().evaluate((panel) => {
     const panelRect = panel.getBoundingClientRect();
     const intro = panel.querySelector(".time-attack-panel__intro");
     const start = panel.querySelector(".time-attack-panel__start");
-    const summary = panel.querySelector(".time-attack-summary");
-    const cards = Array.from(panel.querySelectorAll(".time-attack-summary__card")).map((card) => {
-      const rect = card.getBoundingClientRect();
-      const style = getComputedStyle(card);
-      const cardBefore = getComputedStyle(card, "::before");
-      const cardAfter = getComputedStyle(card, "::after");
-      return {
-        width: rect.width,
-        height: rect.height,
-        radius: parseFloat(style.borderRadius),
-        background: style.backgroundImage,
-        overflow: style.overflow,
-        shadow: style.boxShadow,
-        shineContent: cardBefore.content,
-        shineBackground: cardBefore.backgroundImage || "",
-        tokenContent: cardAfter.content,
-        tokenWidth: parseFloat(cardAfter.width)
-      };
-    });
+    const status = panel.querySelector(".time-attack-status");
     const records = panel.querySelector(".time-attack-records");
     const recordItems = records ? Array.from(records.querySelectorAll("li")) : [];
     const introRect = intro?.getBoundingClientRect();
     const introStyle = intro ? getComputedStyle(intro) : null;
     const startRect = start?.getBoundingClientRect();
     const startStyle = start ? getComputedStyle(start) : null;
-    const summaryStyle = summary ? getComputedStyle(summary) : null;
+    const statusRect = status?.getBoundingClientRect();
     const recordsRect = records?.getBoundingClientRect();
     const recordsStyle = records ? getComputedStyle(records) : null;
-    const recordsBefore = records ? getComputedStyle(records, "::before") : null;
-    const recordsAfter = records ? getComputedStyle(records, "::after") : null;
     return {
       panelWidth: panelRect.width,
       panelRight: panelRect.right,
@@ -2764,8 +1715,10 @@ async function expectTimeAttackStartSurface(page, viewportName) {
         background: startStyle.backgroundImage,
         shadow: startStyle.boxShadow
       } : null,
-      summaryColumns: summaryStyle?.gridTemplateColumns || "",
-      cards,
+      status: statusRect ? {
+        width: statusRect.width,
+        height: statusRect.height
+      } : null,
       records: recordsRect ? {
         width: recordsRect.width,
         height: recordsRect.height,
@@ -2773,10 +1726,6 @@ async function expectTimeAttackStartSurface(page, viewportName) {
         background: recordsStyle.backgroundImage,
         overflow: recordsStyle.overflow,
         shadow: recordsStyle.boxShadow,
-        shineContent: recordsBefore.content,
-        shineBackground: recordsBefore.backgroundImage || "",
-        tokenContent: recordsAfter.content,
-        tokenWidth: parseFloat(recordsAfter.width),
         textLength: (records.textContent || "").trim().length,
         itemCount: recordItems.length,
         itemHeights: recordItems.slice(0, 3).map((item) => item.getBoundingClientRect().height)
@@ -2786,33 +1735,18 @@ async function expectTimeAttackStartSurface(page, viewportName) {
 
   const introLooksPolished = metrics.intro && metrics.intro.height >= 72 && metrics.intro.radius >= 14 && metrics.intro.background.includes("linear-gradient") && metrics.intro.shadow !== "none";
   const startLooksTactile = metrics.start && metrics.start.width >= 220 && metrics.start.height >= 52 && metrics.start.radius >= 16 && metrics.start.background.includes("linear-gradient") && metrics.start.shadow !== "none";
-  const summaryLooksPolished = metrics.cards.length === 3 && metrics.cards.every((card) =>
-    card.width > 0 &&
-    card.height >= 70 &&
-    card.radius >= 14 &&
-    card.background.includes("linear-gradient") &&
-    card.overflow === "hidden" &&
-    card.shadow !== "none" &&
-    card.shineContent !== "none" &&
-    card.shineBackground.includes("gradient") &&
-    card.tokenContent !== "none" &&
-    card.tokenWidth >= 12
-  );
+  const statusFits = metrics.status && metrics.status.width > 0 && metrics.status.height >= 28;
   const recordsLooksPolished = metrics.records &&
     metrics.records.width > 0 &&
     metrics.records.radius >= 14 &&
     metrics.records.background.includes("linear-gradient") &&
     metrics.records.overflow === "hidden" &&
     metrics.records.shadow !== "none" &&
-    metrics.records.shineContent !== "none" &&
-    metrics.records.shineBackground.includes("gradient") &&
-    metrics.records.tokenContent !== "none" &&
-    metrics.records.tokenWidth >= 14 &&
     metrics.records.textLength > 0 &&
     metrics.records.itemHeights.every((height) => height >= 28);
   const staysInViewport = metrics.panelWidth > 0 && metrics.panelRight <= metrics.viewportWidth + 1;
-  if (!introLooksPolished || !startLooksTactile || !summaryLooksPolished || !recordsLooksPolished || !staysInViewport) {
-    failures.push("[" + viewportName + "] Time Attack start surface lost its polished intro/start/summary/records treatment: " + JSON.stringify(metrics));
+  if (!introLooksPolished || !startLooksTactile || !statusFits || !recordsLooksPolished || !staysInViewport) {
+    failures.push("[" + viewportName + "] Time Attack start surface lost its intro/start/status/records treatment: " + JSON.stringify(metrics));
   }
 }
 
@@ -2874,18 +1808,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     failures.push("[" + viewportName + "] Village Pantry should expose at least 98 10x10 catalog chips, saw " + villageLargeBoardChipCount);
   }
 
-  const bakerySummaryText = await page.locator('.pack-block[data-pack-id="bakery-window"] .pack-catalog-summary').first().innerText();
-  const bakerySummaryLargeMatch = bakerySummaryText.match(/(\d+)\s+large/);
-  const bakerySummaryLargeCount = bakerySummaryLargeMatch ? Number(bakerySummaryLargeMatch[1]) : 0;
-  if (bakerySummaryLargeCount < 91 || !bakerySummaryText.includes("12x12")) {
-    failures.push("[" + viewportName + "] Bakery Window catalog summary should expose at least 91 large boards and 12x12 max size, saw " + bakerySummaryText);
-  }
-
-  const villageSummaryText = await page.locator('.pack-block[data-pack-id="village-pantry"] .pack-catalog-summary').first().innerText();
-  const villageSummaryLargeMatch = villageSummaryText.match(/(\d+)\s+large/);
-  const villageSummaryLargeCount = villageSummaryLargeMatch ? Number(villageSummaryLargeMatch[1]) : 0;
-  if (villageSummaryLargeCount < 98 || !villageSummaryText.includes("10x10")) {
-    failures.push("[" + viewportName + "] Village Pantry catalog summary should expose at least 98 large boards and 10x10 max size, saw " + villageSummaryText);
+  if ((await page.locator(".pack-catalog-summary, .pack-note").count()) !== 0) {
+    failures.push("[" + viewportName + "] Player-facing puzzle stages should not expose catalog-report summaries or descriptive filler.");
   }
 
   const target = page.locator(".puzzle-chip", { hasText: /Bakery Window Glow/ }).first();
@@ -2935,17 +1859,22 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const actions = [...panel.querySelectorAll(".cursor-action-button")].map((button) => {
       const buttonRect = button.getBoundingClientRect();
       const buttonStyle = getComputedStyle(button);
-      const iconStyle = getComputedStyle(button, "::before");
-      const shineStyle = getComputedStyle(button, "::after");
+      const beforeStyle = getComputedStyle(button, "::before");
+      const afterStyle = getComputedStyle(button, "::after");
+      const image = button.querySelector(".cursor-action-button__art");
+      const imageRect = image?.getBoundingClientRect();
       return {
         width: buttonRect.width,
         height: buttonRect.height,
         background: buttonStyle.backgroundImage,
         text: button.textContent.trim(),
-        iconBackground: iconStyle.backgroundImage,
-        iconRadius: parseFloat(iconStyle.borderRadius),
-        iconShadow: iconStyle.boxShadow,
-        shineDisplay: shineStyle.display
+        assetId: image?.dataset.assetId || "",
+        imageWidth: imageRect?.width || 0,
+        imageHeight: imageRect?.height || 0,
+        imageNaturalWidth: image?.naturalWidth || 0,
+        imageNaturalHeight: image?.naturalHeight || 0,
+        beforeContent: beforeStyle.content,
+        afterContent: afterStyle.content
       };
     });
     return {
@@ -2989,13 +1918,25 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     cursorPadMetrics.statusTokenHeight < 12 ||
     !cursorPadMetrics.statusTokenBackground.includes("gradient") ||
     cursorPadMetrics.statusTokenShadow === "none" ||
-    cursorPadMetrics.dpadWidth < 132 ||
+    cursorPadMetrics.dpadWidth < 124 ||
     cursorPadMetrics.navOverlapActions ||
     cursorPadMetrics.navOverlapDpad ||
     cursorPadMetrics.moves.length !== 4 ||
     cursorPadMetrics.moves.some((button) => button.width < 40 || button.height < 40 || !button.background.includes("gradient") || !button.label || button.visibleFontSize !== 0 || button.arrowWidth < 20 || button.arrowHeight < 16 || !button.arrowBackground.includes("gradient") || button.arrowClipPath === "none" || button.arrowFilter === "none" || button.arrowTransform === "none" || !button.shineBackground.includes("gradient") || button.shineHeight < 10) ||
     cursorPadMetrics.actions.length !== 2 ||
-    cursorPadMetrics.actions.some((button) => button.width < 120 || button.height < 44 || !button.background.includes("gradient") || !button.text || !button.iconBackground.includes("gradient") || button.iconRadius < 6 || button.iconShadow === "none") ||
+    cursorPadMetrics.actions.some((button, index) =>
+      button.width < 120 ||
+      button.height < 44 ||
+      !button.background.includes("gradient") ||
+      !button.text ||
+      button.assetId !== (index === 0 ? "puzzle-control-fill-v1" : "puzzle-control-mark-v1") ||
+      button.imageWidth < 30 ||
+      button.imageHeight < 30 ||
+      button.imageNaturalWidth !== 256 ||
+      button.imageNaturalHeight !== 256 ||
+      button.beforeContent !== "none" ||
+      button.afterContent !== "none"
+    ) ||
     cursorPadMetrics.overflows
   ) {
     failures.push("[" + viewportName + "] Cursor pad lost tactile large-board treatment: " + JSON.stringify(cursorPadMetrics));
@@ -3114,6 +2055,11 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     failures.push("[" + viewportName + "] Play header lost compact HUD polish: " + JSON.stringify(playHeaderMetrics));
   }
 
+  const howToPlayCardCount = await page.locator(".how-to-play.visual-guide").count();
+  if (howToPlayCardCount !== 0) {
+    failures.push("[" + viewportName + "] Cursor-mode large boards should not repeat the Pip lesson card.");
+  }
+  if (howToPlayCardCount > 0) {
   const howToPlayMetrics = await page.locator(".how-to-play.visual-guide").first().evaluate((card) => {
     const rect = card.getBoundingClientRect();
     const style = getComputedStyle(card);
@@ -3273,6 +2219,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     howToPlayMetrics.overflows
   ) {
     failures.push("[" + viewportName + "] How-to guide lost polished mobile treatment: " + JSON.stringify(howToPlayMetrics));
+  }
   }
 
   const cellCount = await page.locator(".puzzle-grid .puzzle-cell").count();
@@ -3490,15 +2437,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     [markToken, "puzzle-control-mark-v1"],
     [undoToken, "puzzle-control-undo-v1"]
   ]);
-  if (
-    controlMetrics.length !== 3 ||
-    controlMetrics.some((metrics) => !metrics.text || metrics.height < 52 || !metrics.background.includes("gradient") || metrics.iconWidth < 30 || metrics.iconHeight < 30 || metrics.iconBackground !== "none" || metrics.iconShadow !== "none" || metrics.shineContent !== "none" || !metrics.ariaLabel || metrics.overflows) ||
-    !fillToken ||
-    !markToken ||
-    !undoToken ||
-    [...expectedControlAssets].some(([metrics, assetId]) => !metrics || metrics.assetId !== assetId || !metrics.imageSrc.includes(assetId) || metrics.imageNaturalWidth !== 256 || metrics.imageNaturalHeight !== 256)
-  ) {
-    failures.push("[" + viewportName + "] Puzzle controls lost approved raster artwork or tactile mobile treatment: " + JSON.stringify(controlMetrics));
+  if (controlMetrics.length !== 0) {
+    failures.push("[" + viewportName + "] Cursor-mode large boards should not repeat tap-mode puzzle controls: " + JSON.stringify(controlMetrics));
   }
 
   const progressMetrics = await page.locator(".progress-line").first().evaluate((line) => {
@@ -3562,20 +2502,17 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       progress: read(progress)
     };
   });
-  const shelfNodes = [toolShelfMetrics.controls, toolShelfMetrics.hint, toolShelfMetrics.progress];
-  const controlsToHintGap = toolShelfMetrics.hint.top - toolShelfMetrics.controls.bottom;
+  const shelfNodes = [toolShelfMetrics.hint, toolShelfMetrics.progress];
+  const controlsAreAbsent = toolShelfMetrics.controls === null;
   const progressAfterHint = toolShelfMetrics.progress.top > toolShelfMetrics.hint.bottom;
   if (
     shelfNodes.some((metrics) => !metrics || metrics.left < -1 || metrics.right > toolShelfMetrics.viewportWidth + 1 || metrics.width > 530) ||
-    controlsToHintGap < 6 ||
-    controlsToHintGap > 20 ||
+    !controlsAreAbsent ||
     !progressAfterHint ||
-    toolShelfMetrics.controls.radius < 16 ||
     toolShelfMetrics.hint.radius < 16 ||
-    !toolShelfMetrics.controls.background.includes("gradient") ||
     !toolShelfMetrics.hint.background.includes("gradient")
   ) {
-    failures.push("[" + viewportName + "] Puzzle tool shelf lost cohesive stacked treatment: " + JSON.stringify({ ...toolShelfMetrics, controlsToHintGap, progressAfterHint }));
+    failures.push("[" + viewportName + "] Cursor-mode tool shelf should keep only hint and progress cards: " + JSON.stringify({ ...toolShelfMetrics, controlsAreAbsent, progressAfterHint }));
   }
 
   await expectPuzzleBoardFramePolish(page, viewportName);
@@ -3897,1179 +2834,42 @@ async function seedCompletedStarter(page) {
 async function verifyPantryPlacement(page, viewportName) {
   await expectVisible(page, ".pantry-panel", viewportName);
   await expectVisible(page, ".pantry-room", viewportName);
-  const pantryRoomMetrics = await page.locator(".pantry-room").first().evaluate((el) => {
-    const style = getComputedStyle(el);
-    const before = getComputedStyle(el, "::before");
-    const firstSlot = el.querySelector(".pantry-room-slot");
-    const slotStyle = firstSlot ? getComputedStyle(firstSlot) : null;
-    return {
-      minHeight: parseFloat(style.minHeight),
-      borderRadius: parseFloat(style.borderRadius),
-      borderWidth: parseFloat(style.borderTopWidth),
-      overflow: style.overflow,
-      background: style.backgroundImage,
-      roomDivider: before.content,
-      slotCount: el.querySelectorAll(".pantry-room-slot").length,
-      slotPosition: slotStyle ? slotStyle.position : "",
-      slotRadius: slotStyle ? parseFloat(slotStyle.borderRadius) : 0,
-      slotBorderWidth: slotStyle ? parseFloat(slotStyle.borderTopWidth) : 0
-    };
-  });
-  if (pantryRoomMetrics.minHeight < 320 || pantryRoomMetrics.borderRadius < 20 || pantryRoomMetrics.borderWidth < 3 || pantryRoomMetrics.overflow !== "hidden" || !pantryRoomMetrics.background.includes("linear-gradient") || pantryRoomMetrics.roomDivider === "none") {
-    failures.push("[" + viewportName + "] Pantry room frame lost cozy placement polish: " + JSON.stringify(pantryRoomMetrics));
-  }
-  if (pantryRoomMetrics.slotCount !== 5 || pantryRoomMetrics.slotPosition !== "absolute" || pantryRoomMetrics.slotRadius < 16 || pantryRoomMetrics.slotBorderWidth < 3) {
-    failures.push("[" + viewportName + "] Pantry room slots lost tactile fixed-placement styling: " + JSON.stringify(pantryRoomMetrics));
-  }
-  await expectVisible(page, ".pantry-placement-note", viewportName);
   await expectVisible(page, ".pantry-story-request", viewportName);
-  await expectVisible(page, ".pantry-story-request__target", viewportName);
-  await expectVisible(page, ".pantry-planning-deck", viewportName);
-  const planningDeckCardCount = await page.locator(".pantry-planning-deck > div").count();
-  if (planningDeckCardCount !== 5) {
-    failures.push("[" + viewportName + "] Pantry planning deck should group 5 support cards, saw " + planningDeckCardCount);
-  }
-  await expectVisible(page, ".pantry-placement-advisor", viewportName);
-  await expectVisible(page, ".pantry-savings-goal", viewportName);
-  await expectVisible(page, ".pantry-earning-plan", viewportName);
-  await expectVisible(page, ".pantry-earning-action", viewportName);
-  await expectVisible(page, ".pantry-progress-board", viewportName);
-  await expectVisible(page, ".pantry-progress-mission", viewportName);
-  await expectVisible(page, ".pantry-progress-mission__route span", viewportName);
-  await expectVisible(page, ".pantry-progress-mission__meter", viewportName);
-  await expectVisible(page, ".pantry-progress-mission__facts span", viewportName);
-  await expectVisible(page, ".pantry-progress-mission__action", viewportName);
-  await expectVisible(page, ".pantry-display-plan", viewportName);
-  await expectVisible(page, ".pantry-slot-filters", viewportName);
-  await expectVisible(page, ".pantry-rarity-filters", viewportName);
-  await expectVisible(page, ".pantry-availability-filters", viewportName);
-  await expectVisible(page, ".pantry-sort-bar", viewportName);
-  await expectVisible(page, ".pantry-filter-summary", viewportName);
-  const filterControlsMetrics = await page.locator(".pantry-filter-stack").first().evaluate((el) => {
-    const style = getComputedStyle(el);
-    const activeSlot = el.querySelector(".pantry-slot-filter.active");
-    const activeSort = el.querySelector(".pantry-sort-option.active");
-    const sortLabel = el.querySelector(".pantry-sort-label");
-    const activeSlotStyle = activeSlot ? getComputedStyle(activeSlot) : null;
-    const activeSortStyle = activeSort ? getComputedStyle(activeSort) : null;
-    const sortLabelStyle = sortLabel ? getComputedStyle(sortLabel) : null;
+  await expectVisible(page, ".pantry-shop", viewportName);
+  await expectVisible(page, ".spoon-store", viewportName);
+  await expectAbsent(page, ".pantry-planning-deck", viewportName);
+  await expectAbsent(page, ".pantry-placement-note", viewportName);
+
+  const metrics = await page.evaluate(() => {
+    const panel = document.querySelector(".pantry-panel");
+    const room = document.querySelector(".pantry-room");
+    const store = document.querySelector(".spoon-store");
+    const cards = [...document.querySelectorAll(".pantry-item-card")];
     return {
-      borderRadius: parseFloat(style.borderRadius) || 0,
-      borderWidth: parseFloat(style.borderTopWidth) || 0,
-      background: style.backgroundImage,
-      boxShadow: style.boxShadow,
-      activeSlotHeight: activeSlot ? activeSlot.getBoundingClientRect().height : 0,
-      activeSlotBorderWidth: activeSlotStyle ? parseFloat(activeSlotStyle.borderTopWidth) || 0 : 0,
-      activeSlotBackground: activeSlotStyle ? activeSlotStyle.backgroundImage : "",
-      activeSortHeight: activeSort ? activeSort.getBoundingClientRect().height : 0,
-      activeSortBorderWidth: activeSortStyle ? parseFloat(activeSortStyle.borderTopWidth) || 0 : 0,
-      activeSortBackground: activeSortStyle ? activeSortStyle.backgroundImage : "",
-      sortLabelHeight: sortLabel ? sortLabel.getBoundingClientRect().height : 0,
-      sortLabelRadius: sortLabelStyle ? parseFloat(sortLabelStyle.borderRadius) || 0 : 0
+      panelOverflowsX: panel ? panel.scrollWidth > panel.clientWidth + 1 : true,
+      roomSlotCount: room?.querySelectorAll(".pantry-room-slot").length || 0,
+      filterGroupCount: document.querySelectorAll(".pantry-filter-row").length,
+      cardCount: cards.length,
+      cardOverflowCount: cards.filter((card) => card.scrollWidth > card.clientWidth + 1).length,
+      storeProductCount: store?.querySelectorAll(".support-pack-card").length || 0,
+      storeOverflowsX: store ? store.scrollWidth > store.clientWidth + 1 : true,
+      storeGlareCount: store ? [...store.querySelectorAll("button, .support-pack-card, .support-pack-card__art")]
+        .filter((item) => getComputedStyle(item, "::before").content !== "none" || getComputedStyle(item, "::after").content !== "none").length : 1
     };
   });
-  if (
-    filterControlsMetrics.borderRadius < 16 ||
-    filterControlsMetrics.borderWidth < 3 ||
-    !filterControlsMetrics.background.includes("radial-gradient") ||
-    !filterControlsMetrics.boxShadow.includes("rgba") ||
-    filterControlsMetrics.activeSlotHeight < 40 ||
-    filterControlsMetrics.activeSlotBorderWidth < 3 ||
-    !filterControlsMetrics.activeSlotBackground.includes("radial-gradient") ||
-    filterControlsMetrics.activeSortHeight < 40 ||
-    filterControlsMetrics.activeSortBorderWidth < 3 ||
-    !filterControlsMetrics.activeSortBackground.includes("radial-gradient") ||
-    filterControlsMetrics.sortLabelHeight < 30 ||
-    filterControlsMetrics.sortLabelRadius < 14
-  ) {
-    failures.push("[" + viewportName + "] Pantry filter controls lost polished chip treatment: " + JSON.stringify(filterControlsMetrics));
-  }
-  await expectVisible(page, ".pantry-item-card", viewportName);
-  await expectVisible(page, ".pantry-item-status", viewportName);
-  await expectVisible(page, ".pantry-item-savings", viewportName);
-  await expectVisible(page, ".pantry-track-goal", viewportName);
-  await expectVisible(page, ".pantry-slot-note", viewportName);
-  await expectVisible(page, ".pantry-swap-note", viewportName);
-  const itemSignalMetrics = await page.locator(".pantry-item-card").first().evaluate((card) => {
-    const status = card.querySelector(".pantry-item-status");
-    const slotNote = card.querySelector(".pantry-slot-note");
-    const swapNote = card.querySelector(".pantry-swap-note");
-    const statusStyle = status ? getComputedStyle(status) : null;
-    const statusIcon = status ? getComputedStyle(status, "::before") : null;
-    const slotStyle = slotNote ? getComputedStyle(slotNote) : null;
-    const slotIcon = slotNote ? getComputedStyle(slotNote, "::before") : null;
-    const swapStyle = swapNote ? getComputedStyle(swapNote) : null;
-    const swapIcon = swapNote ? getComputedStyle(swapNote, "::before") : null;
-    return {
-      statusHeight: status ? status.getBoundingClientRect().height : 0,
-      statusRadius: statusStyle ? parseFloat(statusStyle.borderRadius) || 0 : 0,
-      statusBorderWidth: statusStyle ? parseFloat(statusStyle.borderTopWidth) || 0 : 0,
-      statusOverflow: statusStyle ? statusStyle.overflow : "",
-      statusBackground: statusStyle ? statusStyle.backgroundImage : "",
-      statusIconContent: statusIcon ? statusIcon.content : "none",
-      statusIconWidth: statusIcon ? parseFloat(statusIcon.width) || 0 : 0,
-      slotHeight: slotNote ? slotNote.getBoundingClientRect().height : 0,
-      slotRadius: slotStyle ? parseFloat(slotStyle.borderRadius) || 0 : 0,
-      slotBorderWidth: slotStyle ? parseFloat(slotStyle.borderTopWidth) || 0 : 0,
-      slotBackground: slotStyle ? slotStyle.backgroundImage : "",
-      slotIconContent: slotIcon ? slotIcon.content : "none",
-      slotIconWidth: slotIcon ? parseFloat(slotIcon.width) || 0 : 0,
-      swapHeight: swapNote ? swapNote.getBoundingClientRect().height : 0,
-      swapRadius: swapStyle ? parseFloat(swapStyle.borderRadius) || 0 : 0,
-      swapBorderWidth: swapStyle ? parseFloat(swapStyle.borderTopWidth) || 0 : 0,
-      swapBackground: swapStyle ? swapStyle.backgroundImage : "",
-      swapIconContent: swapIcon ? swapIcon.content : "none",
-      swapIconWidth: swapIcon ? parseFloat(swapIcon.width) || 0 : 0
-    };
-  });
-  if (
-    itemSignalMetrics.statusHeight < 30 ||
-    itemSignalMetrics.statusRadius < 12 ||
-    itemSignalMetrics.statusBorderWidth < 2 ||
-    itemSignalMetrics.statusOverflow !== "hidden" ||
-    !itemSignalMetrics.statusBackground.includes("radial-gradient") ||
-    itemSignalMetrics.statusIconContent === "none" ||
-    itemSignalMetrics.statusIconWidth < 9 ||
-    itemSignalMetrics.slotHeight < 32 ||
-    itemSignalMetrics.slotRadius < 12 ||
-    itemSignalMetrics.slotBorderWidth < 2 ||
-    !itemSignalMetrics.slotBackground.includes("radial-gradient") ||
-    itemSignalMetrics.slotIconContent === "none" ||
-    itemSignalMetrics.slotIconWidth < 9 ||
-    itemSignalMetrics.swapHeight < 32 ||
-    itemSignalMetrics.swapRadius < 12 ||
-    itemSignalMetrics.swapBorderWidth < 2 ||
-    !itemSignalMetrics.swapBackground.includes("radial-gradient") ||
-    itemSignalMetrics.swapIconContent === "none" ||
-    itemSignalMetrics.swapIconWidth < 9
-  ) {
-    failures.push("[" + viewportName + "] Pantry item signal chips lost polished status/note treatment: " + JSON.stringify(itemSignalMetrics));
+  if (metrics.panelOverflowsX || metrics.roomSlotCount !== 5 || metrics.filterGroupCount !== 1 || metrics.cardCount < 1 || metrics.cardCount > 6 || metrics.cardOverflowCount || metrics.storeProductCount !== 2 || metrics.storeOverflowsX || metrics.storeGlareCount) {
+    failures.push("[" + viewportName + "] Simplified Pantry layout regressed: " + JSON.stringify(metrics));
   }
 
-  if ((await page.locator(".pantry-display-plan").count()) === 0) {
-    failures.push("[" + viewportName + "] Pantry panel did not open; skipping dependent pantry text checks");
-    return;
-  }
-
-  const pantryPanelText = await page.locator(".pantry-panel").first().innerText();
-  if (/\bnull\b/i.test(pantryPanelText)) {
-    failures.push("[" + viewportName + "] Pantry panel leaked a null placeholder into visible copy: " + pantryPanelText);
-  }
-
-  const storyRequestMetrics = await page.locator(".pantry-story-request").first().evaluate((card) => {
-    const rect = card.getBoundingClientRect();
-    const pip = card.querySelector(".pantry-story-request__pip");
-    const pipImage = pip?.querySelector("img");
-    const pipRect = pip ? pip.getBoundingClientRect() : { width: 0, height: 0 };
-    const shine = getComputedStyle(card, "::before");
-    const pipStyle = pip ? getComputedStyle(pip) : null;
-    const pipTail = pip ? getComputedStyle(pip, "::after") : null;
-    const pipImageStyle = pipImage ? getComputedStyle(pipImage) : null;
-    const target = card.querySelector(".pantry-story-request__target");
-    const targetStyle = target ? getComputedStyle(target) : null;
-    const targetIcon = target ? getComputedStyle(target, "::before") : null;
-    const action = card.querySelector(".pantry-story-request__action");
-    const actionStyle = action ? getComputedStyle(action) : null;
-    const actionShine = action ? getComputedStyle(action, "::before") : null;
-    return {
-      width: rect.width,
-      borderRadius: parseFloat(getComputedStyle(card).borderRadius) || 0,
-      borderWidth: parseFloat(getComputedStyle(card).borderTopWidth) || 0,
-      overflow: getComputedStyle(card).overflow,
-      background: getComputedStyle(card).backgroundImage,
-      boxShadow: getComputedStyle(card).boxShadow,
-      shineContent: shine.content,
-      shineHeight: parseFloat(shine.height) || 0,
-      pipWidth: pipRect.width,
-      pipHeight: pipRect.height,
-      pipBorderWidth: pipStyle ? parseFloat(pipStyle.borderTopWidth) || 0 : 0,
-      pipBoxShadow: pipStyle ? pipStyle.boxShadow : "",
-      pipPointerEvents: pipStyle ? pipStyle.pointerEvents : "",
-      pipTailContent: pipTail ? pipTail.content : "none",
-      pipTailWidth: pipTail ? parseFloat(pipTail.width) || 0 : 0,
-      pipImageDisplay: pipImageStyle ? pipImageStyle.display : "",
-      pipImageZIndex: pipImageStyle ? pipImageStyle.zIndex : "",
-      pipImageAlt: pipImage ? pipImage.getAttribute("alt") : null,
-      targetHeight: target ? target.getBoundingClientRect().height : 0,
-      targetBorderWidth: targetStyle ? parseFloat(targetStyle.borderTopWidth) || 0 : 0,
-      targetBackground: targetStyle ? targetStyle.backgroundImage : "",
-      targetIconContent: targetIcon ? targetIcon.content : "none",
-      targetIconWidth: targetIcon ? parseFloat(targetIcon.width) || 0 : 0,
-      actionHeight: action ? action.getBoundingClientRect().height : 0,
-      actionBorderWidth: actionStyle ? parseFloat(actionStyle.borderTopWidth) || 0 : 0,
-      actionRadius: actionStyle ? parseFloat(actionStyle.borderRadius) || 0 : 0,
-      actionBackground: actionStyle ? actionStyle.backgroundImage : "",
-      actionShineContent: actionShine ? actionShine.content : "none",
-      actionShineHeight: actionShine ? parseFloat(actionShine.height) || 0 : 0
-    };
-  });
-  if (
-    storyRequestMetrics.width < 180
-    || storyRequestMetrics.borderRadius < 14
-    || storyRequestMetrics.borderWidth < 3
-    || storyRequestMetrics.overflow !== "hidden"
-    || !storyRequestMetrics.background.includes("radial-gradient")
-    || !storyRequestMetrics.boxShadow.includes("rgba")
-    || storyRequestMetrics.shineContent === "none"
-    || storyRequestMetrics.shineHeight < 10
-    || storyRequestMetrics.pipWidth < 40
-    || storyRequestMetrics.pipHeight < 40
-    || storyRequestMetrics.pipBorderWidth < 3
-    || !storyRequestMetrics.pipBoxShadow.includes("rgba")
-    || storyRequestMetrics.pipPointerEvents !== "none"
-    || storyRequestMetrics.pipTailContent === "none"
-    || storyRequestMetrics.pipTailWidth < 8
-    || storyRequestMetrics.pipImageDisplay !== "block"
-    || storyRequestMetrics.pipImageZIndex !== "1"
-    || storyRequestMetrics.pipImageAlt !== ""
-    || storyRequestMetrics.targetHeight < 30
-    || storyRequestMetrics.targetBorderWidth < 2
-    || !storyRequestMetrics.targetBackground.includes("radial-gradient")
-    || storyRequestMetrics.targetIconContent === "none"
-    || storyRequestMetrics.targetIconWidth < 10
-    || storyRequestMetrics.actionHeight < 46
-    || storyRequestMetrics.actionBorderWidth < 4
-    || storyRequestMetrics.actionRadius < 14
-    || !storyRequestMetrics.actionBackground.includes("radial-gradient")
-    || storyRequestMetrics.actionShineContent === "none"
-    || storyRequestMetrics.actionShineHeight < 8
-  ) {
-    failures.push("[" + viewportName + "] Pantry story request card lost Pip-led polished treatment: " + JSON.stringify(storyRequestMetrics));
-  }
-
-  const allDisplayPlanText = await page.locator(".pantry-display-plan").first().innerText();
-  if (!allDisplayPlanText.includes("0/5") || !allDisplayPlanText.includes("Tap")) {
-    failures.push("[" + viewportName + "] Pantry display plan should summarize the empty room before a slot is selected, saw " + allDisplayPlanText);
-  }
-
-  const progressText = await page.locator(".pantry-progress-board").first().innerText();
-  if (!progressText.includes("0/25") || !progressText.includes("0/6")) {
-    failures.push("[" + viewportName + "] Pantry progress board should show seeded 0/25 collection and counter 0/6 progress, saw " + progressText);
-  }
-  const progressBoardMetrics = await page.locator(".pantry-progress-board").first().evaluate((el) => {
-    const style = getComputedStyle(el);
-    const before = getComputedStyle(el, "::before");
-    const after = getComputedStyle(el, "::after");
-    const summary = el.querySelector(".pantry-progress-board__header > p");
-    const summaryStyle = summary ? getComputedStyle(summary) : null;
-    const slot = el.querySelector(".pantry-progress-slot");
-    const slotStyle = slot ? getComputedStyle(slot) : null;
-    const slotAfter = slot ? getComputedStyle(slot, "::after") : null;
-    return {
-      borderRadius: parseFloat(style.borderRadius) || 0,
-      borderWidth: parseFloat(style.borderTopWidth) || 0,
-      overflow: style.overflow,
-      background: style.backgroundImage,
-      shineContent: before.content,
-      shineHeight: parseFloat(before.height) || 0,
-      tokenContent: after.content,
-      tokenWidth: parseFloat(after.width) || 0,
-      summaryRadius: summaryStyle ? parseFloat(summaryStyle.borderRadius) || 0 : 0,
-      summaryHeight: summary ? summary.getBoundingClientRect().height : 0,
-      slotCount: el.querySelectorAll(".pantry-progress-slot").length,
-      slotRadius: slotStyle ? parseFloat(slotStyle.borderRadius) || 0 : 0,
-      slotBorderWidth: slotStyle ? parseFloat(slotStyle.borderTopWidth) || 0 : 0,
-      slotHeight: slot ? slot.getBoundingClientRect().height : 0,
-      slotTokenContent: slotAfter ? slotAfter.content : "none",
-      slotTokenWidth: slotAfter ? parseFloat(slotAfter.width) || 0 : 0
-    };
-  });
-  if (
-    progressBoardMetrics.borderRadius < 16 ||
-    progressBoardMetrics.borderWidth < 3 ||
-    progressBoardMetrics.overflow !== "hidden" ||
-    !progressBoardMetrics.background.includes("radial-gradient") ||
-    progressBoardMetrics.shineContent === "none" ||
-    progressBoardMetrics.shineHeight < 10 ||
-    progressBoardMetrics.tokenContent === "none" ||
-    progressBoardMetrics.tokenWidth < 24 ||
-    progressBoardMetrics.summaryRadius < 14 ||
-    progressBoardMetrics.summaryHeight < 30 ||
-    progressBoardMetrics.slotCount !== 5 ||
-    progressBoardMetrics.slotRadius < 12 ||
-    progressBoardMetrics.slotBorderWidth < 2 ||
-    progressBoardMetrics.slotHeight < 52 ||
-    progressBoardMetrics.slotTokenContent === "none" ||
-    progressBoardMetrics.slotTokenWidth < 14
-  ) {
-    failures.push("[" + viewportName + "] Pantry progress board lost its polished collection-card treatment: " + JSON.stringify(progressBoardMetrics));
-  }
-
-  const progressMissionText = await page.locator(".pantry-progress-mission").first().innerText();
-  if (!progressMissionText.includes("0/3") || !progressMissionText.includes("Next:") || !progressMissionText.includes("Stage spoons") || !progressMissionText.includes("80")) {
-    failures.push("[" + viewportName + "] Pantry progress mission should link seeded room requests to the next stage spoon gate, saw " + progressMissionText);
-  }
-  const progressMissionMetrics = await page.locator(".pantry-progress-mission").first().evaluate((card) => {
-    const rect = card.getBoundingClientRect();
-    const style = getComputedStyle(card);
-    const before = getComputedStyle(card, "::before");
-    const after = getComputedStyle(card, "::after");
-    const meter = card.querySelector(".pantry-progress-mission__meter span");
-    const meterTrack = card.querySelector(".pantry-progress-mission__meter");
-    const meterTrackStyle = meterTrack ? getComputedStyle(meterTrack) : null;
-    const route = [...card.querySelectorAll(".pantry-progress-mission__route span")].map((chip) => {
-      const chipRect = chip.getBoundingClientRect();
-      return { width: chipRect.width, height: chipRect.height, text: chip.textContent.trim() };
-    });
-    const facts = [...card.querySelectorAll(".pantry-progress-mission__facts span")].map((fact) => {
-      const factRect = fact.getBoundingClientRect();
-      return { width: factRect.width, height: factRect.height, text: fact.textContent.trim() };
-    });
-    return {
-      width: rect.width,
-      borderRadius: parseFloat(style.borderRadius),
-      borderWidth: parseFloat(style.borderTopWidth),
-      overflow: style.overflow,
-      background: style.backgroundImage,
-      shineContent: before.content,
-      shineHeight: parseFloat(before.height),
-      tokenContent: after.content,
-      tokenWidth: parseFloat(after.width),
-      meterWidth: meter ? meter.getBoundingClientRect().width : 0,
-      meterHeight: meterTrack ? meterTrack.getBoundingClientRect().height : 0,
-      meterShadow: meterTrackStyle ? meterTrackStyle.boxShadow : "",
-      route,
-      facts
-    };
-  });
-  if (
-    progressMissionMetrics.width < 180 ||
-    progressMissionMetrics.borderRadius < 15 ||
-    progressMissionMetrics.borderWidth < 3 ||
-    progressMissionMetrics.overflow !== "hidden" ||
-    !progressMissionMetrics.background.includes("radial-gradient") ||
-    progressMissionMetrics.shineContent === "none" ||
-    progressMissionMetrics.shineHeight < 10 ||
-    progressMissionMetrics.tokenContent === "none" ||
-    progressMissionMetrics.tokenWidth < 22 ||
-    progressMissionMetrics.meterHeight < 11 ||
-    !progressMissionMetrics.meterShadow.includes("inset") ||
-    progressMissionMetrics.route.length !== 3 ||
-    progressMissionMetrics.route.some((chip) => chip.width < 72 || chip.height < 24) ||
-    progressMissionMetrics.facts.length !== 2 ||
-    progressMissionMetrics.facts.some((fact) => fact.width < 120 || fact.height < 24)
-  ) {
-    failures.push("[" + viewportName + "] Pantry progress mission mobile layout regressed: " + JSON.stringify(progressMissionMetrics));
-  }
-
-  const missionActionText = await page.locator(".pantry-progress-mission__action").first().innerText();
-  if (!/Plan next request|\uB2E4\uC74C \uBD80\uD0C1/.test(missionActionText)) {
-    failures.push("[" + viewportName + "] Pantry progress mission should offer the next request action first, saw " + missionActionText);
-  }
-
-  const savingsGoalText = await page.locator(".pantry-savings-goal").first().innerText();
-  if (!savingsGoalText.includes("17") && !savingsGoalText.includes("Need 17")) {
-    failures.push("[" + viewportName + "] Pantry savings goal should show the next 17-spoon gap at seeded balance, saw " + savingsGoalText);
-  }
-  const savingsGoalVisualMetrics = await page.locator(".pantry-savings-goal").first().evaluate((el) => {
-    const style = getComputedStyle(el);
-    const before = getComputedStyle(el, "::before");
-    const after = getComputedStyle(el, "::after");
-    const meter = el.querySelector(".pantry-savings-meter");
-    const fill = meter?.querySelector("span");
-    const meterStyle = meter ? getComputedStyle(meter) : null;
-    const fillStyle = fill ? getComputedStyle(fill) : null;
-    return {
-      borderRadius: parseFloat(style.borderRadius) || 0,
-      borderWidth: parseFloat(style.borderTopWidth) || 0,
-      overflow: style.overflow,
-      paddingLeft: parseFloat(style.paddingLeft) || 0,
-      background: style.backgroundImage,
-      tokenContent: before.content,
-      tokenWidth: parseFloat(before.width) || 0,
-      shineContent: after.content,
-      shineHeight: parseFloat(after.height) || 0,
-      meterHeight: meter ? meter.getBoundingClientRect().height : 0,
-      meterBorderWidth: meterStyle ? parseFloat(meterStyle.borderTopWidth) || 0 : 0,
-      fillBackground: fillStyle ? fillStyle.backgroundImage : ""
-    };
-  });
-  if (
-    savingsGoalVisualMetrics.borderRadius < 16 ||
-    savingsGoalVisualMetrics.borderWidth < 3 ||
-    savingsGoalVisualMetrics.overflow !== "hidden" ||
-    savingsGoalVisualMetrics.paddingLeft < 40 ||
-    !savingsGoalVisualMetrics.background.includes("radial-gradient") ||
-    savingsGoalVisualMetrics.tokenContent === "none" ||
-    savingsGoalVisualMetrics.tokenWidth < 20 ||
-    savingsGoalVisualMetrics.shineContent === "none" ||
-    savingsGoalVisualMetrics.shineHeight < 10 ||
-    savingsGoalVisualMetrics.meterHeight < 12 ||
-    savingsGoalVisualMetrics.meterBorderWidth < 2 ||
-    !savingsGoalVisualMetrics.fillBackground.includes("linear-gradient")
-  ) {
-    failures.push("[" + viewportName + "] Pantry savings goal lost its polished economy-card treatment: " + JSON.stringify(savingsGoalVisualMetrics));
-  }
-
-  const earningPlanText = await page.locator(".pantry-earning-plan").first().innerText();
-  if (!earningPlanText.includes("17") || !earningPlanText.includes("6") || !earningPlanText.includes("2") || !earningPlanText.includes("Support Pack")) {
-    failures.push("[" + viewportName + "] Pantry earning plan should translate the 17-spoon gap and expose support pack fallback, saw " + earningPlanText);
-  }
-  const earningPlanVisualMetrics = await page.locator(".pantry-earning-plan").first().evaluate((el) => {
-    const style = getComputedStyle(el);
-    const before = getComputedStyle(el, "::before");
-    const after = getComputedStyle(el, "::after");
-    const actions = Array.from(el.querySelectorAll(".pantry-earning-action"));
-    const action = actions[0];
-    const support = el.querySelector(".pantry-earning-support");
-    const actionStyle = action ? getComputedStyle(action) : null;
-    const actionBefore = action ? getComputedStyle(action, "::before") : null;
-    const supportStyle = support ? getComputedStyle(support) : null;
-    return {
-      borderRadius: parseFloat(style.borderRadius) || 0,
-      borderWidth: parseFloat(style.borderTopWidth) || 0,
-      overflow: style.overflow,
-      paddingLeft: parseFloat(style.paddingLeft) || 0,
-      background: style.backgroundImage,
-      tokenContent: before.content,
-      tokenWidth: parseFloat(before.width) || 0,
-      shineContent: after.content,
-      shineHeight: parseFloat(after.height) || 0,
-      actionCount: actions.length,
-      actionHeight: action ? action.getBoundingClientRect().height : 0,
-      actionRadius: actionStyle ? parseFloat(actionStyle.borderRadius) || 0 : 0,
-      actionBorderWidth: actionStyle ? parseFloat(actionStyle.borderTopWidth) || 0 : 0,
-      actionBackground: actionStyle ? actionStyle.backgroundImage : "",
-      actionTokenContent: actionBefore ? actionBefore.content : "none",
-      actionTokenWidth: actionBefore ? parseFloat(actionBefore.width) || 0 : 0,
-      supportHeight: support ? support.getBoundingClientRect().height : 0,
-      supportBackground: supportStyle ? supportStyle.backgroundImage : ""
-    };
-  });
-  if (
-    earningPlanVisualMetrics.borderRadius < 16 ||
-    earningPlanVisualMetrics.borderWidth < 3 ||
-    earningPlanVisualMetrics.overflow !== "hidden" ||
-    earningPlanVisualMetrics.paddingLeft < 40 ||
-    !earningPlanVisualMetrics.background.includes("radial-gradient") ||
-    earningPlanVisualMetrics.tokenContent === "none" ||
-    earningPlanVisualMetrics.tokenWidth < 20 ||
-    earningPlanVisualMetrics.shineContent === "none" ||
-    earningPlanVisualMetrics.shineHeight < 10 ||
-    earningPlanVisualMetrics.actionCount !== 2 ||
-    earningPlanVisualMetrics.actionHeight < 44 ||
-    earningPlanVisualMetrics.actionRadius < 14 ||
-    earningPlanVisualMetrics.actionBorderWidth < 3 ||
-    !earningPlanVisualMetrics.actionBackground.includes("radial-gradient") ||
-    earningPlanVisualMetrics.actionTokenContent === "none" ||
-    earningPlanVisualMetrics.actionTokenWidth < 14 ||
-    earningPlanVisualMetrics.supportHeight < 44 ||
-    !earningPlanVisualMetrics.supportBackground.includes("linear-gradient")
-  ) {
-    failures.push("[" + viewportName + "] Pantry earning plan lost its polished spoon-plan card treatment: " + JSON.stringify(earningPlanVisualMetrics));
-  }
-
-  await page.locator(".pantry-earning-support").first().click();
-  await page.waitForSelector(".support-pack-card[data-billing-product='pip_cozy_support']", { timeout: 2500 });
-  await page.waitForSelector(".support-pack-card[data-billing-product='pip_spoon_jar_small']", { timeout: 2500 });
-  const supportCardText = await page.locator(".support-pack-card[data-billing-product='pip_cozy_support']").first().innerText();
-  const spoonJarCardText = await page.locator(".support-pack-card[data-billing-product='pip_spoon_jar_small']").first().innerText();
-  if (!supportCardText.includes("Support") || !supportCardText.includes("250") || !supportCardText.includes("Restore")) {
-    failures.push("[" + viewportName + "] Pantry support action should open the support pack settings card, saw " + supportCardText);
-  }
-  if (!spoonJarCardText.includes("Spoon Jar") || !spoonJarCardText.includes("750") || /Restore/i.test(spoonJarCardText)) {
-    failures.push("[" + viewportName + "] Pantry support action should also expose the repeatable spoon jar without restore copy, saw " + spoonJarCardText);
-  }
-  await page.locator(".settings-close").first().click();
-  await page.waitForSelector(".settings-dialog", { state: "detached", timeout: 2500 });
-
-  const firstSavingsText = await page.locator(".pantry-item-savings").first().innerText();
-  if (!firstSavingsText.includes("3/") || !firstSavingsText.includes("more")) {
-    failures.push("[" + viewportName + "] Pantry item savings meter should show seeded spoon progress, saw " + firstSavingsText);
-  }
-
-  const savingsVisualMetrics = await page.locator(".pantry-item-savings").first().evaluate((el) => {
-    const style = getComputedStyle(el);
-    const before = getComputedStyle(el, "::before");
-    const meter = el.querySelector(".pantry-item-savings-meter");
-    const fill = meter?.querySelector("span");
-    const meterStyle = meter ? getComputedStyle(meter) : null;
-    const fillStyle = fill ? getComputedStyle(fill) : null;
-    return {
-      borderRadius: parseFloat(style.borderRadius),
-      borderWidth: parseFloat(style.borderTopWidth),
-      overflow: style.overflow,
-      paddingLeft: parseFloat(style.paddingLeft),
-      background: style.backgroundImage,
-      tokenContent: before.content,
-      tokenWidth: parseFloat(before.width),
-      meterHeight: meter ? meter.getBoundingClientRect().height : 0,
-      meterBorderWidth: meterStyle ? parseFloat(meterStyle.borderTopWidth) : 0,
-      fillBackground: fillStyle ? fillStyle.backgroundImage : ""
-    };
-  });
-  if (savingsVisualMetrics.borderRadius < 14 || savingsVisualMetrics.borderWidth < 2 || savingsVisualMetrics.overflow !== "hidden" || savingsVisualMetrics.paddingLeft < 36 || !savingsVisualMetrics.background.includes("radial-gradient")) {
-    failures.push("[" + viewportName + "] Pantry item savings lost its polished economy card treatment: " + JSON.stringify(savingsVisualMetrics));
-  }
-  if (savingsVisualMetrics.tokenContent === "none" || savingsVisualMetrics.tokenWidth < 18 || savingsVisualMetrics.meterHeight < 10 || savingsVisualMetrics.meterBorderWidth < 2 || !savingsVisualMetrics.fillBackground.includes("linear-gradient")) {
-    failures.push("[" + viewportName + "] Pantry item savings lost token or meter artwork: " + JSON.stringify(savingsVisualMetrics));
-  }
-
-  const shopCardMetrics = await page.locator(".pantry-item-card").first().evaluate((card) => {
-    const rect = card.getBoundingClientRect();
-    const art = card.querySelector(".pantry-item-art");
-    const artRect = art ? art.getBoundingClientRect() : { width: 0, height: 0 };
-    const image = card.querySelector(".pantry-item-art img");
-    const imageRect = image ? image.getBoundingClientRect() : { width: 0, height: 0 };
-    const action = card.querySelector(".pantry-item-action");
-    const actionRect = action ? action.getBoundingClientRect() : { width: 0, height: 0 };
-    const meta = [...card.querySelectorAll(".pantry-item-meta span")].map((chip) => {
-      const chipRect = chip.getBoundingClientRect();
-      return { width: chipRect.width, height: chipRect.height, text: chip.textContent.trim() };
-    });
-    const shine = getComputedStyle(card, "::before");
-    return {
-      width: rect.width,
-      height: rect.height,
-      columns: getComputedStyle(card).gridTemplateColumns,
-      borderRadius: parseFloat(getComputedStyle(card).borderRadius) || 0,
-      borderWidth: parseFloat(getComputedStyle(card).borderTopWidth) || 0,
-      overflow: getComputedStyle(card).overflow,
-      background: getComputedStyle(card).backgroundImage,
-      shineContent: shine.content,
-      shineHeight: parseFloat(shine.height) || 0,
-      artWidth: artRect.width,
-      artHeight: artRect.height,
-      artRadius: art ? parseFloat(getComputedStyle(art).borderRadius) || 0 : 0,
-      imageWidth: imageRect.width,
-      imageHeight: imageRect.height,
-      actionWidth: actionRect.width,
-      actionHeight: actionRect.height,
-      meta
-    };
-  });
-  if (
-    shopCardMetrics.width < 180
-    || shopCardMetrics.height < 210
-    || !shopCardMetrics.columns.includes("px")
-    || shopCardMetrics.borderRadius < 16
-    || shopCardMetrics.borderWidth < 3
-    || shopCardMetrics.overflow !== "hidden"
-    || !shopCardMetrics.background.includes("radial-gradient")
-    || shopCardMetrics.shineContent === "none"
-    || shopCardMetrics.shineHeight < 8
-    || shopCardMetrics.artWidth < 80
-    || shopCardMetrics.artHeight < 96
-    || shopCardMetrics.artRadius < 14
-    || shopCardMetrics.imageWidth < 58
-    || shopCardMetrics.imageHeight < 48
-    || shopCardMetrics.actionWidth < 150
-    || shopCardMetrics.actionHeight < 44
-    || shopCardMetrics.meta.length !== 2
-  ) {
-    failures.push("[" + viewportName + "] Pantry shop card lost polished delivery-card treatment: " + JSON.stringify(shopCardMetrics));
-  }
-
-  const totalPantryCardCount = 25;
-  const allCardCount = await page.locator(".pantry-item-card").count();
-  if (allCardCount !== 6) {
-    failures.push("[" + viewportName + "] Pantry should initially reveal 6 prioritized decoration cards, saw " + allCardCount);
-  }
-  await expectVisible(page, ".pantry-shop-limit", viewportName);
-  const shopLimitText = await page.locator(".pantry-shop-limit").first().innerText();
-  if (!shopLimitText.includes("6/25") || !shopLimitText.includes("Show more")) {
-    failures.push("[" + viewportName + "] Pantry show-more control should explain the 6/25 progressive reveal, saw " + shopLimitText);
-  }
-
-  const shopLimitMetrics = await page.locator(".pantry-shop-limit").first().evaluate((control) => {
-    const rect = control.getBoundingClientRect();
-    const meter = control.querySelector(".pantry-shop-limit__meter");
-    const meterRect = meter ? meter.getBoundingClientRect() : { width: 0, height: 0 };
-    const meterFill = control.querySelector(".pantry-shop-limit__meter span");
-    const meterFillRect = meterFill ? meterFill.getBoundingClientRect() : { width: 0, height: 0 };
-    const button = control.querySelector(".pantry-shop-limit__action");
-    const buttonRect = button ? button.getBoundingClientRect() : { width: 0, height: 0 };
-    const token = button ? getComputedStyle(button, "::before") : { content: "none", width: "0", height: "0" };
-    const shine = getComputedStyle(control, "::before");
-    return {
-      width: rect.width,
-      borderRadius: parseFloat(getComputedStyle(control).borderRadius) || 0,
-      borderWidth: parseFloat(getComputedStyle(control).borderTopWidth) || 0,
-      overflow: getComputedStyle(control).overflow,
-      background: getComputedStyle(control).backgroundImage,
-      shineContent: shine.content,
-      shineHeight: parseFloat(shine.height) || 0,
-      meterWidth: meterRect.width,
-      meterHeight: meterRect.height,
-      meterFillWidth: meterFillRect.width,
-      buttonWidth: buttonRect.width,
-      buttonHeight: buttonRect.height,
-      tokenContent: token.content,
-      tokenWidth: parseFloat(token.width) || 0,
-      tokenHeight: parseFloat(token.height) || 0
-    };
-  });
-  if (
-    shopLimitMetrics.width < 180
-    || shopLimitMetrics.borderRadius < 16
-    || shopLimitMetrics.borderWidth < 3
-    || shopLimitMetrics.overflow !== "hidden"
-    || !shopLimitMetrics.background.includes("radial-gradient")
-    || shopLimitMetrics.shineContent === "none"
-    || shopLimitMetrics.shineHeight < 8
-    || shopLimitMetrics.meterWidth < 150
-    || shopLimitMetrics.meterHeight < 10
-    || shopLimitMetrics.meterFillWidth <= 0
-    || shopLimitMetrics.buttonWidth < 120
-    || shopLimitMetrics.buttonHeight < 44
-    || shopLimitMetrics.tokenContent === "none"
-    || shopLimitMetrics.tokenWidth < 10
-    || shopLimitMetrics.tokenHeight < 10
-  ) {
-    failures.push("[" + viewportName + "] Pantry show-more reveal control lost polished progress treatment: " + JSON.stringify(shopLimitMetrics));
-  }
-  await page.locator(".pantry-shop-limit__action").click();
-  await page.waitForTimeout(120);
-  const expandedCardCount = await page.locator(".pantry-item-card").count();
-  if (expandedCardCount !== 12) {
-    failures.push("[" + viewportName + "] Pantry show-more should reveal the next decoration batch, saw " + expandedCardCount);
-  }
-
-  await page.locator(".pantry-sort-option", { hasText: /High price/ }).click();
-  await page.waitForTimeout(120);
-  const highPriceFirstTitle = await page.locator(".pantry-item-card h4").first().innerText();
-  if (!/Golden Waffle Press/.test(highPriceFirstTitle)) {
-    failures.push("[" + viewportName + "] High-price sort should put Golden Waffle Press first, saw " + highPriceFirstTitle);
-  }
-  await page.locator(".pantry-item-card").first().locator(".pantry-track-goal").click();
-  await page.waitForTimeout(120);
-  const trackedGoalPlanText = await page.locator(".pantry-earning-plan").innerText();
-  if (!trackedGoalPlanText.includes("Golden Waffle Press") || !trackedGoalPlanText.includes("357")) {
-    failures.push("[" + viewportName + "] Track-goal should retarget the spoon plan to Golden Waffle Press, saw " + trackedGoalPlanText);
-  }
-  if ((await page.locator(".pantry-track-goal.active").count()) !== 1) {
-    failures.push("[" + viewportName + "] Track-goal active state did not appear");
-  }
-  const trackGoalVisualMetrics = await page.locator(".pantry-track-goal.active").first().evaluate((el) => {
-    const style = getComputedStyle(el);
-    const before = getComputedStyle(el, "::before");
-    return {
-      height: el.getBoundingClientRect().height,
-      borderRadius: parseFloat(style.borderRadius),
-      borderWidth: parseFloat(style.borderTopWidth),
-      overflow: style.overflow,
-      background: style.backgroundImage,
-      tokenContent: before.content,
-      tokenWidth: parseFloat(before.width),
-      boxShadow: style.boxShadow
-    };
-  });
-  if (trackGoalVisualMetrics.height < 44 || trackGoalVisualMetrics.borderRadius < 14 || trackGoalVisualMetrics.borderWidth < 3 || trackGoalVisualMetrics.overflow !== "hidden" || !trackGoalVisualMetrics.background.includes("radial-gradient") || trackGoalVisualMetrics.tokenContent === "none" || trackGoalVisualMetrics.tokenWidth < 14 || !trackGoalVisualMetrics.boxShadow.includes("rgba")) {
-    failures.push("[" + viewportName + "] Track-goal button lost polished active card treatment: " + JSON.stringify(trackGoalVisualMetrics));
-  }
-  await page.locator(".pantry-slot-filter").first().click();
-  await page.locator(".pantry-sort-option", { hasText: /Recommended/ }).click();
-  await page.waitForTimeout(120);
-
-  await page.locator(".pantry-room-slot.slot-counter").click();
-  await page.waitForTimeout(120);
-  const counterAdvisorText = await page.locator(".pantry-placement-advisor").innerText();
-  if (!counterAdvisorText.includes("Counter") || !counterAdvisorText.includes("6")) {
-    failures.push("[" + viewportName + "] Counter placement advisor should explain the selected slot choices, saw " + counterAdvisorText);
-  }
-  const placementAdvisorMetrics = await page.locator(".pantry-placement-advisor").first().evaluate((el) => {
-    const style = getComputedStyle(el);
-    const before = getComputedStyle(el, "::before");
-    const after = getComputedStyle(el, "::after");
-    return {
-      borderRadius: parseFloat(style.borderRadius),
-      borderWidth: parseFloat(style.borderTopWidth),
-      overflow: style.overflow,
-      paddingLeft: parseFloat(style.paddingLeft),
-      background: style.backgroundImage,
-      tokenContent: before.content,
-      tokenWidth: parseFloat(before.width),
-      shineContent: after.content,
-      shineHeight: parseFloat(after.height)
-    };
-  });
-  if (placementAdvisorMetrics.borderRadius < 16 || placementAdvisorMetrics.borderWidth < 3 || placementAdvisorMetrics.overflow !== "hidden" || placementAdvisorMetrics.paddingLeft < 44 || !placementAdvisorMetrics.background.includes("radial-gradient")) {
-    failures.push("[" + viewportName + "] Pantry placement advisor lost its polished planning-card frame: " + JSON.stringify(placementAdvisorMetrics));
-  }
-  if (placementAdvisorMetrics.tokenContent === "none" || placementAdvisorMetrics.tokenWidth < 22 || placementAdvisorMetrics.shineContent === "none" || placementAdvisorMetrics.shineHeight < 8) {
-    failures.push("[" + viewportName + "] Pantry placement advisor lost token or shine artwork: " + JSON.stringify(placementAdvisorMetrics));
-  }
-  const counterDisplayPlanText = await page.locator(".pantry-display-plan").innerText();
-  if (!counterDisplayPlanText.includes("Counter") || !counterDisplayPlanText.includes("empty") || !counterDisplayPlanText.includes("Starter Counter Cloth")) {
-    failures.push("[" + viewportName + "] Counter display plan should explain current empty spot and next upgrade, saw " + counterDisplayPlanText);
-  }
-  const displayPlanMetrics = await page.locator(".pantry-display-plan").first().evaluate((el) => {
-    const style = getComputedStyle(el);
-    const before = getComputedStyle(el, "::before");
-    const after = getComputedStyle(el, "::after");
-    const next = el.querySelector(".pantry-display-plan__next");
-    const nextStyle = next ? getComputedStyle(next) : null;
-    const nextStrong = next?.querySelector("strong");
-    const nextStrongBefore = nextStrong ? getComputedStyle(nextStrong, "::before") : null;
-    return {
-      borderRadius: parseFloat(style.borderRadius),
-      borderWidth: parseFloat(style.borderTopWidth),
-      overflow: style.overflow,
-      background: style.backgroundImage,
-      shineContent: before.content,
-      shineHeight: parseFloat(before.height),
-      tokenContent: after.content,
-      tokenWidth: parseFloat(after.width),
-      nextRadius: nextStyle ? parseFloat(nextStyle.borderRadius) : 0,
-      nextBorderWidth: nextStyle ? parseFloat(nextStyle.borderTopWidth) : 0,
-      nextIconContent: nextStrongBefore ? nextStrongBefore.content : "none",
-      nextIconWidth: nextStrongBefore ? parseFloat(nextStrongBefore.width) : 0
-    };
-  });
-  if (displayPlanMetrics.borderRadius < 16 || displayPlanMetrics.borderWidth < 3 || displayPlanMetrics.overflow !== "hidden" || !displayPlanMetrics.background.includes("radial-gradient")) {
-    failures.push("[" + viewportName + "] Pantry display plan lost its polished card frame: " + JSON.stringify(displayPlanMetrics));
-  }
-  if (displayPlanMetrics.shineContent === "none" || displayPlanMetrics.shineHeight < 8 || displayPlanMetrics.tokenContent === "none" || displayPlanMetrics.tokenWidth < 24) {
-    failures.push("[" + viewportName + "] Pantry display plan lost shine or token artwork: " + JSON.stringify(displayPlanMetrics));
-  }
-  if (displayPlanMetrics.nextRadius < 12 || displayPlanMetrics.nextBorderWidth < 2 || displayPlanMetrics.nextIconContent === "none" || displayPlanMetrics.nextIconWidth < 12) {
-    failures.push("[" + viewportName + "] Pantry display plan next-step chip lost its upgrade artwork: " + JSON.stringify(displayPlanMetrics));
-  }
-
-  const counterCardCount = await page.locator(".pantry-item-card").count();
-  if (counterCardCount !== 6) {
-    failures.push("[" + viewportName + "] Counter slot should filter to 6 decorations, saw " + counterCardCount);
-  }
-  if ((await page.locator(".pantry-room-slot.slot-counter.selected").count()) !== 1) {
-    failures.push("[" + viewportName + "] Counter slot did not show selected state");
-  }
-
-  await page.locator(".pantry-slot-filter", { hasText: /Window/ }).click();
-  await page.waitForTimeout(120);
-  const windowCardCount = await page.locator(".pantry-item-card").count();
-  if (windowCardCount !== 5) {
-    failures.push("[" + viewportName + "] Window filter should show 5 decorations, saw " + windowCardCount);
-  }
-
-  await page.locator(".pantry-slot-filter").first().click();
-  await page.waitForTimeout(120);
-  const restoredCardCount = await page.locator(".pantry-item-card").count();
-  if (restoredCardCount !== 6) {
-    failures.push("[" + viewportName + "] All-spots filter did not restore the default 6-card reveal, saw " + restoredCardCount);
-  }
-
-  await page.locator(".pantry-rarity-filter", { hasText: /Rare/ }).click();
-  await page.waitForTimeout(120);
-  const rareCardCount = await page.locator(".pantry-item-card").count();
-  const rareSummaryText = await page.locator(".pantry-filter-summary").innerText();
-  if (!rareSummaryText.includes("5") || !rareSummaryText.includes(String(totalPantryCardCount))) {
-    failures.push("[" + viewportName + "] Rare filter summary should show 5 of " + totalPantryCardCount + ", saw " + rareSummaryText);
-  }
-  const filteredSummaryMetrics = await page.locator(".pantry-filter-summary").first().evaluate((el) => {
-    const style = getComputedStyle(el);
-    const clear = el.querySelector(".pantry-clear-filters");
-    const clearStyle = clear ? getComputedStyle(clear) : null;
-    return {
-      height: el.getBoundingClientRect().height,
-      borderRadius: parseFloat(style.borderRadius) || 0,
-      borderWidth: parseFloat(style.borderTopWidth) || 0,
-      overflow: style.overflow,
-      background: style.backgroundImage,
-      clearHeight: clear ? clear.getBoundingClientRect().height : 0,
-      clearRadius: clearStyle ? parseFloat(clearStyle.borderRadius) || 0 : 0,
-      clearBorderWidth: clearStyle ? parseFloat(clearStyle.borderTopWidth) || 0 : 0,
-      clearBackground: clearStyle ? clearStyle.backgroundImage : ""
-    };
-  });
-  if (
-    filteredSummaryMetrics.height < 42 ||
-    filteredSummaryMetrics.borderRadius < 14 ||
-    filteredSummaryMetrics.borderWidth < 3 ||
-    filteredSummaryMetrics.overflow !== "hidden" ||
-    !filteredSummaryMetrics.background.includes("radial-gradient") ||
-    filteredSummaryMetrics.clearHeight < 40 ||
-    filteredSummaryMetrics.clearRadius < 14 ||
-    filteredSummaryMetrics.clearBorderWidth < 3 ||
-    !filteredSummaryMetrics.clearBackground.includes("radial-gradient")
-  ) {
-    failures.push("[" + viewportName + "] Pantry filtered summary lost polished reset treatment: " + JSON.stringify(filteredSummaryMetrics));
-  }
-  if (rareCardCount !== 5) {
-    failures.push("[" + viewportName + "] Rare filter should show 5 decorations, saw " + rareCardCount);
-  }
-
-  await page.locator(".pantry-availability-filter", { hasText: /Can buy/ }).click();
-  await page.waitForTimeout(120);
-  await expectVisible(page, ".pantry-empty-state", viewportName);
-  const resetFilterMetrics = await page.locator(".pantry-reset-filters").first().evaluate((el) => {
-    const style = getComputedStyle(el);
-    return {
-      height: el.getBoundingClientRect().height,
-      borderRadius: parseFloat(style.borderRadius) || 0,
-      borderWidth: parseFloat(style.borderTopWidth) || 0,
-      overflow: style.overflow,
-      background: style.backgroundImage,
-      boxShadow: style.boxShadow
-    };
-  });
-  if (resetFilterMetrics.height < 42 || resetFilterMetrics.borderRadius < 14 || resetFilterMetrics.borderWidth < 3 || resetFilterMetrics.overflow !== "hidden" || !resetFilterMetrics.background.includes("radial-gradient") || !resetFilterMetrics.boxShadow.includes("rgba")) {
-    failures.push("[" + viewportName + "] Pantry reset-filters button lost tactile treatment: " + JSON.stringify(resetFilterMetrics));
-  }
-  if ((await page.locator(".pantry-item-card").count()) !== 0) {
-    failures.push("[" + viewportName + "] Rare plus can-buy filters should show the empty state only");
-  }
-
-  await page.locator(".pantry-reset-filters").click();
-  await page.waitForTimeout(120);
-  const resetCardCount = await page.locator(".pantry-item-card").count();
-  if (resetCardCount !== 6) {
-    failures.push("[" + viewportName + "] Reset filters did not restore the default 6-card reveal, saw " + resetCardCount);
-  }
-
-  await page.locator(".pantry-availability-filter", { hasText: /Can buy/ }).click();
-  await page.waitForTimeout(120);
-  const canBuyCardCount = await page.locator(".pantry-item-card").count();
-  if (canBuyCardCount !== 1) {
-    failures.push("[" + viewportName + "] Can-buy filter should show only the free starter decoration at seeded balance, saw " + canBuyCardCount);
-  }
-
-  await page.locator(".pantry-availability-filter").first().click();
-  await page.waitForTimeout(120);
-  await page.locator(".pantry-room-slot.slot-counter").click();
-  await page.waitForTimeout(120);
-
-  const firstSwapNote = await page.locator(".pantry-swap-note").first().innerText();
-  if (!/empty|place/i.test(firstSwapNote)) {
-    failures.push("[" + viewportName + "] First pantry item should explain empty-slot placement, saw " + firstSwapNote);
-  }
-
-  await page.locator(".pantry-item-card").first().locator(".pantry-item-action").click();
-  await page.waitForTimeout(120);
-  if ((await page.locator(".guide-overlay").count()) === 0) {
-    failures.push("[" + viewportName + "] First Pantry purchase did not open Pip guide");
-  } else {
-    await expectVisible(page, ".guide-dialog", viewportName);
-    await expectGuideDialogChromeArt(page, viewportName);
-    const firstPantryGuide = await page.locator(".guide-dialog").evaluate((dialog) => ({
-      guideId: dialog.dataset.guideId || "",
-      title: dialog.querySelector("h2")?.textContent || "",
-      line: dialog.querySelector(".guide-dialog__line")?.textContent || ""
-    }));
-    if (firstPantryGuide.guideId !== "pantryRoomStory" || !/next neighbor/i.test(firstPantryGuide.title) || !/warmer|neighbor/i.test(firstPantryGuide.line)) {
-      failures.push("[" + viewportName + "] Starter Pantry request should open Pip's next-neighbor story: " + JSON.stringify(firstPantryGuide));
-    }
-    await page.locator(".guide-dialog__skip").click({ force: true });
-    await page.locator(".guide-overlay").waitFor({ state: "detached", timeout: 2000 });
-  }
-
-  await expectVisible(page, ".pantry-action-feedback", viewportName);
-  const feedbackText = await page.locator(".pantry-action-feedback").innerText();
-  if (!feedbackText.includes("Starter Counter Cloth") || !feedbackText.includes("Delivery complete")) {
-    failures.push("[" + viewportName + "] Starter room request should celebrate the placed decoration as a completed delivery, saw " + feedbackText);
-  }
-
-  const purchaseFeedbackMetrics = await page.locator(".pantry-action-feedback").first().evaluate((el) => {
-    const style = getComputedStyle(el);
-    const before = getComputedStyle(el, "::before");
-    const after = getComputedStyle(el, "::after");
-    const art = el.querySelector(".pantry-action-feedback__art");
-    const artStyle = art ? getComputedStyle(art) : null;
-    const img = el.querySelector(".pantry-action-feedback__art img");
-    const imgRect = img ? img.getBoundingClientRect() : { width: 0, height: 0 };
-    const pip = el.querySelector(".pantry-action-feedback__pip");
-    const pipStyle = pip ? getComputedStyle(pip) : null;
-    const pipAfter = pip ? getComputedStyle(pip, "::after") : null;
-    const pipImg = el.querySelector(".pantry-action-feedback__pip img");
-    const pipImgRect = pipImg ? pipImg.getBoundingClientRect() : { width: 0, height: 0 };
-    const dismiss = el.querySelector(".pantry-action-feedback__dismiss");
-    const dismissRect = dismiss ? dismiss.getBoundingClientRect() : { height: 0 };
-    return {
-      width: el.getBoundingClientRect().width,
-      borderRadius: parseFloat(style.borderRadius),
-      borderWidth: parseFloat(style.borderTopWidth),
-      overflow: style.overflow,
-      background: style.backgroundImage,
-      shineContent: before.content,
-      shineHeight: parseFloat(before.height),
-      tokenContent: after.content,
-      tokenWidth: parseFloat(after.width),
-      artWidth: art ? art.getBoundingClientRect().width : 0,
-      artRadius: artStyle ? parseFloat(artStyle.borderRadius) : 0,
-      imageWidth: imgRect.width,
-      imageHeight: imgRect.height,
-      pipWidth: pip ? pip.getBoundingClientRect().width : 0,
-      pipRadius: pipStyle ? parseFloat(pipStyle.borderRadius) : 0,
-      pipBorderWidth: pipStyle ? parseFloat(pipStyle.borderTopWidth) : 0,
-      pipBackground: pipStyle ? pipStyle.backgroundImage : "",
-      pipTailContent: pipAfter ? pipAfter.content : "none",
-      pipImageWidth: pipImgRect.width,
-      pipImageHeight: pipImgRect.height,
-      dismissHeight: dismissRect.height
-    };
-  });
-  if (purchaseFeedbackMetrics.width < 300 || purchaseFeedbackMetrics.borderRadius < 16 || purchaseFeedbackMetrics.borderWidth < 3 || purchaseFeedbackMetrics.overflow !== "hidden" || !purchaseFeedbackMetrics.background.includes("radial-gradient")) {
-    failures.push("[" + viewportName + "] Pantry purchase feedback card lost its polished reward frame: " + JSON.stringify(purchaseFeedbackMetrics));
-  }
-  if (purchaseFeedbackMetrics.shineContent === "none" || purchaseFeedbackMetrics.shineHeight < 10 || purchaseFeedbackMetrics.tokenContent === "none" || purchaseFeedbackMetrics.tokenWidth < 24) {
-    failures.push("[" + viewportName + "] Pantry purchase feedback card lost shine/token artwork: " + JSON.stringify(purchaseFeedbackMetrics));
-  }
-  if (purchaseFeedbackMetrics.artWidth < 68 || purchaseFeedbackMetrics.artRadius < 14 || purchaseFeedbackMetrics.imageWidth < 44 || purchaseFeedbackMetrics.imageHeight < 44 || purchaseFeedbackMetrics.dismissHeight < 40) {
-    failures.push("[" + viewportName + "] Pantry purchase feedback art or dismiss target regressed: " + JSON.stringify(purchaseFeedbackMetrics));
-  }
-  if (purchaseFeedbackMetrics.pipWidth < 42 || purchaseFeedbackMetrics.pipRadius < 14 || purchaseFeedbackMetrics.pipBorderWidth < 2 || !purchaseFeedbackMetrics.pipBackground.includes("radial-gradient") || purchaseFeedbackMetrics.pipTailContent === "none" || purchaseFeedbackMetrics.pipImageWidth < 34 || purchaseFeedbackMetrics.pipImageHeight < 34) {
-    failures.push("[" + viewportName + "] Pantry purchase feedback lost Pip cameo artwork: " + JSON.stringify(purchaseFeedbackMetrics));
-  }
-
-  await expectVisible(page, ".pantry-progress-board", viewportName);
-  const postPurchaseProgressText = await page.locator(".pantry-progress-board").innerText();
-  if (!postPurchaseProgressText.includes("1/25") || !postPurchaseProgressText.includes("1/5")) {
-    failures.push("[" + viewportName + "] First Pantry purchase did not update collection progress, saw " + postPurchaseProgressText);
-  }
-  const postPurchaseMissionText = await page.locator(".pantry-progress-mission").first().innerText();
-  if (!postPurchaseMissionText.includes("0/3") || !postPurchaseMissionText.includes("Stage spoons")) {
-    failures.push("[" + viewportName + "] First Pantry purchase should preserve the room-path mission until the story request is delivered, saw " + postPurchaseMissionText);
-  }
-  if ((await page.locator(".pantry-room-slot.slot-counter.filled").count()) !== 1) {
-    failures.push("[" + viewportName + "] First Pantry purchase did not fill the counter room slot");
-  }
-  if ((await page.locator(".pantry-room-slot.slot-counter.selected").count()) !== 1) {
-    failures.push("[" + viewportName + "] Pantry did not preserve the selected counter slot after purchase refresh");
-  }
-  await expectVisible(page, ".pantry-story-milestone", viewportName);
-  await expectVisible(page, ".pantry-story-milestone__items", viewportName);
-  const storyMilestoneText = await page.locator(".pantry-story-milestone").first().innerText();
-  if (!storyMilestoneText.includes("Pantry bond") || !storyMilestoneText.includes("Next arrivals")) {
-    failures.push("[" + viewportName + "] First Pantry purchase did not reveal the story milestone, saw " + storyMilestoneText);
-  }
-  const milestoneVisualMetrics = await page.locator(".pantry-story-milestone").first().evaluate((el) => {
-    const style = getComputedStyle(el);
-    const before = getComputedStyle(el, "::before");
-    const after = getComputedStyle(el, "::after");
-    const level = el.querySelector(".pantry-story-milestone__level");
-    const item = el.querySelector(".pantry-story-milestone__item");
-    const levelStyle = level ? getComputedStyle(level) : null;
-    const itemStyle = item ? getComputedStyle(item) : null;
-    return {
-      borderRadius: parseFloat(style.borderRadius),
-      borderWidth: parseFloat(style.borderTopWidth),
-      overflow: style.overflow,
-      background: style.backgroundImage,
-      shineContent: before.content,
-      tokenContent: after.content,
-      tokenWidth: parseFloat(after.width),
-      levelRadius: levelStyle ? parseFloat(levelStyle.borderRadius) : 0,
-      itemRadius: itemStyle ? parseFloat(itemStyle.borderRadius) : 0,
-      itemHeight: item ? item.getBoundingClientRect().height : 0,
-      itemCount: el.querySelectorAll(".pantry-story-milestone__item").length
-    };
-  });
-  if (milestoneVisualMetrics.borderRadius < 16 || milestoneVisualMetrics.borderWidth < 3 || milestoneVisualMetrics.overflow !== "hidden" || !milestoneVisualMetrics.background.includes("radial-gradient") || milestoneVisualMetrics.shineContent === "none" || milestoneVisualMetrics.tokenContent === "none" || milestoneVisualMetrics.tokenWidth < 24 || milestoneVisualMetrics.levelRadius < 14 || milestoneVisualMetrics.itemRadius < 12 || milestoneVisualMetrics.itemHeight < 48 || milestoneVisualMetrics.itemCount < 1) {
-    failures.push("[" + viewportName + "] Pantry story milestone lost its polished reward-card treatment: " + JSON.stringify(milestoneVisualMetrics));
-  }
-  const postPurchasePlanText = await page.locator(".pantry-display-plan").innerText();
-  if (!postPurchasePlanText.includes("Counter") || !postPurchasePlanText.includes("Starter Counter Cloth") || !postPurchasePlanText.includes("currently displayed")) {
-    failures.push("[" + viewportName + "] Pantry display plan did not preserve the filled counter context after purchase, saw " + postPurchasePlanText);
-  }
-  await page.locator(".pantry-story-milestone__item").first().click();
-  await page.waitForTimeout(120);
-  await expectVisible(page, ".pantry-story-delivery", viewportName);
-  const storyDeliveryText = await page.locator(".pantry-story-delivery").first().innerText();
-  if (!storyDeliveryText.includes("Pip\'s delivery note") || !storyDeliveryText.includes("Show this goal")) {
-    failures.push("[" + viewportName + "] Next arrival click did not pin a delivery note, saw " + storyDeliveryText);
-  }
-
-  const storyDeliveryMetrics = await page.locator(".pantry-story-delivery").first().evaluate((el) => {
-    const style = getComputedStyle(el);
-    const before = getComputedStyle(el, "::before");
-    const after = getComputedStyle(el, "::after");
-    const art = el.querySelector(".pantry-story-delivery__art");
-    const pip = el.querySelector(".pantry-story-delivery__pip");
-    const step = el.querySelector(".pantry-story-delivery__steps span");
-    const action = el.querySelector(".pantry-story-delivery__action");
-    const artStyle = art ? getComputedStyle(art) : null;
-    const pipStyle = pip ? getComputedStyle(pip) : null;
-    const pipAfter = pip ? getComputedStyle(pip, "::after") : null;
-    const pipImage = pip ? pip.querySelector("img") : null;
-    const pipImageRect = pipImage ? pipImage.getBoundingClientRect() : { width: 0, height: 0 };
-    const stepStyle = step ? getComputedStyle(step) : null;
-    const actionStyle = action ? getComputedStyle(action) : null;
-    return {
-      borderRadius: parseFloat(style.borderRadius),
-      borderWidth: parseFloat(style.borderTopWidth),
-      borderStyle: style.borderTopStyle,
-      overflow: style.overflow,
-      background: style.backgroundImage,
-      shineContent: before.content,
-      tokenContent: after.content,
-      tokenWidth: parseFloat(after.width),
-      artRadius: artStyle ? parseFloat(artStyle.borderRadius) : 0,
-      pipWidth: pip ? pip.getBoundingClientRect().width : 0,
-      pipRadius: pipStyle ? parseFloat(pipStyle.borderRadius) : 0,
-      pipBorderWidth: pipStyle ? parseFloat(pipStyle.borderTopWidth) : 0,
-      pipBackground: pipStyle ? pipStyle.backgroundImage : "",
-      pipTailContent: pipAfter ? pipAfter.content : "none",
-      pipImageWidth: pipImageRect.width,
-      pipImageHeight: pipImageRect.height,
-      stepRadius: stepStyle ? parseFloat(stepStyle.borderRadius) : 0,
-      actionHeight: action ? action.getBoundingClientRect().height : 0,
-      actionRadius: actionStyle ? parseFloat(actionStyle.borderRadius) : 0
-    };
-  });
-  if (storyDeliveryMetrics.borderRadius < 16 || storyDeliveryMetrics.borderWidth < 3 || storyDeliveryMetrics.borderStyle !== "solid" || storyDeliveryMetrics.overflow !== "hidden" || !storyDeliveryMetrics.background.includes("radial-gradient") || storyDeliveryMetrics.shineContent === "none" || storyDeliveryMetrics.tokenContent === "none" || storyDeliveryMetrics.tokenWidth < 24 || storyDeliveryMetrics.artRadius < 14 || storyDeliveryMetrics.stepRadius < 20 || storyDeliveryMetrics.actionHeight < 44 || storyDeliveryMetrics.actionRadius < 14) {
-    failures.push("[" + viewportName + "] Pantry story delivery lost its polished delivery-card treatment: " + JSON.stringify(storyDeliveryMetrics));
-  }
-  if (storyDeliveryMetrics.pipWidth < 42 || storyDeliveryMetrics.pipRadius < 14 || storyDeliveryMetrics.pipBorderWidth < 2 || !storyDeliveryMetrics.pipBackground.includes("radial-gradient") || storyDeliveryMetrics.pipTailContent === "none" || storyDeliveryMetrics.pipImageWidth < 34 || storyDeliveryMetrics.pipImageHeight < 34) {
-    failures.push("[" + viewportName + "] Pantry story delivery lost Pip stamp artwork: " + JSON.stringify(storyDeliveryMetrics));
-  }
-
-  await page.evaluate(() => {
-    const saveKey = "pips-picture-pantry:v0.1:save:jay";
-    const save = JSON.parse(localStorage.getItem(saveKey) || "{}");
-    save.pantrySpoons = 25;
-    save.pantryCompletedStoryGoalIds = ["sunny-window-curtains", "recipe-card-shelf"];
-    save.seenGuideIds = Array.from(new Set([
-      ...(Array.isArray(save.seenGuideIds) ? save.seenGuideIds : []),
-      "pantryFirstPurchase",
-      "pantryRoomStory"
-    ]));
-    localStorage.setItem(saveKey, JSON.stringify(save));
-  });
-  await openFloatingView(page, "puzzle");
-  await openFloatingView(page, "pantry");
-  await expectVisible(page, ".pantry-story-delivery", viewportName);
-  await page.reload({ waitUntil: "domcontentloaded" });
-  if ((await page.locator(".brand-intro").count()) > 0) {
-    await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6000 });
-    await dismissIntro(page, "Jay", viewportName);
-    await dismissGuideIfPresent(page, viewportName);
-  }
-  await openFloatingView(page, "pantry");
-  await expectVisible(page, ".pantry-story-delivery", viewportName);
-  const persistedDeliveryText = await page.locator(".pantry-story-delivery").first().innerText();
-  if (!persistedDeliveryText.includes("Small Jam Jar")) {
-    failures.push("[" + viewportName + "] Delivery note did not survive a page reload, saw " + persistedDeliveryText);
-  }
-  await page.locator(".pantry-story-delivery__action", { hasText: /Show this goal/ }).click();
-  await page.waitForTimeout(120);
-  await page.locator(".pantry-item-card", { hasText: /Small Jam Jar/ }).first().locator(".pantry-item-action").click();
-  await page.waitForTimeout(120);
-  const neighborGuide = page.locator('.guide-dialog[data-guide-id="pantryNeighborMrPark"]');
-  if ((await neighborGuide.count()) !== 1) {
-    failures.push("[" + viewportName + "] Three completed Pantry requests should reveal Mr. Park through Pip's full-screen story.");
-  } else {
-    const neighborCopy = await neighborGuide.evaluate((dialog) => ({
-      title: dialog.querySelector("h2")?.textContent || "",
-      line: dialog.querySelector(".guide-dialog__line")?.textContent || "",
-      imageSrc: dialog.querySelector(".guide-dialog__neighbor-sheet")?.getAttribute("src") || ""
-    }));
-    if (!/Mr\. Park/i.test(neighborCopy.title) || !/clock|pantry|village/i.test(neighborCopy.line) || !neighborCopy.imageSrc.includes("story-friend-mr-park-v1")) {
-      failures.push("[" + viewportName + "] Mr. Park reveal lost its character, story, or approved artwork: " + JSON.stringify(neighborCopy));
+  const firstAction = page.locator(".pantry-item-card").first().locator(".pantry-item-action");
+  if (await firstAction.isEnabled()) {
+    await firstAction.click();
+    await page.waitForTimeout(120);
+    if ((await page.locator(".guide-overlay").count()) > 0) {
+      await expectGuideDialogChromeArt(page, viewportName);
+      await page.locator(".guide-dialog__skip").click({ force: true });
+      await page.locator(".guide-overlay").waitFor({ state: "detached", timeout: 2000 });
     }
   }
-  await dismissGuideIfPresent(page, viewportName);
-  await expectVisible(page, ".pantry-action-feedback.story-complete", viewportName);
-  const storyCompleteText = await page.locator(".pantry-action-feedback.story-complete").first().innerText();
-  if (!storyCompleteText.includes("Delivery complete") || !storyCompleteText.includes("Small Jam Jar")) {
-    failures.push("[" + viewportName + "] Delivery goal purchase should show story-complete feedback, saw " + storyCompleteText);
-  }
-  const storyFeedbackMetrics = await page.locator(".pantry-action-feedback.story-complete").first().evaluate((el) => {
-    const style = getComputedStyle(el);
-    const before = getComputedStyle(el, "::before");
-    const after = getComputedStyle(el, "::after");
-    const art = el.querySelector(".pantry-action-feedback__art");
-    const artStyle = art ? getComputedStyle(art) : null;
-    const img = el.querySelector(".pantry-action-feedback__art img");
-    const imgRect = img ? img.getBoundingClientRect() : { width: 0, height: 0 };
-    const pip = el.querySelector(".pantry-action-feedback__pip");
-    const pipStyle = pip ? getComputedStyle(pip) : null;
-    const pipImg = el.querySelector(".pantry-action-feedback__pip img");
-    const pipImgRect = pipImg ? pipImg.getBoundingClientRect() : { width: 0, height: 0 };
-    return {
-      borderRadius: parseFloat(style.borderRadius),
-      borderWidth: parseFloat(style.borderTopWidth),
-      background: style.backgroundImage,
-      shineContent: before.content,
-      tokenContent: after.content,
-      tokenWidth: parseFloat(after.width),
-      artWidth: art ? art.getBoundingClientRect().width : 0,
-      artRadius: artStyle ? parseFloat(artStyle.borderRadius) : 0,
-      imageWidth: imgRect.width,
-      imageHeight: imgRect.height,
-      pipWidth: pip ? pip.getBoundingClientRect().width : 0,
-      pipRadius: pipStyle ? parseFloat(pipStyle.borderRadius) : 0,
-      pipBackground: pipStyle ? pipStyle.backgroundImage : "",
-      pipImageWidth: pipImgRect.width,
-      pipImageHeight: pipImgRect.height
-    };
-  });
-  if (storyFeedbackMetrics.borderRadius < 16 || storyFeedbackMetrics.borderWidth < 3 || !storyFeedbackMetrics.background.includes("radial-gradient") || storyFeedbackMetrics.shineContent === "none" || storyFeedbackMetrics.tokenContent === "none" || storyFeedbackMetrics.tokenWidth < 24) {
-    failures.push("[" + viewportName + "] Story-complete feedback card lost reward polish: " + JSON.stringify(storyFeedbackMetrics));
-  }
-  if (storyFeedbackMetrics.artWidth < 68 || storyFeedbackMetrics.artRadius < 14 || storyFeedbackMetrics.imageWidth < 44 || storyFeedbackMetrics.imageHeight < 44) {
-    failures.push("[" + viewportName + "] Story-complete feedback art regressed: " + JSON.stringify(storyFeedbackMetrics));
-  }
-  if (storyFeedbackMetrics.pipWidth < 42 || storyFeedbackMetrics.pipRadius < 14 || !storyFeedbackMetrics.pipBackground.includes("radial-gradient") || storyFeedbackMetrics.pipImageWidth < 34 || storyFeedbackMetrics.pipImageHeight < 34) {
-    failures.push("[" + viewportName + "] Story-complete feedback lost Pip cameo artwork: " + JSON.stringify(storyFeedbackMetrics));
-  }
-  const completedStoryState = await page.evaluate(() => {
-    const save = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:save:jay") || "{}");
-    return {
-      activeGoal: save.pantryStoryGoalId || null,
-      completedGoals: Array.isArray(save.pantryCompletedStoryGoalIds) ? save.pantryCompletedStoryGoalIds : []
-    };
-  });
-  if (completedStoryState.activeGoal !== null || !completedStoryState.completedGoals.includes("small-jam-jar")) {
-    failures.push("[" + viewportName + "] Delivery completion was not recorded in save state: " + JSON.stringify(completedStoryState));
-  }
-  await expectVisible(page, ".pantry-story-archive", viewportName);
-  const storyArchiveText = await page.locator(".pantry-story-archive").first().innerText();
-  const normalizedStoryArchiveText = storyArchiveText.toLowerCase();
-  if (!storyArchiveText.includes("Pip's request log") || !storyArchiveText.includes("Small Jam Jar") || !storyArchiveText.includes("Next room step") || !storyArchiveText.includes("3/6") || !normalizedStoryArchiveText.includes("room chapter") || !storyArchiveText.includes("Chapter 3") || !storyArchiveText.includes("Next puzzle stage") || !storyArchiveText.includes("3 more requests") || !storyArchiveText.includes("Apron Drawer") || !storyArchiveText.includes("Stage key") || !storyArchiveText.includes("/160 spoons") || !normalizedStoryArchiveText.includes("next pip request") || !storyArchiveText.includes("Plan request")) {
-    failures.push("[" + viewportName + "] Delivery completion archive did not show request progress, saw " + storyArchiveText);
-  }
-  await expectVisible(page, ".pantry-story-archive__meter", viewportName);
-  await expectVisible(page, ".pantry-story-archive__chapter", viewportName);
-  await expectVisible(page, ".pantry-story-archive__stage-goal", viewportName);
-  await expectVisible(page, ".pantry-story-archive__next", viewportName);
-  const storyArchiveMetrics = await page.locator(".pantry-story-archive").first().evaluate((el) => {
-    const style = getComputedStyle(el);
-    const before = getComputedStyle(el, "::before");
-    const after = getComputedStyle(el, "::after");
-    const step = el.querySelector(".pantry-story-archive__step");
-    const meter = el.querySelector(".pantry-story-archive__meter");
-    const chapter = el.querySelector(".pantry-story-archive__chapter");
-    const stageGoal = el.querySelector(".pantry-story-archive__stage-goal");
-    const next = el.querySelector(".pantry-story-archive__next");
-    const nextAction = el.querySelector(".pantry-story-archive__next-action");
-    const item = el.querySelector(".pantry-story-archive__item");
-    const stepStyle = step ? getComputedStyle(step) : null;
-    const meterStyle = meter ? getComputedStyle(meter) : null;
-    const chapterStyle = chapter ? getComputedStyle(chapter) : null;
-    const stageGoalStyle = stageGoal ? getComputedStyle(stageGoal) : null;
-    const nextStyle = next ? getComputedStyle(next) : null;
-    const nextActionStyle = nextAction ? getComputedStyle(nextAction) : null;
-    const itemStyle = item ? getComputedStyle(item) : null;
-    return {
-      borderRadius: parseFloat(style.borderRadius),
-      borderWidth: parseFloat(style.borderTopWidth),
-      overflow: style.overflow,
-      background: style.backgroundImage,
-      shineContent: before.content,
-      tokenContent: after.content,
-      tokenWidth: parseFloat(after.width),
-      stepRadius: stepStyle ? parseFloat(stepStyle.borderRadius) : 0,
-      meterHeight: meter ? meter.getBoundingClientRect().height : 0,
-      meterOverflow: meterStyle ? meterStyle.overflow : "",
-      chapterRadius: chapterStyle ? parseFloat(chapterStyle.borderRadius) : 0,
-      stageGoalRadius: stageGoalStyle ? parseFloat(stageGoalStyle.borderRadius) : 0,
-      nextRadius: nextStyle ? parseFloat(nextStyle.borderRadius) : 0,
-      actionHeight: nextAction ? nextAction.getBoundingClientRect().height : 0,
-      actionRadius: nextActionStyle ? parseFloat(nextActionStyle.borderRadius) : 0,
-      itemRadius: itemStyle ? parseFloat(itemStyle.borderRadius) : 0,
-      itemHeight: item ? item.getBoundingClientRect().height : 0
-    };
-  });
-  if (storyArchiveMetrics.borderRadius < 16 || storyArchiveMetrics.borderWidth < 3 || storyArchiveMetrics.overflow !== "hidden" || !storyArchiveMetrics.background.includes("radial-gradient") || storyArchiveMetrics.shineContent === "none" || storyArchiveMetrics.tokenContent === "none" || storyArchiveMetrics.tokenWidth < 24 || storyArchiveMetrics.stepRadius < 14 || storyArchiveMetrics.meterHeight < 9 || storyArchiveMetrics.meterOverflow !== "hidden" || storyArchiveMetrics.chapterRadius < 14 || storyArchiveMetrics.stageGoalRadius < 14 || storyArchiveMetrics.nextRadius < 14 || storyArchiveMetrics.actionHeight < 44 || storyArchiveMetrics.actionRadius < 14 || storyArchiveMetrics.itemRadius < 14 || storyArchiveMetrics.itemHeight < 48) {
-    failures.push("[" + viewportName + "] Pantry story archive lost its polished request-log treatment: " + JSON.stringify(storyArchiveMetrics));
-  }
-  await page.locator(".pantry-story-archive__next-action").click();
-  await page.waitForTimeout(120);
-  await expectVisible(page, ".pantry-story-delivery", viewportName);
-  const chainedDeliveryText = await page.locator(".pantry-story-delivery").first().innerText();
-  if (!chainedDeliveryText.includes("Pip's delivery note") || !chainedDeliveryText.includes("Show this goal")) {
-    failures.push("[" + viewportName + "] Archive next request did not pin a new delivery note, saw " + chainedDeliveryText);
-  }
-
   await expectNoHorizontalOverflow(page, viewportName);
-  await expectTapTargets(page, viewportName);
 }

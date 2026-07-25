@@ -6,6 +6,11 @@ import { isRuntimeGuideArtApproved } from "../data/runtimeArt.js";
 import { t } from "../i18n/index.js";
 
 const GUIDE_ART_ASSET_ID = "pip-chrome-v2";
+export const PUZZLE_PRACTICE = Object.freeze({
+  clue: 5,
+  cellCount: 5,
+  targetIndexes: Object.freeze([0, 1, 2, 3, 4])
+});
 const GUIDE_STEPS = {
   puzzle: ["guide.puzzle.step1", "guide.puzzle.step2", "guide.puzzle.step3"],
   timeAttack: ["guide.timeAttack.step1", "guide.timeAttack.step2", "guide.timeAttack.step3"],
@@ -68,21 +73,12 @@ export function renderGuideDialog(guideId, onClose) {
     const bubble = document.createElement("div");
     bubble.className = "guide-dialog__bubble";
 
-    const eyebrow = document.createElement("p");
-    eyebrow.className = "guide-dialog__eyebrow";
-    eyebrow.textContent = t("guide.eyebrow");
-
-    const speaker = document.createElement("div");
-    speaker.className = "guide-dialog__speaker";
-    speaker.textContent = t("guide.speaker");
-
-    const title = document.createElement("h2");
-    title.id = "guide-dialog-title";
-    title.textContent = t(`guide.${guideId}.title`);
-
     const body = document.createElement("p");
     body.className = "guide-dialog__line";
+    body.id = "guide-dialog-title";
     body.textContent = t(steps[index]);
+
+    const practice = guideId === "puzzle" && index === 1 ? createPuzzlePractice() : null;
 
     const dots = document.createElement("div");
     dots.className = "guide-dialog__dots";
@@ -109,7 +105,9 @@ export function renderGuideDialog(guideId, onClose) {
     nextButton.textContent = isLast ? t("guide.done") : t("guide.next");
 
     actions.append(skipButton, nextButton);
-    bubble.append(eyebrow, speaker, title, body, dots, actions);
+    bubble.append(body);
+    if (practice) bubble.appendChild(practice.element);
+    bubble.append(dots, actions);
     nodes.push(bubble);
 
     card.replaceChildren(...nodes);
@@ -122,9 +120,72 @@ export function renderGuideDialog(guideId, onClose) {
       index += 1;
       draw();
     });
+    if (practice) {
+      nextButton.disabled = true;
+      practice.onComplete(() => {
+        nextButton.disabled = false;
+        nextButton.focus();
+      });
+    }
   }
 
   draw();
   return overlay;
+}
+
+function createPuzzlePractice() {
+  const element = document.createElement("div");
+  element.className = "guide-practice";
+  const clue = document.createElement("span");
+  clue.className = "guide-practice__clue";
+  clue.textContent = String(PUZZLE_PRACTICE.clue);
+  const row = document.createElement("div");
+  row.className = "guide-practice__row";
+  row.setAttribute("role", "group");
+  row.setAttribute("aria-label", t("guide.practiceLabel"));
+  const status = document.createElement("p");
+  status.className = "guide-practice__status";
+  status.textContent = t("guide.practicePrompt");
+  const targetIndexes = new Set(PUZZLE_PRACTICE.targetIndexes);
+  const filledIndexes = new Set();
+  let complete = false;
+  let completionHandler = () => {};
+
+  for (let index = 0; index < PUZZLE_PRACTICE.cellCount; index += 1) {
+    const cell = document.createElement("button");
+    cell.type = "button";
+    cell.className = "guide-practice__cell";
+    cell.setAttribute("aria-label", t("guide.practiceCell", { number: index + 1 }));
+    cell.addEventListener("click", () => {
+      if (complete) return;
+      if (!targetIndexes.has(index)) {
+        status.textContent = t("guide.practiceTryAgain");
+        return;
+      }
+      filledIndexes.add(index);
+      cell.classList.add("is-filled");
+      cell.setAttribute("aria-pressed", "true");
+      if (filledIndexes.size === targetIndexes.size) {
+        complete = true;
+        [...row.children].forEach((rowCell, rowIndex) => {
+          rowCell.disabled = true;
+          if (!targetIndexes.has(rowIndex)) {
+            rowCell.classList.add("is-marked");
+            rowCell.textContent = "×";
+          }
+        });
+        status.textContent = t("guide.practiceComplete");
+        completionHandler();
+      }
+    });
+    row.appendChild(cell);
+  }
+  element.append(clue, row, status);
+  return {
+    element,
+    onComplete(handler) {
+      completionHandler = handler;
+    }
+  };
 }
 

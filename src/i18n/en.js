@@ -20,8 +20,6 @@ export const en = {
   },
   playerIntro: {
     title: "What should Pip call you?",
-    note: "Progress on this device will be saved under this name.",
-    pipCue: "I will keep your pantry cards tidy.",
     label: "Player name",
     placeholder: "Jay",
     continue: "Continue",
@@ -75,6 +73,7 @@ export const en = {
     guideReplayAction: "Show Pip's guide",
     guideReplayPuzzleAction: "Picture guide",
     guideReplayTimeAttackAction: "Time Attack guide",
+    spoonStoreTitle: "Spoon Shop",
     supportTitle: "Pip Support Pack",
     supportBody: "Support Pip and add {spoons} spoons to your pantry.",
     supportOwnedBody: "Thank you for supporting Pip. {spoons} spoons already joined your pantry.",
@@ -94,13 +93,13 @@ export const en = {
     supportRestore: "Restore purchase",
     supportBuy: "Support for {price}",
     spoonJarTitle: "Small Spoon Jar",
-    spoonJarBody: "Add {spoons} spoons for extra hints, room goals, and the next stage.",
+    spoonJarBody: "Add {spoons} spoons when you need them.",
     spoonJarFactSpoons: "{spoons} spoons",
     spoonJarFactRepeat: "Repeatable top-up",
     spoonJarReady: "Spoons arrive after each jar.",
     spoonJarFailed: "The jar could not be filled. No spoons were spent.",
-    spoonJarBuy: "Fill jar for {price}",
-    supportPricePending: "Store price",
+    spoonJarBuy: "{price} · {spoons} spoons",
+    supportPricePending: "Check price",
     close: "Done"
   },
   badges: {
@@ -162,9 +161,10 @@ export const en = {
     hubNote: "Choose a picture, then open a clean screen just for solving."
   },
   daily: {
-    eyebrow: "Today's pick",
-    play: "Play for bonus",
-    selected: "Playing this",
+    eyebrow: "Today's picture",
+    play: "Play",
+    selected: "Selected",
+    reward: "Completion reward · {count} spoons",
     notePrefix: "Finish today for",
     noteSuffix: ""
   },
@@ -192,14 +192,14 @@ export const en = {
   timeAttack: {
     eyebrow: "New challenge",
     title: "Time Attack",
-    body: "Solve 3 generated puzzles in a row. Earn daily spoons, chase records, and decide when a spoon hint is worth the time save.",
-    hubEyebrow: "Quick spoon run",
-    hubTitle: "Time Attack is ready",
-    hubBody: "Jump into three random boards, chase your best cell count, and use spoons only when a hint is worth it.",
-    hubAction: "Start Time Attack",
+    body: "Take on three puzzles that grow in size.",
+    hubEyebrow: "Time Attack",
+    hubTitle: "Three puzzles in a row",
+    hubBody: "How far can you get before time runs out?",
+    hubAction: "Start",
     coachEyebrow: "Pip's run note",
-    coachTitle: "Earn spoons, then choose your risk",
-    coachBody: "This is the speedy place for extra spoons. Random boards keep it fresh, hints spend spoons when a record is close, and every clean run teaches the next one.",
+    coachTitle: "How far can we get in three rounds?",
+    coachBody: "Use a hint only when you need one.",
     coachEarn: "Earn daily run spoons",
     coachSpend: "Spend hints only when it matters",
     coachRecord: "Beat your best run",
@@ -223,8 +223,8 @@ export const en = {
     runPlanTitle: "Run plan",
     runPlanBody: "3 random boards. Hints can save a run, but each one spends spoons.",
     rewardTitle: "Daily rewards",
-    rewardReady: "{count}/{limit} claimed today. Rewards still available.",
-    rewardUsed: "{count}/{limit} claimed today. Records still count.",
+    rewardReady: "Today's spoons {count}/{limit}",
+    rewardUsed: "Today's spoons collected",
     bestTitle: "Best run",
     bestSummary: "{progress} cells, {boardProgress} / {time} / {hints} hints",
     newRecord: "New personal best",
@@ -241,16 +241,21 @@ export const en = {
     remaining: "Time left {time}"
   },
   guide: {
+    practiceLabel: "A practice row with Pip",
+    practicePrompt: "The clue is 5, so tap all five cells.",
+    practiceCell: "Cell {number}",
+    practiceTryAgain: "Let's color all five cells in the row.",
+    practiceComplete: "Lovely! The clue 5 matches all five cells.",
     eyebrow: "Pip's cozy guide",
     speaker: "Pip is talking with you",
     skip: "Not now",
-    next: "Keep listening",
+    next: "Next",
     done: "Start together",
     puzzle: {
       title: "I'll solve the first picture beside you",
       step1: "These numbers are the picture pieces we need to color. I'll help you spot the gentle rows first.",
-      step2: "3 means three squares stay together. 1 1 1 means tiny pieces with at least one blank between them.",
-      step3: "When a line is truly finished, I'll leave soft X marks on safe blanks. If you get stuck, a hint is okay."
+      step2: "A single 5 means every cell in this five-cell row is filled. Want to finish the row below?",
+      step3: "More than one number means more than one filled group, with at least one blank between groups. If you get stuck, I'll offer a hint."
     },
     timeAttack: {
       title: "I'll open the quick challenge with you",
@@ -375,11 +380,14 @@ export const en = {
     genericSaved: "{title} is saved in the album.",
     hiddenTitle: "Hidden picture",
     hiddenText: "Finish the puzzle to save this card.",
+    emptyTitle: "Ready to finish your first picture?",
+    emptyAction: "Choose a picture",
     lockedSymbol: "?"
   },
   puzzlePicker: {
-    size: "{size}x{size}",
-    sizeReward: "{size}x{size} +{count}",
+    size: "{size}×{size}",
+    sizeReward: "{size}×{size} · +{count}",
+    complete: "Complete",
     rewardLabel: "{size}x{size}, reward {count}",
     sizeComplete: "{size}x{size} - Complete"
   },

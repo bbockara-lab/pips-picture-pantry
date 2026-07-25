@@ -1,6 +1,6 @@
 import { getBadgeArtUrl } from "../data/badgeArt.js";
 import { getPackBadgeStatus, getNextBadgeProgress } from "../game/badges.js";
-import { getCompletedPuzzleIds, getPackPantryRoomRequirement, isPackUnlocked } from "../game/save.js";
+import { getCompletedPuzzleIds, isPackUnlocked } from "../game/save.js";
 import { t } from "../i18n/index.js";
 
 export function renderPantryMapView() {
@@ -20,10 +20,7 @@ export function renderPantryMapView() {
   const heading = document.createElement("h2");
   heading.textContent = t("badges.collectionCount", { earned: earnedCount, total: statuses.length });
   title.append(eyebrow, heading);
-  const note = document.createElement("p");
-  note.className = "map-note";
-  note.textContent = t("badges.collectionNote");
-  header.append(title, note);
+  header.appendChild(title);
   section.appendChild(header);
 
   if (next) {
@@ -32,8 +29,10 @@ export function renderPantryMapView() {
 
   const badgeGrid = document.createElement("div");
   badgeGrid.className = "badge-collection-grid";
-  statuses.forEach((status) => badgeGrid.appendChild(createBadgeCollectionCard(status)));
-  section.appendChild(badgeGrid);
+  statuses.filter((status) => status.earned).forEach((status) => badgeGrid.appendChild(createBadgeCollectionCard(status)));
+  if (badgeGrid.children.length) {
+    section.appendChild(badgeGrid);
+  }
 
   return section;
 }
@@ -78,26 +77,10 @@ function createBadgeCollectionCard(status) {
       : t("map.locked");
   const title = document.createElement("h3");
   title.textContent = t(status.badge.titleKey);
-  const desc = document.createElement("p");
-  desc.textContent = t(status.badge.descriptionKey);
-  const meta = document.createElement("small");
-  meta.textContent = status.earned
-    ? t("badges.earned")
-    : unlocked
-      ? t("badges.progress", { completed: status.completed, total: status.total })
-      : getLockedBadgeRequirementText(status.pack);
-  copy.append(state, title, desc, meta);
+  copy.append(state, title);
 
   card.append(art, copy);
   return card;
-}
-
-function getLockedBadgeRequirementText(pack) {
-  const roomRequirement = getPackPantryRoomRequirement(pack);
-  if (roomRequirement.required > 0 && !roomRequirement.met) {
-    return t("map.lockedWithPantry", roomRequirement);
-  }
-  return t("map.locked");
 }
 
 function createBadgeArt(status) {
