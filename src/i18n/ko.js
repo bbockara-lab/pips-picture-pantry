@@ -529,16 +529,6 @@ export const ko = {
       priceHigh: "높은 가격",
       rarity: "희귀 먼저"
     },
-    itemStatus: {
-      firstPick: "여기서 시작",
-      canBuyNow: "지금 살 수 있음",
-      saveForLater: "모아두기 목표",
-      owned: "팬트리에 보관 중",
-      equipped: "전시 중"
-    },
-    itemSavings: "스푼 {saved}/{cost}개 모음, {needed}개 더 필요",
-    trackGoal: "목표로 지정",
-    goalTracked: "목표 설정됨",
     emptyFilterTitle: "\ub9de\ub294 \uc7a5\uc2dd\uc774 \uc5c6\uc5b4\uc694",
     emptyFilterBody: "\ub2e4\ub978 \uc790\ub9ac, \ub4f1\uae09, \uad6c\ub9e4 \uc0c1\ud0dc\ub97c \uace8\ub77c \ubcf4\uc138\uc694.",
     resetFilters: "\ud544\ud130 \ucd08\uae30\ud654",
@@ -555,9 +545,6 @@ export const ko = {
       premium: "프리미엄"
     },
     slotAction: "{slot}에 놓을 장식 보기",
-    placedInSlot: "놓이는 자리: {slot}",
-    emptyPlacementNote: "이 자리는 비어 있어서 구매하면 바로 놓여요.",
-    swapNote: "구매하거나 장착하면 전시 중인 {current} 대신 놓여요.",
     emptySlot: "포근한 장식을 기다리는 중",
     owned: "보유 중",
     equipped: "장착됨",

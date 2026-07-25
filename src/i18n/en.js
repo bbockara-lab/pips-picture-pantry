@@ -531,16 +531,6 @@ export const en = {
       priceHigh: "High price",
       rarity: "Rare first"
     },
-    itemStatus: {
-      firstPick: "Start here",
-      canBuyNow: "Can buy now",
-      saveForLater: "Save for later",
-      owned: "In your pantry",
-      equipped: "On display"
-    },
-    itemSavings: "{saved}/{cost} spoons saved, {needed} more",
-    trackGoal: "Track goal",
-    goalTracked: "Goal set",
     emptyFilterTitle: "No decorations match",
     emptyFilterBody: "Try another spot, grade, or availability filter.",
     resetFilters: "Reset filters",
@@ -557,9 +547,6 @@ export const en = {
       premium: "Premium"
     },
     slotAction: "Shop decorations for {slot}",
-    placedInSlot: "Goes to: {slot}",
-    emptyPlacementNote: "This spot is empty, so buying this will place it right away.",
-    swapNote: "Buying or equipping this will replace {current} on display.",
     emptySlot: "Waiting for a cozy touch",
     owned: "Owned",
     equipped: "Equipped",

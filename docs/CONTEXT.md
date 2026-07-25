@@ -3872,3 +3872,10 @@ Current launch direction:
 - Removed repeated rarity, purchase-status, slot-placement, swap explanation, savings meter, and manual goal-tracking UI from the rendered cards.
 - Added mobile QA that rejects those report-like card details at every supported width.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+### v0.1.551 Compact Pantry Card Residue Removal
+
+- Removed the retired rarity, item-status, placement, swap, savings, and manual goal-tracking translations and CSS after the compact card renderer shipped.
+- Simplified two surviving live selectors that only carried obsolete negative exclusions.
+- Added a source-hygiene guard preventing the report-style card selectors from returning.
+- Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.

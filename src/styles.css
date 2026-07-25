@@ -2054,18 +2054,6 @@ body {
   box-shadow: 0 4px 0 rgba(78, 48, 54, 0.16);
 }
 
-.pantry-slot-note {
-  display: inline-flex;
-  width: fit-content;
-  margin: 0 0 5px;
-  padding: 4px 8px;
-  border-radius: 999px;
-  background: rgba(181, 226, 207, 0.58);
-  color: var(--cocoa);
-  font-size: 0.78rem;
-  font-weight: 900;
-}
-
 /* v0.1.103 opening key visual */
 .brand-intro__key-visual {
   position: relative;
@@ -2314,33 +2302,6 @@ body {
   box-shadow: 0 4px 0 rgba(78, 48, 54, 0.14);
 }
 
-.pantry-item-status {
-  display: inline-flex;
-  width: fit-content;
-  margin: 0 0 6px;
-  padding: 4px 8px;
-  border-radius: 999px;
-  background: rgba(255, 226, 120, 0.62);
-  color: var(--ink, #3d2b2e);
-  font-size: 0.74rem;
-  font-weight: 950;
-}
-
-.pantry-item-status.status-canBuyNow,
-.pantry-item-status.status-firstPick {
-  background: rgba(184, 230, 210, 0.8);
-}
-
-.pantry-item-status.status-saveForLater {
-  background: rgba(255, 238, 190, 0.82);
-  color: rgba(78, 48, 54, 0.78);
-}
-
-.pantry-item-status.status-owned,
-.pantry-item-status.status-equipped {
-  background: rgba(221, 210, 255, 0.5);
-}
-
 @media (max-width: 390px) {
   .pantry-sort-bar {
     display: grid;
@@ -2367,54 +2328,8 @@ body {
 
 
 /* v0.1.123 pantry goal tracking */
-.pantry-track-goal {
-  width: calc(100% - 28px);
-  min-height: 40px;
-  margin: 0 14px 10px;
-  border: 2px solid rgba(78, 48, 54, 0.22);
-  border-radius: 8px;
-  background: rgba(255, 250, 238, 0.9);
-  color: var(--ink);
-  font: inherit;
-  font-weight: 850;
-  cursor: pointer;
-}
-
-.pantry-track-goal.active {
-  border-color: rgba(77, 111, 67, 0.48);
-  background: linear-gradient(180deg, rgba(214, 242, 198, 0.98), rgba(186, 226, 170, 0.98));
-  color: var(--leaf-dark);
-}
 
 /* v0.1.116 pantry item savings meters */
-.pantry-item-savings {
-  display: grid;
-  gap: 6px;
-  padding: 0 12px 2px;
-}
-
-.pantry-item-savings p {
-  margin: 0;
-  color: var(--cocoa, #7a4e35);
-  font-size: 0.76rem;
-  font-weight: 850;
-}
-
-.pantry-item-savings-meter {
-  height: 9px;
-  overflow: hidden;
-  border: 2px solid rgba(78, 48, 54, 0.16);
-  border-radius: 999px;
-  background: rgba(255, 248, 232, 0.82);
-}
-
-.pantry-item-savings-meter span {
-  display: block;
-  width: var(--item-savings-progress, 0%);
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, rgba(184, 230, 210, 0.95), rgba(255, 206, 84, 0.95));
-}
 
 
 
@@ -2506,17 +2421,6 @@ body {
 
 
 /* v0.1.117 pantry placement swap notes */
-.pantry-swap-note {
-  margin: 0 0 6px;
-  padding: 7px 8px;
-  border-left: 4px solid rgba(184, 230, 210, 0.9);
-  border-radius: 8px;
-  background: rgba(255, 252, 241, 0.72);
-  color: var(--cocoa, #7a4e35);
-  font-size: 0.78rem;
-  font-weight: 820;
-  line-height: 1.25;
-}
 
 
 /* v0.1.125 replay picks hub surface */
@@ -9112,7 +9016,7 @@ img {
   line-height: 1.16;
 }
 
-.pantry-item-body p:not(.pantry-item-status):not(.pantry-slot-note):not(.pantry-swap-note) {
+.pantry-item-body p {
   margin: 0;
   color: rgba(78, 48, 54, 0.78);
   font-size: 0.84rem;
@@ -9127,7 +9031,6 @@ img {
   align-items: center;
 }
 
-.pantry-item-rarity,
 .pantry-item-cost {
   display: inline-flex;
   align-items: center;
@@ -9145,13 +9048,6 @@ img {
   color: var(--ink, #3d2b2e);
   background: linear-gradient(180deg, rgba(255, 224, 118, 0.9), rgba(246, 190, 78, 0.86));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.62);
-}
-
-.pantry-item-status,
-.pantry-slot-note,
-.pantry-swap-note {
-  position: relative;
-  z-index: 1;
 }
 
 /* v0.1.515 puzzle hub reset: compact choices, no decorative reward orbs. */
@@ -9382,16 +9278,10 @@ img {
   }
 }
 
-.pantry-item-card > .pantry-item-savings,
-.pantry-item-card > .pantry-track-goal,
 .pantry-item-card > .pantry-item-action {
   grid-column: 1 / -1;
   position: relative;
   z-index: 1;
-}
-
-.pantry-item-card > .pantry-track-goal {
-  justify-self: start;
 }
 
 .pantry-item-card > .pantry-item-action {
@@ -9896,117 +9786,8 @@ img {
 
 
 /* v0.1.353 pantry savings and goal polish */
-.pantry-item-savings {
-  position: relative;
-  overflow: hidden;
-  gap: 7px;
-  padding: 10px 12px 11px 42px;
-  border: 2px solid rgba(207, 164, 59, 0.22);
-  border-radius: 15px;
-  background:
-    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.72) 0 10%, transparent 11%),
-    linear-gradient(135deg, rgba(255, 248, 226, 0.96), rgba(184, 230, 210, 0.38));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.72),
-    0 4px 0 rgba(61, 43, 46, 0.06);
-}
-
-.pantry-item-savings::before {
-  content: "";
-  position: absolute;
-  left: 12px;
-  top: 11px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78) 0 20%, transparent 21%),
-    linear-gradient(135deg, #f8d477, #dfa342);
-  box-shadow:
-    inset 0 0 0 3px rgba(132, 85, 56, 0.12),
-    0 2px 0 rgba(61, 43, 46, 0.12);
-}
-
-.pantry-item-savings p {
-  position: relative;
-  z-index: 1;
-  color: var(--ink, #3d2b2e);
-  font-size: 0.78rem;
-  font-weight: 920;
-}
-
-.pantry-item-savings-meter {
-  position: relative;
-  z-index: 1;
-  height: 12px;
-  border-width: 2px;
-  background: rgba(255, 253, 243, 0.92);
-  box-shadow: inset 0 2px 0 rgba(61, 43, 46, 0.06);
-}
-
-.pantry-item-savings-meter span {
-  background:
-    radial-gradient(circle at 18% 35%, rgba(255, 255, 255, 0.68) 0 10%, transparent 11%),
-    linear-gradient(90deg, rgba(184, 230, 210, 0.98), rgba(255, 206, 84, 0.98));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.54);
-}
-
-.pantry-track-goal {
-  position: relative;
-  overflow: hidden;
-  width: auto;
-  min-height: 44px;
-  margin: 0;
-  padding: 9px 15px 9px 38px;
-  border: 3px solid rgba(78, 48, 54, 0.2);
-  border-radius: 16px;
-  background:
-    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.7) 0 10%, transparent 11%),
-    linear-gradient(180deg, rgba(255, 253, 244, 0.96), rgba(255, 244, 214, 0.9));
-  box-shadow:
-    inset 0 2px 0 rgba(255, 255, 255, 0.7),
-    0 4px 0 rgba(61, 43, 46, 0.1);
-}
-
-.pantry-track-goal::before {
-  content: "";
-  position: absolute;
-  left: 13px;
-  top: 50%;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  transform: translateY(-50%);
-  background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78) 0 20%, transparent 21%),
-    linear-gradient(135deg, #f7cd69, #d99a36);
-  box-shadow: 0 2px 0 rgba(61, 43, 46, 0.12);
-}
-
-.pantry-track-goal.active {
-  border-color: rgba(85, 149, 119, 0.54);
-  background:
-    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.72) 0 10%, transparent 11%),
-    linear-gradient(180deg, rgba(223, 249, 229, 0.98), rgba(184, 230, 210, 0.88));
-  box-shadow:
-    inset 0 2px 0 rgba(255, 255, 255, 0.74),
-    0 4px 0 rgba(77, 111, 67, 0.14),
-    0 0 0 4px rgba(184, 230, 210, 0.32);
-}
 
 @media (max-width: 430px) {
-  .pantry-item-savings {
-    padding-left: 38px;
-  }
-
-  .pantry-item-savings::before {
-    left: 10px;
-  }
-
-  .pantry-track-goal {
-    width: 100%;
-    justify-self: stretch;
-  }
 }
 
 
@@ -10562,92 +10343,6 @@ img {
 
 
 /* v0.1.361 pantry item signal chip polish */
-.pantry-item-status,
-.pantry-slot-note,
-.pantry-swap-note {
-  overflow: hidden;
-  border: 2px solid rgba(78, 48, 54, 0.14);
-  border-radius: 14px;
-  background:
-    radial-gradient(circle at 12% 22%, rgba(255, 255, 255, 0.72) 0 10%, transparent 11%),
-    linear-gradient(180deg, rgba(255, 253, 244, 0.96), rgba(255, 244, 214, 0.82));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.68),
-    0 3px 0 rgba(61, 43, 46, 0.06);
-}
-
-.pantry-item-status {
-  align-items: center;
-  min-height: 30px;
-  padding: 5px 10px 5px 28px;
-}
-
-.pantry-item-status::before,
-.pantry-slot-note::before,
-.pantry-swap-note::before {
-  content: "";
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  width: 10px;
-  height: 10px;
-  border: 2px solid rgba(78, 48, 54, 0.14);
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.78) 0 24%, transparent 25%),
-    linear-gradient(135deg, #ffe7a5, #f2bd4b);
-  box-shadow: 0 1px 0 rgba(61, 43, 46, 0.1);
-  transform: translateY(-50%);
-}
-
-.pantry-item-status.status-canBuyNow,
-.pantry-item-status.status-firstPick {
-  border-color: rgba(85, 149, 119, 0.28);
-  background:
-    radial-gradient(circle at 12% 22%, rgba(255, 255, 255, 0.76) 0 10%, transparent 11%),
-    linear-gradient(180deg, rgba(224, 250, 232, 0.98), rgba(184, 230, 210, 0.86));
-}
-
-.pantry-item-status.status-saveForLater {
-  border-color: rgba(207, 164, 59, 0.28);
-  background:
-    radial-gradient(circle at 12% 22%, rgba(255, 255, 255, 0.76) 0 10%, transparent 11%),
-    linear-gradient(180deg, rgba(255, 248, 226, 0.98), rgba(255, 226, 146, 0.84));
-}
-
-.pantry-item-status.status-owned,
-.pantry-item-status.status-equipped {
-  border-color: rgba(132, 93, 178, 0.24);
-  background:
-    radial-gradient(circle at 12% 22%, rgba(255, 255, 255, 0.76) 0 10%, transparent 11%),
-    linear-gradient(180deg, rgba(246, 240, 255, 0.98), rgba(221, 210, 255, 0.72));
-}
-
-.pantry-slot-note,
-.pantry-swap-note {
-  min-height: 34px;
-  margin: 0;
-  padding: 7px 10px 7px 30px;
-  color: var(--cocoa, #7a4e35);
-  font-size: 0.76rem;
-  font-weight: 900;
-  line-height: 1.24;
-}
-
-.pantry-slot-note::before {
-  border-radius: 4px;
-  background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.76) 0 24%, transparent 25%),
-    linear-gradient(135deg, #b8e6d2, #78c89e);
-}
-
-.pantry-swap-note::before {
-  border-radius: 4px;
-  background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.76) 0 24%, transparent 25%),
-    linear-gradient(135deg, #ffd98e, #dd9c54);
-  transform: translateY(-50%) rotate(12deg);
-}
 
 
 /* v0.1.362 opening promise chip depth polish */
@@ -15669,11 +15364,10 @@ img {
   min-width: 0;
 }
 
-.pantry-item-body > p:not(.pantry-item-status):not(.pantry-slot-note):not(.pantry-swap-note) {
+.pantry-item-body > p {
   display: none;
 }
 
-.pantry-track-goal,
 .pantry-item-action {
   min-height: 46px;
   box-shadow: none !important;
@@ -15696,20 +15390,12 @@ img {
 
 .pantry-item-art,
 .pantry-item-meta span,
-.pantry-track-goal,
 .pantry-item-action {
   background-image: none !important;
 }
 
 .pantry-item-art {
   background-color: #f6e7b6 !important;
-}
-
-.pantry-item-status,
-.pantry-slot-note,
-.pantry-swap-note,
-.pantry-item-rarity {
-  display: none !important;
 }
 
 /* v0.1.515 UX rework: the album is a shelf of earned pictures, not a locked catalog. */
@@ -16203,14 +15889,12 @@ img {
   font-size: 0.74rem;
 }
 
-.pantry-item-card > .pantry-track-goal,
 .pantry-item-card > .pantry-item-action,
 .spoon-store .support-pack-card__actions {
   grid-column: 1 / -1;
   width: 100%;
 }
 
-.pantry-track-goal,
 .pantry-item-action,
 .spoon-store .settings-choice {
   box-sizing: border-box;

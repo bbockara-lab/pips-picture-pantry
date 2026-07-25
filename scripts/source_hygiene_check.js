@@ -107,6 +107,10 @@ const staleCssRules = [
   {
     label: "retired Pantry planning and report styles",
     pattern: /\.pantry-(?:placement-advisor|savings-goal|earning-plan|earning-action|progress-board|progress-mission|progress-slot|display-plan|planning-deck)/
+  },
+  {
+    label: "retired Pantry decoration card report styles",
+    pattern: /\.pantry-(?:item-status|item-rarity|slot-note|swap-note|track-goal|item-savings(?:-meter)?)/
   }
 ];
 
