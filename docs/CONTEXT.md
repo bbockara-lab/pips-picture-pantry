@@ -3943,3 +3943,12 @@ Current launch direction:
 - Replaced near-solid blocks with a fruit-fan tart shell, an open glazed ring, a crisp framed custard square, and a triangular crimped turnover.
 - Added an art-audit regression test keeping all four out of the review queue.
 - Verification: 148 unit tests, 73-candidate art audit, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame visual pack pass.
+
+
+### v0.1.560 Bakery Density Repair Group H
+
+- Redrew the runtime 5x5 Recipe Card and Bread Loaf plus the 12x12 Raspberry Choux Puff and Plum Cream Danish.
+- Kept the 5x5 source and progression overrides synchronized so the player sees the reviewed card and loaf silhouettes rather than stale replacements.
+- Replaced dense pastry blocks with an airy berry-and-cream puff and a folded oval plum danish.
+- Added an art-audit regression test keeping all four out of the review queue.
+- Verification: 149 unit tests, 69-candidate art audit, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame visual pack pass.

@@ -191,4 +191,17 @@ describe("puzzle art audit", () => {
     expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
   });
 
+
+  it("keeps the eighth repaired Bakery density group out of the art-review queue", () => {
+    const report = buildPuzzleArtAudit();
+    const repairedIds = new Set([
+      "bakery-window-recipe-card-4",
+      "bakery-window-bread-loaf-8",
+      "bakery-window-raspberry-choux-puff-96",
+      "bakery-window-plum-cream-danish-128"
+    ]);
+
+    expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
+  });
+
 });

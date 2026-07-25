@@ -237,3 +237,7 @@ Done when:
 
 - Current slice: v0.1.559 repairs four additional high-density Bakery silhouettes and reduces the audit queue from 77 to 73 candidates.
 - Verification: 148 unit tests, 73-candidate art audit, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame visual pack pass.
+
+
+- Current slice: v0.1.560 repairs two launch-facing 5x5 Bakery pictures and two high-density 12x12 pastries, reducing the audit queue from 73 to 69 candidates.
+- Verification: 149 unit tests, 69-candidate art audit, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame visual pack pass.
