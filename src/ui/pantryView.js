@@ -2,8 +2,6 @@ import { getApprovedPantryDecorations, getDecorationById, pantrySlots } from "..
 import { ECONOMY, getPuzzleReward } from "../data/economyConfig.js";
 import { puzzlePacks } from "../data/packs.js";
 import { getDecorationArtUrl } from "../data/decorationArt.js";
-import pipGuideSceneUrl from "../assets/characters/pip-chrome-v2.png";
-import { isRuntimeGuideArtApproved } from "../data/runtimeArt.js";
 import {
   buyDecoration,
   clearPantryStoryGoalId,
@@ -24,7 +22,6 @@ const sortOptions = ["featured", "priceLow", "priceHigh", "rarity"];
 const rarityRank = { starter: 0, common: 1, cozy: 2, rare: 3, premium: 4 };
 const roomStepTargets = [1, 3, 6, 10];
 const defaultShopCardLimit = 3;
-const PIP_CAMEO_ASSET_ID = "pip-chrome-v2";
 const pantryViewState = {
   selectedSlotId: "all",
   selectedRarity: "all",
@@ -86,26 +83,9 @@ function renderActionFeedback(equippedDecorations) {
   const copy = document.createElement("div");
   copy.className = "pantry-action-feedback__copy";
   const titleKey = action.type === "storyComplete" ? "pantry.feedbackStoryCompleteTitle" : action.type === "equip" ? "pantry.feedbackEquipTitle" : "pantry.feedbackBuyTitle";
-  const bodyKey = action.type === "storyComplete" ? "pantry.feedbackStoryCompleteBody" : placed ? "pantry.feedbackPlacedBody" : "pantry.feedbackSavedBody";
-  const eyebrowKey = action.type === "storyComplete" ? "pantry.feedbackStoryCompleteEyebrow" : "pantry.feedbackEyebrow";
-  const eyebrow = document.createElement("p");
-  eyebrow.className = "section-label";
-  eyebrow.textContent = t(eyebrowKey);
   const title = document.createElement("h3");
   title.textContent = t(titleKey, { item: t(decoration.titleKey) });
-  const body = document.createElement("p");
-  body.textContent = t(bodyKey, { item: t(decoration.titleKey), slot: slotLabel });
-  copy.append(eyebrow, title, body);
-
-  const pipCameo = document.createElement("div");
-  pipCameo.className = "pantry-action-feedback__pip";
-  pipCameo.setAttribute("aria-hidden", "true");
-  if (isRuntimeGuideArtApproved(PIP_CAMEO_ASSET_ID)) {
-    const pipImage = document.createElement("img");
-    pipImage.src = pipGuideSceneUrl;
-    pipImage.alt = "";
-    pipCameo.appendChild(pipImage);
-  }
+  copy.appendChild(title);
 
   const dismiss = document.createElement("button");
   dismiss.type = "button";
@@ -116,7 +96,7 @@ function renderActionFeedback(equippedDecorations) {
     card.remove();
   });
 
-  card.append(art, copy, pipCameo, dismiss);
+  card.append(art, copy, dismiss);
   return card;
 }
 
@@ -848,7 +828,7 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
       room.appendChild(renderRoomSlot(slot, equippedDecorations, selectedSlotId, selectSlot));
     });
 
-    replaceWithOptional(storyRequestMount, renderPantryStoryRequest(approvedDecorations, ownedIds, equippedDecorations, spoons, startStoryRequest));
+    replaceWithOptional(storyRequestMount, renderPantryStoryRequest(approvedDecorations, ownedIds, equippedDecorations, startStoryRequest));
     replaceWithOptional(storyMilestoneMount, renderPantryStoryMilestone(approvedDecorations, ownedIds, equippedDecorations, selectStoryArrival));
     replaceWithOptional(storyDeliveryMount, renderPantryStoryDelivery(approvedDecorations, storyGoalId, ownedIds, spoons, showStoryGoal, onPlayForSpoons));
     filtersMount.replaceChildren();

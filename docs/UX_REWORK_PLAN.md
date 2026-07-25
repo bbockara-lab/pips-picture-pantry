@@ -185,3 +185,6 @@ Done when:
 
 - Current slice: v0.1.544 reduces the selected Pantry decoration goal to artwork, one status line, and actions; removes its inline Pip stamp and repeated report copy; and disables the remaining glare/orb pseudo-elements on Pantry story-action cards.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+- Current slice: v0.1.545 separates story from utility UI: the first-request card now contains only decoration art, title, and action; completed requests disappear; and purchase/equip feedback no longer repeats Pip, meta labels, or explanatory paragraphs.
+- Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.

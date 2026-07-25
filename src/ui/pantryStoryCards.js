@@ -16,7 +16,7 @@ function appendTextElement(parent, tagName, className, text) {
   return element;
 }
 
-export function renderPantryStoryRequest(approvedDecorations, ownedIds, equippedDecorations, spoons, onStartRequest) {
+export function renderPantryStoryRequest(approvedDecorations, ownedIds, equippedDecorations, onStartRequest) {
   const starterRequest = approvedDecorations.find((decoration) => Number(decoration.cost || 0) === 0 && decoration.slot === "counter") || approvedDecorations[0];
   if (!starterRequest) {
     return null;
@@ -24,24 +24,14 @@ export function renderPantryStoryRequest(approvedDecorations, ownedIds, equipped
 
   const owned = ownedIds.includes(starterRequest.id);
   const equipped = equippedDecorations[starterRequest.slot] === starterRequest.id;
-  const complete = owned && equipped;
-  const state = complete ? "complete" : owned ? "place" : "start";
+  if (owned && equipped) {
+    return null;
+  }
+  const state = owned ? "place" : "start";
   const slot = pantrySlots.find((candidate) => candidate.id === starterRequest.slot);
   const slotLabel = slot ? t(slot.titleKey) : starterRequest.slot;
   const request = document.createElement("aside");
   request.className = "pantry-story-request state-" + state;
-
-  if (isRuntimeGuideArtApproved(GUIDE_ART_ASSET_ID)) {
-    const pip = document.createElement("div");
-    pip.className = "pantry-story-request__pip";
-    pip.setAttribute("aria-hidden", "true");
-    const pipImage = document.createElement("img");
-    pipImage.src = pipGuideSceneUrl;
-    pipImage.alt = "";
-    pipImage.setAttribute("aria-hidden", "true");
-    pip.appendChild(pipImage);
-    request.appendChild(pip);
-  }
 
   const art = document.createElement("div");
   art.className = "pantry-story-request__art";
@@ -52,16 +42,12 @@ export function renderPantryStoryRequest(approvedDecorations, ownedIds, equipped
 
   const copy = document.createElement("div");
   copy.className = "pantry-story-request__copy";
-  appendTextElement(copy, "p", "section-label", t("pantry.storyEyebrow"));
   appendTextElement(copy, "h3", "", t("pantry.story." + state + "Title", { item: t(starterRequest.titleKey), slot: slotLabel }));
-  appendTextElement(copy, "p", "", t("pantry.story." + state + "Body", { item: t(starterRequest.titleKey), slot: slotLabel, spoons }));
-
 
   const action = document.createElement("button");
   action.type = "button";
-  action.className = complete ? "pantry-story-request__action complete" : "pantry-story-request__action";
+  action.className = "pantry-story-request__action";
   action.textContent = t("pantry.story." + state + "Action");
-  action.disabled = complete;
   action.addEventListener("click", () => onStartRequest?.(starterRequest));
 
   request.append(art, copy, action);

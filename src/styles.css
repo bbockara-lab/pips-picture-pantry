@@ -17212,3 +17212,32 @@ img {
 .pantry-story-delivery__action.secondary {
   background: #fff9e9;
 }
+/* v0.1.545 flat Pantry request and feedback */
+.pantry-story-request,
+.pantry-action-feedback {
+  border: 1px solid rgba(67, 45, 51, 0.18);
+  border-radius: 16px;
+  background: rgba(255, 252, 242, 0.98);
+  box-shadow: none;
+}
+
+.pantry-story-request::before,
+.pantry-story-request::after,
+.pantry-action-feedback::before,
+.pantry-action-feedback::after {
+  content: none;
+}
+
+.pantry-story-request__art,
+.pantry-action-feedback__art {
+  border: 1px solid rgba(67, 45, 51, 0.16);
+  background: #fffaf0;
+  box-shadow: none;
+}
+
+.pantry-story-request__action,
+.pantry-action-feedback__dismiss {
+  min-height: 44px;
+  border: 1px solid var(--ink);
+  box-shadow: none;
+}

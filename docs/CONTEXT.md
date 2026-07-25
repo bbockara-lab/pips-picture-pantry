@@ -3831,3 +3831,11 @@ Current launch direction:
 - Removed the inline Pip stamp, meta eyebrow, explanatory paragraph, repeated status chips, and decorative glare/orb effects. Pip remains reserved for full-screen story dialogue and the first-request story moment.
 - Flattened the remaining next-decoration and goal cards to the shared 1px-border visual grammar.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+### v0.1.545 Pantry Story Surface Separation
+
+- The completed first request now leaves the inline flow entirely instead of competing with the next-decoration choices.
+- The active first-request card shows only decoration art, a short title, and its action. Pip speech remains in the full-screen guide opened by that action.
+- Reduced purchase/equip feedback to decoration art, one result title, and dismiss; removed the inline Pip cameo, eyebrow, and explanatory report paragraph.
+- Flattened both surfaces and disabled their decorative pseudo-elements.
+- Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.

@@ -281,17 +281,13 @@ describe("i18n", () => {
   it("keeps Korean pantry story request copy out of English fallback", () => {
     setActiveLocale("ko");
 
-    expect(t("pantry.storyEyebrow")).toBe("Pip\uC758 \uBD80\uD0C1");
     expect(t("pantry.story.startTitle", { slot: "\uCE74\uC6B4\uD130" })).toBe(
       "\uCE74\uC6B4\uD130 \uC790\uB9AC\uB97C \uBA3C\uC800 \uB530\uB73B\uD558\uAC8C \uD574\uBCFC\uAE4C\uC694?"
     );
-    expect(t("pantry.story.completeTitle")).toBe("\uCCAB \uBD80\uD0C1 \uC644\uB8CC");
     expect(t("pantry.storyNextArrivalAction", { item: "\uD5C8\uBE0C \uD654\uBD84" })).toBe("허브 화분 보기");
     expect(t("pantry.storyDeliveryNeed", { slot: "카운터", needed: 17 })).toBe("카운터 · 스푼 17개 더");
     expect(t("pantry.storyDeliveryEarn")).toBe("\uC2A4\uD47C \uBC8C\uB7EC \uAC00\uAE30");
-    expect(t("pantry.feedbackStoryCompleteEyebrow")).toBe("\uBC30\uC1A1 \uC644\uB8CC");
     expect(t("pantry.feedbackBuyTitle", { item: "\uC791\uC740 \uC7BC \uBCD1" })).toBe("\uC791\uC740 \uC7BC \uBCD1\uC774 \uD32C\uD2B8\uB9AC\uC5D0 \uC654\uC5B4\uC694");
-    expect(t("pantry.feedbackPlacedBody", { item: "\uD5C8\uBE0C \uD654\uBD84", slot: "\uCC3D\uBB38" })).toContain("Pip\uC774 \uD5C8\uBE0C \uD654\uBD84\uC744 \uCC3D\uBB38 \uC790\uB9AC\uC5D0 \uB193\uC558\uC5B4\uC694");
     expect(t("pantry.earningEyebrow")).toBe("\uC2A4\uD47C \uACC4\uD68D");
     expect(t("pantry.earningTitle", { item: "\uB9AC\uBCF8 \uBC00\uB300" })).toBe("\uB9AC\uBCF8 \uBC00\uB300\uAE4C\uC9C0 \uAC00\uB294 \uAE38");
     expect(t("pantry.earningSupportNote")).toContain("\uD37C\uC990\uC744 \uD480\uC5B4 \uBAA8\uC73C\uB294 \uAC83\uC774 \uAE30\uBCF8 \uAE38");
