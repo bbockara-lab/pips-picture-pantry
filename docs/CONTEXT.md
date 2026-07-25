@@ -3824,3 +3824,10 @@ Current launch direction:
 - After the first request, the inline milestone now asks only which of the next three decorations the player wants to view.
 - Shortened the Korean and English labels to `다음 소품` / `Next decoration` and concise item actions.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.543 visual pack pass. Real-device Billing evidence remains external.
+
+### v0.1.544 Pantry Goal Card Reduction
+
+- Reduced a selected decoration goal to its artwork, title, one short slot/spoon status line, and direct actions.
+- Removed the inline Pip stamp, meta eyebrow, explanatory paragraph, repeated status chips, and decorative glare/orb effects. Pip remains reserved for full-screen story dialogue and the first-request story moment.
+- Flattened the remaining next-decoration and goal cards to the shared 1px-border visual grammar.
+- Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.

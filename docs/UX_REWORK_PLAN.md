@@ -182,3 +182,6 @@ Done when:
 
 - Current slice: v0.1.543 removes the Pantry request archive, room-level counter, chapter/stage calculations, and milestone narration from the rendered flow. The first completed request now leads directly to three next-decoration choices while full-screen story guides remain intact.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.543 visual pack pass.
+
+- Current slice: v0.1.544 reduces the selected Pantry decoration goal to artwork, one status line, and actions; removes its inline Pip stamp and repeated report copy; and disables the remaining glare/orb pseudo-elements on Pantry story-action cards.
+- Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.

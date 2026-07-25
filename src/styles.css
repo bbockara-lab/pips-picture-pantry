@@ -17178,3 +17178,37 @@ img {
 .spoon-store .support-pack-card__actions {
   gap: 8px;
 }
+/* v0.1.544 flat Pantry story actions */
+.pantry-story-milestone,
+.pantry-story-delivery {
+  border: 1px solid rgba(67, 45, 51, 0.18);
+  border-radius: 16px;
+  padding: 12px;
+  background: rgba(255, 252, 242, 0.98);
+  box-shadow: none;
+}
+
+.pantry-story-milestone::before,
+.pantry-story-milestone::after,
+.pantry-story-delivery::before,
+.pantry-story-delivery::after {
+  content: none;
+}
+
+.pantry-story-milestone__item,
+.pantry-story-delivery__art {
+  border: 1px solid rgba(67, 45, 51, 0.16);
+  background: #fffaf0;
+  box-shadow: none;
+}
+
+.pantry-story-delivery__action {
+  min-height: 44px;
+  border: 1px solid var(--ink);
+  background: #f5c85f;
+  box-shadow: none;
+}
+
+.pantry-story-delivery__action.secondary {
+  background: #fff9e9;
+}
