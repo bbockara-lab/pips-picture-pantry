@@ -200,3 +200,6 @@ Done when:
 
 - Current slice: v0.1.549 removes the retired Pantry report CSS and adds a hygiene guard against its return while preserving live decoration savings feedback.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+- Current slice: v0.1.550 makes each Pantry decoration card answer one question only: what is it, what does it cost, and what can I do now.
+- Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.

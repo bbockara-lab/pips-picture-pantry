@@ -25,7 +25,6 @@ const pantryViewState = {
   selectedAvailability: "all",
   selectedSort: "featured",
   shopVisibleLimit: defaultShopCardLimit,
-  trackedGoalId: null,
   storyGoalId: null,
   lastAction: null
 };
@@ -47,10 +46,6 @@ function replaceWithOptional(parent, ...nodes) {
       parent.appendChild(node);
     }
   });
-}
-
-function createMeterFill() {
-  return document.createElement("span");
 }
 
 function setPantryActionFeedback(type, decoration) {
@@ -127,22 +122,6 @@ function renderRoomSlot(slot, equippedDecorations, selectedSlotId, onSelectSlot)
   return slotElement;
 }
 
-function getDecorationStatusKey(decoration, owned, equipped, affordable) {
-  if (equipped) {
-    return "equipped";
-  }
-  if (owned) {
-    return "owned";
-  }
-  if (Number(decoration.cost || 0) === 0) {
-    return "firstPick";
-  }
-  if (affordable) {
-    return "canBuyNow";
-  }
-  return "saveForLater";
-}
-
 function compareDecorations(left, right, selectedSort, ownedIds, equippedDecorations, spoons) {
   const leftOwned = ownedIds.includes(left.id);
   const rightOwned = ownedIds.includes(right.id);
@@ -171,41 +150,7 @@ function compareDecorations(left, right, selectedSort, ownedIds, equippedDecorat
   return score(left, leftOwned, leftEquipped, leftAffordable) - score(right, rightOwned, rightEquipped, rightAffordable) || left.id.localeCompare(right.id);
 }
 
-function renderSlotPlacementNote(decoration, equippedDecorations, equipped) {
-  if (equipped) {
-    return null;
-  }
-
-  const currentDecoration = getDecorationById(equippedDecorations[decoration.slot]);
-  const note = document.createElement("p");
-  note.className = "pantry-swap-note";
-  note.textContent = currentDecoration && currentDecoration.id !== decoration.id
-    ? t("pantry.swapNote", { current: t(currentDecoration.titleKey) })
-    : t("pantry.emptyPlacementNote");
-  return note;
-}
-
-function renderItemSavings(decoration, owned, spoons) {
-  const cost = Number(decoration.cost || 0);
-  if (owned || cost <= 0) {
-    return null;
-  }
-
-  const progress = Math.min(100, Math.round((spoons / cost) * 100));
-  const needed = Math.max(0, cost - spoons);
-  const savings = document.createElement("div");
-  savings.className = "pantry-item-savings";
-  savings.style.setProperty("--item-savings-progress", progress + "%");
-  appendTextElement(savings, "p", "", t("pantry.itemSavings", { saved: Math.min(spoons, cost), cost, needed }));
-  const meter = document.createElement("div");
-  meter.className = "pantry-item-savings-meter";
-  meter.setAttribute("aria-hidden", "true");
-  meter.appendChild(createMeterFill());
-  savings.appendChild(meter);
-  return savings;
-}
-
-function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, trackedGoalId, storyGoalId, onTrackGoal, onRefresh, onFirstPurchase) {
+function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, storyGoalId, onRefresh, onFirstPurchase) {
   const owned = ownedIds.includes(decoration.id);
   const equipped = equippedDecorations[decoration.slot] === decoration.id;
   const affordable = spoons >= Number(decoration.cost || 0);
@@ -227,30 +172,11 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, track
   const body = document.createElement("div");
   body.className = "pantry-item-body";
   const priceLabel = owned ? t("pantry.owned") : decoration.cost > 0 ? t("pantry.spoonCost", { count: decoration.cost }) : t("pantry.free");
-  const rarityLabel = t("pantry.rarities." + decoration.rarity);
-  const statusKey = getDecorationStatusKey(decoration, owned, equipped, affordable);
-  const placementSwapNote = renderSlotPlacementNote(decoration, equippedDecorations, equipped);
-  const trackedGoal = trackedGoalId === decoration.id;
   const meta = document.createElement("div");
   meta.className = "pantry-item-meta";
-  appendTextElement(meta, "span", "pantry-item-rarity", rarityLabel);
   appendTextElement(meta, "span", "pantry-item-cost", priceLabel);
-  const status = appendTextElement(body, "p", "pantry-item-status status-" + statusKey, t("pantry.itemStatus." + statusKey));
-  body.insertBefore(meta, status);
+  body.appendChild(meta);
   appendTextElement(body, "h4", "", t(decoration.titleKey));
-  appendTextElement(body, "p", "pantry-slot-note", t("pantry.placedInSlot", { slot: slotLabel }));
-  if (placementSwapNote) {
-    body.appendChild(placementSwapNote);
-  }
-  const trackButton = document.createElement("button");
-  const canTrackGoal = !owned && Number(decoration.cost || 0) > 0;
-  if (canTrackGoal) {
-    trackButton.className = trackedGoal ? "pantry-track-goal active" : "pantry-track-goal";
-    trackButton.type = "button";
-    trackButton.setAttribute("aria-pressed", String(trackedGoal));
-    trackButton.textContent = trackedGoal ? t("pantry.goalTracked") : t("pantry.trackGoal");
-    trackButton.addEventListener("click", () => onTrackGoal?.(decoration));
-  }
 
   const button = document.createElement("button");
   button.className = "button secondary pantry-item-action";
@@ -295,11 +221,7 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, track
     });
   }
 
-  card.append(art, body);
-  if (canTrackGoal) {
-    card.appendChild(trackButton);
-  }
-  card.appendChild(button);
+  card.append(art, body, button);
   return card;
 }
 
@@ -453,7 +375,6 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   let selectedAvailability = availabilityFilters.includes(pantryViewState.selectedAvailability) ? pantryViewState.selectedAvailability : "all";
   let selectedSort = sortOptions.includes(pantryViewState.selectedSort) ? pantryViewState.selectedSort : "featured";
   let shopVisibleLimit = Math.max(defaultShopCardLimit, Number(pantryViewState.shopVisibleLimit || defaultShopCardLimit));
-  let trackedGoalId = pantryViewState.trackedGoalId || null;
   let storyGoalId = pantryViewState.storyGoalId || getPantryStoryGoalId() || null;
   pantryViewState.storyGoalId = storyGoalId;
 
@@ -549,7 +470,7 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     }
 
     visibleShopDecorations.forEach((decoration) => {
-      grid.appendChild(renderShopCard(decoration, ownedIds, equippedDecorations, spoons, trackedGoalId, storyGoalId, trackGoal, onRefresh, onFirstPurchase));
+      grid.appendChild(renderShopCard(decoration, ownedIds, equippedDecorations, spoons, storyGoalId, onRefresh, onFirstPurchase));
     });
 
     const shopLimitControl = renderShopLimitControl(visibleShopDecorations.length, visibleDecorations.length, showMoreDecorations);
@@ -569,33 +490,16 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     selectStoryArrival(decoration);
   }
 
-  function trackGoal(decoration) {
-    trackedGoalId = decoration?.id || null;
-    storyGoalId = null;
-    clearPantryStoryGoalId();
-    pantryViewState.trackedGoalId = trackedGoalId;
-    pantryViewState.storyGoalId = storyGoalId;
-    if (decoration?.slot) {
-      selectedSlotId = decoration.slot;
-      pantryViewState.selectedSlotId = selectedSlotId;
-    }
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
   function selectStoryArrival(decoration) {
     if (!decoration) {
       return;
     }
     storyGoalId = decoration.id;
-    trackedGoalId = decoration.id;
     selectedSlotId = decoration.slot || "all";
     selectedAvailability = "all";
     selectedRarity = "all";
     setPantryStoryGoalId(storyGoalId);
     pantryViewState.storyGoalId = storyGoalId;
-    pantryViewState.trackedGoalId = trackedGoalId;
     pantryViewState.selectedSlotId = selectedSlotId;
     pantryViewState.selectedAvailability = selectedAvailability;
     pantryViewState.selectedRarity = selectedRarity;
@@ -608,11 +512,9 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     if (!decoration) {
       return;
     }
-    trackedGoalId = decoration.id;
     selectedSlotId = decoration.slot || "all";
     selectedAvailability = "all";
     selectedRarity = "all";
-    pantryViewState.trackedGoalId = trackedGoalId;
     pantryViewState.selectedSlotId = selectedSlotId;
     pantryViewState.selectedAvailability = selectedAvailability;
     pantryViewState.selectedRarity = selectedRarity;
@@ -628,11 +530,9 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     selectedSlotId = decoration.slot || "all";
     selectedAvailability = ownedIds.includes(decoration.id) ? "owned" : "canBuy";
     selectedRarity = "all";
-    trackedGoalId = Number(decoration.cost || 0) > 0 ? decoration.id : null;
     pantryViewState.selectedSlotId = selectedSlotId;
     pantryViewState.selectedAvailability = selectedAvailability;
     pantryViewState.selectedRarity = selectedRarity;
-    pantryViewState.trackedGoalId = trackedGoalId;
     pantryViewState.storyGoalId = storyGoalId;
     shopVisibleLimit = defaultShopCardLimit;
     pantryViewState.shopVisibleLimit = shopVisibleLimit;

@@ -3865,3 +3865,10 @@ Current launch direction:
 - Preserved the live per-decoration savings meter and the mobile QA assertion that the old planning deck is absent.
 - Added a source-hygiene guard that blocks the retired report selectors from returning.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+### v0.1.550 Compact Pantry Decoration Cards
+
+- Reduced every spoon-priced decoration card to artwork, item name, spoon price or owned state, and its direct buy/equip action.
+- Removed repeated rarity, purchase-status, slot-placement, swap explanation, savings meter, and manual goal-tracking UI from the rendered cards.
+- Added mobile QA that rejects those report-like card details at every supported width.
+- Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
