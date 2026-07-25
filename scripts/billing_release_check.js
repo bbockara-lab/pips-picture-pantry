@@ -78,11 +78,9 @@ requireIncludes(saveSource, "grantSpoonJarPurchase", "src/game/save.js");
 requireIncludes(saveSource, "processedBillingPurchaseIds", "src/game/save.js");
 requireIncludes(economySource, "COZY_PASS_SPOON_GRANT: 250", "src/data/economyConfig.js");
 requireIncludes(economySource, "SPOON_JAR_SMALL_GRANT: 750", "src/data/economyConfig.js");
-requireIncludes(pantrySource, "onOpenSupportPack", "src/ui/pantryView.js");
-requireIncludes(pantrySource, "pantry-earning-support", "src/ui/pantryView.js");
-requireIncludes(pantrySource, "pantry.earningSupportAction", "src/ui/pantryView.js");
-requireIncludes(pantrySource, "pantry.earningSupportNote", "src/ui/pantryView.js");
-requirePattern(pantrySource, /if\s*\(\s*needed\s*>\s*0\s*\)[\s\S]*pantry-earning-support/, "src/ui/pantryView.js");
+requireIncludes(settingsSource, "export function renderSpoonStore", "src/ui/settingsView.js");
+requireIncludes(appShellSource, "const spoonStore = renderSpoonStore(settingsDialogProps);", "src/ui/appShell.js");
+requireIncludes(pantrySource, "shop.appendChild(spoonStore);", "src/ui/pantryView.js");
 
 const requiredI18nKeys = [
   "supportTitle",
@@ -120,11 +118,7 @@ for (const key of requiredI18nKeys) {
 
 const userVisibleSupportCopy = [
   english.match(/settings:\s*{[\s\S]*?\n  },\n  badges:/)?.[0] || "",
-  korean.match(/settings:\s*{[\s\S]*?\n  },\n  badges:/)?.[0] || "",
-  englishCopy.pantry.earningSupportAction,
-  englishCopy.pantry.earningSupportNote,
-  koreanCopy.pantry.earningSupportAction,
-  koreanCopy.pantry.earningSupportNote
+  korean.match(/settings:\s*{[\s\S]*?\n  },\n  badges:/)?.[0] || ""
 ].join("\n");
 
 const forbiddenCopy = /\bpaid\b|\bfree\b|\uC720\uB8CC|\uBB34\uB8CC/i;

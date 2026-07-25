@@ -191,3 +191,6 @@ Done when:
 
 - Current slice: v0.1.546 resolves Claude Review 10 P2 by restoring player-visible Billing progress, result, and failure messages while keeping ordinary ready/empty status quiet.
 - Verification: 141 unit tests, Billing tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+- Current slice: v0.1.547 removes the dormant Pantry planning/report implementation rather than relying on hidden mounts. Live purchasing, placement, story completion, and neighbor guide progression remain intact.
+- Verification: 141 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.547 visual pack pass.

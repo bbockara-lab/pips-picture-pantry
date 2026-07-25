@@ -288,9 +288,6 @@ describe("i18n", () => {
     expect(t("pantry.storyDeliveryNeed", { slot: "카운터", needed: 17 })).toBe("카운터 · 스푼 17개 더");
     expect(t("pantry.storyDeliveryEarn")).toBe("\uC2A4\uD47C \uBC8C\uB7EC \uAC00\uAE30");
     expect(t("pantry.feedbackBuyTitle", { item: "\uC791\uC740 \uC7BC \uBCD1" })).toBe("\uC791\uC740 \uC7BC \uBCD1\uC774 \uD32C\uD2B8\uB9AC\uC5D0 \uC654\uC5B4\uC694");
-    expect(t("pantry.earningEyebrow")).toBe("\uC2A4\uD47C \uACC4\uD68D");
-    expect(t("pantry.earningTitle", { item: "\uB9AC\uBCF8 \uBC00\uB300" })).toBe("\uB9AC\uBCF8 \uBC00\uB300\uAE4C\uC9C0 \uAC00\uB294 \uAE38");
-    expect(t("pantry.earningSupportNote")).toContain("\uD37C\uC990\uC744 \uD480\uC5B4 \uBAA8\uC73C\uB294 \uAC83\uC774 \uAE30\uBCF8 \uAE38");
     expect(t("pantry.displayPlanAllTitle")).toBe("\uD55C \uC790\uB9AC\uB97C \uACE8\uB77C \uACC4\uD68D\uD558\uAE30");
     expect(t("pantry.displayPlanNextBody", { item: "\uD5C8\uBE0C \uD654\uBD84", cost: 32, needed: 9 })).toBe("\uD5C8\uBE0C \uD654\uBD84\uC740 32 \uC2A4\uD47C\uC774\uACE0, \uC9C0\uAE08\uC740 9 \uC2A4\uD47C\uC774 \uB354 \uD544\uC694\uD574\uC694.");
     expect(t("pantry.availability.canBuy")).toBe("\uC0B4 \uC218 \uC788\uC74C");

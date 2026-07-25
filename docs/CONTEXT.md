@@ -3845,3 +3845,10 @@ Current launch direction:
 - Replaced the broad Spoon Store status hide with the existing ready-only and empty-only rules. Checking, success, cancellation, purchase failure, network error, and restore results are visible again.
 - Added browser QA that temporarily exercises checking, success, and warning classes for both paid products and fails if any tone is hidden by the CSS cascade.
 - Verification: 141 unit tests, Billing tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+### v0.1.547 Retired Pantry Report Removal
+
+- Deleted the unmounted savings plan, earning calculator, collection progress board, room-stage mission, placement advisor, and display-plan DOM builders.
+- Removed their dormant mount tree plus pack/economy dependencies while preserving the completed-request count used by live story and neighbor-guide progression.
+- This prevents the previously rejected report dashboard from returning through an accidental append or future partial refactor.
+- Verification: 141 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.547 visual pack pass.
