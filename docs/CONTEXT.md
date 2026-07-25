@@ -3918,3 +3918,11 @@ Current launch direction:
 - Replaced near-solid blocks with a framed nut grid, vertical canele flutes, an asymmetric labeled tin, and a readable lemon spiral.
 - Added an art-audit regression test keeping all four out of the review queue.
 - Verification: 146 unit tests, 81-candidate art audit, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+
+### v0.1.557 Bakery Density Repair Group F
+
+- Redrew Lemon Poppy Pound Cake, Lemon Ribbon Tart, Mocha Cream Roll, and Orange Blossom Cruller as distinct 12x12 compositions.
+- Replaced near-solid blocks with a rectangular seeded slice, diagonal lemon ribbon, side-on cream spiral, and open twisted cruller ring.
+- Added an art-audit regression test keeping all four out of the review queue.
+- Verification: 147 unit tests, 77-candidate art audit, full candidate gate, production build, Android release gate, and four-width mobile QA pass.

@@ -166,4 +166,16 @@ describe("puzzle art audit", () => {
 
     expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
   });
+
+  it("keeps the sixth repaired Bakery density group out of the art-review queue", () => {
+    const report = buildPuzzleArtAudit();
+    const repairedIds = new Set([
+      "bakery-window-lemon-poppy-pound-cake-111",
+      "bakery-window-lemon-ribbon-tart-97",
+      "bakery-window-mocha-cream-roll-109",
+      "bakery-window-orange-blossom-cruller-106"
+    ]);
+
+    expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
+  });
 });
