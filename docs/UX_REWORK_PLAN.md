@@ -233,3 +233,7 @@ Done when:
 
 - Current slice: v0.1.558 prioritizes first-session comprehension: natural Pip dialogue, drag practice, a visible 1-1-1 example, a clearer first-shelf label, no legacy progress icon, and one circular clue-token grammar.
 - Verification: 147 tests, full candidate gate, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900 passed.
+
+
+- Current slice: v0.1.559 repairs four additional high-density Bakery silhouettes and reduces the audit queue from 77 to 73 candidates.
+- Verification: 148 unit tests, 73-candidate art audit, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame visual pack pass.

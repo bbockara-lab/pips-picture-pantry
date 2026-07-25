@@ -3935,3 +3935,11 @@ Current launch direction:
 - Renamed the Korean first pack from a singular first stage to Pip's First Shelf so 2/20 reads correctly as the second saved picture.
 - Removed the obsolete CSS-drawn progress marker and unified row/column clue numbers as equal circular tokens, with mobile geometry guards for size, shape, alignment, and overflow.
 - Verification: 147 tests, full candidate gate, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900 passed.
+
+
+### v0.1.559 Bakery Density Repair Group G
+
+- Redrew Peach Cream Tartlet, Pistachio Glaze Donut, Peach Custard Square, and Pear Ginger Turnover as distinct 12x12 compositions.
+- Replaced near-solid blocks with a fruit-fan tart shell, an open glazed ring, a crisp framed custard square, and a triangular crimped turnover.
+- Added an art-audit regression test keeping all four out of the review queue.
+- Verification: 148 unit tests, 73-candidate art audit, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame visual pack pass.
