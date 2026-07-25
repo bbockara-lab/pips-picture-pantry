@@ -2847,6 +2847,17 @@ async function verifyPantryPlacement(page, viewportName) {
     const shop = document.querySelector(".pantry-shop");
     const shopGrid = shop?.querySelector(".pantry-shop-grid");
     const cards = [...document.querySelectorAll(".pantry-item-card")];
+    const billingStatuses = [...(store?.querySelectorAll(".support-pack-card__status") || [])];
+    const billingToneVisibility = ["checking", "success", "warning"].every((tone) => billingStatuses.every((status) => {
+      const previousClass = status.className;
+      const previousText = status.textContent;
+      status.className = `support-pack-card__status support-pack-card__status--${tone}`;
+      status.textContent = tone;
+      const visible = getComputedStyle(status).display !== "none";
+      status.className = previousClass;
+      status.textContent = previousText;
+      return visible;
+    }));
     return {
       panelOverflowsX: panel ? panel.scrollWidth > panel.clientWidth + 1 : true,
       roomSlotCount: room?.querySelectorAll(".pantry-room-slot").length || 0,
@@ -2856,12 +2867,13 @@ async function verifyPantryPlacement(page, viewportName) {
       storeProductCount: store?.querySelectorAll(".support-pack-card").length || 0,
       storeInsideShop: Boolean(shop && store && shop.contains(store)),
       storeAfterDecorations: Boolean(shopGrid && store && (shopGrid.compareDocumentPosition(store) & Node.DOCUMENT_POSITION_FOLLOWING)),
+      billingToneVisibility,
       storeOverflowsX: store ? store.scrollWidth > store.clientWidth + 1 : true,
       storeGlareCount: store ? [...store.querySelectorAll("button, .support-pack-card, .support-pack-card__art")]
         .filter((item) => getComputedStyle(item, "::before").content !== "none" || getComputedStyle(item, "::after").content !== "none").length : 1
     };
   });
-  if (metrics.panelOverflowsX || metrics.roomSlotCount !== 5 || metrics.filterGroupCount !== 1 || metrics.cardCount < 1 || metrics.cardCount > 6 || metrics.cardOverflowCount || metrics.storeProductCount !== 2 || !metrics.storeInsideShop || !metrics.storeAfterDecorations || metrics.storeOverflowsX || metrics.storeGlareCount) {
+  if (metrics.panelOverflowsX || metrics.roomSlotCount !== 5 || metrics.filterGroupCount !== 1 || metrics.cardCount < 1 || metrics.cardCount > 6 || metrics.cardOverflowCount || metrics.storeProductCount !== 2 || !metrics.storeInsideShop || !metrics.storeAfterDecorations || !metrics.billingToneVisibility || metrics.storeOverflowsX || metrics.storeGlareCount) {
     failures.push("[" + viewportName + "] Simplified Pantry layout regressed: " + JSON.stringify(metrics));
   }
 

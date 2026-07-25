@@ -17171,10 +17171,6 @@ img {
   word-break: keep-all;
 }
 
-.spoon-store .support-pack-card__status {
-  display: none;
-}
-
 .spoon-store .support-pack-card__actions {
   gap: 8px;
 }

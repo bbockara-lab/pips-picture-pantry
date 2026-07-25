@@ -3839,3 +3839,9 @@ Current launch direction:
 - Reduced purchase/equip feedback to decoration art, one result title, and dismiss; removed the inline Pip cameo, eyebrow, and explanatory report paragraph.
 - Flattened both surfaces and disabled their decorative pseudo-elements.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+### v0.1.546 Billing Status Feedback Recovery
+
+- Replaced the broad Spoon Store status hide with the existing ready-only and empty-only rules. Checking, success, cancellation, purchase failure, network error, and restore results are visible again.
+- Added browser QA that temporarily exercises checking, success, and warning classes for both paid products and fails if any tone is hidden by the CSS cascade.
+- Verification: 141 unit tests, Billing tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.

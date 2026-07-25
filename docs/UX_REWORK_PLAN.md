@@ -188,3 +188,6 @@ Done when:
 
 - Current slice: v0.1.545 separates story from utility UI: the first-request card now contains only decoration art, title, and action; completed requests disappear; and purchase/equip feedback no longer repeats Pip, meta labels, or explanatory paragraphs.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+- Current slice: v0.1.546 resolves Claude Review 10 P2 by restoring player-visible Billing progress, result, and failure messages while keeping ordinary ready/empty status quiet.
+- Verification: 141 unit tests, Billing tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
