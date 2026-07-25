@@ -121,6 +121,18 @@ for (const [file, pattern] of retiredCompactCopySources) {
   }
 }
 
+const retiredQuickTravelCopySources = [
+  ["src/ui/floatingNav.js", /(?:views\.(?:puzzleHint|albumHint|pantryHint|timeAttackHint|mapHint|quickJump)|floating-nav__trigger-(?:label|cue)|itemHint)/],
+  ["src/i18n/en.js", /(?:puzzleHint|albumHint|pantryHint|timeAttackHint|mapHint|quickJump):/],
+  ["src/i18n/ko.js", /(?:puzzleHint|albumHint|pantryHint|timeAttackHint|mapHint|quickJump):/]
+];
+for (const [file, pattern] of retiredQuickTravelCopySources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": quick travel must show destinations without report-style helper copy");
+  }
+}
+
 const retiredReplayCopySources = [
   ["src/ui/puzzleHubView.js", /replayPicks\.(?:eyebrow|body|challenge)\b/],
   ["src/i18n/en.js", /eyebrow:\s*"Pip's replay picks"|body:\s*"Completed pictures|challenge:\s*"Replay"/],

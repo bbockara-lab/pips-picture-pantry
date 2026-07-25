@@ -323,3 +323,8 @@ Done when:
 - Time Attack starts without an empty-record card; earned records remain visible once they exist.
 - The four-width QA explicitly rejects the retired daily reward note and any record panel with no useful result rows.
 - Narrow app chrome keeps the game title to one visible line while preserving 44px settings and reset targets.
+
+### v0.1.577 checkpoint
+
+- Quick travel is reduced to destination names and approved raster art; it no longer floats a current-screen report or repeated navigation helper text over the play surface.
+- The compact trigger and two-column picker keep every destination reachable without competing with Pantry cards or purchase actions.

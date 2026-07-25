@@ -49,7 +49,6 @@ describe("i18n", () => {
     expect(t("controls.undo")).toBe("Undo last move");
     expect(t("daily.eyebrow")).toBe("Today's picture");
     expect(t("views.map")).toBe("Badges");
-    expect(t("views.pantryHint")).toBe("Shop and decorate");
     expect(t("puzzlePicker.sizeReward", { size: 5, count: 3 })).toBe("5×5 · +3");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - Complete");
     expect(t("album.count", { completed: 1, total: 100 })).toBe("1/100 pictures");
@@ -313,7 +312,6 @@ describe("i18n", () => {
     expect(t("controls.fill")).toBe("\uce60\ud558\uae30");
     expect(t("controls.mark")).toBe("\ube48\uce78 \uccb4\ud06c");
     expect(t("views.map")).toBe("\ubc30\uc9c0");
-    expect(t("views.pantryHint")).toBe("\uc0c1\uc810\uacfc \uafb8\ubbf8\uae30");
     expect(t("progress.lineGuided", { count: 1 })).toBe("1\uc904");
     expect(t("progress.linesGuided", { count: 3 })).toBe("3\uc904");
     expect(t("pantry.equipToSlot", { slot: "\uce74\uc6b4\ud130" })).toBe("\uce74\uc6b4\ud130\uc5d0 \ub193\uae30");

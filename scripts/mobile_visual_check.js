@@ -515,29 +515,21 @@ async function expectAppChromePolish(page, viewportName) {
     const triggerButton = document.querySelector(".floating-nav__trigger");
     const triggerIcon = triggerButton?.querySelector(".floating-nav__trigger-icon");
     const triggerText = triggerButton?.querySelector(".floating-nav__trigger-text");
-    const triggerLabel = triggerButton?.querySelector(".floating-nav__trigger-label");
-    const triggerCue = triggerButton?.querySelector(".floating-nav__trigger-cue");
     const activeItem = document.querySelector(".floating-nav__item.active");
-    const labels = [...document.querySelectorAll(".floating-nav__item span")].map((label) => label.textContent || "");
+    const labels = [...document.querySelectorAll(".floating-nav__label")].map((label) => label.textContent || "");
     const icons = [...document.querySelectorAll(".floating-nav__item")].map((item) => {
       const icon = item.querySelector(".floating-nav__icon");
-      const copy = item.querySelector(".floating-nav__copy");
       const label = item.querySelector(".floating-nav__label");
-      const hint = item.querySelector("small");
       const image = icon?.querySelector("img");
       const iconStyle = icon ? getComputedStyle(icon) : null;
-      const copyStyle = copy ? getComputedStyle(copy) : null;
       const labelStyle = label ? getComputedStyle(label) : null;
-      const hintStyle = hint ? getComputedStyle(hint) : null;
       const itemStyle = getComputedStyle(item);
       const before = icon ? getComputedStyle(icon, "::before") : null;
       const after = icon ? getComputedStyle(icon, "::after") : null;
       const labelLineHeight = parseFloat(labelStyle?.lineHeight) || 0;
-      const hintLineHeight = parseFloat(hintStyle?.lineHeight) || 0;
       return {
         view: item.dataset.view || "",
         labelText: (label?.textContent || "").trim(),
-        hintText: (hint?.textContent || "").trim(),
         ariaLabel: item.getAttribute("aria-label") || "",
         title: item.getAttribute("title") || "",
         itemHeight: item.getBoundingClientRect().height,
@@ -557,34 +549,23 @@ async function expectAppChromePolish(page, viewportName) {
         afterContent: after?.content || "",
         afterBackground: after?.backgroundImage || after?.backgroundColor || "",
         gridRow: iconStyle?.gridRow || "",
-        copyDisplay: copyStyle?.display || "",
-        copyWidth: copy?.getBoundingClientRect().width || 0,
         labelWhiteSpace: labelStyle?.whiteSpace || "",
         labelTextOverflow: labelStyle?.textOverflow || "",
         labelOverflowX: labelStyle?.overflowX || "",
         labelLineCount: labelLineHeight ? label.getBoundingClientRect().height / labelLineHeight : 1,
-        labelOverflow: label ? Math.max(0, label.scrollWidth - label.clientWidth) : 999,
-        hintWhiteSpace: hintStyle?.whiteSpace || "",
-        hintTextOverflow: hintStyle?.textOverflow || "",
-        hintOverflowX: hintStyle?.overflowX || "",
-        hintLineCount: hintLineHeight ? hint.getBoundingClientRect().height / hintLineHeight : 1,
-        hintOverflow: hint ? Math.max(0, hint.scrollWidth - hint.clientWidth) : 999
+        labelOverflow: label ? Math.max(0, label.scrollWidth - label.clientWidth) : 999
       };
     });
     const rect = menu?.getBoundingClientRect();
     const navRect = nav?.getBoundingClientRect();
     const style = menu ? getComputedStyle(menu) : null;
     const navStyle = nav ? getComputedStyle(nav) : null;
-    const triggerBefore = triggerButton ? getComputedStyle(triggerButton, "::before") : null;
-    const triggerAfter = triggerButton ? getComputedStyle(triggerButton, "::after") : null;
     const triggerIconStyle = triggerIcon ? getComputedStyle(triggerIcon) : null;
     const triggerIconBefore = triggerIcon ? getComputedStyle(triggerIcon, "::before") : null;
     const triggerIconAfter = triggerIcon ? getComputedStyle(triggerIcon, "::after") : null;
     const triggerImage = triggerIcon?.querySelector("img");
     const triggerTextStyle = triggerText ? getComputedStyle(triggerText) : null;
     const triggerCurrent = triggerButton?.querySelector("strong");
-    const activeBefore = activeItem ? getComputedStyle(activeItem, "::before") : null;
-    const activeAfter = activeItem ? getComputedStyle(activeItem, "::after") : null;
     return {
       open: nav?.dataset.open || "",
       left: rect?.left || 0,
@@ -600,9 +581,7 @@ async function expectAppChromePolish(page, viewportName) {
       menuCenter: rect ? rect.left + rect.width / 2 : 0,
       borderRadius: style ? parseFloat(style.borderRadius) : 0,
       backgroundImage: style?.backgroundImage || "",
-      triggerShine: triggerBefore?.backgroundImage || "",
-      triggerArrow: triggerAfter?.borderBottomWidth || "",
-      triggerArrowTransform: triggerAfter?.transform || "",
+      backgroundColor: style?.backgroundColor || "",
       triggerIcon: {
         view: triggerIcon?.dataset.view || "",
         width: parseFloat(triggerIconStyle?.width) || 0,
@@ -618,14 +597,9 @@ async function expectAppChromePolish(page, viewportName) {
       },
       triggerTextWidth: triggerText?.getBoundingClientRect().width || 0,
       triggerTextClipPath: triggerTextStyle?.clipPath || "",
-      triggerLabelText: (triggerLabel?.textContent || "").trim(),
-      triggerCueText: (triggerCue?.textContent || "").trim(),
       triggerCurrentText: (triggerCurrent?.textContent || "").trim(),
       triggerCurrentOverflow: triggerCurrent ? Math.max(0, triggerCurrent.scrollWidth - triggerCurrent.clientWidth) : 999,
-      activeShine: activeBefore?.backgroundImage || "",
-      activeToken: activeAfter?.backgroundImage || "",
-      activeTokenWidth: parseFloat(activeAfter?.width) || 0,
-      activePaddingLeft: activeItem ? parseFloat(getComputedStyle(activeItem).paddingLeft) || 0 : 0,
+      activeLabel: (activeItem?.querySelector(".floating-nav__label")?.textContent || "").trim(),
       labels,
       icons
     };
@@ -633,20 +607,8 @@ async function expectAppChromePolish(page, viewportName) {
   const hasExplicitTimeAttackEntry = navMetrics.labels.some((label) => /Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(label));
   const expectedIconViews = ["puzzle", "album", "pantry", "timeAttack", "map"];
   const hasAllViewIcons = expectedIconViews.every((view) => navMetrics.icons.some((icon) => icon.view === view));
-  const expectedHintsByView = {
-    puzzle: ["Solve puzzles", "\uD37C\uC990 \uD480\uAE30"],
-    album: ["Finished art", "\uC644\uC131 \uADF8\uB9BC"],
-    pantry: ["Shop and decorate", "\uC0C1\uC810\uACFC \uAFB8\uBBF8\uAE30"],
-    timeAttack: ["Spoon challenge", "\uC2A4\uD47C \uB3C4\uC804"],
-    map: ["Next goals", "\uB2E4\uC74C \uBAA9\uD45C"]
-  };
-  const hasClearRouteHints = expectedIconViews.every((view) => {
-    const icon = navMetrics.icons.find((item) => item.view === view);
-    return Boolean(icon && expectedHintsByView[view].includes(icon.hintText));
-  });
-  const triggerExplainsSwitching = ["Switch screens", "\uD654\uBA74 \uC774\uB3D9"].includes(navMetrics.triggerCueText);
   const lastNavItem = navMetrics.icons.at(-1);
-  const wideOddItemIsCentered = navMetrics.viewportWidth < 560 || !lastNavItem || Math.abs((lastNavItem.itemLeft + lastNavItem.itemWidth / 2) - navMetrics.menuCenter) <= 2;
+  const oddItemIsCentered = !lastNavItem || Math.abs((lastNavItem.itemLeft + lastNavItem.itemWidth / 2) - navMetrics.menuCenter) <= 2;
   if (
     navMetrics.open !== "true" ||
     navMetrics.navPosition !== "fixed" ||
@@ -658,11 +620,8 @@ async function expectAppChromePolish(page, viewportName) {
     navMetrics.menuBottomGap < 0 ||
     navMetrics.left < -1 ||
     navMetrics.right > navMetrics.viewportWidth + 1 ||
-    navMetrics.borderRadius < 20 ||
-    !navMetrics.backgroundImage.includes("linear-gradient") ||
-    !navMetrics.triggerShine.includes("gradient") ||
-    navMetrics.triggerArrow === "0px" ||
-    navMetrics.triggerArrowTransform === "none" ||
+    navMetrics.borderRadius < 18 ||
+    navMetrics.backgroundColor === "rgba(0, 0, 0, 0)" ||
     navMetrics.triggerIcon.width < 34 ||
     navMetrics.triggerIcon.height < 34 ||
     !navMetrics.triggerIcon.imageSrc.includes("quick-travel-") ||
@@ -673,42 +632,28 @@ async function expectAppChromePolish(page, viewportName) {
     navMetrics.triggerIcon.afterContent !== "none" ||
     navMetrics.triggerTextWidth < 24 ||
     navMetrics.triggerTextClipPath.includes("inset") ||
-    !navMetrics.triggerLabelText ||
-    !navMetrics.triggerCueText ||
     !navMetrics.triggerCurrentText ||
     navMetrics.triggerCurrentOverflow > 1 ||
-    !navMetrics.activeShine.includes("gradient") ||
-    !navMetrics.activeToken.includes("gradient") ||
-    navMetrics.activeTokenWidth < 8 ||
-    navMetrics.activePaddingLeft < 8 ||
+    !navMetrics.activeLabel ||
     !hasExplicitTimeAttackEntry ||
     !hasAllViewIcons ||
-    !hasClearRouteHints ||
-    !triggerExplainsSwitching ||
-    !wideOddItemIsCentered ||
+    !oddItemIsCentered ||
     navMetrics.icons.length < 5 ||
     navMetrics.icons.some((icon) =>
-      icon.itemHeight < 58 ||
-      icon.width < 38 ||
-      icon.height < 38 ||
+      icon.itemHeight < 48 ||
+      icon.width < 34 ||
+      icon.height < 34 ||
       !icon.imageSrc.includes("quick-travel-") ||
       icon.assetId !== `quick-travel-${icon.view === "timeAttack" ? "time-attack" : icon.view}-v1` ||
       icon.imageNaturalWidth !== 256 ||
       icon.imageNaturalHeight !== 256 ||
       icon.beforeContent !== "none" ||
       icon.afterContent !== "none" ||
-      icon.copyDisplay !== "grid" ||
-      icon.copyWidth < 80 ||
       icon.labelWhiteSpace === "nowrap" ||
       icon.labelTextOverflow === "ellipsis" ||
       icon.labelOverflowX === "hidden" ||
       icon.labelLineCount > 2.4 ||
-      icon.labelOverflow > 1 ||
-      icon.hintWhiteSpace === "nowrap" ||
-      icon.hintTextOverflow === "ellipsis" ||
-      icon.hintOverflowX === "hidden" ||
-      icon.hintLineCount > 2.4 ||
-      icon.hintOverflow > 1
+      icon.labelOverflow > 1
     )
   ) {
     failures.push("[" + viewportName + "] Floating nav panel polish/layout regression: " + JSON.stringify(navMetrics));
