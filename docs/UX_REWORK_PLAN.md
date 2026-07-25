@@ -206,3 +206,6 @@ Done when:
 
 - Current slice: v0.1.551 removes the retired decoration-card copy and styles so the compact shop grammar is structural rather than cosmetic.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+- Current slice: v0.1.552 begins the remaining high-density Bakery art queue with four distinct 12x12 silhouettes, reducing the audit queue from 101 to 97 candidates.
+- Verification: 142 unit tests, 97-candidate art audit, full candidate gate, production build, Android release gate, and four-width mobile QA pass.

@@ -3879,3 +3879,10 @@ Current launch direction:
 - Simplified two surviving live selectors that only carried obsolete negative exclusions.
 - Added a source-hygiene guard preventing the report-style card selectors from returning.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
+
+### v0.1.552 Bakery Density Repair Group A
+
+- Redrew four high-density 12x12 Bakery Window silhouettes: Apricot Jam Tart, Berry Cream Crown, Almond Crescent Roll, and Apricot Custard Bar.
+- Reduced their filled-cell density from 85-88% to 60-66%, using distinct negative space for tart filling, crown peaks, crescent curvature, and custard-bar stripes.
+- Added an art-audit regression test keeping all four out of the review queue.
+- Verification: 142 unit tests, 97-candidate art audit, full candidate gate, production build, Android release gate, and four-width mobile QA pass.
