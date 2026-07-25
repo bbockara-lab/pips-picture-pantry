@@ -583,7 +583,8 @@ async function captureWidePreviewReview(browser) {
     await page.locator(".spoon-store").scrollIntoViewIfNeeded();
     await captureWide("spoon-store", ".spoon-store");
     await openFloatingView(page, "timeAttack");
-    await captureWide("time-attack-coach", ".time-attack-panel", { fullPage: true });
+    await dismissGuideIfPresent(page);
+    await captureWide("time-attack-start", ".time-attack-panel", { fullPage: true });
   } finally {
     await page.close();
   }
@@ -868,7 +869,8 @@ async function main() {
     await page.locator(".spoon-store").scrollIntoViewIfNeeded();
     await capture(page, "spoon-store", ".spoon-store");
     await openFloatingView(page, "timeAttack");
-    await capture(page, "time-attack-coach", ".time-attack-panel", { fullPage: true });
+    await dismissGuideIfPresent(page);
+    await capture(page, "time-attack-start", ".time-attack-panel", { fullPage: true });
     await openFloatingView(page, "album");
     await capture(page, "album-progress", ".album-panel");
     await openFloatingView(page, "map");

@@ -1559,41 +1559,7 @@ async function openFloatingView(page, view, viewportName = view) {
   }
   if (view === "timeAttack") {
     await expectTimeAttackGuideCopy(page, viewportName);
-    await expectVisible(page, ".time-attack-coach-card", "Time Attack coach card");
-    const coachMetrics = await page.locator(".time-attack-coach-card").first().evaluate((card) => {
-      const rect = card.getBoundingClientRect();
-      const style = getComputedStyle(card);
-      const pip = card.querySelector(".time-attack-coach-card__pip");
-      const pipRect = pip?.getBoundingClientRect() || { width: 0, height: 0 };
-      const pipStyle = pip ? getComputedStyle(pip) : null;
-      return {
-        width: rect.width,
-        height: rect.height,
-        radius: parseFloat(style.borderRadius),
-        bottomRadius: parseFloat(style.borderBottomLeftRadius),
-        background: style.backgroundImage,
-        shadow: style.boxShadow,
-        pipWidth: pipRect.width,
-        pipHeight: pipRect.height,
-        pipRadius: pipStyle ? parseFloat(pipStyle.borderRadius) : 0,
-        pipBackground: pipStyle?.backgroundImage || "",
-        pipShadow: pipStyle?.boxShadow || "none"
-      };
-    });
-    if (
-      coachMetrics.width <= 0 ||
-      coachMetrics.height < 96 ||
-      coachMetrics.radius < 12 ||
-      coachMetrics.background !== "none" ||
-      coachMetrics.shadow !== "none" ||
-      coachMetrics.pipWidth < 62 ||
-      coachMetrics.pipHeight < 62 ||
-      coachMetrics.pipRadius !== 0 ||
-      coachMetrics.pipBackground !== "none" ||
-      coachMetrics.pipShadow !== "none"
-    ) {
-      failures.push("Time Attack coach card lost its Pip/economy guidance treatment: " + JSON.stringify(coachMetrics));
-    }
+    await expectAbsent(page, ".time-attack-coach-card", "Time Attack coach card");
     await expectVisible(page, ".time-attack-ladder", "Time Attack ladder");
     const ladderMetrics = await page.locator(".time-attack-ladder").first().evaluate((ladder) => {
       const rect = ladder.getBoundingClientRect();

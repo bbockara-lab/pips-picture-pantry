@@ -337,3 +337,9 @@ Done when:
 ### v0.1.579 checkpoint
 
 - At phone widths, Quick Travel is a 48px raster-art destination button; its accessible current-screen name remains available without covering a Pantry card title with a wide pill.
+
+### v0.1.580 checkpoint
+
+- Pip speaks in the first-run full-screen Time Attack guide, not again in a persistent utility card.
+- The Time Attack surface now keeps its three-round ladder, one start action, daily status, and earned records only.
+- Hygiene and mobile QA reject the retired coach-card markup, copy, and CSS from returning.

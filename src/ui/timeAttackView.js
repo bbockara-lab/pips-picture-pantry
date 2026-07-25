@@ -1,4 +1,3 @@
-import pipCoachUrl from "../assets/characters/pip-chrome-v2.png";
 import { t } from "../i18n/index.js";
 
 export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLimit = 3, lastResult = null, onStart } = {}) {
@@ -10,7 +9,6 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
   appendTextElement(intro, "p", "section-label", t("timeAttack.eyebrow"));
   appendTextElement(intro, "h2", "", t("timeAttack.title"));
 
-  const coach = createTimeAttackCoachCard();
   const ladder = createTimeAttackLadder();
 
   const startButton = document.createElement("button");
@@ -27,40 +25,21 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
 
   if (lastResult && records) {
     const result = createLastResultPanel(lastResult);
-    panel.append(intro, coach, ladder, startButton, status, result, records);
+    panel.append(intro, ladder, startButton, status, result, records);
     return panel;
   }
 
   if (lastResult) {
     const result = createLastResultPanel(lastResult);
-    panel.append(intro, coach, ladder, startButton, status, result);
+    panel.append(intro, ladder, startButton, status, result);
     return panel;
   }
 
-  panel.append(intro, coach, ladder, startButton, status);
+  panel.append(intro, ladder, startButton, status);
   if (records) {
     panel.appendChild(records);
   }
   return panel;
-}
-
-function createTimeAttackCoachCard() {
-  const card = document.createElement("article");
-  card.className = "time-attack-coach-card";
-
-  const portrait = document.createElement("img");
-  portrait.className = "time-attack-coach-card__pip";
-  portrait.src = pipCoachUrl;
-  portrait.alt = "";
-  portrait.setAttribute("aria-hidden", "true");
-
-  const copy = document.createElement("div");
-  copy.className = "time-attack-coach-card__copy";
-  appendTextElement(copy, "p", "section-label", t("timeAttack.coachEyebrow"));
-  appendTextElement(copy, "h3", "", t("timeAttack.coachTitle"));
-
-  card.append(portrait, copy);
-  return card;
 }
 
 function appendTextElement(parent, tagName, className, text) {

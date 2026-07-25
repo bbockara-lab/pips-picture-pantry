@@ -111,8 +111,8 @@ for (const [file, pattern] of retiredStageLockReportSources) {
 }
 
 const retiredCompactCopySources = [
-  ["src/i18n/en.js", /daily:\s*\{[\s\S]{0,500}\breward:|timeAttack:\s*\{[\s\S]{0,900}\b(?:hubBody|coachBody|noRecord):/],
-  ["src/i18n/ko.js", /daily:\s*\{[\s\S]{0,500}\breward:|timeAttack:\s*\{[\s\S]{0,900}\b(?:hubBody|coachBody|noRecord):/]
+  ["src/i18n/en.js", /daily:\s*\{[\s\S]{0,500}\breward:|timeAttack:\s*\{[\s\S]{0,900}\b(?:hubBody|coach(?:Body|Eyebrow|Title|Earn|Spend|Record)|noRecord):/],
+  ["src/i18n/ko.js", /daily:\s*\{[\s\S]{0,500}\breward:|timeAttack:\s*\{[\s\S]{0,900}\b(?:hubBody|coach(?:Body|Eyebrow|Title|Earn|Spend|Record)|noRecord):/]
 ];
 for (const [file, pattern] of retiredCompactCopySources) {
   const source = readFileSync(resolve(root, file), "utf8");
@@ -216,6 +216,10 @@ const staleCssRules = [
   {
     label: "retired daily reward-note styles",
     pattern: /\.daily-reward-(?:note|amount)/
+  },
+  {
+    label: "retired Time Attack coach card styles",
+    pattern: /\.time-attack-coach-card/
   }
 ];
 
