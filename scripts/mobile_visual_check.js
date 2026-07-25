@@ -645,10 +645,10 @@ async function expectAppChromePolish(page, viewportName) {
     navMetrics.triggerIcon.imageNaturalHeight !== 256 ||
     navMetrics.triggerIcon.beforeContent !== "none" ||
     navMetrics.triggerIcon.afterContent !== "none" ||
-    navMetrics.triggerTextWidth < 24 ||
-    navMetrics.triggerTextClipPath.includes("inset") ||
+    (navMetrics.viewportWidth > 430 && navMetrics.triggerTextWidth < 24) ||
+    (navMetrics.viewportWidth > 430 && navMetrics.triggerTextClipPath.includes("inset")) ||
     !navMetrics.triggerCurrentText ||
-    navMetrics.triggerCurrentOverflow > 1 ||
+    (navMetrics.viewportWidth > 430 && navMetrics.triggerCurrentOverflow > 1) ||
     !navMetrics.activeLabel ||
     !hasExplicitTimeAttackEntry ||
     !hasAllViewIcons ||

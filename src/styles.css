@@ -15516,6 +15516,26 @@ img {
   }
 }
 
+/* v0.1.579: the phone trigger is a compact visual destination, not card-covering copy. */
+@media (max-width: 430px) {
+  .floating-nav__trigger {
+    grid-template-columns: 36px;
+    width: 48px;
+    min-width: 48px;
+    padding: 6px;
+  }
+
+  .floating-nav__trigger-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
 /* v0.1.578: language choices stay scanable as one compact row. */
 @media (max-width: 430px) {
   .settings-dialog > .settings-choice-grid--language:not(.compact) {

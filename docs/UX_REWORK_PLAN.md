@@ -333,3 +333,7 @@ Done when:
 
 - Language selection remains a three-choice scan at phone widths, but each label is a single compact line rather than a broken word.
 - Mobile QA now measures each language choice for horizontal clipping and accidental multi-line rendering.
+
+### v0.1.579 checkpoint
+
+- At phone widths, Quick Travel is a 48px raster-art destination button; its accessible current-screen name remains available without covering a Pantry card title with a wide pill.
