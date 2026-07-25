@@ -693,7 +693,7 @@ function createShell({
     }));
   } else {
     shell.appendChild(renderPuzzleHub(activePuzzle, onOpenPuzzle));
-    shell.appendChild(renderDailyCard(dailyPuzzle, activePuzzle.id, onSelectPuzzle, DAILY_BONUS));
+    shell.appendChild(renderDailyCard(dailyPuzzle, activePuzzle.id, onSelectPuzzle));
     shell.appendChild(renderTimeAttackTeaserCard(() => onSelectView("timeAttack")));
     const replayPicksCard = renderReplayPicksCard(
       getDailyReplayPicks({ allPuzzles: getDailyPuzzleCandidates(), completedPuzzleIds: getCompletedPuzzleIds() }),

@@ -59,18 +59,13 @@ export function getStageNavigation(activePuzzle, onPrevious, onNext, onShowList)
   };
 }
 
-export function renderDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle, dailyBonus) {
+export function renderDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle) {
   const card = document.createElement("section");
   card.className = dailyPuzzle.id === activePuzzleId ? "daily-card active" : "daily-card";
 
   const text = document.createElement("div");
   appendTextElement(text, "p", "section-label", t("daily.eyebrow"));
   appendTextElement(text, "h2", "", puzzleTitle(dailyPuzzle));
-
-  const rewardNote = document.createElement("p");
-  rewardNote.className = "daily-reward-note";
-  rewardNote.textContent = t("daily.reward", { count: dailyBonus || 0 });
-  text.appendChild(rewardNote);
 
   const button = document.createElement("button");
   button.type = "button";
@@ -102,8 +97,6 @@ export function renderTimeAttackTeaserCard(onOpenTimeAttack = () => {}) {
   const copy = document.createElement("div");
   appendTextElement(copy, "p", "section-label", t("timeAttack.hubEyebrow"));
   appendTextElement(copy, "h2", "", t("timeAttack.hubTitle"));
-  appendTextElement(copy, "p", "", t("timeAttack.hubBody"));
-
   const button = document.createElement("button");
   button.type = "button";
   button.className = "tool-button time-attack-teaser-card__action";

@@ -1520,12 +1520,12 @@ async function expectDailyRewardPolish(page, viewportName) {
   const metrics = await page.locator(".daily-card").evaluate((card) => ({
     text: (card.textContent || "").trim(),
     overflows: card.scrollWidth > card.clientWidth + 1 || card.scrollHeight > card.clientHeight + 1,
-    hasRewardImage: Boolean(card.querySelector(".daily-reward-note img")),
+    hasRewardNote: Boolean(card.querySelector(".daily-reward-note")),
     before: getComputedStyle(card, "::before").content,
     after: getComputedStyle(card, "::after").content,
     buttonHeight: card.querySelector("button")?.getBoundingClientRect().height || 0
   }));
-  if (metrics.overflows || metrics.hasRewardImage || metrics.before !== "none" || metrics.after !== "none" || metrics.buttonHeight < 44 || !/spoon|\uC2A4\uD47C/i.test(metrics.text)) {
+  if (metrics.overflows || metrics.hasRewardNote || metrics.before !== "none" || metrics.after !== "none" || metrics.buttonHeight < 44) {
     failures.push("[" + viewportName + "] Compact daily card regressed: " + JSON.stringify(metrics));
   }
 }
@@ -1648,7 +1648,6 @@ async function expectTimeAttackStartSurface(page, viewportName) {
   await expectVisible(page, ".time-attack-panel__intro", "Time Attack intro");
   await expectVisible(page, ".time-attack-panel__start", "Time Attack start button");
   await expectVisible(page, ".time-attack-status", "Time Attack daily status");
-  await expectVisible(page, ".time-attack-records", "Time Attack records panel");
 
   const metrics = await page.locator(".time-attack-panel").first().evaluate((panel) => {
     const panelRect = panel.getBoundingClientRect();
@@ -1703,17 +1702,19 @@ async function expectTimeAttackStartSurface(page, viewportName) {
   const introLooksPolished = metrics.intro && metrics.intro.height >= 72 && metrics.intro.radius >= 14 && metrics.intro.background === "none" && metrics.intro.shadow === "none";
   const startLooksTactile = metrics.start && metrics.start.width >= 220 && metrics.start.height >= 52 && metrics.start.radius >= 16 && metrics.start.background === "none" && metrics.start.shadow !== "none";
   const statusFits = metrics.status && metrics.status.width > 0 && metrics.status.height >= 28;
-  const recordsLooksPolished = metrics.records &&
+  const recordsAreUseful = !metrics.records || (
     metrics.records.width > 0 &&
     metrics.records.radius >= 14 &&
     metrics.records.background === "none" &&
     metrics.records.overflow === "hidden" &&
     metrics.records.shadow === "none" &&
     metrics.records.textLength > 0 &&
-    metrics.records.itemHeights.every((height) => height >= 28);
+    metrics.records.itemCount > 0 &&
+    metrics.records.itemHeights.every((height) => height >= 28)
+  );
   const staysInViewport = metrics.panelWidth > 0 && metrics.panelRight <= metrics.viewportWidth + 1;
-  if (!introLooksPolished || !startLooksTactile || !statusFits || !recordsLooksPolished || !staysInViewport) {
-    failures.push("[" + viewportName + "] Time Attack start surface lost its intro/start/status/records treatment: " + JSON.stringify(metrics));
+  if (!introLooksPolished || !startLooksTactile || !statusFits || !recordsAreUseful || !staysInViewport) {
+    failures.push("[" + viewportName + "] Time Attack start surface lost its compact start treatment: " + JSON.stringify(metrics));
   }
 }
 

@@ -25,13 +25,22 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
 
   const records = createRecordsPanel(bestScores);
 
-  if (lastResult) {
+  if (lastResult && records) {
     const result = createLastResultPanel(lastResult);
     panel.append(intro, coach, ladder, startButton, status, result, records);
     return panel;
   }
 
-  panel.append(intro, coach, ladder, startButton, status, records);
+  if (lastResult) {
+    const result = createLastResultPanel(lastResult);
+    panel.append(intro, coach, ladder, startButton, status, result);
+    return panel;
+  }
+
+  panel.append(intro, coach, ladder, startButton, status);
+  if (records) {
+    panel.appendChild(records);
+  }
   return panel;
 }
 
@@ -49,7 +58,6 @@ function createTimeAttackCoachCard() {
   copy.className = "time-attack-coach-card__copy";
   appendTextElement(copy, "p", "section-label", t("timeAttack.coachEyebrow"));
   appendTextElement(copy, "h3", "", t("timeAttack.coachTitle"));
-  appendTextElement(copy, "p", "", t("timeAttack.coachBody"));
 
   card.append(portrait, copy);
   return card;
@@ -103,26 +111,26 @@ function getRewardStatusText(dailyCount, dailyLimit) {
 }
 
 function createRecordsPanel(bestScores) {
+  const entries = Object.values(bestScores).sort((a, b) => Number(a.size || 0) - Number(b.size || 0));
+  if (!entries.length) {
+    return null;
+  }
+
   const records = document.createElement("div");
   records.className = "time-attack-records";
-  const entries = Object.values(bestScores).sort((a, b) => Number(a.size || 0) - Number(b.size || 0));
-  if (entries.length) {
-    const title = document.createElement("h3");
-    title.textContent = t("timeAttack.records");
-    const list = document.createElement("ul");
-    entries.forEach((record) => {
-      const item = document.createElement("li");
-      item.textContent = t("timeAttack.recordLine", {
-        size: record.size || "?",
-        progress: getRecordProgress(record),
-        time: formatElapsedSeconds(record.elapsedSeconds || 0)
-      });
-      list.appendChild(item);
+  const title = document.createElement("h3");
+  title.textContent = t("timeAttack.records");
+  const list = document.createElement("ul");
+  entries.forEach((record) => {
+    const item = document.createElement("li");
+    item.textContent = t("timeAttack.recordLine", {
+      size: record.size || "?",
+      progress: getRecordProgress(record),
+      time: formatElapsedSeconds(record.elapsedSeconds || 0)
     });
-    records.append(title, list);
-  } else {
-    records.textContent = t("timeAttack.noRecord");
-  }
+    list.appendChild(item);
+  });
+  records.append(title, list);
   return records;
 }
 

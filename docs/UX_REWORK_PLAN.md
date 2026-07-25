@@ -316,3 +316,9 @@ Done when:
 
 - A locked stage now answers only: what does it cost, which Pantry step is missing, and where can the player act.
 - Repeated planning and blocked-state reports are removed from implementation rather than hidden by CSS.
+
+### v0.1.576 checkpoint
+
+- Hub cards now keep the immediate choice only: the daily picture no longer previews its reward, and the Time Attack entry no longer narrates its size range.
+- Time Attack starts without an empty-record card; earned records remain visible once they exist.
+- The four-width QA explicitly rejects the retired daily reward note and any record panel with no useful result rows.

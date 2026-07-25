@@ -110,6 +110,17 @@ for (const [file, pattern] of retiredStageLockReportSources) {
   }
 }
 
+const retiredCompactCopySources = [
+  ["src/i18n/en.js", /daily:\s*\{[\s\S]{0,500}\breward:|timeAttack:\s*\{[\s\S]{0,900}\b(?:hubBody|coachBody|noRecord):/],
+  ["src/i18n/ko.js", /daily:\s*\{[\s\S]{0,500}\breward:|timeAttack:\s*\{[\s\S]{0,900}\b(?:hubBody|coachBody|noRecord):/]
+];
+for (const [file, pattern] of retiredCompactCopySources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": compact hub and Time Attack copy must not restore retired reward or empty-state reports");
+  }
+}
+
 const retiredReplayCopySources = [
   ["src/ui/puzzleHubView.js", /replayPicks\.(?:eyebrow|body|challenge)\b/],
   ["src/i18n/en.js", /eyebrow:\s*"Pip's replay picks"|body:\s*"Completed pictures|challenge:\s*"Replay"/],
@@ -189,6 +200,10 @@ const staleCssRules = [
   {
     label: "retired duplicate stage-lock report styles",
     pattern: /\.unlock-panel__(?:plan|gate)/
+  },
+  {
+    label: "retired daily reward-note styles",
+    pattern: /\.daily-reward-(?:note|amount)/
   }
 ];
 

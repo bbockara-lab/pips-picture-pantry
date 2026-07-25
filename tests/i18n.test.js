@@ -48,7 +48,6 @@ describe("i18n", () => {
     expect(t("controls.mark")).toBe("Blank Check");
     expect(t("controls.undo")).toBe("Undo last move");
     expect(t("daily.eyebrow")).toBe("Today's picture");
-    expect(t("daily.reward", { count: 8 })).toBe("Completion reward \u00B7 8 spoons");
     expect(t("views.map")).toBe("Badges");
     expect(t("views.pantryHint")).toBe("Shop and decorate");
     expect(t("puzzlePicker.sizeReward", { size: 5, count: 3 })).toBe("5×5 · +3");
@@ -177,7 +176,6 @@ describe("i18n", () => {
       "guide.pantryNeighborMateo.step3",
       "timeAttack.coachEyebrow",
       "timeAttack.coachTitle",
-      "timeAttack.coachBody",
       "timeAttack.coachEarn",
       "timeAttack.coachSpend",
       "timeAttack.coachRecord",
