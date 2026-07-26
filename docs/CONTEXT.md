@@ -4082,6 +4082,13 @@ Current launch direction:
 - Verification: 160 unit tests, source hygiene, the regenerated 61-frame visual review pack, full candidate gate, production build, Android release gate, and measured mobile QA at 360x740 / 390x844 / 430x932 / 675x900 pass at v0.1.582.
 - Remaining release evidence is external only: real-device Billing purchase/restore for `pip_cozy_support` and purchase/repeat for `pip_spoon_jar_small`.
 
+### v0.1.586 release-structure first slice
+
+- Removed the player-facing Album denominator, so the live Album celebrates completed pictures without presenting the fixed Season 0 total as a distant obligation.
+- Kept the Badge room visually compact while restoring accessible earned/progress labels through dynamic ARIA text rather than visible report copy.
+- Confirmed future `bonus-pack` records are already excluded from the live puzzle picker; they remain data-only until content, artwork, and a real store path exist.
+- Started the release-structure audit: the 333 authored puzzles remain valid content, but their current five-pack distribution will be reworked into smaller, progressive shelves without changing puzzle IDs or discarding completed work.
+
 ### v0.1.583 Time Attack clock identity
 
 - Replaced the retired spoon-stopwatch destination art with Mr. Park's isolated pocket watch across the Time Attack hub card and Quick Travel.

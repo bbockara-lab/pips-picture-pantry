@@ -97,8 +97,8 @@ export const ko = {
   badges: {
     pipPortrait: "Pip \ucd08\uc0c1\ud654",
     progress: "{completed}/{total}\uc7a5",
-    earnedAria: "Pip \ucd08\uc0c1\ud654 \ubc30\uc9c0 \ud68d\ub4dd",
-    progressAria: "Pip \ucd08\uc0c1\ud654 \ubc30\uc9c0 \uc9c4\ud589 {completed}/{total}",
+    earnedAria: "{title} \ud68d\ub4dd",
+    progressAria: "{title} \uc9c4\ud589 {completed}/{total}",
     earnedShelfAria: "\ud68d\ub4dd\ud55c \ubc30\uc9c0 {count}\uac1c",
     pipsFirstShelf: "\uccab \uc120\ubc18 \ubc30\uc9c0",
     pipsFirstShelfDesc: "Pip \uadf8\ub9bc \ubc30\uc9c0 \uc644\uc131",
@@ -329,7 +329,7 @@ export const ko = {
     cta: "\uacc4\uc18d\ud558\uae30"
   },
   album: {
-    count: "{completed}/{total}\uc7a5",
+    completed: "\uc644\uc131\ud55c \uadf8\ub9bc {completed}\uc7a5",
     genericSaved: "{title} \uce74\ub4dc\ub97c \uc800\uc7a5\ud588\uc5b4\uc694.",
     hiddenTitle: "\uc228\uc740 \uadf8\ub9bc",
     hiddenText: "\ud37c\uc990\uc744 \uc644\uc131\ud558\uba74 \uc800\uc7a5\ub3fc\uc694.",

@@ -148,7 +148,7 @@ for (const [file, pattern] of retiredReplayCopySources) {
 const retiredCollectionCopySources = [
   ["src/ui/albumView.js", /album\.note|album-note/],
   ["src/ui/appChrome.js", /t\("badges\.earned"\)/],
-  ["src/ui/mapView.js", /badge-card__state|badges\.earned/],
+  ["src/ui/mapView.js", /badge-card__state|t\("badges\.earned"\)/],
   ["src/i18n/en.js", /earned:\s*"Badge earned"|note:\s*"Finished cards appear here\."/],
   ["src/i18n/ko.js", /earned:\s*"\u|note:\s*"\u/],
 ];
@@ -204,6 +204,18 @@ for (const [file, pattern] of retiredBadgeReportSources) {
   const source = readFileSync(resolve(root, file), "utf8");
   if (pattern.test(source)) {
     errors.push(file + ": badge room must not return to report-style collection copy");
+  }
+}
+
+const retiredGlobalCatalogCountSources = [
+  ["src/ui/albumView.js", /album\.count/],
+  ["src/i18n/en.js", /album:\s*\{[\s\S]{0,400}\bcount:/],
+  ["src/i18n/ko.js", /album:\s*\{[\s\S]{0,400}\bcount:/]
+];
+for (const [file, pattern] of retiredGlobalCatalogCountSources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": player-facing Album copy must not restore the global catalog denominator");
   }
 }
 

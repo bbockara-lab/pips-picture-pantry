@@ -51,7 +51,9 @@ describe("i18n", () => {
     expect(t("views.map")).toBe("Badges");
     expect(t("puzzlePicker.size", { size: 5 })).toBe("5×5");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - Complete");
-    expect(t("album.count", { completed: 1, total: 100 })).toBe("1/100 pictures");
+    expect(t("album.completed", { completed: 1 })).toBe("1 pictures");
+    expect(t("badges.progressAria", { title: "First Shelf Badge", completed: 1, total: 20 }))
+      .toBe("First Shelf Badge badge progress 1 of 20");
     expect(t("settings.playerName")).toBe("Player name");
     expect(t("currency.spoons", { count: 7 })).toBe("Spoons 7");
     expect(t("packs.preview")).toBe("Preview");

@@ -363,3 +363,8 @@ Done when:
 
 - Finished the remaining visible report-and-glare audit: Pantry reveal and Badge room now present only their direct player decision or progress.
 - Decorative intro grain is now non-interactive during the exit transition, preserving the route from opening to playable board.
+
+### Release structure follow-up
+
+- Treat the 333-picture launch catalog as internal content supply, not a player-facing finish line. Player UI should show the current shelf and next meaningful action only.
+- Before rewiring progression, introduce a shelf-level model that preserves existing puzzle IDs and save completion records; then move from five oversized packs to short, mixed-size progression shelves with explicit story beats and completion moments.

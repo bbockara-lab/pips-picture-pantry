@@ -36,6 +36,11 @@ export function renderPantryMapView() {
 function createNextBadgeCard(status) {
   const card = document.createElement("div");
   card.className = "roadmap-badge next-stage-badge";
+  card.setAttribute("aria-label", t("badges.progressAria", {
+    title: t(status.badge.titleKey),
+    completed: status.completed,
+    total: status.total
+  }));
 
   const token = document.createElement("div");
   token.className = "roadmap-badge__token";
@@ -57,6 +62,13 @@ function createBadgeCollectionCard(status) {
   const card = document.createElement("article");
   card.className = status.earned ? "badge-card earned" : unlocked ? "badge-card" : "badge-card locked";
   card.style.setProperty("--badge-progress", String(Math.round((status.completed / Math.max(status.total, 1)) * 100)) + "%");
+  card.setAttribute("aria-label", status.earned
+    ? t("badges.earnedAria", { title: t(status.badge.titleKey) })
+    : t("badges.progressAria", {
+      title: t(status.badge.titleKey),
+      completed: status.completed,
+      total: status.total
+    }));
 
   const art = document.createElement("div");
   art.className = "badge-card__art";

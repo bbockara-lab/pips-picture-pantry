@@ -24,7 +24,7 @@ export function renderAlbumView(onPlay = () => {}) {
   header.className = "album-header";
   const headerCopy = document.createElement("div");
   appendTextElement(headerCopy, "p", "section-label", t("sections.pantryAlbum"));
-  appendTextElement(headerCopy, "h2", "", t("album.count", { completed: completedCount, total: puzzles.length }));
+  appendTextElement(headerCopy, "h2", "", t("album.completed", { completed: completedCount }));
   header.prepend(headerCopy);
   section.appendChild(header);
 

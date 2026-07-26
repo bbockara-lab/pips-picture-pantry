@@ -97,8 +97,8 @@ export const en = {
   badges: {
     pipPortrait: "Pip Portrait",
     progress: "{completed}/{total} cards",
-    earnedAria: "Pip Portrait badge earned",
-    progressAria: "Pip Portrait badge progress {completed} of {total}",
+    earnedAria: "{title} badge earned",
+    progressAria: "{title} badge progress {completed} of {total}",
     earnedShelfAria: "{count} earned badges",
     pipsFirstShelf: "First Shelf Badge",
     pipsFirstShelfDesc: "Pip picture badge complete",
@@ -331,7 +331,7 @@ export const en = {
     cta: "Keep going"
   },
   album: {
-    count: "{completed}/{total} pictures",
+    completed: "{completed} pictures",
     genericSaved: "{title} is saved in the album.",
     hiddenTitle: "Hidden picture",
     hiddenText: "Finish the puzzle to save this card.",
