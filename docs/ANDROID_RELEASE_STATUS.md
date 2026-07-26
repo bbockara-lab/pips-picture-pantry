@@ -37,6 +37,14 @@ versionName "1.1.0" // or the final public launch version name
 
 ## Current State
 
+### Final Candidate Refresh - 2026-07-25
+
+- Current web candidate: package `0.1.589` / UI `v0.1.589`.
+- `npm run qa:candidate` passes with 168 tests, asset/store/privacy/Billing wiring checks, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+- `npm run qa:visual-pack` produced a 61-screen review pack for `v0.1.589`; the focused Time Attack Clock Grandfather, Pantry/shop, Pip guide, completion, shelf map, and 12x12 cursor states were manually checked from that pack.
+- Firebase Hosting was refreshed from `store-assets`, and `npm run qa:privacy:live` now confirms the public policy includes both launch Billing product IDs.
+- `npm run qa:release:final` correctly stops before signed upload because only the two real-device Billing evidence records remain. No AAB was created in this refresh.
+
 - 2026-07-10 planning update: launch content strategy now targets about 333 polished Season 0 puzzles rather than completing 1,000 puzzles before release.
 - Long-term 1,000+ puzzle depth remains a live-service update goal through seasonal/quarterly content packs.
 - Near-term release readiness should prioritize first-session polish, art consistency, Pantry story/economy flow, Time Attack, guide presentation, and mobile UX once the catalog approaches the 333 range.
