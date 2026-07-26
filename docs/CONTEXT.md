@@ -2,6 +2,15 @@
 
 ## Current Launch Candidate Snapshot - 2026-07-17
 
+### v0.1.591 - Pip's Picture Room Home and Navigation
+
+- Renamed the Korean player-facing space to `Pip의 그림방`, retaining the English product name only where it is part of the brand. The room, Pantry route, and home copy now use the same familiar Korean concept.
+- Rebuilt the first landing screen as Pip's actual warm picture room: Pip, one clear current-picture action, and six direct destinations. The picture shelf only opens after `그림 목록`, so the initial screen invites play rather than presenting a catalogue.
+- Moved Settings fully into the destination menu. Outside the home screen, the menu now sits in normal document flow immediately below the header and opens one destination per row, preventing the former bottom overlay from covering Pantry shop actions.
+- Tightened the Pantry header and constrained the counter decoration to furnishing scale so the background remains the room and the item reads as an object placed in it.
+- Verification: `npm run test` (170 tests), `npm run qa:mobile` at 360x740 / 390x844 / 430x932 / 675x900, and the regenerated 64-image visual review pack pass. Full candidate/build validation follows this context update. No Android bundle was created.
+- Release blocker unchanged: real-device Billing evidence for `pip_cozy_support` purchase/restore and `pip_spoon_jar_small` repeat purchase.
+
 ### v0.1.590 - Mobile Play Safety and Pantry Room
 
 - Made cursor-mode board presses selection-only: direct taps and drag gestures move the selected cell without coloring or marking a puzzle. Color and Blank now apply only through their explicit actions.

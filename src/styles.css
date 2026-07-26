@@ -2410,6 +2410,233 @@ body {
   }
 }
 
+/* v0.1.591: the home screen is a playable room, not a vertical report deck. */
+.puzzle-home {
+  display: grid;
+  gap: 14px;
+}
+
+.puzzle-home-scene {
+  position: relative;
+  isolation: isolate;
+  min-height: min(62svh, 500px);
+  overflow: hidden;
+  border: 1px solid rgba(113, 78, 49, 0.28);
+  border-radius: 22px;
+  background: var(--puzzle-home-background) center / cover no-repeat;
+  box-shadow: none;
+}
+
+.puzzle-home-scene::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  z-index: -1;
+  height: 42%;
+  background: linear-gradient(180deg, transparent, rgba(55, 39, 29, 0.42));
+  pointer-events: none;
+}
+
+.puzzle-home-scene__pip {
+  position: absolute;
+  z-index: 0;
+  bottom: 6%;
+  left: 7%;
+  width: min(45%, 220px);
+  max-height: 72%;
+  object-fit: contain;
+  object-position: bottom;
+  filter: drop-shadow(0 5px 4px rgba(67, 45, 32, 0.2));
+}
+
+.puzzle-home-scene__current {
+  position: absolute;
+  right: 14px;
+  bottom: 16px;
+  z-index: 1;
+  display: grid;
+  width: min(54%, 270px);
+  gap: 5px;
+  padding: 14px;
+  border: 1px solid rgba(87, 61, 46, 0.26);
+  border-radius: 16px;
+  background: rgba(255, 251, 240, 0.94);
+  box-shadow: none;
+}
+
+.puzzle-home-scene__current p,
+.puzzle-home-scene__current h2 {
+  margin: 0;
+}
+
+.puzzle-home-scene__current p {
+  color: #7a5541;
+  font-size: 0.76rem;
+}
+
+.puzzle-home-scene__current h2 {
+  overflow-wrap: anywhere;
+  color: #3d2b2e;
+  font-size: clamp(1.06rem, 4.8vw, 1.4rem);
+  line-height: 1.18;
+}
+
+.puzzle-home-scene__play {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.puzzle-home-destinations {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.puzzle-home-destination {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  align-items: center;
+  gap: 7px;
+  min-height: 52px;
+  padding: 8px;
+  border: 1px solid #d8cbae;
+  border-radius: 14px;
+  background: #fffdf7;
+  color: #3d2b2e;
+  font: inherit;
+  font-weight: 800;
+  text-align: left;
+  box-shadow: none;
+}
+
+.puzzle-home-destination img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.puzzle-home-destination span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  line-height: 1.15;
+}
+
+.puzzle-home-destination:active,
+.puzzle-home-destination:focus-visible {
+  border-color: #a97942;
+  background: #fff4cf;
+}
+
+/* The room art is the scene.  Slot controls only mark interactive placement. */
+.pantry-header {
+  margin-bottom: 10px;
+}
+
+.pantry-header .section-label {
+  display: none;
+}
+
+.pantry-header h2 {
+  margin: 0;
+}
+
+.pantry-room-decoration {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.pantry-room-slot.selected::after {
+  inset: -3px;
+  border-width: 2px;
+  box-shadow: 0 0 0 2px rgba(255, 245, 198, 0.72);
+}
+
+.pantry-story-milestone {
+  margin: 0;
+  padding: 10px 0 0;
+  border: 0;
+  border-top: 1px solid #d8cbae;
+  border-radius: 0;
+  background: transparent;
+}
+
+.pantry-story-milestone__preview-label {
+  margin: 0 0 8px;
+  color: #7a5541;
+  font-size: 0.86rem;
+}
+
+.pantry-story-milestone__items {
+  grid-template-columns: 1fr;
+  gap: 7px;
+}
+
+.pantry-story-milestone__item {
+  min-height: 50px;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.pantry-story-milestone__item img {
+  width: 34px;
+  height: 34px;
+}
+
+.pantry-item-action,
+.pantry-story-request__action,
+.pantry-shop-limit__action,
+.time-attack-teaser-card__action,
+.replay-pick-button,
+.daily-button,
+.stage-gate-link {
+  display: grid;
+  place-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+@media (max-width: 430px) {
+  .puzzle-home-scene {
+    min-height: 420px;
+    border-radius: 18px;
+  }
+
+  .puzzle-home-scene__pip {
+    left: 5%;
+    width: 48%;
+  }
+
+  .puzzle-home-scene__current {
+    right: 10px;
+    bottom: 11px;
+    width: 54%;
+    padding: 12px;
+  }
+
+  .puzzle-home-destinations {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .puzzle-home-destination {
+    grid-template-columns: 30px minmax(0, 1fr);
+    min-height: 50px;
+    padding: 7px;
+    font-size: 0.86rem;
+  }
+
+  .puzzle-home-destination img {
+    width: 30px;
+    height: 30px;
+  }
+}
+
 
 /* v0.1.126 replay challenge state */
 .play-screen--replay .play-screen__header {
@@ -15503,4 +15730,68 @@ img {
     overflow-wrap: normal;
     white-space: nowrap;
   }
+}
+
+/* v0.1.591 follow-up: room items remain furnishing-scale, never poster-scale. */
+.pantry-room-decoration {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.slot-counter .pantry-room-decoration {
+  transform: scale(0.88);
+  transform-origin: center;
+}
+
+.pantry-panel > .content-panel:first-child {
+  gap: 12px;
+}
+
+.pantry-panel .pantry-header h2 {
+  margin-block: 0 2px;
+}
+
+/* v0.1.591 navigation follow-up: a menu belongs in the document flow.
+   It must never cover a Pantry item or a purchase action while the player scrolls. */
+.floating-nav {
+  position: relative;
+  top: auto;
+  bottom: auto;
+  width: 100%;
+  margin: 8px 0 12px;
+  justify-items: stretch;
+  pointer-events: auto;
+}
+
+.floating-nav__trigger {
+  grid-template-columns: 36px minmax(0, 1fr);
+  justify-self: stretch;
+  width: 100%;
+  min-width: 0;
+}
+
+.floating-nav__trigger-text {
+  position: static;
+  display: block;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  clip-path: none;
+  white-space: normal;
+}
+
+.floating-nav__menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  bottom: auto;
+  left: 0;
+  width: auto;
+  z-index: 20;
 }

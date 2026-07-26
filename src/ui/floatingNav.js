@@ -1,12 +1,14 @@
 import { t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
+import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
 
 const NAV_ITEMS = [
   ["puzzle", "views.puzzle"],
   ["album", "views.album"],
   ["pantry", "views.pantry"],
   ["timeAttack", "views.timeAttack"],
-  ["map", "views.map"]
+  ["map", "views.map"],
+  ["settings", "header.settings"]
 ];
 
 function createQuickTravelIcon(view, extraClass = "") {
@@ -15,7 +17,7 @@ function createQuickTravelIcon(view, extraClass = "") {
   icon.dataset.view = view;
   icon.setAttribute("aria-hidden", "true");
 
-  const art = getQuickTravelArt(view);
+  const art = view === "settings" ? getPuzzleControlArt("settings") : getQuickTravelArt(view);
   if (art) {
     const image = document.createElement("img");
     image.src = art.src;
@@ -51,7 +53,7 @@ export function renderFloatingNav(activeView, onSelectView) {
   triggerText.className = "floating-nav__trigger-text";
 
   const triggerCurrent = document.createElement("strong");
-  triggerCurrent.textContent = t(activeItem[1]);
+  triggerCurrent.textContent = t("views.menu");
   triggerText.appendChild(triggerCurrent);
   trigger.append(triggerIcon, triggerText);
 

@@ -116,6 +116,13 @@ export const en = {
     pantryRoom: "Pip's Pantry",
     pantryMap: "Badge Shelf"
   },
+  home: {
+    sceneAria: "Pip's picture room",
+    destinationsAria: "Play destinations",
+    currentPicture: "Ready to color",
+    pictureList: "Pictures",
+    room: "Pip's room"
+  },
   playScreen: {
     aria: "Focused puzzle play",
     back: "Picture list",

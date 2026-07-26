@@ -1,6 +1,6 @@
 export const ko = {
   app: {
-    title: "Pip\uc758 \uadf8\ub9bc \ud32c\ud2b8\ub9ac",
+    title: "Pip\uc758 \uadf8\ub9bc\ubc29",
     studioName: "Sunny Spoon Studios",
   },
   brandIntro: {
@@ -17,7 +17,7 @@ export const ko = {
   views: {
     puzzle: "\ud37c\uc990",
     album: "\uc568\ubc94",
-    pantry: "\ud32c\ud2b8\ub9ac",
+    pantry: "\uadf8\ub9bc\ubc29",
     map: "\ubc30\uc9c0",
     timeAttack: "\ud0c0\uc784\uc5b4\ud0dd",
     navLabel: "\uc8fc\uc694 \ud654\uba74",
@@ -113,7 +113,7 @@ export const ko = {
     currentPicture: "\uc9c0\uae08 \uadf8\ub9bc",
     startHere: "\uc5ec\uae30\uc11c \uc2dc\uc791",
     pantryAlbum: "\ud32c\ud2b8\ub9ac \uc568\ubc94",
-    pantryRoom: "Pip\uc758 \ud32c\ud2b8\ub9ac",
+    pantryRoom: "Pip\uc758 \uadf8\ub9bc\ubc29",
     pantryMap: "\ubc30\uc9c0 \uc120\ubc18"
   },
   playScreen: {
@@ -351,6 +351,13 @@ export const ko = {
     gardenPath: "\uc815\uc6d0 \uc0b0\ucc45\uae38",
     villagePantry: "\ub9c8\uc744 \ud32c\ud2b8\ub9ac"
   },
+  home: {
+    sceneAria: "Pip\uc758 \uadf8\ub9bc\ubc29",
+    destinationsAria: "\ubc14\ub85c \uac00\uae30",
+    currentPicture: "\uc9c0\uae08 \ud480 \uadf8\ub9bc",
+    pictureList: "\uadf8\ub9bc \ubaa9\ub85d",
+    room: "\uadf8\ub9bc\ubc29"
+  },
   packs: {
     free: "\uae30\ubcf8 \ud3ec\ud568",
     unlockable: "\uc5f4\uae30",
@@ -409,7 +416,7 @@ export const ko = {
     }
   },
   pantry: {
-    title: "Pip의 팬트리",
+    title: "Pip의 그림방",
     spoonNote: "모아둔 스푼: {count}",
     roomAria: "Pip이 꾸민 팬트리",
     shopEyebrow: "꾸미기 팬트리",

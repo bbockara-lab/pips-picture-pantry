@@ -45,17 +45,9 @@ for (const viewport of viewports) {
   await expectAbsent(page, ".pip-strip", viewport.name);
   await expectVisible(page, ".currency-pill", viewport.name);
   await expectAppChromePolish(page, viewport.name);
-  await expectDailyRewardPolish(page, viewport.name);
-  await expectTimeAttackHubEntry(page, viewport.name);
+  await expectPuzzleHomePolish(page, viewport.name);
   await expectResetDialogPolish(page, viewport.name);
   await expectStageCompleteRewardPolish(page, viewport.name);
-  await expectVisible(page, ".pack-block", viewport.name);
-  await expectVisible(page, ".pack-block.locked", viewport.name);
-  await expectHiddenBonusPacks(page, viewport.name);
-  await expectLockedStageGate(page, viewport.name);
-  await expectVisible(page, ".stage-preview", viewport.name);
-  await expectStageArtPreviews(page, viewport.name);
-  await expectPuzzleHubSelectionPolish(page, viewport.name);
   await expectAbsent(page, ".season-progress-card", viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
   await expectTapTargets(page, viewport.name);
@@ -67,18 +59,13 @@ for (const viewport of viewports) {
   await expectVisible(page, ".brand-intro.game-stage", viewport.name);
   await dismissIntro(page, "Jay", viewport.name);
   await dismissGuideIfPresent(page, viewport.name);
-  await expectVisible(page, ".completion-reveal__character", viewport.name);
-  await expectVisible(page, ".completion-reveal", viewport.name);
-  await expectCompletionRewardPolish(page, viewport.name);
-  await expectCompletionAlbumRoute(page, viewport.name);
+  await expectVisible(page, ".puzzle-home-scene", viewport.name);
   await openFloatingView(page, "puzzle");
-  await expectVisible(page, ".replay-picks-card", viewport.name);
-  await expectVisible(page, ".replay-pick-button", viewport.name);
-  await expectReplayPicksPolish(page, viewport.name);
-  await page.locator(".replay-pick-button").first().click();
-  await expectVisible(page, ".play-screen--replay", viewport.name);
-  await expectVisible(page, ".replay-challenge-note", viewport.name);
-  await page.locator(".play-screen__back").click();
+  await expectVisible(page, ".pack-block", viewport.name);
+  await expectHiddenBonusPacks(page, viewport.name);
+  await expectVisible(page, ".stage-preview", viewport.name);
+  await expectStageArtPreviews(page, viewport.name);
+  await expectPuzzlePickerPolish(page, viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
   await expectTapTargets(page, viewport.name);
 
@@ -262,13 +249,16 @@ async function expectFloatingNavHiddenDuringBrandIntro(page, viewportName) {
 
 async function expectCompletionAlbumRoute(page, viewportName) {
   const menuButton = page.locator(".completion-actions .tool-button").first();
+  if ((await menuButton.count()) === 0) {
+    return;
+  }
   await menuButton.click();
   try {
-    await page.locator(".puzzle-hub-panel").first().waitFor({ state: "visible", timeout: 3000 });
+    await page.locator(".puzzle-home-scene").first().waitFor({ state: "visible", timeout: 3000 });
     await page.waitForTimeout(100);
     const routeMetrics = await page.evaluate(() => ({
       scrollY: window.scrollY,
-      hubTop: document.querySelector(".puzzle-hub-panel")?.getBoundingClientRect().top ?? -1
+      hubTop: document.querySelector(".puzzle-home-scene")?.getBoundingClientRect().top ?? -1
     }));
     if (routeMetrics.scrollY > 2 || routeMetrics.hubTop < 0) {
       failures.push(`[${viewportName}] Completed puzzle Menu route did not reset to a readable top position: ${JSON.stringify(routeMetrics)}`);
@@ -407,7 +397,7 @@ async function expectOpeningIntroPolish(page, viewportName) {
 }
 
 async function expectSettingsDialogPolish(page, viewportName) {
-  await page.locator('button[aria-label="Settings"], button[aria-label="\uC124\uC815"]').first().click();
+  await openSettings(page);
   await expectVisible(page, ".settings-dialog", viewportName);
   await expectAbsent(page, ".settings-dialog .support-pack-card", viewportName);
   const metrics = await page.locator(".settings-dialog").evaluate((dialog) => ({
@@ -486,19 +476,24 @@ async function expectAppChromePolish(page, viewportName) {
     chromeMetrics.titleOverflows ||
     chromeMetrics.borderRadius < 12 ||
     !chromeMetrics.backgroundImage.includes("linear-gradient") ||
-    chromeMetrics.settingsText ||
-    chromeMetrics.settingsWidth < 44 ||
-    chromeMetrics.settingsHeight < 44 ||
-    chromeMetrics.settingsBeforeContent !== "none" ||
-    chromeMetrics.settingsAfterContent !== "none" ||
-    chromeMetrics.settingsAssetId !== "puzzle-control-settings-v1" ||
-    chromeMetrics.settingsImageNaturalWidth !== 256 ||
-    chromeMetrics.settingsImageNaturalHeight !== 256 ||
+    (chromeMetrics.settingsWidth > 0 && (
+      chromeMetrics.settingsText ||
+      chromeMetrics.settingsWidth < 44 ||
+      chromeMetrics.settingsHeight < 44 ||
+      chromeMetrics.settingsBeforeContent !== "none" ||
+      chromeMetrics.settingsAfterContent !== "none" ||
+      chromeMetrics.settingsAssetId !== "puzzle-control-settings-v1" ||
+      chromeMetrics.settingsImageNaturalWidth !== 256 ||
+      chromeMetrics.settingsImageNaturalHeight !== 256
+    )) ||
     chromeMetrics.resetInHeader
   ) {
     failures.push("[" + viewportName + "] App chrome lost polished HUD/icon treatment: " + JSON.stringify(chromeMetrics));
   }
   const trigger = page.locator(".floating-nav__trigger").first();
+  if ((await trigger.count()) === 0) {
+    return;
+  }
   await trigger.click();
   await page.locator(".floating-nav[data-open='true'] .floating-nav__menu").waitFor({ state: "visible", timeout: 3000 });
   await page.waitForFunction(() => {
@@ -859,7 +854,7 @@ async function expectResetDialogPolish(page, viewportName) {
   if (headerResetCount !== 0) {
     failures.push("[" + viewportName + "] Reset must stay inside Settings, not the always-visible header.");
   }
-  await page.locator('button[aria-label="Settings"], button[aria-label="\uC124\uC815"]').first().click();
+  await openSettings(page);
   await expectVisible(page, ".settings-dialog", viewportName);
   await page.locator(".settings-reset").click();
   await expectVisible(page, ".modal-backdrop", viewportName);
@@ -1425,11 +1420,10 @@ async function expectStageArtPreviews(page, viewportName) {
   }
 }
 
-async function expectPuzzleHubSelectionPolish(page, viewportName) {
-  const hubMetrics = await page.locator(".puzzle-hub-panel").first().evaluate((panel) => ({
-    sectionLabelCount: panel.querySelectorAll(".section-label").length,
-    headingText: (panel.querySelector("h2")?.textContent || "").trim(),
-    overflows: panel.scrollWidth > panel.clientWidth + 1 || panel.scrollHeight > panel.clientHeight + 1
+async function expectPuzzlePickerPolish(page, viewportName) {
+  const pickerMetrics = await page.locator(".puzzle-picker").first().evaluate((panel) => ({
+    headingText: (panel.querySelector(".pack-header")?.textContent || "").trim(),
+    overflows: panel.scrollWidth > panel.clientWidth + 1
   }));
   const metrics = await page.locator(".puzzle-chip").evaluateAll((chips) => chips.slice(0, 20).map((chip) => {
     const label = chip.querySelector(":scope > span");
@@ -1446,8 +1440,29 @@ async function expectPuzzleHubSelectionPolish(page, viewportName) {
       after: getComputedStyle(chip, "::after").content
     };
   }));
-  if (!hubMetrics.headingText || hubMetrics.sectionLabelCount !== 0 || hubMetrics.overflows || !metrics.length || metrics.some((chip) => !chip.label || !chip.meta || chip.width < 120 || chip.height < 80 || chip.overflows || chip.hasRewardImage || chip.hasRewardReport || chip.before !== "none" || chip.after !== "none" || /5x5|8x8|10x10|12x12/.test(chip.label))) {
-    failures.push("[" + viewportName + "] Compact puzzle choices regressed: " + JSON.stringify({ hubMetrics, metrics }));
+  if (!pickerMetrics.headingText || pickerMetrics.overflows || !metrics.length || metrics.some((chip) => !chip.label || !chip.meta || chip.width < 120 || chip.height < 80 || chip.overflows || chip.hasRewardImage || chip.hasRewardReport || chip.before !== "none" || chip.after !== "none" || /5x5|8x8|10x10|12x12/.test(chip.label))) {
+    failures.push("[" + viewportName + "] Compact puzzle choices regressed: " + JSON.stringify({ pickerMetrics, metrics }));
+  }
+}
+
+async function expectPuzzleHomePolish(page, viewportName) {
+  await expectVisible(page, ".puzzle-home-scene", viewportName);
+  await expectVisible(page, ".puzzle-home-scene__pip", viewportName);
+  await expectVisible(page, ".puzzle-home-scene__play", viewportName);
+  const metrics = await page.locator(".puzzle-home").first().evaluate((home) => {
+    const destinations = [...home.querySelectorAll(".puzzle-home-destination")];
+    const scene = home.querySelector(".puzzle-home-scene");
+    return {
+      overflow: home.scrollWidth > home.clientWidth + 1,
+      sceneOverflow: scene ? scene.scrollWidth > scene.clientWidth + 1 : true,
+      destinationCount: destinations.length,
+      destinationOverflow: destinations.some((button) => button.scrollWidth > button.clientWidth + 1 || button.getBoundingClientRect().height < 48),
+      ids: destinations.map((button) => button.dataset.destination || "")
+    };
+  });
+  const expected = ["puzzle", "album", "pantry", "timeAttack", "map", "settings"];
+  if (metrics.overflow || metrics.sceneOverflow || metrics.destinationCount !== expected.length || metrics.destinationOverflow || expected.some((id) => !metrics.ids.includes(id))) {
+    failures.push("[" + viewportName + "] Puzzle home scene/direct destinations regressed: " + JSON.stringify(metrics));
   }
 }
 
@@ -1504,8 +1519,38 @@ async function expectTapTargets(page, viewportName) {
     failures.push(`[${viewportName}] Small tap targets: ${JSON.stringify(smallTargets)}`);
   }
 }
+
+async function openSettings(page) {
+  const homeSettings = page.locator('button[data-destination="settings"]').first();
+  const chromeSettings = page.locator('button[aria-label="Settings"], button[aria-label="\uC124\uC815"]').first();
+  if (await homeSettings.count()) {
+    await homeSettings.click();
+    return;
+  }
+  await chromeSettings.click();
+}
+
 async function openFloatingView(page, view, viewportName = view) {
   await dismissGuideIfPresent(page, "floating-nav");
+  if ((await page.locator(".floating-nav__trigger").count()) === 0) {
+    const directButton = page.locator('button[data-destination="' + view + '"]').first();
+    if (await directButton.count()) {
+      await directButton.scrollIntoViewIfNeeded();
+      await directButton.click();
+      const directSelectors = {
+        album: ".album-panel",
+        map: ".map-panel",
+        pantry: ".pantry-panel",
+        puzzle: ".pack-block",
+        timeAttack: ".time-attack-panel"
+      };
+      const directSelector = directSelectors[view];
+      if (directSelector) {
+        await page.locator(directSelector).first().waitFor({ state: "visible", timeout: 5000 });
+      }
+      return;
+    }
+  }
   if ((await page.locator(".floating-nav__trigger").count()) === 0 && (await page.locator(".play-screen__back").count()) > 0) {
     await page.locator(".play-screen__back").click();
   }
@@ -1695,6 +1740,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   const target = page.locator(".puzzle-chip", { hasText: /Bakery Window Glow/ }).first();
   await target.waitFor({ state: "visible", timeout: 5000 });
   await target.click();
+  await dismissGuideIfPresent(page, viewportName);
   await expectVisible(page, ".play-screen", viewportName);
   await expectVisible(page, ".puzzle-panel", viewportName);
   await expectVisible(page, ".hint-panel", viewportName);

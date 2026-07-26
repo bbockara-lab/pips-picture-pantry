@@ -3,7 +3,6 @@ import { getDecorationArtUrl } from "../data/decorationArt.js";
 import pantryRoomBackgroundUrl from "../assets/backgrounds/pantry-room-sunlit-v1.png";
 import {
   buyDecoration,
-  clearPantryStoryGoalId,
   equipDecoration,
   getCompletedPantryStoryGoalIds,
   getEquippedDecorations,
@@ -13,14 +12,13 @@ import {
   setPantryStoryGoalId
 } from "../game/save.js";
 import { t } from "../i18n/index.js";
-import { renderPantryStoryDelivery, renderPantryStoryMilestone, renderPantryStoryRequest } from "./pantryStoryCards.js";
+import { renderPantryStoryMilestone, renderPantryStoryRequest } from "./pantryStoryCards.js";
 
 const defaultShopCardLimit = 3;
 const pantryViewState = {
   selectedSlotId: "all",
   shopVisibleLimit: defaultShopCardLimit,
-  storyGoalId: null,
-  lastAction: null
+  storyGoalId: null
 };
 
 function appendTextElement(parent, tagName, className, text) {
@@ -40,50 +38,6 @@ function replaceWithOptional(parent, ...nodes) {
       parent.appendChild(node);
     }
   });
-}
-
-function setPantryActionFeedback(type, decoration) {
-  pantryViewState.lastAction = decoration?.id ? { type, decorationId: decoration.id } : null;
-}
-
-function renderActionFeedback(equippedDecorations) {
-  const action = pantryViewState.lastAction;
-  const decoration = getDecorationById(action?.decorationId);
-  if (!decoration) {
-    return null;
-  }
-
-  const slot = pantrySlots.find((candidate) => candidate.id === decoration.slot);
-  const slotLabel = slot ? t(slot.titleKey) : decoration.slot;
-  const placed = equippedDecorations[decoration.slot] === decoration.id;
-  const card = document.createElement("aside");
-  card.className = action.type === "storyComplete" ? "pantry-action-feedback story-complete" : "pantry-action-feedback";
-
-  const art = document.createElement("div");
-  art.className = "pantry-action-feedback__art";
-  const image = document.createElement("img");
-  image.src = getDecorationArtUrl(decoration.assetId);
-  image.alt = t(decoration.titleKey);
-  art.appendChild(image);
-
-  const copy = document.createElement("div");
-  copy.className = "pantry-action-feedback__copy";
-  const titleKey = action.type === "storyComplete" ? "pantry.feedbackStoryCompleteTitle" : action.type === "equip" ? "pantry.feedbackEquipTitle" : "pantry.feedbackBuyTitle";
-  const title = document.createElement("h3");
-  title.textContent = t(titleKey, { item: t(decoration.titleKey) });
-  copy.appendChild(title);
-
-  const dismiss = document.createElement("button");
-  dismiss.type = "button";
-  dismiss.className = "pantry-action-feedback__dismiss";
-  dismiss.textContent = t("pantry.feedbackDismiss");
-  dismiss.addEventListener("click", () => {
-    pantryViewState.lastAction = null;
-    card.remove();
-  });
-
-  card.append(art, copy, dismiss);
-  return card;
 }
 
 function renderRoomSlot(slot, equippedDecorations, selectedSlotId, onSelectSlot) {
@@ -173,7 +127,6 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, story
     button.addEventListener("click", () => {
       const storyCompleted = decoration.id === storyGoalId || isStarterRoomRequest;
       equipDecoration(decoration);
-      setPantryActionFeedback(storyCompleted ? "storyComplete" : "equip", decoration);
       if (storyCompleted) {
         storyGoalId = null;
         pantryViewState.storyGoalId = null;
@@ -190,7 +143,6 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, story
     button.addEventListener("click", () => {
       if (buyDecoration(decoration)) {
         const storyCompleted = decoration.id === storyGoalId || isStarterRoomRequest;
-        setPantryActionFeedback(storyCompleted ? "storyComplete" : "buy", decoration);
         if (storyCompleted) {
           storyGoalId = null;
           pantryViewState.storyGoalId = null;
@@ -263,7 +215,7 @@ function renderShopLimitControl(visibleCount, totalCount, onShowMore) {
   return control;
 }
 
-export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {}, onPlayForSpoons = () => {}, spoonStore = null) {
+export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {}, spoonStore = null) {
   const panel = document.createElement("section");
   panel.className = "pantry-panel content-panel";
 
@@ -279,7 +231,6 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   const header = document.createElement("div");
   header.className = "pantry-header";
   const headerCopy = document.createElement("div");
-  appendTextElement(headerCopy, "p", "section-label", t("sections.pantryRoom"));
   appendTextElement(headerCopy, "h2", "", t("pantry.title"));
   header.insertBefore(headerCopy, header.firstChild);
 
@@ -293,12 +244,6 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
 
   const storyMilestoneMount = document.createElement("div");
   storyMilestoneMount.className = "pantry-story-milestone-mount";
-
-  const storyDeliveryMount = document.createElement("div");
-  storyDeliveryMount.className = "pantry-story-delivery-mount";
-
-  const actionFeedbackMount = document.createElement("div");
-  actionFeedbackMount.className = "pantry-action-feedback-mount";
 
   const shop = document.createElement("section");
   shop.className = "pantry-shop";
@@ -321,18 +266,12 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
 
   function drawDecorations() {
     room.replaceChildren();
-    actionFeedbackMount.replaceChildren();
-    const feedback = renderActionFeedback(equippedDecorations);
-    if (feedback) {
-      actionFeedbackMount.appendChild(feedback);
-    }
     pantrySlots.forEach((slot) => {
       room.appendChild(renderRoomSlot(slot, equippedDecorations, selectedSlotId, selectSlot));
     });
 
     replaceWithOptional(storyRequestMount, renderPantryStoryRequest(approvedDecorations, ownedIds, equippedDecorations, startStoryRequest));
     replaceWithOptional(storyMilestoneMount, renderPantryStoryMilestone(approvedDecorations, ownedIds, equippedDecorations, selectStoryArrival));
-    replaceWithOptional(storyDeliveryMount, renderPantryStoryDelivery(approvedDecorations, storyGoalId, ownedIds, spoons, showStoryGoal, onPlayForSpoons));
     filtersMount.replaceChildren();
     filtersMount.className = "pantry-filter-stack";
 
@@ -386,17 +325,6 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     drawDecorations();
   }
 
-  function showStoryGoal(decoration) {
-    if (!decoration) {
-      return;
-    }
-    selectedSlotId = decoration.slot || "all";
-    pantryViewState.selectedSlotId = selectedSlotId;
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
   function startStoryRequest(decoration) {
     if (!decoration) {
       return;
@@ -432,6 +360,6 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   }
 
   drawDecorations();
-  panel.append(header, room, storyRequestMount, storyMilestoneMount, storyDeliveryMount, actionFeedbackMount, shop);
+  panel.append(header, room, storyRequestMount, storyMilestoneMount, shop);
   return panel;
 }

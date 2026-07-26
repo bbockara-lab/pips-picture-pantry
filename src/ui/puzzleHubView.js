@@ -1,10 +1,13 @@
 import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
+import pantryRoomBackgroundUrl from "../assets/backgrounds/pantry-room-sunlit-v1.png";
+import pipHomeUrl from "../assets/characters/pip-chrome-v2.png";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, seasonShelves } from "../data/seasonShelves.js";
 import { getStageArtUrl, hasApprovedStageArt } from "../data/stageArt.js";
 import { ECONOMY } from "../data/economyConfig.js";
 import { canUnlockShelf, getCompletedPuzzleIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
+import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -20,24 +23,72 @@ function createMeterFill() {
   return document.createElement("span");
 }
 
-export function renderPuzzleHub(activePuzzle, onOpenPuzzle) {
+export function renderPuzzleHub(activePuzzle, options = {}) {
+  const {
+    onOpenPuzzle = () => {},
+    onShowList = () => {},
+    onSelectView = () => {},
+    onOpenSettings = () => {}
+  } = typeof options === "function" ? { onOpenPuzzle: options } : options;
   const stack = document.createElement("div");
-  stack.className = "puzzle-hub-stack";
+  stack.className = "puzzle-hub-stack puzzle-home";
 
-  const panel = document.createElement("section");
-  panel.className = "puzzle-hub-panel content-panel";
+  const scene = document.createElement("section");
+  scene.className = "puzzle-home-scene";
+  scene.style.setProperty("--puzzle-home-background", `url("${pantryRoomBackgroundUrl}")`);
+  scene.setAttribute("aria-label", t("home.sceneAria"));
 
-  const copy = document.createElement("div");
-  appendTextElement(copy, "h2", "", puzzleTitle(activePuzzle));
+  const pip = document.createElement("img");
+  pip.className = "puzzle-home-scene__pip";
+  pip.src = pipHomeUrl;
+  pip.alt = "";
+  pip.setAttribute("aria-hidden", "true");
 
-  const action = document.createElement("button");
-  action.type = "button";
-  action.className = "tool-button";
-  action.textContent = t("playScreen.open");
-  action.addEventListener("click", onOpenPuzzle);
+  const current = document.createElement("div");
+  current.className = "puzzle-home-scene__current";
+  appendTextElement(current, "p", "", t("home.currentPicture"));
+  appendTextElement(current, "h2", "", puzzleTitle(activePuzzle));
 
-  panel.append(copy, action);
-  stack.append(panel);
+  const play = document.createElement("button");
+  play.type = "button";
+  play.className = "tool-button puzzle-home-scene__play";
+  play.textContent = t("playScreen.open");
+  play.addEventListener("click", onOpenPuzzle);
+  current.appendChild(play);
+
+  scene.append(pip, current);
+
+  const destinations = document.createElement("nav");
+  destinations.className = "puzzle-home-destinations";
+  destinations.setAttribute("aria-label", t("home.destinationsAria"));
+  const destinationItems = [
+    ["puzzle", "home.pictureList", onShowList],
+    ["album", "views.album", () => onSelectView("album")],
+    ["pantry", "home.room", () => onSelectView("pantry")],
+    ["timeAttack", "views.timeAttack", () => onSelectView("timeAttack")],
+    ["map", "views.map", () => onSelectView("map")],
+    ["settings", "header.settings", onOpenSettings]
+  ];
+  destinationItems.forEach(([artId, labelKey, onClick]) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "puzzle-home-destination";
+    button.dataset.destination = artId;
+    const art = artId === "settings" ? getPuzzleControlArt("settings") : getQuickTravelArt(artId);
+    if (art) {
+      const image = document.createElement("img");
+      image.src = art.src;
+      image.alt = "";
+      image.setAttribute("aria-hidden", "true");
+      image.dataset.assetId = art.assetId;
+      button.appendChild(image);
+    }
+    appendTextElement(button, "span", "", t(labelKey));
+    button.addEventListener("click", onClick);
+    destinations.appendChild(button);
+  });
+
+  stack.append(scene, destinations);
   return stack;
 }
 
@@ -178,8 +229,11 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockShelf
     if (hideCompletedStages && isStageComplete) {
       return;
     }
+    if (!unlocked) {
+      return;
+    }
     const packBlock = document.createElement("article");
-    packBlock.className = unlocked ? "pack-block" : "pack-block locked";
+    packBlock.className = "pack-block";
     packBlock.dataset.shelfId = shelf.id;
     if (shelfPuzzles.some((puzzle) => puzzle.id === activePuzzleId)) {
       packBlock.dataset.activeStage = "true";
@@ -192,12 +246,6 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockShelf
     header.append(headerCopy);
     packBlock.appendChild(header);
     packBlock.appendChild(createStagePreview(shelf, completeCount, shelfPuzzles.length));
-
-    if (!unlocked) {
-      packBlock.appendChild(createUnlockPanel(shelf, onUnlockShelf, onOpenPantry));
-      section.appendChild(packBlock);
-      return;
-    }
 
     const list = document.createElement("div");
     list.className = "puzzle-list";

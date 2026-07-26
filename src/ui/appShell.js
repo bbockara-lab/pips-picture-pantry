@@ -2,12 +2,10 @@ import { getSeasonShelfById, getSeasonShelfForPuzzle, getSeasonShelfPuzzles } fr
 import { ECONOMY, getTimeAttackHintCost } from "../data/economyConfig.js";
 import { puzzles } from "../data/puzzles.js";
 import { getDailyPuzzle } from "../game/dailyPuzzle.js";
-import { getDailyReplayPicks } from "../game/replayPicks.js";
 import {
   getCompletedPuzzleIds,
   getTimeAttackBestScores,
   getTimeAttackDailyCount,
-  getReplayDailyCount,
   hasCozySupportPack,
   hasSeenGuide,
   isShelfUnlocked,
@@ -26,7 +24,7 @@ import { renderPantryMapView } from "./mapView.js";
 import { renderPantryView } from "./pantryView.js";
 import { getNextPantryGuideId } from "./pantryGuideFlow.js";
 import { getControlModePreference, getHideCompletedStagesPreference, setControlModePreference, setHideCompletedStagesPreference } from "./preferences.js";
-import { getStageNavigation, renderDailyCard, renderPuzzleHub, renderPuzzlePicker, renderReplayPicksCard, renderTimeAttackTeaserCard } from "./puzzleHubView.js";
+import { getStageNavigation, renderPuzzleHub, renderPuzzlePicker } from "./puzzleHubView.js";
 import { renderPlayScreen } from "./playScreen.js";
 import { renderFloatingNav } from "./floatingNav.js";
 import { renderGuideDialog } from "./guideDialog.js";
@@ -42,7 +40,8 @@ export function renderApp(root) {
   const dailyPuzzle = getDailyPuzzle(getDailyPuzzleCandidates());
   let activePuzzle = getStartPuzzle();
   let activeView = "puzzle";
-  let playOpen = true;
+  let playOpen = false;
+  let puzzleListOpen = false;
   let resetOpen = false;
   let settingsOpen = false;
   let hideCompletedStages = getHideCompletedStagesPreference();
@@ -74,6 +73,7 @@ export function renderApp(root) {
     replayChallenge = Boolean(options.replayChallenge);
     activeView = "puzzle";
     playOpen = true;
+    puzzleListOpen = false;
     resetOpen = false;
     settingsOpen = false;
     pendingScrollTarget = scrollTarget;
@@ -93,6 +93,7 @@ export function renderApp(root) {
     replayChallenge = false;
     activeView = "puzzle";
     playOpen = false;
+    puzzleListOpen = true;
     resetOpen = false;
     settingsOpen = false;
     pendingScrollTarget = "picker";
@@ -113,9 +114,14 @@ export function renderApp(root) {
   }
 
   function selectView(view) {
+    if (view === "settings") {
+      requestSettings();
+      return;
+    }
     replayChallenge = false;
     activeView = view;
     playOpen = false;
+    puzzleListOpen = false;
     resetOpen = false;
     settingsOpen = false;
     pendingScrollTarget = "view";
@@ -141,6 +147,7 @@ export function renderApp(root) {
     replayChallenge = false;
     activeView = "puzzle";
     playOpen = false;
+    puzzleListOpen = false;
     resetOpen = false;
     settingsOpen = false;
     pendingScrollTarget = "view";
@@ -509,6 +516,7 @@ export function renderApp(root) {
       activePuzzle,
       activeView,
       playOpen,
+      puzzleListOpen,
       dailyPuzzle,
       resetOpen,
       settingsOpen,
@@ -549,7 +557,6 @@ export function renderApp(root) {
       timeAttackRoundIndex,
       timeAttackLastResult,
       activeGuide,
-      onReplayPick: (puzzleId) => selectPuzzle(puzzleId, "puzzle", { replayChallenge: true }),
       onCloseGuide: closeGuide,
       onPantryFirstPurchase: requestPantryFirstPurchaseGuide,
       settingsDialogProps: getSettingsDialogProps(),
@@ -600,6 +607,7 @@ function createShell({
   activePuzzle,
   activeView,
   playOpen,
+  puzzleListOpen,
   dailyPuzzle,
   resetOpen,
   settingsOpen,
@@ -630,7 +638,6 @@ function createShell({
   onCloseTimeAttack,
   onTimeAttackPuzzleComplete,
   onTimeAttackPuzzleStateChange,
-  onReplayPick,
   replayChallenge,
   replayPicked,
   timeAttackRun,
@@ -681,7 +688,10 @@ function createShell({
     return shell;
   }
 
-  shell.appendChild(renderHeader(onRequestSettings));
+  shell.appendChild(renderHeader(onRequestSettings, { showSettings: false }));
+  if (!hasBlockingOverlay && activeView !== "puzzle") {
+    shell.appendChild(renderFloatingNav(activeView, onSelectView));
+  }
   const earnedBadgeShelf = renderBadgeShelf();
   if (earnedBadgeShelf) {
     shell.appendChild(earnedBadgeShelf);
@@ -695,7 +705,6 @@ function createShell({
     shell.appendChild(renderPantryView(
       () => onSelectView("pantry"),
       onPantryFirstPurchase,
-      () => onSelectView("puzzle"),
       spoonStore
     ));
   } else if (activeView === "timeAttack") {
@@ -707,27 +716,19 @@ function createShell({
       onStart: onStartTimeAttack
     }));
   } else {
-    shell.appendChild(renderPuzzleHub(activePuzzle, onOpenPuzzle));
-    shell.appendChild(renderDailyCard(dailyPuzzle, activePuzzle.id, onSelectPuzzle));
-    shell.appendChild(renderTimeAttackTeaserCard(() => onSelectView("timeAttack")));
-    const replayPicksCard = renderReplayPicksCard(
-      getDailyReplayPicks({ allPuzzles: getDailyPuzzleCandidates(), completedPuzzleIds: getCompletedPuzzleIds() }),
-      activePuzzle.id,
-      onSelectPuzzle,
-      { dailyCount: getReplayDailyCount(), dailyLimit: ECONOMY.REPLAY_PICK_DAILY_LIMIT, onReplayPick }
-    );
-    if (replayPicksCard) {
-      shell.appendChild(replayPicksCard);
-    }
-    shell.appendChild(renderPuzzlePicker(activePuzzle.id, onSelectPuzzle, onUnlockShelf, {
-      hideCompletedStages,
-      onToggleHideCompletedStages,
-      onOpenPantry: () => onSelectView("pantry")
+    shell.appendChild(renderPuzzleHub(activePuzzle, {
+      onOpenPuzzle,
+      onShowList: onShowPuzzlePicker,
+      onSelectView,
+      onOpenSettings: onRequestSettings
     }));
-  }
-
-  if (!hasBlockingOverlay) {
-    shell.appendChild(renderFloatingNav(activeView, onSelectView));
+    if (puzzleListOpen) {
+      shell.appendChild(renderPuzzlePicker(activePuzzle.id, onSelectPuzzle, onUnlockShelf, {
+        hideCompletedStages,
+        onToggleHideCompletedStages,
+        onOpenPantry: () => onSelectView("pantry")
+      }));
+    }
   }
 
   if (resetOpen) {

@@ -5,7 +5,8 @@ import { getCompletedPuzzleIds, getPantrySpoons } from "../game/save.js";
 import { t } from "../i18n/index.js";
 import { appendPuzzleControlArt } from "./puzzleControlArt.js";
 
-export function renderHeader(onSettings) {
+export function renderHeader(onSettings, options = {}) {
+  const { showSettings = true } = options;
   const header = document.createElement("header");
   header.className = "top-bar";
 
@@ -22,15 +23,17 @@ export function renderHeader(onSettings) {
   currency.append(createSpoonIcon(), document.createTextNode(String(getPantrySpoons())));
   currency.setAttribute("aria-label", t("currency.spoons", { count: getPantrySpoons() }));
 
-  const settingsButton = document.createElement("button");
-  settingsButton.className = "icon-button icon-button--settings";
-  settingsButton.type = "button";
-  settingsButton.title = t("header.settings");
-  settingsButton.setAttribute("aria-label", t("header.settings"));
-  appendPuzzleControlArt(settingsButton, "settings", "icon-button__raster-art");
-  settingsButton.addEventListener("click", onSettings);
-
-  actions.append(currency, settingsButton);
+  actions.append(currency);
+  if (showSettings) {
+    const settingsButton = document.createElement("button");
+    settingsButton.className = "icon-button icon-button--settings";
+    settingsButton.type = "button";
+    settingsButton.title = t("header.settings");
+    settingsButton.setAttribute("aria-label", t("header.settings"));
+    appendPuzzleControlArt(settingsButton, "settings", "icon-button__raster-art");
+    settingsButton.addEventListener("click", onSettings);
+    actions.appendChild(settingsButton);
+  }
   header.append(titleGroup, actions);
   return header;
 }
