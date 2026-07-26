@@ -2,6 +2,11 @@
 
 ## Current Launch Candidate Snapshot - 2026-07-17
 
+### v0.1.589 - Clock Grandfather Focus
+
+- Time Attack now gives the Clock Grandfather and his pocket watch a clear, near-full-height presence at the start of the challenge; it reads as a distinct game route without the former ambiguous aura treatment.
+- Verified the focused Time Attack surface through the four-width mobile visual QA. No Android bundle was created.
+
 ### v0.1.588 - Shelf Completion Handoff
 
 - A completed non-final shelf now returns to the picture list, where the next shelf can be chosen or opened; the final Village Pantry shelf instead leads directly into Pip's Pantry.

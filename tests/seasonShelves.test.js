@@ -42,6 +42,32 @@ describe("Season 0 shelves", () => {
     expect(totals).toEqual({ unlockCost: 970, stageBonus: 750 });
   });
 
+  it("keeps every required shelf unlock affordable through the main shelf path", () => {
+    const rewardBySize = { 5: 3, 8: 5, 10: 7, 12: 9 };
+    let spoons = 0;
+
+    seasonShelves.forEach((shelf) => {
+      const unlockCost = Number(shelf.unlockCost || 0);
+      expect(spoons).toBeGreaterThanOrEqual(unlockCost);
+      spoons -= unlockCost;
+      spoons += getSeasonShelfPuzzles(shelf).reduce(
+        (total, puzzle) => total + Number(rewardBySize[puzzle.size] || 0),
+        Number(shelf.stageBonus || 0)
+      );
+    });
+  });
+
+  it("raises pantry story goals one small step at a time instead of reusing a distant gate", () => {
+    const requirements = seasonShelves.map((shelf) => Number(shelf.pantryRoomStepRequired || 0));
+
+    expect(requirements[0]).toBe(0);
+    expect(requirements.at(-1)).toBe(10);
+    requirements.slice(1).forEach((requirement, index) => {
+      expect(requirement - requirements[index]).toBeGreaterThanOrEqual(0);
+      expect(requirement - requirements[index]).toBeLessThanOrEqual(2);
+    });
+  });
+
   it("uses the previous shelf and current shelf completion as separate progression facts", () => {
     const firstShelf = seasonShelves[0];
     const firstShelfIds = getSeasonShelfPuzzles(firstShelf).map((puzzle) => puzzle.id);

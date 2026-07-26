@@ -5310,7 +5310,7 @@ img {
 .time-attack-panel__intro {
   position: relative;
   display: grid;
-  grid-template-columns: 72px minmax(0, 1fr);
+  grid-template-columns: 92px minmax(0, 1fr);
   align-items: center;
   gap: 10px;
   overflow: hidden;
@@ -5337,14 +5337,14 @@ img {
 
 .time-attack-panel__clock-grandpa {
   display: block;
-  width: 72px;
-  height: 98px;
+  width: 92px;
+  height: 156px;
   overflow: hidden;
 }
 
 .time-attack-panel__clock-grandpa img {
   display: block;
-  width: 372px;
+  width: 568px;
   max-width: none;
   height: auto;
 }
