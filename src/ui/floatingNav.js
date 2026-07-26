@@ -17,7 +17,7 @@ function createQuickTravelIcon(view, extraClass = "") {
   icon.dataset.view = view;
   icon.setAttribute("aria-hidden", "true");
 
-  const art = view === "settings" ? getPuzzleControlArt("settings") : getQuickTravelArt(view);
+  const art = getQuickTravelArt(view);
   if (art) {
     const image = document.createElement("img");
     image.src = art.src;

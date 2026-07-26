@@ -1,3 +1,9 @@
+## v0.1.602 - Unified Settings Navigation Art
+
+- Routed the shared floating navigation settings destination through the same approved Workshop sticker artwork as the home scene.
+- This removes the last cross-screen mismatch where settings still used the compact puzzle-control glyph while every other destination used the new navigation system.
+- Verification: source hygiene, asset-manifest, mobile visual QA, and production build are pending for this isolated follow-up.
+
 ## v0.1.601 - Workshop Sticker Navigation
 
 - Replaced the six Workshop navigation illustrations with a coherent transparent sticker set: puzzle notebook, completed-picture album, Clock Grandpa pocket watch, Pantry jar, achievement map, and settings gear.
