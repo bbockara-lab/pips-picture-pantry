@@ -1,3 +1,10 @@
+## v0.1.603 - UI Rework v2 Integration
+
+- Adopted the integrated UI-rework contract: the Workshop keeps direct cutout destination art and one primary play action, while Time Attack and all non-play destinations share a quiet warm surface.
+- Added reduced-motion-safe breathing/pulse cues without adding new text or card frames. The scene motion is clipped within the Workshop so it cannot increase document overflow.
+- Kept the Pantry slot geometry frozen. A finished furnished-room master plus per-slot transparent overlays is required before any further placement-art work; current product thumbnails will not be coordinate-tuned into the room.
+- Unified the compact, icon-only shared return trigger and removed a stale puzzle-control import from that route.
+- Verification: source hygiene, asset manifest QA (174 assets), mobile visual QA at 360x740 / 390x844 / 430x932 / 675x900, production build, and scoped diff check pass. Full candidate QA follows this commit.
 ## v0.1.602 - Unified Settings Navigation Art
 
 - Routed the shared floating navigation settings destination through the same approved Workshop sticker artwork as the home scene.
