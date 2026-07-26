@@ -657,6 +657,7 @@ function createShell({
 }) {
   const shell = document.createElement("main");
   shell.className = "app-shell";
+  shell.dataset.view = activeView;
   const hasBlockingOverlay = Boolean(resetOpen || settingsOpen || activeGuide);
   const isWorkshopHome = activeView === "puzzle" && !playOpen && !puzzleListOpen;
   if (isWorkshopHome) {
@@ -700,7 +701,7 @@ function createShell({
     return shell;
   }
 
-  if (!isWorkshopHome) {
+  if (!isWorkshopHome && activeView !== "timeAttack") {
     shell.appendChild(renderHeader(onRequestSettings, { showSettings: false }));
   }
   if (!hasBlockingOverlay && (activeView !== "puzzle" || puzzleListOpen)) {

@@ -16462,3 +16462,84 @@ img {
     animation: none;
   }
 }
+/* v0.1.600: screen-aware navigation and a distinct Clock Grandpa challenge entry. */
+.app-shell:not(.app-shell--workshop-home):not(.app-shell--play) {
+  padding-bottom: calc(86px + env(safe-area-inset-bottom));
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255, 239, 181, 0.42), transparent 36%),
+    linear-gradient(180deg, rgba(255, 252, 244, 0.92), rgba(255, 244, 215, 0.76));
+}
+
+.app-shell[data-view="timeAttack"] .time-attack-panel {
+  width: min(100%, 520px);
+  margin: 6px auto 0;
+}
+
+.app-shell[data-view="timeAttack"] .time-attack-panel__intro {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: 8px;
+  padding: 16px 20px 12px;
+  text-align: center;
+}
+
+.app-shell[data-view="timeAttack"] .time-attack-panel__clock-grandpa {
+  width: 110px;
+  height: 186px;
+}
+
+.app-shell[data-view="timeAttack"] .time-attack-panel__intro h2 {
+  width: 100%;
+  text-align: center;
+}
+
+/* The return control is a compact icon; the expanded destinations keep readable labels. */
+.floating-nav {
+  position: fixed;
+  right: max(14px, env(safe-area-inset-right));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  z-index: 30;
+  width: 56px;
+  margin: 0;
+  justify-items: end;
+}
+
+.floating-nav__trigger {
+  display: grid;
+  width: 56px;
+  min-width: 56px;
+  min-height: 56px;
+  height: 56px;
+  padding: 5px;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.floating-nav__trigger-icon {
+  width: 44px;
+  height: 44px;
+}
+
+.floating-nav__trigger-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.floating-nav__menu {
+  right: 0;
+  bottom: calc(100% + 10px);
+  left: auto;
+  top: auto;
+  width: min(300px, calc(100vw - 28px));
+}
+
+.floating-nav__item {
+  justify-items: start;
+  text-align: left;
+}

@@ -324,6 +324,10 @@ async function dismissGuideIfPresent(page, viewportName) {
 }
 
 async function expectGuideDialogChromeArt(page, viewportName) {
+  await page.waitForFunction(() => {
+    const image = document.querySelector(".guide-dialog__art img");
+    return image?.complete && image.naturalWidth > 0 && image.naturalHeight > 0;
+  }, null, { timeout: 5000 });
   const metrics = await page.locator(".guide-dialog").first().evaluate((dialog) => {
     const overlay = document.querySelector(".guide-overlay");
     const art = dialog.querySelector(".guide-dialog__art");
@@ -641,10 +645,9 @@ async function expectAppChromePolish(page, viewportName) {
     navMetrics.triggerIcon.imageNaturalHeight !== 256 ||
     navMetrics.triggerIcon.beforeContent !== "none" ||
     navMetrics.triggerIcon.afterContent !== "none" ||
-    (navMetrics.viewportWidth > 430 && navMetrics.triggerTextWidth < 24) ||
-    (navMetrics.viewportWidth > 430 && navMetrics.triggerTextClipPath.includes("inset")) ||
+    navMetrics.triggerTextWidth > 2 ||
+    !navMetrics.triggerTextClipPath.includes("inset") ||
     !navMetrics.triggerCurrentText ||
-    (navMetrics.viewportWidth > 430 && navMetrics.triggerCurrentOverflow > 1) ||
     !navMetrics.activeLabel ||
     !hasExplicitTimeAttackEntry ||
     !hasAllViewIcons ||
@@ -1695,7 +1698,8 @@ async function expectTimeAttackStartSurface(page, viewportName) {
         clockGrandpa: grandpa ? {
           width: grandpa.getBoundingClientRect().width,
           height: grandpa.getBoundingClientRect().height,
-          naturalWidth: grandpaImage?.naturalWidth || 0
+          naturalWidth: grandpaImage?.naturalWidth || 0,
+          titleTextAlign: getComputedStyle(intro.querySelector("h2")).textAlign
         } : null
       } : null,
       start: startRect ? {
@@ -1723,7 +1727,7 @@ async function expectTimeAttackStartSurface(page, viewportName) {
     };
   });
 
-  const introLooksPolished = metrics.intro && metrics.intro.height >= 96 && metrics.intro.radius >= 14 && metrics.intro.background === "none" && metrics.intro.shadow === "none" && metrics.intro.sectionLabelCount === 0 && metrics.intro.title.length > 0 && metrics.intro.clockGrandpa && metrics.intro.clockGrandpa.width >= 68 && metrics.intro.clockGrandpa.height >= 90 && metrics.intro.clockGrandpa.naturalWidth >= 1000;
+  const introLooksPolished = metrics.intro && metrics.intro.height >= 96 && metrics.intro.radius >= 14 && metrics.intro.background === "none" && metrics.intro.shadow === "none" && metrics.intro.sectionLabelCount === 0 && metrics.intro.title.length > 0 && metrics.intro.clockGrandpa && metrics.intro.clockGrandpa.width >= 100 && metrics.intro.clockGrandpa.height >= 170 && metrics.intro.clockGrandpa.titleTextAlign === "center" && metrics.intro.clockGrandpa.naturalWidth >= 1000;
   const startLooksTactile = metrics.start && metrics.start.width >= 220 && metrics.start.height >= 52 && metrics.start.radius >= 16 && metrics.start.background === "none" && metrics.start.shadow !== "none";
   const statusFits = metrics.status && metrics.status.width > 0 && metrics.status.height >= 28;
   const recordsAreUseful = !metrics.records || (
