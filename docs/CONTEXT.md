@@ -4175,3 +4175,13 @@ Current launch direction:
 - Preserved the approved PNG masters for Pip's Puzzle Workshop and the sunlit Decor Room, then added quality-checked WebP runtime versions.
 - Runtime payload drops from about 2.4MB each to 424KB (Workshop) and 346KB (Decor Room), while pixel RMS comparison remains below 1.9.
 - Asset QA now requires the runtime WebP imports and the archived non-visible PNG source records, preventing accidental reversion to direct PNG bundling.
+
+### v0.1.594 full-screen Puzzle Room home correction
+
+- Replaced the card-based home with one full-screen, authored Puzzle Room scene: no external header, title block, or separate spoon pill appears over the home.
+- Moved the spoon balance into the scene and rebuilt the current-puzzle call to action as a direct `이 퍼즐 풀기` action with puzzle art and the active picture name.
+- Converted the six destinations to large, icon-only in-scene controls; labels remain available to assistive technology while no longer reading as white folder cards.
+- Removed the incorrect Pantry-decoration/supporter-keepsake overlays from the Puzzle Room. The editable Pantry remains its own room; future shared room themes must be authored as complete scene variants rather than placing purchased items at arbitrary coordinates.
+- Stopped the initial brand-intro fade-in so the existing home cannot flash before the Sunny Spoon Studios bumper.
+- Reworked the mobile QA contract for the full-screen home: it now checks full-scene containment, icon/action collisions, in-scene currency, and the absence of retired Pantry-prop overlays. The normal header contract remains active for all other views.
+- Verification: 175 unit tests, source hygiene, full `qa:candidate`, production build, Android release gate, and four-width mobile QA pass at v0.1.594. Only the two real-device Billing evidence items remain external release blockers.

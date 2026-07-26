@@ -658,6 +658,10 @@ function createShell({
   const shell = document.createElement("main");
   shell.className = "app-shell";
   const hasBlockingOverlay = Boolean(resetOpen || settingsOpen || activeGuide);
+  const isWorkshopHome = activeView === "puzzle" && !playOpen && !puzzleListOpen;
+  if (isWorkshopHome) {
+    shell.classList.add("app-shell--workshop-home");
+  }
 
   if ((activeView === "puzzle" || activeView === "timeAttack") && playOpen) {
     shell.classList.add("app-shell--play");
@@ -693,7 +697,9 @@ function createShell({
     return shell;
   }
 
-  shell.appendChild(renderHeader(onRequestSettings, { showSettings: false }));
+  if (!isWorkshopHome) {
+    shell.appendChild(renderHeader(onRequestSettings, { showSettings: false }));
+  }
   if (!hasBlockingOverlay && activeView !== "puzzle") {
     shell.appendChild(renderFloatingNav(activeView, onSelectView));
   }

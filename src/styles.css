@@ -15977,75 +15977,215 @@ img {
   }
 }
 
-/* v0.1.593: a supporter thank-you stays small and physical inside Pip's workshop. */
-.puzzle-home-scene__keepsake {
-  position: absolute;
-  right: 22%;
-  bottom: 29%;
-  z-index: 1;
-  width: clamp(38px, 11vw, 58px);
-  height: auto;
-  pointer-events: none;
+/* v0.1.594: the home is one complete Puzzle Room illustration, not a page of cards. */
+.brand-intro:not(.leaving) {
+  animation: none;
 }
 
-@media (max-width: 430px) {
-  .puzzle-home-scene__keepsake {
-    right: 20%;
-    bottom: 30%;
-    width: clamp(34px, 12vw, 48px);
-  }
-}
-/* v0.1.593: Pantry choices travel into Pip's distinct puzzle workshop as small keepsakes. */
-.puzzle-home-furnishings {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
+.app-shell--workshop-home {
+  width: 100%;
+  max-width: none;
+  min-height: 100svh;
+  margin: 0;
+  padding: 0;
 }
 
-.puzzle-home-furnishing {
+.app-shell--workshop-home .puzzle-home,
+.app-shell--workshop-home .puzzle-home-scene {
+  width: 100%;
+  min-height: 100svh;
+  margin: 0;
+}
+
+.app-shell--workshop-home .puzzle-home-scene {
+  border: 0;
+  border-radius: 0;
+  background-position: center;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.puzzle-home-scene__currency {
   position: absolute;
-  display: block;
-  max-width: 18%;
-  max-height: 18%;
+  top: max(18px, env(safe-area-inset-top));
+  right: 18px;
+  z-index: 4;
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px 6px 8px;
+  border: 2px solid rgba(74, 50, 42, 0.76);
+  border-radius: 999px;
+  color: #3d2b2e;
+  background: rgba(255, 250, 235, 0.88);
+  box-shadow: 0 3px 0 rgba(61, 43, 46, 0.18), 0 6px 14px rgba(61, 43, 46, 0.12);
+  font-family: "Jua", ui-rounded, sans-serif;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.puzzle-home-scene__currency img {
+  width: 28px;
+  height: 28px;
   object-fit: contain;
 }
 
-.puzzle-home-furnishing--back-wall {
-  top: 18%;
-  left: 43%;
-  width: 15%;
-  max-height: 15%;
+.puzzle-home-destinations {
+  inset: 15% 4.5% 18%;
+  grid-template-columns: 74px minmax(0, 1fr) 74px;
+  grid-template-rows: repeat(3, minmax(74px, 1fr));
+  gap: 14px 0;
 }
 
-.puzzle-home-furnishing--shelf {
-  top: 39%;
-  left: 17%;
-  width: 14%;
+.puzzle-home-destination {
+  width: 74px;
+  height: 74px;
+  min-height: 74px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
-.puzzle-home-furnishing--window {
-  top: 43%;
-  right: 16%;
-  width: 13%;
+.puzzle-home-destination img {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 3px 0 rgba(61, 43, 46, 0.2)) drop-shadow(0 6px 10px rgba(61, 43, 46, 0.14));
 }
 
-.puzzle-home-furnishing--counter {
-  right: 30%;
-  bottom: 25%;
-  width: 15%;
+.puzzle-home-destination:hover,
+.puzzle-home-destination:focus-visible {
+  transform: translateY(-2px) scale(1.06);
+  outline: 0;
 }
 
-.puzzle-home-furnishing--floor {
-  bottom: 17%;
-  left: 26%;
-  width: 17%;
+.puzzle-home-scene__current {
+  position: absolute;
+  right: 50%;
+  bottom: max(22px, env(safe-area-inset-bottom));
+  left: auto;
+  z-index: 4;
+  width: min(330px, calc(100% - 168px));
+  min-width: 212px;
+  padding: 0;
+  transform: translateX(50%);
+  background: transparent;
+}
+
+.puzzle-home-scene__play {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  width: 100%;
+  min-height: 72px;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 10px 16px 10px 12px;
+  border: 2px solid rgba(74, 50, 42, 0.78);
+  border-radius: 22px;
+  text-align: left;
+  background: rgba(255, 250, 235, 0.9);
+  box-shadow: 0 4px 0 rgba(61, 43, 46, 0.2), 0 10px 20px rgba(61, 43, 46, 0.14);
+}
+
+.puzzle-home-scene__play > img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.puzzle-home-scene__play-copy {
+  display: grid;
+  min-width: 0;
+  gap: 1px;
+}
+
+.puzzle-home-scene__play-copy strong {
+  overflow: hidden;
+  color: #3d2b2e;
+  font-family: "Jua", ui-rounded, sans-serif;
+  font-size: 1.04rem;
+  line-height: 1.05;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.puzzle-home-scene__play-copy small {
+  overflow: hidden;
+  color: #7a4e35;
+  font-size: 0.78rem;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The menu label remains centered even when an icon is present at the left edge. */
+.floating-nav__trigger {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  min-height: 52px;
+  padding: 6px 54px;
+  place-items: center;
+  text-align: center;
+}
+
+.floating-nav__trigger-icon {
+  position: absolute;
+  left: 10px;
+}
+
+.floating-nav__trigger-text {
+  position: static;
+  display: grid;
+  width: 100%;
+  place-items: center;
+  text-align: center;
 }
 
 @media (max-width: 430px) {
-  .puzzle-home-furnishing--back-wall { top: 19%; left: 42%; width: 14%; }
-  .puzzle-home-furnishing--shelf { left: 18%; width: 13%; }
-  .puzzle-home-furnishing--window { right: 17%; width: 12%; }
-  .puzzle-home-furnishing--counter { right: 31%; bottom: 26%; width: 14%; }
-  .puzzle-home-furnishing--floor { bottom: 18%; left: 28%; width: 15%; }
+  .puzzle-home-destinations {
+    inset: 14% 3.5% 18%;
+    grid-template-columns: 62px minmax(0, 1fr) 62px;
+    grid-template-rows: repeat(3, minmax(62px, 1fr));
+  }
+
+  .puzzle-home-destination {
+    width: 62px;
+    height: 62px;
+    min-height: 62px;
+  }
+
+  .puzzle-home-scene__currency {
+    top: max(14px, env(safe-area-inset-top));
+    right: 12px;
+    min-height: 42px;
+    padding: 5px 10px 5px 7px;
+    font-size: 1rem;
+  }
+
+  .puzzle-home-scene__currency img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .puzzle-home-scene__current {
+    bottom: max(16px, env(safe-area-inset-bottom));
+    width: min(286px, calc(100% - 150px));
+  }
+
+  .puzzle-home-scene__play {
+    grid-template-columns: 42px minmax(0, 1fr);
+    min-height: 64px;
+    padding: 8px 13px 8px 10px;
+    border-radius: 19px;
+  }
+
+  .puzzle-home-scene__play > img {
+    width: 42px;
+    height: 42px;
+  }
 }

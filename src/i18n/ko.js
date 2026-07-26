@@ -57,8 +57,8 @@ export const ko = {
     guideReplayTimeAttackAction: "타임어택 가이드",
     spoonStoreTitle: "\uc2a4\ud47c \ub354 \ucc44\uc6b0\uae30",
     supportTitle: "Pip \uc751\uc6d0\ud329",
-    supportBody: "Pip을 응원하고 스푼 {spoons}개와 작업실 기념 소품을 받아요.",
-    supportOwnedBody: "응원해 주셔서 고마워요. 작업실에 기념 소품을 두었어요.",
+    supportBody: "Pip\uc744 \uc751\uc6d0\ud558\uace0 \uc2a4\ud47c {spoons}\uac1c\ub97c \ubc1b\uc544\uc694.",
+    supportOwnedBody: "Pip\uc744 \uc751\uc6d0\ud574 \uc8fc\uc154\uc11c \uace0\ub9c8\uc6cc\uc694.",
     supportOwned: "\uc751\uc6d0\ud329\uc774 \uc801\uc6a9\ub418\uc5b4 \uc788\uc5b4\uc694.",
     supportChecking: "\uc2a4\ud1a0\uc5b4 \uc5f0\uacb0\uc744 \ud655\uc778\ud558\uace0 \uc788\uc5b4\uc694.",
     supportAndroidOnly: "Play \uc2a4\ud1a0\uc5b4 \uc5f0\uacb0\uc744 \uc900\ube44\ud558\uace0 \uc788\uc5b4\uc694.",
@@ -111,6 +111,7 @@ export const ko = {
     starterShelf: "\uccab \uc120\ubc18",
     dailyPicture: "\uc624\ub298\uc758 \uadf8\ub9bc",
     currentPicture: "\uc9c0\uae08 \uadf8\ub9bc",
+    solveCurrent: "\uc774 \ud37c\uc990 \ud480\uae30",
     startHere: "\uc5ec\uae30\uc11c \uc2dc\uc791",
     pantryAlbum: "\ud32c\ud2b8\ub9ac \uc568\ubc94",
     pantryRoom: "Pip\uc758 \uadf8\ub9bc\ubc29",
@@ -354,7 +355,6 @@ export const ko = {
   home: {
     sceneAria: "\ud54d\uc758 \ud37c\uc990\ubc29",
     destinationsAria: "\ubc14\ub85c \uac00\uae30",
-    supporterKeepsake: "Pip 응원 기념품",
     currentPicture: "\uc9c0\uae08 \ud480 \uadf8\ub9bc",
     pictureList: "\uadf8\ub9bc \ubaa9\ub85d",
     room: "\uafb8\ubbf8\uae30 \ubc29"

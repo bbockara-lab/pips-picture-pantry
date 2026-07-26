@@ -3,13 +3,10 @@ import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, seasonShelves } from "../data/seasonShelves.js";
 import { getStageArtUrl, hasApprovedStageArt } from "../data/stageArt.js";
 import { ECONOMY } from "../data/economyConfig.js";
-import { canUnlockShelf, getCompletedPuzzleIds, getEquippedDecorations, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, hasCozySupportPack, isShelfUnlocked } from "../game/save.js";
+import { canUnlockShelf, getCompletedPuzzleIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
 import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
-import { getDecorationById } from "../data/decorations.js";
-import { getDecorationArtUrl } from "../data/decorationArt.js";
-import supportPackGiftUrl from "../assets/billing/support-pack-gift-v1.png";
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -21,22 +18,6 @@ function appendTextElement(parent, tagName, className, text) {
   return element;
 }
 
-function renderWorkshopFurnishings() {
-  const layer = document.createElement("div");
-  layer.className = "puzzle-home-furnishings";
-  Object.entries(getEquippedDecorations()).forEach(([slot, decorationId]) => {
-    const decoration = getDecorationById(decorationId);
-    const source = getDecorationArtUrl(decoration?.assetId);
-    if (!decoration || !source) return;
-    const image = document.createElement("img");
-    image.className = `puzzle-home-furnishing puzzle-home-furnishing--${slot}`;
-    image.src = source;
-    image.alt = t(decoration.titleKey);
-    image.dataset.assetId = decoration.assetId;
-    layer.appendChild(image);
-  });
-  return layer;
-}
 function createMeterFill() {
   return document.createElement("span");
 }
@@ -56,17 +37,25 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   scene.style.setProperty("--puzzle-home-background", `url("${puzzleWorkshopBackgroundUrl}")`);
   scene.setAttribute("aria-label", t("home.sceneAria"));
 
-  const current = document.createElement("div");
-  current.className = "puzzle-home-scene__current";
-  appendTextElement(current, "p", "", t("home.currentPicture"));
-  appendTextElement(current, "h2", "", puzzleTitle(activePuzzle));
-
   const play = document.createElement("button");
   play.type = "button";
   play.className = "tool-button puzzle-home-scene__play";
-  play.textContent = t("playScreen.open");
+  play.setAttribute("aria-label", `${t("home.solveCurrent")}: ${puzzleTitle(activePuzzle)}`);
+  const playArt = getQuickTravelArt("puzzle");
+  if (playArt) {
+    const image = document.createElement("img");
+    image.src = playArt.src;
+    image.alt = "";
+    image.setAttribute("aria-hidden", "true");
+    image.dataset.assetId = playArt.assetId;
+    play.appendChild(image);
+  }
+  const playCopy = document.createElement("span");
+  playCopy.className = "puzzle-home-scene__play-copy";
+  appendTextElement(playCopy, "strong", "", t("home.solveCurrent"));
+  appendTextElement(playCopy, "small", "", puzzleTitle(activePuzzle));
+  play.appendChild(playCopy);
   play.addEventListener("click", onOpenPuzzle);
-  current.appendChild(play);
 
   const destinations = document.createElement("nav");
   destinations.className = "puzzle-home-destinations";
@@ -101,19 +90,17 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     destinations.appendChild(button);
   });
 
-  scene.appendChild(renderWorkshopFurnishings());
+  const currency = document.createElement("div");
+  currency.className = "puzzle-home-scene__currency";
+  currency.setAttribute("aria-label", t("currency.spoons", { count: getPantrySpoons() }));
+  const spoon = document.createElement("img");
+  spoon.src = spoonTokenUrl;
+  spoon.alt = "";
+  spoon.setAttribute("aria-hidden", "true");
+  spoon.dataset.assetId = "spoon-token-v2";
+  currency.append(spoon, document.createTextNode(String(getPantrySpoons())));
 
-  if (hasCozySupportPack()) {
-    const keepsake = document.createElement("img");
-    keepsake.className = "puzzle-home-scene__keepsake";
-    keepsake.src = supportPackGiftUrl;
-    keepsake.alt = t("home.supporterKeepsake");
-    keepsake.dataset.assetId = "support-pack-gift-v1";
-    scene.appendChild(keepsake);
-  }
-
-  scene.append(destinations, current);
-  stack.append(scene);
+  scene.append(destinations, currency, play);  stack.append(scene);
   return stack;
 }
 

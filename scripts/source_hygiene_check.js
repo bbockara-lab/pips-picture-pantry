@@ -224,7 +224,15 @@ if (!timeAttackNavigationArt.includes("quick-travel-time-attack-clock-v1") || ti
   errors.push("src/data/quickTravelArt.js: Time Attack must use Mr. Park's aura-free pocket watch artwork");
 }
 
+const workshopHomeSource = readFileSync(resolve(root, "src/ui/puzzleHubView.js"), "utf8");
+if (/puzzle-home-(?:furnishings|furnishing)|puzzle-home-scene__keepsake|support-pack-gift-v1/.test(workshopHomeSource)) {
+  errors.push("src/ui/puzzleHubView.js: home must stay a complete authored workshop scene, not a Pantry-prop overlay");
+}
 const styles = readFileSync(resolve(root, "src/styles.css"), "utf8");
+const retiredWorkshopPropStyles = /\.puzzle-home-(?:furnishings|furnishing)|\.puzzle-home-scene__keepsake/;
+if (retiredWorkshopPropStyles.test(styles)) {
+  errors.push("src/styles.css: retired Pantry-prop overlay styles must stay removed from the authored workshop home");
+}
 const staleCssRules = [
   {
     label: "legacy unlockable puzzle chip dot",

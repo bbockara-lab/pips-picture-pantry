@@ -31,7 +31,10 @@ for (const viewport of viewports) {
   await dismissIntro(page, "Jay", viewport.name);
 
   await expectVisible(page, ".app-shell", viewport.name);
-  await expectSafeAreaChromeGuard(page, viewport.name);
+  const isWorkshopHome = (await page.locator(".app-shell--workshop-home").count()) > 0;
+  if (!isWorkshopHome) {
+    await expectSafeAreaChromeGuard(page, viewport.name);
+  }
   await expectFloatingNavHiddenDuringBlockingOverlay(page, viewport.name);
   await dismissGuideIfPresent(page, viewport.name);
   await expectSettingsDialogPolish(page, viewport.name);
@@ -43,8 +46,12 @@ for (const viewport of viewports) {
     await page.locator(".play-screen__back").click();
   }
   await expectAbsent(page, ".pip-strip", viewport.name);
-  await expectVisible(page, ".currency-pill", viewport.name);
-  await expectAppChromePolish(page, viewport.name);
+  if (isWorkshopHome) {
+    await expectVisible(page, ".puzzle-home-scene__currency", viewport.name);
+  } else {
+    await expectVisible(page, ".currency-pill", viewport.name);
+    await expectAppChromePolish(page, viewport.name);
+  }
   await expectPuzzleHomePolish(page, viewport.name);
   await expectResetDialogPolish(page, viewport.name);
   await expectStageCompleteRewardPolish(page, viewport.name);
@@ -1452,7 +1459,8 @@ async function expectPuzzleHomePolish(page, viewportName) {
   const metrics = await page.locator(".puzzle-home").first().evaluate((home) => {
     const destinations = [...home.querySelectorAll(".puzzle-home-destination")];
     const scene = home.querySelector(".puzzle-home-scene");
-    const current = home.querySelector(".puzzle-home-scene__current");
+    const play = home.querySelector(".puzzle-home-scene__play");
+    const shell = home.closest(".app-shell");
     const sceneStyle = scene ? getComputedStyle(scene) : null;
     const boxOf = (element) => {
       const rect = element?.getBoundingClientRect();
@@ -1465,7 +1473,7 @@ async function expectPuzzleHomePolish(page, viewportName) {
       && left.bottom > right.top + 1);
     const sceneBox = boxOf(scene);
     const destinationBoxes = destinations.map(boxOf);
-    const currentBox = boxOf(current);
+    const playBox = boxOf(play);
     return {
       overflow: home.scrollWidth > home.clientWidth + 1,
       sceneOverflow: scene ? scene.scrollWidth > scene.clientWidth + 1 : true,
@@ -1478,7 +1486,10 @@ async function expectPuzzleHomePolish(page, viewportName) {
       destinationCollisions: destinationBoxes.some((box, index) => destinationBoxes
         .slice(index + 1)
         .some((other) => intersects(box, other))),
-      currentCollision: destinationBoxes.some((box) => intersects(box, currentBox)),
+      playCollision: destinationBoxes.some((box) => intersects(box, playBox)),
+      playOutsideScene: !playBox || !sceneBox || playBox.left < sceneBox.left - 1 || playBox.right > sceneBox.right + 1 || playBox.top < sceneBox.top - 1 || playBox.bottom > sceneBox.bottom + 1,
+      workshopShell: Boolean(shell?.classList.contains("app-shell--workshop-home")),
+      hasRetiredHomeProps: Boolean(home.querySelector(".puzzle-home-furnishings, .puzzle-home-scene__keepsake")),
       labelsVisible: destinations.some((button) => {
         const label = button.querySelector(".puzzle-home-destination__label");
         return !label || getComputedStyle(label).position !== "absolute";
@@ -1487,7 +1498,7 @@ async function expectPuzzleHomePolish(page, viewportName) {
     };
   });
   const expected = ["puzzle", "album", "pantry", "timeAttack", "map", "settings"];
-  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || metrics.currentCollision || metrics.labelsVisible || expected.some((id) => !metrics.ids.includes(id))) {
+  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || metrics.playCollision || metrics.playOutsideScene || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.labelsVisible || expected.some((id) => !metrics.ids.includes(id))) {
     failures.push("[" + viewportName + "] Puzzle workshop home/direct destinations regressed: " + JSON.stringify(metrics));
   }
 }

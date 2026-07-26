@@ -57,8 +57,8 @@ export const en = {
     guideReplayTimeAttackAction: "Time Attack guide",
     spoonStoreTitle: "Add more spoons",
     supportTitle: "Pip Support Pack",
-    supportBody: "Support Pip, add {spoons} spoons, and leave a workshop keepsake.",
-    supportOwnedBody: "Thank you. Your workshop keepsake is waiting for you.",
+    supportBody: "Support Pip and add {spoons} spoons.",
+    supportOwnedBody: "Thank you for supporting Pip.",
     supportOwned: "Support pack is active.",
     supportChecking: "Checking the store connection...",
     supportAndroidOnly: "Store connection is being prepared.",
@@ -119,8 +119,8 @@ export const en = {
   home: {
     sceneAria: "Pip's picture room",
     destinationsAria: "Play destinations",
-    supporterKeepsake: "Pip supporter keepsake",
     currentPicture: "Ready to color",
+    solveCurrent: "Solve this picture",
     pictureList: "Pictures",
     room: "Pip's room"
   },
