@@ -1,3 +1,8 @@
+## v0.1.599 - Workshop Cutout Navigation Foundation
+
+- Started the UI rework v2 from the player-facing home: destination artwork now renders as glow-backed sticker cutouts instead of a second ring/card frame, while the Workshop background and primary play action receive gentle motion with reduced-motion support.
+- This is intentionally a visual-foundation slice only. The Pantry furnishing pipeline is deferred until installed-scene art and placement metadata are authored; no attempt is made to force current product thumbnails into room coordinates.
+- Next: add explicit `data-view` routing for warm sub-screen composition, rebuild the Time Attack entry without the generic header, then create the Pantry master-room asset pipeline.
 ## v0.1.598 - Puzzle Room icon hierarchy
 
 - Reset the legacy two-column icon grid inside each workshop destination, so the hidden accessibility label no longer consumes half of the ring. Approved destination art now uses the full button area instead of rendering as a thin, hard-to-find strip.
