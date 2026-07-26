@@ -12,7 +12,6 @@ export function renderHeader(onSettings, options = {}) {
 
   const titleGroup = document.createElement("div");
   titleGroup.className = "title-group";
-  appendTextElement(titleGroup, "p", "studio-name", t("app.studioName"));
   appendTextElement(titleGroup, "h1", "", t("app.title"));
 
   const actions = document.createElement("div");

@@ -1447,22 +1447,28 @@ async function expectPuzzlePickerPolish(page, viewportName) {
 
 async function expectPuzzleHomePolish(page, viewportName) {
   await expectVisible(page, ".puzzle-home-scene", viewportName);
-  await expectVisible(page, ".puzzle-home-scene__pip", viewportName);
   await expectVisible(page, ".puzzle-home-scene__play", viewportName);
+  await expectAbsent(page, ".puzzle-home-scene__pip", viewportName);
   const metrics = await page.locator(".puzzle-home").first().evaluate((home) => {
     const destinations = [...home.querySelectorAll(".puzzle-home-destination")];
     const scene = home.querySelector(".puzzle-home-scene");
+    const sceneStyle = scene ? getComputedStyle(scene) : null;
     return {
       overflow: home.scrollWidth > home.clientWidth + 1,
       sceneOverflow: scene ? scene.scrollWidth > scene.clientWidth + 1 : true,
+      backgroundImage: sceneStyle?.backgroundImage || "",
       destinationCount: destinations.length,
       destinationOverflow: destinations.some((button) => button.scrollWidth > button.clientWidth + 1 || button.getBoundingClientRect().height < 48),
+      labelsVisible: destinations.some((button) => {
+        const label = button.querySelector(".puzzle-home-destination__label");
+        return !label || getComputedStyle(label).position !== "absolute";
+      }),
       ids: destinations.map((button) => button.dataset.destination || "")
     };
   });
   const expected = ["puzzle", "album", "pantry", "timeAttack", "map", "settings"];
-  if (metrics.overflow || metrics.sceneOverflow || metrics.destinationCount !== expected.length || metrics.destinationOverflow || expected.some((id) => !metrics.ids.includes(id))) {
-    failures.push("[" + viewportName + "] Puzzle home scene/direct destinations regressed: " + JSON.stringify(metrics));
+  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.labelsVisible || expected.some((id) => !metrics.ids.includes(id))) {
+    failures.push("[" + viewportName + "] Puzzle workshop home/direct destinations regressed: " + JSON.stringify(metrics));
   }
 }
 

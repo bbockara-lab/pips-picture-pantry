@@ -1,5 +1,16 @@
 export const assetRegistry = [
   {
+    id: "pip-puzzle-workshop-v1",
+    usage: "puzzle-home-background",
+    path: "src/assets/generated/pip-puzzle-workshop-v1.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-and-world-continuity",
+    note: "Generated original Pip puzzle workshop scene for the play-home. This is deliberately distinct from the editable Pantry room."
+  },
+  {
     id: "pantry-room-sunlit-v1",
     usage: "pantry-room-background",
     path: "src/assets/backgrounds/pantry-room-sunlit-v1.png",

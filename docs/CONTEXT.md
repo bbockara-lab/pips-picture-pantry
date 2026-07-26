@@ -2,6 +2,16 @@
 
 ## Current Launch Candidate Snapshot - 2026-07-17
 
+### v0.1.592 - Separate Puzzle Workshop Home
+
+- Split the player-facing spaces cleanly: the new home is an original Pip puzzle workshop scene, while the editable Pantry remains a separate room that fills as the player buys and equips furnishings.
+- Removed the studio-name line from the normal game header; it remains an opening-brand responsibility rather than recurring in-play copy.
+- Korean UI now uses `?? ???` for the play home and `?? ??? ?` for the furnishing route, including visible early puzzle names.
+- Replaced the labeled destination card grid with six accessible, icon-only scene destinations around the workshop. The current puzzle remains one compact bottom action.
+- Centered the floating menu label independently of its icon and reduced the starter counter furnishing zone so it reads as a placed object, not a room-scale illustration.
+- Verification: 170 tests, asset manifest QA (160 assets), four-width mobile QA (360x740 / 390x844 / 430x932 / 675x900), and regenerated 64-image visual review pack pass. Full candidate/build validation follows this context update.
+- Release blocker unchanged: real-device Billing evidence for `pip_cozy_support` purchase/restore and `pip_spoon_jar_small` repeat purchase.
+
 ### v0.1.591 - Pip's Picture Room Home and Navigation
 
 - Renamed the Korean player-facing space to `Pip의 그림방`, retaining the English product name only where it is part of the brand. The room, Pantry route, and home copy now use the same familiar Korean concept.

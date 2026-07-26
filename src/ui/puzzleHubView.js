@@ -1,6 +1,5 @@
 import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
-import pantryRoomBackgroundUrl from "../assets/backgrounds/pantry-room-sunlit-v1.png";
-import pipHomeUrl from "../assets/characters/pip-chrome-v2.png";
+import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-v1.png";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, seasonShelves } from "../data/seasonShelves.js";
 import { getStageArtUrl, hasApprovedStageArt } from "../data/stageArt.js";
 import { ECONOMY } from "../data/economyConfig.js";
@@ -35,14 +34,8 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
 
   const scene = document.createElement("section");
   scene.className = "puzzle-home-scene";
-  scene.style.setProperty("--puzzle-home-background", `url("${pantryRoomBackgroundUrl}")`);
+  scene.style.setProperty("--puzzle-home-background", `url("${puzzleWorkshopBackgroundUrl}")`);
   scene.setAttribute("aria-label", t("home.sceneAria"));
-
-  const pip = document.createElement("img");
-  pip.className = "puzzle-home-scene__pip";
-  pip.src = pipHomeUrl;
-  pip.alt = "";
-  pip.setAttribute("aria-hidden", "true");
 
   const current = document.createElement("div");
   current.className = "puzzle-home-scene__current";
@@ -55,8 +48,6 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   play.textContent = t("playScreen.open");
   play.addEventListener("click", onOpenPuzzle);
   current.appendChild(play);
-
-  scene.append(pip, current);
 
   const destinations = document.createElement("nav");
   destinations.className = "puzzle-home-destinations";
@@ -72,7 +63,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   destinationItems.forEach(([artId, labelKey, onClick]) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "puzzle-home-destination";
+    button.className = `puzzle-home-destination puzzle-home-destination--${artId}`;
     button.dataset.destination = artId;
     const art = artId === "settings" ? getPuzzleControlArt("settings") : getQuickTravelArt(artId);
     if (art) {
@@ -83,12 +74,16 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
       image.dataset.assetId = art.assetId;
       button.appendChild(image);
     }
-    appendTextElement(button, "span", "", t(labelKey));
+    const label = appendTextElement(button, "span", "puzzle-home-destination__label", t(labelKey));
+    label.setAttribute("aria-hidden", "true");
+    button.setAttribute("aria-label", t(labelKey));
+    button.title = t(labelKey);
     button.addEventListener("click", onClick);
     destinations.appendChild(button);
   });
 
-  stack.append(scene, destinations);
+  scene.append(destinations, current);
+  stack.append(scene);
   return stack;
 }
 

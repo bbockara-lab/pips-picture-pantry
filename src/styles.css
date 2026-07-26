@@ -15795,3 +15795,184 @@ img {
   width: auto;
   z-index: 20;
 }
+
+
+/* v0.1.592: the play home is a distinct puzzle workshop, not the editable Pantry. */
+.puzzle-home-scene {
+  min-height: clamp(520px, 74svh, 720px);
+  border-color: rgba(113, 78, 49, 0.3);
+  border-radius: 24px;
+  background-position: center;
+  background-size: cover;
+}
+
+.puzzle-home-scene::after {
+  display: none;
+}
+
+.puzzle-home-scene__pip {
+  display: none;
+}
+
+.puzzle-home-destinations {
+  position: absolute;
+  inset: 14% 12px 18%;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) 56px;
+  grid-template-rows: repeat(3, 1fr);
+  align-items: center;
+  gap: 10px 0;
+  pointer-events: none;
+}
+
+.puzzle-home-destination {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  min-height: 56px;
+  padding: 6px;
+  place-items: center;
+  justify-self: center;
+  pointer-events: auto;
+  border: 2px solid rgba(74, 50, 42, 0.72);
+  border-radius: 18px;
+  background: rgba(255, 250, 235, 0.92);
+  box-shadow: 0 3px 0 rgba(61, 43, 46, 0.2), 0 7px 15px rgba(61, 43, 46, 0.12);
+}
+
+.puzzle-home-destination:hover,
+.puzzle-home-destination:focus-visible {
+  transform: translateY(-2px) scale(1.03);
+  outline: 3px solid rgba(255, 214, 93, 0.88);
+  outline-offset: 2px;
+}
+
+.puzzle-home-destination img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.puzzle-home-destination__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.puzzle-home-destination--puzzle,
+.puzzle-home-destination--timeAttack,
+.puzzle-home-destination--map {
+  grid-column: 1;
+}
+
+.puzzle-home-destination--album,
+.puzzle-home-destination--pantry,
+.puzzle-home-destination--settings {
+  grid-column: 3;
+}
+
+.puzzle-home-destination--puzzle,
+.puzzle-home-destination--album { grid-row: 1; }
+.puzzle-home-destination--pantry,
+.puzzle-home-destination--timeAttack { grid-row: 2; }
+.puzzle-home-destination--map,
+.puzzle-home-destination--settings { grid-row: 3; }
+
+.puzzle-home-scene__current {
+  right: auto;
+  bottom: 18px;
+  left: 50%;
+  z-index: 3;
+  width: min(270px, calc(100% - 152px));
+  min-width: 184px;
+  padding: 10px 12px 12px;
+  transform: translateX(-50%);
+  text-align: center;
+  background: rgba(255, 251, 240, 0.95);
+}
+
+.puzzle-home-scene__current p {
+  display: none;
+}
+
+.puzzle-home-scene__current h2 {
+  font-size: clamp(1rem, 4.5vw, 1.25rem);
+  line-height: 1.12;
+}
+
+.puzzle-home-scene__play {
+  min-height: 44px;
+  margin-top: 3px;
+}
+
+/* A menu title must be genuinely centered, independent of its icon. */
+.floating-nav__trigger {
+  position: relative;
+  display: flex;
+  min-height: 52px;
+  padding-inline: 58px;
+  justify-content: center;
+  text-align: center;
+}
+
+.floating-nav__trigger-icon {
+  position: absolute;
+  left: 11px;
+}
+
+.floating-nav__trigger-text {
+  flex: 0 1 auto;
+  text-align: center;
+}
+
+/* The first counter furnishing should read as a placemat, not a room-sized prop. */
+.slot-counter {
+  bottom: 25%;
+  left: 31%;
+  width: 38%;
+  height: 12%;
+}
+
+.slot-counter .pantry-room-decoration {
+  transform: scale(0.95);
+}
+
+@media (max-width: 430px) {
+  .puzzle-home-scene {
+    min-height: clamp(486px, 71svh, 650px);
+    border-radius: 20px;
+  }
+
+  .puzzle-home-destinations {
+    inset: 13% 8px 18%;
+    grid-template-columns: 50px minmax(0, 1fr) 50px;
+  }
+
+  .puzzle-home-destination {
+    width: 50px;
+    height: 50px;
+    min-height: 50px;
+    padding: 5px;
+    border-radius: 16px;
+  }
+
+  .puzzle-home-scene__current {
+    bottom: 12px;
+    width: min(246px, calc(100% - 132px));
+    padding: 9px 10px 10px;
+  }
+
+  .floating-nav__trigger {
+    min-height: 50px;
+    padding-inline: 52px;
+  }
+
+  .floating-nav__trigger-icon {
+    left: 9px;
+  }
+}

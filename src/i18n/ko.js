@@ -1,6 +1,6 @@
 export const ko = {
   app: {
-    title: "Pip\uc758 \uadf8\ub9bc\ubc29",
+    title: "\ud54d\uc758 \ud37c\uc990\ubc29",
     studioName: "Sunny Spoon Studios",
   },
   brandIntro: {
@@ -17,7 +17,7 @@ export const ko = {
   views: {
     puzzle: "\ud37c\uc990",
     album: "\uc568\ubc94",
-    pantry: "\uadf8\ub9bc\ubc29",
+    pantry: "\uafb8\ubbf8\uae30 \ubc29",
     map: "\ubc30\uc9c0",
     timeAttack: "\ud0c0\uc784\uc5b4\ud0dd",
     navLabel: "\uc8fc\uc694 \ud654\uba74",
@@ -352,11 +352,11 @@ export const ko = {
     villagePantry: "\ub9c8\uc744 \ud32c\ud2b8\ub9ac"
   },
   home: {
-    sceneAria: "Pip\uc758 \uadf8\ub9bc\ubc29",
+    sceneAria: "\ud54d\uc758 \ud37c\uc990\ubc29",
     destinationsAria: "\ubc14\ub85c \uac00\uae30",
     currentPicture: "\uc9c0\uae08 \ud480 \uadf8\ub9bc",
     pictureList: "\uadf8\ub9bc \ubaa9\ub85d",
-    room: "\uadf8\ub9bc\ubc29"
+    room: "\uafb8\ubbf8\uae30 \ubc29"
   },
   packs: {
     free: "\uae30\ubcf8 \ud3ec\ud568",
@@ -416,7 +416,7 @@ export const ko = {
     }
   },
   pantry: {
-    title: "Pip의 그림방",
+    title: "\ud54d\uc758 \uafb8\ubbf8\uae30 \ubc29",
     spoonNote: "모아둔 스푼: {count}",
     roomAria: "Pip이 꾸민 팬트리",
     shopEyebrow: "꾸미기 팬트리",
@@ -554,8 +554,8 @@ export const ko = {
   },
   puzzles: {
     "pips-first-shelf-pip-face-1": {
-      title: "Pip \uc5bc\uad74",
-      imageName: "Pip \uc5bc\uad74",
+      title: "\ud54d \uc5bc\uad74",
+      imageName: "\ud54d \uc5bc\uad74",
       albumText: "\uccab \uadf8\ub9bc\uc744 \uc800\uc7a5\ud588\uc5b4\uc694."
     },
     "pips-first-shelf-soup-bowl-2": { title: "\uc218\ud504 \uadf8\ub987", imageName: "\uc218\ud504 \uadf8\ub987" },
@@ -567,7 +567,7 @@ export const ko = {
     "pips-first-shelf-bread-loaf-8": { title: "\uc2dd\ube75", imageName: "\uc2dd\ube75" },
     "pips-first-shelf-tiny-house-9": { title: "\uc791\uc740 \uc9d1", imageName: "\uc791\uc740 \uc9d1" },
     "pips-first-shelf-apple-10": { title: "\uc0ac\uacfc", imageName: "\uc0ac\uacfc" },
-    "pips-first-shelf-pip-face-2-11": { title: "\uc6c3\ub294 Pip", imageName: "\uc6c3\ub294 Pip" },
+    "pips-first-shelf-pip-face-2-11": { title: "\uc6c3\ub294 \ud54d", imageName: "\uc6c3\ub294 \ud54d" },
     "pips-first-shelf-soup-bowl-2-12": { title: "\ub530\ub73b\ud55c \uc218\ud504", imageName: "\ub530\ub73b\ud55c \uc218\ud504" },
     "pips-first-shelf-spoon-2-13": { title: "\ubc18\uc9dd\uc774\ub294 \uc2a4\ud47c", imageName: "\ubc18\uc9dd\uc774\ub294 \uc2a4\ud47c" },
     "pips-first-shelf-recipe-card-2-14": { title: "\ube44\ubc00 \ub808\uc2dc\ud53c", imageName: "\ube44\ubc00 \ub808\uc2dc\ud53c" },
