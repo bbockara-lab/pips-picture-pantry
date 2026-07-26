@@ -1492,11 +1492,17 @@ async function expectPuzzleHomePolish(page, viewportName) {
     const destinationArt = destinations.map((button) => {
       const image = button.querySelector("img");
       const rect = image?.getBoundingClientRect();
+      const style = getComputedStyle(button);
       return {
+        id: button.dataset.destination || "",
+        assetId: image?.dataset.assetId || "",
         width: rect?.width || 0,
         height: rect?.height || 0,
         naturalWidth: image?.naturalWidth || 0,
-        naturalHeight: image?.naturalHeight || 0
+        naturalHeight: image?.naturalHeight || 0,
+        backgroundColor: style.backgroundColor,
+        borderTopWidth: style.borderTopWidth,
+        boxShadow: style.boxShadow
       };
     });
     const playBox = boxOf(play);
@@ -1516,6 +1522,7 @@ async function expectPuzzleHomePolish(page, viewportName) {
         && Math.min(box.right - box.left, box.bottom - box.top) >= 76),
       destinationArtLargeEnough: destinationArt.every((art) => art.width >= 72 && art.height >= 72
         && art.naturalWidth >= 128 && art.naturalHeight >= 128),
+      destinationArt,
       playCollision: destinationBoxes.some((box) => intersects(box, playBox)),
       playOutsideScene: !playBox || !sceneBox || playBox.left < sceneBox.left - 1 || playBox.right > sceneBox.right + 1 || playBox.top < sceneBox.top - 1 || playBox.bottom > sceneBox.bottom + 1,
       playLargeEnough: Boolean(playBox && Math.min(playBox.right - playBox.left, playBox.bottom - playBox.top) >= 96),
@@ -1525,11 +1532,14 @@ async function expectPuzzleHomePolish(page, viewportName) {
         const label = button.querySelector(".puzzle-home-destination__label");
         return !label || getComputedStyle(label).position !== "absolute";
       }),
-      ids: destinations.map((button) => button.dataset.destination || "")
+      ids: destinations.map((button) => button.dataset.destination || ""),
+      playAssetId: play?.querySelector("img")?.dataset.assetId || ""
     };
   });
   const expected = ["puzzle", "album", "pantry", "timeAttack", "map", "settings"];
-  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.playOutsideScene || !metrics.playLargeEnough || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.labelsVisible || expected.some((id) => !metrics.ids.includes(id))) {
+  const expectedAssets = { puzzle: "workshop-nav-puzzle-v2", album: "workshop-nav-album-v2", pantry: "workshop-nav-pantry-v2", timeAttack: "workshop-nav-time-attack-v2", map: "workshop-nav-map-v2", settings: "workshop-nav-settings-v2" };
+  const hasStaleDestinationTreatment = metrics.destinationArt.some((art) => art.assetId !== expectedAssets[art.id] || art.backgroundColor !== "rgba(0, 0, 0, 0)" || art.borderTopWidth !== "0px" || art.boxShadow !== "none");
+  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.playOutsideScene || !metrics.playLargeEnough || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.labelsVisible || metrics.playAssetId !== expectedAssets.puzzle || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
     failures.push("[" + viewportName + "] Puzzle workshop home/direct destinations regressed: " + JSON.stringify(metrics));
   }
 }
