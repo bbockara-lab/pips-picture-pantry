@@ -6,7 +6,6 @@ import { ECONOMY } from "../data/economyConfig.js";
 import { canUnlockShelf, getCompletedPuzzleIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
-import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -70,7 +69,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     button.type = "button";
     button.className = `puzzle-home-destination puzzle-home-destination--${artId}`;
     button.dataset.destination = artId;
-    const art = artId === "settings" ? getPuzzleControlArt("settings") : getQuickTravelArt(artId);
+    const art = getQuickTravelArt(artId);
     if (art) {
       const image = document.createElement("img");
       image.src = art.src;

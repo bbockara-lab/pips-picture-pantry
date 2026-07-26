@@ -1,3 +1,10 @@
+## v0.1.601 - Workshop Sticker Navigation
+
+- Replaced the six Workshop navigation illustrations with a coherent transparent sticker set: puzzle notebook, completed-picture album, Clock Grandpa pocket watch, Pantry jar, achievement map, and settings gear.
+- Rebuilt the scene hierarchy around physical workshop anchors and one large lower-right Play action. Destination controls now stay clear of Pip and his notebook instead of reading as a flat six-card menu.
+- Archived high-resolution alpha sources alongside optimized 512px WebP runtime copies; no chroma-key source is shipped.
+- Verification: asset manifest validation and four-width mobile visual QA passed.
+
 ## v0.1.600 - Screen-Aware Navigation and Time Attack Entry
 
 - Added an explicit active-view marker to the app shell so each destination can own its surface without leaking home composition styles.

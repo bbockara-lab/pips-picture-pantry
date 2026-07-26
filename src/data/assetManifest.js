@@ -1583,8 +1583,43 @@ export const assetRegistry = [
     mustReplaceBeforeMajorArtPass: true,
     identityStatus: "rejected-wrong-character",
     note: "Rejected after user review: cute image but not Pip; do not use because it drifted into an unfamiliar bear-like mascot."
-  }
-];
+  },
+  ...[
+    ["puzzle", "Puzzle notebook sticker"],
+    ["album", "Completed-picture album sticker"],
+    ["pantry", "Cozy pantry jar sticker"],
+    ["time-attack", "Clock Grandpa pocket watch sticker"],
+    ["map", "Achievement map sticker"],
+    ["settings", "Workshop settings sticker"]
+  ].map(([view, label]) => ({
+    id: `workshop-nav-${view}-source-v2`,
+    usage: "navigation-icon-source",
+    path: `src/assets/icons/workshop-nav-v2/workshop-nav-${view}-v2.png`,
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-navigation",
+    note: `${label} transparent source retained for the optimized workshop navigation runtime asset.`
+  })),
+  ...[
+    ["puzzle", "Puzzle notebook sticker"],
+    ["album", "Completed-picture album sticker"],
+    ["pantry", "Cozy pantry jar sticker"],
+    ["time-attack", "Clock Grandpa pocket watch sticker"],
+    ["map", "Achievement map sticker"],
+    ["settings", "Workshop settings sticker"]
+  ].map(([view, label]) => ({
+    id: `workshop-nav-${view}-v2`,
+    usage: "navigation-icon",
+    path: `src/assets/icons/workshop-nav-v2/workshop-nav-${view}-v2.webp`,
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-navigation",
+    note: `${label} rendered as a transparent cutout for the Pip puzzle workshop; no CSS card or ring is used at runtime.`
+  }))];
 
 export function getAssetRecordById(id) {
   return assetRegistry.find((asset) => asset.id === id) || null;

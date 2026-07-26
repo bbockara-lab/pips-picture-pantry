@@ -6,11 +6,12 @@ const APPROVED_GUIDE_ART_IDS = new Set([
 ]);
 const APPROVED_STUDIO_BUMPER_ART_IDS = new Set(["sunny-spoon-studios-bumper-v1"]);
 const APPROVED_QUICK_TRAVEL_ART_IDS = new Set([
-  "quick-travel-puzzle-v1",
-  "quick-travel-album-v1",
-  "quick-travel-pantry-v1",
-  "quick-travel-time-attack-clock-v1",
-  "quick-travel-map-v1"
+  "workshop-nav-puzzle-v2",
+  "workshop-nav-album-v2",
+  "workshop-nav-pantry-v2",
+  "workshop-nav-time-attack-v2",
+  "workshop-nav-map-v2",
+  "workshop-nav-settings-v2"
 ]);
 const APPROVED_PUZZLE_CONTROL_ART_IDS = new Set([
   "puzzle-control-fill-v1",
