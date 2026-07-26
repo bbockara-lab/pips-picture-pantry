@@ -16343,3 +16343,19 @@ img {
     border-radius: 30px;
   }
 }
+/* v0.1.597: keep the shared Menu cue as one centered return affordance. */
+.floating-nav__trigger {
+  display: flex;
+  gap: 10px;
+  padding-inline: 20px;
+  justify-content: center;
+}
+
+.floating-nav__trigger-icon {
+  position: static;
+}
+
+.floating-nav__trigger-text {
+  flex: 0 1 auto;
+  width: auto;
+}

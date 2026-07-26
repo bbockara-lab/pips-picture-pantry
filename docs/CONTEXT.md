@@ -1,3 +1,7 @@
+## v0.1.597 ? Shared-menu alignment
+
+- The non-home menu trigger now centers its current-route art and `¸Þ´º` / `Menu` label as a single group instead of pinning the art against the left edge of a wide bar.
+- The trigger retains its full-width touch target and opens the same direct Puzzle Room return route alongside the other destinations.
 ## v0.1.596 ? Puzzle Room destination-art legibility
 
 - Workshop scene destination targets retain their 84px+ tap areas, while the approved destination artwork is enlarged within the white-ringed color buttons; this removes the transparent-padding effect that made each icon read too small.
