@@ -3,6 +3,7 @@ import { getLanguagePreference, t } from "../i18n/index.js";
 import { getAudioPreferences } from "./audio.js";
 import supportPackGiftUrl from "../assets/billing/support-pack-gift-v1.png";
 import spoonJarSmallUrl from "../assets/billing/spoon-jar-small-v1.png";
+import { getQuickTravelArt } from "../data/quickTravelArt.js";
 
 const BILLING_PRODUCT_ART = {
   support: {
@@ -19,6 +20,7 @@ export function renderSettingsDialog({
   onClose,
   onLanguageChange,
   onPlayerChange,
+  onResetRequest = () => {},
   onSfxChange,
   onMusicChange,
   controlMode,
@@ -134,13 +136,19 @@ export function renderSettingsDialog({
 
   const guideGroup = createGuideReplayCard(onReplayGuide);
 
+  const resetButton = document.createElement("button");
+  resetButton.type = "button";
+  resetButton.className = "settings-reset";
+  resetButton.textContent = t("header.resetProgress");
+  resetButton.addEventListener("click", onResetRequest);
+
   const closeButton = document.createElement("button");
   closeButton.type = "button";
   closeButton.className = "tool-button settings-choice settings-choice--close settings-close";
   closeButton.textContent = t("settings.close");
   closeButton.addEventListener("click", onClose);
 
-  dialog.append(group, playerForm, controlGroup, audioGroup, guideGroup);
+  dialog.append(group, playerForm, controlGroup, audioGroup, guideGroup, resetButton);
   dialog.appendChild(closeButton);
   overlay.appendChild(dialog);
   return overlay;
@@ -195,9 +203,15 @@ function createGuideReplayButton(label, guideId, modifier, onReplayGuide) {
   button.className = `tool-button settings-choice settings-choice--guide-replay settings-choice--guide-replay-${modifier}`;
   button.dataset.guideTarget = guideId;
 
-  const icon = document.createElement("span");
-  icon.className = `settings-choice__guide-icon settings-choice__guide-icon--${modifier}`;
+  const icon = document.createElement("img");
+  const art = getQuickTravelArt(guideId === "timeAttack" ? "timeAttack" : "puzzle");
+  icon.className = `settings-choice__guide-art settings-choice__guide-art--${modifier}`;
+  icon.src = art?.src || "";
+  icon.alt = "";
   icon.setAttribute("aria-hidden", "true");
+  if (art) {
+    icon.dataset.assetId = art.assetId;
+  }
 
   const text = document.createElement("span");
   text.className = "settings-choice__guide-label";

@@ -81,7 +81,7 @@ export const en = {
     spoonJarReady: "Spoons arrive after each jar.",
     spoonJarFailed: "The jar could not be filled. No spoons were spent.",
     spoonJarBuy: "{price} · {spoons} spoons",
-    supportPricePending: "Check price",
+    supportPricePending: "Store price",
     close: "Done"
   },
   badges: {
@@ -289,9 +289,9 @@ export const en = {
   },
   progress: {
     filled: "{count} filled",
-    filledOf: "{count}/{target} colored",
+    filledOf: "{count} / {target}",
     revisit: "{count} filled - {mistakes} to revisit",
-    revisitOf: "{count}/{target} colored - {mistakes} to revisit",
+    revisitOf: "{count} / {target} · {mistakes} to revisit",
     lineGuided: "{count} line",
     lineGuidedAria: "{count} completed clue line",
     linesGuided: "{count} lines",
@@ -306,6 +306,7 @@ export const en = {
     rewardFactRoom: "Room path grows",
     rewardFactNext: "Next picture ready",
     viewAlbum: "View Album",
+    menu: "Menu",
     nextPicture: "Next Picture",
     replayReward: "Clean replay! You earned +{count} spoon.",
     replayNoReward: "Replay complete. No spoon this time, but the card stayed safe."
@@ -367,7 +368,7 @@ export const en = {
     needMore: "Need {count} more",
     needPantryRoom: "Need pantry story",
     visitPantry: "Go to Pantry",
-    roomRequirement: "Pantry room step: {completed}/{required} requests",
+    roomRequirement: "Pantry decor {completed}/{required}",
     "pips-first-shelf": {
       title: "Pip's First Shelf",
       note: "Start with tiny cozy pictures"

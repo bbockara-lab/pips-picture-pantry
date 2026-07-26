@@ -1,5 +1,6 @@
 import { getApprovedPantryDecorations, getDecorationById, pantrySlots } from "../data/decorations.js";
 import { getDecorationArtUrl } from "../data/decorationArt.js";
+import pantryRoomBackgroundUrl from "../assets/backgrounds/pantry-room-sunlit-v1.png";
 import {
   buyDecoration,
   clearPantryStoryGoalId,
@@ -103,13 +104,12 @@ function renderRoomSlot(slot, equippedDecorations, selectedSlotId, onSelectSlot)
     slotElement.appendChild(image);
   }
 
-  const label = document.createElement("span");
-  label.textContent = t(slot.titleKey);
-  slotElement.appendChild(label);
   if (decoration) {
-    const value = document.createElement("strong");
-    value.textContent = t(decoration.titleKey);
-    slotElement.appendChild(value);
+    slotElement.dataset.decoration = decoration.id;
+  } else {
+    const label = document.createElement("span");
+    label.textContent = t(slot.titleKey);
+    slotElement.appendChild(label);
   }
   slotElement.addEventListener("click", () => onSelectSlot(selected ? "all" : slot.id));
   return slotElement;
@@ -285,6 +285,7 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
 
   const room = document.createElement("div");
   room.className = "pantry-room";
+  room.style.setProperty("--pantry-room-background", `url("${pantryRoomBackgroundUrl}")`);
   room.setAttribute("aria-label", t("pantry.roomAria"));
 
   const storyRequestMount = document.createElement("div");

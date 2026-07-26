@@ -75,6 +75,7 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
   grid.setAttribute("role", "grid");
   grid.setAttribute("aria-label", `${puzzleText(puzzle.id, "title")} puzzle board`);
   const locked = Boolean(options.locked);
+  const cursorOnly = Boolean(options.cursorOnly);
   const showColoredReward = Boolean(options.completed);
   let dragSession = null;
   let suppressNextClick = false;
@@ -163,6 +164,9 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
       button.setAttribute("aria-label", `Row ${rowIndex + 1}, column ${columnIndex + 1}, ${safeSuggestion ? "blank suggestion" : cell}`);
       if (!locked) {
         button.addEventListener("pointerdown", (event) => {
+          if (cursorOnly) {
+            return;
+          }
           if (event.pointerType === "mouse" && event.button !== 0) {
             return;
           }

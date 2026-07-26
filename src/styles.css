@@ -15217,6 +15217,276 @@ img {
   }
 }
 
+/* v0.1.590: one clean control language across puzzle, navigation, and settings. */
+.puzzle-cell.marked,
+.puzzle-cell.safe-suggestion {
+  border: 2px solid rgba(86, 125, 111, 0.42) !important;
+  border-radius: 7px;
+  background: #edf7ed !important;
+  box-shadow: none !important;
+  color: #5d8f7b !important;
+  font-size: clamp(1rem, calc(var(--board-cell-size) * 0.56), 1.45rem);
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: none !important;
+}
+
+.puzzle-cell.marked::before,
+.puzzle-cell.marked::after,
+.puzzle-cell.safe-suggestion::before,
+.puzzle-cell.safe-suggestion::after {
+  content: none !important;
+  display: none !important;
+}
+
+.cursor-controls {
+  padding: 12px;
+}
+
+.cursor-controls__body {
+  align-items: center;
+}
+
+.cursor-controls--compact .cursor-controls__body {
+  grid-template-columns: minmax(132px, 0.9fr) minmax(0, 1.1fr);
+}
+
+.progress-line {
+  display: inline-flex;
+  width: fit-content;
+  min-width: 0;
+  margin: 12px 0 0;
+  padding: 7px 11px;
+  border: 1px solid rgba(61, 43, 46, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 250, 238, 0.84);
+  box-shadow: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.settings-reset {
+  width: fit-content;
+  min-height: 38px;
+  margin: 4px 0 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #8b6558;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.settings-reset:focus-visible {
+  outline: 3px solid rgba(239, 177, 75, 0.72);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.modal-backdrop--settings {
+  background: rgba(54, 43, 38, 0.42);
+  backdrop-filter: blur(3px) brightness(0.82);
+}
+
+.time-attack-panel__start,
+.time-attack-teaser-card__action {
+  display: grid;
+  place-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.floating-nav__menu {
+  grid-template-columns: minmax(0, 1fr);
+  width: min(286px, calc(100vw - 24px));
+}
+
+.floating-nav__item:last-child:nth-child(odd) {
+  grid-column: auto;
+  width: auto;
+  justify-self: stretch;
+}
+
+/* v0.1.590 pantry room: the five choices live inside one illustrated room,
+   rather than inside five competing placeholder cards. */
+.pantry-room {
+  aspect-ratio: 2 / 3;
+  min-height: 0;
+  padding: 0;
+  border-color: rgba(113, 78, 49, 0.24);
+  border-radius: 22px;
+  background-image: var(--pantry-room-background) !important;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: none;
+}
+
+.pantry-room::before,
+.pantry-room::after {
+  content: none !important;
+  display: none !important;
+}
+
+.pantry-room-slot,
+.pantry-room-slot.empty,
+.pantry-room-slot.filled,
+.pantry-room-slot.selected {
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 12px;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.pantry-room-slot.empty::before {
+  content: none !important;
+  display: none !important;
+}
+
+.pantry-room-slot.empty span {
+  display: grid;
+  min-width: 64px;
+  min-height: 34px;
+  padding: 7px 10px;
+  border: 2px dashed rgba(82, 112, 85, 0.62);
+  border-radius: 999px;
+  background: rgba(255, 251, 237, 0.88);
+  box-shadow: 0 3px 0 rgba(84, 59, 45, 0.1);
+  color: #634537;
+  font-size: 0.72rem;
+  line-height: 1;
+  text-transform: none;
+}
+
+.pantry-room-slot.filled span,
+.pantry-room-slot.filled strong {
+  display: none;
+}
+
+.pantry-room-slot.selected::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 3px solid rgba(225, 169, 60, 0.92);
+  border-radius: inherit;
+  box-shadow: 0 0 0 3px rgba(255, 245, 198, 0.72);
+  pointer-events: none;
+}
+
+.pantry-room-decoration {
+  width: 100%;
+  max-width: none;
+  max-height: 100%;
+  filter: drop-shadow(0 4px 3px rgba(82, 55, 37, 0.18));
+}
+
+.slot-back-wall { top: 11%; left: 30%; width: 40%; height: 17%; transform: none; }
+.slot-shelf { top: 35%; left: 1%; width: 27%; height: 14%; }
+.slot-window { top: 32%; right: 2%; width: 24%; height: 23%; }
+.slot-counter { bottom: 22%; left: 18%; width: 64%; height: 14%; transform: none; }
+.slot-floor { bottom: 4%; left: 4%; width: 35%; height: 15%; }
+
+/* Guide replays reuse the approved navigation artwork, not CSS gradients. */
+.settings-choice__guide-art {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  object-fit: contain;
+}
+
+.settings-choice--guide-replay {
+  align-items: center;
+}
+
+/* A timed board has one compact two-row header. The timer remains with its
+   title and the utility controls cannot collide with it. */
+@media (max-width: 520px) {
+  .play-screen--time-attack .play-screen__header {
+    grid-template-columns: auto minmax(0, 1fr) 46px;
+    gap: 7px;
+  }
+
+  .play-screen--time-attack .play-screen__settings {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+  }
+
+  .play-screen--time-attack .play-screen__title {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .play-screen--time-attack .play-screen__title h1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .play-screen--time-attack .play-screen__header .difficulty {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
+    margin: 0;
+  }
+}
+
+/* Pip speaks from one calm, full-screen scene.  The dialogue sits beneath
+   the character on every viewport instead of splitting the conversation in two. */
+.guide-dialog {
+  grid-template-columns: minmax(0, 1fr);
+  width: min(calc(100vw - 28px), 480px);
+  align-items: stretch;
+}
+
+.guide-dialog__art {
+  min-height: clamp(230px, 42vw, 310px);
+  border-radius: 28px 28px 0 0;
+}
+
+.guide-dialog__art img {
+  width: min(48vw, 188px);
+  max-height: 240px;
+}
+
+.guide-dialog__bubble {
+  margin: -18px 14px 14px;
+  padding: clamp(18px, 5vw, 24px);
+  border-radius: 22px;
+  text-align: center;
+}
+
+.guide-dialog__bubble::before {
+  left: calc(50% - 11px);
+  top: -11px;
+  border: 0;
+  border-left: 3px solid rgba(61, 43, 46, 0.92);
+  border-top: 3px solid rgba(61, 43, 46, 0.92);
+}
+
+.guide-dialog__dots {
+  justify-content: center;
+}
+
+@media (max-width: 430px) {
+  .cursor-controls--compact .cursor-controls__body {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-dialog {
+    width: calc(100vw - 22px);
+  }
+
+  .guide-dialog__art {
+    min-height: 214px;
+  }
+}
+
 /* v0.1.578: language choices stay scanable as one compact row. */
 @media (max-width: 430px) {
   .settings-dialog > .settings-choice-grid--language:not(.compact) {

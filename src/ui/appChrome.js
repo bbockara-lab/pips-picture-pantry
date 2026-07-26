@@ -5,7 +5,7 @@ import { getCompletedPuzzleIds, getPantrySpoons } from "../game/save.js";
 import { t } from "../i18n/index.js";
 import { appendPuzzleControlArt } from "./puzzleControlArt.js";
 
-export function renderHeader(onSettings, onReset) {
+export function renderHeader(onSettings) {
   const header = document.createElement("header");
   header.className = "top-bar";
 
@@ -30,15 +30,7 @@ export function renderHeader(onSettings, onReset) {
   appendPuzzleControlArt(settingsButton, "settings", "icon-button__raster-art");
   settingsButton.addEventListener("click", onSettings);
 
-  const resetButton = document.createElement("button");
-  resetButton.className = "icon-button icon-button--reset";
-  resetButton.type = "button";
-  resetButton.title = t("header.resetProgress");
-  resetButton.setAttribute("aria-label", t("header.resetProgress"));
-  appendPuzzleControlArt(resetButton, "reset", "icon-button__raster-art");
-  resetButton.addEventListener("click", onReset);
-
-  actions.append(currency, settingsButton, resetButton);
+  actions.append(currency, settingsButton);
   header.append(titleGroup, actions);
   return header;
 }

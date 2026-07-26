@@ -137,6 +137,16 @@ export function renderApp(root) {
     draw();
   }
 
+  function showPuzzleHub() {
+    replayChallenge = false;
+    activeView = "puzzle";
+    playOpen = false;
+    resetOpen = false;
+    settingsOpen = false;
+    pendingScrollTarget = "view";
+    draw();
+  }
+
   function requestPantryFirstPurchaseGuide(_decoration, action = {}) {
     activeGuide = getNextPantryGuideId({
       completedRequestCount: action.completedRequestCount,
@@ -508,7 +518,7 @@ export function renderApp(root) {
         playOpen = true;
         draw();
       },
-      onClosePuzzle: showPuzzlePicker,
+      onClosePuzzle: showPuzzleHub,
       onRequestReset: requestReset,
       onCancelReset: cancelReset,
       onConfirmReset: confirmReset,
@@ -645,7 +655,7 @@ function createShell({
       controlMode,
       onClosePuzzle: activeView === "timeAttack" ? onCloseTimeAttack : onClosePuzzle,
       onRequestSettings,
-      onViewAlbum: () => onSelectView("album"),
+      onViewAlbum: onClosePuzzle,
       onNextPuzzle,
       onPreviousStagePuzzle,
       onNextStagePuzzle,
@@ -671,7 +681,7 @@ function createShell({
     return shell;
   }
 
-  shell.appendChild(renderHeader(onRequestSettings, onRequestReset));
+  shell.appendChild(renderHeader(onRequestSettings));
   const earnedBadgeShelf = renderBadgeShelf();
   if (earnedBadgeShelf) {
     shell.appendChild(earnedBadgeShelf);

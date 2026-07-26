@@ -1,6 +1,6 @@
 export const ko = {
   app: {
-    title: "Pip's Picture Pantry",
+    title: "Pip\uc758 \uadf8\ub9bc \ud32c\ud2b8\ub9ac",
     studioName: "Sunny Spoon Studios",
   },
   brandIntro: {
@@ -81,7 +81,7 @@ export const ko = {
     spoonJarReady: "\ud56d\uc544\ub9ac\ub97c \ucc44\uc6b0\uba74 \uc2a4\ud47c\uc774 \ubc14\ub85c \ub4e4\uc5b4\uc640\uc694.",
     spoonJarFailed: "항아리를 채우지 못했어요. 결제되거나 스푼이 추가되지는 않았어요.",
     spoonJarBuy: "{price} · \uc2a4\ud47c {spoons}\uac1c",
-    supportPricePending: "\uac00\uaca9 \ud655\uc778",
+    supportPricePending: "\uc2a4\ud1a0\uc5b4 \uac00\uaca9",
     close: "\uc644\ub8cc"
   },
   badges: {
@@ -287,9 +287,9 @@ export const ko = {
   },
   progress: {
     filled: "{count}\uce78 \ucc44\uc6c0",
-    filledOf: "{count}/{target}\uce78 \ucc44\uc6c0",
+    filledOf: "{count} / {target}",
     revisit: "{count}\uce78 \ucc44\uc6c0 - {mistakes}\uce78 \ub2e4\uc2dc \ubcf4\uae30",
-    revisitOf: "{count}/{target}\uce78 \ucc44\uc6c0 - {mistakes}\uce78 \ub2e4\uc2dc \ubcf4\uae30",
+    revisitOf: "{count} / {target} \u00b7 \ub2e4\uc2dc \ubcfc \uce78 {mistakes}",
     lineGuided: "{count}\uc904",
     lineGuidedAria: "\uc644\uc131\ub41c \ud78c\ud2b8 \uc904 {count}\uac1c",
     linesGuided: "{count}\uc904",
@@ -304,6 +304,7 @@ export const ko = {
     rewardFactRoom: "\ubc29 \uacbd\ub85c \uc131\uc7a5",
     rewardFactNext: "\ub2e4\uc74c \uadf8\ub9bc \uc900\ube44",
     viewAlbum: "\uc568\ubc94 \ubcf4\uae30",
+    menu: "\uba54\ub274\ub85c",
     nextPicture: "\uB2E4\uC74C \uADF8\uB9BC",
     replayReward: "\uAE54\uB054\uD55C \uB9AC\uD50C\uB808\uC774! \uC2A4\uD47C +{count}\uC744 \uBC1B\uC558\uC5B4\uC694.",
     replayNoReward: "\uB9AC\uD50C\uB808\uC774 \uC644\uB8CC! \uC774\uBC88\uC5D0\uB294 \uC2A4\uD47C \uC5C6\uC774, \uCE74\uB4DC\uB294 \uC548\uC804\uD558\uAC8C \uADF8\uB300\uB85C\uC608\uC694."
@@ -365,7 +366,7 @@ export const ko = {
     needMore: "{count}\uac1c \ub354 \ud544\uc694",
     needPantryRoom: "\ud32c\ud2b8\ub9ac \uc774\uc57c\uae30 \ud544\uc694",
     visitPantry: "\ud32c\ud2b8\ub9ac\ub85c \uac00\uae30",
-    roomRequirement: "\ud32c\ud2b8\ub9ac \ubc29 \ub2e8\uacc4: \ubd80\ud0c1 {completed}/{required}\uac1c",
+    roomRequirement: "\ud32c\ud2b8\ub9ac \uafb8\ubbf8\uae30 {completed}/{required}",
     "pips-first-shelf": {
       title: "Pip의 첫 선반",
       note: "\uc791\uace0 \uc26c\uc6b4 \uccab \uadf8\ub9bc"

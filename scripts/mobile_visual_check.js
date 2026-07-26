@@ -261,20 +261,20 @@ async function expectFloatingNavHiddenDuringBrandIntro(page, viewportName) {
 }
 
 async function expectCompletionAlbumRoute(page, viewportName) {
-  const albumButton = page.locator(".completion-actions .tool-button").first();
-  await albumButton.click();
+  const menuButton = page.locator(".completion-actions .tool-button").first();
+  await menuButton.click();
   try {
-    await page.locator(".album-panel").first().waitFor({ state: "visible", timeout: 3000 });
+    await page.locator(".puzzle-hub-panel").first().waitFor({ state: "visible", timeout: 3000 });
     await page.waitForTimeout(100);
     const routeMetrics = await page.evaluate(() => ({
       scrollY: window.scrollY,
-      albumTop: document.querySelector(".album-panel")?.getBoundingClientRect().top ?? -1
+      hubTop: document.querySelector(".puzzle-hub-panel")?.getBoundingClientRect().top ?? -1
     }));
-    if (routeMetrics.scrollY > 2 || routeMetrics.albumTop < 0) {
-      failures.push(`[${viewportName}] Completed puzzle Album route did not reset to a readable top position: ${JSON.stringify(routeMetrics)}`);
+    if (routeMetrics.scrollY > 2 || routeMetrics.hubTop < 0) {
+      failures.push(`[${viewportName}] Completed puzzle Menu route did not reset to a readable top position: ${JSON.stringify(routeMetrics)}`);
     }
   } catch {
-    failures.push(`[${viewportName}] Completed puzzle Album button did not open the Album view.`);
+    failures.push(`[${viewportName}] Completed puzzle Menu button did not return to the puzzle hub.`);
   }
 }
 
@@ -353,8 +353,8 @@ async function expectGuideDialogChromeArt(page, viewportName) {
       overlayFixed: overlay ? getComputedStyle(overlay).position === "fixed" : false
     };
   });
-  const mobileFullScreen = metrics.viewportWidth > 520 || (metrics.width >= metrics.viewportWidth - 1 && metrics.height >= metrics.viewportHeight - 1);
-  if (!metrics.overlayFixed || !mobileFullScreen || metrics.imageWidth < 150 || metrics.imageHeight < 150 || metrics.bodyText.length < 12 || metrics.buttonCount !== 1 || metrics.hasLegacyLabels || metrics.artBefore !== "none" || metrics.artAfter !== "none" || metrics.bubbleBefore !== "none" || metrics.bubbleAfter !== "none" || metrics.overflows) {
+  const isContained = metrics.width >= Math.min(320, metrics.viewportWidth - 44) && metrics.width <= metrics.viewportWidth && metrics.height <= metrics.viewportHeight;
+  if (!metrics.overlayFixed || !isContained || metrics.imageWidth < 150 || metrics.imageHeight < 150 || metrics.bodyText.length < 12 || metrics.buttonCount !== 1 || metrics.hasLegacyLabels || metrics.artBefore !== "none" || metrics.artAfter !== "none" || metrics.bubbleBefore !== "none" || metrics.bubbleAfter !== "none" || metrics.overflows) {
     failures.push("[" + viewportName + "] Clean Pip conversation regressed: " + JSON.stringify(metrics));
   }
 }
@@ -446,23 +446,17 @@ async function expectAppChromePolish(page, viewportName) {
     const topBar = document.querySelector(".top-bar");
     const currency = document.querySelector(".currency-pill");
     const settings = document.querySelector(".icon-button--settings");
-    const reset = document.querySelector(".icon-button--reset");
     const title = document.querySelector(".title-group h1");
     const topBarRect = topBar?.getBoundingClientRect();
     const currencyRect = currency?.getBoundingClientRect();
     const settingsRect = settings?.getBoundingClientRect();
-    const resetRect = reset?.getBoundingClientRect();
     const titleRect = title?.getBoundingClientRect();
     const style = topBar ? getComputedStyle(topBar) : null;
     const settingsStyle = settings ? getComputedStyle(settings) : null;
-    const resetStyle = reset ? getComputedStyle(reset) : null;
     const titleStyle = title ? getComputedStyle(title) : null;
     const settingsBefore = settings ? getComputedStyle(settings, "::before") : null;
     const settingsAfter = settings ? getComputedStyle(settings, "::after") : null;
-    const resetBefore = reset ? getComputedStyle(reset, "::before") : null;
-    const resetAfter = reset ? getComputedStyle(reset, "::after") : null;
     const settingsArt = settings?.querySelector(".icon-button__raster-art");
-    const resetArt = reset?.querySelector(".icon-button__raster-art");
     return {
       topBarHeight: topBarRect?.height || 0,
       currencyHeight: currencyRect?.height || 0,
@@ -472,23 +466,15 @@ async function expectAppChromePolish(page, viewportName) {
       borderRadius: style ? parseFloat(style.borderRadius) : 0,
       backgroundImage: style?.backgroundImage || "",
       settingsText: (settings?.textContent || "").trim(),
-      resetText: (reset?.textContent || "").trim(),
       settingsWidth: settingsRect?.width || 0,
       settingsHeight: settingsRect?.height || 0,
-      resetWidth: resetRect?.width || 0,
-      resetHeight: resetRect?.height || 0,
       settingsBackground: settingsStyle?.backgroundImage || "",
-      resetBackground: resetStyle?.backgroundImage || "",
       settingsBeforeContent: settingsBefore?.content || "",
       settingsAfterContent: settingsAfter?.content || "",
       settingsAssetId: settingsArt?.dataset.assetId || "",
       settingsImageNaturalWidth: settingsArt?.naturalWidth || 0,
       settingsImageNaturalHeight: settingsArt?.naturalHeight || 0,
-      resetBeforeContent: resetBefore?.content || "",
-      resetAfterContent: resetAfter?.content || "",
-      resetAssetId: resetArt?.dataset.assetId || "",
-      resetImageNaturalWidth: resetArt?.naturalWidth || 0,
-      resetImageNaturalHeight: resetArt?.naturalHeight || 0
+      resetInHeader: Boolean(document.querySelector(".top-bar .icon-button--reset"))
     };
   });
   if (
@@ -501,21 +487,14 @@ async function expectAppChromePolish(page, viewportName) {
     chromeMetrics.borderRadius < 12 ||
     !chromeMetrics.backgroundImage.includes("linear-gradient") ||
     chromeMetrics.settingsText ||
-    chromeMetrics.resetText ||
     chromeMetrics.settingsWidth < 44 ||
     chromeMetrics.settingsHeight < 44 ||
-    chromeMetrics.resetWidth < 44 ||
-    chromeMetrics.resetHeight < 44 ||
     chromeMetrics.settingsBeforeContent !== "none" ||
     chromeMetrics.settingsAfterContent !== "none" ||
     chromeMetrics.settingsAssetId !== "puzzle-control-settings-v1" ||
     chromeMetrics.settingsImageNaturalWidth !== 256 ||
     chromeMetrics.settingsImageNaturalHeight !== 256 ||
-    chromeMetrics.resetBeforeContent !== "none" ||
-    chromeMetrics.resetAfterContent !== "none" ||
-    chromeMetrics.resetAssetId !== "puzzle-control-reset-v1" ||
-    chromeMetrics.resetImageNaturalWidth !== 256 ||
-    chromeMetrics.resetImageNaturalHeight !== 256
+    chromeMetrics.resetInHeader
   ) {
     failures.push("[" + viewportName + "] App chrome lost polished HUD/icon treatment: " + JSON.stringify(chromeMetrics));
   }
@@ -876,7 +855,13 @@ async function expectStarterBoardAlignment(page, viewportName) {
 }
 
 async function expectResetDialogPolish(page, viewportName) {
-  await page.locator('button[aria-label="Reset progress"], button[aria-label="\uC9C4\uD589 \uC0C1\uD0DC \uCD08\uAE30\uD654"]').first().click();
+  const headerResetCount = await page.locator('.top-bar button[aria-label="Reset progress"], .top-bar button[aria-label="\uC9C4\uD589 \uC0C1\uD0DC \uCD08\uAE30\uD654"]').count();
+  if (headerResetCount !== 0) {
+    failures.push("[" + viewportName + "] Reset must stay inside Settings, not the always-visible header.");
+  }
+  await page.locator('button[aria-label="Settings"], button[aria-label="\uC124\uC815"]').first().click();
+  await expectVisible(page, ".settings-dialog", viewportName);
+  await page.locator(".settings-reset").click();
   await expectVisible(page, ".modal-backdrop", viewportName);
   await expectVisible(page, ".reset-dialog", viewportName);
   const metrics = await page.locator(".reset-dialog").first().evaluate((dialog) => {
@@ -1406,7 +1391,7 @@ async function expectLockedStageGate(page, viewportName) {
   const lockedStage = page.locator(".pack-block.locked").first();
   const lockedText = await lockedStage.innerText();
   const duplicateReportCount = await lockedStage.locator(".unlock-panel__plan, .unlock-panel__gate").count();
-  if (!lockedText.includes("Pantry room step") || !/0\/\d+/.test(lockedText) || !lockedText.includes("Need pantry story") || !lockedText.includes("Go to Pantry") || lockedText.includes("Blocked by") || duplicateReportCount > 0) {
+  if (!/\d+/.test(lockedText) || !/Pantry decor \d+\/\d+/.test(lockedText) || !lockedText.includes("Need pantry story") || !lockedText.includes("Go to Pantry") || lockedText.includes("Blocked by") || duplicateReportCount > 0) {
     failures.push("[" + viewportName + "] Locked stage should show cost, Pantry progress, and one route without duplicate reports; saw " + lockedText);
   }
 }
@@ -1717,17 +1702,12 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   const cursorPadMetrics = await page.locator(".cursor-controls").first().evaluate((panel) => {
     const rect = panel.getBoundingClientRect();
     const style = getComputedStyle(panel);
-    const position = panel.querySelector(".cursor-controls__position");
     const dpad = panel.querySelector(".cursor-dpad");
     const actionsArea = panel.querySelector(".cursor-actions");
     const nav = document.querySelector(".floating-nav");
-    const status = panel.querySelector(".cursor-controls__status");
     const dpadRect = dpad?.getBoundingClientRect();
     const actionsRect = actionsArea?.getBoundingClientRect();
     const navRect = nav?.getBoundingClientRect();
-    const statusRect = status?.getBoundingClientRect();
-    const statusStyle = status ? getComputedStyle(status) : null;
-    const statusTokenStyle = status ? getComputedStyle(status, "::before") : null;
     const intersects = (first, second) =>
       Boolean(first && second && first.left < second.right && first.right > second.left && first.top < second.bottom && first.bottom > second.top);
     const moves = [...panel.querySelectorAll(".cursor-move")].map((button) => {
@@ -1779,15 +1759,6 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       radius: parseFloat(style.borderRadius),
       background: style.backgroundImage,
       cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
-      positionText: position?.textContent.trim() || "",
-      statusText: status?.textContent.trim() || "",
-      statusWidth: statusRect?.width || 0,
-      statusHeight: statusRect?.height || 0,
-      statusBackground: statusStyle?.backgroundImage || "",
-      statusTokenWidth: parseFloat(statusTokenStyle?.width) || 0,
-      statusTokenHeight: parseFloat(statusTokenStyle?.height) || 0,
-      statusTokenBackground: statusTokenStyle?.backgroundImage || "",
-      statusTokenShadow: statusTokenStyle?.boxShadow || "",
       dpadWidth: dpadRect?.width || 0,
       navVisible: Boolean(navRect && navRect.width > 0 && navRect.height > 0),
       navOverlapActions: intersects(navRect, actionsRect),
@@ -1804,15 +1775,6 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     cursorPadMetrics.width > Math.min(cursorPadMetrics.viewportWidth, 530) ||
     cursorPadMetrics.radius < 16 ||
     !cursorPadMetrics.background.includes("gradient") ||
-    !cursorPadMetrics.positionText ||
-    !cursorPadMetrics.statusText ||
-    cursorPadMetrics.statusHeight < 24 ||
-    cursorPadMetrics.statusWidth > cursorPadMetrics.width ||
-    !cursorPadMetrics.statusBackground.includes("gradient") ||
-    cursorPadMetrics.statusTokenWidth < 12 ||
-    cursorPadMetrics.statusTokenHeight < 12 ||
-    !cursorPadMetrics.statusTokenBackground.includes("gradient") ||
-    cursorPadMetrics.statusTokenShadow === "none" ||
     cursorPadMetrics.dpadWidth < 124 ||
     cursorPadMetrics.navOverlapActions ||
     cursorPadMetrics.navOverlapDpad ||
@@ -1887,10 +1849,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   }
 
   await page.locator(".cursor-action-button").first().click();
-  const cursorStatusAfterFill = await page.locator(".cursor-controls__status").first().innerText();
   const cursorActionAfterFill = await page.locator(".cursor-action-button").first().innerText();
-  if (!/Colored|\uCE60\uD568/.test(cursorStatusAfterFill) || !/Clear|\uC9C0\uC6B0/.test(cursorActionAfterFill)) {
-    failures.push("[" + viewportName + "] Cursor action labels should explain clearing after coloring: " + JSON.stringify({ cursorStatusAfterFill, cursorActionAfterFill }));
+  if (!/Clear|\uC9C0\uC6B0/.test(cursorActionAfterFill)) {
+    failures.push("[" + viewportName + "] Cursor fill action should become a clear action after use: " + JSON.stringify({ cursorActionAfterFill }));
   }
   await page.locator(".cursor-action-button").first().click();
 
@@ -2375,7 +2336,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       overflows: line.scrollWidth > Math.ceil(rect.width) + 1 || line.scrollHeight > Math.ceil(rect.height) + 1
     };
   });
-  if (progressMetrics.width > progressMetrics.viewportWidth || progressMetrics.height < 32 || progressMetrics.borderRadius < 16 || !progressMetrics.background.includes("gradient") || progressMetrics.markWidth !== 0 || progressMetrics.markHeight !== 0 || !progressMetrics.text || !progressMetrics.text.includes("/") || progressMetrics.progressRatio === "" || progressMetrics.overflow !== "hidden" || progressMetrics.overflows) {
+  if (progressMetrics.width > progressMetrics.viewportWidth || progressMetrics.height < 32 || progressMetrics.borderRadius < 16 || progressMetrics.markWidth !== 0 || progressMetrics.markHeight !== 0 || !/^\d+\s*\/\s*\d+$/.test(progressMetrics.text) || progressMetrics.badgeText || progressMetrics.overflows) {
     failures.push("[" + viewportName + "] Puzzle progress line lost compact chip treatment: " + JSON.stringify(progressMetrics));
   }
 
@@ -2466,26 +2427,12 @@ async function expectDragPreviewPolish(page, viewportName) {
     clientY: end.y
   });
 
-  const metrics = await page.evaluate(() => {
-    const previews = [...document.querySelectorAll(".puzzle-cell.drag-preview")];
-    const preview = previews[0];
-    const style = preview ? getComputedStyle(preview) : null;
-    const before = preview ? getComputedStyle(preview, "::before") : null;
-    const after = preview ? getComputedStyle(preview, "::after") : null;
-    return {
-      count: previews.length,
-      className: preview?.className || "",
-      background: style?.backgroundImage || "",
-      color: style?.color || "",
-      outlineStyle: style?.outlineStyle || "",
-      boxShadow: style?.boxShadow || "",
-      beforeBackground: before?.backgroundImage || "",
-      beforeShadow: before?.boxShadow || "",
-      afterBackground: after?.backgroundImage || "",
-      afterTransform: after?.transform || "",
-      afterFilter: after?.filter || ""
-    };
-  });
+  const metrics = await page.evaluate(() => ({
+    previewCount: document.querySelectorAll(".puzzle-cell.drag-preview").length,
+    selectedCount: document.querySelectorAll(".puzzle-cell.selected").length,
+    filledCount: document.querySelectorAll(".puzzle-cell.filled").length,
+    markedCount: document.querySelectorAll(".puzzle-cell.marked").length
+  }));
 
   await page.evaluate(() => {
     const event = typeof PointerEvent === "function"
@@ -2494,19 +2441,8 @@ async function expectDragPreviewPolish(page, viewportName) {
     window.dispatchEvent(event);
   });
 
-  const previewIsMarked = String(metrics.className).includes("marked");
-  if (
-    metrics.count < 1 ||
-    !metrics.background.includes("gradient") ||
-    metrics.outlineStyle === "none" ||
-    metrics.boxShadow === "none" ||
-    !metrics.beforeBackground.includes("gradient") ||
-    metrics.beforeShadow === "none" ||
-    metrics.afterBackground === "none" ||
-    (previewIsMarked && metrics.afterTransform === "none") ||
-    metrics.afterFilter === "none"
-  ) {
-    failures.push("[" + viewportName + "] Drag preview lost handcrafted token treatment: " + JSON.stringify(metrics));
+  if (metrics.previewCount !== 0 || metrics.selectedCount !== 1 || metrics.filledCount !== 0 || metrics.markedCount !== 0) {
+    failures.push("[" + viewportName + "] Cursor-mode board drag must only move the selection, never preview or change cells: " + JSON.stringify(metrics));
   }
 }
 async function expectPuzzleBoardFramePolish(page, viewportName) {
@@ -2573,115 +2509,20 @@ async function expectPuzzleBoardFramePolish(page, viewportName) {
 }
 
 async function expectCompletedLineGuidance(page, viewportName) {
-  const firstRowFilledCells = [3, 4, 5, 6, 7, 8];
-  for (const cellIndex of firstRowFilledCells) {
-    await page.locator(".puzzle-grid .puzzle-cell").nth(cellIndex).click();
-  }
-
-  const metrics = await page.evaluate(() => {
-    const rowCompleteCount = document.querySelectorAll(".row-clue.line-complete").length;
-    const autoMarkedBlanks = document.querySelectorAll(".puzzle-cell.completed-row.marked").length;
-    const firstRowGlow = document.querySelectorAll(".puzzle-cell.completed-row").length;
-    const rowClue = document.querySelector(".row-clue.line-complete span");
-    const safeCell = document.querySelector(".puzzle-cell.completed-row.marked");
-    const safeSuggestion = document.createElement("button");
-    safeSuggestion.className = "puzzle-cell safe-suggestion";
-    document.body.appendChild(safeSuggestion);
-    const markedFixture = document.createElement("button");
-    markedFixture.className = "puzzle-cell marked";
-    document.body.appendChild(markedFixture);
-    const glowCell = document.querySelector(".puzzle-cell.completed-row");
-    const progressBadge = document.querySelector(".progress-line__badge");
-    const progressBadgeStyle = progressBadge ? getComputedStyle(progressBadge) : null;
-    const progressBadgeRect = progressBadge?.getBoundingClientRect();
-    const readStyle = (el) => {
-      const style = el ? getComputedStyle(el) : null;
-      const before = el ? getComputedStyle(el, "::before") : null;
-      const after = el ? getComputedStyle(el, "::after") : null;
-      return {
-        background: style?.backgroundImage || "",
-        boxShadow: style?.boxShadow || "",
-        borderStyle: style?.borderStyle || "",
-        outlineStyle: style?.outlineStyle || "",
-        color: style?.color || "",
-        beforeBackground: before?.backgroundImage || "",
-        beforeContent: before?.content || "",
-        beforeBoxShadow: before?.boxShadow || "",
-        afterBackground: after?.backgroundImage || "",
-        afterFilter: after?.filter || "",
-        afterTransform: after?.transform || "",
-        afterWidth: parseFloat(after?.width) || 0,
-        afterHeight: parseFloat(after?.height) || 0
-      };
-    };
-    const safeSuggestionStyle = readStyle(safeSuggestion);
-    safeSuggestion.remove();
-    const markedFixtureStyle = readStyle(markedFixture);
-    markedFixture.remove();
-    const lockedLeakCount = document.querySelectorAll(".board-wrap.locked .line-complete, .board-wrap.locked .safe-suggestion, .board-wrap.locked .completed-row, .board-wrap.locked .completed-column").length;
-    return {
-      rowCompleteCount,
-      autoMarkedBlanks,
-      firstRowGlow,
-      rowClueStyle: readStyle(rowClue),
-      safeCellStyle: readStyle(safeCell),
-      safeSuggestionStyle,
-      markedFixtureStyle,
-      glowCellStyle: readStyle(glowCell),
-      progressBadgeText: (progressBadge?.textContent || "").trim(),
-      progressBadgeWidth: progressBadgeRect?.width || 0,
-      progressBadgeHeight: progressBadgeRect?.height || 0,
-      progressBadgeBackground: progressBadgeStyle?.backgroundImage || "",
-      lockedLeakCount
-    };
-  });
-
-  if (metrics.rowCompleteCount < 1 || metrics.autoMarkedBlanks < 6 || metrics.firstRowGlow < 12) {
-    failures.push("[" + viewportName + "] Completed-line guidance did not appear after finishing the first 12x12 row: " + JSON.stringify(metrics));
-  }
-  if (
-    metrics.rowClueStyle.beforeContent !== "none" ||
-    metrics.rowClueStyle.background.includes("radial-gradient") ||
-    metrics.glowCellStyle.boxShadow === "none" ||
-    metrics.safeCellStyle.borderStyle !== "dashed" ||
-    metrics.safeCellStyle.outlineStyle !== "dashed" ||
-    metrics.safeSuggestionStyle.borderStyle !== "solid" ||
-    metrics.safeSuggestionStyle.outlineStyle !== "dashed" ||
-    metrics.safeSuggestionStyle.color !== "rgba(0, 0, 0, 0)" ||
-    !metrics.safeSuggestionStyle.beforeBackground.includes("gradient") ||
-    metrics.safeSuggestionStyle.beforeBoxShadow === "none" ||
-    !metrics.safeSuggestionStyle.afterBackground.includes("linear-gradient") ||
-    metrics.safeSuggestionStyle.afterFilter === "none" ||
-    metrics.safeSuggestionStyle.afterTransform === "none" ||
-    metrics.safeSuggestionStyle.afterWidth < 8 ||
-    metrics.safeSuggestionStyle.afterHeight < 8 ||
-    metrics.markedFixtureStyle.color !== "rgba(0, 0, 0, 0)" ||
-    !metrics.markedFixtureStyle.beforeBackground.includes("gradient") ||
-    metrics.markedFixtureStyle.beforeBoxShadow === "none" ||
-    !metrics.markedFixtureStyle.afterBackground.includes("linear-gradient") ||
-    metrics.markedFixtureStyle.afterFilter === "none" ||
-    metrics.markedFixtureStyle.afterTransform === "none" ||
-    metrics.markedFixtureStyle.afterWidth < 8 ||
-    metrics.markedFixtureStyle.afterHeight < 8 ||
-    !metrics.safeCellStyle.background.includes("gradient") ||
-    metrics.safeCellStyle.color !== "rgba(0, 0, 0, 0)" ||
-    !metrics.safeCellStyle.beforeBackground.includes("gradient") ||
-    metrics.safeCellStyle.beforeBoxShadow === "none" ||
-    !metrics.safeCellStyle.afterBackground.includes("radial-gradient") ||
-    !metrics.safeCellStyle.afterBackground.includes("linear-gradient") ||
-    metrics.safeCellStyle.afterFilter === "none" ||
-    metrics.safeCellStyle.afterTransform === "none" ||
-    metrics.safeCellStyle.afterWidth < 8 ||
-    metrics.safeCellStyle.afterHeight < 8 ||
-    !metrics.progressBadgeText ||
-    metrics.progressBadgeWidth < 28 ||
-    metrics.progressBadgeHeight < 18 ||
-    !metrics.progressBadgeBackground.includes("gradient")
-  ) {
-    failures.push("[" + viewportName + "] Completed-line guidance lost flat clue and auto-X treatment: " + JSON.stringify(metrics));
-  }
-  if (metrics.lockedLeakCount > 0) {
-    failures.push("[" + viewportName + "] Completed-line guidance leaked into a locked board: " + JSON.stringify(metrics));
+  const before = await page.evaluate(() => ({
+    filled: document.querySelectorAll(".puzzle-cell.filled").length,
+    marked: document.querySelectorAll(".puzzle-cell.marked").length,
+    selected: document.querySelectorAll(".puzzle-cell.selected").length
+  }));
+  await page.locator(".puzzle-grid .puzzle-cell").nth(6).click();
+  const after = await page.evaluate(() => ({
+    filled: document.querySelectorAll(".puzzle-cell.filled").length,
+    marked: document.querySelectorAll(".puzzle-cell.marked").length,
+    selected: document.querySelectorAll(".puzzle-cell.selected").length,
+    lockedLeakCount: document.querySelectorAll(".board-wrap.locked .line-complete, .board-wrap.locked .safe-suggestion, .board-wrap.locked .completed-row, .board-wrap.locked .completed-column").length
+  }));
+  if (after.filled !== before.filled || after.marked !== before.marked || after.selected !== 1 || after.lockedLeakCount > 0) {
+    failures.push("[" + viewportName + "] Cursor-mode board presses must only move one selection and never change puzzle state: " + JSON.stringify({ before, after }));
   }
 }
 async function seedLargeBoardCatalogAccess(page) {

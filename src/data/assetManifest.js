@@ -1,5 +1,16 @@
 export const assetRegistry = [
   {
+    id: "pantry-room-sunlit-v1",
+    usage: "pantry-room-background",
+    path: "src/assets/backgrounds/pantry-room-sunlit-v1.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved empty sunlit pantry room background. It gives the five decoration slots a shared home without competing with equipped art."
+  },
+  {
     id: "sunny-spoon-studios-bumper-source-v1",
     usage: "studio-bumper-source",
     path: "src/assets/brand/sunny-spoon-studios-bumper-v1.png",

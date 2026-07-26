@@ -20,23 +20,6 @@ export function renderCursorControls(state, puzzle, update) {
   controls.className = compact ? "cursor-controls cursor-controls--compact" : "cursor-controls";
   controls.setAttribute("aria-label", t("controls.cursorPanel"));
 
-  const hint = document.createElement("p");
-  hint.className = "cursor-controls__hint";
-  hint.textContent = t("controls.cursorHint");
-
-  const position = document.createElement("p");
-  position.className = "cursor-controls__position";
-  position.textContent = t("controls.cursorPosition", {
-    row: Math.max(1, Number(state.cursor?.row || 0) + 1),
-    column: Math.max(1, Number(state.cursor?.column || 0) + 1)
-  });
-
-  const status = renderCursorStatus(state);
-
-  const lineHint = document.createElement("p");
-  lineHint.className = "cursor-controls__hint cursor-controls__hint--secondary";
-  lineHint.textContent = t("controls.lineCompleteHint");
-
   const dpad = document.createElement("div");
   dpad.className = "cursor-dpad";
   dpad.append(
@@ -58,14 +41,9 @@ export function renderCursorControls(state, puzzle, update) {
   body.className = "cursor-controls__body";
   body.append(dpad, actions);
 
-  if (compact) {
-    const statusRow = document.createElement("div");
-    statusRow.className = "cursor-controls__status-row";
-    statusRow.append(position, status);
-    controls.append(statusRow, body);
-  } else {
-    controls.append(hint, position, status, lineHint, body);
-  }
+  // The highlighted square is the useful position indicator. A second
+  // Row/Column plus state report duplicated it and made the board feel busy.
+  controls.append(body);
   return controls;
 }
 
@@ -112,21 +90,6 @@ export function getCursorActionDescriptors(state) {
       ? { label: t("controls.cursorClearMark"), intent: "clear-mark" }
       : { label: t("controls.cursorMark"), intent: "mark" }
   };
-}
-
-function renderCursorStatus(state) {
-  const value = getSelectedCursorCell(state);
-  const labelKey = {
-    [CELL.filled]: "controls.cursorStatusFilled",
-    [CELL.marked]: "controls.cursorStatusMarked",
-    [CELL.empty]: "controls.cursorStatusEmpty"
-  }[value] || "controls.cursorStatusEmpty";
-
-  const chip = document.createElement("p");
-  chip.className = "cursor-controls__status cursor-controls__status--" + value;
-  chip.textContent = t(labelKey);
-  chip.setAttribute("aria-label", t("controls.cursorStatusLabel", { status: t(labelKey) }));
-  return chip;
 }
 
 function createCursorActionButton(action, onClick) {

@@ -2,6 +2,15 @@
 
 ## Current Launch Candidate Snapshot - 2026-07-17
 
+### v0.1.590 - Mobile Play Safety and Pantry Room
+
+- Made cursor-mode board presses selection-only: direct taps and drag gestures move the selected cell without coloring or marking a puzzle. Color and Blank now apply only through their explicit actions.
+- Removed the cramped row/column and selected-state status chips. Puzzle progress is now a compact `{filled} / {target}` count, and automatic X marks use the quieter mint treatment without the old shadow-heavy ornament.
+- Moved Reset Progress out of the live header into Settings, behind its existing confirmation flow. Completion `Menu` now returns to the puzzle hub at the top; the in-play Picture List remains the explicit route to the full list.
+- Rebuilt the Pantry as Pip's actual warm room with an approved sunlit window, shelf, counter, floor, and purposefully placed decoration zones. The shop remains below the room, with spoon items first and optional support packs last.
+- Localized the Korean brand title to `Pip의 그림 팬트리`, replaced Settings guide replay placeholders with approved raster art, centered Time Attack Start, and consolidated Quick Travel into the requested vertical order.
+- Verification: focused unit tests, asset/hygiene checks, production build, and four-width mobile QA (360x740 / 390x844 / 430x932 / 675x900) pass. The visual pack is regenerated for manual review; external Billing purchase evidence remains the only release blocker.
+
 ### v0.1.589 - Clock Grandfather Focus
 
 - Time Attack now gives the Clock Grandfather and his pocket watch a clear, near-full-height presence at the start of the challenge; it reads as a distinct game route without the former ambiguous aura treatment.

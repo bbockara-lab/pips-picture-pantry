@@ -40,8 +40,8 @@ describe("i18n", () => {
 
   it("formats translated strings", () => {
     expect(t("progress.filled", { count: 3 })).toBe("3 filled");
-    expect(t("progress.filledOf", { count: 3, target: 12 })).toBe("3/12 colored");
-    expect(t("progress.revisitOf", { count: 5, target: 12, mistakes: 1 })).toBe("5/12 colored - 1 to revisit");
+    expect(t("progress.filledOf", { count: 3, target: 12 })).toBe("3 / 12");
+    expect(t("progress.revisitOf", { count: 5, target: 12, mistakes: 1 })).toBe("5 / 12 · 1 to revisit");
     expect(t("progress.lineGuided", { count: 1 })).toBe("1 line");
     expect(t("progress.linesGuided", { count: 3 })).toBe("3 lines");
     expect(t("controls.fill")).toBe("Color");
@@ -266,7 +266,7 @@ describe("i18n", () => {
 
     expect(t("settings.supportAndroidOnly")).toBe("Store connection is being prepared.");
     expect(t("settings.supportFactAndroid")).toBe("Store preparing");
-    expect(t("settings.supportPricePending")).toBe("Check price");
+    expect(t("settings.supportPricePending")).toBe("Store price");
     expect(t("settings.supportAndroidOnly")).not.toMatch(/Android test build|Google Play app|Google Play price/i);
     expect(t("settings.supportFactAndroid")).not.toMatch(/Android test build|Google Play app|Google Play price/i);
     expect(t("settings.supportPricePending")).not.toMatch(/Android test build|Google Play app|Google Play price/i);
@@ -275,7 +275,7 @@ describe("i18n", () => {
 
     expect(t("settings.supportAndroidOnly")).toContain("Play \uC2A4\uD1A0\uC5B4");
     expect(t("settings.supportFactAndroid")).toBe("\uC2A4\uD1A0\uC5B4 \uC900\uBE44 \uC911");
-    expect(t("settings.supportPricePending")).toBe("\uAC00\uACA9 \uD655\uC778");
+    expect(t("settings.supportPricePending")).toBe("\uC2A4\uD1A0\uC5B4 \uAC00\uACA9");
     expect(t("settings.supportAndroidOnly")).not.toMatch(/Android \uD14C\uC2A4\uD2B8|Google Play \uC571|Google Play \uAC00\uACA9/);
     expect(t("settings.supportFactAndroid")).not.toMatch(/Android \uD14C\uC2A4\uD2B8|Google Play \uC571|Google Play \uAC00\uACA9/);
   });

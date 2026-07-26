@@ -43,7 +43,7 @@ export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle, repl
   const albumButton = document.createElement("button");
   albumButton.type = "button";
   albumButton.className = "tool-button";
-  albumButton.textContent = replayChallenge ? t("playScreen.back") : t("completion.viewAlbum");
+  albumButton.textContent = replayChallenge ? t("playScreen.back") : t("completion.menu");
   albumButton.addEventListener("click", () => onViewAlbum?.());
 
   const nextButton = document.createElement("button");

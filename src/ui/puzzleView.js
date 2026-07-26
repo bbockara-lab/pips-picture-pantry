@@ -142,6 +142,13 @@ export function renderPuzzleView(puzzle, options = {}) {
     section.appendChild(renderBoard(puzzle, state, (row, column, action = {}) => {
       playTap();
       const cursorState = setCursor(state, row, column, puzzle.size);
+      if (cursorControlsEnabled) {
+        // In D-pad mode a board tap only repositions the cursor. Applying the
+        // current paint action here made Blank feel broken because a tap could
+        // colour a square before the player pressed either action.
+        update(cursorState, { skipAutoLineMarks: true });
+        return;
+      }
       if (Array.isArray(action.paintCells) && action.paintValue) {
         update(paintCells(cursorState, action.paintCells, action.paintValue));
         return;
@@ -150,7 +157,8 @@ export function renderPuzzleView(puzzle, options = {}) {
     }, {
       completed: state.completed,
       locked: state.completed,
-      cursorEnabled: cursorControlsEnabled
+      cursorEnabled: cursorControlsEnabled,
+      cursorOnly: cursorControlsEnabled
     }));
     if (!cursorControlsEnabled) {
       section.appendChild(createControls(state, update));
