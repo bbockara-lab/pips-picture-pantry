@@ -125,6 +125,11 @@ export function renderApp(root) {
     resetOpen = false;
     settingsOpen = false;
     pendingScrollTarget = "view";
+    if (view === "pantry") {
+      // Retrieve current Play prices on the actual Pantry store surface.
+      loadCozySupportProduct();
+      loadSpoonJarProduct();
+    }
     draw();
   }
 
@@ -705,7 +710,8 @@ function createShell({
     shell.appendChild(renderPantryView(
       () => onSelectView("pantry"),
       onPantryFirstPurchase,
-      spoonStore
+      spoonStore,
+      () => document.querySelector(".spoon-store")?.scrollIntoView({ behavior: "smooth", block: "center" })
     ));
   } else if (activeView === "timeAttack") {
     shell.appendChild(renderTimeAttackView({

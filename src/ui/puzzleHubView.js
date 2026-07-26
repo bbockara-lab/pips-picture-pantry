@@ -3,10 +3,13 @@ import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, seasonShelves } from "../data/seasonShelves.js";
 import { getStageArtUrl, hasApprovedStageArt } from "../data/stageArt.js";
 import { ECONOMY } from "../data/economyConfig.js";
-import { canUnlockShelf, getCompletedPuzzleIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
+import { canUnlockShelf, getCompletedPuzzleIds, getEquippedDecorations, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, hasCozySupportPack, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
 import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
+import { getDecorationById } from "../data/decorations.js";
+import { getDecorationArtUrl } from "../data/decorationArt.js";
+import supportPackGiftUrl from "../assets/billing/support-pack-gift-v1.png";
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -18,6 +21,22 @@ function appendTextElement(parent, tagName, className, text) {
   return element;
 }
 
+function renderWorkshopFurnishings() {
+  const layer = document.createElement("div");
+  layer.className = "puzzle-home-furnishings";
+  Object.entries(getEquippedDecorations()).forEach(([slot, decorationId]) => {
+    const decoration = getDecorationById(decorationId);
+    const source = getDecorationArtUrl(decoration?.assetId);
+    if (!decoration || !source) return;
+    const image = document.createElement("img");
+    image.className = `puzzle-home-furnishing puzzle-home-furnishing--${slot}`;
+    image.src = source;
+    image.alt = t(decoration.titleKey);
+    image.dataset.assetId = decoration.assetId;
+    layer.appendChild(image);
+  });
+  return layer;
+}
 function createMeterFill() {
   return document.createElement("span");
 }
@@ -81,6 +100,17 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     button.addEventListener("click", onClick);
     destinations.appendChild(button);
   });
+
+  scene.appendChild(renderWorkshopFurnishings());
+
+  if (hasCozySupportPack()) {
+    const keepsake = document.createElement("img");
+    keepsake.className = "puzzle-home-scene__keepsake";
+    keepsake.src = supportPackGiftUrl;
+    keepsake.alt = t("home.supporterKeepsake");
+    keepsake.dataset.assetId = "support-pack-gift-v1";
+    scene.appendChild(keepsake);
+  }
 
   scene.append(destinations, current);
   stack.append(scene);

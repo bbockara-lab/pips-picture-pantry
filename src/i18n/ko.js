@@ -57,8 +57,8 @@ export const ko = {
     guideReplayTimeAttackAction: "타임어택 가이드",
     spoonStoreTitle: "\uc2a4\ud47c \ub354 \ucc44\uc6b0\uae30",
     supportTitle: "Pip \uc751\uc6d0\ud329",
-    supportBody: "Pip의 팬트리를 응원하고 스푼 {spoons}개를 받아요.",
-    supportOwnedBody: "응원해 주셔서 고마워요. 스푼 {spoons}개가 이미 팬트리에 담겼어요.",
+    supportBody: "Pip을 응원하고 스푼 {spoons}개와 작업실 기념 소품을 받아요.",
+    supportOwnedBody: "응원해 주셔서 고마워요. 작업실에 기념 소품을 두었어요.",
     supportOwned: "\uc751\uc6d0\ud329\uc774 \uc801\uc6a9\ub418\uc5b4 \uc788\uc5b4\uc694.",
     supportChecking: "\uc2a4\ud1a0\uc5b4 \uc5f0\uacb0\uc744 \ud655\uc778\ud558\uace0 \uc788\uc5b4\uc694.",
     supportAndroidOnly: "Play \uc2a4\ud1a0\uc5b4 \uc5f0\uacb0\uc744 \uc900\ube44\ud558\uace0 \uc788\uc5b4\uc694.",
@@ -354,6 +354,7 @@ export const ko = {
   home: {
     sceneAria: "\ud54d\uc758 \ud37c\uc990\ubc29",
     destinationsAria: "\ubc14\ub85c \uac00\uae30",
+    supporterKeepsake: "Pip 응원 기념품",
     currentPicture: "\uc9c0\uae08 \ud480 \uadf8\ub9bc",
     pictureList: "\uadf8\ub9bc \ubaa9\ub85d",
     room: "\uafb8\ubbf8\uae30 \ubc29"
@@ -481,6 +482,7 @@ export const ko = {
     equipToSlot: "{slot}에 놓기",
     buy: "구매하기",
     needMore: "스푼 {count}개 부족",
+    addSpoons: "스푼 채우기",
     free: "기본",
     spoonCost: "스푼 {count}개",
     rewardPlanAria: "팬트리 보상 흐름",

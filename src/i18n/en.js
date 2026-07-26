@@ -57,8 +57,8 @@ export const en = {
     guideReplayTimeAttackAction: "Time Attack guide",
     spoonStoreTitle: "Add more spoons",
     supportTitle: "Pip Support Pack",
-    supportBody: "Support Pip and add {spoons} spoons to your pantry.",
-    supportOwnedBody: "Thank you for supporting Pip. {spoons} spoons already joined your pantry.",
+    supportBody: "Support Pip, add {spoons} spoons, and leave a workshop keepsake.",
+    supportOwnedBody: "Thank you. Your workshop keepsake is waiting for you.",
     supportOwned: "Support pack is active.",
     supportChecking: "Checking the store connection...",
     supportAndroidOnly: "Store connection is being prepared.",
@@ -119,6 +119,7 @@ export const en = {
   home: {
     sceneAria: "Pip's picture room",
     destinationsAria: "Play destinations",
+    supporterKeepsake: "Pip supporter keepsake",
     currentPicture: "Ready to color",
     pictureList: "Pictures",
     room: "Pip's room"
@@ -483,6 +484,7 @@ export const en = {
     equipToSlot: "Place in {slot}",
     buy: "Buy",
     needMore: "Need {count} spoons",
+    addSpoons: "Add spoons",
     free: "Starter",
     spoonCost: "{count} spoons",
     rewardPlanAria: "Pantry reward flow",

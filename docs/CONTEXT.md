@@ -1,5 +1,14 @@
 # Pip's Picture Pantry - Active Context
 
+## v0.1.593 - Purchase Motivation and Puzzle Integrity - 2026-07-26
+
+- Added a unique-solution guard for all 333 authored puzzles and every generated Time Attack board size. Future catalog additions now fail candidate QA if their clue set can resolve to more than one board.
+- Kept the full free route intact while making a decor shortfall actionable: an unavailable item now offers a direct `Add spoons` route to the optional Pantry store instead of a dead disabled purchase button.
+- Opening Pantry now requests native Google Play product metadata on that actual surface, so current Android prices can appear without first visiting Settings. Web stays deliberately non-purchasable.
+- Kept the Puzzle Workshop distinct from Pip's editable Pantry, but equipped Pantry furnishings now appear as small, physical workshop details. The optional Support Pack also leaves a permanent thank-you keepsake there.
+- Added active-play language-switch coverage: normal puzzle cells, selected mode, and cursor are preserved when language changes; an active Time Attack run remains held by the app shell while its labels redraw.
+- Verification: 175 tests, 333 unique authored solutions, art audit with 0 duplicate silhouettes / 0 duplicate titles / 0 review candidates, 162 registered assets, 64-frame visual review pack, build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900 all pass.
+- Release blocker unchanged: record real-device Billing evidence for `pip_cozy_support` purchase/restore and `pip_spoon_jar_small` purchase/repeat before the signed Play upload.
 ## Current Launch Candidate Snapshot - 2026-07-17
 
 ### v0.1.592 - Separate Puzzle Workshop Home

@@ -15976,3 +15976,76 @@ img {
     left: 9px;
   }
 }
+
+/* v0.1.593: a supporter thank-you stays small and physical inside Pip's workshop. */
+.puzzle-home-scene__keepsake {
+  position: absolute;
+  right: 22%;
+  bottom: 29%;
+  z-index: 1;
+  width: clamp(38px, 11vw, 58px);
+  height: auto;
+  pointer-events: none;
+}
+
+@media (max-width: 430px) {
+  .puzzle-home-scene__keepsake {
+    right: 20%;
+    bottom: 30%;
+    width: clamp(34px, 12vw, 48px);
+  }
+}
+/* v0.1.593: Pantry choices travel into Pip's distinct puzzle workshop as small keepsakes. */
+.puzzle-home-furnishings {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.puzzle-home-furnishing {
+  position: absolute;
+  display: block;
+  max-width: 18%;
+  max-height: 18%;
+  object-fit: contain;
+}
+
+.puzzle-home-furnishing--back-wall {
+  top: 18%;
+  left: 43%;
+  width: 15%;
+  max-height: 15%;
+}
+
+.puzzle-home-furnishing--shelf {
+  top: 39%;
+  left: 17%;
+  width: 14%;
+}
+
+.puzzle-home-furnishing--window {
+  top: 43%;
+  right: 16%;
+  width: 13%;
+}
+
+.puzzle-home-furnishing--counter {
+  right: 30%;
+  bottom: 25%;
+  width: 15%;
+}
+
+.puzzle-home-furnishing--floor {
+  bottom: 17%;
+  left: 26%;
+  width: 17%;
+}
+
+@media (max-width: 430px) {
+  .puzzle-home-furnishing--back-wall { top: 19%; left: 42%; width: 14%; }
+  .puzzle-home-furnishing--shelf { left: 18%; width: 13%; }
+  .puzzle-home-furnishing--window { right: 17%; width: 12%; }
+  .puzzle-home-furnishing--counter { right: 31%; bottom: 26%; width: 14%; }
+  .puzzle-home-furnishing--floor { bottom: 18%; left: 28%; width: 15%; }
+}

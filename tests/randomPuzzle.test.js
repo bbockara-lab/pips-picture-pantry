@@ -5,6 +5,7 @@ import {
   getTimeAttackRunScore,
   getTimeAttackSizeForRound
 } from "../src/game/randomPuzzle.js";
+import { hasUniqueNonogramSolution } from "../src/game/nonogramUniqueness.js";
 
 describe("time attack random puzzle generation", () => {
   it("generates deterministic puzzles for the same seed", () => {
@@ -26,6 +27,12 @@ describe("time attack random puzzle generation", () => {
     }
   });
 
+  it("keeps generated boards uniquely solvable at every supported size", () => {
+    for (const size of [5, 8, 10, 12, 15]) {
+      const puzzle = createTimeAttackPuzzle({ seed: "unique-release", size, index: 1 });
+      expect(hasUniqueNonogramSolution(puzzle.solution)).toBe(true);
+    }
+  });
   it("ramps board size during a run", () => {
     expect([0, 1, 2, 3, 5, 6, 12].map(getTimeAttackSizeForRound)).toEqual([5, 8, 10, 12, 12, 15, 15]);
     expect(createTimeAttackRun({ seed: "run", rounds: 3 }).map((puzzle) => puzzle.size)).toEqual([5, 8, 10]);

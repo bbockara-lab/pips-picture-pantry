@@ -1,6 +1,7 @@
 import { APRON_DRAWER_PUZZLE_OVERRIDES } from "./apronDrawerPuzzles.js";
 import { PROGRESSION_PUZZLE_OVERRIDES } from "./progressionPuzzleOverrides.js";
 import { QUALITY_PUZZLE_OVERRIDES } from "./qualityPuzzleOverrides.js";
+import { UNIQUENESS_PUZZLE_OVERRIDES } from "./uniquenessPuzzleOverrides.js";
 
 export const puzzles = [
   {
@@ -8951,10 +8952,13 @@ export const puzzles = [
 ];
 
 puzzles.forEach((puzzle) => {
-  const override = APRON_DRAWER_PUZZLE_OVERRIDES[puzzle.id]
-    || PROGRESSION_PUZZLE_OVERRIDES[puzzle.id]
-    || QUALITY_PUZZLE_OVERRIDES[puzzle.id];
-  if (override) {
+  const override = {
+    ...(QUALITY_PUZZLE_OVERRIDES[puzzle.id] || {}),
+    ...(PROGRESSION_PUZZLE_OVERRIDES[puzzle.id] || {}),
+    ...(APRON_DRAWER_PUZZLE_OVERRIDES[puzzle.id] || {}),
+    ...(UNIQUENESS_PUZZLE_OVERRIDES[puzzle.id] || {})
+  };
+  if (Object.keys(override).length) {
     Object.assign(puzzle, override);
     if (override.title) {
       puzzle.runtimeTitle = override.title;

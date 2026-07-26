@@ -1,6 +1,6 @@
 {
   "name": "pips-picture-pantry",
-  "version": "0.1.592",
+  "version": "0.1.593",
   "private": true,
   "type": "module",
   "scripts": {
@@ -16,6 +16,7 @@
     "qa:store": "node scripts/play_store_asset_check.js",
     "qa:hygiene": "node scripts/source_hygiene_check.js",
     "qa:catalog": "node scripts/puzzle_catalog_report.js",
+    "qa:uniqueness": "node scripts/puzzle_uniqueness_check.js",
     "qa:art-audit": "node scripts/puzzle_art_audit.js",
     "qa:batch": "vitest run tests/puzzleBatchIntake.test.js",
     "cap:sync": "npm run build && cap sync",

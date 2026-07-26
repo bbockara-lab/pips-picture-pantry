@@ -87,7 +87,7 @@ function compareDecorations(left, right, ownedIds, equippedDecorations, spoons) 
   return score(left, leftOwned, leftEquipped, leftAffordable) - score(right, rightOwned, rightEquipped, rightAffordable) || left.id.localeCompare(right.id);
 }
 
-function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, storyGoalId, onRefresh, onFirstPurchase) {
+function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, storyGoalId, onRefresh, onFirstPurchase, onOpenSpoonStore) {
   const owned = ownedIds.includes(decoration.id);
   const equipped = equippedDecorations[decoration.slot] === decoration.id;
   const affordable = spoons >= Number(decoration.cost || 0);
@@ -138,9 +138,14 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, story
       onRefresh?.();
     });
   } else {
-    button.disabled = !affordable;
-    button.textContent = affordable ? t("pantry.buy") : t("pantry.needMore", { count: Math.max(0, decoration.cost - spoons) });
+    button.textContent = affordable
+      ? t("pantry.buy")
+      : t("pantry.addSpoons", { count: Math.max(0, decoration.cost - spoons) });
     button.addEventListener("click", () => {
+      if (!affordable) {
+        onOpenSpoonStore?.(decoration);
+        return;
+      }
       if (buyDecoration(decoration)) {
         const storyCompleted = decoration.id === storyGoalId || isStarterRoomRequest;
         if (storyCompleted) {
@@ -215,7 +220,7 @@ function renderShopLimitControl(visibleCount, totalCount, onShowMore) {
   return control;
 }
 
-export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {}, spoonStore = null) {
+export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {}, spoonStore = null, onOpenSpoonStore = () => {}) {
   const panel = document.createElement("section");
   panel.className = "pantry-panel content-panel";
 
@@ -291,7 +296,7 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     }
 
     visibleShopDecorations.forEach((decoration) => {
-      grid.appendChild(renderShopCard(decoration, ownedIds, equippedDecorations, spoons, storyGoalId, onRefresh, onFirstPurchase));
+      grid.appendChild(renderShopCard(decoration, ownedIds, equippedDecorations, spoons, storyGoalId, onRefresh, onFirstPurchase, onOpenSpoonStore));
     });
 
     const shopLimitControl = renderShopLimitControl(visibleShopDecorations.length, visibleDecorations.length, showMoreDecorations);
