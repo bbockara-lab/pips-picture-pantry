@@ -19,10 +19,13 @@ import {
   getEquippedDecorations,
   getOwnedDecorationIds,
   getUnlockedPackIds,
+  getUnlockedShelfIds,
   canUnlockPack,
+  canUnlockShelf,
   loadSave,
   markGuideSeen,
   markPackCompletedIfFirst,
+  markShelfCompletedIfFirst,
   recordPantryStoryGoalComplete,
   recordReplayReward,
   recordTimeAttackResult,
@@ -35,8 +38,10 @@ import {
   savePuzzleState,
   setPantryStoryGoalId,
   setActivePlayerName,
-  unlockPack
+  unlockPack,
+  unlockShelf
 } from "../src/game/save.js";
+import { seasonShelves } from "../src/data/seasonShelves.js";
 import { pantryDecorations } from "../src/data/decorations.js";
 import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackProgress, TIME_ATTACK_LIMIT_SECONDS } from "../src/ui/timeAttackFlow.js";
 
@@ -162,6 +167,37 @@ describe("player save profiles", () => {
     expect(getPantrySpoons()).toBe(40);
     expect(markPackCompletedIfFirst({ id: "pips-first-shelf", stageBonus: 40 })).toEqual({ completed: false, bonus: 0 });
     expect(loadSave().completedPackIds).toEqual(["pips-first-shelf"]);
+  });
+
+  it("migrates legacy pack access to the matching Season 0 shelves", () => {
+    setActivePlayerName("Jay");
+    saveGame({
+      ...loadSave(),
+      unlockedPackIds: ["pips-first-shelf", "bakery-window"],
+      completedPackIds: ["pips-first-shelf"]
+    });
+
+    expect(getUnlockedShelfIds()).toEqual(expect.arrayContaining([
+      "shelf-pips-first",
+      "shelf-market-counter",
+      "shelf-bakery-window"
+    ]));
+    expect(loadSave().completedShelfIds).toContain("shelf-pips-first");
+  });
+
+  it("opens a shelf only after its previous shelf is complete and pays its bonus once", () => {
+    setActivePlayerName("Jay");
+    const starter = seasonShelves[0];
+    const nextShelf = seasonShelves[1];
+    const completedStarterIds = starter.puzzleIds;
+    saveGame({ ...loadSave(), completedPuzzleIds: completedStarterIds, pantrySpoons: nextShelf.unlockCost });
+    recordPantryStoryGoalComplete("starter-counter-cloth");
+
+    expect(canUnlockShelf(nextShelf)).toBe(true);
+    expect(unlockShelf(nextShelf)).toBe(true);
+    expect(getUnlockedShelfIds()).toContain(nextShelf.id);
+    expect(markShelfCompletedIfFirst(starter)).toEqual({ completed: true, bonus: starter.stageBonus });
+    expect(markShelfCompletedIfFirst(starter)).toEqual({ completed: false, bonus: 0 });
   });
 
   it("tracks first-run guide acknowledgements", () => {

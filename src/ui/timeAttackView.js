@@ -1,4 +1,5 @@
 import { t } from "../i18n/index.js";
+import clockGrandpaSheetUrl from "../assets/characters/story-friends-sheet-v1-clean.png";
 
 export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLimit = 3, lastResult = null, onStart } = {}) {
   const panel = document.createElement("section");
@@ -6,7 +7,15 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
 
   const intro = document.createElement("div");
   intro.className = "time-attack-panel__intro";
+  const grandpa = document.createElement("span");
+  grandpa.className = "time-attack-panel__clock-grandpa";
+  grandpa.setAttribute("aria-hidden", "true");
+  const grandpaArt = document.createElement("img");
+  grandpaArt.src = clockGrandpaSheetUrl;
+  grandpaArt.alt = "";
+  grandpa.appendChild(grandpaArt);
   appendTextElement(intro, "h2", "", t("timeAttack.title"));
+  intro.prepend(grandpa);
 
   const ladder = createTimeAttackLadder();
 

@@ -14,10 +14,11 @@ export function renderStageCompleteOverlay(pack, onDismiss = () => {}, completio
   card.className = "stage-complete-card";
   const bonus = Math.max(0, Number(completionResult?.bonus || 0));
 
-  if (hasApprovedStageArt(pack.id)) {
+  const artId = pack.artPackId || pack.id;
+  if (hasApprovedStageArt(artId)) {
     const art = document.createElement("img");
     art.className = "stage-complete-pip";
-    art.src = getStageArtUrl(pack.id);
+    art.src = getStageArtUrl(artId);
     art.alt = "";
     card.appendChild(art);
   } else {
@@ -44,13 +45,6 @@ export function renderStageCompleteOverlay(pack, onDismiss = () => {}, completio
     bonusLine.append(token, document.createTextNode(` ${t("stageComplete.bonus", { count: bonus })}`));
     copy.appendChild(bonusLine);
   }
-
-  const facts = document.createElement("div");
-  facts.className = "stage-complete-facts";
-  facts.setAttribute("aria-label", t("stageComplete.factsLabel"));
-  appendTextElement(facts, "span", "", t("stageComplete.albumFact"));
-  appendTextElement(facts, "span", "", t("stageComplete.nextFact"));
-  copy.appendChild(facts);
 
   const cta = document.createElement("button");
   cta.type = "button";

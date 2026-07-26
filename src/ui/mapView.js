@@ -1,6 +1,6 @@
 import { getBadgeArtUrl } from "../data/badgeArt.js";
 import { getPackBadgeStatus, getNextBadgeProgress } from "../game/badges.js";
-import { getCompletedPuzzleIds, isPackUnlocked } from "../game/save.js";
+import { getCompletedPuzzleIds, isShelfUnlocked } from "../game/save.js";
 import { t } from "../i18n/index.js";
 
 export function renderPantryMapView() {
@@ -58,7 +58,7 @@ function createNextBadgeCard(status) {
 }
 
 function createBadgeCollectionCard(status) {
-  const unlocked = isPackUnlocked(status.pack);
+  const unlocked = isShelfUnlocked(status.shelf);
   const card = document.createElement("article");
   card.className = status.earned ? "badge-card earned" : unlocked ? "badge-card" : "badge-card locked";
   card.style.setProperty("--badge-progress", String(Math.round((status.completed / Math.max(status.total, 1)) * 100)) + "%");

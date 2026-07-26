@@ -57,14 +57,7 @@ describe("i18n", () => {
     expect(t("settings.playerName")).toBe("Player name");
     expect(t("currency.spoons", { count: 7 })).toBe("Spoons 7");
     expect(t("packs.preview")).toBe("Preview");
-    expect(t("packs.catalogProgress", { completed: 3, total: 12 })).toBe("3/12 done");
-    expect(t("packs.catalogLarge", { count: 7 })).toBe("7 large");
-    expect(t("packs.catalogLargest", { size: 12 })).toBe("up to 12x12");
     expect(t("packs.pricePreview")).toBe("Preview set");
-    expect(t("brandIntro.launchNote")).toBe("Season 0 opens with 333 cozy pictures, pantry goals, and spoon rewards.");
-    expect(t("brandIntro.promisePuzzleAction")).toBe("Solve");
-    expect(t("brandIntro.promiseDecorateAction")).toBe("Decorate");
-    expect(t("brandIntro.promiseTimeAttackAction")).toBe("Challenge");
     expect(t("badges.progress", { completed: 3, total: 100 })).toBe("3/100 cards");
     expect(t("map.sets.cozy-cafe-room")).toBe("Cozy cafe room");
   });
@@ -126,11 +119,6 @@ describe("i18n", () => {
     setActiveLocale("ko");
 
     expect(t("views.puzzle")).toBe("\ud37c\uc990");
-    expect(t("brandIntro.promisePuzzle")).toBe("\uadf8\ub9bc 333\uac1c");
-    expect(t("brandIntro.promiseAction")).toBe("\uc5f4\uae30");
-    expect(t("brandIntro.promisePuzzleAction")).toBe("\ud480\uae30");
-    expect(t("brandIntro.promiseDecorateAction")).toBe("\uafb8\ubbf8\uae30");
-    expect(t("brandIntro.promiseTimeAttackAction")).toBe("\ub3c4\uc804");
     expect(t("guide.next")).toBe("\ub2e4\uc74c");
 
     setActiveLocale("unsupported");
@@ -315,9 +303,6 @@ describe("i18n", () => {
     expect(t("pantry.needMore", { count: 7 })).toBe("\uc2a4\ud47c 7\uac1c \ubd80\uc871");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - \uc644\ub8cc");
     expect(t("packs.preview")).toBe("\uc608\uace0");
-    expect(t("packs.catalogProgress", { completed: 3, total: 12 })).toBe("3/12 \uc644\ub8cc");
-    expect(t("packs.catalogLarge", { count: 7 })).toBe("\ud070 \ud37c\uc990 7\uac1c");
-    expect(t("packs.catalogLargest", { size: 12 })).toBe("\ucd5c\ub300 12x12");
     expect(t("badges.pipPortrait")).toBe("Pip \ucd08\uc0c1\ud654");
 
     setLanguagePreference("en", "ko-KR");

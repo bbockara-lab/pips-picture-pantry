@@ -16,6 +16,7 @@ function expectIncludes(path, needle, message) {
 
 const packsSource = read("src/data/packs.js");
 const puzzleSource = read("src/data/puzzles.js");
+const shelvesSource = read("src/data/seasonShelves.js");
 const bonusPackIds = [...packsSource.matchAll(/id: "([^"]+-plus)"[\s\S]*?access: "bonus-pack"[\s\S]*?monetizationRole: "future-theme-pack"/g)].map((match) => match[1]);
 
 if (bonusPackIds.length !== 5) {
@@ -26,22 +27,23 @@ for (const packId of bonusPackIds) {
   if (puzzleSource.includes(`packId: "${packId}"`)) {
     failures.push("src/data/puzzles.js: hidden bonus pack " + packId + " has authored launch puzzles.");
   }
+  if (shelvesSource.includes(`artPackId: "${packId}"`)) {
+    failures.push("src/data/seasonShelves.js: hidden bonus pack " + packId + " leaked into the launch shelf journey.");
+  }
 }
 
 const hubSource = expectIncludes(
   "src/ui/puzzleHubView.js",
-  'if (pack.access === "bonus-pack") {\n      // Future theme packs stay hidden until their art, puzzles, and store path are ready.\n      return;',
-  "launch puzzle picker must explicitly return before rendering bonus packs."
+  "seasonShelves.forEach((shelf) => {",
+  "launch puzzle picker must render only the curated season shelves."
 );
 
-const bonusReturnIndex = hubSource.indexOf('if (pack.access === "bonus-pack") {');
-const packBlockIndex = hubSource.indexOf('const packBlock = document.createElement("article");', bonusReturnIndex);
-if (bonusReturnIndex < 0 || packBlockIndex < 0 || bonusReturnIndex > packBlockIndex) {
-  failures.push("src/ui/puzzleHubView.js: bonus-pack return must happen before creating a pack block.");
+if (hubSource.includes("puzzlePacks")) {
+  failures.push("src/ui/puzzleHubView.js: launch puzzle picker must not enumerate legacy packs, which can expose future bonus packs.");
 }
 
-expectIncludes("src/game/save.js", 'pack?.access !== "bonus-pack"', "save unlock checks must keep future bonus packs locked.");
-expectIncludes("src/ui/appShell.js", 'pack.access === "bonus-pack"', "unlock action must ignore future bonus packs.");
+expectIncludes("src/game/save.js", "seasonShelves.find", "save unlock checks must accept only known season shelves.");
+expectIncludes("src/ui/appShell.js", "getSeasonShelfForPuzzle", "puzzle selection must resolve through the curated season shelf journey.");
 expectIncludes("scripts/mobile_visual_check.js", "expectHiddenBonusPacks", "mobile QA must guard against bonus pack preview leaks.");
 expectIncludes("scripts/release_candidate_check.js", '["bonus pack visibility", "npm run qa:bonus-pack"]', "candidate gate must include bonus pack visibility QA.");
 

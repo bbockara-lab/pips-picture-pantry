@@ -1325,26 +1325,17 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
     const bonusIcon = document.createElement("img");
     bonusIcon.alt = "";
     bonus.append(bonusIcon, document.createTextNode(" +5 spoons"));
-    const facts = document.createElement("div");
-    facts.className = "stage-complete-facts";
-    facts.setAttribute("aria-label", "Stage rewards");
-    const albumFact = document.createElement("span");
-    albumFact.textContent = "Album filled";
-    const roomFact = document.createElement("span");
-    roomFact.textContent = "Room path grows";
-    facts.append(albumFact, roomFact);
     const ctaButton = document.createElement("button");
     ctaButton.type = "button";
     ctaButton.className = "tool-button stage-complete-cta";
     ctaButton.textContent = "OK";
-    copy.append(eyebrow, title, body, bonus, facts, ctaButton);
+    copy.append(eyebrow, title, body, bonus, ctaButton);
     cardNode.append(pipArt, copy);
     overlay.appendChild(cardNode);
     document.body.appendChild(overlay);
     const card = overlay.querySelector(".stage-complete-card");
     const art = overlay.querySelector(".stage-complete-pip");
     const cta = overlay.querySelector(".stage-complete-cta");
-    const factChips = [...overlay.querySelectorAll(".stage-complete-facts span")];
     const cardRect = card?.getBoundingClientRect();
     const artRect = art?.getBoundingClientRect();
     const ctaRect = cta?.getBoundingClientRect();
@@ -1362,22 +1353,6 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
       viewportHeight: window.innerHeight,
       artHeight: artRect?.height || 0,
       ctaHeight: ctaRect?.height || 0,
-      factCount: factChips.length,
-      factChips: factChips.map((chip) => {
-        const rect = chip.getBoundingClientRect();
-        const style = getComputedStyle(chip);
-        return {
-          text: chip.textContent.trim(),
-          width: rect.width,
-          height: rect.height,
-          radius: parseFloat(style.borderRadius),
-          background: style.backgroundImage,
-      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
-          beforeBackground: getComputedStyle(chip, "::before").backgroundImage,
-          beforeWidth: parseFloat(getComputedStyle(chip, "::before").width),
-          overflows: chip.scrollWidth > Math.ceil(rect.width) + 1 || chip.scrollHeight > Math.ceil(rect.height) + 1
-        };
-      }),
       cardRadius: cardStyle ? parseFloat(cardStyle.borderRadius) : 0,
       cardBackground: cardStyle?.backgroundImage || "",
       cardBeforeHeight: cardBefore ? parseFloat(cardBefore.height) : 0,
@@ -1398,8 +1373,6 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
     metrics.cardHeight > metrics.viewportHeight - 24 ||
     metrics.artHeight < 180 ||
     metrics.ctaHeight < 50 ||
-    metrics.factCount !== 2 ||
-    metrics.factChips.some((chip) => !chip.text || chip.width < 90 || chip.height < 32 || chip.radius < 12 || chip.beforeWidth < 10 || !chip.background.includes("linear-gradient") || !chip.beforeBackground.includes("linear-gradient") || chip.overflows) ||
     metrics.cardRadius < 16 ||
     metrics.cardBeforeHeight < 8 ||
     !metrics.cardBeforeBackground.includes("linear-gradient") ||
@@ -1423,7 +1396,7 @@ async function expectNoHorizontalOverflow(page, viewportName) {
 }
 
 async function expectHiddenBonusPacks(page, viewportName) {
-  const leakCount = await page.locator('.pack-block[data-pack-id$="-plus"], .bonus-pack-panel').count();
+  const leakCount = await page.locator('.bonus-pack-panel').count();
   if (leakCount > 0) {
     failures.push(`${viewportName}: hidden bonus pack preview leaked into the launch puzzle picker.`);
   }
@@ -1433,7 +1406,7 @@ async function expectLockedStageGate(page, viewportName) {
   const lockedStage = page.locator(".pack-block.locked").first();
   const lockedText = await lockedStage.innerText();
   const duplicateReportCount = await lockedStage.locator(".unlock-panel__plan, .unlock-panel__gate").count();
-  if (!lockedText.includes("Pantry room step") || !lockedText.includes("0/3") || !lockedText.includes("Need pantry story") || !lockedText.includes("Go to Pantry") || lockedText.includes("Blocked by") || duplicateReportCount > 0) {
+  if (!lockedText.includes("Pantry room step") || !/0\/\d+/.test(lockedText) || !lockedText.includes("Need pantry story") || !lockedText.includes("Go to Pantry") || lockedText.includes("Blocked by") || duplicateReportCount > 0) {
     failures.push("[" + viewportName + "] Locked stage should show cost, Pantry progress, and one route without duplicate reports; saw " + lockedText);
   }
 }
@@ -1602,6 +1575,8 @@ async function expectTimeAttackStartSurface(page, viewportName) {
     const start = panel.querySelector(".time-attack-panel__start");
     const status = panel.querySelector(".time-attack-status");
     const records = panel.querySelector(".time-attack-records");
+    const grandpa = intro?.querySelector(".time-attack-panel__clock-grandpa");
+    const grandpaImage = grandpa?.querySelector("img");
     const recordItems = records ? Array.from(records.querySelectorAll("li")) : [];
     const introRect = intro?.getBoundingClientRect();
     const introStyle = intro ? getComputedStyle(intro) : null;
@@ -1621,7 +1596,12 @@ async function expectTimeAttackStartSurface(page, viewportName) {
         background: introStyle.backgroundImage,
         shadow: introStyle.boxShadow,
         sectionLabelCount: intro.querySelectorAll(".section-label").length,
-        title: (intro.querySelector("h2")?.textContent || "").trim()
+        title: (intro.querySelector("h2")?.textContent || "").trim(),
+        clockGrandpa: grandpa ? {
+          width: grandpa.getBoundingClientRect().width,
+          height: grandpa.getBoundingClientRect().height,
+          naturalWidth: grandpaImage?.naturalWidth || 0
+        } : null
       } : null,
       start: startRect ? {
         width: startRect.width,
@@ -1648,7 +1628,7 @@ async function expectTimeAttackStartSurface(page, viewportName) {
     };
   });
 
-  const introLooksPolished = metrics.intro && metrics.intro.height >= 56 && metrics.intro.radius >= 14 && metrics.intro.background === "none" && metrics.intro.shadow === "none" && metrics.intro.sectionLabelCount === 0 && metrics.intro.title.length > 0;
+  const introLooksPolished = metrics.intro && metrics.intro.height >= 96 && metrics.intro.radius >= 14 && metrics.intro.background === "none" && metrics.intro.shadow === "none" && metrics.intro.sectionLabelCount === 0 && metrics.intro.title.length > 0 && metrics.intro.clockGrandpa && metrics.intro.clockGrandpa.width >= 68 && metrics.intro.clockGrandpa.height >= 90 && metrics.intro.clockGrandpa.naturalWidth >= 1000;
   const startLooksTactile = metrics.start && metrics.start.width >= 220 && metrics.start.height >= 52 && metrics.start.radius >= 16 && metrics.start.background === "none" && metrics.start.shadow !== "none";
   const statusFits = metrics.status && metrics.status.width > 0 && metrics.status.height >= 28;
   const recordsAreUseful = !metrics.records || (
@@ -1718,9 +1698,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     failures.push("[" + viewportName + "] Bakery Window should expose at least 91 12x12 catalog chips, saw " + largeBoardChipCount);
   }
 
-  const villageLargeBoardChipCount = await page.locator('.pack-block[data-pack-id="village-pantry"] .puzzle-chip[data-size="10"]').count();
-  if (villageLargeBoardChipCount < 98) {
-    failures.push("[" + viewportName + "] Village Pantry should expose at least 98 10x10 catalog chips, saw " + villageLargeBoardChipCount);
+  const tenByTenChipCount = await page.locator('.puzzle-chip[data-size="10"]').count();
+  if (tenByTenChipCount < 98) {
+    failures.push("[" + viewportName + "] Season shelves should expose at least 98 10x10 puzzle chips, saw " + tenByTenChipCount);
   }
 
   if ((await page.locator(".pack-catalog-summary, .pack-note").count()) !== 0) {

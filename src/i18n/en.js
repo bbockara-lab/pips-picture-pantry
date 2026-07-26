@@ -5,16 +5,6 @@ export const en = {
   },
   brandIntro: {
     ariaLabel: "Sunny Spoon Studios and Pip's Picture Pantry opening screens",
-    studioTagline: "Sunny Spoon Studios",
-    launchNote: "Season 0 opens with 333 cozy pictures, pantry goals, and spoon rewards.",
-    promiseLabel: "Launch season highlights",
-    promisePuzzle: "333 pictures",
-    promiseDecorate: "Shop & pantry",
-    promiseTimeAttack: "Time Attack",
-    promiseAction: "Open",
-    promisePuzzleAction: "Solve",
-    promiseDecorateAction: "Decorate",
-    promiseTimeAttackAction: "Challenge",
     skip: "Start"
   },
   playerIntro: {
@@ -321,14 +311,11 @@ export const en = {
     replayNoReward: "Replay complete. No spoon this time, but the card stayed safe."
   },
   stageComplete: {
-    ariaLabel: "Stage complete",
-    eyebrow: "Stage complete!",
-    message: "Every picture in this stage is saved in your album.",
-    bonus: "Stage bonus +{count}",
-    factsLabel: "Stage rewards",
-    albumFact: "Album filled",
-    nextFact: "Room path grows",
-    cta: "Keep going"
+    ariaLabel: "Shelf complete",
+    eyebrow: "A new picture with Pip",
+    message: "Pip has tucked these pictures neatly onto the shelf.",
+    bonus: "+{count} spoons",
+    cta: "See the next shelf"
   },
   album: {
     completed: "{completed} pictures",
@@ -344,17 +331,29 @@ export const en = {
     complete: "Complete",
     sizeComplete: "{size}x{size} - Complete"
   },
+  shelves: {
+    pipsFirst: "Pip's First Shelf",
+    sunnyCounter: "Sunny Counter",
+    apronDrawer: "Apron Drawer",
+    marketCounter: "Market Counter",
+    windowTable: "Window Table",
+    morningBakery: "Morning Bakery",
+    pastryCorner: "Pastry Corner",
+    tinRow: "Tin Row",
+    bakeryWindow: "Bakery Window",
+    villageSquare: "Village Square",
+    marketTable: "Market Table",
+    clockCorner: "Clock Corner",
+    bakeryWalk: "Bakery Walk",
+    gardenPath: "Garden Path",
+    villagePantry: "Village Pantry"
+  },
   packs: {
     free: "Included",
     unlockable: "Unlockable",
     bonusPack: "Future set",
     locked: "Locked",
     progress: "{completed}/{total}",
-    catalogProgress: "{completed}/{total} done",
-    catalogTotal: "{count} pictures",
-    catalogLarge: "{count} large",
-    catalogLargest: "up to {size}x{size}",
-    catalogSummary: "{completed} of {total} pictures complete, {large} large boards, up to {size}x{size}",
     preview: "Preview",
     pricePreview: "Preview set",
     unlockCostPrefix: "Open with ",

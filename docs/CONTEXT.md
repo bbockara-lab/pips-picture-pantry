@@ -2,6 +2,16 @@
 
 ## Current Launch Candidate Snapshot - 2026-07-17
 
+### v0.1.587 - Season Shelf Progression Rebuild
+
+- Repackaged the unchanged 333 authored puzzle IDs into 15 short player-facing shelves (20-23 pictures each), so the opening experience now moves 5x5 -> mixed 5x5/8x8 -> 10x10 tastes -> gradual 12x12 introduction instead of dropping a 136-board wall after the opening packs.
+- Added save-compatible shelf progress: legacy pack unlocks migrate to their matching shelves, completed legacy packs seed their matching shelf-completion records, and all existing puzzle completion IDs remain untouched.
+- The picker, in-play previous/next navigation, daily candidate access, shelf completion rewards, and keepsake badge milestones now use shelf progression rather than the old five oversized pack boundaries. The 15 shelf unlock costs total 970 spoons and shelf bonuses total 750 spoons, matching the old five-pack economy instead of accidentally inflating late-game currency.
+- Removed the last player-facing global catalog pressure from Album counts; normal play communicates shelf progress only. Existing approved stage/badge art is temporarily reused through `artPackId` while each new shelf gets its own future visual pass.
+- Shelf completion is now a concise Pip moment (art, one line, spoon bonus, next action) rather than a reward report. The Time Attack start view now carries the approved clock-grandpa character crop so the mode reads as a timed visit with a world character, not a bare utility panel.
+- The former hidden-bonus-pack QA guard now proves the stronger shelf invariant: no future `-plus` pack can appear in the curated launch shelf journey, while legacy saves remain safely migrated.
+- Verification in this slice: focused shelf/save/badge/i18n tests, production build, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900. No Android bundle was created.
+
 - Mode remains `live-candidate`, now focused on final Android release hardening rather than bulk feature expansion.
 - Season 0 launch catalog target is complete at 333 polished puzzles; future 1,000+ depth moves to seasonal/quarterly updates.
 - Android v1 should include one optional support purchase from launch: Play Console product ID `pip_cozy_support`, one-time non-consumable, suggested USD 0.99 / KRW 1,100, reward 250 spoons.

@@ -1,4 +1,4 @@
-import { getPackById } from "../data/packs.js";
+import { getSeasonShelfById, getSeasonShelfForPuzzle, getSeasonShelfPuzzles } from "../data/seasonShelves.js";
 import { ECONOMY, getTimeAttackHintCost } from "../data/economyConfig.js";
 import { puzzles } from "../data/puzzles.js";
 import { getDailyPuzzle } from "../game/dailyPuzzle.js";
@@ -10,12 +10,12 @@ import {
   getReplayDailyCount,
   hasCozySupportPack,
   hasSeenGuide,
-  isPackUnlocked,
+  isShelfUnlocked,
   markGuideSeen,
-  markPackCompletedIfFirst,
+  markShelfCompletedIfFirst,
   resetProgress,
   setActivePlayerName,
-  unlockPack
+  unlockShelf
 } from "../game/save.js";
 import { getCozySupportProduct, getSpoonJarSmallProduct, purchaseCozySupportPack, purchaseSpoonJarSmall, restoreCozySupportPack, syncCozySupportEntitlement } from "../game/billing.js";
 import { setLanguagePreference } from "../i18n/index.js";
@@ -66,7 +66,7 @@ export function renderApp(root) {
 
   function selectPuzzle(puzzleId, scrollTarget = "puzzle", options = {}) {
     const nextPuzzle = puzzles.find((puzzle) => puzzle.id === puzzleId) || dailyPuzzle;
-    if (!isPackUnlocked(getPackById(nextPuzzle.packId))) {
+    if (!isShelfUnlocked(getSeasonShelfForPuzzle(nextPuzzle))) {
       return;
     }
 
@@ -81,9 +81,9 @@ export function renderApp(root) {
   }
 
   function selectStagePuzzle(direction) {
-    const packPuzzles = puzzles.filter((puzzle) => puzzle.packId === activePuzzle.packId);
-    const currentIndex = packPuzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
-    const nextPuzzle = packPuzzles[currentIndex + direction];
+    const shelfPuzzles = getSeasonShelfPuzzles(getSeasonShelfForPuzzle(activePuzzle));
+    const currentIndex = shelfPuzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
+    const nextPuzzle = shelfPuzzles[currentIndex + direction];
     if (nextPuzzle) {
       selectPuzzle(nextPuzzle.id);
     }
@@ -101,7 +101,7 @@ export function renderApp(root) {
 
   function selectNextPuzzle() {
     const completedPuzzleIds = getCompletedPuzzleIds();
-    const unlockedPuzzles = puzzles.filter((puzzle) => isPackUnlocked(getPackById(puzzle.packId)));
+    const unlockedPuzzles = puzzles.filter((puzzle) => isShelfUnlocked(getSeasonShelfForPuzzle(puzzle)));
     const nextUnfinished = unlockedPuzzles.find((puzzle) => !completedPuzzleIds.includes(puzzle.id));
     if (nextUnfinished) {
       selectPuzzle(nextUnfinished.id);
@@ -446,31 +446,32 @@ export function renderApp(root) {
     };
   }
 
-  function requestUnlockPack(packId) {
-    unlockPack(getPackById(packId));
+  function requestUnlockShelf(shelfId) {
+    const shelf = getSeasonShelfById(shelfId);
+    unlockShelf(shelf);
     draw();
   }
 
   function checkStageComplete(puzzle) {
-    const pack = getPackById(puzzle.packId);
-    if (!pack || pack.access === "bonus-pack") {
+    const shelf = getSeasonShelfForPuzzle(puzzle);
+    if (!shelf) {
       return;
     }
 
     const completedPuzzleIds = new Set(getCompletedPuzzleIds());
-    const packPuzzles = puzzles.filter((candidate) => candidate.packId === pack.id);
-    if (!packPuzzles.length || !packPuzzles.every((candidate) => completedPuzzleIds.has(candidate.id))) {
+    const shelfPuzzles = getSeasonShelfPuzzles(shelf);
+    if (!shelfPuzzles.length || !shelfPuzzles.every((candidate) => completedPuzzleIds.has(candidate.id))) {
       return;
     }
 
-    const completionResult = markPackCompletedIfFirst(pack);
+    const completionResult = markShelfCompletedIfFirst(shelf);
     if (!completionResult.completed) {
       return;
     }
 
     globalThis.setTimeout(() => {
       playStageComplete();
-      document.body.appendChild(renderStageCompleteOverlay(pack, draw, completionResult));
+      document.body.appendChild(renderStageCompleteOverlay(shelf, draw, completionResult));
     }, 700);
   }
 
@@ -515,7 +516,7 @@ export function renderApp(root) {
       onMusicChange: changeMusic,
       controlMode,
       onControlModeChange: changeControlMode,
-      onUnlockPack: requestUnlockPack,
+      onUnlockShelf: requestUnlockShelf,
       hideCompletedStages,
       onToggleHideCompletedStages: toggleHideCompletedStages,
       onNextPuzzle: selectNextPuzzle,
@@ -555,7 +556,7 @@ export function renderApp(root) {
     pendingScrollTarget = null;
     globalThis.setTimeout(() => {
       const selector = target === "picker"
-        ? `[data-pack-id="${activePuzzle.packId}"]`
+        ? `[data-shelf-id="${getSeasonShelfForPuzzle(activePuzzle)?.id || ""}"]`
         : target === "view"
           ? ".app-shell"
           : ".puzzle-panel";
@@ -577,7 +578,7 @@ function getStartPuzzle() {
 }
 
 function getDailyPuzzleCandidates() {
-  const unlocked = puzzles.filter((puzzle) => isPackUnlocked(getPackById(puzzle.packId)));
+  const unlocked = puzzles.filter((puzzle) => isShelfUnlocked(getSeasonShelfForPuzzle(puzzle)));
   return unlocked.length ? unlocked : puzzles;
 }
 
@@ -603,7 +604,7 @@ function createShell({
   onMusicChange,
   controlMode,
   onControlModeChange,
-  onUnlockPack,
+  onUnlockShelf,
   hideCompletedStages,
   onToggleHideCompletedStages,
   onNextPuzzle,
@@ -704,7 +705,7 @@ function createShell({
     if (replayPicksCard) {
       shell.appendChild(replayPicksCard);
     }
-    shell.appendChild(renderPuzzlePicker(activePuzzle.id, onSelectPuzzle, onUnlockPack, {
+    shell.appendChild(renderPuzzlePicker(activePuzzle.id, onSelectPuzzle, onUnlockShelf, {
       hideCompletedStages,
       onToggleHideCompletedStages,
       onOpenPantry: () => onSelectView("pantry")

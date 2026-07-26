@@ -5,16 +5,6 @@ export const ko = {
   },
   brandIntro: {
     ariaLabel: "Sunny Spoon Studios\uc640 Pip's Picture Pantry \uc2dc\uc791 \ud654\uba74",
-    studioTagline: "Sunny Spoon Studios",
-    launchNote: "\uc2dc\uc98c 0\uc5d0\ub294 \uc544\ub291\ud55c \uadf8\ub9bc 333\uac1c, \ud32c\ud2b8\ub9ac \ubaa9\ud45c, \uc2a4\ud47c \ubcf4\uc0c1\uc774 \uae30\ub2e4\ub824\uc694.",
-    promiseLabel: "\ucd9c\uc2dc \uc2dc\uc98c \ud558\uc774\ub77c\uc774\ud2b8",
-    promisePuzzle: "\uadf8\ub9bc 333\uac1c",
-    promiseDecorate: "\uc0c1\uc810\u00b7\ud32c\ud2b8\ub9ac",
-    promiseTimeAttack: "\ud0c0\uc784\uc5b4\ud0dd",
-    promiseAction: "\uc5f4\uae30",
-    promisePuzzleAction: "\ud480\uae30",
-    promiseDecorateAction: "\uafb8\ubbf8\uae30",
-    promiseTimeAttackAction: "\ub3c4\uc804",
     skip: "\uc2dc\uc791"
   },
   playerIntro: {
@@ -319,14 +309,11 @@ export const ko = {
     replayNoReward: "\uB9AC\uD50C\uB808\uC774 \uC644\uB8CC! \uC774\uBC88\uC5D0\uB294 \uC2A4\uD47C \uC5C6\uC774, \uCE74\uB4DC\uB294 \uC548\uC804\uD558\uAC8C \uADF8\uB300\uB85C\uC608\uC694."
   },
   stageComplete: {
-    ariaLabel: "\uc2a4\ud14c\uc774\uc9c0 \uc644\ub8cc",
-    eyebrow: "\uc2a4\ud14c\uc774\uc9c0 \uc644\ub8cc!",
-    message: "\uc774 \uc2a4\ud14c\uc774\uc9c0\uc758 \ubaa8\ub4e0 \uadf8\ub9bc\uc774 \uc568\ubc94\uc5d0 \uc800\uc7a5\ub410\uc5b4\uc694.",
-    bonus: "\uc2a4\ud14c\uc774\uc9c0 \ubcf4\ub108\uc2a4 +{count}",
-    factsLabel: "\uc2a4\ud14c\uc774\uc9c0 \ubcf4\uc0c1",
-    albumFact: "\uc568\ubc94 \ucc44\uc6c0",
-    nextFact: "\ubc29 \uc9c4\ud589\ub3c4 \uc131\uc7a5",
-    cta: "\uacc4\uc18d\ud558\uae30"
+    ariaLabel: "\uc120\ubc18 \uc644\uc131",
+    eyebrow: "Pip\uc758 \uc0c8 \uadf8\ub9bc",
+    message: "Pip\uc774 \uc774 \uc120\ubc18\uc744 \uc608\uc058\uac8c \ucc44\uc6cc\ub614\uc5b4\uc694.",
+    bonus: "\uc2a4\ud47c +{count}",
+    cta: "\ub2e4\uc74c \uc120\ubc18 \ubcf4\uae30"
   },
   album: {
     completed: "\uc644\uc131\ud55c \uadf8\ub9bc {completed}\uc7a5",
@@ -342,17 +329,29 @@ export const ko = {
     complete: "\uc644\ub8cc",
     sizeComplete: "{size}x{size} - \uc644\ub8cc"
   },
+  shelves: {
+    pipsFirst: "Pip\uc758 \uccab \uc120\ubc18",
+    sunnyCounter: "\ud587\uc0b4 \uce74\uc6b4\ud130",
+    apronDrawer: "\uc55e\uce58\ub9c8 \uc11c\ub78d",
+    marketCounter: "\uc7a5\ud130 \uce74\uc6b4\ud130",
+    windowTable: "\ucc3d\uac00 \ud14c\uc774\ube14",
+    morningBakery: "\uc544\uce68 \ube60\uc9d1",
+    pastryCorner: "\ud398\uc774\uc2a4\ud2b8\ub9ac \uad6c\uc11d",
+    tinRow: "\ud2f4 \uc120\ubc18",
+    bakeryWindow: "\ube60\uc9d1 \ucc3d\uac00",
+    villageSquare: "\ub9c8\uc744 \uad11\uc7a5",
+    marketTable: "\uc7a5\ud130 \ud14c\uc774\ube14",
+    clockCorner: "\uc2dc\uacc4 \uad6c\uc11d",
+    bakeryWalk: "\ube60\uc9d1 \uc0b0\ucc45\uae38",
+    gardenPath: "\uc815\uc6d0 \uc0b0\ucc45\uae38",
+    villagePantry: "\ub9c8\uc744 \ud32c\ud2b8\ub9ac"
+  },
   packs: {
     free: "\uae30\ubcf8 \ud3ec\ud568",
     unlockable: "\uc5f4\uae30",
     bonusPack: "\ub2e4\uc74c \uc138\ud2b8",
     locked: "\uc7a0\uae40",
     progress: "{completed}/{total}",
-    catalogProgress: "{completed}/{total} \uc644\ub8cc",
-    catalogTotal: "\uadf8\ub9bc {count}\uc7a5",
-    catalogLarge: "\ud070 \ud37c\uc990 {count}\uac1c",
-    catalogLargest: "\ucd5c\ub300 {size}x{size}",
-    catalogSummary: "\uadf8\ub9bc {total}\uc7a5 \uc911 {completed}\uc7a5 \uc644\ub8cc, \ud070 \ud37c\uc990 {large}\uac1c, \ucd5c\ub300 {size}x{size}",
     preview: "\uc608\uace0",
     pricePreview: "\uc608\uace0 \uc138\ud2b8",
     unlockCostPrefix: "\uc5f4\uae30 ",

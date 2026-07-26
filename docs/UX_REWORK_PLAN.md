@@ -1,7 +1,7 @@
 # Pip's Picture Pantry UX Rework Plan
 
-Status: release-quality recovery complete in code, Phases A-E implemented
-Baseline: v0.1.582
+Status: release-quality recovery complete; Season 0 progression is now being validated as short shelves
+Baseline: v0.1.587
 Goal: replace screen-by-screen patching with one coherent first-session and navigation experience before release.
 
 ## Why this pass exists

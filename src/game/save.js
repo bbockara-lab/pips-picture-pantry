@@ -1,5 +1,7 @@
 import { ECONOMY, getDailyReplayPickLimit, getDailyTimeAttackLimit, getReplayPickReward, getTimeAttackRecordBonus, getTimeAttackReward } from "../data/economyConfig.js";
 import { isDecorationArtApproved } from "../data/decorations.js";
+import { seasonShelves } from "../data/seasonShelves.js";
+import { getPreviousSeasonShelf, isSeasonShelfComplete } from "./seasonShelfProgress.js";
 import { restoreState, serializeState } from "./puzzleState.js";
 
 const LEGACY_SAVE_KEY = "pips-picture-pantry:v0.1:save";
@@ -17,6 +19,28 @@ const GUIDE_IDS = new Set([
 ]);
 const DEFAULT_PLAYER_NAME = "Friend";
 const STARTER_PACK_ID = "pips-first-shelf";
+const STARTER_SHELF_ID = "shelf-pips-first";
+const LEGACY_PACK_SHELF_IDS = {
+  "pips-first-shelf": ["shelf-pips-first"],
+  "sunny-spoon-sign": ["shelf-sunny-counter"],
+  "apron-drawer": ["shelf-apron-drawer"],
+  "bakery-window": [
+    "shelf-market-counter",
+    "shelf-window-table",
+    "shelf-morning-bakery",
+    "shelf-pastry-corner",
+    "shelf-tin-row",
+    "shelf-bakery-window"
+  ],
+  "village-pantry": [
+    "shelf-village-square",
+    "shelf-market-table",
+    "shelf-clock-corner",
+    "shelf-bakery-walk",
+    "shelf-garden-path",
+    "shelf-village-pantry"
+  ]
+};
 const TIME_ATTACK_DAILY_COUNT_RETENTION_DAYS = 30;
 const REPLAY_REWARD_RETENTION_DAYS = 30;
 const PROCESSED_BILLING_PURCHASE_RETENTION = 80;
@@ -278,6 +302,10 @@ export function getUnlockedPackIds() {
   return loadSave()?.unlockedPackIds || [STARTER_PACK_ID];
 }
 
+export function getUnlockedShelfIds() {
+  return loadSave()?.unlockedShelfIds || [STARTER_SHELF_ID];
+}
+
 export function getCompletionDates() {
   return loadSave()?.completionDates || {};
 }
@@ -383,6 +411,83 @@ export function getTimeAttackBestScores() {
 
 export function getTimeAttackDailyCount(dateKey = getLocalDateKey()) {
   return Number(loadSave()?.timeAttackDailyCount?.[dateKey] || 0);
+}
+
+export function getShelfPantryRoomRequirement(shelf) {
+  const required = Math.max(0, Number(shelf?.pantryRoomStepRequired || 0));
+  const completed = getPantryRoomStepCount();
+  return {
+    required,
+    completed,
+    remaining: Math.max(0, required - completed),
+    met: completed >= required
+  };
+}
+
+export function isShelfUnlocked(shelf) {
+  if (!shelf || shelf.id === STARTER_SHELF_ID) {
+    return true;
+  }
+  if (getUnlockedShelfIds().includes(shelf.id)) {
+    return true;
+  }
+  const previousShelf = getPreviousSeasonShelf(shelf);
+  return Number(shelf.unlockCost || 0) <= 0
+    && Boolean(previousShelf)
+    && isSeasonShelfComplete(previousShelf, getCompletedPuzzleIds())
+    && getShelfPantryRoomRequirement(shelf).met;
+}
+
+export function canUnlockShelf(shelf) {
+  if (!shelf || isShelfUnlocked(shelf)) {
+    return false;
+  }
+  const previousShelf = getPreviousSeasonShelf(shelf);
+  return Boolean(previousShelf)
+    && isSeasonShelfComplete(previousShelf, getCompletedPuzzleIds())
+    && getPantrySpoons() >= Number(shelf.unlockCost || 0)
+    && getShelfPantryRoomRequirement(shelf).met;
+}
+
+export function unlockShelf(shelf) {
+  if (!shelf || isShelfUnlocked(shelf)) {
+    return false;
+  }
+  if (!canUnlockShelf(shelf)) {
+    return false;
+  }
+
+  const cost = Math.max(0, Number(shelf.unlockCost || 0));
+  const save = loadSave() || createEmptySave();
+  if (save.pantrySpoons < cost) {
+    return false;
+  }
+  save.pantrySpoons -= cost;
+  save.unlockedShelfIds = Array.from(new Set([...save.unlockedShelfIds, shelf.id]));
+  saveGame(save);
+  return true;
+}
+
+export function markShelfCompletedIfFirst(shelfOrId) {
+  const shelf = typeof shelfOrId === "string"
+    ? seasonShelves.find((candidate) => candidate.id === shelfOrId)
+    : shelfOrId;
+  if (!shelf?.id) {
+    return { completed: false, bonus: 0 };
+  }
+
+  const save = loadSave() || createEmptySave();
+  if (save.completedShelfIds.includes(shelf.id)) {
+    return { completed: false, bonus: 0 };
+  }
+
+  const bonus = Math.max(0, Number(shelf.stageBonus || 0));
+  save.completedShelfIds.push(shelf.id);
+  if (bonus > 0) {
+    save.pantrySpoons += bonus;
+  }
+  saveGame(save);
+  return { completed: true, bonus };
 }
 
 export function getReplayRewardedPuzzleIds(dateKey = getLocalDateKey()) {
@@ -512,9 +617,15 @@ function savePlayerRecord(player) {
 }
 
 function normalizeSave(parsed) {
+  const completedPuzzleIds = Array.isArray(parsed?.completedPuzzleIds) ? parsed.completedPuzzleIds : [];
+  const unlockedShelfIds = normalizeUnlockedShelfIds(parsed?.unlockedShelfIds, parsed?.unlockedPackIds);
+  const completedShelfIds = normalizeCompletedShelfIds(
+    parsed?.completedShelfIds,
+    parsed?.completedPackIds
+  );
   return {
     puzzleStates: parsed?.puzzleStates || {},
-    completedPuzzleIds: Array.isArray(parsed?.completedPuzzleIds) ? parsed.completedPuzzleIds : [],
+    completedPuzzleIds,
     rewardedPuzzleIds: Array.isArray(parsed?.rewardedPuzzleIds) ? parsed.rewardedPuzzleIds : [],
     dailyRewardedDates: Array.isArray(parsed?.dailyRewardedDates) ? parsed.dailyRewardedDates : [],
     completedPackIds: Array.isArray(parsed?.completedPackIds) ? parsed.completedPackIds : [],
@@ -524,6 +635,8 @@ function normalizeSave(parsed) {
     unlockedPackIds: Array.isArray(parsed?.unlockedPackIds) && parsed.unlockedPackIds.length
       ? Array.from(new Set([STARTER_PACK_ID, ...parsed.unlockedPackIds]))
       : [STARTER_PACK_ID],
+    unlockedShelfIds,
+    completedShelfIds,
     pantrySpoons: Math.max(0, Number(parsed?.pantrySpoons || 0)),
     pantryStoryGoalId: parsed?.pantryStoryGoalId ? String(parsed.pantryStoryGoalId) : null,
     pantryCompletedStoryGoalIds: Array.isArray(parsed?.pantryCompletedStoryGoalIds) ? Array.from(new Set(parsed.pantryCompletedStoryGoalIds.map((id) => String(id || "")).filter(Boolean))) : [],
@@ -553,6 +666,30 @@ function pruneReplayRewardedPuzzleIdsByDate(value, todayKey = getLocalDateKey())
     }
     return kept;
   }, {});
+}
+
+function normalizeUnlockedShelfIds(value, legacyPackIds) {
+  const directIds = Array.isArray(value) ? value.map((id) => String(id || "")).filter(Boolean) : [];
+  const migratedIds = getLegacyShelfIds(legacyPackIds);
+  const validIds = new Set(seasonShelves.map((shelf) => shelf.id));
+  return Array.from(new Set([STARTER_SHELF_ID, ...directIds, ...migratedIds])).filter((id) => validIds.has(id));
+}
+
+function normalizeCompletedShelfIds(value, legacyCompletedPackIds) {
+  const validIds = new Set(seasonShelves.map((shelf) => shelf.id));
+  const directIds = Array.isArray(value) ? value.map((id) => String(id || "")).filter(Boolean) : [];
+  const migratedIds = getLegacyShelfIds(legacyCompletedPackIds);
+  // Completion rewards are granted by markShelfCompletedIfFirst after the
+  // final puzzle state is saved. Do not infer them here or a last-cell save
+  // could silently consume that one-time reward before the celebration runs.
+  return Array.from(new Set([...directIds, ...migratedIds])).filter((id) => validIds.has(id));
+}
+
+function getLegacyShelfIds(legacyPackIds) {
+  if (!Array.isArray(legacyPackIds)) {
+    return [];
+  }
+  return legacyPackIds.flatMap((packId) => LEGACY_PACK_SHELF_IDS[String(packId || "")] || []);
 }
 
 function pruneTimeAttackDailyCount(value, todayKey = getLocalDateKey()) {

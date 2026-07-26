@@ -1,9 +1,8 @@
 import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
-import { puzzlePacks } from "../data/packs.js";
-import { puzzles } from "../data/puzzles.js";
+import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, seasonShelves } from "../data/seasonShelves.js";
 import { getStageArtUrl, hasApprovedStageArt } from "../data/stageArt.js";
 import { ECONOMY } from "../data/economyConfig.js";
-import { canUnlockPack, getCompletedPuzzleIds, getPackPantryRoomRequirement, getPantrySpoons, getReplayDailyCount, isPackUnlocked } from "../game/save.js";
+import { canUnlockShelf, getCompletedPuzzleIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
 
@@ -43,15 +42,15 @@ export function renderPuzzleHub(activePuzzle, onOpenPuzzle) {
 }
 
 export function getStageNavigation(activePuzzle, onPrevious, onNext, onShowList) {
-  const pack = puzzlePacks.find((candidate) => candidate.id === activePuzzle.packId);
-  const packPuzzles = puzzles.filter((puzzle) => puzzle.packId === activePuzzle.packId);
-  const currentIndex = packPuzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
+  const shelf = getSeasonShelfForPuzzle(activePuzzle);
+  const shelfPuzzles = getSeasonShelfPuzzles(shelf);
+  const currentIndex = shelfPuzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
   return {
-    packTitle: pack ? t(pack.titleKey) : t("sections.currentPicture"),
+    packTitle: shelf ? t(shelf.titleKey) : t("sections.currentPicture"),
     current: Math.max(currentIndex + 1, 1),
-    total: packPuzzles.length || 1,
+    total: shelfPuzzles.length || 1,
     hasPrevious: currentIndex > 0,
-    hasNext: currentIndex >= 0 && currentIndex < packPuzzles.length - 1,
+    hasNext: currentIndex >= 0 && currentIndex < shelfPuzzles.length - 1,
     onPrevious,
     onNext,
     onShowList
@@ -145,7 +144,7 @@ export function renderReplayPicksCard(replayPicks, activePuzzleId, onSelectPuzzl
   return card;
 }
 
-export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack, options = {}) {
+export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockShelf, options = {}) {
   const {
     hideCompletedStages = false,
     onToggleHideCompletedStages = () => {},
@@ -155,16 +154,15 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack,
   const completedPuzzleIdSet = new Set(completedPuzzleIds);
   const section = document.createElement("section");
   section.className = "puzzle-picker content-panel";
-  const stageStats = puzzlePacks
-    .filter((pack) => pack.access !== "bonus-pack")
-    .map((pack) => {
-      const packPuzzles = puzzles.filter((puzzle) => puzzle.packId === pack.id);
-      const completeCount = packPuzzles.filter((puzzle) => completedPuzzleIdSet.has(puzzle.id)).length;
+  const stageStats = seasonShelves
+    .map((shelf) => {
+      const shelfPuzzles = getSeasonShelfPuzzles(shelf);
+      const completeCount = shelfPuzzles.filter((puzzle) => completedPuzzleIdSet.has(puzzle.id)).length;
       return {
-        pack,
-        total: packPuzzles.length,
+        shelf,
+        total: shelfPuzzles.length,
         completeCount,
-        complete: packPuzzles.length > 0 && completeCount >= packPuzzles.length
+        complete: shelfPuzzles.length > 0 && completeCount >= shelfPuzzles.length
       };
     });
   const completedStageCount = stageStats.filter((stat) => stat.complete).length;
@@ -172,42 +170,31 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack,
     section.appendChild(createStageFilterBar(hideCompletedStages, completedStageCount, onToggleHideCompletedStages));
   }
 
-  puzzlePacks.forEach((pack) => {
-    if (pack.access === "bonus-pack") {
-      // Future theme packs stay hidden until their art, puzzles, and store path are ready.
-      return;
-    }
-    const packPuzzles = puzzles.filter((puzzle) => puzzle.packId === pack.id);
-    const completeCount = packPuzzles.filter((puzzle) => completedPuzzleIdSet.has(puzzle.id)).length;
-    const unlocked = isPackUnlocked(pack);
-    const isBonusPreview = pack.access === "bonus-pack";
-    const isStageComplete = !isBonusPreview && packPuzzles.length > 0 && completeCount >= packPuzzles.length;
+  seasonShelves.forEach((shelf) => {
+    const shelfPuzzles = getSeasonShelfPuzzles(shelf);
+    const completeCount = shelfPuzzles.filter((puzzle) => completedPuzzleIdSet.has(puzzle.id)).length;
+    const unlocked = isShelfUnlocked(shelf);
+    const isStageComplete = shelfPuzzles.length > 0 && completeCount >= shelfPuzzles.length;
     if (hideCompletedStages && isStageComplete) {
       return;
     }
     const packBlock = document.createElement("article");
     packBlock.className = unlocked ? "pack-block" : "pack-block locked";
-    packBlock.dataset.packId = pack.id;
-    if (packPuzzles.some((puzzle) => puzzle.id === activePuzzleId)) {
+    packBlock.dataset.shelfId = shelf.id;
+    if (shelfPuzzles.some((puzzle) => puzzle.id === activePuzzleId)) {
       packBlock.dataset.activeStage = "true";
     }
 
     const header = document.createElement("div");
     header.className = "pack-header";
     const headerCopy = document.createElement("div");
-    appendTextElement(headerCopy, "p", "section-label", t(pack.titleKey));
+    appendTextElement(headerCopy, "p", "section-label", t(shelf.titleKey));
     header.append(headerCopy);
     packBlock.appendChild(header);
-    packBlock.appendChild(createStagePreview(pack, completeCount, packPuzzles.length));
-
-    if (isBonusPreview) {
-      packBlock.appendChild(createBonusPackPanel());
-      section.appendChild(packBlock);
-      return;
-    }
+    packBlock.appendChild(createStagePreview(shelf, completeCount, shelfPuzzles.length));
 
     if (!unlocked) {
-      packBlock.appendChild(createUnlockPanel(pack, onUnlockPack, onOpenPantry));
+      packBlock.appendChild(createUnlockPanel(shelf, onUnlockShelf, onOpenPantry));
       section.appendChild(packBlock);
       return;
     }
@@ -215,7 +202,7 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack,
     const list = document.createElement("div");
     list.className = "puzzle-list";
 
-    packPuzzles.forEach((puzzle) => {
+    shelfPuzzles.forEach((puzzle) => {
       const complete = completedPuzzleIdSet.has(puzzle.id);
       const button = document.createElement("button");
       button.type = "button";
@@ -263,27 +250,19 @@ function createStageFilterBar(hideCompletedStages, hiddenStageCount, onToggleHid
   return bar;
 }
 
-function createStagePreview(pack, completeCount, total) {
+function createStagePreview(shelf, completeCount, total) {
   const preview = document.createElement("div");
-  const isBonusPreview = pack.access === "bonus-pack";
-  preview.className = isBonusPreview ? "stage-preview bonus-preview" : "stage-preview";
+  preview.className = "stage-preview";
   preview.setAttribute("aria-hidden", "true");
   const stageProgressRatio = completeCount / Math.max(total || 20, 1);
   preview.style.setProperty("--stage-progress", `${Math.round(stageProgressRatio * 100)}%`);
   preview.style.setProperty("--stage-progress-ratio", String(Math.min(1, Math.max(0, stageProgressRatio))));
-  if (isBonusPreview) {
-    const future = document.createElement("div");
-    future.className = "future-mural-card";
-    appendTextElement(future, "span", "", t(`map.sets.${pack.muralSet}`));
-    preview.appendChild(future);
-    return preview;
-  }
   const wrap = document.createElement("div");
   wrap.className = "stage-pip-preview tile-stage-preview";
   const previewTileTotal = 20;
   const previewCompleteCount = Math.round(stageProgressRatio * previewTileTotal);
-  if (hasApprovedStageArt(pack.id)) {
-    wrap.append(createStageTileMosaic(pack, previewCompleteCount, previewTileTotal), createStageProgressMeter());
+  if (hasApprovedStageArt(shelf.artPackId || shelf.id)) {
+    wrap.append(createStageTileMosaic(shelf, previewCompleteCount, previewTileTotal), createStageProgressMeter());
   } else {
     wrap.append(createStageFallbackMosaic(previewCompleteCount, previewTileTotal), createStageProgressMeter());
   }
@@ -291,16 +270,17 @@ function createStagePreview(pack, completeCount, total) {
   return preview;
 }
 
-function createStageTileMosaic(pack, completeCount, total) {
+function createStageTileMosaic(shelf, completeCount, total) {
   const columns = 5;
   const rows = Math.ceil(total / columns);
   const mosaic = document.createElement("div");
   mosaic.className = "pip-tile-mosaic stage-tile-mosaic";
-  const artUrl = getStageArtUrl(pack.id);
+  const artId = shelf.artPackId || shelf.id;
+  const artUrl = getStageArtUrl(artId);
   if (!artUrl) {
     return createStageFallbackMosaic(completeCount, total);
   }
-  const peekIndex = getPeekTileIndex(pack.id, total);
+  const peekIndex = getPeekTileIndex(artId, total);
   for (let index = 0; index < total; index += 1) {
     const tile = document.createElement("span");
     const col = index % columns;
@@ -351,25 +331,12 @@ function createStageProgressMeter() {
   return meter;
 }
 
-function createBonusPackPanel() {
-  const panel = document.createElement("div");
-  panel.className = "unlock-panel bonus-pack-panel";
-  appendTextElement(panel, "p", "", t("packs.futurePackHint"));
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "tool-button";
-  button.disabled = true;
-  button.textContent = t("packs.pricePreview");
-  panel.appendChild(button);
-  return panel;
-}
-
-function createUnlockPanel(pack, onUnlockPack, onOpenPantry) {
+function createUnlockPanel(shelf, onUnlockShelf, onOpenPantry) {
   const panel = document.createElement("div");
   panel.className = "unlock-panel";
-  const canOpen = canUnlockPack(pack);
-  const roomRequirement = getPackPantryRoomRequirement(pack);
-  const spoonGap = Math.max(0, Number(pack.unlockCost || 0) - getPantrySpoons());
+  const canOpen = canUnlockShelf(shelf);
+  const roomRequirement = getShelfPantryRoomRequirement(shelf);
+  const spoonGap = Math.max(0, Number(shelf.unlockCost || 0) - getPantrySpoons());
   const disabledText = roomRequirement.met
     ? t("packs.needMore", { count: spoonGap })
     : t("packs.needPantryRoom");
@@ -377,7 +344,7 @@ function createUnlockPanel(pack, onUnlockPack, onOpenPantry) {
   requirements.className = "unlock-panel__requirements";
   const copy = document.createElement("p");
   copy.className = "unlock-panel__cost";
-  copy.append(createSpoonIcon("small"), document.createTextNode(String(pack.unlockCost)));
+  copy.append(createSpoonIcon("small"), document.createTextNode(String(shelf.unlockCost)));
   requirements.appendChild(copy);
   if (roomRequirement.required > 0) {
     appendTextElement(requirements, "p", "unlock-panel__room", t("packs.roomRequirement", roomRequirement));
@@ -390,7 +357,7 @@ function createUnlockPanel(pack, onUnlockPack, onOpenPantry) {
   unlockButton.className = "tool-button";
   unlockButton.disabled = !canOpen;
   unlockButton.textContent = canOpen ? t("packs.openStage") : disabledText;
-  unlockButton.addEventListener("click", () => onUnlockPack(pack.id));
+  unlockButton.addEventListener("click", () => onUnlockShelf(shelf.id));
   actions.appendChild(unlockButton);
   if (!roomRequirement.met) {
     const pantryButton = document.createElement("button");
