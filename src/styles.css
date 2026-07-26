@@ -16781,3 +16781,18 @@ img {
 .app-shell--workshop-home .puzzle-home-scene::before {
   inset: 0;
 }
+
+/* v0.1.603 follow-up: keep the primary target stationary for reliable touch and visual QA. */
+@keyframes puzzle-home-play-pulse-v2-stable {
+  0%,
+  100% {
+    box-shadow: 0 5px 0 rgba(91, 58, 42, 0.44), 0 12px 22px rgba(61, 43, 46, 0.22);
+  }
+  50% {
+    box-shadow: 0 8px 0 rgba(91, 58, 42, 0.34), 0 18px 30px rgba(61, 43, 46, 0.28);
+  }
+}
+
+.app-shell--workshop-home .puzzle-home-scene__play {
+  animation-name: puzzle-home-play-pulse-v2-stable;
+}
