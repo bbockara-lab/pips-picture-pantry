@@ -370,6 +370,19 @@ async function expectVisible(page, selector, viewportName) {
     return;
   }
 
+  if (/\bimg$/.test(selector)) {
+    try {
+      await page.waitForFunction((target) => {
+        const image = document.querySelector(target);
+        if (!(image instanceof HTMLImageElement) || !image.complete || image.naturalWidth < 1 || image.naturalHeight < 1) return false;
+        const rect = image.getBoundingClientRect();
+        return rect.width >= 1 && rect.height >= 1;
+      }, selector, { timeout: 3000 });
+    } catch {
+      // Keep the existing visible-size assertion below as the failure report.
+    }
+  }
+
   const box = await page.locator(selector).first().boundingBox();
   if (!box || box.width < 1 || box.height < 1) {
     failures.push(`[${viewportName}] ${selector} is not visibly sized`);
@@ -1473,21 +1486,36 @@ async function expectPuzzleHomePolish(page, viewportName) {
       && left.bottom > right.top + 1);
     const sceneBox = boxOf(scene);
     const destinationBoxes = destinations.map(boxOf);
+    const destinationArt = destinations.map((button) => {
+      const image = button.querySelector("img");
+      const rect = image?.getBoundingClientRect();
+      return {
+        width: rect?.width || 0,
+        height: rect?.height || 0,
+        naturalWidth: image?.naturalWidth || 0,
+        naturalHeight: image?.naturalHeight || 0
+      };
+    });
     const playBox = boxOf(play);
     return {
       overflow: home.scrollWidth > home.clientWidth + 1,
       sceneOverflow: scene ? scene.scrollWidth > scene.clientWidth + 1 : true,
       backgroundImage: sceneStyle?.backgroundImage || "",
       destinationCount: destinations.length,
-      destinationOverflow: destinations.some((button) => button.scrollWidth > button.clientWidth + 1 || button.getBoundingClientRect().height < 48),
+      destinationOverflow: destinations.some((button) => ((button.scrollWidth > button.clientWidth + 1 || button.scrollHeight > button.clientHeight + 1) && getComputedStyle(button).overflow !== "hidden") || button.getBoundingClientRect().height < 48),
       destinationOutsideScene: destinationBoxes.some((box) => !box || !sceneBox
         || box.left < sceneBox.left - 1 || box.right > sceneBox.right + 1
         || box.top < sceneBox.top - 1 || box.bottom > sceneBox.bottom + 1),
       destinationCollisions: destinationBoxes.some((box, index) => destinationBoxes
         .slice(index + 1)
         .some((other) => intersects(box, other))),
+      destinationTargetsLargeEnough: destinationBoxes.every((box) => box
+        && Math.min(box.right - box.left, box.bottom - box.top) >= 76),
+      destinationArtLargeEnough: destinationArt.every((art) => art.width >= 72 && art.height >= 72
+        && art.naturalWidth >= 128 && art.naturalHeight >= 128),
       playCollision: destinationBoxes.some((box) => intersects(box, playBox)),
       playOutsideScene: !playBox || !sceneBox || playBox.left < sceneBox.left - 1 || playBox.right > sceneBox.right + 1 || playBox.top < sceneBox.top - 1 || playBox.bottom > sceneBox.bottom + 1,
+      playLargeEnough: Boolean(playBox && Math.min(playBox.right - playBox.left, playBox.bottom - playBox.top) >= 96),
       workshopShell: Boolean(shell?.classList.contains("app-shell--workshop-home")),
       hasRetiredHomeProps: Boolean(home.querySelector(".puzzle-home-furnishings, .puzzle-home-scene__keepsake")),
       labelsVisible: destinations.some((button) => {
@@ -1498,7 +1526,7 @@ async function expectPuzzleHomePolish(page, viewportName) {
     };
   });
   const expected = ["puzzle", "album", "pantry", "timeAttack", "map", "settings"];
-  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || metrics.playCollision || metrics.playOutsideScene || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.labelsVisible || expected.some((id) => !metrics.ids.includes(id))) {
+  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.playOutsideScene || !metrics.playLargeEnough || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.labelsVisible || expected.some((id) => !metrics.ids.includes(id))) {
     failures.push("[" + viewportName + "] Puzzle workshop home/direct destinations regressed: " + JSON.stringify(metrics));
   }
 }

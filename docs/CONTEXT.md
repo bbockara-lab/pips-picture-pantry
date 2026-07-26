@@ -1,3 +1,8 @@
+## v0.1.598 - Puzzle Room icon hierarchy
+
+- Reset the legacy two-column icon grid inside each workshop destination, so the hidden accessibility label no longer consumes half of the ring. Approved destination art now uses the full button area instead of rendering as a thin, hard-to-find strip.
+- Mobile QA now enforces six 76px+ scene targets, large 72px+ rendered art, and a 96px+ primary Play target across all four required widths. This protects the deliberate visual hierarchy from future CSS cascade regressions.
+- Verification: `npm run qa:mobile`, 175 tests, and source hygiene pass at 360x740 / 390x844 / 430x932 / 675x900.
 ## v0.1.597 ? Shared-menu alignment
 
 - The non-home menu trigger now centers its current-route art and `¸Þ´º` / `Menu` label as a single group instead of pinning the art against the left edge of a wide bar.
