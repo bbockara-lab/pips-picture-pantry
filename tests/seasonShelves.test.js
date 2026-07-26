@@ -28,6 +28,11 @@ describe("Season 0 shelves", () => {
     expect(getSeasonShelfPuzzles(shelf)[0]?.id).toBe("pips-first-shelf-pip-face-1");
   });
 
+  it("marks only the village pantry as the closing shelf", () => {
+    expect(seasonShelves.filter((shelf) => shelf.isFinal)).toHaveLength(1);
+    expect(seasonShelves.at(-1)?.id).toBe("shelf-village-pantry");
+  });
+
   it("preserves the prior Season 0 total economy while distributing it across shelves", () => {
     const totals = seasonShelves.reduce((result, shelf) => ({
       unlockCost: result.unlockCost + Number(shelf.unlockCost || 0),

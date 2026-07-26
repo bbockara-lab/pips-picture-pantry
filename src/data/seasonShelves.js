@@ -44,6 +44,7 @@ export const seasonShelves = Object.freeze(SHELF_BLUEPRINT.map((blueprint, index
   return Object.freeze({
     ...blueprint,
     index,
+    isFinal: index === SHELF_BLUEPRINT.length - 1,
     puzzleIds: Object.freeze(puzzleIds)
   });
 }));

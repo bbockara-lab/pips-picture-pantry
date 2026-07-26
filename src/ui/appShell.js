@@ -471,7 +471,11 @@ export function renderApp(root) {
 
     globalThis.setTimeout(() => {
       playStageComplete();
-      document.body.appendChild(renderStageCompleteOverlay(shelf, draw, completionResult));
+      document.body.appendChild(renderStageCompleteOverlay(
+        shelf,
+        () => selectView(shelf.isFinal ? "pantry" : "puzzle"),
+        completionResult
+      ));
     }, 700);
   }
 

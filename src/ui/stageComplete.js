@@ -4,11 +4,12 @@ import { getStageArtUrl, hasApprovedStageArt } from "../data/stageArt.js";
 import { t } from "../i18n/index.js";
 
 export function renderStageCompleteOverlay(pack, onDismiss = () => {}, completionResult = {}) {
+  const isFinalShelf = Boolean(pack?.isFinal);
   const overlay = document.createElement("div");
   overlay.className = "stage-complete-overlay";
   overlay.setAttribute("role", "dialog");
   overlay.setAttribute("aria-modal", "true");
-  overlay.setAttribute("aria-label", t("stageComplete.ariaLabel"));
+  overlay.setAttribute("aria-label", t(isFinalShelf ? "stageComplete.finalAriaLabel" : "stageComplete.ariaLabel"));
 
   const card = document.createElement("section");
   card.className = "stage-complete-card";
@@ -32,9 +33,9 @@ export function renderStageCompleteOverlay(pack, onDismiss = () => {}, completio
 
   const copy = document.createElement("div");
   copy.className = "stage-complete-copy";
-  appendTextElement(copy, "p", "stage-complete-eyebrow", t("stageComplete.eyebrow"));
+  appendTextElement(copy, "p", "stage-complete-eyebrow", t(isFinalShelf ? "stageComplete.finalEyebrow" : "stageComplete.eyebrow"));
   appendTextElement(copy, "h2", "", t(pack.titleKey));
-  appendTextElement(copy, "p", "", t("stageComplete.message"));
+  appendTextElement(copy, "p", "", t(isFinalShelf ? "stageComplete.finalMessage" : "stageComplete.message"));
 
   if (bonus > 0) {
     const bonusLine = document.createElement("p");
@@ -49,7 +50,7 @@ export function renderStageCompleteOverlay(pack, onDismiss = () => {}, completio
   const cta = document.createElement("button");
   cta.type = "button";
   cta.className = "tool-button stage-complete-cta";
-  cta.textContent = t("stageComplete.cta");
+  cta.textContent = t(isFinalShelf ? "stageComplete.finalCta" : "stageComplete.cta");
   copy.appendChild(cta);
   card.appendChild(copy);
 

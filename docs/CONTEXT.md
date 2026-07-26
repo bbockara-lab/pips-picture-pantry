@@ -2,6 +2,12 @@
 
 ## Current Launch Candidate Snapshot - 2026-07-17
 
+### v0.1.588 - Shelf Completion Handoff
+
+- A completed non-final shelf now returns to the picture list, where the next shelf can be chosen or opened; the final Village Pantry shelf instead leads directly into Pip's Pantry.
+- The completion overlay has distinct final-shelf copy and action, so it never promises a nonexistent “next shelf.”
+- Verified focused shelf/save/i18n tests and mobile visual QA at 360x740, 390x844, 430x932, and 675x900. No Android bundle was created.
+
 ### v0.1.587 - Season Shelf Progression Rebuild
 
 - Repackaged the unchanged 333 authored puzzle IDs into 15 short player-facing shelves (20-23 pictures each), so the opening experience now moves 5x5 -> mixed 5x5/8x8 -> 10x10 tastes -> gradual 12x12 introduction instead of dropping a 136-board wall after the opening packs.

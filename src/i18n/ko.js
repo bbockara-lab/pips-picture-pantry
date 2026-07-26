@@ -313,7 +313,11 @@ export const ko = {
     eyebrow: "Pip\uc758 \uc0c8 \uadf8\ub9bc",
     message: "Pip\uc774 \uc774 \uc120\ubc18\uc744 \uc608\uc058\uac8c \ucc44\uc6cc\ub614\uc5b4\uc694.",
     bonus: "\uc2a4\ud47c +{count}",
-    cta: "\ub2e4\uc74c \uc120\ubc18 \ubcf4\uae30"
+    cta: "\uadf8\ub9bc \ubaa9\ub85d \ubcf4\uae30",
+    finalAriaLabel: "Pip\uc758 \ud32c\ud2b8\ub9ac \uc644\uc131",
+    finalEyebrow: "Pip\uc758 \ud32c\ud2b8\ub9ac",
+    finalMessage: "Pip\uacfc \ud568\uaed8 \ucc44\uc6b4 \ud32c\ud2b8\ub9ac\uac00 \uc644\uc131\ub410\uc5b4\uc694.",
+    finalCta: "\ud32c\ud2b8\ub9ac \ubcf4\uae30"
   },
   album: {
     completed: "\uc644\uc131\ud55c \uadf8\ub9bc {completed}\uc7a5",

@@ -315,7 +315,11 @@ export const en = {
     eyebrow: "A new picture with Pip",
     message: "Pip has tucked these pictures neatly onto the shelf.",
     bonus: "+{count} spoons",
-    cta: "See the next shelf"
+    cta: "Picture list",
+    finalAriaLabel: "Pip's pantry complete",
+    finalEyebrow: "Pip's pantry",
+    finalMessage: "The pantry Pip filled with you is complete.",
+    finalCta: "See the pantry"
   },
   album: {
     completed: "{completed} pictures",
