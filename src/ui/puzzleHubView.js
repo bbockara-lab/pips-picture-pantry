@@ -1,5 +1,5 @@
 import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
-import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-v1.png";
+import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-v1.webp";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, seasonShelves } from "../data/seasonShelves.js";
 import { getStageArtUrl, hasApprovedStageArt } from "../data/stageArt.js";
 import { ECONOMY } from "../data/economyConfig.js";

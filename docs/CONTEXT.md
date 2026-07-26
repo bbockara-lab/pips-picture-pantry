@@ -4157,7 +4157,12 @@ Current launch direction:
 
 ### 2026-07-26 Pre-release spatial-contract audit
 
-- Began a menu-by-menu geometry audit while Production access is pending release submission.
+- Began a menu-by-menu geometry audit after Production access was granted and before release submission.
 - Strengthened four-width mobile QA so the six workshop destinations must remain inside the illustrated scene, cannot overlap one another, and cannot overlap the current-puzzle action.
 - Added the same containment and collision guard to the five Pantry room slots, alongside the existing horizontal-overflow, shop ordering, card, and Billing-status checks.
 - Added `docs/HOME_SCENE_CONTRACT.md`: the workshop and Pantry remain distinct surfaces, while future decoration/theme work must use one equipped-decoration save source and authored perspective-safe overlays. Persistent destinations stay in side rails; Pip and room storytelling own the center.
+### 2026-07-26 Runtime background optimization
+
+- Preserved the approved PNG masters for Pip's Puzzle Workshop and the sunlit Decor Room, then added quality-checked WebP runtime versions.
+- Runtime payload drops from about 2.4MB each to 424KB (Workshop) and 346KB (Decor Room), while pixel RMS comparison remains below 1.9.
+- Asset QA now requires the runtime WebP imports and the archived non-visible PNG source records, preventing accidental reversion to direct PNG bundling.

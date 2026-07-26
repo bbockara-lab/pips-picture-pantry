@@ -1,6 +1,15 @@
 # Android Release Status
 
-Last updated: 2026-07-21
+Last updated: 2026-07-26
+
+## Current Launch Checkpoint - 2026-07-26
+
+- Google Play production access has been granted. Production release submission itself has not been created yet.
+- Current web candidate: package 0.1.592 / UI v0.1.592; current Android upload target remains versionCode 28 / versionName 1.1.0.
+- Current internal verification: 170 unit tests, 162 registered assets, 64-frame visual review pack, candidate gate, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900 pass.
+- Remaining external release evidence: real-device pip_cozy_support purchase/restore and pip_spoon_jar_small purchase/repeat. Do not create the final signed AAB until both records are added and the owner requests the upload build.
+
+---
 
 ## Public Launch Checklist (release-safe, 2026-07-14)
 

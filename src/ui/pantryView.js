@@ -1,6 +1,6 @@
 import { getApprovedPantryDecorations, getDecorationById, pantrySlots } from "../data/decorations.js";
 import { getDecorationArtUrl } from "../data/decorationArt.js";
-import pantryRoomBackgroundUrl from "../assets/backgrounds/pantry-room-sunlit-v1.png";
+import pantryRoomBackgroundUrl from "../assets/backgrounds/pantry-room-sunlit-v1.webp";
 import {
   buyDecoration,
   equipDecoration,

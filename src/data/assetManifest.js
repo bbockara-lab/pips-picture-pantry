@@ -1,25 +1,47 @@
 export const assetRegistry = [
   {
+    id: "pip-puzzle-workshop-source-v1",
+    usage: "puzzle-home-background-source",
+    path: "src/assets/generated/pip-puzzle-workshop-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-and-world-continuity",
+    note: "Original high-resolution source for the Pip puzzle workshop runtime asset."
+  },
+  {
+    id: "pantry-room-sunlit-source-v1",
+    usage: "pantry-room-background-source",
+    path: "src/assets/backgrounds/pantry-room-sunlit-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Original high-resolution source for the sunlit Pantry room runtime asset."
+  },
+  {
     id: "pip-puzzle-workshop-v1",
     usage: "puzzle-home-background",
-    path: "src/assets/generated/pip-puzzle-workshop-v1.png",
+    path: "src/assets/generated/pip-puzzle-workshop-v1.webp",
     sourceType: "raster",
     approval: "approved",
     visible: true,
     mustReplaceBeforeMajorArtPass: false,
     identityStatus: "approved-character-and-world-continuity",
-    note: "Generated original Pip puzzle workshop scene for the play-home. This is deliberately distinct from the editable Pantry room."
+    note: "High-quality WebP runtime version of Pip's authored puzzle workshop scene. It remains deliberately distinct from the editable Pantry room."
   },
   {
     id: "pantry-room-sunlit-v1",
     usage: "pantry-room-background",
-    path: "src/assets/backgrounds/pantry-room-sunlit-v1.png",
+    path: "src/assets/backgrounds/pantry-room-sunlit-v1.webp",
     sourceType: "raster",
     approval: "approved",
     visible: true,
     mustReplaceBeforeMajorArtPass: false,
     identityStatus: "approved-world-continuity",
-    note: "Approved empty sunlit pantry room background. It gives the five decoration slots a shared home without competing with equipped art."
+    note: "High-quality WebP runtime version of the empty sunlit Pantry room background. It gives the five decoration slots a shared home without competing with equipped art."
   },
   {
     id: "sunny-spoon-studios-bumper-source-v1",

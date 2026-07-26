@@ -368,3 +368,10 @@ Done when:
 
 - Treat the 333-picture launch catalog as internal content supply, not a player-facing finish line. Player UI should show the current shelf and next meaningful action only.
 - Before rewiring progression, introduce a shelf-level model that preserves existing puzzle IDs and save completion records; then move from five oversized packs to short, mixed-size progression shelves with explicit story beats and completion moments.
+
+### v0.1.592 release-structure checkpoint
+
+- The short mixed-size Season Shelf model is now implemented in src/data/seasonShelves.js; it preserves all puzzle IDs and completion saves while replacing the original oversized five-pack presentation.
+- The current home scene uses Pip's authored Puzzle Workshop, while the Decor Room remains the equipment surface. Future theme or decoration presentation needs paired workshop/pantry art and perspective-safe overlays; it is intentionally not faked with reused Pantry art.
+- Four-width QA now rejects workshop destination or Pantry-slot collisions.
+- Internal release-quality work is complete at this checkpoint. External work remains the two real-device Billing evidence records, followed by an owner-requested final signed AAB and Play Console release submission.

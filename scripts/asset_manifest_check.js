@@ -12,6 +12,7 @@ const brandIntroSource = readFileSync(resolve(root, "src/ui/brandIntro.js"), "ut
 const runtimeArtSource = readFileSync(resolve(root, "src/data/runtimeArt.js"), "utf8");
 const decorationArtSource = readFileSync(resolve(root, "src/data/decorationArt.js"), "utf8");
 const pantryViewSource = readFileSync(resolve(root, "src/ui/pantryView.js"), "utf8");
+const puzzleHubSource = readFileSync(resolve(root, "src/ui/puzzleHubView.js"), "utf8");
 
 for (const asset of assetRegistry) {
   const label = `${asset.id} (${asset.usage})`;
@@ -59,6 +60,33 @@ if (approvedStudioBumperAssets.length !== 1) {
   }
 }
 
+function assertRuntimeBackground({ id, sourceId, usage, runtimeSource, runtimeFile }) {
+  const runtime = assetRegistry.find((asset) => asset.id === id);
+  const source = assetRegistry.find((asset) => asset.id === sourceId);
+  if (!runtime || runtime.usage !== usage || runtime.path.endsWith(".png") || !runtime.visible || runtime.approval !== "approved") {
+    errors.push(`${id}: runtime background must be one approved visible WebP asset`);
+  } else if (!runtimeSource.includes(runtime.path.split(/[\\/]/).pop())) {
+    errors.push(`${runtimeFile}: runtime background must import the approved ${id} WebP asset`);
+  }
+  if (!source || source.path.endsWith(".webp") || source.visible || source.approval !== "source-archived") {
+    errors.push(`${sourceId}: original PNG must stay archived and non-visible`);
+  }
+}
+
+assertRuntimeBackground({
+  id: "pip-puzzle-workshop-v1",
+  sourceId: "pip-puzzle-workshop-source-v1",
+  usage: "puzzle-home-background",
+  runtimeSource: puzzleHubSource,
+  runtimeFile: "src/ui/puzzleHubView.js"
+});
+assertRuntimeBackground({
+  id: "pantry-room-sunlit-v1",
+  sourceId: "pantry-room-sunlit-source-v1",
+  usage: "pantry-room-background",
+  runtimeSource: pantryViewSource,
+  runtimeFile: "src/ui/pantryView.js"
+});
 // Opening seal must use the current approved Pip chrome asset, not the older app-icon crop.
 if (!brandIntroSource.includes("opening-key-visual-v1.webp")) {
   errors.push("src/ui/brandIntro.js: simple opening must use the approved key visual");
