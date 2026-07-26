@@ -4154,3 +4154,10 @@ Current launch direction:
 - Added hygiene and mobile regression checks for retired Pantry glare, Badge-report copy, and the intro grain pointer contract.
 - Verification: 160 unit tests, source hygiene, 158 registered assets, the regenerated 61-frame visual review pack, full candidate gate, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900 pass at v0.1.585.
 - Remaining release evidence is external only: real-device Billing purchase/restore for `pip_cozy_support` and purchase/repeat for `pip_spoon_jar_small`.
+
+### 2026-07-26 Pre-release spatial-contract audit
+
+- Began a menu-by-menu geometry audit while Production access is pending release submission.
+- Strengthened four-width mobile QA so the six workshop destinations must remain inside the illustrated scene, cannot overlap one another, and cannot overlap the current-puzzle action.
+- Added the same containment and collision guard to the five Pantry room slots, alongside the existing horizontal-overflow, shop ordering, card, and Billing-status checks.
+- Added `docs/HOME_SCENE_CONTRACT.md`: the workshop and Pantry remain distinct surfaces, while future decoration/theme work must use one equipped-decoration save source and authored perspective-safe overlays. Persistent destinations stay in side rails; Pip and room storytelling own the center.

@@ -1452,13 +1452,33 @@ async function expectPuzzleHomePolish(page, viewportName) {
   const metrics = await page.locator(".puzzle-home").first().evaluate((home) => {
     const destinations = [...home.querySelectorAll(".puzzle-home-destination")];
     const scene = home.querySelector(".puzzle-home-scene");
+    const current = home.querySelector(".puzzle-home-scene__current");
     const sceneStyle = scene ? getComputedStyle(scene) : null;
+    const boxOf = (element) => {
+      const rect = element?.getBoundingClientRect();
+      return rect ? { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom } : null;
+    };
+    const intersects = (left, right) => Boolean(left && right
+      && left.left < right.right - 1
+      && left.right > right.left + 1
+      && left.top < right.bottom - 1
+      && left.bottom > right.top + 1);
+    const sceneBox = boxOf(scene);
+    const destinationBoxes = destinations.map(boxOf);
+    const currentBox = boxOf(current);
     return {
       overflow: home.scrollWidth > home.clientWidth + 1,
       sceneOverflow: scene ? scene.scrollWidth > scene.clientWidth + 1 : true,
       backgroundImage: sceneStyle?.backgroundImage || "",
       destinationCount: destinations.length,
       destinationOverflow: destinations.some((button) => button.scrollWidth > button.clientWidth + 1 || button.getBoundingClientRect().height < 48),
+      destinationOutsideScene: destinationBoxes.some((box) => !box || !sceneBox
+        || box.left < sceneBox.left - 1 || box.right > sceneBox.right + 1
+        || box.top < sceneBox.top - 1 || box.bottom > sceneBox.bottom + 1),
+      destinationCollisions: destinationBoxes.some((box, index) => destinationBoxes
+        .slice(index + 1)
+        .some((other) => intersects(box, other))),
+      currentCollision: destinationBoxes.some((box) => intersects(box, currentBox)),
       labelsVisible: destinations.some((button) => {
         const label = button.querySelector(".puzzle-home-destination__label");
         return !label || getComputedStyle(label).position !== "absolute";
@@ -1467,7 +1487,7 @@ async function expectPuzzleHomePolish(page, viewportName) {
     };
   });
   const expected = ["puzzle", "album", "pantry", "timeAttack", "map", "settings"];
-  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.labelsVisible || expected.some((id) => !metrics.ids.includes(id))) {
+  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || metrics.currentCollision || metrics.labelsVisible || expected.some((id) => !metrics.ids.includes(id))) {
     failures.push("[" + viewportName + "] Puzzle workshop home/direct destinations regressed: " + JSON.stringify(metrics));
   }
 }
@@ -2649,6 +2669,18 @@ async function verifyPantryPlacement(page, viewportName) {
     const shopLimit = shop?.querySelector(".pantry-shop-limit");
     const shopLimitAction = shopLimit?.querySelector(".pantry-shop-limit__action");
     const cards = [...document.querySelectorAll(".pantry-item-card")];
+    const slots = [...(room?.querySelectorAll(".pantry-room-slot") || [])];
+    const boxOf = (element) => {
+      const rect = element?.getBoundingClientRect();
+      return rect ? { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom } : null;
+    };
+    const intersects = (left, right) => Boolean(left && right
+      && left.left < right.right - 1
+      && left.right > right.left + 1
+      && left.top < right.bottom - 1
+      && left.bottom > right.top + 1);
+    const roomBox = boxOf(room);
+    const slotBoxes = slots.map(boxOf);
     const billingStatuses = [...(store?.querySelectorAll(".support-pack-card__status") || [])];
     const billingToneVisibility = ["checking", "success", "warning"].every((tone) => billingStatuses.every((status) => {
       const previousClass = status.className;
@@ -2663,6 +2695,12 @@ async function verifyPantryPlacement(page, viewportName) {
     return {
       panelOverflowsX: panel ? panel.scrollWidth > panel.clientWidth + 1 : true,
       roomSlotCount: room?.querySelectorAll(".pantry-room-slot").length || 0,
+      roomSlotOutside: slotBoxes.some((box) => !box || !roomBox
+        || box.left < roomBox.left - 1 || box.right > roomBox.right + 1
+        || box.top < roomBox.top - 1 || box.bottom > roomBox.bottom + 1),
+      roomSlotCollisions: slotBoxes.some((box, index) => slotBoxes
+        .slice(index + 1)
+        .some((other) => intersects(box, other))),
       filterGroupCount: document.querySelectorAll(".pantry-filter-row").length,
       cardCount: cards.length,
       cardOverflowCount: cards.filter((card) => card.scrollWidth > card.clientWidth + 1).length,
@@ -2678,7 +2716,7 @@ async function verifyPantryPlacement(page, viewportName) {
       shopLimitGradient: shopLimit ? /gradient/i.test(getComputedStyle(shopLimit).backgroundImage) : true
     };
   });
-  if (metrics.panelOverflowsX || metrics.roomSlotCount !== 5 || metrics.filterGroupCount !== 1 || metrics.cardCount < 1 || metrics.cardCount > 6 || metrics.cardOverflowCount || metrics.storeProductCount !== 2 || !metrics.storeInsideShop || !metrics.storeAfterDecorations || !metrics.billingToneVisibility || metrics.storeOverflowsX || metrics.storeGlareCount || metrics.shopLimitGlare || metrics.shopLimitActionGlare || metrics.shopLimitGradient) {
+  if (metrics.panelOverflowsX || metrics.roomSlotCount !== 5 || metrics.roomSlotOutside || metrics.roomSlotCollisions || metrics.filterGroupCount !== 1 || metrics.cardCount < 1 || metrics.cardCount > 6 || metrics.cardOverflowCount || metrics.storeProductCount !== 2 || !metrics.storeInsideShop || !metrics.storeAfterDecorations || !metrics.billingToneVisibility || metrics.storeOverflowsX || metrics.storeGlareCount || metrics.shopLimitGlare || metrics.shopLimitActionGlare || metrics.shopLimitGradient) {
     failures.push("[" + viewportName + "] Simplified Pantry layout regressed: " + JSON.stringify(metrics));
   }
 
