@@ -6,7 +6,6 @@ import { t } from "../i18n/index.js";
 export function renderPantryMapView() {
   const completedIds = getCompletedPuzzleIds();
   const statuses = getPackBadgeStatus(completedIds);
-  const earnedCount = statuses.filter((status) => status.earned).length;
   const next = getNextBadgeProgress(completedIds);
   const section = document.createElement("section");
   section.className = "map-panel badge-room content-panel";
@@ -14,12 +13,9 @@ export function renderPantryMapView() {
   const header = document.createElement("div");
   header.className = "map-header";
   const title = document.createElement("div");
-  const eyebrow = document.createElement("p");
-  eyebrow.className = "section-label";
-  eyebrow.textContent = t("sections.pantryMap");
   const heading = document.createElement("h2");
-  heading.textContent = t("badges.collectionCount", { earned: earnedCount, total: statuses.length });
-  title.append(eyebrow, heading);
+  heading.textContent = t("sections.pantryMap");
+  title.appendChild(heading);
   header.appendChild(title);
   section.appendChild(header);
 
@@ -48,9 +44,9 @@ function createNextBadgeCard(status) {
 
   const copy = document.createElement("div");
   const title = document.createElement("p");
-  title.textContent = t("badges.nextPackBadge", { name: t(status.badge.titleKey) });
+  title.textContent = t(status.badge.titleKey);
   const meta = document.createElement("small");
-  meta.textContent = t("badges.packProgress", { completed: status.completed, total: status.total, name: t(status.badge.titleKey) });
+  meta.textContent = t("badges.progress", { completed: status.completed, total: status.total });
   copy.append(title, meta);
   card.append(token, copy);
   return card;

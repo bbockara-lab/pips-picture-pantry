@@ -383,6 +383,7 @@ async function expectOpeningIntroPolish(page, viewportName) {
   const metrics = await page.locator(".brand-intro__content").first().evaluate((content) => {
     const button = content.querySelector(".brand-intro__skip");
     const visual = content.querySelector(".brand-intro__key-visual img");
+    const grain = document.querySelector(".brand-intro__grain");
     const buttonRect = button?.getBoundingClientRect();
     const visualRect = visual?.getBoundingClientRect();
     const before = button ? getComputedStyle(button, "::before") : null;
@@ -396,10 +397,11 @@ async function expectOpeningIntroPolish(page, viewportName) {
       visualHeight: visualRect?.height || 0,
       beforeContent: before?.content || "",
       afterContent: after?.content || "",
+      grainPointerEvents: grain ? getComputedStyle(grain).pointerEvents : "",
       viewportHeight: window.innerHeight
     };
   });
-  if (metrics.contentOverflow || metrics.buttonWidth < 150 || metrics.buttonHeight < 52 || metrics.buttonBottom > metrics.viewportHeight || metrics.visualWidth < 190 || metrics.visualHeight < 240 || metrics.beforeContent !== "none" || metrics.afterContent !== "none") {
+  if (metrics.contentOverflow || metrics.buttonWidth < 150 || metrics.buttonHeight < 52 || metrics.buttonBottom > metrics.viewportHeight || metrics.visualWidth < 190 || metrics.visualHeight < 240 || metrics.beforeContent !== "none" || metrics.afterContent !== "none" || metrics.grainPointerEvents !== "none") {
     failures.push("[" + viewportName + "] Clean opening layout regressed: " + JSON.stringify(metrics));
   }
 }
@@ -2771,6 +2773,8 @@ async function verifyPantryPlacement(page, viewportName) {
     const store = document.querySelector(".spoon-store");
     const shop = document.querySelector(".pantry-shop");
     const shopGrid = shop?.querySelector(".pantry-shop-grid");
+    const shopLimit = shop?.querySelector(".pantry-shop-limit");
+    const shopLimitAction = shopLimit?.querySelector(".pantry-shop-limit__action");
     const cards = [...document.querySelectorAll(".pantry-item-card")];
     const billingStatuses = [...(store?.querySelectorAll(".support-pack-card__status") || [])];
     const billingToneVisibility = ["checking", "success", "warning"].every((tone) => billingStatuses.every((status) => {
@@ -2795,10 +2799,13 @@ async function verifyPantryPlacement(page, viewportName) {
       billingToneVisibility,
       storeOverflowsX: store ? store.scrollWidth > store.clientWidth + 1 : true,
       storeGlareCount: store ? [...store.querySelectorAll("button, .support-pack-card, .support-pack-card__art")]
-        .filter((item) => getComputedStyle(item, "::before").content !== "none" || getComputedStyle(item, "::after").content !== "none").length : 1
+        .filter((item) => getComputedStyle(item, "::before").content !== "none" || getComputedStyle(item, "::after").content !== "none").length : 1,
+      shopLimitGlare: shopLimit ? getComputedStyle(shopLimit, "::before").content !== "none" || getComputedStyle(shopLimit, "::after").content !== "none" : true,
+      shopLimitActionGlare: shopLimitAction ? getComputedStyle(shopLimitAction, "::before").content !== "none" || getComputedStyle(shopLimitAction, "::after").content !== "none" : true,
+      shopLimitGradient: shopLimit ? /gradient/i.test(getComputedStyle(shopLimit).backgroundImage) : true
     };
   });
-  if (metrics.panelOverflowsX || metrics.roomSlotCount !== 5 || metrics.filterGroupCount !== 1 || metrics.cardCount < 1 || metrics.cardCount > 6 || metrics.cardOverflowCount || metrics.storeProductCount !== 2 || !metrics.storeInsideShop || !metrics.storeAfterDecorations || !metrics.billingToneVisibility || metrics.storeOverflowsX || metrics.storeGlareCount) {
+  if (metrics.panelOverflowsX || metrics.roomSlotCount !== 5 || metrics.filterGroupCount !== 1 || metrics.cardCount < 1 || metrics.cardCount > 6 || metrics.cardOverflowCount || metrics.storeProductCount !== 2 || !metrics.storeInsideShop || !metrics.storeAfterDecorations || !metrics.billingToneVisibility || metrics.storeOverflowsX || metrics.storeGlareCount || metrics.shopLimitGlare || metrics.shopLimitActionGlare || metrics.shopLimitGradient) {
     failures.push("[" + viewportName + "] Simplified Pantry layout regressed: " + JSON.stringify(metrics));
   }
 

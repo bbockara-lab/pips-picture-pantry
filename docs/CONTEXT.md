@@ -4089,3 +4089,12 @@ Current launch direction:
 - Registered the new raster asset and added hygiene plus four-width visual assertions to prevent a fallback to the retired ambiguous icon.
 - Verification: 160 unit tests, 158 registered assets, source hygiene, the regenerated 61-frame visual review pack, full candidate gate, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900 pass at v0.1.583.
 - Remaining release evidence is external only: real-device Billing purchase/restore for `pip_cozy_support` and purchase/repeat for `pip_spoon_jar_small`.
+
+### v0.1.584-v0.1.585 final surface audit
+
+- Replaced the lingering Pantry “show more decorations” glare card with one flat, full-width action and removed its retired meter, sparkle, and pseudo-element rules.
+- Reduced the Badge room from collection-report copy to the current badge artwork, name, and compact progress only.
+- Fixed the opening grain layer so it is decorative-only and can never intercept a player tap while the intro exits.
+- Added hygiene and mobile regression checks for retired Pantry glare, Badge-report copy, and the intro grain pointer contract.
+- Verification: 160 unit tests, source hygiene, 158 registered assets, the regenerated 61-frame visual review pack, full candidate gate, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900 pass at v0.1.585.
+- Remaining release evidence is external only: real-device Billing purchase/restore for `pip_cozy_support` and purchase/repeat for `pip_spoon_jar_small`.

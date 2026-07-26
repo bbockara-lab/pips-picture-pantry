@@ -358,3 +358,8 @@ Done when:
 
 - Time Attack now uses Mr. Park's isolated pocket watch as its shared destination art instead of the retired spoon-stopwatch icon.
 - The watch has no badge frame, aura, rays, or CSS-drawn decoration; at phone size it is the clear visual signal for timed play.
+
+### v0.1.584-v0.1.585 checkpoint
+
+- Finished the remaining visible report-and-glare audit: Pantry reveal and Badge room now present only their direct player decision or progress.
+- Decorative intro grain is now non-interactive during the exit transition, preserving the route from opening to playable board.

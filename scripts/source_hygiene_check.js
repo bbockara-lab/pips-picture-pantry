@@ -195,6 +195,18 @@ for (const [file, pattern] of retiredPuzzleChoiceRewardSources) {
   }
 }
 
+const retiredBadgeReportSources = [
+  ["src/ui/mapView.js", /badges\.(?:collectionCount|nextPackBadge|packProgress)/],
+  ["src/i18n/en.js", /(?:collectionCount|collectionNote|nextBadge|nextPackBadge|packProgress):/],
+  ["src/i18n/ko.js", /(?:collectionCount|collectionNote|nextBadge|nextPackBadge|packProgress):/]
+];
+for (const [file, pattern] of retiredBadgeReportSources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": badge room must not return to report-style collection copy");
+  }
+}
+
 const timeAttackNavigationArt = readFileSync(resolve(root, "src/data/quickTravelArt.js"), "utf8");
 if (!timeAttackNavigationArt.includes("quick-travel-time-attack-clock-v1") || timeAttackNavigationArt.includes("quick-travel-time-attack-v1.png")) {
   errors.push("src/data/quickTravelArt.js: Time Attack must use Mr. Park's aura-free pocket watch artwork");
@@ -237,6 +249,10 @@ const staleCssRules = [
   {
     label: "retired Time Attack coach card styles",
     pattern: /\.time-attack-coach-card/
+  },
+  {
+    label: "retired Pantry show-more glare and meter styles",
+    pattern: /\.pantry-shop-limit(?:::\w+|__meter|__action::\w+)/
   }
 ];
 
