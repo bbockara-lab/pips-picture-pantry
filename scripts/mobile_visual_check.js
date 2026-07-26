@@ -659,7 +659,7 @@ async function expectAppChromePolish(page, viewportName) {
       icon.width < 34 ||
       icon.height < 34 ||
       !icon.imageSrc.includes("quick-travel-") ||
-      icon.assetId !== `quick-travel-${icon.view === "timeAttack" ? "time-attack" : icon.view}-v1` ||
+      icon.assetId !== (icon.view === "timeAttack" ? "quick-travel-time-attack-clock-v1" : `quick-travel-${icon.view}-v1`) ||
       icon.imageNaturalWidth !== 256 ||
       icon.imageNaturalHeight !== 256 ||
       icon.beforeContent !== "none" ||
@@ -1511,18 +1511,21 @@ async function expectTimeAttackHubEntry(page, viewportName) {
   const metrics = await page.locator(".time-attack-teaser-card").evaluate((card) => {
     const image = card.querySelector(".time-attack-teaser-card__badge img");
     const action = card.querySelector(".time-attack-teaser-card__action");
+    const badge = card.querySelector(".time-attack-teaser-card__badge");
     return {
       text: (card.textContent || "").trim(),
       overflows: card.scrollWidth > card.clientWidth + 1 || card.scrollHeight > card.clientHeight + 1,
       assetId: image?.dataset.assetId || "",
       naturalWidth: image?.naturalWidth || 0,
       hasLegacyActionIcon: Boolean(card.querySelector(".time-attack-teaser-card__action-icon")),
+      badgeBackgroundImage: badge ? getComputedStyle(badge).backgroundImage : "",
+      badgeBorderWidth: badge ? getComputedStyle(badge).borderTopWidth : "",
       before: getComputedStyle(card, "::before").content,
       after: getComputedStyle(card, "::after").content,
       actionHeight: action?.getBoundingClientRect().height || 0
     };
   });
-  if (metrics.overflows || metrics.assetId !== "quick-travel-time-attack-v1" || metrics.naturalWidth !== 256 || metrics.hasLegacyActionIcon || metrics.before !== "none" || metrics.after !== "none" || metrics.actionHeight < 44 || !/Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(metrics.text)) {
+  if (metrics.overflows || metrics.assetId !== "quick-travel-time-attack-clock-v1" || metrics.naturalWidth !== 256 || metrics.hasLegacyActionIcon || metrics.badgeBackgroundImage !== "none" || metrics.badgeBorderWidth !== "0px" || metrics.before !== "none" || metrics.after !== "none" || metrics.actionHeight < 44 || !/Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(metrics.text)) {
     failures.push("[" + viewportName + "] Compact Time Attack entry regressed: " + JSON.stringify(metrics));
   }
 }

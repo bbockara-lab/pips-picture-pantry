@@ -9,7 +9,7 @@ const APPROVED_QUICK_TRAVEL_ART_IDS = new Set([
   "quick-travel-puzzle-v1",
   "quick-travel-album-v1",
   "quick-travel-pantry-v1",
-  "quick-travel-time-attack-v1",
+  "quick-travel-time-attack-clock-v1",
   "quick-travel-map-v1"
 ]);
 const APPROVED_PUZZLE_CONTROL_ART_IDS = new Set([

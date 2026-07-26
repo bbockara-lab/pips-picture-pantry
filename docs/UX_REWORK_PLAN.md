@@ -353,3 +353,8 @@ Done when:
 
 - Puzzle choices now show the picture and board size only. Spoon rewards remain a completion moment, not a pre-play report on every card.
 - Phase E code verification is complete. The only remaining release work is real-device Billing evidence for the two configured products.
+
+### v0.1.583 checkpoint
+
+- Time Attack now uses Mr. Park's isolated pocket watch as its shared destination art instead of the retired spoon-stopwatch icon.
+- The watch has no badge frame, aura, rays, or CSS-drawn decoration; at phone size it is the clear visual signal for timed play.

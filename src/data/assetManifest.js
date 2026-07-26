@@ -136,19 +136,32 @@ export const assetRegistry = [
     ["puzzle", "Puzzle board"],
     ["album", "Album book"],
     ["pantry", "Pantry jar"],
-    ["time-attack", "Spoon stopwatch"],
+    ["time-attack", "Retired spoon stopwatch", false],
     ["map", "Pantry map"]
-  ].map(([view, label]) => ({
+  ].map(([view, label, visible = true]) => ({
     id: `quick-travel-${view}-v1`,
     usage: "navigation-icon",
     path: `src/assets/icons/quick-travel-v1/quick-travel-${view}-v1.png`,
     sourceType: "raster",
     approval: "approved",
-    visible: true,
+    visible,
     mustReplaceBeforeMajorArtPass: false,
     identityStatus: "original-ui-approved",
-    note: `${label} artwork promoted from the reviewed v1 set for the shared quick-travel trigger and menu.`
+    note: visible
+      ? `${label} artwork promoted from the reviewed v1 set for the shared quick-travel trigger and menu.`
+      : `${label} retained only as replaced source history; runtime navigation uses Mr. Park's pocket watch instead.`
   })),
+  {
+    id: "quick-travel-time-attack-clock-v1",
+    usage: "navigation-icon",
+    path: "src/assets/icons/quick-travel-v1/quick-travel-time-attack-clock-v1.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "Mr. Park's pocket watch, isolated as the clear Time Attack destination artwork with no decorative aura."
+  },
   ...[
     ["fill", "Fill brush", "candidate-needs-ui-review"],
     ["mark", "Blank-check tile", "candidate-needs-ui-review"],

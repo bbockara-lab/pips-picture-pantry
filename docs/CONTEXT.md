@@ -4081,3 +4081,11 @@ Current launch direction:
 - Regression checks reject restoring reward-report metadata to puzzle choices.
 - Verification: 160 unit tests, source hygiene, the regenerated 61-frame visual review pack, full candidate gate, production build, Android release gate, and measured mobile QA at 360x740 / 390x844 / 430x932 / 675x900 pass at v0.1.582.
 - Remaining release evidence is external only: real-device Billing purchase/restore for `pip_cozy_support` and purchase/repeat for `pip_spoon_jar_small`.
+
+### v0.1.583 Time Attack clock identity
+
+- Replaced the retired spoon-stopwatch destination art with Mr. Park's isolated pocket watch across the Time Attack hub card and Quick Travel.
+- Removed the inherited circular badge, aura, and pseudo-element decoration so the watch itself is the clear Time Attack cue at phone and wide layouts.
+- Registered the new raster asset and added hygiene plus four-width visual assertions to prevent a fallback to the retired ambiguous icon.
+- Verification: 160 unit tests, 158 registered assets, source hygiene, the regenerated 61-frame visual review pack, full candidate gate, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900 pass at v0.1.583.
+- Remaining release evidence is external only: real-device Billing purchase/restore for `pip_cozy_support` and purchase/repeat for `pip_spoon_jar_small`.

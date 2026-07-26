@@ -15165,7 +15165,33 @@ img {
   .time-attack-ladder__round {
     font-size: 0.72rem;
   }
-}.time-attack-panel__intro,
+}
+
+/* v0.1.583: Mr. Park's pocket watch is the Time Attack cue, not a badge. */
+.time-attack-teaser-card__badge {
+  width: 80px;
+  height: 80px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.time-attack-teaser-card__badge img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+@media (max-width: 520px) {
+  .time-attack-teaser-card__badge,
+  .time-attack-teaser-card__badge img {
+    width: 72px;
+    height: 72px;
+  }
+}
+
+.time-attack-panel__intro,
 .time-attack-records {
   box-shadow: none !important;
 }
@@ -15198,6 +15224,27 @@ img {
 .floating-nav__trigger-icon::after {
   content: none !important;
   display: none !important;
+}
+
+.floating-nav__item[data-view="timeAttack"] .floating-nav__icon,
+.floating-nav__icon--timeAttack,
+.floating-nav__trigger-icon[data-view="timeAttack"] {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.floating-nav__item[data-view="timeAttack"] .floating-nav__icon::before,
+.floating-nav__item[data-view="timeAttack"] .floating-nav__icon::after,
+.floating-nav__icon--timeAttack::before,
+.floating-nav__icon--timeAttack::after,
+.floating-nav__trigger-icon[data-view="timeAttack"]::before,
+.floating-nav__trigger-icon[data-view="timeAttack"]::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  box-shadow: none;
 }
 
 .floating-nav__trigger-text {
