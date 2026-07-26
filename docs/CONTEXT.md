@@ -1,9 +1,13 @@
+## v0.1.596 ? Puzzle Room destination-art legibility
+
+- Workshop scene destination targets retain their 84px+ tap areas, while the approved destination artwork is enlarged within the white-ringed color buttons; this removes the transparent-padding effect that made each icon read too small.
+- The scene stays text-light: one large lower-right `Ǯ��` / `Play` action plus destination-only buttons around Pip, with all labels preserved for assistive technology.
 ## v0.1.595 - Puzzle Room Hierarchy and Clear Returns - 2026-07-26
 
 - Replaced the accidental top-wide `Solve this picture` bar with one large in-scene Play action. It has a clear puzzle icon, a concise local label, and a dedicated lower-right priority position.
 - Rebuilt the six workshop destinations as high-contrast, white-ringed, color-coded scene buttons with deliberate left/right positions: picture list and album at the upper room, Time Attack and Pantry in the mid room, badge map and Settings at the lower edges.
 - Opening Picture List now replaces the workshop instead of rendering below a full-screen scene. It has an explicit Puzzle Room return button and keeps the common menu available; the menu's first item now names the Puzzle Room directly.
-- Corrected the focused-play back label to Puzzle Room / 퍼즐방, matching its existing route instead of falsely calling it the Picture List.
+- Corrected the focused-play back label to Puzzle Room / ?�즐�? matching its existing route instead of falsely calling it the Picture List.
 - Hidden the underlying focused-play Settings icon while the Settings modal is open so it cannot appear as a pale, unexplained ghost control.
 - Verification: 175 tests and `npm run qa:mobile` at 360x740 / 390x844 / 430x932 / 675x900 pass. Local capture artifacts were regenerated for the revised home, Settings, and Picture List.
 - External release blocker unchanged: record real-device Billing evidence for `pip_cozy_support` purchase/restore and `pip_spoon_jar_small` repeat purchase.
@@ -32,7 +36,7 @@
 
 ### v0.1.591 - Pip's Picture Room Home and Navigation
 
-- Renamed the Korean player-facing space to `Pip의 그림방`, retaining the English product name only where it is part of the brand. The room, Pantry route, and home copy now use the same familiar Korean concept.
+- Renamed the Korean player-facing space to `Pip??그림�?, retaining the English product name only where it is part of the brand. The room, Pantry route, and home copy now use the same familiar Korean concept.
 - Rebuilt the first landing screen as Pip's actual warm picture room: Pip, one clear current-picture action, and six direct destinations. The picture shelf only opens after `그림 목록`, so the initial screen invites play rather than presenting a catalogue.
 - Moved Settings fully into the destination menu. Outside the home screen, the menu now sits in normal document flow immediately below the header and opens one destination per row, preventing the former bottom overlay from covering Pantry shop actions.
 - Tightened the Pantry header and constrained the counter decoration to furnishing scale so the background remains the room and the item reads as an object placed in it.
@@ -45,7 +49,7 @@
 - Removed the cramped row/column and selected-state status chips. Puzzle progress is now a compact `{filled} / {target}` count, and automatic X marks use the quieter mint treatment without the old shadow-heavy ornament.
 - Moved Reset Progress out of the live header into Settings, behind its existing confirmation flow. Completion `Menu` now returns to the puzzle hub at the top; the in-play Picture List remains the explicit route to the full list.
 - Rebuilt the Pantry as Pip's actual warm room with an approved sunlit window, shelf, counter, floor, and purposefully placed decoration zones. The shop remains below the room, with spoon items first and optional support packs last.
-- Localized the Korean brand title to `Pip의 그림 팬트리`, replaced Settings guide replay placeholders with approved raster art, centered Time Attack Start, and consolidated Quick Travel into the requested vertical order.
+- Localized the Korean brand title to `Pip??그림 ?�트�?, replaced Settings guide replay placeholders with approved raster art, centered Time Attack Start, and consolidated Quick Travel into the requested vertical order.
 - Verification: focused unit tests, asset/hygiene checks, production build, and four-width mobile QA (360x740 / 390x844 / 430x932 / 675x900) pass. The visual pack is regenerated for manual review; external Billing purchase evidence remains the only release blocker.
 
 ### v0.1.589 - Clock Grandfather Focus
@@ -56,8 +60,7 @@
 ### v0.1.588 - Shelf Completion Handoff
 
 - A completed non-final shelf now returns to the picture list, where the next shelf can be chosen or opened; the final Village Pantry shelf instead leads directly into Pip's Pantry.
-- The completion overlay has distinct final-shelf copy and action, so it never promises a nonexistent “next shelf.”
-- Verified focused shelf/save/i18n tests and mobile visual QA at 360x740, 390x844, 430x932, and 675x900. No Android bundle was created.
+- The completion overlay has distinct final-shelf copy and action, so it never promises a nonexistent ?�next shelf.??- Verified focused shelf/save/i18n tests and mobile visual QA at 360x740, 390x844, 430x932, and 675x900. No Android bundle was created.
 
 ### v0.1.587 - Season Shelf Progression Rebuild
 
@@ -471,14 +474,14 @@ Last updated: 2026-07-10
 - Added the same badge state to the Roadmap view so the 100-card completion goal has a visible pride reward, not only a revealed picture.
 - Expanded future paid-theme placeholders from two to five 20-card set concepts: Cozy Cafe Room, Bakery Morning, Seasonal Pantry, Village Picnic, and Sunny Spoon Festival.
 - Fixed the missing `packs.preview` i18n key so Korean no longer shows a raw translation key in bonus-stage badges.
-- Changed future paid-stage copy from vague Coming Soon wording to a price-preview placeholder (`$0.99 planned` / `예상 가격 $0.99`) for later store wiring.
+- Changed future paid-stage copy from vague Coming Soon wording to a price-preview placeholder (`$0.99 planned` / `?�상 가�?$0.99`) for later store wiring.
 - Kept BGM disabled intentionally and documented `startMusic()` as a placeholder until an original looped music file is added; current SFX remains active.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 25 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and the release script requires jarsigner `jar verified` before succeeding.
 
 ## Progress Update - 2026-06-29 v0.1.19 Store-Safe Add-On Copy
 
 - Bumped visible app version to v0.1.19 and Android release version to versionCode 12 / versionName 1.0.11.
-- Replaced hardcoded `$0.99 planned` add-on text with store-safe value copy: `Optional add-on - 100 puzzles` / `선택 추가 세트 - 100개 퍼즐`.
+- Replaced hardcoded `$0.99 planned` add-on text with store-safe value copy: `Optional add-on - 100 puzzles` / `?�택 추�? ?�트 - 100�??�즐`.
 - Changed the top badge shelf so it appears only after the first 100-card Pip Portrait badge is earned; in-progress badge tracking remains in the Roadmap view.
 - Removed the residual BOM from `src/ui/appShell.js`.
 - Verification after this slice: node --check passed on appShell; npm run test passed with 25 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932.
@@ -514,7 +517,7 @@ Last updated: 2026-07-10
 
 - Bumped visible app version to v0.1.23 and Android release version to versionCode 16 / versionName 1.0.15.
 - Added an optional WebAudio cozy music loop using a quiet 12-second C-major pattern with soft note envelopes and low bass support.
-- Restored the music toggle in Settings as `Cozy music on/off` / `아늑한 음악 켜기/끄기`; music remains opt-in and does not autoplay by default.
+- Restored the music toggle in Settings as `Cozy music on/off` / `?�늑???�악 켜기/?�기`; music remains opt-in and does not autoplay by default.
 - Kept SFX behavior unchanged and preserved the previous tap, card-complete, and stage-complete effects.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 28 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported `jar verified`.
 
@@ -589,7 +592,7 @@ Last updated: 2026-07-10
 ## Progress Update - 2026-07-01 v0.1.33 Tutorial Label Polish
 
 - Bumped visible app version to v0.1.33 while keeping Android release numbering at versionCode 25 / versionName 1.0.24 because the next closed-test AAB has not been uploaded yet.
-- Renamed the first-puzzle help heading from the Korean `그림 칸 가이드` wording to a friendlier picture-square guide label, while keeping the visual clue examples for adjacent 3 cells and separated 1 1 1 cells.
+- Renamed the first-puzzle help heading from the Korean `그림 �?가?�드` wording to a friendlier picture-square guide label, while keeping the visual clue examples for adjacent 3 cells and separated 1 1 1 cells.
 - Verification after this slice: node --check passed for ko/en i18n and appShell; npm run build passed; signed AAB rebuilt for the next closed-test upload.
 ## Tester Feedback - 2026-07-01 Stage Navigation / Puzzle Size Expansion
 
@@ -2161,19 +2164,19 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Kept the change visual-only on top of v0.1.246 timeout recording behavior.
 
 ### v0.1.248 - Time Attack Result Detail Polish
-- 타임어택 타임아웃 결과에서 보상이 있는 타임아웃과 진행 부족으로 보상이 없는 타임아웃을 문구로 분리했다.
-- 결과 카드에 사용한 힌트 수를 노출해, 기록 경쟁과 스푼 소비가 한 화면에서 함께 이해되도록 정리했다.
-- 버전 표기는 v0.1.248로 갱신했다.
+- ?�?�어???�?�아??결과?�서 보상???�는 ?�?�아?�과 진행 부족으�?보상???�는 ?�?�아?�을 문구�?분리?�다.
+- 결과 카드???�용???�트 ?��? ?�출?? 기록 경쟁�??�푼 ?�비가 ???�면?�서 ?�께 ?�해?�도�??�리?�다.
+- 버전 ?�기??v0.1.248�?갱신?�다.
 
 ### v0.1.249 - Time Attack Record Hint Visibility
-- 타임어택 최고 기록 요약과 기록 목록에 사용한 힌트 수를 함께 표시하도록 정리했다.
-- 진행 칸 수, 시간, 힌트 수가 한 줄에 같이 보여 기록 경쟁과 스푼 소비의 관계가 더 명확해졌다.
-- 버전 표기는 v0.1.249로 갱신했다.
+- ?�?�어??최고 기록 ?�약�?기록 목록???�용???�트 ?��? ?�께 ?�시?�도�??�리?�다.
+- 진행 �??? ?�간, ?�트 ?��? ??줄에 같이 보여 기록 경쟁�??�푼 ?�비??관계�? ??명확?�졌??
+- 버전 ?�기??v0.1.249�?갱신?�다.
 
 ### v0.1.250 - Opening Version Visibility
-- 오프닝 게임 시작 화면과 이름 입력 화면에 작은 버전 칩을 추가해, 미리보기에서 현재 빌드를 즉시 확인할 수 있게 했다.
-- APP_VERSION을 src/data/appVersion.js로 분리해 앱 쉘과 브랜드 인트로가 같은 버전 값을 공유하도록 정리했다.
-- 모바일 QA가 오프닝 버전 칩을 확인하도록 확장했다.
+- ?�프??게임 ?�작 ?�면�??�름 ?�력 ?�면???��? 버전 칩을 추�??? 미리보기?�서 ?�재 빌드�?즉시 ?�인?????�게 ?�다.
+- APP_VERSION??src/data/appVersion.js�?분리?????�과 브랜???�트로�? 같�? 버전 값을 공유?�도�??�리?�다.
+- 모바??QA가 ?�프??버전 칩을 ?�인?�도�??�장?�다.
 
 ### v0.1.251 - Four Puzzle Quality Batch
 - Added four readable free puzzles: Cranberry Linzer Star, Hazelnut Cocoa Tart, Braided Herb Basket, and Blue Daisy Teacup.
@@ -2226,14 +2229,14 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Season 0 now reaches the 333-puzzle launch target. Next major priority should shift from bulk puzzle count to first-session polish, art consistency, Pantry story/economy flow, Time Attack feel, completion effects, and mobile QA.
 
 ### v0.1.261 - Season 0 Progress Hub
-- Puzzle Hub에 Season 0 진행 카드를 추가해 333개 출시 퍼즐을 하나의 런칭 시즌 카탈로그로 보이게 했다.
-- 카드에서 전체 완성률, 열린 스테이지 수, 보유 스푼을 함께 보여 주어 다음 스테이지 해금과 Pantry 요청이 자연스러운 목표가 되도록 정리했다.
-- 다음 시즌 업데이트 예고 문구를 추가해 출시 후 계절성 퍼즐 팩 확장 방향을 UI 안에 심었다.
-- 모바일 preview guard에서 발견된 대형 팩 mosaic 압축 문제를 함께 수정했다. 실제 136개/137개 퍼즐 수를 그대로 렌더하지 않고 20칸 샘플에 진행률을 환산해 stage art가 안정적으로 보이게 했다.
+- Puzzle Hub??Season 0 진행 카드�?추�???333�?출시 ?�즐???�나???�칭 ?�즌 카탈로그�?보이�??�다.
+- 카드?�서 ?�체 ?�성�? ?�린 ?�테?��? ?? 보유 ?�푼???�께 보여 주어 ?�음 ?�테?��? ?�금�?Pantry ?�청???�연?�러??목표가 ?�도�??�리?�다.
+- ?�음 ?�즌 ?�데?�트 ?�고 문구�?추�???출시 ??계절???�즐 ???�장 방향??UI ?�에 ?�었??
+- 모바??preview guard?�서 발견???�????mosaic ?�축 문제�??�께 ?�정?�다. ?�제 136�?137�??�즐 ?��? 그�?�??�더?��? ?�고 20�??�플??진행률을 ?�산??stage art가 ?�정?�으�?보이�??�다.
 
 ### v0.1.262 - Stage Unlock Plan Copy
-- 잠긴 스테이지 카드에 다음 행동 플랜 문구를 추가했다. 스푼 부족, Pantry 요청 부족, 둘 다 부족한 상황을 각각 설명해 다음 퍼즐을 열기 위한 목표를 더 명확하게 보여 준다.
-- Season 0의 333개 퍼즐을 단순 목록이 아니라 스푼 수급과 Pantry 진행으로 단계적으로 열어 가는 구조로 느끼게 하는 UI 보강이다.
+- ?�긴 ?�테?��? 카드???�음 ?�동 ?�랜 문구�?추�??�다. ?�푼 부�? Pantry ?�청 부�? ????부족한 ?�황??각각 ?�명???�음 ?�즐???�기 ?�한 목표�???명확?�게 보여 준??
+- Season 0??333�??�즐???�순 목록???�니???�푼 ?�급�?Pantry 진행?�로 ?�계?�으�??�어 가??구조�??�끼�??�는 UI 보강?�다.
 
 
 ### v0.1.263 - Opening Promise Strip
@@ -3040,12 +3043,12 @@ Current launch direction:
 ### v0.1.411 Billing QA Guard Addendum
 - Added `npm run qa:billing` so the optional Pip Support Pack cannot drift away from Android Billing permissions, product ID wiring, i18n copy, policy docs, and Play Console listing disclosure.
 - Wired Billing QA into `npm run qa:candidate` and the Android release gate so final candidate checks include the monetization surface, not only gameplay and store graphics.
-- The player-facing copy remains one gentle support/spoon surface; the guard fails if support-pack UI copy reintroduces paid/free or 유료/무료 wording.
+- The player-facing copy remains one gentle support/spoon surface; the guard fails if support-pack UI copy reintroduces paid/free or ?�료/무료 wording.
 
 ### Playable Pack Catalog Guard Addendum
 - Strengthened `npm run qa:catalog` so any launch/playable pack with zero authored puzzles fails immediately, while `bonus-pack` entries may remain hidden future previews.
 - This protects the Season 0 launch flow from accidentally exposing an empty stage after the catalog pivot to 333 polished puzzles plus later seasonal drops.
-- The Billing QA forbidden-copy regex is already normalized to explicit Korean terms (`유료` / `무료`), so the guard remains readable and does not depend on mojibake fragments.
+- The Billing QA forbidden-copy regex is already normalized to explicit Korean terms (`?�료` / `무료`), so the guard remains readable and does not depend on mojibake fragments.
 ### Support Pack Visible Copy QA Guard
 - Mobile visual QA now verifies that the Settings Support Pack card renders with both support and restore actions, keeps the 250-spoon value visible, and does not expose paid/free tier wording in player-facing copy.
 - This closes the remaining Billing UI wiring gap before real Play Console product testing: code paths, startup restore sync, and visible support-card copy are now guarded locally.
@@ -3206,7 +3209,7 @@ Current launch direction:
 
 ### v0.1.442 Opening Mode Chip Action Affordance
 - Bumped the visible app version to v0.1.442 and package version to 0.1.442.
-- Added a small Open/열기 capsule to the opening Puzzle/Pantry/Time Attack chips so the launch promises read as tappable entry points without changing routing or the player-name pending-view flow.
+- Added a small Open/?�기 capsule to the opening Puzzle/Pantry/Time Attack chips so the launch promises read as tappable entry points without changing routing or the player-name pending-view flow.
 - Strengthened mobile visual QA so every opening mode chip must keep the action capsule, arrow cue, gradient body, and no-overflow treatment at the 360/390/430px Android viewports.
 
 ### v0.1.443 Time Attack Entry CTA Clarity
@@ -3569,7 +3572,7 @@ Current launch direction:
 
 ### v0.1.505 Korean Resident Names and Conversation Polish
 - Bumped the visible app version and package metadata to v0.1.505.
-- Localized human resident names in Korean story scenes as `박 선생님`, `릴리`, and `마테오`; retained `Pip` as the established character and product brand name.
+- Localized human resident names in Korean story scenes as `�??�생??, `릴리`, and `마테??; retained `Pip` as the established character and product brand name.
 - Rewrote translation-like guide phrases across the first puzzle, Time Attack, first room story, and all three resident arrivals into shorter natural Korean conversation while preserving the original mechanics and story beats.
 - Added i18n regression checks that require the three Korean resident names and reject `Mr. Park`, `Lily`, or `Mateo` in their Korean introduction copy.
 - Hardened resident screenshots to wait for decoded character images, loaded fonts, and two completed animation frames before capture; this prevents partially painted speech panels from being mistaken for text overflow or section intrusion.
@@ -3577,8 +3580,8 @@ Current launch direction:
 
 ### v0.1.506 Korean Clock Grandpa Naming
 - Bumped the visible app version and package metadata to v0.1.506.
-- Replaced the formal `박 선생님` localization with the warmer role-based name `시계 할아버지` in his Korean title and first introduction.
-- Uses the shorter `할아버지` after the introduction so repeated sentences sound natural while the clock remains his memorable first-encounter identity.
+- Replaced the formal `�??�생?? localization with the warmer role-based name `?�계 ?�아버�?` in his Korean title and first introduction.
+- Uses the shorter `?�아버�?` after the introduction so repeated sentences sound natural while the clock remains his memorable first-encounter identity.
 - Kept the English `Mr. Park`, internal guide ID, save-state marker, artwork mapping, and milestone behavior unchanged.
 
 ### v0.1.507 Korean Pantry and Spoon Copy Polish
@@ -3591,7 +3594,7 @@ Current launch direction:
 
 ### v0.1.508 Korean Player Name Defaults
 - Bumped the visible app version and package metadata to v0.1.508.
-- Replaced the English `Jay` name-field example with the natural Korean example `하늘` when the app is displayed in Korean.
+- Replaced the English `Jay` name-field example with the natural Korean example `?�늘` when the app is displayed in Korean.
 - Replaced the fallback player address `Friend` with `친구`, so Pip does not switch back to an English human name when a Korean player has no saved display name.
 - Kept `Pip` and the English locale unchanged because Pip is the established character and product brand.
 - Verification: 115 unit tests and mobile visual QA at 360x740, 390x844, 430x932, and 675x900 passed.
@@ -3689,14 +3692,14 @@ Current launch direction:
 - Extended the completed-picture color system beyond the first shelf. Sunny Spoon Sign, Apron Drawer, Bakery Window, and Village Pantry now each resolve through a documented stage palette while puzzle-specific authored palettes still take priority.
 - Applied the same stage identity to the immediate completion reveal and the saved Album card instead of allowing the two surfaces to drift.
 - Expanded visual review with five-column contact sheets for the first shelf, Sunny Spoon Sign, and Apron Drawer. The 42-frame pack now exposes 60 completed cards for side-by-side silhouette, palette, title-wrap, and spacing review.
-- Localized the recurring Sunny Spoon Sign and Apron Drawer picture names used by the first 40 post-starter puzzles, including natural `두 번째 ...` variants, and localized their Korean stage/badge names.
+- Localized the recurring Sunny Spoon Sign and Apron Drawer picture names used by the first 40 post-starter puzzles, including natural `??번째 ...` variants, and localized their Korean stage/badge names.
 - The contact-sheet audit also exposed that Sunny Spoon Sign and Apron Drawer currently reuse the same 20 base silhouettes. This is recorded as the next content-art replacement slice rather than hidden by color changes.
 - Verification: 129 unit tests, the localized 42-frame visual pack, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, source diff check, and the full release-candidate gate passed.
 
 ### v0.1.519 Apron Drawer Identity Recovery
 - Replaced Apron Drawer's copied Sunny Spoon Sign content with 20 pack-specific 8x8 silhouettes while preserving every existing puzzle ID and therefore save compatibility.
 - The new set uses ten sewing and drawer motifs plus ten distinct variants: pocket apron, patch pocket, four-hole button, thread spool, sewing scissors, needle, pincushion, apron bow, folded gingham, and drawer handle.
-- Added natural Korean titles for all ten motifs and their `두 번째 ...` variants; changed the technically valid but awkward `실패` label to the clearer player-facing `실타래`.
+- Added natural Korean titles for all ten motifs and their `??번째 ...` variants; changed the technically valid but awkward `?�패` label to the clearer player-facing `?��???.
 - Replaced diagonal/confetti stage coloring with region-based palettes. Edges, centers, and upper/lower regions now form coherent Sunny Spoon, apron, bakery, and village color groupings.
 - Added a data contract requiring all 20 Apron Drawer solutions to be unique and none to duplicate a Sunny Spoon Sign solution.
 - Visual review: the refreshed Apron Drawer contact sheet now shows a distinct sewing-themed shelf with stable title wrapping and no repeated Sunny Spoon silhouettes.
@@ -3862,10 +3865,10 @@ Current launch direction:
 
 ### v0.1.540 Pantry Store Ordering
 
-- Moved the Support Pack and Small Spoon Jar into the Pantry shop itself. Spoon-priced decoration filters, cards, and the “show more” action always appear first; paid packs follow as the final shop section.
+- Moved the Support Pack and Small Spoon Jar into the Pantry shop itself. Spoon-priced decoration filters, cards, and the ?�show more??action always appear first; paid packs follow as the final shop section.
 - Kept purchases out of Settings and added measured mobile QA guards for both Pantry-shop containment and decoration-before-paid-pack ordering.
 - Removed the unused Daily `notePrefix` and `noteSuffix` translation keys identified by Claude review.
-- Visual review confirms the Pantry order is room and request, spoon-priced decorations, “show more,” then Support Pack and Small Spoon Jar. The full candidate gate and 51-frame v0.1.540 visual pack pass.
+- Visual review confirms the Pantry order is room and request, spoon-priced decorations, ?�show more,??then Support Pack and Small Spoon Jar. The full candidate gate and 51-frame v0.1.540 visual pack pass.
 - Manual review confirms the 12x12 clue tokens are uniform, the status chips share a baseline, the cross-shaped D-pad preserves direction, and the compact hint card contains no explanatory body copy.
 
 
@@ -3873,14 +3876,14 @@ Current launch direction:
 
 - Unified decoration and paid-pack cards around one 76px artwork frame, 16px card radius, 1px border, flat background, 44px actions, and shared spacing.
 - Removed the paid section's nested store-container appearance and separated it with one quiet divider after the spoon-priced decoration list.
-- Shortened the two shop section titles and renamed the ambiguous Korean starter item from 첫 카운터 보 to 체크 카운터보.
+- Shortened the two shop section titles and renamed the ambiguous Korean starter item from �?카운??�?to 체크 카운?�보.
 
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.541 visual pack pass.
 
 
 ### v0.1.542 Pantry Request Copy Reduction
 
-- Removed the repeated 부탁한 소품 target chip from the first Pantry request card; the artwork, title, and action already identify the item.
+- Removed the repeated 부?�한 ?�품 target chip from the first Pantry request card; the artwork, title, and action already identify the item.
 - Reduced the start, placement, and completion bodies to one short conversational sentence in Korean and English.
 
 - Verification: 141 unit tests, the full release-candidate gate, production build, Android release gate, and four-width mobile QA pass.
@@ -3889,7 +3892,7 @@ Current launch direction:
 
 - Removed the completed-request archive, room-level counter, chapter meter, and stage-cost report from the Pantry screen. Story progress remains in save data and still triggers the existing full-screen Pip and neighbor dialogue.
 - After the first request, the inline milestone now asks only which of the next three decorations the player wants to view.
-- Shortened the Korean and English labels to `다음 소품` / `Next decoration` and concise item actions.
+- Shortened the Korean and English labels to `?�음 ?�품` / `Next decoration` and concise item actions.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.543 visual pack pass. Real-device Billing evidence remains external.
 
 ### v0.1.544 Pantry Goal Card Reduction
@@ -4032,7 +4035,7 @@ Current launch direction:
 
 ### v0.1.562 Direct Guide and Mobile Rhythm
 - Changed the `1 1 1` Pip lesson from a pre-filled diagram into a required three-cell interaction, so the player performs the rule instead of watching an answer appear.
-- Removed the secondary `Not now` / `나중에 볼게요` action from Pip conversations; story and tutorial moments now present one clear next action.
+- Removed the secondary `Not now` / `?�중??볼게?? action from Pip conversations; story and tutorial moments now present one clear next action.
 - Added compact, no-wrap puzzle progress treatment and responsive settings grids for 360px through 675px layouts.
 - Compressed the current-picture hub card and stage unlock presentation; spoon requirements now use a restrained 30px token instead of a dominant standalone reward image.
 - Updated mobile and visual-review automation to play through both interactive tutorial rows.
@@ -4040,7 +4043,7 @@ Current launch direction:
 ### v0.1.563 Balanced Dialogue and Time Attack Cleanup
 - Constrained Pip dialogue to a centered 20-22 character reading measure with balanced wrapping, so two-line Korean copy keeps a stable visual center.
 - Rebuilt the `1 1 1` tutorial clue as three independent circular clue tokens matching the live puzzle board grammar.
-- Changed the final tutorial action from the awkward `같이 시작` / `Start together` to `자, 가보자!` / `Ready? Go!`.
+- Changed the final tutorial action from the awkward `같이 ?�작` / `Start together` to `?? 가보자!` / `Ready? Go!`.
 - Shortened cursor status chips to the state itself and normalized their height, padding, and baseline against the row/column position chip.
 - Simplified Time Attack to the playable essentials: Pip, a short prompt, 5x5 to 8x8 to 10x10, Start, reward status, and records. Removed report-like round descriptions, decorative orb/glare layers, and card shadows.
 - Mobile visual QA passed at 360x740, 390x844, 430x932, and 675x900 after updating the flat-card regression contract.
@@ -4166,7 +4169,7 @@ Current launch direction:
 
 ### v0.1.584-v0.1.585 final surface audit
 
-- Replaced the lingering Pantry “show more decorations” glare card with one flat, full-width action and removed its retired meter, sparkle, and pseudo-element rules.
+- Replaced the lingering Pantry ?�show more decorations??glare card with one flat, full-width action and removed its retired meter, sparkle, and pseudo-element rules.
 - Reduced the Badge room from collection-report copy to the current badge artwork, name, and compact progress only.
 - Fixed the opening grain layer so it is decorative-only and can never intercept a player tap while the intro exits.
 - Added hygiene and mobile regression checks for retired Pantry glare, Badge-report copy, and the intro grain pointer contract.
@@ -4188,7 +4191,7 @@ Current launch direction:
 ### v0.1.594 full-screen Puzzle Room home correction
 
 - Replaced the card-based home with one full-screen, authored Puzzle Room scene: no external header, title block, or separate spoon pill appears over the home.
-- Moved the spoon balance into the scene and rebuilt the current-puzzle call to action as a direct `이 퍼즐 풀기` action with puzzle art and the active picture name.
+- Moved the spoon balance into the scene and rebuilt the current-puzzle call to action as a direct `???�즐 ?��? action with puzzle art and the active picture name.
 - Converted the six destinations to large, icon-only in-scene controls; labels remain available to assistive technology while no longer reading as white folder cards.
 - Removed the incorrect Pantry-decoration/supporter-keepsake overlays from the Puzzle Room. The editable Pantry remains its own room; future shared room themes must be authored as complete scene variants rather than placing purchased items at arbitrary coordinates.
 - Stopped the initial brand-intro fade-in so the existing home cannot flash before the Sunny Spoon Studios bumper.
