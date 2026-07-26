@@ -1,3 +1,12 @@
+## v0.1.595 - Puzzle Room Hierarchy and Clear Returns - 2026-07-26
+
+- Replaced the accidental top-wide `Solve this picture` bar with one large in-scene Play action. It has a clear puzzle icon, a concise local label, and a dedicated lower-right priority position.
+- Rebuilt the six workshop destinations as high-contrast, white-ringed, color-coded scene buttons with deliberate left/right positions: picture list and album at the upper room, Time Attack and Pantry in the mid room, badge map and Settings at the lower edges.
+- Opening Picture List now replaces the workshop instead of rendering below a full-screen scene. It has an explicit Puzzle Room return button and keeps the common menu available; the menu's first item now names the Puzzle Room directly.
+- Corrected the focused-play back label to Puzzle Room / 퍼즐방, matching its existing route instead of falsely calling it the Picture List.
+- Hidden the underlying focused-play Settings icon while the Settings modal is open so it cannot appear as a pale, unexplained ghost control.
+- Verification: 175 tests and `npm run qa:mobile` at 360x740 / 390x844 / 430x932 / 675x900 pass. Local capture artifacts were regenerated for the revised home, Settings, and Picture List.
+- External release blocker unchanged: record real-device Billing evidence for `pip_cozy_support` purchase/restore and `pip_spoon_jar_small` repeat purchase.
 # Pip's Picture Pantry - Active Context
 
 ## v0.1.593 - Purchase Motivation and Puzzle Integrity - 2026-07-26

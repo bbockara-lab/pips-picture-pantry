@@ -126,7 +126,7 @@ export const en = {
   },
   playScreen: {
     aria: "Focused puzzle play",
-    back: "Picture list",
+    back: "Puzzle room",
     open: "Play",
     hubNote: "Choose a picture, then open a clean screen just for solving."
   },

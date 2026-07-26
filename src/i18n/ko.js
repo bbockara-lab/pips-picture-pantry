@@ -119,7 +119,7 @@ export const ko = {
   },
   playScreen: {
     aria: "\uc9d1\uc911 \ud37c\uc990 \ud654\uba74",
-    back: "\uadf8\ub9bc \ubaa9\ub85d",
+    back: "\ud37c\uc990\ubc29",
     open: "\ud480\uae30",
     hubNote: "\uadf8\ub9bc\uc744 \uace0\ub978 \ub4a4 \ud37c\uc990\ub9cc \ubcf4\uc774\ub294 \ud654\uba74\uc5d0\uc11c \ucc28\ubd84\ud788 \ud480\uc5b4\uc694."
   },  daily: {

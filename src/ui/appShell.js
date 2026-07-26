@@ -662,6 +662,9 @@ function createShell({
   if (isWorkshopHome) {
     shell.classList.add("app-shell--workshop-home");
   }
+  if (settingsOpen) {
+    shell.classList.add("app-shell--settings-open");
+  }
 
   if ((activeView === "puzzle" || activeView === "timeAttack") && playOpen) {
     shell.classList.add("app-shell--play");
@@ -700,7 +703,7 @@ function createShell({
   if (!isWorkshopHome) {
     shell.appendChild(renderHeader(onRequestSettings, { showSettings: false }));
   }
-  if (!hasBlockingOverlay && activeView !== "puzzle") {
+  if (!hasBlockingOverlay && (activeView !== "puzzle" || puzzleListOpen)) {
     shell.appendChild(renderFloatingNav(activeView, onSelectView));
   }
   const earnedBadgeShelf = renderBadgeShelf();
@@ -727,6 +730,13 @@ function createShell({
       lastResult: timeAttackLastResult,
       onStart: onStartTimeAttack
     }));
+  } else if (puzzleListOpen) {
+    shell.appendChild(renderPuzzlePicker(activePuzzle.id, onSelectPuzzle, onUnlockShelf, {
+      hideCompletedStages,
+      onToggleHideCompletedStages,
+      onOpenPantry: () => onSelectView("pantry"),
+      onGoHome: onClosePuzzle
+    }));
   } else {
     shell.appendChild(renderPuzzleHub(activePuzzle, {
       onOpenPuzzle,
@@ -734,13 +744,6 @@ function createShell({
       onSelectView,
       onOpenSettings: onRequestSettings
     }));
-    if (puzzleListOpen) {
-      shell.appendChild(renderPuzzlePicker(activePuzzle.id, onSelectPuzzle, onUnlockShelf, {
-        hideCompletedStages,
-        onToggleHideCompletedStages,
-        onOpenPantry: () => onSelectView("pantry")
-      }));
-    }
   }
 
   if (resetOpen) {

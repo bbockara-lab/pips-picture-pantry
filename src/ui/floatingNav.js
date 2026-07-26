@@ -3,7 +3,7 @@ import { getQuickTravelArt } from "../data/quickTravelArt.js";
 import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
 
 const NAV_ITEMS = [
-  ["puzzle", "views.puzzle"],
+  ["puzzle", "home.sceneAria"],
   ["album", "views.album"],
   ["pantry", "views.pantry"],
   ["timeAttack", "views.timeAttack"],

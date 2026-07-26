@@ -39,8 +39,9 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
 
   const play = document.createElement("button");
   play.type = "button";
-  play.className = "tool-button puzzle-home-scene__play";
-  play.setAttribute("aria-label", `${t("home.solveCurrent")}: ${puzzleTitle(activePuzzle)}`);
+  play.className = "puzzle-home-scene__play";
+  play.dataset.destination = "play";
+  play.setAttribute("aria-label", `${t("playScreen.open")}: ${puzzleTitle(activePuzzle)}`);
   const playArt = getQuickTravelArt("puzzle");
   if (playArt) {
     const image = document.createElement("img");
@@ -50,11 +51,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     image.dataset.assetId = playArt.assetId;
     play.appendChild(image);
   }
-  const playCopy = document.createElement("span");
-  playCopy.className = "puzzle-home-scene__play-copy";
-  appendTextElement(playCopy, "strong", "", t("home.solveCurrent"));
-  appendTextElement(playCopy, "small", "", puzzleTitle(activePuzzle));
-  play.appendChild(playCopy);
+  appendTextElement(play, "span", "puzzle-home-scene__play-label", t("playScreen.open"));
   play.addEventListener("click", onOpenPuzzle);
 
   const destinations = document.createElement("nav");
@@ -211,12 +208,19 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockShelf
   const {
     hideCompletedStages = false,
     onToggleHideCompletedStages = () => {},
-    onOpenPantry = () => {}
+    onOpenPantry = () => {},
+    onGoHome = () => {}
   } = options;
   const completedPuzzleIds = getCompletedPuzzleIds();
   const completedPuzzleIdSet = new Set(completedPuzzleIds);
   const section = document.createElement("section");
   section.className = "puzzle-picker content-panel";
+  const homeButton = document.createElement("button");
+  homeButton.type = "button";
+  homeButton.className = "puzzle-picker__home";
+  homeButton.textContent = t("home.sceneAria");
+  homeButton.addEventListener("click", onGoHome);
+  section.appendChild(homeButton);
   const stageStats = seasonShelves
     .map((shelf) => {
       const shelfPuzzles = getSeasonShelfPuzzles(shelf);
