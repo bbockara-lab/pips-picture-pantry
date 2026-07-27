@@ -6,6 +6,7 @@ import { ECONOMY } from "../data/economyConfig.js";
 import { canUnlockShelf, getCompletedPuzzleIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
+import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
 import { getPreviousSeasonShelf } from "../game/seasonShelfProgress.js";
 
 function appendTextElement(parent, tagName, className, text) {
@@ -42,7 +43,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   play.className = "puzzle-home-scene__play";
   play.dataset.destination = "play";
   play.setAttribute("aria-label", `${t("playScreen.open")}: ${puzzleTitle(activePuzzle)}`);
-  const playArt = getQuickTravelArt("puzzle");
+  const playArt = getPuzzleControlArt("fill");
   if (playArt) {
     const image = document.createElement("img");
     image.src = playArt.src;
@@ -62,8 +63,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     ["album", "views.album", () => onSelectView("album")],
     ["pantry", "home.room", () => onSelectView("pantry")],
     ["timeAttack", "views.timeAttack", () => onSelectView("timeAttack")],
-    ["map", "views.map", () => onSelectView("map")],
-    ["settings", "header.settings", onOpenSettings]
+    ["map", "views.map", () => onSelectView("map")]
   ];
   destinationItems.forEach(([artId, labelKey, onClick]) => {
     const button = document.createElement("button");
@@ -87,6 +87,9 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     destinations.appendChild(button);
   });
 
+  const sceneControls = document.createElement("div");
+  sceneControls.className = "puzzle-home-scene__controls";
+
   const currency = document.createElement("div");
   currency.className = "puzzle-home-scene__currency";
   currency.setAttribute("aria-label", t("currency.spoons", { count: getPantrySpoons() }));
@@ -97,7 +100,25 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   spoon.dataset.assetId = "spoon-token-v2";
   currency.append(spoon, document.createTextNode(String(getPantrySpoons())));
 
-  scene.append(destinations, currency, play);  stack.append(scene);
+  const settingsButton = document.createElement("button");
+  settingsButton.type = "button";
+  settingsButton.className = "puzzle-home-scene__settings";
+  settingsButton.dataset.destination = "settings";
+  settingsButton.setAttribute("aria-label", t("header.settings"));
+  const settingsArt = getQuickTravelArt("settings");
+  if (settingsArt) {
+    const image = document.createElement("img");
+    image.src = settingsArt.src;
+    image.alt = "";
+    image.setAttribute("aria-hidden", "true");
+    image.dataset.assetId = settingsArt.assetId;
+    settingsButton.appendChild(image);
+  }
+  settingsButton.addEventListener("click", onOpenSettings);
+
+  sceneControls.append(currency, settingsButton);
+  scene.append(destinations, sceneControls, play);
+  stack.append(scene);
   return stack;
 }
 

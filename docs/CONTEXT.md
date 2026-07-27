@@ -1,3 +1,8 @@
+## v0.1.613 - Workshop Navigation Hierarchy
+- Rebuilt the Puzzle Room home hierarchy: one large primary play action, five anchored destination icons, and a compact top-right settings/currency control group.
+- Replaced the duplicated primary puzzle icon with the approved fill-control artwork, keeping the picture list icon distinct.
+- Updated mobile visual QA to enforce the new five-destination scene, compact settings target, no collisions, and the distinct primary play art.
+
 ## v0.1.612 - Clear Stage Gate
 - Simplified Pantry-gated stage copy to describe the actual action: decorate the Pantry, then continue.
 - Removed the misleading story requirement wording and kept the unlock requirement compact at every supported width.
