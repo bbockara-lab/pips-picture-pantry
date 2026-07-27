@@ -41,8 +41,21 @@ TARGETS = {
 }
 
 
+def remove_chroma_magenta(image: Image.Image) -> None:
+    """Clear generator matte pixels, including partially transparent resize halos."""
+    pixels = image.load()
+    for y in range(image.height):
+        for x in range(image.width):
+            red, green, blue, alpha = pixels[x, y]
+            if red > 200 and green < 80 and blue > 200:
+                pixels[x, y] = (red, green, blue, 0)
+
+
 def normalize(input_path: Path, output_path: Path, target: tuple[int, int, int, int]) -> None:
     image = Image.open(input_path).convert("RGBA")
+    # Clear before cropping and after resizing: LANCZOS can otherwise blend the
+    # matte RGB back into transparent edge pixels.
+    remove_chroma_magenta(image)
     alpha = image.getchannel("A")
     bbox = alpha.getbbox()
     if bbox is None:
@@ -56,6 +69,7 @@ def normalize(input_path: Path, output_path: Path, target: tuple[int, int, int, 
     paste_x = x + (max_width - subject.width) // 2
     paste_y = y + max_height - subject.height
     canvas.alpha_composite(subject, (paste_x, paste_y))
+    remove_chroma_magenta(canvas)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(output_path)
 

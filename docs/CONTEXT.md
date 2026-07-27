@@ -1,3 +1,8 @@
+## v0.1.611 - Pantry Overlay Matte Repair
+
+- Reprocessed all 25 master-coordinate Pantry overlays after detecting residual chroma-magenta pixels from generated source mattes.
+- The normalization pipeline now removes matte pixels both before cropping and after LANCZOS resizing, preventing semi-transparent purple edge halos from leaking onto the room background.
+- Verified every overlay remains 1024x1536 and contains zero visible magenta-matte pixels.
 ## v0.1.610 - Pantry Room v2 Master Overlay Pipeline
 
 - Replaced the v1 room path that visually placed independent shop thumbnails over a background with a master-derived room base plus 25 transparent full-canvas overlays.
