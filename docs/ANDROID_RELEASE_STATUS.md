@@ -6,7 +6,7 @@ Last updated: 2026-07-27
 
 - Google Play production access has been granted. Production release submission itself has not been created yet.
 - Current web candidate: package 0.1.616 / UI v0.1.616; prepared Android upload target remains versionCode 28 / versionName 1.1.0.
-- npm run qa:candidate passes: 179 unit tests, authored-catalog/uniqueness/art audits, runtime assets (201), store/listing/privacy/Billing wiring, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900.
+- npm run qa:candidate passes: 182 unit tests, authored-catalog/uniqueness/art audits, runtime assets (201), store/listing/privacy/Billing wiring, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900.
 - Latest verified flow repairs include Pantry overlay alpha cleanup, reachable owned-decoration swapping, Time Attack three-round transition protection, one-time stage-completion protection, and lightweight earned-badge treatment.
 - Internal-test upload AAB rebuilt on 2026-07-27: versionCode 28 / versionName 1.1.0, upload-key signature verified. Use this build only to collect the two real-device Billing records.
 - Remaining external release evidence: pip_cozy_support purchase + restore and pip_spoon_jar_small purchase + repeat on a real Play-enabled device. Do not submit the production track until both records are added and the final release gate passes.
