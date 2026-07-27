@@ -1,5 +1,5 @@
 import { t } from "../i18n/index.js";
-import clockGrandpaSheetUrl from "../assets/characters/story-friends-sheet-v1-clean.png";
+import clockGrandpaUrl from "../assets/characters/story-friend-mr-park-v1.png";
 
 export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLimit = 3, lastResult = null, onStart } = {}) {
   const panel = document.createElement("section");
@@ -11,7 +11,9 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
   grandpa.className = "time-attack-panel__clock-grandpa";
   grandpa.setAttribute("aria-hidden", "true");
   const grandpaArt = document.createElement("img");
-  grandpaArt.src = clockGrandpaSheetUrl;
+  // Use the single Clock Grandpa character asset. The old sprite sheet was
+  // cropped by CSS and left a second, detached head in the entry scene.
+  grandpaArt.src = clockGrandpaUrl;
   grandpaArt.alt = "";
   grandpa.appendChild(grandpaArt);
   appendTextElement(intro, "h2", "", t("timeAttack.title"));
@@ -99,14 +101,17 @@ function getRewardStatusText(dailyCount, dailyLimit) {
 
 function createRecordsPanel(bestScores) {
   const entries = Object.values(bestScores).sort((a, b) => Number(a.size || 0) - Number(b.size || 0));
-  if (!entries.length) {
-    return null;
-  }
-
   const records = document.createElement("div");
   records.className = "time-attack-records";
   const title = document.createElement("h3");
   title.textContent = t("timeAttack.records");
+  if (!entries.length) {
+    const empty = document.createElement("p");
+    empty.className = "time-attack-records__empty";
+    empty.textContent = t("timeAttack.recordsEmpty");
+    records.append(title, empty);
+    return records;
+  }
   const list = document.createElement("ul");
   entries.forEach((record) => {
     const item = document.createElement("li");

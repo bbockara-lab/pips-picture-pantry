@@ -1,3 +1,10 @@
+## v0.1.607 - Core Play-Flow Repairs
+
+- Time Attack now starts every round from a fresh transient board, advances through all three rounds without reading or overwriting normal puzzle progress, and returns to its own results/records path only after the run ends.
+- Repaired the guide overlay's responsive structure, removed the stale settings corner pseudo-artifact, and made Clock Grandpa use the dedicated character portrait instead of the duplicate-headed sprite sheet.
+- Restored decorating-room control: equipped and owned pieces stay reachable first in the shop list, and an owned story item can be placed again directly from Pip's request.
+- Puzzle play now labels its existing header return action as `Menu`; no floating navigation is layered over a live board.
+- Verification: 175 automated tests and mobile visual QA at 360x740, 390x844, 430x932, and 675x900 pass. Full candidate verification is next. Real-device Billing evidence remains external.
 ## v0.1.606 - Destination-Specific Screen Ownership
 
 - Removed the shared `핍의 퍼즐방` / app-title header from every non-play destination. Album, stage map, decorating room, Time Attack, and settings now own only their own screen content instead of inheriting the Workshop name.

@@ -675,7 +675,7 @@ function createShell({
       controlMode,
       onClosePuzzle: activeView === "timeAttack" ? onCloseTimeAttack : onClosePuzzle,
       onRequestSettings,
-      onViewAlbum: onClosePuzzle,
+      onViewAlbum: activeView === "timeAttack" ? onCloseTimeAttack : onClosePuzzle,
       onNextPuzzle,
       onPreviousStagePuzzle,
       onNextStagePuzzle,

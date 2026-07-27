@@ -77,14 +77,18 @@ function compareDecorations(left, right, ownedIds, equippedDecorations, spoons) 
   const leftAffordable = !leftOwned && spoons >= Number(left.cost || 0);
   const rightAffordable = !rightOwned && spoons >= Number(right.cost || 0);
 
-  const score = (decoration, owned, equipped, affordable) => {
-    if (equipped) return 70;
-    if (!owned && Number(decoration.cost || 0) === 0) return 0;
-    if (affordable) return 10 + Number(decoration.cost || 0) / 1000;
-    if (owned) return 50;
-    return 30 + Math.max(0, Number(decoration.cost || 0) - spoons) / 1000;
+  // In a selected room slot, the player must always be able to find both the
+  // item currently on display and every item they already own before offers.
+  // The old ascending score sorted these to the bottom of a three-card list.
+  const priority = (owned, equipped, affordable) => {
+    if (equipped) return 0;
+    if (owned) return 1;
+    if (affordable) return 2;
+    return 3;
   };
-  return score(left, leftOwned, leftEquipped, leftAffordable) - score(right, rightOwned, rightEquipped, rightAffordable) || left.id.localeCompare(right.id);
+  return priority(leftOwned, leftEquipped, leftAffordable) - priority(rightOwned, rightEquipped, rightAffordable)
+    || Number(left.cost || 0) - Number(right.cost || 0)
+    || left.id.localeCompare(right.id);
 }
 
 function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, storyGoalId, onRefresh, onFirstPurchase, onOpenSpoonStore) {
@@ -332,6 +336,22 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
 
   function startStoryRequest(decoration) {
     if (!decoration) {
+      return;
+    }
+    // A request may point to a free starter item that was bought earlier and
+    // later replaced. Restore it now instead of hiding it behind the shop filter.
+    if (ownedIds.includes(decoration.id)) {
+      const storyCompleted = decoration.id === storyGoalId || decoration.id === "starter-counter-cloth";
+      equipDecoration(decoration);
+      if (storyCompleted) {
+        storyGoalId = null;
+        pantryViewState.storyGoalId = null;
+        onFirstPurchase?.(decoration, {
+          storyCompleted: true,
+          completedRequestCount: getCompletedPantryStoryGoalIds().length
+        });
+      }
+      onRefresh?.();
       return;
     }
     selectedSlotId = decoration.slot || "all";

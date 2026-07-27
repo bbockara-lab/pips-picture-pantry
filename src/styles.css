@@ -16796,3 +16796,114 @@ img {
 .app-shell--workshop-home .puzzle-home-scene__play {
   animation-name: puzzle-home-play-pulse-v2-stable;
 }
+
+/* v0.1.607: repair core play-flow surfaces after the Workshop rework. */
+/* The top-right shape was a retired decorative pseudo-element, not a control. */
+.settings-dialog::before {
+  content: none !important;
+  display: none !important;
+}
+
+.settings-dialog h2 {
+  padding-right: 0;
+}
+
+/* Keep Pip's conversation as one compact scene instead of a split-screen art well. */
+.guide-overlay {
+  padding: 16px;
+  background: rgba(46, 38, 34, 0.74) !important;
+}
+
+.guide-dialog {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto !important;
+  width: min(calc(100vw - 32px), 420px);
+  max-height: min(760px, calc(100svh - 32px));
+  background: transparent !important;
+}
+
+.guide-dialog__art {
+  min-height: clamp(168px, 29svh, 228px) !important;
+  padding: 18px 18px 14px !important;
+  border-radius: 26px 26px 0 0;
+}
+
+.guide-dialog__art img {
+  width: min(42vw, 164px) !important;
+  max-height: 188px !important;
+  object-fit: contain;
+}
+
+.guide-dialog__bubble {
+  align-self: auto !important;
+  margin: -12px 10px 10px !important;
+  padding: 18px clamp(16px, 5vw, 22px) !important;
+  border: 2px solid rgba(93, 71, 55, 0.24) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 5px 0 rgba(61, 43, 46, 0.12) !important;
+}
+
+.guide-dialog__line {
+  text-wrap: balance;
+}
+
+/* Time Attack uses one complete Clock Grandpa artwork and independent sections. */
+.app-shell[data-view="timeAttack"] .time-attack-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  padding: 18px;
+}
+
+.app-shell[data-view="timeAttack"] .time-attack-panel__intro,
+.app-shell[data-view="timeAttack"] .time-attack-ladder,
+.app-shell[data-view="timeAttack"] .time-attack-panel__start,
+.app-shell[data-view="timeAttack"] .time-attack-status,
+.app-shell[data-view="timeAttack"] .time-attack-panel__result,
+.app-shell[data-view="timeAttack"] .time-attack-records {
+  margin: 0;
+}
+
+.app-shell[data-view="timeAttack"] .time-attack-panel__clock-grandpa {
+  display: grid;
+  width: 124px;
+  height: 170px;
+  margin: 0 auto;
+  overflow: visible;
+  place-items: center;
+}
+
+.app-shell[data-view="timeAttack"] .time-attack-panel__clock-grandpa img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.time-attack-records__empty {
+  margin: 0;
+  color: #744d35;
+  text-align: center;
+}
+
+@media (max-width: 430px) {
+  .guide-dialog {
+    width: calc(100vw - 24px);
+  }
+
+  .guide-dialog__art {
+    min-height: 158px !important;
+  }
+
+  .guide-dialog__art img {
+    width: min(42vw, 150px) !important;
+    max-height: 168px !important;
+  }
+
+  .app-shell[data-view="timeAttack"] .time-attack-panel {
+    gap: 14px;
+    padding: 14px;
+  }
+}

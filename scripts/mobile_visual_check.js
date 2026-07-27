@@ -1679,7 +1679,9 @@ async function expectTimeAttackStartSurface(page, viewportName) {
     };
   });
 
-  const introLooksPolished = metrics.intro && metrics.intro.height >= 96 && metrics.intro.radius >= 14 && metrics.intro.background === "none" && metrics.intro.shadow === "none" && metrics.intro.sectionLabelCount === 0 && metrics.intro.title.length > 0 && metrics.intro.clockGrandpa && metrics.intro.clockGrandpa.width >= 100 && metrics.intro.clockGrandpa.height >= 170 && metrics.intro.clockGrandpa.titleTextAlign === "center" && metrics.intro.clockGrandpa.naturalWidth >= 1000;
+  // v0.1.607: Clock Grandpa now uses one dedicated character asset rather than
+  // a cropped sprite sheet. Empty records are intentional until a full run ends.
+  const introLooksPolished = metrics.intro && metrics.intro.height >= 96 && metrics.intro.radius >= 14 && metrics.intro.background === "none" && metrics.intro.shadow === "none" && metrics.intro.sectionLabelCount === 0 && metrics.intro.title.length > 0 && metrics.intro.clockGrandpa && metrics.intro.clockGrandpa.width >= 100 && metrics.intro.clockGrandpa.height >= 170 && metrics.intro.clockGrandpa.naturalWidth >= 200 && metrics.intro.clockGrandpa.titleTextAlign === "center";
   const startLooksTactile = metrics.start && metrics.start.width >= 220 && metrics.start.height >= 52 && metrics.start.radius >= 16 && metrics.start.background === "none" && metrics.start.shadow !== "none";
   const statusFits = metrics.status && metrics.status.width > 0 && metrics.status.height >= 28;
   const recordsAreUseful = !metrics.records || (
@@ -1689,8 +1691,7 @@ async function expectTimeAttackStartSurface(page, viewportName) {
     metrics.records.overflow === "hidden" &&
     metrics.records.shadow === "none" &&
     metrics.records.textLength > 0 &&
-    metrics.records.itemCount > 0 &&
-    metrics.records.itemHeights.every((height) => height >= 28)
+    (metrics.records.itemCount === 0 || metrics.records.itemHeights.every((height) => height >= 28))
   );
   const staysInViewport = metrics.panelWidth > 0 && metrics.panelRight <= metrics.viewportWidth + 1;
   if (!introLooksPolished || !startLooksTactile || !statusFits || !recordsAreUseful || !staysInViewport) {

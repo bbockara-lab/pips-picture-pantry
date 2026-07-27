@@ -119,10 +119,11 @@ export const ko = {
   },
   playScreen: {
     aria: "\uc9d1\uc911 \ud37c\uc990 \ud654\uba74",
-    back: "\ud37c\uc990\ubc29",
+    back: "\uba54\ub274",
     open: "\ud480\uae30",
     hubNote: "\uadf8\ub9bc\uc744 \uace0\ub978 \ub4a4 \ud37c\uc990\ub9cc \ubcf4\uc774\ub294 \ud654\uba74\uc5d0\uc11c \ucc28\ubd84\ud788 \ud480\uc5b4\uc694."
-  },  daily: {
+  },
+  daily: {
     eyebrow: "\uc624\ub298\uc758 \uadf8\ub9bc",
     play: "\ub3c4\uc804\ud558\uae30",
     selected: "\uc120\ud0dd\ub428",
@@ -164,6 +165,7 @@ export const ko = {
     start: "\uC2DC\uC791",
     daily: "\uc624\ub298 \ubcf4\uc0c1 {count}/{limit}\ud68c",
     records: "\ub0b4 \uae30\ub85d",
+    recordsEmpty: "3\ud310\uc744 \ub05d\uae4c\uc9c0 \ud480\uba74 \uc5ec\uae30\uc5d0 \uae30\ub85d\uc774 \ub0a8\uc544\uc694.",
     recordLine: "{size}x{size} \u00b7 {progress}\uce78 \u00b7 {time}",
     lastReward: "\uc644\ub8cc! \uc2a4\ud47c +{reward}\uc744 \ubc1b\uc558\uc5b4\uc694.",
     lastNoReward: "\uc644\ub8cc! \uc624\ub298 \ubcf4\uc0c1\uc740 \ubaa8\ub450 \ubc1b\uc558\uc5b4\uc694.",

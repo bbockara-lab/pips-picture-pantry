@@ -126,7 +126,7 @@ export const en = {
   },
   playScreen: {
     aria: "Focused puzzle play",
-    back: "Puzzle room",
+    back: "Menu",
     open: "Play",
     hubNote: "Choose a picture, then open a clean screen just for solving."
   },
@@ -172,6 +172,7 @@ export const en = {
     start: "Start",
     daily: "Daily rewards {count}/{limit}",
     records: "My records",
+    recordsEmpty: "Finish all three rounds to leave your first record here.",
     recordLine: "{size}x{size} \u00b7 {progress} cells \u00b7 {time}",
     lastReward: "Complete! You earned +{reward} spoons.",
     lastNoReward: "Complete! Daily rewards are used up.",

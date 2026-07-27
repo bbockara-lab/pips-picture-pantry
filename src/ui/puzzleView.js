@@ -22,7 +22,10 @@ import { createPuzzleControlArtImage } from "./puzzleControlArt.js";
 export function renderPuzzleView(puzzle, options = {}) {
   const isReplayChallenge = Boolean(options.replayChallenge);
   const isTimeAttack = Boolean(options.isTimeAttack);
-  let state = isReplayChallenge ? createPuzzleState(puzzle) : loadPuzzleState(puzzle.id) || createPuzzleState(puzzle);
+  // Time Attack is a fresh three-round run. Reusing a normal puzzle save here
+  // can make a round arrive already completed and skip straight out of the run.
+  const usesTransientState = isReplayChallenge || isTimeAttack;
+  let state = usesTransientState ? createPuzzleState(puzzle) : loadPuzzleState(puzzle.id) || createPuzzleState(puzzle);
   let replayCleanStatus = createReplayCleanStatus();
   let replayResult = null;
   const controlMode = options.controlMode || "auto";
@@ -40,7 +43,7 @@ export function renderPuzzleView(puzzle, options = {}) {
       completed: isSolved(resolvedState, puzzle.solution) || resolvedState.completed
     };
     replayCleanStatus = getReplayCleanStatusAfterState(isReplayChallenge, replayCleanStatus, state, puzzle.solution);
-    if (!isReplayChallenge) {
+    if (!usesTransientState) {
       savePuzzleState(state, {
         reward: puzzle.reward || 0,
         dailyBonus: options.dailyBonus || 0,
