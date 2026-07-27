@@ -296,6 +296,26 @@ describe("player save profiles", () => {
     expect(progress.currentRoundNumber).toBe(2);
   });
 
+  it("moves a completed Time Attack board to the next round before saving a record", () => {
+    setActivePlayerName("Jay");
+    const session = createTimeAttackSession({ now: 1000 });
+    const firstPuzzle = session.run[0];
+    const result = advanceTimeAttackSession({
+      run: session.run,
+      seed: session.seed,
+      startedAt: Date.now(),
+      roundIndex: 0,
+      puzzle: firstPuzzle,
+      puzzleState: {
+        cells: firstPuzzle.solution.map((row) => [...row].map((cell) => cell === "1" ? "filled" : "marked"))
+      }
+    });
+
+    expect(result.status).toBe("next-round");
+    expect(result.roundIndex).toBe(1);
+    expect(result.activePuzzle.id).toBe(session.run[1].id);
+    expect(getTimeAttackBestScores()).toEqual({});
+  });
   it("records partial time attack timeout runs by cells reached", () => {
     setActivePlayerName("Jay");
     const session = createTimeAttackSession({ now: 1000 });
