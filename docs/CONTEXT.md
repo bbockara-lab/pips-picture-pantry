@@ -8,6 +8,7 @@
 - Tightened the three language buttons, added a short friendly Workshop greeting, visible scene-destination progress badges, and a larger circular play action.
 - Added an actionable empty/progress hint to the Badge Shelf so a new player understands how badges arrive.
 - Verification: `npm run qa:candidate` passed ? 30 test files / 182 tests, catalog, art, hygiene, store, Billing configuration, build, Android release gate, and mobile QA at 360?740 / 390?844 / 430?932 / 675?900. The only remaining release evidence is real-device Play Billing purchase/restore and repeat-purchase.
+- Internal-test AAB: upload-key-signed v0.1.617 build created at Android versionCode 29 / versionName 1.1.1 after standard release QA and Capacitor sync. It intentionally skips the final Billing-evidence gate; use it only for Play internal-test Billing evidence. Any later production upload must increment Android versionCode again.
 
 ## v0.1.615 - Earned Badge Lightness
 - Reframed earned badges as lightweight, transparent achievement tokens rather than a separate report-like card.
