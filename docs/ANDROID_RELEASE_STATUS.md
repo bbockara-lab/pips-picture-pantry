@@ -1,13 +1,14 @@
 # Android Release Status
 
-Last updated: 2026-07-26
+Last updated: 2026-07-27
 
-## Current Launch Checkpoint - 2026-07-26
+## Current Launch Checkpoint - 2026-07-27
 
 - Google Play production access has been granted. Production release submission itself has not been created yet.
-- Current web candidate: package 0.1.593 / UI v0.1.593; current Android upload target remains versionCode 28 / versionName 1.1.0.
-- Current internal verification: 175 unit tests, unique-solution QA for all 333 authored puzzles, art audit with zero review candidates, 162 registered assets, 64-frame visual review pack, candidate gate, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900 pass.
-- Remaining external release evidence: real-device pip_cozy_support purchase/restore and pip_spoon_jar_small purchase/repeat. Do not create the final signed AAB until both records are added and the owner requests the upload build.
+- Current web candidate: package 0.1.615 / UI v0.1.615; prepared Android upload target remains versionCode 28 / versionName 1.1.0.
+- npm run qa:candidate passes: 179 unit tests, authored-catalog/uniqueness/art audits, runtime assets (201), store/listing/privacy/Billing wiring, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900.
+- Latest verified flow repairs include Pantry overlay alpha cleanup, reachable owned-decoration swapping, Time Attack three-round transition protection, one-time stage-completion protection, and lightweight earned-badge treatment.
+- Remaining external release evidence: pip_cozy_support purchase + restore and pip_spoon_jar_small purchase + repeat on a real Play-enabled device. Do not create the final signed AAB until both records are added and the owner requests the upload build.
 
 ---
 
