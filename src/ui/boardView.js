@@ -77,6 +77,7 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
   const locked = Boolean(options.locked);
   const cursorOnly = Boolean(options.cursorOnly);
   const showColoredReward = Boolean(options.completed);
+  const boardGuideInterval = getBoardGuideInterval(puzzle.size);
   let dragSession = null;
   let suppressNextClick = false;
 
@@ -132,6 +133,12 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
       button.dataset.row = String(rowIndex);
       button.dataset.column = String(columnIndex);
       const classes = ["puzzle-cell", cell];
+      if (boardGuideInterval && rowIndex > 0 && rowIndex % boardGuideInterval === 0) {
+        classes.push("board-guide-top");
+      }
+      if (boardGuideInterval && columnIndex > 0 && columnIndex % boardGuideInterval === 0) {
+        classes.push("board-guide-left");
+      }
       if (showColoredReward && cell === CELL.filled) {
         classes.push("colored");
       }
@@ -212,6 +219,17 @@ export function getCellPaintValue(cell, mode, options = {}) {
   }
 
   return getNextCellValue(cell, mode);
+}
+
+export function getBoardGuideInterval(size) {
+  const boardSize = Number(size);
+  if (boardSize === 8 || boardSize === 12) {
+    return 4;
+  }
+  if (boardSize === 10) {
+    return 5;
+  }
+  return 0;
 }
 
 export function getDragCellPaintValue(button, strokeValue) {

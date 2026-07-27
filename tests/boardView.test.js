@@ -1,8 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { CELL } from "../src/game/nonogram.js";
-import { getCellPaintValue, getDragCellPaintValue, getLineGuidance, isLineCorrectlySatisfied } from "../src/ui/boardView.js";
+import { getBoardGuideInterval, getCellPaintValue, getDragCellPaintValue, getLineGuidance, isLineCorrectlySatisfied } from "../src/ui/boardView.js";
 
 describe("board view paint decisions", () => {
+  it("adds guide intervals only where larger boards benefit from them", () => {
+    expect(getBoardGuideInterval(5)).toBe(0);
+    expect(getBoardGuideInterval(8)).toBe(4);
+    expect(getBoardGuideInterval(10)).toBe(5);
+    expect(getBoardGuideInterval(12)).toBe(4);
+  });
+
   it("turns a safe suggestion tap into a mark instead of a wrong fill", () => {
     expect(getCellPaintValue(CELL.empty, "fill", { safeSuggestion: true })).toBe(CELL.marked);
   });

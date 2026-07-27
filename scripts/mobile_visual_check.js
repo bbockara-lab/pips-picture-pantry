@@ -2156,6 +2156,42 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     failures.push("[" + viewportName + "] 12x12 board CSS variable should be 12, saw " + boardSize);
   }
 
+  const guideBoundaryMetrics = await page.locator(".puzzle-grid").first().evaluate((grid) => {
+    const cells = [...grid.querySelectorAll(".puzzle-cell")];
+    const describe = (cell) => {
+      const row = Number(cell.dataset.row);
+      const column = Number(cell.dataset.column);
+      const rect = cell.getBoundingClientRect();
+      const above = cells.find((candidate) => Number(candidate.dataset.row) === row - 1 && Number(candidate.dataset.column) === column);
+      const left = cells.find((candidate) => Number(candidate.dataset.row) === row && Number(candidate.dataset.column) === column - 1);
+      return {
+        row,
+        column,
+        borderTopWidth: parseFloat(getComputedStyle(cell).borderTopWidth),
+        borderLeftWidth: parseFloat(getComputedStyle(cell).borderLeftWidth),
+        gapAbove: above ? rect.top - above.getBoundingClientRect().bottom : null,
+        gapLeft: left ? rect.left - left.getBoundingClientRect().right : null
+      };
+    };
+    const top = cells.filter((cell) => cell.classList.contains("board-guide-top")).map(describe);
+    const left = cells.filter((cell) => cell.classList.contains("board-guide-left")).map(describe);
+    return { top, left };
+  });
+  const expectedGuideRows = "4,8";
+  const expectedGuideColumns = "4,8";
+  const guideRows = [...new Set(guideBoundaryMetrics.top.map((cell) => cell.row))].join(",");
+  const guideColumns = [...new Set(guideBoundaryMetrics.left.map((cell) => cell.column))].join(",");
+  if (
+    guideBoundaryMetrics.top.length !== 24 ||
+    guideBoundaryMetrics.left.length !== 24 ||
+    guideRows !== expectedGuideRows ||
+    guideColumns !== expectedGuideColumns ||
+    guideBoundaryMetrics.top.some((cell) => cell.borderTopWidth < 4 || cell.gapAbove === null || cell.gapAbove < 1) ||
+    guideBoundaryMetrics.left.some((cell) => cell.borderLeftWidth < 4 || cell.gapLeft === null || cell.gapLeft < 1)
+  ) {
+    failures.push("[" + viewportName + "] 12x12 board guide boundaries should align to rows and columns 4 and 8: " + JSON.stringify(guideBoundaryMetrics));
+  }
+
   const boardFrameMetrics = await page.locator(".board-wrap").first().evaluate((board) => {
     const rect = board.getBoundingClientRect();
     const style = getComputedStyle(board);

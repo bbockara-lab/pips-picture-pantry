@@ -16955,6 +16955,18 @@ img {
 .pack-block--locked .unlock-panel {
   border-top: 1px solid rgba(180, 140, 90, 0.18);
 }
+
+/* v0.1.609: Large boards keep gentle tactile guide boundaries without changing their grid geometry. */
+.puzzle-cell.board-guide-top {
+  border-top-width: 4px !important;
+  border-top-color: rgba(183, 133, 74, 0.82) !important;
+}
+
+.puzzle-cell.board-guide-left {
+  border-left-width: 4px !important;
+  border-left-color: rgba(183, 133, 74, 0.82) !important;
+}
+
 @media (max-width: 380px) {
   .badge-shelf { gap: 8px; padding-inline: 10px; }
   .badge-shelf__token { width: 56px; height: 56px; }

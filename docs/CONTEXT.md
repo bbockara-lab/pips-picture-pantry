@@ -1,3 +1,9 @@
+## v0.1.609 - Large Board Guide Boundaries
+
+- Added tactile board separators only where they improve play: no divider on 5x5, one centered vertical/horizontal boundary on 8x8 and 10x10, and 4-cell boundaries on 12x12.
+- The guide boundaries use the existing cell frame rather than an overlay, so they remain aligned with drag painting, cursor selection, completed-line guidance, and X marks at every mobile size.
+- Added a board helper unit test and extended the 12x12 mobile visual contract to verify both separator directions and their exact cell-boundary alignment.
+
 ## v0.1.608 - Reachable Progress and Pantry Switching
 
 - Added the missing earned-badge shelf layout so stage badges render at controlled, responsive dimensions instead of their source-image size.
