@@ -1414,6 +1414,10 @@ async function expectPuzzleHomePolish(page, viewportName) {
   await expectVisible(page, ".puzzle-home-scene", viewportName);
   await expectVisible(page, ".puzzle-home-scene__play", viewportName);
   await expectVisible(page, ".puzzle-home-scene__settings", viewportName);
+  await page.waitForFunction(() => {
+    const images = [...document.querySelectorAll(".puzzle-home-destination img, .puzzle-home-scene__play img, .puzzle-home-scene__settings img")];
+    return images.length >= 7 && images.every((image) => image.complete && image.naturalWidth >= 128 && image.naturalHeight >= 128);
+  }, null, { timeout: 5000 });
   await expectAbsent(page, ".puzzle-home-scene__pip", viewportName);
   const metrics = await page.locator(".puzzle-home").first().evaluate((home) => {
     const destinations = [...home.querySelectorAll(".puzzle-home-destination")];
@@ -1627,6 +1631,10 @@ async function expectTimeAttackStartSurface(page, viewportName) {
   await expectVisible(page, ".time-attack-panel__intro", "Time Attack intro");
   await expectVisible(page, ".time-attack-panel__start", "Time Attack start button");
   await expectVisible(page, ".time-attack-status", "Time Attack daily status");
+  await page.waitForFunction(() => {
+    const image = document.querySelector(".time-attack-panel__clock-grandpa img");
+    return Boolean(image && image.complete && image.naturalWidth >= 200 && image.naturalHeight >= 200);
+  }, null, { timeout: 5000 });
 
   const metrics = await page.locator(".time-attack-panel").first().evaluate((panel) => {
     const panelRect = panel.getBoundingClientRect();
@@ -1776,6 +1784,10 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   await expectVisible(page, ".puzzle-panel", viewportName);
   await expectVisible(page, ".hint-panel", viewportName);
   await expectVisible(page, ".cursor-controls", viewportName);
+  await page.waitForFunction(() => {
+    const images = [...document.querySelectorAll(".cursor-action-button__art")];
+    return images.length === 2 && images.every((image) => image.complete && image.naturalWidth === 256 && image.naturalHeight === 256);
+  }, null, { timeout: 5000 });
   const cursorPadMetrics = await page.locator(".cursor-controls").first().evaluate((panel) => {
     const rect = panel.getBoundingClientRect();
     const style = getComputedStyle(panel);

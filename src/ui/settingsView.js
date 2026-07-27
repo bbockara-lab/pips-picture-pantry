@@ -49,7 +49,7 @@ export function renderSettingsDialog({
   dialog.appendChild(title);
 
   const group = document.createElement("div");
-  group.className = "language-options settings-choice-grid settings-choice-grid--language";
+  group.className = "language-options settings-choice-grid settings-choice-grid--language settings-language-group";
   group.setAttribute("role", "group");
   group.setAttribute("aria-label", t("settings.language"));
 

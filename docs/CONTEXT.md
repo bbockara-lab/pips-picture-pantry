@@ -3,6 +3,12 @@
 - Renamed and structurally separated the primary Puzzle CTA from its picture icon: Solve now / Play Now.
 - Added a one-time shelf-completion burst and badge-earned line to the existing mounted completion overlay; this avoids trying to animate an unmounted Puzzle-list mosaic.
 - Verification: focused release-clarity tests, mobile QA, and the full candidate gate passed. An upload-key-signed internal-test AAB was rebuilt at Android versionCode 28 / versionName 1.1.0; it is for real-device Billing evidence only, not production submission.
+## v0.1.617 - Device-first Onboarding and Workshop Clarity
+- Rebalanced full-screen Pip dialogue into a deliberate 40/60 character-and-card composition for tall Android devices, with safe scrolling inside the dialogue half.
+- Tightened the three language buttons, added a short friendly Workshop greeting, visible scene-destination progress badges, and a larger circular play action.
+- Added an actionable empty/progress hint to the Badge Shelf so a new player understands how badges arrive.
+- Verification: `npm run qa:candidate` passed ? 30 test files / 182 tests, catalog, art, hygiene, store, Billing configuration, build, Android release gate, and mobile QA at 360?740 / 390?844 / 430?932 / 675?900. The only remaining release evidence is real-device Play Billing purchase/restore and repeat-purchase.
+
 ## v0.1.615 - Earned Badge Lightness
 - Reframed earned badges as lightweight, transparent achievement tokens rather than a separate report-like card.
 - Kept the approved badge art and accessible earned-label copy intact while removing the opaque shelf surface that fought the game background.

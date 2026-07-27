@@ -2,8 +2,9 @@ import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
 import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-v1.webp";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, seasonShelves } from "../data/seasonShelves.js";
 import { getStageArtUrl, hasApprovedStageArt } from "../data/stageArt.js";
+import { getApprovedPantryDecorations } from "../data/decorations.js";
 import { ECONOMY } from "../data/economyConfig.js";
-import { canUnlockShelf, getCompletedPuzzleIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
+import { canUnlockShelf, getCompletedPuzzleIds, getOwnedDecorationIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
 import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
@@ -38,6 +39,14 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   scene.style.setProperty("--puzzle-home-background", `url("${puzzleWorkshopBackgroundUrl}")`);
   scene.setAttribute("aria-label", t("home.sceneAria"));
 
+  const greeting = appendTextElement(
+    scene,
+    "p",
+    "puzzle-home-scene__greeting",
+    t(["home.greetingPuzzle", "home.greetingPip", "home.greetingToday"][activePuzzle.id.length % 3])
+  );
+  greeting.setAttribute("aria-live", "polite");
+
   const play = document.createElement("button");
   play.type = "button";
   play.className = "puzzle-home-scene__play";
@@ -68,6 +77,13 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     ["timeAttack", "views.timeAttack", () => onSelectView("timeAttack")],
     ["map", "views.map", () => onSelectView("map")]
   ];
+  const completedIds = new Set(getCompletedPuzzleIds());
+  const activeShelf = getSeasonShelfForPuzzle(activePuzzle);
+  const activeShelfPuzzles = activeShelf ? getSeasonShelfPuzzles(activeShelf) : [];
+  const activeShelfCompletedCount = activeShelfPuzzles.filter((puzzle) => completedIds.has(puzzle.id)).length;
+  const ownedDecorationIds = new Set(getOwnedDecorationIds());
+  const hasNewPantryDecoration = getApprovedPantryDecorations()
+    .some((decoration) => !ownedDecorationIds.has(decoration.id));
   destinationItems.forEach(([artId, labelKey, onClick]) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -84,6 +100,16 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     }
     const label = appendTextElement(button, "span", "puzzle-home-destination__label", t(labelKey));
     label.setAttribute("aria-hidden", "true");
+    if (artId === "puzzle") {
+      appendTextElement(
+        button,
+        "span",
+        "puzzle-home-destination__badge",
+        `${activeShelfCompletedCount}/${activeShelfPuzzles.length}`
+      );
+    } else if (artId === "pantry" && hasNewPantryDecoration) {
+      appendTextElement(button, "span", "puzzle-home-destination__badge", t("home.new"));
+    }
     button.setAttribute("aria-label", t(labelKey));
     button.title = t(labelKey);
     button.addEventListener("click", onClick);

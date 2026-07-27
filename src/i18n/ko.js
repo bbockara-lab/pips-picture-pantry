@@ -89,6 +89,8 @@ export const ko = {
     progress: "{completed}/{total}\uc7a5",
     earnedAria: "{title} \ud68d\ub4dd",
     progressAria: "{title} \uc9c4\ud589 {completed}/{total}",
+    shelfEmptyHint: "\ud37c\uc990\uc744 \ubaa8\ub450 \ud480\uba74 \uc120\ubc18 \ubc30\uc9c0\ub97c \ubc1b\uc544\uc694.",
+    shelfProgressHint: "\ud37c\uc990 {completed}\uc7a5 \uc644\ub8cc \u2014 {remaining}\uc7a5 \ub354 \ud480\uba74 \ubc30\uc9c0 \uc644\uc131!",
     earnedShelfAria: "\ud68d\ub4dd\ud55c \ubc30\uc9c0 {count}\uac1c",
     pipsFirstShelf: "\uccab \uc120\ubc18 \ubc30\uc9c0",
     pipsFirstShelfDesc: "Pip \uadf8\ub9bc \ubc30\uc9c0 \uc644\uc131",
@@ -359,7 +361,11 @@ export const ko = {
     destinationsAria: "\ubc14\ub85c \uac00\uae30",
     currentPicture: "\uc9c0\uae08 \ud480 \uadf8\ub9bc",
     pictureList: "\uadf8\ub9bc \ubaa9\ub85d",
-    room: "\uafb8\ubbf8\uae30 \ubc29"
+    room: "\uafb8\ubbf8\uae30 \ubc29",
+    greetingPuzzle: "\uc624\ub298\ub3c4 \ud37c\uc990 \ud480\uc5b4\ubcfc\uae4c\uc694?",
+    greetingPip: "\ud54d\uc774 \uae30\ub2e4\ub9ac\uace0 \uc788\uc5c8\uc5b4\uc694!",
+    greetingToday: "\uc624\ub298\uc758 \uadf8\ub9bc\uc744 \uc644\uc131\ud574\uc694!",
+    new: "\uc0c8 \uc18c\ud488"
   },
   packs: {
     free: "\uae30\ubcf8 \ud3ec\ud568",

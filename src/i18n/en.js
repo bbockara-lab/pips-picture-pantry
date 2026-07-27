@@ -89,6 +89,8 @@ export const en = {
     progress: "{completed}/{total} cards",
     earnedAria: "{title} badge earned",
     progressAria: "{title} badge progress {completed} of {total}",
+    shelfEmptyHint: "Finish pictures to earn shelf badges.",
+    shelfProgressHint: "{completed} pictures complete - {remaining} more for this badge!",
     earnedShelfAria: "{count} earned badges",
     pipsFirstShelf: "First Shelf Badge",
     pipsFirstShelfDesc: "Pip picture badge complete",
@@ -122,7 +124,11 @@ export const en = {
     currentPicture: "Ready to color",
     solveCurrent: "Solve this picture",
     pictureList: "Pictures",
-    room: "Pip's room"
+    room: "Pip's room",
+    greetingPuzzle: "Shall we solve a puzzle today?",
+    greetingPip: "Pip has been waiting for you!",
+    greetingToday: "Let's finish today's picture!",
+    new: "New"
   },
   playScreen: {
     aria: "Focused puzzle play",

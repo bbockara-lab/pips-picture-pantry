@@ -52,7 +52,13 @@ function createNextBadgeCard(status) {
   title.textContent = t(status.badge.titleKey);
   const meta = document.createElement("small");
   meta.textContent = t("badges.progress", { completed: status.completed, total: status.total });
-  copy.append(title, meta);
+  const hint = document.createElement("small");
+  hint.className = "badge-shelf__hint";
+  const remaining = Math.max(0, status.total - status.completed);
+  hint.textContent = status.completed === 0
+    ? t("badges.shelfEmptyHint")
+    : t("badges.shelfProgressHint", { completed: status.completed, remaining });
+  copy.append(title, meta, hint);
   card.append(token, copy);
   return card;
 }
