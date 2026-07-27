@@ -52,7 +52,10 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     image.dataset.assetId = playArt.assetId;
     play.appendChild(image);
   }
-  appendTextElement(play, "span", "puzzle-home-scene__play-label", t("playScreen.open"));
+  const playLabel = document.createElement("span");
+  playLabel.className = "puzzle-home-scene__play-label";
+  appendTextElement(playLabel, "span", "puzzle-home-scene__play-label-main", t("playScreen.open"));
+  play.appendChild(playLabel);
   play.addEventListener("click", onOpenPuzzle);
 
   const destinations = document.createElement("nav");
@@ -457,6 +460,7 @@ function createUnlockPanel(shelf, onUnlockShelf, onOpenPantry) {
   requirements.appendChild(copy);
   if (roomRequirement.required > 0) {
     appendTextElement(requirements, "p", "unlock-panel__room", t("packs.roomRequirement", roomRequirement));
+    appendTextElement(requirements, "p", "unlock-panel__hint", t("packs.roomRequirementHint"));
   }
 
   const actions = document.createElement("div");

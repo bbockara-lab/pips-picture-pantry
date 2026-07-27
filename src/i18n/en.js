@@ -127,7 +127,7 @@ export const en = {
   playScreen: {
     aria: "Focused puzzle play",
     back: "Menu",
-    open: "Play",
+    open: "Play Now",
     hubNote: "Choose a picture, then open a clean screen just for solving."
   },
   daily: {
@@ -378,6 +378,8 @@ export const en = {
     needPantryRoom: "Decorate the Pantry first",
     visitPantry: "Decorate the Pantry",
     roomRequirement: "Decor {completed}/{required}",
+    roomRequirementHint: "Decorate your pantry room to unlock this stage.",
+    packComplete: "'{title}' complete! Badge earned.",
     "pips-first-shelf": {
       title: "Pip's First Shelf",
       note: "Start with tiny cozy pictures"

@@ -120,7 +120,7 @@ export const ko = {
   playScreen: {
     aria: "\uc9d1\uc911 \ud37c\uc990 \ud654\uba74",
     back: "\uba54\ub274",
-    open: "\ud480\uae30",
+    open: "\uc9c0\uae08 \ud480\uae30",
     hubNote: "\uadf8\ub9bc\uc744 \uace0\ub978 \ub4a4 \ud37c\uc990\ub9cc \ubcf4\uc774\ub294 \ud654\uba74\uc5d0\uc11c \ucc28\ubd84\ud788 \ud480\uc5b4\uc694."
   },
   daily: {
@@ -377,6 +377,8 @@ export const ko = {
     needPantryRoom: "\ud32c\ud2b8\ub9ac \uafb8\ubbf8\uae30 \ud544\uc694",
     visitPantry: "\ud32c\ud2b8\ub9ac \uafb8\ubbf8\ub7ec \uac00\uae30",
     roomRequirement: "\uafb8\ubbf8\uae30 {completed}/{required}",
+    roomRequirementHint: "\ud32c\ud2b8\ub9ac \ubc29\uc5d0\uc11c \uc544\uc774\ud15c\uc744 \uc0ac\uc11c \uafb8\ubbf8\uba74 \uc5f4\ub824\uc694.",
+    packComplete: "'{title}' \uc644\uc131! \ubc30\uc9c0\ub97c \uc5bb\uc5c8\uc5b4\uc694.",
     "pips-first-shelf": {
       title: "Pip의 첫 선반",
       note: "\uc791\uace0 \uc26c\uc6b4 \uccab \uadf8\ub9bc"

@@ -12,7 +12,9 @@ export function renderStageCompleteOverlay(pack, onDismiss = () => {}, completio
   overlay.setAttribute("aria-label", t(isFinalShelf ? "stageComplete.finalAriaLabel" : "stageComplete.ariaLabel"));
 
   const card = document.createElement("section");
-  card.className = "stage-complete-card";
+  // This overlay is created only after markShelfCompletedIfFirst succeeds.
+  // Keep the reward moment here instead of animating an unmounted hub mosaic.
+  card.className = "stage-complete-card stage-complete-card--burst";
   const bonus = Math.max(0, Number(completionResult?.bonus || 0));
 
   const artId = pack.artPackId || pack.id;
@@ -36,6 +38,7 @@ export function renderStageCompleteOverlay(pack, onDismiss = () => {}, completio
   appendTextElement(copy, "p", "stage-complete-eyebrow", t(isFinalShelf ? "stageComplete.finalEyebrow" : "stageComplete.eyebrow"));
   appendTextElement(copy, "h2", "", t(pack.titleKey));
   appendTextElement(copy, "p", "", t(isFinalShelf ? "stageComplete.finalMessage" : "stageComplete.message"));
+  appendTextElement(copy, "p", "stage-complete-badge", t("packs.packComplete", { title: t(pack.titleKey) }));
 
   if (bonus > 0) {
     const bonusLine = document.createElement("p");

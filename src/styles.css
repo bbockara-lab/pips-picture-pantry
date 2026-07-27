@@ -17202,3 +17202,41 @@ img {
     font-size: 0.64rem;
   }
 }
+/* v0.1.616: release-candidate clarity and one-time shelf completion moment. */
+.unlock-panel__hint {
+  margin-top: 2px;
+  color: var(--color-text-secondary, #888);
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.puzzle-home-scene__play-label-main {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@keyframes stage-complete-burst {
+  0% { transform: scale(0.96); filter: brightness(1); }
+  45% { transform: scale(1.02); filter: brightness(1.18) saturate(1.12); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+.stage-complete-card--burst {
+  animation: stage-complete-burst 720ms ease-out both;
+}
+
+.stage-complete-badge {
+  margin: 2px 0 0;
+  color: #7a4e35;
+  font-family: "Jua", ui-rounded, sans-serif;
+  font-size: 0.94rem;
+  line-height: 1.25;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-complete-card--burst {
+    animation: none;
+  }
+}
