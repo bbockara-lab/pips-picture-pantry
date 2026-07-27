@@ -23,6 +23,11 @@ For one room theme, art must be created and approved as a matched set before run
 - Keep slot overlays separated by occlusion order. If one decoration crosses another region, split it into deliberate foreground/background layers instead of relying on CSS z-index luck.
 - Existing decoration thumbnail art is catalog art only. It cannot become a room placement asset by scaling it into the scene.
 
+## Current experimental master
+
+`docs/visual-concepts/pantry-room-sunlit-master-concept-v2.png` is the first fully furnished 1024×1536 reference composition. It is **not** a runtime background and must not be imported by the app. Its only role is to validate the visual destination before any base/overlay extraction begins.
+
+Before promotion, review the master for room anatomy, item scale, visual balance, and the quality of the all-owned state. If it is not strong as a complete room, regenerate the master rather than attempting to rescue it with CSS or per-item placement changes.
 ## Integration contract
 
 - The runtime room renders the approved base WebP, then absolute-positioned alpha overlays using the original master coordinate system.
