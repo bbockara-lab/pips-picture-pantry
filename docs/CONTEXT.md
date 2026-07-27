@@ -1,3 +1,8 @@
+## v0.1.614 - Pantry Slot Switching
+- Tapping a room slot now brings its matching shop choices into view, so owned decorations and new purchases can be swapped without hunting below the room.
+- The persistent slot model remains explicit: an item changes only within its matching room location, while purchase still equips it immediately.
+- Verification: four-width mobile visual QA, Pantry overlay contracts, save behavior, and source hygiene pass.
+
 ## v0.1.613 - Workshop Navigation Hierarchy
 - Rebuilt the Puzzle Room home hierarchy: one large primary play action, five anchored destination icons, and a compact top-right settings/currency control group.
 - Replaced the duplicated primary puzzle icon with the approved fill-control artwork, keeping the picture list icon distinct.

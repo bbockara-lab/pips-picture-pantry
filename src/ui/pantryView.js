@@ -58,7 +58,10 @@ function renderRoomSlot(slot, equippedDecorations, selectedSlotId, onSelectSlot)
     label.textContent = t(slot.titleKey);
     slotElement.appendChild(label);
   }
-  slotElement.addEventListener("click", () => onSelectSlot(selected ? "all" : slot.id));
+  // A room tap is a shortcut into that slot's shop. The list is below the
+  // room on mobile, so bring the available swaps into view instead of leaving
+  // the player to hunt for a second control.
+  slotElement.addEventListener("click", () => onSelectSlot(selected ? "all" : slot.id, { fromRoom: true }));
   return slotElement;
 }
 
@@ -376,12 +379,15 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
     drawDecorations();
   }
 
-  function selectSlot(slotId) {
+  function selectSlot(slotId, { fromRoom = false } = {}) {
     selectedSlotId = slotId || "all";
     pantryViewState.selectedSlotId = selectedSlotId;
     shopVisibleLimit = defaultShopCardLimit;
     pantryViewState.shopVisibleLimit = shopVisibleLimit;
     drawDecorations();
+    if (fromRoom) {
+      shop.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }
 
   function resetFilters() {
