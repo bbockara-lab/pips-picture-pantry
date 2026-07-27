@@ -17156,3 +17156,49 @@ img {
     border-radius: 25px;
   }
 }
+
+/* v0.1.615: earned badges stay as lightweight tokens, never a report card. */
+.badge-shelf {
+  width: fit-content;
+  max-width: calc(100% - 24px);
+  margin: 10px auto 0;
+  padding: 0;
+  gap: clamp(8px, 3vw, 14px);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.badge-shelf__item {
+  gap: 4px;
+}
+
+.badge-shelf__token {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  background: rgba(255, 252, 242, 0.34);
+  box-shadow: 0 3px 8px rgba(85, 57, 38, 0.14);
+  backdrop-filter: blur(3px);
+}
+
+.badge-shelf__item p {
+  max-width: 88px;
+  font-size: 0.68rem;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+
+@media (max-width: 380px) {
+  .badge-shelf {
+    gap: 7px;
+    max-width: calc(100% - 16px);
+  }
+
+  .badge-shelf__item p {
+    max-width: 68px;
+    font-size: 0.64rem;
+  }
+}

@@ -1,3 +1,7 @@
+## v0.1.615 - Earned Badge Lightness
+- Reframed earned badges as lightweight, transparent achievement tokens rather than a separate report-like card.
+- Kept the approved badge art and accessible earned-label copy intact while removing the opaque shelf surface that fought the game background.
+- Verification: source hygiene, responsive mobile geometry, build, and the targeted visual contract pass.
 ## v0.1.614 - Pantry Slot Switching
 - Tapping a room slot now brings its matching shop choices into view, so owned decorations and new purchases can be swapped without hunting below the room.
 - The persistent slot model remains explicit: an item changes only within its matching room location, while purchase still equips it immediately.
