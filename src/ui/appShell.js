@@ -18,7 +18,7 @@ import {
 import { getCozySupportProduct, getSpoonJarSmallProduct, purchaseCozySupportPack, purchaseSpoonJarSmall, restoreCozySupportPack, syncCozySupportEntitlement } from "../game/billing.js";
 import { setLanguagePreference } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
-import { renderBadgeShelf, renderHeader, renderResetDialog } from "./appChrome.js";
+import { renderBadgeShelf, renderResetDialog } from "./appChrome.js";
 import { playStageComplete, setMusicEnabled, setSfxEnabled, startMusic } from "./audio.js";
 import { renderPantryMapView } from "./mapView.js";
 import { renderPantryView } from "./pantryView.js";
@@ -701,9 +701,7 @@ function createShell({
     return shell;
   }
 
-  if (!isWorkshopHome && activeView !== "timeAttack") {
-    shell.appendChild(renderHeader(onRequestSettings, { showSettings: false }));
-  }
+
   if (!hasBlockingOverlay && (activeView !== "puzzle" || puzzleListOpen)) {
     shell.appendChild(renderFloatingNav(activeView, onSelectView));
   }

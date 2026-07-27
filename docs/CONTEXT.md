@@ -1,3 +1,9 @@
+## v0.1.606 - Destination-Specific Screen Ownership
+
+- Removed the shared `핍의 퍼즐방` / app-title header from every non-play destination. Album, stage map, decorating room, Time Attack, and settings now own only their own screen content instead of inheriting the Workshop name.
+- Kept the dedicated puzzle-play HUD separate: it names the actual puzzle being solved rather than branding every screen as the Workshop.
+- Extended four-width mobile QA to fail whenever the retired `.top-bar` reappears after navigating to album, map, decorating room, or Time Attack.
+- Next: complete the full Workshop composition pass (dominant next-puzzle affordance, meaningful cutout hierarchy, and furnished-room progression) without reintroducing global chrome.
 ## v0.1.605 - Workshop Cutout Scale Correction
 
 - Repacked only the v3 runtime WebP files against their alpha bounds. The source PNG archives remain intact; the app now spends its 76px destination target on the visible illustration rather than transparent canvas margin.

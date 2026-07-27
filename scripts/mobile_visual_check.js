@@ -50,7 +50,7 @@ for (const viewport of viewports) {
     await expectVisible(page, ".puzzle-home-scene__currency", viewport.name);
   } else {
     await expectVisible(page, ".currency-pill", viewport.name);
-    await expectAppChromePolish(page, viewport.name);
+    await expectFloatingNavPolish(page, viewport.name);
   }
   await expectPuzzleHomePolish(page, viewport.name);
   await expectResetDialogPolish(page, viewport.name);
@@ -77,18 +77,21 @@ for (const viewport of viewports) {
   await expectTapTargets(page, viewport.name);
 
   await openFloatingView(page, "album");
+  await expectNoSharedScreenHeader(page, viewport.name);
   await expectVisible(page, ".album-panel", viewport.name);
   await expectVisible(page, ".album-stamp", viewport.name);
   await expectAlbumPolish(page, viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
 
   await openFloatingView(page, "map");
+  await expectNoSharedScreenHeader(page, viewport.name);
   await expectVisible(page, ".map-panel", viewport.name);
   await expectVisible(page, ".next-stage-badge", viewport.name);
   await expectMapPolish(page, viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
 
   await openFloatingView(page, "pantry");
+  await expectNoSharedScreenHeader(page, viewport.name);
   await verifyPantryPlacement(page, viewport.name);
 
   await openFloatingView(page, "timeAttack", viewport.name);
@@ -451,69 +454,8 @@ async function expectSettingsDialogPolish(page, viewportName) {
   await page.locator(".settings-close").click();
 }
 
-async function expectAppChromePolish(page, viewportName) {
-  await expectVisible(page, ".top-bar", viewportName);
-  await expectVisible(page, ".header-actions", viewportName);
-  await page.waitForFunction(() => [...document.querySelectorAll(".header-actions .icon-button__raster-art")]
-    .every((image) => image.complete && image.naturalWidth === 256 && image.naturalHeight === 256));
-  const chromeMetrics = await page.evaluate(() => {
-    const topBar = document.querySelector(".top-bar");
-    const currency = document.querySelector(".currency-pill");
-    const settings = document.querySelector(".icon-button--settings");
-    const title = document.querySelector(".title-group h1");
-    const topBarRect = topBar?.getBoundingClientRect();
-    const currencyRect = currency?.getBoundingClientRect();
-    const settingsRect = settings?.getBoundingClientRect();
-    const titleRect = title?.getBoundingClientRect();
-    const style = topBar ? getComputedStyle(topBar) : null;
-    const settingsStyle = settings ? getComputedStyle(settings) : null;
-    const titleStyle = title ? getComputedStyle(title) : null;
-    const settingsBefore = settings ? getComputedStyle(settings, "::before") : null;
-    const settingsAfter = settings ? getComputedStyle(settings, "::after") : null;
-    const settingsArt = settings?.querySelector(".icon-button__raster-art");
-    return {
-      topBarHeight: topBarRect?.height || 0,
-      currencyHeight: currencyRect?.height || 0,
-      titleHeight: titleRect?.height || 0,
-      titleLineHeight: titleStyle ? parseFloat(titleStyle.lineHeight) : 0,
-      titleOverflows: title ? title.scrollWidth > title.clientWidth + 1 : true,
-      borderRadius: style ? parseFloat(style.borderRadius) : 0,
-      backgroundImage: style?.backgroundImage || "",
-      settingsText: (settings?.textContent || "").trim(),
-      settingsWidth: settingsRect?.width || 0,
-      settingsHeight: settingsRect?.height || 0,
-      settingsBackground: settingsStyle?.backgroundImage || "",
-      settingsBeforeContent: settingsBefore?.content || "",
-      settingsAfterContent: settingsAfter?.content || "",
-      settingsAssetId: settingsArt?.dataset.assetId || "",
-      settingsImageNaturalWidth: settingsArt?.naturalWidth || 0,
-      settingsImageNaturalHeight: settingsArt?.naturalHeight || 0,
-      resetInHeader: Boolean(document.querySelector(".top-bar .icon-button--reset"))
-    };
-  });
-  if (
-    chromeMetrics.topBarHeight < 68 ||
-    chromeMetrics.currencyHeight < 36 ||
-    chromeMetrics.titleHeight <= 0 ||
-    chromeMetrics.titleLineHeight <= 0 ||
-    chromeMetrics.titleHeight > chromeMetrics.titleLineHeight * 1.55 ||
-    chromeMetrics.titleOverflows ||
-    chromeMetrics.borderRadius < 12 ||
-    !chromeMetrics.backgroundImage.includes("linear-gradient") ||
-    (chromeMetrics.settingsWidth > 0 && (
-      chromeMetrics.settingsText ||
-      chromeMetrics.settingsWidth < 44 ||
-      chromeMetrics.settingsHeight < 44 ||
-      chromeMetrics.settingsBeforeContent !== "none" ||
-      chromeMetrics.settingsAfterContent !== "none" ||
-      chromeMetrics.settingsAssetId !== "puzzle-control-settings-v1" ||
-      chromeMetrics.settingsImageNaturalWidth !== 256 ||
-      chromeMetrics.settingsImageNaturalHeight !== 256
-    )) ||
-    chromeMetrics.resetInHeader
-  ) {
-    failures.push("[" + viewportName + "] App chrome lost polished HUD/icon treatment: " + JSON.stringify(chromeMetrics));
-  }
+async function expectFloatingNavPolish(page, viewportName) {
+  await expectAbsent(page, ".top-bar", viewportName);
   const trigger = page.locator(".floating-nav__trigger").first();
   if ((await trigger.count()) === 0) {
     return;
@@ -2783,4 +2725,8 @@ async function verifyPantryPlacement(page, viewportName) {
     }
   }
   await expectNoHorizontalOverflow(page, viewportName);
+}
+
+async function expectNoSharedScreenHeader(page, viewportName) {
+  await expectAbsent(page, '.top-bar', viewportName);
 }

@@ -1,41 +1,9 @@
-import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
+
 import { getBadgeArtUrl } from "../data/badgeArt.js";
 import { getEarnedPackBadges } from "../game/badges.js";
-import { getCompletedPuzzleIds, getPantrySpoons } from "../game/save.js";
+import { getCompletedPuzzleIds } from "../game/save.js";
 import { t } from "../i18n/index.js";
 import { appendPuzzleControlArt } from "./puzzleControlArt.js";
-
-export function renderHeader(onSettings, options = {}) {
-  const { showSettings = true } = options;
-  const header = document.createElement("header");
-  header.className = "top-bar";
-
-  const titleGroup = document.createElement("div");
-  titleGroup.className = "title-group";
-  appendTextElement(titleGroup, "h1", "", t("app.title"));
-
-  const actions = document.createElement("div");
-  actions.className = "header-actions";
-
-  const currency = document.createElement("p");
-  currency.className = "currency-pill";
-  currency.append(createSpoonIcon(), document.createTextNode(String(getPantrySpoons())));
-  currency.setAttribute("aria-label", t("currency.spoons", { count: getPantrySpoons() }));
-
-  actions.append(currency);
-  if (showSettings) {
-    const settingsButton = document.createElement("button");
-    settingsButton.className = "icon-button icon-button--settings";
-    settingsButton.type = "button";
-    settingsButton.title = t("header.settings");
-    settingsButton.setAttribute("aria-label", t("header.settings"));
-    appendPuzzleControlArt(settingsButton, "settings", "icon-button__raster-art");
-    settingsButton.addEventListener("click", onSettings);
-    actions.appendChild(settingsButton);
-  }
-  header.append(titleGroup, actions);
-  return header;
-}
 
 export function renderBadgeShelf() {
   const earnedBadges = getEarnedPackBadges(getCompletedPuzzleIds());
@@ -94,15 +62,6 @@ export function renderResetDialog(onCancel, onConfirm) {
   dialog.appendChild(actions);
   overlay.appendChild(dialog);
   return overlay;
-}
-
-export function createSpoonIcon(size = "") {
-  const icon = document.createElement("img");
-  icon.className = size ? `spoon-icon ${size}` : "spoon-icon";
-  icon.src = spoonTokenUrl;
-  icon.alt = "";
-  icon.setAttribute("aria-hidden", "true");
-  return icon;
 }
 
 function appendTextElement(parent, tagName, className, text) {
