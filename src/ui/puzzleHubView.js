@@ -6,6 +6,7 @@ import { ECONOMY } from "../data/economyConfig.js";
 import { canUnlockShelf, getCompletedPuzzleIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
+import { getPreviousSeasonShelf } from "../game/seasonShelfProgress.js";
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -245,6 +246,30 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockShelf
       return;
     }
     if (!unlocked) {
+      // Keep the next reachable shelf visible. Hiding every locked shelf made
+      // the stage path appear to end after a player finished the previous one.
+      const previousShelf = getPreviousSeasonShelf(shelf);
+      const previousComplete = Boolean(previousShelf)
+        && getSeasonShelfPuzzles(previousShelf).every((puzzle) => completedPuzzleIdSet.has(puzzle.id));
+      if (!previousComplete) {
+        return;
+      }
+
+      const lockedBlock = document.createElement("article");
+      lockedBlock.className = "pack-block pack-block--locked";
+      lockedBlock.dataset.shelfId = shelf.id;
+      lockedBlock.dataset.locked = "true";
+
+      const lockedHeader = document.createElement("div");
+      lockedHeader.className = "pack-header";
+      appendTextElement(lockedHeader, "p", "section-label", t(shelf.titleKey));
+
+      lockedBlock.append(
+        lockedHeader,
+        createStagePreview(shelf, 0, shelfPuzzles.length),
+        createUnlockPanel(shelf, onUnlockShelf, onOpenPantry)
+      );
+      section.appendChild(lockedBlock);
       return;
     }
     const packBlock = document.createElement("article");

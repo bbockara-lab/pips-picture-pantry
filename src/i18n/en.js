@@ -484,6 +484,7 @@ export const en = {
     equip: "Equip",
     equipToSlot: "Place in {slot}",
     buy: "Buy",
+    replaceItem: "Replace",
     needMore: "Need {count} spoons",
     addSpoons: "Add spoons",
     free: "Starter",

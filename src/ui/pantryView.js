@@ -142,8 +142,10 @@ function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, story
       onRefresh?.();
     });
   } else {
+    const slotOccupied = Boolean(equippedDecorations[decoration.slot])
+      && equippedDecorations[decoration.slot] !== decoration.id;
     button.textContent = affordable
-      ? t("pantry.buy")
+      ? (slotOccupied ? t("pantry.replaceItem") : t("pantry.buy"))
       : t("pantry.addSpoons", { count: Math.max(0, decoration.cost - spoons) });
     button.addEventListener("click", () => {
       if (!affordable) {

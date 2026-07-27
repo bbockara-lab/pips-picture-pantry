@@ -1,3 +1,9 @@
+## v0.1.608 - Reachable Progress and Pantry Switching
+
+- Added the missing earned-badge shelf layout so stage badges render at controlled, responsive dimensions instead of their source-image size.
+- The puzzle list now reveals exactly the next locked shelf after its predecessor is complete, reusing the existing cost, pantry-progress, and open-stage controls rather than ending the visible route.
+- Pantry offers now say `Replace` when a purchasable item will replace the current decoration in that room slot; owned items remain separately reachable for re-equipping.
+- Verification: full qa:candidate passes: 175 tests, catalog and art audits, source hygiene, 174-asset manifest, store checks, billing configuration, production build, Android release gate, and mobile visual QA at 360x740 / 390x844 / 430x932 / 675x900. Real-device Billing evidence remains external.
 ## v0.1.607 - Core Play-Flow Repairs
 
 - Time Attack now starts every round from a fresh transient board, advances through all three rounds without reading or overwriting normal puzzle progress, and returns to its own results/records path only after the run ends.

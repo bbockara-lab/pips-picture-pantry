@@ -483,6 +483,7 @@ export const ko = {
     equip: "장착하기",
     equipToSlot: "{slot}에 놓기",
     buy: "구매하기",
+    replaceItem: "교체하기",
     needMore: "스푼 {count}개 부족",
     addSpoons: "스푼 채우기",
     free: "기본",
