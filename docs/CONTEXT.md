@@ -1,8 +1,8 @@
 ## v0.1.616 - Final Approval Candidate Clarity
 - Added the missing Pantry-decoration hint beneath the locked-stage requirement so the next action is explicit.
-- Renamed and structurally separated the primary Puzzle CTA from its picture icon: 지금 풀기 / Play Now.
+- Renamed and structurally separated the primary Puzzle CTA from its picture icon: Solve now / Play Now.
 - Added a one-time shelf-completion burst and badge-earned line to the existing mounted completion overlay; this avoids trying to animate an unmounted Puzzle-list mosaic.
-- Verification in progress: focused release-clarity tests, syntax checks, mobile QA, and full candidate gate.
+- Verification: focused release-clarity tests, mobile QA, and the full candidate gate passed. An upload-key-signed internal-test AAB was rebuilt at Android versionCode 28 / versionName 1.1.0; it is for real-device Billing evidence only, not production submission.
 ## v0.1.615 - Earned Badge Lightness
 - Reframed earned badges as lightweight, transparent achievement tokens rather than a separate report-like card.
 - Kept the approved badge art and accessible earned-label copy intact while removing the opaque shelf surface that fought the game background.
