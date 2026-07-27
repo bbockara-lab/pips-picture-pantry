@@ -1,18 +1,18 @@
-import puzzleUrl from "../assets/icons/workshop-nav-v2/workshop-nav-puzzle-v2.webp";
-import albumUrl from "../assets/icons/workshop-nav-v2/workshop-nav-album-v2.webp";
-import pantryUrl from "../assets/icons/workshop-nav-v2/workshop-nav-pantry-v2.webp";
-import timeAttackUrl from "../assets/icons/workshop-nav-v2/workshop-nav-time-attack-v2.webp";
-import mapUrl from "../assets/icons/workshop-nav-v2/workshop-nav-map-v2.webp";
-import settingsUrl from "../assets/icons/workshop-nav-v2/workshop-nav-settings-v2.webp";
+import puzzleUrl from "../assets/icons/workshop-nav-v3/workshop-nav-puzzle-v3.webp";
+import albumUrl from "../assets/icons/workshop-nav-v3/workshop-nav-album-v3.webp";
+import pantryUrl from "../assets/icons/workshop-nav-v3/workshop-nav-pantry-v3.webp";
+import timeAttackUrl from "../assets/icons/workshop-nav-v3/workshop-nav-time-attack-v3.webp";
+import mapUrl from "../assets/icons/workshop-nav-v3/workshop-nav-map-v3.webp";
+import settingsUrl from "../assets/icons/workshop-nav-v3/workshop-nav-settings-v3.webp";
 import { isRuntimeQuickTravelArtApproved } from "./runtimeArt.js";
 
 const QUICK_TRAVEL_ART = {
-  puzzle: { assetId: "workshop-nav-puzzle-v2", src: puzzleUrl },
-  album: { assetId: "workshop-nav-album-v2", src: albumUrl },
-  pantry: { assetId: "workshop-nav-pantry-v2", src: pantryUrl },
-  timeAttack: { assetId: "workshop-nav-time-attack-v2", src: timeAttackUrl },
-  map: { assetId: "workshop-nav-map-v2", src: mapUrl },
-  settings: { assetId: "workshop-nav-settings-v2", src: settingsUrl }
+  puzzle: { assetId: "workshop-nav-puzzle-v3", src: puzzleUrl },
+  album: { assetId: "workshop-nav-album-v3", src: albumUrl },
+  pantry: { assetId: "workshop-nav-pantry-v3", src: pantryUrl },
+  timeAttack: { assetId: "workshop-nav-time-attack-v3", src: timeAttackUrl },
+  map: { assetId: "workshop-nav-map-v3", src: mapUrl },
+  settings: { assetId: "workshop-nav-settings-v3", src: settingsUrl }
 };
 
 export function getQuickTravelArt(view) {

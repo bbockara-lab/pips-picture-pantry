@@ -220,7 +220,7 @@ for (const [file, pattern] of retiredGlobalCatalogCountSources) {
 }
 
 const timeAttackNavigationArt = readFileSync(resolve(root, "src/data/quickTravelArt.js"), "utf8");
-if (!(timeAttackNavigationArt.includes("quick-travel-time-attack-clock-v1") || timeAttackNavigationArt.includes("workshop-nav-time-attack-v2")) || timeAttackNavigationArt.includes("quick-travel-time-attack-v1.png")) {
+if (!(timeAttackNavigationArt.includes("quick-travel-time-attack-clock-v1") || timeAttackNavigationArt.includes("workshop-nav-time-attack-v3")) || timeAttackNavigationArt.includes("quick-travel-time-attack-v1.png")) {
   errors.push("src/data/quickTravelArt.js: Time Attack must use Mr. Park's aura-free pocket watch artwork");
 }
 

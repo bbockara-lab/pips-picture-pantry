@@ -1592,9 +1592,9 @@ export const assetRegistry = [
     ["map", "Achievement map sticker"],
     ["settings", "Workshop settings sticker"]
   ].map(([view, label]) => ({
-    id: `workshop-nav-${view}-source-v2`,
+    id: `workshop-nav-${view}-source-v3`,
     usage: "navigation-icon-source",
-    path: `src/assets/icons/workshop-nav-v2/workshop-nav-${view}-v2.png`,
+    path: `src/assets/icons/workshop-nav-v3/workshop-nav-${view}-v3.png`,
     sourceType: "raster",
     approval: "source-archived",
     visible: false,
@@ -1610,9 +1610,9 @@ export const assetRegistry = [
     ["map", "Achievement map sticker"],
     ["settings", "Workshop settings sticker"]
   ].map(([view, label]) => ({
-    id: `workshop-nav-${view}-v2`,
+    id: `workshop-nav-${view}-v3`,
     usage: "navigation-icon",
-    path: `src/assets/icons/workshop-nav-v2/workshop-nav-${view}-v2.webp`,
+    path: `src/assets/icons/workshop-nav-v3/workshop-nav-${view}-v3.webp`,
     sourceType: "raster",
     approval: "approved",
     visible: true,

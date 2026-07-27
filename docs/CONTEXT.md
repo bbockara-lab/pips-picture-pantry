@@ -1,3 +1,9 @@
+## v0.1.604 - Workshop Cutout Art Replacement
+
+- Replaced the Workshop navigation source art with a new v3 set whose corners are verified transparent and whose white outline follows each object rather than forming a CSS plate. The six destinations now use one coherent native cutout system: puzzle card, album, pantry jar, Clock Grandpa pocket watch, badge map, and settings gear.
+- Routed the v3 IDs through manifest, runtime allowlist, shared floating navigation, and four-width visual QA expectations together. Removed the last unused puzzle-control import from the navigation route.
+- Recorded the Pantry room-art pipeline as a separate art-production contract: complete furnished master scene first, then a clean room base and matching alpha overlays. Current room coordinates remain intentionally frozen until that input exists.
+- Next: inspect the v3 artwork in the full visual review pack before any screen-level geometry changes; follow it with the full candidate gate. Real-device Billing evidence remains the only external release blocker.
 ## v0.1.603 - UI Rework v2 Integration
 
 - Adopted the integrated UI-rework contract: the Workshop keeps direct cutout destination art and one primary play action, while Time Attack and all non-play destinations share a quiet warm surface.

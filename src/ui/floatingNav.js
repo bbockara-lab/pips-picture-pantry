@@ -1,6 +1,5 @@
 import { t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
-import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
 
 const NAV_ITEMS = [
   ["puzzle", "home.sceneAria"],

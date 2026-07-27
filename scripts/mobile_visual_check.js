@@ -1537,7 +1537,7 @@ async function expectPuzzleHomePolish(page, viewportName) {
     };
   });
   const expected = ["puzzle", "album", "pantry", "timeAttack", "map", "settings"];
-  const expectedAssets = { puzzle: "workshop-nav-puzzle-v2", album: "workshop-nav-album-v2", pantry: "workshop-nav-pantry-v2", timeAttack: "workshop-nav-time-attack-v2", map: "workshop-nav-map-v2", settings: "workshop-nav-settings-v2" };
+  const expectedAssets = { puzzle: "workshop-nav-puzzle-v3", album: "workshop-nav-album-v3", pantry: "workshop-nav-pantry-v3", timeAttack: "workshop-nav-time-attack-v3", map: "workshop-nav-map-v3", settings: "workshop-nav-settings-v3" };
   const hasStaleDestinationTreatment = metrics.destinationArt.some((art) => art.assetId !== expectedAssets[art.id] || art.backgroundColor !== "rgba(0, 0, 0, 0)" || art.borderTopWidth !== "0px" || art.boxShadow !== "none");
   if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.playOutsideScene || !metrics.playLargeEnough || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.labelsVisible || metrics.playAssetId !== expectedAssets.puzzle || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
     failures.push("[" + viewportName + "] Puzzle workshop home/direct destinations regressed: " + JSON.stringify(metrics));
