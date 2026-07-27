@@ -375,9 +375,9 @@ export const en = {
     futurePackHint: "Future optional sets are hidden until the pantry decoration economy is ready.",
     comingSoon: "Coming soon",
     needMore: "Need {count} more",
-    needPantryRoom: "Need pantry story",
-    visitPantry: "Go to Pantry",
-    roomRequirement: "Pantry decor {completed}/{required}",
+    needPantryRoom: "Decorate the Pantry first",
+    visitPantry: "Decorate the Pantry",
+    roomRequirement: "Decor {completed}/{required}",
     "pips-first-shelf": {
       title: "Pip's First Shelf",
       note: "Start with tiny cozy pictures"

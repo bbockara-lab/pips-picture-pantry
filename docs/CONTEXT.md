@@ -1,3 +1,7 @@
+## v0.1.612 - Clear Stage Gate
+- Simplified Pantry-gated stage copy to describe the actual action: decorate the Pantry, then continue.
+- Removed the misleading story requirement wording and kept the unlock requirement compact at every supported width.
+
 ## v0.1.611 - Pantry Overlay Matte Repair
 
 - Reprocessed all 25 master-coordinate Pantry overlays after detecting residual chroma-magenta pixels from generated source mattes.
