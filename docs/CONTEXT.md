@@ -1,3 +1,8 @@
+## v0.1.605 - Workshop Cutout Scale Correction
+
+- Repacked only the v3 runtime WebP files against their alpha bounds. The source PNG archives remain intact; the app now spends its 76px destination target on the visible illustration rather than transparent canvas margin.
+- This directly protects the Workshop hierarchy: the primary Play action remains largest, while Puzzle/Album/Pantry/Clock Grandpa/Badge/Settings are discoverable cutouts instead of tiny marks in a large hit area.
+- Next: rerun the four-width mobile check and visual review pack before requesting a new player-facing visual pass.
 ## v0.1.604 - Workshop Cutout Art Replacement
 
 - Replaced the Workshop navigation source art with a new v3 set whose corners are verified transparent and whose white outline follows each object rather than forming a CSS plate. The six destinations now use one coherent native cutout system: puzzle card, album, pantry jar, Clock Grandpa pocket watch, badge map, and settings gear.
