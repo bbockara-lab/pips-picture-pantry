@@ -1,3 +1,10 @@
+## v0.1.610 - Pantry Room v2 Master Overlay Pipeline
+
+- Replaced the v1 room path that visually placed independent shop thumbnails over a background with a master-derived room base plus 25 transparent full-canvas overlays.
+- The active `sunlit-v2` base is an empty 1024x1536 Pantry room. Counter (6), window (5), shelf (5), floor (4), and back-wall (5) items now render only through their approved perspective-safe overlay counterpart.
+- The room no longer relies on responsive per-item CSS coordinates: each overlay preserves its canonical master coordinate system at every viewport, while the original catalog art remains shop-only.
+- Added asset-manifest approval records and a unit contract requiring all 25 purchasable decorations to resolve to a v2 overlay. Base/overlay dimension and alpha checks pass locally.
+- Verification: 178 unit tests, 201-asset manifest QA, production build, Android release gate, four-width mobile QA, and the full candidate gate pass. The 64-frame v0.1.610 visual-review pack was regenerated, including the Pantry room/shop state. Real-device Billing purchase/restore and repeat-purchase evidence remain external release work.
 ## v0.1.609 - Large Board Guide Boundaries
 
 - Added tactile board separators only where they improve play: no divider on 5x5, one centered vertical/horizontal boundary on 8x8 and 10x10, and 4-cell boundaries on 12x12.

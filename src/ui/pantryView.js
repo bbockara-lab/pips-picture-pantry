@@ -1,6 +1,7 @@
 import { getApprovedPantryDecorations, getDecorationById, pantrySlots } from "../data/decorations.js";
 import { getDecorationArtUrl } from "../data/decorationArt.js";
-import pantryRoomBackgroundUrl from "../assets/backgrounds/pantry-room-sunlit-v1.webp";
+import { getPantryOverlayUrl } from "../data/pantryOverlayArt.js";
+import pantryRoomBackgroundUrl from "../assets/backgrounds/pantry-room-sunlit-v2.webp";
 import {
   buyDecoration,
   equipDecoration,
@@ -42,21 +43,13 @@ function replaceWithOptional(parent, ...nodes) {
 
 function renderRoomSlot(slot, equippedDecorations, selectedSlotId, onSelectSlot) {
   const decoration = getDecorationById(equippedDecorations[slot.id]);
-  const artUrl = decoration ? getDecorationArtUrl(decoration.assetId) : "";
+  const overlayUrl = decoration ? getPantryOverlayUrl(decoration.assetId) : "";
   const selected = selectedSlotId === slot.id;
   const slotElement = document.createElement("button");
-  slotElement.className = "pantry-room-slot slot-" + slot.id + " " + (artUrl ? "filled" : "empty") + " " + (selected ? "selected" : "");
+  slotElement.className = "pantry-room-slot slot-" + slot.id + " " + (overlayUrl ? "filled" : "empty") + " " + (selected ? "selected" : "");
   slotElement.type = "button";
   slotElement.setAttribute("aria-pressed", String(selected));
   slotElement.setAttribute("aria-label", t("pantry.slotAction", { slot: t(slot.titleKey) }));
-
-  if (artUrl) {
-    const image = document.createElement("img");
-    image.className = "pantry-room-decoration";
-    image.src = artUrl;
-    image.alt = t(decoration.titleKey);
-    slotElement.appendChild(image);
-  }
 
   if (decoration) {
     slotElement.dataset.decoration = decoration.id;
@@ -67,6 +60,24 @@ function renderRoomSlot(slot, equippedDecorations, selectedSlotId, onSelectSlot)
   }
   slotElement.addEventListener("click", () => onSelectSlot(selected ? "all" : slot.id));
   return slotElement;
+}
+
+function renderRoomOverlays(equippedDecorations) {
+  const layer = document.createElement("div");
+  layer.className = "pantry-room-overlays";
+  layer.setAttribute("aria-hidden", "true");
+  pantrySlots.forEach((slot) => {
+    const decoration = getDecorationById(equippedDecorations[slot.id]);
+    const overlayUrl = decoration ? getPantryOverlayUrl(decoration.assetId) : "";
+    if (!overlayUrl) return;
+    const image = document.createElement("img");
+    image.className = "pantry-room-overlay";
+    image.dataset.slot = slot.id;
+    image.src = overlayUrl;
+    image.alt = "";
+    layer.appendChild(image);
+  });
+  return layer;
 }
 
 function compareDecorations(left, right, ownedIds, equippedDecorations, spoons) {
@@ -277,6 +288,7 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
 
   function drawDecorations() {
     room.replaceChildren();
+    room.appendChild(renderRoomOverlays(equippedDecorations));
     pantrySlots.forEach((slot) => {
       room.appendChild(renderRoomSlot(slot, equippedDecorations, selectedSlotId, selectSlot));
     });

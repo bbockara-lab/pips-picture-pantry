@@ -2,6 +2,16 @@
 
 Status: **experimental art production contract**. This document deliberately does not authorize more CSS coordinate tuning of the current room.
 
+## v2 implementation status (2026-07-27)
+
+The `sunlit-v2` set is now wired for runtime review:
+
+- `src/assets/backgrounds/pantry-room-sunlit-v2.webp` is the approved 1024x1536 empty-room base; its PNG is archived as source art.
+- `src/assets/backgrounds/overlays/room-v2-*.png` contains 25 transparent 1024x1536, master-coordinate overlays: six counter, five window, five shelf, four floor, and five back-wall alternatives.
+- The runtime selects exactly one full-canvas overlay per equipped slot. The images carry the authored perspective and object shadow themselves; responsive CSS only fills the common canvas and does not tune per-item coordinates.
+- The Pantry catalog IDs still govern ownership, price, and placement. A purchasable item is not rendered in the room unless it has one of these approved v2 overlays.
+
+The old v1 thumbnail-on-room placement path is retired from `pantryView.js`. Automated verification passed at 360x740, 390x844, 430x932, and 675x900, and the v0.1.610 visual-review pack contains the current Pantry capture. The next manual art pass should still exercise empty, starter-only, each individual equipped slot, and the all-owned room before any future theme is promoted.
 ## Product intent
 
 The Pantry is a room that becomes more complete as Pip earns and buys furnishings. It must never read as a base background with unrelated product thumbnails floating above it. A purchase should look as though its object has returned to the place where it always belonged.
@@ -46,4 +56,4 @@ Before an art theme is enabled:
 
 ## Current decision
 
-The existing `pantry-room-sunlit-v1` background remains live, but its product thumbnail placements are not eligible for further coordinate refinement. This is intentional until a matching master/base/overlay set is available.
+The previous `pantry-room-sunlit-v1` thumbnail placement is no longer a runtime path. `sunlit-v2` is the active review candidate; any future decoration must receive a matching full-canvas overlay before it can render in the room.

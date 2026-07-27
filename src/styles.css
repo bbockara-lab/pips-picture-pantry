@@ -16971,3 +16971,31 @@ img {
   .badge-shelf { gap: 8px; padding-inline: 10px; }
   .badge-shelf__token { width: 56px; height: 56px; }
 }
+/* v0.1.610: full-canvas Pantry overlays use master-derived coordinates. */
+.pantry-room-overlays {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.pantry-room-overlay {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: fill;
+  filter: none;
+}
+
+.pantry-room-slot {
+  z-index: 1;
+}
+
+.pantry-room-slot.filled.selected::after {
+  content: none !important;
+  display: none !important;
+}

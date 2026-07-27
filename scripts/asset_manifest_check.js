@@ -81,8 +81,8 @@ assertRuntimeBackground({
   runtimeFile: "src/ui/puzzleHubView.js"
 });
 assertRuntimeBackground({
-  id: "pantry-room-sunlit-v1",
-  sourceId: "pantry-room-sunlit-source-v1",
+  id: "pantry-room-sunlit-v2",
+  sourceId: "pantry-room-sunlit-source-v2",
   usage: "pantry-room-background",
   runtimeSource: pantryViewSource,
   runtimeFile: "src/ui/pantryView.js"
