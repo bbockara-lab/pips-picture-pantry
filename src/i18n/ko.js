@@ -54,6 +54,7 @@ export const ko = {
     guideReplayTitle: "Pip\uc758 \uac00\uc774\ub4dc",
     guideReplayAction: "Pip 가이드 보기",
     guideReplayPuzzleAction: "그림 가이드",
+    guideReplayMapAction: "\uBC30\uC9C0 \uAC00\uC774\uB4DC",
     guideReplayTimeAttackAction: "타임어택 가이드",
     spoonStoreTitle: "\uc2a4\ud47c \ub354 \ucc44\uc6b0\uae30",
     supportTitle: "Pip \uc751\uc6d0\ud329",
@@ -203,18 +204,25 @@ export const ko = {
     next: "다음",
     done: "\uC790, \uAC00\uBCF4\uC790!",
     puzzle: {
+      speakerName: "Pip",
       title: "첫 그림은 제가 옆에서 함께 풀어볼게요",
-      step1: "숫자는 이 줄에서 이어 칠할 칸 수예요. 먼저 5를 같이 해볼까요?",
+      step1: "어서 와요! 저는 Pip이에요. 함께 그림을 완성해 봐요!",
       step2: "5는 다섯 칸이 모두 이어진다는 뜻이에요. 손가락으로 한 번에 쭉 칠해보세요.",
       step3: "1 1 1은 한 칸씩 세 묶음이에요. 각 묶음 사이는 꼭 한 칸 이상 비워요."
     },
     timeAttack: {
-      title: "빠른 도전도 제가 함께할게요",
-      step1: "\uBB34\uC791\uC704 \uD37C\uC990 \uC138 \uD310\uC744 \uCC28\uB840\uB85C \uD480\uC5B4\uC694.",
-      step2: "\uB9C9\uD790 \uB54C\uB9CC \uD78C\uD2B8\uB97C \uACE8\uB77C\uC694.",
-      step3: "\uC624\uB298 \uAE30\uB85D\uC744 \uD55C \uCE78 \uB354 \uB192\uC5EC\uBCFC\uAE4C\uC694?"
+      speakerName: "시계 할아버지",
+      title: "\uC2DC\uACC4 \uD560\uC544\uBC84\uC9C0\uC758 \uBE60\uB978 \uB3C4\uC804",
+      step1: "허허, 잘 왔어요! 저는 시계 할아버지예요. 이제 타임어택을 설명해 드릴게요!",
+      step2: "\uC2DC\uAC04\uC774 \uBD80\uC871\uD560 \uB550 \uD78C\uD2B8 \uD558\uB098\uAC00 \uD310\uC744 \uAD6C\uD560 \uC218 \uC788\uC5B4\uC694.",
+      step3: "\uC5BC\uB9C8\uB098 \uBE60\uB978\uC9C0 \uD55C\uBC88 \uBD10\uBCFC\uAE4C\uC694?"
     },
-    pantryFirstPurchase: {
+    map: {
+      speakerName: "Pip",
+      step1: "어머, 배지 선반이에요! 그림을 완성할수록 배지가 쌓여요.",
+      step2: "\uD55C \uC138\uD2B8\uB97C \uB2E4 \uCC44\uC6B0\uBA74 \uBC30\uC9C0\uC5D0 \uBD88\uC774 \uB4E4\uC5B4\uC640\uC694.",
+      step3: "\uD32C\uD2B8\uB9AC\uAC00 \uCC44\uC6CC\uC9C8\uC218\uB85D \uC120\uBC18\uB3C4 \uD568\uAED8 \uBE5B\uB098\uC694."
+    },    pantryFirstPurchase: {
       title: "제가 첫 장식 자리를 보여줄게요",
       step1: "\uC88B\uC740 \uC120\uD0DD\uC774\uC5D0\uC694. \uAC00\uC7A5 \uC5B4\uC6B8\uB9AC\uB294 \uC790\uB9AC\uB97C \uCC3E\uC544\uBCFC\uAE4C\uC694?",
       step2: "\uC790\uB9AC\uB97C \uB204\uB974\uBA74 \uC7A5\uC2DD\uC744 \uBC14\uAFC0 \uC218 \uC788\uC5B4\uC694.",
@@ -362,9 +370,15 @@ export const ko = {
     currentPicture: "\uc9c0\uae08 \ud480 \uadf8\ub9bc",
     pictureList: "\uadf8\ub9bc \ubaa9\ub85d",
     room: "\uafb8\ubbf8\uae30 \ubc29",
-    greetingPuzzle: "\uc624\ub298\ub3c4 \ud37c\uc990 \ud480\uc5b4\ubcfc\uae4c\uc694?",
-    greetingPip: "\ud54d\uc774 \uae30\ub2e4\ub9ac\uace0 \uc788\uc5c8\uc5b4\uc694!",
-    greetingToday: "\uc624\ub298\uc758 \uadf8\ub9bc\uc744 \uc644\uc131\ud574\uc694!",
+    greetingMessages: {
+      0: "\uadf8\ub9bc \ud558\ub098 \ud480\uc5b4\ubcfc\uae4c\uc694?",
+      1: "\ud3ec\uadfc\ud55c \uadf8\ub9bc\uc744 \ub9cc\ub4e4\uc5b4\uc694!",
+      2: "\ud55c \uce78\uc529 \ucc9c\ucc9c\ud788!",
+      3: "\uc624\ub298\uc740 \ubb34\uc5c7\uc774 \ub098\uc62c\uae4c\uc694?",
+      4: "\ud54d\uc774 \uc790\ub9ac\ub97c \ube44\uc6cc \ub450\uc5c8\uc5b4\uc694!",
+      5: "\uc7ac\ubbf8\uc788\uac8c \ucc44\uc6cc\ubd10\uc694!",
+      6: "\uc0c8 \uadf8\ub9bc\uc774 \uae30\ub2e4\ub824\uc694!"
+    },
     new: "\uc0c8 \uc18c\ud488",
     pantryLabel: "\ud32c\ud2b8\ub9ac \uafb8\ubbf8\uae30",
     timeAttackLabel: "\ud0c0\uc784\uc5b4\ud0dd",

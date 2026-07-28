@@ -16497,7 +16497,7 @@ img {
 .floating-nav {
   position: fixed;
   right: max(14px, env(safe-area-inset-right));
-  bottom: max(14px, env(safe-area-inset-bottom));
+  bottom: calc(max(14px, env(safe-area-inset-bottom)) + 16px);
   z-index: 30;
   width: 56px;
   margin: 0;
@@ -17277,7 +17277,7 @@ img {
 .guide-dialog__actions { margin-top: 24px !important; }
 .guide-dialog__actions .button { min-height: 52px; }
 .settings-language-group { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-.settings-language-group > * { min-width: 0; padding: 10px 6px !important; font-size: clamp(.78rem, 3vw, .9rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.settings-language-group > * { min-width: 0; padding: 10px 6px 10px 30px !important; font-size: clamp(.78rem, 3vw, .9rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .app-shell--workshop-home .puzzle-home-scene__greeting {
   position: absolute; z-index: 3; top: 11%; left: 50%; transform: translateX(-50%);
   width: min(72%, 310px); margin: 0; padding: 9px 14px; border: 2px solid rgba(255,255,255,.88);
@@ -17321,8 +17321,8 @@ img {
   transform: translateX(-50%);
 }
 .app-shell--workshop-home .puzzle-home-scene__greeting-pip {
-  width: clamp(28px, 7vw, 40px);
-  height: auto;
+  width: clamp(90px, 22vw, 120px) !important;
+  height: auto !important;
   flex: 0 0 auto;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
 }
@@ -17714,4 +17714,150 @@ img {
 /* v0.1.619: guide dialogue card clips legacy descendant overflow. */
 .guide-dialog__bubble {
   overflow: hidden !important;
+}
+/* v0.1.622 */
+.guide-overlay {
+  justify-content: center !important;
+  padding: 48px 0 max(48px, env(safe-area-inset-bottom)) !important;
+}
+
+.hub-greeting-pip {
+  width: 160px !important;
+  height: 160px !important;
+  object-fit: contain !important;
+  flex-shrink: 0 !important;
+}
+
+.hub-greeting-bubble {
+  background: #fff !important;
+  border-radius: 16px 16px 16px 4px !important;
+  padding: 10px 14px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10) !important;
+  font-size: 0.95rem !important;
+  line-height: 1.4 !important;
+  color: #4a3728 !important;
+}
+
+.hub-greeting-wrap {
+  display: flex !important;
+  align-items: flex-end !important;
+  pointer-events: none !important;
+  gap: 8px !important;
+  padding: 12px 16px !important;
+}
+
+/* v0.1.624: keep content-panel surfaces inset from their outer frame. */
+.pantry-panel {
+  padding: 14px;
+}
+
+.pantry-room {
+  margin-bottom: 10px;
+}
+
+.time-attack-panel {
+  padding: 14px;
+}
+/* v0.1.625: make Play Now easier to reach and discover on first entry. */
+.floating-nav {
+  bottom: calc(max(14px, env(safe-area-inset-bottom)) + 32px);
+  width: 80px;
+}
+
+.floating-nav__trigger {
+  width: 80px;
+  min-width: 80px;
+  min-height: 80px;
+  height: 80px;
+  padding: 8px;
+}
+
+.floating-nav__trigger-icon {
+  width: 60px;
+  height: 60px;
+}
+
+@keyframes nav-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 193, 60, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(255, 193, 60, 0);
+  }
+}
+
+.floating-nav__trigger--pulse {
+  animation: nav-pulse 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-nav__trigger--pulse {
+    animation: none;
+  }
+}
+/* v0.1.625: character-led guide dialogue treatment. */
+.guide-dialog__name-tag {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: rgba(255, 248, 220, 0.95);
+  border: 2px solid rgba(61, 43, 46, 0.18);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #4a3728;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.guide-dialog--puzzle .guide-dialog__bubble,
+.guide-dialog--timeAttack .guide-dialog__bubble,
+.guide-dialog--map .guide-dialog__bubble {
+  margin-top: -24px !important;
+  padding-top: 32px !important;
+}
+
+.guide-dialog--puzzle .guide-dialog__art img,
+.guide-dialog--map .guide-dialog__art img {
+  height: clamp(180px, 36vh, 240px) !important;
+}
+/* v0.1.625: keep marked-cell glyphs centered in every board mode. */
+.puzzle-cell.marked,
+.puzzle-cell.safe-suggestion {
+  display: grid !important;
+  place-items: center !important;
+}
+/* v0.1.626 — guide name tag, bubble overlap, marked cell X centering */
+.guide-dialog__name-tag {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: rgba(255, 248, 220, 0.95);
+  border: 2px solid rgba(61, 43, 46, 0.18);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #4a3728;
+  white-space: nowrap;
+  margin: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.guide-dialog__art {
+  position: relative;
+}
+
+.guide-dialog__bubble {
+  margin-top: -20px !important;
+  padding-top: 28px !important;
+}
+
+.puzzle-cell.marked {
+  display: grid !important;
+  place-items: center !important;
 }

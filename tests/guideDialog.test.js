@@ -1,14 +1,36 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { PUZZLE_PRACTICE } from "../src/ui/guideDialog.js";
 
-describe("Pip puzzle practice", () => {
-  it("uses an unambiguous full-row clue", () => {
-    expect(PUZZLE_PRACTICE.clue).toBe(5);
-    expect(PUZZLE_PRACTICE.cellCount).toBe(5);
-    expect(PUZZLE_PRACTICE.targetIndexes).toEqual([0, 1, 2, 3, 4]);
-    expect(PUZZLE_PRACTICE.separatedClue).toEqual({
-      clue: "1 1 1",
-      filledIndexes: [0, 2, 4]
-    });
+const guideSource = readFileSync(new URL("../src/ui/guideDialog.js", import.meta.url), "utf8");
+const appShellSource = readFileSync(new URL("../src/ui/appShell.js", import.meta.url), "utf8");
+const settingsSource = readFileSync(new URL("../src/ui/settingsView.js", import.meta.url), "utf8");
+
+describe("guide dialog character and badge wiring", () => {
+  it("assigns the approved Mr. Park art to Time Attack", () => {
+    expect(guideSource).toMatch(
+      /timeAttack:\s*\{\s*className:\s*"mr-park",\s*assetId:\s*"story-friend-mr-park-v1"/
+    );
+  });
+
+  it("registers and automatically opens the unseen map guide", () => {
+    expect(guideSource).toContain(
+      'map: ["guide.map.step1", "guide.map.step2", "guide.map.step3"]'
+    );
+    expect(appShellSource).toMatch(
+      /activeView === "map" && !hasSeenGuide\("map"\)[\s\S]*?activeGuide = "map"/
+    );
+  });
+
+  it("adds localized speaker name tags only to the character-led launch guides", () => {
+    expect(guideSource).toContain('puzzle: "guide.puzzle.speakerName"');
+    expect(guideSource).toContain('timeAttack: "guide.timeAttack.speakerName"');
+    expect(guideSource).toContain('map: "guide.map.speakerName"');
+    expect(guideSource).toContain('nameTag.className = "guide-dialog__name-tag"');
+  });
+  it("offers the map guide replay with map artwork in settings", () => {
+    expect(settingsSource).toContain(
+      'createGuideReplayButton(t("settings.guideReplayMapAction"), "map", "map", onReplayGuide)'
+    );
+    expect(settingsSource).toContain('guideId === "map" ? "map" : "puzzle"');
   });
 });

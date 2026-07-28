@@ -515,6 +515,8 @@ export function renderApp(root) {
       activeGuide = "puzzle";
     } else if (!activeGuide && activeView === "timeAttack" && !playOpen && !hasSeenGuide("timeAttack")) {
       activeGuide = "timeAttack";
+    } else if (!activeGuide && activeView === "map" && !hasSeenGuide("map")) {
+      activeGuide = "map";
     }
 
     const shell = createShell({

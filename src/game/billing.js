@@ -70,6 +70,7 @@ export async function purchaseCozySupportPack() {
       productIdentifier: COZY_SUPPORT_PRODUCT_ID,
       productType: PURCHASE_TYPE.INAPP,
       quantity: 1,
+      isConsumable: true,
       autoAcknowledgePurchases: true
     });
     if (!isCozySupportEntitlement(transaction)) {

@@ -1,8 +1,16 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { CELL } from "../src/game/nonogram.js";
-import { getBoardGuideInterval, getCellPaintValue, getDragCellPaintValue, getLineGuidance, isLineCorrectlySatisfied } from "../src/ui/boardView.js";
+import { getBoardGuideInterval, getCellPaintValue, getDragCellPaintValue, getLineGuidance, isLineCorrectlySatisfied, shouldSuppressPointerClick } from "../src/ui/boardView.js";
+
+const styles = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
 
 describe("board view paint decisions", () => {
+  it("centers marked and safe-suggestion glyphs in their cells", () => {
+    expect(styles).toMatch(
+      /\.puzzle-cell\.marked,\s*\.puzzle-cell\.safe-suggestion\s*\{[\s\S]*?display:\s*grid\s*!important;[\s\S]*?place-items:\s*center\s*!important;/
+    );
+  });
   it("adds guide intervals only where larger boards benefit from them", () => {
     expect(getBoardGuideInterval(5)).toBe(0);
     expect(getBoardGuideInterval(8)).toBe(4);
@@ -26,6 +34,13 @@ describe("board view paint decisions", () => {
     expect(getDragCellPaintValue(safeButton, CELL.empty)).toBe(CELL.marked);
     expect(getDragCellPaintValue(normalButton, CELL.empty)).toBe(CELL.empty);
     expect(getDragCellPaintValue(normalButton, CELL.filled)).toBe(CELL.filled);
+  });
+
+  it("suppresses the delayed pointer click after a completed touch stroke", () => {
+    expect(shouldSuppressPointerClick(1750, { detail: 1 }, 1200)).toBe(true);
+    expect(shouldSuppressPointerClick(1750, { detail: 0 }, 1200)).toBe(true);
+    expect(shouldSuppressPointerClick(1750, { detail: 1 }, 1800)).toBe(false);
+    expect(shouldSuppressPointerClick(1750, { detail: 0 }, 1800)).toBe(false);
   });
 
   it("treats zero-clue lines as satisfied when they contain no fills", () => {

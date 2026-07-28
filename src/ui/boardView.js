@@ -79,7 +79,7 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
   const showColoredReward = Boolean(options.completed);
   const boardGuideInterval = getBoardGuideInterval(puzzle.size);
   let dragSession = null;
-  let suppressNextClick = false;
+  let suppressPointerClickUntil = 0;
 
   function finishDrag() {
     if (!dragSession) {
@@ -91,14 +91,11 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
     window.removeEventListener("pointercancel", finishDrag);
     const paintCells = [...session.cells.values()];
     if (paintCells.length) {
-      suppressNextClick = true;
+      suppressPointerClickUntil = Date.now() + 300;
       onCellPress(session.start.row, session.start.column, {
         paintCells,
         paintValue: session.value
       });
-      window.setTimeout(() => {
-        suppressNextClick = false;
-      }, 0);
     }
   }
 
@@ -194,9 +191,8 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
           }
         });
         button.addEventListener("click", (event) => {
-          if (suppressNextClick) {
+          if (shouldSuppressPointerClick(suppressPointerClickUntil, event)) {
             event.preventDefault();
-            suppressNextClick = false;
             return;
           }
           onCellPress(rowIndex, columnIndex);
@@ -211,6 +207,10 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
   });
 
   return grid;
+}
+
+export function shouldSuppressPointerClick(suppressUntil, event, now = Date.now()) {
+  return now <= suppressUntil;
 }
 
 export function getCellPaintValue(cell, mode, options = {}) {

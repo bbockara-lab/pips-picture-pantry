@@ -25,6 +25,25 @@ function createMeterFill() {
   return document.createElement("span");
 }
 
+const DAILY_GREETING_KEYS = [
+  "home.greetingMessages.0",
+  "home.greetingMessages.1",
+  "home.greetingMessages.2",
+  "home.greetingMessages.3",
+  "home.greetingMessages.4",
+  "home.greetingMessages.5",
+  "home.greetingMessages.6"
+];
+
+export function getDailyGreetingKey(now = new Date()) {
+  const dayNumber = Math.floor(Date.UTC(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate()
+  ) / 86400000);
+  return DAILY_GREETING_KEYS[dayNumber % DAILY_GREETING_KEYS.length];
+}
+
 export function renderPuzzleHub(activePuzzle, options = {}) {
   const {
     onOpenPuzzle = () => {},
@@ -41,9 +60,9 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   scene.setAttribute("aria-label", t("home.sceneAria"));
 
   const greetingWrap = document.createElement("div");
-  greetingWrap.className = "puzzle-home-scene__greeting-wrap";
+  greetingWrap.className = "puzzle-home-scene__greeting-wrap hub-greeting-wrap";
   const greetingPip = document.createElement("img");
-  greetingPip.className = "puzzle-home-scene__greeting-pip";
+  greetingPip.className = "puzzle-home-scene__greeting-pip hub-greeting-pip";
   greetingPip.src = pipGuideUrl;
   greetingPip.alt = "";
   greetingPip.setAttribute("aria-hidden", "true");
@@ -51,8 +70,8 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   const greeting = appendTextElement(
     greetingWrap,
     "p",
-    "puzzle-home-scene__greeting",
-    t(["home.greetingPuzzle", "home.greetingPip", "home.greetingToday"][activePuzzle.id.length % 3])
+    "puzzle-home-scene__greeting hub-greeting-bubble",
+    t(getDailyGreetingKey())
   );
   greeting.setAttribute("aria-live", "polite");
   greetingWrap.append(greetingPip, greeting);

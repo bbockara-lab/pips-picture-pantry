@@ -326,12 +326,12 @@ async function dismissGuideIfPresent(page, viewportName) {
   await overlay.first().waitFor({ state: "detached", timeout: 3000 });
 }
 
-async function expectGuideDialogChromeArt(page, viewportName) {
+async function expectGuideDialogChromeArt(page, viewportName, options = {}) {
   await page.waitForFunction(() => {
     const image = document.querySelector(".guide-dialog__art img");
     return image?.complete && image.naturalWidth > 0 && image.naturalHeight > 0;
   }, null, { timeout: 5000 });
-  const metrics = await page.locator(".guide-dialog").first().evaluate((dialog) => {
+  const metrics = await page.locator(".guide-dialog").first().evaluate((dialog, expectedNeighborClass) => {
     const overlay = document.querySelector(".guide-overlay");
     const art = dialog.querySelector(".guide-dialog__art");
     const image = art?.querySelector("img");
@@ -354,12 +354,15 @@ async function expectGuideDialogChromeArt(page, viewportName) {
       bubbleBefore: bubble ? getComputedStyle(bubble, "::before").content : "",
       bubbleAfter: bubble ? getComputedStyle(bubble, "::after").content : "",
       overflows: dialog.scrollWidth > dialog.clientWidth + 1 || dialog.scrollHeight > dialog.clientHeight + 1,
-      overlayFixed: overlay ? getComputedStyle(overlay).position === "fixed" : false
+      overlayFixed: overlay ? getComputedStyle(overlay).position === "fixed" : false,
+      neighborMatched: !expectedNeighborClass || art?.classList.contains(`guide-dialog__art--${expectedNeighborClass}`)
     };
   });
   const isContained = metrics.width >= Math.min(320, metrics.viewportWidth - 44) && metrics.width <= metrics.viewportWidth && metrics.height <= metrics.viewportHeight;
-  if (!metrics.overlayFixed || !isContained || metrics.imageWidth < 150 || metrics.imageHeight < 150 || metrics.bodyText.length < 12 || metrics.buttonCount !== 1 || metrics.hasLegacyLabels || metrics.artBefore !== "none" || metrics.artAfter !== "none" || metrics.bubbleBefore !== "none" || metrics.bubbleAfter !== "none" || metrics.overflows) {
-    failures.push("[" + viewportName + "] Clean Pip conversation regressed: " + JSON.stringify(metrics));
+  const minImageWidth = options.neighborClass ? 100 : 150;
+  if (!metrics.overlayFixed || !isContained || metrics.imageWidth < minImageWidth || metrics.imageHeight < 150 || metrics.bodyText.length < 12 || metrics.buttonCount !== 1 || metrics.hasLegacyLabels || metrics.artBefore !== "none" || metrics.artAfter !== "none" || metrics.bubbleBefore !== "none" || metrics.bubbleAfter !== "none" || metrics.overflows || !metrics.neighborMatched) {
+    const guideLabel = options.neighborClass ? `${options.neighborClass} neighbor conversation` : "Clean Pip conversation";
+    failures.push("[" + viewportName + "] " + guideLabel + " regressed: " + JSON.stringify(metrics));
   }
 }
 
@@ -1725,10 +1728,10 @@ async function expectTimeAttackGuideCopy(page, viewportName) {
 
   await expectVisible(page, ".guide-dialog", viewportName);
   await expectVisible(page, ".guide-dialog__art img", viewportName);
-  await expectGuideDialogChromeArt(page, viewportName);
+  await expectGuideDialogChromeArt(page, viewportName, { neighborClass: "mr-park" });
 
   const firstStepText = await page.locator(".guide-dialog__bubble").first().innerText();
-  if (!/three random|three puzzles|\uC138 \uD310|\uC138 \uAC1C/i.test(firstStepText)) {
+  if (!/three random|three puzzles|\uC138 \uD310|\uC138 \uAC1C|\uC138 \uC7A5/i.test(firstStepText)) {
     failures.push("[" + viewportName + "] Time Attack guide first step should explain the three-board run, saw " + firstStepText);
   }
 
@@ -1741,9 +1744,9 @@ async function expectTimeAttackGuideCopy(page, viewportName) {
 
   await page.locator(".guide-dialog__next").click();
   const recordStepText = await page.locator(".guide-dialog__bubble").first().innerText();
-  const mentionsRecord = /record|best|\uAE30\uB85D/i.test(recordStepText);
+  const mentionsRecord = /record|best|fast|\uAE30\uB85D|\uBE60\uB978/i.test(recordStepText);
   if (!mentionsRecord) {
-    failures.push("[" + viewportName + "] Time Attack guide final step should invite a new record, saw " + recordStepText);
+    failures.push("[" + viewportName + "] Time Attack guide final step should invite a speed challenge, saw " + recordStepText);
   }
   await page.locator(".guide-dialog__next").click();
   await overlay.waitFor({ state: "detached", timeout: 2000 });

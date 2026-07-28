@@ -143,6 +143,9 @@ describe("i18n", () => {
       "guide.timeAttack.step1",
       "guide.timeAttack.step2",
       "guide.timeAttack.step3",
+      "guide.map.step1",
+      "guide.map.step2",
+      "guide.map.step3",
       "guide.pantryFirstPurchase.title",
       "guide.pantryFirstPurchase.step1",
       "guide.pantryFirstPurchase.step2",
@@ -209,8 +212,9 @@ describe("i18n", () => {
     expect(t("playerIntro.placeholder")).not.toBe("Jay");
     expect(t("playerIntro.defaultName")).not.toBe("Friend");
     expect(t("guide.speaker")).toContain("Pip");
-    expect(t("guide.puzzle.step1")).toContain("\uc774\uc5b4");
-    expect(t("guide.timeAttack.step2")).toBe("\uB9C9\uD790 \uB54C\uB9CC \uD78C\uD2B8\uB97C \uACE8\uB77C\uC694.");
+    expect(t("guide.puzzle.step1")).toBe("어서 와요! 저는 Pip이에요. 함께 그림을 완성해 봐요!");
+    expect(t("guide.timeAttack.step2")).toBe("\uC2DC\uAC04\uC774 \uBD80\uC871\uD560 \uB550 \uD78C\uD2B8 \uD558\uB098\uAC00 \uD310\uC744 \uAD6C\uD560 \uC218 \uC788\uC5B4\uC694.");
+    expect(t("guide.map.step3")).toContain("\uC120\uBC18");
     expect(t("guide.pantryFirstPurchase.step3")).toContain("\uC2A4\uD47C");
     expect(t("guide.pantryNeighborMrPark.title")).toContain("시계 할아버지");
     expect(t("guide.pantryNeighborMrPark.step2")).toContain("\uB530\uB73B\uD55C \uC218\uD504");

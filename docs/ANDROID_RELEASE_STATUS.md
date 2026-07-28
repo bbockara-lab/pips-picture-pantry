@@ -1,14 +1,16 @@
 # Android Release Status
 
-Last updated: 2026-07-27
+Last updated: 2026-07-28
 
-## Current Launch Checkpoint - 2026-07-27
+## Current Launch Checkpoint - 2026-07-28
 
 - Google Play production access has been granted. Production release submission itself has not been created yet.
-- Current web candidate: package 0.1.618 / UI v0.1.618; internal-test upload target is versionCode 29 / versionName 1.1.1.
-- npm run qa:candidate passes: 182 unit tests, authored-catalog/uniqueness/art audits, runtime assets (201), store/listing/privacy/Billing wiring, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900.
+- Current web candidate: package 0.1.626 / UI v0.1.626; next internal-test upload target is versionCode 32 / versionName 1.1.4.
+- The full candidate gate currently covers 187 unit tests, authored-catalog/uniqueness/art audits, runtime assets (201), store/listing/privacy/Billing wiring, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900.
 - Latest verified flow repairs include Pantry overlay alpha cleanup, reachable owned-decoration swapping, Time Attack three-round transition protection, one-time stage-completion protection, and lightweight earned-badge treatment.
-- Internal-test upload AAB rebuilt on 2026-07-27: versionCode 29 / versionName 1.1.1, upload-key signature verified. Use this build only to collect the two real-device Billing records.
+- Play internal testing already accepted versionCode 30 / versionName 1.1.2. Its verified source artifact was `pips-picture-pantry-v0.1.623-vc30-internal.aab` (16,862,278 bytes; SHA-256 `0794D7A3935DC43743BC1FEA97B23204BE815F0FA7D56ADDE5750F3D21AF6BD6`).
+- Signed v0.1.624 internal-test candidate built at versionCode 31 / versionName 1.1.3. Upload-key signature verified with `jarsigner`; sole release-folder AAB: `pips-picture-pantry-v0.1.624-vc31-internal.aab`; size 16,862,539 bytes; SHA-256 `B8A38FCC8E8160F48117BEEFC5FFE313CA9E235D7C867C5149817ED824724334`. Use it only to collect the two real-device Billing records.
+- Signed v0.1.626 internal-test candidate built at versionCode 32 / versionName 1.1.4. Upload-key signature verified with `jarsigner`; sole release-folder AAB: `app-release.aab`; size 16,862,997 bytes; SHA-256 `A4270771AB2006FFA411460AFD2DAD3DE2520938AC58DCB1E105FB28810F7F80`.
 - Remaining external release evidence: pip_cozy_support purchase + restore and pip_spoon_jar_small purchase + repeat on a real Play-enabled device. Do not submit the production track until both records are added and the final release gate passes.
 
 ---
@@ -16,21 +18,21 @@ Last updated: 2026-07-27
 ## Public Launch Checklist (release-safe, 2026-07-14)
 
 **versionCode management rule:**
-- Last Play Console upload: versionCode **27** / versionName **"1.0.26"** (v0.1.35, closed testing).
-- v0.1.36 through current local builds have not been uploaded as AABs; they are local/GitHub development versions only.
+- Last Play Console upload: versionCode **31** / versionName **"1.1.3"** (internal testing).
+- The v0.1.626 changes have not yet been uploaded; they are the next internal-test candidate.
 - The next Play Console upload has been prepared in `android/app/build.gradle`:
-  - `versionCode` -> **28** (above the last uploaded Play Console code 27).
-  - `versionName` -> **"1.1.0"** for the public-launch Billing candidate. Keep it separate from the web/internal app version in `package.json` and `src/data/appVersion.js`.
+  - `versionCode` -> **32** (above the latest uploaded Play Console code 31).
+  - `versionName` -> **"1.1.4"** for the next internal-test Billing candidate. Keep it separate from the web/internal app version in `package.json` and `src/data/appVersion.js`.
 
-**Automation status:** `build.gradle` versionCode is still manually managed. `scripts/build_android_release_bundle.ps1` and signed-bundle scripts do not auto-increment it. The current prepared upload code is 29; increase it again only if another AAB is uploaded before this candidate.
+**Automation status:** `build.gradle` versionCode is still manually managed. `scripts/build_android_release_bundle.ps1` and signed-bundle scripts do not auto-increment it. The current prepared upload code is 32; increase it again only if another AAB is uploaded before this candidate.
 
 **Automated guard:** run `npm run qa:release` during normal QA and `npm run qa:release:final` immediately before building the signed Play upload AAB. The normal guard reports release-number warnings without blocking local polish; the final guard fails if `versionCode` / `versionName` still match the last uploaded Play build.
 
 **Minimum release patch example:**
 ```gradle
 // android/app/build.gradle defaultConfig
-versionCode 29
-versionName "1.1.1" // or the final public launch version name
+versionCode 31
+versionName "1.1.3" // next internal-test Billing candidate
 ```
 
 **Verification method:** after the release build, upload the AAB to the Play Console internal/closed test track and confirm there is no version conflict message. Record the accepted package/version details below before promoting.
@@ -1388,9 +1390,9 @@ versionName "1.1.1" // or the final public launch version name
 - Android bundle generation remains paused during local rework.
 
 ### v0.1.250 Opening Version Visibility
-- 오프닝 게임 시작 화면과 이름 입력 화면에 작은 버전 칩을 추가해, 미리보기에서 현재 빌드를 즉시 확인할 수 있게 했다.
-- APP_VERSION을 src/data/appVersion.js로 분리해 앱 쉘과 브랜드 인트로가 같은 버전 값을 공유하도록 정리했다.
-- 모바일 QA가 오프닝 버전 칩을 확인하도록 확장했다.
+- ?�프??게임 ?�작 ?�면�??�름 ?�력 ?�면???��? 버전 칩을 추�??? 미리보기?�서 ?�재 빌드�?즉시 ?�인?????�게 ?�다.
+- APP_VERSION??src/data/appVersion.js�?분리?????�과 브랜???�트로�? 같�? 버전 값을 공유?�도�??�리?�다.
+- 모바??QA가 ?�프??버전 칩을 ?�인?�도�??�장?�다.
 
 ## v0.1.251 - Four Puzzle Quality Batch
 - Added 4 quality-gated launch-catalog puzzles with titleKey, English/Korean catalog copy, and artReadability briefs.
@@ -1433,14 +1435,14 @@ versionName "1.1.1" // or the final public launch version name
 - Catalog now stands at 333/333 free puzzles, completing the Season 0 launch target. Android bundle generation remains paused during local rework while UX/art/game-feel polish continues.
 
 ### v0.1.261 - Season 0 Progress Hub
-- Puzzle Hub에 Season 0 진행 카드를 추가해 333개 출시 퍼즐을 하나의 런칭 시즌 카탈로그로 보이게 했다.
-- 카드에서 전체 완성률, 열린 스테이지 수, 보유 스푼을 함께 보여 주어 다음 스테이지 해금과 Pantry 요청이 자연스러운 목표가 되도록 정리했다.
-- 다음 시즌 업데이트 예고 문구를 추가해 출시 후 계절성 퍼즐 팩 확장 방향을 UI 안에 심었다.
-- 모바일 preview guard에서 발견된 대형 팩 mosaic 압축 문제를 함께 수정했다. 실제 136개/137개 퍼즐 수를 그대로 렌더하지 않고 20칸 샘플에 진행률을 환산해 stage art가 안정적으로 보이게 했다.
+- Puzzle Hub??Season 0 진행 카드�?추�???333�?출시 ?�즐???�나???�칭 ?�즌 카탈로그�?보이�??�다.
+- 카드?�서 ?�체 ?�성�? ?�린 ?�테?��? ?? 보유 ?�푼???�께 보여 주어 ?�음 ?�테?��? ?�금�?Pantry ?�청???�연?�러??목표가 ?�도�??�리?�다.
+- ?�음 ?�즌 ?�데?�트 ?�고 문구�?추�???출시 ??계절???�즐 ???�장 방향??UI ?�에 ?�었??
+- 모바??preview guard?�서 발견???�????mosaic ?�축 문제�??�께 ?�정?�다. ?�제 136�?137�??�즐 ?��? 그�?�??�더?��? ?�고 20�??�플??진행률을 ?�산??stage art가 ?�정?�으�?보이�??�다.
 
 ### v0.1.262 - Stage Unlock Plan Copy
-- 잠긴 스테이지 카드에 다음 행동 플랜 문구를 추가했다. 스푼 부족, Pantry 요청 부족, 둘 다 부족한 상황을 각각 설명해 다음 퍼즐을 열기 위한 목표를 더 명확하게 보여 준다.
-- Season 0의 333개 퍼즐을 단순 목록이 아니라 스푼 수급과 Pantry 진행으로 단계적으로 열어 가는 구조로 느끼게 하는 UI 보강이다.
+- ?�긴 ?�테?��? 카드???�음 ?�동 ?�랜 문구�?추�??�다. ?�푼 부�? Pantry ?�청 부�? ????부족한 ?�황??각각 ?�명???�음 ?�즐???�기 ?�한 목표�???명확?�게 보여 준??
+- Season 0??333�??�즐???�순 목록???�니???�푼 ?�급�?Pantry 진행?�로 ?�계?�으�??�어 가??구조�??�끼�??�는 UI 보강?�다.
 
 
 ### v0.1.263 - Opening Promise Strip

@@ -18,6 +18,7 @@ export const PUZZLE_PRACTICE = Object.freeze({
 const GUIDE_STEPS = {
   puzzle: ["guide.puzzle.step1", "guide.puzzle.step2", "guide.puzzle.step3"],
   timeAttack: ["guide.timeAttack.step1", "guide.timeAttack.step2", "guide.timeAttack.step3"],
+  map: ["guide.map.step1", "guide.map.step2", "guide.map.step3"],
   pantryFirstPurchase: ["guide.pantryFirstPurchase.step1", "guide.pantryFirstPurchase.step2", "guide.pantryFirstPurchase.step3"],
   pantryRoomStory: ["guide.pantryRoomStory.step1", "guide.pantryRoomStory.step2", "guide.pantryRoomStory.step3"],
   pantryNeighborMrPark: ["guide.pantryNeighborMrPark.step1", "guide.pantryNeighborMrPark.step2", "guide.pantryNeighborMrPark.step3"],
@@ -25,10 +26,25 @@ const GUIDE_STEPS = {
   pantryNeighborMateo: ["guide.pantryNeighborMateo.step1", "guide.pantryNeighborMateo.step2", "guide.pantryNeighborMateo.step3"]
 };
 const NEIGHBOR_GUIDE_CLASSES = {
+  timeAttack: { className: "mr-park", assetId: "story-friend-mr-park-v1", url: mrParkArtUrl },
   pantryNeighborMrPark: { className: "mr-park", assetId: "story-friend-mr-park-v1", url: mrParkArtUrl },
   pantryNeighborLily: { className: "lily", assetId: "story-friend-lily-v1", url: lilyArtUrl },
   pantryNeighborMateo: { className: "mateo", assetId: "story-friend-mateo-v1", url: mateoArtUrl }
 };
+const GUIDE_SPEAKER_NAME_KEYS = {
+  puzzle: "guide.puzzle.speakerName",
+  timeAttack: "guide.timeAttack.speakerName",
+  map: "guide.map.speakerName"
+};
+
+function appendGuideNameTag(art, guideId) {
+  const speakerNameKey = GUIDE_SPEAKER_NAME_KEYS[guideId];
+  if (!speakerNameKey) return;
+  const nameTag = document.createElement("p");
+  nameTag.className = "guide-dialog__name-tag";
+  nameTag.textContent = t(speakerNameKey);
+  art.appendChild(nameTag);
+}
 
 export function renderGuideDialog(guideId, onClose) {
   const steps = GUIDE_STEPS[guideId] || GUIDE_STEPS.puzzle;
@@ -61,6 +77,7 @@ export function renderGuideDialog(guideId, onClose) {
       image.src = neighborArt.url;
       image.alt = "";
       art.appendChild(image);
+      appendGuideNameTag(art, guideId);
       nodes.push(art);
     } else if (isRuntimeGuideArtApproved(GUIDE_ART_ASSET_ID)) {
       const art = document.createElement("div");
@@ -71,6 +88,7 @@ export function renderGuideDialog(guideId, onClose) {
       image.src = pipGuideSceneUrl;
       image.alt = "";
       art.appendChild(image);
+      appendGuideNameTag(art, guideId);
       nodes.push(art);
     }
 

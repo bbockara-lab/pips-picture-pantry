@@ -1,5 +1,6 @@
 import { t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
+import { hasSeenGuide } from "../game/save.js";
 
 const NAV_ITEMS = [
   ["puzzle", "home.sceneAria"],
@@ -40,6 +41,9 @@ export function renderFloatingNav(activeView, onSelectView) {
   const trigger = document.createElement("button");
   trigger.type = "button";
   trigger.className = "floating-nav__trigger";
+  if (activeView === "puzzle" && !hasSeenGuide("puzzle")) {
+    trigger.classList.add("floating-nav__trigger--pulse");
+  }
   trigger.dataset.view = activeItem[0];
   trigger.setAttribute("aria-expanded", "false");
   const triggerLabelText = t("views.menu") + ": " + t(activeItem[1]);

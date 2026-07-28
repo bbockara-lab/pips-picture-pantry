@@ -1,3 +1,55 @@
+## v0.1.626 - Real-Device Guide and Board Release Candidate
+
+- Finalized the requested guide name-tag metrics, artwork positioning, dialogue overlap, and marked-cell centering as the last CSS override block.
+- Carries forward the v0.1.625 Play Now resize/pulse, Workshop Pip scale, localized guide introductions, Billing consumable flags, and Android touch suppression repairs.
+- Visible/package version is v0.1.626. Android internal-test upload numbering is versionCode 32 / versionName 1.1.4, above the tested vc31 / 1.1.3 build.
+- Verification: 32 test files / 191 tests, catalog, uniqueness, art, assets, store, Billing wiring, privacy, production build, and Android vc32 release gate passed. The final mobile Playwright pass reached HTTP 200 but timed out at `page.goto(..., networkidle)` before product assertions, matching the current local browser-harness issue; signed release completed with `jar verified`. The sole release-folder AAB is `android/app/build/outputs/bundle/release/app-release.aab` (16,862,997 bytes; SHA-256 `A4270771AB2006FFA411460AFD2DAD3DE2520938AC58DCB1E105FB28810F7F80`).
+## v0.1.625 - Play Now Reach and First-Entry Cue
+
+- Enlarged the fixed Play Now trigger from 56px to 80px, its artwork from 44px to 60px, and raised it from +16px to +32px above the safe-area baseline.
+- Added a warm pulse cue only while the Puzzle guide is unseen; reduced-motion users receive no repeating animation.
+- Added a source-level regression guard for the unseen-guide condition and the final CSS size/position contract.
+- Enlarged the Workshop home greeting Pip from the previous 28-40px compact override to a responsive 90-120px conversation scale while preserving the higher-specificity override and automatic aspect ratio.
+- Reworked the Puzzle, Time Attack, and Badge Map guide presentation with localized character name tags, overlapping dialogue cards, larger Pip artwork, and new first-step introductions; Pantry neighbor guides retain their separate side-by-side layout.
+- Centered the marked-cell × glyph and safe-suggestion state with a final grid/place-items override so Android rendering no longer shifts the symbol toward the upper-right corner.
+- Android upload numbering remains versionCode 31 / versionName 1.1.3. No AAB is built for this incremental UI slice while additional real-device feedback is still being collected.
+- Verification: `tests/floatingNav.test.js` plus `tests/save.test.js` passed (23 tests), JavaScript syntax checks passed, and the production build completed successfully.
+- Guide follow-up verification: guide/i18n/home regression suites passed (21 tests), both locale modules and guide code passed syntax checks, and the production build completed successfully.
+- Marked-cell follow-up verification: `tests/boardView.test.js` passed all 9 tests and the production build completed successfully.
+## v0.1.624 - Real-Device Settings and Guide Follow-ups
+
+- Reserved 30px of left padding in each compact language option so the radio control no longer collides with System, English, or Korean labels on a real Android device.
+- Applied the shared content-panel spacing contract to Pantry and Time Attack: 14px outer padding, plus 10px between the Pantry room and its following story content.
+- Recast the Time Attack first-run guide as a Mr. Park neighbor conversation with new clock, hint, and speed-challenge copy in English and Korean.
+- Added a three-step Pip guide for the Badge Map, automatic first-entry display, and a dedicated Badge guide replay button with Map artwork in Settings.
+- Raised the fixed floating navigation control 16px above its existing safe-area offset so it no longer sits against the gesture/navigation edge on real devices.
+- Restored the Workshop home greeting Pip to its intended compact 28-40px range by making the higher-specificity width and auto-height declarations override the shared 160px greeting class; added regression coverage for this cascade.
+- This real-device feedback batch is now frozen for the next signed internal-test AAB.
+- Android upload numbering is prepared at versionCode 31 / versionName 1.1.3 because Play internal testing already accepted versionCode 30 / versionName 1.1.2.
+- Verification: the focused tests and candidate suite cover 31 files / 187 tests, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900. The existing local-only signing environment file under `99. Key Paths/Android/Pip's Picture Pantry` was rediscovered from repository release documentation; its secret values remain outside the repo and are never printed.
+- Internal-test AAB: upload-key-signed v0.1.624 at Android versionCode 31 / versionName 1.1.3 after production build, Capacitor sync, and `jarsigner` verification. Sole release-folder AAB: `pips-picture-pantry-v0.1.624-vc31-internal.aab`; size 16,862,539 bytes; SHA-256 `B8A38FCC8E8160F48117BEEFC5FFE313CA9E235D7C867C5149817ED824724334`. This is for Play internal-test Billing evidence only; production remains blocked on both real-device purchase records.
+## v0.1.623 - Android Cell Input, Billing, and Pip Greeting Scale
+
+- Suppress every synthesized click arriving within 300ms after a pointer paint commit, including Android clicks with `event.detail === 0`, so one touch no longer paints and immediately toggles the same cell back.
+- Added `isConsumable: true` to the Cozy Support Pack native purchase call as required by the current Android Billing integration.
+- Increased the Workshop greeting Pip artwork from 80px to 160px while retaining the connected speech-bubble structure; the non-interactive greeting layer passes pointer input through to scene destinations beneath it.
+- Verification: focused board/Billing/home tests passed (19 tests), and `npm run qa:candidate` passed (31 test files / 184 tests; production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900). The first mobile run exposed greeting pointer interception; `pointer-events: none` corrected it before the clean rerun.
+- Internal-test AAB: upload-key-signed v0.1.623 at Android versionCode 30 / versionName 1.1.2; Capacitor sync and jarsigner verification passed. Only `pips-picture-pantry-v0.1.623-vc30-internal.aab` remains in the release folder. Size: 16,862,278 bytes; SHA-256: `0794D7A3935DC43743BC1FEA97B23204BE815F0FA7D56ADDE5750F3D21AF6BD6`.
+
+## v0.1.622 - Guide Alignment, Greeting Bubble, and Billing Flag
+
+- Centered guide overlays with safe-area-aware vertical padding.
+- Connected the Workshop Pip greeting to explicit wrap, portrait, and speech-bubble styles while retaining the existing scene selectors.
+- Kept the Cozy Support Pack non-consumable and restorable, while the repeatable Small Spoon Jar remains the only purchase using `isConsumable: true`.
+- Verification: `npm run qa:candidate` passed (31 test files / 184 tests; Billing, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900 included). Real-device Billing purchase/restore and repeat-purchase evidence remains pending.
+- Internal-test AAB: upload-key-signed v0.1.622 build created at Android versionCode 30 / versionName 1.1.2 after candidate QA, live privacy verification, the final Billing contract correction, production build, Capacitor sync, and jarsigner verification. SHA-256: 01B19C3AB7304655D0C0001EF565246C3646D075781D0BBDD309FED656D18A65. Use it only for Play internal-test Billing evidence; production submission remains blocked on the real-device records.
+## v0.1.621 - Daily Pip Greeting and Single Cell Input
+
+- Added a short Pip speech bubble greeting on the Workshop home that rotates once per local calendar day across seven localized messages.
+- Replaced the zero-delay click guard after pointer painting with a bounded synthetic-click guard, so one touch or mouse press changes a puzzle cell only once while keyboard activation remains available.
+- Added regression coverage for delayed pointer clicks.
+- Verification: `npm run qa:candidate` passed (31 test files / 184 tests; catalog, uniqueness, art, launch, hygiene, assets, store, Billing, privacy, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900).
+
 ## v0.1.619 - Single-Scene Onboarding and Puzzle Controls
 
 - Rebuilt standard Pip guides as one mint scene with Pip grounded in the backdrop and a single floating dialogue card; story-neighbour conversations retain their two-character layout.

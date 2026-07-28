@@ -55,6 +55,7 @@ export const en = {
     guideReplayAction: "Show Pip's guide",
     guideReplayPuzzleAction: "Picture guide",
     guideReplayTimeAttackAction: "Time Attack guide",
+    guideReplayMapAction: "Badge guide",
     spoonStoreTitle: "Add more spoons",
     supportTitle: "Pip Support Pack",
     supportBody: "Support Pip and add {spoons} spoons.",
@@ -125,9 +126,15 @@ export const en = {
     solveCurrent: "Solve this picture",
     pictureList: "Pictures",
     room: "Pip's room",
-    greetingPuzzle: "Shall we solve a puzzle today?",
-    greetingPip: "Pip has been waiting for you!",
-    greetingToday: "Let's finish today's picture!",
+    greetingMessages: {
+      0: "Ready for a picture?",
+      1: "Let's make something cozy!",
+      2: "One little cell at a time.",
+      3: "What will we find today?",
+      4: "Pip saved you a spot!",
+      5: "Let's fill in the fun!",
+      6: "A new picture is waiting!"
+    },
     new: "New",
     pantryLabel: "Pantry decor",
     timeAttackLabel: "Time Attack",
@@ -218,16 +225,24 @@ export const en = {
     next: "Next",
     done: "Ready? Go!",
     puzzle: {
+      speakerName: "Pip",
       title: "I'll solve the first picture beside you",
-      step1: "Each clue tells us how many connected cells to color in that line. Let’s begin with 5.",
+      step1: "Oh, hello! I'm Pip. Welcome to the Picture Pantry!",
       step2: "A 5 means all five cells are connected. Slide across the row in one stroke.",
       step3: "1 1 1 means three single groups. Leave at least one blank between each group."
     },
     timeAttack: {
-      title: "I'll open the quick challenge with you",
-      step1: "Solve three random puzzles in a row.",
-      step2: "Save hints for when you get stuck.",
-      step3: "Ready to beat today's record?"
+      speakerName: "Grandpa Clock",
+      title: "Mr. Park's quick challenge",
+      step1: "Ho ho! Welcome, friend. I'm Grandpa Clock — keeper of time and puzzles!",
+      step2: "When the clock runs short, a hint can save your run.",
+      step3: "Shall we see how fast you can go?"
+    },
+    map: {
+      speakerName: "Pip",
+      step1: "Oh, look! This is your badge shelf — it grows as you solve pictures.",
+      step2: "Finish a full set to light up its badge.",
+      step3: "Your shelf fills up as the pantry grows."
     },
     pantryFirstPurchase: {
       title: "I'll show your first decoration spot",
