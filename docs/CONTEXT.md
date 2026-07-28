@@ -1,3 +1,9 @@
+## v0.1.619 - Single-Scene Onboarding and Puzzle Controls
+
+- Rebuilt standard Pip guides as one mint scene with Pip grounded in the backdrop and a single floating dialogue card; story-neighbour conversations retain their two-character layout.
+- Restored the approved raster Fill, Blank, and Undo artwork at every board size, including the previous 5x5 fallback that hid those icons, and aligned guide action chips to the same vertical rhythm.
+- Verification: `npm run qa:candidate` passed (182 tests; mobile QA at 360x740, 390x844, 430x932, and 675x900).
+
 ## v0.1.618 - Workshop labels and input containment
 
 - Workshop home: placed a small Pip beside the greeting, restored readable labels beneath destination artwork, and converted the Pantry novelty marker to a nonverbal dot.

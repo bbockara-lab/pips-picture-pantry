@@ -64,7 +64,8 @@ function appendGuideAction(parent, action, label) {
   chip.className = "guide-action";
   chip.dataset.action = action;
   const icon = document.createElement("span");
-  icon.className = "guide-action__icon";
+  icon.className = "guide-action__icon guide-action__icon--raster";
+  appendPuzzleControlArt(icon, action, "guide-action__raster-art");
   const text = document.createElement("span");
   text.className = "guide-action__label";
   text.textContent = label;

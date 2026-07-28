@@ -35,7 +35,7 @@ export function renderGuideDialog(guideId, onClose) {
   let index = 0;
 
   const overlay = document.createElement("div");
-  overlay.className = "guide-overlay";
+  overlay.className = `guide-overlay guide-overlay--${guideId}`;
   overlay.setAttribute("role", "dialog");
   overlay.setAttribute("aria-modal", "true");
   overlay.setAttribute("aria-labelledby", "guide-dialog-title");

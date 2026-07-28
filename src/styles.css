@@ -17435,3 +17435,283 @@ img {
   height: 96px !important;
   min-height: 96px !important;
 }
+
+
+/* v0.1.619: single-scene onboarding and raster puzzle controls. */
+/* One complete mint scene: Pip is grounded in the backdrop, and only the
+   dialogue itself is a separate card. */
+.guide-overlay {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  padding: 0 0 max(24px, env(safe-area-inset-bottom, 0px)) !important;
+  overflow: hidden !important;
+  background: linear-gradient(180deg, #a8d8c8 0%, #8ec8b4 100%) !important;
+  backdrop-filter: none !important;
+}
+
+.guide-dialog {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  grid-template-columns: unset !important;
+  grid-template-rows: unset !important;
+  width: min(100%, 420px) !important;
+  height: auto !important;
+  max-height: none !important;
+  gap: 0 !important;
+  overflow: visible !important;
+  filter: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.guide-dialog__art {
+  position: relative !important;
+  z-index: 2 !important;
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: clamp(180px, 38vh, 260px) !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.guide-dialog__art::before,
+.guide-dialog__art::after {
+  content: none !important;
+  display: none !important;
+}
+
+.guide-dialog__art img {
+  height: clamp(160px, 34vh, 230px) !important;
+  width: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.18)) !important;
+}
+
+.guide-dialog__bubble {
+  position: relative !important;
+  z-index: 3 !important;
+  width: calc(100% - 32px) !important;
+  min-height: 0 !important;
+  margin: 0 16px !important;
+  padding: 24px 20px 20px !important;
+  overflow: visible !important;
+  border: none !important;
+  border-radius: 24px !important;
+  background: #fff !important;
+  box-shadow: 0 -2px 0 rgba(0, 0, 0, 0.06), 0 12px 28px rgba(0, 0, 0, 0.16) !important;
+}
+
+.guide-dialog__bubble::before,
+.guide-dialog__bubble::after {
+  content: none !important;
+  display: none !important;
+}
+
+.guide-dialog__bubble p:not(.guide-dialog__eyebrow) {
+  color: #3b2c2f !important;
+  font-size: clamp(1rem, 4.2vw, 1.25rem) !important;
+  line-height: 1.55 !important;
+  text-align: center !important;
+}
+
+.guide-dialog__actions {
+  margin-top: 8px !important;
+}
+
+.guide-dialog__next {
+  width: 100% !important;
+  min-height: 52px !important;
+  height: 52px !important;
+  border-radius: 26px !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+}
+
+/* Story neighbours retain their two-person conversation composition. */
+.guide-overlay--pantryNeighborMrPark,
+.guide-overlay--pantryNeighborLily,
+.guide-overlay--pantryNeighborMateo {
+  display: grid !important;
+  place-items: center !important;
+  padding: 16px !important;
+  background: rgba(46, 38, 34, 0.74) !important;
+}
+
+.guide-dialog--pantryNeighborMrPark,
+.guide-dialog--pantryNeighborLily,
+.guide-dialog--pantryNeighborMateo {
+  display: grid !important;
+  grid-template-columns: minmax(108px, 0.72fr) minmax(0, 1fr) !important;
+  align-items: end !important;
+  width: min(calc(100vw - 28px), 560px) !important;
+  max-height: calc(100dvh - 32px) !important;
+}
+
+.guide-dialog--pantryNeighborMrPark .guide-dialog__art,
+.guide-dialog--pantryNeighborLily .guide-dialog__art,
+.guide-dialog--pantryNeighborMateo .guide-dialog__art {
+  width: auto !important;
+  min-height: 210px !important;
+  padding: 0 !important;
+  border-radius: 24px 0 0 24px !important;
+  background: #dcebd4 !important;
+  box-shadow: 0 10px 22px rgba(49, 36, 30, 0.18) !important;
+}
+
+.guide-dialog--pantryNeighborMrPark .guide-dialog__art img,
+.guide-dialog--pantryNeighborLily .guide-dialog__art img,
+.guide-dialog--pantryNeighborMateo .guide-dialog__art img {
+  width: min(88%, 168px) !important;
+  height: auto !important;
+  max-height: 204px !important;
+}
+
+.guide-dialog--pantryNeighborMrPark .guide-dialog__bubble,
+.guide-dialog--pantryNeighborLily .guide-dialog__bubble,
+.guide-dialog--pantryNeighborMateo .guide-dialog__bubble {
+  width: auto !important;
+  margin: 0 0 0 -10px !important;
+  padding: 22px 18px 18px !important;
+  border: 2px solid rgba(116, 89, 71, 0.24) !important;
+  border-radius: 20px !important;
+  background: #fffaf0 !important;
+}
+
+/* Puzzle controls use the approved raster artwork at every board size.
+   This specifically reverses the old 5x5 icon-hiding fallback. */
+.controls {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  align-items: stretch !important;
+  gap: 8px !important;
+}
+
+.controls .control-button {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  min-height: 72px !important;
+  padding: 8px 6px !important;
+}
+
+.play-screen[data-puzzle-size="5"] .control-button__icon.control-button__icon--raster,
+.control-button__icon.control-button__icon--raster {
+  display: grid !important;
+  place-items: center !important;
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.control-button__icon--raster img,
+.guide-action__raster-art {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+}
+
+.controls .control-button__label {
+  min-width: 0 !important;
+  font-size: clamp(0.72rem, 3vw, 0.88rem) !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
+}
+
+.guide-actions {
+  display: flex !important;
+  align-items: stretch !important;
+  gap: 8px !important;
+}
+
+.guide-actions .guide-action {
+  display: flex !important;
+  flex: 1 1 0 !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  min-height: 60px !important;
+  padding: 10px 6px !important;
+}
+
+.guide-actions .guide-action__icon.guide-action__icon--raster {
+  display: grid !important;
+  place-items: center !important;
+  width: 28px !important;
+  height: 28px !important;
+  flex: 0 0 28px !important;
+  overflow: visible !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+.guide-actions .guide-action__icon.guide-action__icon--raster::before,
+.guide-actions .guide-action__icon.guide-action__icon--raster::after {
+  content: none !important;
+  display: none !important;
+}
+
+.guide-actions .guide-action__label {
+  font-size: clamp(0.68rem, 2.8vw, 0.8rem) !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+}
+
+/* v0.1.619: compact guide scene containment for short mobile viewports. */
+@media (max-height: 760px) {
+  .guide-overlay { justify-content: center !important; padding: 12px 0 !important; }
+  .guide-dialog { max-height: calc(100dvh - 24px) !important; overflow: hidden !important; }
+  .guide-dialog__art { min-height: 190px !important; }
+  .guide-dialog__art img { height: 175px !important; }
+  .guide-dialog__bubble { padding: 18px 18px 16px !important; }
+  .guide-dialog__bubble p:not(.guide-dialog__eyebrow) { font-size: 1rem !important; line-height: 1.45 !important; }
+}
+/* v0.1.619: guide bubble uses border-box containment. */
+.guide-dialog__bubble {
+  box-sizing: border-box !important;
+}
+
+/* v0.1.619: standard guide artwork sits directly in its scene. */
+.guide-dialog__art {
+  border: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.guide-dialog__actions {
+  display: block !important;
+  width: 100% !important;
+}
+
+.guide-dialog__actions .guide-dialog__next {
+  display: block !important;
+  width: 100% !important;
+}
+
+
+/* v0.1.619: guide scene safe-area containment. */
+.guide-overlay {
+  padding: 0 0 max(16px, env(safe-area-inset-bottom, 0px)) !important;
+}
+
+@media (max-height: 760px) {
+  .guide-overlay {
+    padding: 8px 0 !important;
+  }
+}
+
+
+/* v0.1.619: guide dialogue card clips legacy descendant overflow. */
+.guide-dialog__bubble {
+  overflow: hidden !important;
+}
