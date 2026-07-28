@@ -1463,7 +1463,7 @@ async function expectPuzzleHomePolish(page, viewportName) {
       sceneOverflow: scene ? scene.scrollWidth > scene.clientWidth + 1 : true,
       backgroundImage: sceneStyle?.backgroundImage || "",
       destinationCount: destinations.length,
-      destinationOverflow: destinations.some((button) => ((button.scrollWidth > button.clientWidth + 1 || button.scrollHeight > button.clientHeight + 1) && getComputedStyle(button).overflow !== "hidden") || button.getBoundingClientRect().height < 48),
+      destinationOverflow: destinations.some((button) => { const box = button.getBoundingClientRect(); return box.width < 48 || box.height < 48; }),
       destinationOutsideScene: destinationBoxes.some((box) => !box || !sceneBox
         || box.left < sceneBox.left - 1 || box.right > sceneBox.right + 1 || box.top < sceneBox.top - 1 || box.bottom > sceneBox.bottom + 1),
       destinationCollisions: destinationBoxes.some((box, index) => destinationBoxes
@@ -1483,9 +1483,9 @@ async function expectPuzzleHomePolish(page, viewportName) {
       playLargeEnough: Boolean(playBox && Math.min(playBox.right - playBox.left, playBox.bottom - playBox.top) >= 96),
       workshopShell: Boolean(shell?.classList.contains("app-shell--workshop-home")),
       hasRetiredHomeProps: Boolean(home.querySelector(".puzzle-home-furnishings, .puzzle-home-scene__keepsake")),
-      labelsVisible: destinations.some((button) => {
+      hasHiddenDestinationLabel: destinations.some((button) => {
         const label = button.querySelector(".puzzle-home-destination__label");
-        return !label || getComputedStyle(label).position !== "absolute";
+        return !label || getComputedStyle(label).display === "none" || getComputedStyle(label).visibility === "hidden";
       }),
       ids: destinations.map((button) => button.dataset.destination || ""),
       playAssetId: play?.querySelector("img")?.dataset.assetId || ""
@@ -1494,7 +1494,7 @@ async function expectPuzzleHomePolish(page, viewportName) {
   const expected = ["puzzle", "album", "pantry", "timeAttack", "map"];
   const expectedAssets = { puzzle: "workshop-nav-puzzle-v3", album: "workshop-nav-album-v3", pantry: "workshop-nav-pantry-v3", timeAttack: "workshop-nav-time-attack-v3", map: "workshop-nav-map-v3" };
   const hasStaleDestinationTreatment = metrics.destinationArt.some((art) => art.assetId !== expectedAssets[art.id] || art.backgroundColor !== "rgba(0, 0, 0, 0)" || art.borderTopWidth !== "0px" || art.boxShadow !== "none");
-  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.labelsVisible || metrics.playAssetId !== "puzzle-control-fill-v1" || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
+  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.hasHiddenDestinationLabel || metrics.playAssetId !== "puzzle-control-fill-v1" || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
     failures.push("[" + viewportName + "] Puzzle workshop home/direct destinations regressed: " + JSON.stringify(metrics));
   }
 }

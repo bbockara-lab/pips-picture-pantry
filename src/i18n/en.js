@@ -128,7 +128,11 @@ export const en = {
     greetingPuzzle: "Shall we solve a puzzle today?",
     greetingPip: "Pip has been waiting for you!",
     greetingToday: "Let's finish today's picture!",
-    new: "New"
+    new: "New",
+    pantryLabel: "Pantry decor",
+    timeAttackLabel: "Time Attack",
+    albumLabel: "Album",
+    mapLabel: "Badges"
   },
   playScreen: {
     aria: "Focused puzzle play",

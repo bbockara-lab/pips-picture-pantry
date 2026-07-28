@@ -365,7 +365,11 @@ export const ko = {
     greetingPuzzle: "\uc624\ub298\ub3c4 \ud37c\uc990 \ud480\uc5b4\ubcfc\uae4c\uc694?",
     greetingPip: "\ud54d\uc774 \uae30\ub2e4\ub9ac\uace0 \uc788\uc5c8\uc5b4\uc694!",
     greetingToday: "\uc624\ub298\uc758 \uadf8\ub9bc\uc744 \uc644\uc131\ud574\uc694!",
-    new: "\uc0c8 \uc18c\ud488"
+    new: "\uc0c8 \uc18c\ud488",
+    pantryLabel: "\ud32c\ud2b8\ub9ac \uafb8\ubbf8\uae30",
+    timeAttackLabel: "\ud0c0\uc784\uc5b4\ud0dd",
+    albumLabel: "\uc568\ubc94",
+    mapLabel: "\ubc30\uc9c0"
   },
   packs: {
     free: "\uae30\ubcf8 \ud3ec\ud568",

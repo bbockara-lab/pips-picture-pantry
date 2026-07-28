@@ -1,3 +1,12 @@
+## v0.1.618 - Workshop labels and input containment
+
+- Workshop home: placed a small Pip beside the greeting, restored readable labels beneath destination artwork, and converted the Pantry novelty marker to a nonverbal dot.
+- Workshop CTA: removed the opaque button shell so the paint-tool art and label sit directly in the room.
+- Settings: constrained the three language choices so narrow Android widths cannot overlap.
+- QA: updated the home visual contract so visible labels are required.
+- Verification: `npm run qa:candidate` passed (182 tests, four mobile viewports); the fallback candidate server port is now forwarded to visual QA.
+pm run qa:candidate passed (182 tests, four mobile viewports); the fallback candidate server port is now forwarded to visual QA.
+
 ## v0.1.616 - Final Approval Candidate Clarity
 - Added the missing Pantry-decoration hint beneath the locked-stage requirement so the next action is explicit.
 - Renamed and structurally separated the primary Puzzle CTA from its picture icon: Solve now / Play Now.

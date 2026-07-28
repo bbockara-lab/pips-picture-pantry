@@ -1,5 +1,6 @@
 import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
 import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-v1.webp";
+import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, seasonShelves } from "../data/seasonShelves.js";
 import { getStageArtUrl, hasApprovedStageArt } from "../data/stageArt.js";
 import { getApprovedPantryDecorations } from "../data/decorations.js";
@@ -39,13 +40,23 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   scene.style.setProperty("--puzzle-home-background", `url("${puzzleWorkshopBackgroundUrl}")`);
   scene.setAttribute("aria-label", t("home.sceneAria"));
 
+  const greetingWrap = document.createElement("div");
+  greetingWrap.className = "puzzle-home-scene__greeting-wrap";
+  const greetingPip = document.createElement("img");
+  greetingPip.className = "puzzle-home-scene__greeting-pip";
+  greetingPip.src = pipGuideUrl;
+  greetingPip.alt = "";
+  greetingPip.setAttribute("aria-hidden", "true");
+  greetingPip.dataset.assetId = "pip-chrome-v2";
   const greeting = appendTextElement(
-    scene,
+    greetingWrap,
     "p",
     "puzzle-home-scene__greeting",
     t(["home.greetingPuzzle", "home.greetingPip", "home.greetingToday"][activePuzzle.id.length % 3])
   );
   greeting.setAttribute("aria-live", "polite");
+  greetingWrap.append(greetingPip, greeting);
+  scene.appendChild(greetingWrap);
 
   const play = document.createElement("button");
   play.type = "button";
@@ -72,10 +83,10 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   destinations.setAttribute("aria-label", t("home.destinationsAria"));
   const destinationItems = [
     ["puzzle", "home.pictureList", onShowList],
-    ["album", "views.album", () => onSelectView("album")],
-    ["pantry", "home.room", () => onSelectView("pantry")],
-    ["timeAttack", "views.timeAttack", () => onSelectView("timeAttack")],
-    ["map", "views.map", () => onSelectView("map")]
+    ["album", "home.albumLabel", () => onSelectView("album")],
+    ["pantry", "home.pantryLabel", () => onSelectView("pantry")],
+    ["timeAttack", "home.timeAttackLabel", () => onSelectView("timeAttack")],
+    ["map", "home.mapLabel", () => onSelectView("map")]
   ];
   const completedIds = new Set(getCompletedPuzzleIds());
   const activeShelf = getSeasonShelfForPuzzle(activePuzzle);
@@ -98,8 +109,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
       image.dataset.assetId = art.assetId;
       button.appendChild(image);
     }
-    const label = appendTextElement(button, "span", "puzzle-home-destination__label", t(labelKey));
-    label.setAttribute("aria-hidden", "true");
+    appendTextElement(button, "span", "puzzle-home-destination__label", t(labelKey));
     if (artId === "puzzle") {
       appendTextElement(
         button,
@@ -108,7 +118,8 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
         `${activeShelfCompletedCount}/${activeShelfPuzzles.length}`
       );
     } else if (artId === "pantry" && hasNewPantryDecoration) {
-      appendTextElement(button, "span", "puzzle-home-destination__badge", t("home.new"));
+      const badge = appendTextElement(button, "span", "puzzle-home-destination__badge puzzle-home-destination__badge--new", "");
+      badge.setAttribute("aria-label", t("home.new"));
     }
     button.setAttribute("aria-label", t(labelKey));
     button.title = t(labelKey);

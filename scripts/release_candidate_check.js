@@ -28,10 +28,10 @@ function commandFor(command) {
     : { file: "sh", args: ["-lc", command] };
 }
 
-function runCheck(label, command) {
+function runCheck(label, command, env = {}) {
   console.log("\n== " + label + " ==");
   const executable = commandFor(command);
-  const result = spawnSync(executable.file, executable.args, { stdio: "inherit", shell: false });
+  const result = spawnSync(executable.file, executable.args, { stdio: "inherit", shell: false, env: { ...process.env, ...env } });
   if (result.status !== 0) {
     throw new Error(label + " failed with exit code " + result.status + (result.signal ? " signal " + result.signal : "") + (result.error ? " error " + result.error.message : ""));
   }
@@ -107,7 +107,7 @@ async function main() {
   try {
     const status = await waitForServer(baseUrl);
     console.log("HTTP probe passed with status " + status + ".");
-    runCheck("mobile QA", "npm run qa:mobile");
+    runCheck("mobile QA", "npm run qa:mobile", { PPP_QA_PORT: String(port) });
     const finalStatus = await probe(baseUrl);
     if (finalStatus !== 200) {
       throw new Error("Expected HTTP 200 from " + baseUrl + ", saw " + finalStatus);

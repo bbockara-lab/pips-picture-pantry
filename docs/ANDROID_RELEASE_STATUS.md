@@ -5,7 +5,7 @@ Last updated: 2026-07-27
 ## Current Launch Checkpoint - 2026-07-27
 
 - Google Play production access has been granted. Production release submission itself has not been created yet.
-- Current web candidate: package 0.1.617 / UI v0.1.617; internal-test upload target is versionCode 29 / versionName 1.1.1.
+- Current web candidate: package 0.1.618 / UI v0.1.618; internal-test upload target is versionCode 29 / versionName 1.1.1.
 - npm run qa:candidate passes: 182 unit tests, authored-catalog/uniqueness/art audits, runtime assets (201), store/listing/privacy/Billing wiring, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900.
 - Latest verified flow repairs include Pantry overlay alpha cleanup, reachable owned-decoration swapping, Time Attack three-round transition protection, one-time stage-completion protection, and lightweight earned-badge treatment.
 - Internal-test upload AAB rebuilt on 2026-07-27: versionCode 29 / versionName 1.1.1, upload-key signature verified. Use this build only to collect the two real-device Billing records.
@@ -22,15 +22,15 @@ Last updated: 2026-07-27
   - `versionCode` -> **28** (above the last uploaded Play Console code 27).
   - `versionName` -> **"1.1.0"** for the public-launch Billing candidate. Keep it separate from the web/internal app version in `package.json` and `src/data/appVersion.js`.
 
-**Automation status:** `build.gradle` versionCode is still manually managed. `scripts/build_android_release_bundle.ps1` and signed-bundle scripts do not auto-increment it. The current prepared upload code is 28; increase it again only if another AAB is uploaded before this candidate.
+**Automation status:** `build.gradle` versionCode is still manually managed. `scripts/build_android_release_bundle.ps1` and signed-bundle scripts do not auto-increment it. The current prepared upload code is 29; increase it again only if another AAB is uploaded before this candidate.
 
 **Automated guard:** run `npm run qa:release` during normal QA and `npm run qa:release:final` immediately before building the signed Play upload AAB. The normal guard reports release-number warnings without blocking local polish; the final guard fails if `versionCode` / `versionName` still match the last uploaded Play build.
 
 **Minimum release patch example:**
 ```gradle
 // android/app/build.gradle defaultConfig
-versionCode 28
-versionName "1.1.0" // or the final public launch version name
+versionCode 29
+versionName "1.1.1" // or the final public launch version name
 ```
 
 **Verification method:** after the release build, upload the AAB to the Play Console internal/closed test track and confirm there is no version conflict message. Record the accepted package/version details below before promoting.
@@ -142,7 +142,7 @@ versionName "1.1.0" // or the final public launch version name
 
 1. Finish final human review on Android/WebView and visible store screenshots.
 2. Complete `docs/PLAY_CONSOLE_BILLING_SETUP.md` for the `pip_cozy_support` and `pip_spoon_jar_small` managed products.
-3. Keep the prepared Android `versionCode 28` / `versionName "1.1.0"` unless another Play upload happens before launch.
+3. Keep the prepared Android `versionCode 29` / `versionName "1.1.1"` unless another Play upload happens before launch.
 4. Run `npm run qa:billing` and `npm run qa:release:final`.
 5. Build the signed Play-upload AAB with `scripts/build_android_signed_release_bundle.ps1`.
 6. Upload the signed AAB to Google Play internal/closed testing and confirm Play Console accepts it.
@@ -1677,7 +1677,7 @@ versionName "1.1.0" // or the final public launch version name
 - Added `npm run qa:android:candidate` as the fast Android candidate lane.
 - The lane runs the web candidate gate, Capacitor sync, unsigned Android release bundle build, and AAB output sanity check.
 - Verified the lane exits successfully and produces `android/app/build/outputs/bundle/release/app-release.aab`.
-- Android upload numbering is now prepared at `versionCode 28` / `versionName "1.1.0"`; bump again only if another AAB is uploaded before this public-launch Billing candidate.
+- Android upload numbering is now prepared at `versionCode 29` / `versionName "1.1.1"`; bump again only if another AAB is uploaded before this public-launch Billing candidate.
 
 ## Billing / IAP Release Note - 2026-07-16
 
@@ -1690,7 +1690,7 @@ versionName "1.1.0" // or the final public launch version name
 ## Billing / IAP Real-Device Validation - pending
 
 - Status: **pending**
-- App build: current candidate / Android versionCode 28 / versionName 1.1.0
+- App build: current candidate / Android versionCode 29 / versionName 1.1.1
 - Track and tester:
 - Device and Android version:
 - Evidence files or screenshots:
