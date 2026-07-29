@@ -1803,3 +1803,10 @@ versionName "1.1.3" // next internal-test Billing candidate
   - Replaying the same purchase token does not duplicate spoons:
   - Cancel/close grants no spoons:
 - When complete, change the heading date and status to `Status: **passed**`, record tester/device/build details, and keep the words `purchase`, `restore`, and `repeat` in this section so `npm run qa:release:final` can verify the release evidence. Use `npm run billing:evidence` to print a fresh copy of this checklist.
+
+## v0.1.642 local candidate note (2026-07-29)
+
+- Visible web version: v0.1.642.
+- Pantry data/economy now contains 8 shelves, 48 jars, 40 paid-jar gates, and 24 new transparent jar assets.
+- Android versionCode/versionName are unchanged; no AAB was requested or built for this slice.
+- Local candidate validation passed: 38 test files / 205 tests, production build, Android release gate, 48-jar asset contract, and four-width mobile visual QA.

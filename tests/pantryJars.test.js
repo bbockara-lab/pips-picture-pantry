@@ -39,9 +39,11 @@ beforeEach(() => {
 });
 
 describe("Pantry jar collection", () => {
-  it("defines four shelves with six jars and one starter each", () => {
-    expect(JAR_SHELVES).toHaveLength(4);
-    expect(PANTRY_JARS).toHaveLength(24);
+  it("defines eight shelves with six jars and one starter each", () => {
+    expect(JAR_SHELVES).toHaveLength(8);
+    expect(PANTRY_JARS).toHaveLength(48);
+    expect(PANTRY_JARS.filter((jar) => jar.cost > 0)).toHaveLength(40);
+    expect(PANTRY_JARS.reduce((total, jar) => total + jar.cost, 0)).toBe(2820);
     JAR_SHELVES.forEach((shelf) => {
       const jars = PANTRY_JARS.filter((jar) => jar.shelfId === shelf.id);
       expect(jars).toHaveLength(6);
@@ -62,7 +64,7 @@ describe("Pantry jar collection", () => {
     saveGame({ ...loadSave(), pantrySpoons: 500 });
     const before = getOwnedJarIds();
 
-    expect(buyJar("blueberry-jam")).toEqual(expect.objectContaining({ ok: true, balance: 488 }));
+    expect(buyJar("blueberry-jam")).toEqual(expect.objectContaining({ ok: true, balance: 485 }));
     expect(getCompletedPantryJarShelfCount()).toBe(0);
     expect(getCompletedPantryStoryGoalIds()).toEqual([]);
 

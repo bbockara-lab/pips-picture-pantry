@@ -2903,12 +2903,12 @@ async function verifyPantryPlacement(page, viewportName) {
     };
   });
   if (metrics.panelOverflowsX
-    || metrics.shelfCount !== 4
+    || metrics.shelfCount !== 8
     || metrics.shelfJarCounts.some((count) => count !== 6)
-    || metrics.jarCount !== 24
-    || metrics.starterCount !== 4
-    || metrics.ownedStarterCount !== 4
-    || metrics.equippedStarterCount !== 4
+    || metrics.jarCount !== 48
+    || metrics.starterCount !== 8
+    || metrics.ownedStarterCount !== 8
+    || metrics.equippedStarterCount !== 8
     || metrics.jarOverflowCount
     || metrics.storeProductCount !== 2
     || !metrics.storeAfterShelves

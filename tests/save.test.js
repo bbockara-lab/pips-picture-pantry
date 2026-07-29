@@ -131,13 +131,13 @@ describe("player save profiles", () => {
 
   it("requires pantry room progress before opening gated stages", () => {
     setActivePlayerName("Jay");
-    const gatedPack = { id: "sunny-spoon-sign", access: "unlockable", unlockCost: 24, pantryRoomStepRequired: 3 };
+    const gatedPack = { id: "sunny-spoon-sign", access: "unlockable", unlockCost: 24, pantryRoomStepRequired: 15 };
     saveGame({ ...loadSave(), pantrySpoons: 24 });
 
     expect(getPackPantryRoomRequirement(gatedPack)).toEqual({
-      required: 3,
+      required: 15,
       completed: 0,
-      remaining: 3,
+      remaining: 15,
       met: false
     });
     expect(canUnlockPack(gatedPack)).toBe(false);
@@ -151,8 +151,8 @@ describe("player save profiles", () => {
     saveGame({ ...loadSave(), ownedJarIds: firstThreeShelfJars });
 
     expect(getPackPantryRoomRequirement(gatedPack)).toEqual({
-      required: 3,
-      completed: 3,
+      required: 15,
+      completed: 15,
       remaining: 0,
       met: true
     });

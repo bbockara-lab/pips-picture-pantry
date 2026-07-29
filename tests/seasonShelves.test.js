@@ -33,13 +33,13 @@ describe("Season 0 shelves", () => {
     expect(seasonShelves.at(-1)?.id).toBe("shelf-village-pantry");
   });
 
-  it("preserves the prior Season 0 total economy while distributing it across shelves", () => {
+  it("balances the nine-stage shelf economy against the expanded Pantry", () => {
     const totals = seasonShelves.reduce((result, shelf) => ({
       unlockCost: result.unlockCost + Number(shelf.unlockCost || 0),
       stageBonus: result.stageBonus + Number(shelf.stageBonus || 0)
     }), { unlockCost: 0, stageBonus: 0 });
 
-    expect(totals).toEqual({ unlockCost: 970, stageBonus: 750 });
+    expect(totals).toEqual({ unlockCost: 1535, stageBonus: 810 });
   });
 
   it("keeps every required shelf unlock affordable through the main shelf path", () => {
@@ -57,21 +57,10 @@ describe("Season 0 shelves", () => {
     });
   });
 
-  it("maps the four completed Pantry jar shelves to the four stage gates", () => {
-    const requirementsByPack = new Map();
-    seasonShelves.forEach((shelf) => {
-      const required = Number(shelf.pantryRoomStepRequired || 0);
-      if (!requirementsByPack.has(shelf.artPackId)) requirementsByPack.set(shelf.artPackId, required);
-      expect(required).toBe(requirementsByPack.get(shelf.artPackId));
-    });
-
-    expect(Object.fromEntries(requirementsByPack)).toEqual({
-      "pips-first-shelf": 0,
-      "sunny-spoon-sign": 1,
-      "apron-drawer": 2,
-      "bakery-window": 3,
-      "village-pantry": 4
-    });
+  it("maps forty paid Pantry jars to nine five-jar stage gates", () => {
+    expect(seasonShelves.map((shelf) => shelf.pantryRoomStepRequired)).toEqual([
+      0, 5, 10, 15, 15, 20, 20, 25, 25, 30, 30, 35, 35, 40, 40
+    ]);
   });
 
   it("uses the previous shelf and current shelf completion as separate progression facts", () => {

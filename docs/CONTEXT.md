@@ -4522,3 +4522,12 @@ Current launch direction:
 - Stopped the initial brand-intro fade-in so the existing home cannot flash before the Sunny Spoon Studios bumper.
 - Reworked the mobile QA contract for the full-screen home: it now checks full-scene containment, icon/action collisions, in-scene currency, and the absence of retired Pantry-prop overlays. The normal header contract remains active for all other views.
 - Verification: 175 unit tests, source hygiene, full `qa:candidate`, production build, Android release gate, and four-width mobile QA pass at v0.1.594. Only the two real-device Billing evidence items remain external release blockers.
+
+## v0.1.642 - 2026-07-29 - Pantry 8-shelf economy and art expansion
+
+- Expanded Pantry collection from 4 shelves / 24 jars to 8 shelves / 48 jars while keeping one free starter jar per shelf.
+- Added 24 individually generated, transparent 256px WebP jar artworks for Pickles, Fruit Preserves, Herb Oils, and Botanical Teas.
+- Switched stage gating from completed jar shelves to paid jar count, using nine thresholds: 0, 5, 10, 15, 20, 25, 30, 35, and 40.
+- Rebalanced jar shelf totals to 180/200/240/280/340/420/520/640 spoons (2,820 total) and stage unlocks to 1,535 spoons with 810 stage bonus spoons.
+- Preserved completed-shelf counting only for Pantry collection celebration effects.
+- Validation: `npm run qa:candidate` passed 38 test files / 205 tests, all 333 puzzle catalog checks, 48 mapped jar assets, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.

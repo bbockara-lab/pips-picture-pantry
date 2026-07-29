@@ -282,7 +282,7 @@ export function getCompletedPantryStoryGoalIds() {
 }
 
 export function getPantryRoomStepCount() {
-  return getCompletedPantryJarShelfCount();
+  return getPaidJarCount();
 }
 
 export function getCompletedPantryJarShelfCount() {
