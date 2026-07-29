@@ -44,6 +44,16 @@ export function getDailyGreetingKey(now = new Date()) {
   return DAILY_GREETING_KEYS[dayNumber % DAILY_GREETING_KEYS.length];
 }
 
+export function hasAffordableUnownedPantryJar(jars, ownedJarIds, spoons) {
+  const owned = ownedJarIds instanceof Set ? ownedJarIds : new Set(ownedJarIds || []);
+  const balance = Math.max(0, Number(spoons) || 0);
+  return jars.some((jar) => (
+    !owned.has(jar.id)
+    && Number(jar.cost) > 0
+    && Number(jar.cost) <= balance
+  ));
+}
+
 export function renderPuzzleHub(activePuzzle, options = {}) {
   const {
     onOpenPuzzle = () => {},
@@ -112,7 +122,8 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   const activeShelfPuzzles = activeShelf ? getSeasonShelfPuzzles(activeShelf) : [];
   const activeShelfCompletedCount = activeShelfPuzzles.filter((puzzle) => completedIds.has(puzzle.id)).length;
   const ownedJarIds = new Set(getOwnedJarIds());
-  const hasNewPantryItem = PANTRY_JARS.some((jar) => !ownedJarIds.has(jar.id));
+  const pantrySpoons = getPantrySpoons();
+  const hasNewPantryItem = hasAffordableUnownedPantryJar(PANTRY_JARS, ownedJarIds, pantrySpoons);
   destinationItems.forEach(([artId, labelKey, onClick]) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -150,13 +161,13 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
 
   const currency = document.createElement("div");
   currency.className = "puzzle-home-scene__currency";
-  currency.setAttribute("aria-label", t("currency.spoons", { count: getPantrySpoons() }));
+  currency.setAttribute("aria-label", t("currency.spoons", { count: pantrySpoons }));
   const spoon = document.createElement("img");
   spoon.src = spoonTokenUrl;
   spoon.alt = "";
   spoon.setAttribute("aria-hidden", "true");
   spoon.dataset.assetId = "spoon-token-v2";
-  currency.append(spoon, document.createTextNode(String(getPantrySpoons())));
+  currency.append(spoon, document.createTextNode(String(pantrySpoons)));
 
   const settingsButton = document.createElement("button");
   settingsButton.type = "button";

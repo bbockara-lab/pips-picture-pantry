@@ -4549,3 +4549,11 @@ Current launch direction:
 - Strengthened mobile QA to reject non-positive badge gaps, locked art opacity above `0.15`, and any shelf containment regression.
 - Verified the true first-entry Badge guide as Pip with three populated steps, sequential `1 -> 2 -> 3` progression, and a clean final dismissal at all four QA widths.
 - Validation: `npm run qa:candidate` passed 38 test files / 207 tests, all 333 puzzle catalog checks, production build, Android release gate, and four-width mobile visual QA.
+
+## v0.1.645 - 2026-07-29 - Affordable Pantry notification
+
+- Changed the Workshop Pantry notification so it appears only when the player can currently afford an unowned paid jar.
+- Free starter jars, unaffordable jars, and already-owned jars no longer keep the notification permanently lit.
+- Reused the same computed condition on the `home.pantryLabel` destination button and avoided repeated save reads for the displayed spoon balance.
+- Added focused regression coverage for zero balance, affordability thresholds, ownership, and all-owned states.
+- Validation: `npm run qa:candidate` passed 38 test files / 210 tests, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.

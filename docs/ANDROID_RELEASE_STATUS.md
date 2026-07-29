@@ -1825,3 +1825,10 @@ versionName "1.1.3" // next internal-test Billing candidate
 - First-entry Badge guide progression and dismissal are covered by the four-width mobile browser QA contract.
 - Android versionCode/versionName are unchanged; no AAB was requested or built for this slice.
 - Local `npm run qa:candidate` passed 38 test files / 207 tests, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.645 local candidate note (2026-07-29)
+
+- Visible web version: v0.1.645.
+- Workshop Pantry notification now represents an immediately affordable unowned paid jar instead of any unowned jar.
+- Android versionCode/versionName are unchanged; no AAB was requested or built for this step.
+- Local `npm run qa:candidate` passed 38 test files / 210 tests, production build, Android release gate, and four-width mobile visual QA.
