@@ -5,6 +5,14 @@
 - Decision: no further paid purchase will be made for this candidate after the successful US$0.99 Play Billing checkout and 250-spoon grant established the live purchase channel.
 - Remaining evidence: repeatable consumable flags, distinct-token grant behavior, and duplicate-token rejection are covered by automated Billing tests. The missing US$2.99 real-device purchase remains an explicit release risk, not a reported pass.
 
+## 2026-07-29 v0.1.637 premium Pantry jar art collection
+
+- Current package/UI candidate: v0.1.637.
+- Replaces the shared CSS jar template with 24 individually art-directed transparent WebP collectibles. CSS now handles category shelf staging, responsive layout, and owned/equipped/complete states.
+- Economy, Billing/Spoon Store, ownership/equip persistence, and Pantry stage gates remain behaviorally unchanged from v0.1.636.
+- Android stays versionCode 33 / versionName 1.1.5. No AAB was built for this visual pass.
+- Candidate QA passed: 24/24 asset mapping and alpha checks; 36 test files / 201 tests; production build; Android release gate; and 360x740, 390x844, 430x932, 675x900 mobile layouts.
+
 ## 2026-07-29 v0.1.636 CSS Pantry jar collection
 
 - Current package/UI candidate: v0.1.636.

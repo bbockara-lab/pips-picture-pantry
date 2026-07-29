@@ -80,13 +80,13 @@ assertRuntimeBackground({
   runtimeSource: puzzleHubSource,
   runtimeFile: "src/ui/puzzleHubView.js"
 });
-// v0.1.636 Pantry is intentionally CSS-only. Archived room and overlay assets
-// remain in the registry for history, but no runtime Pantry import may revive them.
+// v0.1.637 Pantry uses dedicated raster jar art plus CSS shelf/state presentation.
+// Archived room and overlay assets remain historical and must not return.
 if (/pantry-room-sunlit|pantryOverlayArt|decorationArt|data\/decorations/.test(pantryViewSource)) {
-  errors.push("src/ui/pantryView.js: CSS Pantry must not import legacy room, overlay, or decoration art");
+  errors.push("src/ui/pantryView.js: Pantry must not import legacy room, overlay, or decoration art");
 }
 if (!pantryViewSource.includes("../data/pantryJars.js")) {
-  errors.push("src/ui/pantryView.js: CSS Pantry must render from the pantry jar data catalog");
+  errors.push("src/ui/pantryView.js: Pantry must render from the pantry jar data catalog");
 }
 // Opening seal must use the current approved Pip chrome asset, not the older app-icon crop.
 if (!brandIntroSource.includes("opening-key-visual-v1.webp")) {

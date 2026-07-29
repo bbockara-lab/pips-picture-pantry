@@ -1,4 +1,5 @@
 import { JAR_SHELVES, PANTRY_JARS, getJarsByShelf } from "../data/pantryJars.js";
+import { getJarArtUrl } from "../data/jarArt.js";
 import {
   buyJar,
   ensureStarterJars,
@@ -9,6 +10,7 @@ import {
   setEquippedJar
 } from "../game/save.js";
 import { t } from "../i18n/index.js";
+import "../styles/pantryJarArt.css";
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -18,39 +20,25 @@ function appendTextElement(parent, tagName, className, text) {
   return element;
 }
 
-function getShortLabel(jar) {
-  const name = t(jar.nameKey);
-  return name.length > 7 ? name.slice(0, 7) : name;
-}
-
-function applyJarVariables(element, jar) {
-  element.style.setProperty("--fill-color", jar.fillColor);
-  element.style.setProperty("--lid-color", jar.lidColor);
-  element.style.setProperty("--lid-border", "rgba(0, 0, 0, 0.35)");
-}
-
 function renderJarVisual(jar, owned, compact = false) {
   const visual = document.createElement("span");
-  visual.className = "pantry-jar__visual" + (compact ? " pantry-jar__visual--compact" : "");
-  applyJarVariables(visual, jar);
+  visual.className = [
+    "pantry-jar__visual",
+    compact ? "pantry-jar__visual--compact" : ""
+  ].filter(Boolean).join(" ");
+  visual.dataset.jarId = jar.id;
 
-  const lid = document.createElement("span");
-  lid.className = "pantry-jar__lid";
-  const neck = document.createElement("span");
-  neck.className = "pantry-jar__neck";
-  const body = document.createElement("span");
-  body.className = "pantry-jar__body";
+  const aura = document.createElement("span");
+  aura.className = "pantry-jar__aura";
+  const image = document.createElement("img");
+  image.className = "pantry-jar__art";
+  image.src = getJarArtUrl(jar.id);
+  image.alt = "";
+  image.loading = "lazy";
+  image.decoding = "async";
+  if (!owned) image.setAttribute("aria-hidden", "true");
 
-  if (owned) {
-    const fill = document.createElement("span");
-    fill.className = "pantry-jar__fill " + jar.texture;
-    const label = document.createElement("span");
-    label.className = "pantry-jar__paper-label";
-    label.textContent = getShortLabel(jar);
-    body.append(fill, label);
-  }
-
-  visual.append(lid, neck, body);
+  visual.append(aura, image);
   return visual;
 }
 
@@ -80,9 +68,13 @@ function renderJar(jar, ownedIds, equippedJars, onOpen) {
 
 function renderShelf(shelf, ownedIds, equippedJars, onOpen) {
   const section = document.createElement("section");
-  section.className = "pantry-shelf";
+  const shelfJars = getJarsByShelf(shelf.id);
+  const ownedCount = shelfJars.filter((jar) => ownedIds.includes(jar.id)).length;
+  section.className = "pantry-shelf" + (ownedCount === shelfJars.length ? " complete" : "");
   section.dataset.shelfId = shelf.id;
+  section.style.setProperty("--shelf-progress", String(ownedCount));
   appendTextElement(section, "h3", "pantry-shelf__title", t(shelf.nameKey));
+  appendTextElement(section, "span", "pantry-shelf__progress", ownedCount + " / " + shelfJars.length);
   const row = document.createElement("div");
   row.className = "pantry-shelf__jars";
   getJarsByShelf(shelf.id).forEach((jar) => {

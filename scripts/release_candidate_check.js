@@ -14,6 +14,7 @@ const checks = [
   ["launch integrity", "npm run qa:launch-integrity"],
   ["hygiene", "npm run qa:hygiene"],
   ["assets", "npm run qa:assets"],
+  ["pantry jar assets", "npm run qa:jars"],
   ["store assets", "npm run qa:store"],
   ["store listing", "npm run qa:store-listing"],
   ["billing", "npm run qa:billing"],

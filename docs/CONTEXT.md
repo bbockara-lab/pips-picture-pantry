@@ -1,3 +1,11 @@
+## v0.1.637 - Premium Pantry Jar Art Collection
+
+- Rebuilt all 24 Pantry jars as individually art-directed raster collectibles with transparent WebP runtime assets: distinct silhouettes, fabrics, ribbons, golden spoon charms, illustrated labels, glass/material detail, and escalating rarity finishes.
+- Uses CSS only for the four category-specific shelf scenes and runtime states: wood grain, progress medallions, locked/equipped treatments, and a full-shelf completion sheen.
+- Kept the v0.1.636 jar economy, purchase, equip, stage-gate, Spoon Store, and save behavior unchanged. Existing beta decoration/spoon migration remains intentionally out of scope.
+- Visible/package version is v0.1.637. Android remains versionCode 33 / versionName 1.1.5; no AAB is built or authorized for this visual-quality pass.
+- Verification passed: 24/24 art mapping and alpha checks; 36 test files / 201 tests; production build; Android release gate; and mobile layout at 360x740, 390x844, 430x932, and 675x900 via `npm run qa:candidate`.
+
 ## v0.1.636 - CSS Pantry Jar Collection
 
 - Replaced the legacy background-room, overlay-art, slot-filter, and decoration-card Pantry with four CSS-only jar shelves: Jam, Honey, Herbs, and Spices.
