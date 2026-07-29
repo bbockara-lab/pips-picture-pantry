@@ -1,3 +1,13 @@
+## v0.1.636 - CSS Pantry Jar Collection
+
+- Replaced the legacy background-room, overlay-art, slot-filter, and decoration-card Pantry with four CSS-only jar shelves: Jam, Honey, Herbs, and Spices.
+- Added 24 data-driven jars with starter/common/rare/special/luxury pricing, glass/lid/fill variables, and five CSS fill textures. Each shelf owns six jars and displays one equipped jar at a time.
+- Added independent `ownedJarIds` and `equippedJars` save state. Four starter jars are granted and equipped idempotently; only paid jar purchases append one Pantry room step for existing stage gates.
+- Jar purchases validate balance and ownership, deduct spoons, grant the jar, update stage progress, and persist once. The bottom sheet supports purchase, equip, insufficient-balance routing, backdrop close, Escape close, safe-area padding, and focus.
+- Workshop Pantry notification now tracks unowned jars instead of retired decorations. The Spoon Store remains below the shelves.
+- Verification state: automated verified; real-device review remains pending. `npm run qa:candidate` passed 35 test files / 199 tests, asset/Billing/build/Android release gates, and mobile runtime QA at 360x740, 390x844, 430x932, and 675x900.
+- Visible/package version is v0.1.636. Android remains versionCode 33 / versionName 1.1.5; no AAB is built or authorized in this UI replacement.
+
 ## v0.1.635 - Time Attack Exit State Recovery
 
 - Root cause confirmed: starting Time Attack replaced `activePuzzle` with a generated run puzzle, while close/navigation/completion/timeout paths cleared only parts of the Time Attack state and never restored the regular puzzle.

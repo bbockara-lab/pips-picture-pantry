@@ -3,9 +3,9 @@ import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop
 import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, seasonShelves } from "../data/seasonShelves.js";
 import { getStageArtUrl, hasApprovedStageArt } from "../data/stageArt.js";
-import { getApprovedPantryDecorations } from "../data/decorations.js";
+import { PANTRY_JARS } from "../data/pantryJars.js";
 import { ECONOMY } from "../data/economyConfig.js";
-import { canUnlockShelf, getCompletedPuzzleIds, getOwnedDecorationIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
+import { canUnlockShelf, getCompletedPuzzleIds, getOwnedJarIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
 import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
@@ -111,9 +111,8 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   const activeShelf = getSeasonShelfForPuzzle(activePuzzle);
   const activeShelfPuzzles = activeShelf ? getSeasonShelfPuzzles(activeShelf) : [];
   const activeShelfCompletedCount = activeShelfPuzzles.filter((puzzle) => completedIds.has(puzzle.id)).length;
-  const ownedDecorationIds = new Set(getOwnedDecorationIds());
-  const hasNewPantryDecoration = getApprovedPantryDecorations()
-    .some((decoration) => !ownedDecorationIds.has(decoration.id));
+  const ownedJarIds = new Set(getOwnedJarIds());
+  const hasNewPantryItem = PANTRY_JARS.some((jar) => !ownedJarIds.has(jar.id));
   destinationItems.forEach(([artId, labelKey, onClick]) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -136,7 +135,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
         "puzzle-home-destination__badge",
         `${activeShelfCompletedCount}/${activeShelfPuzzles.length}`
       );
-    } else if (artId === "pantry" && hasNewPantryDecoration) {
+    } else if (artId === "pantry" && hasNewPantryItem) {
       const badge = appendTextElement(button, "span", "puzzle-home-destination__badge puzzle-home-destination__badge--new", "");
       badge.setAttribute("aria-label", t("home.new"));
     }

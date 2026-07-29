@@ -2864,83 +2864,67 @@ async function seedCompletedStarter(page) {
 
 
 async function verifyPantryPlacement(page, viewportName) {
-  await expectVisible(page, ".pantry-panel", viewportName);
-  await expectVisible(page, ".pantry-room", viewportName);
-  await expectVisible(page, ".pantry-story-request", viewportName);
-  await expectVisible(page, ".pantry-shop", viewportName);
+  await expectVisible(page, ".pantry-jar-panel", viewportName);
+  await expectVisible(page, ".pantry-jar-shelves", viewportName);
   await expectVisible(page, ".spoon-store", viewportName);
-  await expectAbsent(page, ".pantry-planning-deck", viewportName);
-  await expectAbsent(page, ".pantry-placement-note, .pantry-spoon-note", viewportName);
-  await expectAbsent(page, ".pantry-item-status, .pantry-item-rarity, .pantry-slot-note, .pantry-swap-note, .pantry-track-goal, .pantry-item-savings", viewportName);
+  await expectAbsent(page, ".pantry-room, .pantry-room-overlays, .pantry-shop, .pantry-item-card, .pantry-story-request, .pantry-story-milestone", viewportName);
 
   const metrics = await page.evaluate(() => {
-    const panel = document.querySelector(".pantry-panel");
-    const room = document.querySelector(".pantry-room");
+    const panel = document.querySelector(".pantry-jar-panel");
+    const shelves = [...document.querySelectorAll(".pantry-shelf")];
+    const jars = [...document.querySelectorAll(".pantry-jar")];
     const store = document.querySelector(".spoon-store");
-    const shop = document.querySelector(".pantry-shop");
-    const shopGrid = shop?.querySelector(".pantry-shop-grid");
-    const shopLimit = shop?.querySelector(".pantry-shop-limit");
-    const shopLimitAction = shopLimit?.querySelector(".pantry-shop-limit__action");
-    const cards = [...document.querySelectorAll(".pantry-item-card")];
-    const slots = [...(room?.querySelectorAll(".pantry-room-slot") || [])];
-    const boxOf = (element) => {
-      const rect = element?.getBoundingClientRect();
-      return rect ? { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom } : null;
-    };
-    const intersects = (left, right) => Boolean(left && right
-      && left.left < right.right - 1
-      && left.right > right.left + 1
-      && left.top < right.bottom - 1
-      && left.bottom > right.top + 1);
-    const roomBox = boxOf(room);
-    const slotBoxes = slots.map(boxOf);
-    const billingStatuses = [...(store?.querySelectorAll(".support-pack-card__status") || [])];
-    const billingToneVisibility = ["checking", "success", "warning"].every((tone) => billingStatuses.every((status) => {
-      const previousClass = status.className;
-      const previousText = status.textContent;
-      status.className = `support-pack-card__status support-pack-card__status--${tone}`;
-      status.textContent = tone;
-      const visible = getComputedStyle(status).display !== "none";
-      status.className = previousClass;
-      status.textContent = previousText;
-      return visible;
-    }));
     return {
-      panelOverflowsX: panel ? panel.scrollWidth > panel.clientWidth + 1 : true,
-      roomSlotCount: room?.querySelectorAll(".pantry-room-slot").length || 0,
-      roomSlotOutside: slotBoxes.some((box) => !box || !roomBox
-        || box.left < roomBox.left - 1 || box.right > roomBox.right + 1
-        || box.top < roomBox.top - 1 || box.bottom > roomBox.bottom + 1),
-      roomSlotCollisions: slotBoxes.some((box, index) => slotBoxes
-        .slice(index + 1)
-        .some((other) => intersects(box, other))),
-      filterGroupCount: document.querySelectorAll(".pantry-filter-row").length,
-      cardCount: cards.length,
-      cardOverflowCount: cards.filter((card) => card.scrollWidth > card.clientWidth + 1).length,
+      panelOverflowsX: panel
+        ? document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
+        : true,
+      shelfCount: shelves.length,
+      shelfJarCounts: shelves.map((shelf) => shelf.querySelectorAll(".pantry-jar").length),
+      jarCount: jars.length,
+      starterCount: jars.filter((jar) => jar.classList.contains("rarity-starter")).length,
+      ownedStarterCount: jars.filter((jar) => jar.classList.contains("rarity-starter") && jar.classList.contains("owned")).length,
+      equippedStarterCount: jars.filter((jar) => jar.classList.contains("rarity-starter") && jar.classList.contains("equipped")).length,
+      jarOverflowCount: jars.filter((jar) => jar.scrollWidth > jar.clientWidth + 1).length,
       storeProductCount: store?.querySelectorAll(".support-pack-card").length || 0,
-      storeInsideShop: Boolean(shop && store && shop.contains(store)),
-      storeAfterDecorations: Boolean(shopGrid && store && (shopGrid.compareDocumentPosition(store) & Node.DOCUMENT_POSITION_FOLLOWING)),
-      billingToneVisibility,
-      storeOverflowsX: store ? store.scrollWidth > store.clientWidth + 1 : true,
-      storeGlareCount: store ? [...store.querySelectorAll("button, .support-pack-card, .support-pack-card__art")]
-        .filter((item) => getComputedStyle(item, "::before").content !== "none" || getComputedStyle(item, "::after").content !== "none").length : 1,
-      shopLimitGlare: shopLimit ? getComputedStyle(shopLimit, "::before").content !== "none" || getComputedStyle(shopLimit, "::after").content !== "none" : true,
-      shopLimitActionGlare: shopLimitAction ? getComputedStyle(shopLimitAction, "::before").content !== "none" || getComputedStyle(shopLimitAction, "::after").content !== "none" : true,
-      shopLimitGradient: shopLimit ? /gradient/i.test(getComputedStyle(shopLimit).backgroundImage) : true
+      storeAfterShelves: Boolean(store && document.querySelector(".pantry-jar-shelves")?.compareDocumentPosition(store) & Node.DOCUMENT_POSITION_FOLLOWING),
+      storeOverflowsX: store ? store.scrollWidth > store.clientWidth + 1 : true
     };
   });
-  if (metrics.panelOverflowsX || metrics.roomSlotCount !== 5 || metrics.roomSlotOutside || metrics.roomSlotCollisions || metrics.filterGroupCount !== 1 || metrics.cardCount < 1 || metrics.cardCount > 6 || metrics.cardOverflowCount || metrics.storeProductCount !== 2 || !metrics.storeInsideShop || !metrics.storeAfterDecorations || !metrics.billingToneVisibility || metrics.storeOverflowsX || metrics.storeGlareCount || metrics.shopLimitGlare || metrics.shopLimitActionGlare || metrics.shopLimitGradient) {
-    failures.push("[" + viewportName + "] Simplified Pantry layout regressed: " + JSON.stringify(metrics));
+  if (metrics.panelOverflowsX
+    || metrics.shelfCount !== 4
+    || metrics.shelfJarCounts.some((count) => count !== 6)
+    || metrics.jarCount !== 24
+    || metrics.starterCount !== 4
+    || metrics.ownedStarterCount !== 4
+    || metrics.equippedStarterCount !== 4
+    || metrics.jarOverflowCount
+    || metrics.storeProductCount !== 2
+    || !metrics.storeAfterShelves
+    || metrics.storeOverflowsX) {
+    failures.push("[" + viewportName + "] Pantry jar shelf layout regressed: " + JSON.stringify(metrics));
   }
 
-  const firstAction = page.locator(".pantry-item-card").first().locator(".pantry-item-action");
-  if (await firstAction.isEnabled()) {
-    await firstAction.click();
-    await page.waitForTimeout(120);
-    if ((await page.locator(".guide-overlay").count()) > 0) {
-      await expectGuideDialogChromeArt(page, viewportName);
-      await dismissGuideIfPresent(page, viewportName);
+  const firstUnowned = page.locator(".pantry-jar.unowned").first();
+  if (await firstUnowned.count()) {
+    await firstUnowned.click();
+    await page.locator(".pantry-jar-detail-backdrop.visible").waitFor({ state: "visible", timeout: 2000 });
+    await page.waitForTimeout(300);
+    const detailMetrics = await page.locator(".pantry-jar-detail").evaluate((detail) => {
+      const rect = detail.getBoundingClientRect();
+      return {
+        left: rect.left,
+        right: rect.right,
+        bottom: rect.bottom,
+        viewportWidth: window.innerWidth,
+        viewportHeight: window.innerHeight
+      };
+    });
+    if (detailMetrics.left < -1
+      || detailMetrics.right > detailMetrics.viewportWidth + 1
+      || detailMetrics.bottom > detailMetrics.viewportHeight + 1) {
+      failures.push("[" + viewportName + "] Pantry jar detail sheet escaped viewport: " + JSON.stringify(detailMetrics));
     }
+    await page.locator(".pantry-jar-detail__btn-close").click();
   }
   await expectNoHorizontalOverflow(page, viewportName);
 }

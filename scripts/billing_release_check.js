@@ -73,7 +73,7 @@ requireIncludes(economySource, "COZY_PASS_SPOON_GRANT: 250", "src/data/economyCo
 requireIncludes(economySource, "SPOON_JAR_SMALL_GRANT: 750", "src/data/economyConfig.js");
 requireIncludes(settingsSource, "export function renderSpoonStore", "src/ui/settingsView.js");
 requireIncludes(appShellSource, "const spoonStore = renderSpoonStore(settingsDialogProps);", "src/ui/appShell.js");
-requireIncludes(pantrySource, "shop.appendChild(spoonStore);", "src/ui/pantryView.js");
+requireIncludes(pantrySource, "panel.appendChild(spoonStore);", "src/ui/pantryView.js");
 
 const requiredI18nKeys = [
   "supportTitle",

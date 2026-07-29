@@ -1,410 +1,243 @@
-import { getApprovedPantryDecorations, getDecorationById, pantrySlots } from "../data/decorations.js";
-import { getDecorationArtUrl } from "../data/decorationArt.js";
-import { getPantryOverlayUrl } from "../data/pantryOverlayArt.js";
-import pantryRoomBackgroundUrl from "../assets/backgrounds/pantry-room-sunlit-v2.webp";
+import { JAR_SHELVES, PANTRY_JARS, getJarsByShelf } from "../data/pantryJars.js";
 import {
-  buyDecoration,
-  equipDecoration,
-  getCompletedPantryStoryGoalIds,
-  getEquippedDecorations,
-  getOwnedDecorationIds,
+  buyJar,
+  ensureStarterJars,
+  getEquippedJars,
+  getOwnedJarIds,
+  getPaidJarCount,
   getPantrySpoons,
-  getPantryStoryGoalId,
-  setPantryStoryGoalId
+  setEquippedJar
 } from "../game/save.js";
 import { t } from "../i18n/index.js";
-import { renderPantryStoryMilestone, renderPantryStoryRequest } from "./pantryStoryCards.js";
-
-const defaultShopCardLimit = 3;
-const pantryViewState = {
-  selectedSlotId: "all",
-  shopVisibleLimit: defaultShopCardLimit,
-  storyGoalId: null
-};
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
-  if (className) {
-    element.className = className;
-  }
+  if (className) element.className = className;
   element.textContent = text;
   parent.appendChild(element);
   return element;
 }
 
-function replaceWithOptional(parent, ...nodes) {
-  parent.replaceChildren();
-  nodes.forEach((node) => {
-    if (node && typeof node === "object" && "nodeType" in node) {
-      parent.appendChild(node);
-    }
-  });
+function getShortLabel(jar) {
+  const name = t(jar.nameKey);
+  return name.length > 7 ? name.slice(0, 7) : name;
 }
 
-function renderRoomSlot(slot, equippedDecorations, selectedSlotId, onSelectSlot) {
-  const decoration = getDecorationById(equippedDecorations[slot.id]);
-  const overlayUrl = decoration ? getPantryOverlayUrl(decoration.assetId) : "";
-  const selected = selectedSlotId === slot.id;
-  const slotElement = document.createElement("button");
-  slotElement.className = "pantry-room-slot slot-" + slot.id + " " + (overlayUrl ? "filled" : "empty") + " " + (selected ? "selected" : "");
-  slotElement.type = "button";
-  slotElement.setAttribute("aria-pressed", String(selected));
-  slotElement.setAttribute("aria-label", t("pantry.slotAction", { slot: t(slot.titleKey) }));
+function applyJarVariables(element, jar) {
+  element.style.setProperty("--fill-color", jar.fillColor);
+  element.style.setProperty("--lid-color", jar.lidColor);
+  element.style.setProperty("--lid-border", "rgba(0, 0, 0, 0.35)");
+}
 
-  if (decoration) {
-    slotElement.dataset.decoration = decoration.id;
-  } else {
+function renderJarVisual(jar, owned, compact = false) {
+  const visual = document.createElement("span");
+  visual.className = "pantry-jar__visual" + (compact ? " pantry-jar__visual--compact" : "");
+  applyJarVariables(visual, jar);
+
+  const lid = document.createElement("span");
+  lid.className = "pantry-jar__lid";
+  const neck = document.createElement("span");
+  neck.className = "pantry-jar__neck";
+  const body = document.createElement("span");
+  body.className = "pantry-jar__body";
+
+  if (owned) {
+    const fill = document.createElement("span");
+    fill.className = "pantry-jar__fill " + jar.texture;
     const label = document.createElement("span");
-    label.textContent = t(slot.titleKey);
-    slotElement.appendChild(label);
+    label.className = "pantry-jar__paper-label";
+    label.textContent = getShortLabel(jar);
+    body.append(fill, label);
   }
-  // A room tap is a shortcut into that slot's shop. The list is below the
-  // room on mobile, so bring the available swaps into view instead of leaving
-  // the player to hunt for a second control.
-  slotElement.addEventListener("click", () => onSelectSlot(selected ? "all" : slot.id, { fromRoom: true }));
-  return slotElement;
+
+  visual.append(lid, neck, body);
+  return visual;
 }
 
-function renderRoomOverlays(equippedDecorations) {
-  const layer = document.createElement("div");
-  layer.className = "pantry-room-overlays";
-  layer.setAttribute("aria-hidden", "true");
-  pantrySlots.forEach((slot) => {
-    const decoration = getDecorationById(equippedDecorations[slot.id]);
-    const overlayUrl = decoration ? getPantryOverlayUrl(decoration.assetId) : "";
-    if (!overlayUrl) return;
-    const image = document.createElement("img");
-    image.className = "pantry-room-overlay";
-    image.dataset.slot = slot.id;
-    image.src = overlayUrl;
-    image.alt = "";
-    layer.appendChild(image);
-  });
-  return layer;
-}
-
-function compareDecorations(left, right, ownedIds, equippedDecorations, spoons) {
-  const leftOwned = ownedIds.includes(left.id);
-  const rightOwned = ownedIds.includes(right.id);
-  const leftEquipped = equippedDecorations[left.slot] === left.id;
-  const rightEquipped = equippedDecorations[right.slot] === right.id;
-  const leftAffordable = !leftOwned && spoons >= Number(left.cost || 0);
-  const rightAffordable = !rightOwned && spoons >= Number(right.cost || 0);
-
-  // In a selected room slot, the player must always be able to find both the
-  // item currently on display and every item they already own before offers.
-  // The old ascending score sorted these to the bottom of a three-card list.
-  const priority = (owned, equipped, affordable) => {
-    if (equipped) return 0;
-    if (owned) return 1;
-    if (affordable) return 2;
-    return 3;
-  };
-  return priority(leftOwned, leftEquipped, leftAffordable) - priority(rightOwned, rightEquipped, rightAffordable)
-    || Number(left.cost || 0) - Number(right.cost || 0)
-    || left.id.localeCompare(right.id);
-}
-
-function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, storyGoalId, onRefresh, onFirstPurchase, onOpenSpoonStore) {
-  const owned = ownedIds.includes(decoration.id);
-  const equipped = equippedDecorations[decoration.slot] === decoration.id;
-  const affordable = spoons >= Number(decoration.cost || 0);
-  const isStarterRoomRequest = decoration.id === "starter-counter-cloth";
-  const artUrl = getDecorationArtUrl(decoration.assetId);
-  const slot = pantrySlots.find((candidate) => candidate.id === decoration.slot);
-  const slotLabel = slot ? t(slot.titleKey) : decoration.slot;
-
-  const card = document.createElement("article");
-  card.className = ["pantry-item-card", "rarity-" + decoration.rarity, equipped ? "equipped" : ""].filter(Boolean).join(" ");
-
-  const art = document.createElement("div");
-  art.className = "pantry-item-art";
-  const image = document.createElement("img");
-  image.src = artUrl;
-  image.alt = t(decoration.titleKey);
-  art.appendChild(image);
-
-  const body = document.createElement("div");
-  body.className = "pantry-item-body";
-  const priceLabel = owned ? t("pantry.owned") : decoration.cost > 0 ? t("pantry.spoonCost", { count: decoration.cost }) : t("pantry.free");
-  const meta = document.createElement("div");
-  meta.className = "pantry-item-meta";
-  appendTextElement(meta, "span", "pantry-item-cost", priceLabel);
-  body.appendChild(meta);
-  appendTextElement(body, "h4", "", t(decoration.titleKey));
-
+function renderJar(jar, ownedIds, equippedJars, onOpen) {
+  const owned = ownedIds.includes(jar.id);
+  const equipped = equippedJars[jar.shelfId] === jar.id;
   const button = document.createElement("button");
-  button.className = "button secondary pantry-item-action";
   button.type = "button";
+  button.className = [
+    "pantry-jar",
+    "rarity-" + jar.rarity,
+    owned ? "owned" : "unowned",
+    equipped ? "equipped" : ""
+  ].join(" ");
+  button.dataset.jarId = jar.id;
+  button.setAttribute("aria-label", t("pantry.jar.openDetail", { item: t(jar.nameKey) }));
+  button.appendChild(renderJarVisual(jar, owned));
+  appendTextElement(button, "span", "pantry-jar__name", t(jar.nameKey));
+  if (!owned) {
+    appendTextElement(button, "span", "pantry-jar__price", t("pantry.jar.spoonCost", { count: jar.cost }));
+  } else if (equipped) {
+    appendTextElement(button, "span", "pantry-jar__status", t("pantry.jar.equipped"));
+  }
+  button.addEventListener("click", () => onOpen(jar));
+  return button;
+}
 
-  if (equipped) {
-    button.disabled = true;
-    button.textContent = t("pantry.equipped");
-  } else if (owned) {
-    button.textContent = t("pantry.equipToSlot", { slot: slotLabel });
-    button.addEventListener("click", () => {
-      const storyCompleted = decoration.id === storyGoalId || isStarterRoomRequest;
-      equipDecoration(decoration);
-      if (storyCompleted) {
-        storyGoalId = null;
-        pantryViewState.storyGoalId = null;
-        onFirstPurchase?.(decoration, {
-          storyCompleted: true,
-          completedRequestCount: getCompletedPantryStoryGoalIds().length
-        });
-      }
-      onRefresh?.();
-    });
-  } else {
-    const slotOccupied = Boolean(equippedDecorations[decoration.slot])
-      && equippedDecorations[decoration.slot] !== decoration.id;
-    button.textContent = affordable
-      ? (slotOccupied ? t("pantry.replaceItem") : t("pantry.buy"))
-      : t("pantry.addSpoons", { count: Math.max(0, decoration.cost - spoons) });
-    button.addEventListener("click", () => {
+function renderShelf(shelf, ownedIds, equippedJars, onOpen) {
+  const section = document.createElement("section");
+  section.className = "pantry-shelf";
+  section.dataset.shelfId = shelf.id;
+  appendTextElement(section, "h3", "pantry-shelf__title", t(shelf.nameKey));
+  const row = document.createElement("div");
+  row.className = "pantry-shelf__jars";
+  getJarsByShelf(shelf.id).forEach((jar) => {
+    row.appendChild(renderJar(jar, ownedIds, equippedJars, onOpen));
+  });
+  const board = document.createElement("div");
+  board.className = "pantry-shelf__board";
+  board.setAttribute("aria-hidden", "true");
+  section.append(row, board);
+  return section;
+}
+
+function createDetailPanel() {
+  const backdrop = document.createElement("div");
+  backdrop.className = "pantry-jar-detail-backdrop";
+  backdrop.hidden = true;
+  const panel = document.createElement("section");
+  panel.className = "pantry-jar-detail";
+  panel.setAttribute("role", "dialog");
+  panel.setAttribute("aria-modal", "true");
+  panel.setAttribute("aria-labelledby", "pantry-jar-detail-name");
+  backdrop.appendChild(panel);
+  return { backdrop, panel };
+}
+
+function showJarDetail({ backdrop, panel, jar, ownedIds, equippedJars, onRefresh, onFirstPurchase, onOpenSpoonStore }) {
+  const owned = ownedIds.includes(jar.id);
+  const equipped = equippedJars[jar.shelfId] === jar.id;
+  const shelf = JAR_SHELVES.find((candidate) => candidate.id === jar.shelfId);
+  const spoons = getPantrySpoons();
+  panel.replaceChildren();
+
+  const header = document.createElement("div");
+  header.className = "pantry-jar-detail__header";
+  const preview = document.createElement("div");
+  preview.className = "pantry-jar-detail__preview";
+  preview.appendChild(renderJarVisual(jar, owned, true));
+  const info = document.createElement("div");
+  info.className = "pantry-jar-detail__info";
+  const name = appendTextElement(info, "h3", "pantry-jar-detail__name", t(jar.nameKey));
+  name.id = "pantry-jar-detail-name";
+  appendTextElement(info, "p", "pantry-jar-detail__shelf", t("pantry.jar.shelfLabel", { shelf: t(shelf.nameKey) }));
+  appendTextElement(info, "p", "pantry-jar-detail__rarity", t("pantry.jar.rarity." + jar.rarity));
+  header.append(preview, info);
+
+  const actions = document.createElement("div");
+  actions.className = "pantry-jar-detail__actions";
+  const primary = document.createElement("button");
+  primary.type = "button";
+  if (!owned) {
+    const affordable = spoons >= jar.cost;
+    primary.className = "pantry-jar-detail__btn-buy";
+    primary.textContent = affordable
+      ? t("pantry.jar.buyAction", { count: jar.cost })
+      : t("pantry.jar.needSpoons", { count: jar.cost - spoons });
+    primary.addEventListener("click", () => {
       if (!affordable) {
-        onOpenSpoonStore?.(decoration);
+        close();
+        onOpenSpoonStore?.(jar);
         return;
       }
-      if (buyDecoration(decoration)) {
-        const storyCompleted = decoration.id === storyGoalId || isStarterRoomRequest;
-        if (storyCompleted) {
-          storyGoalId = null;
-          pantryViewState.storyGoalId = null;
-        }
-        onFirstPurchase?.(decoration, {
-          storyCompleted,
-          completedRequestCount: getCompletedPantryStoryGoalIds().length
+      const result = buyJar(jar.id);
+      if (result.ok) {
+        close();
+        onFirstPurchase?.(jar, {
+          storyCompleted: false,
+          completedRequestCount: getPaidJarCount()
         });
         onRefresh?.();
       }
     });
+  } else if (!equipped) {
+    primary.className = "pantry-jar-detail__btn-equip";
+    primary.textContent = t("pantry.jar.equipAction");
+    primary.addEventListener("click", () => {
+      if (setEquippedJar(jar.shelfId, jar.id)) {
+        close();
+        onRefresh?.();
+      }
+    });
+  } else {
+    primary.className = "pantry-jar-detail__btn-equipped";
+    primary.textContent = t("pantry.jar.equipped");
+    primary.disabled = true;
   }
 
-  card.append(art, body, button);
+  const closeButton = document.createElement("button");
+  closeButton.type = "button";
+  closeButton.className = "pantry-jar-detail__btn-close";
+  closeButton.textContent = t("common.close");
+  const close = () => {
+    backdrop.classList.remove("visible");
+    backdrop.hidden = true;
+  };
+  closeButton.addEventListener("click", close);
+  actions.append(primary, closeButton);
+  panel.append(header, actions);
+
+  backdrop.hidden = false;
+  requestAnimationFrame(() => {
+    backdrop.classList.add("visible");
+    primary.focus();
+  });
+  backdrop.onclick = (event) => {
+    if (event.target === backdrop) close();
+  };
+  backdrop.onkeydown = (event) => {
+    if (event.key === "Escape") close();
+  };
+}
+
+function renderOnboarding() {
+  if (getPaidJarCount() > 0) return null;
+  const card = document.createElement("aside");
+  card.className = "pantry-jar-onboarding";
+  appendTextElement(card, "strong", "", t("pantry.jar.onboardingTitle"));
+  appendTextElement(card, "span", "", t("pantry.jar.onboardingPrompt"));
   return card;
 }
 
-function renderSlotFilters(selectedSlotId, onSelectSlot) {
-  const filters = document.createElement("div");
-  filters.className = "pantry-filter-row pantry-slot-filters";
-  filters.setAttribute("aria-label", t("pantry.slotFilterLabel"));
-
-  const options = [{ id: "all", titleKey: "pantry.allSlots" }, ...pantrySlots];
-  options.forEach((slot) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = selectedSlotId === slot.id ? "pantry-slot-filter active" : "pantry-slot-filter";
-    button.setAttribute("aria-pressed", String(selectedSlotId === slot.id));
-    button.textContent = t(slot.titleKey);
-    button.addEventListener("click", () => onSelectSlot(slot.id));
-    filters.appendChild(button);
-  });
-
-  return filters;
-}
-
-function renderEmptyShopState(onResetFilters) {
-  const emptyState = document.createElement("article");
-  emptyState.className = "pantry-empty-state";
-
-  const title = document.createElement("h4");
-  title.textContent = t("pantry.emptyFilterTitle");
-  const body = document.createElement("p");
-  body.textContent = t("pantry.emptyFilterBody");
-  const resetButton = document.createElement("button");
-  resetButton.className = "button secondary pantry-reset-filters";
-  resetButton.type = "button";
-  resetButton.textContent = t("pantry.resetFilters");
-  resetButton.addEventListener("click", () => onResetFilters?.());
-
-  emptyState.append(title, body, resetButton);
-  return emptyState;
-}
-
-function renderShopLimitControl(visibleCount, totalCount, onShowMore) {
-  if (visibleCount >= totalCount) {
-    return null;
-  }
-
-  const control = document.createElement("div");
-  control.className = "pantry-shop-limit";
-
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "pantry-shop-limit__action";
-  button.textContent = t("pantry.shopLimitAction");
-  button.addEventListener("click", () => onShowMore?.());
-
-  control.appendChild(button);
-  return control;
-}
-
 export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {}, spoonStore = null, onOpenSpoonStore = () => {}) {
+  ensureStarterJars();
+  const ownedIds = getOwnedJarIds();
+  const equippedJars = getEquippedJars();
   const panel = document.createElement("section");
-  panel.className = "pantry-panel content-panel";
+  panel.className = "pantry-panel pantry-jar-panel content-panel";
 
-  const spoons = getPantrySpoons();
-  const ownedIds = getOwnedDecorationIds();
-  const equippedDecorations = getEquippedDecorations();
-  const approvedDecorations = getApprovedPantryDecorations();
-  let selectedSlotId = pantryViewState.selectedSlotId || "all";
-  let shopVisibleLimit = Math.max(defaultShopCardLimit, Number(pantryViewState.shopVisibleLimit || defaultShopCardLimit));
-  let storyGoalId = pantryViewState.storyGoalId || getPantryStoryGoalId() || null;
-  pantryViewState.storyGoalId = storyGoalId;
+  const header = document.createElement("header");
+  header.className = "pantry-jar-header";
+  const copy = document.createElement("div");
+  appendTextElement(copy, "p", "section-label", t("pantry.jar.eyebrow"));
+  appendTextElement(copy, "h2", "", t("pantry.title"));
+  const balance = appendTextElement(header, "div", "pantry-jar-balance", t("pantry.jar.balance", { count: getPantrySpoons() }));
+  balance.setAttribute("aria-label", t("currency.spoons", { count: getPantrySpoons() }));
+  header.prepend(copy);
 
-  const header = document.createElement("div");
-  header.className = "pantry-header";
-  const headerCopy = document.createElement("div");
-  appendTextElement(headerCopy, "h2", "", t("pantry.title"));
-  header.insertBefore(headerCopy, header.firstChild);
+  const onboarding = renderOnboarding();
+  const shelves = document.createElement("div");
+  shelves.className = "pantry-jar-shelves";
+  const detail = createDetailPanel();
+  const openDetail = (jar) => showJarDetail({
+    ...detail,
+    jar,
+    ownedIds,
+    equippedJars,
+    onRefresh,
+    onFirstPurchase,
+    onOpenSpoonStore
+  });
+  JAR_SHELVES.forEach((shelf) => shelves.appendChild(renderShelf(shelf, ownedIds, equippedJars, openDetail)));
 
-  const room = document.createElement("div");
-  room.className = "pantry-room";
-  room.style.setProperty("--pantry-room-background", `url("${pantryRoomBackgroundUrl}")`);
-  room.setAttribute("aria-label", t("pantry.roomAria"));
-
-  const storyRequestMount = document.createElement("div");
-  storyRequestMount.className = "pantry-story-request-mount";
-
-  const storyMilestoneMount = document.createElement("div");
-  storyMilestoneMount.className = "pantry-story-milestone-mount";
-
-  const shop = document.createElement("section");
-  shop.className = "pantry-shop";
-  const shopHeading = document.createElement("div");
-  shopHeading.className = "pantry-shop-heading";
-  const shopCopy = document.createElement("div");
-  appendTextElement(shopCopy, "h3", "", t("pantry.shopTitle"));
-  shopHeading.appendChild(shopCopy);
-  shop.appendChild(shopHeading);
-
-  const filtersMount = document.createElement("div");
-  const grid = document.createElement("div");
-  grid.className = "pantry-shop-grid";
-  const shopLimitMount = document.createElement("div");
-  shopLimitMount.className = "pantry-shop-limit-mount";
-  shop.append(filtersMount, grid, shopLimitMount);
-  if (spoonStore) {
-    shop.appendChild(spoonStore);
-  }
-
-  function drawDecorations() {
-    room.replaceChildren();
-    room.appendChild(renderRoomOverlays(equippedDecorations));
-    pantrySlots.forEach((slot) => {
-      room.appendChild(renderRoomSlot(slot, equippedDecorations, selectedSlotId, selectSlot));
-    });
-
-    replaceWithOptional(storyRequestMount, renderPantryStoryRequest(approvedDecorations, ownedIds, equippedDecorations, startStoryRequest));
-    replaceWithOptional(storyMilestoneMount, renderPantryStoryMilestone(approvedDecorations, ownedIds, equippedDecorations, selectStoryArrival));
-    filtersMount.replaceChildren();
-    filtersMount.className = "pantry-filter-stack";
-
-    const visibleDecorations = approvedDecorations
-      .filter((decoration) => selectedSlotId === "all" || decoration.slot === selectedSlotId);
-
-    const sortedDecorations = [...visibleDecorations]
-      .sort((left, right) => compareDecorations(left, right, ownedIds, equippedDecorations, spoons));
-    const visibleShopDecorations = sortedDecorations.slice(0, shopVisibleLimit);
-    filtersMount.append(renderSlotFilters(selectedSlotId, selectSlot));
-
-    grid.replaceChildren();
-    shopLimitMount.replaceChildren();
-    if (visibleDecorations.length === 0) {
-      grid.appendChild(renderEmptyShopState(resetFilters));
-      return;
-    }
-
-    visibleShopDecorations.forEach((decoration) => {
-      grid.appendChild(renderShopCard(decoration, ownedIds, equippedDecorations, spoons, storyGoalId, onRefresh, onFirstPurchase, onOpenSpoonStore));
-    });
-
-    const shopLimitControl = renderShopLimitControl(visibleShopDecorations.length, visibleDecorations.length, showMoreDecorations);
-    if (shopLimitControl) {
-      shopLimitMount.appendChild(shopLimitControl);
-    }
-  }
-
-  function planNextRoomRequest(decoration) {
-    if (!decoration) {
-      return;
-    }
-    if (Number(decoration.cost || 0) === 0) {
-      startStoryRequest(decoration);
-      return;
-    }
-    selectStoryArrival(decoration);
-  }
-
-  function selectStoryArrival(decoration) {
-    if (!decoration) {
-      return;
-    }
-    storyGoalId = decoration.id;
-    selectedSlotId = decoration.slot || "all";
-    setPantryStoryGoalId(storyGoalId);
-    pantryViewState.storyGoalId = storyGoalId;
-    pantryViewState.selectedSlotId = selectedSlotId;
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
-  function startStoryRequest(decoration) {
-    if (!decoration) {
-      return;
-    }
-    // A request may point to a free starter item that was bought earlier and
-    // later replaced. Restore it now instead of hiding it behind the shop filter.
-    if (ownedIds.includes(decoration.id)) {
-      const storyCompleted = decoration.id === storyGoalId || decoration.id === "starter-counter-cloth";
-      equipDecoration(decoration);
-      if (storyCompleted) {
-        storyGoalId = null;
-        pantryViewState.storyGoalId = null;
-        onFirstPurchase?.(decoration, {
-          storyCompleted: true,
-          completedRequestCount: getCompletedPantryStoryGoalIds().length
-        });
-      }
-      onRefresh?.();
-      return;
-    }
-    selectedSlotId = decoration.slot || "all";
-    pantryViewState.selectedSlotId = selectedSlotId;
-    pantryViewState.storyGoalId = storyGoalId;
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
-  function selectSlot(slotId, { fromRoom = false } = {}) {
-    selectedSlotId = slotId || "all";
-    pantryViewState.selectedSlotId = selectedSlotId;
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-    if (fromRoom) {
-      shop.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }
-
-  function resetFilters() {
-    selectedSlotId = "all";
-    pantryViewState.selectedSlotId = selectedSlotId;
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
-  function showMoreDecorations() {
-    shopVisibleLimit += defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
-  drawDecorations();
-  panel.append(header, room, storyRequestMount, storyMilestoneMount, shop);
+  panel.append(header);
+  if (onboarding) panel.appendChild(onboarding);
+  panel.append(shelves);
+  if (spoonStore) panel.appendChild(spoonStore);
+  panel.appendChild(detail.backdrop);
   return panel;
 }

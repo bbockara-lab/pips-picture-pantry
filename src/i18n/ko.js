@@ -218,17 +218,18 @@ export const ko = {
       step1: "어머, 배지 선반이에요! 그림을 완성할수록 배지가 쌓여요.",
       step2: "\uD55C \uC138\uD2B8\uB97C \uB2E4 \uCC44\uC6B0\uBA74 \uBC30\uC9C0\uC5D0 \uBD88\uC774 \uB4E4\uC5B4\uC640\uC694.",
       step3: "\uD32C\uD2B8\uB9AC\uAC00 \uCC44\uC6CC\uC9C8\uC218\uB85D \uC120\uBC18\uB3C4 \uD568\uAED8 \uBE5B\uB098\uC694."
-    },    pantryFirstPurchase: {
-      title: "제가 첫 장식 자리를 보여줄게요",
-      step1: "\uC88B\uC740 \uC120\uD0DD\uC774\uC5D0\uC694. \uAC00\uC7A5 \uC5B4\uC6B8\uB9AC\uB294 \uC790\uB9AC\uB97C \uCC3E\uC544\uBCFC\uAE4C\uC694?",
-      step2: "\uC790\uB9AC\uB97C \uB204\uB974\uBA74 \uC7A5\uC2DD\uC744 \uBC14\uAFC0 \uC218 \uC788\uC5B4\uC694.",
-      step3: "\uD37C\uC990\uB85C \uC2A4\uD47C\uC744 \uBAA8\uC544 \uCC9C\uCC9C\uD788 \uCC44\uC6CC\uBD10\uC694."
+    },
+    pantryFirstPurchase: {
+      title: "\uCCAB \uBC88\uC9F8 \uD32C\uD2B8\uB9AC \uBCD1\uC774\uC5D0\uC694",
+      step1: "\uC88B\uC740 \uC120\uD0DD\uC774\uC5D0\uC694. \uCCAB \uBC88\uC9F8 \uBCD1\uC744 \uC120\uBC18\uC5D0 \uC62C\uB824\uBD10\uC694.",
+      step2: "\uBCF4\uC720\uD55C \uBCD1\uC744 \uB204\uB974\uBA74 \uC120\uBC18\uC5D0 \uC9C4\uC5F4\uD560 \uC218 \uC788\uC5B4\uC694.",
+      step3: "\uD37C\uC990\uB85C \uC2A4\uD47C\uC744 \uBAA8\uC544 \uBAA8\uB4E0 \uC120\uBC18\uC744 \uCC44\uC6CC\uBD10\uC694."
     },
     pantryRoomStory: {
-      title: "다음 이웃을 위한 자리를 같이 만들어요",
-      step1: "\uC7A5\uC2DD \uD558\uB098\uB85C \uD32C\uD2B8\uB9AC\uAC00 \uD6E8\uC52C \uD3EC\uADFC\uD574\uC84C\uC5B4\uC694.",
-      step2: "\uB2E4\uC74C \uC790\uB9AC\uB97C \uAFB8\uBBF8\uBA74 \uC0C8 \uC774\uC6C3\uB3C4 \uCC3E\uC544\uC62C \uAC70\uC608\uC694.",
-      step3: "\uB204\uAC00 \uBA3C\uC800 \uC62C\uC9C0 \uC800\uB3C4 \uAD81\uAE08\uD574\uC694!"
+      title: "\uD32C\uD2B8\uB9AC \uC120\uBC18\uC774 \uCC44\uC6CC\uC9C0\uACE0 \uC788\uC5B4\uC694",
+      step1: "\uC0C8 \uBCD1 \uD558\uB098\uB85C \uD32C\uD2B8\uB9AC\uAC00 \uD6E8\uC52C \uD48D\uC131\uD574\uC84C\uC5B4\uC694.",
+      step2: "\uBCD1\uC744 \uB354 \uBAA8\uC73C\uBA74 \uC0C8\uB85C\uC6B4 \uC2A4\uD14C\uC774\uC9C0\uB3C4 \uC5F4\uB824\uC694.",
+      step3: "\uC720\uB8CC \uBCD1 \uD558\uB098\uB9C8\uB2E4 \uD32C\uD2B8\uB9AC \uC774\uC57C\uAE30\uAC00 \uD55C \uCE78\uC529 \uC9C4\uD589\uB3FC\uC694."
     },
     pantryNeighborMrPark: {
       title: "\uC2DC\uACC4 \uD560\uC544\uBC84\uC9C0\uAC00 \uC654\uC5B4\uC694",
@@ -441,7 +442,7 @@ export const ko = {
     }
   },
   pantry: {
-    title: "\ud54d\uc758 \uafb8\ubbf8\uae30 \ubc29",
+    title: "Pip\uC758 \uD32C\uD2B8\uB9AC",
     spoonNote: "모아둔 스푼: {count}",
     roomAria: "Pip이 꾸민 팬트리",
     shopEyebrow: "꾸미기 팬트리",
@@ -521,6 +522,56 @@ export const ko = {
       window: "창문",
       shelf: "선반",
       floor: "바닥"
+    },
+    shelf: {
+      jam: "\uC7BC & \uACFC\uC77C \uBCD1\uC870\uB9BC",
+      honey: "\uAFC0 & \uC2DC\uB7FD",
+      herb: "\uD5C8\uBE0C & \uAF43",
+      spice: "\uC528\uC557 & \uD5A5\uC2E0\uB8CC"
+    },
+    jar: {
+      eyebrow: "\uD32C\uD2B8\uB9AC \uC720\uB9AC\uBCD1 \uC218\uC9D1",
+      balance: "\uD83E\uDD44 {count}",
+      openDetail: "{item} \uC790\uC138\uD788 \uBCF4\uAE30",
+      spoonCost: "{count} \uD83E\uDD44",
+      shelfLabel: "{shelf}",
+      equipped: "\uC9C4\uC5F4 \uC911",
+      buyAction: "{count} \uD83E\uDD44 \uAD6C\uB9E4",
+      needSpoons: "\uC2A4\uD47C {count}\uAC1C \uB354 \uD544\uC694",
+      equipAction: "\uC774 \uBCD1 \uC9C4\uC5F4\uD558\uAE30",
+      onboardingTitle: "\uC120\uBC18\uC774 \uC900\uBE44\uB410\uC5B4\uC694.",
+      onboardingPrompt: "\uCCAB \uBC88\uC9F8 \uBCD1\uC744 \uAD6C\uB9E4\uD574\uC11C \uD32C\uD2B8\uB9AC\uB97C \uCC44\uC6CC\uBCF4\uC138\uC694!",
+      rarity: {
+        starter: "\uC2A4\uD0C0\uD130",
+        common: "\uC77C\uBC18",
+        rare: "\uD76C\uADC0",
+        special: "\uD2B9\uBCC4",
+        luxury: "\uD55C\uC815"
+      },
+      strawberryJam: "\uB538\uAE30 \uC7BC",
+      blueberryJam: "\uBE14\uB8E8\uBCA0\uB9AC \uC7BC",
+      cherryJam: "\uCCB4\uB9AC \uC7BC",
+      orangeMarmalade: "\uC624\uB80C\uC9C0 \uB9C8\uBA40\uB808\uC774\uB4DC",
+      lemonCurd: "\uB808\uBAAC \uCEE4\uB4DC",
+      peachPreserve: "\uBCF5\uC22D\uC544 \uC7BC",
+      acaciaHoney: "\uC544\uCE74\uC2DC\uC544 \uAFC0",
+      mapleSyrup: "\uBA54\uC774\uD50C \uC2DC\uB7FD",
+      yuzuSyrup: "\uC720\uC790\uCCAD",
+      gingerSyrup: "\uC0DD\uAC15\uCCAD",
+      maesil: "\uB9E4\uC2E4\uCCAD",
+      lavenderHoney: "\uB77C\uBCA4\uB354 \uAFC0",
+      rosemary: "\uB9D0\uB9B0 \uB85C\uC988\uB9C8\uB9AC",
+      chamomile: "\uCE90\uBAA8\uB9C8\uC77C \uAF43",
+      driedLavender: "\uB9D0\uB9B0 \uB77C\uBCA4\uB354",
+      driedMint: "\uB9D0\uB9B0 \uBBFC\uD2B8",
+      rosePetals: "\uB9D0\uB9B0 \uC7A5\uBBF8 \uAF43\uC78E",
+      hibiscus: "\uD788\uBE44\uC2A4\uCEE4\uC2A4",
+      seaSalt: "\uAD75\uC740 \uC18C\uAE08",
+      blackPepper: "\uD1B5\uD6C4\uCD94",
+      cinnamon: "\uC2DC\uB098\uBAAC \uD30C\uC6B0\uB354",
+      blackSesame: "\uD751\uC784\uC790",
+      pumpkinSeeds: "\uD638\uBC15\uC528",
+      redBean: "\uD325"
     },
     items: {
       starterCounter: { title: "\uccb4\ud06c \uce74\uc6b4\ud130\ubcf4", description: "Pip\uc758 \uccab \uc11c\ube59 \uc790\ub9ac\ub97c \ub36e\uc5b4 \uc8fc\ub294 \ubd80\ub4dc\ub7ec\uc6b4 \uccb4\ud06c\ubcf4\uc608\uc694." },

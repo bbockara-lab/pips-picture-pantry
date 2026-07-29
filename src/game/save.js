@@ -3,6 +3,7 @@ import { isDecorationArtApproved } from "../data/decorations.js";
 import { seasonShelves } from "../data/seasonShelves.js";
 import { getPreviousSeasonShelf, isSeasonShelfComplete } from "./seasonShelfProgress.js";
 import { restoreState, serializeState } from "./puzzleState.js";
+import { PANTRY_JARS, getJarById } from "../data/pantryJars.js";
 
 const LEGACY_SAVE_KEY = "pips-picture-pantry:v0.1:save";
 const SAVE_PREFIX = "pips-picture-pantry:v0.1:save:";
@@ -194,6 +195,80 @@ export function grantSpoonJarPurchase(purchaseKey, source = "purchase") {
     source,
     reason: "granted"
   };
+}
+
+export function getOwnedJarIds() {
+  return loadSave()?.ownedJarIds || [];
+}
+
+export function getEquippedJars() {
+  return loadSave()?.equippedJars || {};
+}
+
+export function ensureStarterJars() {
+  const save = loadSave() || createEmptySave();
+  let changed = false;
+  PANTRY_JARS.filter((jar) => jar.rarity === "starter").forEach((jar) => {
+    if (!save.ownedJarIds.includes(jar.id)) {
+      save.ownedJarIds.push(jar.id);
+      changed = true;
+    }
+    if (!save.equippedJars[jar.shelfId]) {
+      save.equippedJars[jar.shelfId] = jar.id;
+      changed = true;
+    }
+  });
+  if (changed) {
+    saveGame(save);
+  }
+  return {
+    ownedJarIds: [...save.ownedJarIds],
+    equippedJars: { ...save.equippedJars }
+  };
+}
+
+export function buyJar(jarId) {
+  const jar = getJarById(jarId);
+  const save = loadSave() || createEmptySave();
+  if (!jar) {
+    return { ok: false, reason: "not-found", balance: save.pantrySpoons };
+  }
+  if (save.ownedJarIds.includes(jar.id)) {
+    return { ok: false, reason: "already-owned", balance: save.pantrySpoons };
+  }
+  if (save.pantrySpoons < jar.cost) {
+    return { ok: false, reason: "insufficient", balance: save.pantrySpoons };
+  }
+
+  save.pantrySpoons -= jar.cost;
+  save.ownedJarIds.push(jar.id);
+  if (!save.equippedJars[jar.shelfId]) {
+    save.equippedJars[jar.shelfId] = jar.id;
+  }
+  if (jar.cost > 0) {
+    save.pantryCompletedStoryGoalIds = Array.from(new Set([
+      ...save.pantryCompletedStoryGoalIds,
+      jar.id
+    ]));
+  }
+  saveGame(save);
+  return { ok: true, reason: "purchased", balance: save.pantrySpoons, jar };
+}
+
+export function setEquippedJar(shelfId, jarId) {
+  const jar = getJarById(jarId);
+  const save = loadSave() || createEmptySave();
+  if (!jar || jar.shelfId !== shelfId || !save.ownedJarIds.includes(jar.id)) {
+    return false;
+  }
+  save.equippedJars[shelfId] = jar.id;
+  saveGame(save);
+  return true;
+}
+
+export function getPaidJarCount() {
+  const owned = new Set(getOwnedJarIds());
+  return PANTRY_JARS.filter((jar) => jar.cost > 0 && owned.has(jar.id)).length;
 }
 
 export function getOwnedDecorationIds() {
@@ -641,6 +716,12 @@ function normalizeSave(parsed) {
     rewardedPuzzleIds: Array.isArray(parsed?.rewardedPuzzleIds) ? parsed.rewardedPuzzleIds : [],
     dailyRewardedDates: Array.isArray(parsed?.dailyRewardedDates) ? parsed.dailyRewardedDates : [],
     completedPackIds: Array.isArray(parsed?.completedPackIds) ? parsed.completedPackIds : [],
+    ownedJarIds: Array.isArray(parsed?.ownedJarIds)
+      ? Array.from(new Set(parsed.ownedJarIds.map((id) => String(id || "")).filter(Boolean)))
+      : [],
+    equippedJars: parsed?.equippedJars && typeof parsed.equippedJars === "object"
+      ? { ...parsed.equippedJars }
+      : {},
     ownedDecorationIds: Array.isArray(parsed?.ownedDecorationIds) ? Array.from(new Set(parsed.ownedDecorationIds)) : [],
     equippedDecorations: parsed?.equippedDecorations && typeof parsed.equippedDecorations === "object" ? parsed.equippedDecorations : {},
     completionDates: parsed?.completionDates && typeof parsed.completionDates === "object" ? parsed.completionDates : {},

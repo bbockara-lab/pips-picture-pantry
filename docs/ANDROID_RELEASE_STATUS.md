@@ -5,6 +5,14 @@
 - Decision: no further paid purchase will be made for this candidate after the successful US$0.99 Play Billing checkout and 250-spoon grant established the live purchase channel.
 - Remaining evidence: repeatable consumable flags, distinct-token grant behavior, and duplicate-token rejection are covered by automated Billing tests. The missing US$2.99 real-device purchase remains an explicit release risk, not a reported pass.
 
+## 2026-07-29 v0.1.636 CSS Pantry jar collection
+
+- Current package/UI candidate: v0.1.636.
+- The current prepared upload code is 33 (versionCode 33 / versionName 1.1.5); no new AAB is authorized or built for this UI replacement.
+- Replaces the legacy decoration room with 24 CSS-rendered jars across four shelves while preserving Play Billing and Spoon Store entry points.
+- Paid jar purchase is a single-save transaction and advances the existing Pantry room step gate; free starters do not advance it.
+- Verification state: automated verified; real-device review remains pending. `npm run qa:candidate` passed 35 test files / 199 tests, asset/Billing/build/Android release gates, and four-width mobile runtime QA.
+
 ## 2026-07-29 v0.1.635 Time Attack exit recovery
 
 - Current package/UI candidate: v0.1.635.

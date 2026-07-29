@@ -241,16 +241,16 @@ export const en = {
       step3: "Your shelf fills up as the pantry grows."
     },
     pantryFirstPurchase: {
-      title: "I'll show your first decoration spot",
-      step1: "Lovely choice. Let's find its coziest spot.",
-      step2: "Tap a spot whenever you want to swap its decoration.",
-      step3: "Solve pictures and fill the pantry little by little."
+      title: "Your first pantry jar",
+      step1: "Lovely choice. Your first jar is ready for its shelf.",
+      step2: "Tap any jar you own when you want to change the shelf display.",
+      step3: "Solve pictures, collect spoons, and fill every shelf."
     },
     pantryRoomStory: {
-      title: "Let's make room for our next neighbor",
-      step1: "One decoration made the pantry feel much warmer.",
-      step2: "Decorate the next spot and a new neighbor may visit.",
-      step3: "I wonder who will visit first!"
+      title: "The pantry shelves are growing",
+      step1: "One new jar made the pantry feel much fuller.",
+      step2: "Keep collecting jars and new stages will open.",
+      step3: "Every paid jar adds one step to your pantry story."
     },
     pantryNeighborMrPark: {
       title: "Grandpa Clock is here",
@@ -523,6 +523,56 @@ export const en = {
       window: "Window",
       shelf: "Shelf",
       floor: "Floor"
+    },
+    shelf: {
+      jam: "Jam & Fruit Preserves",
+      honey: "Honey & Syrups",
+      herb: "Herbs & Flowers",
+      spice: "Seeds & Spices"
+    },
+    jar: {
+      eyebrow: "Pantry jar collection",
+      balance: "🥄 {count}",
+      openDetail: "View {item}",
+      spoonCost: "{count} 🥄",
+      shelfLabel: "{shelf}",
+      equipped: "On display",
+      buyAction: "Buy for {count} 🥄",
+      needSpoons: "Need {count} more spoons",
+      equipAction: "Display this jar",
+      onboardingTitle: "Your shelves are ready.",
+      onboardingPrompt: "Buy your first jar and begin filling Pip's pantry!",
+      rarity: {
+        starter: "Starter",
+        common: "Common",
+        rare: "Rare",
+        special: "Special",
+        luxury: "Luxury"
+      },
+      strawberryJam: "Strawberry Jam",
+      blueberryJam: "Blueberry Jam",
+      cherryJam: "Cherry Jam",
+      orangeMarmalade: "Orange Marmalade",
+      lemonCurd: "Lemon Curd",
+      peachPreserve: "Peach Preserve",
+      acaciaHoney: "Acacia Honey",
+      mapleSyrup: "Maple Syrup",
+      yuzuSyrup: "Yuzu Syrup",
+      gingerSyrup: "Ginger Syrup",
+      maesil: "Green Plum Syrup",
+      lavenderHoney: "Lavender Honey",
+      rosemary: "Dried Rosemary",
+      chamomile: "Chamomile Flowers",
+      driedLavender: "Dried Lavender",
+      driedMint: "Dried Mint",
+      rosePetals: "Dried Rose Petals",
+      hibiscus: "Hibiscus",
+      seaSalt: "Coarse Salt",
+      blackPepper: "Black Pepper",
+      cinnamon: "Cinnamon Powder",
+      blackSesame: "Black Sesame",
+      pumpkinSeeds: "Pumpkin Seeds",
+      redBean: "Red Bean"
     },
     items: {
       starterCounter: { title: "Starter Counter Cloth", description: "A soft check cloth for Pip's first little serving spot." },
