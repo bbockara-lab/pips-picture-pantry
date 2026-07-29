@@ -1,3 +1,8 @@
+## v0.1.650 - Completion Action Simplification
+
+- Removed the redundant Menu/Back action from both standard and replay completion banners; completion now presents only the `Next picture` action.
+- Preserved floating navigation as the single route to other app destinations and added a source regression test for the one-button completion contract.
+- Verification passed: 38 test files / 221 tests, catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.649 - Replay Next-Picture Continuity
 
 - Completion `Next picture` now stays inside the stable Daily replay-pick pool instead of falling through to the normal unfinished-puzzle selector.

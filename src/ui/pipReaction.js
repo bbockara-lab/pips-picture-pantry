@@ -14,7 +14,7 @@ export function getCompletionMessage(puzzle) {
   });
 }
 
-export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle, replayChallenge = false, replayResult = null } = {}) {
+export function renderCompletionBanner(puzzle, { onNextPuzzle, replayChallenge = false, replayResult = null } = {}) {
   const banner = document.createElement("div");
   banner.className = "completion-banner";
   const isFirstPipFace = isFirstPipFacePuzzle(puzzle);
@@ -40,19 +40,13 @@ export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle, repl
   const actions = document.createElement("div");
   actions.className = "completion-actions";
 
-  const albumButton = document.createElement("button");
-  albumButton.type = "button";
-  albumButton.className = "tool-button";
-  albumButton.textContent = replayChallenge ? t("playScreen.back") : t("completion.menu");
-  albumButton.addEventListener("click", () => onViewAlbum?.());
-
   const nextButton = document.createElement("button");
   nextButton.type = "button";
   nextButton.className = "tool-button";
   nextButton.textContent = t("completion.nextPicture");
   nextButton.addEventListener("click", () => onNextPuzzle?.());
 
-  actions.append(albumButton, nextButton);
+  actions.append(nextButton);
   if (isFirstPipFace) {
     banner.append(copy, reveal, actions);
   } else {
