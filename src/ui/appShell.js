@@ -33,8 +33,7 @@ import {
   renderDailyCard,
   renderPuzzleHub,
   renderPuzzlePicker,
-  renderReplayPicksCard,
-  renderTimeAttackTeaserCard
+  renderReplayPicksCard
 } from "./puzzleHubView.js";
 import { renderPlayScreen } from "./playScreen.js";
 import { renderFloatingNav } from "./floatingNav.js";
@@ -773,8 +772,6 @@ function createShell({
         today: getDailyDateKey()
       }
     ));
-    hubCards.appendChild(renderTimeAttackTeaserCard(() => onSelectView("timeAttack")));
-
     const replayPicksCard = renderReplayPicksCard(
       getDailyReplayPicks({
         allPuzzles: getDailyPuzzleCandidates(),

@@ -232,41 +232,6 @@ export function renderDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle, opt
   return card;
 }
 
-export function renderTimeAttackTeaserCard(onOpenTimeAttack = () => {}) {
-  const card = document.createElement("section");
-  card.className = "time-attack-teaser-card";
-
-  const badge = document.createElement("span");
-  badge.className = "time-attack-teaser-card__badge";
-  badge.setAttribute("aria-hidden", "true");
-  const timeAttackArt = getQuickTravelArt("timeAttack");
-  if (timeAttackArt) {
-    const image = document.createElement("img");
-    image.src = timeAttackArt.src;
-    image.alt = "";
-    image.dataset.assetId = timeAttackArt.assetId;
-    badge.appendChild(image);
-  }
-
-  const copy = document.createElement("div");
-  appendTextElement(copy, "p", "section-label", t("timeAttack.hubEyebrow"));
-  appendTextElement(copy, "h2", "", t("timeAttack.hubTitle"));
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "tool-button time-attack-teaser-card__action";
-  button.setAttribute("aria-label", t("timeAttack.hubAction"));
-
-  const actionLabel = document.createElement("span");
-  actionLabel.className = "time-attack-teaser-card__action-label";
-  actionLabel.textContent = t("timeAttack.hubAction");
-
-  button.append(actionLabel);
-  button.addEventListener("click", onOpenTimeAttack);
-
-  card.append(badge, copy, button);
-  return card;
-}
-
 export function renderReplayPicksCard(replayPicks, activePuzzleId, onSelectPuzzle, options = {}) {
   if (!Array.isArray(replayPicks) || replayPicks.length === 0) {
     return null;

@@ -58,7 +58,7 @@ for (const viewport of viewports) {
   await expectPuzzleHomePolish(page, viewport.name);
   const expectedRegularPlayLabel = await page.locator(".puzzle-home-scene__play").getAttribute("aria-label");
   await expectDailyRewardPolish(page, viewport.name);
-  await expectTimeAttackHubEntry(page, viewport.name);
+  await expectTimeAttackNavigationEntry(page, viewport.name);
   await expectResetDialogPolish(page, viewport.name);
   await expectStageCompleteRewardPolish(page, viewport.name);
   await expectAbsent(page, ".season-progress-card", viewport.name);
@@ -1677,7 +1677,7 @@ async function expectPuzzleHomePolish(page, viewportName) {
   const expected = ["puzzle", "album", "pantry", "timeAttack", "map"];
   const expectedAssets = { puzzle: "workshop-nav-puzzle-v3", album: "workshop-nav-album-v3", pantry: "workshop-nav-pantry-v3", timeAttack: "workshop-nav-time-attack-v3", map: "workshop-nav-map-v3" };
   const hasStaleDestinationTreatment = metrics.destinationArt.some((art) => art.assetId !== expectedAssets[art.id] || art.backgroundColor !== "rgba(0, 0, 0, 0)" || art.borderTopWidth !== "0px" || art.boxShadow !== "none");
-  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.greetingGap > 5 || metrics.greetingFlexGap > 4 || metrics.greetingBubbleBorder < 2 || metrics.greetingBubbleRadius < 16 || metrics.greetingBubbleShadow === "none" || metrics.greetingBubbleBackground === "rgb(255, 255, 255)" || metrics.greetingOutsideScene || !metrics.primaryDestinationsBelowGreeting || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.hasHiddenDestinationLabel || metrics.playAssetId !== "puzzle-control-fill-v1" || metrics.supportingCardClasses.length < 2 || !metrics.supportingCardClasses.some((className) => className.includes("daily-card")) || !metrics.supportingCardClasses.some((className) => className.includes("time-attack-teaser-card")) || !metrics.supportingCardsBelowScene || !metrics.supportingCardsWidthContained || metrics.supportingCardsPaddingBottom < 120 || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
+  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.greetingGap > 5 || metrics.greetingFlexGap > 4 || metrics.greetingBubbleBorder < 2 || metrics.greetingBubbleRadius < 16 || metrics.greetingBubbleShadow === "none" || metrics.greetingBubbleBackground === "rgb(255, 255, 255)" || metrics.greetingOutsideScene || !metrics.primaryDestinationsBelowGreeting || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.hasHiddenDestinationLabel || metrics.playAssetId !== "puzzle-control-fill-v1" || metrics.supportingCardClasses.length < 1 || !metrics.supportingCardClasses.some((className) => className.includes("daily-card")) || metrics.supportingCardClasses.some((className) => className.includes("time-attack-teaser-card")) || !metrics.supportingCardsBelowScene || !metrics.supportingCardsWidthContained || metrics.supportingCardsPaddingBottom < 120 || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
     failures.push("[" + viewportName + "] Puzzle workshop home/direct destinations regressed: " + JSON.stringify(metrics));
   }
 }
@@ -1697,30 +1697,21 @@ async function expectDailyRewardPolish(page, viewportName) {
   }
 }
 
-async function expectTimeAttackHubEntry(page, viewportName) {
-  await expectVisible(page, ".time-attack-teaser-card", viewportName);
-  const metrics = await page.locator(".time-attack-teaser-card").evaluate((card) => {
-    const image = card.querySelector(".time-attack-teaser-card__badge img");
-    const action = card.querySelector(".time-attack-teaser-card__action");
-    const badge = card.querySelector(".time-attack-teaser-card__badge");
-    return {
-      text: (card.textContent || "").trim(),
-      overflows: card.scrollWidth > card.clientWidth + 1 || card.scrollHeight > card.clientHeight + 1,
-      assetId: image?.dataset.assetId || "",
-      naturalWidth: image?.naturalWidth || 0,
-      hasLegacyActionIcon: Boolean(card.querySelector(".time-attack-teaser-card__action-icon")),
-      badgeBackgroundImage: badge ? getComputedStyle(badge).backgroundImage : "",
-      badgeBorderWidth: badge ? getComputedStyle(badge).borderTopWidth : "",
-      before: getComputedStyle(card, "::before").content,
-      after: getComputedStyle(card, "::after").content,
-      actionHeight: action?.getBoundingClientRect().height || 0
-    };
-  });
-  if (metrics.overflows || metrics.assetId !== "workshop-nav-time-attack-v3" || metrics.naturalWidth !== 256 || metrics.hasLegacyActionIcon || metrics.badgeBackgroundImage !== "none" || metrics.badgeBorderWidth !== "0px" || metrics.before !== "none" || metrics.after !== "none" || metrics.actionHeight < 44 || !/Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(metrics.text)) {
-    failures.push("[" + viewportName + "] Compact Time Attack entry regressed: " + JSON.stringify(metrics));
+async function expectTimeAttackNavigationEntry(page, viewportName) {
+  await expectAbsent(page, ".time-attack-teaser-card", viewportName);
+  const entries = page.locator(".puzzle-home-destination--timeAttack, .floating-nav__item--timeAttack");
+  const entryCount = await entries.count();
+  const metrics = entryCount === 1
+    ? await entries.first().evaluate((entry) => ({
+      assetId: entry.querySelector("img")?.dataset.assetId || "",
+      view: entry.dataset.view || entry.dataset.destination || "",
+      label: entry.getAttribute("aria-label") || entry.title || ""
+    }))
+    : { assetId: "", view: "", label: "" };
+  if (entryCount !== 1 || metrics.assetId !== "workshop-nav-time-attack-v3" || metrics.view !== "timeAttack" || !/Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(metrics.label)) {
+    failures.push("[" + viewportName + "] Time Attack navigation entry regressed: " + JSON.stringify({ entryCount, ...metrics }));
   }
 }
-
 async function expectTapTargets(page, viewportName) {
   const smallTargets = await page.evaluate(() => {
     return [...document.querySelectorAll("button")]

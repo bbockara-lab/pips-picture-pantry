@@ -1,3 +1,9 @@
+## v0.1.651 - Workshop Time Attack Card Removal
+
+- Removed the duplicate Time Attack teaser card and its dead renderer from the Workshop supporting-card stack.
+- Kept Time Attack available through the existing Workshop/floating navigation icons and added a regression contract that forbids the duplicate teaser card.
+- Updated mobile QA to require the teaser card to be absent while the current Time Attack navigation entry remains intact.
+- Verification passed: 38 test files / 222 tests, catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.650 - Completion Action Simplification
 
 - Removed the redundant Menu/Back action from both standard and replay completion banners; completion now presents only the `Next picture` action.
