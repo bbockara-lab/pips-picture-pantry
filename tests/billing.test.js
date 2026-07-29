@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { COZY_SUPPORT_PRODUCT_ID, SPOON_JAR_SMALL_PRODUCT_ID, getBillingErrorStatus, getPurchaseKey, isCozySupportEntitlement, isSpoonJarSmallPurchase, syncCozySupportEntitlement } from "../src/game/billing.js";
-import { canPurchaseSpoonJar, canPurchaseSupportPack, canRestoreSupportPack, getSpoonJarFacts, getSpoonJarStatus, getSpoonJarStatusTone, getSupportPackFacts, getSupportPackStatus, getSupportStatusTone } from "../src/ui/settingsView.js";
+import { COZY_SUPPORT_PRODUCT_ID, SPOON_JAR_SMALL_PRODUCT_ID, getBillingErrorStatus, getPurchaseKey, isCozySupportEntitlement, isSpoonJarSmallPurchase } from "../src/game/billing.js";
+import { canPurchaseSpoonJar, canPurchaseSupportPack, getSpoonJarFacts, getSpoonJarStatus, getSpoonJarStatusTone, getSupportPackFacts, getSupportPackStatus, getSupportStatusTone } from "../src/ui/settingsView.js";
 
 class LocalStorageMock {
   constructor() {
@@ -66,7 +66,7 @@ describe("billing support pack guards", () => {
 
     expect(getSupportPackStatus({ ...baseSupportPack, status: "network-error" })).toContain("network");
     expect(getSupportPackStatus({ ...baseSupportPack, status: "already-owned" })).toContain("Google Play");
-    expect(getSupportPackStatus({ ...baseSupportPack, status: "already-owned" })).toContain("Restore");
+    expect(getSupportPackStatus({ ...baseSupportPack, status: "already-owned" })).toContain("finishing");
     expect(getSupportPackStatus({ ...baseSupportPack, status: "failed" })).toContain("could not finish");
     expect(getSupportPackStatus({ ...baseSupportPack, status: "wrong-product" })).toContain("could not finish");
   });
@@ -81,56 +81,30 @@ describe("billing support pack guards", () => {
     };
 
     expect(getSupportStatusTone({ ...baseSupportPack, loading: true })).toBe("checking");
-    expect(getSupportStatusTone({ ...baseSupportPack, owned: true })).toBe("success");
+    expect(getSupportStatusTone({ ...baseSupportPack, status: "already-processed" })).toBe("success");
     expect(getSupportStatusTone({ ...baseSupportPack, status: "purchased" })).toBe("success");
-    expect(getSupportStatusTone({ ...baseSupportPack, status: "restored" })).toBe("success");
     expect(getSupportStatusTone({ ...baseSupportPack, status: "network-error" })).toBe("warning");
-    expect(getSupportStatusTone({ ...baseSupportPack, status: "already-owned" })).toBe("warning");
     expect(getSupportStatusTone({ ...baseSupportPack, status: "failed" })).toBe("warning");
     expect(getSupportStatusTone({ ...baseSupportPack, status: "wrong-product" })).toBe("warning");
     expect(getSupportStatusTone({ ...baseSupportPack, status: "cancelled" })).toBe("warning");
     expect(getSupportStatusTone({ ...baseSupportPack, available: false })).toBe("warning");
   });
 
-  it("summarizes support pack value and restore safety as quick facts", () => {
+  it("keeps repeatable support available after a completed purchase", () => {
     const baseSupportPack = {
       available: true,
-      owned: false,
       loading: false,
       priceString: "$0.99",
-      spoons: 250
+      spoons: 250,
+      status: "ready"
     };
 
-    expect(getSupportPackFacts(baseSupportPack)).toEqual(["250 spoons", "Google Play", "Restore-ready"]);
-    expect(getSupportPackFacts({ ...baseSupportPack, available: false })).toEqual(["250 spoons", "Store preparing", "Restore-ready"]);
-  });
-
-  it("short-circuits startup entitlement sync when local support ownership already exists", async () => {
-    globalThis.localStorage = new LocalStorageMock();
-    localStorage.setItem("pips-picture-pantry:v0.1:save", JSON.stringify({ cozyPassPurchased: true }));
-
-    await expect(syncCozySupportEntitlement()).resolves.toEqual({
-      ok: true,
-      status: "already-owned",
-      grant: null
-    });
-  });
-
-  it("keeps restore available when catalog lookup fails but a restore may recover ownership", () => {
-    const baseSupportPack = {
-      available: false,
-      owned: false,
-      loading: false,
-      priceString: "$0.99",
-      spoons: 250
-    };
-
-    expect(canPurchaseSupportPack({ ...baseSupportPack, available: true })).toBe(true);
-    expect(canPurchaseSupportPack({ ...baseSupportPack, status: "product-unavailable" })).toBe(false);
-    expect(canRestoreSupportPack({ ...baseSupportPack, status: "product-unavailable" })).toBe(true);
-    expect(canRestoreSupportPack({ ...baseSupportPack, status: "already-owned" })).toBe(true);
-    expect(canRestoreSupportPack({ ...baseSupportPack, status: "native-store-required" })).toBe(false);
-    expect(canRestoreSupportPack({ ...baseSupportPack, owned: true, status: "already-owned" })).toBe(false);
+    expect(getSupportPackFacts(baseSupportPack)).toEqual(["250 spoons", "Google Play", "Repeatable support"]);
+    expect(getSupportPackFacts({ ...baseSupportPack, available: false })).toEqual(["250 spoons", "Store preparing", "Repeatable support"]);
+    expect(canPurchaseSupportPack(baseSupportPack)).toBe(true);
+    expect(canPurchaseSupportPack({ ...baseSupportPack, status: "already-processed" })).toBe(true);
+    expect(canPurchaseSupportPack({ ...baseSupportPack, loading: true })).toBe(false);
+    expect(canPurchaseSupportPack({ ...baseSupportPack, available: false })).toBe(false);
   });
 
   it("recognizes spoon jar purchases and extracts a duplicate-safe purchase key", () => {
@@ -145,6 +119,7 @@ describe("billing support pack guards", () => {
     expect(isSpoonJarSmallPurchase({ products: [{ productId: SPOON_JAR_SMALL_PRODUCT_ID }] })).toBe(true);
     expect(isSpoonJarSmallPurchase({ productIdentifier: COZY_SUPPORT_PRODUCT_ID })).toBe(false);
     expect(getPurchaseKey(payload)).toBe(SPOON_JAR_SMALL_PRODUCT_ID + ":token-123");
+    expect(getPurchaseKey({ productIdentifier: COZY_SUPPORT_PRODUCT_ID, purchaseToken: "support-token" }, COZY_SUPPORT_PRODUCT_ID)).toBe(COZY_SUPPORT_PRODUCT_ID + ":support-token");
     expect(getPurchaseKey({ productIdentifier: SPOON_JAR_SMALL_PRODUCT_ID })).toBe("");
   });
 

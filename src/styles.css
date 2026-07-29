@@ -17284,10 +17284,10 @@ img {
   border-radius: 999px; background: rgba(255,250,239,.9); color: #4a342d; box-shadow: 0 5px 14px rgba(68,45,24,.18);
   font-size: clamp(.78rem, 3.4vw, .98rem); font-weight: 700; line-height: 1.25; text-align: center;
 }
-.app-shell--workshop-home .puzzle-home-destination--puzzle { top: 22%; left: 4%; }
-.app-shell--workshop-home .puzzle-home-destination--album { top: 22%; right: 4%; }
-.app-shell--workshop-home .puzzle-home-destination--timeAttack { top: 38%; left: 4%; }
-.app-shell--workshop-home .puzzle-home-destination--pantry { top: 38%; right: 4%; }
+.app-shell--workshop-home .puzzle-home-destination--puzzle { top: 28%; left: 4%; }
+.app-shell--workshop-home .puzzle-home-destination--album { top: 28%; right: 4%; }
+.app-shell--workshop-home .puzzle-home-destination--timeAttack { top: 44%; left: 4%; }
+.app-shell--workshop-home .puzzle-home-destination--pantry { top: 44%; right: 4%; }
 .app-shell--workshop-home .puzzle-home-destination--map { bottom: 22%; left: 4%; }
 .app-shell--workshop-home .puzzle-home-destination__badge {
   position: absolute; right: 2px; top: 2px; z-index: 2; min-width: 28px; padding: 3px 6px;
@@ -17412,7 +17412,7 @@ img {
 .settings-language-group > button,
 .settings-language-selector > button {
   min-width: 0 !important;
-  padding: 10px 4px !important;
+  padding: 8px 4px 8px 34px !important;
   flex: 1 1 0 !important;
   overflow: hidden;
   font-size: clamp(0.7rem, 2.8vw, 0.86rem) !important;
@@ -17469,13 +17469,14 @@ img {
 
 .guide-dialog__art {
   position: relative !important;
-  z-index: 2 !important;
+  z-index: auto !important;
   display: flex !important;
   align-items: flex-end !important;
   justify-content: center !important;
   width: 100% !important;
   min-height: clamp(180px, 38vh, 260px) !important;
   padding: 0 !important;
+  overflow: visible !important;
   border-radius: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
@@ -17729,21 +17730,23 @@ img {
 }
 
 .hub-greeting-bubble {
-  background: #fff !important;
+  background: var(--paper, #fff8e8) !important;
+  border: 2px solid var(--ink, #3d2b2e) !important;
   border-radius: 16px 16px 16px 4px !important;
   padding: 10px 14px !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10) !important;
+  box-shadow: 0 3px 0 rgba(78, 48, 54, 0.16) !important;
   font-size: 0.95rem !important;
   line-height: 1.4 !important;
-  color: #4a3728 !important;
+  color: var(--ink, #3d2b2e) !important;
+  max-width: 200px !important;
 }
 
 .hub-greeting-wrap {
   display: flex !important;
   align-items: flex-end !important;
   pointer-events: none !important;
-  gap: 8px !important;
-  padding: 12px 16px !important;
+  gap: 4px !important;
+  padding: 6px 10px !important;
 }
 
 /* v0.1.624: keep content-panel surfaces inset from their outer frame. */
@@ -17833,6 +17836,7 @@ img {
 /* v0.1.626 — guide name tag, bubble overlap, marked cell X centering */
 .guide-dialog__name-tag {
   position: absolute;
+  z-index: 4;
   bottom: 6px;
   left: 50%;
   transform: translateX(-50%);
@@ -17860,4 +17864,28 @@ img {
 .puzzle-cell.marked {
   display: grid !important;
   place-items: center !important;
+}
+
+/* v0.1.634: restore Workshop supporting cards below the full-screen scene. */
+.app-shell--workshop-home {
+  background: #fff8e8;
+}
+
+.app-shell--workshop-home .puzzle-home,
+.app-shell--workshop-home .puzzle-home-scene {
+  min-height: 100svh;
+}
+
+.puzzle-hub-cards {
+  display: grid;
+  width: min(100%, 560px);
+  gap: 12px;
+  margin: 0 auto;
+  padding: 14px 14px calc(max(env(safe-area-inset-bottom, 0px), 16px) + 120px);
+  background: #fff8e8;
+}
+
+.puzzle-hub-cards > * {
+  width: 100%;
+  margin: 0;
 }

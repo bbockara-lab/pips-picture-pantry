@@ -1,7 +1,7 @@
 # Play Console Billing Setup
 
 Mode: live-candidate release checklist
-Last updated: 2026-07-18
+Last updated: 2026-07-28
 
 This document is the non-secret Play Console setup checklist for the v1 Android store purchases. It keeps the store-side work aligned with the code path guarded by `npm run qa:billing`.
 
@@ -10,10 +10,10 @@ This document is the non-secret Play Console setup checklist for the v1 Android 
 ### Pip Support Pack
 
 - Product ID: `pip_cozy_support`
-- Product type: one-time managed product / non-consumable
+- Product type: managed product / consumable repeatable support
 - Suggested launch price: USD 0.99 / KRW 1,100
 - Player-facing reward: 250 spoons
-- App copy framing: support Pip, restore purchase, spoons arrive
+- App copy framing: support Pip, repeat when desired, spoons arrive
 - Do not describe the player-facing card as a paid tier or free tier.
 - English title: Pip Support Pack
 - Korean title: Pip 응원팩
@@ -32,7 +32,7 @@ This document is the non-secret Play Console setup checklist for the v1 Android 
 
 1. Open Play Console for `com.sunnyspoonstudios.pipspicturepantry`.
 2. Go to Monetize > Products > In-app products.
-3. Create and activate `pip_cozy_support` as a one-time/non-consumable managed product.
+3. Create and activate `pip_cozy_support` as a consumable managed product.
 4. Create and activate `pip_spoon_jar_small` as a consumable managed product.
 5. Set titles and descriptions using support/jar/spoon language, not paid/free tier language.
 6. Mention 250 spoons for the support pack and 750 spoons for the spoon jar in the product descriptions.
@@ -44,10 +44,11 @@ This document is the non-secret Play Console setup checklist for the v1 Android 
 Before public launch, use a Google Play license tester or internal tester account and verify all of these on a real Android install from Play:
 
 - The Settings support card can load the store product.
-- Support purchase completes and grants exactly 250 spoons once.
+- Support purchase completes and grants exactly 250 spoons per completed transaction.
 - Closing or cancelling the purchase sheet does not grant spoons.
-- Tapping support purchase again after ownership does not grant a duplicate reward.
-- Restore keeps or brings back the support state and does not duplicate spoons.
+- A second support purchase with a new store token grants another 250 spoons.
+- Replaying the same support purchase token does not grant twice.
+- No restore action is shown for either consumed product.
 - The Small Spoon Jar card can load the store product.
 - Spoon jar purchase completes and grants exactly 750 spoons per completed purchase.
 - Spoon jar repeat purchase works with a new store token and grants another 750 spoons.
@@ -64,5 +65,5 @@ Do not build the final signed Play-upload AAB until:
 - `npm run qa:billing` passes.
 - `npm run billing:evidence:check` passes after the real-device evidence block is marked passed.
 - `npm run qa:release:final` passes after the final Android version bump.
-- A real-device internal tester support purchase/restore pass is recorded in `docs/ANDROID_RELEASE_STATUS.md`.
+- A real-device internal tester support purchase/repeat pass is recorded in `docs/ANDROID_RELEASE_STATUS.md`.
 - A real-device internal tester spoon jar purchase/repeat pass is recorded in `docs/ANDROID_RELEASE_STATUS.md`.

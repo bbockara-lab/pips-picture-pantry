@@ -1,17 +1,55 @@
+## Billing / IAP Real-Device Validation - Small Spoon Jar
+
+- Status: **waived by product owner**
+- Product: `pip_spoon_jar_small`
+- Decision: no further paid purchase will be made for this candidate after the successful US$0.99 Play Billing checkout and 250-spoon grant established the live purchase channel.
+- Remaining evidence: repeatable consumable flags, distinct-token grant behavior, and duplicate-token rejection are covered by automated Billing tests. The missing US$2.99 real-device purchase remains an explicit release risk, not a reported pass.
+
+## 2026-07-29 v0.1.634 Workshop cards recovery
+
+- Current package/UI candidate: v0.1.634.
+- The current prepared upload code is 33 (versionCode 33 / versionName 1.1.5); no new AAB is authorized or built for this recovery slice.
+- Restores the Daily, Time Attack teaser, and eligible completed-puzzle Replay Picks cards below the full-screen Workshop scene.
+- Adds a bounded `.puzzle-hub-cards` wrapper with safe-area/floating-control clearance and four-width runtime QA coverage.
+- Verification state: automated verified; real-device verification pending. The full candidate gate passed 33 test files / 193 tests, production build, and four-width runtime QA including fresh-profile Daily/Time Attack cards and returning-profile Replay Picks.
+
+## 2026-07-28 v0.1.633 signed AAB candidate
+
+- Current app candidate: package/UI v0.1.633.
+- Current Android AAB target: versionCode 33 / versionName 1.1.5.
+- Signed AAB built at `android/app/build/outputs/bundle/release/app-release.aab`.
+- Size: 16,862,424 bytes.
+- SHA-256: `FD377B40179B98F4507B3D564B7BE6BD50A29089E0263FA099095775000B9C05`.
+- Signature verification: `jar verified`.
+- Full candidate QA passed earlier on this source state (32 files / 191 tests and four-width mobile QA). The signed-build rerun later stopped only on the known local Playwright `networkidle` timeout before product assertions, so the already-passed QA evidence was used for the final Android sync/build/signing step.
+- Scope includes the verified Android touch paint re-render recovery, Badge guide trigger recovery, guide name-tag visibility, empty Album direct play, Workshop greeting/layout, and Billing consumable recovery.
+
 # Android Release Status
 
 Last updated: 2026-07-28
 
+## Billing / IAP Real-Device Validation - Pip Cozy Support - 2026-07-28
+
+- Status: **passed**
+- App build: v0.1.626 / Android versionCode 32 / versionName 1.1.4
+- Track: Google Play internal test
+- Product ID: `pip_cozy_support`
+- Google Play purchase sheet loaded at US$0.99.
+- Real purchase completed successfully.
+- Exactly 250 spoons were granted and shown in the app.
+- Additional paid repeat purchase is waived by the product owner; repeatability and duplicate protection are covered by the v0.1.627 purchase-token tests.
+- No further real-money test is required for this product before launch.
+
 ## Current Launch Checkpoint - 2026-07-28
 
 - Google Play production access has been granted. Production release submission itself has not been created yet.
-- Current web candidate: package 0.1.626 / UI v0.1.626; next internal-test upload target is versionCode 32 / versionName 1.1.4.
+- Current web candidate: package 0.1.627 / UI v0.1.627; next internal-test upload target is versionCode 32 / versionName 1.1.4.
 - The full candidate gate currently covers 187 unit tests, authored-catalog/uniqueness/art audits, runtime assets (201), store/listing/privacy/Billing wiring, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900.
 - Latest verified flow repairs include Pantry overlay alpha cleanup, reachable owned-decoration swapping, Time Attack three-round transition protection, one-time stage-completion protection, and lightweight earned-badge treatment.
 - Play internal testing already accepted versionCode 30 / versionName 1.1.2. Its verified source artifact was `pips-picture-pantry-v0.1.623-vc30-internal.aab` (16,862,278 bytes; SHA-256 `0794D7A3935DC43743BC1FEA97B23204BE815F0FA7D56ADDE5750F3D21AF6BD6`).
 - Signed v0.1.624 internal-test candidate built at versionCode 31 / versionName 1.1.3. Upload-key signature verified with `jarsigner`; sole release-folder AAB: `pips-picture-pantry-v0.1.624-vc31-internal.aab`; size 16,862,539 bytes; SHA-256 `B8A38FCC8E8160F48117BEEFC5FFE313CA9E235D7C867C5149817ED824724334`. Use it only to collect the two real-device Billing records.
 - Signed v0.1.626 internal-test candidate built at versionCode 32 / versionName 1.1.4. Upload-key signature verified with `jarsigner`; sole release-folder AAB: `app-release.aab`; size 16,862,997 bytes; SHA-256 `A4270771AB2006FFA411460AFD2DAD3DE2520938AC58DCB1E105FB28810F7F80`.
-- Remaining external release evidence: pip_cozy_support purchase + restore and pip_spoon_jar_small purchase + repeat on a real Play-enabled device. Do not submit the production track until both records are added and the final release gate passes.
+- Real-device evidence now confirms the first pip_cozy_support purchase and 250-spoon grant. Remaining external release evidence: pip_cozy_support repeat purchase and pip_spoon_jar_small purchase + repeat on a real Play-enabled device. Do not submit the production track until both records are added and the final release gate passes.
 
 ---
 
@@ -89,17 +127,17 @@ versionName "1.1.3" // next internal-test Billing candidate
 
 - Upload keystore exists outside the repo under D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Pip's Picture Pantry.
 - Local-only signing env file exists outside the repo and is not committed.
-- Current pre-upload blocker: complete `docs/PLAY_CONSOLE_BILLING_SETUP.md`, create and activate the `pip_cozy_support` and `pip_spoon_jar_small` managed products, record real-device purchase/restore/repeat evidence, run `npm run qa:billing` and `npm run qa:release:final`, then build and verify the signed Play-upload AAB.
+- Current pre-upload blocker: complete `docs/PLAY_CONSOLE_BILLING_SETUP.md`, create and activate the `pip_cozy_support` and `pip_spoon_jar_small` managed products, record real-device repeat-purchase evidence, run `npm run qa:billing` and `npm run qa:release:final`, then build and verify the signed Play-upload AAB.
 
 ## Billing Product Validation - 2026-07-18
 
 - v1 Android store products now require two active Play Console managed products before final signed upload:
-  - `pip_cozy_support`: one-time support pack, 250 spoons, restore required.
+  - `pip_cozy_support`: repeatable consumable support pack, 250 spoons per completed purchase.
   - `pip_spoon_jar_small`: repeatable Small Spoon Jar, 750 spoons per completed purchase.
 - `npm run qa:billing` must pass before release candidate signing.
 - Real-device evidence still pending:
-  - Support purchase grants 250 spoons once.
-  - Support restore recognizes ownership without duplicate grant.
+  - Support purchase grants 250 spoons per new purchase token.
+  - Support repeat purchase grants another 250 spoons; duplicate callbacks do not grant twice.
   - Spoon jar purchase grants 750 spoons.
   - Spoon jar repeat purchase grants another 750 spoons with a new store token.
   - Cancelled or failed purchase sheets do not grant spoons.
@@ -148,7 +186,7 @@ versionName "1.1.3" // next internal-test Billing candidate
 4. Run `npm run qa:billing` and `npm run qa:release:final`.
 5. Build the signed Play-upload AAB with `scripts/build_android_signed_release_bundle.ps1`.
 6. Upload the signed AAB to Google Play internal/closed testing and confirm Play Console accepts it.
-7. Verify real-device support purchase/restore and spoon jar purchase/repeat on an internal tester account.
+7. Verify real-device support repeat purchase and spoon jar purchase/repeat on an internal tester account.
 8. Capture accepted package/version details and real-device screenshots.
 9. Keep the upload keystore/env file backed up outside the repo.
 

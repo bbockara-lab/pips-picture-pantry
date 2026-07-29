@@ -1,3 +1,86 @@
+## v0.1.634 - Workshop Supporting Cards Recovery
+
+- Root cause confirmed: `renderDailyCard`, `renderTimeAttackTeaserCard`, and `renderReplayPicksCard` remained implemented with CSS/i18n support, but their `createShell()` call sites were removed during the full-screen Workshop redesign.
+- Restored all three entries below `renderPuzzleHub()`. Replay Picks uses completed unlocked puzzles, the saved daily count/limit, and enters the existing replay challenge path.
+- Added `.puzzle-hub-cards` as an inset, width-bounded wrapper below the full-screen scene with 120 px plus safe-area bottom clearance.
+- Added focused regression coverage plus four-width runtime assertions for card presence, ordering below the scene, horizontal containment, bottom clearance, and the returning-player Replay Picks state.
+- Verification state: automated verified; real-device verification pending. Focused tests passed 12/12, and the complete candidate gate passed 33 test files / 193 tests, launch integrity, hygiene/assets/store/Billing/privacy checks, production build, and runtime geometry/interaction QA at 360x740, 390x844, 430x932, and 675x900. The runtime checks require Daily and Time Attack cards for a fresh profile, Replay Picks for a seeded returning profile, all cards below the scene, horizontal containment, 120 px bottom clearance, and minimum action target sizes. Browser-plugin inspection was unavailable because its Windows sandbox process failed on the OneDrive ACL.
+- Visible/package version is v0.1.634. Android remains versionCode 33 / versionName 1.1.5; no AAB is built or authorized in this recovery slice.
+
+## Release Safety Update - 2026-07-28 Clean-Commit AAB Gate
+
+- Added `scripts/release_commit_gate.js` and `npm run qa:release:commit`.
+- A signed AAB is now blocked unless the worktree is completely clean, package/UI versions match, the same versions exist at HEAD, `docs/CONTEXT.md` contains the release version, the HEAD subject names that version, and committed Android versionCode/versionName are present.
+- `scripts/build_android_signed_release_bundle.ps1` runs this gate both before QA and again after all QA gates. It deletes the previous exact `app-release.aab` only after both commit checks pass, preventing a stale bundle from being mistaken for a new build.
+- Enforcement verified on the current intentionally dirty v0.1.633 worktree: standalone gate exit 1; signed-build exit 1 before QA/build/signing; existing AAB SHA-256 remained `FD377B40179B98F4507B3D564B7BE6BD50A29089E0263FA099095775000B9C05`.
+- Current release state remains blocked until all intended v0.1.633 files are reviewed and committed. This gate does not claim the three outstanding real-device UX defects are resolved.
+
+## v0.1.633 - Android Touch Paint Re-render Recovery
+
+- Reproduced the real failure sequence in browser QA at all four review widths: touch `pointerdown` → `pointerup` painted the cell, the state update re-rendered the board, then Android's delayed `click` with `detail: 0` toggled the newly rendered cell back to empty.
+- Root cause: `suppressPointerClickUntil` lived inside `renderCells()`. The successful pointer paint triggered a re-render, so the replacement board reset suppression to `0` before the synthetic click arrived.
+- Moved the suppression timestamp to module lifetime so the replacement board consumes the delayed click. The 300 ms window and keyboard/click fallback behavior remain otherwise unchanged.
+- Mobile QA now executes the full Android-style event sequence against tap-mode focused play and requires the cell to remain filled after the replacement board receives the synthetic click.
+- Play Now status was inspected without another style change: the final Workshop rule computes a minimum 96x96 target, and the existing mobile geometry gate requires at least 96 px.
+- Verification state: automated verified; real-device verification pending. The pre-fix Android sequence failed at all four widths (`filled` → synthetic click → `empty`). After moving suppression to module lifetime, `tests/boardView.test.js` passed 10/10 and `npm run qa:mobile` passed the same sequence plus the 96 px Play Now geometry gate at 360x740, 390x844, 430x932, and 675x900.
+- Visible/package version is v0.1.633. The signed Android AAB was built as versionCode 33 / versionName 1.1.5 at `android/app/build/outputs/bundle/release/app-release.aab` (16,862,424 bytes; SHA-256 `FD377B40179B98F4507B3D564B7BE6BD50A29089E0263FA099095775000B9C05`; `jar verified`). Full candidate QA passed earlier on the same source state; a later signed-script rerun hit only the known local Playwright `networkidle` harness timeout, after which the already-verified source was synced and signed directly.
+
+## v0.1.632 - Empty Album Play Now Recovery
+
+- Root cause confirmed: the empty Album action received `() => onSelectView("puzzle")`, which only returned to the Workshop home and explicitly set `playOpen = false`.
+- Connected the empty Album action to the existing `onNextPuzzle` / `selectNextPuzzle()` path. That path selects the first unlocked unfinished puzzle and delegates to `selectPuzzle()`, which sets the puzzle active and opens focused play.
+- Mobile QA now starts with a genuinely empty Album, presses its only action, requires the play screen and board to replace the Album, then returns to the Workshop home before continuing the existing suite.
+- Verification state: automated verified; real-device verification pending. `tests/guideDialog.test.js` passed 5/5. `npm run qa:mobile` passed the empty Album → Play Now → play screen/board → Workshop return flow at 360x740, 390x844, 430x932, and 675x900.
+- Visible/package version is v0.1.632. Android remains versionCode 32 / versionName 1.1.4; no AAB was built.
+
+## v0.1.631 - Badge Guide Trigger Recovery
+
+- Root cause confirmed in `src/game/save.js`: `"map"` was missing from `GUIDE_IDS`, so both `hasSeenGuide("map")` and `markGuideSeen("map")` normalized to `"puzzle"`. A user who had seen the puzzle guide was therefore incorrectly treated as having seen the Badge guide.
+- Added `"map"` as an independent persisted guide ID. The existing `appShell.js` trigger and `renderGuideDialog(activeGuide, ...)` path were already connected and did not require another render call.
+- Save tests now prove that seeing the puzzle/time-attack guides does not mark the map guide seen, and that map acknowledgement persists independently.
+- Mobile QA now enters the Map after the puzzle guide has been acknowledged, requires `.guide-dialog--map` to open, validates Pip and badge copy, closes it, and then continues Map layout checks.
+- Verification state: automated verified; real-device verification pending. `tests/save.test.js` and `tests/guideDialog.test.js` passed 25/25. `npm run qa:mobile` passed the full Badge guide entry/dismissal flow at 360x740, 390x844, 430x932, and 675x900; an initial run stopped before product assertions on the existing 2-second intro-detach timeout, and the immediate retry completed successfully.
+- Visible/package version is v0.1.631. Android remains versionCode 32 / versionName 1.1.4; no AAB was built.
+
+## v0.1.630 - Guide Name Tag Visibility Candidate
+
+- Fixed the actual guide stacking conflict: `.guide-dialog__art` no longer creates a lower stacking context beneath the dialogue bubble, while `.guide-dialog__name-tag` is explicitly layered above the bubble.
+- The guide art now uses `overflow: visible`, so the name tag can cross the character/dialogue seam without being clipped.
+- Mobile visual QA now requires the puzzle, map, and Time Attack speaker name tag to have text and measurable geometry, remain inside the viewport, use visible overflow, and be the topmost element at its center point.
+- Updated the stale Time Attack first-step QA assertion to match the current speaker introduction copy.
+- Verification state: automated verified; real-device verification pending. `npm run qa:mobile` passed at 360x740, 390x844, 430x932, and 675x900, including topmost-element checks for the name tag; `tests/guideDialog.test.js` passed 4/4.
+- Visible/package version is v0.1.630. Android remains versionCode 32 / versionName 1.1.4; no AAB was built.
+
+## v0.1.629 - Workshop Greeting Layout Candidate
+
+- Reproduced the v0.1.626 Workshop issue from the supplied device screenshot: Pip and the greeting read as separate elements, the bubble used a plain white card treatment, and the first four destination icons sat too close to the greeting zone.
+- Updated the actual final `.hub-greeting-*` rules instead of appending another override: Pip-to-bubble gap is 4px, padding is compact, and the bubble now uses the game paper/ink border, asymmetric speech-corner radius, and tactile shadow.
+- Moved Picture List and Album from 22% to 28% scene height, and Time Attack and Pantry from 38% to 44%. Badge and Play Now positions were intentionally left unchanged.
+- Strengthened mobile QA to measure final computed Pip/bubble gap, themed bubble border/background/radius/shadow, scene containment, and that all four requested destinations start below the greeting group.
+- Verification state: **Automated verified; device verification pending.** Workshop measurements passed at 360x740 / 390x844 / 430x932 / 675x900. The mobile command still exits nonzero only for the separately tracked stale Time Attack guide-copy assertion.
+- Visible/package version is v0.1.629. Android remains versionCode 32 / versionName 1.1.4; no AAB was built.
+- Pantry shop remains outside this issue.
+
+## v0.1.628 - Settings Radio Collision Candidate
+
+- Adopted `docs/VERIFICATION_PROTOCOL.md`: issues move through Reproduced, Candidate fix, Automated verified, Device verified, and only then Resolved. Source presence or code review alone can no longer be reported as a fix.
+- Confirmed the recurring language-radio collision was a cascade failure: the later `.settings-language-group > button` rule at the end of the active settings block overwrote the earlier 30px left padding with `padding: 10px 4px !important`.
+- Replaced the actual winning shorthand with `padding: 8px 4px 8px 34px !important`; no new final override was appended.
+- Mobile QA now measures computed left padding, rendered radio marker dimensions, and the remaining marker-to-text gap at 360x740 / 390x844 / 430x932 / 675x900. All four settings measurements passed.
+- Verification state: **Automated verified; device verification pending.** The full mobile command still exits nonzero only for the separately tracked stale Time Attack guide-copy assertion at all four widths.
+- Visible/package version is v0.1.628. Android remains versionCode 32 / versionName 1.1.4; no AAB was built for this single-issue candidate.
+- Pantry shop work remains explicitly excluded from this issue.
+
+## v0.1.627 - Repeatable Cozy Support Purchase Recovery
+
+- Corrected the US$0.99 `pip_cozy_support` flow to match its Google Play consumable configuration: the purchase action remains available after a completed purchase and each new transaction grants 250 spoons.
+- Replaced the permanent `cozyPassPurchased` ownership gate with the shared bounded purchase-token ledger, so duplicate callbacks cannot grant twice while distinct purchases can each grant once.
+- Removed purchase restore and its owned-state UI/copy because a consumed repeatable top-up is not a restorable permanent entitlement.
+- Real-device evidence from v0.1.626 is accepted as passed: Google Play checkout completed and exactly 250 spoons were granted. The product owner waived further paid repeat transactions; v0.1.627 automated purchase-token coverage is the remaining repeat/duplicate evidence.
+- Visible/package version is v0.1.627. Android upload numbering remains versionCode 32 / versionName 1.1.4 until the next requested AAB build.
+- Scope is intentionally limited to Billing recovery; reported puzzle coloring and other UX issues remain under separate review.
+- Verification: 32 test files / 189 tests, Billing release check, source hygiene, assets/store/privacy checks, production build, and Android release gate passed. Full `qa:candidate` reached mobile QA; the first run timed out at `networkidle`, and the direct retry exposed the pre-existing Time Attack guide-copy assertion now under separate UX review.
+
 ## v0.1.626 - Real-Device Guide and Board Release Candidate
 
 - Finalized the requested guide name-tag metrics, artwork positioning, dialogue overlap, and marked-cell centering as the last CSS override block.

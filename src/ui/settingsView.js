@@ -28,7 +28,6 @@ export function renderSettingsDialog({
   onReplayGuide = () => {},
   supportPack = null,
   onSupportPurchase = () => {},
-  onSupportRestore = () => {},
   spoonJar = null,
   onSpoonJarPurchase = () => {}
 }) {
@@ -157,7 +156,6 @@ export function renderSettingsDialog({
 export function renderSpoonStore({
   supportPack = null,
   onSupportPurchase = () => {},
-  onSupportRestore = () => {},
   spoonJar = null,
   onSpoonJarPurchase = () => {}
 } = {}) {
@@ -171,7 +169,7 @@ export function renderSpoonStore({
   heading.appendChild(title);
   const products = document.createElement("div");
   products.className = "spoon-store__products";
-  if (supportPack) products.appendChild(createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestore }));
+  if (supportPack) products.appendChild(createSupportPackCard({ supportPack, onSupportPurchase }));
   if (spoonJar) products.appendChild(createSpoonJarCard({ spoonJar, onSpoonJarPurchase }));
   store.append(heading, products);
   return store;
@@ -243,11 +241,9 @@ function createModalBackdrop() {
 }
 
 
-function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestore }) {
+function createSupportPackCard({ supportPack, onSupportPurchase }) {
   const group = document.createElement("div");
-  group.className = supportPack.owned
-    ? "support-pack-card support-pack-card--support support-pack-card--owned"
-    : "support-pack-card support-pack-card--support";
+  group.className = "support-pack-card support-pack-card--support";
   group.dataset.billingProduct = "pip_cozy_support";
   group.setAttribute("aria-label", t("settings.supportTitle"));
 
@@ -269,7 +265,7 @@ function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestor
   status.textContent = getSupportPackStatus(supportPack);
 
   const actions = document.createElement("div");
-  actions.className = "support-pack-card__actions";
+  actions.className = "support-pack-card__actions support-pack-card__actions--single";
 
   const purchaseButton = document.createElement("button");
   purchaseButton.type = "button";
@@ -278,14 +274,7 @@ function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestor
   purchaseButton.disabled = !canPurchaseSupportPack(supportPack);
   purchaseButton.addEventListener("click", onSupportPurchase);
 
-  const restoreButton = document.createElement("button");
-  restoreButton.type = "button";
-  restoreButton.className = "tool-button settings-choice settings-choice--restore";
-  restoreButton.textContent = t("settings.supportRestore");
-  restoreButton.disabled = !canRestoreSupportPack(supportPack);
-  restoreButton.addEventListener("click", onSupportRestore);
-
-  actions.append(purchaseButton, restoreButton);
+  actions.appendChild(purchaseButton);
   group.append(label, art, body, status, actions);
   return group;
 }
@@ -345,9 +334,6 @@ function createBillingProductArt(kind) {
 }
 
 function getSupportPackBody(supportPack) {
-  if (supportPack.owned) {
-    return t("settings.supportOwnedBody", { spoons: supportPack.spoons });
-  }
   return t("settings.supportBody", { spoons: supportPack.spoons });
 }
 
@@ -355,7 +341,7 @@ export function getSupportPackFacts(supportPack) {
   return [
     t("settings.supportFactSpoons", { spoons: supportPack?.spoons || 0 }),
     supportPack?.available ? t("settings.supportFactStore") : t("settings.supportFactAndroid"),
-    t("settings.supportFactRestore")
+    t("settings.supportFactRepeat")
   ];
 }
 
@@ -363,25 +349,19 @@ export function getSupportPackStatus(supportPack) {
   if (supportPack.loading) {
     return t("settings.supportChecking");
   }
-  if (supportPack.owned) {
-    return t("settings.supportOwned");
-  }
   if (supportPack.status === "cancelled") {
     return t("settings.supportCancelled");
-  }
-  if (supportPack.status === "not-owned") {
-    return t("settings.supportNotFound");
   }
   if (supportPack.status === "network-error") {
     return t("settings.supportNetworkError");
   }
   if (supportPack.status === "already-owned") {
-    return t("settings.supportAlreadyOwned");
+    return t("settings.supportPendingConsumption");
   }
-  if (supportPack.status === "wrong-product" || supportPack.status === "failed" || supportPack.status === "product-unavailable") {
+  if (supportPack.status === "wrong-product" || supportPack.status === "failed" || supportPack.status === "product-unavailable" || supportPack.status === "missing-purchase-key") {
     return t("settings.supportFailed");
   }
-  if (supportPack.status === "purchased" || supportPack.status === "restored") {
+  if (supportPack.status === "purchased" || supportPack.status === "already-processed") {
     return t("settings.supportReady");
   }
   if (!supportPack.available) {
@@ -394,16 +374,16 @@ export function getSupportStatusTone(supportPack) {
   if (supportPack.loading) {
     return "checking";
   }
-  if (supportPack.owned || supportPack.status === "purchased" || supportPack.status === "restored") {
+  if (supportPack.status === "purchased" || supportPack.status === "already-processed") {
     return "success";
   }
   if (
     supportPack.status === "cancelled" ||
-    supportPack.status === "not-owned" ||
     supportPack.status === "network-error" ||
     supportPack.status === "already-owned" ||
     supportPack.status === "wrong-product" ||
     supportPack.status === "failed" ||
+    supportPack.status === "missing-purchase-key" ||
     supportPack.status === "product-unavailable" ||
     !supportPack.available
   ) {
@@ -419,24 +399,7 @@ function getSupportPurchaseLabel(supportPack) {
 }
 
 export function canPurchaseSupportPack(supportPack) {
-  return Boolean(supportPack?.available && !supportPack.loading && !supportPack.owned);
-}
-
-export function canRestoreSupportPack(supportPack) {
-  if (!supportPack || supportPack.loading || supportPack.owned) {
-    return false;
-  }
-  if (supportPack.available) {
-    return true;
-  }
-  return [
-    "already-owned",
-    "product-unavailable",
-    "network-error",
-    "failed",
-    "wrong-product",
-    "not-owned"
-  ].includes(supportPack.status);
+  return Boolean(supportPack?.available && !supportPack.loading);
 }
 
 export function getSpoonJarFacts(spoonJar) {

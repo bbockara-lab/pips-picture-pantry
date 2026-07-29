@@ -38,10 +38,10 @@ function expectOrder(file, beforeNeedle, afterNeedle, label) {
 }
 
 function checkAndroidVersion() {
-  expectRegex("android/app/build.gradle", /versionCode\s+32\b/, "Android versionCode 32");
-  expectRegex("android/app/build.gradle", /versionName\s+"1\.1\.4"/, "Android versionName 1.1.4");
-  expectIncludes("docs/ANDROID_RELEASE_STATUS.md", "current prepared upload code is 32", "prepared upload code 32 note");
-  expectIncludes("docs/ANDROID_RELEASE_STATUS.md", "versionCode 32 / versionName 1.1.4", "prepared Android release version note");
+  expectRegex("android/app/build.gradle", /versionCode\s+33\b/, "Android versionCode 33");
+  expectRegex("android/app/build.gradle", /versionName\s+"1\.1\.5"/, "Android versionName 1.1.5");
+  expectIncludes("docs/ANDROID_RELEASE_STATUS.md", "current prepared upload code is 33", "prepared upload code 33 note");
+  expectIncludes("docs/ANDROID_RELEASE_STATUS.md", "versionCode 33 / versionName 1.1.5", "prepared Android release version note");
 }
 
 function checkPackUnlockGuidance() {

@@ -11,6 +11,7 @@ const PLAYERS_KEY = "pips-picture-pantry:v0.1:players";
 const GUIDE_IDS = new Set([
   "puzzle",
   "timeAttack",
+  "map",
   "pantryFirstPurchase",
   "pantryRoomStory",
   "pantryNeighborMrPark",
@@ -115,32 +116,43 @@ export function spendPantrySpoons(cost, reason = "spend") {
   return { spent: normalizedCost, balance: save.pantrySpoons, allowed: true, reason };
 }
 
-export function hasCozySupportPack() {
-  return Boolean(loadSave()?.cozyPassPurchased);
-}
-
-export function grantCozySupportPack(source = "purchase") {
+export function grantCozySupportPack(purchaseKey, source = "purchase") {
+  const normalizedKey = String(purchaseKey || "").trim();
   const save = loadSave() || createEmptySave();
-  if (save.cozyPassPurchased) {
+  if (!normalizedKey) {
     return {
       granted: false,
-      alreadyOwned: true,
+      duplicate: false,
       balance: save.pantrySpoons,
       spoons: 0,
-      source
+      source,
+      reason: "missing-purchase-key"
+    };
+  }
+
+  if (save.processedBillingPurchaseIds.includes(normalizedKey)) {
+    return {
+      granted: false,
+      duplicate: true,
+      balance: save.pantrySpoons,
+      spoons: 0,
+      source,
+      reason: "already-processed"
     };
   }
 
   const spoons = Math.max(0, Number(ECONOMY.COZY_PASS_SPOON_GRANT) || 0);
-  save.cozyPassPurchased = true;
   save.pantrySpoons += spoons;
+  save.processedBillingPurchaseIds = [...save.processedBillingPurchaseIds, normalizedKey]
+    .slice(-PROCESSED_BILLING_PURCHASE_RETENTION);
   saveGame(save);
   return {
     granted: true,
-    alreadyOwned: false,
+    duplicate: false,
     balance: save.pantrySpoons,
     spoons,
-    source
+    source,
+    reason: "granted"
   };
 }
 

@@ -12,7 +12,6 @@ import {
   getPackPantryRoomRequirement,
   getPlayerRecords,
   hasActivePlayer,
-  hasCozySupportPack,
   hasSeenGuide,
   getPantrySpoons,
   getPantryStoryGoalId,
@@ -210,6 +209,9 @@ describe("player save profiles", () => {
 
     markGuideSeen("timeAttack");
     markGuideSeen("timeAttack");
+    expect(hasSeenGuide("map")).toBe(false);
+    markGuideSeen("map");
+    expect(hasSeenGuide("map")).toBe(true);
     markGuideSeen("pantryFirstPurchase");
     expect(hasSeenGuide("pantryFirstPurchase")).toBe(true);
     markGuideSeen("pantryRoomStory");
@@ -223,6 +225,7 @@ describe("player save profiles", () => {
     expect(loadSave().seenGuideIds).toEqual([
       "puzzle",
       "timeAttack",
+      "map",
       "pantryFirstPurchase",
       "pantryRoomStory",
       "pantryNeighborMrPark",
@@ -487,29 +490,36 @@ describe("player save profiles", () => {
     expect(getPantrySpoons()).toBe(22);
   });
 
-  it("grants the cozy support pack once", () => {
+  it("grants the repeatable cozy support pack once per store purchase token", () => {
     setActivePlayerName("Jay");
     saveGame({ ...loadSave(), pantrySpoons: 12 });
 
-    expect(hasCozySupportPack()).toBe(false);
-    expect(grantCozySupportPack("purchase")).toEqual({
+    expect(grantCozySupportPack("pip_cozy_support:token-a", "purchase")).toEqual({
       granted: true,
-      alreadyOwned: false,
+      duplicate: false,
       balance: 262,
       spoons: 250,
-      source: "purchase"
+      source: "purchase",
+      reason: "granted"
     });
-    expect(hasCozySupportPack()).toBe(true);
-    expect(getPantrySpoons()).toBe(262);
-
-    expect(grantCozySupportPack("restore")).toEqual({
+    expect(grantCozySupportPack("pip_cozy_support:token-a", "purchase")).toEqual({
       granted: false,
-      alreadyOwned: true,
+      duplicate: true,
       balance: 262,
       spoons: 0,
-      source: "restore"
+      source: "purchase",
+      reason: "already-processed"
     });
-    expect(getPantrySpoons()).toBe(262);
+    expect(grantCozySupportPack("pip_cozy_support:token-b", "purchase")).toEqual({
+      granted: true,
+      duplicate: false,
+      balance: 512,
+      spoons: 250,
+      source: "purchase",
+      reason: "granted"
+    });
+    expect(grantCozySupportPack("", "purchase").reason).toBe("missing-purchase-key");
+    expect(getPantrySpoons()).toBe(512);
   });
 
   it("grants the small spoon jar once per store purchase token", () => {

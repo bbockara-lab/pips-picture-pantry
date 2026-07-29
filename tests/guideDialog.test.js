@@ -27,6 +27,11 @@ describe("guide dialog character and badge wiring", () => {
     expect(guideSource).toContain('map: "guide.map.speakerName"');
     expect(guideSource).toContain('nameTag.className = "guide-dialog__name-tag"');
   });
+  it("opens a real puzzle from the empty Album action", () => {
+    expect(appShellSource).toContain("renderAlbumView(onNextPuzzle)");
+    expect(appShellSource).not.toContain('renderAlbumView(() => onSelectView("puzzle"))');
+  });
+
   it("offers the map guide replay with map artwork in settings", () => {
     expect(settingsSource).toContain(
       'createGuideReplayButton(t("settings.guideReplayMapAction"), "map", "map", onReplayGuide)'

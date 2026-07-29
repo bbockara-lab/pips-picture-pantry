@@ -15,12 +15,12 @@ const versionCode = match(buildGradle, /versionCode\s+(\d+)/);
 const versionName = match(buildGradle, /versionName\s+["']([^"']+)["']/);
 const appVersion = match(appVersionSource, /APP_VERSION\s*=\s*["']([^"']+)["']/);
 
-const supportPassed = /Billing \/ IAP Real-Device Validation[\s\S]*Status:\s*\*\*passed\*\*[\s\S]*pip_cozy_support[\s\S]*purchase[\s\S]*restore/i.test(releaseStatus);
+const supportPassed = /Billing \/ IAP Real-Device Validation[\s\S]*Status:\s*\*\*passed\*\*[\s\S]*pip_cozy_support[\s\S]*purchase[\s\S]*(repeat|second|another|again)/i.test(releaseStatus);
 const jarPassed = /Billing \/ IAP Real-Device Validation[\s\S]*Status:\s*\*\*passed\*\*[\s\S]*pip_spoon_jar_small[\s\S]*purchase[\s\S]*(repeat|second|another|again)/i.test(releaseStatus);
 
 if (process.argv.includes("--check")) {
   const missing = [];
-  if (!supportPassed) missing.push("pip_cozy_support purchase/restore passed record");
+  if (!supportPassed) missing.push("pip_cozy_support purchase/repeat passed record");
   if (!jarPassed) missing.push("pip_spoon_jar_small purchase/repeat passed record");
 
   if (missing.length) {
@@ -43,10 +43,10 @@ console.log(`## Billing / IAP Real-Device Validation - YYYY-MM-DD
 - Product ID: \`pip_cozy_support\`
   - Product active in Play Console for the tester track:
   - Store sheet loads:
-  - Purchase grants exactly 250 spoons once:
+  - First purchase grants exactly 250 spoons:
   - Cancel/close grants no spoons:
-  - Already-owned/repeated tap does not duplicate spoons:
-  - Restore preserves or brings back support state without duplicate spoons:
+  - Repeat purchase with another store token grants another 250 spoons:
+  - Replaying the same purchase token does not duplicate spoons:
 - Product ID: \`pip_spoon_jar_small\`
   - Product active in Play Console for the tester track:
   - Store sheet loads:
@@ -58,5 +58,5 @@ console.log(`## Billing / IAP Real-Device Validation - YYYY-MM-DD
 
 When every line above is confirmed on a Play-installed Android build, change
 \`Status: **pending**\` to \`Status: **passed**\`. Keep the words purchase,
-restore, and repeat in this section so \`npm run qa:release:final\` can verify
+repeat and duplicate protection in this section so \`npm run qa:release:final\` can verify
 the release evidence.`);

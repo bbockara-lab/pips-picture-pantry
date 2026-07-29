@@ -2,11 +2,12 @@ import { getSeasonShelfById, getSeasonShelfForPuzzle, getSeasonShelfPuzzles } fr
 import { ECONOMY, getTimeAttackHintCost } from "../data/economyConfig.js";
 import { puzzles } from "../data/puzzles.js";
 import { getDailyPuzzle } from "../game/dailyPuzzle.js";
+import { getDailyReplayPicks } from "../game/replayPicks.js";
 import {
   getCompletedPuzzleIds,
+  getReplayDailyCount,
   getTimeAttackBestScores,
   getTimeAttackDailyCount,
-  hasCozySupportPack,
   hasSeenGuide,
   isShelfUnlocked,
   markGuideSeen,
@@ -15,7 +16,7 @@ import {
   setActivePlayerName,
   unlockShelf
 } from "../game/save.js";
-import { getCozySupportProduct, getSpoonJarSmallProduct, purchaseCozySupportPack, purchaseSpoonJarSmall, restoreCozySupportPack, syncCozySupportEntitlement } from "../game/billing.js";
+import { getCozySupportProduct, getSpoonJarSmallProduct, purchaseCozySupportPack, purchaseSpoonJarSmall } from "../game/billing.js";
 import { setLanguagePreference } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
 import { renderBadgeShelf, renderResetDialog } from "./appChrome.js";
@@ -24,12 +25,19 @@ import { renderPantryMapView } from "./mapView.js";
 import { renderPantryView } from "./pantryView.js";
 import { getNextPantryGuideId } from "./pantryGuideFlow.js";
 import { getControlModePreference, getHideCompletedStagesPreference, setControlModePreference, setHideCompletedStagesPreference } from "./preferences.js";
-import { getStageNavigation, renderPuzzleHub, renderPuzzlePicker } from "./puzzleHubView.js";
+import {
+  getStageNavigation,
+  renderDailyCard,
+  renderPuzzleHub,
+  renderPuzzlePicker,
+  renderReplayPicksCard,
+  renderTimeAttackTeaserCard
+} from "./puzzleHubView.js";
 import { renderPlayScreen } from "./playScreen.js";
 import { renderFloatingNav } from "./floatingNav.js";
 import { renderGuideDialog } from "./guideDialog.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
-import { canPurchaseSpoonJar, canPurchaseSupportPack, canRestoreSupportPack, renderSettingsDialog, renderSpoonStore } from "./settingsView.js";
+import { canPurchaseSpoonJar, canPurchaseSupportPack, renderSettingsDialog, renderSpoonStore } from "./settingsView.js";
 import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackElapsedSeconds, TIME_ATTACK_LIMIT_SECONDS, TIME_ATTACK_TRIAL_ROUNDS } from "./timeAttackFlow.js";
 import { renderTimeAttackView } from "./timeAttackView.js";
 
@@ -61,7 +69,6 @@ export function renderApp(root) {
   let cozySupportRequestId = 0;
   let spoonJarState = createDefaultSpoonJarState();
   let spoonJarRequestId = 0;
-  let cozySupportStartupSyncStarted = false;
 
   function selectPuzzle(puzzleId, scrollTarget = "puzzle", options = {}) {
     const nextPuzzle = puzzles.find((puzzle) => puzzle.id === puzzleId) || dailyPuzzle;
@@ -331,7 +338,6 @@ export function renderApp(root) {
   function createDefaultCozySupportState(status = "idle") {
     return {
       available: false,
-      owned: hasCozySupportPack(),
       loading: false,
       priceString: "",
       spoons: ECONOMY.COZY_PASS_SPOON_GRANT,
@@ -362,7 +368,6 @@ export function renderApp(root) {
       onReplayGuide: replayGuideFromSettings,
       supportPack: cozySupportState,
       onSupportPurchase: buyCozySupportPack,
-      onSupportRestore: restoreCozySupport,
       spoonJar: spoonJarState,
       onSpoonJarPurchase: buySpoonJarSmall
     };
@@ -396,7 +401,7 @@ export function renderApp(root) {
 
   async function loadCozySupportProduct() {
     const requestId = ++cozySupportRequestId;
-    cozySupportState = { ...cozySupportState, owned: hasCozySupportPack(), loading: true, status: "checking" };
+    cozySupportState = { ...cozySupportState, loading: true, status: "checking" };
     draw();
     const result = await getCozySupportProduct();
     if (requestId !== cozySupportRequestId) return;
@@ -417,39 +422,10 @@ export function renderApp(root) {
     draw();
   }
 
-  async function restoreCozySupport() {
-    if (!canRestoreSupportPack(cozySupportState)) return;
-    cozySupportState = { ...cozySupportState, loading: true, status: "checking" };
-    draw();
-    const result = await restoreCozySupportPack();
-    cozySupportState = normalizeCozySupportState({ ...cozySupportState, ...result }, result.status || "failed");
-    if (result.ok) {
-      await loadCozySupportProduct();
-      return;
-    }
-    draw();
-  }
-
-  function syncCozySupportOnStartup() {
-    if (cozySupportStartupSyncStarted || hasCozySupportPack()) return;
-    cozySupportStartupSyncStarted = true;
-    syncCozySupportEntitlement()
-      .then((result) => {
-        if (!result?.ok || !result?.grant?.granted) return;
-        cozySupportState = normalizeCozySupportState(
-          { ...cozySupportState, ...result, owned: true },
-          result.status || "restored"
-        );
-        draw();
-      })
-      .catch(() => {});
-  }
-
   function normalizeCozySupportState(result, status = "idle") {
     const product = result?.product || {};
     return {
       available: Boolean(result?.available),
-      owned: Boolean(result?.owned) || hasCozySupportPack(),
       loading: false,
       priceString: product.priceString || cozySupportState.priceString || "",
       spoons: product.spoonGrant || ECONOMY.COZY_PASS_SPOON_GRANT,
@@ -592,7 +568,6 @@ export function renderApp(root) {
     }, 0);
   }
 
-  syncCozySupportOnStartup();
   if (introOpenViewHandler) {
     window.removeEventListener("ppp:intro-open-view", introOpenViewHandler);
   }
@@ -712,7 +687,7 @@ function createShell({
     shell.appendChild(earnedBadgeShelf);
   }
   if (activeView === "album") {
-    shell.appendChild(renderAlbumView(() => onSelectView("puzzle")));
+    shell.appendChild(renderAlbumView(onNextPuzzle));
   } else if (activeView === "map") {
     shell.appendChild(renderPantryMapView());
   } else if (activeView === "pantry") {
@@ -745,6 +720,29 @@ function createShell({
       onSelectView,
       onOpenSettings: onRequestSettings
     }));
+
+    const hubCards = document.createElement("div");
+    hubCards.className = "puzzle-hub-cards";
+    hubCards.appendChild(renderDailyCard(dailyPuzzle, activePuzzle.id, onSelectPuzzle));
+    hubCards.appendChild(renderTimeAttackTeaserCard(() => onSelectView("timeAttack")));
+
+    const replayPicksCard = renderReplayPicksCard(
+      getDailyReplayPicks({
+        allPuzzles: getDailyPuzzleCandidates(),
+        completedPuzzleIds: getCompletedPuzzleIds()
+      }),
+      activePuzzle.id,
+      onSelectPuzzle,
+      {
+        dailyCount: getReplayDailyCount(),
+        dailyLimit: ECONOMY.REPLAY_PICK_DAILY_LIMIT,
+        onReplayPick: (puzzleId) => onSelectPuzzle(puzzleId, "puzzle", { replayChallenge: true })
+      }
+    );
+    if (replayPicksCard) {
+      hubCards.appendChild(replayPicksCard);
+    }
+    shell.appendChild(hubCards);
   }
 
   if (resetOpen) {

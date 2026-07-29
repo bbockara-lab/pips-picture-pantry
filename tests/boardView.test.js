@@ -4,6 +4,7 @@ import { CELL } from "../src/game/nonogram.js";
 import { getBoardGuideInterval, getCellPaintValue, getDragCellPaintValue, getLineGuidance, isLineCorrectlySatisfied, shouldSuppressPointerClick } from "../src/ui/boardView.js";
 
 const styles = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
+const boardSource = readFileSync(new URL("../src/ui/boardView.js", import.meta.url), "utf8");
 
 describe("board view paint decisions", () => {
   it("centers marked and safe-suggestion glyphs in their cells", () => {
@@ -34,6 +35,11 @@ describe("board view paint decisions", () => {
     expect(getDragCellPaintValue(safeButton, CELL.empty)).toBe(CELL.marked);
     expect(getDragCellPaintValue(normalButton, CELL.empty)).toBe(CELL.empty);
     expect(getDragCellPaintValue(normalButton, CELL.filled)).toBe(CELL.filled);
+  });
+
+  it("keeps delayed-click suppression alive across board re-renders", () => {
+    expect(boardSource).toMatch(/let suppressPointerClickUntil = 0;[\s\S]*?function renderCells/);
+    expect(boardSource).not.toMatch(/function renderCells[\s\S]*?let suppressPointerClickUntil = 0;/);
   });
 
   it("suppresses the delayed pointer click after a completed touch stroke", () => {

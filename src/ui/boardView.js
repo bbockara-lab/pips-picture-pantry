@@ -3,6 +3,8 @@ import { getNextCellValue } from "../game/puzzleState.js";
 import { puzzleText } from "../i18n/index.js";
 import { getPuzzleCellColor } from "./coloredPuzzleArt.js";
 
+let suppressPointerClickUntil = 0;
+
 export function renderBoard(puzzle, state, onCellPress, options = {}) {
   const clues = computeClues(puzzle.solution);
   const board = document.createElement("div");
@@ -79,7 +81,6 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
   const showColoredReward = Boolean(options.completed);
   const boardGuideInterval = getBoardGuideInterval(puzzle.size);
   let dragSession = null;
-  let suppressPointerClickUntil = 0;
 
   function finishDrag() {
     if (!dragSession) {

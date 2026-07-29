@@ -53,11 +53,14 @@ for (const viewport of viewports) {
     await expectFloatingNavPolish(page, viewport.name);
   }
   await expectPuzzleHomePolish(page, viewport.name);
+  await expectDailyRewardPolish(page, viewport.name);
+  await expectTimeAttackHubEntry(page, viewport.name);
   await expectResetDialogPolish(page, viewport.name);
   await expectStageCompleteRewardPolish(page, viewport.name);
   await expectAbsent(page, ".season-progress-card", viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
   await expectTapTargets(page, viewport.name);
+  await verifyEmptyAlbumPlayNowFlow(page, viewport.name);
 
   await seedCompletedStarter(page);
   await page.reload({ waitUntil: "networkidle" });
@@ -67,6 +70,7 @@ for (const viewport of viewports) {
   await dismissIntro(page, "Jay", viewport.name);
   await dismissGuideIfPresent(page, viewport.name);
   await expectVisible(page, ".puzzle-home-scene", viewport.name);
+  await expectReplayPicksPolish(page, viewport.name);
   await openFloatingView(page, "puzzle");
   await expectVisible(page, ".pack-block", viewport.name);
   await expectHiddenBonusPacks(page, viewport.name);
@@ -84,6 +88,7 @@ for (const viewport of viewports) {
   await expectNoHorizontalOverflow(page, viewport.name);
 
   await openFloatingView(page, "map");
+  await expectMapFirstRunGuide(page, viewport.name);
   await expectNoSharedScreenHeader(page, viewport.name);
   await expectVisible(page, ".map-panel", viewport.name);
   await expectVisible(page, ".next-stage-badge", viewport.name);
@@ -335,10 +340,16 @@ async function expectGuideDialogChromeArt(page, viewportName, options = {}) {
     const overlay = document.querySelector(".guide-overlay");
     const art = dialog.querySelector(".guide-dialog__art");
     const image = art?.querySelector("img");
+    const nameTag = art?.querySelector(".guide-dialog__name-tag");
     const bubble = dialog.querySelector(".guide-dialog__bubble");
     const line = dialog.querySelector(".guide-dialog__line");
     const rect = dialog.getBoundingClientRect();
     const imageRect = image?.getBoundingClientRect();
+    const nameTagRect = nameTag?.getBoundingClientRect();
+    const nameTagStyle = nameTag ? getComputedStyle(nameTag) : null;
+    const nameTagCenterElement = nameTagRect
+      ? document.elementFromPoint(nameTagRect.left + nameTagRect.width / 2, nameTagRect.top + nameTagRect.height / 2)
+      : null;
     return {
       viewportWidth: window.innerWidth,
       viewportHeight: window.innerHeight,
@@ -346,6 +357,22 @@ async function expectGuideDialogChromeArt(page, viewportName, options = {}) {
       height: rect.height,
       imageWidth: imageRect?.width || 0,
       imageHeight: imageRect?.height || 0,
+      artOverflow: art ? getComputedStyle(art).overflow : "",
+      hasNameTag: Boolean(nameTag),
+      nameTagText: (nameTag?.textContent || "").trim(),
+      nameTagWidth: nameTagRect?.width || 0,
+      nameTagHeight: nameTagRect?.height || 0,
+      nameTagVisible: Boolean(nameTagStyle)
+        && nameTagStyle.display !== "none"
+        && nameTagStyle.visibility !== "hidden"
+        && Number(nameTagStyle.opacity) > 0
+        && Boolean(nameTagRect)
+        && nameTagRect.left >= 0
+        && nameTagRect.right <= window.innerWidth
+        && nameTagRect.top >= 0
+        && nameTagRect.bottom <= window.innerHeight,
+      nameTagOnTop: Boolean(nameTag) && (nameTagCenterElement === nameTag || nameTag.contains(nameTagCenterElement)),
+      expectsNameTag: dialog.matches(".guide-dialog--puzzle, .guide-dialog--map, .guide-dialog--timeAttack"),
       bodyText: (line?.textContent || "").trim(),
       buttonCount: dialog.querySelectorAll(".guide-dialog__actions button").length,
       hasLegacyLabels: Boolean(dialog.querySelector(".guide-dialog__eyebrow, .guide-dialog__speaker")),
@@ -360,7 +387,9 @@ async function expectGuideDialogChromeArt(page, viewportName, options = {}) {
   });
   const isContained = metrics.width >= Math.min(320, metrics.viewportWidth - 44) && metrics.width <= metrics.viewportWidth && metrics.height <= metrics.viewportHeight;
   const minImageWidth = options.neighborClass ? 100 : 150;
-  if (!metrics.overlayFixed || !isContained || metrics.imageWidth < minImageWidth || metrics.imageHeight < 150 || metrics.bodyText.length < 12 || metrics.buttonCount !== 1 || metrics.hasLegacyLabels || metrics.artBefore !== "none" || metrics.artAfter !== "none" || metrics.bubbleBefore !== "none" || metrics.bubbleAfter !== "none" || metrics.overflows || !metrics.neighborMatched) {
+  const nameTagRegressed = metrics.expectsNameTag
+    && (!metrics.hasNameTag || metrics.nameTagText.length < 2 || metrics.nameTagWidth < 30 || metrics.nameTagHeight < 18 || !metrics.nameTagVisible || !metrics.nameTagOnTop || metrics.artOverflow !== "visible");
+  if (!metrics.overlayFixed || !isContained || metrics.imageWidth < minImageWidth || metrics.imageHeight < 150 || metrics.bodyText.length < 12 || metrics.buttonCount !== 1 || metrics.hasLegacyLabels || metrics.artBefore !== "none" || metrics.artAfter !== "none" || metrics.bubbleBefore !== "none" || metrics.bubbleAfter !== "none" || metrics.overflows || !metrics.neighborMatched || nameTagRegressed) {
     const guideLabel = options.neighborClass ? `${options.neighborClass} neighbor conversation` : "Clean Pip conversation";
     failures.push("[" + viewportName + "] " + guideLabel + " regressed: " + JSON.stringify(metrics));
   }
@@ -438,9 +467,19 @@ async function expectSettingsDialogPolish(page, viewportName) {
     purchaseCopy: /pip_cozy_support|pip_spoon_jar_small|Play Store|Google Play/.test(dialog.textContent || ""),
     languageChoices: [...dialog.querySelectorAll(".settings-choice--language")].map((button) => {
       const style = getComputedStyle(button);
+      const marker = getComputedStyle(button, "::after");
+      const paddingLeft = parseFloat(style.paddingLeft) || 0;
+      const markerLeft = parseFloat(marker.left) || 0;
+      const markerWidth = (parseFloat(marker.width) || 0)
+        + (parseFloat(marker.borderLeftWidth) || 0)
+        + (parseFloat(marker.borderRightWidth) || 0);
       return {
         overflow: button.scrollWidth > button.clientWidth + 1,
-        whiteSpace: style.whiteSpace || ""
+        whiteSpace: style.whiteSpace || "",
+        paddingLeft,
+        markerContent: marker.content || "none",
+        markerDisplay: marker.display || "none",
+        textMarkerGap: paddingLeft - markerLeft - markerWidth
       };
     })
   }));
@@ -450,7 +489,7 @@ async function expectSettingsDialogPolish(page, viewportName) {
     metrics.controlCount < 7 ||
     metrics.purchaseCopy ||
     metrics.languageChoices.length !== 3 ||
-    (metrics.viewportWidth <= 430 && metrics.languageChoices.some((choice) => choice.overflow || choice.whiteSpace !== "nowrap"))
+    (metrics.viewportWidth <= 430 && metrics.languageChoices.some((choice) => choice.overflow || choice.whiteSpace !== "nowrap" || choice.paddingLeft < 34 || choice.markerContent === "none" || choice.markerDisplay === "none" || choice.textMarkerGap < 4))
   ) {
     failures.push("[" + viewportName + "] Settings should contain preferences only: " + JSON.stringify(metrics));
   }
@@ -979,6 +1018,73 @@ async function expectAlbumPolish(page, viewportName) {
   }
 }
 
+async function verifyEmptyAlbumPlayNowFlow(page, viewportName) {
+  await page.locator(".puzzle-home-destination--album").click();
+  await expectVisible(page, ".album-empty", viewportName);
+  const emptyAction = page.locator(".album-empty button");
+  if ((await emptyAction.count()) !== 1) {
+    failures.push("[" + viewportName + "] Empty Album should expose exactly one Play Now action.");
+    return;
+  }
+  await emptyAction.click();
+  await expectVisible(page, ".play-screen", viewportName);
+  await dismissGuideIfPresent(page, viewportName);
+  await expectVisible(page, ".board-wrap", viewportName);
+  await expectTouchPaintSurvivesSyntheticClick(page, viewportName);
+  if ((await page.locator(".album-panel").count()) !== 0) {
+    failures.push("[" + viewportName + "] Empty Album Play Now action left the Album mounted instead of opening a puzzle.");
+  }
+  await page.locator(".play-screen__back").click();
+  await expectVisible(page, ".puzzle-home-scene", viewportName);
+}
+
+async function expectTouchPaintSurvivesSyntheticClick(page, viewportName) {
+  const target = page.locator(".puzzle-grid .puzzle-cell").first();
+  const box = await target.boundingBox();
+  if (!box) {
+    failures.push("[" + viewportName + "] Touch paint regression fixture could not locate its target cell.");
+    return;
+  }
+  await target.dispatchEvent("pointerdown", {
+    pointerId: 91,
+    pointerType: "touch",
+    isPrimary: true,
+    button: 0,
+    buttons: 1,
+    clientX: box.x + box.width / 2,
+    clientY: box.y + box.height / 2
+  });
+  await page.evaluate(() => {
+    const event = typeof PointerEvent === "function"
+      ? new PointerEvent("pointerup", { pointerId: 91, pointerType: "touch", isPrimary: true, bubbles: true })
+      : new MouseEvent("pointerup", { bubbles: true });
+    window.dispatchEvent(event);
+  });
+  await page.waitForTimeout(50);
+  const afterPointerUp = await page.locator(".puzzle-grid .puzzle-cell").first().getAttribute("class");
+  await page.locator(".puzzle-grid .puzzle-cell").first().dispatchEvent("click", { detail: 0 });
+  await page.waitForTimeout(20);
+  const afterSyntheticClick = await page.locator(".puzzle-grid .puzzle-cell").first().getAttribute("class");
+  if (!afterPointerUp?.includes("filled") || !afterSyntheticClick?.includes("filled")) {
+    failures.push("[" + viewportName + "] Android touch paint was toggled again by the delayed synthetic click: " + JSON.stringify({ afterPointerUp, afterSyntheticClick }));
+  }
+}
+
+async function expectMapFirstRunGuide(page, viewportName) {
+  const dialog = page.locator(".guide-dialog--map");
+  if ((await dialog.count()) === 0) {
+    failures.push("[" + viewportName + "] Unseen Badge/Map guide did not open after entering the map view.");
+    return;
+  }
+  await expectGuideDialogChromeArt(page, viewportName);
+  const speakerName = (await dialog.locator(".guide-dialog__name-tag").innerText()).trim();
+  const firstStepText = (await dialog.locator(".guide-dialog__line").innerText()).trim();
+  if (speakerName !== "Pip" || !/badge|\uBC30\uC9C0/i.test(firstStepText)) {
+    failures.push("[" + viewportName + "] Badge/Map guide speaker or first step regressed: " + JSON.stringify({ speakerName, firstStepText }));
+  }
+  await dismissGuideIfPresent(page, viewportName);
+}
+
 async function expectMapPolish(page, viewportName) {
   const metrics = await page.evaluate(() => {
     const map = document.querySelector(".map-panel");
@@ -1428,7 +1534,12 @@ async function expectPuzzleHomePolish(page, viewportName) {
     const play = home.querySelector(".puzzle-home-scene__play");
     const settings = home.querySelector(".puzzle-home-scene__settings");
     const controls = home.querySelector(".puzzle-home-scene__controls");
+    const greetingWrap = home.querySelector(".puzzle-home-scene__greeting-wrap");
+    const greetingPip = home.querySelector(".puzzle-home-scene__greeting-pip");
+    const greetingBubble = home.querySelector(".puzzle-home-scene__greeting");
     const shell = home.closest(".app-shell");
+    const hubCards = shell?.querySelector(".puzzle-hub-cards");
+    const hubCardsStyle = hubCards ? getComputedStyle(hubCards) : null;
     const sceneStyle = scene ? getComputedStyle(scene) : null;
     const boxOf = (element) => {
       const rect = element?.getBoundingClientRect();
@@ -1440,6 +1551,7 @@ async function expectPuzzleHomePolish(page, viewportName) {
       && left.top < right.bottom - 1
       && left.bottom > right.top + 1);
     const sceneBox = boxOf(scene);
+    const hubCardsBox = boxOf(hubCards);
     const destinationBoxes = destinations.map(boxOf);
     const destinationArt = destinations.map((button) => {
       const image = button.querySelector("img");
@@ -1460,6 +1572,14 @@ async function expectPuzzleHomePolish(page, viewportName) {
     const playBox = boxOf(play);
     const settingsBox = boxOf(settings);
     const controlsBox = boxOf(controls);
+    const greetingWrapBox = boxOf(greetingWrap);
+    const greetingPipBox = boxOf(greetingPip);
+    const greetingBubbleBox = boxOf(greetingBubble);
+    const greetingWrapStyle = greetingWrap ? getComputedStyle(greetingWrap) : null;
+    const greetingBubbleStyle = greetingBubble ? getComputedStyle(greetingBubble) : null;
+    const primaryDestinationBoxes = destinations
+      .filter((button) => ["puzzle", "album", "timeAttack", "pantry"].includes(button.dataset.destination || ""))
+      .map(boxOf);
     const settingsImage = settings?.querySelector("img");
     return {
       overflow: home.scrollWidth > home.clientWidth + 1,
@@ -1479,12 +1599,24 @@ async function expectPuzzleHomePolish(page, viewportName) {
       destinationArt,
       playCollision: destinationBoxes.some((box) => intersects(box, playBox)),
       controlsCollision: destinationBoxes.some((box) => intersects(box, controlsBox)) || intersects(playBox, controlsBox),
+      greetingGap: greetingPipBox && greetingBubbleBox ? Math.max(0, greetingBubbleBox.left - greetingPipBox.right) : 999,
+      greetingFlexGap: greetingWrapStyle ? parseFloat(greetingWrapStyle.gap) || 0 : 999,
+      greetingBubbleBorder: greetingBubbleStyle ? parseFloat(greetingBubbleStyle.borderTopWidth) || 0 : 0,
+      greetingBubbleRadius: greetingBubbleStyle ? parseFloat(greetingBubbleStyle.borderTopLeftRadius) || 0 : 0,
+      greetingBubbleShadow: greetingBubbleStyle?.boxShadow || "none",
+      greetingBubbleBackground: greetingBubbleStyle?.backgroundColor || "",
+      greetingOutsideScene: !greetingWrapBox || !sceneBox || greetingWrapBox.left < sceneBox.left - 1 || greetingWrapBox.right > sceneBox.right + 1 || greetingWrapBox.top < sceneBox.top - 1 || greetingWrapBox.bottom > sceneBox.bottom + 1,
+      primaryDestinationsBelowGreeting: Boolean(greetingWrapBox && primaryDestinationBoxes.length === 4 && primaryDestinationBoxes.every((box) => box && box.top >= greetingWrapBox.bottom + 4)),
       settingsOutsideScene: !settingsBox || !sceneBox || settingsBox.left < sceneBox.left - 1 || settingsBox.right > sceneBox.right + 1 || settingsBox.top < sceneBox.top - 1 || settingsBox.bottom > sceneBox.bottom + 1,
       settingsTargetLargeEnough: Boolean(settingsBox && Math.min(settingsBox.right - settingsBox.left, settingsBox.bottom - settingsBox.top) >= 44),
       settingsAssetId: settingsImage?.dataset.assetId || "",
       playOutsideScene: !playBox || !sceneBox || playBox.left < sceneBox.left - 1 || playBox.right > sceneBox.right + 1 || playBox.top < sceneBox.top - 1 || playBox.bottom > sceneBox.bottom + 1,
       playLargeEnough: Boolean(playBox && Math.min(playBox.right - playBox.left, playBox.bottom - playBox.top) >= 96),
       workshopShell: Boolean(shell?.classList.contains("app-shell--workshop-home")),
+      supportingCardClasses: hubCards ? [...hubCards.children].map((child) => child.className) : [],
+      supportingCardsBelowScene: Boolean(sceneBox && hubCardsBox && hubCardsBox.top >= sceneBox.bottom - 1),
+      supportingCardsWidthContained: Boolean(hubCardsBox && hubCardsBox.left >= -1 && hubCardsBox.right <= window.innerWidth + 1),
+      supportingCardsPaddingBottom: hubCardsStyle ? parseFloat(hubCardsStyle.paddingBottom) || 0 : 0,
       hasRetiredHomeProps: Boolean(home.querySelector(".puzzle-home-furnishings, .puzzle-home-scene__keepsake")),
       hasHiddenDestinationLabel: destinations.some((button) => {
         const label = button.querySelector(".puzzle-home-destination__label");
@@ -1497,7 +1629,7 @@ async function expectPuzzleHomePolish(page, viewportName) {
   const expected = ["puzzle", "album", "pantry", "timeAttack", "map"];
   const expectedAssets = { puzzle: "workshop-nav-puzzle-v3", album: "workshop-nav-album-v3", pantry: "workshop-nav-pantry-v3", timeAttack: "workshop-nav-time-attack-v3", map: "workshop-nav-map-v3" };
   const hasStaleDestinationTreatment = metrics.destinationArt.some((art) => art.assetId !== expectedAssets[art.id] || art.backgroundColor !== "rgba(0, 0, 0, 0)" || art.borderTopWidth !== "0px" || art.boxShadow !== "none");
-  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.hasHiddenDestinationLabel || metrics.playAssetId !== "puzzle-control-fill-v1" || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
+  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.greetingGap > 5 || metrics.greetingFlexGap > 4 || metrics.greetingBubbleBorder < 2 || metrics.greetingBubbleRadius < 16 || metrics.greetingBubbleShadow === "none" || metrics.greetingBubbleBackground === "rgb(255, 255, 255)" || metrics.greetingOutsideScene || !metrics.primaryDestinationsBelowGreeting || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.hasHiddenDestinationLabel || metrics.playAssetId !== "puzzle-control-fill-v1" || metrics.supportingCardClasses.length < 2 || !metrics.supportingCardClasses.some((className) => className.includes("daily-card")) || !metrics.supportingCardClasses.some((className) => className.includes("time-attack-teaser-card")) || !metrics.supportingCardsBelowScene || !metrics.supportingCardsWidthContained || metrics.supportingCardsPaddingBottom < 120 || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
     failures.push("[" + viewportName + "] Puzzle workshop home/direct destinations regressed: " + JSON.stringify(metrics));
   }
 }
@@ -1536,7 +1668,7 @@ async function expectTimeAttackHubEntry(page, viewportName) {
       actionHeight: action?.getBoundingClientRect().height || 0
     };
   });
-  if (metrics.overflows || metrics.assetId !== "quick-travel-time-attack-clock-v1" || metrics.naturalWidth !== 256 || metrics.hasLegacyActionIcon || metrics.badgeBackgroundImage !== "none" || metrics.badgeBorderWidth !== "0px" || metrics.before !== "none" || metrics.after !== "none" || metrics.actionHeight < 44 || !/Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(metrics.text)) {
+  if (metrics.overflows || metrics.assetId !== "workshop-nav-time-attack-v3" || metrics.naturalWidth !== 256 || metrics.hasLegacyActionIcon || metrics.badgeBackgroundImage !== "none" || metrics.badgeBorderWidth !== "0px" || metrics.before !== "none" || metrics.after !== "none" || metrics.actionHeight < 44 || !/Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(metrics.text)) {
     failures.push("[" + viewportName + "] Compact Time Attack entry regressed: " + JSON.stringify(metrics));
   }
 }
@@ -1731,8 +1863,8 @@ async function expectTimeAttackGuideCopy(page, viewportName) {
   await expectGuideDialogChromeArt(page, viewportName, { neighborClass: "mr-park" });
 
   const firstStepText = await page.locator(".guide-dialog__bubble").first().innerText();
-  if (!/three random|three puzzles|\uC138 \uD310|\uC138 \uAC1C|\uC138 \uC7A5/i.test(firstStepText)) {
-    failures.push("[" + viewportName + "] Time Attack guide first step should explain the three-board run, saw " + firstStepText);
+  if (!/Grandpa Clock|\uC2DC\uACC4 \uD560\uC544\uBC84\uC9C0/i.test(firstStepText)) {
+    failures.push("[" + viewportName + "] Time Attack guide first step should introduce its speaker, saw " + firstStepText);
   }
 
   await page.locator(".guide-dialog__next").click();
