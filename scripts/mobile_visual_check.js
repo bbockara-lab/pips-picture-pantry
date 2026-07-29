@@ -95,7 +95,7 @@ for (const viewport of viewports) {
   await expectMapFirstRunGuide(page, viewport.name);
   await expectNoSharedScreenHeader(page, viewport.name);
   await expectVisible(page, ".map-panel", viewport.name);
-  await expectVisible(page, ".next-stage-badge", viewport.name);
+  await expectVisible(page, ".badge-shelf", viewport.name);
   await expectMapPolish(page, viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
 
@@ -1093,40 +1093,52 @@ async function expectMapFirstRunGuide(page, viewportName) {
 async function expectMapPolish(page, viewportName) {
   const metrics = await page.evaluate(() => {
     const map = document.querySelector(".map-panel");
-    const badgeCard = document.querySelector(".next-stage-badge");
-    const badgeToken = document.querySelector(".roadmap-badge__token");
-    const lockedCardCount = document.querySelectorAll(".badge-card.locked").length;
-    const readBox = (el) => {
-      const rect = el?.getBoundingClientRect();
-      const style = el ? getComputedStyle(el) : null;
-      return {
-        left: rect?.left || 0,
-        right: rect?.right || 0,
-        width: rect?.width || 0,
-        height: rect?.height || 0,
-        radius: style ? parseFloat(style.borderRadius) : 0,
-        background: style?.backgroundImage || ""
-      };
-    };
+    const shelves = [...document.querySelectorAll(".badge-shelf")];
+    const slots = [...document.querySelectorAll(".badge-slot")];
+    const circles = [...document.querySelectorAll(".badge-circle")];
+    const mapRect = map?.getBoundingClientRect();
+    const mapStyle = map ? getComputedStyle(map) : null;
+    const boardStyle = shelves[0]?.querySelector(".badge-shelf__board")
+      ? getComputedStyle(shelves[0].querySelector(".badge-shelf__board"))
+      : null;
     return {
       viewportWidth: window.innerWidth,
-      map: readBox(map),
-      badgeCard: readBox(badgeCard),
-      badgeToken: readBox(badgeToken),
-      lockedCardCount
+      mapLeft: mapRect?.left || 0,
+      mapRight: mapRect?.right || 0,
+      mapRadius: mapStyle ? parseFloat(mapStyle.borderRadius) : 0,
+      mapBackground: mapStyle?.backgroundImage || "",
+      shelfCount: shelves.length,
+      shelfSlotCounts: shelves.map((shelf) => shelf.querySelectorAll(".badge-slot").length),
+      slotCount: slots.length,
+      lockedSlotCount: slots.filter((slot) => slot.classList.contains("locked")).length,
+      slotOutsideShelfCount: slots.filter((slot) => {
+        const rect = slot.getBoundingClientRect();
+        const shelfRect = slot.closest(".badge-shelf")?.getBoundingClientRect();
+        return !shelfRect || rect.left < shelfRect.left - 1 || rect.right > shelfRect.right + 1;
+      }).length,
+      minCircleSize: Math.min(...circles.map((circle) => circle.getBoundingClientRect().width)),
+      outsideCount: [...shelves, ...slots].filter((element) => {
+        const rect = element.getBoundingClientRect();
+        return rect.left < -1 || rect.right > window.innerWidth + 1;
+      }).length,
+      boardBackground: boardStyle?.backgroundImage || ""
     };
   });
-  const boxes = [metrics.map, metrics.badgeCard, metrics.badgeToken];
-  const outside = boxes.some((box) => box.left < -1 || box.right > metrics.viewportWidth + 1);
   if (
-    outside ||
-    metrics.map.radius < 14 ||
-    metrics.badgeCard.radius < 12 ||
-    metrics.badgeToken.height < 40 ||
-    metrics.lockedCardCount !== 0 ||
-    !metrics.map.background.includes("linear-gradient")
+    metrics.mapLeft < -1 ||
+    metrics.mapRight > metrics.viewportWidth + 1 ||
+    metrics.mapRadius < 14 ||
+    !metrics.mapBackground.includes("linear-gradient") ||
+    metrics.shelfCount !== 3 ||
+    metrics.shelfSlotCounts.some((count) => count !== 3) ||
+    metrics.slotCount !== 9 ||
+    metrics.lockedSlotCount !== 9 ||
+    metrics.slotOutsideShelfCount !== 0 ||
+    metrics.minCircleSize < 60 ||
+    metrics.outsideCount !== 0 ||
+    !metrics.boardBackground.includes("linear-gradient")
   ) {
-    failures.push("[" + viewportName + "] Map polish regression: " + JSON.stringify(metrics));
+    failures.push("[" + viewportName + "] Badge Shelf polish regression: " + JSON.stringify(metrics));
   }
 }
 

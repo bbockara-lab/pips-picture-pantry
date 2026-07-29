@@ -14,6 +14,8 @@ describe("badge artwork exposure", () => {
   it("keeps the badge collection view as the single persistent artwork surface", () => {
     expect(mapViewSource).toMatch(/renderPantryMapView/);
     expect(mapViewSource).toMatch(/getBadgeArtUrl/);
-    expect(mapViewSource).toMatch(/badge-collection-grid/);
+    expect(mapViewSource).toMatch(/badge-shelves/);
+    expect(mapViewSource).toMatch(/badge-slot/);
+    expect(mapViewSource).toMatch(/renderBadgeEarnedToast/);
   });
 });

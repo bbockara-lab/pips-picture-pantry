@@ -601,6 +601,78 @@ export const assetRegistry = [
     note: "User-approved collectible badge art promoted into runtime UI in v0.1.96."
   },
   {
+    id: "badge-pip-bakery-door-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-bakery-door-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-window-table",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
+    id: "badge-pip-pastry-morning-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-pastry-morning-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-pastry-corner",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
+    id: "badge-pip-tin-collection-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-tin-collection-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-bakery-window",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
+    id: "badge-pip-village-path-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-village-path-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-market-table",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
+    id: "badge-pip-clock-corner-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-clock-corner-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-bakery-walk",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
+    id: "badge-pip-full-pantry-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-full-pantry-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-village-pantry",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
     id: "starter-counter-cloth-v1",
     usage: "pantry-decoration",
     path: "src/assets/decorations/starter-counter-cloth-v1.png",

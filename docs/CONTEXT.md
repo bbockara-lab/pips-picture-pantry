@@ -4531,3 +4531,12 @@ Current launch direction:
 - Rebalanced jar shelf totals to 180/200/240/280/340/420/520/640 spoons (2,820 total) and stage unlocks to 1,535 spoons with 810 stage bonus spoons.
 - Preserved completed-shelf counting only for Pantry collection celebration effects.
 - Validation: `npm run qa:candidate` passed 38 test files / 205 tests, all 333 puzzle catalog checks, 48 mapped jar assets, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.643 - 2026-07-29 - Nine-stage Badge Shelf
+
+- Rebuilt the Badge menu as three authored wooden shelves with nine stage badges, while keeping persistent badge artwork confined to the Badge menu.
+- Kept the original Stage 0-2 badge art and added six transparent 256px WebP scenes for Stages 3-8: Bakery Door, Pastry Morning, Tin Collection, Village Path, Clock Corner, and Full Pantry.
+- Mapped each badge to completion of its full stage puzzle group across all 333 authored puzzles. The last puzzle of a stage now triggers a short earned toast, and the newly earned slot glows when the Badge menu opens.
+- Locked badges remain visible in subdued grayscale with progress; earned badges restore full color. The final Full Pantry badge keeps a gentle gold pulse, with reduced-motion support.
+- Updated mobile and source-hygiene contracts so duplicate persistent badge artwork stays removed from non-Badge menus while the dedicated Badge collection UI and transient earned toast remain supported.
+- Validation: `npm run qa:candidate` passed 38 test files / 207 tests, all 333 puzzle catalog checks, 207 registered assets, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.

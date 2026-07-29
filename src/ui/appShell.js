@@ -21,7 +21,8 @@ import { setLanguagePreference } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
 import { renderResetDialog } from "./appChrome.js";
 import { playStageComplete, setMusicEnabled, setSfxEnabled, startMusic } from "./audio.js";
-import { renderPantryMapView } from "./mapView.js";
+import { getBadgeForCompletedShelf } from "../game/badges.js";
+import { renderBadgeEarnedToast, renderPantryMapView } from "./mapView.js";
 import { renderPantryView } from "./pantryView.js";
 import { getNextPantryGuideId } from "./pantryGuideFlow.js";
 import { getControlModePreference, getHideCompletedStagesPreference, setControlModePreference, setHideCompletedStagesPreference } from "./preferences.js";
@@ -474,6 +475,7 @@ export function renderApp(root) {
     if (!completionResult.completed) {
       return;
     }
+    const earnedBadge = getBadgeForCompletedShelf(shelf.id, getCompletedPuzzleIds());
 
     globalThis.setTimeout(() => {
       playStageComplete();
@@ -482,6 +484,8 @@ export function renderApp(root) {
         () => selectView(shelf.isFinal ? "pantry" : "puzzle"),
         completionResult
       ));
+      const badgeToast = renderBadgeEarnedToast(earnedBadge);
+      if (badgeToast) document.body.appendChild(badgeToast);
     }, 700);
   }
 

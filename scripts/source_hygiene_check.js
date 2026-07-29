@@ -148,7 +148,7 @@ for (const [file, pattern] of retiredReplayCopySources) {
 const retiredCollectionCopySources = [
   ["src/ui/albumView.js", /album\.note|album-note/],
   ["src/ui/appChrome.js", /t\("badges\.earned"\)/],
-  ["src/ui/mapView.js", /badge-card__state|t\("badges\.earned"\)/],
+  ["src/ui/mapView.js", /badge-card__state/],
   ["src/i18n/en.js", /earned:\s*"Badge earned"|note:\s*"Finished cards appear here\."/],
   ["src/i18n/ko.js", /earned:\s*"\u|note:\s*"\u/],
 ];
@@ -196,9 +196,9 @@ for (const [file, pattern] of retiredPuzzleChoiceRewardSources) {
 }
 
 const retiredBadgeReportSources = [
-  ["src/ui/mapView.js", /badges\.(?:collectionCount|nextPackBadge|packProgress)/],
-  ["src/i18n/en.js", /(?:collectionCount|collectionNote|nextBadge|nextPackBadge|packProgress):/],
-  ["src/i18n/ko.js", /(?:collectionCount|collectionNote|nextBadge|nextPackBadge|packProgress):/]
+  ["src/ui/mapView.js", /badges\.(?:nextPackBadge|packProgress)/],
+  ["src/i18n/en.js", /(?:collectionNote|nextBadge|nextPackBadge|packProgress):/],
+  ["src/i18n/ko.js", /(?:collectionNote|nextBadge|nextPackBadge|packProgress):/]
 ];
 for (const [file, pattern] of retiredBadgeReportSources) {
   const source = readFileSync(resolve(root, file), "utf8");

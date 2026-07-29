@@ -1810,3 +1810,10 @@ versionName "1.1.3" // next internal-test Billing candidate
 - Pantry data/economy now contains 8 shelves, 48 jars, 40 paid-jar gates, and 24 new transparent jar assets.
 - Android versionCode/versionName are unchanged; no AAB was requested or built for this slice.
 - Local candidate validation passed: 38 test files / 205 tests, production build, Android release gate, 48-jar asset contract, and four-width mobile visual QA.
+
+## v0.1.643 local candidate note (2026-07-29)
+
+- Visible web version: v0.1.643.
+- Badge menu now contains nine stage-completion badges on three wooden shelves, including six new transparent runtime WebP assets and earned-toast/glow feedback.
+- Persistent badge artwork remains limited to the Badge menu; no Android versionCode/versionName change and no AAB was requested or built for this slice.
+- Local candidate validation passed: 38 test files / 207 tests, 207 registered assets, production build, Android release gate, and four-width mobile visual QA.
