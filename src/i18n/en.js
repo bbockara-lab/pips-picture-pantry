@@ -17,7 +17,7 @@ export const en = {
   views: {
     puzzle: "Puzzle",
     album: "Album",
-    pantry: "Pantry",
+    pantry: "Pip's Pantry",
     map: "Badges",
     timeAttack: "Time Attack",
     navLabel: "Main views",
@@ -147,7 +147,7 @@ export const en = {
       6: "A new picture is waiting!"
     },
     new: "New",
-    pantryLabel: "Pantry decor",
+    pantryLabel: "Pip's Pantry",
     timeAttackLabel: "Time Attack",
     albumLabel: "Album",
     mapLabel: "Badges"

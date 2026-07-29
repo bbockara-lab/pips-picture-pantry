@@ -4566,3 +4566,11 @@ Current launch direction:
 - Extended mobile visual QA to reject incomplete viewport coverage, overlay z-index below transient UI, missing background scroll lock, or clipped guide character art.
 - Android versionCode/versionName remain unchanged; no AAB was requested for this step.
 - Validation: `npm run qa:candidate` passed 38 test files / 211 tests, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.647 - 2026-07-29 - Pip's Pantry naming
+
+- Unified the Pantry destination name across floating navigation and the Workshop home.
+- Korean now uses `Pip의 팬트리`; English now uses `Pip's Pantry` for both `views.pantry` and `home.pantryLabel`.
+- Added focused i18n coverage so the two entry points cannot drift apart again.
+- Validation: `npm run qa:candidate` passed 38 test files / 212 tests, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+- Android versionCode/versionName remain unchanged; no AAB was requested for this step.

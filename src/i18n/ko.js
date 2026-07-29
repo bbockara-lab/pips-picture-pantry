@@ -17,7 +17,7 @@ export const ko = {
   views: {
     puzzle: "\ud37c\uc990",
     album: "\uc568\ubc94",
-    pantry: "\uafb8\ubbf8\uae30 \ubc29",
+    pantry: "Pip\uc758 \ud32c\ud2b8\ub9ac",
     map: "\ubc30\uc9c0",
     timeAttack: "\ud0c0\uc784\uc5b4\ud0dd",
     navLabel: "\uc8fc\uc694 \ud654\uba74",
@@ -392,7 +392,7 @@ export const ko = {
       6: "\uc0c8 \uadf8\ub9bc\uc774 \uae30\ub2e4\ub824\uc694!"
     },
     new: "\uc0c8 \uc18c\ud488",
-    pantryLabel: "\ud32c\ud2b8\ub9ac \uafb8\ubbf8\uae30",
+    pantryLabel: "Pip\uc758 \ud32c\ud2b8\ub9ac",
     timeAttackLabel: "\ud0c0\uc784\uc5b4\ud0dd",
     albumLabel: "\uc568\ubc94",
     mapLabel: "\ubc30\uc9c0"

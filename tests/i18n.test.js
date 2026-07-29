@@ -38,6 +38,15 @@ describe("i18n", () => {
     expect(getActiveLocale("es-ES")).toBe("en");
   });
 
+  it("uses one Pip's Pantry name in navigation and the Workshop", () => {
+    expect(t("views.pantry")).toBe("Pip's Pantry");
+    expect(t("home.pantryLabel")).toBe("Pip's Pantry");
+
+    setActiveLocale("ko");
+    expect(t("views.pantry")).toBe("Pip\uc758 \ud32c\ud2b8\ub9ac");
+    expect(t("home.pantryLabel")).toBe("Pip\uc758 \ud32c\ud2b8\ub9ac");
+  });
+
   it("formats translated strings", () => {
     expect(t("progress.filled", { count: 3 })).toBe("3 filled");
     expect(t("progress.filledOf", { count: 3, target: 12 })).toBe("3 / 12");

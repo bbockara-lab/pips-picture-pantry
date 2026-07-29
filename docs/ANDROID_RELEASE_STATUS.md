@@ -1839,3 +1839,10 @@ versionName "1.1.3" // next internal-test Billing candidate
 - Guide overlays now stay above Pantry jar detail sheets, lock background scrolling, cover the full dynamic viewport, and keep Mr. Park artwork on-screen.
 - Android versionCode/versionName are unchanged; no AAB was requested or built for this step.
 - Local `npm run qa:candidate` passed 38 test files / 211 tests, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.647 local candidate note (2026-07-29)
+
+- Visible web version: v0.1.647.
+- Pantry navigation and Workshop destinations now use the single localized name `Pip's Pantry` / `Pip의 팬트리`.
+- Android versionCode/versionName are unchanged; no AAB was requested or built for this step.
+- Local `npm run qa:candidate` passed 38 test files / 212 tests, production build, Android release gate, and four-width mobile visual QA.
