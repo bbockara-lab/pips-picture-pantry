@@ -1,3 +1,9 @@
+## v0.1.638 - Pantry Spoon Token Consistency
+
+- Replaced platform spoon emoji rendering in Pantry shelf prices, the Pantry balance, and the jar purchase button with the approved `spoon-token-v2.png` economy asset.
+- Added a shared Pantry spoon-label renderer with explicit asset identity metadata and responsive icon sizing.
+- Verification passed: 37 test files / 202 tests, production build, Android release gate, and mobile layouts at 360x740, 390x844, 430x932, and 675x900 via `npm run qa:candidate`.
+
 ## v0.1.637 - Premium Pantry Jar Art Collection
 
 - Rebuilt all 24 Pantry jars as individually art-directed raster collectibles with transparent WebP runtime assets: distinct silhouettes, fabrics, ribbons, golden spoon charms, illustrated labels, glass/material detail, and escalating rarity finishes.

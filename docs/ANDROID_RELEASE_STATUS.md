@@ -5,6 +5,13 @@
 - Decision: no further paid purchase will be made for this candidate after the successful US$0.99 Play Billing checkout and 250-spoon grant established the live purchase channel.
 - Remaining evidence: repeatable consumable flags, distinct-token grant behavior, and duplicate-token rejection are covered by automated Billing tests. The missing US$2.99 real-device purchase remains an explicit release risk, not a reported pass.
 
+## 2026-07-29 v0.1.638 Pantry spoon token consistency
+
+- Current package/UI candidate: v0.1.638.
+- Pantry shelf prices, balance, and purchase action now use the approved spoon-token-v2 raster asset rather than the platform-dependent spoon emoji.
+- Android stays versionCode 33 / versionName 1.1.5. No AAB was built.
+- Verification passed: 37 test files / 202 tests, production build, Android release gate, and mobile layouts at 360x740, 390x844, 430x932, and 675x900 via `npm run qa:candidate`.
+
 ## 2026-07-29 v0.1.637 premium Pantry jar art collection
 
 - Current package/UI candidate: v0.1.637.

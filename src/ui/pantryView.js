@@ -10,7 +10,9 @@ import {
   setEquippedJar
 } from "../game/save.js";
 import { t } from "../i18n/index.js";
+import { appendSpoonLabel } from "./spoonIcon.js";
 import "../styles/pantryJarArt.css";
+import "../styles/pantrySpoon.css";
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -58,7 +60,8 @@ function renderJar(jar, ownedIds, equippedJars, onOpen) {
   button.appendChild(renderJarVisual(jar, owned));
   appendTextElement(button, "span", "pantry-jar__name", t(jar.nameKey));
   if (!owned) {
-    appendTextElement(button, "span", "pantry-jar__price", t("pantry.jar.spoonCost", { count: jar.cost }));
+    const price = appendTextElement(button, "span", "pantry-jar__price", "");
+    appendSpoonLabel(price, t("pantry.jar.spoonCost", { count: jar.cost }), "tiny");
   } else if (equipped) {
     appendTextElement(button, "span", "pantry-jar__status", t("pantry.jar.equipped"));
   }
@@ -127,9 +130,11 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, equippedJars, onRefresh
   if (!owned) {
     const affordable = spoons >= jar.cost;
     primary.className = "pantry-jar-detail__btn-buy";
-    primary.textContent = affordable
-      ? t("pantry.jar.buyAction", { count: jar.cost })
-      : t("pantry.jar.needSpoons", { count: jar.cost - spoons });
+    if (affordable) {
+      appendSpoonLabel(primary, t("pantry.jar.buyAction", { count: jar.cost }), "small");
+    } else {
+      primary.textContent = t("pantry.jar.needSpoons", { count: jar.cost - spoons });
+    }
     primary.addEventListener("click", () => {
       if (!affordable) {
         close();
@@ -207,7 +212,8 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   const copy = document.createElement("div");
   appendTextElement(copy, "p", "section-label", t("pantry.jar.eyebrow"));
   appendTextElement(copy, "h2", "", t("pantry.title"));
-  const balance = appendTextElement(header, "div", "pantry-jar-balance", t("pantry.jar.balance", { count: getPantrySpoons() }));
+  const balance = appendTextElement(header, "div", "pantry-jar-balance", "");
+  appendSpoonLabel(balance, t("pantry.jar.balance", { count: getPantrySpoons() }));
   balance.setAttribute("aria-label", t("currency.spoons", { count: getPantrySpoons() }));
   header.prepend(copy);
 
