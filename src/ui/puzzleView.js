@@ -25,7 +25,11 @@ export function renderPuzzleView(puzzle, options = {}) {
   // Time Attack is a fresh three-round run. Reusing a normal puzzle save here
   // can make a round arrive already completed and skip straight out of the run.
   const usesTransientState = isReplayChallenge || isTimeAttack;
-  let state = usesTransientState ? createPuzzleState(puzzle) : loadPuzzleState(puzzle.id) || createPuzzleState(puzzle);
+  let state = isTimeAttack
+    ? options.puzzleState || createPuzzleState(puzzle)
+    : isReplayChallenge
+      ? createPuzzleState(puzzle)
+      : loadPuzzleState(puzzle.id) || createPuzzleState(puzzle);
   let replayCleanStatus = createReplayCleanStatus();
   let replayResult = null;
   const controlMode = options.controlMode || "auto";
@@ -34,9 +38,9 @@ export function renderPuzzleView(puzzle, options = {}) {
   section.tabIndex = 0;
   section.addEventListener("keydown", handlePuzzleKeydown);
 
-  function update(nextState, options = {}) {
+  function update(nextState, updateOptions = {}) {
     const wasCompleted = state.completed;
-    const shouldAutoMark = !options.skipAutoLineMarks && nextState.cells !== state.cells && !nextState.completed;
+    const shouldAutoMark = !updateOptions.skipAutoLineMarks && nextState.cells !== state.cells && !nextState.completed;
     const resolvedState = shouldAutoMark ? applyCompletedLineMarks(nextState, puzzle.solution) : nextState;
     state = {
       ...resolvedState,

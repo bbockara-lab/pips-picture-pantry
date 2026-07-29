@@ -1,3 +1,10 @@
+## v0.1.640 - Time Attack Paint Persistence Recovery
+
+- Root cause confirmed: `renderPuzzleView()`'s inner `update(nextState, options)` parameter shadowed the outer render options, so `onPuzzleStateChange` never reached App Shell.
+- Time Attack now passes its transient puzzle state through App Shell and Play Screen back into Puzzle View on each one-second timer redraw instead of recreating an empty board.
+- Mobile QA now paints a Time Attack cell, waits beyond the timer redraw interval, and requires the same cell to remain filled before exiting to the unchanged regular puzzle.
+- - Verification passed: 37 test files / 203 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900. The mobile flow starts Time Attack, paints a cell, waits 1.2 seconds beyond the timer redraw, requires the cell to remain filled, then confirms regular-puzzle restoration.
+
 ## v0.1.639 - Pantry Shelf Progression and Completion Celebration
 
 - Changed Pantry stage progress from individual paid-jar purchases to completed paid-jar shelves: all five paid jars in JAM, HONEY, HERB, or SPICE now contribute exactly one gate step.

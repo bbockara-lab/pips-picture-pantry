@@ -15,6 +15,9 @@ const BILLING_DEV_COPY_PATTERN = /(Android test build|Google Play app|Google Pla
 
 for (const viewport of viewports) {
   const page = await browser.newPage({ viewport });
+  page.on("pageerror", (error) => {
+    console.error("[" + viewport.name + "] PAGE ERROR:", error?.stack || error?.message || String(error));
+  });
   await page.goto(TARGET_URL, { waitUntil: "networkidle" });
 
   await expectVisible(page, ".brand-intro", viewport.name);
@@ -1886,9 +1889,18 @@ async function expectTimeAttackGuideCopy(page, viewportName) {
   await overlay.waitFor({ state: "detached", timeout: 2000 });
 }
 async function verifyTimeAttackExitRestoresRegularPuzzle(page, viewportName, expectedRegularPlayLabel) {
+  await dismissGuideIfPresent(page, viewportName);
   const start = page.locator(".time-attack-panel__start").first();
   await start.click();
   await page.locator(".app-shell--play[data-view='timeAttack']").waitFor({ state: "visible", timeout: 5000 });
+
+  const timeAttackCell = page.locator(".puzzle-grid .puzzle-cell").first();
+  await timeAttackCell.click();
+  await page.waitForTimeout(1200);
+  const timeAttackCellAfterTimerDraw = await page.locator(".puzzle-grid .puzzle-cell").first().getAttribute("class");
+  if (!timeAttackCellAfterTimerDraw?.includes("filled")) {
+    failures.push("[" + viewportName + "] Time Attack paint was lost during the one-second timer redraw: " + timeAttackCellAfterTimerDraw);
+  }
 
   await page.locator(".play-screen__back").click();
   await page.locator(".app-shell--workshop-home[data-view='puzzle']").waitFor({ state: "visible", timeout: 5000 });

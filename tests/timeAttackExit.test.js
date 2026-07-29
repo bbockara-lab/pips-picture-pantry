@@ -3,6 +3,21 @@ import { describe, expect, it } from "vitest";
 
 const appShellSource = readFileSync(new URL("../src/ui/appShell.js", import.meta.url), "utf8");
 
+describe("Time Attack paint persistence", () => {
+  it("passes the transient puzzle state through timer redraws without shadowing the render options", () => {
+    const puzzleViewSource = readFileSync("src/ui/puzzleView.js", "utf8");
+    const playScreenSource = readFileSync("src/ui/playScreen.js", "utf8");
+    const appShellSource = readFileSync("src/ui/appShell.js", "utf8");
+
+    expect(puzzleViewSource).toContain("options.puzzleState || createPuzzleState(puzzle)");
+    expect(puzzleViewSource).toContain("function update(nextState, updateOptions = {})");
+    expect(puzzleViewSource).toContain("options.onPuzzleStateChange?.(puzzle, state)");
+    expect(playScreenSource).toContain("puzzleState,");
+    expect(appShellSource).toContain("timeAttackPuzzleState: activeTimeAttackPuzzleState");
+    expect(appShellSource).toContain("puzzleState: activeView === \"timeAttack\" ? timeAttackPuzzleState : null");
+  });
+});
+
 describe("Time Attack exit recovery", () => {
   it("keeps and restores the regular puzzle around a Time Attack run", () => {
     expect(appShellSource).toContain("let preTimeAttackPuzzle = null");

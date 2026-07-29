@@ -24,6 +24,7 @@ export function renderPlayScreen(activePuzzle, options) {
     replayChallenge = false,
     replayPicked = false,
     getTimeAttackHintCost,
+    puzzleState = null,
     onPuzzleStateChange
   } = options;
 
@@ -89,6 +90,7 @@ export function renderPlayScreen(activePuzzle, options) {
     replayPicked,
     isTimeAttack,
     getTimeAttackHintCost,
+    puzzleState,
     onPuzzleStateChange,
     onViewAlbum: replayChallenge ? onClosePuzzle : onViewAlbum,
     onPuzzleComplete

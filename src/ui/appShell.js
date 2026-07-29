@@ -546,6 +546,7 @@ export function renderApp(root) {
       timeAttackRun: activeTimeAttackRun,
       timeAttackStartedAt: activeTimeAttackStartedAt,
       timeAttackRoundIndex,
+      timeAttackPuzzleState: activeTimeAttackPuzzleState,
       timeAttackLastResult,
       activeGuide,
       onCloseGuide: closeGuide,
@@ -634,6 +635,7 @@ function createShell({
   timeAttackStartedAt,
   timeAttackLimitSeconds,
   timeAttackRoundIndex,
+  timeAttackPuzzleState,
   timeAttackLastResult,
   activeGuide,
   onCloseGuide,
@@ -673,6 +675,7 @@ function createShell({
       timeAttackElapsedSeconds: getTimeAttackElapsedSeconds(timeAttackStartedAt),
       timeAttackLimitSeconds,
       getTimeAttackHintCost,
+      puzzleState: activeView === "timeAttack" ? timeAttackPuzzleState : null,
       onPuzzleStateChange: activeView === "timeAttack" ? onTimeAttackPuzzleStateChange : null,
       replayChallenge,
       replayPicked
