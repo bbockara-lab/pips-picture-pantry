@@ -18,6 +18,14 @@ describe("Workshop supporting cards wiring", () => {
     expect(appShellSource).toContain("shell.appendChild(hubCards)");
   });
 
+  it("keeps completion Next inside the replay pool and returns to its card when exhausted", () => {
+    expect(appShellSource).toContain("if (replayChallenge)");
+    expect(appShellSource).toContain("getNextDailyReplayPick(replayPicks, activePuzzle.id)");
+    expect(appShellSource).toContain('{ replayChallenge: true }');
+    expect(appShellSource).toContain('pendingScrollTarget = "replay"');
+    expect(appShellSource).toContain('? ".replay-picks-card"');
+  });
+
   it("keeps the restored cards inset and clear of the bottom safe area", () => {
     expect(styles).toMatch(
       /\.puzzle-hub-cards\s*\{[\s\S]*?padding:\s*14px 14px calc\(max\(env\(safe-area-inset-bottom,\s*0px\),\s*16px\) \+ 120px\);/

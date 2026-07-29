@@ -1,3 +1,8 @@
+## v0.1.649 - Replay Next-Picture Continuity
+
+- Completion `Next picture` now stays inside the stable Daily replay-pick pool instead of falling through to the normal unfinished-puzzle selector.
+- Replay navigation moves forward without wrapping; after the last candidate it closes the challenge and returns to the replay card on the Workshop hub.
+- Verification passed: 38 test files / 220 tests, catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.648 - Daily Completion Isolation
 
 - Added a local-calendar Daily completion date that is stored separately from general `completedPuzzleIds`; the Daily card now shows complete only when its saved date matches today.

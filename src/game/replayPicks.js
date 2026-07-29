@@ -26,3 +26,11 @@ export function getDailyReplayPicks(options = {}) {
     return candidates[(startIndex + index) % candidates.length];
   });
 }
+
+export function getNextDailyReplayPick(replayPicks, currentPuzzleId) {
+  if (!Array.isArray(replayPicks) || replayPicks.length === 0) {
+    return null;
+  }
+  const currentIndex = replayPicks.findIndex((puzzle) => puzzle.id === currentPuzzleId);
+  return currentIndex >= 0 ? replayPicks[currentIndex + 1] || null : replayPicks[0];
+}

@@ -1,3 +1,9 @@
+## 2026-07-29 v0.1.649 Replay next-picture continuity
+
+- Current package/UI candidate: v0.1.649.
+- Replay completion now advances only through the Daily replay pool and returns to its Workshop card when the pool is exhausted.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Verification passed: 38 test files / 220 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-29 v0.1.648 Daily completion isolation
 
 - Current package/UI candidate: v0.1.648.

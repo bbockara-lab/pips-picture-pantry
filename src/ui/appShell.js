@@ -2,7 +2,7 @@ import { getSeasonShelfById, getSeasonShelfForPuzzle, getSeasonShelfPuzzles } fr
 import { ECONOMY, getTimeAttackHintCost } from "../data/economyConfig.js";
 import { puzzles } from "../data/puzzles.js";
 import { getDailyDateKey, getDailyPuzzle } from "../game/dailyPuzzle.js";
-import { getDailyReplayPicks } from "../game/replayPicks.js";
+import { getDailyReplayPicks, getNextDailyReplayPick } from "../game/replayPicks.js";
 import {
   getCompletedPuzzleIds,
   getDailyCompletedDate,
@@ -114,6 +114,24 @@ export function renderApp(root) {
   }
 
   function selectNextPuzzle() {
+    if (replayChallenge) {
+      const replayPicks = getDailyReplayPicks({
+        allPuzzles: getDailyPuzzleCandidates(),
+        completedPuzzleIds: getCompletedPuzzleIds()
+      });
+      const nextReplayPick = getNextDailyReplayPick(replayPicks, activePuzzle.id);
+      if (nextReplayPick) {
+        selectPuzzle(nextReplayPick.id, "puzzle", { replayChallenge: true });
+        return;
+      }
+      replayChallenge = false;
+      activeView = "puzzle";
+      playOpen = false;
+      puzzleListOpen = false;
+      pendingScrollTarget = "replay";
+      draw();
+      return;
+    }
     const completedPuzzleIds = getCompletedPuzzleIds();
     const unlockedPuzzles = puzzles.filter((puzzle) => isShelfUnlocked(getSeasonShelfForPuzzle(puzzle)));
     const nextUnfinished = unlockedPuzzles.find((puzzle) => !completedPuzzleIds.includes(puzzle.id));
@@ -582,9 +600,11 @@ export function renderApp(root) {
     globalThis.setTimeout(() => {
       const selector = target === "picker"
         ? `[data-shelf-id="${getSeasonShelfForPuzzle(activePuzzle)?.id || ""}"]`
-        : target === "view"
-          ? ".app-shell"
-          : ".puzzle-panel";
+        : target === "replay"
+          ? ".replay-picks-card"
+          : target === "view"
+            ? ".app-shell"
+            : ".puzzle-panel";
       container.querySelector(selector)?.scrollIntoView({ behavior: target === "view" ? "auto" : "smooth", block: "start" });
     }, 0);
   }
