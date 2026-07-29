@@ -5,6 +5,13 @@
 - Decision: no further paid purchase will be made for this candidate after the successful US$0.99 Play Billing checkout and 250-spoon grant established the live purchase channel.
 - Remaining evidence: repeatable consumable flags, distinct-token grant behavior, and duplicate-token rejection are covered by automated Billing tests. The missing US$2.99 real-device purchase remains an explicit release risk, not a reported pass.
 
+## 2026-07-29 v0.1.635 Time Attack exit recovery
+
+- Current package/UI candidate: v0.1.635.
+- The current prepared upload code is 33 (versionCode 33 / versionName 1.1.5); no new AAB is authorized or built for this recovery slice.
+- Restores the regular puzzle and fully clears Time Attack session state on close, view navigation, completion, and timeout.
+- Verification state: automated verified; real-device confirmation remains pending. Focused tests passed 33/33, and `npm run qa:candidate` passed 34 test files / 195 tests plus the 360x740, 390x844, 430x932, and 675x900 Time Attack exit-to-regular-puzzle runtime flow.
+
 ## 2026-07-29 v0.1.634 Workshop cards recovery
 
 - Current package/UI candidate: v0.1.634.

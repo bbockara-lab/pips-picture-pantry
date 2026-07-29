@@ -1,3 +1,12 @@
+## v0.1.635 - Time Attack Exit State Recovery
+
+- Root cause confirmed: starting Time Attack replaced `activePuzzle` with a generated run puzzle, while close/navigation/completion/timeout paths cleared only parts of the Time Attack state and never restored the regular puzzle.
+- Added `preTimeAttackPuzzle` and one `clearTimeAttackSession()` path that clears the run, seed, timer start, round index, hint count, puzzle state, and restores the original regular puzzle.
+- The X/back close path now returns directly to the Puzzle Workshop. Defensive navigation cleanup prevents a partially active run from leaking into any other view. Normal completion and timeout also restore the original puzzle while preserving the Time Attack result screen.
+- Added source regression tests and a four-width runtime flow: remember regular Play Now target, start Time Attack, exit, require the same regular target, open it, require `data-view="puzzle"`, and reject Time Attack UI leakage.
+- Verification state: automated verified; real-device confirmation remains pending. Focused Time Attack/save/board tests passed 33/33, and `npm run qa:candidate` passed 34 test files / 195 tests plus the 360x740, 390x844, 430x932, and 675x900 runtime flow from Time Attack exit into the unchanged regular puzzle.
+- Visible/package version is v0.1.635. Android remains versionCode 33 / versionName 1.1.5; no AAB is built or authorized in this recovery slice.
+
 ## v0.1.634 - Workshop Supporting Cards Recovery
 
 - Root cause confirmed: `renderDailyCard`, `renderTimeAttackTeaserCard`, and `renderReplayPicksCard` remained implemented with CSS/i18n support, but their `createShell()` call sites were removed during the full-screen Workshop redesign.

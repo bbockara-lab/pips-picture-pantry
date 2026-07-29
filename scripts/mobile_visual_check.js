@@ -53,6 +53,7 @@ for (const viewport of viewports) {
     await expectFloatingNavPolish(page, viewport.name);
   }
   await expectPuzzleHomePolish(page, viewport.name);
+  const expectedRegularPlayLabel = await page.locator(".puzzle-home-scene__play").getAttribute("aria-label");
   await expectDailyRewardPolish(page, viewport.name);
   await expectTimeAttackHubEntry(page, viewport.name);
   await expectResetDialogPolish(page, viewport.name);
@@ -101,6 +102,7 @@ for (const viewport of viewports) {
 
   await openFloatingView(page, "timeAttack", viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
+  await verifyTimeAttackExitRestoresRegularPuzzle(page, viewport.name, expectedRegularPlayLabel);
 
   await verifyLargeBoardCatalogPuzzle(page, viewport.name);
   await expectHintConfirmationPolish(page, viewport.name);
@@ -1883,6 +1885,29 @@ async function expectTimeAttackGuideCopy(page, viewportName) {
   await page.locator(".guide-dialog__next").click();
   await overlay.waitFor({ state: "detached", timeout: 2000 });
 }
+async function verifyTimeAttackExitRestoresRegularPuzzle(page, viewportName, expectedRegularPlayLabel) {
+  const start = page.locator(".time-attack-panel__start").first();
+  await start.click();
+  await page.locator(".app-shell--play[data-view='timeAttack']").waitFor({ state: "visible", timeout: 5000 });
+
+  await page.locator(".play-screen__back").click();
+  await page.locator(".app-shell--workshop-home[data-view='puzzle']").waitFor({ state: "visible", timeout: 5000 });
+
+  const restoredPlayLabel = await page.locator(".puzzle-home-scene__play").getAttribute("aria-label");
+  if (!expectedRegularPlayLabel || restoredPlayLabel !== expectedRegularPlayLabel) {
+    failures.push("[" + viewportName + "] Time Attack exit did not restore the regular puzzle: " + JSON.stringify({ expectedRegularPlayLabel, restoredPlayLabel }));
+  }
+
+  await page.locator(".puzzle-home-scene__play").click();
+  await page.locator(".app-shell--play[data-view='puzzle']").waitFor({ state: "visible", timeout: 5000 });
+  await dismissGuideIfPresent(page, viewportName);
+  if ((await page.locator(".time-attack-progress, .time-attack-timer").count()) > 0) {
+    failures.push("[" + viewportName + "] Time Attack state leaked into regular puzzle play.");
+  }
+  await page.locator(".play-screen__back").click();
+  await page.locator(".app-shell--workshop-home[data-view='puzzle']").waitFor({ state: "visible", timeout: 5000 });
+}
+
 async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   await seedLargeBoardCatalogAccess(page);
   await page.reload({ waitUntil: "networkidle" });

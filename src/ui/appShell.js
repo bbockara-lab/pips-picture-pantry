@@ -63,6 +63,7 @@ export function renderApp(root) {
   let activeTimeAttackHintsUsed = 0;
   let activeTimeAttackPuzzleState = null;
   let timeAttackLastResult = null;
+  let preTimeAttackPuzzle = null;
   let activeGuide = null;
   let replayChallenge = false;
   let cozySupportState = createDefaultCozySupportState();
@@ -120,10 +121,26 @@ export function renderApp(root) {
     selectPuzzle(nextPuzzle.id);
   }
 
+  function clearTimeAttackSession() {
+    activeTimeAttackRun = null;
+    activeTimeAttackSeed = null;
+    activeTimeAttackStartedAt = null;
+    timeAttackRoundIndex = 0;
+    activeTimeAttackHintsUsed = 0;
+    activeTimeAttackPuzzleState = null;
+    if (preTimeAttackPuzzle) {
+      activePuzzle = preTimeAttackPuzzle;
+      preTimeAttackPuzzle = null;
+    }
+  }
+
   function selectView(view) {
     if (view === "settings") {
       requestSettings();
       return;
+    }
+    if (activeTimeAttackRun || preTimeAttackPuzzle) {
+      clearTimeAttackSession();
     }
     replayChallenge = false;
     activeView = view;
@@ -175,6 +192,7 @@ export function renderApp(root) {
   }
 
   function startTimeAttackRun() {
+    preTimeAttackPuzzle = activePuzzle;
     const session = createTimeAttackSession({ currentPuzzle: activePuzzle, rounds: TIME_ATTACK_TRIAL_ROUNDS });
     activeTimeAttackSeed = session.seed;
     activeTimeAttackRun = session.run;
@@ -193,13 +211,10 @@ export function renderApp(root) {
   }
   function closeTimeAttackRun() {
     replayChallenge = false;
-    activeView = "timeAttack";
+    activeView = "puzzle";
     playOpen = false;
-    activeTimeAttackRun = null;
-    activeTimeAttackStartedAt = null;
-    timeAttackRoundIndex = 0;
-    activeTimeAttackHintsUsed = 0;
-    activeTimeAttackPuzzleState = null;
+    puzzleListOpen = false;
+    clearTimeAttackSession();
     draw();
   }
 
@@ -232,10 +247,7 @@ export function renderApp(root) {
     replayChallenge = false;
     activeView = "timeAttack";
     playOpen = false;
-    activeTimeAttackRun = null;
-    timeAttackRoundIndex = 0;
-    activeTimeAttackHintsUsed = 0;
-    activeTimeAttackPuzzleState = null;
+    clearTimeAttackSession();
     draw();
   }
 
@@ -255,11 +267,7 @@ export function renderApp(root) {
     replayChallenge = false;
     activeView = "timeAttack";
     playOpen = false;
-    activeTimeAttackRun = null;
-    activeTimeAttackStartedAt = null;
-    timeAttackRoundIndex = 0;
-    activeTimeAttackHintsUsed = 0;
-    activeTimeAttackPuzzleState = null;
+    clearTimeAttackSession();
     draw();
   }
 
