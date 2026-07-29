@@ -41,6 +41,7 @@ import {
   unlockShelf
 } from "../src/game/save.js";
 import { seasonShelves } from "../src/data/seasonShelves.js";
+import { PANTRY_JARS } from "../src/data/pantryJars.js";
 import { pantryDecorations } from "../src/data/decorations.js";
 import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackProgress, TIME_ATTACK_LIMIT_SECONDS } from "../src/ui/timeAttackFlow.js";
 
@@ -143,9 +144,11 @@ describe("player save profiles", () => {
     expect(unlockPack(gatedPack)).toBe(false);
     expect(getPantrySpoons()).toBe(24);
 
-    recordPantryStoryGoalComplete("small-jam-jar");
-    recordPantryStoryGoalComplete("herb-pot");
-    recordPantryStoryGoalComplete("cork-board");
+    const firstThreeShelfIds = new Set(["jam", "honey", "herb"]);
+    const firstThreeShelfJars = PANTRY_JARS
+      .filter((jar) => jar.cost > 0 && firstThreeShelfIds.has(jar.shelfId))
+      .map((jar) => jar.id);
+    saveGame({ ...loadSave(), ownedJarIds: firstThreeShelfJars });
 
     expect(getPackPantryRoomRequirement(gatedPack)).toEqual({
       required: 3,
@@ -189,8 +192,15 @@ describe("player save profiles", () => {
     const starter = seasonShelves[0];
     const nextShelf = seasonShelves[1];
     const completedStarterIds = starter.puzzleIds;
-    saveGame({ ...loadSave(), completedPuzzleIds: completedStarterIds, pantrySpoons: nextShelf.unlockCost });
-    recordPantryStoryGoalComplete("starter-counter-cloth");
+    const completedJamShelfIds = PANTRY_JARS
+      .filter((jar) => jar.shelfId === "jam" && jar.cost > 0)
+      .map((jar) => jar.id);
+    saveGame({
+      ...loadSave(),
+      completedPuzzleIds: completedStarterIds,
+      pantrySpoons: nextShelf.unlockCost,
+      ownedJarIds: completedJamShelfIds
+    });
 
     expect(canUnlockShelf(nextShelf)).toBe(true);
     expect(unlockShelf(nextShelf)).toBe(true);

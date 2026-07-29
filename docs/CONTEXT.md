@@ -1,3 +1,11 @@
+## v0.1.639 - Pantry Shelf Progression and Completion Celebration
+
+- Changed Pantry stage progress from individual paid-jar purchases to completed paid-jar shelves: all five paid jars in JAM, HONEY, HERB, or SPICE now contribute exactly one gate step.
+- Mapped the five content packs and all 15 Season 0 shelves to the 0/1/2/3/4 completed-Pantry-shelf gates while preserving puzzle completion and spoon unlock costs as separate requirements.
+- Added a one-time last-jar celebration after the refreshed Pantry renders: gold shelf-board sweep, six staggered jar bounces, and eight self-cleaning sparkles, with reduced-motion support.
+- Removed paid jars from the legacy Pantry story-goal counter so unrelated legacy decoration progress cannot unlock jar-shelf stage gates.
+- Automated verification passed: 37 test files / 202 tests, 333-puzzle catalog and asset checks, production build, Android release gate, and mobile layouts at 360x740, 390x844, 430x932, and 675x900 via `npm run qa:candidate`. The shelf-completion transition is unit-tested; visual observation of the purchase-triggered animation remains pending because the local browser connection was blocked by the OneDrive ACL.
+
 ## v0.1.638 - Pantry Spoon Token Consistency
 
 - Replaced platform spoon emoji rendering in Pantry shelf prices, the Pantry balance, and the jar purchase button with the approved `spoon-token-v2.png` economy asset.

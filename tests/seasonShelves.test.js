@@ -57,14 +57,20 @@ describe("Season 0 shelves", () => {
     });
   });
 
-  it("raises pantry story goals one small step at a time instead of reusing a distant gate", () => {
-    const requirements = seasonShelves.map((shelf) => Number(shelf.pantryRoomStepRequired || 0));
+  it("maps the four completed Pantry jar shelves to the four stage gates", () => {
+    const requirementsByPack = new Map();
+    seasonShelves.forEach((shelf) => {
+      const required = Number(shelf.pantryRoomStepRequired || 0);
+      if (!requirementsByPack.has(shelf.artPackId)) requirementsByPack.set(shelf.artPackId, required);
+      expect(required).toBe(requirementsByPack.get(shelf.artPackId));
+    });
 
-    expect(requirements[0]).toBe(0);
-    expect(requirements.at(-1)).toBe(10);
-    requirements.slice(1).forEach((requirement, index) => {
-      expect(requirement - requirements[index]).toBeGreaterThanOrEqual(0);
-      expect(requirement - requirements[index]).toBeLessThanOrEqual(2);
+    expect(Object.fromEntries(requirementsByPack)).toEqual({
+      "pips-first-shelf": 0,
+      "sunny-spoon-sign": 1,
+      "apron-drawer": 2,
+      "bakery-window": 3,
+      "village-pantry": 4
     });
   });
 

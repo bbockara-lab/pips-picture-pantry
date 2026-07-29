@@ -13,6 +13,9 @@ import { t } from "../i18n/index.js";
 import { appendSpoonLabel } from "./spoonIcon.js";
 import "../styles/pantryJarArt.css";
 import "../styles/pantrySpoon.css";
+import "../styles/pantryShelfCelebration.css";
+
+let pendingShelfCelebrationId = null;
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -20,6 +23,37 @@ function appendTextElement(parent, tagName, className, text) {
   element.textContent = text;
   parent.appendChild(element);
   return element;
+}
+
+export function isPaidShelfComplete(shelfId, ownedIds) {
+  const owned = new Set(ownedIds);
+  const paidJars = getJarsByShelf(shelfId).filter((jar) => jar.cost > 0);
+  return paidJars.length > 0 && paidJars.every((jar) => owned.has(jar.id));
+}
+
+export function isShelfCompletionTransition(shelfId, previousOwnedIds, nextOwnedIds) {
+  return !isPaidShelfComplete(shelfId, previousOwnedIds)
+    && isPaidShelfComplete(shelfId, nextOwnedIds);
+}
+
+export function triggerShelfCelebration(shelfSection) {
+  if (!shelfSection) return false;
+  shelfSection.querySelectorAll(".pantry-sparkle").forEach((sparkle) => sparkle.remove());
+  shelfSection.classList.remove("pantry-shelf--celebrating");
+  void shelfSection.offsetWidth;
+  shelfSection.classList.add("pantry-shelf--celebrating");
+  for (let index = 0; index < 8; index += 1) {
+    const sparkle = document.createElement("span");
+    sparkle.className = "pantry-sparkle";
+    sparkle.setAttribute("aria-hidden", "true");
+    sparkle.style.left = (6 + index * 12) + "%";
+    sparkle.style.bottom = "8px";
+    sparkle.style.animationDelay = (index * 70) + "ms";
+    shelfSection.appendChild(sparkle);
+    globalThis.setTimeout(() => sparkle.remove(), 1800);
+  }
+  globalThis.setTimeout(() => shelfSection.classList.remove("pantry-shelf--celebrating"), 2400);
+  return true;
 }
 
 function renderJarVisual(jar, owned, compact = false) {
@@ -73,7 +107,7 @@ function renderShelf(shelf, ownedIds, equippedJars, onOpen) {
   const section = document.createElement("section");
   const shelfJars = getJarsByShelf(shelf.id);
   const ownedCount = shelfJars.filter((jar) => ownedIds.includes(jar.id)).length;
-  section.className = "pantry-shelf" + (ownedCount === shelfJars.length ? " complete" : "");
+  section.className = "pantry-shelf" + (isPaidShelfComplete(shelf.id, ownedIds) ? " complete" : "");
   section.dataset.shelfId = shelf.id;
   section.style.setProperty("--shelf-progress", String(ownedCount));
   appendTextElement(section, "h3", "pantry-shelf__title", t(shelf.nameKey));
@@ -141,8 +175,13 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, equippedJars, onRefresh
         onOpenSpoonStore?.(jar);
         return;
       }
+      const previousOwnedIds = getOwnedJarIds();
       const result = buyJar(jar.id);
       if (result.ok) {
+        const nextOwnedIds = getOwnedJarIds();
+        if (isShelfCompletionTransition(jar.shelfId, previousOwnedIds, nextOwnedIds)) {
+          pendingShelfCelebrationId = jar.shelfId;
+        }
         close();
         onFirstPurchase?.(jar, {
           storyCompleted: false,
@@ -237,5 +276,16 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   panel.append(shelves);
   if (spoonStore) panel.appendChild(spoonStore);
   panel.appendChild(detail.backdrop);
+
+  const celebrationShelfId = pendingShelfCelebrationId;
+  if (celebrationShelfId) {
+    pendingShelfCelebrationId = null;
+    globalThis.requestAnimationFrame(() => {
+      const shelfSection = panel.querySelector(
+        '.pantry-shelf[data-shelf-id="' + celebrationShelfId + '"]'
+      );
+      triggerShelfCelebration(shelfSection);
+    });
+  }
   return panel;
 }

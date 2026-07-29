@@ -9,16 +9,16 @@ const SHELF_BLUEPRINT = [
   { id: "shelf-apron-drawer", titleKey: "shelves.apronDrawer", sizes: { 5: 5, 8: 12, 10: 3 }, unlockCost: 75, pantryRoomStepRequired: 2, stageBonus: 30, artPackId: "apron-drawer" },
   { id: "shelf-market-counter", titleKey: "shelves.marketCounter", sizes: { 5: 5, 8: 8, 10: 9 }, unlockCost: 90, pantryRoomStepRequired: 3, stageBonus: 35, artPackId: "bakery-window" },
   { id: "shelf-window-table", titleKey: "shelves.windowTable", sizes: { 5: 5, 8: 7, 10: 10 }, unlockCost: 0, pantryRoomStepRequired: 3, stageBonus: 35, artPackId: "bakery-window" },
-  { id: "shelf-morning-bakery", titleKey: "shelves.morningBakery", sizes: { 8: 8, 10: 10, 12: 5 }, unlockCost: 105, pantryRoomStepRequired: 5, stageBonus: 40, artPackId: "bakery-window" },
-  { id: "shelf-pastry-corner", titleKey: "shelves.pastryCorner", sizes: { 10: 11, 12: 12 }, unlockCost: 0, pantryRoomStepRequired: 5, stageBonus: 45, artPackId: "bakery-window" },
-  { id: "shelf-tin-row", titleKey: "shelves.tinRow", sizes: { 10: 11, 12: 12 }, unlockCost: 120, pantryRoomStepRequired: 6, stageBonus: 45, artPackId: "bakery-window" },
-  { id: "shelf-bakery-window", titleKey: "shelves.bakeryWindow", sizes: { 10: 11, 12: 12 }, unlockCost: 0, pantryRoomStepRequired: 6, stageBonus: 50, artPackId: "bakery-window" },
-  { id: "shelf-village-square", titleKey: "shelves.villageSquare", sizes: { 10: 11, 12: 12 }, unlockCost: 145, pantryRoomStepRequired: 7, stageBonus: 50, artPackId: "village-pantry" },
-  { id: "shelf-market-table", titleKey: "shelves.marketTable", sizes: { 10: 11, 12: 12 }, unlockCost: 0, pantryRoomStepRequired: 7, stageBonus: 55, artPackId: "village-pantry" },
-  { id: "shelf-clock-corner", titleKey: "shelves.clockCorner", sizes: { 10: 10, 12: 13 }, unlockCost: 165, pantryRoomStepRequired: 8, stageBonus: 55, artPackId: "village-pantry" },
-  { id: "shelf-bakery-walk", titleKey: "shelves.bakeryWalk", sizes: { 10: 10, 12: 13 }, unlockCost: 0, pantryRoomStepRequired: 8, stageBonus: 60, artPackId: "village-pantry" },
-  { id: "shelf-garden-path", titleKey: "shelves.gardenPath", sizes: { 10: 10, 12: 13 }, unlockCost: 210, pantryRoomStepRequired: 9, stageBonus: 60, artPackId: "village-pantry" },
-  { id: "shelf-village-pantry", titleKey: "shelves.villagePantry", sizes: { 10: 10, 12: 12 }, unlockCost: 0, pantryRoomStepRequired: 10, stageBonus: 125, artPackId: "village-pantry" }
+  { id: "shelf-morning-bakery", titleKey: "shelves.morningBakery", sizes: { 8: 8, 10: 10, 12: 5 }, unlockCost: 105, pantryRoomStepRequired: 3, stageBonus: 40, artPackId: "bakery-window" },
+  { id: "shelf-pastry-corner", titleKey: "shelves.pastryCorner", sizes: { 10: 11, 12: 12 }, unlockCost: 0, pantryRoomStepRequired: 3, stageBonus: 45, artPackId: "bakery-window" },
+  { id: "shelf-tin-row", titleKey: "shelves.tinRow", sizes: { 10: 11, 12: 12 }, unlockCost: 120, pantryRoomStepRequired: 3, stageBonus: 45, artPackId: "bakery-window" },
+  { id: "shelf-bakery-window", titleKey: "shelves.bakeryWindow", sizes: { 10: 11, 12: 12 }, unlockCost: 0, pantryRoomStepRequired: 3, stageBonus: 50, artPackId: "bakery-window" },
+  { id: "shelf-village-square", titleKey: "shelves.villageSquare", sizes: { 10: 11, 12: 12 }, unlockCost: 145, pantryRoomStepRequired: 4, stageBonus: 50, artPackId: "village-pantry" },
+  { id: "shelf-market-table", titleKey: "shelves.marketTable", sizes: { 10: 11, 12: 12 }, unlockCost: 0, pantryRoomStepRequired: 4, stageBonus: 55, artPackId: "village-pantry" },
+  { id: "shelf-clock-corner", titleKey: "shelves.clockCorner", sizes: { 10: 10, 12: 13 }, unlockCost: 165, pantryRoomStepRequired: 4, stageBonus: 55, artPackId: "village-pantry" },
+  { id: "shelf-bakery-walk", titleKey: "shelves.bakeryWalk", sizes: { 10: 10, 12: 13 }, unlockCost: 0, pantryRoomStepRequired: 4, stageBonus: 60, artPackId: "village-pantry" },
+  { id: "shelf-garden-path", titleKey: "shelves.gardenPath", sizes: { 10: 10, 12: 13 }, unlockCost: 210, pantryRoomStepRequired: 4, stageBonus: 60, artPackId: "village-pantry" },
+  { id: "shelf-village-pantry", titleKey: "shelves.villagePantry", sizes: { 10: 10, 12: 12 }, unlockCost: 0, pantryRoomStepRequired: 4, stageBonus: 125, artPackId: "village-pantry" }
 ];
 
 const SUPPORTED_SIZES = [5, 8, 10, 12];

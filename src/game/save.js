@@ -3,7 +3,7 @@ import { isDecorationArtApproved } from "../data/decorations.js";
 import { seasonShelves } from "../data/seasonShelves.js";
 import { getPreviousSeasonShelf, isSeasonShelfComplete } from "./seasonShelfProgress.js";
 import { restoreState, serializeState } from "./puzzleState.js";
-import { PANTRY_JARS, getJarById } from "../data/pantryJars.js";
+import { JAR_SHELVES, PANTRY_JARS, getJarById, getJarsByShelf } from "../data/pantryJars.js";
 
 const LEGACY_SAVE_KEY = "pips-picture-pantry:v0.1:save";
 const SAVE_PREFIX = "pips-picture-pantry:v0.1:save:";
@@ -245,12 +245,6 @@ export function buyJar(jarId) {
   if (!save.equippedJars[jar.shelfId]) {
     save.equippedJars[jar.shelfId] = jar.id;
   }
-  if (jar.cost > 0) {
-    save.pantryCompletedStoryGoalIds = Array.from(new Set([
-      ...save.pantryCompletedStoryGoalIds,
-      jar.id
-    ]));
-  }
   saveGame(save);
   return { ok: true, reason: "purchased", balance: save.pantrySpoons, jar };
 }
@@ -288,7 +282,15 @@ export function getCompletedPantryStoryGoalIds() {
 }
 
 export function getPantryRoomStepCount() {
-  return getCompletedPantryStoryGoalIds().length;
+  return getCompletedPantryJarShelfCount();
+}
+
+export function getCompletedPantryJarShelfCount() {
+  const ownedIds = new Set(getOwnedJarIds());
+  return JAR_SHELVES.filter((shelf) => {
+    const paidJars = getJarsByShelf(shelf.id).filter((jar) => jar.cost > 0);
+    return paidJars.length > 0 && paidJars.every((jar) => ownedIds.has(jar.id));
+  }).length;
 }
 
 export function getPackPantryRoomRequirement(pack) {

@@ -5,6 +5,15 @@
 - Decision: no further paid purchase will be made for this candidate after the successful US$0.99 Play Billing checkout and 250-spoon grant established the live purchase channel.
 - Remaining evidence: repeatable consumable flags, distinct-token grant behavior, and duplicate-token rejection are covered by automated Billing tests. The missing US$2.99 real-device purchase remains an explicit release risk, not a reported pass.
 
+## 2026-07-29 v0.1.639 Pantry shelf progression and celebration
+
+- Current package/UI candidate: v0.1.639.
+- Stage gate progress now counts completed five-paid-jar shelves, not individual purchases or legacy decoration story goals.
+- JAM/HONEY/HERB/SPICE completion maps to Sunny Spoon Sign/Apron Drawer/Bakery Window/Village Pantry at requirements 1/2/3/4.
+- The last paid jar on a shelf triggers a gold sweep, staggered jar bounce, and sparkle celebration after the Pantry redraw.
+- Android stays versionCode 33 / versionName 1.1.5. No AAB was built.
+- Automated verification passed: 37 test files / 202 tests, 333-puzzle catalog and asset checks, production build, Android release gate, and mobile layouts at 360x740, 390x844, 430x932, and 675x900 via `npm run qa:candidate`. The shelf-completion transition is unit-tested; visual observation of the purchase-triggered animation remains pending because the local browser connection was blocked by the OneDrive ACL.
+
 ## 2026-07-29 v0.1.638 Pantry spoon token consistency
 
 - Current package/UI candidate: v0.1.638.

@@ -3,6 +3,7 @@ import { JAR_SHELVES, PANTRY_JARS, getStarterJarIds } from "../src/data/pantryJa
 import {
   buyJar,
   ensureStarterJars,
+  getCompletedPantryJarShelfCount,
   getCompletedPantryStoryGoalIds,
   getEquippedJars,
   getOwnedJarIds,
@@ -12,6 +13,7 @@ import {
   setActivePlayerName,
   setEquippedJar
 } from "../src/game/save.js";
+import { isShelfCompletionTransition } from "../src/ui/pantryView.js";
 
 class LocalStorageMock {
   constructor() {
@@ -55,15 +57,23 @@ describe("Pantry jar collection", () => {
     expect(getCompletedPantryStoryGoalIds()).toEqual([]);
   });
 
-  it("buys a paid jar atomically and records one stage step", () => {
+  it("buys paid jars atomically but advances a stage step only when the shelf is complete", () => {
     ensureStarterJars();
-    saveGame({ ...loadSave(), pantrySpoons: 20 });
-    expect(buyJar("blueberry-jam")).toEqual(expect.objectContaining({ ok: true, balance: 8 }));
-    expect(getPantrySpoons()).toBe(8);
-    expect(getOwnedJarIds()).toContain("blueberry-jam");
-    expect(getCompletedPantryStoryGoalIds()).toEqual(["blueberry-jam"]);
+    saveGame({ ...loadSave(), pantrySpoons: 500 });
+    const before = getOwnedJarIds();
+
+    expect(buyJar("blueberry-jam")).toEqual(expect.objectContaining({ ok: true, balance: 488 }));
+    expect(getCompletedPantryJarShelfCount()).toBe(0);
+    expect(getCompletedPantryStoryGoalIds()).toEqual([]);
+
+    ["cherry-jam", "orange-marmalade", "lemon-curd", "peach-preserve"].forEach((jarId) => {
+      expect(buyJar(jarId)).toEqual(expect.objectContaining({ ok: true }));
+    });
+    const after = getOwnedJarIds();
+    expect(getCompletedPantryJarShelfCount()).toBe(1);
+    expect(isShelfCompletionTransition("jam", before, after)).toBe(true);
+    expect(isShelfCompletionTransition("jam", after, after)).toBe(false);
     expect(buyJar("blueberry-jam")).toEqual(expect.objectContaining({ ok: false, reason: "already-owned" }));
-    expect(getPantrySpoons()).toBe(8);
   });
 
   it("does not mutate state when balance is insufficient and equips only owned jars", () => {
