@@ -19,7 +19,7 @@ import {
 import { getCozySupportProduct, getSpoonJarSmallProduct, purchaseCozySupportPack, purchaseSpoonJarSmall } from "../game/billing.js";
 import { setLanguagePreference } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
-import { renderBadgeShelf, renderResetDialog } from "./appChrome.js";
+import { renderResetDialog } from "./appChrome.js";
 import { playStageComplete, setMusicEnabled, setSfxEnabled, startMusic } from "./audio.js";
 import { renderPantryMapView } from "./mapView.js";
 import { renderPantryView } from "./pantryView.js";
@@ -692,10 +692,6 @@ function createShell({
 
   if (!hasBlockingOverlay && (activeView !== "puzzle" || puzzleListOpen)) {
     shell.appendChild(renderFloatingNav(activeView, onSelectView));
-  }
-  const earnedBadgeShelf = renderBadgeShelf();
-  if (earnedBadgeShelf) {
-    shell.appendChild(earnedBadgeShelf);
   }
   if (activeView === "album") {
     shell.appendChild(renderAlbumView(onNextPuzzle));

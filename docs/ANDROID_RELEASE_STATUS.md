@@ -1,3 +1,11 @@
+## 2026-07-29 v0.1.641 Badge artwork single-surface cleanup
+
+- Current package/UI candidate: v0.1.641.
+- Earned badge artwork is now persistently rendered only inside the Badge collection view.
+- The Badge navigation entry, text badge semantics, and transient completion feedback remain available.
+- Android version remains versionCode 33 / versionName 1.1.5; no AAB was requested for this UI-only phase.
+- Verification passed: 38 test files / 205 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## Billing / IAP Real-Device Validation - Small Spoon Jar
 
 - Status: **waived by product owner**

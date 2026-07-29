@@ -1,3 +1,10 @@
+## v0.1.641 - Badge Artwork Single-Surface Cleanup
+
+- Removed the earned-badge shelf from the shared app shell, so collected badge artwork is no longer persistently shown on Puzzle, Album, Pantry, Time Attack, or Settings surfaces.
+- Kept the Badge navigation destination, the Badge collection view, semantic text badge styles, and transient completion feedback intact.
+- Added a source regression test that requires the Badge collection view to remain the only persistent badge-art surface.
+- Verification passed: 38 test files / 205 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.640 - Time Attack Paint Persistence Recovery
 
 - Root cause confirmed: `renderPuzzleView()`'s inner `update(nextState, options)` parameter shadowed the outer render options, so `onPuzzleStateChange` never reached App Shell.

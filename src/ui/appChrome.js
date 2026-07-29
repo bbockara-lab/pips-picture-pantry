@@ -1,35 +1,6 @@
 
-import { getBadgeArtUrl } from "../data/badgeArt.js";
-import { getEarnedPackBadges } from "../game/badges.js";
-import { getCompletedPuzzleIds } from "../game/save.js";
 import { t } from "../i18n/index.js";
 import { appendPuzzleControlArt } from "./puzzleControlArt.js";
-
-export function renderBadgeShelf() {
-  const earnedBadges = getEarnedPackBadges(getCompletedPuzzleIds());
-  if (!earnedBadges.length) {
-    return null;
-  }
-  const shelf = document.createElement("section");
-  shelf.className = "badge-shelf earned";
-  shelf.setAttribute("aria-label", t("badges.earnedShelfAria", { count: earnedBadges.length }));
-  earnedBadges.slice(0, 3).forEach((status) => {
-    const item = document.createElement("div");
-    item.className = "badge-shelf__item";
-    const token = document.createElement("div");
-    token.className = "badge-shelf__token";
-    token.setAttribute("aria-hidden", "true");
-    const image = document.createElement("img");
-    image.src = getBadgeArtUrl(status.badge.id);
-    image.alt = "";
-    token.appendChild(image);
-    const copy = document.createElement("div");
-    appendTextElement(copy, "p", "", t(status.badge.titleKey));
-    item.append(token, copy);
-    shelf.appendChild(item);
-  });
-  return shelf;
-}
 
 export function renderResetDialog(onCancel, onConfirm) {
   const overlay = createModalBackdrop();
