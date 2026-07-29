@@ -18170,6 +18170,27 @@ img {
   filter: drop-shadow(0 0 5px rgba(147, 67, 181, 0.28));
 }
 
+/* v0.1.646 - keep every guide above Pantry sheets and isolate background input. */
+body.guide-open {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+
+.guide-overlay {
+  z-index: 200 !important;
+  isolation: isolate;
+  overscroll-behavior: contain;
+}
+
+.guide-overlay--pantryNeighborMrPark,
+.guide-overlay--pantryNeighborLily,
+.guide-overlay--pantryNeighborMateo {
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  background: rgba(46, 38, 34, 0.92) !important;
+}
+
 .pantry-jar-detail-backdrop {
   position: fixed;
   z-index: 120;

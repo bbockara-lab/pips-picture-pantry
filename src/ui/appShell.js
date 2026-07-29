@@ -506,7 +506,7 @@ export function renderApp(root) {
     } else if (!activeGuide && activeView === "map" && !hasSeenGuide("map")) {
       activeGuide = "map";
     }
-
+    document.body.classList.toggle("guide-open", Boolean(activeGuide));
     const shell = createShell({
       activePuzzle,
       activeView,

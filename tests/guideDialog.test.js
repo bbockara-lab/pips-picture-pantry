@@ -21,6 +21,12 @@ describe("guide dialog character and badge wiring", () => {
     );
   });
 
+  it("locks background scrolling while any guide is active", () => {
+    expect(appShellSource).toContain(
+      'document.body.classList.toggle("guide-open", Boolean(activeGuide))'
+    );
+  });
+
   it("adds localized speaker name tags only to the character-led launch guides", () => {
     expect(guideSource).toContain('puzzle: "guide.puzzle.speakerName"');
     expect(guideSource).toContain('timeAttack: "guide.timeAttack.speakerName"');

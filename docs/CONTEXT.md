@@ -4557,3 +4557,12 @@ Current launch direction:
 - Reused the same computed condition on the `home.pantryLabel` destination button and avoided repeated save reads for the displayed spoon balance.
 - Added focused regression coverage for zero balance, affordability thresholds, ownership, and all-owned states.
 - Validation: `npm run qa:candidate` passed 38 test files / 210 tests, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.646 - 2026-07-29 - Guide overlay isolation
+
+- Raised every guide overlay above Pantry jar detail sheets and transient UI so neighbor conversations cannot be covered by the underlying Pantry screen.
+- Locked document scrolling and overscroll while any guide is active, then released the lock through the normal guide-close redraw.
+- Strengthened Pantry neighbor backdrops to cover the full dynamic viewport while keeping the approved Mr. Park artwork fully contained.
+- Extended mobile visual QA to reject incomplete viewport coverage, overlay z-index below transient UI, missing background scroll lock, or clipped guide character art.
+- Android versionCode/versionName remain unchanged; no AAB was requested for this step.
+- Validation: `npm run qa:candidate` passed 38 test files / 211 tests, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.

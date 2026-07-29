@@ -348,6 +348,7 @@ async function expectGuideDialogChromeArt(page, viewportName, options = {}) {
     const nameTag = art?.querySelector(".guide-dialog__name-tag");
     const bubble = dialog.querySelector(".guide-dialog__bubble");
     const line = dialog.querySelector(".guide-dialog__line");
+    const overlayRect = overlay?.getBoundingClientRect();
     const rect = dialog.getBoundingClientRect();
     const imageRect = image?.getBoundingClientRect();
     const nameTagRect = nameTag?.getBoundingClientRect();
@@ -358,10 +359,21 @@ async function expectGuideDialogChromeArt(page, viewportName, options = {}) {
     return {
       viewportWidth: window.innerWidth,
       viewportHeight: window.innerHeight,
+      overlayLeft: overlayRect?.left ?? Number.NaN,
+      overlayTop: overlayRect?.top ?? Number.NaN,
+      overlayRight: overlayRect?.right ?? Number.NaN,
+      overlayBottom: overlayRect?.bottom ?? Number.NaN,
+      overlayZIndex: overlay ? Number(getComputedStyle(overlay).zIndex) : Number.NaN,
+      bodyOverflow: getComputedStyle(document.body).overflow,
       width: rect.width,
       height: rect.height,
       imageWidth: imageRect?.width || 0,
       imageHeight: imageRect?.height || 0,
+      imageContained: Boolean(imageRect)
+        && imageRect.left >= 0
+        && imageRect.right <= window.innerWidth
+        && imageRect.top >= 0
+        && imageRect.bottom <= window.innerHeight,
       artOverflow: art ? getComputedStyle(art).overflow : "",
       hasNameTag: Boolean(nameTag),
       nameTagText: (nameTag?.textContent || "").trim(),
@@ -391,10 +403,14 @@ async function expectGuideDialogChromeArt(page, viewportName, options = {}) {
     };
   });
   const isContained = metrics.width >= Math.min(320, metrics.viewportWidth - 44) && metrics.width <= metrics.viewportWidth && metrics.height <= metrics.viewportHeight;
+  const overlayCoversViewport = Math.abs(metrics.overlayLeft) <= 1
+    && Math.abs(metrics.overlayTop) <= 1
+    && Math.abs(metrics.overlayRight - metrics.viewportWidth) <= 1
+    && Math.abs(metrics.overlayBottom - metrics.viewportHeight) <= 1;
   const minImageWidth = options.neighborClass ? 100 : 150;
   const nameTagRegressed = metrics.expectsNameTag
     && (!metrics.hasNameTag || metrics.nameTagText.length < 2 || metrics.nameTagWidth < 30 || metrics.nameTagHeight < 18 || !metrics.nameTagVisible || !metrics.nameTagOnTop || metrics.artOverflow !== "visible");
-  if (!metrics.overlayFixed || !isContained || metrics.imageWidth < minImageWidth || metrics.imageHeight < 150 || metrics.bodyText.length < 12 || metrics.buttonCount !== 1 || metrics.hasLegacyLabels || metrics.artBefore !== "none" || metrics.artAfter !== "none" || metrics.bubbleBefore !== "none" || metrics.bubbleAfter !== "none" || metrics.overflows || !metrics.neighborMatched || nameTagRegressed) {
+  if (!metrics.overlayFixed || !overlayCoversViewport || metrics.overlayZIndex <= 140 || metrics.bodyOverflow !== "hidden" || !isContained || !metrics.imageContained || metrics.imageWidth < minImageWidth || metrics.imageHeight < 150 || metrics.bodyText.length < 12 || metrics.buttonCount !== 1 || metrics.hasLegacyLabels || metrics.artBefore !== "none" || metrics.artAfter !== "none" || metrics.bubbleBefore !== "none" || metrics.bubbleAfter !== "none" || metrics.overflows || !metrics.neighborMatched || nameTagRegressed) {
     const guideLabel = options.neighborClass ? `${options.neighborClass} neighbor conversation` : "Clean Pip conversation";
     failures.push("[" + viewportName + "] " + guideLabel + " regressed: " + JSON.stringify(metrics));
   }
