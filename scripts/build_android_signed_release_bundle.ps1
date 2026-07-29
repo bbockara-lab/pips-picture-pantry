@@ -19,9 +19,11 @@ function Invoke-NativeCommand {
 
 Push-Location $repoRoot
 try {
+  Invoke-NativeCommand "node" @("scripts/release_commit_gate.js")
   Invoke-NativeCommand "npm" @("run", "qa:candidate")
   Invoke-NativeCommand "npm" @("run", "qa:privacy:live")
   Invoke-NativeCommand "npm" @("run", "qa:release:final")
+  Invoke-NativeCommand "node" @("scripts/release_commit_gate.js")
 } finally {
   Pop-Location
 }
@@ -53,6 +55,11 @@ try {
   Invoke-NativeCommand "npm" @("run", "build")
   Invoke-NativeCommand "npx" @("cap", "sync", "android")
 
+  $aabPath = Join-Path $repoRoot "android\app\build\outputs\bundle\release\app-release.aab"
+  if (Test-Path -LiteralPath $aabPath) {
+    Remove-Item -LiteralPath $aabPath -Force
+  }
+
   Push-Location "$repoRoot\android"
   try {
     Invoke-NativeCommand ".\gradlew.bat" @("bundleRelease")
@@ -60,7 +67,6 @@ try {
     Pop-Location
   }
 
-  $aabPath = Join-Path $repoRoot "android\app\build\outputs\bundle\release\app-release.aab"
   if (-not (Test-Path -LiteralPath $aabPath)) {
     throw "Release AAB was not produced: $aabPath"
   }
