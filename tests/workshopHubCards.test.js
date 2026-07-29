@@ -6,7 +6,10 @@ const styles = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8
 
 describe("Workshop supporting cards wiring", () => {
   it("renders Daily, Time Attack, and completed-puzzle replay cards below the Workshop scene", () => {
-    expect(appShellSource).toContain("renderDailyCard(dailyPuzzle, activePuzzle.id, onSelectPuzzle)");
+    expect(appShellSource).toContain("renderDailyCard(");
+    expect(appShellSource).toContain('{ dailyChallenge: true }');
+    expect(appShellSource).toContain("completedDate: getDailyCompletedDate()");
+    expect(appShellSource).toContain("today: getDailyDateKey()");
     expect(appShellSource).toContain('renderTimeAttackTeaserCard(() => onSelectView("timeAttack"))');
     expect(appShellSource).toContain("getDailyReplayPicks({");
     expect(appShellSource).toContain("completedPuzzleIds: getCompletedPuzzleIds()");

@@ -83,12 +83,13 @@ export function savePuzzleState(state, rewardOptions = {}) {
       save.pantrySpoons += reward;
       save.rewardedPuzzleIds.push(state.puzzleId);
     }
-    if (rewardOptions.dailyKey && !save.dailyRewardedDates.includes(rewardOptions.dailyKey)) {
-      const dailyBonus = Number(rewardOptions.dailyBonus || 0);
-      if (dailyBonus > 0) {
-        save.pantrySpoons += dailyBonus;
-        save.dailyRewardedDates.push(rewardOptions.dailyKey);
-      }
+  }
+
+  if (state.completed && rewardOptions.dailyKey && !save.dailyRewardedDates.includes(rewardOptions.dailyKey)) {
+    const dailyBonus = Number(rewardOptions.dailyBonus || 0);
+    if (dailyBonus > 0) {
+      save.pantrySpoons += dailyBonus;
+      save.dailyRewardedDates.push(rewardOptions.dailyKey);
     }
   }
 
@@ -97,6 +98,24 @@ export function savePuzzleState(state, rewardOptions = {}) {
 
 export function getCompletedPuzzleIds() {
   return loadSave()?.completedPuzzleIds || [];
+}
+
+export function getDailyCompletedDate() {
+  return loadSave()?.dailyCompletedDate || null;
+}
+
+export function recordDailyComplete(dateString) {
+  const dateKey = normalizeDateKey(dateString);
+  if (!dateKey) {
+    return false;
+  }
+  const save = loadSave() || createEmptySave();
+  if (save.dailyCompletedDate === dateKey) {
+    return false;
+  }
+  save.dailyCompletedDate = dateKey;
+  saveGame(save);
+  return true;
 }
 
 export function getPantrySpoons() {
@@ -717,6 +736,7 @@ function normalizeSave(parsed) {
     completedPuzzleIds,
     rewardedPuzzleIds: Array.isArray(parsed?.rewardedPuzzleIds) ? parsed.rewardedPuzzleIds : [],
     dailyRewardedDates: Array.isArray(parsed?.dailyRewardedDates) ? parsed.dailyRewardedDates : [],
+    dailyCompletedDate: normalizeDateKey(parsed?.dailyCompletedDate),
     completedPackIds: Array.isArray(parsed?.completedPackIds) ? parsed.completedPackIds : [],
     ownedJarIds: Array.isArray(parsed?.ownedJarIds)
       ? Array.from(new Set(parsed.ownedJarIds.map((id) => String(id || "")).filter(Boolean)))
@@ -817,6 +837,11 @@ function dateKeyToUtcDay(dateKey) {
     return Number.NaN;
   }
   return Math.floor(time / 86400000);
+}
+
+function normalizeDateKey(value) {
+  const dateKey = String(value || "").trim();
+  return /^\d{4}-\d{2}-\d{2}$/.test(dateKey) ? dateKey : null;
 }
 
 function normalizeDecorationId(decorationOrId) {

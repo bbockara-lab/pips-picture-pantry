@@ -1,3 +1,9 @@
+## v0.1.648 - Daily Completion Isolation
+
+- Added a local-calendar Daily completion date that is stored separately from general `completedPuzzleIds`; the Daily card now shows complete only when its saved date matches today.
+- Daily entry now carries an explicit challenge context, starts from a fresh board even when the same picture was completed normally, and records completion only after that Daily run is solved.
+- Kept normal first-completion rewards separate while allowing the Daily bonus once per date; tomorrow naturally returns the Daily card to incomplete.
+- Verification passed: 38 test files / 218 tests, catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.641 - Badge Artwork Single-Surface Cleanup
 
 - Removed the earned-badge shelf from the shared app shell, so collected badge artwork is no longer persistently shown on Puzzle, Album, Pantry, Time Attack, or Settings surfaces.

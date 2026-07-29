@@ -1,4 +1,5 @@
 import { puzzleTitle, t } from "../i18n/index.js";
+import { getDailyDateKey } from "../game/dailyPuzzle.js";
 import { renderPuzzleView } from "./puzzleView.js";
 import { appendPuzzleControlArt } from "./puzzleControlArt.js";
 
@@ -6,6 +7,7 @@ export function renderPlayScreen(activePuzzle, options) {
   const {
     dailyPuzzle,
     dailyBonus = 0,
+    dailyChallenge = false,
     controlMode,
     onClosePuzzle,
     onViewAlbum,
@@ -80,8 +82,8 @@ export function renderPlayScreen(activePuzzle, options) {
   const body = document.createElement("div");
   body.className = "play-screen__body";
   body.appendChild(renderPuzzleView(activePuzzle, {
-    dailyKey: !isTimeAttack && !replayChallenge && activePuzzle.id === dailyPuzzle.id ? getDailyKey() : null,
-    dailyBonus: !isTimeAttack && !replayChallenge && activePuzzle.id === dailyPuzzle.id ? dailyBonus : 0,
+    dailyKey: dailyChallenge && !isTimeAttack && !replayChallenge ? getDailyDateKey() : null,
+    dailyBonus: dailyChallenge && !isTimeAttack && !replayChallenge ? dailyBonus : 0,
     onNextPuzzle,
     controlMode,
     compactHeader: true,
@@ -105,9 +107,6 @@ export function getTimeAttackElapsedSeconds(startedAt) {
   return Math.max(0, Math.floor((Date.now() - startedAt) / 1000));
 }
 
-function getDailyKey() {
-  return new Date().toISOString().slice(0, 10);
-}
 
 function formatElapsedSeconds(seconds) {
   const value = Math.max(0, Math.floor(Number(seconds) || 0));

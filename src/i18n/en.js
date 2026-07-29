@@ -162,6 +162,7 @@ export const en = {
     eyebrow: "Today's picture",
     play: "Play",
     selected: "Selected",
+    completed: "Completed today",
   },
   replayPicks: {
     title: "Replay picks",

@@ -1,5 +1,17 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+
+const puzzleViewSource = readFileSync("src/ui/puzzleView.js", "utf8");
 import { getPuzzleHintCost } from "../src/ui/puzzleView.js";
+
+describe("Daily puzzle state isolation", () => {
+  it("starts Daily from a fresh board and saves only its completed state", () => {
+    expect(puzzleViewSource).toContain("const isDailyChallenge = Boolean(options.dailyKey)");
+    expect(puzzleViewSource).toContain("isReplayChallenge || isTimeAttack || isDailyChallenge");
+    expect(puzzleViewSource).toMatch(/isReplayChallenge \|\| isDailyChallenge\s*\? createPuzzleState\(puzzle\)/);
+    expect(puzzleViewSource).toMatch(/if \(isDailyChallenge\) \{[\s\S]*savePuzzleState\(state/);
+  });
+});
 
 describe("puzzle view hint cost", () => {
   it("keeps Time Attack hints free until the run allowance is used", () => {

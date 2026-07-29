@@ -141,6 +141,7 @@ export const ko = {
     eyebrow: "\uc624\ub298\uc758 \uadf8\ub9bc",
     play: "\ub3c4\uc804\ud558\uae30",
     selected: "\uc120\ud0dd\ub428",
+    completed: "\uc624\ub298 \uc644\uc131",
   },
   replayPicks: {
     title: "\uB2E4\uC2DC \uD480\uAE30",

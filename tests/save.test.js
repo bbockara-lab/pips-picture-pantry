@@ -5,6 +5,7 @@ import {
   equipDecoration,
   getActivePlayerName,
   getCompletedPuzzleIds,
+  getDailyCompletedDate,
   getCompletionDates,
   getCompletedPantryStoryGoalIds,
   grantCozySupportPack,
@@ -25,6 +26,7 @@ import {
   markGuideSeen,
   markPackCompletedIfFirst,
   markShelfCompletedIfFirst,
+  recordDailyComplete,
   recordPantryStoryGoalComplete,
   recordReplayReward,
   recordTimeAttackResult,
@@ -81,6 +83,18 @@ describe("player save profiles", () => {
     expect(getPlayerRecords()).toHaveLength(1);
   });
 
+  it("tracks Daily completion by date independently from completed puzzle ids", () => {
+    setActivePlayerName("Jay");
+    saveGame({ puzzleStates: {}, completedPuzzleIds: ["pip-face-5"] });
+
+    expect(getDailyCompletedDate()).toBeNull();
+    expect(recordDailyComplete("2026-07-29")).toBe(true);
+    expect(getDailyCompletedDate()).toBe("2026-07-29");
+    expect(recordDailyComplete("2026-07-29")).toBe(false);
+    expect(recordDailyComplete("not-a-date")).toBe(false);
+    expect(getDailyCompletedDate()).toBe("2026-07-29");
+  });
+
   it("keeps progress separate by player name", () => {
     setActivePlayerName("Jay");
     saveGame({ puzzleStates: {}, completedPuzzleIds: ["pip-face-5"] });
@@ -127,6 +141,24 @@ describe("player save profiles", () => {
     expect(unlockPack({ id: "sunny-spoon-sign", access: "unlockable", unlockCost: 24 })).toBe(true);
     expect(getPantrySpoons()).toBe(0);
     expect(getUnlockedPackIds()).toContain("sunny-spoon-sign");
+  });
+
+  it("awards the Daily bonus once even when the picture was completed before today", () => {
+    setActivePlayerName("Jay");
+    const completedState = {
+      puzzleId: "pips-first-shelf-pip-face-1",
+      size: 5,
+      mode: "fill",
+      completed: true,
+      history: [],
+      cells: Array.from({ length: 5 }, () => Array(5).fill("fill"))
+    };
+
+    savePuzzleState(completedState, { reward: 3 });
+    savePuzzleState(completedState, { reward: 3, dailyBonus: 8, dailyKey: "2026-07-29" });
+    expect(getPantrySpoons()).toBe(11);
+    savePuzzleState(completedState, { reward: 3, dailyBonus: 8, dailyKey: "2026-07-29" });
+    expect(getPantrySpoons()).toBe(11);
   });
 
   it("requires pantry room progress before opening gated stages", () => {

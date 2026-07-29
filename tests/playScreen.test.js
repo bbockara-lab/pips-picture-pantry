@@ -9,6 +9,12 @@ describe("play screen wiring", () => {
     expect(playScreenSource).toMatch(/renderPuzzleView\([\s\S]*onPuzzleStateChange,[\s\S]*onPuzzleComplete/);
   });
 
+  it("uses explicit Daily challenge context instead of matching puzzle ids", () => {
+    expect(playScreenSource).toContain("dailyChallenge = false");
+    expect(playScreenSource).toContain("dailyKey: dailyChallenge && !isTimeAttack && !replayChallenge ? getDailyDateKey() : null");
+    expect(playScreenSource).not.toContain("activePuzzle.id === dailyPuzzle.id ? getDailyKey()");
+  });
+
   it("destructures the time attack limit before rendering the countdown", () => {
     expect(playScreenSource).toMatch(/timeAttackLimitSeconds\s*=\s*0/);
     expect(playScreenSource).toMatch(/Math\.max\(0,\s*Number\(timeAttackLimitSeconds/);

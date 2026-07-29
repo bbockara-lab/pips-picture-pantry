@@ -207,9 +207,15 @@ export function getStageNavigation(activePuzzle, onPrevious, onNext, onShowList)
   };
 }
 
-export function renderDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle) {
+export function isDailyCompleteForDate(completedDate, today) {
+  return Boolean(completedDate && today && completedDate === today);
+}
+
+export function renderDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle, options = {}) {
+  const completed = isDailyCompleteForDate(options.completedDate, options.today);
+  const selected = dailyPuzzle.id === activePuzzleId;
   const card = document.createElement("section");
-  card.className = dailyPuzzle.id === activePuzzleId ? "daily-card active" : "daily-card";
+  card.className = "daily-card" + (selected ? " active" : "") + (completed ? " completed" : "");
 
   const text = document.createElement("div");
   appendTextElement(text, "p", "section-label", t("daily.eyebrow"));
@@ -218,8 +224,8 @@ export function renderDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "tool-button daily-button";
-  button.textContent = dailyPuzzle.id === activePuzzleId ? t("daily.selected") : t("daily.play");
-  button.disabled = dailyPuzzle.id === activePuzzleId;
+  button.textContent = completed ? t("daily.completed") : selected ? t("daily.selected") : t("daily.play");
+  button.disabled = completed || selected;
   button.addEventListener("click", () => onSelectPuzzle(dailyPuzzle.id));
 
   card.append(text, button);

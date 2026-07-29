@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { getDailyGreetingKey, hasAffordableUnownedPantryJar } from "../src/ui/puzzleHubView.js";
+import { getDailyGreetingKey, hasAffordableUnownedPantryJar, isDailyCompleteForDate } from "../src/ui/puzzleHubView.js";
 
 const styles = readFileSync("src/styles.css", "utf8");
 
@@ -19,6 +19,14 @@ describe("Workshop daily greeting", () => {
     expect(styles).toMatch(
       /\.app-shell--workshop-home \.puzzle-home-scene__greeting-pip\s*\{[\s\S]*?width:\s*clamp\(90px,\s*22vw,\s*120px\)\s*!important;[\s\S]*?height:\s*auto\s*!important;/
     );
+  });
+});
+
+describe("Daily completion status", () => {
+  it("is complete only when the saved date matches today", () => {
+    expect(isDailyCompleteForDate("2026-07-29", "2026-07-29")).toBe(true);
+    expect(isDailyCompleteForDate("2026-07-28", "2026-07-29")).toBe(false);
+    expect(isDailyCompleteForDate(null, "2026-07-29")).toBe(false);
   });
 });
 

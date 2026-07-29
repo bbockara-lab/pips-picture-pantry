@@ -1,10 +1,11 @@
 import { getSeasonShelfById, getSeasonShelfForPuzzle, getSeasonShelfPuzzles } from "../data/seasonShelves.js";
 import { ECONOMY, getTimeAttackHintCost } from "../data/economyConfig.js";
 import { puzzles } from "../data/puzzles.js";
-import { getDailyPuzzle } from "../game/dailyPuzzle.js";
+import { getDailyDateKey, getDailyPuzzle } from "../game/dailyPuzzle.js";
 import { getDailyReplayPicks } from "../game/replayPicks.js";
 import {
   getCompletedPuzzleIds,
+  getDailyCompletedDate,
   getReplayDailyCount,
   getTimeAttackBestScores,
   getTimeAttackDailyCount,
@@ -12,6 +13,7 @@ import {
   isShelfUnlocked,
   markGuideSeen,
   markShelfCompletedIfFirst,
+  recordDailyComplete,
   resetProgress,
   setActivePlayerName,
   unlockShelf
@@ -67,6 +69,7 @@ export function renderApp(root) {
   let preTimeAttackPuzzle = null;
   let activeGuide = null;
   let replayChallenge = false;
+  let dailyChallenge = false;
   let cozySupportState = createDefaultCozySupportState();
   let cozySupportRequestId = 0;
   let spoonJarState = createDefaultSpoonJarState();
@@ -80,6 +83,7 @@ export function renderApp(root) {
 
     activePuzzle = nextPuzzle;
     replayChallenge = Boolean(options.replayChallenge);
+    dailyChallenge = Boolean(options.dailyChallenge);
     activeView = "puzzle";
     playOpen = true;
     puzzleListOpen = false;
@@ -460,6 +464,9 @@ export function renderApp(root) {
   }
 
   function checkStageComplete(puzzle) {
+    if (dailyChallenge && puzzle.id === dailyPuzzle.id) {
+      recordDailyComplete(getDailyDateKey());
+    }
     const shelf = getSeasonShelfForPuzzle(puzzle);
     if (!shelf) {
       return;
@@ -541,6 +548,7 @@ export function renderApp(root) {
       onNextStagePuzzle: () => selectStagePuzzle(1),
       onShowPuzzlePicker: showPuzzlePicker,
       replayChallenge,
+      dailyChallenge,
       replayPicked: replayChallenge,
       onPuzzleComplete: checkStageComplete,
       onStartTimeAttack: startTimeAttackRun,
@@ -634,6 +642,7 @@ function createShell({
   onTimeAttackPuzzleComplete,
   onTimeAttackPuzzleStateChange,
   replayChallenge,
+  dailyChallenge,
   replayPicked,
   timeAttackRun,
   timeAttackStartedAt,
@@ -663,6 +672,7 @@ function createShell({
     shell.appendChild(renderPlayScreen(activePuzzle, {
       dailyPuzzle,
       dailyBonus: DAILY_BONUS,
+      dailyChallenge,
       controlMode,
       onClosePuzzle: activeView === "timeAttack" ? onCloseTimeAttack : onClosePuzzle,
       onRequestSettings,
@@ -734,7 +744,15 @@ function createShell({
 
     const hubCards = document.createElement("div");
     hubCards.className = "puzzle-hub-cards";
-    hubCards.appendChild(renderDailyCard(dailyPuzzle, activePuzzle.id, onSelectPuzzle));
+    hubCards.appendChild(renderDailyCard(
+      dailyPuzzle,
+      activePuzzle.id,
+      (puzzleId) => onSelectPuzzle(puzzleId, "puzzle", { dailyChallenge: true }),
+      {
+        completedDate: getDailyCompletedDate(),
+        today: getDailyDateKey()
+      }
+    ));
     hubCards.appendChild(renderTimeAttackTeaserCard(() => onSelectView("timeAttack")));
 
     const replayPicksCard = renderReplayPicksCard(
