@@ -1817,3 +1817,11 @@ versionName "1.1.3" // next internal-test Billing candidate
 - Badge menu now contains nine stage-completion badges on three wooden shelves, including six new transparent runtime WebP assets and earned-toast/glow feedback.
 - Persistent badge artwork remains limited to the Badge menu; no Android versionCode/versionName change and no AAB was requested or built for this slice.
 - Local candidate validation passed: 38 test files / 207 tests, 207 registered assets, production build, Android release gate, and four-width mobile visual QA.
+
+## v0.1.644 local candidate note (2026-07-29)
+
+- Visible web version: v0.1.644.
+- Badge shelves now guarantee separated three-slot geometry, and locked badge artwork is reduced to `0.12` opacity to preserve discovery.
+- First-entry Badge guide progression and dismissal are covered by the four-width mobile browser QA contract.
+- Android versionCode/versionName are unchanged; no AAB was requested or built for this slice.
+- Local `npm run qa:candidate` passed 38 test files / 207 tests, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.

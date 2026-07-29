@@ -18427,7 +18427,7 @@ img {
 
 .badge-circle {
   position: relative;
-  width: clamp(74px, 23vw, 112px);
+  width: clamp(68px, 20vw, 96px);
   aspect-ratio: 1;
   display: grid;
   place-items: center;
@@ -18621,7 +18621,7 @@ img {
   }
 
   .badge-circle {
-    width: clamp(68px, 22vw, 84px);
+    width: clamp(62px, 19vw, 72px);
   }
 }
 
@@ -18630,5 +18630,25 @@ img {
   .badge-slot[data-badge-id="badge-pip-full-pantry"].earned .badge-circle,
   .badge-earned-toast {
     animation: none;
+  }
+}
+
+/* v0.1.644 — Badge Shelf spacing and locked-art mystery */
+.badge-shelf {
+  display: block;
+}
+
+.badge-shelf__slots {
+  gap: 12px;
+}
+
+.badge-slot.locked .badge-circle img {
+  filter: grayscale(1) sepia(0.08) brightness(0.85) contrast(0.72);
+  opacity: 0.12;
+}
+
+@media (max-width: 380px) {
+  .badge-shelf__slots {
+    gap: 8px;
   }
 }

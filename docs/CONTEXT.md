@@ -4540,3 +4540,12 @@ Current launch direction:
 - Locked badges remain visible in subdued grayscale with progress; earned badges restore full color. The final Full Pantry badge keeps a gentle gold pulse, with reduced-motion support.
 - Updated mobile and source-hygiene contracts so duplicate persistent badge artwork stays removed from non-Badge menus while the dedicated Badge collection UI and transient earned toast remain supported.
 - Validation: `npm run qa:candidate` passed 38 test files / 207 tests, all 333 puzzle catalog checks, 207 registered assets, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.644 - 2026-07-29 - Badge spacing and first-run guide verification
+
+- Fixed a legacy `.badge-shelf { display: flex; }` cascade that squeezed the new three-slot shelves and caused neighboring badge circles to overlap.
+- Reduced badge circle sizing and added explicit slot gaps so all three badges remain separated at 360x740, 390x844, 430x932, and 675x900.
+- Made unearned badge artwork substantially more mysterious with grayscale treatment and `0.12` image opacity while keeping progress and unlock hints readable.
+- Strengthened mobile QA to reject non-positive badge gaps, locked art opacity above `0.15`, and any shelf containment regression.
+- Verified the true first-entry Badge guide as Pip with three populated steps, sequential `1 -> 2 -> 3` progression, and a clean final dismissal at all four QA widths.
+- Validation: `npm run qa:candidate` passed 38 test files / 207 tests, all 333 puzzle catalog checks, production build, Android release gate, and four-width mobile visual QA.

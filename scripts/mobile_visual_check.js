@@ -1083,11 +1083,19 @@ async function expectMapFirstRunGuide(page, viewportName) {
   }
   await expectGuideDialogChromeArt(page, viewportName);
   const speakerName = (await dialog.locator(".guide-dialog__name-tag").innerText()).trim();
-  const firstStepText = (await dialog.locator(".guide-dialog__line").innerText()).trim();
-  if (speakerName !== "Pip" || !/badge|\uBC30\uC9C0/i.test(firstStepText)) {
-    failures.push("[" + viewportName + "] Badge/Map guide speaker or first step regressed: " + JSON.stringify({ speakerName, firstStepText }));
+  const dotCount = await dialog.locator(".guide-dialog__dots span").count();
+  const guideSteps = [];
+  for (let expectedStep = 1; expectedStep <= 3; expectedStep += 1) {
+    const actualStep = Number(await dialog.getAttribute("data-step"));
+    const line = (await dialog.locator(".guide-dialog__line").innerText()).trim();
+    guideSteps.push({ actualStep, line });
+    if (expectedStep < 3) await dialog.locator(".guide-dialog__next").click();
   }
-  await dismissGuideIfPresent(page, viewportName);
+  if (speakerName !== "Pip" || dotCount !== 3 || guideSteps.some((step, index) => step.actualStep !== index + 1 || !step.line) || !/badge|\uBC30\uC9C0/i.test(guideSteps[0].line)) {
+    failures.push("[" + viewportName + "] Badge/Map first-run guide sequence regressed: " + JSON.stringify({ speakerName, dotCount, guideSteps }));
+  }
+  await dialog.locator(".guide-dialog__next").click();
+  await page.locator(".guide-overlay--map").waitFor({ state: "detached", timeout: 3000 });
 }
 
 async function expectMapPolish(page, viewportName) {
@@ -1117,6 +1125,11 @@ async function expectMapPolish(page, viewportName) {
         return !shelfRect || rect.left < shelfRect.left - 1 || rect.right > shelfRect.right + 1;
       }).length,
       minCircleSize: Math.min(...circles.map((circle) => circle.getBoundingClientRect().width)),
+      minCircleGap: Math.min(...shelves.flatMap((shelf) => {
+        const shelfCircles = [...shelf.querySelectorAll(".badge-circle")].map((circle) => circle.getBoundingClientRect());
+        return shelfCircles.slice(1).map((rect, index) => rect.left - shelfCircles[index].right);
+      })),
+      maxLockedImageOpacity: Math.max(...slots.filter((slot) => slot.classList.contains("locked")).map((slot) => Number(getComputedStyle(slot.querySelector(".badge-circle img")).opacity))),
       outsideCount: [...shelves, ...slots].filter((element) => {
         const rect = element.getBoundingClientRect();
         return rect.left < -1 || rect.right > window.innerWidth + 1;
@@ -1135,6 +1148,8 @@ async function expectMapPolish(page, viewportName) {
     metrics.lockedSlotCount !== 9 ||
     metrics.slotOutsideShelfCount !== 0 ||
     metrics.minCircleSize < 60 ||
+    metrics.minCircleGap < 8 ||
+    metrics.maxLockedImageOpacity > 0.15 ||
     metrics.outsideCount !== 0 ||
     !metrics.boardBackground.includes("linear-gradient")
   ) {
