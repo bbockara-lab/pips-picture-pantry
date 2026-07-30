@@ -1,3 +1,9 @@
+## 2026-07-30 v0.1.666 Pantry header simplification
+
+- Current package/UI candidate: v0.1.666.
+- The duplicate Pantry jar-collection eyebrow and its locale keys are removed; the existing Pantry title remains the sole header label.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 40 test files / 243 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-30 v0.1.665 IAP spoon grant rebalance
 
 - Current package/UI candidate: v0.1.665.

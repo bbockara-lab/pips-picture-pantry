@@ -563,7 +563,6 @@ export const en = {
       tea: "Botanical Teas"
     },
     jar: {
-      eyebrow: "Pantry jar collection",
       balance: "🥄 {count}",
       openDetail: "View {item}",
       spoonCost: "{count} 🥄",

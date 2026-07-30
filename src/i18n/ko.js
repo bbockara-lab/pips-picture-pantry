@@ -562,7 +562,6 @@ export const ko = {
       tea: "보태니컬 차"
     },
     jar: {
-      eyebrow: "\uD32C\uD2B8\uB9AC \uC720\uB9AC\uBCD1 \uC218\uC9D1",
       balance: "\uD83E\uDD44 {count}",
       openDetail: "{item} \uC790\uC138\uD788 \uBCF4\uAE30",
       spoonCost: "{count} \uD83E\uDD44",

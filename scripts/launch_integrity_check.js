@@ -91,6 +91,7 @@ function checkPlayerFacingClarity() {
   expectExcludes("src/ui/appShell.js", "renderFooter", "player-facing version footer");
   expectExcludes("src/ui/pipReaction.js", "completion-reveal__meta", "completion reveal double label");
   expectExcludes("src/ui/pantryView.js", "shopLimitSummary", "shop item-count explainer");
+  expectExcludes("src/ui/pantryView.js", "pantry.jar.eyebrow", "duplicate Pantry eyebrow");
   expectExcludes("src/ui/puzzleHubView.js", "t(\"replayPicks.body\")", "replay explainer paragraph");
   expectExcludes("src/ui/puzzleHubView.js", "t(\"replayPicks.eyebrow\")", "replay duplicate eyebrow");
   expectExcludes("src/ui/puzzleHubView.js", "t(\"replayPicks.challenge\")", "repeated replay button label");

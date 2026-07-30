@@ -249,7 +249,6 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   const header = document.createElement("header");
   header.className = "pantry-jar-header";
   const copy = document.createElement("div");
-  appendTextElement(copy, "p", "section-label", t("pantry.jar.eyebrow"));
   appendTextElement(copy, "h2", "", t("pantry.title"));
   const balance = appendTextElement(header, "div", "pantry-jar-balance", "");
   appendSpoonLabel(balance, t("pantry.jar.balance", { count: getPantrySpoons() }));

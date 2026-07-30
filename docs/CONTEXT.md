@@ -1,3 +1,10 @@
+## v0.1.666 - Pantry Header Simplification
+
+- Completed Step 22 by removing the duplicate Pantry jar-collection eyebrow above the existing Pantry title.
+- Removed the retired Korean and English eyebrow keys instead of replacing them with another duplicate title, keeping the header future-proof for additional collectible types.
+- Added a launch-integrity guard that blocks the retired `pantry.jar.eyebrow` render path from returning.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 40 test files / 243 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.665 - IAP Spoon Grant Rebalance
 
 - Completed Step 21 by changing the repeatable US$0.99 support grant from 250 to 150 spoons and the US$2.99 Small Spoon Jar grant from 750 to 500 spoons; store prices and product IDs are unchanged.
