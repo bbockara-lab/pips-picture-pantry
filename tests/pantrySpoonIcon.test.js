@@ -19,5 +19,6 @@ describe("Pantry spoon currency rendering", () => {
     expect(shellSource).toContain('activeView !== "pantry" && !isWorkshopHome');
     expect(shellSource).toContain("renderSpoonBalanceChip(getPantrySpoons())");
     expect(stylesSource).toMatch(/\.spoon-balance-chip\s*\{[\s\S]*?position:\s*fixed;[\s\S]*?pointer-events:\s*none;/);
+    expect(stylesSource).toMatch(/\.spoon-balance-chip \.spoon-icon\s*\{[\s\S]*?width:\s*20px;[\s\S]*?height:\s*20px;[\s\S]*?object-fit:\s*contain;/);
   });
 });

@@ -1,3 +1,10 @@
+## v0.1.680 - Spoon Balance Chip Icon Sizing
+
+- Completed Step 36 by constraining the shared spoon balance chip artwork to 20x20px with contained aspect ratio and fixed flex sizing.
+- The 20px token now sits centered inside the chip's 32px minimum height instead of rendering at its source-image dimensions.
+- Extended mobile QA to measure the rendered icon size, chip height, vertical centering, and object-fit in Spoon Run, Badge, and Time Attack views at all four candidate widths.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 46 test files / 272 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA with spoon-chip geometry checks at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.679 - Meaningful Selected Pantry Jars
 
 - Completed Step 35 by resolving the selected Pantry jar from the active puzzle stage's Pantry shelf through a shared save helper.

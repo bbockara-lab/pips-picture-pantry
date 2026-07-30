@@ -59,6 +59,7 @@ for (const viewport of viewports) {
   const expectedRegularPlayLabel = await page.locator(".puzzle-home-scene__play").getAttribute("aria-label");
   await openFloatingView(page, "spoonRun", viewport.name);
   await expectVisible(page, ".spoon-run-view", viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Spoon Run");
   await expectSpoonRunFirstVisitGuide(page, viewport.name);
   await expectDailyRewardPolish(page, viewport.name);
   await expectTimeAttackNavigationEntry(page, viewport.name);
@@ -79,6 +80,7 @@ for (const viewport of viewports) {
   await expectVisible(page, ".puzzle-home-scene", viewport.name);
   await openFloatingView(page, "spoonRun", viewport.name);
   await expectVisible(page, ".spoon-run-view", viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Spoon Run replay");
   await expectReplayPicksPolish(page, viewport.name);
   await openFloatingView(page, "puzzle");
   await expectVisible(page, ".pack-block", viewport.name);
@@ -100,6 +102,7 @@ for (const viewport of viewports) {
   await expectNoSharedScreenHeader(page, viewport.name);
   await expectVisible(page, ".map-panel", viewport.name);
   await expectVisible(page, ".badge-shelf", viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Badge");
   await expectMapPolish(page, viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
 
@@ -108,6 +111,7 @@ for (const viewport of viewports) {
   await verifyPantryPlacement(page, viewport.name);
 
   await openFloatingView(page, "timeAttack", viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Time Attack");
   await expectNoHorizontalOverflow(page, viewport.name);
   await verifyTimeAttackExitRestoresRegularPuzzle(page, viewport.name, expectedRegularPlayLabel);
 
@@ -3039,4 +3043,27 @@ async function verifyPantryPlacement(page, viewportName) {
 
 async function expectNoSharedScreenHeader(page, viewportName) {
   await expectAbsent(page, '.top-bar', viewportName);
+}
+
+async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
+  const metrics = await page.locator(".spoon-balance-chip").evaluate((chip) => {
+    const icon = chip.querySelector(".spoon-icon");
+    const chipRect = chip.getBoundingClientRect();
+    const iconRect = icon?.getBoundingClientRect();
+    return {
+      chipHeight: chipRect.height,
+      iconWidth: iconRect?.width || 0,
+      iconHeight: iconRect?.height || 0,
+      centerDelta: iconRect ? Math.abs((iconRect.top + iconRect.height / 2) - (chipRect.top + chipRect.height / 2)) : 999,
+      objectFit: icon ? getComputedStyle(icon).objectFit : "missing"
+    };
+  });
+  if (Math.abs(metrics.iconWidth - 20) > 0.5
+    || Math.abs(metrics.iconHeight - 20) > 0.5
+    || metrics.chipHeight < 31
+    || metrics.chipHeight > 36
+    || metrics.centerDelta > 1
+    || metrics.objectFit !== "contain") {
+    failures.push("[" + viewportName + "] " + viewName + " spoon balance icon sizing regressed: " + JSON.stringify(metrics));
+  }
 }

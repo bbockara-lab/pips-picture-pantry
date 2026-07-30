@@ -18624,6 +18624,9 @@ body.guide-open {
 
 .spoon-balance-chip .spoon-icon {
   flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }
 /* v0.1.671 - explicit stage lock conditions */
 .unlock-panel__requirements {
