@@ -397,6 +397,10 @@ export const ko = {
     lockConditionPantry: "\ud32c\ud2b8\ub9ac \ubcd1 {count}\uac1c \ub354 \ud544\uc694",
     lockConditionPantryDone: "\ud32c\ud2b8\ub9ac \uc870\uac74 \ucda9\uc871 ✓"
   },
+  shelf: {
+    requiresPantryShelf: "'{shelf}' 선반 완성 필요",
+    pantryProgress: "현재 {current}/{total}개 보유"
+  },
   home: {
     sceneAria: "\ud54d\uc758 \ud37c\uc990\ubc29",
     destinationsAria: "\ubc14\ub85c \uac00\uae30",
@@ -477,6 +481,8 @@ export const ko = {
   },
   pantry: {
     title: "Pip\uC758 \uD32C\uD2B8\uB9AC",
+    shelfUnlocksStage: "완성하면 '{stage}' 스테이지가 열려요",
+    shelfStageUnlocked: "'{stage}' 스테이지 개방됨 ✓",
     spoonNote: "모아둔 스푼: {count}",
     roomAria: "Pip이 꾸민 팬트리",
     shopEyebrow: "꾸미기 팬트리",

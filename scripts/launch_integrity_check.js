@@ -49,6 +49,10 @@ function checkPackUnlockGuidance() {
   [
     "stage-gate-link",
     "getShelfLockConditions",
+    "getPantryShelfForSeasonShelf",
+    "getPaidJarProgressForPantryShelf",
+    "t(\"shelf.requiresPantryShelf\"",
+    "t(\"shelf.pantryProgress\"",
     "appendLockCondition(requirements, \"Puzzle\"",
     "appendLockCondition(requirements, \"Pantry\"",
     "isSeasonShelfComplete(previousShelf",
@@ -79,7 +83,11 @@ function checkPackUnlockGuidance() {
       "lockConditionPuzzle",
       "lockConditionPuzzleDone",
       "lockConditionPantry",
-      "lockConditionPantryDone"
+      "lockConditionPantryDone",
+      "requiresPantryShelf",
+      "pantryProgress",
+      "shelfUnlocksStage",
+      "shelfStageUnlocked"
     ].forEach((needle) => expectIncludes(file, needle));
     ["unlockCostPrefix", "openStage"].forEach((needle) => expectExcludes(file, needle, "retired stage spoon unlock translation"));
   });
@@ -98,6 +106,11 @@ function checkPackUnlockGuidance() {
   expectExcludes("src/game/save.js", "export function canUnlockShelf", "retired manual shelf unlock predicate");
   expectRegex("src/game/save.js", /isSeasonShelfComplete\(previousShelf, getCompletedPuzzleIds\(\)\)[\s\S]*getShelfPantryRoomRequirement\(shelf\)\.met/, "automatic puzzle and Pantry shelf gate");
   expectExcludes("src/ui/appShell.js", "onUnlockShelf", "manual stage unlock callback");
+  expectIncludes("src/ui/pantryView.js", "getSeasonShelvesForPantryShelf", "Pantry shelf stage mapping");
+  expectIncludes("src/ui/pantryView.js", "linkedStages.every(isShelfUnlocked)", "Pantry shelf open-state badge");
+  expectIncludes("src/ui/pantryView.js", "pantry.shelfStageUnlocked", "opened stage badge copy");
+  expectIncludes("src/data/stagePantryLinks.js", "PAID_JARS_PER_SHELF = 5", "five paid jars per Pantry shelf mapping");
+  expectIncludes("tests/stagePantryLinks.test.js", "maps all eight paid Pantry shelves", "Pantry-stage mapping regression test");
 }
 function checkReplayCleanRewardPath() {
   expectIncludes("src/ui/puzzleView.js", "clean: isReplayClean(replayCleanStatus)", "replay reward clean parameter");

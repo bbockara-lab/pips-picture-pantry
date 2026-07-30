@@ -1,5 +1,6 @@
 import { JAR_SHELVES, PANTRY_JARS, getJarsByShelf } from "../data/pantryJars.js";
 import { getJarArtUrl } from "../data/jarArt.js";
+import { getSeasonShelvesForPantryShelf } from "../data/stagePantryLinks.js";
 import {
   buyJar,
   ensureStarterJars,
@@ -7,6 +8,7 @@ import {
   getOwnedJarIds,
   getPaidJarCount,
   getPantrySpoons,
+  isShelfUnlocked,
   setEquippedJar
 } from "../game/save.js";
 import { t } from "../i18n/index.js";
@@ -110,8 +112,25 @@ function renderShelf(shelf, ownedIds, equippedJars, onOpen) {
   section.className = "pantry-shelf" + (isPaidShelfComplete(shelf.id, ownedIds) ? " complete" : "");
   section.dataset.shelfId = shelf.id;
   section.style.setProperty("--shelf-progress", String(ownedCount));
-  appendTextElement(section, "h3", "pantry-shelf__title", t(shelf.nameKey));
-  appendTextElement(section, "span", "pantry-shelf__progress", ownedCount + " / " + shelfJars.length);
+  const heading = document.createElement("div");
+  heading.className = "pantry-shelf__heading";
+  appendTextElement(heading, "h3", "pantry-shelf__title", t(shelf.nameKey));
+  appendTextElement(heading, "span", "pantry-shelf__progress", ownedCount + " / " + shelfJars.length);
+  section.appendChild(heading);
+
+  const linkedStages = getSeasonShelvesForPantryShelf(shelf.id);
+  const linkedStageNames = linkedStages.map((stage) => t(stage.titleKey)).join(" + ");
+  const linkedStagesOpen = linkedStages.length > 0 && linkedStages.every(isShelfUnlocked);
+  const connection = appendTextElement(
+    section,
+    "p",
+    `pantry-shelf__stage-link ${linkedStagesOpen ? "is-open" : "is-pending"}`,
+    t(linkedStagesOpen ? "pantry.shelfStageUnlocked" : "pantry.shelfUnlocksStage", {
+      stage: linkedStageNames
+    })
+  );
+  connection.setAttribute("aria-live", "polite");
+
   const row = document.createElement("div");
   row.className = "pantry-shelf__jars";
   getJarsByShelf(shelf.id).forEach((jar) => {

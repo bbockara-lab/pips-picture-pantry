@@ -3,6 +3,7 @@ import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop
 import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, seasonShelves } from "../data/seasonShelves.js";
 import { PANTRY_JARS } from "../data/pantryJars.js";
+import { getPaidJarProgressForPantryShelf, getPantryShelfForSeasonShelf } from "../data/stagePantryLinks.js";
 import { ECONOMY } from "../data/economyConfig.js";
 import { getCompletedPuzzleIds, getOwnedJarIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
@@ -420,6 +421,10 @@ export function getShelfLockConditions(shelf, completedPuzzleIds = getCompletedP
   const previousPuzzles = previousShelf ? getSeasonShelfPuzzles(previousShelf) : [];
   const puzzleRemaining = previousPuzzles.filter((puzzle) => !completed.has(puzzle.id)).length;
   const roomRequirement = getShelfPantryRoomRequirement(shelf);
+  const pantryShelf = getPantryShelfForSeasonShelf(shelf);
+  const pantryShelfProgress = pantryShelf
+    ? getPaidJarProgressForPantryShelf(pantryShelf.id, getOwnedJarIds())
+    : { current: 0, total: 0, complete: true };
   return {
     puzzle: {
       met: Boolean(previousShelf) && isSeasonShelfComplete(previousShelf, [...completed]),
@@ -427,13 +432,37 @@ export function getShelfLockConditions(shelf, completedPuzzleIds = getCompletedP
     },
     pantry: {
       met: roomRequirement.met,
-      remaining: roomRequirement.remaining
+      remaining: roomRequirement.remaining,
+      shelf: pantryShelf,
+      progress: pantryShelfProgress
     },
     roomRequirement
   };
 }
 
 function appendLockCondition(parent, type, condition) {
+  if (type === "Pantry" && condition.shelf) {
+    const row = document.createElement("div");
+    row.className = `unlock-panel__condition unlock-panel__condition--pantry ${condition.met ? "is-met" : "is-unmet"}`;
+    row.dataset.condition = "pantry";
+    appendTextElement(
+      row,
+      "p",
+      "unlock-panel__condition-title",
+      `${condition.met ? "✓" : "🏺"} ${t("shelf.requiresPantryShelf", { shelf: t(condition.shelf.nameKey) })}`
+    );
+    appendTextElement(
+      row,
+      "p",
+      "unlock-panel__condition-progress",
+      t("shelf.pantryProgress", {
+        current: condition.progress.current,
+        total: condition.progress.total
+      })
+    );
+    parent.appendChild(row);
+    return row;
+  }
   const key = condition.met
     ? `shelves.lockCondition${type}Done`
     : `shelves.lockCondition${type}`;

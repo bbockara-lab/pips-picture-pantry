@@ -419,6 +419,10 @@ export const en = {
     lockConditionPantry: "Own {count} more paid Pantry jar(s)",
     lockConditionPantryDone: "Pantry requirement met ✓"
   },
+  shelf: {
+    requiresPantryShelf: "Complete the '{shelf}' shelf",
+    pantryProgress: "Currently own {current}/{total}"
+  },
   packs: {
     free: "Included",
     unlockable: "Unlockable",
@@ -478,6 +482,8 @@ export const en = {
   },
   pantry: {
     title: "Pip's Pantry",
+    shelfUnlocksStage: "Complete this shelf to open {stage}",
+    shelfStageUnlocked: "{stage} opened ✓",
     spoonNote: "Saved spoons: {count}",
     roomAria: "Pip's decorated pantry",
     shopEyebrow: "Decoration pantry",

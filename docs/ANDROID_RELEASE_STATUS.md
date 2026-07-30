@@ -1,3 +1,11 @@
+## 2026-07-30 v0.1.673 Pantry shelf and puzzle stage connections
+
+- Current package/UI candidate: v0.1.673.
+- All eight paid Pantry shelves now identify the puzzle stage or paired stages they gate and show pending versus fully opened status.
+- The next locked stage names its required Pantry shelf and reports shelf-local paid-jar progress out of five alongside the previous-stage puzzle condition.
+- The shared mapping and functional coverage protect all eight shelf-to-stage relationships. Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 43 test files / 253 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## 2026-07-30 v0.1.672 automatic stage gates and spoon rebalance
 
 - Current package/UI candidate: v0.1.672.

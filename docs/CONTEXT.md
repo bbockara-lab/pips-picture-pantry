@@ -1,3 +1,12 @@
+## v0.1.673 - Pantry Shelf and Puzzle Stage Connections
+
+- Completed Step 29 by linking all eight paid Pantry jar shelves to their exact puzzle-stage gates from the existing `pantryRoomStepRequired` model.
+- Every Pantry shelf now shows a compact pending/opened stage badge. Paired gates name both stages and switch to the quieter opened state only after all linked stages are available.
+- The next locked puzzle stage now names the exact Pantry shelf it needs and shows shelf-local paid-jar progress such as 3/5, while retaining the separate previous-stage puzzle condition from Step 27.
+- Added a shared mapping module, full eight-shelf mapping coverage, shelf-local progress tests, and launch-integrity guards so Pantry and puzzle guidance cannot drift apart.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 43 test files / 253 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.672 - Automatic Stage Gates and Spoon Rebalance
 
 - Completed Step 28 by removing stage-entry spoon charges and the manual unlock action. Stages now open automatically when the previous stage is complete and the cumulative paid-Pantry-jar requirement is met.

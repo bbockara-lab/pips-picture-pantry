@@ -31,7 +31,7 @@ describe("stage lock condition guidance", () => {
 
     expect(getShelfLockConditions(nextShelf, [])).toEqual(expect.objectContaining({
       puzzle: { met: false, remaining: previousPuzzleIds.length },
-      pantry: { met: false, remaining: 5 }
+      pantry: expect.objectContaining({ met: false, remaining: 5, shelf: expect.objectContaining({ id: "jam" }), progress: { current: 0, total: 5, complete: false } })
     }));
 
     const paidJarIds = PANTRY_JARS.filter((jar) => jar.cost > 0).slice(0, 5).map((jar) => jar.id);
@@ -39,7 +39,7 @@ describe("stage lock condition guidance", () => {
 
     expect(getShelfLockConditions(nextShelf, previousPuzzleIds)).toEqual(expect.objectContaining({
       puzzle: { met: true, remaining: 0 },
-      pantry: { met: true, remaining: 0 }
+      pantry: expect.objectContaining({ met: true, remaining: 0, shelf: expect.objectContaining({ id: "jam" }), progress: { current: 5, total: 5, complete: true } })
     }));
   });
 });

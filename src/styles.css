@@ -18655,3 +18655,58 @@ body.guide-open {
   background: rgba(255, 241, 231, 0.82);
   color: #8a4639;
 }
+/* v0.1.673 - Pantry shelf and stage connections */
+.pantry-shelf__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 4px 7px;
+}
+.pantry-shelf__heading .pantry-shelf__title {
+  min-width: 0;
+  margin: 0;
+}
+.pantry-shelf__progress {
+  flex: 0 0 auto;
+  color: var(--jar-muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.pantry-shelf__stage-link {
+  align-self: flex-start;
+  max-width: calc(100% - 8px);
+  margin: 0 4px 8px;
+  padding: 6px 10px;
+  border: 1px solid rgba(183, 121, 32, 0.28);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 248, 211, 0.96), rgba(255, 238, 184, 0.88));
+  color: #7b4d18;
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+.pantry-shelf__stage-link.is-pending::before {
+  content: "🧩 ";
+}
+.pantry-shelf__stage-link.is-open {
+  border-color: rgba(86, 116, 91, 0.18);
+  background: rgba(232, 238, 224, 0.72);
+  color: #6d796c;
+}
+.unlock-panel__condition--pantry {
+  display: grid;
+  align-content: center;
+  gap: 2px;
+}
+.unlock-panel__condition-title,
+.unlock-panel__condition-progress {
+  margin: 0;
+}
+.unlock-panel__condition-progress {
+  padding-left: 1.45rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  opacity: 0.82;
+}
