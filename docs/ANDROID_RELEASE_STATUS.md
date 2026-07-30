@@ -1,3 +1,10 @@
+## 2026-07-30 v0.1.674 complete and future puzzle stage roadmap
+
+- Current package/UI candidate: v0.1.674.
+- Completed stages remain collapsed by default and now show an explicit green completion pill.
+- The puzzle picker exposes every future locked stage with its exact puzzle-size mix, representative blurred puzzle silhouettes, and localized teaser copy while preserving the previous-stage and exact Pantry-shelf gates.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 44 test files / 257 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-30 v0.1.673 Pantry shelf and puzzle stage connections
 
 - Current package/UI candidate: v0.1.673.

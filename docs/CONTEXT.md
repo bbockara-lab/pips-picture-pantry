@@ -1,3 +1,12 @@
+## v0.1.674 - Complete and Future Puzzle Stage Roadmap
+
+- Completed Step 30 by keeping completed puzzle stages collapsed by default while adding a clear green completion pill to each completed stage header.
+- The puzzle picker now exposes the full future stage roadmap instead of only the immediate next locked stage.
+- Every locked stage shows its exact puzzle-size mix, three blurred silhouettes derived from real puzzles in that stage, and a localized teaser without revealing puzzle titles.
+- Existing previous-stage and exact Pantry-shelf lock conditions remain intact, including paid-jar progress and Pantry navigation.
+- Added focused roadmap regression coverage and launch-integrity guards for full locked-stage visibility, teaser derivation, silhouette previews, and completion status.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 44 test files / 257 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.673 - Pantry Shelf and Puzzle Stage Connections
 
 - Completed Step 29 by linking all eight paid Pantry jar shelves to their exact puzzle-stage gates from the existing `pantryRoomStepRequired` model.

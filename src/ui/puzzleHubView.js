@@ -1,7 +1,7 @@
 import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
 import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-v1.webp";
 import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
-import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, seasonShelves } from "../data/seasonShelves.js";
+import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, getSeasonShelfSizeCounts, seasonShelves } from "../data/seasonShelves.js";
 import { PANTRY_JARS } from "../data/pantryJars.js";
 import { getPaidJarProgressForPantryShelf, getPantryShelfForSeasonShelf } from "../data/stagePantryLinks.js";
 import { ECONOMY } from "../data/economyConfig.js";
@@ -10,6 +10,7 @@ import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
 import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
 import { getPreviousSeasonShelf, isSeasonShelfComplete } from "../game/seasonShelfProgress.js";
+import { renderColoredPuzzleArt } from "./coloredPuzzleArt.js";
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -318,6 +319,16 @@ export function getShelfCollapsedState(shelfId, isComplete, collapseOverrides = 
   return Boolean(isComplete);
 }
 
+export function getShelfTeaserKey(shelf) {
+  return `${shelf?.titleKey || ""}Teaser`;
+}
+
+export function formatShelfPuzzleSummary(shelf) {
+  return Object.entries(getSeasonShelfSizeCounts(shelf))
+    .map(([size, count]) => t("puzzlePicker.sizeCount", { size, count }))
+    .join(" · ");
+}
+
 export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {}) {
   const {
     shelfCollapseOverrides = new Map(),
@@ -342,17 +353,21 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {})
     const unlocked = isShelfUnlocked(shelf);
     const isStageComplete = shelfPuzzles.length > 0 && completeCount >= shelfPuzzles.length;
     if (!unlocked) {
-      const previousShelf = getPreviousSeasonShelf(shelf);
-      if (!previousShelf || !isShelfUnlocked(previousShelf)) return;
-
       const lockedBlock = document.createElement("article");
       lockedBlock.className = "pack-block pack-block--locked";
       lockedBlock.dataset.shelfId = shelf.id;
       lockedBlock.dataset.locked = "true";
       const lockedHeader = document.createElement("div");
       lockedHeader.className = "pack-header";
-      appendTextElement(lockedHeader, "p", "section-label", t(shelf.titleKey));
-      lockedBlock.append(lockedHeader, createUnlockPanel(shelf, onOpenPantry));
+      appendTextElement(lockedHeader, "p", "section-label", `🔒 ${t(shelf.titleKey)}`);
+      const preview = document.createElement("div");
+      preview.className = "locked-stage-preview";
+      shelfPuzzles.slice(0, 3).forEach((puzzle) => {
+        preview.appendChild(renderColoredPuzzleArt(puzzle, { className: "locked-stage-preview__art" }));
+      });
+      appendTextElement(lockedBlock, "p", "locked-stage-summary", formatShelfPuzzleSummary(shelf));
+      appendTextElement(lockedBlock, "p", "locked-stage-teaser", t(getShelfTeaserKey(shelf)));
+      lockedBlock.append(lockedHeader, preview, createUnlockPanel(shelf, onOpenPantry));
       section.appendChild(lockedBlock);
       return;
     }
@@ -369,6 +384,9 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {})
     header.className = "pack-header";
     const headerCopy = document.createElement("div");
     appendTextElement(headerCopy, "p", "section-label", t(shelf.titleKey));
+    if (isStageComplete) {
+      appendTextElement(headerCopy, "span", "pack-stage-complete-badge", `✓ ${t("puzzlePicker.stageComplete")}`);
+    }
     header.append(headerCopy, createShelfCollapseToggle(shelf, collapsed, contentId, onToggleShelfCollapsed));
     packBlock.appendChild(header);
 

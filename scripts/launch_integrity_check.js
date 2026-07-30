@@ -56,7 +56,6 @@ function checkPackUnlockGuidance() {
     "appendLockCondition(requirements, \"Puzzle\"",
     "appendLockCondition(requirements, \"Pantry\"",
     "isSeasonShelfComplete(previousShelf",
-    "if (!previousShelf || !isShelfUnlocked(previousShelf)) return",
     "if (!lockConditions.pantry.met)",
     "t(\"packs.visitPantry\")"
   ].forEach((needle) => expectIncludes(hub, needle));
@@ -111,6 +110,11 @@ function checkPackUnlockGuidance() {
   expectIncludes("src/ui/pantryView.js", "pantry.shelfStageUnlocked", "opened stage badge copy");
   expectIncludes("src/data/stagePantryLinks.js", "PAID_JARS_PER_SHELF = 5", "five paid jars per Pantry shelf mapping");
   expectIncludes("tests/stagePantryLinks.test.js", "maps all eight paid Pantry shelves", "Pantry-stage mapping regression test");
+  expectExcludes(hub, "if (!previousShelf || !isShelfUnlocked(previousShelf)) return;", "next-locked-stage-only filter");
+  expectIncludes(hub, "locked-stage-preview", "future stage silhouettes");
+  expectIncludes(hub, "pack-stage-complete-badge", "completed stage badge");
+  expectIncludes(hub, "getShelfTeaserKey", "stage teaser key derivation");
+  expectIncludes("tests/puzzleStageRoadmap.test.js", "renders every locked stage", "full future stage roadmap regression test");
 }
 function checkReplayCleanRewardPath() {
   expectIncludes("src/ui/puzzleView.js", "clean: isReplayClean(replayCleanStatus)", "replay reward clean parameter");
