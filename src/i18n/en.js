@@ -14,8 +14,13 @@ export const en = {
     continue: "Continue",
     defaultName: "Friend"
   },
+  spoonRun: {
+    eyebrow: "Spoon runs",
+    intro: "Play today's picture or revisit a favorite to earn more spoons."
+  },
   views: {
     puzzle: "Puzzle",
+    spoonRun: "Earn Spoons",
     album: "Album",
     pantry: "Pip's Pantry",
     map: "Badges",

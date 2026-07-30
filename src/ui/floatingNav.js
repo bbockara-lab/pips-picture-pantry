@@ -4,6 +4,7 @@ import { hasSeenGuide } from "../game/save.js";
 
 const NAV_ITEMS = [
   ["puzzle", "home.sceneAria"],
+  ["spoonRun", "views.spoonRun"],
   ["album", "views.album"],
   ["pantry", "views.pantry"],
   ["timeAttack", "views.timeAttack"],

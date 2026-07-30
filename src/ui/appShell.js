@@ -30,10 +30,9 @@ import { getNextPantryGuideId } from "./pantryGuideFlow.js";
 import { getControlModePreference, getHideCompletedStagesPreference, setControlModePreference, setHideCompletedStagesPreference } from "./preferences.js";
 import {
   getStageNavigation,
-  renderDailyCard,
   renderPuzzleHub,
   renderPuzzlePicker,
-  renderReplayPicksCard
+  renderSpoonRunView
 } from "./puzzleHubView.js";
 import { renderPlayScreen } from "./playScreen.js";
 import { renderFloatingNav } from "./floatingNav.js";
@@ -746,6 +745,21 @@ function createShell({
       lastResult: timeAttackLastResult,
       onStart: onStartTimeAttack
     }));
+  } else if (activeView === "spoonRun") {
+    shell.appendChild(renderSpoonRunView({
+      dailyPuzzle,
+      activePuzzleId: activePuzzle.id,
+      replayPicks: getDailyReplayPicks({
+        allPuzzles: getDailyPuzzleCandidates(),
+        completedPuzzleIds: getCompletedPuzzleIds()
+      }),
+      completedDate: getDailyCompletedDate(),
+      today: getDailyDateKey(),
+      dailyCount: getReplayDailyCount(),
+      dailyLimit: ECONOMY.REPLAY_PICK_DAILY_LIMIT,
+      onSelectDaily: (puzzleId) => onSelectPuzzle(puzzleId, "puzzle", { dailyChallenge: true }),
+      onSelectReplay: (puzzleId) => onSelectPuzzle(puzzleId, "puzzle", { replayChallenge: true })
+    }));
   } else if (puzzleListOpen) {
     shell.appendChild(renderPuzzlePicker(activePuzzle.id, onSelectPuzzle, onUnlockShelf, {
       hideCompletedStages,
@@ -761,34 +775,6 @@ function createShell({
       onOpenSettings: onRequestSettings
     }));
 
-    const hubCards = document.createElement("div");
-    hubCards.className = "puzzle-hub-cards";
-    hubCards.appendChild(renderDailyCard(
-      dailyPuzzle,
-      activePuzzle.id,
-      (puzzleId) => onSelectPuzzle(puzzleId, "puzzle", { dailyChallenge: true }),
-      {
-        completedDate: getDailyCompletedDate(),
-        today: getDailyDateKey()
-      }
-    ));
-    const replayPicksCard = renderReplayPicksCard(
-      getDailyReplayPicks({
-        allPuzzles: getDailyPuzzleCandidates(),
-        completedPuzzleIds: getCompletedPuzzleIds()
-      }),
-      activePuzzle.id,
-      onSelectPuzzle,
-      {
-        dailyCount: getReplayDailyCount(),
-        dailyLimit: ECONOMY.REPLAY_PICK_DAILY_LIMIT,
-        onReplayPick: (puzzleId) => onSelectPuzzle(puzzleId, "puzzle", { replayChallenge: true })
-      }
-    );
-    if (replayPicksCard) {
-      hubCards.appendChild(replayPicksCard);
-    }
-    shell.appendChild(hubCards);
   }
 
   if (resetOpen) {

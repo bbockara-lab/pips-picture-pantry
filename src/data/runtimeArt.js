@@ -6,6 +6,7 @@ const APPROVED_GUIDE_ART_IDS = new Set([
 ]);
 const APPROVED_STUDIO_BUMPER_ART_IDS = new Set(["sunny-spoon-studios-bumper-v1"]);
 const APPROVED_QUICK_TRAVEL_ART_IDS = new Set([
+  "spoon-token-v2",
   "workshop-nav-puzzle-v3",
   "workshop-nav-album-v3",
   "workshop-nav-pantry-v3",

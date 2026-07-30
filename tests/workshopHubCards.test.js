@@ -4,27 +4,28 @@ import { describe, expect, it } from "vitest";
 const appShellSource = readFileSync(new URL("../src/ui/appShell.js", import.meta.url), "utf8");
 const puzzleHubSource = readFileSync(new URL("../src/ui/puzzleHubView.js", import.meta.url), "utf8");
 const floatingNavSource = readFileSync(new URL("../src/ui/floatingNav.js", import.meta.url), "utf8");
+const quickTravelSource = readFileSync(new URL("../src/data/quickTravelArt.js", import.meta.url), "utf8");
 const styles = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
 
 describe("Workshop supporting cards wiring", () => {
-  it("renders Daily and completed-puzzle replay cards below the Workshop scene", () => {
-    expect(appShellSource).toContain("renderDailyCard(");
+  it("moves Daily and replay cards into the Spoon Run view", () => {
+    expect(puzzleHubSource).toContain("export function renderSpoonRunView");
+    expect(puzzleHubSource).toContain("renderDailyCard(");
+    expect(puzzleHubSource).toContain("renderReplayPicksCard(");
+    expect(appShellSource).toContain('activeView === "spoonRun"');
+    expect(appShellSource).toContain("renderSpoonRunView({");
     expect(appShellSource).toContain('{ dailyChallenge: true }');
-    expect(appShellSource).toContain("completedDate: getDailyCompletedDate()");
-    expect(appShellSource).toContain("today: getDailyDateKey()");
+    expect(appShellSource).toContain('{ replayChallenge: true }');
+    expect(appShellSource).not.toContain('hubCards.className = "puzzle-hub-cards"');
     expect(appShellSource).not.toContain("renderTimeAttackTeaserCard");
-    expect(puzzleHubSource).not.toContain("renderTimeAttackTeaserCard");
-    expect(appShellSource).toContain("getDailyReplayPicks({");
-    expect(appShellSource).toContain("completedPuzzleIds: getCompletedPuzzleIds()");
-    expect(appShellSource).toContain('onSelectPuzzle(puzzleId, "puzzle", { replayChallenge: true })');
-    expect(appShellSource).toContain('hubCards.className = "puzzle-hub-cards"');
-    expect(appShellSource).toContain("shell.appendChild(hubCards)");
   });
 
-  it("removes the teaser while preserving the existing Time Attack navigation entries", () => {
-    expect(puzzleHubSource).toContain('["timeAttack", "home.timeAttackLabel"');
+  it("replaces the Workshop Time Attack shortcut while retaining Time Attack in floating navigation", () => {
+    expect(puzzleHubSource).toContain('["spoonRun", "views.spoonRun"');
+    expect(puzzleHubSource).not.toContain('["timeAttack", "home.timeAttackLabel"');
+    expect(floatingNavSource).toContain('["spoonRun", "views.spoonRun"]');
     expect(floatingNavSource).toContain('["timeAttack", "views.timeAttack"]');
-    expect(appShellSource).toContain('activeView === "timeAttack"');
+    expect(quickTravelSource).toContain('spoonRun: { assetId: "spoon-token-v2"');
   });
 
   it("keeps completion Next inside the replay pool and returns to its card when exhausted", () => {
@@ -35,9 +36,9 @@ describe("Workshop supporting cards wiring", () => {
     expect(appShellSource).toContain('? ".replay-picks-card"');
   });
 
-  it("keeps the restored cards inset and clear of the bottom safe area", () => {
+  it("keeps Spoon Run cards inset and clear of the bottom safe area", () => {
     expect(styles).toMatch(
-      /\.puzzle-hub-cards\s*\{[\s\S]*?padding:\s*14px 14px calc\(max\(env\(safe-area-inset-bottom,\s*0px\),\s*16px\) \+ 120px\);/
+      /\.spoon-run-view\s*\{[\s\S]*?padding:\s*18px 18px calc\(max\(env\(safe-area-inset-bottom,\s*0px\),\s*18px\) \+ 112px\);/
     );
   });
 });

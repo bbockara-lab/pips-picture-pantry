@@ -114,7 +114,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     ["puzzle", "home.pictureList", onShowList],
     ["album", "home.albumLabel", () => onSelectView("album")],
     ["pantry", "home.pantryLabel", () => onSelectView("pantry")],
-    ["timeAttack", "home.timeAttackLabel", () => onSelectView("timeAttack")],
+    ["spoonRun", "views.spoonRun", () => onSelectView("spoonRun")],
     ["map", "home.mapLabel", () => onSelectView("map")]
   ];
   const completedIds = new Set(getCompletedPuzzleIds());
@@ -265,6 +265,54 @@ export function renderReplayPicksCard(replayPicks, activePuzzleId, onSelectPuzzl
   return card;
 }
 
+export function renderSpoonRunView({
+  dailyPuzzle,
+  activePuzzleId,
+  replayPicks,
+  completedDate,
+  today,
+  dailyCount,
+  dailyLimit,
+  onSelectDaily = () => {},
+  onSelectReplay = () => {}
+}) {
+  const view = document.createElement("section");
+  view.className = "spoon-run-view content-panel";
+
+  const header = document.createElement("header");
+  header.className = "spoon-run-view__header";
+  const icon = document.createElement("img");
+  icon.src = spoonTokenUrl;
+  icon.alt = "";
+  icon.setAttribute("aria-hidden", "true");
+  icon.dataset.assetId = "spoon-token-v2";
+  const copy = document.createElement("div");
+  appendTextElement(copy, "p", "section-label", t("spoonRun.eyebrow"));
+  appendTextElement(copy, "h1", "", t("views.spoonRun"));
+  appendTextElement(copy, "p", "spoon-run-view__intro", t("spoonRun.intro"));
+  header.append(icon, copy);
+
+  const cards = document.createElement("div");
+  cards.className = "spoon-run-view__cards";
+  cards.appendChild(renderDailyCard(
+    dailyPuzzle,
+    activePuzzleId,
+    onSelectDaily,
+    { completedDate, today }
+  ));
+  const replayCard = renderReplayPicksCard(
+    replayPicks,
+    activePuzzleId,
+    onSelectReplay,
+    { dailyCount, dailyLimit, onReplayPick: onSelectReplay }
+  );
+  if (replayCard) {
+    cards.appendChild(replayCard);
+  }
+
+  view.append(header, cards);
+  return view;
+}
 export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockShelf, options = {}) {
   const {
     hideCompletedStages = false,

@@ -17876,19 +17876,6 @@ img {
   min-height: 100svh;
 }
 
-.puzzle-hub-cards {
-  display: grid;
-  width: min(100%, 560px);
-  gap: 12px;
-  margin: 0 auto;
-  padding: 14px 14px calc(max(env(safe-area-inset-bottom, 0px), 16px) + 120px);
-  background: #fff8e8;
-}
-
-.puzzle-hub-cards > * {
-  width: 100%;
-  margin: 0;
-}
 
 
 /* PANTRY JAR SYSTEM v0.1.636 */
@@ -18672,4 +18659,62 @@ body.guide-open {
   .badge-shelf__slots {
     gap: 8px;
   }
+}
+
+
+.app-shell--workshop-home .puzzle-home-destination--spoonRun {
+  top: 44%;
+  left: 4%;
+}
+
+.app-shell--workshop-home .puzzle-home-destination--spoonRun img {
+  animation: puzzle-home-icon-float-a 3.4s ease-in-out infinite;
+}
+
+/* v0.1.652 - Spoon Run consolidates Daily and Replay away from Workshop home. */
+.spoon-run-view {
+  display: grid;
+  width: min(calc(100% - 28px), 560px);
+  gap: 18px;
+  margin: 14px auto 0;
+  padding: 18px 18px calc(max(env(safe-area-inset-bottom, 0px), 18px) + 112px);
+}
+
+.spoon-run-view__header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 2px solid rgba(102, 72, 50, 0.2);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 250, 225, 0.98), rgba(250, 224, 139, 0.82));
+  box-shadow: 0 5px 0 rgba(103, 69, 43, 0.12), 0 12px 24px rgba(110, 75, 44, 0.1);
+}
+
+.spoon-run-view__header img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 5px rgba(120, 75, 18, 0.2));
+}
+
+.spoon-run-view__header h1,
+.spoon-run-view__header p {
+  margin: 0;
+}
+
+.spoon-run-view__intro {
+  margin-top: 4px !important;
+  color: #6a4a3c;
+  line-height: 1.45;
+}
+
+.spoon-run-view__cards {
+  display: grid;
+  gap: 14px;
+}
+
+.spoon-run-view__cards > * {
+  width: 100%;
+  margin: 0;
 }

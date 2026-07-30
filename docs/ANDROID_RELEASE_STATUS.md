@@ -1,3 +1,11 @@
+## 2026-07-29 v0.1.652 Spoon Run integrated view
+
+- Current package/UI candidate: v0.1.652.
+- Added the Spoon Run view and navigation entry; Daily and Replay cards now live there instead of below Workshop home.
+- Time Attack remains available through floating navigation.
+- Android version remains versionCode 33 / versionName 1.1.5; no AAB was built for this step.
+- `npm run qa:candidate` passed: 38 test files / 222 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## 2026-07-29 v0.1.651 Workshop Time Attack card removal
 
 - Current package/UI candidate: v0.1.651.

@@ -57,6 +57,8 @@ for (const viewport of viewports) {
   }
   await expectPuzzleHomePolish(page, viewport.name);
   const expectedRegularPlayLabel = await page.locator(".puzzle-home-scene__play").getAttribute("aria-label");
+  await openFloatingView(page, "spoonRun", viewport.name);
+  await expectVisible(page, ".spoon-run-view", viewport.name);
   await expectDailyRewardPolish(page, viewport.name);
   await expectTimeAttackNavigationEntry(page, viewport.name);
   await expectResetDialogPolish(page, viewport.name);
@@ -74,6 +76,8 @@ for (const viewport of viewports) {
   await dismissIntro(page, "Jay", viewport.name);
   await dismissGuideIfPresent(page, viewport.name);
   await expectVisible(page, ".puzzle-home-scene", viewport.name);
+  await openFloatingView(page, "spoonRun", viewport.name);
+  await expectVisible(page, ".spoon-run-view", viewport.name);
   await expectReplayPicksPolish(page, viewport.name);
   await openFloatingView(page, "puzzle");
   await expectVisible(page, ".pack-block", viewport.name);
@@ -1040,7 +1044,7 @@ async function expectAlbumPolish(page, viewportName) {
 }
 
 async function verifyEmptyAlbumPlayNowFlow(page, viewportName) {
-  await page.locator(".puzzle-home-destination--album").click();
+  await openFloatingView(page, "album", viewportName);
   await expectVisible(page, ".album-empty", viewportName);
   const emptyAction = page.locator(".album-empty button");
   if ((await emptyAction.count()) !== 1) {
@@ -1626,7 +1630,7 @@ async function expectPuzzleHomePolish(page, viewportName) {
     const greetingWrapStyle = greetingWrap ? getComputedStyle(greetingWrap) : null;
     const greetingBubbleStyle = greetingBubble ? getComputedStyle(greetingBubble) : null;
     const primaryDestinationBoxes = destinations
-      .filter((button) => ["puzzle", "album", "timeAttack", "pantry"].includes(button.dataset.destination || ""))
+      .filter((button) => ["puzzle", "album", "spoonRun", "pantry"].includes(button.dataset.destination || ""))
       .map(boxOf);
     const settingsImage = settings?.querySelector("img");
     return {
@@ -1674,10 +1678,10 @@ async function expectPuzzleHomePolish(page, viewportName) {
       playAssetId: play?.querySelector("img")?.dataset.assetId || ""
     };
   });
-  const expected = ["puzzle", "album", "pantry", "timeAttack", "map"];
-  const expectedAssets = { puzzle: "workshop-nav-puzzle-v3", album: "workshop-nav-album-v3", pantry: "workshop-nav-pantry-v3", timeAttack: "workshop-nav-time-attack-v3", map: "workshop-nav-map-v3" };
+  const expected = ["puzzle", "album", "pantry", "spoonRun", "map"];
+  const expectedAssets = { puzzle: "workshop-nav-puzzle-v3", album: "workshop-nav-album-v3", pantry: "workshop-nav-pantry-v3", spoonRun: "spoon-token-v2", map: "workshop-nav-map-v3" };
   const hasStaleDestinationTreatment = metrics.destinationArt.some((art) => art.assetId !== expectedAssets[art.id] || art.backgroundColor !== "rgba(0, 0, 0, 0)" || art.borderTopWidth !== "0px" || art.boxShadow !== "none");
-  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.greetingGap > 5 || metrics.greetingFlexGap > 4 || metrics.greetingBubbleBorder < 2 || metrics.greetingBubbleRadius < 16 || metrics.greetingBubbleShadow === "none" || metrics.greetingBubbleBackground === "rgb(255, 255, 255)" || metrics.greetingOutsideScene || !metrics.primaryDestinationsBelowGreeting || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.hasHiddenDestinationLabel || metrics.playAssetId !== "puzzle-control-fill-v1" || metrics.supportingCardClasses.length < 1 || !metrics.supportingCardClasses.some((className) => className.includes("daily-card")) || metrics.supportingCardClasses.some((className) => className.includes("time-attack-teaser-card")) || !metrics.supportingCardsBelowScene || !metrics.supportingCardsWidthContained || metrics.supportingCardsPaddingBottom < 120 || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
+  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.greetingGap > 5 || metrics.greetingFlexGap > 4 || metrics.greetingBubbleBorder < 2 || metrics.greetingBubbleRadius < 16 || metrics.greetingBubbleShadow === "none" || metrics.greetingBubbleBackground === "rgb(255, 255, 255)" || metrics.greetingOutsideScene || !metrics.primaryDestinationsBelowGreeting || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.hasHiddenDestinationLabel || metrics.playAssetId !== "puzzle-control-fill-v1" || metrics.supportingCardClasses.length !== 0 || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
     failures.push("[" + viewportName + "] Puzzle workshop home/direct destinations regressed: " + JSON.stringify(metrics));
   }
 }
@@ -1699,7 +1703,7 @@ async function expectDailyRewardPolish(page, viewportName) {
 
 async function expectTimeAttackNavigationEntry(page, viewportName) {
   await expectAbsent(page, ".time-attack-teaser-card", viewportName);
-  const entries = page.locator(".puzzle-home-destination--timeAttack, .floating-nav__item--timeAttack");
+  const entries = page.locator(".floating-nav__item--timeAttack");
   const entryCount = await entries.count();
   const metrics = entryCount === 1
     ? await entries.first().evaluate((entry) => ({
@@ -1733,6 +1737,10 @@ async function openSettings(page) {
   if (await homeSettings.count()) {
     await homeSettings.click();
     return;
+  }
+  const trigger = page.locator(".floating-nav__trigger").first();
+  if (await trigger.count()) {
+    await trigger.click();
   }
   await chromeSettings.click();
 }
@@ -1774,6 +1782,9 @@ async function openFloatingView(page, view, viewportName = view) {
     puzzle: ".pack-block",
     timeAttack: ".time-attack-panel"
   };
+  if (view === "puzzle" && (await page.locator(".pack-block").count()) === 0) {
+    await page.locator(".puzzle-home-destination--puzzle").click();
+  }
   const selector = viewSelectors[view];
   if (selector) {
     await page.locator(selector).first().waitFor({ state: "visible", timeout: 5000 });

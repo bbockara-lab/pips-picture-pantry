@@ -1,3 +1,10 @@
+## v0.1.652 - Spoon Run Integrated View
+
+- Added `spoonRun` as a first-class view and floating navigation destination using the approved `spoon-token-v2` economy icon.
+- Moved Today's Picture and Replay Picks off the Workshop home into the focused Spoon Run view; the Workshop shortcut now replaces the former Time Attack shortcut.
+- Preserved Time Attack in floating navigation and retained the existing Daily/Replay reward and selection flows.
+- Updated responsive placement and mobile QA navigation helpers; `qa:candidate` passes 38 files / 222 tests plus 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.651 - Workshop Time Attack Card Removal
 
 - Removed the duplicate Time Attack teaser card and its dead renderer from the Workshop supporting-card stack.
