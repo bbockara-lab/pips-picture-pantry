@@ -22,5 +22,6 @@ describe("Pip completion scene", () => {
     expect(pipReactionSource).not.toContain("onViewAlbum");
     expect(pipReactionSource).not.toContain('t("completion.menu")');
     expect(pipReactionSource).not.toMatch(/replayChallenge\s*\?\s*t\("playScreen\.back"\)/);
+    expect(pipReactionSource).toContain("remaining: options.replayResult.remaining || 0");
   });
 });

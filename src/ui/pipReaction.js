@@ -74,7 +74,7 @@ function getCompletionBannerMessage(puzzle, options = {}) {
     return getCompletionMessage(puzzle);
   }
   if (options.replayResult?.rewardAllowed) {
-    return t("completion.replayReward", { count: options.replayResult.reward || 0 });
+    return t("completion.replayReward", { count: options.replayResult.reward || 0, remaining: options.replayResult.remaining || 0 });
   }
   return t("completion.replayNoReward");
 }

@@ -1,3 +1,10 @@
+## v0.1.654 - Spoon Run Replay Isolation
+
+- Completed Step 10 by separating the explicit Spoon Run pick flag from general replay/challenge mode, so only a card deliberately selected from Spoon Run can claim the clean-replay spoon reward.
+- Replay completion `Next Picture` remains inside the stable replay pool; after the final candidate it returns to the replay list in Spoon Run instead of entering the general unfinished-puzzle flow.
+- Successful replay feedback now shows both the awarded `+1` spoon and the number of replay rewards remaining today.
+- Full candidate verification passed: 38 test files / 223 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.653 - Daily Spoon Run Completion Continuity
 
 - Completed Step 9 by keeping Today's Picture completion inside Spoon Run: `Next Picture` now closes the Daily challenge and focuses the replay list instead of entering the general unfinished-puzzle flow.
@@ -28,12 +35,14 @@
 - Completion `Next picture` now stays inside the stable Daily replay-pick pool instead of falling through to the normal unfinished-puzzle selector.
 - Replay navigation moves forward without wrapping; after the last candidate it closes the challenge and returns to the replay card on the Workshop hub.
 - Verification passed: 38 test files / 220 tests, catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.648 - Daily Completion Isolation
 
 - Added a local-calendar Daily completion date that is stored separately from general `completedPuzzleIds`; the Daily card now shows complete only when its saved date matches today.
 - Daily entry now carries an explicit challenge context, starts from a fresh board even when the same picture was completed normally, and records completion only after that Daily run is solved.
 - Kept normal first-completion rewards separate while allowing the Daily bonus once per date; tomorrow naturally returns the Daily card to incomplete.
 - Verification passed: 38 test files / 218 tests, catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.641 - Badge Artwork Single-Surface Cleanup
 
 - Removed the earned-badge shelf from the shared app shell, so collected badge artwork is no longer persistently shown on Puzzle, Album, Pantry, Time Attack, or Settings surfaces.
@@ -355,6 +364,7 @@ pm run qa:candidate passed (182 tests, four mobile viewports); the fallback cand
 - Reset the legacy two-column icon grid inside each workshop destination, so the hidden accessibility label no longer consumes half of the ring. Approved destination art now uses the full button area instead of rendering as a thin, hard-to-find strip.
 - Mobile QA now enforces six 76px+ scene targets, large 72px+ rendered art, and a 96px+ primary Play target across all four required widths. This protects the deliberate visual hierarchy from future CSS cascade regressions.
 - Verification: `npm run qa:mobile`, 175 tests, and source hygiene pass at 360x740 / 390x844 / 430x932 / 675x900.
+
 ## v0.1.597 ? Shared-menu alignment
 
 - The non-home menu trigger now centers its current-route art and `�޴�` / `Menu` label as a single group instead of pinning the art against the left edge of a wide bar.

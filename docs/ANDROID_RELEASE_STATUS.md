@@ -1,3 +1,11 @@
+## 2026-07-29 v0.1.654 Spoon Run replay isolation
+
+- Current package/UI candidate: v0.1.654.
+- Explicit Spoon Run picks are now tracked separately from generic replay mode; only those picks can receive clean-replay rewards.
+- Replay exhaustion returns to the Spoon Run replay list, and successful completion reports `+1` spoon plus today's remaining reward count.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 38 test files / 223 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## 2026-07-29 v0.1.653 Daily Spoon Run completion continuity
 
 - Current package/UI candidate: v0.1.653.
@@ -32,12 +40,14 @@
 - Replay completion now advances only through the Daily replay pool and returns to its Workshop card when the pool is exhausted.
 - Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
 - Verification passed: 38 test files / 220 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## 2026-07-29 v0.1.648 Daily completion isolation
 
 - Current package/UI candidate: v0.1.648.
 - Daily completion is now tracked by local calendar date independently from general puzzle completion, including a fresh Daily board for previously completed pictures.
 - Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
 - Verification passed: 38 test files / 218 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## 2026-07-29 v0.1.641 Badge artwork single-surface cleanup
 
 - Current package/UI candidate: v0.1.641.

@@ -624,22 +624,34 @@ export function recordReplayReward({ puzzleId, clean = false, picked = false, da
     : [];
 
   if (!normalizedPuzzleId || !picked || !clean || !save.completedPuzzleIds.includes(normalizedPuzzleId)) {
-    return { reward: 0, rewardAllowed: false, reason: "not-eligible", dailyCount: rewardedToday.length };
+    return createReplayRewardResult(0, false, "not-eligible", rewardedToday.length);
   }
 
   if (rewardedToday.includes(normalizedPuzzleId)) {
-    return { reward: 0, rewardAllowed: false, reason: "already-claimed", dailyCount: rewardedToday.length };
+    return createReplayRewardResult(0, false, "already-claimed", rewardedToday.length);
   }
 
   if (rewardedToday.length >= getDailyReplayPickLimit()) {
-    return { reward: 0, rewardAllowed: false, reason: "daily-limit", dailyCount: rewardedToday.length };
+    return createReplayRewardResult(0, false, "daily-limit", rewardedToday.length);
   }
 
   const reward = getReplayPickReward();
   save.replayRewardedPuzzleIdsByDate[dateKey] = [...rewardedToday, normalizedPuzzleId];
   save.pantrySpoons += reward;
   saveGame(save);
-  return { reward, rewardAllowed: true, reason: "claimed", dailyCount: save.replayRewardedPuzzleIdsByDate[dateKey].length };
+  return createReplayRewardResult(reward, true, "claimed", save.replayRewardedPuzzleIdsByDate[dateKey].length);
+}
+
+function createReplayRewardResult(reward, rewardAllowed, reason, dailyCount) {
+  const dailyLimit = getDailyReplayPickLimit();
+  return {
+    reward,
+    rewardAllowed,
+    reason,
+    dailyCount,
+    dailyLimit,
+    remaining: Math.max(0, dailyLimit - dailyCount)
+  };
 }
 
 export function hasSeenGuide(guideId) {

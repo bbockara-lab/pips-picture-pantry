@@ -360,7 +360,7 @@ export const en = {
     menu: "Menu",
     nextPicture: "Next Picture",
     dailyReward: "Today's Picture complete! You earned +{count} spoons.",
-    replayReward: "Clean replay! You earned +{count} spoon.",
+    replayReward: "Clean replay! +{count} spoon. {remaining} replay rewards left today.",
     replayNoReward: "Replay complete. No spoon this time, but the card stayed safe."
   },
   stageComplete: {

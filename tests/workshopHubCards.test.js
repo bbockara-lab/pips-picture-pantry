@@ -15,7 +15,7 @@ describe("Workshop supporting cards wiring", () => {
     expect(appShellSource).toContain('activeView === "spoonRun"');
     expect(appShellSource).toContain("renderSpoonRunView({");
     expect(appShellSource).toContain('{ dailyChallenge: true }');
-    expect(appShellSource).toContain('{ replayChallenge: true }');
+    expect(appShellSource).toContain('{ replayChallenge: true, replayPicked: true }');
     expect(appShellSource).not.toContain('hubCards.className = "puzzle-hub-cards"');
     expect(appShellSource).not.toContain("renderTimeAttackTeaserCard");
   });
@@ -31,9 +31,14 @@ describe("Workshop supporting cards wiring", () => {
   it("keeps completion Next inside the replay pool and returns to its card when exhausted", () => {
     expect(appShellSource).toContain("if (replayChallenge)");
     expect(appShellSource).toContain("getNextDailyReplayPick(replayPicks, activePuzzle.id)");
-    expect(appShellSource).toContain('{ replayChallenge: true }');
+    expect(appShellSource).toContain('{ replayChallenge: true, replayPicked: true }');
+    expect(appShellSource).toContain('activeView = "spoonRun"');
     expect(appShellSource).toContain('pendingScrollTarget = "replay"');
     expect(appShellSource).toContain('? ".replay-picks-card"');
+    expect(appShellSource).toContain("let replayPicked = false");
+    expect(appShellSource).toContain("replayPicked = Boolean(options.replayPicked)");
+    expect(appShellSource).toContain("replayPicked,");
+    expect(appShellSource).not.toContain("replayPicked: replayChallenge");
   });
 
   it("returns Daily completion to the replay list inside Spoon Run", () => {

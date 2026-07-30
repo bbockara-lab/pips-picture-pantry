@@ -67,6 +67,7 @@ export function renderApp(root) {
   let preTimeAttackPuzzle = null;
   let activeGuide = null;
   let replayChallenge = false;
+  let replayPicked = false;
   let dailyChallenge = false;
   let cozySupportState = createDefaultCozySupportState();
   let cozySupportRequestId = 0;
@@ -81,6 +82,7 @@ export function renderApp(root) {
 
     activePuzzle = nextPuzzle;
     replayChallenge = Boolean(options.replayChallenge);
+    replayPicked = Boolean(options.replayPicked);
     dailyChallenge = Boolean(options.dailyChallenge);
     activeView = "puzzle";
     playOpen = true;
@@ -102,6 +104,7 @@ export function renderApp(root) {
 
   function showPuzzlePicker() {
     replayChallenge = false;
+    replayPicked = false;
     dailyChallenge = false;
     activeView = "puzzle";
     playOpen = false;
@@ -129,11 +132,12 @@ export function renderApp(root) {
       });
       const nextReplayPick = getNextDailyReplayPick(replayPicks, activePuzzle.id);
       if (nextReplayPick) {
-        selectPuzzle(nextReplayPick.id, "puzzle", { replayChallenge: true });
+        selectPuzzle(nextReplayPick.id, "puzzle", { replayChallenge: true, replayPicked: true });
         return;
       }
       replayChallenge = false;
-      activeView = "puzzle";
+      replayPicked = false;
+      activeView = "spoonRun";
       playOpen = false;
       puzzleListOpen = false;
       pendingScrollTarget = "replay";
@@ -174,6 +178,7 @@ export function renderApp(root) {
       clearTimeAttackSession();
     }
     replayChallenge = false;
+    replayPicked = false;
     dailyChallenge = false;
     activeView = view;
     playOpen = false;
@@ -206,6 +211,7 @@ export function renderApp(root) {
 
   function showPuzzleHub() {
     replayChallenge = false;
+    replayPicked = false;
     dailyChallenge = false;
     activeView = "puzzle";
     playOpen = false;
@@ -235,6 +241,7 @@ export function renderApp(root) {
     activeTimeAttackPuzzleState = null;
     activePuzzle = session.activePuzzle;
     replayChallenge = false;
+    replayPicked = false;
     dailyChallenge = false;
     activeView = "timeAttack";
     playOpen = true;
@@ -245,6 +252,7 @@ export function renderApp(root) {
   }
   function closeTimeAttackRun() {
     replayChallenge = false;
+    replayPicked = false;
     activeView = "puzzle";
     playOpen = false;
     puzzleListOpen = false;
@@ -279,6 +287,7 @@ export function renderApp(root) {
 
     timeAttackLastResult = result.result;
     replayChallenge = false;
+    replayPicked = false;
     activeView = "timeAttack";
     playOpen = false;
     clearTimeAttackSession();
@@ -299,6 +308,7 @@ export function renderApp(root) {
     });
     timeAttackLastResult = result.result;
     replayChallenge = false;
+    replayPicked = false;
     activeView = "timeAttack";
     playOpen = false;
     clearTimeAttackSession();
@@ -325,6 +335,7 @@ export function renderApp(root) {
     resetProgress();
     resetOpen = false;
     replayChallenge = false;
+    replayPicked = false;
     activePuzzle = getStartPuzzle();
     draw();
   }
@@ -578,7 +589,7 @@ export function renderApp(root) {
       onShowPuzzlePicker: showPuzzlePicker,
       replayChallenge,
       dailyChallenge,
-      replayPicked: replayChallenge,
+      replayPicked,
       onPuzzleComplete: checkStageComplete,
       onStartTimeAttack: startTimeAttackRun,
       onCloseTimeAttack: closeTimeAttackRun,
@@ -771,7 +782,7 @@ function createShell({
       dailyCount: getReplayDailyCount(),
       dailyLimit: ECONOMY.REPLAY_PICK_DAILY_LIMIT,
       onSelectDaily: (puzzleId) => onSelectPuzzle(puzzleId, "puzzle", { dailyChallenge: true }),
-      onSelectReplay: (puzzleId) => onSelectPuzzle(puzzleId, "puzzle", { replayChallenge: true })
+      onSelectReplay: (puzzleId) => onSelectPuzzle(puzzleId, "puzzle", { replayChallenge: true, replayPicked: true })
     }));
   } else if (puzzleListOpen) {
     shell.appendChild(renderPuzzlePicker(activePuzzle.id, onSelectPuzzle, onUnlockShelf, {

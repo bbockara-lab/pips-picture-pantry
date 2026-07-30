@@ -300,13 +300,15 @@ describe("player save profiles", () => {
     saveGame({ ...loadSave(), completedPuzzleIds: completedIds });
 
     expect(recordReplayReward({ puzzleId: completedIds[0], clean: false, picked: true, dateKey: firstDate })).toEqual({
-      reward: 0, rewardAllowed: false, reason: "not-eligible", dailyCount: 0
+      reward: 0, rewardAllowed: false, reason: "not-eligible", dailyCount: 0, dailyLimit: 3, remaining: 3
     });
     expect(recordReplayReward({ puzzleId: completedIds[0], clean: true, picked: false, dateKey: firstDate })).toEqual({
-      reward: 0, rewardAllowed: false, reason: "not-eligible", dailyCount: 0
+      reward: 0, rewardAllowed: false, reason: "not-eligible", dailyCount: 0, dailyLimit: 3, remaining: 3
     });
 
-    expect(recordReplayReward({ puzzleId: completedIds[0], clean: true, picked: true, dateKey: firstDate }).reward).toBe(1);
+    expect(recordReplayReward({ puzzleId: completedIds[0], clean: true, picked: true, dateKey: firstDate })).toEqual({
+      reward: 1, rewardAllowed: true, reason: "claimed", dailyCount: 1, dailyLimit: 3, remaining: 2
+    });
     expect(recordReplayReward({ puzzleId: completedIds[0], clean: true, picked: true, dateKey: firstDate }).reason).toBe("already-claimed");
     expect(recordReplayReward({ puzzleId: completedIds[1], clean: true, picked: true, dateKey: firstDate }).reward).toBe(1);
     expect(recordReplayReward({ puzzleId: completedIds[2], clean: true, picked: true, dateKey: firstDate }).reward).toBe(1);
