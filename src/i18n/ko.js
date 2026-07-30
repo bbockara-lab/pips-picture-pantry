@@ -19,7 +19,7 @@ export const ko = {
     intro: "\uc624\ub298\uc758 \uadf8\ub9bc\uacfc \ub2e4\uc2dc \ud480\uae30\ub85c \uc2a4\ud47c\uc744 \ub354 \ubaa8\uc544\ubcf4\uc138\uc694."
   },
   views: {
-    puzzle: "\ud37c\uc990",
+    puzzle: "Pip\uc758 \ud37c\uc990\ubc29",
     spoonRun: "\uc2a4\ud47c \ubc8c\ub7ec \uac00\uae30",
     album: "\uc568\ubc94",
     pantry: "Pip\uc758 \ud32c\ud2b8\ub9ac",

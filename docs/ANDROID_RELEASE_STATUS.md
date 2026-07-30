@@ -1,3 +1,11 @@
+## 2026-07-30 v0.1.676 Pip's Puzzle Room identity
+
+- Current package/UI candidate: v0.1.676.
+- The shared Puzzle destination is now "Pip's Puzzle Room" / "Pip의 퍼즐방", and the Workshop scene displays the same title above Pip's greeting.
+- The title is constrained away from the upper-right currency and Settings controls and remains readable across the mobile candidate widths.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 44 test files / 258 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## 2026-07-30 v0.1.675 fixed quick-travel navigation
 
 - Current package/UI candidate: v0.1.675.

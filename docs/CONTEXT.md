@@ -1,3 +1,11 @@
+## v0.1.676 - Pip's Puzzle Room Identity
+
+- Completed Step 32 by renaming the Puzzle destination to "Pip's Puzzle Room" / "Pip의 퍼즐방" across the shared view label.
+- Added a visible h1 title inside the Workshop scene above the greeting, with balanced wrapping and mobile-safe separation from the spoon and Settings controls.
+- Added i18n, rendering, styling, and launch-integrity regression coverage for the Workshop identity.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 44 test files / 258 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.675 - Fixed Quick-Travel Navigation
 
 - Completed Step 31 by locking the floating quick-travel control to the viewport instead of relying on scroll-position-dependent sticky behavior.

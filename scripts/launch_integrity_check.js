@@ -115,6 +115,9 @@ function checkPackUnlockGuidance() {
   expectIncludes(hub, "pack-stage-complete-badge", "completed stage badge");
   expectIncludes(hub, "getShelfTeaserKey", "stage teaser key derivation");
   expectIncludes("tests/puzzleStageRoadmap.test.js", "renders every locked stage", "full future stage roadmap regression test");
+  expectIncludes(hub, '"puzzle-home-scene__title", t("views.puzzle")', "Workshop view title");
+  expectIncludes("src/i18n/en.js", "Pip's Puzzle Room", "English Workshop view name");
+  expectIncludes("src/i18n/ko.js", "Pip\\uc758 \\ud37c\\uc990\\ubc29", "Korean Workshop view name");
   expectIncludes("src/styles.css", "v0.1.675 - fixed quick-travel release contract", "fixed quick-travel release contract");
   expectRegex("src/styles.css", /v0\.1\.675 - fixed quick-travel release contract[\s\S]*position:\s*fixed !important;[\s\S]*z-index:\s*50 !important;/, "fixed quick-travel positioning");
 }

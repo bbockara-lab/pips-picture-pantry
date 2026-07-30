@@ -18782,3 +18782,26 @@ body.guide-open {
   margin: 0 !important;
   pointer-events: none;
 }
+/* v0.1.676 - Workshop view identity */
+.app-shell--workshop-home .puzzle-home-scene__title {
+  position: absolute;
+  top: max(14px, env(safe-area-inset-top));
+  left: max(14px, env(safe-area-inset-left));
+  z-index: 7;
+  max-width: min(48%, 240px);
+  margin: 0;
+  color: var(--ink, #3d2b2e);
+  font-size: clamp(1.15rem, 4.8vw, 1.55rem);
+  font-weight: 900;
+  line-height: 1.05;
+  text-wrap: balance;
+  text-shadow: 0 2px 0 rgba(255, 250, 235, 0.9), 0 0 8px rgba(255, 250, 235, 0.96);
+}
+
+@media (max-width: 430px) {
+  .app-shell--workshop-home .puzzle-home-scene__title {
+    top: max(10px, env(safe-area-inset-top));
+    left: max(10px, env(safe-area-inset-left));
+    max-width: 44%;
+  }
+}

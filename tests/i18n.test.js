@@ -127,11 +127,11 @@ describe("i18n", () => {
   it("uses a cached active locale", () => {
     setActiveLocale("ko");
 
-    expect(t("views.puzzle")).toBe("\ud37c\uc990");
+    expect(t("views.puzzle")).toBe("Pip\uc758 \ud37c\uc990\ubc29");
     expect(t("guide.next")).toBe("\ub2e4\uc74c");
 
     setActiveLocale("unsupported");
-    expect(t("views.puzzle")).toBe("Puzzle");
+    expect(t("views.puzzle")).toBe("Pip's Puzzle Room");
   });
 
 

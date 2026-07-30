@@ -66,6 +66,9 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   scene.style.setProperty("--puzzle-home-background", `url("${puzzleWorkshopBackgroundUrl}")`);
   scene.setAttribute("aria-label", t("home.sceneAria"));
 
+  const viewTitle = appendTextElement(scene, "h1", "puzzle-home-scene__title", t("views.puzzle"));
+  viewTitle.setAttribute("aria-label", t("views.puzzle"));
+
   const greetingWrap = document.createElement("div");
   greetingWrap.className = "puzzle-home-scene__greeting-wrap hub-greeting-wrap";
   const greetingPip = document.createElement("img");

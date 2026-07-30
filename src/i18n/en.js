@@ -19,7 +19,7 @@ export const en = {
     intro: "Play today's picture or revisit a favorite to earn more spoons."
   },
   views: {
-    puzzle: "Puzzle",
+    puzzle: "Pip's Puzzle Room",
     spoonRun: "Earn Spoons",
     album: "Album",
     pantry: "Pip's Pantry",
