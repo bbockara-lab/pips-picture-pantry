@@ -313,10 +313,17 @@ export function renderSpoonRunView({
   view.append(header, cards);
   return view;
 }
+export function getShelfCollapsedState(shelfId, isComplete, collapseOverrides = new Map()) {
+  if (collapseOverrides instanceof Map && collapseOverrides.has(shelfId)) {
+    return Boolean(collapseOverrides.get(shelfId));
+  }
+  return Boolean(isComplete);
+}
+
 export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockShelf, options = {}) {
   const {
-    hideCompletedStages = false,
-    onToggleHideCompletedStages = () => {},
+    shelfCollapseOverrides = new Map(),
+    onToggleShelfCollapsed = () => {},
     onOpenPantry = () => {},
     onGoHome = () => {}
   } = options;
@@ -330,75 +337,52 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockShelf
   homeButton.textContent = t("home.sceneAria");
   homeButton.addEventListener("click", onGoHome);
   section.appendChild(homeButton);
-  const stageStats = seasonShelves
-    .map((shelf) => {
-      const shelfPuzzles = getSeasonShelfPuzzles(shelf);
-      const completeCount = shelfPuzzles.filter((puzzle) => completedPuzzleIdSet.has(puzzle.id)).length;
-      return {
-        shelf,
-        total: shelfPuzzles.length,
-        completeCount,
-        complete: shelfPuzzles.length > 0 && completeCount >= shelfPuzzles.length
-      };
-    });
-  const completedStageCount = stageStats.filter((stat) => stat.complete).length;
-  if (completedStageCount > 0) {
-    section.appendChild(createStageFilterBar(hideCompletedStages, completedStageCount, onToggleHideCompletedStages));
-  }
 
   seasonShelves.forEach((shelf) => {
     const shelfPuzzles = getSeasonShelfPuzzles(shelf);
     const completeCount = shelfPuzzles.filter((puzzle) => completedPuzzleIdSet.has(puzzle.id)).length;
     const unlocked = isShelfUnlocked(shelf);
     const isStageComplete = shelfPuzzles.length > 0 && completeCount >= shelfPuzzles.length;
-    if (hideCompletedStages && isStageComplete) {
-      return;
-    }
     if (!unlocked) {
-      // Keep the next reachable shelf visible. Hiding every locked shelf made
-      // the stage path appear to end after a player finished the previous one.
       const previousShelf = getPreviousSeasonShelf(shelf);
       const previousComplete = Boolean(previousShelf)
         && getSeasonShelfPuzzles(previousShelf).every((puzzle) => completedPuzzleIdSet.has(puzzle.id));
-      if (!previousComplete) {
-        return;
-      }
+      if (!previousComplete) return;
 
       const lockedBlock = document.createElement("article");
       lockedBlock.className = "pack-block pack-block--locked";
       lockedBlock.dataset.shelfId = shelf.id;
       lockedBlock.dataset.locked = "true";
-
       const lockedHeader = document.createElement("div");
       lockedHeader.className = "pack-header";
       appendTextElement(lockedHeader, "p", "section-label", t(shelf.titleKey));
-
-      lockedBlock.append(
-        lockedHeader,
-        createStagePreview(shelf, 0, shelfPuzzles.length),
-        createUnlockPanel(shelf, onUnlockShelf, onOpenPantry)
-      );
+      lockedBlock.append(lockedHeader, createStagePreview(shelf, 0, shelfPuzzles.length), createUnlockPanel(shelf, onUnlockShelf, onOpenPantry));
       section.appendChild(lockedBlock);
       return;
     }
-    const packBlock = document.createElement("article");
-    packBlock.className = "pack-block";
-    packBlock.dataset.shelfId = shelf.id;
-    if (shelfPuzzles.some((puzzle) => puzzle.id === activePuzzleId)) {
-      packBlock.dataset.activeStage = "true";
-    }
 
+    const collapsed = getShelfCollapsedState(shelf.id, isStageComplete, shelfCollapseOverrides);
+    const packBlock = document.createElement("article");
+    packBlock.className = collapsed ? "pack-block pack-block--collapsed" : "pack-block";
+    packBlock.dataset.shelfId = shelf.id;
+    packBlock.dataset.collapsed = String(collapsed);
+    if (shelfPuzzles.some((puzzle) => puzzle.id === activePuzzleId)) packBlock.dataset.activeStage = "true";
+
+    const contentId = `shelf-content-${shelf.id}`;
     const header = document.createElement("div");
     header.className = "pack-header";
     const headerCopy = document.createElement("div");
     appendTextElement(headerCopy, "p", "section-label", t(shelf.titleKey));
-    header.append(headerCopy);
+    header.append(headerCopy, createShelfCollapseToggle(shelf, collapsed, contentId, onToggleShelfCollapsed));
     packBlock.appendChild(header);
-    packBlock.appendChild(createStagePreview(shelf, completeCount, shelfPuzzles.length));
 
+    const content = document.createElement("div");
+    content.id = contentId;
+    content.className = "pack-block__content";
+    content.hidden = collapsed;
+    content.appendChild(createStagePreview(shelf, completeCount, shelfPuzzles.length));
     const list = document.createElement("div");
     list.className = "puzzle-list";
-
     shelfPuzzles.forEach((puzzle) => {
       const complete = completedPuzzleIdSet.has(puzzle.id);
       const button = document.createElement("button");
@@ -407,46 +391,35 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockShelf
       button.dataset.size = String(puzzle.size);
       button.dataset.complete = String(complete);
       button.dataset.puzzleId = puzzle.id;
-
       const label = document.createElement("span");
       label.textContent = puzzleTitle(puzzle);
       button.appendChild(label);
-
       const meta = document.createElement("small");
-      if (complete) {
-        meta.textContent = t("puzzlePicker.complete");
-      } else {
-        meta.textContent = t("puzzlePicker.size", { size: puzzle.size });
-      }
+      meta.textContent = complete ? t("puzzlePicker.complete") : t("puzzlePicker.size", { size: puzzle.size });
       button.appendChild(meta);
       button.setAttribute("aria-label", `${puzzleTitle(puzzle)} - ${meta.textContent}`);
       button.addEventListener("click", () => onSelectPuzzle(puzzle.id));
-
       list.appendChild(button);
     });
-
-    packBlock.appendChild(list);
+    content.appendChild(list);
+    packBlock.appendChild(content);
     section.appendChild(packBlock);
   });
-
   return section;
 }
 
-function createStageFilterBar(hideCompletedStages, hiddenStageCount, onToggleHideCompletedStages) {
-  const bar = document.createElement("div");
-  bar.className = "stage-filter-bar";
-
+function createShelfCollapseToggle(shelf, collapsed, contentId, onToggleShelfCollapsed) {
   const button = document.createElement("button");
   button.type = "button";
-  button.className = hideCompletedStages ? "stage-filter-toggle active" : "stage-filter-toggle";
-  button.setAttribute("aria-pressed", String(hideCompletedStages));
-  button.textContent = hideCompletedStages ? t("stageFilter.showCompleted") : t("stageFilter.hideCompleted");
-  button.addEventListener("click", onToggleHideCompletedStages);
-
-  bar.append(button);
-  return bar;
+  button.className = "shelf-collapse-toggle";
+  button.dataset.shelfToggle = shelf.id;
+  button.setAttribute("aria-controls", contentId);
+  button.setAttribute("aria-expanded", String(!collapsed));
+  button.setAttribute("aria-label", t(collapsed ? "puzzlePicker.expandShelf" : "puzzlePicker.collapseShelf", { title: t(shelf.titleKey) }));
+  button.textContent = collapsed ? "▼" : "▲";
+  button.addEventListener("click", () => onToggleShelfCollapsed(shelf.id, !collapsed));
+  return button;
 }
-
 function createStagePreview(shelf, completeCount, total) {
   const preview = document.createElement("div");
   preview.className = "stage-preview";

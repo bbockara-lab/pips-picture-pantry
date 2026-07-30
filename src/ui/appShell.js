@@ -27,7 +27,7 @@ import { getBadgeForCompletedShelf } from "../game/badges.js";
 import { renderBadgeEarnedToast, renderPantryMapView } from "./mapView.js";
 import { renderPantryView } from "./pantryView.js";
 import { getNextPantryGuideId } from "./pantryGuideFlow.js";
-import { getControlModePreference, getHideCompletedStagesPreference, setControlModePreference, setHideCompletedStagesPreference } from "./preferences.js";
+import { getControlModePreference, setControlModePreference } from "./preferences.js";
 import {
   getStageNavigation,
   renderPuzzleHub,
@@ -53,7 +53,7 @@ export function renderApp(root) {
   let puzzleListOpen = false;
   let resetOpen = false;
   let settingsOpen = false;
-  let hideCompletedStages = getHideCompletedStagesPreference();
+  const shelfCollapseOverrides = new Map();
   let controlMode = getControlModePreference();
   let pendingScrollTarget = null;
   let activeTimeAttackRun = null;
@@ -377,9 +377,8 @@ export function renderApp(root) {
     draw();
   }
 
-  function toggleHideCompletedStages() {
-    hideCompletedStages = !hideCompletedStages;
-    setHideCompletedStagesPreference(hideCompletedStages);
+  function toggleShelfCollapsed(shelfId, collapsed) {
+    shelfCollapseOverrides.set(shelfId, Boolean(collapsed));
     draw();
   }
 
@@ -584,8 +583,8 @@ export function renderApp(root) {
       controlMode,
       onControlModeChange: changeControlMode,
       onUnlockShelf: requestUnlockShelf,
-      hideCompletedStages,
-      onToggleHideCompletedStages: toggleHideCompletedStages,
+      shelfCollapseOverrides,
+      onToggleShelfCollapsed: toggleShelfCollapsed,
       onNextPuzzle: selectNextPuzzle,
       onPreviousStagePuzzle: () => selectStagePuzzle(-1),
       onNextStagePuzzle: () => selectStagePuzzle(1),
@@ -675,8 +674,8 @@ function createShell({
   controlMode,
   onControlModeChange,
   onUnlockShelf,
-  hideCompletedStages,
-  onToggleHideCompletedStages,
+  shelfCollapseOverrides,
+  onToggleShelfCollapsed,
   onNextPuzzle,
   onPreviousStagePuzzle,
   onNextStagePuzzle,
@@ -789,8 +788,8 @@ function createShell({
     }));
   } else if (puzzleListOpen) {
     shell.appendChild(renderPuzzlePicker(activePuzzle.id, onSelectPuzzle, onUnlockShelf, {
-      hideCompletedStages,
-      onToggleHideCompletedStages,
+      shelfCollapseOverrides,
+      onToggleShelfCollapsed,
       onOpenPantry: () => onSelectView("pantry"),
       onGoHome: onClosePuzzle
     }));

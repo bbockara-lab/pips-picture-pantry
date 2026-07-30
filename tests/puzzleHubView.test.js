@@ -1,8 +1,11 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { getDailyGreetingKey, hasAffordableUnownedPantryJar, isDailyCompleteForDate } from "../src/ui/puzzleHubView.js";
+import { getDailyGreetingKey, getShelfCollapsedState, hasAffordableUnownedPantryJar, isDailyCompleteForDate } from "../src/ui/puzzleHubView.js";
 
 const styles = readFileSync("src/styles.css", "utf8");
+const hubSource = readFileSync("src/ui/puzzleHubView.js", "utf8");
+const shellSource = readFileSync("src/ui/appShell.js", "utf8");
+const preferencesSource = readFileSync("src/ui/preferences.js", "utf8");
 
 describe("Workshop daily greeting", () => {
   it("keeps one greeting for the local day and rotates on the next day", () => {
@@ -50,5 +53,27 @@ describe("Workshop Pantry notification", () => {
 
   it("stays off after every affordable jar is owned", () => {
     expect(hasAffordableUnownedPantryJar(jars, jars.map((jar) => jar.id), 999)).toBe(false);
+  });
+});
+
+describe("Per-shelf puzzle picker collapse", () => {
+  it("defaults completed shelves closed and unfinished shelves open", () => {
+    expect(getShelfCollapsedState("complete", true)).toBe(true);
+    expect(getShelfCollapsedState("unfinished", false)).toBe(false);
+  });
+
+  it("keeps explicit expand and collapse choices in the session override map", () => {
+    const overrides = new Map([["complete", false], ["unfinished", true]]);
+    expect(getShelfCollapsedState("complete", true, overrides)).toBe(false);
+    expect(getShelfCollapsedState("unfinished", false, overrides)).toBe(true);
+  });
+
+  it("retires the global persisted filter and renders accessible shelf toggles", () => {
+    expect(hubSource).not.toContain("createStageFilterBar");
+    expect(shellSource).not.toContain("hideCompletedStages");
+    expect(preferencesSource).not.toContain("HIDE_COMPLETED_STAGES_KEY");
+    expect(hubSource).toContain('button.setAttribute("aria-expanded", String(!collapsed))');
+    expect(hubSource).toContain('content.hidden = collapsed');
+    expect(styles).toMatch(/\.shelf-collapse-toggle\s*\{[\s\S]*?min-width:\s*44px;[\s\S]*?height:\s*44px;/);
   });
 });

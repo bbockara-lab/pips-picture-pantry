@@ -120,12 +120,7 @@ export const en = {
     villagePantry: "Village Pantry Badge",
     villagePantryDesc: "Sunny Spoon cast badge complete"
   },
-  stageFilter: {
-    note: "Keep the list short while you play.",
-    hideCompleted: "Hide completed",
-    showCompleted: "Show completed",
-    hiddenNotice: "{count} completed stage hidden"
-  },
+
   sections: {
     starterShelf: "Starter shelf",
     dailyPicture: "Daily picture",
@@ -395,7 +390,9 @@ export const en = {
   puzzlePicker: {
     size: "{size}×{size}",
     complete: "Complete",
-    sizeComplete: "{size}x{size} - Complete"
+    sizeComplete: "{size}x{size} - Complete",
+    expandShelf: "Expand {title}",
+    collapseShelf: "Collapse {title}"
   },
   shelves: {
     pipsFirst: "Pip's First Shelf",

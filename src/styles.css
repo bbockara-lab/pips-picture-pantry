@@ -2770,9 +2770,6 @@ body {
   background: linear-gradient(135deg, rgba(184, 230, 210, 0.96), rgba(255, 248, 232, 0.96));
 }
 
-.stage-filter-toggle {
-  min-height: 44px;
-}
 
 @media (max-width: 430px) {
   .floating-nav {
@@ -18741,3 +18738,26 @@ body.guide-open {
   width: 100%;
   margin: 0;
 }
+
+/* v0.1.662: per-shelf session collapse controls replace the retired global completed-stage filter. */
+.shelf-collapse-toggle {
+  display: grid;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  padding: 0;
+  place-items: center;
+  border: 2px solid rgba(90, 57, 42, 0.34);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fff9e8, #f2d89a);
+  color: #70462f;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 900;
+  box-shadow: 0 3px 0 rgba(78, 48, 54, 0.14);
+  cursor: pointer;
+}
+.shelf-collapse-toggle:focus-visible { outline: 3px solid rgba(53, 128, 91, 0.44); outline-offset: 2px; }
+.pack-block--collapsed .pack-header { align-items: center; }
+.pack-block--collapsed .section-label { margin-bottom: 0; }
+.pack-block__content[hidden] { display: none !important; }

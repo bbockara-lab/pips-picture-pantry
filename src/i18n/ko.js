@@ -120,12 +120,7 @@ export const ko = {
     villagePantry: "Village Pantry \ubc30\uc9c0",
     villagePantryDesc: "Sunny Spoon \uce90\uc2a4\ud2b8 \ubc30\uc9c0 \uc644\uc131"
   },
-  stageFilter: {
-    note: "\ud50c\ub808\uc774\ud560 \uadf8\ub9bc\ub9cc \uac00\ubccd\uac8c \ubcf4\uc5ec\uc694.",
-    hideCompleted: "\uc644\ub8cc \uc2a4\ud14c\uc774\uc9c0 \uc228\uae30\uae30",
-    showCompleted: "\uc644\ub8cc \uc2a4\ud14c\uc774\uc9c0 \ubcf4\uae30",
-    hiddenNotice: "\uc644\ub8cc\ud55c \uc2a4\ud14c\uc774\uc9c0 {count}\uac1c\ub97c \uc228\uacbc\uc5b4\uc694"
-  },
+
   sections: {
     starterShelf: "\uccab \uc120\ubc18",
     dailyPicture: "\uc624\ub298\uc758 \uadf8\ub9bc",
@@ -373,7 +368,9 @@ export const ko = {
   puzzlePicker: {
     size: "{size}×{size}",
     complete: "\uc644\ub8cc",
-    sizeComplete: "{size}x{size} - \uc644\ub8cc"
+    sizeComplete: "{size}x{size} - \uc644\ub8cc",
+    expandShelf: "{title} \ud3bc\uce58\uae30",
+    collapseShelf: "{title} \uc811\uae30"
   },
   shelves: {
     pipsFirst: "Pip\uc758 \uccab \uc120\ubc18",

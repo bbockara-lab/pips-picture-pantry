@@ -1,3 +1,9 @@
+## v0.1.662 - Per-Shelf Puzzle Picker Collapse
+
+- Completed Step 18 by removing the global persisted Hide Completed control and replacing it with an independent 44px expand/collapse arrow in every unlocked shelf header.
+- Completed shelves default closed, unfinished shelves default open, and explicit player choices remain in an in-memory override Map for the current app session only.
+- Each toggle exposes translated shelf-specific labels, `aria-expanded`, and `aria-controls`; collapsed puzzle content is removed from interaction with the native `hidden` state.
+- Full candidate verification passed: 40 test files / 239 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.661 - Canonical Shelf Names and Distinct Wooden Spoon
 
 - Completed Step 17 by making every badge milestone display the canonical `shelves.*` name already used by the puzzle picker and shelf-completion overlay.
