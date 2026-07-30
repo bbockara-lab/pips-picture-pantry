@@ -1,3 +1,8 @@
+# v0.1.693 Android upload rebuild - 2026-07-30
+
+- Play Console reported that versionCode 33 was already used, so the signed upload candidate is rebuilt as versionCode 34 / versionName 1.1.6.
+- The visible/package version remains v0.1.693; product source and behavior are unchanged from the reviewed candidate.
+
 ## v0.1.693 - Focused Play Spoon Header Containment
 
 - Moved the shared spoon balance chip into the focused-play header instead of leaving it as an independent fixed overlay.

@@ -1,3 +1,8 @@
+# v0.1.693 Android upload rebuild - 2026-07-30
+
+- Current signed upload target: versionCode 34 / versionName 1.1.6.
+- versionCode 33 was rejected by Play Console as already used; do not upload or reuse the earlier code-33 bundle.
+
 ## 2026-07-30 v0.1.693 focused play spoon header containment
 
 - Current package/UI candidate: v0.1.693.
