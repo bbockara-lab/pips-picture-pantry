@@ -36,7 +36,12 @@ export function renderPuzzleView(puzzle, options = {}) {
   let dailyResult = null;
   const controlMode = options.controlMode || "auto";
   const section = document.createElement("section");
-  section.className = state.completed ? "puzzle-panel content-panel completed" : "puzzle-panel content-panel";
+  section.className = [
+    "puzzle-panel",
+    "content-panel",
+    state.completed ? "completed" : "",
+    isTimeAttack ? "puzzle-panel--time-attack" : ""
+  ].filter(Boolean).join(" ");
   section.tabIndex = 0;
   section.addEventListener("keydown", handlePuzzleKeydown);
 
@@ -117,7 +122,12 @@ export function renderPuzzleView(puzzle, options = {}) {
 
   function draw() {
     section.replaceChildren();
-    section.className = state.completed ? "puzzle-panel content-panel completed" : "puzzle-panel content-panel";
+    section.className = [
+    "puzzle-panel",
+    "content-panel",
+    state.completed ? "completed" : "",
+    isTimeAttack ? "puzzle-panel--time-attack" : ""
+  ].filter(Boolean).join(" ");
     section.classList.toggle("replay-challenge", isReplayChallenge);
 
     const meta = document.createElement("div");
@@ -155,6 +165,10 @@ export function renderPuzzleView(puzzle, options = {}) {
       section.appendChild(renderHowToPlayCard());
     }
 
+    if (isTimeAttack) {
+      appendHintPanel(cursorControlsEnabled);
+    }
+
     section.appendChild(renderBoard(puzzle, state, (row, column, action = {}) => {
       playTap();
       const cursorState = setCursor(state, row, column, puzzle.size);
@@ -182,30 +196,8 @@ export function renderPuzzleView(puzzle, options = {}) {
     if (!state.completed && cursorControlsEnabled) {
       section.appendChild(renderCursorControls(state, puzzle, update));
     }
-    const baseHintLimit = getHintLimit(puzzle);
-    const hintLimit = isTimeAttack ? Math.min(baseHintLimit, 3) : baseHintLimit;
-    if (!state.completed && hintLimit > 0) {
-      const paidHintCount = Math.max(0, Number(state.paidHintsUsed || 0));
-      const hintCost = getPuzzleHintCost({
-        puzzleSize: puzzle.size,
-        hintsUsed: state.hintsUsed,
-        paidHintsUsed: paidHintCount,
-        hintLimit,
-        isTimeAttack,
-        getTimeAttackHintCost: options.getTimeAttackHintCost
-      });
-      const revealCount = getHintRevealCount(puzzle, { isTimeAttack });
-      section.appendChild(renderHintPanel(state, puzzle, update, hintLimit, {
-        cost: hintCost,
-        revealCount,
-        balance: hintCost > 0 ? getPantrySpoons() : 0,
-        paid: hintCost > 0,
-        timeAttack: isTimeAttack,
-        compact: cursorControlsEnabled,
-        onSpendHint: hintCost > 0
-          ? (cost) => spendPantrySpoons(cost, isTimeAttack ? "time-attack-hint" : "puzzle-extra-hint").allowed
-          : null
-      }));
+    if (!isTimeAttack) {
+      appendHintPanel(cursorControlsEnabled);
     }
     section.appendChild(createProgressLine(state, puzzle));
 
@@ -214,7 +206,34 @@ export function renderPuzzleView(puzzle, options = {}) {
     }
 
   }
-
+  function appendHintPanel(compact = false) {
+    const baseHintLimit = getHintLimit(puzzle);
+    const hintLimit = isTimeAttack ? 3 : baseHintLimit;
+    if (state.completed || hintLimit <= 0) {
+      return;
+    }
+    const paidHintCount = Math.max(0, Number(state.paidHintsUsed || 0));
+    const hintCost = getPuzzleHintCost({
+      puzzleSize: puzzle.size,
+      hintsUsed: state.hintsUsed,
+      paidHintsUsed: paidHintCount,
+      hintLimit,
+      isTimeAttack,
+      getTimeAttackHintCost: options.getTimeAttackHintCost
+    });
+    const revealCount = getHintRevealCount(puzzle, { isTimeAttack });
+    section.appendChild(renderHintPanel(state, puzzle, update, hintLimit, {
+      cost: hintCost,
+      revealCount,
+      balance: hintCost > 0 ? getPantrySpoons() : 0,
+      paid: hintCost > 0,
+      timeAttack: isTimeAttack,
+      compact,
+      onSpendHint: hintCost > 0
+        ? (cost) => spendPantrySpoons(cost, isTimeAttack ? "time-attack-hint" : "puzzle-extra-hint").allowed
+        : null
+    }));
+  }
   draw();
   options.onPuzzleStateChange?.(puzzle, state);
   return section;
@@ -228,12 +247,12 @@ export function getPuzzleHintCost({
   isTimeAttack = false,
   getTimeAttackHintCost
 } = {}) {
-  if (Number(hintsUsed || 0) < hintLimit) {
-    return 0;
-  }
-
   if (isTimeAttack) {
     return getTimeAttackHintCost?.(paidHintsUsed) || 0;
+  }
+
+  if (Number(hintsUsed || 0) < hintLimit) {
+    return 0;
   }
 
   return getPuzzleExtraHintCost(puzzleSize, paidHintsUsed);

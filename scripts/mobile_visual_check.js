@@ -1975,6 +1975,42 @@ async function verifyTimeAttackExitRestoresRegularPuzzle(page, viewportName, exp
     failures.push("[" + viewportName + "] Time Attack paint was lost during the one-second timer redraw: " + timeAttackCellAfterTimerDraw);
   }
 
+  const hintPanel = page.locator(".puzzle-panel--time-attack .hint-panel").first();
+  await hintPanel.waitFor({ state: "visible", timeout: 3000 });
+  const hintMetrics = await hintPanel.evaluate((panel) => {
+    const board = panel.parentElement?.querySelector(".board-wrap");
+    const button = panel.querySelector(".hint-button");
+    return {
+      beforeBoard: Boolean(board && (panel.compareDocumentPosition(board) & Node.DOCUMENT_POSITION_FOLLOWING)),
+      buttonDisabled: Boolean(button?.disabled),
+      buttonWidth: button?.getBoundingClientRect().width || 0,
+      buttonHeight: button?.getBoundingClientRect().height || 0
+    };
+  });
+  if (!hintMetrics.beforeBoard || hintMetrics.buttonDisabled || hintMetrics.buttonWidth < 44 || hintMetrics.buttonHeight < 44) {
+    failures.push("[" + viewportName + "] Time Attack hint control is not visible before the board: " + JSON.stringify(hintMetrics));
+  }
+  const spoonsBeforeHint = await page.evaluate(() => {
+    const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+    const save = player ? JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:save:" + player.id) || "{}") : {};
+    return Number(save.pantrySpoons || 0);
+  });
+  await hintPanel.locator(".hint-button").click();
+  const hintConfirm = hintPanel.locator('.hint-panel__confirm[data-cost="2"]');
+  await hintConfirm.waitFor({ state: "visible", timeout: 2000 });
+  await hintConfirm.locator(".tool-button.complete").click();
+  const hintState = await page.evaluate(() => {
+    const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+    const save = player ? JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:save:" + player.id) || "{}") : {};
+    return {
+      spoons: Number(save.pantrySpoons || 0),
+      meter: document.querySelectorAll(".puzzle-panel--time-attack .hint-panel__meter-dot.spent").length
+    };
+  });
+  if (hintState.spoons !== spoonsBeforeHint - 2 || hintState.meter !== 1) {
+    failures.push("[" + viewportName + "] Time Attack first hint did not spend 2 spoons and record one use: " + JSON.stringify({ spoonsBeforeHint, ...hintState }));
+  }
+
   await page.locator(".play-screen__back").click();
   await page.locator(".app-shell--workshop-home[data-view='puzzle']").waitFor({ state: "visible", timeout: 5000 });
 

@@ -16,35 +16,17 @@ describe("Daily puzzle state isolation", () => {
 });
 
 describe("puzzle view hint cost", () => {
-  it("keeps Time Attack hints free until the run allowance is used", () => {
+  it("charges every Time Attack hint from the run allowance", () => {
     const getTimeAttackHintCost = (paidHintsUsed) => [2, 4, 7][paidHintsUsed] || 0;
 
-    expect(getPuzzleHintCost({
+    expect([0, 1, 2].map((paidHintsUsed) => getPuzzleHintCost({
       puzzleSize: 12,
-      hintsUsed: 2,
-      paidHintsUsed: 0,
+      hintsUsed: paidHintsUsed,
+      paidHintsUsed,
       hintLimit: 3,
       isTimeAttack: true,
       getTimeAttackHintCost
-    })).toBe(0);
-
-    expect(getPuzzleHintCost({
-      puzzleSize: 12,
-      hintsUsed: 3,
-      paidHintsUsed: 0,
-      hintLimit: 3,
-      isTimeAttack: true,
-      getTimeAttackHintCost
-    })).toBe(2);
-
-    expect(getPuzzleHintCost({
-      puzzleSize: 12,
-      hintsUsed: 4,
-      paidHintsUsed: 1,
-      hintLimit: 3,
-      isTimeAttack: true,
-      getTimeAttackHintCost
-    })).toBe(4);
+    }))).toEqual([2, 4, 7]);
   });
 
   it("uses the size-aware spoon cost after normal puzzle free hints", () => {

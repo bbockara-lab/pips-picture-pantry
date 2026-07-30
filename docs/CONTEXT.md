@@ -1,3 +1,9 @@
+## v0.1.656 - Time Attack Hint Restoration
+
+- Completed Step 12 by placing the Time Attack hint control before the puzzle board so it remains immediately visible during the timed run.
+- Time Attack now charges every hint in the configured `2 -> 4 -> 7` spoon sequence instead of inheriting normal-puzzle starter hints.
+- The existing run result path continues to aggregate `hintsUsed` across completed rounds and the active round; focused regression coverage now locks both cost order and final result accounting.
+- Candidate gates passed: 39 test files / 227 tests, 333-puzzle catalog and asset gates, production build, and Android release gate. Mobile QA separately passed at 360x740, 390x844, 430x932, and 675x900, including visible pre-board hint placement, the first 2-spoon charge, and one-use meter accounting.
 ## v0.1.655 - Spoon Run First-Visit Guide
 
 - Completed Step 11 with a two-slide Pip introduction that explains the daily bonus picture and up to three clean-replay spoon rewards.

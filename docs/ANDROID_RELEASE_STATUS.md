@@ -1,3 +1,9 @@
+## 2026-07-29 v0.1.656 Time Attack hint restoration
+
+- Current package/UI candidate: v0.1.656.
+- Restored a visible pre-board Time Attack hint control with sequential 2, 4, and 7 spoon charges and full-run `hintsUsed` accounting.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Candidate gates passed: 39 test files / 227 tests, 333-puzzle catalog and asset gates, production build, and Android release gate. Mobile QA separately passed at 360x740, 390x844, 430x932, and 675x900, including visible pre-board hint placement, the first 2-spoon charge, and one-use meter accounting.
 ## 2026-07-29 v0.1.655 Spoon Run first-visit guide
 
 - Current package/UI candidate: v0.1.655.
