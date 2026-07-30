@@ -1,3 +1,11 @@
+## v0.1.679 - Meaningful Selected Pantry Jars
+
+- Completed Step 35 by resolving the selected Pantry jar from the active puzzle stage's Pantry shelf through a shared save helper.
+- The Workshop shows the selected jar beside Pip as a compact, tappable "Today's Pantry" card that opens Pantry; stages without a mapped open Pantry shelf remain uncluttered.
+- Regular puzzle completion now shows the same approved jar WebP and localized jar name. Time Attack and missing selections intentionally render no jar card.
+- Pantry jar actions now use explicit select/selected language in KO and EN, with focused behavior, source-contract, and launch-integrity regression coverage.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 46 test files / 272 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.678 - Daily Login Spoon Bonus
 
 - Completed Step 34 by adding a separate three-spoon login reward without changing the existing eight-spoon Today Picture bonus.

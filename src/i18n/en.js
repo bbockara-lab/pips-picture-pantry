@@ -602,10 +602,11 @@ export const en = {
       openDetail: "View {item}",
       spoonCost: "{count} 🥄",
       shelfLabel: "{shelf}",
-      equipped: "On display",
+      equipped: "Selected ✓",
       buyAction: "Buy for {count} 🥄",
       needSpoons: "Need {count} more spoons",
-      equipAction: "Display this jar",
+      equipAction: "Select this jar",
+      todaysPantry: "Today's Pantry",
       onboardingTitle: "Your shelves are ready.",
       onboardingPrompt: "Buy your first jar and begin filling Pip's pantry!",
       rarity: {

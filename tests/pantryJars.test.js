@@ -6,6 +6,7 @@ import {
   getCompletedPantryJarShelfCount,
   getCompletedPantryStoryGoalIds,
   getEquippedJars,
+  getEquippedJarForCurrentStage,
   getOwnedJarIds,
   getPantrySpoons,
   loadSave,
@@ -72,6 +73,24 @@ describe("Pantry jar collection", () => {
     expect(getCompletedPantryStoryGoalIds()).toEqual([]);
   });
 
+  it("resolves the selected jar for the active stage shelf and hides ungated stages", () => {
+    ensureStarterJars();
+    expect(getEquippedJarForCurrentStage({ pantryRoomStepRequired: 0 })).toBeNull();
+    expect(getEquippedJarForCurrentStage({ pantryRoomStepRequired: 5 })).toEqual(
+      expect.objectContaining({ id: "strawberry-jam", shelfId: "jam" })
+    );
+    expect(getEquippedJarForCurrentStage({ pantryRoomStepRequired: 10 })).toEqual(
+      expect.objectContaining({ id: "acacia-honey", shelfId: "honey" })
+    );
+    saveGame({
+      ...loadSave(),
+      ownedJarIds: [...getOwnedJarIds(), "blueberry-jam"],
+      equippedJars: { ...getEquippedJars(), jam: "blueberry-jam" }
+    });
+    expect(getEquippedJarForCurrentStage({ pantryRoomStepRequired: 5 })).toEqual(
+      expect.objectContaining({ id: "blueberry-jam", shelfId: "jam" })
+    );
+  });
   it("buys paid jars atomically but advances a stage step only when the shelf is complete", () => {
     ensureStarterJars();
     saveGame({ ...loadSave(), pantrySpoons: 500 });

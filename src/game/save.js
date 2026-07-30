@@ -4,6 +4,7 @@ import { seasonShelves } from "../data/seasonShelves.js";
 import { getPreviousSeasonShelf, isSeasonShelfComplete } from "./seasonShelfProgress.js";
 import { restoreState, serializeState } from "./puzzleState.js";
 import { JAR_SHELVES, PANTRY_JARS, getJarById, getJarsByShelf } from "../data/pantryJars.js";
+import { getPantryShelfForSeasonShelf } from "../data/stagePantryLinks.js";
 
 const LEGACY_SAVE_KEY = "pips-picture-pantry:v0.1:save";
 const SAVE_PREFIX = "pips-picture-pantry:v0.1:save:";
@@ -251,6 +252,19 @@ export function getOwnedJarIds() {
 
 export function getEquippedJars() {
   return loadSave()?.equippedJars || {};
+}
+
+export function getEquippedJarForCurrentStage(seasonShelf = null) {
+  const currentShelf = seasonShelf || seasonShelves.find((shelf) => isShelfUnlocked(shelf) && !isSeasonShelfComplete(shelf, getCompletedPuzzleIds())) || null;
+  const pantryShelf = getPantryShelfForSeasonShelf(currentShelf);
+  if (!pantryShelf) {
+    return null;
+  }
+  const equippedJarId = getEquippedJars()[pantryShelf.id];
+  const equippedJar = equippedJarId ? getJarById(equippedJarId) : null;
+  return equippedJar?.shelfId === pantryShelf.id && getOwnedJarIds().includes(equippedJar.id)
+    ? equippedJar
+    : null;
 }
 
 export function ensureStarterJars() {

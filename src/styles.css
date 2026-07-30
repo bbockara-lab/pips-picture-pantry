@@ -18889,3 +18889,74 @@ body.guide-open {
 @media (prefers-reduced-motion: reduce) {
   .login-bonus-popover { animation: none; }
 }
+/* v0.1.679 - meaningful featured Pantry jar */
+.featured-pantry-jar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  border: 2px solid rgba(116, 73, 39, 0.22);
+  border-radius: 16px;
+  padding: 7px 10px 7px 7px;
+  background: linear-gradient(145deg, rgba(255, 252, 231, 0.98), rgba(247, 225, 165, 0.96));
+  color: var(--ink, #3d2b2e);
+  box-shadow: 0 5px 12px rgba(72, 44, 24, 0.17), inset 0 1px 0 rgba(255,255,255,.9);
+  font: inherit;
+  text-align: left;
+}
+button.featured-pantry-jar { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+button.featured-pantry-jar:active { transform: translateY(1px); }
+.featured-pantry-jar__image {
+  width: 54px;
+  height: 54px;
+  flex: 0 0 auto;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 4px rgba(72, 44, 24, 0.2));
+}
+.featured-pantry-jar__copy { display: grid; min-width: 0; gap: 1px; }
+.featured-pantry-jar__eyebrow {
+  color: #8a5a20;
+  font-size: .66rem;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+.featured-pantry-jar__name {
+  max-width: 17ch;
+  overflow: hidden;
+  font-size: .78rem;
+  font-weight: 850;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.app-shell--workshop-home .puzzle-home-scene__featured-jar {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  z-index: 6;
+  max-width: min(42%, 156px);
+  transform: translateX(-50%);
+  padding: 5px 8px 5px 5px;
+}
+.app-shell--workshop-home .puzzle-home-scene__featured-jar:active { transform: translate(-50%, 1px); }
+.app-shell--workshop-home .puzzle-home-scene__featured-jar .featured-pantry-jar__image {
+  width: clamp(38px, 10vw, 48px);
+  height: clamp(38px, 10vw, 48px);
+}
+.app-shell--workshop-home .puzzle-home-scene__featured-jar .featured-pantry-jar__eyebrow { font-size: clamp(.52rem, 2vw, .64rem); }
+.app-shell--workshop-home .puzzle-home-scene__featured-jar .featured-pantry-jar__name { font-size: clamp(.62rem, 2.4vw, .75rem); }
+.completion-banner__featured-jar {
+  position: relative;
+  z-index: 2;
+  grid-column: 1 / -1;
+  justify-self: stretch;
+  width: 100%;
+}
+@media (max-height: 700px) {
+  .app-shell--workshop-home .puzzle-home-scene__featured-jar { top: 23%; }
+  .app-shell--workshop-home .puzzle-home-scene__featured-jar .featured-pantry-jar__copy { display: none; }
+  .app-shell--workshop-home .puzzle-home-scene__featured-jar { min-width: 0; padding: 4px; border-radius: 14px; }
+}

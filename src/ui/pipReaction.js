@@ -1,6 +1,7 @@
 import pipCompleteStickerUrl from "../assets/characters/pip-completion-v2.png";
 import { getCompletionPaletteId } from "../data/completionPalettes.js";
 import { puzzleAlbumText, puzzleImageName, puzzleTitle, t } from "../i18n/index.js";
+import { renderFeaturedJar } from "./featuredPantryJar.js";
 
 export const FIRST_PIP_FACE_PUZZLE_ID = "pips-first-shelf-pip-face-1";
 
@@ -24,7 +25,8 @@ export function renderCompletionBanner(puzzle, {
   isDailyPuzzle = false,
   dailyResult = null,
   rewardResult = null,
-  stageBonus = 0
+  stageBonus = 0,
+  equippedJar = null
 } = {}) {
   const banner = document.createElement("div");
   banner.className = "completion-banner";
@@ -92,11 +94,13 @@ export function renderCompletionBanner(puzzle, {
   });
 
   actions.append(actionButton);
-  if (isFirstPipFace) {
-    banner.append(copy, reveal, actions);
-  } else {
-    banner.append(reaction, copy, reveal, actions);
-  }
+  const featuredJar = renderFeaturedJar(equippedJar, {
+    className: "completion-banner__featured-jar"
+  });
+  const content = isFirstPipFace ? [copy, reveal] : [reaction, copy, reveal];
+  if (featuredJar) content.push(featuredJar);
+  content.push(actions);
+  banner.append(...content);
   return banner;
 }
 

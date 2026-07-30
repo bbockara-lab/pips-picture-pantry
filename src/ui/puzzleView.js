@@ -10,7 +10,8 @@ import {
   undoLastMove
 } from "../game/puzzleState.js";
 import { getPuzzleExtraHintCost } from "../data/economyConfig.js";
-import { getPantrySpoons, loadPuzzleState, recordReplayReward, savePuzzleState, spendPantrySpoons } from "../game/save.js";
+import { getSeasonShelfForPuzzle } from "../data/seasonShelves.js";
+import { getEquippedJarForCurrentStage, getPantrySpoons, loadPuzzleState, recordReplayReward, savePuzzleState, spendPantrySpoons } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { playComplete, playCursorAction, playCursorMove, playTap } from "./audio.js";
 import { getHintLimit, getHintRevealCount, renderHintPanel, renderHowToPlayCard, renderMarkHint } from "./puzzleAssistView.js";
@@ -160,7 +161,10 @@ export function renderPuzzleView(puzzle, options = {}) {
         isDailyPuzzle: isDailyChallenge,
         dailyResult,
         rewardResult,
-        stageBonus
+        stageBonus,
+        equippedJar: isTimeAttack
+          ? null
+          : getEquippedJarForCurrentStage(getSeasonShelfForPuzzle(puzzle))
       }));
       return;
     }

@@ -1,3 +1,10 @@
+## 2026-07-30 v0.1.679 selected Pantry jar surfaces
+
+- Current package/UI candidate: v0.1.679.
+- The active puzzle stage resolves its selected Pantry jar through the stage-to-shelf mapping and presents the approved jar art on Workshop home and regular puzzle completion.
+- The Workshop card opens Pantry directly; Time Attack, unmapped stages, and missing selections stay hidden.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 46 test files / 272 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-30 v0.1.678 daily login spoon bonus
 
 - Current package/UI candidate: v0.1.678.

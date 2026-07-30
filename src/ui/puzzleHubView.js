@@ -5,12 +5,13 @@ import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, getSeasonShelfSizeCount
 import { PANTRY_JARS } from "../data/pantryJars.js";
 import { getPaidJarProgressForPantryShelf, getPantryShelfForSeasonShelf } from "../data/stagePantryLinks.js";
 import { ECONOMY } from "../data/economyConfig.js";
-import { getCompletedPuzzleIds, getOwnedJarIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
+import { getCompletedPuzzleIds, getEquippedJarForCurrentStage, getOwnedJarIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
 import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
 import { getPreviousSeasonShelf, isSeasonShelfComplete } from "../game/seasonShelfProgress.js";
 import { renderColoredPuzzleArt } from "./coloredPuzzleArt.js";
+import { renderFeaturedJar } from "./featuredPantryJar.js";
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -115,6 +116,14 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   greetingWrap.append(greetingPip, greeting);
   scene.appendChild(greetingWrap);
 
+  const activeShelf = getSeasonShelfForPuzzle(activePuzzle);
+  const featuredJar = getEquippedJarForCurrentStage(activeShelf);
+  const featuredJarCard = renderFeaturedJar(featuredJar, {
+    className: "puzzle-home-scene__featured-jar",
+    onSelect: () => onSelectView("pantry")
+  });
+  if (featuredJarCard) scene.appendChild(featuredJarCard);
+
   const play = document.createElement("button");
   play.type = "button";
   play.className = "puzzle-home-scene__play";
@@ -146,7 +155,6 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     ["map", "home.mapLabel", () => onSelectView("map")]
   ];
   const completedIds = new Set(getCompletedPuzzleIds());
-  const activeShelf = getSeasonShelfForPuzzle(activePuzzle);
   const activeShelfPuzzles = activeShelf ? getSeasonShelfPuzzles(activeShelf) : [];
   const activeShelfCompletedCount = activeShelfPuzzles.filter((puzzle) => completedIds.has(puzzle.id)).length;
   const ownedJarIds = new Set(getOwnedJarIds());

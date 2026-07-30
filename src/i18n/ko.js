@@ -601,10 +601,11 @@ export const ko = {
       openDetail: "{item} \uC790\uC138\uD788 \uBCF4\uAE30",
       spoonCost: "{count} \uD83E\uDD44",
       shelfLabel: "{shelf}",
-      equipped: "\uC9C4\uC5F4 \uC911",
+      equipped: "\uD604\uC7AC \uC120\uD0DD\uB428 ✓",
       buyAction: "{count} \uD83E\uDD44 \uAD6C\uB9E4",
       needSpoons: "\uC2A4\uD47C {count}\uAC1C \uB354 \uD544\uC694",
-      equipAction: "\uC774 \uBCD1 \uC9C4\uC5F4\uD558\uAE30",
+      equipAction: "\uC774 \uBCD1 \uC120\uD0DD\uD558\uAE30",
+      todaysPantry: "\uC624\uB298\uC758 \uD32C\uD2B8\uB9AC",
       onboardingTitle: "\uC120\uBC18\uC774 \uC900\uBE44\uB410\uC5B4\uC694.",
       onboardingPrompt: "\uCCAB \uBC88\uC9F8 \uBCD1\uC744 \uAD6C\uB9E4\uD574\uC11C \uD32C\uD2B8\uB9AC\uB97C \uCC44\uC6CC\uBCF4\uC138\uC694!",
       rarity: {

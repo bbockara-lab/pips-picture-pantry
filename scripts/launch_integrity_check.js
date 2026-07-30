@@ -161,6 +161,15 @@ function checkDailyLoginBonus() {
   expectIncludes("src/styles.css", "v0.1.678 - daily login spoon bonus", "login bonus presentation contract");
   expectIncludes("tests/save.test.js", "grants once per local date", "login grant regression test");
 }
+function checkFeaturedPantryJar() {
+  expectIncludes("src/game/save.js", "export function getEquippedJarForCurrentStage", "current stage selected jar helper");
+  expectIncludes("src/ui/featuredPantryJar.js", "getJarArtUrl(jar.id)", "approved jar artwork mapping");
+  expectIncludes("src/ui/puzzleHubView.js", 'onSelect: () => onSelectView("pantry")', "Workshop jar opens Pantry");
+  expectIncludes("src/ui/puzzleView.js", "equippedJar: isTimeAttack", "regular completion jar selection");
+  expectIncludes("src/ui/pipReaction.js", "if (featuredJar) content.push(featuredJar)", "completion jar optional rendering");
+  expectIncludes("src/styles.css", "v0.1.679 - meaningful featured Pantry jar", "featured Pantry jar presentation contract");
+  expectIncludes("tests/featuredPantryJar.test.js", "Selected Pantry jar meaning", "featured jar regression test");
+}
 function main() {
   checkAndroidVersion();
   checkPackUnlockGuidance();
@@ -168,6 +177,7 @@ function main() {
   checkSimpleOpening();
   checkPlayerFacingClarity();
   checkDailyLoginBonus();
+  checkFeaturedPantryJar();
   console.log("Launch integrity guard passed: Android numbering, unlock guidance, replay rewards, simple opening, and player-facing clarity, and daily login rewards are locked.");
 }
 
