@@ -17750,7 +17750,7 @@ img {
 .pantry-shelf__jars {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: end;
+  align-items: stretch;
   gap: 10px 6px;
   padding: 12px 6px 4px;
   border-radius: 10px 10px 2px 2px;
@@ -17770,9 +17770,9 @@ img {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
-  justify-content: flex-end !important;
+  justify-content: space-between !important;
   min-width: 0 !important;
-  min-height: 116px !important;
+  min-height: 128px !important;
   margin: 0 !important;
   padding: 2px !important;
   border: 0 !important;
@@ -17916,7 +17916,22 @@ img {
   white-space: nowrap;
 }
 
-.pantry-jar__name,
+.pantry-jar__name {
+  display: -webkit-box;
+  max-width: 100%;
+  margin-top: 4px;
+  overflow: hidden;
+  font-size: 0.68rem;
+  line-height: 1.2;
+  text-align: center;
+  text-overflow: unset;
+  white-space: normal;
+  word-break: break-word;
+  min-height: calc(0.68rem * 1.2 * 2);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
 .pantry-jar__price,
 .pantry-jar__status {
   display: block;
@@ -17928,10 +17943,6 @@ img {
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.pantry-jar__price,
-.pantry-jar__status {
   margin-top: 2px;
   color: #9b6b00;
   font-weight: 900;
@@ -18099,7 +18110,10 @@ body.guide-open {
     transform: scale(0.92);
     transform-origin: bottom center;
   }
-  .pantry-jar__name,
+  .pantry-jar__name {
+    font-size: 0.62rem;
+    min-height: calc(0.62rem * 1.2 * 2);
+  }
   .pantry-jar__price,
   .pantry-jar__status {
     font-size: 0.62rem;

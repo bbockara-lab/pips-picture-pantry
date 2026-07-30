@@ -3183,6 +3183,20 @@ async function verifyPantryPlacement(page, viewportName) {
       ownedStarterCount: jars.filter((jar) => jar.classList.contains("rarity-starter") && jar.classList.contains("owned")).length,
       equippedStarterCount: jars.filter((jar) => jar.classList.contains("rarity-starter") && jar.classList.contains("equipped")).length,
       jarOverflowCount: jars.filter((jar) => jar.scrollWidth > jar.clientWidth + 1).length,
+      jarNameCount: jars.filter((jar) => jar.querySelector(".pantry-jar__name")).length,
+      twoLineNameContractCount: jars.filter((jar) => {
+        const name = jar.querySelector(".pantry-jar__name");
+        if (!name) return false;
+        const style = getComputedStyle(name);
+        return style.webkitLineClamp === "2"
+          && style.whiteSpace === "normal"
+          && Number.parseFloat(style.minHeight) >= 14;
+      }).length,
+      jarMetaCount: jars.filter((jar) => jar.querySelector(".pantry-jar__price, .pantry-jar__status")).length,
+      singleLineMetaContractCount: jars.filter((jar) => {
+        const meta = jar.querySelector(".pantry-jar__price, .pantry-jar__status");
+        return meta && getComputedStyle(meta).whiteSpace === "nowrap";
+      }).length,
       storeProductCount: store?.querySelectorAll(".support-pack-card").length || 0,
       storeAfterShelves: Boolean(store && document.querySelector(".pantry-jar-shelves")?.compareDocumentPosition(store) & Node.DOCUMENT_POSITION_FOLLOWING),
       storeOverflowsX: store ? store.scrollWidth > store.clientWidth + 1 : true
@@ -3196,6 +3210,10 @@ async function verifyPantryPlacement(page, viewportName) {
     || metrics.ownedStarterCount !== 8
     || metrics.equippedStarterCount !== 8
     || metrics.jarOverflowCount
+    || metrics.jarNameCount !== 48
+    || metrics.twoLineNameContractCount !== 48
+    || metrics.jarMetaCount < 1
+    || metrics.singleLineMetaContractCount !== metrics.jarMetaCount
     || metrics.storeProductCount !== 2
     || !metrics.storeAfterShelves
     || metrics.storeOverflowsX) {

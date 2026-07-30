@@ -1,3 +1,9 @@
+## 2026-07-30 v0.1.692 Pantry jar two-line names
+
+- Current package/UI candidate: v0.1.692.
+- Pantry shelf cards reserve two name lines while keeping price/status on one line, with aligned artwork across mobile three-column and tablet six-column layouts.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this layout step.
+- Full candidate verification passed: 48 test files / 282 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-30 v0.1.691 intro spoon balance containment
 
 - Current package/UI candidate: v0.1.691.

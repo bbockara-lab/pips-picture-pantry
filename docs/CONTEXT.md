@@ -1,3 +1,11 @@
+## v0.1.692 - Step 48 Pantry Jar Two-Line Names
+
+- Changed Pantry jar names from a one-line ellipsis to a two-line clamp with a permanently reserved two-line label area, so long Korean and English names remain readable without shifting jar artwork.
+- Stretched shelf grid cells and raised jar cards to 128px so artwork, labels, prices, and equipped status remain aligned across three-column mobile and six-column tablet layouts.
+- Preserved price and status as single-line labels and added a compact two-line height contract below 380px.
+- Added focused source tests and rendered mobile assertions for the two-line name, single-line price/status, and equal-height shelf-cell contracts.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 48 test files / 282 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.691 - Step 47 Intro Spoon Balance Containment
 
 - Hid the shared spoon balance chip while the branded onboarding intro is open, matching the existing floating-navigation containment behavior.
