@@ -1,3 +1,10 @@
+## v0.1.664 - Small Puzzle Hint Access
+
+- Completed Step 20 by granting one starter hint to 5x5 puzzles and two starter hints to 8x8 puzzles; existing 10x10+ limits remain unchanged.
+- After starter hints are exhausted, normal 5x5 hints cost 3 spoons and 8x8 hints cost 5 spoons, with the existing paid-use escalation retained.
+- Small-puzzle hints still reveal exactly one cell, and focused tests cover allowance, reveal count, starter-to-spoon boundaries, and escalating costs.
+- Full candidate verification passed: 40 test files / 242 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.663 - Puzzle Picker Mosaic Removal
 
 - Completed Step 19 by removing the stage-art and fallback tile mosaics from unlocked and next-locked puzzle-picker shelves.

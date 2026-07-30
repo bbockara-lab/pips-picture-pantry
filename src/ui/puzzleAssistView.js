@@ -76,16 +76,19 @@ function appendGuideAction(parent, action, label) {
 
 export function getHintLimit(puzzle) {
   const size = Number(puzzle.size || 0);
-  if (size >= 15) {
-    return 5;
+  if (size <= 5) {
+    return 1;
   }
-  if (size >= 12) {
-    return 4;
+  if (size <= 8) {
+    return 2;
   }
-  if (size >= 10) {
+  if (size < 12) {
     return 3;
   }
-  return 0;
+  if (size < 15) {
+    return 4;
+  }
+  return 5;
 }
 
 export function getHintRevealCount(puzzle, options = {}) {

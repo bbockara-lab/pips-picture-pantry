@@ -1,3 +1,10 @@
+## 2026-07-30 v0.1.664 small puzzle hint access
+
+- Current package/UI candidate: v0.1.664.
+- Normal 5x5 and 8x8 puzzles now provide 1 and 2 starter hints respectively, followed by size-aware spoon hints at 3sp and 5sp base cost.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 40 test files / 242 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## 2026-07-30 v0.1.663 puzzle picker mosaic removal
 
 - Current package/UI candidate: v0.1.663.

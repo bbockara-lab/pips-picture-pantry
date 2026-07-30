@@ -34,6 +34,10 @@ describe("puzzle view hint cost", () => {
   });
 
   it("uses the size-aware spoon cost after normal puzzle free hints", () => {
+    expect(getPuzzleHintCost({ puzzleSize: 5, hintsUsed: 0, paidHintsUsed: 0, hintLimit: 1 })).toBe(0);
+    expect(getPuzzleHintCost({ puzzleSize: 5, hintsUsed: 1, paidHintsUsed: 0, hintLimit: 1 })).toBe(3);
+    expect(getPuzzleHintCost({ puzzleSize: 8, hintsUsed: 1, paidHintsUsed: 0, hintLimit: 2 })).toBe(0);
+    expect(getPuzzleHintCost({ puzzleSize: 8, hintsUsed: 2, paidHintsUsed: 0, hintLimit: 2 })).toBe(5);
     expect(getPuzzleHintCost({ puzzleSize: 12, hintsUsed: 3, paidHintsUsed: 0, hintLimit: 4 })).toBe(0);
     expect(getPuzzleHintCost({ puzzleSize: 12, hintsUsed: 4, paidHintsUsed: 0, hintLimit: 4 })).toBe(9);
     expect(getPuzzleHintCost({ puzzleSize: 12, hintsUsed: 5, paidHintsUsed: 1, hintLimit: 4 })).toBe(14);

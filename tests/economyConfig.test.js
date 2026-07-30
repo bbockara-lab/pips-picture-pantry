@@ -22,8 +22,10 @@ describe("economy config", () => {
   });
 
   it("prices normal extra puzzle hints by board size and paid count", () => {
-    expect(getPuzzleExtraHintCost(5, 0)).toBe(0);
-    expect(getPuzzleExtraHintCost(8, 0)).toBe(0);
+    expect(getPuzzleExtraHintCost(5, 0)).toBe(3);
+    expect(getPuzzleExtraHintCost(5, 1)).toBe(5);
+    expect(getPuzzleExtraHintCost(8, 0)).toBe(5);
+    expect(getPuzzleExtraHintCost(8, 1)).toBe(8);
     expect(getPuzzleExtraHintCost(10, 0)).toBe(6);
     expect(getPuzzleExtraHintCost(12, 0)).toBe(9);
     expect(getPuzzleExtraHintCost(12, 1)).toBe(14);

@@ -26,6 +26,8 @@ export const ECONOMY = {
   TIME_ATTACK_DAILY_LIMIT: 3,
   TIME_ATTACK_HINT_COSTS: [2, 4, 7],
   PUZZLE_EXTRA_HINT_BASE_COST_BY_SIZE: {
+    5: 3,
+    8: 5,
     10: 6,
     12: 9,
     15: 13,
