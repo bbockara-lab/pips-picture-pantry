@@ -18963,3 +18963,73 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   .app-shell--workshop-home .puzzle-home-scene__featured-jar .featured-pantry-jar__copy { display: none; }
   .app-shell--workshop-home .puzzle-home-scene__featured-jar { min-width: 0; padding: 4px; border-radius: 14px; }
 }
+
+/* v0.1.681 - featured Badge keepsake */
+.badge-detail__feature {
+  grid-column: 1 / -1;
+  min-height: 42px;
+  border: 1.5px solid #9a6428;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fff7cf, #f3d784);
+  color: #56372d;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.badge-detail__feature:disabled {
+  border-color: rgba(92, 72, 54, 0.2);
+  background: rgba(239, 228, 198, 0.7);
+  color: #7b6a59;
+  cursor: default;
+}
+
+.app-shell--workshop-home .puzzle-home-scene__featured-badge {
+  position: absolute;
+  top: 38%;
+  right: clamp(12px, 4vw, 24px);
+  z-index: 4;
+  width: clamp(64px, 18vw, 84px);
+  min-height: 0;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 5px;
+  border: 1px solid rgba(112, 72, 43, 0.24);
+  border-radius: 16px;
+  background: rgba(255, 249, 224, 0.9);
+  box-shadow: 0 5px 12px rgba(67, 42, 28, 0.18);
+  color: #56372d;
+  font: inherit;
+  cursor: pointer;
+}
+
+.app-shell--workshop-home .puzzle-home-scene__featured-badge img {
+  width: clamp(48px, 14vw, 64px);
+  height: clamp(48px, 14vw, 64px);
+  object-fit: contain;
+}
+
+.app-shell--workshop-home .puzzle-home-scene__featured-badge-name {
+  width: 100%;
+  overflow: hidden;
+  font-size: clamp(.52rem, 2vw, .64rem);
+  font-weight: 900;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 380px) {
+  .app-shell--workshop-home .puzzle-home-scene__featured-badge {
+    top: 39%;
+    right: 9px;
+    width: 60px;
+    padding: 4px;
+  }
+  .app-shell--workshop-home .puzzle-home-scene__featured-badge img {
+    width: 46px;
+    height: 46px;
+  }
+}

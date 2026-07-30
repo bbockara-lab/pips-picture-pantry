@@ -5,13 +5,15 @@ import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, getSeasonShelfSizeCount
 import { PANTRY_JARS } from "../data/pantryJars.js";
 import { getPaidJarProgressForPantryShelf, getPantryShelfForSeasonShelf } from "../data/stagePantryLinks.js";
 import { ECONOMY } from "../data/economyConfig.js";
-import { getCompletedPuzzleIds, getEquippedJarForCurrentStage, getOwnedJarIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
+import { getCompletedPuzzleIds, getEquippedJarForCurrentStage, getFeaturedBadgeId, getOwnedJarIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
 import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
 import { getPreviousSeasonShelf, isSeasonShelfComplete } from "../game/seasonShelfProgress.js";
 import { renderColoredPuzzleArt } from "./coloredPuzzleArt.js";
 import { renderFeaturedJar } from "./featuredPantryJar.js";
+import { getBadgeArtUrl } from "../data/badgeArt.js";
+import { getPackBadgeStatus } from "../game/badges.js";
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -123,6 +125,35 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     onSelect: () => onSelectView("pantry")
   });
   if (featuredJarCard) scene.appendChild(featuredJarCard);
+
+  const featuredBadgeId = getFeaturedBadgeId();
+  const featuredBadgeStatus = featuredBadgeId
+    ? getPackBadgeStatus(getCompletedPuzzleIds()).find(
+      (status) => status.earned && status.badge.id === featuredBadgeId
+    )
+    : null;
+  if (featuredBadgeStatus) {
+    const featuredBadge = document.createElement("button");
+    featuredBadge.type = "button";
+    featuredBadge.className = "puzzle-home-scene__featured-badge";
+    featuredBadge.setAttribute("aria-label", t("badges.featuredAria", {
+      title: t(featuredBadgeStatus.badge.titleKey)
+    }));
+    const badgeImage = document.createElement("img");
+    badgeImage.src = getBadgeArtUrl(featuredBadgeStatus.badge.id);
+    badgeImage.alt = "";
+    badgeImage.setAttribute("aria-hidden", "true");
+    const badgeName = appendTextElement(
+      featuredBadge,
+      "span",
+      "puzzle-home-scene__featured-badge-name",
+      t(featuredBadgeStatus.badge.titleKey)
+    );
+    badgeName.setAttribute("aria-hidden", "true");
+    featuredBadge.prepend(badgeImage);
+    featuredBadge.addEventListener("click", () => onSelectView("map"));
+    scene.appendChild(featuredBadge);
+  }
 
   const play = document.createElement("button");
   play.type = "button";

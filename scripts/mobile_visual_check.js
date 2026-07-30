@@ -104,6 +104,7 @@ for (const viewport of viewports) {
   await expectVisible(page, ".badge-shelf", viewport.name);
   await expectSpoonBalanceChipSize(page, viewport.name, "Badge");
   await expectMapPolish(page, viewport.name);
+  await verifyFeaturedBadgeFlow(page, viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
 
   await openFloatingView(page, "pantry");
@@ -2936,6 +2937,83 @@ async function seedLargeBoardCatalogAccess(page) {
     save.unlockedPackIds = Array.from(new Set([...(Array.isArray(save.unlockedPackIds) ? save.unlockedPackIds : []), "pips-first-shelf", "bakery-window", "village-pantry"]));
     save.pantrySpoons = Math.max(500, Number(save.pantrySpoons || 0));
     save.pantryCompletedStoryGoalIds = Array.from(new Set([...(Array.isArray(save.pantryCompletedStoryGoalIds) ? save.pantryCompletedStoryGoalIds : []), "small-jam-jar", "sunny-window-curtains", "recipe-card-shelf", "mint-check-rug", "herb-pot", "cork-board", "tiny-succulent", "spoon-wall-clock", "berry-tea-tins", "ribbon-rolling-pin"]));
+    localStorage.setItem(saveKey, JSON.stringify(save));
+  });
+}
+
+async function verifyFeaturedBadgeFlow(page, viewportName) {
+  await page.evaluate(async () => {
+    const { seasonShelves } = await import("/src/data/seasonShelves.js");
+    const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+    const saveKey = "pips-picture-pantry:v0.1:save:" + player.id;
+    const save = JSON.parse(localStorage.getItem(saveKey) || "{}");
+    save.completedPuzzleIds = [...seasonShelves[0].puzzleIds];
+    save.ownedJarIds = ["strawberry-jam", "blueberry-jam", "cherry-jam", "orange-marmalade", "lemon-curd", "peach-preserve"];
+    save.equippedJars = { jam: "strawberry-jam" };
+    save.unlockedShelfIds = ["shelf-pips-first", "shelf-sunny-counter"];
+    save.featuredBadgeId = null;
+    localStorage.setItem(saveKey, JSON.stringify(save));
+  });
+  await page.reload({ waitUntil: "networkidle" });
+  await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6000 });
+  await page.waitForTimeout(800);
+  await dismissIntro(page, "Jay", viewportName);
+  await dismissGuideIfPresent(page, viewportName);
+  await openFloatingView(page, "map", viewportName);
+  const earnedBadge = page.locator(".badge-slot.earned").first();
+  await earnedBadge.click();
+  const featureButton = page.locator(".badge-detail__feature");
+  await expectVisible(page, ".badge-detail__feature", viewportName);
+  if (await featureButton.isDisabled()) {
+    failures.push("[" + viewportName + "] Newly selected earned badge was already marked as featured.");
+  }
+  await featureButton.click();
+  if (!(await featureButton.isDisabled())) {
+    failures.push("[" + viewportName + "] Featured badge action did not switch to its disabled displayed state.");
+  }
+  await page.locator(".floating-nav__trigger").click();
+  await page.locator(".floating-nav[data-open='true']").waitFor({ state: "visible", timeout: 3000 });
+  await page.locator(".floating-nav__item[data-view='puzzle']").click();
+  await page.locator(".puzzle-home-scene").waitFor({ state: "visible", timeout: 5000 });
+  await page.locator(".puzzle-home-destination--puzzle").click();
+  await page.locator(".puzzle-picker").waitFor({ state: "visible", timeout: 5000 });
+  const nextStagePuzzle = page.locator("[data-shelf-id='shelf-sunny-counter'] .puzzle-chip").first();
+  await nextStagePuzzle.click();
+  await page.locator(".play-screen").waitFor({ state: "visible", timeout: 5000 });
+  await dismissGuideIfPresent(page, viewportName);
+  await page.locator(".play-screen__back").click();
+  await page.locator(".puzzle-home-scene").waitFor({ state: "visible", timeout: 5000 });
+  await expectVisible(page, ".puzzle-home-scene__featured-badge", viewportName);
+  await expectVisible(page, ".puzzle-home-scene__featured-jar", viewportName);
+  const overlap = await page.evaluate(() => {
+    const badge = document.querySelector(".puzzle-home-scene__featured-badge")?.getBoundingClientRect();
+    const jar = document.querySelector(".puzzle-home-scene__featured-jar")?.getBoundingClientRect();
+    if (!badge || !jar) return true;
+    return !(badge.right <= jar.left || badge.left >= jar.right || badge.bottom <= jar.top || badge.top >= jar.bottom);
+  });
+  if (overlap) {
+    failures.push("[" + viewportName + "] Featured badge overlaps the featured Pantry jar on Workshop home.");
+  }
+  await page.locator(".puzzle-home-scene__featured-badge").click();
+  await expectVisible(page, ".map-panel", viewportName);
+  await page.locator(".floating-nav__trigger").click();
+  await page.locator(".floating-nav[data-open='true']").waitFor({ state: "visible", timeout: 3000 });
+  await page.locator(".floating-nav__item[data-view='puzzle']").click();
+  await page.locator(".puzzle-home-destination--puzzle").click();
+  const firstShelfToggle = page.locator(".shelf-collapse-toggle[data-shelf-toggle='shelf-pips-first']");
+  if ((await firstShelfToggle.getAttribute("aria-expanded")) !== "true") {
+    await firstShelfToggle.click();
+  }
+  await page.locator(".puzzle-chip[data-puzzle-id='pips-first-shelf-pip-face-1']").click();
+  await page.locator(".play-screen").waitFor({ state: "visible", timeout: 5000 });
+  await dismissGuideIfPresent(page, viewportName);
+  await page.locator(".play-screen__back").click();
+  await page.locator(".puzzle-home-scene").waitFor({ state: "visible", timeout: 5000 });
+  await page.evaluate(() => {
+    const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+    const saveKey = "pips-picture-pantry:v0.1:save:" + player.id;
+    const save = JSON.parse(localStorage.getItem(saveKey) || "{}");
+    save.completedPuzzleIds = ["pips-first-shelf-pip-face-1"];
     localStorage.setItem(saveKey, JSON.stringify(save));
   });
 }

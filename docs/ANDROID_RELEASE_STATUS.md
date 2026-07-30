@@ -1,3 +1,10 @@
+## 2026-07-30 v0.1.681 featured Badge keepsake
+
+- Current package/UI candidate: v0.1.681.
+- Earned badges can be selected from the Badge Shelf and displayed beside the current Pantry jar on Workshop home.
+- Locked badges cannot be selected, stale/unearned saved IDs do not render, and tapping the featured badge returns to the Badge Shelf.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 47 test files / 275 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA with featured badge selection/coexistence checks at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-30 v0.1.680 spoon balance chip icon sizing
 
 - Current package/UI candidate: v0.1.680.

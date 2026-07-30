@@ -111,6 +111,16 @@ export function getCompletedPuzzleIds() {
   return loadSave()?.completedPuzzleIds || [];
 }
 
+export function setFeaturedBadge(badgeId) {
+  const save = loadSave() || createEmptySave();
+  save.featuredBadgeId = badgeId ? String(badgeId) : null;
+  saveGame(save);
+}
+
+export function getFeaturedBadgeId() {
+  return loadSave()?.featuredBadgeId || null;
+}
+
 export function getDailyCompletedDate() {
   return loadSave()?.dailyCompletedDate || null;
 }
@@ -771,6 +781,7 @@ function normalizeSave(parsed) {
     equippedJars: parsed?.equippedJars && typeof parsed.equippedJars === "object"
       ? { ...parsed.equippedJars }
       : {},
+    featuredBadgeId: parsed?.featuredBadgeId ? String(parsed.featuredBadgeId) : null,
     ownedDecorationIds: Array.isArray(parsed?.ownedDecorationIds) ? Array.from(new Set(parsed.ownedDecorationIds)) : [],
     equippedDecorations: parsed?.equippedDecorations && typeof parsed.equippedDecorations === "object" ? parsed.equippedDecorations : {},
     completionDates: parsed?.completionDates && typeof parsed.completionDates === "object" ? parsed.completionDates : {},

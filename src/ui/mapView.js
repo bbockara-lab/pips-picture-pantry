@@ -1,6 +1,6 @@
 import { getBadgeArtUrl } from "../data/badgeArt.js";
 import { getPackBadgeStatus } from "../game/badges.js";
-import { getCompletedPuzzleIds } from "../game/save.js";
+import { getCompletedPuzzleIds, getFeaturedBadgeId, setFeaturedBadge } from "../game/save.js";
 import { t } from "../i18n/index.js";
 
 const LAST_EARNED_BADGE_KEY = "pip-last-earned-badge";
@@ -14,6 +14,7 @@ export function renderPantryMapView() {
   const statuses = getPackBadgeStatus(getCompletedPuzzleIds());
   const earnedCount = statuses.filter((status) => status.earned).length;
   const justEarnedId = consumeJustEarnedBadgeId();
+  let featuredBadgeId = getFeaturedBadgeId();
   const section = document.createElement("section");
   section.className = "map-panel badge-view content-panel";
 
@@ -60,7 +61,16 @@ export function renderPantryMapView() {
     const slot = event.target.closest(".badge-slot");
     if (!slot) return;
     const status = statuses.find((candidate) => candidate.badge.id === slot.dataset.badgeId);
-    if (status) showBadgeDetail(detail, status);
+    if (status) {
+      showBadgeDetail(detail, status, {
+        featured: featuredBadgeId === status.badge.id,
+        onFeature: () => {
+          setFeaturedBadge(status.badge.id);
+          featuredBadgeId = status.badge.id;
+          showBadgeDetail(detail, status, { featured: true });
+        }
+      });
+    }
   });
 
   return section;
@@ -110,7 +120,7 @@ function createBadgeSlot(status, justEarnedId) {
   return slot;
 }
 
-function showBadgeDetail(detail, status) {
+function showBadgeDetail(detail, status, options = {}) {
   detail.replaceChildren();
   detail.classList.add("visible");
   const image = createBadgeImage(status.badge.id);
@@ -127,6 +137,19 @@ function showBadgeDetail(detail, status) {
     });
   copy.append(title, note);
   detail.append(image, copy);
+  if (status.earned) {
+    const action = document.createElement("button");
+    action.type = "button";
+    action.className = "badge-detail__feature";
+    action.disabled = Boolean(options.featured);
+    action.textContent = options.featured
+      ? t("badges.featuredOnHome")
+      : t("badges.featureOnHome");
+    if (!options.featured && options.onFeature) {
+      action.addEventListener("click", options.onFeature);
+    }
+    detail.appendChild(action);
+  }
 }
 
 export function renderBadgeEarnedToast(status) {

@@ -1,3 +1,11 @@
+## v0.1.681 - Featured Badge Keepsake
+
+- Completed Step 37 by allowing one earned Badge Shelf keepsake to be selected for Workshop-home display; locked badges never expose the selection action.
+- The selection persists per player, and the active detail action changes to a disabled displayed state after selection.
+- Workshop home validates that the saved badge is still earned, renders approved badge artwork beside the selected Pantry jar, and opens the Badge Shelf when tapped.
+- Added focused save/source regression coverage and real rendered mobile checks for selection, persistence, jar/badge coexistence, non-overlap, and return navigation at all four candidate widths.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 47 test files / 275 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA with featured badge selection/coexistence checks at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.680 - Spoon Balance Chip Icon Sizing
 
 - Completed Step 36 by constraining the shared spoon balance chip artwork to 20x20px with contained aspect ratio and fixed flex sizing.
