@@ -1,3 +1,9 @@
+## 2026-07-30 v0.1.661 canonical shelf names and distinct wooden spoon
+
+- Current package/UI candidate: v0.1.661.
+- Badge labels now use the same canonical shelf names as the puzzle picker and completion overlay; the duplicated first-shelf spoon is now a distinct horizontal wooden-spoon puzzle.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 40 test files / 236 tests, 333-puzzle catalog and uniqueness gates, zero duplicate/repeated-title art findings, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-30 v0.1.660 itemized completion spoon rewards
 
 - Current package/UI candidate: v0.1.660.

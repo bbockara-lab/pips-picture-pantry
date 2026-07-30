@@ -706,7 +706,7 @@ export const ko = {
     "pips-first-shelf-apple-10": { title: "\uc0ac\uacfc", imageName: "\uc0ac\uacfc" },
     "pips-first-shelf-pip-face-2-11": { title: "\uc6c3\ub294 \ud54d", imageName: "\uc6c3\ub294 \ud54d" },
     "pips-first-shelf-soup-bowl-2-12": { title: "\ub530\ub73b\ud55c \uc218\ud504", imageName: "\ub530\ub73b\ud55c \uc218\ud504" },
-    "pips-first-shelf-spoon-2-13": { title: "\ubc18\uc9dd\uc774\ub294 \uc2a4\ud47c", imageName: "\ubc18\uc9dd\uc774\ub294 \uc2a4\ud47c" },
+    "pips-first-shelf-spoon-2-13": { title: "\ub098\ubb34 \uc2a4\ud47c", imageName: "\ub098\ubb34 \uc2a4\ud47c" },
     "pips-first-shelf-recipe-card-2-14": { title: "\ube44\ubc00 \ub808\uc2dc\ud53c", imageName: "\ube44\ubc00 \ub808\uc2dc\ud53c" },
     "pips-first-shelf-tiny-bow-2-15": { title: "\ub450 \ubc88\uc9f8 \ub9ac\ubcf8", imageName: "\ub450 \ubc88\uc9f8 \ub9ac\ubcf8" },
     "pips-first-shelf-teacup-2-16": { title: "\uaf43\ubb34\ub2ac \ucc3b\uc794", imageName: "\uaf43\ubb34\ub2ac \ucc3b\uc794" },

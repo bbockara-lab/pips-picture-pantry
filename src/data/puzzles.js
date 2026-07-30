@@ -210,7 +210,7 @@ export const puzzles = [
   },
   {
     "id": "pips-first-shelf-spoon-2-13",
-    "title": "Spoon 2",
+    "title": "Wooden Spoon",
     "packId": "pips-first-shelf",
     "access": "free",
     "size": 5,
@@ -218,11 +218,11 @@ export const puzzles = [
     "reward": 3,
     "completionPalette": "golden-spoon",
     "solution": [
-      "01100",
-      "01100",
-      "00100",
-      "00100",
-      "00100"
+      "00000",
+      "11000",
+      "11111",
+      "11000",
+      "00000"
     ]
   },
   {

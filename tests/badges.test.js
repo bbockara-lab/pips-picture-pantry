@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getSeasonShelfPuzzles, seasonShelves } from "../src/data/seasonShelves.js";
+import { getSeasonShelfById, getSeasonShelfPuzzles, seasonShelves } from "../src/data/seasonShelves.js";
 import {
   BADGE_MILESTONES,
   getBadgeForCompletedShelf,
@@ -14,6 +14,14 @@ describe("nine-stage shelf badges", () => {
     expect(BADGE_MILESTONES.map((badge) => badge.stage)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8]);
     expect(BADGE_MILESTONES.map((badge) => badge.group)).toEqual(["A", "A", "A", "B", "B", "B", "C", "C", "C"]);
     expect(BADGE_MILESTONES.at(-1)).toMatchObject({ id: "badge-pip-full-pantry", final: true });
+  });
+
+  it("uses the canonical shelf name for every badge milestone", () => {
+    BADGE_MILESTONES.forEach((badge) => {
+      const displayShelf = getSeasonShelfById(badge.shelfIds.at(-1));
+      expect(badge.titleKey).toBe(displayShelf.titleKey);
+      expect(badge.titleKey).toMatch(/^shelves\./);
+    });
   });
 
   it("tracks the next badge before its milestone is complete", () => {

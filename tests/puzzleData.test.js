@@ -32,6 +32,21 @@ describe("puzzle data", () => {
     ))).toBe(true);
   });
 
+  it("keeps the two first-shelf spoon pictures visibly distinct", () => {
+    const uprightSpoon = puzzles.find((puzzle) => puzzle.id === "pips-first-shelf-spoon-3");
+    const woodenSpoon = puzzles.find((puzzle) => puzzle.id === "pips-first-shelf-spoon-2-13");
+
+    expect(woodenSpoon?.title).toBe("Wooden Spoon");
+    expect(woodenSpoon?.solution).toEqual([
+      "00000",
+      "11000",
+      "11111",
+      "11000",
+      "00000"
+    ]);
+    expect(woodenSpoon?.solution).not.toEqual(uprightSpoon?.solution);
+  });
+
   it("uses motif regions instead of diagonal palette cycling", () => {
     expect(getNamedCompletionColor("recipe-card", 0, 2)).toBe("#d78b4b");
     expect(getNamedCompletionColor("recipe-card", 2, 2)).toBe("#78aa72");

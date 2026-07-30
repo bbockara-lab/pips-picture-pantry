@@ -1,3 +1,8 @@
+## v0.1.661 - Canonical Shelf Names and Distinct Wooden Spoon
+
+- Completed Step 17 by making every badge milestone display the canonical `shelves.*` name already used by the puzzle picker and shelf-completion overlay.
+- Replaced the duplicated thirteenth first-shelf spoon with a centered horizontal wooden-spoon silhouette and distinct Korean/English title and image copy.
+- Full candidate verification passed: 40 test files / 236 tests, 333-puzzle catalog and uniqueness gates, zero duplicate/repeated-title art findings, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.660 - Itemized Completion Spoon Rewards
 
 - Completed Step 16 by showing puzzle completion, Daily bonus, and shelf completion spoons as separate positive reward rows instead of presenting a combined total.

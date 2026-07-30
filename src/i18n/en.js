@@ -696,6 +696,7 @@ export const en = {
       imageName: "Pip Face",
       albumText: "Pip saved his first tiny picture."
     },
+    "pips-first-shelf-spoon-2-13": { title: "Wooden Spoon", imageName: "Wooden Spoon" },
     "village-pantry-flour-sack-27": {
       title: "Flour Sack",
       imageName: "Flour Sack"
