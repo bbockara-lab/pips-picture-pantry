@@ -1,3 +1,9 @@
+## 2026-07-30 v0.1.659 centered completion action
+
+- Current package/UI candidate: v0.1.659.
+- Centered the single Next Picture completion action in a one-column layout with a 320px maximum width and added geometry regression coverage.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 40 test files / 233 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-29 v0.1.658 late Pantry economy and badge glow verification
 
 - Current package/UI candidate: v0.1.658.

@@ -1,3 +1,9 @@
+## v0.1.659 - Centered Completion Action
+
+- Completed Step 15 by converting the completion action area from the obsolete two-column layout to a single centered column capped at 320px.
+- The completion scene still exposes only the existing Next Picture action; no navigation behavior changed.
+- Mobile QA now measures one action button, its bounded width, and its horizontal center against the completion banner to prevent the half-width regression from returning.
+- Full candidate verification passed: 40 test files / 233 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.658 - Late Pantry Economy and Badge Glow Verification
 
 - Completed Step 14 by strengthening the paid price curve for the late Fruit, Oil, and Tea shelves while preserving the Pickle shelf's approved 25-135 range; the full 48-jar catalog now totals 3,310 spoons.

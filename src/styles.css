@@ -611,9 +611,12 @@ button {
 .completion-actions {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 8px;
   width: 100%;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 8px;
 }
 

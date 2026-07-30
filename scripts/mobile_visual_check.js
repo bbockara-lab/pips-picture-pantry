@@ -1277,6 +1277,7 @@ async function expectCompletionRewardPolish(page, viewportName) {
     const stampRect = stamp?.getBoundingClientRect();
     const eyebrowRect = eyebrow?.getBoundingClientRect();
     const actionsRect = actions?.getBoundingClientRect();
+    const actionButtons = [...(actions?.querySelectorAll("button") || [])];
     const bannerStyle = banner ? getComputedStyle(banner) : null;
     const cardStyle = card ? getComputedStyle(card) : null;
     const revealStyle = reveal ? getComputedStyle(reveal) : null;
@@ -1299,6 +1300,9 @@ async function expectCompletionRewardPolish(page, viewportName) {
       stampHeight: stampRect?.height || 0,
       eyebrowWidth: eyebrowRect?.width || 0,
       actionsWidth: actionsRect?.width || 0,
+      actionsLeft: actionsRect?.left || 0,
+      actionsRight: actionsRect?.right || 0,
+      actionButtonCount: actionButtons.length,
       rewardFactRects,
       bannerRadius: bannerStyle ? parseFloat(bannerStyle.borderRadius) : 0,
       bannerBackground: bannerStyle?.backgroundImage || "",
@@ -1324,7 +1328,13 @@ async function expectCompletionRewardPolish(page, viewportName) {
     (!metrics.firstPipFace && metrics.stampHeight < 22) ||
     (!metrics.firstPipFace && metrics.eyebrowWidth < 56) ||
     (metrics.firstPipFace && (metrics.stampWidth !== 0 || metrics.eyebrowWidth !== 0)) ||
-    metrics.actionsWidth < metrics.bannerWidth * 0.72 ||
+    metrics.actionButtonCount !== 1 ||
+    metrics.actionsWidth < Math.min(220, metrics.bannerWidth * 0.55) ||
+    metrics.actionsWidth > 320.5 ||
+    Math.abs(
+      (metrics.actionsLeft + metrics.actionsRight) / 2 -
+      (metrics.bannerLeft + metrics.bannerRight) / 2
+    ) > 2 ||
     metrics.rewardFactRects.length !== 0 ||
     metrics.bannerRadius < 14 ||
     metrics.cardRadius < 16 ||
