@@ -3391,8 +3391,9 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
       assetId: icon?.dataset.assetId || "missing",
       naturalWidth: icon?.naturalWidth || 0,
       naturalHeight: icon?.naturalHeight || 0,
-      minimumRightGap: needsSettingsClearance ? 68 : 16,
+      minimumRightGap: shell?.classList.contains("app-shell--play") ? 8 : needsSettingsClearance ? 68 : 16,
       focusedPlayOpen: Boolean(shell?.classList.contains("app-shell--play")),
+      chipInsidePlayHeader: !shell?.classList.contains("app-shell--play") || Boolean(chip?.closest(".play-screen__header")),
       tagName: chip?.tagName || "MISSING",
       pointerEvents: chip ? getComputedStyle(chip).pointerEvents : "missing",
       overlaps
@@ -3416,6 +3417,7 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
     || metrics.rightGap < metrics.minimumRightGap - 1
     || (metrics.focusedPlayOpen ? metrics.tagName !== "DIV" : metrics.tagName !== "BUTTON")
     || (metrics.focusedPlayOpen ? metrics.pointerEvents !== "none" : metrics.pointerEvents !== "auto")
+    || !metrics.chipInsidePlayHeader
     || metrics.overlaps.length > 0) {
     failures.push("[" + viewportName + "] " + viewName + " shared spoon balance regressed: " + JSON.stringify(metrics));
   }

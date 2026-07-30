@@ -18625,8 +18625,7 @@ body.guide-open {
   object-fit: contain;
 }
 
-.app-shell--workshop-home .spoon-balance-chip,
-.app-shell--play .spoon-balance-chip {
+.app-shell--workshop-home .spoon-balance-chip {
   right: max(68px, calc(env(safe-area-inset-right, 0px) + 68px));
 }
 /* v0.1.671 - explicit stage lock conditions */
@@ -19197,5 +19196,41 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
 /* v0.1.691 - Step 47 intro chrome containment */
 #app[data-intro-open="true"] .spoon-balance-chip {
   visibility: hidden;
+  pointer-events: none;
+}
+
+/* v0.1.693 - focused play spoon balance header containment */
+.app-shell--play .play-screen__header {
+  grid-template-columns: auto minmax(0, 1fr) 46px auto;
+  grid-template-rows: auto auto;
+}
+
+.app-shell--play .play-screen__back {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.app-shell--play .play-screen__title {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.app-shell--play .play-screen__settings {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.app-shell--play .play-screen__header .difficulty {
+  grid-column: 4;
+  grid-row: 1;
+}
+
+.app-shell--play .spoon-balance-chip {
+  position: static;
+  grid-column: 2 / -1;
+  grid-row: 2;
+  justify-self: end;
+  min-height: 32px;
+  margin: 0;
   pointer-events: none;
 }

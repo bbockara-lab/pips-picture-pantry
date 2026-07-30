@@ -1,3 +1,11 @@
+## v0.1.693 - Focused Play Spoon Header Containment
+
+- Moved the shared spoon balance chip into the focused-play header instead of leaving it as an independent fixed overlay.
+- Reserved a dedicated second header row for the balance while pinning Back, title, Settings, and puzzle size to the first row, preventing the balance from covering Settings on narrow screens.
+- Kept the focused-play balance visible and noninteractive, preserving the established shared-economy contract.
+- Extended source and rendered mobile checks to require the focused-play chip inside the header and reject collisions with header controls.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 48 test files / 282 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.692 - Step 48 Pantry Jar Two-Line Names
 
 - Changed Pantry jar names from a one-line ellipsis to a two-line clamp with a permanently reserved two-line label area, so long Korean and English names remain readable without shifting jar artwork.

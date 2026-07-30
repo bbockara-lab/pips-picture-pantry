@@ -791,6 +791,12 @@ function createShell({
       replayChallenge,
       replayPicked
     }));
+    const playHeader = shell.querySelector(".play-screen__header");
+    const spoonBalanceChip = shell.querySelector(":scope > .spoon-balance-chip");
+    const settingsButton = playHeader?.querySelector(".play-screen__settings");
+    if (playHeader && spoonBalanceChip && settingsButton) {
+      playHeader.insertBefore(spoonBalanceChip, settingsButton);
+    }
     if (settingsOpen) {
       shell.appendChild(renderSettingsDialog(settingsDialogProps));
     }
