@@ -338,6 +338,8 @@ export const ko = {
     menu: "\uba54\ub274\ub85c",
     nextPicture: "\uB2E4\uC74C \uADF8\uB9BC",
     dailyComplete: "오늘의 그림 완성!",
+    dailyDone: "오늘의 그림 완료!",
+    confirm: "확인",
     puzzleReward: "퍼즐 완성 +{count}sp",
     dailyBonus: "일일 보너스 +{count}sp",
     stageBonus: "선반 완성 보너스 +{count}sp",

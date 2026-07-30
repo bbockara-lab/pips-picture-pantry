@@ -360,6 +360,8 @@ export const en = {
     menu: "Menu",
     nextPicture: "Next Picture",
     dailyComplete: "Today's Picture complete!",
+    dailyDone: "Daily picture complete!",
+    confirm: "OK",
     puzzleReward: "Puzzle complete +{count}sp",
     dailyBonus: "Daily bonus +{count}sp",
     stageBonus: "Shelf completion bonus +{count}sp",

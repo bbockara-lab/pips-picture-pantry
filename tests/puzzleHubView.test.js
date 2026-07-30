@@ -31,6 +31,11 @@ describe("Daily completion status", () => {
     expect(isDailyCompleteForDate("2026-07-28", "2026-07-29")).toBe(false);
     expect(isDailyCompleteForDate(null, "2026-07-29")).toBe(false);
   });
+  it("renders completed Daily cards as disabled and without a click handler", () => {
+    expect(hubSource).toContain('button.textContent = completed ? t("daily.completed")');
+    expect(hubSource).toContain("button.disabled = completed || selected");
+    expect(hubSource).toContain("if (!completed && !selected) {");
+  });
 });
 
 describe("Workshop Pantry notification", () => {

@@ -21,6 +21,7 @@ export function renderCompletionBanner(puzzle, {
   replayResult = null,
   replayExhausted = false,
   dailyChallenge = false,
+  isDailyPuzzle = false,
   dailyResult = null,
   rewardResult = null,
   stageBonus = 0
@@ -46,6 +47,7 @@ export function renderCompletionBanner(puzzle, {
     replayResult,
     replayExhausted,
     dailyChallenge,
+    isDailyPuzzle,
     dailyResult
   });
 
@@ -76,9 +78,13 @@ export function renderCompletionBanner(puzzle, {
   const actionButton = document.createElement("button");
   actionButton.type = "button";
   actionButton.className = "tool-button";
-  actionButton.textContent = t(replayExhausted ? "completion.backToSpoonRun" : "completion.nextPicture");
+  actionButton.textContent = t(replayExhausted
+    ? "completion.backToSpoonRun"
+    : isDailyPuzzle
+      ? "completion.confirm"
+      : "completion.nextPicture");
   actionButton.addEventListener("click", () => {
-    if (replayExhausted) {
+    if (replayExhausted || isDailyPuzzle) {
       onBackToSpoonRun?.();
       return;
     }
@@ -107,6 +113,9 @@ export function getCompletionRewardRows({ puzzleReward = 0, dailyBonus = 0, stag
 function getCompletionBannerMessage(puzzle, options = {}) {
   if (options.replayExhausted) {
     return t("completion.replayExhausted");
+  }
+  if (options.isDailyPuzzle) {
+    return t("completion.dailyDone");
   }
   if (options.dailyChallenge) {
     return t("completion.dailyComplete");

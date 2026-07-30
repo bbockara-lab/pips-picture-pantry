@@ -1,3 +1,12 @@
+## v0.1.669 - Daily Picture Completion Flow
+
+- Completed Step 25 by ending a solved Daily Picture with its reveal, existing puzzle and Daily reward rows, and one OK action that returns directly to Spoon Run.
+- Daily completion no longer offers Next Picture. Ordinary puzzle completions and replay completions retain their existing action rules.
+- Once today's Daily Picture is complete, its Spoon Run card shows the completed state and has neither an enabled action nor a click handler.
+- Added regression coverage for the Daily completion return path and completed-card interaction lock.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Candidate checks passed: 41 test files / 248 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, and HTTP probe. The combined runner encountered two non-product mobile-runner transients on separate attempts (a non-reproducing Time Attack paint assertion and a first-navigation `networkidle` timeout); isolated mobile QA then passed at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.668 - Reliable Progress Reset
 
 - Completed Step 24 by reloading the app immediately after the confirmed progress reset, preventing stale in-memory puzzle, spoon, Pantry, and guide state from being redrawn after LocalStorage is cleared.

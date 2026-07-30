@@ -31,8 +31,15 @@ describe("Pip completion scene", () => {
     expect(isReplayExhausted(true, { rewardAllowed: false, remaining: 0 })).toBe(false);
     expect(isReplayExhausted(true, { rewardAllowed: true, remaining: 1 })).toBe(false);
     expect(isReplayExhausted(false, { rewardAllowed: true, remaining: 0 })).toBe(false);
-    expect(pipReactionSource).toContain('t(replayExhausted ? "completion.backToSpoonRun" : "completion.nextPicture")');
+    expect(pipReactionSource).toContain('? "completion.backToSpoonRun"');
+    expect(pipReactionSource).toContain('? "completion.confirm"');
     expect(pipReactionSource).toContain('return t("completion.replayExhausted")');
+  });
+  it("returns Daily completion to Spoon Run with one confirmation action", () => {
+    expect(pipReactionSource).toContain("replayExhausted || isDailyPuzzle");
+    expect(pipReactionSource).toContain('return t("completion.dailyDone")');
+    expect(pipReactionSource).toContain('? "completion.confirm"');
+    expect(pipReactionSource).toContain(': "completion.nextPicture"');
   });
   it("centers the single completion action in a bounded one-column layout", () => {
     expect(stylesSource).toMatch(

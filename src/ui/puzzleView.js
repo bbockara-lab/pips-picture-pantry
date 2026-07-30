@@ -157,6 +157,7 @@ export function renderPuzzleView(puzzle, options = {}) {
         ...options,
         replayResult,
         replayExhausted: isReplayExhausted(isReplayChallenge, replayResult),
+        isDailyPuzzle: isDailyChallenge,
         dailyResult,
         rewardResult,
         stageBonus

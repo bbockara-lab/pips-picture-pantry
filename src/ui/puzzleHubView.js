@@ -221,7 +221,9 @@ export function renderDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle, opt
   button.className = "tool-button daily-button";
   button.textContent = completed ? t("daily.completed") : selected ? t("daily.selected") : t("daily.play");
   button.disabled = completed || selected;
-  button.addEventListener("click", () => onSelectPuzzle(dailyPuzzle.id));
+  if (!completed && !selected) {
+    button.addEventListener("click", () => onSelectPuzzle(dailyPuzzle.id));
+  }
 
   card.append(text, button);
   return card;

@@ -1,3 +1,11 @@
+## 2026-07-30 v0.1.669 Daily Picture completion flow
+
+- Current package/UI candidate: v0.1.669.
+- A solved Daily Picture now keeps its reveal and separate puzzle/Daily reward rows, then offers one OK action back to Spoon Run instead of Next Picture.
+- Today's completed Daily card is visibly complete and non-interactive; normal and replay completion paths remain unchanged.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Candidate checks passed: 41 test files / 248 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, and HTTP probe. After two different non-reproducing combined-run mobile transients, isolated mobile QA passed at 360x740, 390x844, 430x932, and 675x900.
+
 ## 2026-07-30 v0.1.668 reliable progress reset
 
 - Current package/UI candidate: v0.1.668.
