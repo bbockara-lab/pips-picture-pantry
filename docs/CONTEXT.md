@@ -1,3 +1,12 @@
+## v0.1.671 - Explicit Stage Lock Conditions
+
+- Completed Step 27 by showing previous-stage puzzle completion and paid Pantry jar progress as separate status rows on every locked stage card.
+- Each condition reports its own remaining count and uses distinct completed/incomplete styling, so players can see exactly which requirement is blocking progress.
+- The condition calculation is covered by a functional test for both unmet and met states. The launch-integrity contract now protects the two-condition guidance.
+- Step 28 behavior was intentionally not mixed into this patch: current spoon unlock costs and the existing unlock button remain until the next Step removes them.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 42 test files / 250 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.670 - Shared Spoon Balance
 
 - Completed Step 26 by adding a shared, safe-area-aware spoon balance chip to views that previously had no persistent currency display, including active puzzle and Time Attack play.

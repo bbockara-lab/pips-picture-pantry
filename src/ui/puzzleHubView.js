@@ -8,7 +8,7 @@ import { canUnlockShelf, getCompletedPuzzleIds, getOwnedJarIds, getPantrySpoons,
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
 import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
-import { getPreviousSeasonShelf } from "../game/seasonShelfProgress.js";
+import { getPreviousSeasonShelf, isSeasonShelfComplete } from "../game/seasonShelfProgress.js";
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -416,25 +416,60 @@ function createShelfCollapseToggle(shelf, collapsed, contentId, onToggleShelfCol
   button.addEventListener("click", () => onToggleShelfCollapsed(shelf.id, !collapsed));
   return button;
 }
+export function getShelfLockConditions(shelf, completedPuzzleIds = getCompletedPuzzleIds()) {
+  const completed = new Set(completedPuzzleIds || []);
+  const previousShelf = getPreviousSeasonShelf(shelf);
+  const previousPuzzles = previousShelf ? getSeasonShelfPuzzles(previousShelf) : [];
+  const puzzleRemaining = previousPuzzles.filter((puzzle) => !completed.has(puzzle.id)).length;
+  const roomRequirement = getShelfPantryRoomRequirement(shelf);
+  return {
+    puzzle: {
+      met: Boolean(previousShelf) && isSeasonShelfComplete(previousShelf, [...completed]),
+      remaining: puzzleRemaining
+    },
+    pantry: {
+      met: roomRequirement.met,
+      remaining: roomRequirement.remaining
+    },
+    roomRequirement
+  };
+}
+
+function appendLockCondition(parent, type, condition) {
+  const key = condition.met
+    ? `shelves.lockCondition${type}Done`
+    : `shelves.lockCondition${type}`;
+  const text = t(key, { count: condition.remaining });
+  const row = appendTextElement(
+    parent,
+    "p",
+    `unlock-panel__condition ${condition.met ? "is-met" : "is-unmet"}`,
+    condition.met ? text : `✗ ${text}`
+  );
+  row.dataset.condition = type.toLowerCase();
+  return row;
+}
+
 function createUnlockPanel(shelf, onUnlockShelf, onOpenPantry) {
   const panel = document.createElement("div");
   panel.className = "unlock-panel";
   const canOpen = canUnlockShelf(shelf);
-  const roomRequirement = getShelfPantryRoomRequirement(shelf);
+  const lockConditions = getShelfLockConditions(shelf);
+  const roomRequirement = lockConditions.roomRequirement;
   const spoonGap = Math.max(0, Number(shelf.unlockCost || 0) - getPantrySpoons());
-  const disabledText = roomRequirement.met
-    ? t("packs.needMore", { count: spoonGap })
-    : t("packs.needPantryRoom");
+  const disabledText = !lockConditions.puzzle.met
+    ? t("packs.locked")
+    : !roomRequirement.met
+      ? t("packs.needPantryRoom")
+      : t("packs.needMore", { count: spoonGap });
   const requirements = document.createElement("div");
   requirements.className = "unlock-panel__requirements";
   const copy = document.createElement("p");
   copy.className = "unlock-panel__cost";
   copy.append(createSpoonIcon("small"), document.createTextNode(String(shelf.unlockCost)));
   requirements.appendChild(copy);
-  if (roomRequirement.required > 0) {
-    appendTextElement(requirements, "p", "unlock-panel__room", t("packs.roomRequirement", roomRequirement));
-    appendTextElement(requirements, "p", "unlock-panel__hint", t("packs.roomRequirementHint"));
-  }
+  appendLockCondition(requirements, "Puzzle", lockConditions.puzzle);
+  appendLockCondition(requirements, "Pantry", lockConditions.pantry);
 
   const actions = document.createElement("div");
   actions.className = "unlock-panel__actions";

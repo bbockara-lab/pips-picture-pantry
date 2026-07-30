@@ -413,7 +413,11 @@ export const en = {
     clockCorner: "Clock Corner",
     bakeryWalk: "Bakery Walk",
     gardenPath: "Garden Path",
-    villagePantry: "Village Pantry"
+    villagePantry: "Village Pantry",
+    lockConditionPuzzle: "Complete {count} more puzzle(s) on the previous shelf",
+    lockConditionPuzzleDone: "Previous shelf complete ✓",
+    lockConditionPantry: "Own {count} more paid Pantry jar(s)",
+    lockConditionPantryDone: "Pantry requirement met ✓"
   },
   packs: {
     free: "Included",

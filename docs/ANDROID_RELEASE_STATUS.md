@@ -1,3 +1,11 @@
+## 2026-07-30 v0.1.671 explicit stage lock conditions
+
+- Current package/UI candidate: v0.1.671.
+- Locked stage cards now show previous-stage puzzle progress and paid Pantry jar progress independently, including remaining counts and completed/incomplete visual states.
+- Step 28 is still pending, so this Step retains the current spoon unlock cost and unlock action.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 42 test files / 250 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## 2026-07-30 v0.1.670 shared spoon balance
 
 - Current package/UI candidate: v0.1.670.

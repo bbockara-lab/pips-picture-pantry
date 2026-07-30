@@ -391,7 +391,11 @@ export const ko = {
     clockCorner: "\uc2dc\uacc4 \uad6c\uc11d",
     bakeryWalk: "\ube60\uc9d1 \uc0b0\ucc45\uae38",
     gardenPath: "\uc815\uc6d0 \uc0b0\ucc45\uae38",
-    villagePantry: "\ub9c8\uc744 \ud32c\ud2b8\ub9ac"
+    villagePantry: "\ub9c8\uc744 \ud32c\ud2b8\ub9ac",
+    lockConditionPuzzle: "\uc774\uc804 \ud37c\uc990 {count}\uac1c \ub354 \ud544\uc694",
+    lockConditionPuzzleDone: "\uc774\uc804 \uc120\ubc18 \uc644\uc131 ✓",
+    lockConditionPantry: "\ud32c\ud2b8\ub9ac \ubcd1 {count}\uac1c \ub354 \ud544\uc694",
+    lockConditionPantryDone: "\ud32c\ud2b8\ub9ac \uc870\uac74 \ucda9\uc871 ✓"
   },
   home: {
     sceneAria: "\ud54d\uc758 \ud37c\uc990\ubc29",

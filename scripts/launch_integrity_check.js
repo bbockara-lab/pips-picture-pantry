@@ -48,10 +48,13 @@ function checkPackUnlockGuidance() {
   const hub = "src/ui/puzzleHubView.js";
   [
     "stage-gate-link",
+    "getShelfLockConditions",
+    "appendLockCondition(requirements, \"Puzzle\"",
+    "appendLockCondition(requirements, \"Pantry\"",
+    "isSeasonShelfComplete(previousShelf",
     "t(\"packs.visitPantry\")",
     "t(\"packs.needPantryRoom\")",
-    "t(\"packs.needMore\"",
-    "t(\"packs.roomRequirement\""
+    "t(\"packs.needMore\""
   ].forEach((needle) => expectIncludes(hub, needle));
   [
     "unlockPlanNeedSpoons",
@@ -63,11 +66,19 @@ function checkPackUnlockGuidance() {
     "unlock-panel__plan",
     "unlock-panel__gate"
   ].forEach((needle) => expectExcludes(hub, needle, "retired duplicate stage-lock report copy"));
-  expectRegex(hub, /roomRequirement\.met\s*\?\s*t\("packs\.needMore"[\s\S]*:\s*t\("packs\.needPantryRoom"\)/, "Pantry-step lock button copy branch");
+  expectRegex(hub, /!lockConditions\.puzzle\.met[\s\S]*t\("packs\.locked"\)[\s\S]*!roomRequirement\.met[\s\S]*t\("packs\.needPantryRoom"\)/, "condition-aware stage lock button copy branch");
   expectOrder(hub, "!roomRequirement.met", "t(\"packs.visitPantry\")", "Pantry CTA appears only when Pantry progress is blocking");
 
   ["src/i18n/en.js", "src/i18n/ko.js"].forEach((file) => {
-    ["needPantryRoom", "visitPantry", "needMore", "roomRequirement"].forEach((needle) => expectIncludes(file, needle));
+    [
+      "needPantryRoom",
+      "visitPantry",
+      "needMore",
+      "lockConditionPuzzle",
+      "lockConditionPuzzleDone",
+      "lockConditionPantry",
+      "lockConditionPantryDone"
+    ].forEach((needle) => expectIncludes(file, needle));
   });
 }
 
