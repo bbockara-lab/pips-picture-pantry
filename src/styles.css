@@ -18716,6 +18716,7 @@ body.guide-open {
 }
 .pack-block--locked {
   overflow: hidden;
+  padding: 14px 16px;
 }
 .locked-stage-preview {
   display: flex;
@@ -19030,5 +19031,50 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   .app-shell--workshop-home .puzzle-home-scene__featured-badge img {
     width: 46px;
     height: 46px;
+  }
+}
+
+/* v0.1.689 - Step 45 recovered navigation and Workshop spacing */
+.floating-nav {
+  bottom: max(20px, calc(env(safe-area-inset-bottom, 0px) + 20px)) !important;
+}
+
+.app-shell--play .floating-nav {
+  bottom: max(86px, calc(env(safe-area-inset-bottom, 0px) + 86px)) !important;
+}
+
+.app-shell--play .floating-nav__trigger {
+  min-height: 68px;
+}
+
+.app-shell--play .floating-nav__trigger .floating-nav__trigger-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.app-shell--workshop-home .puzzle-home-scene__featured-jar {
+  top: auto;
+  right: auto;
+  bottom: calc(max(20px, env(safe-area-inset-bottom, 0px) + 20px) + clamp(112px, 30vw, 132px));
+  left: max(16px, env(safe-area-inset-left, 0px));
+  max-width: calc(50vw - 24px);
+  transform: none;
+}
+
+.app-shell--workshop-home .puzzle-home-scene__featured-jar:active {
+  transform: translateY(1px);
+}
+
+.app-shell--workshop-home .puzzle-home-scene__featured-badge {
+  top: auto;
+  right: max(16px, env(safe-area-inset-right, 0px));
+  bottom: calc(max(20px, env(safe-area-inset-bottom, 0px) + 20px) + clamp(112px, 30vw, 132px));
+  left: auto;
+}
+
+@media (max-height: 700px) {
+  .app-shell--workshop-home .puzzle-home-scene__featured-jar,
+  .app-shell--workshop-home .puzzle-home-scene__featured-badge {
+    bottom: calc(max(20px, env(safe-area-inset-bottom, 0px) + 20px) + clamp(112px, 30vw, 132px));
   }
 }

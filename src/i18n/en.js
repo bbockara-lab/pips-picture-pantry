@@ -16,11 +16,11 @@ export const en = {
   },
   spoonRun: {
     eyebrow: "Spoon runs",
-    intro: "Play today's picture or revisit a favorite to earn more spoons."
+    intro: "Play today's picture or revisit a favorite to collect more spoons."
   },
   views: {
     puzzle: "Pip's Puzzle Room",
-    spoonRun: "Earn Spoons",
+    spoonRun: "Collect Spoons",
     album: "Album",
     pantry: "Pip's Pantry",
     map: "Badges",
@@ -246,7 +246,7 @@ export const en = {
     allPuzzlesDone: "Every picture on this shelf is complete!",
     unlockNextHint: "Decorate the pantry first to open the next shelf 🏺",
     goToPantry: "Decorate the pantry",
-    goToSpoonRun: "Earn more spoons",
+    goToSpoonRun: "Collect Spoons",
     puzzle: {
       speakerName: "Pip",
       title: "I'll solve the first picture beside you",
@@ -380,7 +380,7 @@ export const en = {
     replayReward: "Clean replay! +{count} spoon. {remaining} replay rewards left today.",
     replayNoReward: "Replay complete. No spoon this time, but the card stayed safe.",
     replayExhausted: "That's all for today's replays! Come back tomorrow 🍀",
-    backToSpoonRun: "Back to Earn Spoons"
+    backToSpoonRun: "Back to Collect Spoons"
   },
   stageComplete: {
     ariaLabel: "Shelf complete",
@@ -529,7 +529,7 @@ export const en = {
     storyDeliveryNeed: "{slot} · {needed} more spoons",
     storyDeliveryReady: "{slot} · Ready",
     storyDeliveryShowGoal: "Show this goal",
-    storyDeliveryEarn: "Earn spoons",
+    storyDeliveryEarn: "Collect spoons",
     feedbackStoryCompleteTitle: "{item} finished Pip's note",
     feedbackBuyTitle: "{item} is home",
     feedbackEquipTitle: "{item} is on display",

@@ -41,14 +41,16 @@ describe("featured Badge keepsake", () => {
     expect(styles).toContain(".puzzle-home-scene__featured-badge");
   });
   it("aligns the featured jar and badge as independent keepsakes above Play Now", () => {
-    const jarRule = styles.match(/\.app-shell--workshop-home \.puzzle-home-scene__featured-jar \{([\s\S]*?)\}/)?.[1] || "";
-    const badgeRule = styles.match(/\.app-shell--workshop-home \.puzzle-home-scene__featured-badge \{([\s\S]*?)\}/)?.[1] || "";
+    const step45Styles = styles.slice(styles.indexOf("v0.1.689 - Step 45 recovered navigation"));
+    const jarRule = step45Styles.match(/\.app-shell--workshop-home \.puzzle-home-scene__featured-jar \{([\s\S]*?)\}/)?.[1] || "";
+    const badgeRule = step45Styles.match(/\.app-shell--workshop-home \.puzzle-home-scene__featured-badge \{([\s\S]*?)\}/)?.[1] || "";
     expect(jarRule).toContain("top: auto");
     expect(jarRule).toContain("left: max(16px, env(safe-area-inset-left, 0px))");
-    expect(jarRule).toContain("+ 124px");
+    expect(jarRule).toContain("+ clamp(112px, 30vw, 132px)");
     expect(badgeRule).toContain("top: auto");
     expect(badgeRule).toContain("right: max(16px, env(safe-area-inset-right, 0px))");
-    expect(badgeRule).toContain("+ 124px");
+    expect(badgeRule).toContain("+ clamp(112px, 30vw, 132px)");
+    expect(step45Styles).toMatch(/@media \(max-height: 700px\)[\s\S]*?featured-jar,[\s\S]*?featured-badge[\s\S]*?\+ clamp\(112px, 30vw, 132px\)/);
     expect(styles).toContain(".puzzle-home-destination--map");
     expect(styles).toContain("bottom: 25%");
     expect(styles).toContain("bottom: 28%");

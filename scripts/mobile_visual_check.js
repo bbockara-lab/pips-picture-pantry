@@ -1987,10 +1987,16 @@ async function verifyTimeAttackExitRestoresRegularPuzzle(page, viewportName, exp
 
   const timeAttackCell = page.locator(".puzzle-grid .puzzle-cell").first();
   await timeAttackCell.click();
+  const timeAttackCellAfterClick = await page.locator(".puzzle-grid .puzzle-cell").first().getAttribute("class");
+  const paintedValue = timeAttackCellAfterClick?.includes("filled")
+    ? "filled"
+    : timeAttackCellAfterClick?.includes("marked")
+      ? "marked"
+      : null;
   await page.waitForTimeout(1200);
   const timeAttackCellAfterTimerDraw = await page.locator(".puzzle-grid .puzzle-cell").first().getAttribute("class");
-  if (!timeAttackCellAfterTimerDraw?.includes("filled")) {
-    failures.push("[" + viewportName + "] Time Attack paint was lost during the one-second timer redraw: " + timeAttackCellAfterTimerDraw);
+  if (!paintedValue || !timeAttackCellAfterTimerDraw?.includes(paintedValue)) {
+    failures.push("[" + viewportName + "] Time Attack paint was lost during the one-second timer redraw: before=" + timeAttackCellAfterClick + ", after=" + timeAttackCellAfterTimerDraw);
   }
 
   const hintPanel = page.locator(".puzzle-panel--time-attack .hint-panel").first();
@@ -3246,7 +3252,10 @@ async function verifySpoonBalanceChipStoreFlow(page, viewportName) {
   }
   await chip.click();
   await page.locator(".app-shell[data-view='pantry'] .spoon-store").waitFor({ state: "visible", timeout: 5000 });
-  await page.waitForTimeout(350);
+  await page.waitForFunction(() => {
+    const rect = document.querySelector(".spoon-store")?.getBoundingClientRect();
+    return Boolean(rect && rect.bottom > 0 && rect.top < window.innerHeight);
+  }, null, { timeout: 5000 });
   const metrics = await page.evaluate(() => {
     const store = document.querySelector(".spoon-store");
     const rect = store?.getBoundingClientRect() || null;

@@ -1,3 +1,11 @@
+## 2026-07-30 v0.1.689 Step 45 recovery bundle
+
+- Current package/UI candidate: v0.1.689.
+- Locked stage cards retain their inset, focused-play quick travel retains its recovered touch target and safe-area spacing, and Workshop keepsakes remain left/right above Play Now using the collision-tested responsive lift.
+- Spoon Run calls to action now use collecting language in Korean and English, and mobile QA now validates the actual Time Attack auto-mode paint value across timer redraws.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this recovery/UI step.
+- Full candidate verification passed on retry: 47 test files / 278 tests, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900. The first attempt encountered a non-reproducing initial Vite navigation timeout.
+
 ## 2026-07-30 v0.1.688 actionable shared spoon balance
 - Current package/UI candidate: v0.1.688.
 - The shared spoon balance now opens Pantry and scrolls to the existing spoon store from every non-focused-play view; focused puzzle and Time Attack play retain a noninteractive balance display.

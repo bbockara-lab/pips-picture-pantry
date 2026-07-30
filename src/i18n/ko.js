@@ -20,7 +20,7 @@ export const ko = {
   },
   views: {
     puzzle: "핍\uc758 \ud37c\uc990\ubc29",
-    spoonRun: "\uc2a4\ud47c \ubc8c\ub7ec \uac00\uae30",
+    spoonRun: "\uc2a4\ud47c \ubaa8\uc73c\ub7ec \uac00\uae30",
     album: "\uc568\ubc94",
     pantry: "핍\uc758 \ud32c\ud2b8\ub9ac",
     map: "\ubc30\uc9c0",
@@ -225,7 +225,7 @@ export const ko = {
     allPuzzlesDone: "이 선반 그림은 모두 완성했어요!",
     unlockNextHint: "다음 선반을 열려면 팬트리를 먼저 꾸며봐요 🏺",
     goToPantry: "팬트리 꾸미러 가기",
-    goToSpoonRun: "스푼 벌러 가기",
+    goToSpoonRun: "스푼 모으러 가기",
     puzzle: {
       speakerName: "핍",
       title: "첫 그림은 제가 옆에서 함께 풀어볼게요",
@@ -358,7 +358,7 @@ export const ko = {
     replayReward: "\uAE54\uB054\uD55C \uB9AC\uD50C\uB808\uC774! \uC2A4\uD47C +{count}. \uC624\uB298 \uB0A8\uC740 \uB9AC\uD50C\uB808\uC774 \uBCF4\uC0C1\uC740 {remaining}\uBC88\uC774\uC5D0\uC694.",
     replayNoReward: "\uB9AC\uD50C\uB808\uC774 \uC644\uB8CC! \uC774\uBC88\uC5D0\uB294 \uC2A4\uD47C \uC5C6\uC774, \uCE74\uB4DC\uB294 \uC548\uC804\uD558\uAC8C \uADF8\uB300\uB85C\uC608\uC694.",
     replayExhausted: "\uC624\uB298\uC758 \uB2E4\uC2DC \uD480\uAE30\uB294 \uC5EC\uAE30\uAE4C\uC9C0! \uB0B4\uC77C \uB610 \uB3C4\uC804\uD574\uBD10\uC694 🍀",
-    backToSpoonRun: "\uC2A4\uD47C \uBC8C\uB7EC \uAC00\uAE30\uB85C \uB3CC\uC544\uAC00\uAE30"
+    backToSpoonRun: "\uC2A4\uD47C \uBAA8\uC73C\uB7EC \uAC00\uAE30\uB85C \uB3CC\uC544\uAC00\uAE30"
   },
   stageComplete: {
     ariaLabel: "\uc120\ubc18 \uc644\uc131",
@@ -528,7 +528,7 @@ export const ko = {
     storyDeliveryNeed: "{slot} · 스푼 {needed}개 더",
     storyDeliveryReady: "{slot} · 준비됐어요",
     storyDeliveryShowGoal: "\uC774 \uBAA9\uD45C \uBCF4\uAE30",
-    storyDeliveryEarn: "\uC2A4\uD47C \uBC8C\uB7EC \uAC00\uAE30",
+    storyDeliveryEarn: "\uC2A4\uD47C \uBAA8\uC73C\uB7EC \uAC00\uAE30",
     feedbackStoryCompleteTitle: "{item}\uC73C\uB85C 핍\uC758 \uBA54\uBAA8\uB97C \uC644\uC131\uD588\uC5B4\uC694",
     feedbackBuyTitle: "{item}이 팬트리에 왔어요",
     feedbackEquipTitle: "{item}을 전시했어요",

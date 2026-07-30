@@ -32,5 +32,8 @@ describe("Play Now floating navigation", () => {
       /\.app-shell--play \.floating-nav__trigger-icon\s*\{[\s\S]*?width:\s*40px;[\s\S]*?height:\s*40px;/
     );
     expect(stylesSource).toContain(".floating-nav__trigger--pulse");
+    expect(stylesSource).toMatch(
+      /v0\.1\.689 - Step 45 recovered navigation[\s\S]*?\.floating-nav\s*\{[\s\S]*?bottom:\s*max\(20px, calc\(env\(safe-area-inset-bottom, 0px\) \+ 20px\)\) !important;[\s\S]*?\.app-shell--play \.floating-nav\s*\{[\s\S]*?bottom:\s*max\(86px, calc\(env\(safe-area-inset-bottom, 0px\) \+ 86px\)\) !important;[\s\S]*?\.app-shell--play \.floating-nav__trigger\s*\{[\s\S]*?min-height:\s*68px;[\s\S]*?\.app-shell--play \.floating-nav__trigger \.floating-nav__trigger-icon\s*\{[\s\S]*?width:\s*40px;[\s\S]*?height:\s*40px;/
+    );
   });
 });

@@ -275,7 +275,9 @@ describe("i18n", () => {
     );
     expect(t("pantry.storyNextArrivalAction", { item: "\uD5C8\uBE0C \uD654\uBD84" })).toBe("허브 화분 보기");
     expect(t("pantry.storyDeliveryNeed", { slot: "카운터", needed: 17 })).toBe("카운터 · 스푼 17개 더");
-    expect(t("pantry.storyDeliveryEarn")).toBe("\uC2A4\uD47C \uBC8C\uB7EC \uAC00\uAE30");
+    expect(t("pantry.storyDeliveryEarn")).toBe("\uC2A4\uD47C \uBAA8\uC73C\uB7EC \uAC00\uAE30");
+    expect(t("views.spoonRun")).toBe("\uC2A4\uD47C \uBAA8\uC73C\uB7EC \uAC00\uAE30");
+    expect(t("guide.goToSpoonRun")).toBe("\uC2A4\uD47C \uBAA8\uC73C\uB7EC \uAC00\uAE30");
     expect(t("pantry.feedbackBuyTitle", { item: "\uC791\uC740 \uC7BC \uBCD1" })).toBe("\uC791\uC740 \uC7BC \uBCD1\uC774 \uD32C\uD2B8\uB9AC\uC5D0 \uC654\uC5B4\uC694");
     expect(t("pantry.availability.canBuy")).toBe("\uC0B4 \uC218 \uC788\uC74C");
     expect(t("pantry.shopLimitAction")).toBe("\uC7A5\uC2DD \uB354 \uBCF4\uAE30");

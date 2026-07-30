@@ -1,3 +1,13 @@
+## v0.1.689 - Step 45 Recovery Bundle
+
+- Restored 14px vertical / 16px horizontal padding on both locked stage-card rules so later CSS no longer cancels the intended inset.
+- Reasserted focused-play quick travel at a 68px minimum trigger with a 40px icon, 20px global safe-area clearance, and 86px focused-play control-deck clearance.
+- Kept the equipped Pantry jar on the left and featured Badge on the right above Play Now. The draft fixed +80px offset overlapped the current 96px Play control at every candidate width, so the final measured rule uses `clamp(112px, 30vw, 132px)` and passes collision checks at all four widths.
+- Reworded Spoon Run calls to action from earning language to collecting language in both Korean and English.
+- Corrected the Time Attack mobile regression check to preserve whichever valid auto-mode value was actually painted (`filled` or completed-line `marked`) across the one-second timer redraw, rather than falsely requiring every first-cell click to be filled.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed on retry: 47 test files / 278 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900. The first candidate attempt reached build/release successfully but hit a transient initial Vite navigation timeout before product assertions; it did not reproduce.
+
 ## v0.1.688 - Actionable Shared Spoon Balance
 - Step 44 turns the shared spoon balance into a direct store shortcut on every non-focused-play surface: tapping it switches to Pantry and scrolls the existing spoon store into view.
 - Focused regular-puzzle and Time Attack play keep the balance visible but intentionally noninteractive, preventing accidental navigation while painting.
