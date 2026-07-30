@@ -1,3 +1,10 @@
+## 2026-07-30 v0.1.684 quick travel touch target and safe-area gap
+
+- Current package/UI candidate: v0.1.684.
+- Enlarged the Play-shell quick-travel trigger to a 68px minimum height with a 40px icon.
+- The global floating navigation now stays 20px above the device bottom safe area; Play-shell clearance remains 86px.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this UI-only step.
+- Full candidate verification passed: 47 test files / 276 tests, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-30 v0.1.683 locked stage card spacing
 
 - Current package/UI candidate: v0.1.683.

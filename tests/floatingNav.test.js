@@ -14,13 +14,22 @@ describe("Play Now floating navigation", () => {
 
   it("keeps quick travel fixed above the mobile edge", () => {
     expect(stylesSource).toMatch(
-      /v0\.1\.675 - fixed quick-travel release contract[\s\S]*?\.floating-nav\s*\{[\s\S]*?position:\s*fixed !important;[\s\S]*?right:\s*max\(16px, env\(safe-area-inset-right\)\) !important;[\s\S]*?bottom:\s*max\(20px, env\(safe-area-inset-bottom\)\) !important;[\s\S]*?z-index:\s*50 !important;/
+      /v0\.1\.675 - fixed quick-travel release contract[\s\S]*?\.floating-nav\s*\{[\s\S]*?position:\s*fixed !important;[\s\S]*?right:\s*max\(16px, env\(safe-area-inset-right\)\) !important;[\s\S]*?bottom:\s*max\(20px, calc\(env\(safe-area-inset-bottom, 0px\) \+ 20px\)\) !important;[\s\S]*?z-index:\s*50 !important;/
     );
     expect(stylesSource).toMatch(
       /\.floating-nav__trigger\s*\{[\s\S]*?width:\s*80px;[\s\S]*?height:\s*80px;/
     );
     expect(stylesSource).toMatch(
       /\.floating-nav__trigger-icon\s*\{[\s\S]*?width:\s*60px;[\s\S]*?height:\s*60px;/
+    );
+    expect(stylesSource).toMatch(
+      /\.app-shell--play \.floating-nav\s*\{[\s\S]*?bottom:\s*max\(86px, calc\(env\(safe-area-inset-bottom, 0px\) \+ 86px\)\);/
+    );
+    expect(stylesSource).toMatch(
+      /\.app-shell--play \.floating-nav__trigger\s*\{[\s\S]*?grid-template-columns:\s*40px minmax\(0, 1fr\);[\s\S]*?min-height:\s*68px;/
+    );
+    expect(stylesSource).toMatch(
+      /\.app-shell--play \.floating-nav__trigger-icon\s*\{[\s\S]*?width:\s*40px;[\s\S]*?height:\s*40px;/
     );
     expect(stylesSource).toContain(".floating-nav__trigger--pulse");
   });

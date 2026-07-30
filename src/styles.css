@@ -12051,12 +12051,12 @@ img {
 }
 
 .app-shell--play .floating-nav__trigger {
-  grid-template-columns: 34px minmax(0, 1fr);
+  grid-template-columns: 40px minmax(0, 1fr);
   place-items: center start;
   width: auto;
   min-width: 112px;
   max-width: min(166px, calc(100vw - 20px));
-  min-height: 58px;
+  min-height: 68px;
   padding: 7px 10px 7px 8px;
   border-radius: 20px;
   text-align: left;
@@ -12065,8 +12065,8 @@ img {
 .app-shell--play .floating-nav__trigger-icon {
   grid-column: 1;
   grid-row: 1;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   transform: scale(1);
 }
 
@@ -18777,7 +18777,7 @@ body.guide-open {
 .floating-nav {
   position: fixed !important;
   right: max(16px, env(safe-area-inset-right)) !important;
-  bottom: max(20px, env(safe-area-inset-bottom)) !important;
+  bottom: max(20px, calc(env(safe-area-inset-bottom, 0px) + 20px)) !important;
   left: auto !important;
   z-index: 50 !important;
   display: block;

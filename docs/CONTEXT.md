@@ -1,3 +1,10 @@
+## v0.1.684 - Quick Travel Touch Target and Safe-Area Gap
+
+- Completed Step 40 by increasing the Play-shell quick-travel trigger minimum height from 58px to 68px and its icon from 34px to 40px.
+- Updated the fixed quick-travel offset so every device keeps 20px of breathing room above its bottom safe area; the Play-shell contract retains its 86px control-deck clearance.
+- Extended regression coverage for the exact CSS contracts and rendered mobile QA for a minimum 68px trigger height plus a minimum 20px bottom gap.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 47 test files / 276 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.683 - Locked Stage Card Spacing
 
 - Completed Step 39 by adding 14px vertical and 16px horizontal inner spacing to every locked stage card, keeping previews, summaries, teasers, and unlock controls clear of the dashed boundary.

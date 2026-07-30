@@ -651,6 +651,7 @@ async function expectFloatingNavPolish(page, viewportName) {
         beforeContent: triggerIconBefore?.content || "",
         afterContent: triggerIconAfter?.content || ""
       },
+      triggerHeight: triggerButton?.getBoundingClientRect().height || 0,
       triggerTextWidth: triggerText?.getBoundingClientRect().width || 0,
       triggerTextClipPath: triggerTextStyle?.clipPath || "",
       triggerCurrentText: (triggerCurrent?.textContent || "").trim(),
@@ -670,7 +671,7 @@ async function expectFloatingNavPolish(page, viewportName) {
     navMetrics.navPosition !== "fixed" ||
     navMetrics.navRightGap < 0 ||
     navMetrics.navRightGap > 24 ||
-    navMetrics.navBottomGap < 0 ||
+    navMetrics.navBottomGap < 20 ||
     navMetrics.navBottomGap > 120 ||
     navMetrics.navTop < 0 ||
     navMetrics.menuBottomGap < 0 ||
@@ -678,6 +679,7 @@ async function expectFloatingNavPolish(page, viewportName) {
     navMetrics.right > navMetrics.viewportWidth + 1 ||
     navMetrics.borderRadius < 18 ||
     navMetrics.backgroundColor === "rgba(0, 0, 0, 0)" ||
+    navMetrics.triggerHeight < 68 ||
     navMetrics.triggerIcon.width < 34 ||
     navMetrics.triggerIcon.height < 34 ||
     !navMetrics.triggerIcon.imageSrc.includes("quick-travel-") ||
