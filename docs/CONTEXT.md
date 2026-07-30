@@ -1,3 +1,10 @@
+## v0.1.688 - Actionable Shared Spoon Balance
+- Step 44 turns the shared spoon balance into a direct store shortcut on every non-focused-play surface: tapping it switches to Pantry and scrolls the existing spoon store into view.
+- Focused regular-puzzle and Time Attack play keep the balance visible but intentionally noninteractive, preventing accidental navigation while painting.
+- Interactive chips use a 44px minimum touch target plus hover, pressed, and keyboard-focus feedback; the compact focused-play chip keeps its established 32px footprint.
+- Mobile QA now covers the Album-to-store route, focused/non-focused element semantics, store visibility after navigation, and the existing immediate balance refresh after Pantry purchase flows.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 47 test files / 278 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.687 - Workshop Keepsake Display Row
 
 - Completed Step 43 by moving the equipped Pantry jar and featured earned Badge into one shared, safe-area-aware row above Play Now; each keepsake still renders and navigates independently when the other is absent.

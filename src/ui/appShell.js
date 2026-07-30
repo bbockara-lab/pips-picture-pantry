@@ -179,7 +179,7 @@ export function renderApp(root) {
     }
   }
 
-  function selectView(view) {
+  function selectView(view, scrollTarget = "view") {
     if (view === "settings") {
       requestSettings();
       return;
@@ -196,7 +196,7 @@ export function renderApp(root) {
     resetOpen = false;
     settingsOpen = false;
     allPuzzlesDonePromptOpen = false;
-    pendingScrollTarget = "view";
+    pendingScrollTarget = scrollTarget;
     if (view === "pantry") {
       // Retrieve current Play prices on the actual Pantry store surface.
       loadCozySupportProduct();
@@ -580,6 +580,7 @@ export function renderApp(root) {
       settingsOpen,
       onSelectPuzzle: selectPuzzle,
       onSelectView: selectView,
+      onOpenSpoonStore: () => selectView("pantry", "spoonStore"),
       onOpenPuzzle: openPuzzleFromHub,
       onClosePuzzle: showPuzzleHub,
       onRequestReset: requestReset,
@@ -662,7 +663,9 @@ export function renderApp(root) {
         ? `[data-shelf-id="${getSeasonShelfForPuzzle(activePuzzle)?.id || ""}"]`
         : target === "replay"
           ? ".replay-picks-card"
-          : target === "view"
+          : target === "spoonStore"
+            ? ".spoon-store"
+            : target === "view"
             ? ".app-shell"
             : ".puzzle-panel";
       container.querySelector(selector)?.scrollIntoView({ behavior: target === "view" ? "auto" : "smooth", block: "start" });
@@ -701,6 +704,7 @@ function createShell({
   settingsOpen,
   onSelectPuzzle,
   onSelectView,
+  onOpenSpoonStore,
   onOpenPuzzle,
   onClosePuzzle,
   onRequestReset,
@@ -753,7 +757,11 @@ function createShell({
   if (settingsOpen) {
     shell.classList.add("app-shell--settings-open");
   }
-  shell.appendChild(renderSpoonBalanceChip(getPantrySpoons()));
+  const focusedPlayOpen = (activeView === "puzzle" || activeView === "timeAttack") && playOpen;
+  shell.appendChild(renderSpoonBalanceChip(
+    getPantrySpoons(),
+    focusedPlayOpen ? null : onOpenSpoonStore
+  ));
 
   if ((activeView === "puzzle" || activeView === "timeAttack") && playOpen) {
     shell.classList.add("app-shell--play");

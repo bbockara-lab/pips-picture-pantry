@@ -18580,6 +18580,30 @@ body.guide-open {
   backdrop-filter: blur(6px);
 }
 
+/* v0.1.688 - actionable shared spoon balance */
+.spoon-balance-chip:is(button) {
+  min-height: 44px;
+  pointer-events: auto;
+  appearance: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.spoon-balance-chip:is(button):hover {
+  background: rgba(255, 248, 215, 0.98);
+  box-shadow: 0 3px 10px rgba(74, 55, 40, 0.2);
+}
+
+.spoon-balance-chip:is(button):active {
+  transform: translateY(1px);
+}
+
+.spoon-balance-chip:is(button):focus-visible {
+  outline: 3px solid rgba(154, 100, 40, 0.48);
+  outline-offset: 2px;
+}
+
 .spoon-balance-chip .spoon-icon {
   flex: 0 0 auto;
   width: 20px;

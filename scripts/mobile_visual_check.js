@@ -96,6 +96,7 @@ for (const viewport of viewports) {
   await expectVisible(page, ".album-stamp", viewport.name);
   await expectAlbumPolish(page, viewport.name);
   await expectSpoonBalanceChipSize(page, viewport.name, "Album");
+  await verifySpoonBalanceChipStoreFlow(page, viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
 
   await openFloatingView(page, "map");
@@ -3237,6 +3238,31 @@ async function expectNoSharedScreenHeader(page, viewportName) {
   await expectAbsent(page, '.top-bar', viewportName);
 }
 
+async function verifySpoonBalanceChipStoreFlow(page, viewportName) {
+  const chip = page.locator("button.spoon-balance-chip");
+  if ((await chip.count()) !== 1) {
+    failures.push("[" + viewportName + "] Shared spoon balance was not actionable outside focused play.");
+    return;
+  }
+  await chip.click();
+  await page.locator(".app-shell[data-view='pantry'] .spoon-store").waitFor({ state: "visible", timeout: 5000 });
+  await page.waitForTimeout(350);
+  const metrics = await page.evaluate(() => {
+    const store = document.querySelector(".spoon-store");
+    const rect = store?.getBoundingClientRect() || null;
+    return {
+      activeView: document.querySelector(".app-shell")?.getAttribute("data-view") || "missing",
+      storeVisible: Boolean(rect && rect.bottom > 0 && rect.top < window.innerHeight),
+      storeTop: rect ? Math.round(rect.top) : null,
+      storeBottom: rect ? Math.round(rect.bottom) : null,
+      viewportHeight: window.innerHeight,
+      chipTag: document.querySelector(".spoon-balance-chip")?.tagName || "missing"
+    };
+  });
+  if (metrics.activeView !== "pantry" || !metrics.storeVisible || metrics.chipTag !== "BUTTON") {
+    failures.push("[" + viewportName + "] Spoon balance tap did not open the Pantry spoon store: " + JSON.stringify(metrics));
+  }
+}
 async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
   const metrics = await page.evaluate(() => {
     const chips = [...document.querySelectorAll(".spoon-balance-chip")];
@@ -3291,6 +3317,9 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
       naturalWidth: icon?.naturalWidth || 0,
       naturalHeight: icon?.naturalHeight || 0,
       minimumRightGap: needsSettingsClearance ? 68 : 16,
+      focusedPlayOpen: Boolean(shell?.classList.contains("app-shell--play")),
+      tagName: chip?.tagName || "MISSING",
+      pointerEvents: chip ? getComputedStyle(chip).pointerEvents : "missing",
       overlaps
     };
   });
@@ -3300,8 +3329,9 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
     || !metrics.ariaLabel.includes(String(metrics.expectedSpoons))
     || Math.abs(metrics.iconWidth - 20) > 0.5
     || Math.abs(metrics.iconHeight - 20) > 0.5
-    || metrics.chipHeight < 31
-    || metrics.chipHeight > 36
+    || (metrics.focusedPlayOpen
+      ? metrics.chipHeight < 31 || metrics.chipHeight > 36
+      : metrics.chipHeight < 44 || metrics.chipHeight > 50)
     || metrics.centerDelta > 1
     || metrics.objectFit !== "contain"
     || metrics.assetId !== "spoon-token-v2"
@@ -3309,6 +3339,8 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
     || metrics.naturalHeight !== 256
     || metrics.topGap < 12
     || metrics.rightGap < metrics.minimumRightGap - 1
+    || (metrics.focusedPlayOpen ? metrics.tagName !== "DIV" : metrics.tagName !== "BUTTON")
+    || (metrics.focusedPlayOpen ? metrics.pointerEvents !== "none" : metrics.pointerEvents !== "auto")
     || metrics.overlaps.length > 0) {
     failures.push("[" + viewportName + "] " + viewName + " shared spoon balance regressed: " + JSON.stringify(metrics));
   }

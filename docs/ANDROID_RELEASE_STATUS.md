@@ -1,3 +1,9 @@
+## 2026-07-30 v0.1.688 actionable shared spoon balance
+- Current package/UI candidate: v0.1.688.
+- The shared spoon balance now opens Pantry and scrolls to the existing spoon store from every non-focused-play view; focused puzzle and Time Attack play retain a noninteractive balance display.
+- Interactive balance chips now meet a 44px touch-target minimum, and mobile QA verifies navigation, focus-state semantics, store visibility, and immediate post-purchase balance refresh.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this UI/navigation step.
+- Full candidate verification passed: 47 test files / 278 tests, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-30 v0.1.687 Workshop keepsake display row
 
 - Current package/UI candidate: v0.1.687.

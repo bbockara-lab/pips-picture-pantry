@@ -30,7 +30,7 @@ describe("Time Attack exit recovery", () => {
 
   it("uses the same cleanup path for close, navigation, completion, and timeout", () => {
     expect(appShellSource).toMatch(
-      /function selectView\(view\)[\s\S]*?clearTimeAttackSession\(\);[\s\S]*?activeView = view/
+      /function selectView\(view, scrollTarget = "view"\)[\s\S]*?clearTimeAttackSession\(\);[\s\S]*?activeView = view/
     );
     expect(appShellSource).toMatch(
       /function closeTimeAttackRun\(\)[\s\S]*?activeView = "puzzle";[\s\S]*?clearTimeAttackSession\(\);/

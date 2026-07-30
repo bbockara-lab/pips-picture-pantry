@@ -17,8 +17,12 @@ export function appendSpoonLabel(element, localizedText, size = "small") {
   return element;
 }
 
-export function renderSpoonBalanceChip(spoons) {
-  const chip = document.createElement("div");
+export function renderSpoonBalanceChip(spoons, onTap = null) {
+  const chip = document.createElement(onTap ? "button" : "div");
+  if (onTap) {
+    chip.type = "button";
+    chip.addEventListener("click", onTap);
+  }
   chip.className = "spoon-balance-chip";
   const label = t("currency.spoons", { count: Number(spoons) || 0 });
   appendSpoonLabel(chip, label, "small");
