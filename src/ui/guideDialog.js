@@ -19,6 +19,7 @@ const GUIDE_STEPS = {
   puzzle: ["guide.puzzle.step1", "guide.puzzle.step2", "guide.puzzle.step3"],
   timeAttack: ["guide.timeAttack.step1", "guide.timeAttack.step2", "guide.timeAttack.step3"],
   map: ["guide.map.step1", "guide.map.step2", "guide.map.step3"],
+  spoonRunIntro: ["guide.spoonRunIntro.step1", "guide.spoonRunIntro.step2"],
   pantryFirstPurchase: ["guide.pantryFirstPurchase.step1", "guide.pantryFirstPurchase.step2", "guide.pantryFirstPurchase.step3"],
   pantryRoomStory: ["guide.pantryRoomStory.step1", "guide.pantryRoomStory.step2", "guide.pantryRoomStory.step3"],
   pantryNeighborMrPark: ["guide.pantryNeighborMrPark.step1", "guide.pantryNeighborMrPark.step2", "guide.pantryNeighborMrPark.step3"],
@@ -34,7 +35,8 @@ const NEIGHBOR_GUIDE_CLASSES = {
 const GUIDE_SPEAKER_NAME_KEYS = {
   puzzle: "guide.puzzle.speakerName",
   timeAttack: "guide.timeAttack.speakerName",
-  map: "guide.map.speakerName"
+  map: "guide.map.speakerName",
+  spoonRunIntro: "guide.spoonRunIntro.speakerName"
 };
 
 function appendGuideNameTag(art, guideId) {

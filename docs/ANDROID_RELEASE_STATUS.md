@@ -1,3 +1,9 @@
+## 2026-07-29 v0.1.655 Spoon Run first-visit guide
+
+- Current package/UI candidate: v0.1.655.
+- Added a one-time two-slide Pip guide for Today's Picture and clean replay rewards when Spoon Run is first opened.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 38 test files / 225 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900, including the two-step Spoon Run first-visit guide.
 ## 2026-07-29 v0.1.654 Spoon Run replay isolation
 
 - Current package/UI candidate: v0.1.654.

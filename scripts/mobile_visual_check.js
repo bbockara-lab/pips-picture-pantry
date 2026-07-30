@@ -59,6 +59,7 @@ for (const viewport of viewports) {
   const expectedRegularPlayLabel = await page.locator(".puzzle-home-scene__play").getAttribute("aria-label");
   await openFloatingView(page, "spoonRun", viewport.name);
   await expectVisible(page, ".spoon-run-view", viewport.name);
+  await expectSpoonRunFirstVisitGuide(page, viewport.name);
   await expectDailyRewardPolish(page, viewport.name);
   await expectTimeAttackNavigationEntry(page, viewport.name);
   await expectResetDialogPolish(page, viewport.name);
@@ -313,6 +314,33 @@ async function expectPlayerIntroPolish(page, viewportName) {
   }
 }
 
+async function expectSpoonRunFirstVisitGuide(page, viewportName) {
+  const overlay = page.locator(".guide-overlay");
+  const dialog = page.locator(".guide-dialog--spoonRunIntro");
+  try {
+    await dialog.waitFor({ state: "visible", timeout: 3000 });
+  } catch {
+    failures.push("[" + viewportName + "] Spoon Run first-visit guide did not open.");
+    return;
+  }
+
+  await expectGuideDialogChromeArt(page, viewportName);
+  const speaker = (await dialog.locator(".guide-dialog__name-tag").textContent() || "").trim();
+  const dotCount = await dialog.locator(".guide-dialog__dots span").count();
+  const firstLine = (await dialog.locator(".guide-dialog__line").textContent() || "").trim();
+  if (speaker !== "Pip" || dotCount !== 2 || !/(today|daily|오늘|매일)/i.test(firstLine)) {
+    failures.push("[" + viewportName + "] Spoon Run guide step 1 regressed: " + JSON.stringify({ speaker, dotCount, firstLine }));
+  }
+
+  await dialog.locator(".guide-dialog__next").click({ force: true });
+  const secondLine = (await dialog.locator(".guide-dialog__line").textContent() || "").trim();
+  if (!/(replay|again|다시)/i.test(secondLine) || !/3/.test(secondLine)) {
+    failures.push("[" + viewportName + "] Spoon Run guide step 2 regressed: " + secondLine);
+  }
+
+  await dialog.locator(".guide-dialog__next").click({ force: true });
+  await overlay.waitFor({ state: "detached", timeout: 3000 });
+}
 async function dismissGuideIfPresent(page, viewportName) {
   const overlay = page.locator(".guide-overlay");
   try {
@@ -393,7 +421,7 @@ async function expectGuideDialogChromeArt(page, viewportName, options = {}) {
         && nameTagRect.top >= 0
         && nameTagRect.bottom <= window.innerHeight,
       nameTagOnTop: Boolean(nameTag) && (nameTagCenterElement === nameTag || nameTag.contains(nameTagCenterElement)),
-      expectsNameTag: dialog.matches(".guide-dialog--puzzle, .guide-dialog--map, .guide-dialog--timeAttack"),
+      expectsNameTag: dialog.matches(".guide-dialog--puzzle, .guide-dialog--map, .guide-dialog--timeAttack, .guide-dialog--spoonRunIntro"),
       bodyText: (line?.textContent || "").trim(),
       buttonCount: dialog.querySelectorAll(".guide-dialog__actions button").length,
       hasLegacyLabels: Boolean(dialog.querySelector(".guide-dialog__eyebrow, .guide-dialog__speaker")),

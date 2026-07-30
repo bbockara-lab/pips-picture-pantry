@@ -13,6 +13,7 @@ const GUIDE_IDS = new Set([
   "puzzle",
   "timeAttack",
   "map",
+  "spoonRunIntro",
   "pantryFirstPurchase",
   "pantryRoomStory",
   "pantryNeighborMrPark",

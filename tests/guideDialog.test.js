@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 const guideSource = readFileSync(new URL("../src/ui/guideDialog.js", import.meta.url), "utf8");
 const appShellSource = readFileSync(new URL("../src/ui/appShell.js", import.meta.url), "utf8");
 const settingsSource = readFileSync(new URL("../src/ui/settingsView.js", import.meta.url), "utf8");
+const mobileQaSource = readFileSync(new URL("../scripts/mobile_visual_check.js", import.meta.url), "utf8");
 
 describe("guide dialog character and badge wiring", () => {
   it("assigns the approved Mr. Park art to Time Attack", () => {
@@ -21,6 +22,19 @@ describe("guide dialog character and badge wiring", () => {
     );
   });
 
+  it("opens the two-step Pip guide only for an unseen Spoon Run intro", () => {
+    expect(guideSource).toContain(
+      'spoonRunIntro: ["guide.spoonRunIntro.step1", "guide.spoonRunIntro.step2"]'
+    );
+    expect(guideSource).toContain('spoonRunIntro: "guide.spoonRunIntro.speakerName"');
+    expect(appShellSource).toMatch(
+      /activeView === "spoonRun" && !hasSeenGuide\("spoonRunIntro"\)[\s\S]*?activeGuide = "spoonRunIntro"/
+    );
+  });
+  it("verifies and dismisses the Spoon Run intro in mobile candidate QA", () => {
+    expect(mobileQaSource).toContain("expectSpoonRunFirstVisitGuide(page, viewport.name)");
+    expect(mobileQaSource).toContain(".guide-dialog--spoonRunIntro");
+  });
   it("locks background scrolling while any guide is active", () => {
     expect(appShellSource).toContain(
       'document.body.classList.toggle("guide-open", Boolean(activeGuide))'

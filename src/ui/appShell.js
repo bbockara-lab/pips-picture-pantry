@@ -552,6 +552,8 @@ export function renderApp(root) {
       activeGuide = "timeAttack";
     } else if (!activeGuide && activeView === "map" && !hasSeenGuide("map")) {
       activeGuide = "map";
+    } else if (!activeGuide && activeView === "spoonRun" && !hasSeenGuide("spoonRunIntro")) {
+      activeGuide = "spoonRunIntro";
     }
     document.body.classList.toggle("guide-open", Boolean(activeGuide));
     const shell = createShell({

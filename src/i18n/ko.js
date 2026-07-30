@@ -227,6 +227,11 @@ export const ko = {
       step2: "5는 다섯 칸이 모두 이어진다는 뜻이에요. 손가락으로 한 번에 쭉 칠해보세요.",
       step3: "1 1 1은 한 칸씩 세 묶음이에요. 각 묶음 사이는 꼭 한 칸 이상 비워요."
     },
+    spoonRunIntro: {
+      speakerName: "Pip",
+      step1: "\uC624\uB298\uC758 \uADF8\uB9BC\uC744 \uD480\uBA74 \uC2A4\uD47C\uC744 \uCD94\uAC00\uB85C \uC5BB\uC744 \uC218 \uC788\uC5B4\uC694! \uB9E4\uC77C \uC0C8 \uADF8\uB9BC\uC774 \uAE30\uB2E4\uB9AC\uACE0 \uC788\uC5B4\uC694.",
+      step2: "\uC774\uBBF8 \uC644\uC131\uD55C \uADF8\uB9BC\uB3C4 \uB2E4\uC2DC \uB3C4\uC804\uD560 \uC218 \uC788\uC5B4\uC694. \uD558\uB8E8 3\uBC88\uAE4C\uC9C0 \uC2A4\uD47C\uC744 \uBC1B\uC744 \uC218 \uC788\uB2F5\uB2C8\uB2E4!"
+    },
     timeAttack: {
       speakerName: "시계 할아버지",
       title: "\uC2DC\uACC4 \uD560\uC544\uBC84\uC9C0\uC758 \uBE60\uB978 \uB3C4\uC804",

@@ -1,3 +1,9 @@
+## v0.1.655 - Spoon Run First-Visit Guide
+
+- Completed Step 11 with a two-slide Pip introduction that explains the daily bonus picture and up to three clean-replay spoon rewards.
+- The guide opens automatically on the first Spoon Run visit only, then records `spoonRunIntro` through the existing guide acknowledgement save flow.
+- Added regression coverage for the registered guide steps, Pip speaker label, first-visit trigger, persisted acknowledgement, and Korean/English key parity.
+- Full candidate verification passed: 38 test files / 225 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900, including the two-step Spoon Run first-visit guide.
 ## v0.1.654 - Spoon Run Replay Isolation
 
 - Completed Step 10 by separating the explicit Spoon Run pick flag from general replay/challenge mode, so only a card deliberately selected from Spoon Run can claim the clean-replay spoon reward.

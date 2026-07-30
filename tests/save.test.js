@@ -263,6 +263,10 @@ describe("player save profiles", () => {
 
     markGuideSeen("timeAttack");
     markGuideSeen("timeAttack");
+    expect(hasSeenGuide("spoonRunIntro")).toBe(false);
+    markGuideSeen("spoonRunIntro");
+    markGuideSeen("spoonRunIntro");
+    expect(hasSeenGuide("spoonRunIntro")).toBe(true);
     expect(hasSeenGuide("map")).toBe(false);
     markGuideSeen("map");
     expect(hasSeenGuide("map")).toBe(true);
@@ -279,6 +283,7 @@ describe("player save profiles", () => {
     expect(loadSave().seenGuideIds).toEqual([
       "puzzle",
       "timeAttack",
+      "spoonRunIntro",
       "map",
       "pantryFirstPurchase",
       "pantryRoomStory",

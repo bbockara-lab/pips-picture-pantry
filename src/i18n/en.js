@@ -248,6 +248,11 @@ export const en = {
       step2: "A 5 means all five cells are connected. Slide across the row in one stroke.",
       step3: "1 1 1 means three single groups. Leave at least one blank between each group."
     },
+    spoonRunIntro: {
+      speakerName: "Pip",
+      step1: "Solve Today's Picture for bonus spoons. A new picture waits for you every day!",
+      step2: "You can challenge pictures you've already finished, too. Earn spoons from clean replays up to 3 times a day!"
+    },
     timeAttack: {
       speakerName: "Grandpa Clock",
       title: "Mr. Park's quick challenge",
