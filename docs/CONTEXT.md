@@ -1,3 +1,10 @@
+## v0.1.682 - Readable Workshop Title and Korean Pip Naming
+
+- Completed Step 38 by changing the Workshop title to cream text on a subtle dark translucent pill with a compact shadow for stable readability over the scene artwork.
+- Standardized Korean player-facing copy from "Pip" to "핍" throughout `ko.js`, while preserving the protected English brand name "Pip's Picture Pantry".
+- Added regression coverage for the title styling and the single allowed Korean-locale `Pip` occurrence, and updated the launch-integrity contract to the new Korean Workshop name.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 47 test files / 276 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.681 - Featured Badge Keepsake
 
 - Completed Step 37 by allowing one earned Badge Shelf keepsake to be selected for Workshop-home display; locked badges never expose the selection action.

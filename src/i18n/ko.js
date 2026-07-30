@@ -8,7 +8,7 @@ export const ko = {
     skip: "\uc2dc\uc791"
   },
   playerIntro: {
-    title: "Pip\uc774 \ubb50\ub77c\uace0 \ubd80\ub974\uba74 \ub420\uae4c\uc694?",
+    title: "핍\uc774 \ubb50\ub77c\uace0 \ubd80\ub974\uba74 \ub420\uae4c\uc694?",
     label: "\uc774\ub984",
     placeholder: "하늘",
     continue: "\uacc4\uc18d",
@@ -19,10 +19,10 @@ export const ko = {
     intro: "\uc624\ub298\uc758 \uadf8\ub9bc\uacfc \ub2e4\uc2dc \ud480\uae30\ub85c \uc2a4\ud47c\uc744 \ub354 \ubaa8\uc544\ubcf4\uc138\uc694."
   },
   views: {
-    puzzle: "Pip\uc758 \ud37c\uc990\ubc29",
+    puzzle: "핍\uc758 \ud37c\uc990\ubc29",
     spoonRun: "\uc2a4\ud47c \ubc8c\ub7ec \uac00\uae30",
     album: "\uc568\ubc94",
-    pantry: "Pip\uc758 \ud32c\ud2b8\ub9ac",
+    pantry: "핍\uc758 \ud32c\ud2b8\ub9ac",
     map: "\ubc30\uc9c0",
     timeAttack: "\ud0c0\uc784\uc5b4\ud0dd",
     navLabel: "\uc8fc\uc694 \ud654\uba74",
@@ -59,14 +59,14 @@ export const ko = {
     controlsAuto: "\ud070 \ud310\uc5d0\uc11c \uc790\ub3d9",
     controlsDirect: "\uce78 \uc9c1\uc811 \ub204\ub974\uae30",
     controlsCursor: "\ubc29\ud5a5\ud0a4 \uc0ac\uc6a9",
-    guideReplayTitle: "Pip\uc758 \uac00\uc774\ub4dc",
-    guideReplayAction: "Pip 가이드 보기",
+    guideReplayTitle: "핍\uc758 \uac00\uc774\ub4dc",
+    guideReplayAction: "핍 가이드 보기",
     guideReplayPuzzleAction: "그림 가이드",
     guideReplayMapAction: "\uBC30\uC9C0 \uAC00\uC774\uB4DC",
     guideReplayTimeAttackAction: "타임어택 가이드",
     spoonStoreTitle: "\uc2a4\ud47c \ub354 \ucc44\uc6b0\uae30",
-    supportTitle: "Pip \uc751\uc6d0\ud329",
-    supportBody: "Pip\uc744 \uc751\uc6d0\ud558\uace0 \uc2a4\ud47c {spoons}\uac1c\ub97c \ubc1b\uc544\uc694.",
+    supportTitle: "핍 \uc751\uc6d0\ud329",
+    supportBody: "핍\uc744 \uc751\uc6d0\ud558\uace0 \uc2a4\ud47c {spoons}\uac1c\ub97c \ubc1b\uc544\uc694.",
     supportChecking: "\uc2a4\ud1a0\uc5b4 \uc5f0\uacb0\uc744 \ud655\uc778\ud558\uace0 \uc788\uc5b4\uc694.",
     supportAndroidOnly: "Play \uc2a4\ud1a0\uc5b4 \uc5f0\uacb0\uc744 \uc900\ube44\ud558\uace0 \uc788\uc5b4\uc694.",
     supportReady: "\uad6c\ub9e4\ud558\uba74 \ubc14\ub85c \uc2a4\ud47c\uc774 \ub4e4\uc5b4\uc640\uc694.",
@@ -91,9 +91,9 @@ export const ko = {
   },
   badges: {
     collectionCount: "{earned}/{total}\uac1c \uc218\uc9d1",
-    groupA: "\uc120\ubc18 A - Pip\uc758 \uccab\uac78\uc74c",
-    groupB: "\uc120\ubc18 B - Pip\uc758 \ube75\uc9d1",
-    groupC: "\uc120\ubc18 C - Pip\uc758 \ub9c8\uc744",
+    groupA: "\uc120\ubc18 A - 핍\uc758 \uccab\uac78\uc74c",
+    groupB: "\uc120\ubc18 B - 핍\uc758 \ube75\uc9d1",
+    groupC: "\uc120\ubc18 C - 핍\uc758 \ub9c8\uc744",
     earned: "\uc218\uc9d1 \uc644\ub8cc",
     stageRequirement: "Stage {stage} \uc644\ub8cc",
     detailEarned: "\uc18c\uc911\ud55c \ubc30\uc9c0\uac00 \uc120\ubc18 \uc704\uc5d0\uc11c \ube5b\ub098\uace0 \uc788\uc5b4\uc694.",
@@ -109,7 +109,7 @@ export const ko = {
     pipVillagePath: "\ub9c8\uc744\uae38",
     pipClockCorner: "\uc2dc\uacc4 \ucf54\ub108",
     pipFullPantry: "\uac00\ub4dd \ucc2c \ud32c\ud2b8\ub9ac",
-    pipPortrait: "Pip \ucd08\uc0c1\ud654",
+    pipPortrait: "핍 \ucd08\uc0c1\ud654",
     progress: "{completed}/{total}\uc7a5",
     earnedAria: "{title} \ud68d\ub4dd",
     progressAria: "{title} \uc9c4\ud589 {completed}/{total}",
@@ -117,11 +117,11 @@ export const ko = {
     shelfProgressHint: "\ud37c\uc990 {completed}\uc7a5 \uc644\ub8cc - {remaining}\uc7a5 \ub354 \ud480\uba74 \ubc30\uc9c0 \uc644\uc131!",
     earnedShelfAria: "\ud68d\ub4dd\ud55c \ubc30\uc9c0 {count}\uac1c",
     pipsFirstShelf: "\uccab \uc120\ubc18 \ubc30\uc9c0",
-    pipsFirstShelfDesc: "Pip \uadf8\ub9bc \ubc30\uc9c0 \uc644\uc131",
+    pipsFirstShelfDesc: "핍 \uadf8\ub9bc \ubc30\uc9c0 \uc644\uc131",
     sunnySpoonSign: "\ud587\uc0b4 \uc2a4\ud47c \uac04\ud310 \ubc30\uc9c0",
     sunnySpoonSignDesc: "Sunny Spoon \ub85c\uace0 \ubc30\uc9c0 \uc644\uc131",
     apronDrawer: "\uc55e\uce58\ub9c8 \uc11c\ub78d \ubc30\uc9c0",
-    apronDrawerDesc: "Pip \ub3c4\uc6b0\ubbf8 \ubc30\uc9c0 \uc644\uc131",
+    apronDrawerDesc: "핍 \ub3c4\uc6b0\ubbf8 \ubc30\uc9c0 \uc644\uc131",
     bakeryWindow: "Bakery Window \ubc30\uc9c0",
     bakeryWindowDesc: "\ud32c\ud2b8\ub9ac \uce5c\uad6c\ub4e4 \ubc30\uc9c0 \uc644\uc131",
     villagePantry: "Village Pantry \ubc30\uc9c0",
@@ -135,7 +135,7 @@ export const ko = {
     solveCurrent: "\uc774 \ud37c\uc990 \ud480\uae30",
     startHere: "\uc5ec\uae30\uc11c \uc2dc\uc791",
     pantryAlbum: "\ud32c\ud2b8\ub9ac \uc568\ubc94",
-    pantryRoom: "Pip\uc758 \uadf8\ub9bc\ubc29",
+    pantryRoom: "핍\uc758 \uadf8\ub9bc\ubc29",
     pantryMap: "\ubc30\uc9c0 \uc120\ubc18"
   },
   playScreen: {
@@ -159,8 +159,8 @@ export const ko = {
     cleanBroken: "\uBCF4\uB108\uC2A4\uB294 \uB193\uCCE4\uC5B4\uC694. \uC5F0\uC2B5\uC740 \uACC4\uC18D\uD574\uC694."
   },
   howToPlay: {
-    title: "Pip\uc758 \uadf8\ub9bc \ud301",
-    pipLine: "Pip\uc774 \uc606\uc5d0\uc11c \uac19\uc774 \ubcfc\uac8c\uc694. \uc22b\uc790\ub9cc\ud07c \uc774\uc5b4\uc11c \uce60\ud558\uba74, \uc548\uc804\ud55c \ube48\uce78\uc740 X\ub85c \uc815\ub9ac\ub3fc\uc694.",
+    title: "핍\uc758 \uadf8\ub9bc \ud301",
+    pipLine: "핍\uc774 \uc606\uc5d0\uc11c \uac19\uc774 \ubcfc\uac8c\uc694. \uc22b\uc790\ub9cc\ud07c \uc774\uc5b4\uc11c \uce60\ud558\uba74, \uc548\uc804\ud55c \ube48\uce78\uc740 X\ub85c \uc815\ub9ac\ub3fc\uc694.",
     goal: "\uC22B\uC790\uB9CC\uD07C \uC774\uC5B4\uC11C \uCE60\uD574\uC694.",
     clueTogether: "\ubd99\uc5b4\uc11c 3\uce78",
     clueApart: "\ub5a8\uc5b4\uc838\uc11c 1\uce78\uc529",
@@ -209,7 +209,7 @@ export const ko = {
     remaining: "\ub0a8\uc740 \uc2dc\uac04 {time}"
   },
   guide: {
-    practiceLabel: "Pip\uacfc \ud568\uaed8 \uce60\ud574\ubcf4\ub294 \uc5f0\uc2b5 \uc904",
+    practiceLabel: "핍\uacfc \ud568\uaed8 \uce60\ud574\ubcf4\ub294 \uc5f0\uc2b5 \uc904",
     practicePrompt: "첫 칸부터 끝 칸까지 손가락으로 쭉 밀어 칠해보세요.",
     practiceCell: "{number}\ubc88 \uce78",
     practiceTryAgain: "손가락을 떼지 말고 다섯 칸을 이어 칠해볼까요?",
@@ -217,8 +217,8 @@ export const ko = {
     practiceSeparated: "서로 떨어진 세 칸을 골라보세요.",
     practiceSeparatedTryAgain: "한 칸씩 띄워 골라볼까요?",
     practiceSeparatedComplete: "맞아요. 1마다 하나의 묶음이에요.",
-    eyebrow: "Pip의 작은 안내",
-    speaker: "Pip이 옆에서 말해요",
+    eyebrow: "핍의 작은 안내",
+    speaker: "핍이 옆에서 말해요",
     skip: "나중에 볼게요",
     next: "다음",
     done: "\uC790, \uAC00\uBCF4\uC790!",
@@ -227,14 +227,14 @@ export const ko = {
     goToPantry: "팬트리 꾸미러 가기",
     goToSpoonRun: "스푼 벌러 가기",
     puzzle: {
-      speakerName: "Pip",
+      speakerName: "핍",
       title: "첫 그림은 제가 옆에서 함께 풀어볼게요",
-      step1: "어서 와요! 저는 Pip이에요. 함께 그림을 완성해 봐요!",
+      step1: "어서 와요! 저는 핍이에요. 함께 그림을 완성해 봐요!",
       step2: "5는 다섯 칸이 모두 이어진다는 뜻이에요. 손가락으로 한 번에 쭉 칠해보세요.",
       step3: "1 1 1은 한 칸씩 세 묶음이에요. 각 묶음 사이는 꼭 한 칸 이상 비워요."
     },
     spoonRunIntro: {
-      speakerName: "Pip",
+      speakerName: "핍",
       step1: "\uC624\uB298\uC758 \uADF8\uB9BC\uC744 \uD480\uBA74 \uC2A4\uD47C\uC744 \uCD94\uAC00\uB85C \uC5BB\uC744 \uC218 \uC788\uC5B4\uC694! \uB9E4\uC77C \uC0C8 \uADF8\uB9BC\uC774 \uAE30\uB2E4\uB9AC\uACE0 \uC788\uC5B4\uC694.",
       step2: "\uC774\uBBF8 \uC644\uC131\uD55C \uADF8\uB9BC\uB3C4 \uB2E4\uC2DC \uB3C4\uC804\uD560 \uC218 \uC788\uC5B4\uC694. \uD558\uB8E8 3\uBC88\uAE4C\uC9C0 \uC2A4\uD47C\uC744 \uBC1B\uC744 \uC218 \uC788\uB2F5\uB2C8\uB2E4!"
     },
@@ -246,7 +246,7 @@ export const ko = {
       step3: "\uC5BC\uB9C8\uB098 \uBE60\uB978\uC9C0 \uD55C\uBC88 \uBD10\uBCFC\uAE4C\uC694?"
     },
     map: {
-      speakerName: "Pip",
+      speakerName: "핍",
       step1: "어머, 배지 선반이에요! 그림을 완성할수록 배지가 쌓여요.",
       step2: "\uD55C \uC138\uD2B8\uB97C \uB2E4 \uCC44\uC6B0\uBA74 \uBC30\uC9C0\uC5D0 \uBD88\uC774 \uB4E4\uC5B4\uC640\uC694.",
       step3: "\uD32C\uD2B8\uB9AC\uAC00 \uCC44\uC6CC\uC9C8\uC218\uB85D \uC120\uBC18\uB3C4 \uD568\uAED8 \uBE5B\uB098\uC694."
@@ -362,13 +362,13 @@ export const ko = {
   },
   stageComplete: {
     ariaLabel: "\uc120\ubc18 \uc644\uc131",
-    eyebrow: "Pip\uc758 \uc0c8 \uadf8\ub9bc",
-    message: "Pip\uc774 \uc774 \uc120\ubc18\uc744 \uc608\uc058\uac8c \ucc44\uc6cc\ub614\uc5b4\uc694.",
+    eyebrow: "핍\uc758 \uc0c8 \uadf8\ub9bc",
+    message: "핍\uc774 \uc774 \uc120\ubc18\uc744 \uc608\uc058\uac8c \ucc44\uc6cc\ub614\uc5b4\uc694.",
     bonus: "\uc2a4\ud47c +{count}",
     cta: "\uadf8\ub9bc \ubaa9\ub85d \ubcf4\uae30",
-    finalAriaLabel: "Pip\uc758 \ud32c\ud2b8\ub9ac \uc644\uc131",
-    finalEyebrow: "Pip\uc758 \ud32c\ud2b8\ub9ac",
-    finalMessage: "Pip\uacfc \ud568\uaed8 \ucc44\uc6b4 \ud32c\ud2b8\ub9ac\uac00 \uc644\uc131\ub410\uc5b4\uc694.",
+    finalAriaLabel: "핍\uc758 \ud32c\ud2b8\ub9ac \uc644\uc131",
+    finalEyebrow: "핍\uc758 \ud32c\ud2b8\ub9ac",
+    finalMessage: "핍\uacfc \ud568\uaed8 \ucc44\uc6b4 \ud32c\ud2b8\ub9ac\uac00 \uc644\uc131\ub410\uc5b4\uc694.",
     finalCta: "\ud32c\ud2b8\ub9ac \ubcf4\uae30"
   },
   album: {
@@ -390,7 +390,7 @@ export const ko = {
     collapseShelf: "{title} \uc811\uae30"
   },
   shelves: {
-    pipsFirst: "Pip\uc758 \uccab \uc120\ubc18",
+    pipsFirst: "핍\uc758 \uccab \uc120\ubc18",
     sunnyCounter: "\ud587\uc0b4 \uce74\uc6b4\ud130",
     sunnyCounterTeaser: "따뜻한 카운터 위, 스푼과 레시피가 기다려요",
     apronDrawer: "\uc55e\uce58\ub9c8 \uc11c\ub78d",
@@ -444,7 +444,7 @@ export const ko = {
       6: "\uc0c8 \uadf8\ub9bc\uc774 \uae30\ub2e4\ub824\uc694!"
     },
     new: "\uc0c8 \uc18c\ud488",
-    pantryLabel: "Pip\uc758 \ud32c\ud2b8\ub9ac",
+    pantryLabel: "핍\uc758 \ud32c\ud2b8\ub9ac",
     timeAttackLabel: "\ud0c0\uc784\uc5b4\ud0dd",
     albumLabel: "\uc568\ubc94",
     mapLabel: "\ubc30\uc9c0"
@@ -466,7 +466,7 @@ export const ko = {
     roomRequirementHint: "\ud32c\ud2b8\ub9ac \ubc29\uc5d0\uc11c \uc544\uc774\ud15c\uc744 \uc0ac\uc11c \uafb8\ubbf8\uba74 \uc5f4\ub824\uc694.",
     packComplete: "'{title}' \uc644\uc131! \ubc30\uc9c0\ub97c \uc5bb\uc5c8\uc5b4\uc694.",
     "pips-first-shelf": {
-      title: "Pip의 첫 선반",
+      title: "핍의 첫 선반",
       note: "\uc791\uace0 \uc26c\uc6b4 \uccab \uadf8\ub9bc"
     },
     "sunny-spoon-sign": {
@@ -507,11 +507,11 @@ export const ko = {
     }
   },
   pantry: {
-    title: "Pip\uC758 \uD32C\uD2B8\uB9AC",
+    title: "핍\uC758 \uD32C\uD2B8\uB9AC",
     shelfUnlocksStage: "완성하면 '{stage}' 스테이지가 열려요",
     shelfStageUnlocked: "'{stage}' 스테이지 개방됨 ✓",
     spoonNote: "모아둔 스푼: {count}",
-    roomAria: "Pip이 꾸민 팬트리",
+    roomAria: "핍이 꾸민 팬트리",
     shopEyebrow: "꾸미기 팬트리",
     shopTitle: "\uafb8\ubbf8\uae30 \uc18c\ud488",
     shopBody: "방의 자리를 고른 뒤, 그 자리에 어울리는 장식을 골라요. 한 자리에는 가장 좋아하는 장식 하나만 보여요.",
@@ -529,7 +529,7 @@ export const ko = {
     storyDeliveryReady: "{slot} · 준비됐어요",
     storyDeliveryShowGoal: "\uC774 \uBAA9\uD45C \uBCF4\uAE30",
     storyDeliveryEarn: "\uC2A4\uD47C \uBC8C\uB7EC \uAC00\uAE30",
-    feedbackStoryCompleteTitle: "{item}\uC73C\uB85C Pip\uC758 \uBA54\uBAA8\uB97C \uC644\uC131\uD588\uC5B4\uC694",
+    feedbackStoryCompleteTitle: "{item}\uC73C\uB85C 핍\uC758 \uBA54\uBAA8\uB97C \uC644\uC131\uD588\uC5B4\uC694",
     feedbackBuyTitle: "{item}이 팬트리에 왔어요",
     feedbackEquipTitle: "{item}을 전시했어요",
     feedbackDismiss: "확인",
@@ -669,9 +669,9 @@ export const ko = {
       spiceChaiBlend: "스파이스 차이"
     },
     items: {
-      starterCounter: { title: "\uccb4\ud06c \uce74\uc6b4\ud130\ubcf4", description: "Pip\uc758 \uccab \uc11c\ube59 \uc790\ub9ac\ub97c \ub36e\uc5b4 \uc8fc\ub294 \ubd80\ub4dc\ub7ec\uc6b4 \uccb4\ud06c\ubcf4\uc608\uc694." },
+      starterCounter: { title: "\uccb4\ud06c \uce74\uc6b4\ud130\ubcf4", description: "핍\uc758 \uccab \uc11c\ube59 \uc790\ub9ac\ub97c \ub36e\uc5b4 \uc8fc\ub294 \ubd80\ub4dc\ub7ec\uc6b4 \uccb4\ud06c\ubcf4\uc608\uc694." },
       sunnyCurtains: { title: "햇살 창문 커튼", description: "팬트리가 막 문을 연 것처럼 따뜻해지는 커튼이에요." },
-      recipeShelf: { title: "레시피 카드 선반", description: "Pip이 아끼는 메모와 작은 병들이 놓인 선반이에요." },
+      recipeShelf: { title: "레시피 카드 선반", description: "핍이 아끼는 메모와 작은 병들이 놓인 선반이에요." },
       mintRug: { title: "민트 체크 러그", description: "방을 산뜻하고 부드럽게 잡아 주는 바닥 러그예요." },
       smallJamJar: { title: "작은 잼 병", description: "카운터의 햇살 좋은 모서리에 놓기 좋은 달콤한 병이에요." },
       herbPot: { title: "허브 화분", description: "창가에 올려 두면 팬트리가 산뜻해지는 작은 화분이에요." },
@@ -705,7 +705,7 @@ export const ko = {
     locked: "\uc7a0\uae40",
     nextSets: "\ub2e4\uc74c \uadf8\ub9bc \uc138\ud2b8",
     sets: {
-      "pip-portrait": "Pip \ucd08\uc0c1\ud654",
+      "pip-portrait": "핍 \ucd08\uc0c1\ud654",
       "cozy-cafe-room": "\uc544\ub291\ud55c \uce74\ud398 \ubc29",
       "bakery-morning": "\ubca0\uc774\ucee4\ub9ac \uc544\uce68",
       "seasonal-pantry": "\uc2dc\uc98c \ud32c\ud2b8\ub9ac",
@@ -715,8 +715,8 @@ export const ko = {
     parts: {
       "pip-hat": "\uc170\ud504 \ubaa8\uc790",
       "pip-scarf": "\ube68\uac04 \uc2a4\uce74\ud504",
-      "pip-face": "Pip \uc5bc\uad74",
-      "pip-body": "Pip \ubab8",
+      "pip-face": "핍 \uc5bc\uad74",
+      "pip-body": "핍 \ubab8",
       "pip-card": "\uadf8\ub9bc \uce74\ub4dc",
       "bonus-cafe": "\ubcf4\ub108\uc2a4 \uc7a5\uba74",
       "bonus-bakery": "\ubca0\uc774\ucee4\ub9ac \uc7a5\uba74",

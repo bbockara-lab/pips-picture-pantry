@@ -11,6 +11,9 @@ describe("Workshop supporting cards wiring", () => {
   it("labels the Workshop as Pip's Puzzle Room", () => {
     expect(puzzleHubSource).toContain('"puzzle-home-scene__title", t("views.puzzle")');
     expect(styles).toContain("v0.1.676 - Workshop view identity");
+    expect(styles).toMatch(
+      /\.app-shell--workshop-home \.puzzle-home-scene__title\s*\{[\s\S]*?color:\s*#fff8f0;[\s\S]*?padding:\s*4px 10px;[\s\S]*?background:\s*rgba\(0, 0, 0, 0\.25\);[\s\S]*?text-shadow:\s*0 1px 4px rgba\(0, 0, 0, 0\.4\);/
+    );
   });
 
   it("moves Daily and replay cards into the Spoon Run view", () => {

@@ -43,8 +43,15 @@ describe("i18n", () => {
     expect(t("home.pantryLabel")).toBe("Pip's Pantry");
 
     setActiveLocale("ko");
-    expect(t("views.pantry")).toBe("Pip\uc758 \ud32c\ud2b8\ub9ac");
-    expect(t("home.pantryLabel")).toBe("Pip\uc758 \ud32c\ud2b8\ub9ac");
+    expect(t("views.pantry")).toBe("핍\uc758 \ud32c\ud2b8\ub9ac");
+    expect(t("home.pantryLabel")).toBe("핍\uc758 \ud32c\ud2b8\ub9ac");
+  });
+
+  it("uses Korean 핍 everywhere except the protected English brand name", () => {
+    const pipStrings = collectStrings(ko).filter(([, value]) => value.includes("Pip"));
+    expect(pipStrings).toEqual([
+      ["brandIntro.ariaLabel", "Sunny Spoon Studios와 Pip's Picture Pantry 시작 화면"]
+    ]);
   });
 
   it("formats translated strings", () => {
@@ -127,7 +134,7 @@ describe("i18n", () => {
   it("uses a cached active locale", () => {
     setActiveLocale("ko");
 
-    expect(t("views.puzzle")).toBe("Pip\uc758 \ud37c\uc990\ubc29");
+    expect(t("views.puzzle")).toBe("핍\uc758 \ud37c\uc990\ubc29");
     expect(t("guide.next")).toBe("\ub2e4\uc74c");
 
     setActiveLocale("unsupported");
@@ -215,13 +222,13 @@ describe("i18n", () => {
       expect(value).not.toContain("\uFFFD");
       expect(value).not.toContain("\u5360");
     });
-    expect(t("guide.eyebrow")).toBe("Pip\uc758 \uc791\uc740 \uc548\ub0b4");
+    expect(t("guide.eyebrow")).toBe("핍\uc758 \uc791\uc740 \uc548\ub0b4");
     expect(t("playerIntro.placeholder")).toBe("하늘");
     expect(t("playerIntro.defaultName")).toBe("친구");
     expect(t("playerIntro.placeholder")).not.toBe("Jay");
     expect(t("playerIntro.defaultName")).not.toBe("Friend");
-    expect(t("guide.speaker")).toContain("Pip");
-    expect(t("guide.puzzle.step1")).toBe("어서 와요! 저는 Pip이에요. 함께 그림을 완성해 봐요!");
+    expect(t("guide.speaker")).toContain("핍");
+    expect(t("guide.puzzle.step1")).toBe("어서 와요! 저는 핍이에요. 함께 그림을 완성해 봐요!");
     expect(t("guide.timeAttack.step2")).toBe("\uC2DC\uAC04\uC774 \uBD80\uC871\uD560 \uB550 \uD78C\uD2B8 \uD558\uB098\uAC00 \uD310\uC744 \uAD6C\uD560 \uC218 \uC788\uC5B4\uC694.");
     expect(t("guide.map.step3")).toContain("\uC120\uBC18");
     expect(t("guide.pantryFirstPurchase.step3")).toContain("\uC2A4\uD47C");
@@ -239,7 +246,7 @@ describe("i18n", () => {
       "guide.pantryNeighborMateo.step1"
     ].forEach((key) => expect(t(key)).not.toMatch(/Mr\.? Park|Lily|Mateo/));
     expect(t("controls.hintRemaining", { count: 1, limit: 3 })).toBe("\uD78C\uD2B8 1/3");
-    expect(t("howToPlay.pipLine")).toContain("Pip");
+    expect(t("howToPlay.pipLine")).toContain("핍");
     expect(t("controls.lineCompleteHint")).toContain("\uc548\uc804\ud55c \ube48\uce78");
     expect(t("controls.lineCompleteHint")).toContain("\uc790\ub3d9");
     expect(t("controls.paidHintIntro", { cost: 9, count: 5, balance: 20 })).toContain("\uC2A4\uD47C 9\uAC1C");
@@ -316,7 +323,7 @@ describe("i18n", () => {
     expect(t("pantry.needMore", { count: 7 })).toBe("\uc2a4\ud47c 7\uac1c \ubd80\uc871");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - \uc644\ub8cc");
     expect(t("packs.preview")).toBe("\uc608\uace0");
-    expect(t("badges.pipPortrait")).toBe("Pip \ucd08\uc0c1\ud654");
+    expect(t("badges.pipPortrait")).toBe("핍 \ucd08\uc0c1\ud654");
 
     setLanguagePreference("en", "ko-KR");
     expect(getLanguagePreference()).toBe("en");

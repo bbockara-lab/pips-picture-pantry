@@ -1,3 +1,10 @@
+## 2026-07-30 v0.1.682 Workshop title readability and Korean naming
+
+- Current package/UI candidate: v0.1.682.
+- The Workshop title now remains readable over its artwork through cream text, a compact shadow, and a subtle dark translucent pill.
+- Korean player-facing copy consistently uses "핍"; the English app brand remains unchanged.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 47 test files / 276 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-30 v0.1.681 featured Badge keepsake
 
 - Current package/UI candidate: v0.1.681.
