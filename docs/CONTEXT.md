@@ -1,3 +1,9 @@
+## v0.1.660 - Itemized Completion Spoon Rewards
+
+- Completed Step 16 by showing puzzle completion, Daily bonus, and shelf completion spoons as separate positive reward rows instead of presenting a combined total.
+- The completion flow now carries the exact savePuzzleState() reward result and the exact markShelfCompletedIfFirst() bonus into the completion banner; zero-value rows remain hidden.
+- Daily completion copy no longer embeds a combined spoon total, and the shelf completion row receives a distinct warm-gold treatment.
+- Full candidate verification passed: 40 test files / 234 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.659 - Centered Completion Action
 
 - Completed Step 15 by converting the completion action area from the obsolete two-column layout to a single centered column capped at 320px.

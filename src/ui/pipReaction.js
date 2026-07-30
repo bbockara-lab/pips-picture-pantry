@@ -19,7 +19,9 @@ export function renderCompletionBanner(puzzle, {
   replayChallenge = false,
   replayResult = null,
   dailyChallenge = false,
-  dailyResult = null
+  dailyResult = null,
+  rewardResult = null,
+  stageBonus = 0
 } = {}) {
   const banner = document.createElement("div");
   banner.className = "completion-banner";
@@ -45,6 +47,23 @@ export function renderCompletionBanner(puzzle, {
   });
 
   copy.appendChild(message);
+  const rewardRows = getCompletionRewardRows({
+    puzzleReward: (dailyResult || rewardResult)?.puzzleReward,
+    dailyBonus: dailyResult?.dailyBonus,
+    stageBonus
+  });
+  if (rewardRows.length) {
+    const rewardList = document.createElement("div");
+    rewardList.className = "completion-reward-list";
+    rewardRows.forEach((row) => {
+      const line = document.createElement("p");
+      line.className = "completion-reward-line";
+      if (row.key === "completion.stageBonus") line.classList.add("completion-reward-line--stage");
+      line.textContent = t(row.key, { count: row.count });
+      rewardList.appendChild(line);
+    });
+    copy.appendChild(rewardList);
+  }
 
   const reveal = renderSolvedReveal(puzzle);
 
@@ -66,9 +85,16 @@ export function renderCompletionBanner(puzzle, {
   return banner;
 }
 
+export function getCompletionRewardRows({ puzzleReward = 0, dailyBonus = 0, stageBonus = 0 } = {}) {
+  return [
+    { key: "completion.puzzleReward", count: Math.max(0, Number(puzzleReward || 0)) },
+    { key: "completion.dailyBonus", count: Math.max(0, Number(dailyBonus || 0)) },
+    { key: "completion.stageBonus", count: Math.max(0, Number(stageBonus || 0)) }
+  ].filter((row) => row.count > 0);
+}
 function getCompletionBannerMessage(puzzle, options = {}) {
   if (options.dailyChallenge) {
-    return t("completion.dailyReward", { count: options.dailyResult?.totalReward || 0 });
+    return t("completion.dailyComplete");
   }
   if (!options.replayChallenge) {
     return getCompletionMessage(puzzle);

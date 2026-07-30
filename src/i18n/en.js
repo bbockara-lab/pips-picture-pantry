@@ -364,6 +364,10 @@ export const en = {
     viewAlbum: "View Album",
     menu: "Menu",
     nextPicture: "Next Picture",
+    dailyComplete: "Today's Picture complete!",
+    puzzleReward: "Puzzle complete +{count}sp",
+    dailyBonus: "Daily bonus +{count}sp",
+    stageBonus: "Shelf completion bonus +{count}sp",
     dailyReward: "Today's Picture complete! You earned +{count} spoons.",
     replayReward: "Clean replay! +{count} spoon. {remaining} replay rewards left today.",
     replayNoReward: "Replay complete. No spoon this time, but the card stayed safe."

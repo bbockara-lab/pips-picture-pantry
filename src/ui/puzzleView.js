@@ -34,6 +34,8 @@ export function renderPuzzleView(puzzle, options = {}) {
   let replayCleanStatus = createReplayCleanStatus();
   let replayResult = null;
   let dailyResult = null;
+  let rewardResult = null;
+  let stageBonus = 0;
   const controlMode = options.controlMode || "auto";
   const section = document.createElement("section");
   section.className = [
@@ -55,7 +57,7 @@ export function renderPuzzleView(puzzle, options = {}) {
     };
     replayCleanStatus = getReplayCleanStatusAfterState(isReplayChallenge, replayCleanStatus, state, puzzle.solution);
     if (!usesTransientState) {
-      savePuzzleState(state, {
+      rewardResult = savePuzzleState(state, {
         reward: puzzle.reward || 0,
         dailyBonus: options.dailyBonus || 0,
         dailyKey: options.dailyKey || null
@@ -69,6 +71,7 @@ export function renderPuzzleView(puzzle, options = {}) {
           dailyBonus: options.dailyBonus || 0,
           dailyKey: options.dailyKey
         });
+        rewardResult = dailyResult;
       }
       if (isReplayChallenge) {
         replayResult = recordReplayReward({
@@ -79,7 +82,7 @@ export function renderPuzzleView(puzzle, options = {}) {
       }
       playComplete();
       if (!isReplayChallenge) {
-        options.onPuzzleComplete?.(puzzle, state);
+        stageBonus = Number(options.onPuzzleComplete?.(puzzle, state)?.bonus || 0);
       }
     }
     draw();
@@ -150,7 +153,13 @@ export function renderPuzzleView(puzzle, options = {}) {
       section.appendChild(createReplayChallengeNote(!isReplayClean(replayCleanStatus)));
     }
     if (state.completed) {
-      section.appendChild(renderCompletionBanner(puzzle, { ...options, replayResult, dailyResult }));
+      section.appendChild(renderCompletionBanner(puzzle, {
+        ...options,
+        replayResult,
+        dailyResult,
+        rewardResult,
+        stageBonus
+      }));
       return;
     }
     const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode);

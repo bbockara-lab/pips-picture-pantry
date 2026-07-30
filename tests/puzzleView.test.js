@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 const puzzleViewSource = readFileSync("src/ui/puzzleView.js", "utf8");
+const appShellSource = readFileSync("src/ui/appShell.js", "utf8");
 import { getPuzzleHintCost } from "../src/ui/puzzleView.js";
 
 describe("Daily puzzle state isolation", () => {
@@ -11,7 +12,10 @@ describe("Daily puzzle state isolation", () => {
     expect(puzzleViewSource).toMatch(/isReplayChallenge \|\| isDailyChallenge\s*\? createPuzzleState\(puzzle\)/);
     expect(puzzleViewSource).toMatch(/if \(isDailyChallenge\) \{[\s\S]*savePuzzleState\(state/);
     expect(puzzleViewSource).toContain("dailyResult = savePuzzleState(state");
-    expect(puzzleViewSource).toContain("replayResult, dailyResult");
+    expect(puzzleViewSource).toContain("rewardResult = dailyResult");
+    expect(puzzleViewSource).toContain("stageBonus = Number(options.onPuzzleComplete?.(puzzle, state)?.bonus || 0)");
+    expect(puzzleViewSource).toMatch(/renderCompletionBanner\(puzzle, \{[\s\S]*rewardResult,[\s\S]*stageBonus/);
+    expect(appShellSource).toMatch(/const completionResult = markShelfCompletedIfFirst\(shelf\);[\s\S]*return completionResult;/);
   });
 });
 

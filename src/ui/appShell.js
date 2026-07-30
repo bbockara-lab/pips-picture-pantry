@@ -534,6 +534,7 @@ export function renderApp(root) {
       const badgeToast = renderBadgeEarnedToast(earnedBadge);
       if (badgeToast) document.body.appendChild(badgeToast);
     }, 700);
+    return completionResult;
   }
 
   function draw() {

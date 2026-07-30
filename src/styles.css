@@ -1277,6 +1277,26 @@ body {
 .completion-copy {
   align-self: center;
 }
+.completion-reward-list {
+  display: grid;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.completion-reward-line {
+  margin: 0;
+  padding: 5px 9px;
+  border-radius: 10px;
+  background: rgba(255, 250, 232, 0.82);
+  color: var(--ink);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.completion-reward-line--stage {
+  background: linear-gradient(180deg, rgba(255, 231, 143, 0.96), rgba(255, 247, 210, 0.92));
+  color: #76500a;
+}
 
 .completion-title {
   margin: 0 0 2px;

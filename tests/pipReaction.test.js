@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { isFirstPipFacePuzzle } from "../src/ui/pipReaction.js";
+import { getCompletionRewardRows, isFirstPipFacePuzzle } from "../src/ui/pipReaction.js";
 
 const pipReactionSource = readFileSync("src/ui/pipReaction.js", "utf8");
 const stylesSource = readFileSync("src/styles.css", "utf8");
@@ -30,5 +30,16 @@ describe("Pip completion scene", () => {
     expect(stylesSource).toMatch(
       /\.completion-actions\s*\{[\s\S]*?grid-template-columns:\s*1fr;[\s\S]*?max-width:\s*320px;[\s\S]*?margin-left:\s*auto;[\s\S]*?margin-right:\s*auto;/
     );
+  });
+
+  it("keeps puzzle, Daily, and shelf rewards as separate positive rows", () => {
+    expect(getCompletionRewardRows({ puzzleReward: 3, dailyBonus: 8, stageBonus: 80 })).toEqual([
+      { key: "completion.puzzleReward", count: 3 },
+      { key: "completion.dailyBonus", count: 8 },
+      { key: "completion.stageBonus", count: 80 }
+    ]);
+    expect(getCompletionRewardRows({ puzzleReward: 3, dailyBonus: 0, stageBonus: 0 })).toEqual([
+      { key: "completion.puzzleReward", count: 3 }
+    ]);
   });
 });
