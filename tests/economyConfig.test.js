@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  ECONOMY,
   getDailyTimeAttackLimit,
   getPuzzleExtraHintCost,
   getTimeAttackHintCost,
@@ -8,6 +9,11 @@ import {
 } from "../src/data/economyConfig.js";
 
 describe("economy config", () => {
+  it("keeps the large spoon jar above three support packs", () => {
+    expect(ECONOMY.COZY_PASS_SPOON_GRANT).toBe(150);
+    expect(ECONOMY.SPOON_JAR_SMALL_GRANT).toBe(500);
+    expect(ECONOMY.SPOON_JAR_SMALL_GRANT).toBeGreaterThan(ECONOMY.COZY_PASS_SPOON_GRANT * 3);
+  });
   it("keeps Time Attack attractive without overpowering daily puzzle rewards", () => {
     expect([5, 8, 10, 12].map(getTimeAttackReward)).toEqual([10, 18, 30, 45]);
     expect(getTimeAttackReward(999)).toBe(18);

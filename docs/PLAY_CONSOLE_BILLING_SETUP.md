@@ -12,7 +12,7 @@ This document is the non-secret Play Console setup checklist for the v1 Android 
 - Product ID: `pip_cozy_support`
 - Product type: managed product / consumable repeatable support
 - Suggested launch price: USD 0.99 / KRW 1,100
-- Player-facing reward: 250 spoons
+- Player-facing reward: 150 spoons
 - App copy framing: support Pip, repeat when desired, spoons arrive
 - Do not describe the player-facing card as a paid tier or free tier.
 - English title: Pip Support Pack
@@ -23,7 +23,7 @@ This document is the non-secret Play Console setup checklist for the v1 Android 
 - Product ID: `pip_spoon_jar_small`
 - Product type: managed product / consumable repeatable top-up
 - Suggested launch price: USD 2.99 / KRW 3,300-4,400
-- Player-facing reward: 750 spoons
+- Player-facing reward: 500 spoons
 - App copy framing: fill the spoon jar for extra hints, room goals, and the next stage
 - English title: Small Spoon Jar
 - Korean title: 작은 스푼 병
@@ -35,7 +35,7 @@ This document is the non-secret Play Console setup checklist for the v1 Android 
 3. Create and activate `pip_cozy_support` as a consumable managed product.
 4. Create and activate `pip_spoon_jar_small` as a consumable managed product.
 5. Set titles and descriptions using support/jar/spoon language, not paid/free tier language.
-6. Mention 250 spoons for the support pack and 750 spoons for the spoon jar in the product descriptions.
+6. Mention 150 spoons for the support pack and 500 spoons for the spoon jar in the product descriptions.
 7. Set launch prices near USD 0.99 / KRW 1,100 and USD 2.99 / KRW 3,300-4,400.
 8. Confirm both products are available to the internal or closed test track used for the final AAB.
 
@@ -44,14 +44,14 @@ This document is the non-secret Play Console setup checklist for the v1 Android 
 Before public launch, use a Google Play license tester or internal tester account and verify all of these on a real Android install from Play:
 
 - The Settings support card can load the store product.
-- Support purchase completes and grants exactly 250 spoons per completed transaction.
+- Support purchase completes and grants exactly 150 spoons per completed transaction.
 - Closing or cancelling the purchase sheet does not grant spoons.
-- A second support purchase with a new store token grants another 250 spoons.
+- A second support purchase with a new store token grants another 150 spoons.
 - Replaying the same support purchase token does not grant twice.
 - No restore action is shown for either consumed product.
 - The Small Spoon Jar card can load the store product.
-- Spoon jar purchase completes and grants exactly 750 spoons per completed purchase.
-- Spoon jar repeat purchase works with a new store token and grants another 750 spoons.
+- Spoon jar purchase completes and grants exactly 500 spoons per completed purchase.
+- Spoon jar repeat purchase works with a new store token and grants another 500 spoons.
 - Replaying the same spoon jar purchase token does not grant twice.
 - Network or store-unavailable errors leave the player in a recoverable state.
 

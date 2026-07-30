@@ -558,15 +558,15 @@ describe("player save profiles", () => {
     expect(grantCozySupportPack("pip_cozy_support:token-a", "purchase")).toEqual({
       granted: true,
       duplicate: false,
-      balance: 262,
-      spoons: 250,
+      balance: 162,
+      spoons: 150,
       source: "purchase",
       reason: "granted"
     });
     expect(grantCozySupportPack("pip_cozy_support:token-a", "purchase")).toEqual({
       granted: false,
       duplicate: true,
-      balance: 262,
+      balance: 162,
       spoons: 0,
       source: "purchase",
       reason: "already-processed"
@@ -574,13 +574,13 @@ describe("player save profiles", () => {
     expect(grantCozySupportPack("pip_cozy_support:token-b", "purchase")).toEqual({
       granted: true,
       duplicate: false,
-      balance: 512,
-      spoons: 250,
+      balance: 312,
+      spoons: 150,
       source: "purchase",
       reason: "granted"
     });
     expect(grantCozySupportPack("", "purchase").reason).toBe("missing-purchase-key");
-    expect(getPantrySpoons()).toBe(512);
+    expect(getPantrySpoons()).toBe(312);
   });
 
   it("grants the small spoon jar once per store purchase token", () => {
@@ -590,22 +590,22 @@ describe("player save profiles", () => {
     expect(grantSpoonJarPurchase("pip_spoon_jar_small:token-a", "purchase")).toEqual({
       granted: true,
       duplicate: false,
-      balance: 770,
-      spoons: 750,
+      balance: 520,
+      spoons: 500,
       source: "purchase",
       reason: "granted"
     });
-    expect(getPantrySpoons()).toBe(770);
+    expect(getPantrySpoons()).toBe(520);
 
     expect(grantSpoonJarPurchase("pip_spoon_jar_small:token-a", "purchase")).toEqual({
       granted: false,
       duplicate: true,
-      balance: 770,
+      balance: 520,
       spoons: 0,
       source: "purchase",
       reason: "already-processed"
     });
-    expect(getPantrySpoons()).toBe(770);
+    expect(getPantrySpoons()).toBe(520);
 
     expect(grantSpoonJarPurchase("", "purchase").reason).toBe("missing-purchase-key");
   });

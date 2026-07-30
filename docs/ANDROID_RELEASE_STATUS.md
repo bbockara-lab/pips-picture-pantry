@@ -1,3 +1,10 @@
+## 2026-07-30 v0.1.665 IAP spoon grant rebalance
+
+- Current package/UI candidate: v0.1.665.
+- Current app-side grants are 150 spoons for `pip_cozy_support` and 500 spoons for `pip_spoon_jar_small`; prices, IDs, repeatable consumable behavior, and duplicate-token protection are unchanged.
+- Historical 250-spoon real-device evidence below remains intentionally unchanged because it records the result of an earlier build. Play Console product descriptions must be aligned to 150/500 before the next Android upload and real-device validation.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 40 test files / 243 tests, 333-puzzle catalog and uniqueness gates, Billing contract, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-30 v0.1.664 small puzzle hint access
 
 - Current package/UI candidate: v0.1.664.

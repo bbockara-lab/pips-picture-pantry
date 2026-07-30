@@ -13,16 +13,17 @@ Pip's Picture Pantry should launch as a warm, mostly free cozy puzzle game with 
 - Product ID: `pip_cozy_support`.
 - Type: repeatable consumable support top-up.
 - Suggested price: about USD 0.99 / KRW 1,100, finalized in Play Console.
-- Reward: 250 spoons through `COZY_PASS_SPOON_GRANT`.
+- Reward: 150 spoons through `COZY_PASS_SPOON_GRANT`.
 - Player framing: support Pip and add spoons to the pantry.
-- Each completed purchase grants 250 spoons; a store purchase token may grant only once.
+- Each completed purchase grants 150 spoons; a store purchase token may grant only once.
 
 ### Small Spoon Jar
 
 - Product ID: `pip_spoon_jar_small`.
 - Type: repeatable consumable spoon top-up.
 - Suggested price: about USD 2.99 / KRW 3,300-4,400, finalized in Play Console.
-- Reward: 750 spoons through `SPOON_JAR_SMALL_GRANT`.
+- Reward: 500 spoons through `SPOON_JAR_SMALL_GRANT`.
+- The jar grants about 11% more than three support packs (500 vs 450 spoons).
 - Player framing: refill the spoon jar for extra hints, room goals, and the next stage.
 - The app keeps a local `processedBillingPurchaseIds` guard so the same store purchase token cannot grant twice.
 

@@ -1,3 +1,10 @@
+## v0.1.665 - IAP Spoon Grant Rebalance
+
+- Completed Step 21 by changing the repeatable US$0.99 support grant from 250 to 150 spoons and the US$2.99 Small Spoon Jar grant from 750 to 500 spoons; store prices and product IDs are unchanged.
+- The 500-spoon jar remains a value step above three support packs (500 vs 450, about 11% bonus), while purchase-token duplicate protection and consumable behavior remain unchanged.
+- Runtime config, Billing/store copy contracts, future real-device validation templates, and focused purchase/save regression tests now share the same 150/500 values. Historical 250-spoon real-device evidence remains preserved as a record of the earlier build.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built. Play Console product descriptions must be updated to 150/500 before the next Android upload.
+- Full candidate verification passed: 40 test files / 243 tests, 333-puzzle catalog and uniqueness gates, Billing contract, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.664 - Small Puzzle Hint Access
 
 - Completed Step 20 by granting one starter hint to 5x5 puzzles and two starter hints to 8x8 puzzles; existing 10x10+ limits remain unchanged.

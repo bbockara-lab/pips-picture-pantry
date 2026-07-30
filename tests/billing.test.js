@@ -61,7 +61,7 @@ describe("billing support pack guards", () => {
       owned: false,
       loading: false,
       priceString: "$0.99",
-      spoons: 250
+      spoons: 150
     };
 
     expect(getSupportPackStatus({ ...baseSupportPack, status: "network-error" })).toContain("network");
@@ -77,7 +77,7 @@ describe("billing support pack guards", () => {
       owned: false,
       loading: false,
       priceString: "$0.99",
-      spoons: 250
+      spoons: 150
     };
 
     expect(getSupportStatusTone({ ...baseSupportPack, loading: true })).toBe("checking");
@@ -95,12 +95,12 @@ describe("billing support pack guards", () => {
       available: true,
       loading: false,
       priceString: "$0.99",
-      spoons: 250,
+      spoons: 150,
       status: "ready"
     };
 
-    expect(getSupportPackFacts(baseSupportPack)).toEqual(["250 spoons", "Google Play", "Repeatable support"]);
-    expect(getSupportPackFacts({ ...baseSupportPack, available: false })).toEqual(["250 spoons", "Store preparing", "Repeatable support"]);
+    expect(getSupportPackFacts(baseSupportPack)).toEqual(["150 spoons", "Google Play", "Repeatable support"]);
+    expect(getSupportPackFacts({ ...baseSupportPack, available: false })).toEqual(["150 spoons", "Store preparing", "Repeatable support"]);
     expect(canPurchaseSupportPack(baseSupportPack)).toBe(true);
     expect(canPurchaseSupportPack({ ...baseSupportPack, status: "already-processed" })).toBe(true);
     expect(canPurchaseSupportPack({ ...baseSupportPack, loading: true })).toBe(false);
@@ -128,11 +128,11 @@ describe("billing support pack guards", () => {
       available: true,
       loading: false,
       priceString: "$2.99",
-      spoons: 750,
+      spoons: 500,
       status: "ready"
     };
 
-    expect(getSpoonJarFacts(baseSpoonJar)).toEqual(["750 spoons", "Google Play", "Repeatable top-up"]);
+    expect(getSpoonJarFacts(baseSpoonJar)).toEqual(["500 spoons", "Google Play", "Repeatable top-up"]);
     expect(getSpoonJarStatus({ ...baseSpoonJar, status: "purchased" })).toContain("Spoons arrive");
     expect(getSpoonJarStatus({ ...baseSpoonJar, status: "missing-purchase-key" })).toContain("jar could not be filled");
     expect(getSpoonJarStatusTone({ ...baseSpoonJar, loading: true })).toBe("checking");

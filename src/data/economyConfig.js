@@ -35,8 +35,8 @@ export const ECONOMY = {
   },
   REPLAY_PICK_REWARD: 1,
   REPLAY_PICK_DAILY_LIMIT: 3,
-  COZY_PASS_SPOON_GRANT: 250,
-  SPOON_JAR_SMALL_GRANT: 750
+  COZY_PASS_SPOON_GRANT: 150,
+  SPOON_JAR_SMALL_GRANT: 500
 };
 
 export function getPuzzleReward(size) {

@@ -69,8 +69,8 @@ requireIncludes(manifest, "com.android.vending.BILLING", "AndroidManifest.xml");
 requireIncludes(saveSource, "grantCozySupportPack", "src/game/save.js");
 requireIncludes(saveSource, "grantSpoonJarPurchase", "src/game/save.js");
 requireIncludes(saveSource, "processedBillingPurchaseIds", "src/game/save.js");
-requireIncludes(economySource, "COZY_PASS_SPOON_GRANT: 250", "src/data/economyConfig.js");
-requireIncludes(economySource, "SPOON_JAR_SMALL_GRANT: 750", "src/data/economyConfig.js");
+requireIncludes(economySource, "COZY_PASS_SPOON_GRANT: 150", "src/data/economyConfig.js");
+requireIncludes(economySource, "SPOON_JAR_SMALL_GRANT: 500", "src/data/economyConfig.js");
 requireIncludes(settingsSource, "export function renderSpoonStore", "src/ui/settingsView.js");
 requireIncludes(appShellSource, "const spoonStore = renderSpoonStore(settingsDialogProps);", "src/ui/appShell.js");
 requireIncludes(pantrySource, "panel.appendChild(spoonStore);", "src/ui/pantryView.js");
@@ -155,7 +155,8 @@ for (const [label, source] of [
 requireIncludes(monetizationPlan, "USD 0.99", "docs/MONETIZATION_PLAN.md");
 requireIncludes(monetizationPlan, "KRW 1,100", "docs/MONETIZATION_PLAN.md");
 requireIncludes(monetizationPlan, "USD 2.99", "docs/MONETIZATION_PLAN.md");
-requireIncludes(monetizationPlan, "750 spoons", "docs/MONETIZATION_PLAN.md");
+requireIncludes(monetizationPlan, "150 spoons", "docs/MONETIZATION_PLAN.md");
+requireIncludes(monetizationPlan, "500 spoons", "docs/MONETIZATION_PLAN.md");
 requireIncludes(economyDesignSpec, "Pip Support Pack", "docs/ECONOMY_DESIGN_SPEC.md");
 requireIncludes(economyDesignSpec, "Small Spoon Jar", "docs/ECONOMY_DESIGN_SPEC.md");
 requireIncludes(economyDesignSpec, "USD 0.99", "docs/ECONOMY_DESIGN_SPEC.md");
@@ -182,8 +183,8 @@ for (const legacyNeedle of [
 }
 requireIncludes(billingSetup, "managed product", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requireIncludes(billingSetup, "consumable", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
-requireIncludes(billingSetup, "250 spoons", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
-requireIncludes(billingSetup, "750 spoons", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
+requireIncludes(billingSetup, "150 spoons", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
+requireIncludes(billingSetup, "500 spoons", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requireIncludes(billingSetup, "USD 0.99", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requireIncludes(billingSetup, "KRW 1,100", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
 requireIncludes(billingSetup, "USD 2.99", "docs/PLAY_CONSOLE_BILLING_SETUP.md");
@@ -207,5 +208,5 @@ if (errors.length) {
 }
 
 console.log("Billing release check passed.");
-console.log("Product: pip_cozy_support / repeatable consumable support / 250 spoons.");
-console.log("Product: pip_spoon_jar_small / repeatable small spoon jar / 750 spoons.");
+console.log("Product: pip_cozy_support / repeatable consumable support / 150 spoons.");
+console.log("Product: pip_spoon_jar_small / repeatable small spoon jar / 500 spoons.");

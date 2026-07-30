@@ -79,7 +79,7 @@ save.js에 `timeAttackDailyCount`, `timeAttackBestScores` 필드 추가.
 
 ### 1-E. Pip Support Pack 구매 즉시 지급
 
-아래 IAP 섹션 참조. 구매 즉시 +250 spoons.
+아래 IAP 섹션 참조. 구매 즉시 +150 spoons.
 
 ---
 
@@ -288,7 +288,7 @@ v1에는 상품을 하나만 둔다. 목적은 강한 매출 최적화가 아니
 포함:
 - 상품 ID: `pip_cozy_support`
 - 가격 기준: USD 0.99 / KRW 1,100 근처에서 Play Console 최종 결정
-- 스푼 +250 즉시 지급 (`COZY_PASS_SPOON_GRANT`)
+- 스푼 +150 즉시 지급 (`COZY_PASS_SPOON_GRANT`)
 - ?? ?? ??: `processedBillingPurchaseIds`? `grantCozySupportPack()`? ?? ?? ??? ???? ??
 - 복원 경로: Google Play 소유권 복원 후 같은 보상 상태로 정리
 
@@ -528,7 +528,7 @@ v1 Android launch uses two Google Play managed products. Both are optional and s
 - Product ID: `pip_cozy_support`
 - Type: managed product / consumable repeatable support
 - Suggested price: USD 0.99 / KRW 1,100
-- Spoon grant: 250 spoons through `COZY_PASS_SPOON_GRANT`
+- Spoon grant: 150 spoons through `COZY_PASS_SPOON_GRANT`
 - Save guard: `processedBillingPurchaseIds` keeps the same purchase token from granting twice
 - Plugin path: `@capgo/native-purchases`
 
@@ -538,7 +538,7 @@ v1 Android launch uses two Google Play managed products. Both are optional and s
 - Product ID: `pip_spoon_jar_small`
 - Type: managed product / consumable repeatable top-up
 - Suggested price: USD 2.99 / KRW 3,300-4,400
-- Spoon grant: 750 spoons through `SPOON_JAR_SMALL_GRANT`
+- Spoon grant: 500 spoons through `SPOON_JAR_SMALL_GRANT`
 - Save guard: `processedBillingPurchaseIds` keeps the same purchase token from granting twice
 - Plugin path: `@capgo/native-purchases`
 

@@ -43,15 +43,15 @@ console.log(`## Billing / IAP Real-Device Validation - YYYY-MM-DD
 - Product ID: \`pip_cozy_support\`
   - Product active in Play Console for the tester track:
   - Store sheet loads:
-  - First purchase grants exactly 250 spoons:
+  - First purchase grants exactly 150 spoons:
   - Cancel/close grants no spoons:
-  - Repeat purchase with another store token grants another 250 spoons:
+  - Repeat purchase with another store token grants another 150 spoons:
   - Replaying the same purchase token does not duplicate spoons:
 - Product ID: \`pip_spoon_jar_small\`
   - Product active in Play Console for the tester track:
   - Store sheet loads:
-  - First purchase grants exactly 750 spoons:
-  - Repeat purchase with another store token grants another 750 spoons:
+  - First purchase grants exactly 500 spoons:
+  - Repeat purchase with another store token grants another 500 spoons:
   - Replaying the same purchase token does not duplicate spoons:
   - Cancel/close grants no spoons:
 - Notes:
