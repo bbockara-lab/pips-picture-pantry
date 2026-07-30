@@ -455,10 +455,10 @@ describe("player save profiles", () => {
       currentRoundNumber: 1,
       hintsUsed: 1
     });
-    expect(first.reward).toBe(27);
+    expect(first.reward).toBe(22);
     expect(first.recordImproved).toBe(true);
     expect(first.rewardAllowed).toBe(true);
-    expect(getPantrySpoons()).toBe(27);
+    expect(getPantrySpoons()).toBe(22);
     expect(getTimeAttackDailyCount()).toBe(1);
     expect(getTimeAttackBestScores()["5"].score).toBe(4004);
     expect(getTimeAttackBestScores()["5"].progressCells).toBe(4);
@@ -466,9 +466,9 @@ describe("player save profiles", () => {
     expect(getTimeAttackBestScores()["5"].currentRoundNumber).toBe(1);
 
     const second = recordTimeAttackResult({ size: 5, score: 3003, seed: "seed-b", completedRounds: 1, progressCells: 3 });
-    expect(second.reward).toBe(15);
+    expect(second.reward).toBe(10);
     expect(second.recordImproved).toBe(false);
-    expect(getPantrySpoons()).toBe(42);
+    expect(getPantrySpoons()).toBe(32);
   });
 
 

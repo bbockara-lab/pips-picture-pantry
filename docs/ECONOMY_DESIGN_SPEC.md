@@ -1,6 +1,6 @@
 ﻿# Pip's Picture Pantry — Economy Design Spec
 
-Last updated: 2026-07-18
+Last updated: 2026-07-29
 Author: Claude (design) / Codex (implementation)
 Status: v1 launch direction aligned with `docs/MONETIZATION_PLAN.md`
 
@@ -381,7 +381,7 @@ const REWARD_BY_SIZE = { 5: 3, 8: 6, 10: 10, 12: 15, 15: 22, 18: 30 };
 
 ```js
 export function getTimeAttackReward(size) {
-  return { 5: 15, 8: 25, 10: 38, 12: 55 }[size] ?? 25;
+  return { 5: 10, 8: 18, 10: 30, 12: 45 }[size] ?? 18;
 }
 export function getTimeAttackRecordBonus() { return 12; }
 export function getDailyTimeAttackLimit() { return 3; }

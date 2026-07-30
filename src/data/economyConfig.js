@@ -17,10 +17,10 @@ export const ECONOMY = {
     18: 420
   },
   TIME_ATTACK_REWARD_BY_SIZE: {
-    5: 15,
-    8: 25,
-    10: 38,
-    12: 55
+    5: 10,
+    8: 18,
+    10: 30,
+    12: 45
   },
   TIME_ATTACK_RECORD_BONUS: 12,
   TIME_ATTACK_DAILY_LIMIT: 3,
@@ -46,7 +46,7 @@ export function getStageBonus(size) {
 }
 
 export function getTimeAttackReward(size) {
-  return ECONOMY.TIME_ATTACK_REWARD_BY_SIZE[Number(size)] || 25;
+  return ECONOMY.TIME_ATTACK_REWARD_BY_SIZE[Number(size)] || 18;
 }
 
 export function getTimeAttackRecordBonus() {

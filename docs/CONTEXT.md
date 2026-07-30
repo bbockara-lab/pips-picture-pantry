@@ -1,3 +1,9 @@
+## v0.1.657 - Time Attack Reward Rebalance
+
+- Completed Step 13 by reducing Time Attack base rewards from 15/25/38/55 to 10/18/30/45 spoons for 5x5, 8x8, 10x10, and 12x12 boards.
+- The record-improvement bonus remains 12 spoons and the rewarded-run daily limit remains 3, preserving the mode's incentive while reducing its share of daily spoon income.
+- Runtime fallback reward now matches the 8x8 baseline at 18 spoons; economy and save regression tests lock both the new table and accumulated balances.
+- Full candidate verification passed: 39 test files / 228 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.656 - Time Attack Hint Restoration
 
 - Completed Step 12 by placing the Time Attack hint control before the puzzle board so it remains immediately visible during the timed run.

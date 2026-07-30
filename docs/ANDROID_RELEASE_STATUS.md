@@ -1,3 +1,9 @@
+## 2026-07-29 v0.1.657 Time Attack reward rebalance
+
+- Current package/UI candidate: v0.1.657.
+- Time Attack base rewards are now 10/18/30/45 spoons by board size; the 12-spoon record bonus and three rewarded runs per day remain unchanged.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 39 test files / 228 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-29 v0.1.656 Time Attack hint restoration
 
 - Current package/UI candidate: v0.1.656.

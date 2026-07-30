@@ -1,7 +1,19 @@
 import { describe, expect, it } from "vitest";
-import { getPuzzleExtraHintCost, getTimeAttackHintCost } from "../src/data/economyConfig.js";
+import {
+  getDailyTimeAttackLimit,
+  getPuzzleExtraHintCost,
+  getTimeAttackHintCost,
+  getTimeAttackRecordBonus,
+  getTimeAttackReward
+} from "../src/data/economyConfig.js";
 
 describe("economy config", () => {
+  it("keeps Time Attack attractive without overpowering daily puzzle rewards", () => {
+    expect([5, 8, 10, 12].map(getTimeAttackReward)).toEqual([10, 18, 30, 45]);
+    expect(getTimeAttackReward(999)).toBe(18);
+    expect(getTimeAttackRecordBonus()).toBe(12);
+    expect(getDailyTimeAttackLimit()).toBe(3);
+  });
   it("keeps time attack hint costs escalating by run use", () => {
     expect(getTimeAttackHintCost(0)).toBe(2);
     expect(getTimeAttackHintCost(1)).toBe(4);
