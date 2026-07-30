@@ -1,3 +1,10 @@
+## 2026-07-29 v0.1.658 late Pantry economy and badge glow verification
+
+- Current package/UI candidate: v0.1.658.
+- Raised late Fruit, Oil, and Tea shelf pricing and locked the full catalog at 3,310 spoons; Pickle remains in its approved range.
+- Added behavioral coverage for one-time earned-badge state consumption and matching-slot glow, plus source contracts for the final badge pulse and reduced-motion fallback.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 40 test files / 232 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-29 v0.1.657 Time Attack reward rebalance
 
 - Current package/UI candidate: v0.1.657.

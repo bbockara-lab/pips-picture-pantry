@@ -1,3 +1,9 @@
+## v0.1.658 - Late Pantry Economy and Badge Glow Verification
+
+- Completed Step 14 by strengthening the paid price curve for the late Fruit, Oil, and Tea shelves while preserving the Pickle shelf's approved 25-135 range; the full 48-jar catalog now totals 3,310 spoons.
+- Extracted the badge earned-state handoff into tested helpers: the newly earned badge ID is consumed once and only the matching earned slot receives the one-time gold glow class.
+- The final Full Pantry badge keeps its permanent gold pulse, while the existing reduced-motion rule disables both animations for motion-sensitive players.
+- Full candidate verification passed: 40 test files / 232 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.657 - Time Attack Reward Rebalance
 
 - Completed Step 13 by reducing Time Attack base rewards from 15/25/38/55 to 10/18/30/45 spoons for 5x5, 8x8, 10x10, and 12x12 boards.

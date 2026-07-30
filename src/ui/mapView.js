@@ -13,7 +13,7 @@ const BADGE_GROUPS = [
 export function renderPantryMapView() {
   const statuses = getPackBadgeStatus(getCompletedPuzzleIds());
   const earnedCount = statuses.filter((status) => status.earned).length;
-  const justEarnedId = readJustEarnedBadgeId();
+  const justEarnedId = consumeJustEarnedBadgeId();
   const section = document.createElement("section");
   section.className = "map-panel badge-view content-panel";
 
@@ -66,15 +66,19 @@ export function renderPantryMapView() {
   return section;
 }
 
-function createBadgeSlot(status, justEarnedId) {
-  const slot = document.createElement("button");
-  slot.type = "button";
-  slot.dataset.badgeId = status.badge.id;
-  slot.className = [
+export function getBadgeSlotClassName(status, justEarnedId = "") {
+  return [
     "badge-slot",
     status.earned ? "earned" : "locked",
     justEarnedId === status.badge.id ? "badge-slot--just-earned" : ""
   ].filter(Boolean).join(" ");
+}
+
+function createBadgeSlot(status, justEarnedId) {
+  const slot = document.createElement("button");
+  slot.type = "button";
+  slot.dataset.badgeId = status.badge.id;
+  slot.className = getBadgeSlotClassName(status, justEarnedId);
   slot.setAttribute("aria-label", status.earned
     ? t("badges.earnedAria", { title: t(status.badge.titleKey) })
     : t("badges.progressAria", {
@@ -127,9 +131,7 @@ function showBadgeDetail(detail, status) {
 
 export function renderBadgeEarnedToast(status) {
   if (!status?.badge) return null;
-  try {
-    sessionStorage.setItem(LAST_EARNED_BADGE_KEY, status.badge.id);
-  } catch {}
+  rememberJustEarnedBadgeId(status.badge.id);
   const toast = document.createElement("aside");
   toast.className = "badge-earned-toast";
   toast.setAttribute("role", "status");
@@ -145,10 +147,18 @@ export function renderBadgeEarnedToast(status) {
   return toast;
 }
 
-function readJustEarnedBadgeId() {
+export function rememberJustEarnedBadgeId(badgeId, storage = globalThis.sessionStorage) {
   try {
-    const badgeId = sessionStorage.getItem(LAST_EARNED_BADGE_KEY) || "";
-    sessionStorage.removeItem(LAST_EARNED_BADGE_KEY);
+    storage?.setItem(LAST_EARNED_BADGE_KEY, String(badgeId || ""));
+  } catch {
+    // Badge feedback must never block completion.
+  }
+}
+
+export function consumeJustEarnedBadgeId(storage = globalThis.sessionStorage) {
+  try {
+    const badgeId = storage?.getItem(LAST_EARNED_BADGE_KEY) || "";
+    storage?.removeItem(LAST_EARNED_BADGE_KEY);
     return badgeId;
   } catch {
     return "";
