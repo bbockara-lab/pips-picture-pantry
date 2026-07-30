@@ -30,13 +30,14 @@ import { getNextPantryGuideId } from "./pantryGuideFlow.js";
 import { getControlModePreference, setControlModePreference } from "./preferences.js";
 import {
   getStageNavigation,
+  getPuzzleHubOpenDecision,
   renderPuzzleHub,
   renderPuzzlePicker,
   renderSpoonRunView
 } from "./puzzleHubView.js";
 import { renderPlayScreen } from "./playScreen.js";
 import { renderFloatingNav } from "./floatingNav.js";
-import { renderGuideDialog } from "./guideDialog.js";
+import { renderAllPuzzlesDoneDialog, renderGuideDialog } from "./guideDialog.js";
 import { renderSpoonBalanceChip } from "./spoonIcon.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
 import { canPurchaseSpoonJar, canPurchaseSupportPack, renderSettingsDialog, renderSpoonStore } from "./settingsView.js";
@@ -67,6 +68,7 @@ export function renderApp(root) {
   let timeAttackLastResult = null;
   let preTimeAttackPuzzle = null;
   let activeGuide = null;
+  let allPuzzlesDonePromptOpen = false;
   let replayChallenge = false;
   let replayPicked = false;
   let dailyChallenge = false;
@@ -186,12 +188,25 @@ export function renderApp(root) {
     puzzleListOpen = false;
     resetOpen = false;
     settingsOpen = false;
+    allPuzzlesDonePromptOpen = false;
     pendingScrollTarget = "view";
     if (view === "pantry") {
       // Retrieve current Play prices on the actual Pantry store surface.
       loadCozySupportProduct();
       loadSpoonJarProduct();
     }
+    draw();
+  }
+
+  function openPuzzleFromHub() {
+    const decision = getPuzzleHubOpenDecision(activePuzzle, getCompletedPuzzleIds(), isShelfUnlocked);
+    if (decision.type === "unlock-guide") {
+      allPuzzlesDonePromptOpen = true;
+      draw();
+      return;
+    }
+    activePuzzle = decision.puzzle || activePuzzle;
+    playOpen = true;
     draw();
   }
 
@@ -547,7 +562,7 @@ export function renderApp(root) {
     } else if (!activeGuide && activeView === "spoonRun" && !hasSeenGuide("spoonRunIntro")) {
       activeGuide = "spoonRunIntro";
     }
-    document.body.classList.toggle("guide-open", Boolean(activeGuide));
+    document.body.classList.toggle("guide-open", Boolean(activeGuide || allPuzzlesDonePromptOpen));
     const shell = createShell({
       activePuzzle,
       activeView,
@@ -558,10 +573,7 @@ export function renderApp(root) {
       settingsOpen,
       onSelectPuzzle: selectPuzzle,
       onSelectView: selectView,
-      onOpenPuzzle: () => {
-        playOpen = true;
-        draw();
-      },
+      onOpenPuzzle: openPuzzleFromHub,
       onClosePuzzle: showPuzzleHub,
       onRequestReset: requestReset,
       onCancelReset: cancelReset,
@@ -594,6 +606,9 @@ export function renderApp(root) {
       timeAttackPuzzleState: activeTimeAttackPuzzleState,
       timeAttackLastResult,
       activeGuide,
+      allPuzzlesDonePromptOpen,
+      onAllPuzzlesDonePantry: () => selectView("pantry"),
+      onAllPuzzlesDoneSpoonRun: () => selectView("spoonRun"),
       onCloseGuide: closeGuide,
       onPantryFirstPurchase: requestPantryFirstPurchaseGuide,
       settingsDialogProps: getSettingsDialogProps(),
@@ -685,6 +700,9 @@ function createShell({
   timeAttackPuzzleState,
   timeAttackLastResult,
   activeGuide,
+  allPuzzlesDonePromptOpen,
+  onAllPuzzlesDonePantry,
+  onAllPuzzlesDoneSpoonRun,
   onCloseGuide,
   onPantryFirstPurchase,
   settingsDialogProps
@@ -692,7 +710,7 @@ function createShell({
   const shell = document.createElement("main");
   shell.className = "app-shell";
   shell.dataset.view = activeView;
-  const hasBlockingOverlay = Boolean(resetOpen || settingsOpen || activeGuide);
+  const hasBlockingOverlay = Boolean(resetOpen || settingsOpen || activeGuide || allPuzzlesDonePromptOpen);
   const isWorkshopHome = activeView === "puzzle" && !playOpen && !puzzleListOpen;
   if (isWorkshopHome) {
     shell.classList.add("app-shell--workshop-home");
@@ -807,6 +825,12 @@ function createShell({
 
   if (activeGuide) {
     shell.appendChild(renderGuideDialog(activeGuide, onCloseGuide));
+  }
+  if (allPuzzlesDonePromptOpen) {
+    shell.appendChild(renderAllPuzzlesDoneDialog({
+      onPantry: onAllPuzzlesDonePantry,
+      onSpoonRun: onAllPuzzlesDoneSpoonRun
+    }));
   }
 
   return shell;

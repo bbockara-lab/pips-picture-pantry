@@ -37,8 +37,19 @@ describe("guide dialog character and badge wiring", () => {
   });
   it("locks background scrolling while any guide is active", () => {
     expect(appShellSource).toContain(
-      'document.body.classList.toggle("guide-open", Boolean(activeGuide))'
+      'document.body.classList.toggle("guide-open", Boolean(activeGuide || allPuzzlesDonePromptOpen))'
     );
+  });
+
+  it("renders the completed-shelf Pip prompt with Pantry and Spoon Run destinations", () => {
+    expect(guideSource).toContain("export function renderAllPuzzlesDoneDialog");
+    expect(guideSource).toContain('t("guide.allPuzzlesDone")');
+    expect(guideSource).toContain('t("guide.unlockNextHint")');
+    expect(guideSource).toContain('pantryButton.addEventListener("click", onPantry)');
+    expect(guideSource).toContain('spoonRunButton.addEventListener("click", onSpoonRun)');
+    expect(appShellSource).toContain("getPuzzleHubOpenDecision(activePuzzle");
+    expect(appShellSource).toContain('onAllPuzzlesDonePantry: () => selectView("pantry")');
+    expect(appShellSource).toContain('onAllPuzzlesDoneSpoonRun: () => selectView("spoonRun")');
   });
 
   it("adds localized speaker name tags only to the character-led launch guides", () => {

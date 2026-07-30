@@ -1,3 +1,11 @@
+## 2026-07-30 v0.1.677 completed-shelf guidance
+
+- Current package/UI candidate: v0.1.677.
+- Workshop Play Now now distinguishes an unfinished shelf, an unlocked next shelf, and a locked next shelf after completion.
+- A locked next shelf opens a repeatable Pip prompt with direct Pantry and Spoon Run destinations; it does not alter the one-time guide history.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 44 test files / 262 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## 2026-07-30 v0.1.676 Pip's Puzzle Room identity
 
 - Current package/UI candidate: v0.1.676.

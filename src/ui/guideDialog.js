@@ -155,6 +155,58 @@ export function renderGuideDialog(guideId, onClose) {
   return overlay;
 }
 
+export function renderAllPuzzlesDoneDialog({ onPantry, onSpoonRun }) {
+  const overlay = document.createElement("div");
+  overlay.className = "guide-overlay guide-overlay--all-puzzles-done";
+  overlay.setAttribute("role", "dialog");
+  overlay.setAttribute("aria-modal", "true");
+  overlay.setAttribute("aria-labelledby", "all-puzzles-done-title");
+
+  const card = document.createElement("section");
+  card.className = "guide-dialog guide-dialog--all-puzzles-done";
+  card.dataset.guideId = "allPuzzlesDone";
+
+  if (isRuntimeGuideArtApproved(GUIDE_ART_ASSET_ID)) {
+    const art = document.createElement("div");
+    art.className = "guide-dialog__art";
+    art.setAttribute("aria-hidden", "true");
+    const image = document.createElement("img");
+    image.src = pipGuideSceneUrl;
+    image.alt = "";
+    art.appendChild(image);
+    appendGuideNameTag(art, "puzzle");
+    card.appendChild(art);
+  }
+
+  const bubble = document.createElement("div");
+  bubble.className = "guide-dialog__bubble";
+  const title = document.createElement("p");
+  title.id = "all-puzzles-done-title";
+  title.className = "guide-dialog__line guide-dialog__line--title";
+  title.textContent = t("guide.allPuzzlesDone");
+  const hint = document.createElement("p");
+  hint.className = "guide-dialog__line guide-dialog__line--hint";
+  hint.textContent = t("guide.unlockNextHint");
+
+  const actions = document.createElement("div");
+  actions.className = "guide-dialog__actions guide-dialog__actions--destinations";
+  const pantryButton = document.createElement("button");
+  pantryButton.type = "button";
+  pantryButton.className = "guide-dialog__destination guide-dialog__destination--pantry";
+  pantryButton.textContent = t("guide.goToPantry");
+  pantryButton.addEventListener("click", onPantry);
+  const spoonRunButton = document.createElement("button");
+  spoonRunButton.type = "button";
+  spoonRunButton.className = "guide-dialog__destination guide-dialog__destination--spoon-run";
+  spoonRunButton.textContent = t("guide.goToSpoonRun");
+  spoonRunButton.addEventListener("click", onSpoonRun);
+  actions.append(pantryButton, spoonRunButton);
+  bubble.append(title, hint, actions);
+  card.appendChild(bubble);
+  overlay.appendChild(card);
+  return overlay;
+}
+
 function createPuzzlePractice() {
   const element = document.createElement("div");
   element.className = "guide-practice";

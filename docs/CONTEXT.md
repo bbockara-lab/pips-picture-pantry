@@ -1,3 +1,12 @@
+## v0.1.677 - Completed Shelf Guidance
+
+- Completed Step 33 by routing the Workshop Play Now action through the active season shelf state instead of blindly reopening the selected completed puzzle.
+- An unfinished shelf still opens its current puzzle. A completed shelf advances to the first unfinished puzzle on the next shelf when that shelf is unlocked.
+- When the next shelf is locked, a repeatable Pip dialogue explains that the shelf is complete and offers direct Pantry and Spoon Run actions without marking a one-time guide as seen.
+- Added localized KO/EN copy, responsive two-action dialogue styling, and regression coverage for all three routing outcomes plus both destination buttons.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 44 test files / 262 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.676 - Pip's Puzzle Room Identity
 
 - Completed Step 32 by renaming the Puzzle destination to "Pip's Puzzle Room" / "Pip의 퍼즐방" across the shared view label.

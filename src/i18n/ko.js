@@ -215,6 +215,10 @@ export const ko = {
     skip: "나중에 볼게요",
     next: "다음",
     done: "\uC790, \uAC00\uBCF4\uC790!",
+    allPuzzlesDone: "이 선반 그림은 모두 완성했어요!",
+    unlockNextHint: "다음 선반을 열려면 팬트리를 먼저 꾸며봐요 🏺",
+    goToPantry: "팬트리 꾸미러 가기",
+    goToSpoonRun: "스푼 벌러 가기",
     puzzle: {
       speakerName: "Pip",
       title: "첫 그림은 제가 옆에서 함께 풀어볼게요",

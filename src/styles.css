@@ -18805,3 +18805,38 @@ body.guide-open {
     max-width: 44%;
   }
 }
+
+/* v0.1.677 - completed shelf guidance */
+.guide-dialog--all-puzzles-done .guide-dialog__bubble {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.guide-dialog--all-puzzles-done .guide-dialog__line { margin: 0; }
+.guide-dialog--all-puzzles-done .guide-dialog__line--title {
+  font-weight: 900;
+  color: var(--ink, #3d2b2e);
+}
+.guide-dialog--all-puzzles-done .guide-dialog__line--hint { color: var(--ink-soft, #6b5146); }
+.guide-dialog__actions--destinations {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px !important;
+}
+.guide-dialog__actions--destinations .guide-dialog__destination {
+  min-height: 52px;
+  border: 2px solid rgba(61, 43, 46, 0.22);
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: #fff8dc;
+  color: #4a3728;
+  font: inherit;
+  font-weight: 850;
+  box-shadow: 0 3px 0 rgba(78, 48, 54, 0.16);
+}
+.guide-dialog__actions--destinations .guide-dialog__destination--pantry {
+  background: linear-gradient(180deg, #ffd86d, #f2b93f);
+}
+@media (max-width: 380px) {
+  .guide-dialog__actions--destinations { grid-template-columns: 1fr; }
+}

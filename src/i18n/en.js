@@ -236,6 +236,10 @@ export const en = {
     skip: "Not now",
     next: "Next",
     done: "Ready? Go!",
+    allPuzzlesDone: "Every picture on this shelf is complete!",
+    unlockNextHint: "Decorate the pantry first to open the next shelf 🏺",
+    goToPantry: "Decorate the pantry",
+    goToSpoonRun: "Earn more spoons",
     puzzle: {
       speakerName: "Pip",
       title: "I'll solve the first picture beside you",

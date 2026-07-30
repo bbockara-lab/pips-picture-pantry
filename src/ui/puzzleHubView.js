@@ -51,6 +51,34 @@ export function hasAffordableUnownedPantryJar(jars, ownedJarIds, spoons) {
   ));
 }
 
+export function getPuzzleHubOpenDecision(
+  activePuzzle,
+  completedPuzzleIds = getCompletedPuzzleIds(),
+  shelfUnlocked = isShelfUnlocked
+) {
+  const completed = completedPuzzleIds instanceof Set
+    ? completedPuzzleIds
+    : new Set(completedPuzzleIds || []);
+  const currentShelf = getSeasonShelfForPuzzle(activePuzzle);
+  if (!currentShelf || !isSeasonShelfComplete(currentShelf, completed)) {
+    return { type: "open", puzzle: activePuzzle };
+  }
+
+  const nextShelf = seasonShelves[currentShelf.index + 1] || null;
+  if (!nextShelf) {
+    return { type: "open", puzzle: activePuzzle };
+  }
+  if (!shelfUnlocked(nextShelf)) {
+    return { type: "unlock-guide", currentShelf, nextShelf };
+  }
+
+  const nextShelfPuzzles = getSeasonShelfPuzzles(nextShelf);
+  const nextPuzzle = nextShelfPuzzles.find((puzzle) => !completed.has(puzzle.id))
+    || nextShelfPuzzles[0]
+    || activePuzzle;
+  return { type: "open", puzzle: nextPuzzle };
+}
+
 export function renderPuzzleHub(activePuzzle, options = {}) {
   const {
     onOpenPuzzle = () => {},

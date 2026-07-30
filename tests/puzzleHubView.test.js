@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { getDailyGreetingKey, getShelfCollapsedState, hasAffordableUnownedPantryJar, isDailyCompleteForDate } from "../src/ui/puzzleHubView.js";
+import { getSeasonShelfPuzzles, seasonShelves } from "../src/data/seasonShelves.js";
+import { getDailyGreetingKey, getPuzzleHubOpenDecision, getShelfCollapsedState, hasAffordableUnownedPantryJar, isDailyCompleteForDate } from "../src/ui/puzzleHubView.js";
 
 const styles = readFileSync("src/styles.css", "utf8");
 const hubSource = readFileSync("src/ui/puzzleHubView.js", "utf8");
@@ -58,6 +59,30 @@ describe("Workshop Pantry notification", () => {
 
   it("stays off after every affordable jar is owned", () => {
     expect(hasAffordableUnownedPantryJar(jars, jars.map((jar) => jar.id), 999)).toBe(false);
+  });
+});
+
+describe("Workshop Play Now shelf completion routing", () => {
+  const currentShelf = seasonShelves[0];
+  const nextShelf = seasonShelves[1];
+  const currentPuzzles = getSeasonShelfPuzzles(currentShelf);
+  const nextPuzzles = getSeasonShelfPuzzles(nextShelf);
+
+  it("opens the current puzzle while the shelf is unfinished", () => {
+    const decision = getPuzzleHubOpenDecision(currentPuzzles[0], [currentPuzzles[0].id], () => false);
+    expect(decision).toEqual({ type: "open", puzzle: currentPuzzles[0] });
+  });
+
+  it("shows the unlock guide when the completed shelf is followed by a locked shelf", () => {
+    const decision = getPuzzleHubOpenDecision(currentPuzzles[0], currentPuzzles.map(({ id }) => id), () => false);
+    expect(decision.type).toBe("unlock-guide");
+    expect(decision.currentShelf.id).toBe(currentShelf.id);
+    expect(decision.nextShelf.id).toBe(nextShelf.id);
+  });
+
+  it("advances to the next shelf when that shelf is already unlocked", () => {
+    const decision = getPuzzleHubOpenDecision(currentPuzzles[0], currentPuzzles.map(({ id }) => id), () => true);
+    expect(decision).toEqual({ type: "open", puzzle: nextPuzzles[0] });
   });
 });
 
