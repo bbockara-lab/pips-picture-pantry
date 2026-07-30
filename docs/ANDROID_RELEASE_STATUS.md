@@ -1,3 +1,10 @@
+## 2026-07-30 v0.1.668 reliable progress reset
+
+- Current package/UI candidate: v0.1.668.
+- Confirming progress reset now clears the active player's saved progress and reloads the app, so no stale in-memory puzzle, spoon, Pantry, or guide state survives on web. The active player name remains intact.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 41 test files / 246 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## 2026-07-30 v0.1.667 replay daily-limit completion
 
 - Current package/UI candidate: v0.1.667.

@@ -29,6 +29,7 @@ import {
   recordDailyComplete,
   recordPantryStoryGoalComplete,
   recordReplayReward,
+  resetProgress,
   recordTimeAttackResult,
   spendPantrySpoons,
   getTimeAttackBestScores,
@@ -105,6 +106,18 @@ describe("player save profiles", () => {
 
     setActivePlayerName("Jay");
     expect(loadSave().completedPuzzleIds).toEqual(["pip-face-5"]);
+  });
+
+  it("resets only the active player's progress and preserves the player identity", () => {
+    setActivePlayerName("Jay");
+    saveGame({ puzzleStates: {}, completedPuzzleIds: ["pip-face-5"], pantrySpoons: 42 });
+
+    resetProgress();
+
+    expect(hasActivePlayer()).toBe(true);
+    expect(getActivePlayerName()).toBe("Jay");
+    expect(getCompletedPuzzleIds()).toEqual([]);
+    expect(getPantrySpoons()).toBe(0);
   });
 
   it("migrates legacy progress into the first named profile", () => {

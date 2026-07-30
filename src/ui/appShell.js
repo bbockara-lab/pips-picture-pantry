@@ -333,11 +333,7 @@ export function renderApp(root) {
 
   function confirmReset() {
     resetProgress();
-    resetOpen = false;
-    replayChallenge = false;
-    replayPicked = false;
-    activePuzzle = getStartPuzzle();
-    draw();
+    window.location.reload();
   }
 
   function requestSettings() {

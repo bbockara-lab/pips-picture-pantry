@@ -1,3 +1,11 @@
+## v0.1.668 - Reliable Progress Reset
+
+- Completed Step 24 by reloading the app immediately after the confirmed progress reset, preventing stale in-memory puzzle, spoon, Pantry, and guide state from being redrawn after LocalStorage is cleared.
+- The existing two-step settings confirmation remains in place. Resetting deletes only the active player's progress save; the active player identity and name remain available after reload.
+- Added regression coverage for the reload contract and for preserving the active player while clearing completed puzzles and spoon balance.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 41 test files / 246 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.667 - Replay Daily-Limit Completion
 
 - Completed Step 23 by replacing the final 3/3 replay completion's Next Picture action with a single Back to Earn Spoons action.
