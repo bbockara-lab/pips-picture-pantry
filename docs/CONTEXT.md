@@ -1,3 +1,10 @@
+## v0.1.691 - Step 47 Intro Spoon Balance Containment
+
+- Hid the shared spoon balance chip while the branded onboarding intro is open, matching the existing floating-navigation containment behavior.
+- Kept the shared balance DOM intact while making it invisible and noninteractive, so the normal post-intro balance flow remains unchanged.
+- Extended source and rendered mobile regression checks to reject a visible or interactive spoon chip during the intro.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 47 test files / 280 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.690 - Step 46 Unified Home Keepsake Shelf
 
 - Added an owned-jar detail action that selects a Pantry jar for the Workshop home independently from the stage-equipped jar used by puzzle completion.

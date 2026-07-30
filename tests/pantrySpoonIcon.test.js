@@ -31,5 +31,6 @@ describe("Pantry spoon currency rendering", () => {
     expect(stylesSource).toMatch(/\.spoon-balance-chip:is\(button\)\s*\{[\s\S]*?min-height:\s*44px;[\s\S]*?pointer-events:\s*auto;[\s\S]*?cursor:\s*pointer;/);
     expect(stylesSource).toMatch(/\.spoon-balance-chip \.spoon-icon\s*\{[\s\S]*?width:\s*20px;[\s\S]*?height:\s*20px;[\s\S]*?object-fit:\s*contain;/);
     expect(stylesSource).toMatch(/\.app-shell--workshop-home \.spoon-balance-chip,[\s\S]*?\.app-shell--play \.spoon-balance-chip\s*\{[\s\S]*?right:\s*max\(68px, calc\(env\(safe-area-inset-right, 0px\) \+ 68px\)\);/);
+    expect(stylesSource).toMatch(/#app\[data-intro-open="true"\] \.spoon-balance-chip\s*\{[\s\S]*?visibility:\s*hidden;[\s\S]*?pointer-events:\s*none;/);
   });
 });

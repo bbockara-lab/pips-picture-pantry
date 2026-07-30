@@ -1,3 +1,9 @@
+## 2026-07-30 v0.1.691 intro spoon balance containment
+
+- Current package/UI candidate: v0.1.691.
+- The shared spoon balance chip is hidden and noninteractive while the branded onboarding intro is open, then resumes its established behavior after dismissal.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this containment step.
+- Full candidate verification passed: 47 test files / 280 tests, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-30 v0.1.690 unified home keepsake shelf
 
 - Current package/UI candidate: v0.1.690.

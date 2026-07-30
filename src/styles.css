@@ -19179,3 +19179,9 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
     bottom: calc(max(20px, env(safe-area-inset-bottom, 0px) + 20px) + clamp(112px, 30vw, 132px));
   }
 }
+
+/* v0.1.691 - Step 47 intro chrome containment */
+#app[data-intro-open="true"] .spoon-balance-chip {
+  visibility: hidden;
+  pointer-events: none;
+}

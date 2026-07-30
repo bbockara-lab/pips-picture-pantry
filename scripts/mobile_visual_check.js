@@ -269,23 +269,31 @@ async function expectFloatingNavHiddenDuringBrandIntro(page, viewportName) {
     const intro = document.querySelector(".brand-intro");
     const nav = document.querySelector(".floating-nav");
     const navStyle = nav ? getComputedStyle(nav) : null;
+    const spoonChip = document.querySelector(".spoon-balance-chip");
+    const spoonChipStyle = spoonChip ? getComputedStyle(spoonChip) : null;
     return {
       introCount: intro ? 1 : 0,
       introOpenState: document.querySelector("#app")?.dataset.introOpen || "",
       navCount: nav ? 1 : 0,
       navVisibility: navStyle?.visibility || "absent",
-      navPointerEvents: navStyle?.pointerEvents || "absent"
+      navPointerEvents: navStyle?.pointerEvents || "absent",
+      spoonChipCount: spoonChip ? 1 : 0,
+      spoonChipVisibility: spoonChipStyle?.visibility || "absent",
+      spoonChipPointerEvents: spoonChipStyle?.pointerEvents || "absent"
     };
   });
   if (
     metrics.introCount > 0 &&
     (metrics.introOpenState !== "true" ||
-      (metrics.navCount > 0 && (metrics.navVisibility !== "hidden" || metrics.navPointerEvents !== "none")))
+      (metrics.navCount > 0 && (metrics.navVisibility !== "hidden" || metrics.navPointerEvents !== "none")) ||
+      (metrics.spoonChipCount > 0 && (
+        metrics.spoonChipVisibility !== "hidden" ||
+        metrics.spoonChipPointerEvents !== "none"
+      )))
   ) {
-    failures.push(`[${viewportName}] Floating navigation can cover the brand intro: ${JSON.stringify(metrics)}`);
+    failures.push(`[${viewportName}] App chrome can cover the brand intro: ${JSON.stringify(metrics)}`);
   }
 }
-
 async function expectCompletionAlbumRoute(page, viewportName) {
   const menuButton = page.locator(".completion-actions .tool-button").first();
   if ((await menuButton.count()) === 0) {
