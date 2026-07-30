@@ -1,3 +1,10 @@
+## v0.1.683 - Locked Stage Card Spacing
+
+- Completed Step 39 by adding 14px vertical and 16px horizontal inner spacing to every locked stage card, keeping previews, summaries, teasers, and unlock controls clear of the dashed boundary.
+- Corrected the mobile QA selector from the nonexistent `.pack-block.locked` to the rendered `.pack-block--locked` contract.
+- Mobile QA now fails when a locked card is missing, has less than the required padding, or horizontally overflows; all four candidate widths passed, including 360x740.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 47 test files / 276 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.682 - Readable Workshop Title and Korean Pip Naming
 
 - Completed Step 38 by changing the Workshop title to cream text on a subtle dark translucent pill with a compact shadow for stable readability over the scene artwork.

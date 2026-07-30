@@ -1551,11 +1551,25 @@ async function expectHiddenBonusPacks(page, viewportName) {
 }
 
 async function expectLockedStageGate(page, viewportName) {
-  const lockedStage = page.locator(".pack-block.locked").first();
+  const lockedStage = page.locator(".pack-block--locked").first();
+  if (await lockedStage.count() === 0) {
+    failures.push("[" + viewportName + "] Locked stage card is missing from the puzzle picker.");
+    return;
+  }
   const lockedText = await lockedStage.innerText();
   const duplicateReportCount = await lockedStage.locator(".unlock-panel__plan, .unlock-panel__gate").count();
-  if (!/\d+/.test(lockedText) || !/Pantry decor \d+\/\d+/.test(lockedText) || !lockedText.includes("Need pantry story") || !lockedText.includes("Go to Pantry") || lockedText.includes("Blocked by") || duplicateReportCount > 0) {
-    failures.push("[" + viewportName + "] Locked stage should show cost, Pantry progress, and one route without duplicate reports; saw " + lockedText);
+  const geometry = await lockedStage.evaluate((card) => {
+    const style = getComputedStyle(card);
+    return {
+      paddingTop: parseFloat(style.paddingTop),
+      paddingRight: parseFloat(style.paddingRight),
+      paddingBottom: parseFloat(style.paddingBottom),
+      paddingLeft: parseFloat(style.paddingLeft),
+      overflows: card.scrollWidth > card.clientWidth + 1
+    };
+  });
+  if (!/\d+/.test(lockedText) || !/Pantry decor \d+\/\d+/.test(lockedText) || !lockedText.includes("Need pantry story") || !lockedText.includes("Go to Pantry") || lockedText.includes("Blocked by") || duplicateReportCount > 0 || geometry.paddingTop < 14 || geometry.paddingRight < 16 || geometry.paddingBottom < 14 || geometry.paddingLeft < 16 || geometry.overflows) {
+    failures.push("[" + viewportName + "] Locked stage should show cost, Pantry progress, one route, 14x16px padding, and no overflow; saw " + lockedText + " / " + JSON.stringify(geometry));
   }
 }
 

@@ -1,3 +1,10 @@
+## 2026-07-30 v0.1.683 locked stage card spacing
+
+- Current package/UI candidate: v0.1.683.
+- Locked stage cards now maintain 14px vertical and 16px horizontal inset spacing without horizontal clipping at 360px.
+- The mobile gate now targets the real locked-card class and measures both padding and overflow.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 47 test files / 276 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at all four candidate widths.
 ## 2026-07-30 v0.1.682 Workshop title readability and Korean naming
 
 - Current package/UI candidate: v0.1.682.

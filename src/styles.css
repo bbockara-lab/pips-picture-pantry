@@ -16808,6 +16808,7 @@ img {
 .pack-block--locked {
   border: 1.5px dashed rgba(180, 140, 90, 0.42);
   background: rgba(255, 251, 238, 0.62);
+  padding: 14px 16px;
 }
 .pack-block--locked .unlock-panel {
   border-top: 1px solid rgba(180, 140, 90, 0.18);

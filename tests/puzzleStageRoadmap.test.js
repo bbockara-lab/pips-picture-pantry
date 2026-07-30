@@ -26,6 +26,9 @@ describe("Puzzle stage roadmap", () => {
     expect(hubSource).toContain('className: "locked-stage-preview__art"');
     expect(hubSource).toContain('"locked-stage-summary"');
     expect(hubSource).toContain('"locked-stage-teaser"');
+    expect(styles).toMatch(
+      /\.pack-block--locked\s*\{[\s\S]*?padding:\s*14px 16px;/
+    );
   });
 
   it("marks complete stages and keeps their default collapsed behavior", () => {
