@@ -33,6 +33,7 @@ export function renderPuzzleView(puzzle, options = {}) {
       : loadPuzzleState(puzzle.id) || createPuzzleState(puzzle);
   let replayCleanStatus = createReplayCleanStatus();
   let replayResult = null;
+  let dailyResult = null;
   const controlMode = options.controlMode || "auto";
   const section = document.createElement("section");
   section.className = state.completed ? "puzzle-panel content-panel completed" : "puzzle-panel content-panel";
@@ -58,7 +59,7 @@ export function renderPuzzleView(puzzle, options = {}) {
     options.onPuzzleStateChange?.(puzzle, state);
     if (!wasCompleted && state.completed) {
       if (isDailyChallenge) {
-        savePuzzleState(state, {
+        dailyResult = savePuzzleState(state, {
           reward: puzzle.reward || 0,
           dailyBonus: options.dailyBonus || 0,
           dailyKey: options.dailyKey
@@ -139,7 +140,7 @@ export function renderPuzzleView(puzzle, options = {}) {
       section.appendChild(createReplayChallengeNote(!isReplayClean(replayCleanStatus)));
     }
     if (state.completed) {
-      section.appendChild(renderCompletionBanner(puzzle, { ...options, replayResult }));
+      section.appendChild(renderCompletionBanner(puzzle, { ...options, replayResult, dailyResult }));
       return;
     }
     const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode);

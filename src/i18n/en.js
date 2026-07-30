@@ -359,6 +359,7 @@ export const en = {
     viewAlbum: "View Album",
     menu: "Menu",
     nextPicture: "Next Picture",
+    dailyReward: "Today's Picture complete! You earned +{count} spoons.",
     replayReward: "Clean replay! You earned +{count} spoon.",
     replayNoReward: "Replay complete. No spoon this time, but the card stayed safe."
   },

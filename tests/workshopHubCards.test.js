@@ -36,6 +36,12 @@ describe("Workshop supporting cards wiring", () => {
     expect(appShellSource).toContain('? ".replay-picks-card"');
   });
 
+  it("returns Daily completion to the replay list inside Spoon Run", () => {
+    expect(appShellSource).toMatch(
+      /function selectNextPuzzle\(\) \{\s*if \(dailyChallenge\) \{[\s\S]*?activeView = "spoonRun";[\s\S]*?pendingScrollTarget = "replay";/
+    );
+  });
+
   it("keeps Spoon Run cards inset and clear of the bottom safe area", () => {
     expect(styles).toMatch(
       /\.spoon-run-view\s*\{[\s\S]*?padding:\s*18px 18px calc\(max\(env\(safe-area-inset-bottom,\s*0px\),\s*18px\) \+ 112px\);/

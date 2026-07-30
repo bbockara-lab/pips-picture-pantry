@@ -1,3 +1,11 @@
+## 2026-07-29 v0.1.653 Daily Spoon Run completion continuity
+
+- Current package/UI candidate: v0.1.653.
+- Today's Picture completion now reports the actual awarded spoons and returns `Next Picture` to the replay list inside Spoon Run.
+- Daily challenge state is cleared when leaving its play flow; date-specific completion and once-per-date bonus guards remain intact.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 38 test files / 223 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## 2026-07-29 v0.1.652 Spoon Run integrated view
 
 - Current package/UI candidate: v0.1.652.

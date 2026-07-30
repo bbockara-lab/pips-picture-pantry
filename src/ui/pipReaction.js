@@ -14,7 +14,13 @@ export function getCompletionMessage(puzzle) {
   });
 }
 
-export function renderCompletionBanner(puzzle, { onNextPuzzle, replayChallenge = false, replayResult = null } = {}) {
+export function renderCompletionBanner(puzzle, {
+  onNextPuzzle,
+  replayChallenge = false,
+  replayResult = null,
+  dailyChallenge = false,
+  dailyResult = null
+} = {}) {
   const banner = document.createElement("div");
   banner.className = "completion-banner";
   const isFirstPipFace = isFirstPipFacePuzzle(puzzle);
@@ -31,7 +37,12 @@ export function renderCompletionBanner(puzzle, { onNextPuzzle, replayChallenge =
   copy.className = "completion-copy";
 
   const message = document.createElement("p");
-  message.textContent = getCompletionBannerMessage(puzzle, { replayChallenge, replayResult });
+  message.textContent = getCompletionBannerMessage(puzzle, {
+    replayChallenge,
+    replayResult,
+    dailyChallenge,
+    dailyResult
+  });
 
   copy.appendChild(message);
 
@@ -56,6 +67,9 @@ export function renderCompletionBanner(puzzle, { onNextPuzzle, replayChallenge =
 }
 
 function getCompletionBannerMessage(puzzle, options = {}) {
+  if (options.dailyChallenge) {
+    return t("completion.dailyReward", { count: options.dailyResult?.totalReward || 0 });
+  }
   if (!options.replayChallenge) {
     return getCompletionMessage(puzzle);
   }

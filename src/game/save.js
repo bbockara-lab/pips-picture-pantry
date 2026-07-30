@@ -73,6 +73,8 @@ export function loadPuzzleState(puzzleId) {
 export function savePuzzleState(state, rewardOptions = {}) {
   const save = loadSave() || createEmptySave();
   const wasCompleted = save.completedPuzzleIds.includes(state.puzzleId);
+  let puzzleReward = 0;
+  let dailyBonus = 0;
   save.puzzleStates[state.puzzleId] = serializeState(state);
 
   if (state.completed && !wasCompleted) {
@@ -82,18 +84,25 @@ export function savePuzzleState(state, rewardOptions = {}) {
     if (reward > 0 && !save.rewardedPuzzleIds.includes(state.puzzleId)) {
       save.pantrySpoons += reward;
       save.rewardedPuzzleIds.push(state.puzzleId);
+      puzzleReward = reward;
     }
   }
 
   if (state.completed && rewardOptions.dailyKey && !save.dailyRewardedDates.includes(rewardOptions.dailyKey)) {
-    const dailyBonus = Number(rewardOptions.dailyBonus || 0);
-    if (dailyBonus > 0) {
-      save.pantrySpoons += dailyBonus;
+    const awardedDailyBonus = Number(rewardOptions.dailyBonus || 0);
+    if (awardedDailyBonus > 0) {
+      save.pantrySpoons += awardedDailyBonus;
       save.dailyRewardedDates.push(rewardOptions.dailyKey);
+      dailyBonus = awardedDailyBonus;
     }
   }
 
   saveGame(save);
+  return {
+    puzzleReward,
+    dailyBonus,
+    totalReward: puzzleReward + dailyBonus
+  };
 }
 
 export function getCompletedPuzzleIds() {

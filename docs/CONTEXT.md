@@ -1,3 +1,10 @@
+## v0.1.653 - Daily Spoon Run Completion Continuity
+
+- Completed Step 9 by keeping Today's Picture completion inside Spoon Run: `Next Picture` now closes the Daily challenge and focuses the replay list instead of entering the general unfinished-puzzle flow.
+- Daily completion feedback now reports the actual spoon amount awarded, with first-time normal puzzle reward and the once-per-date Daily bonus accounted for separately.
+- Daily challenge state is cleared on picker, view, Workshop, and Time Attack exits so it cannot leak into another play mode.
+- Date-specific completion remains independent from general puzzle completion; full candidate verification passes 38 test files / 223 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.652 - Spoon Run Integrated View
 
 - Added `spoonRun` as a first-class view and floating navigation destination using the approved `spoon-token-v2` economy icon.

@@ -102,6 +102,7 @@ export function renderApp(root) {
 
   function showPuzzlePicker() {
     replayChallenge = false;
+    dailyChallenge = false;
     activeView = "puzzle";
     playOpen = false;
     puzzleListOpen = true;
@@ -112,6 +113,15 @@ export function renderApp(root) {
   }
 
   function selectNextPuzzle() {
+    if (dailyChallenge) {
+      dailyChallenge = false;
+      activeView = "spoonRun";
+      playOpen = false;
+      puzzleListOpen = false;
+      pendingScrollTarget = "replay";
+      draw();
+      return;
+    }
     if (replayChallenge) {
       const replayPicks = getDailyReplayPicks({
         allPuzzles: getDailyPuzzleCandidates(),
@@ -164,6 +174,7 @@ export function renderApp(root) {
       clearTimeAttackSession();
     }
     replayChallenge = false;
+    dailyChallenge = false;
     activeView = view;
     playOpen = false;
     puzzleListOpen = false;
@@ -195,6 +206,7 @@ export function renderApp(root) {
 
   function showPuzzleHub() {
     replayChallenge = false;
+    dailyChallenge = false;
     activeView = "puzzle";
     playOpen = false;
     puzzleListOpen = false;
@@ -223,6 +235,7 @@ export function renderApp(root) {
     activeTimeAttackPuzzleState = null;
     activePuzzle = session.activePuzzle;
     replayChallenge = false;
+    dailyChallenge = false;
     activeView = "timeAttack";
     playOpen = true;
     resetOpen = false;

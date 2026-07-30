@@ -10,6 +10,8 @@ describe("Daily puzzle state isolation", () => {
     expect(puzzleViewSource).toContain("isReplayChallenge || isTimeAttack || isDailyChallenge");
     expect(puzzleViewSource).toMatch(/isReplayChallenge \|\| isDailyChallenge\s*\? createPuzzleState\(puzzle\)/);
     expect(puzzleViewSource).toMatch(/if \(isDailyChallenge\) \{[\s\S]*savePuzzleState\(state/);
+    expect(puzzleViewSource).toContain("dailyResult = savePuzzleState(state");
+    expect(puzzleViewSource).toContain("replayResult, dailyResult");
   });
 });
 

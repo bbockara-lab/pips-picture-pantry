@@ -154,10 +154,22 @@ describe("player save profiles", () => {
       cells: Array.from({ length: 5 }, () => Array(5).fill("fill"))
     };
 
-    savePuzzleState(completedState, { reward: 3 });
-    savePuzzleState(completedState, { reward: 3, dailyBonus: 8, dailyKey: "2026-07-29" });
+    expect(savePuzzleState(completedState, { reward: 3 })).toEqual({
+      puzzleReward: 3,
+      dailyBonus: 0,
+      totalReward: 3
+    });
+    expect(savePuzzleState(completedState, { reward: 3, dailyBonus: 8, dailyKey: "2026-07-29" })).toEqual({
+      puzzleReward: 0,
+      dailyBonus: 8,
+      totalReward: 8
+    });
     expect(getPantrySpoons()).toBe(11);
-    savePuzzleState(completedState, { reward: 3, dailyBonus: 8, dailyKey: "2026-07-29" });
+    expect(savePuzzleState(completedState, { reward: 3, dailyBonus: 8, dailyKey: "2026-07-29" })).toEqual({
+      puzzleReward: 0,
+      dailyBonus: 0,
+      totalReward: 0
+    });
     expect(getPantrySpoons()).toBe(11);
   });
 
