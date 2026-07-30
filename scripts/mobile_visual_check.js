@@ -2982,6 +2982,7 @@ async function verifyFeaturedBadgeFlow(page, viewportName) {
     save.completedPuzzleIds = [...seasonShelves[0].puzzleIds];
     save.ownedJarIds = ["strawberry-jam", "blueberry-jam", "cherry-jam", "orange-marmalade", "lemon-curd", "peach-preserve"];
     save.equippedJars = { jam: "strawberry-jam" };
+    save.featuredJarId = "strawberry-jam";
     save.unlockedShelfIds = ["shelf-pips-first", "shelf-sunny-counter"];
     save.featuredBadgeId = null;
     localStorage.setItem(saveKey, JSON.stringify(save));
@@ -3046,6 +3047,8 @@ async function verifyFeaturedBadgeFlow(page, viewportName) {
   const keepsakeLayout = await page.evaluate(() => {
     const toRect = (element) => element?.getBoundingClientRect() || null;
     const overlaps = (a, b) => Boolean(a && b && !(a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom));
+    const shelfElement = document.querySelector(".home-keepsake-shelf");
+    const shelf = toRect(shelfElement);
     const badge = toRect(document.querySelector(".puzzle-home-scene__featured-badge"));
     const jar = toRect(document.querySelector(".puzzle-home-scene__featured-jar"));
     const play = toRect(document.querySelector(".puzzle-home-scene__play"));
@@ -3055,7 +3058,16 @@ async function verifyFeaturedBadgeFlow(page, viewportName) {
       .filter((element) => overlaps(jar, toRect(element)) || overlaps(badge, toRect(element)))
       .map((element) => element.getAttribute("data-view") || element.className);
     return {
-      missing: !badge || !jar || !play || !scene,
+      missing: !shelf || !badge || !jar || !play || !scene,
+      sharedShelf: Boolean(
+        shelfElement
+        && document.querySelector(".puzzle-home-scene__featured-badge")?.parentElement === shelfElement
+        && document.querySelector(".puzzle-home-scene__featured-jar")?.parentElement === shelfElement
+      ),
+      shelfCenterDelta: shelf && scene
+        ? Math.abs((shelf.left + shelf.width / 2) - (scene.left + scene.width / 2))
+        : 999,
+      legacyCopyCount: shelfElement?.querySelectorAll(".puzzle-home-scene__featured-badge-name, .featured-pantry-jar__copy").length || 0,
       baselineDelta: badge && jar ? Math.abs(badge.bottom - jar.bottom) : 999,
       keepsakesOverlap: overlaps(badge, jar),
       playOverlap: overlaps(badge, play) || overlaps(jar, play),
@@ -3064,13 +3076,16 @@ async function verifyFeaturedBadgeFlow(page, viewportName) {
       outsideScene: Boolean(scene && [badge, jar].some((rect) => rect && (
         rect.left < scene.left || rect.right > scene.right || rect.top < scene.top || rect.bottom > scene.bottom
       ))),
-      rects: Object.fromEntries(Object.entries({ badge, jar, play, greeting, scene }).map(([key, rect]) => [
+      rects: Object.fromEntries(Object.entries({ shelf, badge, jar, play, greeting, scene }).map(([key, rect]) => [
         key,
         rect ? { left: Math.round(rect.left), top: Math.round(rect.top), right: Math.round(rect.right), bottom: Math.round(rect.bottom) } : null
       ]))
     };
   });
   if (keepsakeLayout.missing
+    || !keepsakeLayout.sharedShelf
+    || keepsakeLayout.shelfCenterDelta > 2
+    || keepsakeLayout.legacyCopyCount !== 0
     || keepsakeLayout.baselineDelta > 2
     || keepsakeLayout.keepsakesOverlap
     || keepsakeLayout.playOverlap
@@ -3179,6 +3194,31 @@ async function verifyPantryPlacement(page, viewportName) {
     failures.push("[" + viewportName + "] Pantry jar shelf layout regressed: " + JSON.stringify(metrics));
   }
 
+  const firstOwnedJar = page.locator(".pantry-jar.owned").nth(1);
+  if (await firstOwnedJar.count()) {
+    const featuredJarId = await firstOwnedJar.getAttribute("data-jar-id");
+    await firstOwnedJar.click();
+    await page.locator(".pantry-jar-detail-backdrop.visible").waitFor({ state: "visible", timeout: 2000 });
+    const featureJarButton = page.locator(".pantry-jar-detail__btn-feature");
+    if (!(await featureJarButton.count())) {
+      failures.push("[" + viewportName + "] Owned Pantry jar detail omitted the home display action.");
+    } else if (!(await featureJarButton.isDisabled())) {
+      await featureJarButton.click();
+      await page.locator(".pantry-jar-detail-backdrop.visible").waitFor({ state: "hidden", timeout: 2000 });
+      const persistedFeaturedJarId = await page.evaluate(() => {
+        const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+        const save = player
+          ? JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:save:" + player.id) || "{}")
+          : {};
+        return save.featuredJarId || null;
+      });
+      if (!featuredJarId || persistedFeaturedJarId !== featuredJarId) {
+        failures.push("[" + viewportName + "] Pantry home display action did not persist immediately: " + JSON.stringify({ featuredJarId, persistedFeaturedJarId }));
+      }
+    } else {
+      await page.locator(".pantry-jar-detail__btn-close").click();
+    }
+  }
   const firstUnowned = page.locator(".pantry-jar.unowned").first();
   if (await firstUnowned.count()) {
     await firstUnowned.click();

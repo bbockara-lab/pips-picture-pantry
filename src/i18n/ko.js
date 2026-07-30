@@ -430,6 +430,7 @@ export const ko = {
   },
   home: {
     sceneAria: "\ud54d\uc758 \ud37c\uc990\ubc29",
+    keepsakeShelfAria: "\uD648 \uC804\uC2DC \uC120\uBC18",
     destinationsAria: "\ubc14\ub85c \uac00\uae30",
     currentPicture: "\uc9c0\uae08 \ud480 \uadf8\ub9bc",
     pictureList: "\uadf8\ub9bc \ubaa9\ub85d",
@@ -609,6 +610,9 @@ export const ko = {
       buyAction: "{count} \uD83E\uDD44 \uAD6C\uB9E4",
       needSpoons: "\uC2A4\uD47C {count}\uAC1C \uB354 \uD544\uC694",
       equipAction: "\uC774 \uBCD1 \uC120\uD0DD\uD558\uAE30",
+      featureOnHome: "\uD648\uC5D0 \uD45C\uC2DC\uD558\uAE30",
+      featuredOnHome: "\uD648\uC5D0 \uD45C\uC2DC \uC911",
+      featuredAria: "{item}, \uD648\uC5D0 \uD45C\uC2DC\uD55C \uBCD1. \uD32C\uD2B8\uB9AC \uC5F4\uAE30",
       todaysPantry: "\uC624\uB298\uC758 \uD32C\uD2B8\uB9AC",
       onboardingTitle: "\uC120\uBC18\uC774 \uC900\uBE44\uB410\uC5B4\uC694.",
       onboardingPrompt: "\uCCAB \uBC88\uC9F8 \uBCD1\uC744 \uAD6C\uB9E4\uD574\uC11C \uD32C\uD2B8\uB9AC\uB97C \uCC44\uC6CC\uBCF4\uC138\uC694!",

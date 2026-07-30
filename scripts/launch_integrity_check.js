@@ -164,7 +164,11 @@ function checkDailyLoginBonus() {
 function checkFeaturedPantryJar() {
   expectIncludes("src/game/save.js", "export function getEquippedJarForCurrentStage", "current stage selected jar helper");
   expectIncludes("src/ui/featuredPantryJar.js", "getJarArtUrl(jar.id)", "approved jar artwork mapping");
-  expectIncludes("src/ui/puzzleHubView.js", 'onSelect: () => onSelectView("pantry")', "Workshop jar opens Pantry");
+  expectIncludes("src/game/save.js", "export function setFeaturedJar", "owned jar home-display setter");
+  expectIncludes("src/game/save.js", "export function getFeaturedJarId", "persisted home-display jar getter");
+  expectIncludes("src/ui/pantryView.js", "setFeaturedJar(jar.id)", "Pantry jar home-display action");
+  expectIncludes("src/ui/puzzleHubView.js", 'jarButton.addEventListener("click", () => onSelectView("pantry"))', "Workshop jar opens Pantry");
+  expectIncludes("src/ui/puzzleHubView.js", 'keepsakeShelf.className = "home-keepsake-shelf"', "unified Workshop keepsake shelf");
   expectIncludes("src/ui/puzzleView.js", "equippedJar: isTimeAttack", "regular completion jar selection");
   expectIncludes("src/ui/pipReaction.js", "if (featuredJar) content.push(featuredJar)", "completion jar optional rendering");
   expectIncludes("src/styles.css", "v0.1.679 - meaningful featured Pantry jar", "featured Pantry jar presentation contract");

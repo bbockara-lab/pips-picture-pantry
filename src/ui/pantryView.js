@@ -5,11 +5,13 @@ import {
   buyJar,
   ensureStarterJars,
   getEquippedJars,
+  getFeaturedJarId,
   getOwnedJarIds,
   getPaidJarCount,
   getPantrySpoons,
   isShelfUnlocked,
-  setEquippedJar
+  setEquippedJar,
+  setFeaturedJar
 } from "../game/save.js";
 import { t } from "../i18n/index.js";
 import { appendSpoonLabel } from "./spoonIcon.js";
@@ -233,7 +235,23 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, equippedJars, onRefresh
     backdrop.hidden = true;
   };
   closeButton.addEventListener("click", close);
-  actions.append(primary, closeButton);
+  actions.appendChild(primary);
+  if (owned) {
+    const featured = getFeaturedJarId() === jar.id;
+    const homeButton = document.createElement("button");
+    homeButton.type = "button";
+    homeButton.className = "pantry-jar-detail__btn-feature";
+    homeButton.textContent = t(featured ? "pantry.jar.featuredOnHome" : "pantry.jar.featureOnHome");
+    homeButton.disabled = featured;
+    homeButton.addEventListener("click", () => {
+      if (setFeaturedJar(jar.id)) {
+        close();
+        onRefresh?.();
+      }
+    });
+    actions.appendChild(homeButton);
+  }
+  actions.appendChild(closeButton);
   panel.append(header, actions);
 
   backdrop.hidden = false;

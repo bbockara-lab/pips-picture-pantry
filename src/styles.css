@@ -19078,3 +19078,104 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
     bottom: calc(max(20px, env(safe-area-inset-bottom, 0px) + 20px) + clamp(112px, 30vw, 132px));
   }
 }
+/* v0.1.690 - Step 46 unified Workshop keepsake shelf */
+.pantry-jar-detail__actions {
+  flex-wrap: wrap;
+}
+
+.pantry-jar-panel .pantry-jar-detail__btn-feature {
+  flex: 1 1 42%;
+  min-height: 42px;
+  border: 2px solid #9a6428;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #fff7cf, #f3d784);
+  color: #56372d;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.pantry-jar-panel .pantry-jar-detail__btn-feature:disabled {
+  border-color: rgba(92, 72, 54, 0.2);
+  background: rgba(239, 228, 198, 0.7);
+  color: #7b6a59;
+  cursor: default;
+}
+
+.app-shell--workshop-home .home-keepsake-shelf {
+  position: absolute;
+  right: auto;
+  bottom: calc(max(20px, env(safe-area-inset-bottom, 0px) + 20px) + clamp(112px, 30vw, 132px));
+  left: 50%;
+  z-index: 6;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(8px, 2.5vw, 12px);
+  min-width: 76px;
+  max-width: calc(100% - 40px);
+  padding: 0 10px 9px;
+  transform: translateX(-50%);
+}
+
+.app-shell--workshop-home .home-keepsake-shelf::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 8px;
+  border: 1px solid rgba(79, 42, 19, 0.42);
+  border-radius: 4px 4px 8px 8px;
+  background: linear-gradient(180deg, #b96f35 0%, #8a4823 52%, #5f301a 100%);
+  box-shadow: 0 4px 5px rgba(55, 31, 18, 0.24), inset 0 1px rgba(255, 224, 171, 0.55);
+}
+
+.app-shell--workshop-home .home-keepsake-shelf__item,
+.app-shell--workshop-home .puzzle-home-scene__featured-jar,
+.app-shell--workshop-home .puzzle-home-scene__featured-badge {
+  position: relative !important;
+  inset: auto !important;
+  width: clamp(54px, 15vw, 68px);
+  min-width: 0;
+  min-height: 0;
+  max-width: none;
+  display: grid;
+  place-items: end center;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  transform: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-shell--workshop-home .home-keepsake-shelf__item:active,
+.app-shell--workshop-home .puzzle-home-scene__featured-jar:active {
+  transform: translateY(1px);
+}
+
+.app-shell--workshop-home .home-keepsake-shelf__item img,
+.app-shell--workshop-home .home-keepsake-jar,
+.app-shell--workshop-home .puzzle-home-scene__featured-badge img {
+  width: clamp(52px, 14vw, 66px);
+  height: clamp(52px, 14vw, 66px);
+  object-fit: contain;
+  filter: drop-shadow(0 3px 3px rgba(63, 37, 23, 0.22));
+}
+
+.app-shell--workshop-home .puzzle-home-scene__featured-badge-name,
+.app-shell--workshop-home .featured-pantry-jar__copy {
+  display: none;
+}
+
+@media (max-height: 700px) {
+  .app-shell--workshop-home .home-keepsake-shelf {
+    bottom: calc(max(20px, env(safe-area-inset-bottom, 0px) + 20px) + clamp(112px, 30vw, 132px));
+  }
+}

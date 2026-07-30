@@ -1,3 +1,10 @@
+## 2026-07-30 v0.1.690 unified home keepsake shelf
+
+- Current package/UI candidate: v0.1.690.
+- Owned Pantry jars can now be selected explicitly for Workshop display without changing the stage-equipped completion jar.
+- The selected jar and featured earned Badge now share one centered, image-only wooden shelf above Play Now; either item also centers correctly when shown alone.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this UI/state step.
+- Full candidate verification passed on retry: 47 test files / 280 tests, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900; the prior attempt encountered a non-reproducing initial Vite navigation timeout.
 ## 2026-07-30 v0.1.689 Step 45 recovery bundle
 
 - Current package/UI candidate: v0.1.689.

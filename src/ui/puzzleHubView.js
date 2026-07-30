@@ -2,16 +2,16 @@ import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
 import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-v1.webp";
 import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, getSeasonShelfSizeCounts, seasonShelves } from "../data/seasonShelves.js";
-import { PANTRY_JARS } from "../data/pantryJars.js";
+import { PANTRY_JARS, getJarById } from "../data/pantryJars.js";
 import { getPaidJarProgressForPantryShelf, getPantryShelfForSeasonShelf } from "../data/stagePantryLinks.js";
 import { ECONOMY } from "../data/economyConfig.js";
-import { getCompletedPuzzleIds, getEquippedJarForCurrentStage, getFeaturedBadgeId, getOwnedJarIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
+import { getCompletedPuzzleIds, getFeaturedBadgeId, getFeaturedJarId, getOwnedJarIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
 import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
 import { getPreviousSeasonShelf, isSeasonShelfComplete } from "../game/seasonShelfProgress.js";
 import { renderColoredPuzzleArt } from "./coloredPuzzleArt.js";
-import { renderFeaturedJar } from "./featuredPantryJar.js";
+import { getJarArtUrl } from "../data/jarArt.js";
 import { getBadgeArtUrl } from "../data/badgeArt.js";
 import { getPackBadgeStatus } from "../game/badges.js";
 
@@ -119,12 +119,10 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   scene.appendChild(greetingWrap);
 
   const activeShelf = getSeasonShelfForPuzzle(activePuzzle);
-  const featuredJar = getEquippedJarForCurrentStage(activeShelf);
-  const featuredJarCard = renderFeaturedJar(featuredJar, {
-    className: "puzzle-home-scene__featured-jar",
-    onSelect: () => onSelectView("pantry")
-  });
-  if (featuredJarCard) scene.appendChild(featuredJarCard);
+  const featuredJarId = getFeaturedJarId();
+  const featuredJar = featuredJarId && getOwnedJarIds().includes(featuredJarId)
+    ? getJarById(featuredJarId)
+    : null;
 
   const featuredBadgeId = getFeaturedBadgeId();
   const featuredBadgeStatus = featuredBadgeId
@@ -132,27 +130,46 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
       (status) => status.earned && status.badge.id === featuredBadgeId
     )
     : null;
-  if (featuredBadgeStatus) {
-    const featuredBadge = document.createElement("button");
-    featuredBadge.type = "button";
-    featuredBadge.className = "puzzle-home-scene__featured-badge";
-    featuredBadge.setAttribute("aria-label", t("badges.featuredAria", {
-      title: t(featuredBadgeStatus.badge.titleKey)
-    }));
-    const badgeImage = document.createElement("img");
-    badgeImage.src = getBadgeArtUrl(featuredBadgeStatus.badge.id);
-    badgeImage.alt = "";
-    badgeImage.setAttribute("aria-hidden", "true");
-    const badgeName = appendTextElement(
-      featuredBadge,
-      "span",
-      "puzzle-home-scene__featured-badge-name",
-      t(featuredBadgeStatus.badge.titleKey)
-    );
-    badgeName.setAttribute("aria-hidden", "true");
-    featuredBadge.prepend(badgeImage);
-    featuredBadge.addEventListener("click", () => onSelectView("map"));
-    scene.appendChild(featuredBadge);
+
+  if (featuredJar || featuredBadgeStatus) {
+    const keepsakeShelf = document.createElement("div");
+    keepsakeShelf.className = "home-keepsake-shelf";
+    keepsakeShelf.setAttribute("aria-label", t("home.keepsakeShelfAria"));
+
+    if (featuredJar) {
+      const jarButton = document.createElement("button");
+      jarButton.type = "button";
+      jarButton.className = "home-keepsake-shelf__item home-keepsake-shelf__jar puzzle-home-scene__featured-jar";
+      jarButton.dataset.jarId = featuredJar.id;
+      jarButton.setAttribute("aria-label", t("pantry.jar.featuredAria", { item: t(featuredJar.nameKey) }));
+      const jarImage = document.createElement("img");
+      jarImage.className = "home-keepsake-jar";
+      jarImage.src = getJarArtUrl(featuredJar.id);
+      jarImage.alt = "";
+      jarImage.setAttribute("aria-hidden", "true");
+      jarImage.dataset.assetId = `jar-${featuredJar.id}-v1`;
+      jarButton.appendChild(jarImage);
+      jarButton.addEventListener("click", () => onSelectView("pantry"));
+      keepsakeShelf.appendChild(jarButton);
+    }
+
+    if (featuredBadgeStatus) {
+      const featuredBadge = document.createElement("button");
+      featuredBadge.type = "button";
+      featuredBadge.className = "home-keepsake-shelf__item home-keepsake-shelf__badge puzzle-home-scene__featured-badge";
+      featuredBadge.setAttribute("aria-label", t("badges.featuredAria", {
+        title: t(featuredBadgeStatus.badge.titleKey)
+      }));
+      const badgeImage = document.createElement("img");
+      badgeImage.src = getBadgeArtUrl(featuredBadgeStatus.badge.id);
+      badgeImage.alt = "";
+      badgeImage.setAttribute("aria-hidden", "true");
+      featuredBadge.appendChild(badgeImage);
+      featuredBadge.addEventListener("click", () => onSelectView("map"));
+      keepsakeShelf.appendChild(featuredBadge);
+    }
+
+    scene.appendChild(keepsakeShelf);
   }
 
   const play = document.createElement("button");

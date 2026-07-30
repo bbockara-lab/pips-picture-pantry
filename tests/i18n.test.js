@@ -76,6 +76,11 @@ describe("i18n", () => {
     expect(t("packs.pricePreview")).toBe("Preview set");
     expect(t("badges.progress", { completed: 3, total: 100 })).toBe("3/100 cards");
     expect(t("map.sets.cozy-cafe-room")).toBe("Cozy cafe room");
+    expect(t("home.keepsakeShelfAria")).toBe("Home display shelf");
+    expect(t("pantry.jar.featureOnHome")).toBe("Display on home");
+    expect(t("pantry.jar.featuredOnHome")).toBe("Displayed on home");
+    expect(t("pantry.jar.featuredAria", { item: "Strawberry Jam" }))
+      .toBe("Strawberry Jam, displayed jar. Open Pantry");
   });
 
   it("resolves explicit and data-backed puzzle copy", () => {

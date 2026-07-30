@@ -139,6 +139,7 @@ export const en = {
   },
   home: {
     sceneAria: "Pip's picture room",
+    keepsakeShelfAria: "Home display shelf",
     destinationsAria: "Play destinations",
     currentPicture: "Ready to color",
     solveCurrent: "Solve this picture",
@@ -610,6 +611,9 @@ export const en = {
       buyAction: "Buy for {count} 🥄",
       needSpoons: "Need {count} more spoons",
       equipAction: "Select this jar",
+      featureOnHome: "Display on home",
+      featuredOnHome: "Displayed on home",
+      featuredAria: "{item}, displayed jar. Open Pantry",
       todaysPantry: "Today's Pantry",
       onboardingTitle: "Your shelves are ready.",
       onboardingPrompt: "Buy your first jar and begin filling Pip's pantry!",

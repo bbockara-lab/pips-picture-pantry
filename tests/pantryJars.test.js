@@ -7,12 +7,14 @@ import {
   getCompletedPantryStoryGoalIds,
   getEquippedJars,
   getEquippedJarForCurrentStage,
+  getFeaturedJarId,
   getOwnedJarIds,
   getPantrySpoons,
   loadSave,
   saveGame,
   setActivePlayerName,
-  setEquippedJar
+  setEquippedJar,
+  setFeaturedJar
 } from "../src/game/save.js";
 import { isShelfCompletionTransition } from "../src/ui/pantryView.js";
 
@@ -91,6 +93,16 @@ describe("Pantry jar collection", () => {
       expect.objectContaining({ id: "blueberry-jam", shelfId: "jam" })
     );
   });
+  it("persists a separately selected home display jar and rejects unowned jars", () => {
+    ensureStarterJars();
+    expect(getFeaturedJarId()).toBeNull();
+    expect(setFeaturedJar("orange-marmalade")).toBe(false);
+    expect(getFeaturedJarId()).toBeNull();
+    expect(setFeaturedJar("strawberry-jam")).toBe(true);
+    expect(getFeaturedJarId()).toBe("strawberry-jam");
+    expect(getEquippedJars().jam).toBe("strawberry-jam");
+  });
+
   it("buys paid jars atomically but advances a stage step only when the shelf is complete", () => {
     ensureStarterJars();
     saveGame({ ...loadSave(), pantrySpoons: 500 });

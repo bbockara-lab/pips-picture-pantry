@@ -121,6 +121,23 @@ export function getFeaturedBadgeId() {
   return loadSave()?.featuredBadgeId || null;
 }
 
+export function setFeaturedJar(jarId) {
+  const save = loadSave() || createEmptySave();
+  const normalizedJarId = jarId ? String(jarId) : null;
+  if (normalizedJarId && !save.ownedJarIds.includes(normalizedJarId)) {
+    return false;
+  }
+  save.featuredJarId = normalizedJarId;
+  saveGame(save);
+  return true;
+}
+
+export function getFeaturedJarId() {
+  const save = loadSave();
+  const jarId = save?.featuredJarId || null;
+  return jarId && save.ownedJarIds.includes(jarId) ? jarId : null;
+}
+
 export function getDailyCompletedDate() {
   return loadSave()?.dailyCompletedDate || null;
 }
@@ -782,6 +799,7 @@ function normalizeSave(parsed) {
       ? { ...parsed.equippedJars }
       : {},
     featuredBadgeId: parsed?.featuredBadgeId ? String(parsed.featuredBadgeId) : null,
+    featuredJarId: parsed?.featuredJarId ? String(parsed.featuredJarId) : null,
     ownedDecorationIds: Array.isArray(parsed?.ownedDecorationIds) ? Array.from(new Set(parsed.ownedDecorationIds)) : [],
     equippedDecorations: parsed?.equippedDecorations && typeof parsed.equippedDecorations === "object" ? parsed.equippedDecorations : {},
     completionDates: parsed?.completionDates && typeof parsed.completionDates === "object" ? parsed.completionDates : {},

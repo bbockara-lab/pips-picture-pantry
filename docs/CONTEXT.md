@@ -1,3 +1,11 @@
+## v0.1.690 - Step 46 Unified Home Keepsake Shelf
+
+- Added an owned-jar detail action that selects a Pantry jar for the Workshop home independently from the stage-equipped jar used by puzzle completion.
+- Replaced the separate home jar and Badge cards with one centered wooden keepsake shelf. Jar and Badge presentation is image-only, remains individually actionable, and centers correctly when either item is absent.
+- Persisted `featuredJarId` only for owned jars and retained existing equipped-jar, stage-gate, and completion behavior.
+- Added focused persistence/source/i18n tests and rendered mobile checks for the detail action, shared parent shelf, image-only contract, centered geometry, and collisions.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed on retry: 47 test files / 280 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900. The prior attempt reached build/release successfully but hit a transient initial Vite navigation timeout before product assertions; it did not reproduce.
 ## v0.1.689 - Step 45 Recovery Bundle
 
 - Restored 14px vertical / 16px horizontal padding on both locked stage-card rules so later CSS no longer cancels the intended inset.
