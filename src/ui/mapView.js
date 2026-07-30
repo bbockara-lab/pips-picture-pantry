@@ -123,7 +123,15 @@ function createBadgeSlot(status, justEarnedId) {
 function showBadgeDetail(detail, status, options = {}) {
   detail.replaceChildren();
   detail.classList.add("visible");
-  const image = createBadgeImage(status.badge.id);
+  const imageWrap = document.createElement("span");
+  imageWrap.className = "badge-circle" + (status.earned ? "" : " locked");
+  imageWrap.appendChild(createBadgeImage(status.badge.id));
+  if (!status.earned) {
+    const lock = document.createElement("span");
+    lock.className = "badge-slot__lock";
+    lock.textContent = String(status.completed) + "/" + String(status.total);
+    imageWrap.appendChild(lock);
+  }
   const copy = document.createElement("div");
   const title = document.createElement("strong");
   title.textContent = t(status.badge.titleKey);
@@ -136,7 +144,7 @@ function showBadgeDetail(detail, status, options = {}) {
       stage: status.badge.stage
     });
   copy.append(title, note);
-  detail.append(image, copy);
+  detail.append(imageWrap, copy);
   if (status.earned) {
     const action = document.createElement("button");
     action.type = "button";

@@ -18329,6 +18329,22 @@ body.guide-open {
   object-fit: contain;
 }
 
+.badge-detail > .badge-circle {
+  width: 62px;
+  height: 62px;
+  position: relative;
+}
+
+.badge-detail > .badge-circle.locked {
+  background: rgba(105, 87, 70, 0.1);
+  box-shadow: inset 0 0 0 2px rgba(91, 70, 52, 0.12);
+}
+
+.badge-detail > .badge-circle.locked img {
+  filter: grayscale(1) sepia(0.12) brightness(0.94);
+  opacity: 0.28;
+}
+
 .badge-detail strong,
 .badge-detail p {
   margin: 0;

@@ -1,3 +1,10 @@
+## v0.1.686 - Locked Badge Detail Preview
+
+- Completed Step 42 by reusing the Badge Shelf's circular artwork and progress-lock treatment in the selected badge detail panel.
+- Locked badge details now keep artwork grayscale and 28% opaque while showing the same completed/total progress as their shelf slot; earned badge details remain clear and retain the home-display action.
+- Added source regression coverage and rendered mobile checks for locked artwork treatment, matching progress, and absence of the earned-only action at all four candidate widths.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed on retry: 47 test files / 277 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900. The first candidate attempt reached build/release successfully but hit a transient initial Vite navigation timeout before assertions; it did not reproduce.
 ## v0.1.685 - Unified Spoon Balance Across Views
 
 - Completed Step 41 by rendering one shared fixed spoon balance chip from `appShell.js` in every main view, including Workshop and Pantry.

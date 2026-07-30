@@ -2985,6 +2985,32 @@ async function verifyFeaturedBadgeFlow(page, viewportName) {
   await dismissIntro(page, "Jay", viewportName);
   await dismissGuideIfPresent(page, viewportName);
   await openFloatingView(page, "map", viewportName);
+  const lockedBadge = page.locator(".badge-slot.locked").first();
+  await lockedBadge.click();
+  await page.locator(".badge-detail.visible").waitFor({ state: "visible", timeout: 2000 });
+  const lockedDetailMetrics = await page.evaluate(() => {
+    const slotProgress = document.querySelector(".badge-slot.locked .badge-slot__lock")?.textContent?.trim() || "";
+    const detail = document.querySelector(".badge-detail.visible");
+    const circle = detail?.querySelector(":scope > .badge-circle.locked");
+    const image = circle?.querySelector("img");
+    const lock = circle?.querySelector(".badge-slot__lock");
+    return {
+      hasLockedCircle: Boolean(circle),
+      slotProgress,
+      detailProgress: lock?.textContent?.trim() || "",
+      opacity: image ? Number.parseFloat(getComputedStyle(image).opacity) : 1,
+      filter: image ? getComputedStyle(image).filter : "none",
+      featureActionCount: detail?.querySelectorAll(".badge-detail__feature").length || 0
+    };
+  });
+  if (!lockedDetailMetrics.hasLockedCircle
+    || !lockedDetailMetrics.slotProgress
+    || lockedDetailMetrics.detailProgress !== lockedDetailMetrics.slotProgress
+    || lockedDetailMetrics.opacity > 0.3
+    || !lockedDetailMetrics.filter.includes("grayscale")
+    || lockedDetailMetrics.featureActionCount !== 0) {
+    failures.push("[" + viewportName + "] Locked badge detail preview exposed full artwork or mismatched progress: " + JSON.stringify(lockedDetailMetrics));
+  }
   const earnedBadge = page.locator(".badge-slot.earned").first();
   await earnedBadge.click();
   const featureButton = page.locator(".badge-detail__feature");

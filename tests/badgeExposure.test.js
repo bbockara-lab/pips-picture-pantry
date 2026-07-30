@@ -20,6 +20,13 @@ describe("badge artwork exposure", () => {
     expect(mapViewSource).toMatch(/renderBadgeEarnedToast/);
   });
 
+  it("keeps locked badge detail artwork obscured with matching progress", () => {
+    expect(mapViewSource).toMatch(/imageWrap\.className = "badge-circle" \+ \(status\.earned \? "" : " locked"\)/);
+    expect(mapViewSource).toMatch(/lock\.className = "badge-slot__lock"/);
+    expect(mapViewSource).toMatch(/lock\.textContent = String\(status\.completed\) \+ "\/" \+ String\(status\.total\)/);
+    expect(stylesSource).toMatch(/\.badge-detail > \.badge-circle\.locked img\s*\{[\s\S]*?filter:\s*grayscale\(1\)[\s\S]*?opacity:\s*0\.28/);
+  });
+
   it("connects the earned toast to one-time and final-badge glow states", () => {
     expect(mapViewSource).toMatch(/rememberJustEarnedBadgeId\(status\.badge\.id\)/);
     expect(mapViewSource).toMatch(/storage\?\.setItem\(LAST_EARNED_BADGE_KEY/);
