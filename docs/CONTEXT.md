@@ -1,3 +1,10 @@
+## v0.1.663 - Puzzle Picker Mosaic Removal
+
+- Completed Step 19 by removing the stage-art and fallback tile mosaics from unlocked and next-locked puzzle-picker shelves.
+- Puzzle-picker shelves now contain only their header, independent collapse control, puzzle grid, and the unlock panel where applicable; stage-completion artwork remains unchanged.
+- Removed the retired mosaic import, render helpers, preview CSS, and progress canvas CSS; mobile QA now fails if any retired mosaic container returns.
+- Full candidate verification passed: 40 test files / 240 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.662 - Per-Shelf Puzzle Picker Collapse
 
 - Completed Step 18 by removing the global persisted Hide Completed control and replacing it with an independent 44px expand/collapse arrow in every unlocked shelf header.

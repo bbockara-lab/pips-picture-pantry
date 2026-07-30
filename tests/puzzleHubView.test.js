@@ -68,6 +68,16 @@ describe("Per-shelf puzzle picker collapse", () => {
     expect(getShelfCollapsedState("unfinished", false, overrides)).toBe(true);
   });
 
+  it("removes the retired stage-art mosaic from every shelf", () => {
+    expect(hubSource).not.toContain("createStagePreview");
+    expect(hubSource).not.toContain("createStageTileMosaic");
+    expect(hubSource).not.toContain("createStageFallbackMosaic");
+    expect(hubSource).not.toContain("getStageArtUrl");
+    expect(styles).not.toContain(".stage-tile-mosaic");
+    expect(styles).not.toContain(".pip-tile-mosaic");
+    expect(styles).not.toContain(".stage-preview");
+  });
+
   it("retires the global persisted filter and renders accessible shelf toggles", () => {
     expect(hubSource).not.toContain("createStageFilterBar");
     expect(shellSource).not.toContain("hideCompletedStages");

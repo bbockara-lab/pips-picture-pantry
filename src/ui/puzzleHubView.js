@@ -2,7 +2,6 @@ import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
 import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-v1.webp";
 import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, seasonShelves } from "../data/seasonShelves.js";
-import { getStageArtUrl, hasApprovedStageArt } from "../data/stageArt.js";
 import { PANTRY_JARS } from "../data/pantryJars.js";
 import { ECONOMY } from "../data/economyConfig.js";
 import { canUnlockShelf, getCompletedPuzzleIds, getOwnedJarIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
@@ -19,10 +18,6 @@ function appendTextElement(parent, tagName, className, text) {
   element.textContent = text;
   parent.appendChild(element);
   return element;
-}
-
-function createMeterFill() {
-  return document.createElement("span");
 }
 
 const DAILY_GREETING_KEYS = [
@@ -356,7 +351,7 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockShelf
       const lockedHeader = document.createElement("div");
       lockedHeader.className = "pack-header";
       appendTextElement(lockedHeader, "p", "section-label", t(shelf.titleKey));
-      lockedBlock.append(lockedHeader, createStagePreview(shelf, 0, shelfPuzzles.length), createUnlockPanel(shelf, onUnlockShelf, onOpenPantry));
+      lockedBlock.append(lockedHeader, createUnlockPanel(shelf, onUnlockShelf, onOpenPantry));
       section.appendChild(lockedBlock);
       return;
     }
@@ -380,7 +375,6 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockShelf
     content.id = contentId;
     content.className = "pack-block__content";
     content.hidden = collapsed;
-    content.appendChild(createStagePreview(shelf, completeCount, shelfPuzzles.length));
     const list = document.createElement("div");
     list.className = "puzzle-list";
     shelfPuzzles.forEach((puzzle) => {
@@ -420,87 +414,6 @@ function createShelfCollapseToggle(shelf, collapsed, contentId, onToggleShelfCol
   button.addEventListener("click", () => onToggleShelfCollapsed(shelf.id, !collapsed));
   return button;
 }
-function createStagePreview(shelf, completeCount, total) {
-  const preview = document.createElement("div");
-  preview.className = "stage-preview";
-  preview.setAttribute("aria-hidden", "true");
-  const stageProgressRatio = completeCount / Math.max(total || 20, 1);
-  preview.style.setProperty("--stage-progress", `${Math.round(stageProgressRatio * 100)}%`);
-  preview.style.setProperty("--stage-progress-ratio", String(Math.min(1, Math.max(0, stageProgressRatio))));
-  const wrap = document.createElement("div");
-  wrap.className = "stage-pip-preview tile-stage-preview";
-  const previewTileTotal = 20;
-  const previewCompleteCount = Math.round(stageProgressRatio * previewTileTotal);
-  if (hasApprovedStageArt(shelf.artPackId || shelf.id)) {
-    wrap.append(createStageTileMosaic(shelf, previewCompleteCount, previewTileTotal), createStageProgressMeter());
-  } else {
-    wrap.append(createStageFallbackMosaic(previewCompleteCount, previewTileTotal), createStageProgressMeter());
-  }
-  preview.appendChild(wrap);
-  return preview;
-}
-
-function createStageTileMosaic(shelf, completeCount, total) {
-  const columns = 5;
-  const rows = Math.ceil(total / columns);
-  const mosaic = document.createElement("div");
-  mosaic.className = "pip-tile-mosaic stage-tile-mosaic";
-  const artId = shelf.artPackId || shelf.id;
-  const artUrl = getStageArtUrl(artId);
-  if (!artUrl) {
-    return createStageFallbackMosaic(completeCount, total);
-  }
-  const peekIndex = getPeekTileIndex(artId, total);
-  for (let index = 0; index < total; index += 1) {
-    const tile = document.createElement("span");
-    const col = index % columns;
-    const row = Math.floor(index / columns);
-    const revealed = index < completeCount;
-    const peek = !revealed && index === peekIndex;
-    tile.className = revealed ? "pip-tile revealed" : peek ? "pip-tile peek" : "pip-tile";
-    tile.style.backgroundImage = `url("${artUrl}")`;
-    tile.style.backgroundSize = `${columns * 100}% ${rows * 100}%`;
-    tile.style.backgroundPosition = `${columns === 1 ? 50 : (col / (columns - 1)) * 100}% ${rows === 1 ? 50 : (row / (rows - 1)) * 100}%`;
-    mosaic.appendChild(tile);
-  }
-  return mosaic;
-}
-
-function createStageFallbackMosaic(completeCount, total) {
-  const mosaic = document.createElement("div");
-  mosaic.className = "pip-tile-mosaic stage-tile-mosaic stage-tile-mosaic--fallback";
-  const safeTotal = Math.max(1, total || 20);
-  const safeComplete = Math.min(Math.max(0, completeCount || 0), safeTotal);
-  const peekIndex = Math.min(safeTotal - 1, Math.max(safeComplete, Math.floor(safeTotal / 2)));
-  for (let index = 0; index < safeTotal; index += 1) {
-    const tile = document.createElement("span");
-    const revealed = index < safeComplete;
-    const peek = !revealed && index === peekIndex;
-    tile.className = revealed ? "pip-tile revealed" : peek ? "pip-tile peek" : "pip-tile";
-    mosaic.appendChild(tile);
-  }
-  return mosaic;
-}
-
-function getPeekTileIndex(packId, total) {
-  const preferred = {
-    "starter-pantry": 7,
-    "sunny-spoon-sign": 8,
-    "apron-drawer": 12,
-    "bakery-window": 13,
-    "village-pantry": 16
-  };
-  return Math.min(Math.max(preferred[packId] ?? Math.floor(total / 2), 0), Math.max(total - 1, 0));
-}
-
-function createStageProgressMeter() {
-  const meter = document.createElement("div");
-  meter.className = "stage-progress-meter";
-  meter.setAttribute("aria-hidden", "true");
-  meter.appendChild(createMeterFill());
-  return meter;
-}
-
 function createUnlockPanel(shelf, onUnlockShelf, onOpenPantry) {
   const panel = document.createElement("div");
   panel.className = "unlock-panel";

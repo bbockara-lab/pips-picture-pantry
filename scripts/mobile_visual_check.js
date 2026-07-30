@@ -83,8 +83,7 @@ for (const viewport of viewports) {
   await openFloatingView(page, "puzzle");
   await expectVisible(page, ".pack-block", viewport.name);
   await expectHiddenBonusPacks(page, viewport.name);
-  await expectVisible(page, ".stage-preview", viewport.name);
-  await expectStageArtPreviews(page, viewport.name);
+  await expectNoStageMosaic(page, viewport.name);
   await expectPuzzlePickerPolish(page, viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
   await expectTapTargets(page, viewport.name);
@@ -1555,32 +1554,10 @@ async function expectLockedStageGate(page, viewportName) {
   }
 }
 
-async function expectStageArtPreviews(page, viewportName) {
-  const tileCount = await page.locator(".stage-tile-mosaic .pip-tile").count();
-  if (tileCount === 0) {
-    failures.push("[" + viewportName + "] Missing approved stage-art mosaic tiles");
-    return;
-  }
-
-  const pendingCount = await page.locator(".stage-art-pending").count();
-  if (pendingCount > 0) {
-    failures.push("[" + viewportName + "] Stage previews should use approved artwork, saw " + pendingCount + " pending-art placeholders");
-  }
-
-  const tileIssues = await page.evaluate(() => {
-    return [...document.querySelectorAll(".stage-tile-mosaic .pip-tile.revealed, .stage-tile-mosaic .pip-tile.peek")]
-      .map((tile) => {
-        const rect = tile.getBoundingClientRect();
-        return {
-          width: rect.width,
-          height: rect.height,
-          backgroundImage: tile.style.backgroundImage
-        };
-      })
-      .filter((tile) => tile.width < 1 || tile.height < 1 || !tile.backgroundImage || tile.backgroundImage === "none");
-  });
-  if (tileIssues.length > 0) {
-    failures.push("[" + viewportName + "] Stage artwork mosaic has invalid visible tiles: " + JSON.stringify(tileIssues.slice(0, 3)));
+async function expectNoStageMosaic(page, viewportName) {
+  const obsoleteCount = await page.locator(".stage-preview, .stage-tile-mosaic, .pip-tile-mosaic").count();
+  if (obsoleteCount > 0) {
+    failures.push("[" + viewportName + "] Puzzle picker should not render retired stage mosaics; saw " + obsoleteCount);
   }
 }
 
