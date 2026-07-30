@@ -269,9 +269,6 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   header.className = "pantry-jar-header";
   const copy = document.createElement("div");
   appendTextElement(copy, "h2", "", t("pantry.title"));
-  const balance = appendTextElement(header, "div", "pantry-jar-balance", "");
-  appendSpoonLabel(balance, t("pantry.jar.balance", { count: getPantrySpoons() }));
-  balance.setAttribute("aria-label", t("currency.spoons", { count: getPantrySpoons() }));
   header.prepend(copy);
 
   const onboarding = renderOnboarding();

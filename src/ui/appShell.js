@@ -753,9 +753,7 @@ function createShell({
   if (settingsOpen) {
     shell.classList.add("app-shell--settings-open");
   }
-  if (activeView !== "pantry" && !isWorkshopHome) {
-    shell.appendChild(renderSpoonBalanceChip(getPantrySpoons()));
-  }
+  shell.appendChild(renderSpoonBalanceChip(getPantrySpoons()));
 
   if ((activeView === "puzzle" || activeView === "timeAttack") && playOpen) {
     shell.classList.add("app-shell--play");

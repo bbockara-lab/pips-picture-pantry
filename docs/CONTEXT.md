@@ -1,3 +1,11 @@
+## v0.1.685 - Unified Spoon Balance Across Views
+
+- Completed Step 41 by rendering one shared fixed spoon balance chip from `appShell.js` in every main view, including Workshop and Pantry.
+- Removed the Pantry-local balance and Workshop-local currency elements so the displayed balance has one source, one approved spoon-token asset, and one accessibility label.
+- Added settings-button clearance on Workshop and focused play, plus safe-area-aware positioning on all other views.
+- Mobile QA now rejects duplicate/local balance elements, title or settings overlap, stale displayed values, incorrect token art, and Pantry purchases that do not update the shared balance immediately.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 47 test files / 276 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.684 - Quick Travel Touch Target and Safe-Area Gap
 
 - Completed Step 40 by increasing the Play-shell quick-travel trigger minimum height from 58px to 68px and its icon from 34px to 40px.

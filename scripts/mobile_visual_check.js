@@ -41,6 +41,7 @@ for (const viewport of viewports) {
   await expectFloatingNavHiddenDuringBlockingOverlay(page, viewport.name);
   await dismissGuideIfPresent(page, viewport.name);
   await expectSettingsDialogPolish(page, viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Initial view");
   if ((await page.locator(".play-screen").count()) > 0) {
     await expectVisible(page, ".play-screen", viewport.name);
     await expectStarterBoardAlignment(page, viewport.name);
@@ -49,10 +50,8 @@ for (const viewport of viewports) {
     await page.locator(".play-screen__back").click();
   }
   await expectAbsent(page, ".pip-strip", viewport.name);
-  if (isWorkshopHome) {
-    await expectVisible(page, ".puzzle-home-scene__currency", viewport.name);
-  } else {
-    await expectVisible(page, ".currency-pill", viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Workshop");
+  if (!isWorkshopHome) {
     await expectFloatingNavPolish(page, viewport.name);
   }
   await expectPuzzleHomePolish(page, viewport.name);
@@ -87,6 +86,7 @@ for (const viewport of viewports) {
   await expectHiddenBonusPacks(page, viewport.name);
   await expectNoStageMosaic(page, viewport.name);
   await expectPuzzlePickerPolish(page, viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Puzzle list");
   await expectNoHorizontalOverflow(page, viewport.name);
   await expectTapTargets(page, viewport.name);
 
@@ -95,6 +95,7 @@ for (const viewport of viewports) {
   await expectVisible(page, ".album-panel", viewport.name);
   await expectVisible(page, ".album-stamp", viewport.name);
   await expectAlbumPolish(page, viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Album");
   await expectNoHorizontalOverflow(page, viewport.name);
 
   await openFloatingView(page, "map");
@@ -107,8 +108,16 @@ for (const viewport of viewports) {
   await verifyFeaturedBadgeFlow(page, viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
 
+  await page.evaluate(() => {
+    const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+    const saveKey = "pips-picture-pantry:v0.1:save:" + player.id;
+    const save = JSON.parse(localStorage.getItem(saveKey) || "{}");
+    save.pantrySpoons = 50;
+    localStorage.setItem(saveKey, JSON.stringify(save));
+  });
   await openFloatingView(page, "pantry");
   await expectNoSharedScreenHeader(page, viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Pantry");
   await verifyPantryPlacement(page, viewport.name);
 
   await openFloatingView(page, "timeAttack", viewport.name);
@@ -3130,7 +3139,43 @@ async function verifyPantryPlacement(page, viewportName) {
       || detailMetrics.bottom > detailMetrics.viewportHeight + 1) {
       failures.push("[" + viewportName + "] Pantry jar detail sheet escaped viewport: " + JSON.stringify(detailMetrics));
     }
-    await page.locator(".pantry-jar-detail__btn-close").click();
+    const buyButton = page.locator(".pantry-jar-detail__btn-buy");
+    if (await buyButton.count() && await buyButton.isEnabled()) {
+      const beforePurchase = await page.evaluate(() => {
+        const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+        const save = player
+          ? JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:save:" + player.id) || "{}")
+          : {};
+        return Number(save.pantrySpoons) || 0;
+      });
+      await buyButton.click();
+      await page.locator(".pantry-jar-panel").waitFor({ state: "visible", timeout: 2000 });
+      await page.waitForTimeout(150);
+      const purchaseMetrics = await page.evaluate(() => {
+        const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+        const save = player
+          ? JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:save:" + player.id) || "{}")
+          : {};
+        const chip = document.querySelector(".spoon-balance-chip");
+        return {
+          afterPurchase: Number(save.pantrySpoons) || 0,
+          chipCount: document.querySelectorAll(".spoon-balance-chip").length,
+          localBalanceCount: document.querySelectorAll(".pantry-jar-balance, .puzzle-home-scene__currency, .currency-pill").length,
+          chipText: chip?.textContent?.trim() || "",
+          chipLabel: chip?.getAttribute("aria-label") || ""
+        };
+      });
+      if (purchaseMetrics.afterPurchase >= beforePurchase
+        || purchaseMetrics.chipCount !== 1
+        || purchaseMetrics.localBalanceCount !== 0
+        || !purchaseMetrics.chipText.includes(String(purchaseMetrics.afterPurchase))
+        || !purchaseMetrics.chipLabel.includes(String(purchaseMetrics.afterPurchase))) {
+        failures.push("[" + viewportName + "] Pantry purchase did not refresh shared spoon balance immediately: " + JSON.stringify({ beforePurchase, ...purchaseMetrics }));
+      }
+    } else {
+      failures.push("[" + viewportName + "] Pantry purchase QA could not find an affordable unowned jar");
+      await page.locator(".pantry-jar-detail__btn-close").click();
+    }
   }
   await expectNoHorizontalOverflow(page, viewportName);
 }
@@ -3140,24 +3185,78 @@ async function expectNoSharedScreenHeader(page, viewportName) {
 }
 
 async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
-  const metrics = await page.locator(".spoon-balance-chip").evaluate((chip) => {
-    const icon = chip.querySelector(".spoon-icon");
-    const chipRect = chip.getBoundingClientRect();
-    const iconRect = icon?.getBoundingClientRect();
+  const metrics = await page.evaluate(() => {
+    const chips = [...document.querySelectorAll(".spoon-balance-chip")];
+    const chip = chips[0] || null;
+    const icon = chip?.querySelector(".spoon-icon") || null;
+    const chipRect = chip?.getBoundingClientRect() || null;
+    const iconRect = icon?.getBoundingClientRect() || null;
+    const shell = document.querySelector(".app-shell");
+    const needsSettingsClearance = Boolean(shell?.classList.contains("app-shell--workshop-home") || shell?.classList.contains("app-shell--play"));
+    const collisionSelectors = [
+      ".puzzle-home-scene__settings",
+      ".play-screen__settings",
+      ".puzzle-home-scene__title",
+      ".puzzle-picker h2",
+      ".album-panel h2",
+      ".map-panel h2",
+      ".pantry-panel h2",
+      ".time-attack-panel h2",
+      ".spoon-run-view h2"
+    ];
+    const overlaps = chipRect
+      ? collisionSelectors.flatMap((selector) => [...document.querySelectorAll(selector)]
+        .filter((target) => {
+          const style = getComputedStyle(target);
+          const rect = target.getBoundingClientRect();
+          return style.display !== "none" && style.visibility !== "hidden" && rect.width > 0 && rect.height > 0;
+        })
+        .filter((target) => {
+          const rect = target.getBoundingClientRect();
+          return chipRect.left < rect.right && chipRect.right > rect.left && chipRect.top < rect.bottom && chipRect.bottom > rect.top;
+        })
+        .map(() => selector))
+      : [];
+    const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+    const save = player
+      ? JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:save:" + player.id) || "{}")
+      : {};
     return {
-      chipHeight: chipRect.height,
+      chipCount: chips.length,
+      localBalanceCount: document.querySelectorAll(".pantry-jar-balance, .puzzle-home-scene__currency, .currency-pill").length,
+      expectedSpoons: Number(save.pantrySpoons) || 0,
+      text: chip?.textContent?.trim() || "",
+      ariaLabel: chip?.getAttribute("aria-label") || "",
+      chipHeight: chipRect?.height || 0,
+      topGap: chipRect?.top ?? -1,
+      rightGap: chipRect ? window.innerWidth - chipRect.right : -1,
       iconWidth: iconRect?.width || 0,
       iconHeight: iconRect?.height || 0,
-      centerDelta: iconRect ? Math.abs((iconRect.top + iconRect.height / 2) - (chipRect.top + chipRect.height / 2)) : 999,
-      objectFit: icon ? getComputedStyle(icon).objectFit : "missing"
+      centerDelta: chipRect && iconRect ? Math.abs((iconRect.top + iconRect.height / 2) - (chipRect.top + chipRect.height / 2)) : 999,
+      objectFit: icon ? getComputedStyle(icon).objectFit : "missing",
+      assetId: icon?.dataset.assetId || "missing",
+      naturalWidth: icon?.naturalWidth || 0,
+      naturalHeight: icon?.naturalHeight || 0,
+      minimumRightGap: needsSettingsClearance ? 68 : 16,
+      overlaps
     };
   });
-  if (Math.abs(metrics.iconWidth - 20) > 0.5
+  if (metrics.chipCount !== 1
+    || metrics.localBalanceCount !== 0
+    || !metrics.text.includes(String(metrics.expectedSpoons))
+    || !metrics.ariaLabel.includes(String(metrics.expectedSpoons))
+    || Math.abs(metrics.iconWidth - 20) > 0.5
     || Math.abs(metrics.iconHeight - 20) > 0.5
     || metrics.chipHeight < 31
     || metrics.chipHeight > 36
     || metrics.centerDelta > 1
-    || metrics.objectFit !== "contain") {
-    failures.push("[" + viewportName + "] " + viewName + " spoon balance icon sizing regressed: " + JSON.stringify(metrics));
+    || metrics.objectFit !== "contain"
+    || metrics.assetId !== "spoon-token-v2"
+    || metrics.naturalWidth !== 256
+    || metrics.naturalHeight !== 256
+    || metrics.topGap < 12
+    || metrics.rightGap < metrics.minimumRightGap - 1
+    || metrics.overlaps.length > 0) {
+    failures.push("[" + viewportName + "] " + viewName + " shared spoon balance regressed: " + JSON.stringify(metrics));
   }
 }

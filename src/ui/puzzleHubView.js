@@ -226,16 +226,6 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   const sceneControls = document.createElement("div");
   sceneControls.className = "puzzle-home-scene__controls";
 
-  const currency = document.createElement("div");
-  currency.className = "puzzle-home-scene__currency";
-  currency.setAttribute("aria-label", t("currency.spoons", { count: pantrySpoons }));
-  const spoon = document.createElement("img");
-  spoon.src = spoonTokenUrl;
-  spoon.alt = "";
-  spoon.setAttribute("aria-hidden", "true");
-  spoon.dataset.assetId = "spoon-token-v2";
-  currency.append(spoon, document.createTextNode(String(pantrySpoons)));
-
   const settingsButton = document.createElement("button");
   settingsButton.type = "button";
   settingsButton.className = "puzzle-home-scene__settings";
@@ -252,7 +242,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   }
   settingsButton.addEventListener("click", onOpenSettings);
 
-  sceneControls.append(currency, settingsButton);
+  sceneControls.append(settingsButton);
   scene.append(destinations, sceneControls, play);
   stack.append(scene);
   return stack;

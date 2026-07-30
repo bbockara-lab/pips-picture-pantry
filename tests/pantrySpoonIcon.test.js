@@ -10,15 +10,22 @@ describe("Pantry spoon currency rendering", () => {
     expect(helperSource).toContain('dataset.assetId = "spoon-token-v2"');
   });
 
-  it("provides one shared balance chip outside Pantry and Workshop home", () => {
+  it("provides one shared balance chip across every view", () => {
+    const pantrySource = readFileSync("src/ui/pantryView.js", "utf8");
     const shellSource = readFileSync("src/ui/appShell.js", "utf8");
     const helperSource = readFileSync("src/ui/spoonIcon.js", "utf8");
     const stylesSource = readFileSync("src/styles.css", "utf8");
+    const hubSource = readFileSync("src/ui/puzzleHubView.js", "utf8");
     expect(helperSource).toContain("export function renderSpoonBalanceChip(spoons)");
+    expect(helperSource).toContain('element.replaceChildren(document.createTextNode(text + " "), createSpoonIcon(size))');
+    expect(pantrySource).toMatch(/const result = buyJar\(jar\.id\);[\s\S]*?onRefresh\?\.\(\);/);
     expect(helperSource).toContain('t("currency.spoons"');
-    expect(shellSource).toContain('activeView !== "pantry" && !isWorkshopHome');
+    expect(shellSource).not.toContain('activeView !== "pantry" && !isWorkshopHome');
     expect(shellSource).toContain("renderSpoonBalanceChip(getPantrySpoons())");
+    expect(pantrySource).not.toContain("pantry-jar-balance");
+    expect(hubSource).not.toContain("puzzle-home-scene__currency");
     expect(stylesSource).toMatch(/\.spoon-balance-chip\s*\{[\s\S]*?position:\s*fixed;[\s\S]*?pointer-events:\s*none;/);
     expect(stylesSource).toMatch(/\.spoon-balance-chip \.spoon-icon\s*\{[\s\S]*?width:\s*20px;[\s\S]*?height:\s*20px;[\s\S]*?object-fit:\s*contain;/);
+    expect(stylesSource).toMatch(/\.app-shell--workshop-home \.spoon-balance-chip,[\s\S]*?\.app-shell--play \.spoon-balance-chip\s*\{[\s\S]*?right:\s*max\(68px, calc\(env\(safe-area-inset-right, 0px\) \+ 68px\)\);/);
   });
 });

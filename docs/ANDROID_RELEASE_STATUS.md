@@ -1,3 +1,10 @@
+## 2026-07-30 v0.1.685 unified spoon balance across views
+
+- Current package/UI candidate: v0.1.685.
+- Workshop, Puzzle list, Album, Pantry, Badge, Time Attack, and Spoon Run now share one fixed spoon balance chip; Pantry and Workshop no longer render competing local balances.
+- The chip keeps safe-area and settings-button clearance, and mobile QA verifies one-instance rendering, no header collision, saved-value parity, approved token art, and immediate refresh after a Pantry purchase.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this UI step.
+- Full candidate verification passed: 47 test files / 276 tests, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-30 v0.1.684 quick travel touch target and safe-area gap
 
 - Current package/UI candidate: v0.1.684.
