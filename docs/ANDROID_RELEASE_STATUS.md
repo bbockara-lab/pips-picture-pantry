@@ -1,3 +1,11 @@
+## 2026-07-30 v0.1.670 shared spoon balance
+
+- Current package/UI candidate: v0.1.670.
+- A shared safe-area-aware spoon balance chip now appears on views without an existing persistent balance, including active puzzle and Time Attack play, and refreshes from saved state on every shell redraw.
+- Pantry and Workshop home retain their own dedicated balance displays, so the shared chip is suppressed there.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Candidate verification passed through 41 test files / 249 tests, catalog and uniqueness checks, production build, Android release gate, and HTTP probe. After a combined-run first-navigation `networkidle` timeout, isolated mobile QA passed at 360x740, 390x844, 430x932, and 675x900.
+
 ## 2026-07-30 v0.1.669 Daily Picture completion flow
 
 - Current package/UI candidate: v0.1.669.

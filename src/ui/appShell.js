@@ -7,6 +7,7 @@ import {
   getCompletedPuzzleIds,
   getDailyCompletedDate,
   getReplayDailyCount,
+  getPantrySpoons,
   getTimeAttackBestScores,
   getTimeAttackDailyCount,
   hasSeenGuide,
@@ -37,6 +38,7 @@ import {
 import { renderPlayScreen } from "./playScreen.js";
 import { renderFloatingNav } from "./floatingNav.js";
 import { renderGuideDialog } from "./guideDialog.js";
+import { renderSpoonBalanceChip } from "./spoonIcon.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
 import { canPurchaseSpoonJar, canPurchaseSupportPack, renderSettingsDialog, renderSpoonStore } from "./settingsView.js";
 import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackElapsedSeconds, TIME_ATTACK_LIMIT_SECONDS, TIME_ATTACK_TRIAL_ROUNDS } from "./timeAttackFlow.js";
@@ -705,6 +707,9 @@ function createShell({
   }
   if (settingsOpen) {
     shell.classList.add("app-shell--settings-open");
+  }
+  if (activeView !== "pantry" && !isWorkshopHome) {
+    shell.appendChild(renderSpoonBalanceChip(getPantrySpoons()));
   }
 
   if ((activeView === "puzzle" || activeView === "timeAttack") && playOpen) {

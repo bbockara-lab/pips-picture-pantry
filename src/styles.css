@@ -18612,3 +18612,30 @@ body.guide-open {
 .pack-block--collapsed .pack-header { align-items: center; }
 .pack-block--collapsed .section-label { margin-bottom: 0; }
 .pack-block__content[hidden] { display: none !important; }
+/* v0.1.670 - shared spoon balance */
+.spoon-balance-chip {
+  position: fixed;
+  top: calc(max(12px, env(safe-area-inset-top)) + 4px);
+  right: max(16px, env(safe-area-inset-right));
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 32px;
+  padding: 4px 12px 4px 8px;
+  border: 1px solid rgba(74, 55, 40, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 250, 232, 0.96);
+  color: var(--ink, #3d2b2e);
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(74, 55, 40, 0.14);
+  pointer-events: none;
+  backdrop-filter: blur(6px);
+}
+
+.spoon-balance-chip .spoon-icon {
+  flex: 0 0 auto;
+}

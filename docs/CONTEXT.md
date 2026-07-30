@@ -1,3 +1,12 @@
+## v0.1.670 - Shared Spoon Balance
+
+- Completed Step 26 by adding a shared, safe-area-aware spoon balance chip to views that previously had no persistent currency display, including active puzzle and Time Attack play.
+- The chip reuses the approved `spoon-token-v2` artwork and reads the latest saved balance on every shell redraw.
+- Pantry and the Workshop home intentionally keep their existing dedicated spoon displays, avoiding duplicate balances on those screens.
+- Added regression coverage for the shared renderer, placement condition, localization, fixed positioning, and non-blocking pointer behavior.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Candidate verification passed: 41 test files / 249 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, and HTTP probe. The combined runner encountered a first-navigation `networkidle` timeout after all earlier gates passed; isolated mobile QA then passed at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.669 - Daily Picture Completion Flow
 
 - Completed Step 25 by ending a solved Daily Picture with its reveal, existing puzzle and Daily reward rows, and one OK action that returns directly to Spoon Run.
