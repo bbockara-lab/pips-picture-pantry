@@ -1,3 +1,11 @@
+## 2026-07-30 v0.1.675 fixed quick-travel navigation
+
+- Current package/UI candidate: v0.1.675.
+- The floating quick-travel trigger is now fixed to the lower-right viewport safe area at z-index 50 and remains visible independently of scroll position; its menu continues to open above the trigger.
+- The existing enlarged 80px trigger remains intact, and focused regression plus launch-integrity guards protect the positioning contract.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 44 test files / 257 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## 2026-07-30 v0.1.674 complete and future puzzle stage roadmap
 
 - Current package/UI candidate: v0.1.674.

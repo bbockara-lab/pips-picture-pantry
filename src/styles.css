@@ -18769,3 +18769,16 @@ body.guide-open {
   font-style: italic;
   line-height: 1.4;
 }
+/* v0.1.675 - fixed quick-travel release contract */
+.floating-nav {
+  position: fixed !important;
+  right: max(16px, env(safe-area-inset-right)) !important;
+  bottom: max(20px, env(safe-area-inset-bottom)) !important;
+  left: auto !important;
+  z-index: 50 !important;
+  display: block;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+  pointer-events: none;
+}

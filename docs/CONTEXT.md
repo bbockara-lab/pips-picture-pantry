@@ -1,3 +1,12 @@
+## v0.1.675 - Fixed Quick-Travel Navigation
+
+- Completed Step 31 by locking the floating quick-travel control to the viewport instead of relying on scroll-position-dependent sticky behavior.
+- The trigger now stays at the lower-right safe-area boundary with a 20px minimum inset, while its menu continues to open above it.
+- The navigation layer is fixed at z-index 50 so completion and guide overlays remain above it; the enlarged 80px trigger and non-blocking pointer contract are preserved.
+- Added focused regression and launch-integrity coverage for the fixed positioning contract.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 44 test files / 257 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.674 - Complete and Future Puzzle Stage Roadmap
 
 - Completed Step 30 by keeping completed puzzle stages collapsed by default while adding a clear green completion pill to each completed stage header.

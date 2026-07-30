@@ -115,6 +115,8 @@ function checkPackUnlockGuidance() {
   expectIncludes(hub, "pack-stage-complete-badge", "completed stage badge");
   expectIncludes(hub, "getShelfTeaserKey", "stage teaser key derivation");
   expectIncludes("tests/puzzleStageRoadmap.test.js", "renders every locked stage", "full future stage roadmap regression test");
+  expectIncludes("src/styles.css", "v0.1.675 - fixed quick-travel release contract", "fixed quick-travel release contract");
+  expectRegex("src/styles.css", /v0\.1\.675 - fixed quick-travel release contract[\s\S]*position:\s*fixed !important;[\s\S]*z-index:\s*50 !important;/, "fixed quick-travel positioning");
 }
 function checkReplayCleanRewardPath() {
   expectIncludes("src/ui/puzzleView.js", "clean: isReplayClean(replayCleanStatus)", "replay reward clean parameter");
