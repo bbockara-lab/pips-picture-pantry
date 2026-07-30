@@ -4,7 +4,7 @@ import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, seasonShelves } from "../data/seasonShelves.js";
 import { PANTRY_JARS } from "../data/pantryJars.js";
 import { ECONOMY } from "../data/economyConfig.js";
-import { canUnlockShelf, getCompletedPuzzleIds, getOwnedJarIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
+import { getCompletedPuzzleIds, getOwnedJarIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
 import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
@@ -317,7 +317,7 @@ export function getShelfCollapsedState(shelfId, isComplete, collapseOverrides = 
   return Boolean(isComplete);
 }
 
-export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockShelf, options = {}) {
+export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {}) {
   const {
     shelfCollapseOverrides = new Map(),
     onToggleShelfCollapsed = () => {},
@@ -342,9 +342,7 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockShelf
     const isStageComplete = shelfPuzzles.length > 0 && completeCount >= shelfPuzzles.length;
     if (!unlocked) {
       const previousShelf = getPreviousSeasonShelf(shelf);
-      const previousComplete = Boolean(previousShelf)
-        && getSeasonShelfPuzzles(previousShelf).every((puzzle) => completedPuzzleIdSet.has(puzzle.id));
-      if (!previousComplete) return;
+      if (!previousShelf || !isShelfUnlocked(previousShelf)) return;
 
       const lockedBlock = document.createElement("article");
       lockedBlock.className = "pack-block pack-block--locked";
@@ -353,7 +351,7 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockShelf
       const lockedHeader = document.createElement("div");
       lockedHeader.className = "pack-header";
       appendTextElement(lockedHeader, "p", "section-label", t(shelf.titleKey));
-      lockedBlock.append(lockedHeader, createUnlockPanel(shelf, onUnlockShelf, onOpenPantry));
+      lockedBlock.append(lockedHeader, createUnlockPanel(shelf, onOpenPantry));
       section.appendChild(lockedBlock);
       return;
     }
@@ -450,55 +448,30 @@ function appendLockCondition(parent, type, condition) {
   return row;
 }
 
-function createUnlockPanel(shelf, onUnlockShelf, onOpenPantry) {
+function createUnlockPanel(shelf, onOpenPantry) {
   const panel = document.createElement("div");
   panel.className = "unlock-panel";
-  const canOpen = canUnlockShelf(shelf);
   const lockConditions = getShelfLockConditions(shelf);
-  const roomRequirement = lockConditions.roomRequirement;
-  const spoonGap = Math.max(0, Number(shelf.unlockCost || 0) - getPantrySpoons());
-  const disabledText = !lockConditions.puzzle.met
-    ? t("packs.locked")
-    : !roomRequirement.met
-      ? t("packs.needPantryRoom")
-      : t("packs.needMore", { count: spoonGap });
   const requirements = document.createElement("div");
   requirements.className = "unlock-panel__requirements";
-  const copy = document.createElement("p");
-  copy.className = "unlock-panel__cost";
-  copy.append(createSpoonIcon("small"), document.createTextNode(String(shelf.unlockCost)));
-  requirements.appendChild(copy);
   appendLockCondition(requirements, "Puzzle", lockConditions.puzzle);
   appendLockCondition(requirements, "Pantry", lockConditions.pantry);
 
-  const actions = document.createElement("div");
-  actions.className = "unlock-panel__actions";
-  const unlockButton = document.createElement("button");
-  unlockButton.type = "button";
-  unlockButton.className = "tool-button";
-  unlockButton.disabled = !canOpen;
-  unlockButton.textContent = canOpen ? t("packs.openStage") : disabledText;
-  unlockButton.addEventListener("click", () => onUnlockShelf(shelf.id));
-  actions.appendChild(unlockButton);
-  if (!roomRequirement.met) {
+  if (!lockConditions.pantry.met) {
+    const actions = document.createElement("div");
+    actions.className = "unlock-panel__actions";
     const pantryButton = document.createElement("button");
     pantryButton.type = "button";
     pantryButton.className = "stage-gate-link";
     pantryButton.textContent = t("packs.visitPantry");
     pantryButton.addEventListener("click", onOpenPantry);
     actions.appendChild(pantryButton);
+    panel.append(requirements, actions);
+    return panel;
   }
-  panel.append(requirements, actions);
-  return panel;
-}
 
-function createSpoonIcon(size = "") {
-  const icon = document.createElement("img");
-  icon.className = size ? `spoon-icon ${size}` : "spoon-icon";
-  icon.src = spoonTokenUrl;
-  icon.alt = "";
-  icon.setAttribute("aria-hidden", "true");
-  return icon;
+  panel.appendChild(requirements);
+  return panel;
 }
 
 function getPuzzleChipClass(puzzle, activePuzzleId, unlocked, complete) {

@@ -14915,21 +14915,7 @@ img {
   align-items: center;
   gap: 8px 12px;
 }
-.unlock-panel__cost {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin: 0;
-  font-size: 1.15rem;
-  font-weight: 800;
-}
-.unlock-panel__cost .spoon-icon,
-.unlock-panel__cost .spoon-icon.small {
-  width: 30px !important;
-  height: 30px !important;
-  min-width: 30px;
-  object-fit: contain;
-}
+
 .unlock-panel__room {
   margin: 0;
 }

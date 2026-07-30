@@ -427,11 +427,9 @@ export const en = {
     progress: "{completed}/{total}",
     preview: "Preview",
     pricePreview: "Preview set",
-    unlockCostPrefix: "Open with ",
-    openStage: "Open stage",
+
     futurePackHint: "Future optional sets are hidden until the pantry decoration economy is ready.",
     comingSoon: "Coming soon",
-    needMore: "Need {count} more",
     needPantryRoom: "Decorate the Pantry first",
     visitPantry: "Decorate the Pantry",
     roomRequirement: "Decor {completed}/{required}",

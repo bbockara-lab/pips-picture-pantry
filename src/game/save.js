@@ -550,41 +550,12 @@ export function isShelfUnlocked(shelf) {
     return true;
   }
   const previousShelf = getPreviousSeasonShelf(shelf);
-  return Number(shelf.unlockCost || 0) <= 0
-    && Boolean(previousShelf)
-    && isSeasonShelfComplete(previousShelf, getCompletedPuzzleIds())
-    && getShelfPantryRoomRequirement(shelf).met;
-}
-
-export function canUnlockShelf(shelf) {
-  if (!shelf || isShelfUnlocked(shelf)) {
-    return false;
-  }
-  const previousShelf = getPreviousSeasonShelf(shelf);
   return Boolean(previousShelf)
     && isSeasonShelfComplete(previousShelf, getCompletedPuzzleIds())
-    && getPantrySpoons() >= Number(shelf.unlockCost || 0)
     && getShelfPantryRoomRequirement(shelf).met;
 }
 
-export function unlockShelf(shelf) {
-  if (!shelf || isShelfUnlocked(shelf)) {
-    return false;
-  }
-  if (!canUnlockShelf(shelf)) {
-    return false;
-  }
 
-  const cost = Math.max(0, Number(shelf.unlockCost || 0));
-  const save = loadSave() || createEmptySave();
-  if (save.pantrySpoons < cost) {
-    return false;
-  }
-  save.pantrySpoons -= cost;
-  save.unlockedShelfIds = Array.from(new Set([...save.unlockedShelfIds, shelf.id]));
-  saveGame(save);
-  return true;
-}
 
 export function markShelfCompletedIfFirst(shelfOrId) {
   const shelf = typeof shelfOrId === "string"

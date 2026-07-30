@@ -1,9 +1,9 @@
 export const ECONOMY = {
   PUZZLE_REWARD_BY_SIZE: {
-    5: 3,
-    8: 6,
-    10: 10,
-    12: 15,
+    5: 2,
+    8: 4,
+    10: 6,
+    12: 10,
     15: 22,
     18: 30
   },

@@ -52,9 +52,9 @@ function checkPackUnlockGuidance() {
     "appendLockCondition(requirements, \"Puzzle\"",
     "appendLockCondition(requirements, \"Pantry\"",
     "isSeasonShelfComplete(previousShelf",
-    "t(\"packs.visitPantry\")",
-    "t(\"packs.needPantryRoom\")",
-    "t(\"packs.needMore\""
+    "if (!previousShelf || !isShelfUnlocked(previousShelf)) return",
+    "if (!lockConditions.pantry.met)",
+    "t(\"packs.visitPantry\")"
   ].forEach((needle) => expectIncludes(hub, needle));
   [
     "unlockPlanNeedSpoons",
@@ -64,24 +64,41 @@ function checkPackUnlockGuidance() {
     "unlockGateNeedPantry",
     "unlockGateNeedBoth",
     "unlock-panel__plan",
-    "unlock-panel__gate"
-  ].forEach((needle) => expectExcludes(hub, needle, "retired duplicate stage-lock report copy"));
-  expectRegex(hub, /!lockConditions\.puzzle\.met[\s\S]*t\("packs\.locked"\)[\s\S]*!roomRequirement\.met[\s\S]*t\("packs\.needPantryRoom"\)/, "condition-aware stage lock button copy branch");
-  expectOrder(hub, "!roomRequirement.met", "t(\"packs.visitPantry\")", "Pantry CTA appears only when Pantry progress is blocking");
+    "unlock-panel__gate",
+    "unlock-panel__cost",
+    "onUnlockShelf",
+    "createSpoonIcon",
+    "t(\"packs.openStage\")",
+    "t(\"packs.needMore\""
+  ].forEach((needle) => expectExcludes(hub, needle, "retired manual stage unlock UI"));
+  expectOrder(hub, "if (!lockConditions.pantry.met)", "t(\"packs.visitPantry\")", "Pantry CTA appears only when Pantry progress is blocking");
 
   ["src/i18n/en.js", "src/i18n/ko.js"].forEach((file) => {
     [
-      "needPantryRoom",
       "visitPantry",
-      "needMore",
       "lockConditionPuzzle",
       "lockConditionPuzzleDone",
       "lockConditionPantry",
       "lockConditionPantryDone"
     ].forEach((needle) => expectIncludes(file, needle));
+    ["unlockCostPrefix", "openStage"].forEach((needle) => expectExcludes(file, needle, "retired stage spoon unlock translation"));
   });
-}
 
+  const shelfSource = read("src/data/seasonShelves.js");
+  const unlockCosts = [...shelfSource.matchAll(/unlockCost:\s*(\d+)/g)].map((match) => Number(match[1]));
+  if (unlockCosts.length !== 15 || unlockCosts.some((cost) => cost !== 0)) {
+    fail("src/data/seasonShelves.js must keep all 15 stage unlock costs at zero");
+  }
+  expectIncludes("src/data/economyConfig.js", "5: 2", "5x5 reward 2");
+  expectIncludes("src/data/economyConfig.js", "8: 4", "8x8 reward 4");
+  expectIncludes("src/data/economyConfig.js", "10: 6", "10x10 reward 6");
+  expectIncludes("src/data/economyConfig.js", "12: 10", "12x12 reward 10");
+  expectExcludes("src/game/save.js", "getPantrySpoons() >= Number(shelf.unlockCost", "stage spoon balance gate");
+  expectExcludes("src/game/save.js", "export function unlockShelf", "manual shelf unlock mutation");
+  expectExcludes("src/game/save.js", "export function canUnlockShelf", "retired manual shelf unlock predicate");
+  expectRegex("src/game/save.js", /isSeasonShelfComplete\(previousShelf, getCompletedPuzzleIds\(\)\)[\s\S]*getShelfPantryRoomRequirement\(shelf\)\.met/, "automatic puzzle and Pantry shelf gate");
+  expectExcludes("src/ui/appShell.js", "onUnlockShelf", "manual stage unlock callback");
+}
 function checkReplayCleanRewardPath() {
   expectIncludes("src/ui/puzzleView.js", "clean: isReplayClean(replayCleanStatus)", "replay reward clean parameter");
   expectIncludes("src/game/replayChallenge.js", "usedHint", "hint usage tracked in replay clean state");

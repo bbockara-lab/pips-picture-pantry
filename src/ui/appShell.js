@@ -1,4 +1,4 @@
-import { getSeasonShelfById, getSeasonShelfForPuzzle, getSeasonShelfPuzzles } from "../data/seasonShelves.js";
+import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles } from "../data/seasonShelves.js";
 import { ECONOMY, getTimeAttackHintCost } from "../data/economyConfig.js";
 import { puzzles } from "../data/puzzles.js";
 import { getDailyDateKey, getDailyPuzzle } from "../game/dailyPuzzle.js";
@@ -16,8 +16,7 @@ import {
   markShelfCompletedIfFirst,
   recordDailyComplete,
   resetProgress,
-  setActivePlayerName,
-  unlockShelf
+  setActivePlayerName
 } from "../game/save.js";
 import { getCozySupportProduct, getSpoonJarSmallProduct, purchaseCozySupportPack, purchaseSpoonJarSmall } from "../game/billing.js";
 import { setLanguagePreference } from "../i18n/index.js";
@@ -494,11 +493,6 @@ export function renderApp(root) {
     };
   }
 
-  function requestUnlockShelf(shelfId) {
-    const shelf = getSeasonShelfById(shelfId);
-    unlockShelf(shelf);
-    draw();
-  }
 
   function checkStageComplete(puzzle) {
     if (dailyChallenge && puzzle.id === dailyPuzzle.id) {
@@ -580,7 +574,6 @@ export function renderApp(root) {
       onMusicChange: changeMusic,
       controlMode,
       onControlModeChange: changeControlMode,
-      onUnlockShelf: requestUnlockShelf,
       shelfCollapseOverrides,
       onToggleShelfCollapsed: toggleShelfCollapsed,
       onNextPuzzle: selectNextPuzzle,
@@ -671,7 +664,6 @@ function createShell({
   onMusicChange,
   controlMode,
   onControlModeChange,
-  onUnlockShelf,
   shelfCollapseOverrides,
   onToggleShelfCollapsed,
   onNextPuzzle,
@@ -789,7 +781,7 @@ function createShell({
       onSelectReplay: (puzzleId) => onSelectPuzzle(puzzleId, "puzzle", { replayChallenge: true, replayPicked: true })
     }));
   } else if (puzzleListOpen) {
-    shell.appendChild(renderPuzzlePicker(activePuzzle.id, onSelectPuzzle, onUnlockShelf, {
+    shell.appendChild(renderPuzzlePicker(activePuzzle.id, onSelectPuzzle, {
       shelfCollapseOverrides,
       onToggleShelfCollapsed,
       onOpenPantry: () => onSelectView("pantry"),

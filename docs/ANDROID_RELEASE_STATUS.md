@@ -1,3 +1,11 @@
+## 2026-07-30 v0.1.672 automatic stage gates and spoon rebalance
+
+- Current package/UI candidate: v0.1.672.
+- Stage entry no longer spends spoons or requires a manual unlock button. The immediate next stage opens automatically after previous-stage completion plus its cumulative paid-Pantry-jar gate.
+- Puzzle rewards are now 2/4/6/10 spoons for 5x5/8x8/10x10/12x12, and authored stage bonuses total 520; Daily and Time Attack rewards are unchanged.
+- Legacy explicitly unlocked shelf IDs remain compatible. Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed after the mobile runner caught and prompted repair of a shared spoon-icon import: 42 test files / 251 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## 2026-07-30 v0.1.671 explicit stage lock conditions
 
 - Current package/UI candidate: v0.1.671.

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { puzzles } from "../src/data/puzzles.js";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, getSeasonShelfSizeCounts, seasonShelves } from "../src/data/seasonShelves.js";
+import { getPuzzleReward } from "../src/data/economyConfig.js";
 import { getPreviousSeasonShelf, getSeasonShelfProgress, isSeasonShelfComplete } from "../src/game/seasonShelfProgress.js";
 
 describe("Season 0 shelves", () => {
@@ -39,22 +40,19 @@ describe("Season 0 shelves", () => {
       stageBonus: result.stageBonus + Number(shelf.stageBonus || 0)
     }), { unlockCost: 0, stageBonus: 0 });
 
-    expect(totals).toEqual({ unlockCost: 1535, stageBonus: 810 });
+    expect(totals).toEqual({ unlockCost: 0, stageBonus: 520 });
   });
 
-  it("keeps every required shelf unlock affordable through the main shelf path", () => {
-    const rewardBySize = { 5: 3, 8: 5, 10: 7, 12: 9 };
-    let spoons = 0;
-
-    seasonShelves.forEach((shelf) => {
-      const unlockCost = Number(shelf.unlockCost || 0);
-      expect(spoons).toBeGreaterThanOrEqual(unlockCost);
-      spoons -= unlockCost;
-      spoons += getSeasonShelfPuzzles(shelf).reduce(
-        (total, puzzle) => total + Number(rewardBySize[puzzle.size] || 0),
-        Number(shelf.stageBonus || 0)
-      );
-    });
+  it("reserves spoon spending for Pantry jars while keeping the authored reward curve", () => {
+    expect(seasonShelves.every((shelf) => shelf.unlockCost === 0)).toBe(true);
+    const puzzleRewards = seasonShelves.reduce(
+      (total, shelf) => total + getSeasonShelfPuzzles(shelf).reduce(
+        (shelfTotal, puzzle) => shelfTotal + getPuzzleReward(puzzle.size),
+        0
+      ),
+      0
+    );
+    expect(puzzleRewards).toBe(2202);
   });
 
   it("maps forty paid Pantry jars to nine five-jar stage gates", () => {

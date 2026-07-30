@@ -426,11 +426,9 @@ export const ko = {
     progress: "{completed}/{total}",
     preview: "\uc608\uace0",
     pricePreview: "\uc608\uace0 \uc138\ud2b8",
-    unlockCostPrefix: "\uc5f4\uae30 ",
-    openStage: "\uc2a4\ud14c\uc774\uc9c0 \uc5f4\uae30",
+
     futurePackHint: "\ud32c\ud2b8\ub9ac \uafb8\ubbf8\uae30 \uacbd\uc81c\uac00 \uc900\ube44\ub418\uba74 \uc120\ud0dd \ucd94\uac00 \uc138\ud2b8\ub97c \ubcf4\uc5ec\uc904\uac8c\uc694.",
     comingSoon: "\uc900\ube44 \uc911",
-    needMore: "{count}\uac1c \ub354 \ud544\uc694",
     needPantryRoom: "\ud32c\ud2b8\ub9ac \uafb8\ubbf8\uae30 \ud544\uc694",
     visitPantry: "\ud32c\ud2b8\ub9ac \uafb8\ubbf8\ub7ec \uac00\uae30",
     roomRequirement: "\uafb8\ubbf8\uae30 {completed}/{required}",

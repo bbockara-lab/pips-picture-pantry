@@ -21,7 +21,7 @@ import {
   getUnlockedPackIds,
   getUnlockedShelfIds,
   canUnlockPack,
-  canUnlockShelf,
+  isShelfUnlocked,
   loadSave,
   markGuideSeen,
   markPackCompletedIfFirst,
@@ -40,8 +40,7 @@ import {
   savePuzzleState,
   setPantryStoryGoalId,
   setActivePlayerName,
-  unlockPack,
-  unlockShelf
+  unlockPack
 } from "../src/game/save.js";
 import { seasonShelves } from "../src/data/seasonShelves.js";
 import { PANTRY_JARS } from "../src/data/pantryJars.js";
@@ -244,7 +243,7 @@ describe("player save profiles", () => {
     expect(loadSave().completedShelfIds).toContain("shelf-pips-first");
   });
 
-  it("opens a shelf only after its previous shelf is complete and pays its bonus once", () => {
+  it("opens a shelf automatically after its previous shelf and Pantry gate are complete", () => {
     setActivePlayerName("Jay");
     const starter = seasonShelves[0];
     const nextShelf = seasonShelves[1];
@@ -255,13 +254,14 @@ describe("player save profiles", () => {
     saveGame({
       ...loadSave(),
       completedPuzzleIds: completedStarterIds,
-      pantrySpoons: nextShelf.unlockCost,
-      ownedJarIds: completedJamShelfIds
+      pantrySpoons: 0,
+      ownedJarIds: []
     });
 
-    expect(canUnlockShelf(nextShelf)).toBe(true);
-    expect(unlockShelf(nextShelf)).toBe(true);
-    expect(getUnlockedShelfIds()).toContain(nextShelf.id);
+    expect(isShelfUnlocked(nextShelf)).toBe(false);
+    saveGame({ ...loadSave(), ownedJarIds: completedJamShelfIds });
+    expect(isShelfUnlocked(nextShelf)).toBe(true);
+    expect(getPantrySpoons()).toBe(0);
     expect(markShelfCompletedIfFirst(starter)).toEqual({ completed: true, bonus: starter.stageBonus });
     expect(markShelfCompletedIfFirst(starter)).toEqual({ completed: false, bonus: 0 });
   });

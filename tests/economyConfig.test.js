@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   ECONOMY,
   getDailyTimeAttackLimit,
+  getPuzzleReward,
   getPuzzleExtraHintCost,
   getTimeAttackHintCost,
   getTimeAttackRecordBonus,
@@ -9,6 +10,9 @@ import {
 } from "../src/data/economyConfig.js";
 
 describe("economy config", () => {
+  it("uses the Pantry-focused puzzle reward curve", () => {
+    expect([5, 8, 10, 12].map(getPuzzleReward)).toEqual([2, 4, 6, 10]);
+  });
   it("keeps the large spoon jar above three support packs", () => {
     expect(ECONOMY.COZY_PASS_SPOON_GRANT).toBe(150);
     expect(ECONOMY.SPOON_JAR_SMALL_GRANT).toBe(500);
