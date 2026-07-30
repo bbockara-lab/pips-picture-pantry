@@ -40,4 +40,19 @@ describe("featured Badge keepsake", () => {
     expect(styles).toContain("v0.1.681 - featured Badge keepsake");
     expect(styles).toContain(".puzzle-home-scene__featured-badge");
   });
+  it("aligns the featured jar and badge as independent keepsakes above Play Now", () => {
+    const jarRule = styles.match(/\.app-shell--workshop-home \.puzzle-home-scene__featured-jar \{([\s\S]*?)\}/)?.[1] || "";
+    const badgeRule = styles.match(/\.app-shell--workshop-home \.puzzle-home-scene__featured-badge \{([\s\S]*?)\}/)?.[1] || "";
+    expect(jarRule).toContain("top: auto");
+    expect(jarRule).toContain("left: max(16px, env(safe-area-inset-left, 0px))");
+    expect(jarRule).toContain("+ 124px");
+    expect(badgeRule).toContain("top: auto");
+    expect(badgeRule).toContain("right: max(16px, env(safe-area-inset-right, 0px))");
+    expect(badgeRule).toContain("+ 124px");
+    expect(styles).toContain(".puzzle-home-destination--map");
+    expect(styles).toContain("bottom: 25%");
+    expect(styles).toContain("bottom: 28%");
+    expect(hubSource).toContain("if (featuredJarCard) scene.appendChild(featuredJarCard)");
+    expect(hubSource).toContain("if (featuredBadgeStatus)");
+  });
 });

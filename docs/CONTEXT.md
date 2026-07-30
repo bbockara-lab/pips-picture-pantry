@@ -1,3 +1,11 @@
+## v0.1.687 - Workshop Keepsake Display Row
+
+- Completed Step 43 by moving the equipped Pantry jar and featured earned Badge into one shared, safe-area-aware row above Play Now; each keepsake still renders and navigates independently when the other is absent.
+- Replaced the old center/top placements with left/right anchoring, a shared measured baseline, and a compact-height jar treatment that continues to hide copy below 700px height.
+- The current 96px animated Play control required a measured 124px lift rather than the draft 72px offset. The Map destination now sits at 25% from the bottom (28% at 380px and below) to preserve a collision-free left display area.
+- Mobile QA now rejects jar/badge overlap, baseline drift, Play/greeting/navigation collisions, and keepsakes escaping the Workshop scene.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 47 test files / 278 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.686 - Locked Badge Detail Preview
 
 - Completed Step 42 by reusing the Badge Shelf's circular artwork and progress-lock treatment in the selected badge detail panel.

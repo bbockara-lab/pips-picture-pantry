@@ -1,3 +1,9 @@
+## 2026-07-30 v0.1.687 Workshop keepsake display row
+
+- Current package/UI candidate: v0.1.687.
+- The equipped Pantry jar and featured earned Badge now share one measured row above Play Now, retain independent rendering/navigation, and avoid the greeting, Play action, navigation destinations, and scene edges at all candidate widths.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this UI step.
+- Full candidate verification passed: 47 test files / 278 tests, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-30 v0.1.686 locked Badge detail preview
 
 - Current package/UI candidate: v0.1.686.

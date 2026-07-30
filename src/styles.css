@@ -18901,16 +18901,19 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/* v0.1.687 - shared Workshop keepsake row above Play Now */
 .app-shell--workshop-home .puzzle-home-scene__featured-jar {
   position: absolute;
-  top: 25%;
-  left: 50%;
+  top: auto;
+  right: auto;
+  bottom: calc(max(20px, env(safe-area-inset-bottom, 0px) + 20px) + 124px);
+  left: max(16px, env(safe-area-inset-left, 0px));
   z-index: 6;
-  max-width: min(42%, 156px);
-  transform: translateX(-50%);
+  max-width: calc(50% - 24px);
+  transform: none;
   padding: 5px 8px 5px 5px;
 }
-.app-shell--workshop-home .puzzle-home-scene__featured-jar:active { transform: translate(-50%, 1px); }
+.app-shell--workshop-home .puzzle-home-scene__featured-jar:active { transform: translateY(1px); }
 .app-shell--workshop-home .puzzle-home-scene__featured-jar .featured-pantry-jar__image {
   width: clamp(38px, 10vw, 48px);
   height: clamp(38px, 10vw, 48px);
@@ -18925,7 +18928,6 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   width: 100%;
 }
 @media (max-height: 700px) {
-  .app-shell--workshop-home .puzzle-home-scene__featured-jar { top: 23%; }
   .app-shell--workshop-home .puzzle-home-scene__featured-jar .featured-pantry-jar__copy { display: none; }
   .app-shell--workshop-home .puzzle-home-scene__featured-jar { min-width: 0; padding: 4px; border-radius: 14px; }
 }
@@ -18953,8 +18955,10 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
 
 .app-shell--workshop-home .puzzle-home-scene__featured-badge {
   position: absolute;
-  top: 38%;
-  right: clamp(12px, 4vw, 24px);
+  top: auto;
+  right: max(16px, env(safe-area-inset-right, 0px));
+  bottom: calc(max(20px, env(safe-area-inset-bottom, 0px) + 20px) + 124px);
+  left: auto;
   z-index: 4;
   width: clamp(64px, 18vw, 84px);
   min-height: 0;
@@ -18987,10 +18991,15 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   white-space: nowrap;
 }
 
+.app-shell--workshop-home .puzzle-home-destination--map {
+  bottom: 25%;
+}
+
 @media (max-width: 380px) {
+  .app-shell--workshop-home .puzzle-home-destination--map {
+    bottom: 28%;
+  }
   .app-shell--workshop-home .puzzle-home-scene__featured-badge {
-    top: 39%;
-    right: 9px;
     width: 60px;
     padding: 4px;
   }

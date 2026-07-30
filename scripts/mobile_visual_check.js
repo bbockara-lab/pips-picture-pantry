@@ -3036,16 +3036,43 @@ async function verifyFeaturedBadgeFlow(page, viewportName) {
   await page.locator(".puzzle-home-scene").waitFor({ state: "visible", timeout: 5000 });
   await expectVisible(page, ".puzzle-home-scene__featured-badge", viewportName);
   await expectVisible(page, ".puzzle-home-scene__featured-jar", viewportName);
-  const overlap = await page.evaluate(() => {
-    const badge = document.querySelector(".puzzle-home-scene__featured-badge")?.getBoundingClientRect();
-    const jar = document.querySelector(".puzzle-home-scene__featured-jar")?.getBoundingClientRect();
-    if (!badge || !jar) return true;
-    return !(badge.right <= jar.left || badge.left >= jar.right || badge.bottom <= jar.top || badge.top >= jar.bottom);
+  const keepsakeLayout = await page.evaluate(() => {
+    const toRect = (element) => element?.getBoundingClientRect() || null;
+    const overlaps = (a, b) => Boolean(a && b && !(a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom));
+    const badge = toRect(document.querySelector(".puzzle-home-scene__featured-badge"));
+    const jar = toRect(document.querySelector(".puzzle-home-scene__featured-jar"));
+    const play = toRect(document.querySelector(".puzzle-home-scene__play"));
+    const greeting = toRect(document.querySelector(".puzzle-home-scene__greeting"));
+    const scene = toRect(document.querySelector(".puzzle-home-scene"));
+    const destinationHits = [...document.querySelectorAll(".puzzle-home-destination")]
+      .filter((element) => overlaps(jar, toRect(element)) || overlaps(badge, toRect(element)))
+      .map((element) => element.getAttribute("data-view") || element.className);
+    return {
+      missing: !badge || !jar || !play || !scene,
+      baselineDelta: badge && jar ? Math.abs(badge.bottom - jar.bottom) : 999,
+      keepsakesOverlap: overlaps(badge, jar),
+      playOverlap: overlaps(badge, play) || overlaps(jar, play),
+      greetingOverlap: overlaps(badge, greeting) || overlaps(jar, greeting),
+      destinationHits,
+      outsideScene: Boolean(scene && [badge, jar].some((rect) => rect && (
+        rect.left < scene.left || rect.right > scene.right || rect.top < scene.top || rect.bottom > scene.bottom
+      ))),
+      rects: Object.fromEntries(Object.entries({ badge, jar, play, greeting, scene }).map(([key, rect]) => [
+        key,
+        rect ? { left: Math.round(rect.left), top: Math.round(rect.top), right: Math.round(rect.right), bottom: Math.round(rect.bottom) } : null
+      ]))
+    };
   });
-  if (overlap) {
-    failures.push("[" + viewportName + "] Featured badge overlaps the featured Pantry jar on Workshop home.");
+  if (keepsakeLayout.missing
+    || keepsakeLayout.baselineDelta > 2
+    || keepsakeLayout.keepsakesOverlap
+    || keepsakeLayout.playOverlap
+    || keepsakeLayout.greetingOverlap
+    || keepsakeLayout.destinationHits.length
+    || keepsakeLayout.outsideScene) {
+    failures.push("[" + viewportName + "] Workshop keepsake row geometry failed: " + JSON.stringify(keepsakeLayout));
   }
-  await page.locator(".puzzle-home-scene__featured-badge").click();
+  await page.locator(".puzzle-home-scene__featured-badge").click({ force: keepsakeLayout.playOverlap });
   await expectVisible(page, ".map-panel", viewportName);
   await page.locator(".floating-nav__trigger").click();
   await page.locator(".floating-nav[data-open='true']").waitFor({ state: "visible", timeout: 3000 });
