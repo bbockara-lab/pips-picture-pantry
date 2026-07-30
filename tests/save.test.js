@@ -21,6 +21,7 @@ import {
   getUnlockedPackIds,
   getUnlockedShelfIds,
   canUnlockPack,
+  claimLoginBonus,
   isShelfUnlocked,
   loadSave,
   markGuideSeen,
@@ -69,6 +70,32 @@ class LocalStorageMock {
   }
 }
 
+describe("daily login spoon bonus", () => {
+  beforeEach(() => {
+    globalThis.localStorage = new LocalStorageMock();
+  });
+
+  it("grants once per local date and grants again on the next date", () => {
+    setActivePlayerName("Pip");
+
+    expect(claimLoginBonus("2026-07-30")).toBe(3);
+    expect(getPantrySpoons()).toBe(3);
+    expect(loadSave().lastLoginBonusDate).toBe("2026-07-30");
+    expect(claimLoginBonus("2026-07-30")).toBeNull();
+    expect(getPantrySpoons()).toBe(3);
+
+    expect(claimLoginBonus("2026-07-31")).toBe(3);
+    expect(getPantrySpoons()).toBe(6);
+    expect(loadSave().lastLoginBonusDate).toBe("2026-07-31");
+  });
+
+  it("rejects invalid dates without changing the balance", () => {
+    setActivePlayerName("Pip");
+    expect(claimLoginBonus("not-a-date")).toBeNull();
+    expect(getPantrySpoons()).toBe(0);
+    expect(loadSave()).toBeNull();
+  });
+});
 describe("player save profiles", () => {
   beforeEach(() => {
     globalThis.localStorage = new LocalStorageMock();

@@ -1,3 +1,10 @@
+## 2026-07-30 v0.1.678 daily login spoon bonus
+
+- Current package/UI candidate: v0.1.678.
+- Active players receive three Pantry spoons once per local calendar day, independently of the existing Today Picture bonus.
+- A tappable Pip speech bubble reports the grant after the Workshop renders and closes automatically after three seconds.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 45 test files / 267 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## 2026-07-30 v0.1.677 completed-shelf guidance
 
 - Current package/UI candidate: v0.1.677.

@@ -8,6 +8,7 @@ export const ECONOMY = {
     18: 30
   },
   DAILY_BONUS: 8,
+  LOGIN_BONUS: 3,
   STAGE_BONUS_BY_SIZE: {
     5: 40,
     8: 80,

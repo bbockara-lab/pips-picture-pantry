@@ -5,12 +5,14 @@ import { getDailyDateKey, getDailyPuzzle } from "../game/dailyPuzzle.js";
 import { getDailyReplayPicks, getNextDailyReplayPick } from "../game/replayPicks.js";
 import {
   getCompletedPuzzleIds,
+  claimLoginBonus,
   getDailyCompletedDate,
   getReplayDailyCount,
   getPantrySpoons,
   getTimeAttackBestScores,
   getTimeAttackDailyCount,
   hasSeenGuide,
+  hasActivePlayer,
   isShelfUnlocked,
   markGuideSeen,
   markShelfCompletedIfFirst,
@@ -43,12 +45,17 @@ import { renderStageCompleteOverlay } from "./stageComplete.js";
 import { canPurchaseSpoonJar, canPurchaseSupportPack, renderSettingsDialog, renderSpoonStore } from "./settingsView.js";
 import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackElapsedSeconds, TIME_ATTACK_LIMIT_SECONDS, TIME_ATTACK_TRIAL_ROUNDS } from "./timeAttackFlow.js";
 import { renderTimeAttackView } from "./timeAttackView.js";
+import { renderLoginBonusPopover } from "./loginBonusPopover.js";
 
 const DAILY_BONUS = ECONOMY.DAILY_BONUS;
 let introOpenViewHandler = null;
+let introDismissedHandler = null;
 
 export function renderApp(root) {
   const dailyPuzzle = getDailyPuzzle(getDailyPuzzleCandidates());
+  const loginBonus = hasActivePlayer() ? claimLoginBonus() : null;
+  let loginBonusVisible = Boolean(loginBonus);
+  let loginBonusTimerHandle = null;
   let activePuzzle = getStartPuzzle();
   let activeView = "puzzle";
   let playOpen = false;
@@ -616,9 +623,32 @@ export function renderApp(root) {
     });
     root.appendChild(shell);
     scrollAfterDraw(root);
+    if (loginBonusVisible && activeView === "puzzle" && !playOpen && !puzzleListOpen && !activeGuide) {
+      scheduleLoginBonusPresentation();
+    }
     if (activeView === "timeAttack" && playOpen && activeTimeAttackStartedAt) {
       timeAttackTimerHandle = globalThis.setTimeout(draw, 1000);
     }
+  }
+
+  function scheduleLoginBonusPresentation() {
+    globalThis.setTimeout(() => {
+      if (!loginBonusVisible || root.dataset.introOpen === "true" || root.querySelector(".login-bonus-popover")) {
+        return;
+      }
+      root.appendChild(renderLoginBonusPopover(loginBonus, dismissLoginBonus));
+      if (!loginBonusTimerHandle) {
+        loginBonusTimerHandle = globalThis.setTimeout(dismissLoginBonus, 3000);
+      }
+    }, 0);
+  }
+  function dismissLoginBonus() {
+    loginBonusVisible = false;
+    if (loginBonusTimerHandle) {
+      globalThis.clearTimeout(loginBonusTimerHandle);
+      loginBonusTimerHandle = null;
+    }
+    root.querySelector(".login-bonus-popover")?.remove();
   }
 
   function scrollAfterDraw(container) {
@@ -642,6 +672,11 @@ export function renderApp(root) {
   if (introOpenViewHandler) {
     window.removeEventListener("ppp:intro-open-view", introOpenViewHandler);
   }
+  if (introDismissedHandler) {
+    window.removeEventListener("ppp:intro-dismissed", introDismissedHandler);
+  }
+  introDismissedHandler = draw;
+  window.addEventListener("ppp:intro-dismissed", introDismissedHandler);
   introOpenViewHandler = (event) => selectIntroView(event.detail?.view);
   window.addEventListener("ppp:intro-open-view", introOpenViewHandler);
   draw();

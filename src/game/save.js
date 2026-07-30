@@ -114,6 +114,25 @@ export function getDailyCompletedDate() {
   return loadSave()?.dailyCompletedDate || null;
 }
 
+export function claimLoginBonus(dateKey = getLocalDateKey()) {
+  const normalizedDateKey = normalizeDateKey(dateKey);
+  if (!normalizedDateKey) {
+    return null;
+  }
+  const save = loadSave() || createEmptySave();
+  if (save.lastLoginBonusDate === normalizedDateKey) {
+    return null;
+  }
+  const bonus = Math.max(0, Number(ECONOMY.LOGIN_BONUS) || 0);
+  if (bonus <= 0) {
+    return null;
+  }
+  save.lastLoginBonusDate = normalizedDateKey;
+  save.pantrySpoons += bonus;
+  saveGame(save);
+  return bonus;
+}
+
 export function recordDailyComplete(dateString) {
   const dateKey = normalizeDateKey(dateString);
   if (!dateKey) {
@@ -730,6 +749,7 @@ function normalizeSave(parsed) {
     rewardedPuzzleIds: Array.isArray(parsed?.rewardedPuzzleIds) ? parsed.rewardedPuzzleIds : [],
     dailyRewardedDates: Array.isArray(parsed?.dailyRewardedDates) ? parsed.dailyRewardedDates : [],
     dailyCompletedDate: normalizeDateKey(parsed?.dailyCompletedDate),
+    lastLoginBonusDate: normalizeDateKey(parsed?.lastLoginBonusDate),
     completedPackIds: Array.isArray(parsed?.completedPackIds) ? parsed.completedPackIds : [],
     ownedJarIds: Array.isArray(parsed?.ownedJarIds)
       ? Array.from(new Set(parsed.ownedJarIds.map((id) => String(id || "")).filter(Boolean)))

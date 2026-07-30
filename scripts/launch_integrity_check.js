@@ -149,13 +149,26 @@ function checkPlayerFacingClarity() {
   expectIncludes("src/i18n/en.js", "Add {spoons} spoons when you need them.", "concise spoon jar copy");
 }
 
+function checkDailyLoginBonus() {
+  expectIncludes("src/data/economyConfig.js", "LOGIN_BONUS: 3", "three-spoon login bonus");
+  expectIncludes("src/game/save.js", "export function claimLoginBonus", "login bonus claim function");
+  expectIncludes("src/game/save.js", "lastLoginBonusDate", "persisted login bonus date");
+  expectIncludes("src/ui/appShell.js", "hasActivePlayer() ? claimLoginBonus() : null", "active-player login claim");
+  expectIncludes("src/ui/appShell.js", 'root.dataset.introOpen === "true"', "post-intro login presentation");
+  expectIncludes("src/ui/appShell.js", "globalThis.setTimeout(dismissLoginBonus, 3000)", "three-second login bubble dismissal");
+  expectIncludes("src/ui/loginBonusPopover.js", "pip-chrome-v2.png", "approved Pip login art");
+  expectIncludes("src/ui/loginBonusPopover.js", 'addEventListener("click", onDismiss, { once: true })', "tap dismissal");
+  expectIncludes("src/styles.css", "v0.1.678 - daily login spoon bonus", "login bonus presentation contract");
+  expectIncludes("tests/save.test.js", "grants once per local date", "login grant regression test");
+}
 function main() {
   checkAndroidVersion();
   checkPackUnlockGuidance();
   checkReplayCleanRewardPath();
   checkSimpleOpening();
   checkPlayerFacingClarity();
-  console.log("Launch integrity guard passed: Android numbering, unlock guidance, replay rewards, simple opening, and player-facing clarity are locked.");
+  checkDailyLoginBonus();
+  console.log("Launch integrity guard passed: Android numbering, unlock guidance, replay rewards, simple opening, and player-facing clarity, and daily login rewards are locked.");
 }
 
 main();

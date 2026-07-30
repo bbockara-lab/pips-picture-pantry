@@ -10,6 +10,11 @@ import {
 } from "../src/data/economyConfig.js";
 
 describe("economy config", () => {
+  it("keeps login and daily-picture bonuses separate", () => {
+    expect(ECONOMY.LOGIN_BONUS).toBe(3);
+    expect(ECONOMY.DAILY_BONUS).toBe(8);
+  });
+
   it("uses the Pantry-focused puzzle reward curve", () => {
     expect([5, 8, 10, 12].map(getPuzzleReward)).toEqual([2, 4, 6, 10]);
   });

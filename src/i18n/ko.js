@@ -39,6 +39,9 @@ export const ko = {
   currency: {
     spoons: "\uc2a4\ud47c {count}"
   },
+  toast: {
+    loginBonus: "\uc624\ub298\uc758 \uc2a4\ud47c +{count}\uac1c! 🥄"
+  },
   settings: {
     title: "\uc124\uc815",
     language: "\uc5b8\uc5b4",

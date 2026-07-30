@@ -39,6 +39,9 @@ export const en = {
   currency: {
     spoons: "Spoons {count}"
   },
+  toast: {
+    loginBonus: "+{count} daily spoons! 🥄"
+  },
   settings: {
     title: "Settings",
     language: "Language",

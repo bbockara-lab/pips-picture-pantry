@@ -1,3 +1,11 @@
+## v0.1.678 - Daily Login Spoon Bonus
+
+- Completed Step 34 by adding a separate three-spoon login reward without changing the existing eight-spoon Today Picture bonus.
+- The active player can claim the login reward once per local calendar date; the persisted date prevents duplicate grants and permits the next day's claim.
+- After the Workshop is fully rendered, a lightweight Pip speech bubble announces the reward and dismisses after three seconds or immediately when tapped. It stays hidden behind first-run guides and is never claimed into the pre-player legacy profile.
+- Added save-level date and balance regression coverage, presentation/source contracts, reduced-motion styling, and launch-integrity guards.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 45 test files / 267 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
 ## v0.1.677 - Completed Shelf Guidance
 
 - Completed Step 33 by routing the Workshop Play Now action through the active season shelf state instead of blindly reopening the selected completed puzzle.
