@@ -1,3 +1,12 @@
+## v0.1.667 - Replay Daily-Limit Completion
+
+- Completed Step 23 by replacing the final 3/3 replay completion's Next Picture action with a single Back to Earn Spoons action.
+- The final rewarded replay now shows a dedicated come-back-tomorrow message and returns directly to the Spoon Run view; ordinary completions and replay completions with remaining rewards keep the existing Next Picture action.
+- Exhaustion requires a successful reward and zero remaining daily slots, so hinted, duplicate, or otherwise ineligible replay completions cannot trigger the end-of-day state accidentally.
+- Added regression coverage for rewarded-final, ineligible, remaining, and non-replay completion states.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 40 test files / 244 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.666 - Pantry Header Simplification
 
 - Completed Step 22 by removing the duplicate Pantry jar-collection eyebrow above the existing Pantry title.

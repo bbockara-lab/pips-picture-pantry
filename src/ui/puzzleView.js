@@ -16,7 +16,7 @@ import { playComplete, playCursorAction, playCursorMove, playTap } from "./audio
 import { getHintLimit, getHintRevealCount, renderHintPanel, renderHowToPlayCard, renderMarkHint } from "./puzzleAssistView.js";
 import { moveSelectedCell, renderCursorControls, shouldShowCursorControls, toggleSelectedCell } from "./puzzleCursorControls.js";
 import { getLineGuidance, renderBoard } from "./boardView.js";
-import { renderCompletionBanner } from "./pipReaction.js";
+import { isReplayExhausted, renderCompletionBanner } from "./pipReaction.js";
 import { createPuzzleControlArtImage } from "./puzzleControlArt.js";
 
 export function renderPuzzleView(puzzle, options = {}) {
@@ -156,6 +156,7 @@ export function renderPuzzleView(puzzle, options = {}) {
       section.appendChild(renderCompletionBanner(puzzle, {
         ...options,
         replayResult,
+        replayExhausted: isReplayExhausted(isReplayChallenge, replayResult),
         dailyResult,
         rewardResult,
         stageBonus

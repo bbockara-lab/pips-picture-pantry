@@ -16,8 +16,10 @@ export function getCompletionMessage(puzzle) {
 
 export function renderCompletionBanner(puzzle, {
   onNextPuzzle,
+  onBackToSpoonRun,
   replayChallenge = false,
   replayResult = null,
+  replayExhausted = false,
   dailyChallenge = false,
   dailyResult = null,
   rewardResult = null,
@@ -42,6 +44,7 @@ export function renderCompletionBanner(puzzle, {
   message.textContent = getCompletionBannerMessage(puzzle, {
     replayChallenge,
     replayResult,
+    replayExhausted,
     dailyChallenge,
     dailyResult
   });
@@ -70,13 +73,19 @@ export function renderCompletionBanner(puzzle, {
   const actions = document.createElement("div");
   actions.className = "completion-actions";
 
-  const nextButton = document.createElement("button");
-  nextButton.type = "button";
-  nextButton.className = "tool-button";
-  nextButton.textContent = t("completion.nextPicture");
-  nextButton.addEventListener("click", () => onNextPuzzle?.());
+  const actionButton = document.createElement("button");
+  actionButton.type = "button";
+  actionButton.className = "tool-button";
+  actionButton.textContent = t(replayExhausted ? "completion.backToSpoonRun" : "completion.nextPicture");
+  actionButton.addEventListener("click", () => {
+    if (replayExhausted) {
+      onBackToSpoonRun?.();
+      return;
+    }
+    onNextPuzzle?.();
+  });
 
-  actions.append(nextButton);
+  actions.append(actionButton);
   if (isFirstPipFace) {
     banner.append(copy, reveal, actions);
   } else {
@@ -85,6 +94,9 @@ export function renderCompletionBanner(puzzle, {
   return banner;
 }
 
+export function isReplayExhausted(replayChallenge, replayResult) {
+  return Boolean(replayChallenge && replayResult?.rewardAllowed && replayResult.remaining === 0);
+}
 export function getCompletionRewardRows({ puzzleReward = 0, dailyBonus = 0, stageBonus = 0 } = {}) {
   return [
     { key: "completion.puzzleReward", count: Math.max(0, Number(puzzleReward || 0)) },
@@ -93,6 +105,9 @@ export function getCompletionRewardRows({ puzzleReward = 0, dailyBonus = 0, stag
   ].filter((row) => row.count > 0);
 }
 function getCompletionBannerMessage(puzzle, options = {}) {
+  if (options.replayExhausted) {
+    return t("completion.replayExhausted");
+  }
   if (options.dailyChallenge) {
     return t("completion.dailyComplete");
   }

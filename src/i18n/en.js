@@ -365,7 +365,9 @@ export const en = {
     stageBonus: "Shelf completion bonus +{count}sp",
     dailyReward: "Today's Picture complete! You earned +{count} spoons.",
     replayReward: "Clean replay! +{count} spoon. {remaining} replay rewards left today.",
-    replayNoReward: "Replay complete. No spoon this time, but the card stayed safe."
+    replayNoReward: "Replay complete. No spoon this time, but the card stayed safe.",
+    replayExhausted: "That's all for today's replays! Come back tomorrow 🍀",
+    backToSpoonRun: "Back to Earn Spoons"
   },
   stageComplete: {
     ariaLabel: "Shelf complete",

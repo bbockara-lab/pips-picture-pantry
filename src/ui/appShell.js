@@ -722,6 +722,7 @@ function createShell({
       onRequestSettings,
       onViewAlbum: activeView === "timeAttack" ? onCloseTimeAttack : onClosePuzzle,
       onNextPuzzle,
+      onBackToSpoonRun: () => onSelectView("spoonRun"),
       onPreviousStagePuzzle,
       onNextStagePuzzle,
       onShowPuzzlePicker,
