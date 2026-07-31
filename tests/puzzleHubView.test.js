@@ -86,6 +86,18 @@ describe("Workshop Play Now shelf completion routing", () => {
   });
 });
 
+describe("Workshop Play Now layout", () => {
+  it("keeps the primary action large and above the floating navigation", () => {
+    const step51Styles = styles.slice(styles.indexOf("v0.1.696 - Step 51 Play Now"));
+    expect(step51Styles).toMatch(
+      /\.puzzle-home-scene__play\s*\{[\s\S]*?bottom:\s*calc\(max\(20px, calc\(env\(safe-area-inset-bottom, 0px\) \+ 20px\)\) \+ clamp\(72px, 19vw, 88px\)\) !important;/
+    );
+    expect(step51Styles).toContain("width: clamp(128px, 34vw, 160px) !important");
+    expect(step51Styles).toContain("height: clamp(128px, 34vw, 160px) !important");
+    expect(step51Styles).toContain("width: min(62%, 74px) !important");
+  });
+});
+
 describe("Per-shelf puzzle picker collapse", () => {
   it("defaults completed shelves closed and unfinished shelves open", () => {
     expect(getShelfCollapsedState("complete", true)).toBe(true);

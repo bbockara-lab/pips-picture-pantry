@@ -19233,4 +19233,16 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   min-height: 32px;
   margin: 0;
   pointer-events: none;
+}/* v0.1.696 - Step 51 Play Now size and floating-navigation clearance */
+.app-shell--workshop-home .puzzle-home-scene__play {
+  right: max(3%, env(safe-area-inset-right)) !important;
+  bottom: calc(max(20px, calc(env(safe-area-inset-bottom, 0px) + 20px)) + clamp(72px, 19vw, 88px)) !important;
+  width: clamp(128px, 34vw, 160px) !important;
+  min-width: 0 !important;
+  height: clamp(128px, 34vw, 160px) !important;
+  min-height: 0 !important;
+}
+.app-shell--workshop-home .puzzle-home-scene__play > img {
+  width: min(62%, 74px) !important;
+  height: min(62%, 74px) !important;
 }

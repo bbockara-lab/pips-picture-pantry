@@ -1,3 +1,10 @@
+# v0.1.696 - Step 51 Play Now Size and Clearance
+
+- Increased the Workshop Play Now action from the stale 96px override to a responsive 128-160px primary target.
+- Raised the action above the floating navigation using shared safe-area-aware clearance, preventing the two controls from competing at the bottom edge.
+- Added a focused regression test that locks the final size, icon scale, and navigation clearance contract.
+- Android remains versionCode 34 / versionName 1.1.6; no AAB was requested or built for this incremental test fix.
+
 # v0.1.695 - Step 50 Login Bonus Placement
 
 - Moved the three-second login bonus Pip popover to 42% viewport height so it no longer competes with the Workshop's upper controls or the large background Pip.
