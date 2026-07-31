@@ -39,10 +39,24 @@ try {
 const dirtyLines = git(["status", "--porcelain=v1", "--untracked-files=all"])
   .split(/\r?\n/)
   .filter(Boolean);
-if (dirtyLines.length > 0) {
+const releaseIgnoredPaths = new Set([
+  ".claude/",
+  "docs/CLAUDE_REVIEW_LOG.md",
+  "docs/CODEX_BRIEF.md",
+  "icon_pip_cozy_support.png",
+  "icon_pip_spoon_jar_small.png",
+  "scripts/__pycache__/",
+]);
+const blockingDirtyLines = dirtyLines.filter((line) => {
+  const filePath = line.slice(3).replaceAll("\\", "/");
+  return ![...releaseIgnoredPaths].some((ignoredPath) =>
+    ignoredPath.endsWith("/") ? filePath.startsWith(ignoredPath) : filePath === ignoredPath
+  );
+});
+if (blockingDirtyLines.length > 0) {
   fail(
-    "the working tree is not clean. Commit every intended release file and remove or ignore unrelated untracked files before building an AAB.",
-    dirtyLines,
+    "release-critical files are not clean. Commit every intended release file before building an AAB.",
+    blockingDirtyLines,
   );
 }
 

@@ -5,6 +5,30 @@ $env:JAVA_HOME = "D:\Program Files\Android\Android Studio\jbr"
 $env:ANDROID_HOME = "C:\Users\bbock\AppData\Local\Android\Sdk"
 $env:ANDROID_SDK_ROOT = "C:\Users\bbock\AppData\Local\Android\Sdk"
 
+$signingConfigCandidates = @(
+  [Environment]::GetEnvironmentVariable("PPP_UPLOAD_ENV_FILE"),
+  "D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Pip's Picture Pantry\pip-picture-pantry-upload.env.ps1"
+) | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+
+$requiredEnv = @(
+  "PPP_UPLOAD_STORE_FILE",
+  "PPP_UPLOAD_STORE_PASSWORD",
+  "PPP_UPLOAD_KEY_ALIAS",
+  "PPP_UPLOAD_KEY_PASSWORD"
+)
+
+$missingBeforeLoad = $requiredEnv | Where-Object {
+  [string]::IsNullOrWhiteSpace([Environment]::GetEnvironmentVariable($_))
+}
+if ($missingBeforeLoad.Count -gt 0) {
+  $signingConfig = $signingConfigCandidates |
+    Where-Object { Test-Path -LiteralPath $_ } |
+    Select-Object -First 1
+  if ($signingConfig) {
+    . $signingConfig
+    Write-Host "Loaded Android signing configuration from the external Key Paths folder."
+  }
+}
 function Invoke-NativeCommand {
   param(
     [Parameter(Mandatory = $true)][string]$File,
@@ -28,12 +52,6 @@ try {
   Pop-Location
 }
 
-$requiredEnv = @(
-  "PPP_UPLOAD_STORE_FILE",
-  "PPP_UPLOAD_STORE_PASSWORD",
-  "PPP_UPLOAD_KEY_ALIAS",
-  "PPP_UPLOAD_KEY_PASSWORD"
-)
 
 $missing = $requiredEnv | Where-Object { [string]::IsNullOrWhiteSpace([Environment]::GetEnvironmentVariable($_)) }
 if ($missing.Count -gt 0) {
@@ -49,6 +67,20 @@ $jarsigner = Join-Path $env:JAVA_HOME "bin\jarsigner.exe"
 if (-not (Test-Path -LiteralPath $jarsigner)) {
   throw "jarsigner.exe was not found at $jarsigner"
 }
+$keytool = Join-Path $env:JAVA_HOME "bin\keytool.exe"
+if (-not (Test-Path -LiteralPath $keytool)) {
+  throw "keytool.exe was not found at $keytool"
+}
+
+$aliasOutput = & $keytool `
+  -list `
+  -keystore $keystorePath `
+  -storepass ([Environment]::GetEnvironmentVariable("PPP_UPLOAD_STORE_PASSWORD")) `
+  -alias ([Environment]::GetEnvironmentVariable("PPP_UPLOAD_KEY_ALIAS")) 2>&1
+if ($LASTEXITCODE -ne 0) {
+  throw "Android signing preflight failed: the configured keystore password or key alias is invalid."
+}
+Write-Host "Android signing preflight: keystore and key alias verified."
 
 Push-Location $repoRoot
 try {
