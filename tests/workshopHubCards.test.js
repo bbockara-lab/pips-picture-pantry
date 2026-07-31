@@ -60,4 +60,17 @@ describe("Workshop supporting cards wiring", () => {
       /\.spoon-run-view\s*\{[\s\S]*?padding:\s*18px 18px calc\(max\(env\(safe-area-inset-bottom,\s*0px\),\s*18px\) \+ 112px\);/
     );
   });
+
+  it("gives the Spoon Run introduction the full header width", () => {
+    expect(puzzleHubSource).toMatch(
+      /header\.append\(icon, copy\);\s*appendTextElement\(header, "p", "spoon-run-view__intro"/
+    );
+    const step53Styles = styles.slice(styles.indexOf("v0.1.698 - Step 53 Spoon Run header"));
+    expect(step53Styles).toMatch(
+      /\.spoon-run-view__header\s*\{[\s\S]*?grid-template-columns:\s*64px minmax\(0, 1fr\);[\s\S]*?grid-template-rows:\s*auto auto;/
+    );
+    expect(step53Styles).toMatch(
+      /\.spoon-run-view__intro\s*\{[\s\S]*?grid-row:\s*2;[\s\S]*?grid-column:\s*1 \/ -1;/
+    );
+  });
 });

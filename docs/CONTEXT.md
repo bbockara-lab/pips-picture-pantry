@@ -1,3 +1,10 @@
+# v0.1.698 - Step 53 Spoon Run Header Composition
+
+- Moved the Spoon Run introduction out of the narrow title column and into a full-width second header row.
+- Converted the header to a two-row grid so the 64px spoon icon and title share the first row without forcing the Korean heading into excessive wrapping.
+- Added focused source and CSS regression coverage for the direct-child introduction and full-width grid placement.
+- Android remains versionCode 34 / versionName 1.1.6; no AAB was requested or built for this incremental test fix.
+
 # v0.1.697 - Step 52 Floating Navigation Menu Containment
 
 - Increased the open quick-travel menu padding to 10px so the final Settings destination remains fully enclosed by the menu surface.

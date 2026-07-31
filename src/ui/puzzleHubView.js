@@ -365,8 +365,8 @@ export function renderSpoonRunView({
   const copy = document.createElement("div");
   appendTextElement(copy, "p", "section-label", t("spoonRun.eyebrow"));
   appendTextElement(copy, "h1", "", t("views.spoonRun"));
-  appendTextElement(copy, "p", "spoon-run-view__intro", t("spoonRun.intro"));
   header.append(icon, copy);
+  appendTextElement(header, "p", "spoon-run-view__intro", t("spoonRun.intro"));
 
   const cards = document.createElement("div");
   cards.className = "spoon-run-view__cards";
