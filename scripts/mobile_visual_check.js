@@ -18,7 +18,7 @@ for (const viewport of viewports) {
   page.on("pageerror", (error) => {
     console.error("[" + viewport.name + "] PAGE ERROR:", error?.stack || error?.message || String(error));
   });
-  await page.goto(TARGET_URL, { waitUntil: "networkidle" });
+  await page.goto(TARGET_URL, { waitUntil: "domcontentloaded" });
 
   await expectVisible(page, ".brand-intro", viewport.name);
   await expectVisible(page, ".studio-bumper__art img", viewport.name);
@@ -70,7 +70,7 @@ for (const viewport of viewports) {
   await verifyEmptyAlbumPlayNowFlow(page, viewport.name);
 
   await seedCompletedStarter(page);
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "domcontentloaded" });
   await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6000 });
   await page.waitForTimeout(800);
   await expectVisible(page, ".brand-intro.game-stage", viewport.name);
@@ -208,7 +208,7 @@ async function expectOpeningPromiseRoutes(browser, viewport) {
     });
     const page = await context.newPage();
     try {
-      await page.goto(TARGET_URL, { waitUntil: "networkidle" });
+      await page.goto(TARGET_URL, { waitUntil: "domcontentloaded" });
       await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6000 });
       await page.waitForTimeout(300);
       const chip = page.locator(`.brand-intro__promise-chip[data-target-view="${route.view}"]`).first();
@@ -2063,7 +2063,7 @@ async function verifyTimeAttackExitRestoresRegularPuzzle(page, viewportName, exp
 
 async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   await seedLargeBoardCatalogAccess(page);
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "domcontentloaded" });
   if ((await page.locator(".brand-intro").count()) > 0) {
     await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6000 });
     await page.waitForTimeout(400);
@@ -2995,7 +2995,7 @@ async function verifyFeaturedBadgeFlow(page, viewportName) {
     save.featuredBadgeId = null;
     localStorage.setItem(saveKey, JSON.stringify(save));
   });
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "domcontentloaded" });
   await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6000 });
   await page.waitForTimeout(800);
   await dismissIntro(page, "Jay", viewportName);
