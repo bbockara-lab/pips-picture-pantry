@@ -19294,3 +19294,13 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   user-select: none;
   -webkit-user-select: none;
 }
+
+/* v0.1.700 - release QA: keep the centered keepsake shelf above Play Now */
+.app-shell--workshop-home .home-keepsake-shelf {
+  bottom: calc(
+    max(20px, env(safe-area-inset-bottom, 0px) + 20px)
+    + clamp(72px, 19vw, 88px)
+    + clamp(128px, 34vw, 160px)
+    + 12px
+  );
+}
