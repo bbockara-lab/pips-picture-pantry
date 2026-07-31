@@ -7,6 +7,11 @@ const styles = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8
 const boardSource = readFileSync(new URL("../src/ui/boardView.js", import.meta.url), "utf8");
 
 describe("board view paint decisions", () => {
+  it("keeps mobile drag gestures owned by the puzzle grid", () => {
+    expect(styles).toMatch(
+      /v0\.1\.700 - Step 55 mobile puzzle drag ownership[\s\S]*?\.puzzle-grid\s*\{[\s\S]*?touch-action:\s*none;[\s\S]*?user-select:\s*none;/
+    );
+  });
   it("centers marked and safe-suggestion glyphs in their cells", () => {
     expect(styles).toMatch(
       /\.puzzle-cell\.marked,\s*\.puzzle-cell\.safe-suggestion\s*\{[\s\S]*?display:\s*grid\s*!important;[\s\S]*?place-items:\s*center\s*!important;/

@@ -19288,3 +19288,9 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   grid-column: 1 / -1;
   margin-top: 10px !important;
 }
+/* v0.1.700 - Step 55 mobile puzzle drag ownership */
+.puzzle-grid {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}

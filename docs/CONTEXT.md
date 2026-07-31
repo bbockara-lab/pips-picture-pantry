@@ -1,3 +1,10 @@
+## v0.1.700 - Step 55 mobile drag gesture ownership (2026-07-30)
+
+- Added a final `.puzzle-grid` interaction contract with `touch-action: none`, `user-select: none`, and the WebKit selection guard.
+- Android/WebView now routes the full drag gesture to the existing pointer stroke handlers instead of cancelling `pointermove` when the gesture resembles page scrolling.
+- Added focused CSS regression coverage; the board suite passes 11/11. The mobile pointer-drag scenario completed, while the full mobile sweep remains blocked later by the pre-existing Workshop Play Now/keepsake overlap at 360x740, 390x844, and 430x932.
+- Android release identity remains `versionCode 34` / `versionName 1.1.6`; no AAB was built in this step.
+
 ## v0.1.699 - Step 54 pending consumable purchase recovery (2026-07-30)
 
 - Added an Android startup recovery pass for incomplete Google Play consumable purchases using the installed `@capgo/native-purchases` API: `getPurchases({ productType: INAPP })` followed by `consumePurchase({ purchaseToken })`.
