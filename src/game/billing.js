@@ -117,6 +117,63 @@ export async function purchaseSpoonJarSmall() {
   }
 }
 
+export async function restorePendingPurchases() {
+  if (!isBillingRuntimeAvailable()) {
+    return { restored: [], consumed: [], failed: [] };
+  }
+
+  try {
+    const { purchases = [] } = await NativePurchases.getPurchases({
+      productType: PURCHASE_TYPE.INAPP,
+      onlyCurrentEntitlements: true
+    });
+    return restorePendingPurchaseRecords(purchases, {
+      consumePurchase: (purchaseToken) => NativePurchases.consumePurchase({ purchaseToken })
+    });
+  } catch (error) {
+    return { restored: [], consumed: [], failed: [], error };
+  }
+}
+
+export async function restorePendingPurchaseRecords(purchases, { consumePurchase } = {}) {
+  const restored = [];
+  const consumed = [];
+  const failed = [];
+
+  for (const purchase of Array.isArray(purchases) ? purchases : []) {
+    const productId = getObjectProductId(purchase);
+    const purchaseToken = firstString(purchase?.purchaseToken, purchase?.token, purchase?.transactionId);
+    if (!isCompletedAndroidPurchase(purchase) || !purchaseToken) continue;
+
+    let grant = null;
+    if (productId === COZY_SUPPORT_PRODUCT_ID) {
+      grant = grantCozySupportPack(getPurchaseKey(purchase, productId), "restore");
+    } else if (productId === SPOON_JAR_SMALL_PRODUCT_ID) {
+      grant = grantSpoonJarPurchase(getPurchaseKey(purchase, productId), "restore");
+    } else {
+      continue;
+    }
+
+    if (!grant.granted && !grant.duplicate) {
+      failed.push(productId);
+      continue;
+    }
+
+    restored.push(productId);
+    try {
+      await consumePurchase?.(purchaseToken);
+      consumed.push(productId);
+    } catch {
+      failed.push(productId);
+    }
+  }
+
+  return { restored, consumed, failed };
+}
+
+function isCompletedAndroidPurchase(purchase) {
+  return purchase?.purchaseState === undefined || String(purchase.purchaseState) === "1";
+}
 export function isCozySupportEntitlement(payload) {
   return hasProductId(payload, COZY_SUPPORT_PRODUCT_ID);
 }

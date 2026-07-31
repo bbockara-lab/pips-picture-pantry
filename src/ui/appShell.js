@@ -20,7 +20,7 @@ import {
   resetProgress,
   setActivePlayerName
 } from "../game/save.js";
-import { getCozySupportProduct, getSpoonJarSmallProduct, purchaseCozySupportPack, purchaseSpoonJarSmall } from "../game/billing.js";
+import { getCozySupportProduct, getSpoonJarSmallProduct, purchaseCozySupportPack, purchaseSpoonJarSmall, restorePendingPurchases } from "../game/billing.js";
 import { setLanguagePreference } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
 import { renderResetDialog } from "./appChrome.js";
@@ -683,6 +683,9 @@ export function renderApp(root) {
   introOpenViewHandler = (event) => selectIntroView(event.detail?.view);
   window.addEventListener("ppp:intro-open-view", introOpenViewHandler);
   draw();
+  void restorePendingPurchases().then(({ restored }) => {
+    if (restored.length > 0) draw();
+  });
 }
 
 function getStartPuzzle() {

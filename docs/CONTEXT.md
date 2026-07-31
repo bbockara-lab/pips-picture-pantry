@@ -1,3 +1,11 @@
+## v0.1.699 - Step 54 pending consumable purchase recovery (2026-07-30)
+
+- Added an Android startup recovery pass for incomplete Google Play consumable purchases using the installed `@capgo/native-purchases` API: `getPurchases({ productType: INAPP })` followed by `consumePurchase({ purchaseToken })`.
+- Recovery is restricted to completed purchases for `pip_cozy_support` and `pip_spoon_jar_small`; existing duplicate-safe purchase keys prevent a restored transaction from granting spoons twice while still allowing consumption to be retried.
+- `renderApp()` runs recovery in the background after the first draw and redraws only when a supported purchase was found.
+- Verification: billing/save focused suite 35/35, billing release check, Android release gate, and production build passed.
+- Android release identity remains `versionCode 34` / `versionName 1.1.6`; no AAB was built in this step.
+
 # v0.1.698 - Step 53 Spoon Run Header Composition
 
 - Moved the Spoon Run introduction out of the narrow title column and into a full-width second header row.

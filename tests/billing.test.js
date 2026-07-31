@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { COZY_SUPPORT_PRODUCT_ID, SPOON_JAR_SMALL_PRODUCT_ID, getBillingErrorStatus, getPurchaseKey, isCozySupportEntitlement, isSpoonJarSmallPurchase } from "../src/game/billing.js";
+import { COZY_SUPPORT_PRODUCT_ID, SPOON_JAR_SMALL_PRODUCT_ID, getBillingErrorStatus, getPurchaseKey, isCozySupportEntitlement, isSpoonJarSmallPurchase, restorePendingPurchaseRecords } from "../src/game/billing.js";
 import { canPurchaseSpoonJar, canPurchaseSupportPack, getSpoonJarFacts, getSpoonJarStatus, getSpoonJarStatusTone, getSupportPackFacts, getSupportPackStatus, getSupportStatusTone } from "../src/ui/settingsView.js";
 
 class LocalStorageMock {
@@ -141,5 +141,31 @@ describe("billing support pack guards", () => {
     expect(canPurchaseSpoonJar(baseSpoonJar)).toBe(true);
     expect(canPurchaseSpoonJar({ ...baseSpoonJar, loading: true })).toBe(false);
     expect(canPurchaseSpoonJar({ ...baseSpoonJar, available: false })).toBe(false);
+  });
+
+  it("restores and consumes unfinished repeatable purchases without duplicate grants", async () => {
+    globalThis.localStorage = new LocalStorageMock();
+    const consumedTokens = [];
+    const purchases = [
+      { productIdentifier: COZY_SUPPORT_PRODUCT_ID, purchaseToken: "support-pending", purchaseState: "1" },
+      { productIdentifier: SPOON_JAR_SMALL_PRODUCT_ID, purchaseToken: "jar-pending", purchaseState: "1" },
+      { productIdentifier: COZY_SUPPORT_PRODUCT_ID, purchaseToken: "still-pending", purchaseState: "0" },
+      { productIdentifier: "unrelated-product", purchaseToken: "other", purchaseState: "1" }
+    ];
+
+    const first = await restorePendingPurchaseRecords(purchases, {
+      consumePurchase: async (purchaseToken) => consumedTokens.push(purchaseToken)
+    });
+    const second = await restorePendingPurchaseRecords(purchases, {
+      consumePurchase: async (purchaseToken) => consumedTokens.push(purchaseToken)
+    });
+
+    expect(first).toEqual({
+      restored: [COZY_SUPPORT_PRODUCT_ID, SPOON_JAR_SMALL_PRODUCT_ID],
+      consumed: [COZY_SUPPORT_PRODUCT_ID, SPOON_JAR_SMALL_PRODUCT_ID],
+      failed: []
+    });
+    expect(second.restored).toEqual([COZY_SUPPORT_PRODUCT_ID, SPOON_JAR_SMALL_PRODUCT_ID]);
+    expect(consumedTokens).toEqual(["support-pending", "jar-pending", "support-pending", "jar-pending"]);
   });
 });
