@@ -36,7 +36,11 @@ try {
   fail("this workspace is not on a valid Git commit");
 }
 
-const dirtyLines = git(["status", "--porcelain=v1", "--untracked-files=all"])
+const dirtyLines = execFileSync(
+  "git",
+  ["status", "--porcelain=v1", "--untracked-files=all"],
+  { cwd: repoRoot, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
+)
   .split(/\r?\n/)
   .filter(Boolean);
 const releaseIgnoredPaths = new Set([
