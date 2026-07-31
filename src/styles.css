@@ -19246,3 +19246,14 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   width: min(62%, 74px) !important;
   height: min(62%, 74px) !important;
 }
+
+/* v0.1.697 - Step 52 floating-navigation menu containment */
+.floating-nav__menu {
+  grid-template-columns: minmax(0, 1fr);
+  width: min(286px, calc(100vw - 24px));
+  max-height: 80dvh;
+  padding: 10px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}

@@ -1,3 +1,10 @@
+# v0.1.697 - Step 52 Floating Navigation Menu Containment
+
+- Increased the open quick-travel menu padding to 10px so the final Settings destination remains fully enclosed by the menu surface.
+- Added an 80dvh maximum height with contained vertical scrolling for short screens, preserving access to all seven destinations without clipping.
+- Added focused regression coverage for the final one-column menu, padding, and overflow contract.
+- Android remains versionCode 34 / versionName 1.1.6; no AAB was requested or built for this incremental test fix.
+
 # v0.1.696 - Step 51 Play Now Size and Clearance
 
 - Increased the Workshop Play Now action from the stale 96px override to a responsive 128-160px primary target.
