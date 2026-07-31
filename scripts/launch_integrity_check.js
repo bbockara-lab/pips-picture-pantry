@@ -38,10 +38,26 @@ function expectOrder(file, beforeNeedle, afterNeedle, label) {
 }
 
 function checkAndroidVersion() {
-  expectRegex("android/app/build.gradle", /versionCode\s+34\b/, "Android versionCode 34");
-  expectRegex("android/app/build.gradle", /versionName\s+"1\.1\.6"/, "Android versionName 1.1.6");
-  expectIncludes("docs/ANDROID_RELEASE_STATUS.md", "current prepared upload code is 33", "prepared upload code 33 note");
-  expectIncludes("docs/ANDROID_RELEASE_STATUS.md", "versionCode 34 / versionName 1.1.6", "prepared Android release version note");
+  const gradle = read("android/app/build.gradle");
+  const releaseStatus = read("docs/ANDROID_RELEASE_STATUS.md");
+  const versionCode = Number(gradle.match(/versionCode\s+(\d+)/)?.[1]);
+  const versionName = gradle.match(/versionName\s+"([^"]+)"/)?.[1];
+  const lastUploadedCode = Number(
+    releaseStatus.match(/Last Play Console upload: versionCode \*\*(\d+)\*\*/)?.[1],
+  );
+  const target = releaseStatus.match(
+    /Current signed upload target: versionCode (\d+) \/ versionName ([\d.]+)\./,
+  );
+
+  if (!versionCode || !versionName || !lastUploadedCode || !target) {
+    fail("Android release identity or Play Console upload ledger is incomplete");
+  }
+  if (versionCode <= lastUploadedCode) {
+    fail(`Android versionCode ${versionCode} must be above Play Console code ${lastUploadedCode}`);
+  }
+  if (Number(target[1]) !== versionCode || target[2] !== versionName) {
+    fail("Android build.gradle and current signed upload target are out of sync");
+  }
 }
 
 function checkPackUnlockGuidance() {
