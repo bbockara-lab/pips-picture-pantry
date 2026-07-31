@@ -7,7 +7,7 @@
 - Added a final `.puzzle-grid` interaction contract with `touch-action: none`, `user-select: none`, and the WebKit selection guard.
 - Android/WebView now routes the full drag gesture to the existing pointer stroke handlers instead of cancelling `pointermove` when the gesture resembles page scrolling.
 - Added focused CSS regression coverage; the board suite passes 11/11. The mobile pointer-drag scenario and the complete four-width mobile sweep now pass.
-- Android upload identity is now `versionCode 35` / `versionName 1.1.7` to stay above the already-used code 34.
+- Android upload identity is now `versionCode 36` / `versionName 1.1.8`; Play Console confirmed code 35 had already been registered and cannot be reused.
 - Signed AAB automation now discovers the external Key Paths config, validates the keystore/alias, and blocks stale Play upload codes before building.
 
 ## v0.1.699 - Step 54 pending consumable purchase recovery (2026-07-30)
