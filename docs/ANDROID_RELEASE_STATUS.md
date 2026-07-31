@@ -5,6 +5,10 @@
 - versionCode 33 was rejected by Play Console as already used; do not upload or reuse the earlier code-33 bundle.
 - The signed build script now auto-loads the external Key Paths environment file, verifies the keystore and alias before QA/build, and never prints password values.
 
+- Upload-ready AAB built successfully: `android/app/build/outputs/bundle/release/app-release.aab` (20,125,157 bytes).
+- SHA-256: `C2FFECDC647D3518475A4A5471048B7FEDBF816122C478F4D121246246CAEF19`; `jarsigner` verification passed.
+- Final verification passed: 48 test files / 288 tests, candidate and release gates, live privacy, billing, four mobile/tablet widths, Capacitor sync, and Gradle `bundleRelease`.
+
 ## 2026-07-30 v0.1.693 focused play spoon header containment
 
 - Current package/UI candidate: v0.1.693.

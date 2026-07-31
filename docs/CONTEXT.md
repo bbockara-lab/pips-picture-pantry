@@ -1,8 +1,12 @@
 ## v0.1.700 - Step 55 mobile drag gesture ownership (2026-07-30)
 
+- Release AAB completed after separating the centered Workshop keepsake shelf from the enlarged Play Now action. Mobile geometry now passes at 360x740, 390x844, 430x932, and 675x900.
+- Signed upload artifact: `android/app/build/outputs/bundle/release/app-release.aab` (20,125,157 bytes, SHA-256 `C2FFECDC647D3518475A4A5471048B7FEDBF816122C478F4D121246246CAEF19`, `jarsigner` verified).
+- Final candidate verification: 48 test files / 288 tests, release/candidate gates, live privacy policy, billing checks, production build, Capacitor sync, and Gradle `bundleRelease` passed.
+
 - Added a final `.puzzle-grid` interaction contract with `touch-action: none`, `user-select: none`, and the WebKit selection guard.
 - Android/WebView now routes the full drag gesture to the existing pointer stroke handlers instead of cancelling `pointermove` when the gesture resembles page scrolling.
-- Added focused CSS regression coverage; the board suite passes 11/11. The mobile pointer-drag scenario completed, while the full mobile sweep remains blocked later by the pre-existing Workshop Play Now/keepsake overlap at 360x740, 390x844, and 430x932.
+- Added focused CSS regression coverage; the board suite passes 11/11. The mobile pointer-drag scenario and the complete four-width mobile sweep now pass.
 - Android upload identity is now `versionCode 35` / `versionName 1.1.7` to stay above the already-used code 34.
 - Signed AAB automation now discovers the external Key Paths config, validates the keystore/alias, and blocks stale Play upload codes before building.
 
