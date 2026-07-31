@@ -5,6 +5,7 @@ const guideSource = readFileSync(new URL("../src/ui/guideDialog.js", import.meta
 const appShellSource = readFileSync(new URL("../src/ui/appShell.js", import.meta.url), "utf8");
 const settingsSource = readFileSync(new URL("../src/ui/settingsView.js", import.meta.url), "utf8");
 const mobileQaSource = readFileSync(new URL("../scripts/mobile_visual_check.js", import.meta.url), "utf8");
+const stylesSource = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
 
 describe("guide dialog character and badge wiring", () => {
   it("assigns the approved Mr. Park art to Time Attack", () => {
@@ -35,6 +36,15 @@ describe("guide dialog character and badge wiring", () => {
     expect(mobileQaSource).toContain("expectSpoonRunFirstVisitGuide(page, viewport.name)");
     expect(mobileQaSource).toContain(".guide-dialog--spoonRunIntro");
   });
+  it("keeps launch guides above the gesture safe area without changing neighbour dialogs", () => {
+    expect(stylesSource).toContain(
+      "padding: 48px 0 max(48px, calc(env(safe-area-inset-bottom, 0px) + 24px)) !important;"
+    );
+    expect(stylesSource).toMatch(
+      /\.guide-overlay--pantryNeighborMrPark,[\s\S]*?padding:\s*16px !important;/
+    );
+  });
+
   it("locks background scrolling while any guide is active", () => {
     expect(appShellSource).toContain(
       'document.body.classList.toggle("guide-open", Boolean(activeGuide || allPuzzlesDonePromptOpen))'

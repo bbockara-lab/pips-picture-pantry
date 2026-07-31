@@ -17529,7 +17529,7 @@ img {
 /* v0.1.622 */
 .guide-overlay {
   justify-content: center !important;
-  padding: 48px 0 max(48px, env(safe-area-inset-bottom)) !important;
+  padding: 48px 0 max(48px, calc(env(safe-area-inset-bottom, 0px) + 24px)) !important;
 }
 
 .hub-greeting-pip {

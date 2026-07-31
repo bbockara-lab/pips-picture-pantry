@@ -1,3 +1,9 @@
+# v0.1.694 - Step 49 Guide Safe-Area Clearance
+
+- Increased the general onboarding guide's bottom clearance to `max(48px, safe-area + 24px)`, keeping its Next button above gesture navigation and the physical screen edge.
+- Pantry-neighbour conversations retain their dedicated `padding: 16px` override and are not changed by this step.
+- Android remains versionCode 34 / versionName 1.1.6; no AAB was requested or built for this incremental test fix.
+
 # v0.1.693 Android upload rebuild - 2026-07-30
 
 - Play Console reported that versionCode 33 was already used, so the signed upload candidate is rebuilt as versionCode 34 / versionName 1.1.6.
