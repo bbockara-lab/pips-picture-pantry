@@ -18851,7 +18851,7 @@ body.guide-open {
 /* v0.1.678 - daily login spoon bonus */
 .login-bonus-popover {
   position: fixed;
-  top: calc(max(18px, env(safe-area-inset-top)) + 76px);
+  top: 42%;
   left: 50%;
   z-index: 90;
   display: flex;
@@ -18862,7 +18862,7 @@ body.guide-open {
   border: 0;
   background: transparent;
   color: var(--ink, #3d2b2e);
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   animation: login-bonus-arrive 240ms ease-out both;
@@ -18890,8 +18890,8 @@ body.guide-open {
   white-space: nowrap;
 }
 @keyframes login-bonus-arrive {
-  from { opacity: 0; transform: translate(-50%, -8px) scale(0.96); }
-  to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  from { opacity: 0; transform: translate(-50%, calc(-50% - 8px)) scale(0.96); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 @media (prefers-reduced-motion: reduce) {
   .login-bonus-popover { animation: none; }

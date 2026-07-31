@@ -19,5 +19,11 @@ describe("daily login bonus presentation", () => {
     expect(popover).toContain('addEventListener("click", onDismiss, { once: true })');
     expect(styles).toContain("v0.1.678 - daily login spoon bonus");
     expect(styles).toContain(".login-bonus-popover__bubble");
+    expect(styles).toMatch(
+      /\.login-bonus-popover\s*\{[\s\S]*?top:\s*42%;[\s\S]*?transform:\s*translate\(-50%, -50%\);/
+    );
+    expect(styles).toMatch(
+      /@keyframes login-bonus-arrive\s*\{[\s\S]*?translate\(-50%, calc\(-50% - 8px\)\)[\s\S]*?translate\(-50%, -50%\)/
+    );
   });
 });

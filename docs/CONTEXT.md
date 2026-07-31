@@ -1,3 +1,9 @@
+# v0.1.695 - Step 50 Login Bonus Placement
+
+- Moved the three-second login bonus Pip popover to 42% viewport height so it no longer competes with the Workshop's upper controls or the large background Pip.
+- Updated the arrival animation to preserve the popover's two-axis centering throughout its entrance.
+- Android remains versionCode 34 / versionName 1.1.6; no AAB was requested or built for this incremental test fix.
+
 # v0.1.694 - Step 49 Guide Safe-Area Clearance
 
 - Increased the general onboarding guide's bottom clearance to `max(48px, safe-area + 24px)`, keeping its Next button above gesture navigation and the physical screen edge.
