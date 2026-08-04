@@ -5061,5 +5061,5 @@ Current launch direction:
 
 - Classified as a focused live update for the Map, Spoon Run intro, first Pantry purchase, and Pantry room-story Pip guides only; puzzle practice and neighbor-character guides remain unchanged.
 - Centered non-puzzle Pip guide dialogue text, reserved 36px at the bottom of the art row for the Pip name tag, and vertically centered each bubble's content.
-- Android versionCode/versionName remain unchanged and no AAB was created; this commit is intended for visual confirmation before packaging.
+- Android identity remains `versionCode 37` / `versionName 1.1.9`. After visual confirmation, the signed Play-upload AAB was built from commit `ca6cf33`; it is 20,125,591 bytes, `jarsigner` reported `jar verified`, and SHA-256 is `A66606C1FCF2524E8404ADE0D372D4BFAE09B2483C402DFA086ABCCDD5281BD5`.
 - Verification: direct Chromium rendering passed for Map, Spoon Run intro, first Pantry purchase, and Pantry room-story at 360px / 390px / 430px; centered text and bubble content, 36px art reserve, zero name-tag overlap, contained dialogue, and no dialog overflow were confirmed. `npm run qa:candidate` passed 48 test files / 289 tests, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900.

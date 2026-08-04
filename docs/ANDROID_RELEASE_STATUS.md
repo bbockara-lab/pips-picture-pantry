@@ -2183,3 +2183,12 @@ versionName "1.1.3" // next internal-test Billing candidate
 - Pantry navigation and Workshop destinations now use the single localized name `Pip's Pantry` / `Pip의 팬트리`.
 - Android versionCode/versionName are unchanged; no AAB was requested or built for this step.
 - Local `npm run qa:candidate` passed 38 test files / 212 tests, production build, Android release gate, and four-width mobile visual QA.
+
+## v0.1.703 signed Play candidate (2026-08-03)
+
+- Build commit: `ca6cf33` (app change `6bf0cc9`).
+- Android identity: `versionCode 37` / `versionName 1.1.9`.
+- Output: `android/app/build/outputs/bundle/release/app-release.aab`.
+- Size: 20,125,591 bytes.
+- SHA-256: `A66606C1FCF2524E8404ADE0D372D4BFAE09B2483C402DFA086ABCCDD5281BD5`.
+- Verification: release commit gate, full candidate QA (48 files / 290 tests), production build, Capacitor sync, Gradle `bundleRelease`, and `jarsigner` verification passed.
