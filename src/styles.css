@@ -19304,3 +19304,45 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
     + 12px
   );
 }
+/* v0.1.701 - Step 57 mobile tutorial guide containment */
+@media (max-width: 520px) {
+  .guide-overlay--puzzle {
+    justify-content: center !important;
+    padding: 12px 0 max(12px, env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .guide-dialog--puzzle {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: minmax(0, 48fr) minmax(0, 52fr) !important;
+    align-items: stretch !important;
+    width: min(calc(100vw - 24px), 420px) !important;
+    height: min(760px, calc(100dvh - 24px)) !important;
+    max-height: calc(100dvh - 24px) !important;
+    overflow: hidden !important;
+  }
+
+  .guide-dialog--puzzle .guide-dialog__art {
+    min-height: 0 !important;
+    padding: max(20px, env(safe-area-inset-top, 0px)) 20px 48px !important;
+    overflow: visible !important;
+  }
+
+  .guide-dialog--puzzle .guide-dialog__art img {
+    width: auto !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+  }
+
+  .guide-dialog--puzzle .guide-dialog__bubble {
+    align-self: stretch !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 20px 20px max(18px, env(safe-area-inset-bottom, 0px)) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    border-radius: 24px 24px 0 0 !important;
+  }
+}

@@ -350,18 +350,56 @@ async function expectSpoonRunFirstVisitGuide(page, viewportName) {
   const speaker = (await dialog.locator(".guide-dialog__name-tag").textContent() || "").trim();
   const dotCount = await dialog.locator(".guide-dialog__dots span").count();
   const firstLine = (await dialog.locator(".guide-dialog__line").textContent() || "").trim();
-  if (speaker !== "Pip" || dotCount !== 2 || !/(today|daily|오늘|매일)/i.test(firstLine)) {
+  if (speaker !== "Pip" || dotCount !== 2 || !/(today|daily|\uC624\uB298|\uB9E4\uC77C)/i.test(firstLine)) {
     failures.push("[" + viewportName + "] Spoon Run guide step 1 regressed: " + JSON.stringify({ speaker, dotCount, firstLine }));
   }
 
   await dialog.locator(".guide-dialog__next").click({ force: true });
   const secondLine = (await dialog.locator(".guide-dialog__line").textContent() || "").trim();
-  if (!/(replay|again|다시)/i.test(secondLine) || !/3/.test(secondLine)) {
+  if (!/(replay|again|\uB2E4\uC2DC)/i.test(secondLine) || !/3/.test(secondLine)) {
     failures.push("[" + viewportName + "] Spoon Run guide step 2 regressed: " + secondLine);
   }
 
   await dialog.locator(".guide-dialog__next").click({ force: true });
   await overlay.waitFor({ state: "detached", timeout: 3000 });
+}
+async function expectPuzzleGuidePageContained(page, viewportName, expectedStep) {
+  const dialog = page.locator(".guide-dialog--puzzle").first();
+  if (!(await dialog.count()) || !(await dialog.isVisible())) return;
+  const metrics = await dialog.evaluate((node) => {
+    const contained = (element) => {
+      if (!element) return false;
+      const rect = element.getBoundingClientRect();
+      const style = getComputedStyle(element);
+      return style.visibility !== "hidden"
+        && style.display !== "none"
+        && rect.width > 0
+        && rect.height > 0
+        && rect.left >= -1
+        && rect.top >= -1
+        && rect.right <= innerWidth + 1
+        && rect.bottom <= innerHeight + 1;
+    };
+    return {
+      step: Number(node.dataset.step),
+      dialogContained: contained(node),
+      lineContained: contained(node.querySelector(".guide-dialog__line")),
+      practiceContained: contained(node.querySelector(".guide-practice")),
+      nextContained: contained(node.querySelector(".guide-dialog__next")),
+    };
+  });
+  const needsPractice = expectedStep >= 2;
+  if (
+    metrics.step !== expectedStep
+    || !metrics.dialogContained
+    || !metrics.lineContained
+    || !metrics.nextContained
+    || (needsPractice && !metrics.practiceContained)
+  ) {
+    failures.push(
+      `[${viewportName}] Puzzle guide step ${expectedStep} clips required content: ${JSON.stringify(metrics)}`,
+    );
+  }
 }
 async function dismissGuideIfPresent(page, viewportName) {
   const overlay = page.locator(".guide-overlay");
@@ -378,10 +416,14 @@ async function dismissGuideIfPresent(page, viewportName) {
     failures.push("[" + viewportName + "] Floating navigation should be hidden while the Pip guide overlay is open.");
   }
   for (let step = 0; step < 4 && await overlay.first().isVisible(); step += 1) {
+    const dialog = page.locator(".guide-dialog").first();
+    const stepNumber = Number(await dialog.getAttribute("data-step"));
+    if (await dialog.evaluate((node) => node.classList.contains("guide-dialog--puzzle"))) {
+      await expectPuzzleGuidePageContained(page, viewportName, stepNumber);
+    }
     const practice = page.locator(".guide-practice");
     if (await practice.count()) {
       const cells = practice.locator(".guide-practice__cell");
-      const stepNumber = Number(await page.locator(".guide-dialog").getAttribute("data-step"));
       const targets = stepNumber === 3 ? [0, 2, 4] : [0, 1, 2, 3, 4];
       for (const index of targets) await cells.nth(index).click({ force: true });
     }

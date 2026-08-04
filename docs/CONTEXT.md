@@ -4973,3 +4973,12 @@ Current launch direction:
 - Added focused i18n coverage so the two entry points cannot drift apart again.
 - Validation: `npm run qa:candidate` passed 38 test files / 212 tests, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
 - Android versionCode/versionName remain unchanged; no AAB was requested for this step.
+
+## v0.1.701 - 2026-08-03 - Mobile tutorial guide containment
+
+- Rebalanced the compact puzzle guide to reserve 52% of the dialog for tutorial text and practice content while keeping 48% for Pip artwork.
+- Reduced mobile artwork padding and centered the guide within 360-430px viewports.
+- Extended mobile visual QA to assert guide pages 1-3 keep dialogue text, practice grids, and the next button inside the viewport.
+- Repaired corrupted Korean matchers in the mobile QA script so candidate validation can parse and run.
+- Android versionCode/versionName remain unchanged; no AAB was requested for this step.
+- Validation: `npx vitest run tests/guideDialog.test.js` passed 11 tests; `npm run qa:candidate` passed 48 test files / 289 tests, build/release checks, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.

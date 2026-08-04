@@ -79,4 +79,14 @@ describe("guide dialog character and badge wiring", () => {
     );
     expect(settingsSource).toContain('guideId === "map" ? "map" : "puzzle"');
   });
+  it("keeps every mobile puzzle guide page inside the viewport", () => {
+    expect(stylesSource).toContain(
+      "grid-template-rows: minmax(0, 48fr) minmax(0, 52fr) !important;"
+    );
+    expect(stylesSource).toContain(
+      "padding: max(20px, env(safe-area-inset-top, 0px)) 20px 48px !important;"
+    );
+    expect(mobileQaSource).toContain("expectPuzzleGuidePageContained");
+    expect(mobileQaSource).toContain("Puzzle guide step");
+  });
 });
