@@ -1,3 +1,12 @@
+## v0.1.702 signed Play update candidate - 2026-08-03
+
+- Step 59 aligns the Map, Spoon Run, first Pantry purchase, and Pantry room-story Pip guides to the approved 48/52 mobile conversation composition.
+- Release identity: Android versionCode 37 / versionName 1.1.9; visible/package version v0.1.702.
+- Signed AAB: `android/app/build/outputs/bundle/release/app-release.aab` (20,125,473 bytes).
+- SHA-256: `7B3F8B48D609FDF6EB6523C347F40FEB2CD6EC91FA5DD52E16CB8365E4354592`; `jarsigner` verification passed.
+- Full signed automation passed the release commit gate, 48 files / 289 tests, candidate/final release gates, live privacy check, production build, Capacitor sync, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+- Play Console store-listing changes are saved but not yet submitted; upload this AAB and review the combined release/listing changes before submission.
+
 # v0.1.700 Android upload rebuild - 2026-07-30
 
 - Last Play Console upload: versionCode **36** / versionName **"1.1.8"** (production).`n- Current signed upload target: versionCode 37 / versionName 1.1.9.

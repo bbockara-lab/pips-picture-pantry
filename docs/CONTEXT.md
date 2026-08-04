@@ -5028,4 +5028,4 @@ Current launch direction:
 - Classified as a focused live update: aligned the Map, Spoon Run, first Pantry purchase, and Pantry room-story Pip guides with the approved Time Attack conversation rhythm without changing the interactive puzzle guide or neighbor artwork.
 - Reserved 48% of the compact dialog for enlarged, centered Pip artwork and 52% for the dialogue bubble; reduced top padding so Pip no longer sits small beneath excess empty space.
 - Prepared the next Play upload identity as Android `versionCode 37` / `versionName 1.1.9` after the published code 36 release.
-- Verification pending: focused guide tests, four-width mobile QA, full release-candidate gate, Capacitor sync, signed AAB build, and signature/hash checks.
+- Verification: 48 test files / 289 tests, focused guide tests, full candidate and final release gates, production build, Capacitor sync, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900 passed. The signed versionCode 37 AAB is 20,125,473 bytes; `jarsigner` reported `jar verified`; SHA-256 is `7B3F8B48D609FDF6EB6523C347F40FEB2CD6EC91FA5DD52E16CB8365E4354592`.
