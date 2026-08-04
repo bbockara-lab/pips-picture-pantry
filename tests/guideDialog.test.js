@@ -79,6 +79,19 @@ describe("guide dialog character and badge wiring", () => {
     );
     expect(settingsSource).toContain('guideId === "map" ? "map" : "puzzle"');
   });
+  it("centers and separates every non-puzzle Pip guide bubble", () => {
+    for (const guideId of ["map", "spoonRunIntro", "pantryFirstPurchase", "pantryRoomStory"]) {
+      expect(stylesSource).toContain(`.guide-overlay--${guideId} .guide-dialog__line`);
+      expect(stylesSource).toContain(`.guide-overlay--${guideId} .guide-dialog__art`);
+      expect(stylesSource).toContain(`.guide-overlay--${guideId} .guide-dialog__bubble`);
+      expect(stylesSource).toContain(`.guide-overlay--${guideId} .guide-dialog__name-tag`);
+    }
+    expect(stylesSource).toContain("text-align: center !important;");
+    expect(stylesSource).toContain("padding-bottom: 36px !important;");
+    expect(stylesSource).toContain("align-content: center !important;");
+    expect(stylesSource).toContain("bottom: 32px !important;");
+  });
+
   it("keeps every mobile puzzle guide page inside the viewport", () => {
     expect(stylesSource).toContain(
       "grid-template-rows: minmax(0, 48fr) minmax(0, 52fr) !important;"

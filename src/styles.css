@@ -19375,3 +19375,38 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
     max-height: 100% !important;
   }
 }
+
+/* v0.1.703 - Step 60 center and separate non-puzzle Pip guide bubbles. */
+@media (max-width: 520px) {
+  .guide-overlay--map .guide-dialog__line,
+  .guide-overlay--map .guide-dialog__bubble p:not(.guide-dialog__eyebrow),
+  .guide-overlay--spoonRunIntro .guide-dialog__line,
+  .guide-overlay--spoonRunIntro .guide-dialog__bubble p:not(.guide-dialog__eyebrow),
+  .guide-overlay--pantryFirstPurchase .guide-dialog__line,
+  .guide-overlay--pantryFirstPurchase .guide-dialog__bubble p:not(.guide-dialog__eyebrow),
+  .guide-overlay--pantryRoomStory .guide-dialog__line,
+  .guide-overlay--pantryRoomStory .guide-dialog__bubble p:not(.guide-dialog__eyebrow) {
+    text-align: center !important;
+  }
+
+  .guide-overlay--map .guide-dialog__art,
+  .guide-overlay--spoonRunIntro .guide-dialog__art,
+  .guide-overlay--pantryFirstPurchase .guide-dialog__art,
+  .guide-overlay--pantryRoomStory .guide-dialog__art {
+    padding-bottom: 36px !important;
+  }
+
+  .guide-overlay--map .guide-dialog__bubble,
+  .guide-overlay--spoonRunIntro .guide-dialog__bubble,
+  .guide-overlay--pantryFirstPurchase .guide-dialog__bubble,
+  .guide-overlay--pantryRoomStory .guide-dialog__bubble {
+    align-content: center !important;
+  }
+
+  .guide-overlay--map .guide-dialog__name-tag,
+  .guide-overlay--spoonRunIntro .guide-dialog__name-tag,
+  .guide-overlay--pantryFirstPurchase .guide-dialog__name-tag,
+  .guide-overlay--pantryRoomStory .guide-dialog__name-tag {
+    bottom: 32px !important;
+  }
+}
