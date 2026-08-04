@@ -5029,3 +5029,37 @@ Current launch direction:
 - Reserved 48% of the compact dialog for enlarged, centered Pip artwork and 52% for the dialogue bubble; reduced top padding so Pip no longer sits small beneath excess empty space.
 - Prepared the next Play upload identity as Android `versionCode 37` / `versionName 1.1.9` after the published code 36 release.
 - Verification: 48 test files / 289 tests, focused guide tests, full candidate and final release gates, production build, Capacitor sync, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900 passed. The signed versionCode 37 AAB is 20,125,473 bytes; `jarsigner` reported `jar verified`; SHA-256 is `7B3F8B48D609FDF6EB6523C347F40FEB2CD6EC91FA5DD52E16CB8365E4354592`.
+
+## Studio site v0.1.5 - 2026-08-03 - Public launch and centered-layout recovery
+
+- Classified as a live recovery after the homepage HTML retained retired component classes while the stylesheet expected the newer centered section contract.
+- Reconnected the game, feature, studio, connect, and support sections to the shared 1,180px centered layout and centered the sticky header content.
+- Replaced the obsolete production-review and coming-soon messaging with direct Google Play download actions for the published app: https://play.google.com/store/apps/details?id=com.sunnyspoonstudios.pipspicturepantry.
+- Restored clean English/Korean localization, including the in-game Korean naming 핍 and 핍의 퍼즐방, and repaired the corrupted feature bullet and footer text.
+- Verification: npm run qa:studio-site passed; headless Chromium passed at 2048x1200 and 390x844 with symmetric section margins, no horizontal overflow, a working Korean switch, and the expected Google Play package link.
+
+## Studio site v0.1.6 - 2026-08-03 - Feature-section width recovery
+
+- Classified as a follow-up live recovery after the full-width feature background and shared centered section class were found to be competing on the same DOM element.
+- Split the green feature background from its dedicated centered inner container so the heading and three feature cards retain their intended usable width.
+- Verification: npm run qa:studio-site passed; Chromium at 1754px measured a centered 1,180px grid with three approximately 383px cards; Chromium at 390px measured a 371px single-column grid with no horizontal overflow.
+
+## Studio site v0.1.7 - 2026-08-03 - CSS and JavaScript cache-bust recovery
+
+- Classified as a live delivery recovery: the v0.1.6 HTML could be combined with a browser-cached pre-recovery stylesheet because only the page URL, not its CSS/JavaScript subresource URLs, had been versioned.
+- Added explicit v017 query versions to the stylesheet and language script URLs so existing visitors fetch the matching layout contract immediately after deployment.
+- Live Chromium diagnosis before this change confirmed the fresh-resource DOM was structurally correct at 1656px: the feature background occupied 1656px, its inner container occupied 1,180px, and the three cards occupied approximately 383px each.
+
+## Studio site v0.1.8 - 2026-08-03 - Full studio and connect layout repair
+
+- Classified as a live layout recovery after the studio section retained a two-column grid with only one child and the connect section placed three direct children into a two-column grid.
+- Converted the studio section to one full-width card and grouped the connect heading and body into a single copy column opposite a dedicated action column.
+- Versioned CSS and JavaScript subresources as v018 to prevent mixed layout contracts from browser caches.
+- Full-page Chromium validation passed at 1656px, 820px, and 390px: all primary sections are centered with no horizontal overflow; the desktop studio card occupies the full 1,180px section; connect is a bounded 688px/413px two-column composition; desktop feature cards are approximately 383px each; tablet and mobile layouts stack into full-width single columns.
+
+## v0.1.703 - 2026-08-03 - Non-puzzle Pip guide bubble alignment
+
+- Classified as a focused live update for the Map, Spoon Run intro, first Pantry purchase, and Pantry room-story Pip guides only; puzzle practice and neighbor-character guides remain unchanged.
+- Centered non-puzzle Pip guide dialogue text, reserved 36px at the bottom of the art row for the Pip name tag, and vertically centered each bubble's content.
+- Android versionCode/versionName remain unchanged and no AAB was created; this commit is intended for visual confirmation before packaging.
+- Verification: direct Chromium rendering passed for Map, Spoon Run intro, first Pantry purchase, and Pantry room-story at 360px / 390px / 430px; centered text and bubble content, 36px art reserve, zero name-tag overlap, contained dialogue, and no dialog overflow were confirmed. `npm run qa:candidate` passed 48 test files / 289 tests, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900.
