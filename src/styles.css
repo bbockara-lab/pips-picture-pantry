@@ -19346,3 +19346,32 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
     border-radius: 24px 24px 0 0 !important;
   }
 }
+
+/* v0.1.702 - Step 59 align non-puzzle Pip guides with the mobile conversation rhythm. */
+@media (max-width: 520px) {
+  .guide-overlay--map .guide-dialog,
+  .guide-overlay--spoonRunIntro .guide-dialog,
+  .guide-overlay--pantryFirstPurchase .guide-dialog,
+  .guide-overlay--pantryRoomStory .guide-dialog {
+    grid-template-rows: minmax(0, 48fr) minmax(0, 52fr) !important;
+  }
+
+  .guide-overlay--map .guide-dialog__art,
+  .guide-overlay--spoonRunIntro .guide-dialog__art,
+  .guide-overlay--pantryFirstPurchase .guide-dialog__art,
+  .guide-overlay--pantryRoomStory .guide-dialog__art {
+    align-items: center !important;
+    min-height: 0 !important;
+    padding-top: max(16px, env(safe-area-inset-top, 0px)) !important;
+  }
+
+  .guide-overlay--map .guide-dialog__art img,
+  .guide-overlay--spoonRunIntro .guide-dialog__art img,
+  .guide-overlay--pantryFirstPurchase .guide-dialog__art img,
+  .guide-overlay--pantryRoomStory .guide-dialog__art img {
+    width: auto !important;
+    height: clamp(220px, 46vh, 300px) !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+  }
+}

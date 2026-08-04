@@ -1,7 +1,6 @@
 # v0.1.700 Android upload rebuild - 2026-07-30
 
-- Last Play Console upload/registration: versionCode **35** / versionName **"1.1.7"**.
-- Current signed upload target: versionCode 36 / versionName 1.1.8.
+- Last Play Console upload: versionCode **36** / versionName **"1.1.8"** (production).`n- Current signed upload target: versionCode 37 / versionName 1.1.9.
 - versionCode 33 was rejected by Play Console as already used; do not upload or reuse the earlier code-33 bundle.
 - The signed build script now auto-loads the external Key Paths environment file, verifies the keystore and alias before QA/build, and never prints password values.
 

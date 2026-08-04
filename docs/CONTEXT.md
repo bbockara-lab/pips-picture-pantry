@@ -1,3 +1,28 @@
+## Studio site v0.1.3 - support routes and Korean editorial pass (2026-08-02)
+
+- Added a dedicated support section: studio email for missing Spoon or purchase-restoration help, plus official Google Play and Apple refund routes.
+- Rewrote the full Korean homepage copy in Sunny Spoon Studios' warm, playful voice instead of literal translation, and removed damaged encoding text.
+- Corrected the feature-list marker and added a responsive support-card layout.
+- Validation: JavaScript syntax and `npm run qa:studio-site` passed; deployed to Firebase Hosting and confirmed v0.1.3, support/refund routes, and the Korean editorial copy at `https://sunny-spoon-pantry.web.app/`.
+
+## Studio site v0.1.2 - mobile language control and artwork correction (2026-08-01)
+
+- Removed the malformed-arm Pip launch artwork from the studio homepage and replaced both affected placements with the approved keepsakes artwork.
+- Moved the language control out of the collapsed mobile navigation into an always-visible header action group, while retaining the separate menu toggle.
+- Verification: JavaScript syntax check and `npm run qa:studio-site` passed, including all 42 translation keys, responsive/reduced-motion rules, privacy linkage, artwork rejection/allow-list checks, and absence of analytics/tracking loaders.
+- Deployment target remains the experimental `studio-preview` Firebase channel; the live game/privacy hosting release is unchanged.
+- Corrected the language button's damaged Korean text/closing markup with encoding-safe HTML entities.
+- Browser verification on the refreshed preview passed at 390x844: the Korean control is visible before opening the menu, switches the document to `lang=ko` and the control to `EN`, renders Korean hero copy, and keeps the mobile menu functional. Desktop language-control visibility also passed.
+- Artwork verification confirmed the malformed-arm asset is absent and the approved keepsakes artwork is present.
+- Refreshed experimental preview: `https://sunny-spoon-pantry--studio-preview-kqq29sdv.web.app` (expires 2026-08-08). No live promotion was performed.
+## Studio site v0.1.0 - experimental preview (2026-08-01)
+
+- Added a responsive Sunny Spoon Studios homepage under `store-assets/`, with English/Korean copy, studio and game positioning, YouTube/contact links, and the existing privacy policy retained.
+- Added original launch key art and a visible `Studio site v0.1.0` label. The page is structured to support additional games without expanding the main app bundle.
+- Verification: JavaScript syntax checks and `npm run qa:studio-site` passed, including required assets, bilingual behavior, responsive/reduced-motion rules, privacy linkage, and absence of analytics/tracking loaders.
+- Experimental Firebase preview: `https://sunny-spoon-pantry--studio-preview-kqq29sdv.web.app` (expires 2026-08-08). The existing live hosting release was not promoted or replaced.
+- Next action: review the preview on phone and desktop, then explicitly approve live promotion or request revisions.
+
 ## v0.1.700 - Step 55 mobile drag gesture ownership (2026-07-30)
 
 - Release AAB completed after separating the centered Workshop keepsake shelf from the enlarged Play Now action. Mobile geometry now passes at 360x740, 390x844, 430x932, and 675x900.
@@ -4973,6 +4998,21 @@ Current launch direction:
 - Added focused i18n coverage so the two entry points cannot drift apart again.
 - Validation: `npm run qa:candidate` passed 38 test files / 212 tests, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
 - Android versionCode/versionName remain unchanged; no AAB was requested for this step.
+## Studio site v0.1.2 - 2026-08-01 - Live Firebase Hosting promotion
+
+- Promoted the verified Sunny Spoon Studios bilingual homepage from the experimental preview channel to the live `sunny-spoon-pantry` Firebase Hosting site.
+- Live homepage: `https://sunny-spoon-pantry.web.app/`.
+- Preserved the public privacy policy at `https://sunny-spoon-pantry.web.app/privacy-policy.html`.
+- The live site uses the corrected nine-keepsakes artwork instead of the malformed-arm shelf artwork, and keeps the Korean language control visible in the primary header actions.
+- Verification: `npm run qa:studio-site` passed; the live homepage returned HTTP 200 with `Studio site v0.1.2`, the Korean toggle, and `04-nine-keepsakes.png`; the live privacy policy also returned HTTP 200.
+
+## Studio site v0.1.4 - 2026-08-02 - Live image recovery
+
+- Classified as a live recovery because the deployed studio homepage was missing its primary artwork.
+- Root cause: the homepage referenced nonexistent `site/images/*` assets, and its rendered markup no longer matched the CSS component contract.
+- Rebuilt the homepage with verified existing launch artwork only; the malformed-arm shelf artwork was excluded.
+- Restored the English/Korean language switch and clarified support and store-managed refund guidance.
+- Verification: `npm run qa:studio-site` passed (11 files, 46 translation keys, 8 local image references); Firebase Hosting deployment completed; the live page reported `Studio site v0.1.4`; representative image URLs returned HTTP 200.
 
 ## v0.1.701 - 2026-08-03 - Mobile tutorial guide containment
 
@@ -4982,3 +5022,10 @@ Current launch direction:
 - Repaired corrupted Korean matchers in the mobile QA script so candidate validation can parse and run.
 - Android versionCode/versionName remain unchanged; no AAB was requested for this step.
 - Validation: `npx vitest run tests/guideDialog.test.js` passed 11 tests; `npm run qa:candidate` passed 48 test files / 289 tests, build/release checks, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.702 - 2026-08-03 - Unified mobile Pip guide composition
+
+- Classified as a focused live update: aligned the Map, Spoon Run, first Pantry purchase, and Pantry room-story Pip guides with the approved Time Attack conversation rhythm without changing the interactive puzzle guide or neighbor artwork.
+- Reserved 48% of the compact dialog for enlarged, centered Pip artwork and 52% for the dialogue bubble; reduced top padding so Pip no longer sits small beneath excess empty space.
+- Prepared the next Play upload identity as Android `versionCode 37` / `versionName 1.1.9` after the published code 36 release.
+- Verification pending: focused guide tests, four-width mobile QA, full release-candidate gate, Capacitor sync, signed AAB build, and signature/hash checks.

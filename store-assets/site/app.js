@@ -1,0 +1,23 @@
+const copy = {
+  en: {
+    tagline:"Cozy puzzles. Warm little worlds.",navGame:"Our game",navStudio:"Studio",navConnect:"Connect",navSupport:"Support",heroTitle:"Cozy puzzles.<br />Warm little worlds.",heroBody:"Meet Pip, solve gentle picture puzzles, and fill every shelf with something lovely.",meetPip:"Meet Pip",firstGame:"Our first game",gameIntro:"A cozy picture-puzzle adventure where every finished grid helps Pip's pantry grow.",puzzles:"picture puzzles",jars:"pantry jars",badges:"story badges",languages:"languages",featureOne:"Gentle nonogram-style picture puzzles",featureTwo:"A pantry that grows as you play",featureThree:"Time Attack and Spoon Run challenges",featureFour:"No third-party ads or tracking SDKs",review:"Production release under review",soon:"Coming soon",captionOne:"A warm welcome from Pip",captionTwo:"Collect nine story badges",madeFor:"Made for quiet breaks",whyTitle:"A little satisfaction in every tap",cardOneTitle:"Reveal a hidden picture",cardOneBody:"Follow the clues, fill the grid, and watch a warm little scene appear.",cardTwoTitle:"Meet the pantry friends",cardTwoBody:"Take on a friendly timed challenge, then return to the pantry at your own pace.",cardThreeTitle:"Take a cozy puzzle break",cardThreeBody:"Relax with gentle play, satisfying reveals, and a pantry made to feel like home.",studioTitle:"Small games made to be kept.",studioBody:"We make games with kind characters, satisfying play, and little worlds worth returning to. Pip's Picture Pantry is our first.",stayClose:"Stay close to the pantry",connectTitle:"Puzzle reveals, seasonal themes, and stories from behind the scenes.",visitYouTube:"Visit our YouTube channel",contact:"Contact the studio",supportTitle:"Need a hand?",supportIntro:"Find help with the game and purchases, or contact Sunny Spoon Studios.",supportHelpTitle:"Game support",supportHelpBody:"Include your device, app version, and what happened so we can help.",supportEmail:"Email support",refundTitle:"Purchases and refunds",refundBody:"Refunds are handled through the official support flow of the store where you purchased.",googleRefund:"Google Play refund help",appleRefund:"Request an Apple refund",privacy:"Privacy Policy",footerTagline:"Cozy puzzles. Warm little worlds."
+  },
+  ko: {
+    tagline:"포근한 퍼즐, 따뜻한 작은 세상.",navGame:"게임 소개",navStudio:"스튜디오",navConnect:"소식",navSupport:"고객 지원",heroTitle:"포근한 퍼즐.<br />따뜻한 작은 세상.",heroBody:"Pip과 함께 그림 퍼즐을 풀고, 팬트리의 선반을 사랑스러운 것들로 하나씩 채워 보세요.",meetPip:"Pip 만나기",firstGame:"첫 번째 게임",gameIntro:"그림 하나를 완성할 때마다 Pip의 팬트리가 조금씩 자라나는 포근한 그림 퍼즐 모험이에요.",puzzles:"개의 그림 퍼즐",jars:"종 이상의 팬트리 병",badges:"개의 이야기 배지",languages:"개 언어 지원",featureOne:"천천히 즐기는 노노그램 스타일 그림 퍼즐",featureTwo:"플레이할수록 풍성해지는 나만의 팬트리",featureThree:"타임어택과 스푼런으로 즐기는 색다른 도전",featureFour:"제3자 광고와 추적 SDK 없음",review:"프로덕션 출시 심사 중",soon:"곧 만나요",captionOne:"Pip의 따뜻한 환영",captionTwo:"이야기 배지 아홉 개 모으기",madeFor:"조용한 휴식을 위한 게임",whyTitle:"한 번의 터치마다 작은 만족을",cardOneTitle:"숨은 그림을 완성해요",cardOneBody:"힌트를 따라 칸을 채우면 작은 장면이 포근한 그림으로 나타나요.",cardTwoTitle:"팬트리 친구들을 만나요",cardTwoBody:"시계 할아버지와 타임어택에 도전한 뒤, 다시 내 속도로 팬트리를 즐겨 보세요.",cardThreeTitle:"포근한 퍼즐 휴식",cardThreeBody:"부담 없는 플레이와 기분 좋은 그림 공개, 집처럼 따뜻한 팬트리를 천천히 즐겨 보세요.",studioTitle:"작지만 오래 아끼고 싶은 게임을 만듭니다.",studioBody:"Sunny Spoon Studios는 다정한 캐릭터와 손맛 좋은 플레이, 다시 찾아오고 싶은 작은 세상을 담은 게임을 만듭니다. Pip's Picture Pantry는 그 첫 번째 이야기예요.",stayClose:"팬트리의 다음 소식",connectTitle:"퍼즐 공개, 계절 테마, 그리고 제작 비하인드를 만나 보세요.",visitYouTube:"YouTube 채널 보기",contact:"스튜디오에 문의하기",supportTitle:"도움이 필요하신가요?",supportIntro:"게임 이용과 구매 관련 안내를 확인하거나 Sunny Spoon Studios에 문의해 주세요.",supportHelpTitle:"게임 지원",supportHelpBody:"문제 상황과 사용 중인 기기, 앱 버전을 알려주시면 확인에 도움이 됩니다.",supportEmail:"이메일로 문의하기",refundTitle:"구매 및 환불",refundBody:"환불은 구매한 스토어의 공식 지원 절차를 통해 처리됩니다.",googleRefund:"Google Play 환불 안내",appleRefund:"Apple 환불 요청",privacy:"개인정보처리방침",footerTagline:"포근한 퍼즐, 따뜻한 작은 세상."
+  }
+};
+
+const toggle = document.querySelector("#languageToggle");
+let language = localStorage.getItem("sunny-spoon-language") === "ko" ? "ko" : "en";
+
+function applyLanguage(next) {
+  language = next;
+  document.documentElement.lang = next;
+  document.querySelectorAll("[data-i18n]").forEach((node) => { const value = copy[next][node.dataset.i18n]; if (value) node.textContent = value; });
+  document.querySelectorAll("[data-i18n-html]").forEach((node) => { const value = copy[next][node.dataset.i18nHtml]; if (value) node.innerHTML = value; });
+  toggle.textContent = next === "en" ? "한국어" : "English";
+  localStorage.setItem("sunny-spoon-language", next);
+}
+
+toggle?.addEventListener("click", () => applyLanguage(language === "en" ? "ko" : "en"));
+applyLanguage(language);
