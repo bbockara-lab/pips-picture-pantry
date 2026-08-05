@@ -21,7 +21,17 @@ const FALLBACK_SPOON_JAR_SMALL_PRODUCT = Object.freeze({
 });
 
 export function isBillingRuntimeAvailable() {
-  return Capacitor.isNativePlatform() && Capacitor.getPlatform() === "android";
+  return Capacitor.isNativePlatform() && isSupportedBillingPlatform(Capacitor.getPlatform());
+}
+
+export function isSupportedBillingPlatform(platform) {
+  return platform === "android" || platform === "ios";
+}
+
+export function getNativeStoreName(platform = Capacitor.getPlatform()) {
+  if (platform === "ios") return "App Store";
+  if (platform === "android") return "Google Play";
+  return "Store";
 }
 
 export async function getCozySupportProduct() {
@@ -47,6 +57,7 @@ async function getBillingProduct(productIdentifier, fallbackProduct) {
     return {
       available: true,
       reason: "ready",
+      storeName: getNativeStoreName(),
       product: {
         ...fallbackProduct,
         ...product,

@@ -1,3 +1,37 @@
+## Store platform media audit - Apple handoff and Play landscape preview (2026-08-04)
+
+- Apple media is not yet final: the existing localized 1290x2796 iPhone 6.9 screenshot candidates match accepted dimensions but were captured from the shared current web UI, not a real iOS build. Re-capture the same five scenes from Xcode Simulator or a physical iPhone after the Mac/iOS build runs.
+- Apple App Preview is optional and has not been produced; create it only from verified iOS footage after the Xcode handoff. If iPad distribution remains enabled, a separate 13-inch iPad screenshot set is required.
+- Meow Tower's Editors' Choice badge is a manual Google Play editorial distinction, while its large hero presentation also depends on a preview video/feature graphic and eligible Play surfaces; the layout is not solely an Editors' Choice perk.
+- Added localized 1920x1080 Google Play landscape preview videos using fresh v0.1.703 gameplay for the full 15.57-second duration, with the portrait game feed placed on a designed full-bleed pantry background and existing game music. No black bars or simulated gameplay are used.
+- Outputs: `upload/google-play/en-US/preview-video-landscape-1920x1080.mp4` and `upload/google-play/ko-KR/preview-video-landscape-1920x1080.mp4`, plus 1280x720 thumbnails. Both fully decoded as H.264/AAC, 30 fps, 48 kHz stereo.
+- Play delivery still requires uploading the landscape video to YouTube as Public or Unlisted with ads disabled and embedding enabled, then pasting the standard YouTube URL into the Play preview-video field.
+
+## Character launch Short v1 - quiet open-day artwork (2026-08-04)
+
+- Added a second launch-video concept intentionally separate from the gameplay introduction: Pip opens the pantry holding a small OPEN sign in a restrained hand-painted scene.
+- New artwork uses the current Pip/pantry identity as visual reference and avoids UI mockups, glossy mobile-ad styling, excessive particles, malformed anatomy, or synthetic notification-tone music.
+- The 10.93-second video uses only a subtle camera push and a 2.5-second localized end card. English and Korean outputs are 1080x1920 H.264/AAC with the existing `src/assets/music/bgm-cozy.mp3` track.
+- Outputs: `upload/youtube/en-US/character-launch-short-1080x1920.mp4` and `upload/youtube/ko-KR/character-launch-short-1080x1920.mp4`. Both fully decoded in FFmpeg verification.
+- The existing public Short remains unchanged; upload/visibility changes still require explicit approval.
+
+## Store media v0.1.703 - current-gameplay rebuild (2026-08-04)
+
+- Rebuilt all upload candidates from a fresh automated run of the current v0.1.703 app; the deprecated June phone screenshots and rejected YouTube v4 media are not sources for this package.
+- Captured five current scenes per locale (puzzle in progress, puzzle complete, picture library, album, pantry) and packaged Google Play 1080x1920 plus App Store iPhone 6.9 1290x2796 RGB PNG sets under `store-assets/store-media/v0.1.703/upload/`.
+- Added localized 1024x500 Google Play feature graphics using a current real puzzle screen, without device frames, CSS mockups, or generated gameplay.
+- Added separate localized videos: an 18.47-second YouTube launch Short with restrained title/end cards, and a 15.57-second Google Play preview that begins immediately with real gameplay. Both use `src/assets/music/bgm-cozy.mp3`; no synthetic notification-tone track is used.
+- Google Play video delivery remains a YouTube Public or Unlisted URL with ads disabled; the evergreen preview omits download CTAs and is kept separate from the launch Short.
+- QA passed for 22 PNG assets and four H.264/AAC MP4 files: expected dimensions, RGB mode, 1080x1920 video, 48 kHz stereo audio, duration bounds, and full decode. See `store-assets/store-media/v0.1.703/qa-report.json`.
+- App Store screenshots are accepted-size candidates from the shared current UI. Confirm them in the real iOS build/device before submission; no Apple App Preview was claimed or produced in this pass.
+
+## YouTube launch short v4 - gameplay-first direction (2026-08-04)
+
+- Replaced the earlier multi-scene promotional approach with an 11-second launch short built from existing Pip character assets and in-game puzzle/album screenshots that were later confirmed to be stale June captures.
+- The sequence is intentionally simple: Pip says "We're open!", real puzzle play, the completed-picture album, then a Google Play availability card.
+- No new generated artwork was introduced. Motion is limited to subtle character movement, screenshot drift, and short crossfades so the game itself remains the focus.
+- Rendered sunny-spoon-studios-launch-short-v4.mp4 at 1080x1920, 30 fps, with AAC audio, but provenance review found that its game screens came from the stale 2026-06-30 phone-screenshots set. V4 is rejected and must not be uploaded. The existing public Short remains unchanged.
+
 ## Studio site v0.1.3 - support routes and Korean editorial pass (2026-08-02)
 
 - Added a dedicated support section: studio email for missing Spoon or purchase-restoration help, plus official Google Play and Apple refund routes.

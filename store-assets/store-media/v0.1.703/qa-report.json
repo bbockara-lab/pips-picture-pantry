@@ -1,0 +1,52 @@
+{
+  "version": "v0.1.703",
+  "status": "passed",
+  "checks": [
+    {
+      "pattern": "upload/google-play/en-US/*.png",
+      "dimensions": {
+        "1080x1920": 5,
+        "1024x500": 1
+      }
+    },
+    {
+      "pattern": "upload/google-play/ko-KR/*.png",
+      "dimensions": {
+        "1080x1920": 5,
+        "1024x500": 1
+      }
+    },
+    {
+      "pattern": "upload/app-store/iphone-6.9/en-US/*.png",
+      "dimensions": {
+        "1290x2796": 5
+      }
+    },
+    {
+      "pattern": "upload/app-store/iphone-6.9/ko-KR/*.png",
+      "dimensions": {
+        "1290x2796": 5
+      }
+    },
+    {
+      "file": "store-assets/store-media/v0.1.703/upload/google-play/en-US/preview-video-1080x1920.mp4",
+      "durationSeconds": 15.57,
+      "decode": "passed"
+    },
+    {
+      "file": "store-assets/store-media/v0.1.703/upload/google-play/ko-KR/preview-video-1080x1920.mp4",
+      "durationSeconds": 15.57,
+      "decode": "passed"
+    },
+    {
+      "file": "store-assets/store-media/v0.1.703/upload/youtube/en-US/launch-short-1080x1920.mp4",
+      "durationSeconds": 18.47,
+      "decode": "passed"
+    },
+    {
+      "file": "store-assets/store-media/v0.1.703/upload/youtube/ko-KR/launch-short-1080x1920.mp4",
+      "durationSeconds": 18.47,
+      "decode": "passed"
+    }
+  ]
+}

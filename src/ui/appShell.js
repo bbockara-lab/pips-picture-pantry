@@ -411,6 +411,7 @@ export function renderApp(root) {
       available: false,
       loading: false,
       priceString: "",
+      storeName: "Store",
       spoons: ECONOMY.COZY_PASS_SPOON_GRANT,
       status
     };
@@ -421,6 +422,7 @@ export function renderApp(root) {
       available: false,
       loading: false,
       priceString: "",
+      storeName: "Store",
       spoons: ECONOMY.SPOON_JAR_SMALL_GRANT,
       status
     };
@@ -499,6 +501,7 @@ export function renderApp(root) {
       available: Boolean(result?.available),
       loading: false,
       priceString: product.priceString || cozySupportState.priceString || "",
+      storeName: result?.storeName || cozySupportState.storeName || "Store",
       spoons: product.spoonGrant || ECONOMY.COZY_PASS_SPOON_GRANT,
       status
     };
@@ -510,6 +513,7 @@ export function renderApp(root) {
       available: Boolean(result?.available),
       loading: false,
       priceString: product.priceString || spoonJarState.priceString || "",
+      storeName: result?.storeName || spoonJarState.storeName || "Store",
       spoons: product.spoonGrant || ECONOMY.SPOON_JAR_SMALL_GRANT,
       status
     };

@@ -17,3 +17,7 @@ qa-artifacts/
 *.keystore
 android-signing.env.ps1
 android-signing.properties
+# Local tool/machine state (not shared project source)
+.claude/
+.pnpm-store/
+__pycache__/

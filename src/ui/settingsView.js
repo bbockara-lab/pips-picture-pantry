@@ -340,7 +340,7 @@ function getSupportPackBody(supportPack) {
 export function getSupportPackFacts(supportPack) {
   return [
     t("settings.supportFactSpoons", { spoons: supportPack?.spoons || 0 }),
-    supportPack?.available ? t("settings.supportFactStore") : t("settings.supportFactAndroid"),
+    supportPack?.available ? (supportPack.storeName || t("settings.supportFactStore")) : t("settings.supportFactAndroid"),
     t("settings.supportFactRepeat")
   ];
 }
@@ -405,7 +405,7 @@ export function canPurchaseSupportPack(supportPack) {
 export function getSpoonJarFacts(spoonJar) {
   return [
     t("settings.spoonJarFactSpoons", { spoons: spoonJar?.spoons || 0 }),
-    spoonJar?.available ? t("settings.supportFactStore") : t("settings.supportFactAndroid"),
+    spoonJar?.available ? (spoonJar.storeName || t("settings.supportFactStore")) : t("settings.supportFactAndroid"),
     t("settings.spoonJarFactRepeat")
   ];
 }

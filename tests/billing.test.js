@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { COZY_SUPPORT_PRODUCT_ID, SPOON_JAR_SMALL_PRODUCT_ID, getBillingErrorStatus, getPurchaseKey, isCozySupportEntitlement, isSpoonJarSmallPurchase, restorePendingPurchaseRecords } from "../src/game/billing.js";
+import { COZY_SUPPORT_PRODUCT_ID, SPOON_JAR_SMALL_PRODUCT_ID, getBillingErrorStatus, getNativeStoreName, getPurchaseKey, isCozySupportEntitlement, isSpoonJarSmallPurchase, isSupportedBillingPlatform, restorePendingPurchaseRecords } from "../src/game/billing.js";
 import { canPurchaseSpoonJar, canPurchaseSupportPack, getSpoonJarFacts, getSpoonJarStatus, getSpoonJarStatusTone, getSupportPackFacts, getSupportPackStatus, getSupportStatusTone } from "../src/ui/settingsView.js";
 
 class LocalStorageMock {
@@ -25,6 +25,14 @@ class LocalStorageMock {
 }
 
 describe("billing support pack guards", () => {
+  it("enables native billing on Android and iOS with the correct storefront name", () => {
+    expect(isSupportedBillingPlatform("android")).toBe(true);
+    expect(isSupportedBillingPlatform("ios")).toBe(true);
+    expect(isSupportedBillingPlatform("web")).toBe(false);
+    expect(getNativeStoreName("android")).toBe("Google Play");
+    expect(getNativeStoreName("ios")).toBe("App Store");
+  });
+
   it("recognizes the support product across common store response shapes", () => {
     expect(isCozySupportEntitlement({ productIdentifier: COZY_SUPPORT_PRODUCT_ID })).toBe(true);
     expect(isCozySupportEntitlement({ productId: COZY_SUPPORT_PRODUCT_ID })).toBe(true);
@@ -100,6 +108,7 @@ describe("billing support pack guards", () => {
     };
 
     expect(getSupportPackFacts(baseSupportPack)).toEqual(["150 spoons", "Google Play", "Repeatable support"]);
+    expect(getSupportPackFacts({ ...baseSupportPack, storeName: "App Store" })).toEqual(["150 spoons", "App Store", "Repeatable support"]);
     expect(getSupportPackFacts({ ...baseSupportPack, available: false })).toEqual(["150 spoons", "Store preparing", "Repeatable support"]);
     expect(canPurchaseSupportPack(baseSupportPack)).toBe(true);
     expect(canPurchaseSupportPack({ ...baseSupportPack, status: "already-processed" })).toBe(true);
@@ -133,6 +142,7 @@ describe("billing support pack guards", () => {
     };
 
     expect(getSpoonJarFacts(baseSpoonJar)).toEqual(["500 spoons", "Google Play", "Repeatable top-up"]);
+    expect(getSpoonJarFacts({ ...baseSpoonJar, storeName: "App Store" })).toEqual(["500 spoons", "App Store", "Repeatable top-up"]);
     expect(getSpoonJarStatus({ ...baseSpoonJar, status: "purchased" })).toContain("Spoons arrive");
     expect(getSpoonJarStatus({ ...baseSpoonJar, status: "missing-purchase-key" })).toContain("jar could not be filled");
     expect(getSpoonJarStatusTone({ ...baseSpoonJar, loading: true })).toBe("checking");

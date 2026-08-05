@@ -30,8 +30,10 @@ const css = read("store-assets/site/styles.css");
 const js = read("store-assets/site/app.js");
 
 for (const marker of [
-  "Studio site v0.1.4",
+  "Studio site v0.1.8",
   "privacy-policy.html",
+  "./site/styles.css?v=018",
+  "./site/app.js?v=018",
   "@SunnySpoonStudios",
   "sunnyspoonstudios@gmail.com",
   'class="language-toggle"',
@@ -79,7 +81,7 @@ const localSources = [...html.matchAll(/\bsrc="([^"]+)"/g)]
   .map((match) => match[1])
   .filter((source) => !/^(?:https?:|data:|\/\/)/.test(source));
 for (const source of localSources) {
-  const normalized = source.replace(/^\.\//, "");
+  const normalized = source.replace(/^\.\//, "").split("?")[0];
   assert(
     fs.existsSync(path.join(root, "store-assets", normalized)),
     `HTML references a missing local asset: ${source}`,
@@ -98,3 +100,13 @@ for (const staleReference of [
 assert(!/google-analytics|googletagmanager|facebook\.net|pixel/i.test(html), "Unexpected tracking code found");
 
 console.log(`Studio site check passed: ${requiredFiles.length} files, ${new Set(translationKeys).size} translation keys, ${localSources.length} local image references.`);
+
+for (const staleClass of ["section-shell", "stats-grid", "status-row", "Production release under review", "Coming soon"]) {
+  assert(!html.includes(staleClass), `Stale studio-site contract remains: ${staleClass}`);
+}
+assert(css.includes(".header-inner"), "Missing centered header contract");
+assert(css.includes(".feature-section__inner"), "Missing centered feature-section inner contract");
+assert(css.includes(".studio-section { display: block; }"), "Studio section must not reserve an empty grid column");
+assert(css.includes(".connect-copy"), "Connect copy must be grouped into one grid column");
+assert(css.includes('.feature-list li::before { content: "✦"'), "Broken feature bullet CSS");
+assert(!/[?]쒓|[?]ш렐|寃뚯엫/.test(html + js), "Corrupted Korean text remains");

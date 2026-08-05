@@ -21,6 +21,9 @@
     "qa:batch": "vitest run tests/puzzleBatchIntake.test.js",
     "cap:sync": "npm run build && cap sync",
     "android:open": "cap open android",
+    "ios:add": "npm run build && cap add ios",
+    "ios:sync": "npm run build && cap sync ios",
+    "ios:open": "cap open ios",
     "qa:release": "node scripts/android_release_gate.js",
     "qa:release:final": "node scripts/android_release_gate.js --final",
     "qa:candidate": "node scripts/release_candidate_check.js",
@@ -37,14 +40,15 @@
     "qa:studio-site": "node scripts/studio_site_check.js"
   },
   "dependencies": {
-    "@capacitor/android": "^8.4.1",
-    "@capacitor/core": "^8.4.1",
+    "@capacitor/android": "^8.5.0",
+    "@capacitor/core": "^8.5.0",
+    "@capacitor/ios": "^8.5.0",
     "@capgo/native-purchases": "^8.6.4",
     "@vitejs/plugin-basic-ssl": "^2.0.0",
     "vite": "^7.0.0"
   },
   "devDependencies": {
-    "@capacitor/cli": "^8.4.1",
+    "@capacitor/cli": "^8.5.0",
     "@playwright/test": "^1.61.1",
     "vitest": "^3.2.0"
   }

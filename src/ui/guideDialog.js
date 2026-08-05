@@ -127,10 +127,14 @@ export function renderGuideDialog(guideId, onClose) {
     nextButton.className = "guide-dialog__next";
     nextButton.textContent = isLast ? t("guide.done") : t("guide.next");
 
+    const content = document.createElement("div");
+    content.className = "guide-dialog__content";
+    content.append(body);
+    if (practice) content.appendChild(practice.element);
+    content.appendChild(dots);
+
     actions.append(nextButton);
-    bubble.append(body);
-    if (practice) bubble.appendChild(practice.element);
-    bubble.append(dots, actions);
+    bubble.append(content, actions);
     nodes.push(bubble);
 
     card.replaceChildren(...nodes);
