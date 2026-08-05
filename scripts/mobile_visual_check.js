@@ -824,6 +824,12 @@ async function expectPlayScreenNavClearance(page, viewportName) {
 }
 
 async function expectStageNavigationPolish(page, viewportName) {
+  const stageNavigationCount = await page.locator(".stage-navigation").count();
+  if (stageNavigationCount !== 0) {
+    failures.push("[" + viewportName + "] Active puzzle focus mode must not render stage navigation cards.");
+  }
+  return;
+  /* Legacy polish measurements retained below for historical reference. */
   await expectVisible(page, ".stage-navigation", viewportName);
   const metrics = await page.locator(".stage-navigation").first().evaluate((nav) => {
     const rect = nav.getBoundingClientRect();
@@ -2932,6 +2938,8 @@ async function expectPuzzleBoardFramePolish(page, viewportName) {
     const board = panel?.querySelector(".board-wrap:not(.locked)");
     const grid = panel?.querySelector(".puzzle-grid");
     const activeClue = panel?.querySelector(".row-clue.active, .column-clue.active");
+    const rowClues = [...(panel?.querySelectorAll(".row-clue") || [])];
+    const rowClueTokens = rowClues.flatMap((row) => [...row.querySelectorAll("span")]);
     const read = (node) => {
       if (!node) {
         return null;
@@ -2956,7 +2964,11 @@ async function expectPuzzleBoardFramePolish(page, viewportName) {
       meta: read(meta),
       board: read(board),
       grid: read(grid),
-      activeClue: read(activeClue)
+      activeClue: read(activeClue),
+      rowClueLeft: rowClues.length ? Math.min(...rowClues.map((row) => row.getBoundingClientRect().left)) : 0,
+      rowClueRight: rowClues.length ? Math.max(...rowClues.map((row) => row.getBoundingClientRect().right)) : 0,
+      rowTokenLeft: rowClueTokens.length ? Math.min(...rowClueTokens.map((token) => token.getBoundingClientRect().left)) : 0,
+      rowTokenRight: rowClueTokens.length ? Math.max(...rowClueTokens.map((token) => token.getBoundingClientRect().right)) : 0
     };
   });
   if (
@@ -2982,6 +2994,8 @@ async function expectPuzzleBoardFramePolish(page, viewportName) {
     metrics.grid.radius < 12 ||
     !metrics.grid.background.includes("gradient") ||
     metrics.grid.right > metrics.viewportWidth + 1 ||
+    metrics.rowTokenLeft < metrics.rowClueLeft - 1 ||
+    metrics.rowTokenRight > metrics.rowClueRight + 1 ||
     !metrics.activeClue.background.includes("gradient")
   ) {
     failures.push("[" + viewportName + "] Puzzle board frame lost polished paper-tray treatment: " + JSON.stringify(metrics));

@@ -1,16 +1,16 @@
 const copy = {
   "en": {
-    "tagline": "Cozy puzzles. Warm little worlds.",
+    "tagline": "A cozy puzzle break, one picture at a time",
     "navGame": "Our game",
     "navStudio": "Studio",
     "navConnect": "Connect",
     "navSupport": "Support",
-    "heroTitle": "Cozy puzzles.<br />Warm little worlds.",
-    "heroBody": "Meet Pip, solve gentle picture puzzles, and fill every shelf with something lovely.",
+    "heroTitle": "<span class=\"hero-line\">Solve a puzzle</span><span class=\"hero-line\">Build a little world</span>",
+    "heroBody": "Solve picture puzzles with Pip and fill the pantry shelves with warm little stories.",
     "downloadGame": "Get it on Google Play",
     "meetPip": "Meet Pip",
     "firstGame": "Our first game",
-    "gameIntro": "A cozy picture-puzzle adventure where every finished grid helps Pip's pantry grow.",
+    "gameIntro": "Complete picture puzzles and watch Pip's pantry grow, one shelf at a time.",
     "puzzles": "picture puzzles",
     "jars": "pantry jars",
     "badges": "story badges",
@@ -25,15 +25,15 @@ const copy = {
     "madeFor": "Made for quiet breaks",
     "whyTitle": "A little satisfaction in every tap",
     "cardOneTitle": "Reveal a hidden picture",
-    "cardOneBody": "Follow the clues, fill the grid, and watch a warm little scene appear.",
+    "cardOneBody": "Follow the clues and fill the grid to reveal a charming little picture.",
     "cardTwoTitle": "Meet the pantry friends",
     "cardTwoBody": "Take on a friendly timed challenge, then return to the pantry at your own pace.",
-    "cardThreeTitle": "Take a cozy puzzle break",
-    "cardThreeBody": "Relax with gentle play, satisfying reveals, and a pantry made to feel like home.",
-    "studioTitle": "Small games made to be kept.",
-    "studioBody": "We make games with kind characters, satisfying play, and little worlds worth returning to. Pip's Picture Pantry is our first.",
+    "cardThreeTitle": "Enjoy a cozy puzzle break",
+    "cardThreeBody": "Settle in for gentle play, satisfying reveals, and a pantry that feels like home.",
+    "studioTitle": "Small games worth keeping",
+    "studioBody": "We make games with kind characters, satisfying play, and little worlds worth returning to. Pip's Picture Pantry is where our story begins.",
     "stayClose": "Stay close to the pantry",
-    "connectTitle": "Puzzle reveals, seasonal themes, and stories from behind the scenes.",
+    "connectTitle": "Puzzle reveals, seasonal themes, and stories from behind the scenes",
     "visitYouTube": "Visit our YouTube channel",
     "contact": "Contact the studio",
     "supportTitle": "Need a hand?",
@@ -46,25 +46,25 @@ const copy = {
     "googleRefund": "Google Play refund help",
     "appleRefund": "Request an Apple refund",
     "privacy": "Privacy Policy",
-    "footerTagline": "Cozy puzzles. Warm little worlds."
+    "footerTagline": "Cozy puzzles, warm little worlds"
   },
   "ko": {
-    "tagline": "포근한 퍼즐, 따뜻한 작은 세상.",
+    "tagline": "한 칸씩 완성하는 포근한 시간",
     "navGame": "게임 소개",
     "navStudio": "스튜디오",
     "navConnect": "소식",
     "navSupport": "고객 지원",
-    "heroTitle": "포근한 퍼즐.<br />따뜻한 작은 세상.",
-    "heroBody": "핍과 함께 그림 퍼즐을 풀고, 팬트리의 선반을 사랑스러운 것들로 하나씩 채워 보세요.",
+    "heroTitle": "<span class=\"hero-line\">퍼즐을 풀고</span><span class=\"hero-line\">작은 세상을 채워요</span>",
+    "heroBody": "핍과 함께 그림을 완성하고, 팬트리 선반에 따뜻한 이야기를 차곡차곡 모아 보세요.",
     "downloadGame": "Google Play에서 다운로드",
     "meetPip": "핍 만나기",
     "firstGame": "첫 번째 게임",
-    "gameIntro": "그림 하나를 완성할 때마다 핍의 팬트리가 조금씩 자라나는 포근한 그림 퍼즐 모험이에요.",
+    "gameIntro": "그림 퍼즐을 하나씩 완성하며 핍의 팬트리를 차곡차곡 키워 보세요.",
     "puzzles": "개의 그림 퍼즐",
     "jars": "종 이상의 팬트리 병",
     "badges": "개의 이야기 배지",
     "languages": "개 언어 지원",
-    "featureOne": "천천히 즐기는 노노그램 스타일 그림 퍼즐",
+    "featureOne": "부담 없이 즐기는 노노그램 그림 퍼즐",
     "featureTwo": "플레이할수록 풍성해지는 나만의 팬트리",
     "featureThree": "타임어택과 스푼런으로 즐기는 색다른 도전",
     "featureFour": "제3자 광고와 추적 SDK 없음",
@@ -72,17 +72,17 @@ const copy = {
     "captionOne": "핍의 따뜻한 환영",
     "captionTwo": "이야기 배지 아홉 개 모으기",
     "madeFor": "조용한 휴식을 위한 게임",
-    "whyTitle": "한 번의 터치마다 작은 만족을",
+    "whyTitle": "한 칸을 채울 때마다 느끼는 작은 만족",
     "cardOneTitle": "숨은 그림을 완성해요",
-    "cardOneBody": "힌트를 따라 칸을 채우면 작은 장면이 포근한 그림으로 나타나요.",
+    "cardOneBody": "숫자 단서를 따라 칸을 채우고, 숨은 그림을 하나씩 발견해 보세요.",
     "cardTwoTitle": "팬트리 친구들을 만나요",
     "cardTwoBody": "시계 할아버지와 타임어택에 도전한 뒤, 다시 내 속도로 팬트리를 즐겨 보세요.",
-    "cardThreeTitle": "포근한 퍼즐 휴식",
-    "cardThreeBody": "부담 없는 플레이와 기분 좋은 그림 공개, 집처럼 따뜻한 팬트리를 천천히 즐겨 보세요.",
-    "studioTitle": "작지만 오래 아끼고 싶은 게임을 만듭니다.",
-    "studioBody": "Sunny Spoon Studios는 다정한 캐릭터와 손맛 좋은 플레이, 다시 찾아오고 싶은 작은 세상을 담은 게임을 만듭니다. 핍의 퍼즐방은 그 첫 번째 이야기예요.",
+    "cardThreeTitle": "포근한 퍼즐로 쉬어 가세요",
+    "cardThreeBody": "부담 없는 플레이와 기분 좋은 그림, 집처럼 편안한 팬트리를 천천히 즐겨 보세요.",
+    "studioTitle": "작아도 오래 간직하고 싶은 게임",
+    "studioBody": "Sunny Spoon Studios는 다정한 캐릭터와 기분 좋은 손맛, 자꾸만 다시 찾고 싶은 작은 세상을 만듭니다. 핍의 퍼즐방에서 그 첫 이야기를 시작합니다.",
     "stayClose": "팬트리의 다음 소식",
-    "connectTitle": "퍼즐 공개, 계절 테마, 그리고 제작 비하인드를 만나 보세요.",
+    "connectTitle": "새로운 퍼즐과 계절 테마, 제작 뒷이야기를 전해드려요",
     "visitYouTube": "YouTube 채널 보기",
     "contact": "스튜디오에 문의하기",
     "supportTitle": "도움이 필요하신가요?",
@@ -95,7 +95,7 @@ const copy = {
     "googleRefund": "Google Play 환불 안내",
     "appleRefund": "Apple 환불 요청",
     "privacy": "개인정보처리방침",
-    "footerTagline": "포근한 퍼즐, 따뜻한 작은 세상."
+    "footerTagline": "포근한 퍼즐, 따뜻한 작은 세상"
   }
 };
 
@@ -107,6 +107,7 @@ function applyLanguage(next) {
   document.querySelectorAll("[data-i18n]").forEach((node) => { const value = copy[next][node.dataset.i18n]; if (value) node.textContent = value; });
   document.querySelectorAll("[data-i18n-html]").forEach((node) => { const value = copy[next][node.dataset.i18nHtml]; if (value) node.innerHTML = value; });
   toggle.textContent = next === "en" ? "한국어" : "English";
+  toggle.setAttribute("aria-label", next === "en" ? "한국어로 보기" : "View in English");
   localStorage.setItem("sunny-spoon-language", next);
 }
 toggle?.addEventListener("click", () => applyLanguage(language === "en" ? "ko" : "en"));

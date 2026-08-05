@@ -9,7 +9,8 @@
 
 # v0.1.700 Android upload rebuild - 2026-07-30
 
-- Last Play Console upload: versionCode **36** / versionName **"1.1.8"** (production).`n- Current signed upload target: versionCode 37 / versionName 1.1.9.
+- Last Play Console upload: versionCode **37** / versionName **"1.1.9"** (production review).
+- Current signed upload target: versionCode 38 / versionName 1.1.10.
 - versionCode 33 was rejected by Play Console as already used; do not upload or reuse the earlier code-33 bundle.
 - The signed build script now auto-loads the external Key Paths environment file, verifies the keystore and alias before QA/build, and never prints password values.
 
@@ -2192,3 +2193,9 @@ versionName "1.1.3" // next internal-test Billing candidate
 - Size: 20,125,591 bytes.
 - SHA-256: `A66606C1FCF2524E8404ADE0D372D4BFAE09B2483C402DFA086ABCCDD5281BD5`.
 - Verification: release commit gate, full candidate QA (48 files / 290 tests), production build, Capacitor sync, Gradle `bundleRelease`, and `jarsigner` verification passed.
+## v0.1.704 focused-play update candidate - 2026-08-05
+
+- Enlarged and clipped-safe focused puzzle board, D-pad from 8x8 upward, unified dialogue geometry, and Settings spoon cleanup are included for Android and iOS.
+- Release identity: Android versionCode 38 / versionName 1.1.10; package/UI v0.1.704.
+- Signed AAB: `android/app/build/outputs/bundle/release/app-release.aab` (20,128,450 bytes).
+- SHA-256: `4F9DA3978BEC8CEA92C28E8C20D65201282FA378DD1D2CCF27FC97A01AA06E63`; `jarsigner` verification passed.

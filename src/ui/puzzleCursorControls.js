@@ -11,11 +11,11 @@ export function shouldShowCursorControls(puzzle, controlMode) {
   if (controlMode === "cursor") {
     return true;
   }
-  return Number(puzzle.size) >= 10;
+  return Number(puzzle.size) >= 8;
 }
 
 export function renderCursorControls(state, puzzle, update) {
-  const compact = Number(puzzle.size || 0) >= 10;
+  const compact = Number(puzzle.size || 0) >= 8;
   const controls = document.createElement("section");
   controls.className = compact ? "cursor-controls cursor-controls--compact" : "cursor-controls";
   controls.setAttribute("aria-label", t("controls.cursorPanel"));

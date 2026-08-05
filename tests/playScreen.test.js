@@ -24,4 +24,13 @@ describe("play screen wiring", () => {
     expect(playScreenSource).toMatch(/onClosePuzzle,\s*\n\s*onViewAlbum,/);
     expect(playScreenSource).toMatch(/onViewAlbum:\s*replayChallenge\s*\?\s*onClosePuzzle\s*:\s*onViewAlbum/);
   });
+
+  it("opens a pause destination menu instead of immediately leaving normal play", () => {
+    expect(playScreenSource).toContain("openPauseMenu()");
+    expect(playScreenSource).toContain('className = "play-pause-overlay"');
+    expect(playScreenSource).toContain('createPauseAction(t("playPause.continue")');
+    expect(playScreenSource).toContain('createPauseAction(t("playPause.pictures")');
+    expect(playScreenSource).toContain('onSelectView?.("album")');
+    expect(playScreenSource).toContain('onSelectView?.("pantry")');
+  });
 });

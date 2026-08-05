@@ -16,6 +16,7 @@ export function renderPlayScreen(activePuzzle, options) {
     onPreviousStagePuzzle,
     onNextStagePuzzle,
     onShowPuzzlePicker,
+    onSelectView,
     onPuzzleComplete,
     getStageNavigation,
     isTimeAttack = false,
@@ -42,7 +43,13 @@ export function renderPlayScreen(activePuzzle, options) {
   backButton.type = "button";
   backButton.className = "play-screen__back";
   backButton.textContent = t("playScreen.back");
-  backButton.addEventListener("click", onClosePuzzle);
+  backButton.addEventListener("click", () => {
+    if (isTimeAttack) {
+      onClosePuzzle();
+      return;
+    }
+    openPauseMenu();
+  });
 
   const title = document.createElement("div");
   title.className = "play-screen__title";
@@ -99,7 +106,55 @@ export function renderPlayScreen(activePuzzle, options) {
   }));
 
   screen.append(header, body);
+
+  function openPauseMenu() {
+    if (screen.querySelector(".play-pause-overlay")) return;
+    const overlay = document.createElement("div");
+    overlay.className = "play-pause-overlay";
+    overlay.setAttribute("role", "dialog");
+    overlay.setAttribute("aria-modal", "true");
+    overlay.setAttribute("aria-labelledby", "play-pause-title");
+
+    const panel = document.createElement("section");
+    panel.className = "play-pause-menu";
+    const heading = document.createElement("div");
+    heading.className = "play-pause-menu__heading";
+    const eyebrow = document.createElement("p");
+    eyebrow.textContent = puzzleTitle(activePuzzle);
+    const pauseTitle = document.createElement("h2");
+    pauseTitle.id = "play-pause-title";
+    pauseTitle.textContent = t("playPause.title");
+    heading.append(eyebrow, pauseTitle);
+
+    const actions = document.createElement("div");
+    actions.className = "play-pause-menu__actions";
+    actions.append(
+      createPauseAction(t("playPause.continue"), "continue", () => overlay.remove()),
+      createPauseAction(t("playPause.home"), "home", onClosePuzzle),
+      createPauseAction(t("playPause.pictures"), "pictures", onShowPuzzlePicker),
+      createPauseAction(t("views.album"), "album", () => onSelectView?.("album")),
+      createPauseAction(t("views.pantry"), "pantry", () => onSelectView?.("pantry")),
+      createPauseAction(t("header.settings"), "settings", onRequestSettings)
+    );
+    panel.append(heading, actions);
+    overlay.appendChild(panel);
+    overlay.addEventListener("click", (event) => {
+      if (event.target === overlay) overlay.remove();
+    });
+    screen.appendChild(overlay);
+    panel.querySelector("button")?.focus();
+  }
+
   return screen;
+}
+
+function createPauseAction(label, destination, onClick) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `play-pause-menu__action play-pause-menu__action--${destination}`;
+  button.textContent = label;
+  button.addEventListener("click", onClick);
+  return button;
 }
 
 export function getTimeAttackElapsedSeconds(startedAt) {

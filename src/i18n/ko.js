@@ -288,6 +288,12 @@ export const ko = {
     list: "\uADF8\uB9BC \uBAA9\uB85D",
     next: "\uB2E4\uC74C \uADF8\uB9BC"
   },
+  playPause: {
+    title: "퍼즐 일시정지",
+    continue: "계속 플레이",
+    home: "워크숍 홈",
+    pictures: "그림 목록"
+  },
   controls: {
     fill: "\uce60\ud558\uae30",
     mark: "\ube48\uce78 \uccb4\ud06c",

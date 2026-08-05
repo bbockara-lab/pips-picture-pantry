@@ -169,10 +169,6 @@ export function renderPuzzleView(puzzle, options = {}) {
       return;
     }
     const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode);
-    if (options.stageNavigation && !cursorControlsEnabled) {
-      section.appendChild(createStageNavigation(options.stageNavigation));
-    }
-
     // Cursor mode already explains movement and the two available actions
     // beside its D-pad. Repeating the full Pip lesson and tap controls above
     // a large board makes the board feel secondary.
@@ -181,7 +177,7 @@ export function renderPuzzleView(puzzle, options = {}) {
     }
 
     if (isTimeAttack) {
-      appendHintPanel(cursorControlsEnabled);
+      appendHintPanel(true);
     }
 
     section.appendChild(renderBoard(puzzle, state, (row, column, action = {}) => {
@@ -212,7 +208,7 @@ export function renderPuzzleView(puzzle, options = {}) {
       section.appendChild(renderCursorControls(state, puzzle, update));
     }
     if (!isTimeAttack) {
-      appendHintPanel(cursorControlsEnabled);
+      appendHintPanel(true);
     }
     section.appendChild(createProgressLine(state, puzzle));
 

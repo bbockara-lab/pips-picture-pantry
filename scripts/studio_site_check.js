@@ -30,10 +30,10 @@ const css = read("store-assets/site/styles.css");
 const js = read("store-assets/site/app.js");
 
 for (const marker of [
-  "Studio site v0.1.8",
+  "Studio site v0.1.9",
   "privacy-policy.html",
-  "./site/styles.css?v=018",
-  "./site/app.js?v=018",
+  "./site/styles.css?v=019",
+  "./site/app.js?v=019",
   "@SunnySpoonStudios",
   "sunnyspoonstudios@gmail.com",
   'class="language-toggle"',
@@ -58,6 +58,8 @@ for (const marker of [
   ".phone-gallery",
   ".support-grid",
   ".support-card",
+  "html[lang=\"ko\"] body",
+  ".hero-line",
 ]) {
   assert(css.includes(marker), `Missing CSS marker: ${marker}`);
 }

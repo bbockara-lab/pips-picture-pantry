@@ -6,6 +6,204 @@
   font-display: swap;
 }
 
+/* v0.1.705 - focused puzzle contract: the board is the primary play surface. */
+.app-shell--play > .spoon-balance-chip {
+  display: none !important;
+}
+
+.app-shell--play .play-screen__body {
+  width: 100%;
+}
+
+.app-shell--play .puzzle-panel:not(.completed),
+.app-shell--play .puzzle-panel:not(.completed).content-panel {
+  width: 100%;
+  margin-inline: auto;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.app-shell--play .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+  --board-row-clue-width: clamp(54px, 14vw, 68px);
+  --board-cell-size: clamp(17px, calc((min(100vw, 620px) - 116px - (var(--board-grid-gap) * var(--board-gap-count))) / var(--board-size)), 52px);
+  --board-grid-gap: clamp(2px, 0.75vw, 3px);
+  box-sizing: border-box;
+  margin: 6px auto 0;
+  border-width: 1px;
+  border-radius: 18px;
+  padding: 8px;
+}
+
+.app-shell--play .puzzle-panel:not(.completed) .controls,
+.app-shell--play .puzzle-panel:not(.completed) .cursor-controls,
+.app-shell--play .puzzle-panel:not(.completed) .hint-panel {
+  width: min(100%, 620px);
+}
+
+.app-shell--play .puzzle-panel:not(.completed) .controls,
+.app-shell--play .puzzle-panel:not(.completed) .cursor-controls {
+  margin-top: 8px;
+}
+
+.app-shell--play .puzzle-panel:not(.completed) .hint-panel {
+  margin-top: 7px;
+}
+
+.app-shell--play .puzzle-panel:not(.completed) .progress-line {
+  margin-top: 7px;
+}
+
+.play-pause-overlay {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  padding: max(20px, env(safe-area-inset-top)) 18px max(20px, env(safe-area-inset-bottom));
+  background: rgba(49, 36, 30, 0.58);
+  backdrop-filter: blur(5px);
+}
+
+.play-pause-menu {
+  box-sizing: border-box;
+  width: min(100%, 430px);
+  border: 3px solid var(--ink);
+  border-radius: 26px;
+  padding: 18px;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(255, 225, 119, 0.34), transparent 32%),
+    linear-gradient(145deg, #fffaf0, #e8f3df);
+  box-shadow: 0 9px 0 rgba(49, 36, 30, 0.2), 0 24px 64px rgba(49, 36, 30, 0.3);
+}
+
+.play-pause-menu__heading {
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.play-pause-menu__heading p,
+.play-pause-menu__heading h2 {
+  margin: 0;
+}
+
+.play-pause-menu__heading p {
+  color: #8d5a36;
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
+.play-pause-menu__heading h2 {
+  margin-top: 4px;
+  font-size: clamp(1.35rem, 6vw, 1.8rem);
+}
+
+.play-pause-menu__actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.play-pause-menu__action {
+  min-height: 52px;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  padding: 9px 10px;
+  background: #fff8e8;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 900;
+  box-shadow: 0 4px 0 rgba(49, 36, 30, 0.16);
+}
+
+.play-pause-menu__action--continue {
+  grid-column: 1 / -1;
+  background: linear-gradient(180deg, #ffd264, #f4b934);
+}
+
+.play-pause-menu__action:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(49, 36, 30, 0.16);
+}
+
+@media (max-width: 520px) {
+  .app-shell--play .play-screen__header {
+    grid-template-columns: auto minmax(0, 1fr) 42px auto;
+    grid-template-rows: auto;
+    gap: 7px;
+    padding: max(7px, env(safe-area-inset-top)) 8px 7px;
+  }
+
+  .app-shell--play .play-screen__back,
+  .app-shell--play .play-screen__settings,
+  .app-shell--play .play-screen__header .difficulty,
+  .app-shell--play .play-screen__title {
+    grid-row: 1;
+  }
+
+  .app-shell--play .play-screen__settings {
+    width: 42px;
+    min-width: 42px;
+    min-height: 42px;
+  }
+
+  .app-shell--play .play-screen__back {
+    min-height: 42px;
+    padding-inline: 9px;
+  }
+
+  .app-shell--play .play-screen__title h1 {
+    font-size: clamp(1rem, 4.8vw, 1.28rem);
+  }
+
+  .app-shell--play .play-screen__header .difficulty {
+    grid-column: 4;
+    justify-self: end;
+    margin: 0;
+    padding: 5px 8px;
+  }
+
+  .app-shell--play .play-screen__body {
+    padding: 5px 6px max(16px, env(safe-area-inset-bottom));
+  }
+
+  .app-shell--play .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --board-row-clue-width: clamp(52px, 14vw, 60px);
+    --board-cell-size: clamp(17px, calc((100vw - 104px - (var(--board-grid-gap) * var(--board-gap-count))) / var(--board-size)), 52px);
+    padding: 6px;
+  }
+
+  .app-shell--play .cursor-controls--compact {
+    padding: 8px;
+  }
+
+  .app-shell--play .cursor-controls--compact .cursor-controls__body {
+    grid-template-columns: 126px minmax(0, 1fr);
+    gap: 7px;
+    margin-top: 7px;
+  }
+
+  .app-shell--play .cursor-controls--compact .cursor-dpad {
+    width: 124px;
+    min-height: 124px;
+    grid-template-columns: repeat(3, 38px);
+    grid-template-rows: repeat(3, 38px);
+  }
+
+  .app-shell--play .cursor-controls--compact .cursor-move {
+    width: 38px;
+    min-width: 38px;
+    height: 38px;
+  }
+
+  .app-shell--play .cursor-controls--compact .cursor-action-button {
+    min-height: 52px;
+  }
+}
+
 /* v0.1.704 - canonical mobile guide-dialog contract.
    Keep this block as the single final authority for conversation geometry. */
 #app:has(.modal-backdrop--settings) > .spoon-balance-chip {
@@ -19698,5 +19896,121 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
     flex: 0 0 auto !important;
     width: 100% !important;
     margin: 0 !important;
+  }
+}
+
+/* v0.1.705 final authority - focused puzzle geometry. */
+.app-shell--play .spoon-balance-chip { display: none !important; }
+.app-shell--play .play-screen__body { width: 100%; }
+.app-shell--play .puzzle-panel:not(.completed),
+.app-shell--play .puzzle-panel:not(.completed).content-panel {
+  width: 100%;
+  margin-inline: auto;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.app-shell--play .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+  --board-row-clue-width: clamp(54px, 14vw, 68px) !important;
+  --board-grid-gap: clamp(2px, 0.75vw, 3px);
+  --board-cell-size: clamp(17px, calc((min(100vw, 620px) - 128px - (var(--board-grid-gap) * var(--board-gap-count))) / var(--board-size)), 52px) !important;
+  box-sizing: border-box;
+  margin: 6px auto 0;
+  border-width: 1px;
+  border-radius: 18px;
+  padding: 8px;
+}
+.app-shell--play .puzzle-panel:not(.completed) :is(.controls, .cursor-controls, .hint-panel) {
+  width: min(100%, 620px);
+}
+.app-shell--play .puzzle-panel:not(.completed) :is(.controls, .cursor-controls) { margin-top: 8px; }
+.app-shell--play .puzzle-panel:not(.completed) .hint-panel,
+.app-shell--play .puzzle-panel:not(.completed) .progress-line { margin-top: 7px; }
+
+@media (max-width: 520px) {
+  .app-shell--play .play-screen__header {
+    grid-template-columns: auto minmax(0, 1fr) 42px auto;
+    grid-template-rows: auto;
+    gap: 7px;
+    padding: max(7px, env(safe-area-inset-top)) 8px 7px;
+  }
+  .app-shell--play .play-screen__back,
+  .app-shell--play .play-screen__settings,
+  .app-shell--play .play-screen__header .difficulty,
+  .app-shell--play .play-screen__title { grid-row: 1; }
+  .app-shell--play .play-screen__settings {
+    width: 42px;
+    min-width: 42px;
+    min-height: 42px;
+  }
+  .app-shell--play .play-screen__back { min-height: 42px; padding-inline: 9px; }
+  .app-shell--play .play-screen__title h1 { font-size: clamp(1rem, 4.8vw, 1.28rem); }
+  .app-shell--play .play-screen__header .difficulty {
+    grid-column: 4;
+    justify-self: end;
+    margin: 0;
+    padding: 5px 8px;
+  }
+  .app-shell--play .play-screen__body { padding: 5px 6px max(16px, env(safe-area-inset-bottom)); }
+  .app-shell--play .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --board-row-clue-width: clamp(52px, 14vw, 60px) !important;
+    --board-cell-size: clamp(17px, calc((100vw - 116px - (var(--board-grid-gap) * var(--board-gap-count))) / var(--board-size)), 52px) !important;
+    padding: 6px;
+  }
+  .app-shell--play .cursor-controls--compact { padding: 8px; }
+  .app-shell--play .cursor-controls--compact .cursor-controls__body {
+    grid-template-columns: 126px minmax(0, 1fr);
+    gap: 7px;
+    margin-top: 7px;
+  }
+  .app-shell--play .cursor-controls--compact .cursor-dpad {
+    width: 124px;
+    min-height: 124px;
+    grid-template-columns: repeat(3, 38px);
+    grid-template-rows: repeat(3, 38px);
+  }
+  .app-shell--play .cursor-controls--compact .cursor-move {
+    width: 38px;
+    min-width: 38px;
+    height: 38px;
+  }
+  .app-shell--play .cursor-controls--compact .cursor-action-button { min-height: 52px; }
+}
+
+/* v0.1.706 - large-board clue lanes must contain every clue token. */
+@media (max-width: 520px) {
+  .app-shell--play .play-screen:is(
+    [data-puzzle-size="8"],
+    [data-puzzle-size="10"],
+    [data-puzzle-size="12"]
+  ) .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --board-row-clue-width: clamp(68px, 18vw, 76px) !important;
+    --board-cell-size: clamp(14px, calc((100vw - 132px - (var(--board-grid-gap) * var(--board-gap-count))) / var(--board-size)), 44px) !important;
+  }
+
+  .app-shell--play .play-screen[data-puzzle-size="8"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --board-row-clue-width: clamp(64px, 16vw, 68px) !important;
+    --board-cell-size: clamp(17px, calc((100vw - 122px - (var(--board-grid-gap) * var(--board-gap-count))) / var(--board-size)), 44px) !important;
+    --clue-token-size: clamp(14px, 3.5vw, 15.5px) !important;
+  }
+
+  .app-shell--play .play-screen[data-puzzle-size="10"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --clue-token-size: clamp(11px, 3vw, 13px) !important;
+  }
+
+  .app-shell--play .play-screen[data-puzzle-size="12"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --clue-token-size: 10px !important;
+  }
+
+  .app-shell--play .play-screen:is(
+    [data-puzzle-size="8"],
+    [data-puzzle-size="10"],
+    [data-puzzle-size="12"]
+  ) .puzzle-panel:not(.completed) .row-clue {
+    justify-content: flex-end;
+    gap: 1px;
+    overflow: hidden;
   }
 }

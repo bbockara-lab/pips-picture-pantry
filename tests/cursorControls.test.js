@@ -2,7 +2,7 @@ import { describe, expect, it, afterEach } from "vitest";
 import { CELL } from "../src/game/nonogram.js";
 import { createPuzzleState, setCursor, toggleCell } from "../src/game/puzzleState.js";
 import { setActiveLocale } from "../src/i18n/index.js";
-import { getCursorActionDescriptors, getCursorActionLabels, getSelectedCursorCell } from "../src/ui/puzzleCursorControls.js";
+import { getCursorActionDescriptors, getCursorActionLabels, getSelectedCursorCell, shouldShowCursorControls } from "../src/ui/puzzleCursorControls.js";
 
 const puzzle = { id: "cursor-label-puzzle", size: 3 };
 
@@ -45,6 +45,19 @@ describe("cursor control action labels", () => {
     state = toggleCell(state, 0, 0, "fill");
 
     expect(getCursorActionLabels(state).fill).toBe("\uc0c9 \uc9c0\uc6b0\uae30");
+  });
+});
+
+describe("automatic large-board controls", () => {
+  it("keeps 5×5 direct and enables the D-pad from 8×8", () => {
+    expect(shouldShowCursorControls({ size: 5 }, "auto")).toBe(false);
+    expect(shouldShowCursorControls({ size: 8 }, "auto")).toBe(true);
+    expect(shouldShowCursorControls({ size: 12 }, "auto")).toBe(true);
+  });
+
+  it("respects explicit tap and cursor preferences", () => {
+    expect(shouldShowCursorControls({ size: 12 }, "direct")).toBe(false);
+    expect(shouldShowCursorControls({ size: 5 }, "cursor")).toBe(true);
   });
 });
 

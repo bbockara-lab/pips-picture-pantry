@@ -43,3 +43,11 @@ describe("puzzle view hint cost", () => {
     expect(getPuzzleHintCost({ puzzleSize: 12, hintsUsed: 5, paidHintsUsed: 1, hintLimit: 4 })).toBe(14);
   });
 });
+
+describe("focused puzzle layout", () => {
+  it("keeps stage navigation out of an active board and uses compact hints", () => {
+    expect(puzzleViewSource).not.toContain("section.appendChild(createStageNavigation(options.stageNavigation))");
+    expect(puzzleViewSource).toMatch(/if \(isTimeAttack\) \{\s*appendHintPanel\(true\)/);
+    expect(puzzleViewSource).toMatch(/if \(!isTimeAttack\) \{\s*appendHintPanel\(true\)/);
+  });
+});

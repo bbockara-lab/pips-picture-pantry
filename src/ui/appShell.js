@@ -785,6 +785,7 @@ function createShell({
       onPreviousStagePuzzle,
       onNextStagePuzzle,
       onShowPuzzlePicker,
+      onSelectView,
       getStageNavigation,
       onPuzzleComplete: activeView === "timeAttack" ? onTimeAttackPuzzleComplete : onPuzzleComplete,
       isTimeAttack: activeView === "timeAttack",

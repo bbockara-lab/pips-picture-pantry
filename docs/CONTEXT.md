@@ -5097,3 +5097,8 @@ Current launch direction:
 - Centered non-puzzle Pip guide dialogue text, reserved 36px at the bottom of the art row for the Pip name tag, and vertically centered each bubble's content.
 - Android identity remains `versionCode 37` / `versionName 1.1.9`. After visual confirmation, the signed Play-upload AAB was built from commit `ca6cf33`; it is 20,125,591 bytes, `jarsigner` reported `jar verified`, and SHA-256 is `A66606C1FCF2524E8404ADE0D372D4BFAE09B2483C402DFA086ABCCDD5281BD5`.
 - Verification: direct Chromium rendering passed for Map, Spoon Run intro, first Pantry purchase, and Pantry room-story at 360px / 390px / 430px; centered text and bubble content, 36px art reserve, zero name-tag overlap, contained dialogue, and no dialog overflow were confirmed. `npm run qa:candidate` passed 48 test files / 289 tests, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900.
+## v0.1.704 - 2026-08-05 - Focused puzzle play release candidate
+
+- Unified and polished character dialogue layouts, removed the overlapping Settings spoon balance, and introduced the enlarged focused-puzzle play layout across Android and iOS.
+- Large puzzles now prioritize the board, expose D-pad controls from 8x8 upward, preserve complete multi-token row clues without left-edge clipping, and use the existing navigation affordance for leaving focused play.
+- Release identity: package/UI v0.1.704; Android versionCode 38 / versionName 1.1.10; initial iOS marketing version 1.0 / build 1.

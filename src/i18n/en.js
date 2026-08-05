@@ -310,6 +310,12 @@ export const en = {
     list: "Picture list",
     next: "Next"
   },
+  playPause: {
+    title: "Puzzle paused",
+    continue: "Continue puzzle",
+    home: "Workshop home",
+    pictures: "Picture list"
+  },
   controls: {
     fill: "Color",
     mark: "Blank Check",

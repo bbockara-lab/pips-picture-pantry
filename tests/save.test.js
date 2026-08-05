@@ -335,7 +335,12 @@ describe("player save profiles", () => {
 
   it("limits replay rewards to clean Pip picks", () => {
     setActivePlayerName("Jay");
-    const firstDate = "2026-07-06";
+    const now = new Date();
+    const firstDate = [
+      now.getFullYear(),
+      String(now.getMonth() + 1).padStart(2, "0"),
+      String(now.getDate()).padStart(2, "0")
+    ].join("-");
     const completedIds = [
       "pips-first-shelf-pip-face-1",
       "pips-first-shelf-soup-2",

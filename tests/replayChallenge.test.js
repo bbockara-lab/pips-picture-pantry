@@ -15,6 +15,12 @@ class LocalStorageMock {
 
 const replayPuzzle = { id: "pips-first-shelf-pip-face-1", size: 3 };
 const solution = ["010", "111", "010"];
+const now = new Date();
+const currentDateKey = [
+  now.getFullYear(),
+  String(now.getMonth() + 1).padStart(2, "0"),
+  String(now.getDate()).padStart(2, "0")
+].join("-");
 
 describe("replay challenge reward guard", () => {
   beforeEach(() => {
@@ -24,9 +30,9 @@ describe("replay challenge reward guard", () => {
   });
 
   it("rewards only picked clean replay completions", () => {
-    expect(recordReplayReward({ puzzleId: "pips-first-shelf-pip-face-1", picked: true, clean: true, dateKey: "2026-07-06" })).toMatchObject({ rewardAllowed: true, reward: 1 });
+    expect(recordReplayReward({ puzzleId: "pips-first-shelf-pip-face-1", picked: true, clean: true, dateKey: currentDateKey })).toMatchObject({ rewardAllowed: true, reward: 1 });
     expect(getPantrySpoons()).toBe(4);
-    expect(recordReplayReward({ puzzleId: "pips-first-shelf-pip-face-1", picked: true, clean: true, dateKey: "2026-07-06" })).toMatchObject({ rewardAllowed: false, reason: "already-claimed" });
+    expect(recordReplayReward({ puzzleId: "pips-first-shelf-pip-face-1", picked: true, clean: true, dateKey: currentDateKey })).toMatchObject({ rewardAllowed: false, reason: "already-claimed" });
   });
 
   it("keeps replay unclean after a wrong fill is undone", () => {
