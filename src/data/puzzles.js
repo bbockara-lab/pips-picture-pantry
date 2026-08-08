@@ -1,6 +1,7 @@
 import { APRON_DRAWER_PUZZLE_OVERRIDES } from "./apronDrawerPuzzles.js";
 import { PROGRESSION_PUZZLE_OVERRIDES } from "./progressionPuzzleOverrides.js";
 import { QUALITY_PUZZLE_OVERRIDES } from "./qualityPuzzleOverrides.js";
+import { UNIQUENESS_PUZZLE_OVERRIDES } from "./uniquenessPuzzleOverrides.js";
 
 export const puzzles = [
   {
@@ -209,7 +210,7 @@ export const puzzles = [
   },
   {
     "id": "pips-first-shelf-spoon-2-13",
-    "title": "Spoon 2",
+    "title": "Wooden Spoon",
     "packId": "pips-first-shelf",
     "access": "free",
     "size": 5,
@@ -217,11 +218,11 @@ export const puzzles = [
     "reward": 3,
     "completionPalette": "golden-spoon",
     "solution": [
-      "01100",
-      "01100",
-      "00100",
-      "00100",
-      "00100"
+      "00000",
+      "11000",
+      "11111",
+      "11000",
+      "00000"
     ]
   },
   {
@@ -1176,11 +1177,11 @@ export const puzzles = [
     "difficulty": "starter",
     "reward": 3,
     "solution": [
+      "11111",
       "10001",
       "11011",
-      "01110",
-      "11011",
-      "10001"
+      "10101",
+      "11111"
     ]
   },
   {
@@ -1311,13 +1312,13 @@ export const puzzles = [
     "reward": 5,
     "solution": [
       "00111100",
-      "01000010",
       "01111110",
-      "01011010",
-      "01011010",
-      "01011010",
-      "01111110",
-      "00111100"
+      "11111111",
+      "11000011",
+      "10110101",
+      "11011011",
+      "11111111",
+      "01111110"
     ]
   },
   {
@@ -1367,14 +1368,14 @@ export const puzzles = [
     "difficulty": "easy",
     "reward": 5,
     "solution": [
-      "01000010",
-      "01011010",
+      "11100111",
+      "01111110",
       "00111100",
       "00011000",
       "00011000",
       "00011000",
       "00011000",
-      "00011000"
+      "00111100"
     ]
   },
   {
@@ -1386,6 +1387,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "puffy baker cap with a gathered crown and folded headband",
+      "colorMood": "warm cream cloth, toasted fold shadows, honey highlights",
+      "tags": [
+        "baker-cap",
+        "folded-band",
+        "bakery-window"
+      ]
+    },
     "solution": [
       "0001111000",
       "0011111100",
@@ -1408,6 +1418,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "two neat rows of small cupcakes on a shallow bakery tray",
+      "colorMood": "vanilla frosting, cocoa wrappers, berry accents",
+      "tags": [
+        "cupcake-tray",
+        "frosting-row",
+        "bakery-window"
+      ]
+    },
     "solution": [
       "0000110000",
       "0001111000",
@@ -1430,6 +1449,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "rounded copper kettle with arched handle, lid, and short spout",
+      "colorMood": "copper orange, honey highlights, dark wood shadow",
+      "tags": [
+        "copper-kettle",
+        "arched-handle",
+        "bakery-window"
+      ]
+    },
     "solution": [
       "0001111000",
       "0010000100",
@@ -1452,6 +1480,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "wall rack holding two rolling pins and a small folded cloth",
+      "colorMood": "warm wood, cream cloth, brass pegs",
+      "tags": [
+        "rolling-pin-rack",
+        "baking-tools",
+        "bakery-window"
+      ]
+    },
     "solution": [
       "0000000000",
       "1100000011",
@@ -1474,6 +1511,15 @@ export const puzzles = [
     "size": 12,
     "difficulty": "hard",
     "reward": 15,
+    "artReadability": {
+      "silhouette": "paned bakery window glowing around jars and hanging heart details",
+      "colorMood": "honey window light, mint glass, warm wood",
+      "tags": [
+        "bakery-window",
+        "window-glow",
+        "paned-display"
+      ]
+    },
     "solution": [
       "000111111000",
       "001111111100",
@@ -1546,6 +1592,15 @@ export const puzzles = [
     "size": 12,
     "difficulty": "hard",
     "reward": 15,
+    "artReadability": {
+      "silhouette": "ribboned gift box with two tidy rows of macarons",
+      "colorMood": "cream box, berry ribbon, pastel macarons",
+      "tags": [
+        "macaron-box",
+        "ribbon-gift",
+        "bakery-window"
+      ]
+    },
     "solution": [
       "001111111100",
       "010000000010",
@@ -1810,6 +1865,15 @@ export const puzzles = [
     "size": 12,
     "difficulty": "hard",
     "reward": 15,
+    "artReadability": {
+      "silhouette": "handled sugar duster with perforated cap and rounded shaker body",
+      "colorMood": "brass gold, powdered cream, cocoa shadow",
+      "tags": [
+        "sugar-duster",
+        "shaker-tool",
+        "bakery-window"
+      ]
+    },
     "solution": [
       "001111111100",
       "010000000010",
@@ -1882,6 +1946,15 @@ export const puzzles = [
     "size": 12,
     "difficulty": "hard",
     "reward": 9,
+    "artReadability": {
+      "silhouette": "tapered icing piping bag with a folded cuff and metal tip",
+      "colorMood": "vanilla canvas, blush icing, silver tip",
+      "tags": [
+        "piping-bag",
+        "icing-tool",
+        "bakery-window"
+      ]
+    },
     "solution": [
       "000011100000",
       "000111110000",
@@ -1906,6 +1979,15 @@ export const puzzles = [
     "size": 12,
     "difficulty": "hard",
     "reward": 9,
+    "artReadability": {
+      "silhouette": "round tray of folded cherry danishes with open fruit centers",
+      "colorMood": "golden pastry, cherry red filling, cream highlights",
+      "tags": [
+        "danish-tray",
+        "cherry-filling",
+        "bakery-window"
+      ]
+    },
     "solution": [
       "000111111000",
       "001100001100",
@@ -2688,6 +2770,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "two pantry shelves lined with paired jam jars",
+      "colorMood": "berry jam, glass cream, honey shelf",
+      "tags": [
+        "jam-shelf",
+        "paired-jars",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "0011111100",
       "0111111110",
@@ -2710,6 +2801,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "garden rake with a wide row of teeth and a long straight handle",
+      "colorMood": "warm wood, sage metal, soil brown",
+      "tags": [
+        "garden-rake",
+        "garden-tool",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "0100000010",
       "0110011010",
@@ -2732,6 +2832,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "wide straw sun hat with domed crown and trailing ribbon",
+      "colorMood": "wheat straw, berry ribbon, warm shadow",
+      "tags": [
+        "straw-hat",
+        "garden-wear",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "0001111000",
       "0011111100",
@@ -2754,6 +2863,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "flower basket with clustered blooms, woven rim, and low handle",
+      "colorMood": "wicker gold, daisy cream, leaf green",
+      "tags": [
+        "flower-basket",
+        "garden-blooms",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "0000110000",
       "0001111000",
@@ -2776,6 +2894,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "garden wheelbarrow with deep tray, handles, and one large wheel",
+      "colorMood": "sage metal, warm wood, terracotta wheel",
+      "tags": [
+        "wheelbarrow",
+        "garden-cart",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "0001111000",
       "0010000100",
@@ -2798,6 +2925,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "tall wooden village sign with pointed top and broad message board",
+      "colorMood": "warm wood, cream lettering, sage trim",
+      "tags": [
+        "village-sign",
+        "wooden-post",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "0000000000",
       "1100000011",
@@ -2820,6 +2956,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "handled farmstand basket with alternating produce pockets",
+      "colorMood": "wicker gold, tomato red, leaf green",
+      "tags": [
+        "farmstand-basket",
+        "market-produce",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "0001111000",
       "0010000100",
@@ -2864,6 +3009,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "spread picnic cloth with bold gingham checks and folded corners",
+      "colorMood": "cream linen, berry red, mint checks",
+      "tags": [
+        "picnic-cloth",
+        "gingham-grid",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "1010101010",
       "0101010101",
@@ -2886,6 +3040,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "small two-wheel flower cart with a full bed of blooms",
+      "colorMood": "mint cart, berry flowers, warm wood wheels",
+      "tags": [
+        "flower-cart",
+        "garden-display",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "0010101000",
       "0111111100",
@@ -2930,6 +3093,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "slatted wooden crate holding four labeled jam jars",
+      "colorMood": "warm wood, berry jam, cream labels",
+      "tags": [
+        "jam-crate",
+        "preserve-jars",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "1111111111",
       "1000000001",
@@ -2974,6 +3146,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "two-tier wall rack holding paired spice jars and a center label",
+      "colorMood": "warm wood, amber spice, cream labels",
+      "tags": [
+        "spice-rack",
+        "paired-jars",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "1111111111",
       "1000000001",
@@ -2996,6 +3177,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "three herb bundles tied to a pantry rail and fanning downward",
+      "colorMood": "sage leaves, cream twine, deep green shadow",
+      "tags": [
+        "hanging-herbs",
+        "herb-bundles",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "0101010100",
       "1111111110",
@@ -3018,6 +3208,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "folded picnic napkin with large alternating check squares",
+      "colorMood": "cream linen, berry red, sage checks",
+      "tags": [
+        "checkered-napkin",
+        "folded-linen",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "1100110011",
       "1100110011",
@@ -3040,6 +3239,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "wall shelf with three short pantry candles and a draped cloth",
+      "colorMood": "cream candles, honey flame, sage shelf",
+      "tags": [
+        "candle-shelf",
+        "pantry-light",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "1111111111",
       "1000000001",
@@ -3062,6 +3270,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "oval wicker serving tray with alternating weave and low handles",
+      "colorMood": "wicker gold, cocoa weave, cream rim",
+      "tags": [
+        "wicker-tray",
+        "woven-oval",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "0001111000",
       "0010000100",
@@ -3106,6 +3323,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "handled bread board with a scored loaf and small crumb marks",
+      "colorMood": "warm wood, wheat gold, sage detail",
+      "tags": [
+        "bread-board",
+        "scored-loaf",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "0001111000",
       "0011111100",
@@ -3172,6 +3398,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "stack of three labeled tea tins with alternating lid shapes",
+      "colorMood": "mint tin, cream labels, berry accents",
+      "tags": [
+        "tea-tin-stack",
+        "pantry-storage",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "0011111100",
       "0110000110",
@@ -3194,6 +3429,15 @@ export const puzzles = [
     "size": 10,
     "difficulty": "medium",
     "reward": 7,
+    "artReadability": {
+      "silhouette": "woven harvest basket with arched handle and checked contents",
+      "colorMood": "wicker brown, squash gold, sage cloth",
+      "tags": [
+        "harvest-basket",
+        "woven-container",
+        "village-pantry"
+      ]
+    },
     "solution": [
       "0001111000",
       "0010000100",
@@ -3307,7 +3551,7 @@ export const puzzles = [
       "0011111000",
       "0111111100",
       "0100000100",
-      "0111111100"
+      "1111111111"
     ]
   },
   {
@@ -3822,9 +4066,9 @@ export const puzzles = [
       "0000100000",
       "0001110000",
       "0011111000",
-      "0111111100",
-      "0011111000",
-      "0001110000"
+      "1111111111",
+      "0111111110",
+      "0011111100"
     ]
   },
   {
@@ -5525,15 +5769,15 @@ export const puzzles = [
     },
     "solution": [
       "0011111100",
-      "0111111110",
+      "0110000110",
       "1111111111",
-      "1110011111",
-      "1111110111",
+      "1101101011",
+      "1010010101",
+      "1101101011",
+      "1000000001",
+      "1100000011",
       "1111111111",
-      "1101101111",
-      "1111111111",
-      "0111111110",
-      "0011111100"
+      "0111111110"
     ]
   },
   {
@@ -8708,10 +8952,13 @@ export const puzzles = [
 ];
 
 puzzles.forEach((puzzle) => {
-  const override = APRON_DRAWER_PUZZLE_OVERRIDES[puzzle.id]
-    || PROGRESSION_PUZZLE_OVERRIDES[puzzle.id]
-    || QUALITY_PUZZLE_OVERRIDES[puzzle.id];
-  if (override) {
+  const override = {
+    ...(QUALITY_PUZZLE_OVERRIDES[puzzle.id] || {}),
+    ...(PROGRESSION_PUZZLE_OVERRIDES[puzzle.id] || {}),
+    ...(APRON_DRAWER_PUZZLE_OVERRIDES[puzzle.id] || {}),
+    ...(UNIQUENESS_PUZZLE_OVERRIDES[puzzle.id] || {})
+  };
+  if (Object.keys(override).length) {
     Object.assign(puzzle, override);
     if (override.title) {
       puzzle.runtimeTitle = override.title;

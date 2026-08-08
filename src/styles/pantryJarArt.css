@@ -1,0 +1,144 @@
+/* v0.1.637 — premium raster jar collection and completed-shelf presentation */
+.pantry-jar-panel .pantry-shelf {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 14px 8px 3px;
+  border: 1px solid rgba(91, 57, 33, 0.18);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 50% 105%, rgba(255, 223, 137, 0.24), transparent 44%),
+    linear-gradient(155deg, rgba(255, 253, 241, 0.96), rgba(238, 215, 176, 0.92));
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.9), 0 7px 14px rgba(77, 48, 29, 0.11);
+}
+.pantry-jar-panel .pantry-shelf[data-shelf-id="honey"] {
+  background: radial-gradient(circle at 15% 18%, rgba(255, 220, 101, 0.19), transparent 30%), linear-gradient(155deg, #fffbed, #eed6a5);
+}
+.pantry-jar-panel .pantry-shelf[data-shelf-id="herb"] {
+  background: radial-gradient(circle at 84% 12%, rgba(136, 176, 112, 0.18), transparent 31%), linear-gradient(155deg, #fbf8e9, #dfdfbd);
+}
+.pantry-jar-panel .pantry-shelf[data-shelf-id="spice"] {
+  background: radial-gradient(circle at 50% 110%, rgba(192, 109, 48, 0.2), transparent 46%), linear-gradient(155deg, #fff5df, #e4c39b);
+}
+.pantry-jar-panel .pantry-shelf__title {
+  position: relative;
+  z-index: 2;
+  margin: 0 58px 4px 7px;
+  color: #65402d;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+}
+.pantry-shelf__progress {
+  position: absolute;
+  z-index: 3;
+  top: 9px;
+  right: 10px;
+  display: grid;
+  min-width: 42px;
+  min-height: 27px;
+  padding: 3px 8px;
+  place-items: center;
+  border: 1px solid rgba(103, 69, 42, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 252, 235, 0.88);
+  color: #775037;
+  font-size: 0.68rem;
+  font-weight: 900;
+  box-shadow: 0 2px 6px rgba(78, 48, 30, 0.1);
+}
+.pantry-jar-panel .pantry-shelf__jars {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1px;
+  align-items: end;
+  padding: 2px 1px 0;
+  background: transparent;
+}
+.pantry-jar-panel .pantry-jar {
+  width: 100%;
+  min-width: 0;
+  min-height: 137px;
+  padding: 0 1px 5px !important;
+}
+.pantry-jar-panel .pantry-jar__visual {
+  width: 100%;
+  height: 104px;
+  transform: none;
+}
+.pantry-jar__art {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 5px 4px rgba(64, 37, 24, 0.23));
+  transition: transform 180ms ease, filter 180ms ease, opacity 180ms ease;
+}
+.pantry-jar:hover .pantry-jar__art,
+.pantry-jar:focus-visible .pantry-jar__art {
+  transform: translateY(-3px) scale(1.035);
+  filter: drop-shadow(0 8px 6px rgba(64, 37, 24, 0.26));
+}
+.pantry-jar.unowned .pantry-jar__art {
+  opacity: 0.23;
+  filter: grayscale(0.9) sepia(0.25) drop-shadow(0 3px 2px rgba(58, 40, 31, 0.18));
+}
+.pantry-jar.equipped .pantry-jar__art {
+  filter: drop-shadow(0 0 7px rgba(255, 201, 52, 0.8)) drop-shadow(0 6px 4px rgba(64, 37, 24, 0.24));
+}
+.pantry-jar__visual--compact {
+  width: 112px !important;
+  height: 132px !important;
+  transform: none !important;
+}
+.pantry-jar-detail__preview .pantry-jar__art {
+  max-width: 112px;
+  max-height: 132px;
+}
+.pantry-jar-panel .pantry-shelf__board {
+  position: relative;
+  z-index: 3;
+  height: 14px;
+  margin: -4px -9px 0;
+  border: 1px solid rgba(73, 39, 20, 0.46);
+  border-radius: 5px 5px 11px 11px;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 222, 165, 0.32) 32%, transparent 70%),
+    repeating-linear-gradient(4deg, #6d391c 0 3px, #8f542c 4px 7px, #74401f 8px 11px);
+  box-shadow: inset 0 2px rgba(255, 225, 172, 0.35), 0 5px 6px rgba(62, 33, 18, 0.28);
+}
+.pantry-shelf.complete {
+  border-color: rgba(196, 139, 22, 0.52);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.9), 0 0 0 3px rgba(255, 208, 76, 0.12), 0 9px 18px rgba(112, 70, 24, 0.16);
+}
+.pantry-shelf.complete::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: -45% -20%;
+  background: conic-gradient(from 190deg, transparent 0 38%, rgba(255, 224, 124, 0.22) 44%, transparent 50% 100%);
+  animation: pantry-complete-sheen 6s ease-in-out infinite;
+  pointer-events: none;
+}
+.pantry-shelf.complete .pantry-shelf__progress {
+  border-color: rgba(179, 122, 16, 0.38);
+  background: linear-gradient(#fff8c8, #f3d574);
+  color: #765000;
+}
+@keyframes pantry-complete-sheen {
+  0%, 55%, 100% { transform: translateX(-30%) rotate(0deg); opacity: 0; }
+  68% { opacity: 1; }
+  84% { transform: translateX(30%) rotate(7deg); opacity: 0; }
+}
+@media (max-width: 390px) {
+  .pantry-jar-panel .pantry-jar { min-height: 122px; }
+  .pantry-jar-panel .pantry-jar__visual { height: 91px; }
+  .pantry-jar__name, .pantry-jar__price, .pantry-jar__status { font-size: 0.55rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pantry-jar__art, .pantry-shelf.complete::after { animation: none !important; transition: none !important; }
+}

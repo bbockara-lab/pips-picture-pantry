@@ -11,7 +11,7 @@ import {
 } from "../src/i18n/index.js";
 import { ko } from "../src/i18n/ko.js";
 
-const KOREAN_MOJIBAKE_PATTERN = /[揶쏅슦쎄쑴뽰눘維쒙쭪疫꿰빊吏紐]/;
+const KOREAN_MOJIBAKE_PATTERN = /[\u3400-\u4DBF\u4E00-\u9FFF\uFFFD]|\?{2,}/;
 
 function collectStrings(source, path = [], strings = []) {
   Object.entries(source || {}).forEach(([key, value]) => {
@@ -38,10 +38,26 @@ describe("i18n", () => {
     expect(getActiveLocale("es-ES")).toBe("en");
   });
 
+  it("uses one Pip's Pantry name in navigation and the Workshop", () => {
+    expect(t("views.pantry")).toBe("Pip's Pantry");
+    expect(t("home.pantryLabel")).toBe("Pip's Pantry");
+
+    setActiveLocale("ko");
+    expect(t("views.pantry")).toBe("핍\uc758 \ud32c\ud2b8\ub9ac");
+    expect(t("home.pantryLabel")).toBe("핍\uc758 \ud32c\ud2b8\ub9ac");
+  });
+
+  it("uses Korean 핍 everywhere except the protected English brand name", () => {
+    const pipStrings = collectStrings(ko).filter(([, value]) => value.includes("Pip"));
+    expect(pipStrings).toEqual([
+      ["brandIntro.ariaLabel", "Sunny Spoon Studios와 Pip's Picture Pantry 시작 화면"]
+    ]);
+  });
+
   it("formats translated strings", () => {
     expect(t("progress.filled", { count: 3 })).toBe("3 filled");
-    expect(t("progress.filledOf", { count: 3, target: 12 })).toBe("3/12 colored");
-    expect(t("progress.revisitOf", { count: 5, target: 12, mistakes: 1 })).toBe("5/12 colored - 1 to revisit");
+    expect(t("progress.filledOf", { count: 3, target: 12 })).toBe("3 / 12");
+    expect(t("progress.revisitOf", { count: 5, target: 12, mistakes: 1 })).toBe("5 / 12 · 1 to revisit");
     expect(t("progress.lineGuided", { count: 1 })).toBe("1 line");
     expect(t("progress.linesGuided", { count: 3 })).toBe("3 lines");
     expect(t("controls.fill")).toBe("Color");
@@ -49,31 +65,22 @@ describe("i18n", () => {
     expect(t("controls.undo")).toBe("Undo last move");
     expect(t("daily.eyebrow")).toBe("Today's picture");
     expect(t("views.map")).toBe("Badges");
-    expect(t("views.pantryHint")).toBe("Shop and decorate");
-    expect(t("pipStrip.puzzleLine", { player: "Jay" })).toBe("Jay, use the numbers to color the picture.");
-    expect(t("puzzlePicker.sizeReward", { size: 5, count: 3 })).toBe("5×5 · +3");
+    expect(t("puzzlePicker.size", { size: 5 })).toBe("5×5");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - Complete");
-    expect(t("album.count", { completed: 1, total: 100 })).toBe("1/100 pictures");
+    expect(t("album.completed", { completed: 1 })).toBe("1 pictures");
+    expect(t("badges.progressAria", { title: "First Shelf Badge", completed: 1, total: 20 }))
+      .toBe("First Shelf Badge badge progress 1 of 20");
     expect(t("settings.playerName")).toBe("Player name");
     expect(t("currency.spoons", { count: 7 })).toBe("Spoons 7");
     expect(t("packs.preview")).toBe("Preview");
-    expect(t("packs.catalogProgress", { completed: 3, total: 12 })).toBe("3/12 done");
-    expect(t("packs.catalogLarge", { count: 7 })).toBe("7 large");
-    expect(t("packs.catalogLargest", { size: 12 })).toBe("up to 12x12");
     expect(t("packs.pricePreview")).toBe("Preview set");
-    expect(t("seasonProgress.catalogStat", { completed: 3, total: 333 })).toBe("3/333 pictures");
-    expect(t("seasonProgress.stageStat", { unlocked: 2, total: 5 })).toBe("2/5 stages open");
-    expect(t("seasonProgress.goalReadyTitle", { pack: "Bakery Window" })).toBe("Bakery Window is ready");
-    expect(t("seasonProgress.goalOpenAction")).toBe("Open stage");
-    expect(t("seasonProgress.goalSpoonAction")).toBe("Plan spoons");
-    expect(t("brandIntro.launchNote")).toBe("Season 0 opens with 333 cozy pictures, pantry goals, and spoon rewards.");
-    expect(t("brandIntro.promisePuzzleAction")).toBe("Solve");
-    expect(t("brandIntro.promiseDecorateAction")).toBe("Decorate");
-    expect(t("brandIntro.promiseTimeAttackAction")).toBe("Challenge");
-    expect(t("packs.unlockPlanNeedBoth", { count: 12, completed: 2, required: 3 })).toBe("Earn 12 more spoons and finish Pantry requests 2/3 to open this stage.");
-    expect(t("packs.unlockGateNeedPantry", { completed: 2, required: 3 })).toBe("Blocked by Pantry requests: 2/3 done.");
     expect(t("badges.progress", { completed: 3, total: 100 })).toBe("3/100 cards");
     expect(t("map.sets.cozy-cafe-room")).toBe("Cozy cafe room");
+    expect(t("home.keepsakeShelfAria")).toBe("Home display shelf");
+    expect(t("pantry.jar.featureOnHome")).toBe("Display on home");
+    expect(t("pantry.jar.featuredOnHome")).toBe("Displayed on home");
+    expect(t("pantry.jar.featuredAria", { item: "Strawberry Jam" }))
+      .toBe("Strawberry Jam, displayed jar. Open Pantry");
   });
 
   it("resolves explicit and data-backed puzzle copy", () => {
@@ -132,16 +139,11 @@ describe("i18n", () => {
   it("uses a cached active locale", () => {
     setActiveLocale("ko");
 
-    expect(t("views.puzzle")).toBe("\ud37c\uc990");
-    expect(t("brandIntro.promisePuzzle")).toBe("\uadf8\ub9bc 333\uac1c");
-    expect(t("brandIntro.promiseAction")).toBe("\uc5f4\uae30");
-    expect(t("brandIntro.promisePuzzleAction")).toBe("\ud480\uae30");
-    expect(t("brandIntro.promiseDecorateAction")).toBe("\uafb8\ubbf8\uae30");
-    expect(t("brandIntro.promiseTimeAttackAction")).toBe("\ub3c4\uc804");
+    expect(t("views.puzzle")).toBe("핍\uc758 \ud37c\uc990\ubc29");
     expect(t("guide.next")).toBe("\ub2e4\uc74c");
 
     setActiveLocale("unsupported");
-    expect(t("views.puzzle")).toBe("Puzzle");
+    expect(t("views.puzzle")).toBe("Pip's Puzzle Room");
   });
 
 
@@ -162,6 +164,9 @@ describe("i18n", () => {
       "guide.timeAttack.step1",
       "guide.timeAttack.step2",
       "guide.timeAttack.step3",
+      "guide.map.step1",
+      "guide.map.step2",
+      "guide.map.step3",
       "guide.pantryFirstPurchase.title",
       "guide.pantryFirstPurchase.step1",
       "guide.pantryFirstPurchase.step2",
@@ -182,12 +187,6 @@ describe("i18n", () => {
       "guide.pantryNeighborMateo.step1",
       "guide.pantryNeighborMateo.step2",
       "guide.pantryNeighborMateo.step3",
-      "timeAttack.coachEyebrow",
-      "timeAttack.coachTitle",
-      "timeAttack.coachBody",
-      "timeAttack.coachEarn",
-      "timeAttack.coachSpend",
-      "timeAttack.coachRecord",
       "playerIntro.pipCue",
       "timeAttack.ladderAria",
       "timeAttack.ladderRound1",
@@ -200,8 +199,6 @@ describe("i18n", () => {
       "timeAttack.timeoutReward",
       "timeAttack.timeoutNoReward",
       "timeAttack.resultMeta",
-      "timeAttack.boardProgress",
-      "timeAttack.boardProgressFallback",
       "timeAttack.remaining",
       "controls.hint",
       "controls.hintWithCost",
@@ -216,7 +213,6 @@ describe("i18n", () => {
       "howToPlay.pipLine",
       "controls.lineCompleteHint",
       "controls.hintIntro",
-      "controls.hintIntroMulti",
       "controls.timeAttackHintIntro",
       "controls.timeAttackHintNeedMore",
       "controls.paidHintIntro",
@@ -231,18 +227,19 @@ describe("i18n", () => {
       expect(value).not.toContain("\uFFFD");
       expect(value).not.toContain("\u5360");
     });
-    expect(t("guide.eyebrow")).toBe("Pip\uc758 \uc791\uc740 \uc548\ub0b4");
+    expect(t("guide.eyebrow")).toBe("핍\uc758 \uc791\uc740 \uc548\ub0b4");
     expect(t("playerIntro.placeholder")).toBe("하늘");
     expect(t("playerIntro.defaultName")).toBe("친구");
     expect(t("playerIntro.placeholder")).not.toBe("Jay");
     expect(t("playerIntro.defaultName")).not.toBe("Friend");
-    expect(t("guide.speaker")).toContain("Pip");
-    expect(t("guide.puzzle.step1")).toContain("\uc774\uc5b4");
-    expect(t("guide.timeAttack.step2")).toContain("\uc2a4\ud47c");
-    expect(t("guide.pantryFirstPurchase.step3")).toContain("\ud32c\ud2b8\ub9ac");
+    expect(t("guide.speaker")).toContain("핍");
+    expect(t("guide.puzzle.step1")).toBe("어서 와요! 저는 핍이에요. 함께 그림을 완성해 봐요!");
+    expect(t("guide.timeAttack.step2")).toBe("\uC2DC\uAC04\uC774 \uBD80\uC871\uD560 \uB550 \uD78C\uD2B8 \uD558\uB098\uAC00 \uD310\uC744 \uAD6C\uD560 \uC218 \uC788\uC5B4\uC694.");
+    expect(t("guide.map.step3")).toContain("\uC120\uBC18");
+    expect(t("guide.pantryFirstPurchase.step3")).toContain("\uC2A4\uD47C");
     expect(t("guide.pantryNeighborMrPark.title")).toContain("시계 할아버지");
-    expect(t("guide.pantryNeighborMrPark.step2")).toContain("할아버지는");
-    expect(t("guide.pantryNeighborMrPark.step2")).not.toContain("시계 할아버지");
+    expect(t("guide.pantryNeighborMrPark.step2")).toContain("\uB530\uB73B\uD55C \uC218\uD504");
+    expect(t("guide.pantryNeighborMrPark.step2")).not.toContain("\uC2DC\uACC4 \uD560\uC544\uBC84\uC9C0");
     expect(t("guide.pantryNeighborLily.title")).toContain("릴리");
     expect(t("guide.pantryNeighborMateo.title")).toContain("마테오");
     [
@@ -254,16 +251,15 @@ describe("i18n", () => {
       "guide.pantryNeighborMateo.step1"
     ].forEach((key) => expect(t(key)).not.toMatch(/Mr\.? Park|Lily|Mateo/));
     expect(t("controls.hintRemaining", { count: 1, limit: 3 })).toBe("\uD78C\uD2B8 1/3");
-    expect(t("controls.hintIntroMulti", { count: 5 })).toContain("5");
-    expect(t("howToPlay.pipLine")).toContain("Pip");
+    expect(t("howToPlay.pipLine")).toContain("핍");
     expect(t("controls.lineCompleteHint")).toContain("\uc548\uc804\ud55c \ube48\uce78");
     expect(t("controls.lineCompleteHint")).toContain("\uc790\ub3d9");
-    expect(t("controls.paidHintIntro", { cost: 9, count: 5, balance: 20 })).toContain("\uAE30\uBCF8 \uD78C\uD2B8\uB97C \uB2E4 \uC37C\uC5B4\uC694");
+    expect(t("controls.paidHintIntro", { cost: 9, count: 5, balance: 20 })).toContain("\uC2A4\uD47C 9\uAC1C");
     expect(t("controls.paidHintIntro", { cost: 9, count: 5, balance: 20 })).not.toContain("\uBB34\uB8CC");
     expect(t("controls.timeAttackHintIntro", { cost: 9, balance: 20 })).not.toContain("\uBB34\uB8CC");
     expect(t("controls.timeAttackHintIntro", { cost: 9, balance: 20 })).toContain("\uC2A4\uD47C 9\uAC1C");
-    expect(t("replayPicks.eyebrow")).toBe("Pip\uC758 \uB2E4\uC2DC \uD480\uAE30 \uCD94\uCC9C");
-    expect(t("replayPicks.title")).toBe("\uAE54\uB054\uD55C \uB2E4\uC2DC \uD480\uAE30 \uB3C4\uC804");
+    expect(t("replayPicks.title")).toBe("\uB2E4\uC2DC \uD480\uAE30");
+    expect(t("replayPicks.cleanRule")).toContain("\uC2A4\uD47C 1\uAC1C");
   });
 
   it("keeps all non-puzzle Korean UI copy free of mojibake fragments", () => {
@@ -284,7 +280,9 @@ describe("i18n", () => {
     );
     expect(t("pantry.storyNextArrivalAction", { item: "\uD5C8\uBE0C \uD654\uBD84" })).toBe("허브 화분 보기");
     expect(t("pantry.storyDeliveryNeed", { slot: "카운터", needed: 17 })).toBe("카운터 · 스푼 17개 더");
-    expect(t("pantry.storyDeliveryEarn")).toBe("\uC2A4\uD47C \uBC8C\uB7EC \uAC00\uAE30");
+    expect(t("pantry.storyDeliveryEarn")).toBe("\uC2A4\uD47C \uBAA8\uC73C\uB7EC \uAC00\uAE30");
+    expect(t("views.spoonRun")).toBe("\uC2A4\uD47C \uBAA8\uC73C\uB7EC \uAC00\uAE30");
+    expect(t("guide.goToSpoonRun")).toBe("\uC2A4\uD47C \uBAA8\uC73C\uB7EC \uAC00\uAE30");
     expect(t("pantry.feedbackBuyTitle", { item: "\uC791\uC740 \uC7BC \uBCD1" })).toBe("\uC791\uC740 \uC7BC \uBCD1\uC774 \uD32C\uD2B8\uB9AC\uC5D0 \uC654\uC5B4\uC694");
     expect(t("pantry.availability.canBuy")).toBe("\uC0B4 \uC218 \uC788\uC74C");
     expect(t("pantry.shopLimitAction")).toBe("\uC7A5\uC2DD \uB354 \uBCF4\uAE30");
@@ -295,7 +293,7 @@ describe("i18n", () => {
 
     expect(t("settings.supportAndroidOnly")).toBe("Store connection is being prepared.");
     expect(t("settings.supportFactAndroid")).toBe("Store preparing");
-    expect(t("settings.supportPricePending")).toBe("Check price");
+    expect(t("settings.supportPricePending")).toBe("Store price");
     expect(t("settings.supportAndroidOnly")).not.toMatch(/Android test build|Google Play app|Google Play price/i);
     expect(t("settings.supportFactAndroid")).not.toMatch(/Android test build|Google Play app|Google Play price/i);
     expect(t("settings.supportPricePending")).not.toMatch(/Android test build|Google Play app|Google Play price/i);
@@ -304,9 +302,19 @@ describe("i18n", () => {
 
     expect(t("settings.supportAndroidOnly")).toContain("Play \uC2A4\uD1A0\uC5B4");
     expect(t("settings.supportFactAndroid")).toBe("\uC2A4\uD1A0\uC5B4 \uC900\uBE44 \uC911");
-    expect(t("settings.supportPricePending")).toBe("\uAC00\uACA9 \uD655\uC778");
+    expect(t("settings.supportPricePending")).toBe("\uC2A4\uD1A0\uC5B4 \uAC00\uACA9");
     expect(t("settings.supportAndroidOnly")).not.toMatch(/Android \uD14C\uC2A4\uD2B8|Google Play \uC571|Google Play \uAC00\uACA9/);
     expect(t("settings.supportFactAndroid")).not.toMatch(/Android \uD14C\uC2A4\uD2B8|Google Play \uC571|Google Play \uAC00\uACA9/);
+  });
+
+  it("keeps Time Attack results compact in both languages", () => {
+    setActiveLocale("en");
+    expect(t("timeAttack.recordLine", { size: 8, progress: 42, time: "1:23" })).toBe("8x8 \u00b7 42 cells \u00b7 1:23");
+    expect(t("timeAttack.lastScore", { progress: 42, time: "1:23" })).toBe("42 cells \u00b7 1:23");
+
+    setActiveLocale("ko");
+    expect(t("timeAttack.recordLine", { size: 8, progress: 42, time: "1:23" })).toBe("8x8 \u00b7 42\uce78 \u00b7 1:23");
+    expect(t("timeAttack.lastScore", { progress: 42, time: "1:23" })).toBe("42\uce78 \u00b7 1:23");
   });
 
   it("supports system language default and in-app overrides", () => {
@@ -316,22 +324,13 @@ describe("i18n", () => {
     expect(t("controls.fill")).toBe("\uce60\ud558\uae30");
     expect(t("controls.mark")).toBe("\ube48\uce78 \uccb4\ud06c");
     expect(t("views.map")).toBe("\ubc30\uc9c0");
-    expect(t("views.pantryHint")).toBe("\uc0c1\uc810\uacfc \uafb8\ubbf8\uae30");
     expect(t("progress.lineGuided", { count: 1 })).toBe("1\uc904");
     expect(t("progress.linesGuided", { count: 3 })).toBe("3\uc904");
     expect(t("pantry.equipToSlot", { slot: "\uce74\uc6b4\ud130" })).toBe("\uce74\uc6b4\ud130\uc5d0 \ub193\uae30");
     expect(t("pantry.needMore", { count: 7 })).toBe("\uc2a4\ud47c 7\uac1c \ubd80\uc871");
     expect(t("puzzlePicker.sizeComplete", { size: 5 })).toBe("5x5 - \uc644\ub8cc");
     expect(t("packs.preview")).toBe("\uc608\uace0");
-    expect(t("packs.catalogProgress", { completed: 3, total: 12 })).toBe("3/12 \uc644\ub8cc");
-    expect(t("packs.catalogLarge", { count: 7 })).toBe("\ud070 \ud37c\uc990 7\uac1c");
-    expect(t("packs.catalogLargest", { size: 12 })).toBe("\ucd5c\ub300 12x12");
-    expect(t("seasonProgress.catalogStat", { completed: 3, total: 333 })).toBe("3/333 \uADF8\uB9BC");
-    expect(t("seasonProgress.stageStat", { unlocked: 2, total: 5 })).toBe("2/5 \uC2A4\uD14C\uC774\uC9C0 \uC5F4\uB9BC");
-    expect(t("seasonProgress.goalSpoonAction")).toBe("\uC2A4\uD47C \uACC4\uD68D \uBCF4\uAE30");
-    expect(t("packs.unlockPlanNeedBoth", { count: 12, completed: 2, required: 3 })).toBe("\uC2A4\uD47C 12\uAC1C\uB97C \uB354 \uBAA8\uC73C\uACE0 \uD32C\uD2B8\uB9AC \uBD80\uD0C1 2/3\uAC1C\uB97C \uB9C8\uCE58\uBA74 \uC5F4\uB9B4 \uAC70\uC608\uC694.");
-    expect(t("packs.unlockGateNeedPantry", { completed: 2, required: 3 })).toBe("\ud32c\ud2b8\ub9ac \ubd80\ud0c1\uc774 \uc544\uc9c1 2/3\uac1c\uc608\uc694.");
-    expect(t("badges.pipPortrait")).toBe("Pip \ucd08\uc0c1\ud654");
+    expect(t("badges.pipPortrait")).toBe("핍 \ucd08\uc0c1\ud654");
 
     setLanguagePreference("en", "ko-KR");
     expect(getLanguagePreference()).toBe("en");

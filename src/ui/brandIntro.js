@@ -60,6 +60,7 @@ export function renderBrandIntro(root) {
     globalThis.setTimeout(() => {
       intro.remove();
       delete root.dataset.introOpen;
+      window.dispatchEvent(new CustomEvent("ppp:intro-dismissed"));
     }, INTRO_EXIT_MS);
   };
 

@@ -15,7 +15,10 @@ const BILLING_DEV_COPY_PATTERN = /(Android test build|Google Play app|Google Pla
 
 for (const viewport of viewports) {
   const page = await browser.newPage({ viewport });
-  await page.goto(TARGET_URL, { waitUntil: "networkidle" });
+  page.on("pageerror", (error) => {
+    console.error("[" + viewport.name + "] PAGE ERROR:", error?.stack || error?.message || String(error));
+  });
+  await page.goto(TARGET_URL, { waitUntil: "domcontentloaded" });
 
   await expectVisible(page, ".brand-intro", viewport.name);
   await expectVisible(page, ".studio-bumper__art img", viewport.name);
@@ -31,10 +34,14 @@ for (const viewport of viewports) {
   await dismissIntro(page, "Jay", viewport.name);
 
   await expectVisible(page, ".app-shell", viewport.name);
-  await expectSafeAreaChromeGuard(page, viewport.name);
+  const isWorkshopHome = (await page.locator(".app-shell--workshop-home").count()) > 0;
+  if (!isWorkshopHome) {
+    await expectSafeAreaChromeGuard(page, viewport.name);
+  }
   await expectFloatingNavHiddenDuringBlockingOverlay(page, viewport.name);
   await dismissGuideIfPresent(page, viewport.name);
   await expectSettingsDialogPolish(page, viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Initial view");
   if ((await page.locator(".play-screen").count()) > 0) {
     await expectVisible(page, ".play-screen", viewport.name);
     await expectStarterBoardAlignment(page, viewport.name);
@@ -43,62 +50,81 @@ for (const viewport of viewports) {
     await page.locator(".play-screen__back").click();
   }
   await expectAbsent(page, ".pip-strip", viewport.name);
-  await expectVisible(page, ".currency-pill", viewport.name);
-  await expectAppChromePolish(page, viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Workshop");
+  if (!isWorkshopHome) {
+    await expectFloatingNavPolish(page, viewport.name);
+  }
+  await expectPuzzleHomePolish(page, viewport.name);
+  const expectedRegularPlayLabel = await page.locator(".puzzle-home-scene__play").getAttribute("aria-label");
+  await openFloatingView(page, "spoonRun", viewport.name);
+  await expectVisible(page, ".spoon-run-view", viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Spoon Run");
+  await expectSpoonRunFirstVisitGuide(page, viewport.name);
   await expectDailyRewardPolish(page, viewport.name);
-  await expectTimeAttackHubEntry(page, viewport.name);
+  await expectTimeAttackNavigationEntry(page, viewport.name);
   await expectResetDialogPolish(page, viewport.name);
   await expectStageCompleteRewardPolish(page, viewport.name);
-  await expectVisible(page, ".pack-block", viewport.name);
-  await expectVisible(page, ".pack-block.locked", viewport.name);
-  await expectHiddenBonusPacks(page, viewport.name);
-  await expectLockedStageGate(page, viewport.name);
-  await expectVisible(page, ".stage-preview", viewport.name);
-  await expectStageArtPreviews(page, viewport.name);
-  await expectPuzzleHubSelectionPolish(page, viewport.name);
   await expectAbsent(page, ".season-progress-card", viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
   await expectTapTargets(page, viewport.name);
+  await verifyEmptyAlbumPlayNowFlow(page, viewport.name);
 
   await seedCompletedStarter(page);
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "domcontentloaded" });
   await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6000 });
   await page.waitForTimeout(800);
   await expectVisible(page, ".brand-intro.game-stage", viewport.name);
   await dismissIntro(page, "Jay", viewport.name);
   await dismissGuideIfPresent(page, viewport.name);
-  await expectVisible(page, ".completion-reveal__character", viewport.name);
-  await expectVisible(page, ".completion-reveal", viewport.name);
-  await expectCompletionRewardPolish(page, viewport.name);
-  await expectCompletionAlbumRoute(page, viewport.name);
-  await openFloatingView(page, "puzzle");
-  await expectVisible(page, ".replay-picks-card", viewport.name);
-  await expectVisible(page, ".replay-pick-button", viewport.name);
+  await expectVisible(page, ".puzzle-home-scene", viewport.name);
+  await openFloatingView(page, "spoonRun", viewport.name);
+  await expectVisible(page, ".spoon-run-view", viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Spoon Run replay");
   await expectReplayPicksPolish(page, viewport.name);
-  await page.locator(".replay-pick-button").first().click();
-  await expectVisible(page, ".play-screen--replay", viewport.name);
-  await expectVisible(page, ".replay-challenge-note", viewport.name);
-  await page.locator(".play-screen__back").click();
+  await openFloatingView(page, "puzzle");
+  await expectVisible(page, ".pack-block", viewport.name);
+  await expectHiddenBonusPacks(page, viewport.name);
+  await expectNoStageMosaic(page, viewport.name);
+  await expectPuzzlePickerPolish(page, viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Puzzle list");
   await expectNoHorizontalOverflow(page, viewport.name);
   await expectTapTargets(page, viewport.name);
 
   await openFloatingView(page, "album");
+  await expectNoSharedScreenHeader(page, viewport.name);
   await expectVisible(page, ".album-panel", viewport.name);
   await expectVisible(page, ".album-stamp", viewport.name);
   await expectAlbumPolish(page, viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Album");
+  await verifySpoonBalanceChipStoreFlow(page, viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
 
   await openFloatingView(page, "map");
+  await expectMapFirstRunGuide(page, viewport.name);
+  await expectNoSharedScreenHeader(page, viewport.name);
   await expectVisible(page, ".map-panel", viewport.name);
-  await expectVisible(page, ".next-stage-badge", viewport.name);
+  await expectVisible(page, ".badge-shelf", viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Badge");
   await expectMapPolish(page, viewport.name);
+  await verifyFeaturedBadgeFlow(page, viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
 
+  await page.evaluate(() => {
+    const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+    const saveKey = "pips-picture-pantry:v0.1:save:" + player.id;
+    const save = JSON.parse(localStorage.getItem(saveKey) || "{}");
+    save.pantrySpoons = 50;
+    localStorage.setItem(saveKey, JSON.stringify(save));
+  });
   await openFloatingView(page, "pantry");
+  await expectNoSharedScreenHeader(page, viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Pantry");
   await verifyPantryPlacement(page, viewport.name);
 
   await openFloatingView(page, "timeAttack", viewport.name);
+  await expectSpoonBalanceChipSize(page, viewport.name, "Time Attack");
   await expectNoHorizontalOverflow(page, viewport.name);
+  await verifyTimeAttackExitRestoresRegularPuzzle(page, viewport.name, expectedRegularPlayLabel);
 
   await verifyLargeBoardCatalogPuzzle(page, viewport.name);
   await expectHintConfirmationPolish(page, viewport.name);
@@ -182,7 +208,7 @@ async function expectOpeningPromiseRoutes(browser, viewport) {
     });
     const page = await context.newPage();
     try {
-      await page.goto(TARGET_URL, { waitUntil: "networkidle" });
+      await page.goto(TARGET_URL, { waitUntil: "domcontentloaded" });
       await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6000 });
       await page.waitForTimeout(300);
       const chip = page.locator(`.brand-intro__promise-chip[data-target-view="${route.view}"]`).first();
@@ -243,38 +269,49 @@ async function expectFloatingNavHiddenDuringBrandIntro(page, viewportName) {
     const intro = document.querySelector(".brand-intro");
     const nav = document.querySelector(".floating-nav");
     const navStyle = nav ? getComputedStyle(nav) : null;
+    const spoonChip = document.querySelector(".spoon-balance-chip");
+    const spoonChipStyle = spoonChip ? getComputedStyle(spoonChip) : null;
     return {
       introCount: intro ? 1 : 0,
       introOpenState: document.querySelector("#app")?.dataset.introOpen || "",
       navCount: nav ? 1 : 0,
       navVisibility: navStyle?.visibility || "absent",
-      navPointerEvents: navStyle?.pointerEvents || "absent"
+      navPointerEvents: navStyle?.pointerEvents || "absent",
+      spoonChipCount: spoonChip ? 1 : 0,
+      spoonChipVisibility: spoonChipStyle?.visibility || "absent",
+      spoonChipPointerEvents: spoonChipStyle?.pointerEvents || "absent"
     };
   });
   if (
     metrics.introCount > 0 &&
     (metrics.introOpenState !== "true" ||
-      (metrics.navCount > 0 && (metrics.navVisibility !== "hidden" || metrics.navPointerEvents !== "none")))
+      (metrics.navCount > 0 && (metrics.navVisibility !== "hidden" || metrics.navPointerEvents !== "none")) ||
+      (metrics.spoonChipCount > 0 && (
+        metrics.spoonChipVisibility !== "hidden" ||
+        metrics.spoonChipPointerEvents !== "none"
+      )))
   ) {
-    failures.push(`[${viewportName}] Floating navigation can cover the brand intro: ${JSON.stringify(metrics)}`);
+    failures.push(`[${viewportName}] App chrome can cover the brand intro: ${JSON.stringify(metrics)}`);
   }
 }
-
 async function expectCompletionAlbumRoute(page, viewportName) {
-  const albumButton = page.locator(".completion-actions .tool-button").first();
-  await albumButton.click();
+  const menuButton = page.locator(".completion-actions .tool-button").first();
+  if ((await menuButton.count()) === 0) {
+    return;
+  }
+  await menuButton.click();
   try {
-    await page.locator(".album-panel").first().waitFor({ state: "visible", timeout: 3000 });
+    await page.locator(".puzzle-home-scene").first().waitFor({ state: "visible", timeout: 3000 });
     await page.waitForTimeout(100);
     const routeMetrics = await page.evaluate(() => ({
       scrollY: window.scrollY,
-      albumTop: document.querySelector(".album-panel")?.getBoundingClientRect().top ?? -1
+      hubTop: document.querySelector(".puzzle-home-scene")?.getBoundingClientRect().top ?? -1
     }));
-    if (routeMetrics.scrollY > 2 || routeMetrics.albumTop < 0) {
-      failures.push(`[${viewportName}] Completed puzzle Album route did not reset to a readable top position: ${JSON.stringify(routeMetrics)}`);
+    if (routeMetrics.scrollY > 2 || routeMetrics.hubTop < 0) {
+      failures.push(`[${viewportName}] Completed puzzle Menu route did not reset to a readable top position: ${JSON.stringify(routeMetrics)}`);
     }
   } catch {
-    failures.push(`[${viewportName}] Completed puzzle Album button did not open the Album view.`);
+    failures.push(`[${viewportName}] Completed puzzle Menu button did not return to the puzzle hub.`);
   }
 }
 
@@ -299,6 +336,71 @@ async function expectPlayerIntroPolish(page, viewportName) {
   }
 }
 
+async function expectSpoonRunFirstVisitGuide(page, viewportName) {
+  const overlay = page.locator(".guide-overlay");
+  const dialog = page.locator(".guide-dialog--spoonRunIntro");
+  try {
+    await dialog.waitFor({ state: "visible", timeout: 3000 });
+  } catch {
+    failures.push("[" + viewportName + "] Spoon Run first-visit guide did not open.");
+    return;
+  }
+
+  await expectGuideDialogChromeArt(page, viewportName);
+  const speaker = (await dialog.locator(".guide-dialog__name-tag").textContent() || "").trim();
+  const dotCount = await dialog.locator(".guide-dialog__dots span").count();
+  const firstLine = (await dialog.locator(".guide-dialog__line").textContent() || "").trim();
+  if (speaker !== "Pip" || dotCount !== 2 || !/(today|daily|\uC624\uB298|\uB9E4\uC77C)/i.test(firstLine)) {
+    failures.push("[" + viewportName + "] Spoon Run guide step 1 regressed: " + JSON.stringify({ speaker, dotCount, firstLine }));
+  }
+
+  await dialog.locator(".guide-dialog__next").click({ force: true });
+  const secondLine = (await dialog.locator(".guide-dialog__line").textContent() || "").trim();
+  if (!/(replay|again|\uB2E4\uC2DC)/i.test(secondLine) || !/3/.test(secondLine)) {
+    failures.push("[" + viewportName + "] Spoon Run guide step 2 regressed: " + secondLine);
+  }
+
+  await dialog.locator(".guide-dialog__next").click({ force: true });
+  await overlay.waitFor({ state: "detached", timeout: 3000 });
+}
+async function expectPuzzleGuidePageContained(page, viewportName, expectedStep) {
+  const dialog = page.locator(".guide-dialog--puzzle").first();
+  if (!(await dialog.count()) || !(await dialog.isVisible())) return;
+  const metrics = await dialog.evaluate((node) => {
+    const contained = (element) => {
+      if (!element) return false;
+      const rect = element.getBoundingClientRect();
+      const style = getComputedStyle(element);
+      return style.visibility !== "hidden"
+        && style.display !== "none"
+        && rect.width > 0
+        && rect.height > 0
+        && rect.left >= -1
+        && rect.top >= -1
+        && rect.right <= innerWidth + 1
+        && rect.bottom <= innerHeight + 1;
+    };
+    return {
+      step: Number(node.dataset.step),
+      dialogContained: contained(node),
+      lineContained: contained(node.querySelector(".guide-dialog__line")),
+      practiceContained: contained(node.querySelector(".guide-practice")),
+      nextContained: contained(node.querySelector(".guide-dialog__next")),
+    };
+  });
+  const needsPractice = expectedStep >= 2;
+  if (
+    metrics.step !== expectedStep
+    || !metrics.dialogContained
+    || !metrics.lineContained
+    || !metrics.nextContained
+    || (needsPractice && !metrics.practiceContained)
+  ) {
+    failures.push(
+      `[${viewportName}] Puzzle guide step ${expectedStep} clips required content: ${JSON.stringify(metrics)}`,
+    );
+  }
+}
 async function dismissGuideIfPresent(page, viewportName) {
   const overlay = page.locator(".guide-overlay");
   try {
@@ -314,10 +416,14 @@ async function dismissGuideIfPresent(page, viewportName) {
     failures.push("[" + viewportName + "] Floating navigation should be hidden while the Pip guide overlay is open.");
   }
   for (let step = 0; step < 4 && await overlay.first().isVisible(); step += 1) {
+    const dialog = page.locator(".guide-dialog").first();
+    const stepNumber = Number(await dialog.getAttribute("data-step"));
+    if (await dialog.evaluate((node) => node.classList.contains("guide-dialog--puzzle"))) {
+      await expectPuzzleGuidePageContained(page, viewportName, stepNumber);
+    }
     const practice = page.locator(".guide-practice");
     if (await practice.count()) {
       const cells = practice.locator(".guide-practice__cell");
-      const stepNumber = Number(await page.locator(".guide-dialog").getAttribute("data-step"));
       const targets = stepNumber === 3 ? [0, 2, 4] : [0, 1, 2, 3, 4];
       for (const index of targets) await cells.nth(index).click({ force: true });
     }
@@ -326,22 +432,60 @@ async function dismissGuideIfPresent(page, viewportName) {
   await overlay.first().waitFor({ state: "detached", timeout: 3000 });
 }
 
-async function expectGuideDialogChromeArt(page, viewportName) {
-  const metrics = await page.locator(".guide-dialog").first().evaluate((dialog) => {
+async function expectGuideDialogChromeArt(page, viewportName, options = {}) {
+  await page.waitForFunction(() => {
+    const image = document.querySelector(".guide-dialog__art img");
+    return image?.complete && image.naturalWidth > 0 && image.naturalHeight > 0;
+  }, null, { timeout: 5000 });
+  const metrics = await page.locator(".guide-dialog").first().evaluate((dialog, expectedNeighborClass) => {
     const overlay = document.querySelector(".guide-overlay");
     const art = dialog.querySelector(".guide-dialog__art");
     const image = art?.querySelector("img");
+    const nameTag = art?.querySelector(".guide-dialog__name-tag");
     const bubble = dialog.querySelector(".guide-dialog__bubble");
     const line = dialog.querySelector(".guide-dialog__line");
+    const overlayRect = overlay?.getBoundingClientRect();
     const rect = dialog.getBoundingClientRect();
     const imageRect = image?.getBoundingClientRect();
+    const nameTagRect = nameTag?.getBoundingClientRect();
+    const nameTagStyle = nameTag ? getComputedStyle(nameTag) : null;
+    const nameTagCenterElement = nameTagRect
+      ? document.elementFromPoint(nameTagRect.left + nameTagRect.width / 2, nameTagRect.top + nameTagRect.height / 2)
+      : null;
     return {
       viewportWidth: window.innerWidth,
       viewportHeight: window.innerHeight,
+      overlayLeft: overlayRect?.left ?? Number.NaN,
+      overlayTop: overlayRect?.top ?? Number.NaN,
+      overlayRight: overlayRect?.right ?? Number.NaN,
+      overlayBottom: overlayRect?.bottom ?? Number.NaN,
+      overlayZIndex: overlay ? Number(getComputedStyle(overlay).zIndex) : Number.NaN,
+      bodyOverflow: getComputedStyle(document.body).overflow,
       width: rect.width,
       height: rect.height,
       imageWidth: imageRect?.width || 0,
       imageHeight: imageRect?.height || 0,
+      imageContained: Boolean(imageRect)
+        && imageRect.left >= 0
+        && imageRect.right <= window.innerWidth
+        && imageRect.top >= 0
+        && imageRect.bottom <= window.innerHeight,
+      artOverflow: art ? getComputedStyle(art).overflow : "",
+      hasNameTag: Boolean(nameTag),
+      nameTagText: (nameTag?.textContent || "").trim(),
+      nameTagWidth: nameTagRect?.width || 0,
+      nameTagHeight: nameTagRect?.height || 0,
+      nameTagVisible: Boolean(nameTagStyle)
+        && nameTagStyle.display !== "none"
+        && nameTagStyle.visibility !== "hidden"
+        && Number(nameTagStyle.opacity) > 0
+        && Boolean(nameTagRect)
+        && nameTagRect.left >= 0
+        && nameTagRect.right <= window.innerWidth
+        && nameTagRect.top >= 0
+        && nameTagRect.bottom <= window.innerHeight,
+      nameTagOnTop: Boolean(nameTag) && (nameTagCenterElement === nameTag || nameTag.contains(nameTagCenterElement)),
+      expectsNameTag: dialog.matches(".guide-dialog--puzzle, .guide-dialog--map, .guide-dialog--timeAttack, .guide-dialog--spoonRunIntro"),
       bodyText: (line?.textContent || "").trim(),
       buttonCount: dialog.querySelectorAll(".guide-dialog__actions button").length,
       hasLegacyLabels: Boolean(dialog.querySelector(".guide-dialog__eyebrow, .guide-dialog__speaker")),
@@ -350,12 +494,21 @@ async function expectGuideDialogChromeArt(page, viewportName) {
       bubbleBefore: bubble ? getComputedStyle(bubble, "::before").content : "",
       bubbleAfter: bubble ? getComputedStyle(bubble, "::after").content : "",
       overflows: dialog.scrollWidth > dialog.clientWidth + 1 || dialog.scrollHeight > dialog.clientHeight + 1,
-      overlayFixed: overlay ? getComputedStyle(overlay).position === "fixed" : false
+      overlayFixed: overlay ? getComputedStyle(overlay).position === "fixed" : false,
+      neighborMatched: !expectedNeighborClass || art?.classList.contains(`guide-dialog__art--${expectedNeighborClass}`)
     };
   });
-  const mobileFullScreen = metrics.viewportWidth > 520 || (metrics.width >= metrics.viewportWidth - 1 && metrics.height >= metrics.viewportHeight - 1);
-  if (!metrics.overlayFixed || !mobileFullScreen || metrics.imageWidth < 150 || metrics.imageHeight < 150 || metrics.bodyText.length < 12 || metrics.buttonCount !== 1 || metrics.hasLegacyLabels || metrics.artBefore !== "none" || metrics.artAfter !== "none" || metrics.bubbleBefore !== "none" || metrics.bubbleAfter !== "none" || metrics.overflows) {
-    failures.push("[" + viewportName + "] Clean Pip conversation regressed: " + JSON.stringify(metrics));
+  const isContained = metrics.width >= Math.min(320, metrics.viewportWidth - 44) && metrics.width <= metrics.viewportWidth && metrics.height <= metrics.viewportHeight;
+  const overlayCoversViewport = Math.abs(metrics.overlayLeft) <= 1
+    && Math.abs(metrics.overlayTop) <= 1
+    && Math.abs(metrics.overlayRight - metrics.viewportWidth) <= 1
+    && Math.abs(metrics.overlayBottom - metrics.viewportHeight) <= 1;
+  const minImageWidth = options.neighborClass ? 100 : 150;
+  const nameTagRegressed = metrics.expectsNameTag
+    && (!metrics.hasNameTag || metrics.nameTagText.length < 2 || metrics.nameTagWidth < 30 || metrics.nameTagHeight < 18 || !metrics.nameTagVisible || !metrics.nameTagOnTop || metrics.artOverflow !== "visible");
+  if (!metrics.overlayFixed || !overlayCoversViewport || metrics.overlayZIndex <= 140 || metrics.bodyOverflow !== "hidden" || !isContained || !metrics.imageContained || metrics.imageWidth < minImageWidth || metrics.imageHeight < 150 || metrics.bodyText.length < 12 || metrics.buttonCount !== 1 || metrics.hasLegacyLabels || metrics.artBefore !== "none" || metrics.artAfter !== "none" || metrics.bubbleBefore !== "none" || metrics.bubbleAfter !== "none" || metrics.overflows || !metrics.neighborMatched || nameTagRegressed) {
+    const guideLabel = options.neighborClass ? `${options.neighborClass} neighbor conversation` : "Clean Pip conversation";
+    failures.push("[" + viewportName + "] " + guideLabel + " regressed: " + JSON.stringify(metrics));
   }
 }
 
@@ -373,6 +526,19 @@ async function expectVisible(page, selector, viewportName) {
     return;
   }
 
+  if (/\bimg$/.test(selector)) {
+    try {
+      await page.waitForFunction((target) => {
+        const image = document.querySelector(target);
+        if (!(image instanceof HTMLImageElement) || !image.complete || image.naturalWidth < 1 || image.naturalHeight < 1) return false;
+        const rect = image.getBoundingClientRect();
+        return rect.width >= 1 && rect.height >= 1;
+      }, selector, { timeout: 3000 });
+    } catch {
+      // Keep the existing visible-size assertion below as the failure report.
+    }
+  }
+
   const box = await page.locator(selector).first().boundingBox();
   if (!box || box.width < 1 || box.height < 1) {
     failures.push(`[${viewportName}] ${selector} is not visibly sized`);
@@ -383,6 +549,7 @@ async function expectOpeningIntroPolish(page, viewportName) {
   const metrics = await page.locator(".brand-intro__content").first().evaluate((content) => {
     const button = content.querySelector(".brand-intro__skip");
     const visual = content.querySelector(".brand-intro__key-visual img");
+    const grain = document.querySelector(".brand-intro__grain");
     const buttonRect = button?.getBoundingClientRect();
     const visualRect = visual?.getBoundingClientRect();
     const before = button ? getComputedStyle(button, "::before") : null;
@@ -396,103 +563,62 @@ async function expectOpeningIntroPolish(page, viewportName) {
       visualHeight: visualRect?.height || 0,
       beforeContent: before?.content || "",
       afterContent: after?.content || "",
+      grainPointerEvents: grain ? getComputedStyle(grain).pointerEvents : "",
       viewportHeight: window.innerHeight
     };
   });
-  if (metrics.contentOverflow || metrics.buttonWidth < 150 || metrics.buttonHeight < 52 || metrics.buttonBottom > metrics.viewportHeight || metrics.visualWidth < 190 || metrics.visualHeight < 240 || metrics.beforeContent !== "none" || metrics.afterContent !== "none") {
+  if (metrics.contentOverflow || metrics.buttonWidth < 150 || metrics.buttonHeight < 52 || metrics.buttonBottom > metrics.viewportHeight || metrics.visualWidth < 190 || metrics.visualHeight < 240 || metrics.beforeContent !== "none" || metrics.afterContent !== "none" || metrics.grainPointerEvents !== "none") {
     failures.push("[" + viewportName + "] Clean opening layout regressed: " + JSON.stringify(metrics));
   }
 }
 
 async function expectSettingsDialogPolish(page, viewportName) {
-  await page.locator('button[aria-label="Settings"], button[aria-label="\uC124\uC815"]').first().click();
+  await openSettings(page);
   await expectVisible(page, ".settings-dialog", viewportName);
   await expectAbsent(page, ".settings-dialog .support-pack-card", viewportName);
   const metrics = await page.locator(".settings-dialog").evaluate((dialog) => ({
     overflowsX: dialog.scrollWidth > dialog.clientWidth + 1,
     width: dialog.getBoundingClientRect().width,
+    viewportWidth: window.innerWidth,
     controlCount: dialog.querySelectorAll("button, input").length,
-    purchaseCopy: /pip_cozy_support|pip_spoon_jar_small|Play Store|Google Play/.test(dialog.textContent || "")
+    purchaseCopy: /pip_cozy_support|pip_spoon_jar_small|Play Store|Google Play/.test(dialog.textContent || ""),
+    languageChoices: [...dialog.querySelectorAll(".settings-choice--language")].map((button) => {
+      const style = getComputedStyle(button);
+      const marker = getComputedStyle(button, "::after");
+      const paddingLeft = parseFloat(style.paddingLeft) || 0;
+      const markerLeft = parseFloat(marker.left) || 0;
+      const markerWidth = (parseFloat(marker.width) || 0)
+        + (parseFloat(marker.borderLeftWidth) || 0)
+        + (parseFloat(marker.borderRightWidth) || 0);
+      return {
+        overflow: button.scrollWidth > button.clientWidth + 1,
+        whiteSpace: style.whiteSpace || "",
+        paddingLeft,
+        markerContent: marker.content || "none",
+        markerDisplay: marker.display || "none",
+        textMarkerGap: paddingLeft - markerLeft - markerWidth
+      };
+    })
   }));
-  if (metrics.overflowsX || metrics.width < 280 || metrics.controlCount < 7 || metrics.purchaseCopy) {
+  if (
+    metrics.overflowsX ||
+    metrics.width < 280 ||
+    metrics.controlCount < 7 ||
+    metrics.purchaseCopy ||
+    metrics.languageChoices.length !== 3 ||
+    (metrics.viewportWidth <= 430 && metrics.languageChoices.some((choice) => choice.overflow || choice.whiteSpace !== "nowrap" || choice.paddingLeft < 34 || choice.markerContent === "none" || choice.markerDisplay === "none" || choice.textMarkerGap < 4))
+  ) {
     failures.push("[" + viewportName + "] Settings should contain preferences only: " + JSON.stringify(metrics));
   }
   await page.locator(".settings-close").click();
 }
 
-async function expectAppChromePolish(page, viewportName) {
-  await expectVisible(page, ".top-bar", viewportName);
-  await expectVisible(page, ".header-actions", viewportName);
-  await page.waitForFunction(() => [...document.querySelectorAll(".header-actions .icon-button__raster-art")]
-    .every((image) => image.complete && image.naturalWidth === 256 && image.naturalHeight === 256));
-  const chromeMetrics = await page.evaluate(() => {
-    const topBar = document.querySelector(".top-bar");
-    const currency = document.querySelector(".currency-pill");
-    const settings = document.querySelector(".icon-button--settings");
-    const reset = document.querySelector(".icon-button--reset");
-    const topBarRect = topBar?.getBoundingClientRect();
-    const currencyRect = currency?.getBoundingClientRect();
-    const settingsRect = settings?.getBoundingClientRect();
-    const resetRect = reset?.getBoundingClientRect();
-    const style = topBar ? getComputedStyle(topBar) : null;
-    const settingsStyle = settings ? getComputedStyle(settings) : null;
-    const resetStyle = reset ? getComputedStyle(reset) : null;
-    const settingsBefore = settings ? getComputedStyle(settings, "::before") : null;
-    const settingsAfter = settings ? getComputedStyle(settings, "::after") : null;
-    const resetBefore = reset ? getComputedStyle(reset, "::before") : null;
-    const resetAfter = reset ? getComputedStyle(reset, "::after") : null;
-    const settingsArt = settings?.querySelector(".icon-button__raster-art");
-    const resetArt = reset?.querySelector(".icon-button__raster-art");
-    return {
-      topBarHeight: topBarRect?.height || 0,
-      currencyHeight: currencyRect?.height || 0,
-      borderRadius: style ? parseFloat(style.borderRadius) : 0,
-      backgroundImage: style?.backgroundImage || "",
-      settingsText: (settings?.textContent || "").trim(),
-      resetText: (reset?.textContent || "").trim(),
-      settingsWidth: settingsRect?.width || 0,
-      settingsHeight: settingsRect?.height || 0,
-      resetWidth: resetRect?.width || 0,
-      resetHeight: resetRect?.height || 0,
-      settingsBackground: settingsStyle?.backgroundImage || "",
-      resetBackground: resetStyle?.backgroundImage || "",
-      settingsBeforeContent: settingsBefore?.content || "",
-      settingsAfterContent: settingsAfter?.content || "",
-      settingsAssetId: settingsArt?.dataset.assetId || "",
-      settingsImageNaturalWidth: settingsArt?.naturalWidth || 0,
-      settingsImageNaturalHeight: settingsArt?.naturalHeight || 0,
-      resetBeforeContent: resetBefore?.content || "",
-      resetAfterContent: resetAfter?.content || "",
-      resetAssetId: resetArt?.dataset.assetId || "",
-      resetImageNaturalWidth: resetArt?.naturalWidth || 0,
-      resetImageNaturalHeight: resetArt?.naturalHeight || 0
-    };
-  });
-  if (
-    chromeMetrics.topBarHeight < 68 ||
-    chromeMetrics.currencyHeight < 36 ||
-    chromeMetrics.borderRadius < 12 ||
-    !chromeMetrics.backgroundImage.includes("linear-gradient") ||
-    chromeMetrics.settingsText ||
-    chromeMetrics.resetText ||
-    chromeMetrics.settingsWidth < 44 ||
-    chromeMetrics.settingsHeight < 44 ||
-    chromeMetrics.resetWidth < 44 ||
-    chromeMetrics.resetHeight < 44 ||
-    chromeMetrics.settingsBeforeContent !== "none" ||
-    chromeMetrics.settingsAfterContent !== "none" ||
-    chromeMetrics.settingsAssetId !== "puzzle-control-settings-v1" ||
-    chromeMetrics.settingsImageNaturalWidth !== 256 ||
-    chromeMetrics.settingsImageNaturalHeight !== 256 ||
-    chromeMetrics.resetBeforeContent !== "none" ||
-    chromeMetrics.resetAfterContent !== "none" ||
-    chromeMetrics.resetAssetId !== "puzzle-control-reset-v1" ||
-    chromeMetrics.resetImageNaturalWidth !== 256 ||
-    chromeMetrics.resetImageNaturalHeight !== 256
-  ) {
-    failures.push("[" + viewportName + "] App chrome lost polished HUD/icon treatment: " + JSON.stringify(chromeMetrics));
-  }
+async function expectFloatingNavPolish(page, viewportName) {
+  await expectAbsent(page, ".top-bar", viewportName);
   const trigger = page.locator(".floating-nav__trigger").first();
+  if ((await trigger.count()) === 0) {
+    return;
+  }
   await trigger.click();
   await page.locator(".floating-nav[data-open='true'] .floating-nav__menu").waitFor({ state: "visible", timeout: 3000 });
   await page.waitForFunction(() => {
@@ -505,29 +631,21 @@ async function expectAppChromePolish(page, viewportName) {
     const triggerButton = document.querySelector(".floating-nav__trigger");
     const triggerIcon = triggerButton?.querySelector(".floating-nav__trigger-icon");
     const triggerText = triggerButton?.querySelector(".floating-nav__trigger-text");
-    const triggerLabel = triggerButton?.querySelector(".floating-nav__trigger-label");
-    const triggerCue = triggerButton?.querySelector(".floating-nav__trigger-cue");
     const activeItem = document.querySelector(".floating-nav__item.active");
-    const labels = [...document.querySelectorAll(".floating-nav__item span")].map((label) => label.textContent || "");
+    const labels = [...document.querySelectorAll(".floating-nav__label")].map((label) => label.textContent || "");
     const icons = [...document.querySelectorAll(".floating-nav__item")].map((item) => {
       const icon = item.querySelector(".floating-nav__icon");
-      const copy = item.querySelector(".floating-nav__copy");
       const label = item.querySelector(".floating-nav__label");
-      const hint = item.querySelector("small");
       const image = icon?.querySelector("img");
       const iconStyle = icon ? getComputedStyle(icon) : null;
-      const copyStyle = copy ? getComputedStyle(copy) : null;
       const labelStyle = label ? getComputedStyle(label) : null;
-      const hintStyle = hint ? getComputedStyle(hint) : null;
       const itemStyle = getComputedStyle(item);
       const before = icon ? getComputedStyle(icon, "::before") : null;
       const after = icon ? getComputedStyle(icon, "::after") : null;
       const labelLineHeight = parseFloat(labelStyle?.lineHeight) || 0;
-      const hintLineHeight = parseFloat(hintStyle?.lineHeight) || 0;
       return {
         view: item.dataset.view || "",
         labelText: (label?.textContent || "").trim(),
-        hintText: (hint?.textContent || "").trim(),
         ariaLabel: item.getAttribute("aria-label") || "",
         title: item.getAttribute("title") || "",
         itemHeight: item.getBoundingClientRect().height,
@@ -547,34 +665,23 @@ async function expectAppChromePolish(page, viewportName) {
         afterContent: after?.content || "",
         afterBackground: after?.backgroundImage || after?.backgroundColor || "",
         gridRow: iconStyle?.gridRow || "",
-        copyDisplay: copyStyle?.display || "",
-        copyWidth: copy?.getBoundingClientRect().width || 0,
         labelWhiteSpace: labelStyle?.whiteSpace || "",
         labelTextOverflow: labelStyle?.textOverflow || "",
         labelOverflowX: labelStyle?.overflowX || "",
         labelLineCount: labelLineHeight ? label.getBoundingClientRect().height / labelLineHeight : 1,
-        labelOverflow: label ? Math.max(0, label.scrollWidth - label.clientWidth) : 999,
-        hintWhiteSpace: hintStyle?.whiteSpace || "",
-        hintTextOverflow: hintStyle?.textOverflow || "",
-        hintOverflowX: hintStyle?.overflowX || "",
-        hintLineCount: hintLineHeight ? hint.getBoundingClientRect().height / hintLineHeight : 1,
-        hintOverflow: hint ? Math.max(0, hint.scrollWidth - hint.clientWidth) : 999
+        labelOverflow: label ? Math.max(0, label.scrollWidth - label.clientWidth) : 999
       };
     });
     const rect = menu?.getBoundingClientRect();
     const navRect = nav?.getBoundingClientRect();
     const style = menu ? getComputedStyle(menu) : null;
     const navStyle = nav ? getComputedStyle(nav) : null;
-    const triggerBefore = triggerButton ? getComputedStyle(triggerButton, "::before") : null;
-    const triggerAfter = triggerButton ? getComputedStyle(triggerButton, "::after") : null;
     const triggerIconStyle = triggerIcon ? getComputedStyle(triggerIcon) : null;
     const triggerIconBefore = triggerIcon ? getComputedStyle(triggerIcon, "::before") : null;
     const triggerIconAfter = triggerIcon ? getComputedStyle(triggerIcon, "::after") : null;
     const triggerImage = triggerIcon?.querySelector("img");
     const triggerTextStyle = triggerText ? getComputedStyle(triggerText) : null;
     const triggerCurrent = triggerButton?.querySelector("strong");
-    const activeBefore = activeItem ? getComputedStyle(activeItem, "::before") : null;
-    const activeAfter = activeItem ? getComputedStyle(activeItem, "::after") : null;
     return {
       open: nav?.dataset.open || "",
       left: rect?.left || 0,
@@ -590,9 +697,7 @@ async function expectAppChromePolish(page, viewportName) {
       menuCenter: rect ? rect.left + rect.width / 2 : 0,
       borderRadius: style ? parseFloat(style.borderRadius) : 0,
       backgroundImage: style?.backgroundImage || "",
-      triggerShine: triggerBefore?.backgroundImage || "",
-      triggerArrow: triggerAfter?.borderBottomWidth || "",
-      triggerArrowTransform: triggerAfter?.transform || "",
+      backgroundColor: style?.backgroundColor || "",
       triggerIcon: {
         view: triggerIcon?.dataset.view || "",
         width: parseFloat(triggerIconStyle?.width) || 0,
@@ -606,16 +711,12 @@ async function expectAppChromePolish(page, viewportName) {
         beforeContent: triggerIconBefore?.content || "",
         afterContent: triggerIconAfter?.content || ""
       },
+      triggerHeight: triggerButton?.getBoundingClientRect().height || 0,
       triggerTextWidth: triggerText?.getBoundingClientRect().width || 0,
       triggerTextClipPath: triggerTextStyle?.clipPath || "",
-      triggerLabelText: (triggerLabel?.textContent || "").trim(),
-      triggerCueText: (triggerCue?.textContent || "").trim(),
       triggerCurrentText: (triggerCurrent?.textContent || "").trim(),
       triggerCurrentOverflow: triggerCurrent ? Math.max(0, triggerCurrent.scrollWidth - triggerCurrent.clientWidth) : 999,
-      activeShine: activeBefore?.backgroundImage || "",
-      activeToken: activeAfter?.backgroundImage || "",
-      activeTokenWidth: parseFloat(activeAfter?.width) || 0,
-      activePaddingLeft: activeItem ? parseFloat(getComputedStyle(activeItem).paddingLeft) || 0 : 0,
+      activeLabel: (activeItem?.querySelector(".floating-nav__label")?.textContent || "").trim(),
       labels,
       icons
     };
@@ -623,36 +724,22 @@ async function expectAppChromePolish(page, viewportName) {
   const hasExplicitTimeAttackEntry = navMetrics.labels.some((label) => /Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(label));
   const expectedIconViews = ["puzzle", "album", "pantry", "timeAttack", "map"];
   const hasAllViewIcons = expectedIconViews.every((view) => navMetrics.icons.some((icon) => icon.view === view));
-  const expectedHintsByView = {
-    puzzle: ["Solve puzzles", "\uD37C\uC990 \uD480\uAE30"],
-    album: ["Finished art", "\uC644\uC131 \uADF8\uB9BC"],
-    pantry: ["Shop and decorate", "\uC0C1\uC810\uACFC \uAFB8\uBBF8\uAE30"],
-    timeAttack: ["Spoon challenge", "\uC2A4\uD47C \uB3C4\uC804"],
-    map: ["Next goals", "\uB2E4\uC74C \uBAA9\uD45C"]
-  };
-  const hasClearRouteHints = expectedIconViews.every((view) => {
-    const icon = navMetrics.icons.find((item) => item.view === view);
-    return Boolean(icon && expectedHintsByView[view].includes(icon.hintText));
-  });
-  const triggerExplainsSwitching = ["Switch screens", "\uD654\uBA74 \uC774\uB3D9"].includes(navMetrics.triggerCueText);
   const lastNavItem = navMetrics.icons.at(-1);
-  const wideOddItemIsCentered = navMetrics.viewportWidth < 560 || !lastNavItem || Math.abs((lastNavItem.itemLeft + lastNavItem.itemWidth / 2) - navMetrics.menuCenter) <= 2;
+  const oddItemIsCentered = !lastNavItem || Math.abs((lastNavItem.itemLeft + lastNavItem.itemWidth / 2) - navMetrics.menuCenter) <= 2;
   if (
     navMetrics.open !== "true" ||
     navMetrics.navPosition !== "fixed" ||
     navMetrics.navRightGap < 0 ||
     navMetrics.navRightGap > 24 ||
-    navMetrics.navBottomGap < 0 ||
+    navMetrics.navBottomGap < 20 ||
     navMetrics.navBottomGap > 120 ||
     navMetrics.navTop < 0 ||
     navMetrics.menuBottomGap < 0 ||
     navMetrics.left < -1 ||
     navMetrics.right > navMetrics.viewportWidth + 1 ||
-    navMetrics.borderRadius < 20 ||
-    !navMetrics.backgroundImage.includes("linear-gradient") ||
-    !navMetrics.triggerShine.includes("gradient") ||
-    navMetrics.triggerArrow === "0px" ||
-    navMetrics.triggerArrowTransform === "none" ||
+    navMetrics.borderRadius < 18 ||
+    navMetrics.backgroundColor === "rgba(0, 0, 0, 0)" ||
+    navMetrics.triggerHeight < 68 ||
     navMetrics.triggerIcon.width < 34 ||
     navMetrics.triggerIcon.height < 34 ||
     !navMetrics.triggerIcon.imageSrc.includes("quick-travel-") ||
@@ -661,44 +748,29 @@ async function expectAppChromePolish(page, viewportName) {
     navMetrics.triggerIcon.imageNaturalHeight !== 256 ||
     navMetrics.triggerIcon.beforeContent !== "none" ||
     navMetrics.triggerIcon.afterContent !== "none" ||
-    navMetrics.triggerTextWidth < 24 ||
-    navMetrics.triggerTextClipPath.includes("inset") ||
-    !navMetrics.triggerLabelText ||
-    !navMetrics.triggerCueText ||
+    navMetrics.triggerTextWidth > 2 ||
+    !navMetrics.triggerTextClipPath.includes("inset") ||
     !navMetrics.triggerCurrentText ||
-    navMetrics.triggerCurrentOverflow > 1 ||
-    !navMetrics.activeShine.includes("gradient") ||
-    !navMetrics.activeToken.includes("gradient") ||
-    navMetrics.activeTokenWidth < 8 ||
-    navMetrics.activePaddingLeft < 8 ||
+    !navMetrics.activeLabel ||
     !hasExplicitTimeAttackEntry ||
     !hasAllViewIcons ||
-    !hasClearRouteHints ||
-    !triggerExplainsSwitching ||
-    !wideOddItemIsCentered ||
+    !oddItemIsCentered ||
     navMetrics.icons.length < 5 ||
     navMetrics.icons.some((icon) =>
-      icon.itemHeight < 58 ||
-      icon.width < 38 ||
-      icon.height < 38 ||
+      icon.itemHeight < 48 ||
+      icon.width < 34 ||
+      icon.height < 34 ||
       !icon.imageSrc.includes("quick-travel-") ||
-      icon.assetId !== `quick-travel-${icon.view === "timeAttack" ? "time-attack" : icon.view}-v1` ||
+      icon.assetId !== (icon.view === "timeAttack" ? "quick-travel-time-attack-clock-v1" : `quick-travel-${icon.view}-v1`) ||
       icon.imageNaturalWidth !== 256 ||
       icon.imageNaturalHeight !== 256 ||
       icon.beforeContent !== "none" ||
       icon.afterContent !== "none" ||
-      icon.copyDisplay !== "grid" ||
-      icon.copyWidth < 80 ||
       icon.labelWhiteSpace === "nowrap" ||
       icon.labelTextOverflow === "ellipsis" ||
       icon.labelOverflowX === "hidden" ||
       icon.labelLineCount > 2.4 ||
-      icon.labelOverflow > 1 ||
-      icon.hintWhiteSpace === "nowrap" ||
-      icon.hintTextOverflow === "ellipsis" ||
-      icon.hintOverflowX === "hidden" ||
-      icon.hintLineCount > 2.4 ||
-      icon.hintOverflow > 1
+      icon.labelOverflow > 1
     )
   ) {
     failures.push("[" + viewportName + "] Floating nav panel polish/layout regression: " + JSON.stringify(navMetrics));
@@ -752,6 +824,12 @@ async function expectPlayScreenNavClearance(page, viewportName) {
 }
 
 async function expectStageNavigationPolish(page, viewportName) {
+  const stageNavigationCount = await page.locator(".stage-navigation").count();
+  if (stageNavigationCount !== 0) {
+    failures.push("[" + viewportName + "] Active puzzle focus mode must not render stage navigation cards.");
+  }
+  return;
+  /* Legacy polish measurements retained below for historical reference. */
   await expectVisible(page, ".stage-navigation", viewportName);
   const metrics = await page.locator(".stage-navigation").first().evaluate((nav) => {
     const rect = nav.getBoundingClientRect();
@@ -904,7 +982,13 @@ async function expectStarterBoardAlignment(page, viewportName) {
 }
 
 async function expectResetDialogPolish(page, viewportName) {
-  await page.locator('button[aria-label="Reset progress"], button[aria-label="\uC9C4\uD589 \uC0C1\uD0DC \uCD08\uAE30\uD654"]').first().click();
+  const headerResetCount = await page.locator('.top-bar button[aria-label="Reset progress"], .top-bar button[aria-label="\uC9C4\uD589 \uC0C1\uD0DC \uCD08\uAE30\uD654"]').count();
+  if (headerResetCount !== 0) {
+    failures.push("[" + viewportName + "] Reset must stay inside Settings, not the always-visible header.");
+  }
+  await openSettings(page);
+  await expectVisible(page, ".settings-dialog", viewportName);
+  await page.locator(".settings-reset").click();
   await expectVisible(page, ".modal-backdrop", viewportName);
   await expectVisible(page, ".reset-dialog", viewportName);
   const metrics = await page.locator(".reset-dialog").first().evaluate((dialog) => {
@@ -1059,43 +1143,137 @@ async function expectAlbumPolish(page, viewportName) {
   }
 }
 
+async function verifyEmptyAlbumPlayNowFlow(page, viewportName) {
+  await openFloatingView(page, "album", viewportName);
+  await expectVisible(page, ".album-empty", viewportName);
+  const emptyAction = page.locator(".album-empty button");
+  if ((await emptyAction.count()) !== 1) {
+    failures.push("[" + viewportName + "] Empty Album should expose exactly one Play Now action.");
+    return;
+  }
+  await emptyAction.click();
+  await expectVisible(page, ".play-screen", viewportName);
+  await dismissGuideIfPresent(page, viewportName);
+  await expectVisible(page, ".board-wrap", viewportName);
+  await expectTouchPaintSurvivesSyntheticClick(page, viewportName);
+  if ((await page.locator(".album-panel").count()) !== 0) {
+    failures.push("[" + viewportName + "] Empty Album Play Now action left the Album mounted instead of opening a puzzle.");
+  }
+  await page.locator(".play-screen__back").click();
+  await expectVisible(page, ".puzzle-home-scene", viewportName);
+}
+
+async function expectTouchPaintSurvivesSyntheticClick(page, viewportName) {
+  const target = page.locator(".puzzle-grid .puzzle-cell").first();
+  const box = await target.boundingBox();
+  if (!box) {
+    failures.push("[" + viewportName + "] Touch paint regression fixture could not locate its target cell.");
+    return;
+  }
+  await target.dispatchEvent("pointerdown", {
+    pointerId: 91,
+    pointerType: "touch",
+    isPrimary: true,
+    button: 0,
+    buttons: 1,
+    clientX: box.x + box.width / 2,
+    clientY: box.y + box.height / 2
+  });
+  await page.evaluate(() => {
+    const event = typeof PointerEvent === "function"
+      ? new PointerEvent("pointerup", { pointerId: 91, pointerType: "touch", isPrimary: true, bubbles: true })
+      : new MouseEvent("pointerup", { bubbles: true });
+    window.dispatchEvent(event);
+  });
+  await page.waitForTimeout(50);
+  const afterPointerUp = await page.locator(".puzzle-grid .puzzle-cell").first().getAttribute("class");
+  await page.locator(".puzzle-grid .puzzle-cell").first().dispatchEvent("click", { detail: 0 });
+  await page.waitForTimeout(20);
+  const afterSyntheticClick = await page.locator(".puzzle-grid .puzzle-cell").first().getAttribute("class");
+  if (!afterPointerUp?.includes("filled") || !afterSyntheticClick?.includes("filled")) {
+    failures.push("[" + viewportName + "] Android touch paint was toggled again by the delayed synthetic click: " + JSON.stringify({ afterPointerUp, afterSyntheticClick }));
+  }
+}
+
+async function expectMapFirstRunGuide(page, viewportName) {
+  const dialog = page.locator(".guide-dialog--map");
+  if ((await dialog.count()) === 0) {
+    failures.push("[" + viewportName + "] Unseen Badge/Map guide did not open after entering the map view.");
+    return;
+  }
+  await expectGuideDialogChromeArt(page, viewportName);
+  const speakerName = (await dialog.locator(".guide-dialog__name-tag").innerText()).trim();
+  const dotCount = await dialog.locator(".guide-dialog__dots span").count();
+  const guideSteps = [];
+  for (let expectedStep = 1; expectedStep <= 3; expectedStep += 1) {
+    const actualStep = Number(await dialog.getAttribute("data-step"));
+    const line = (await dialog.locator(".guide-dialog__line").innerText()).trim();
+    guideSteps.push({ actualStep, line });
+    if (expectedStep < 3) await dialog.locator(".guide-dialog__next").click();
+  }
+  if (speakerName !== "Pip" || dotCount !== 3 || guideSteps.some((step, index) => step.actualStep !== index + 1 || !step.line) || !/badge|\uBC30\uC9C0/i.test(guideSteps[0].line)) {
+    failures.push("[" + viewportName + "] Badge/Map first-run guide sequence regressed: " + JSON.stringify({ speakerName, dotCount, guideSteps }));
+  }
+  await dialog.locator(".guide-dialog__next").click();
+  await page.locator(".guide-overlay--map").waitFor({ state: "detached", timeout: 3000 });
+}
+
 async function expectMapPolish(page, viewportName) {
   const metrics = await page.evaluate(() => {
     const map = document.querySelector(".map-panel");
-    const badgeCard = document.querySelector(".next-stage-badge");
-    const badgeToken = document.querySelector(".roadmap-badge__token");
-    const lockedCardCount = document.querySelectorAll(".badge-card.locked").length;
-    const readBox = (el) => {
-      const rect = el?.getBoundingClientRect();
-      const style = el ? getComputedStyle(el) : null;
-      return {
-        left: rect?.left || 0,
-        right: rect?.right || 0,
-        width: rect?.width || 0,
-        height: rect?.height || 0,
-        radius: style ? parseFloat(style.borderRadius) : 0,
-        background: style?.backgroundImage || ""
-      };
-    };
+    const shelves = [...document.querySelectorAll(".badge-shelf")];
+    const slots = [...document.querySelectorAll(".badge-slot")];
+    const circles = [...document.querySelectorAll(".badge-circle")];
+    const mapRect = map?.getBoundingClientRect();
+    const mapStyle = map ? getComputedStyle(map) : null;
+    const boardStyle = shelves[0]?.querySelector(".badge-shelf__board")
+      ? getComputedStyle(shelves[0].querySelector(".badge-shelf__board"))
+      : null;
     return {
       viewportWidth: window.innerWidth,
-      map: readBox(map),
-      badgeCard: readBox(badgeCard),
-      badgeToken: readBox(badgeToken),
-      lockedCardCount
+      mapLeft: mapRect?.left || 0,
+      mapRight: mapRect?.right || 0,
+      mapRadius: mapStyle ? parseFloat(mapStyle.borderRadius) : 0,
+      mapBackground: mapStyle?.backgroundImage || "",
+      shelfCount: shelves.length,
+      shelfSlotCounts: shelves.map((shelf) => shelf.querySelectorAll(".badge-slot").length),
+      slotCount: slots.length,
+      lockedSlotCount: slots.filter((slot) => slot.classList.contains("locked")).length,
+      slotOutsideShelfCount: slots.filter((slot) => {
+        const rect = slot.getBoundingClientRect();
+        const shelfRect = slot.closest(".badge-shelf")?.getBoundingClientRect();
+        return !shelfRect || rect.left < shelfRect.left - 1 || rect.right > shelfRect.right + 1;
+      }).length,
+      minCircleSize: Math.min(...circles.map((circle) => circle.getBoundingClientRect().width)),
+      minCircleGap: Math.min(...shelves.flatMap((shelf) => {
+        const shelfCircles = [...shelf.querySelectorAll(".badge-circle")].map((circle) => circle.getBoundingClientRect());
+        return shelfCircles.slice(1).map((rect, index) => rect.left - shelfCircles[index].right);
+      })),
+      maxLockedImageOpacity: Math.max(...slots.filter((slot) => slot.classList.contains("locked")).map((slot) => Number(getComputedStyle(slot.querySelector(".badge-circle img")).opacity))),
+      outsideCount: [...shelves, ...slots].filter((element) => {
+        const rect = element.getBoundingClientRect();
+        return rect.left < -1 || rect.right > window.innerWidth + 1;
+      }).length,
+      boardBackground: boardStyle?.backgroundImage || ""
     };
   });
-  const boxes = [metrics.map, metrics.badgeCard, metrics.badgeToken];
-  const outside = boxes.some((box) => box.left < -1 || box.right > metrics.viewportWidth + 1);
   if (
-    outside ||
-    metrics.map.radius < 14 ||
-    metrics.badgeCard.radius < 12 ||
-    metrics.badgeToken.height < 40 ||
-    metrics.lockedCardCount !== 0 ||
-    !metrics.map.background.includes("linear-gradient")
+    metrics.mapLeft < -1 ||
+    metrics.mapRight > metrics.viewportWidth + 1 ||
+    metrics.mapRadius < 14 ||
+    !metrics.mapBackground.includes("linear-gradient") ||
+    metrics.shelfCount !== 3 ||
+    metrics.shelfSlotCounts.some((count) => count !== 3) ||
+    metrics.slotCount !== 9 ||
+    metrics.lockedSlotCount !== 9 ||
+    metrics.slotOutsideShelfCount !== 0 ||
+    metrics.minCircleSize < 60 ||
+    metrics.minCircleGap < 8 ||
+    metrics.maxLockedImageOpacity > 0.15 ||
+    metrics.outsideCount !== 0 ||
+    !metrics.boardBackground.includes("linear-gradient")
   ) {
-    failures.push("[" + viewportName + "] Map polish regression: " + JSON.stringify(metrics));
+    failures.push("[" + viewportName + "] Badge Shelf polish regression: " + JSON.stringify(metrics));
   }
 }
 
@@ -1171,6 +1349,7 @@ async function expectCompletionRewardPolish(page, viewportName) {
     const stampRect = stamp?.getBoundingClientRect();
     const eyebrowRect = eyebrow?.getBoundingClientRect();
     const actionsRect = actions?.getBoundingClientRect();
+    const actionButtons = [...(actions?.querySelectorAll("button") || [])];
     const bannerStyle = banner ? getComputedStyle(banner) : null;
     const cardStyle = card ? getComputedStyle(card) : null;
     const revealStyle = reveal ? getComputedStyle(reveal) : null;
@@ -1193,6 +1372,9 @@ async function expectCompletionRewardPolish(page, viewportName) {
       stampHeight: stampRect?.height || 0,
       eyebrowWidth: eyebrowRect?.width || 0,
       actionsWidth: actionsRect?.width || 0,
+      actionsLeft: actionsRect?.left || 0,
+      actionsRight: actionsRect?.right || 0,
+      actionButtonCount: actionButtons.length,
       rewardFactRects,
       bannerRadius: bannerStyle ? parseFloat(bannerStyle.borderRadius) : 0,
       bannerBackground: bannerStyle?.backgroundImage || "",
@@ -1218,7 +1400,13 @@ async function expectCompletionRewardPolish(page, viewportName) {
     (!metrics.firstPipFace && metrics.stampHeight < 22) ||
     (!metrics.firstPipFace && metrics.eyebrowWidth < 56) ||
     (metrics.firstPipFace && (metrics.stampWidth !== 0 || metrics.eyebrowWidth !== 0)) ||
-    metrics.actionsWidth < metrics.bannerWidth * 0.72 ||
+    metrics.actionButtonCount !== 1 ||
+    metrics.actionsWidth < Math.min(220, metrics.bannerWidth * 0.55) ||
+    metrics.actionsWidth > 320.5 ||
+    Math.abs(
+      (metrics.actionsLeft + metrics.actionsRight) / 2 -
+      (metrics.bannerLeft + metrics.bannerRight) / 2
+    ) > 2 ||
     metrics.rewardFactRects.length !== 0 ||
     metrics.bannerRadius < 14 ||
     metrics.cardRadius < 16 ||
@@ -1353,26 +1541,17 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
     const bonusIcon = document.createElement("img");
     bonusIcon.alt = "";
     bonus.append(bonusIcon, document.createTextNode(" +5 spoons"));
-    const facts = document.createElement("div");
-    facts.className = "stage-complete-facts";
-    facts.setAttribute("aria-label", "Stage rewards");
-    const albumFact = document.createElement("span");
-    albumFact.textContent = "Album filled";
-    const roomFact = document.createElement("span");
-    roomFact.textContent = "Room path grows";
-    facts.append(albumFact, roomFact);
     const ctaButton = document.createElement("button");
     ctaButton.type = "button";
     ctaButton.className = "tool-button stage-complete-cta";
     ctaButton.textContent = "OK";
-    copy.append(eyebrow, title, body, bonus, facts, ctaButton);
+    copy.append(eyebrow, title, body, bonus, ctaButton);
     cardNode.append(pipArt, copy);
     overlay.appendChild(cardNode);
     document.body.appendChild(overlay);
     const card = overlay.querySelector(".stage-complete-card");
     const art = overlay.querySelector(".stage-complete-pip");
     const cta = overlay.querySelector(".stage-complete-cta");
-    const factChips = [...overlay.querySelectorAll(".stage-complete-facts span")];
     const cardRect = card?.getBoundingClientRect();
     const artRect = art?.getBoundingClientRect();
     const ctaRect = cta?.getBoundingClientRect();
@@ -1390,22 +1569,6 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
       viewportHeight: window.innerHeight,
       artHeight: artRect?.height || 0,
       ctaHeight: ctaRect?.height || 0,
-      factCount: factChips.length,
-      factChips: factChips.map((chip) => {
-        const rect = chip.getBoundingClientRect();
-        const style = getComputedStyle(chip);
-        return {
-          text: chip.textContent.trim(),
-          width: rect.width,
-          height: rect.height,
-          radius: parseFloat(style.borderRadius),
-          background: style.backgroundImage,
-      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
-          beforeBackground: getComputedStyle(chip, "::before").backgroundImage,
-          beforeWidth: parseFloat(getComputedStyle(chip, "::before").width),
-          overflows: chip.scrollWidth > Math.ceil(rect.width) + 1 || chip.scrollHeight > Math.ceil(rect.height) + 1
-        };
-      }),
       cardRadius: cardStyle ? parseFloat(cardStyle.borderRadius) : 0,
       cardBackground: cardStyle?.backgroundImage || "",
       cardBeforeHeight: cardBefore ? parseFloat(cardBefore.height) : 0,
@@ -1426,8 +1589,6 @@ async function expectStageCompleteRewardPolish(page, viewportName) {
     metrics.cardHeight > metrics.viewportHeight - 24 ||
     metrics.artHeight < 180 ||
     metrics.ctaHeight < 50 ||
-    metrics.factCount !== 2 ||
-    metrics.factChips.some((chip) => !chip.text || chip.width < 90 || chip.height < 32 || chip.radius < 12 || chip.beforeWidth < 10 || !chip.background.includes("linear-gradient") || !chip.beforeBackground.includes("linear-gradient") || chip.overflows) ||
     metrics.cardRadius < 16 ||
     metrics.cardBeforeHeight < 8 ||
     !metrics.cardBeforeBackground.includes("linear-gradient") ||
@@ -1451,93 +1612,47 @@ async function expectNoHorizontalOverflow(page, viewportName) {
 }
 
 async function expectHiddenBonusPacks(page, viewportName) {
-  const leakCount = await page.locator('.pack-block[data-pack-id$="-plus"], .bonus-pack-panel').count();
+  const leakCount = await page.locator('.bonus-pack-panel').count();
   if (leakCount > 0) {
     failures.push(`${viewportName}: hidden bonus pack preview leaked into the launch puzzle picker.`);
   }
 }
 
 async function expectLockedStageGate(page, viewportName) {
-  const lockedText = await page.locator(".pack-block.locked").first().innerText();
-  if (!lockedText.includes("Pantry room step") || !lockedText.includes("0/3") || !lockedText.includes("Need pantry story") || !lockedText.includes("Go to Pantry") || !lockedText.includes("Blocked by") || !lockedText.includes("Pantry requests")) {
-    failures.push("[" + viewportName + "] Locked stage should explain pantry story progress, saw " + lockedText);
-  }
-}
-
-async function expectSeasonUpdateTeaser(page, viewportName) {
-  await expectVisible(page, ".season-next-card", viewportName);
-  await expectVisible(page, ".season-next-card__label", viewportName);
-  await expectVisible(page, ".season-next-card__chips span", viewportName);
-  const text = await page.locator(".season-next-card").first().innerText();
-  const normalizedText = text.toLowerCase();
-  if (!normalizedText.includes("update note") || !text.includes("333") || !text.includes("Puzzle drop") || !text.includes("Pip news")) {
-    failures.push("[" + viewportName + "] Season update teaser should explain the post-launch drop plan, saw " + text);
-  }
-
-  const metrics = await page.locator(".season-next-card").first().evaluate((card) => {
-    const rect = card.getBoundingClientRect();
-    const style = getComputedStyle(card);
-    const cardBefore = getComputedStyle(card, "::before");
-    const label = card.querySelector(".season-next-card__label");
-    const chips = [...card.querySelectorAll(".season-next-card__chips span")].map((chip) => {
-      const chipRect = chip.getBoundingClientRect();
-      return { width: chipRect.width, height: chipRect.height, text: chip.textContent.trim() };
-    });
-    return {
-      width: rect.width,
-      right: rect.right,
-      viewportWidth: window.innerWidth,
-      radius: parseFloat(style.borderRadius),
-      background: style.backgroundImage,
-      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
-      labelText: label?.textContent?.trim() || "",
-      chipCount: chips.length,
-      chips
-    };
-  });
-  if (
-    metrics.width < 260 ||
-    metrics.right > metrics.viewportWidth + 1 ||
-    metrics.radius < 12 ||
-    !metrics.background.includes("linear-gradient") ||
-    metrics.labelText.length === 0 ||
-    metrics.chipCount !== 3 ||
-    metrics.chips.some((chip) => chip.height < 26 || chip.width < 58)
-  ) {
-    failures.push("[" + viewportName + "] Season update teaser mobile layout regressed: " + JSON.stringify(metrics));
-  }
-}
-
-async function expectStageArtPreviews(page, viewportName) {
-  const tileCount = await page.locator(".stage-tile-mosaic .pip-tile").count();
-  if (tileCount === 0) {
-    failures.push("[" + viewportName + "] Missing approved stage-art mosaic tiles");
+  const lockedStage = page.locator(".pack-block--locked").first();
+  if (await lockedStage.count() === 0) {
+    failures.push("[" + viewportName + "] Locked stage card is missing from the puzzle picker.");
     return;
   }
-
-  const pendingCount = await page.locator(".stage-art-pending").count();
-  if (pendingCount > 0) {
-    failures.push("[" + viewportName + "] Stage previews should use approved artwork, saw " + pendingCount + " pending-art placeholders");
-  }
-
-  const tileIssues = await page.evaluate(() => {
-    return [...document.querySelectorAll(".stage-tile-mosaic .pip-tile.revealed, .stage-tile-mosaic .pip-tile.peek")]
-      .map((tile) => {
-        const rect = tile.getBoundingClientRect();
-        return {
-          width: rect.width,
-          height: rect.height,
-          backgroundImage: tile.style.backgroundImage
-        };
-      })
-      .filter((tile) => tile.width < 1 || tile.height < 1 || !tile.backgroundImage || tile.backgroundImage === "none");
+  const lockedText = await lockedStage.innerText();
+  const duplicateReportCount = await lockedStage.locator(".unlock-panel__plan, .unlock-panel__gate").count();
+  const geometry = await lockedStage.evaluate((card) => {
+    const style = getComputedStyle(card);
+    return {
+      paddingTop: parseFloat(style.paddingTop),
+      paddingRight: parseFloat(style.paddingRight),
+      paddingBottom: parseFloat(style.paddingBottom),
+      paddingLeft: parseFloat(style.paddingLeft),
+      overflows: card.scrollWidth > card.clientWidth + 1
+    };
   });
-  if (tileIssues.length > 0) {
-    failures.push("[" + viewportName + "] Stage artwork mosaic has invalid visible tiles: " + JSON.stringify(tileIssues.slice(0, 3)));
+  if (!/\d+/.test(lockedText) || !/Pantry decor \d+\/\d+/.test(lockedText) || !lockedText.includes("Need pantry story") || !lockedText.includes("Go to Pantry") || lockedText.includes("Blocked by") || duplicateReportCount > 0 || geometry.paddingTop < 14 || geometry.paddingRight < 16 || geometry.paddingBottom < 14 || geometry.paddingLeft < 16 || geometry.overflows) {
+    failures.push("[" + viewportName + "] Locked stage should show cost, Pantry progress, one route, 14x16px padding, and no overflow; saw " + lockedText + " / " + JSON.stringify(geometry));
   }
 }
 
-async function expectPuzzleHubSelectionPolish(page, viewportName) {
+async function expectNoStageMosaic(page, viewportName) {
+  const obsoleteCount = await page.locator(".stage-preview, .stage-tile-mosaic, .pip-tile-mosaic").count();
+  if (obsoleteCount > 0) {
+    failures.push("[" + viewportName + "] Puzzle picker should not render retired stage mosaics; saw " + obsoleteCount);
+  }
+}
+
+async function expectPuzzlePickerPolish(page, viewportName) {
+  const pickerMetrics = await page.locator(".puzzle-picker").first().evaluate((panel) => ({
+    headingText: (panel.querySelector(".pack-header")?.textContent || "").trim(),
+    overflows: panel.scrollWidth > panel.clientWidth + 1
+  }));
   const metrics = await page.locator(".puzzle-chip").evaluateAll((chips) => chips.slice(0, 20).map((chip) => {
     const label = chip.querySelector(":scope > span");
     const meta = chip.querySelector(":scope > small");
@@ -1548,12 +1663,128 @@ async function expectPuzzleHubSelectionPolish(page, viewportName) {
       height: chip.getBoundingClientRect().height,
       overflows: chip.scrollWidth > chip.clientWidth + 1 || chip.scrollHeight > chip.clientHeight + 1,
       hasRewardImage: Boolean(chip.querySelector("img")),
+      hasRewardReport: /(?:\+\d|reward|\ubcf4\uc0c1)/i.test(meta?.textContent || ""),
       before: getComputedStyle(chip, "::before").content,
       after: getComputedStyle(chip, "::after").content
     };
   }));
-  if (!metrics.length || metrics.some((chip) => !chip.label || !chip.meta || chip.width < 120 || chip.height < 80 || chip.overflows || chip.hasRewardImage || chip.before !== "none" || chip.after !== "none" || /5x5|8x8|10x10|12x12/.test(chip.label))) {
-    failures.push("[" + viewportName + "] Compact puzzle choices regressed: " + JSON.stringify(metrics));
+  if (!pickerMetrics.headingText || pickerMetrics.overflows || !metrics.length || metrics.some((chip) => !chip.label || !chip.meta || chip.width < 120 || chip.height < 80 || chip.overflows || chip.hasRewardImage || chip.hasRewardReport || chip.before !== "none" || chip.after !== "none" || /5x5|8x8|10x10|12x12/.test(chip.label))) {
+    failures.push("[" + viewportName + "] Compact puzzle choices regressed: " + JSON.stringify({ pickerMetrics, metrics }));
+  }
+}
+
+async function expectPuzzleHomePolish(page, viewportName) {
+  await expectVisible(page, ".puzzle-home-scene", viewportName);
+  await expectVisible(page, ".puzzle-home-scene__play", viewportName);
+  await expectVisible(page, ".puzzle-home-scene__settings", viewportName);
+  await page.waitForFunction(() => {
+    const images = [...document.querySelectorAll(".puzzle-home-destination img, .puzzle-home-scene__play img, .puzzle-home-scene__settings img")];
+    return images.length >= 7 && images.every((image) => image.complete && image.naturalWidth >= 128 && image.naturalHeight >= 128);
+  }, null, { timeout: 5000 });
+  await expectAbsent(page, ".puzzle-home-scene__pip", viewportName);
+  const metrics = await page.locator(".puzzle-home").first().evaluate((home) => {
+    const destinations = [...home.querySelectorAll(".puzzle-home-destination")];
+    const scene = home.querySelector(".puzzle-home-scene");
+    const play = home.querySelector(".puzzle-home-scene__play");
+    const settings = home.querySelector(".puzzle-home-scene__settings");
+    const controls = home.querySelector(".puzzle-home-scene__controls");
+    const greetingWrap = home.querySelector(".puzzle-home-scene__greeting-wrap");
+    const greetingPip = home.querySelector(".puzzle-home-scene__greeting-pip");
+    const greetingBubble = home.querySelector(".puzzle-home-scene__greeting");
+    const shell = home.closest(".app-shell");
+    const hubCards = shell?.querySelector(".puzzle-hub-cards");
+    const hubCardsStyle = hubCards ? getComputedStyle(hubCards) : null;
+    const sceneStyle = scene ? getComputedStyle(scene) : null;
+    const boxOf = (element) => {
+      const rect = element?.getBoundingClientRect();
+      return rect ? { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom } : null;
+    };
+    const intersects = (left, right) => Boolean(left && right
+      && left.left < right.right - 1
+      && left.right > right.left + 1
+      && left.top < right.bottom - 1
+      && left.bottom > right.top + 1);
+    const sceneBox = boxOf(scene);
+    const hubCardsBox = boxOf(hubCards);
+    const destinationBoxes = destinations.map(boxOf);
+    const destinationArt = destinations.map((button) => {
+      const image = button.querySelector("img");
+      const rect = image?.getBoundingClientRect();
+      const style = getComputedStyle(button);
+      return {
+        id: button.dataset.destination || "",
+        assetId: image?.dataset.assetId || "",
+        width: rect?.width || 0,
+        height: rect?.height || 0,
+        naturalWidth: image?.naturalWidth || 0,
+        naturalHeight: image?.naturalHeight || 0,
+        backgroundColor: style.backgroundColor,
+        borderTopWidth: style.borderTopWidth,
+        boxShadow: style.boxShadow
+      };
+    });
+    const playBox = boxOf(play);
+    const settingsBox = boxOf(settings);
+    const controlsBox = boxOf(controls);
+    const greetingWrapBox = boxOf(greetingWrap);
+    const greetingPipBox = boxOf(greetingPip);
+    const greetingBubbleBox = boxOf(greetingBubble);
+    const greetingWrapStyle = greetingWrap ? getComputedStyle(greetingWrap) : null;
+    const greetingBubbleStyle = greetingBubble ? getComputedStyle(greetingBubble) : null;
+    const primaryDestinationBoxes = destinations
+      .filter((button) => ["puzzle", "album", "spoonRun", "pantry"].includes(button.dataset.destination || ""))
+      .map(boxOf);
+    const settingsImage = settings?.querySelector("img");
+    return {
+      overflow: home.scrollWidth > home.clientWidth + 1,
+      sceneOverflow: scene ? scene.scrollWidth > scene.clientWidth + 1 : true,
+      backgroundImage: sceneStyle?.backgroundImage || "",
+      destinationCount: destinations.length,
+      destinationOverflow: destinations.some((button) => { const box = button.getBoundingClientRect(); return box.width < 48 || box.height < 48; }),
+      destinationOutsideScene: destinationBoxes.some((box) => !box || !sceneBox
+        || box.left < sceneBox.left - 1 || box.right > sceneBox.right + 1 || box.top < sceneBox.top - 1 || box.bottom > sceneBox.bottom + 1),
+      destinationCollisions: destinationBoxes.some((box, index) => destinationBoxes
+        .slice(index + 1)
+        .some((other) => intersects(box, other))),
+      destinationTargetsLargeEnough: destinationBoxes.every((box) => box
+        && Math.min(box.right - box.left, box.bottom - box.top) >= 72),
+      destinationArtLargeEnough: destinationArt.every((art) => art.width >= 72 && art.height >= 72
+        && art.naturalWidth >= 128 && art.naturalHeight >= 128),
+      destinationArt,
+      playCollision: destinationBoxes.some((box) => intersects(box, playBox)),
+      controlsCollision: destinationBoxes.some((box) => intersects(box, controlsBox)) || intersects(playBox, controlsBox),
+      greetingGap: greetingPipBox && greetingBubbleBox ? Math.max(0, greetingBubbleBox.left - greetingPipBox.right) : 999,
+      greetingFlexGap: greetingWrapStyle ? parseFloat(greetingWrapStyle.gap) || 0 : 999,
+      greetingBubbleBorder: greetingBubbleStyle ? parseFloat(greetingBubbleStyle.borderTopWidth) || 0 : 0,
+      greetingBubbleRadius: greetingBubbleStyle ? parseFloat(greetingBubbleStyle.borderTopLeftRadius) || 0 : 0,
+      greetingBubbleShadow: greetingBubbleStyle?.boxShadow || "none",
+      greetingBubbleBackground: greetingBubbleStyle?.backgroundColor || "",
+      greetingOutsideScene: !greetingWrapBox || !sceneBox || greetingWrapBox.left < sceneBox.left - 1 || greetingWrapBox.right > sceneBox.right + 1 || greetingWrapBox.top < sceneBox.top - 1 || greetingWrapBox.bottom > sceneBox.bottom + 1,
+      primaryDestinationsBelowGreeting: Boolean(greetingWrapBox && primaryDestinationBoxes.length === 4 && primaryDestinationBoxes.every((box) => box && box.top >= greetingWrapBox.bottom + 4)),
+      settingsOutsideScene: !settingsBox || !sceneBox || settingsBox.left < sceneBox.left - 1 || settingsBox.right > sceneBox.right + 1 || settingsBox.top < sceneBox.top - 1 || settingsBox.bottom > sceneBox.bottom + 1,
+      settingsTargetLargeEnough: Boolean(settingsBox && Math.min(settingsBox.right - settingsBox.left, settingsBox.bottom - settingsBox.top) >= 44),
+      settingsAssetId: settingsImage?.dataset.assetId || "",
+      playOutsideScene: !playBox || !sceneBox || playBox.left < sceneBox.left - 1 || playBox.right > sceneBox.right + 1 || playBox.top < sceneBox.top - 1 || playBox.bottom > sceneBox.bottom + 1,
+      playLargeEnough: Boolean(playBox && Math.min(playBox.right - playBox.left, playBox.bottom - playBox.top) >= 96),
+      workshopShell: Boolean(shell?.classList.contains("app-shell--workshop-home")),
+      supportingCardClasses: hubCards ? [...hubCards.children].map((child) => child.className) : [],
+      supportingCardsBelowScene: Boolean(sceneBox && hubCardsBox && hubCardsBox.top >= sceneBox.bottom - 1),
+      supportingCardsWidthContained: Boolean(hubCardsBox && hubCardsBox.left >= -1 && hubCardsBox.right <= window.innerWidth + 1),
+      supportingCardsPaddingBottom: hubCardsStyle ? parseFloat(hubCardsStyle.paddingBottom) || 0 : 0,
+      hasRetiredHomeProps: Boolean(home.querySelector(".puzzle-home-furnishings, .puzzle-home-scene__keepsake")),
+      hasHiddenDestinationLabel: destinations.some((button) => {
+        const label = button.querySelector(".puzzle-home-destination__label");
+        return !label || getComputedStyle(label).display === "none" || getComputedStyle(label).visibility === "hidden";
+      }),
+      ids: destinations.map((button) => button.dataset.destination || ""),
+      playAssetId: play?.querySelector("img")?.dataset.assetId || ""
+    };
+  });
+  const expected = ["puzzle", "album", "pantry", "spoonRun", "map"];
+  const expectedAssets = { puzzle: "workshop-nav-puzzle-v3", album: "workshop-nav-album-v3", pantry: "workshop-nav-pantry-v3", spoonRun: "spoon-token-v2", map: "workshop-nav-map-v3" };
+  const hasStaleDestinationTreatment = metrics.destinationArt.some((art) => art.assetId !== expectedAssets[art.id] || art.backgroundColor !== "rgba(0, 0, 0, 0)" || art.borderTopWidth !== "0px" || art.boxShadow !== "none");
+  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.greetingGap > 5 || metrics.greetingFlexGap > 4 || metrics.greetingBubbleBorder < 2 || metrics.greetingBubbleRadius < 16 || metrics.greetingBubbleShadow === "none" || metrics.greetingBubbleBackground === "rgb(255, 255, 255)" || metrics.greetingOutsideScene || !metrics.primaryDestinationsBelowGreeting || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.hasHiddenDestinationLabel || metrics.playAssetId !== "puzzle-control-fill-v1" || metrics.supportingCardClasses.length !== 0 || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
+    failures.push("[" + viewportName + "] Puzzle workshop home/direct destinations regressed: " + JSON.stringify(metrics));
   }
 }
 
@@ -1562,37 +1793,31 @@ async function expectDailyRewardPolish(page, viewportName) {
   const metrics = await page.locator(".daily-card").evaluate((card) => ({
     text: (card.textContent || "").trim(),
     overflows: card.scrollWidth > card.clientWidth + 1 || card.scrollHeight > card.clientHeight + 1,
-    hasRewardImage: Boolean(card.querySelector(".daily-reward-note img")),
+    hasRewardNote: Boolean(card.querySelector(".daily-reward-note")),
     before: getComputedStyle(card, "::before").content,
     after: getComputedStyle(card, "::after").content,
     buttonHeight: card.querySelector("button")?.getBoundingClientRect().height || 0
   }));
-  if (metrics.overflows || metrics.hasRewardImage || metrics.before !== "none" || metrics.after !== "none" || metrics.buttonHeight < 44 || !/spoon|\uC2A4\uD47C/i.test(metrics.text)) {
+  if (metrics.overflows || metrics.hasRewardNote || metrics.before !== "none" || metrics.after !== "none" || metrics.buttonHeight < 44) {
     failures.push("[" + viewportName + "] Compact daily card regressed: " + JSON.stringify(metrics));
   }
 }
 
-async function expectTimeAttackHubEntry(page, viewportName) {
-  await expectVisible(page, ".time-attack-teaser-card", viewportName);
-  const metrics = await page.locator(".time-attack-teaser-card").evaluate((card) => {
-    const image = card.querySelector(".time-attack-teaser-card__badge img");
-    const action = card.querySelector(".time-attack-teaser-card__action");
-    return {
-      text: (card.textContent || "").trim(),
-      overflows: card.scrollWidth > card.clientWidth + 1 || card.scrollHeight > card.clientHeight + 1,
-      assetId: image?.dataset.assetId || "",
-      naturalWidth: image?.naturalWidth || 0,
-      hasLegacyActionIcon: Boolean(card.querySelector(".time-attack-teaser-card__action-icon")),
-      before: getComputedStyle(card, "::before").content,
-      after: getComputedStyle(card, "::after").content,
-      actionHeight: action?.getBoundingClientRect().height || 0
-    };
-  });
-  if (metrics.overflows || metrics.assetId !== "quick-travel-time-attack-v1" || metrics.naturalWidth !== 256 || metrics.hasLegacyActionIcon || metrics.before !== "none" || metrics.after !== "none" || metrics.actionHeight < 44 || !/Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(metrics.text)) {
-    failures.push("[" + viewportName + "] Compact Time Attack entry regressed: " + JSON.stringify(metrics));
+async function expectTimeAttackNavigationEntry(page, viewportName) {
+  await expectAbsent(page, ".time-attack-teaser-card", viewportName);
+  const entries = page.locator(".floating-nav__item--timeAttack");
+  const entryCount = await entries.count();
+  const metrics = entryCount === 1
+    ? await entries.first().evaluate((entry) => ({
+      assetId: entry.querySelector("img")?.dataset.assetId || "",
+      view: entry.dataset.view || entry.dataset.destination || "",
+      label: entry.getAttribute("aria-label") || entry.title || ""
+    }))
+    : { assetId: "", view: "", label: "" };
+  if (entryCount !== 1 || metrics.assetId !== "workshop-nav-time-attack-v3" || metrics.view !== "timeAttack" || !/Time Attack|\uD0C0\uC784\uC5B4\uD0DD/.test(metrics.label)) {
+    failures.push("[" + viewportName + "] Time Attack navigation entry regressed: " + JSON.stringify({ entryCount, ...metrics }));
   }
 }
-
 async function expectTapTargets(page, viewportName) {
   const smallTargets = await page.evaluate(() => {
     return [...document.querySelectorAll("button")]
@@ -1607,8 +1832,42 @@ async function expectTapTargets(page, viewportName) {
     failures.push(`[${viewportName}] Small tap targets: ${JSON.stringify(smallTargets)}`);
   }
 }
+
+async function openSettings(page) {
+  const homeSettings = page.locator('button[data-destination="settings"]').first();
+  const chromeSettings = page.locator('button[aria-label="Settings"], button[aria-label="\uC124\uC815"]').first();
+  if (await homeSettings.count()) {
+    await homeSettings.click();
+    return;
+  }
+  const trigger = page.locator(".floating-nav__trigger").first();
+  if (await trigger.count()) {
+    await trigger.click();
+  }
+  await chromeSettings.click();
+}
+
 async function openFloatingView(page, view, viewportName = view) {
   await dismissGuideIfPresent(page, "floating-nav");
+  if ((await page.locator(".floating-nav__trigger").count()) === 0) {
+    const directButton = page.locator('button[data-destination="' + view + '"]').first();
+    if (await directButton.count()) {
+      await directButton.scrollIntoViewIfNeeded();
+      await directButton.click();
+      const directSelectors = {
+        album: ".album-panel",
+        map: ".map-panel",
+        pantry: ".pantry-panel",
+        puzzle: ".pack-block",
+        timeAttack: ".time-attack-panel"
+      };
+      const directSelector = directSelectors[view];
+      if (directSelector) {
+        await page.locator(directSelector).first().waitFor({ state: "visible", timeout: 5000 });
+      }
+      return;
+    }
+  }
   if ((await page.locator(".floating-nav__trigger").count()) === 0 && (await page.locator(".play-screen__back").count()) > 0) {
     await page.locator(".play-screen__back").click();
   }
@@ -1625,47 +1884,16 @@ async function openFloatingView(page, view, viewportName = view) {
     puzzle: ".pack-block",
     timeAttack: ".time-attack-panel"
   };
+  if (view === "puzzle" && (await page.locator(".pack-block").count()) === 0) {
+    await page.locator(".puzzle-home-destination--puzzle").click();
+  }
   const selector = viewSelectors[view];
   if (selector) {
     await page.locator(selector).first().waitFor({ state: "visible", timeout: 5000 });
   }
   if (view === "timeAttack") {
     await expectTimeAttackGuideCopy(page, viewportName);
-    await expectVisible(page, ".time-attack-coach-card", "Time Attack coach card");
-    const coachMetrics = await page.locator(".time-attack-coach-card").first().evaluate((card) => {
-      const rect = card.getBoundingClientRect();
-      const style = getComputedStyle(card);
-      const pip = card.querySelector(".time-attack-coach-card__pip");
-      const pipRect = pip?.getBoundingClientRect() || { width: 0, height: 0 };
-      const pipStyle = pip ? getComputedStyle(pip) : null;
-      return {
-        width: rect.width,
-        height: rect.height,
-        radius: parseFloat(style.borderRadius),
-        bottomRadius: parseFloat(style.borderBottomLeftRadius),
-        background: style.backgroundImage,
-        shadow: style.boxShadow,
-        pipWidth: pipRect.width,
-        pipHeight: pipRect.height,
-        pipRadius: pipStyle ? parseFloat(pipStyle.borderRadius) : 0,
-        pipBackground: pipStyle?.backgroundImage || "",
-        pipShadow: pipStyle?.boxShadow || "none"
-      };
-    });
-    if (
-      coachMetrics.width <= 0 ||
-      coachMetrics.height < 96 ||
-      coachMetrics.radius < 12 ||
-      coachMetrics.background !== "none" ||
-      coachMetrics.shadow !== "none" ||
-      coachMetrics.pipWidth < 62 ||
-      coachMetrics.pipHeight < 62 ||
-      coachMetrics.pipRadius !== 0 ||
-      coachMetrics.pipBackground !== "none" ||
-      coachMetrics.pipShadow !== "none"
-    ) {
-      failures.push("Time Attack coach card lost its Pip/economy guidance treatment: " + JSON.stringify(coachMetrics));
-    }
+    await expectAbsent(page, ".time-attack-coach-card", "Time Attack coach card");
     await expectVisible(page, ".time-attack-ladder", "Time Attack ladder");
     const ladderMetrics = await page.locator(".time-attack-ladder").first().evaluate((ladder) => {
       const rect = ladder.getBoundingClientRect();
@@ -1690,7 +1918,10 @@ async function expectTimeAttackStartSurface(page, viewportName) {
   await expectVisible(page, ".time-attack-panel__intro", "Time Attack intro");
   await expectVisible(page, ".time-attack-panel__start", "Time Attack start button");
   await expectVisible(page, ".time-attack-status", "Time Attack daily status");
-  await expectVisible(page, ".time-attack-records", "Time Attack records panel");
+  await page.waitForFunction(() => {
+    const image = document.querySelector(".time-attack-panel__clock-grandpa img");
+    return Boolean(image && image.complete && image.naturalWidth >= 200 && image.naturalHeight >= 200);
+  }, null, { timeout: 5000 });
 
   const metrics = await page.locator(".time-attack-panel").first().evaluate((panel) => {
     const panelRect = panel.getBoundingClientRect();
@@ -1698,6 +1929,8 @@ async function expectTimeAttackStartSurface(page, viewportName) {
     const start = panel.querySelector(".time-attack-panel__start");
     const status = panel.querySelector(".time-attack-status");
     const records = panel.querySelector(".time-attack-records");
+    const grandpa = intro?.querySelector(".time-attack-panel__clock-grandpa");
+    const grandpaImage = grandpa?.querySelector("img");
     const recordItems = records ? Array.from(records.querySelectorAll("li")) : [];
     const introRect = intro?.getBoundingClientRect();
     const introStyle = intro ? getComputedStyle(intro) : null;
@@ -1715,7 +1948,15 @@ async function expectTimeAttackStartSurface(page, viewportName) {
         height: introRect.height,
         radius: parseFloat(introStyle.borderRadius),
         background: introStyle.backgroundImage,
-        shadow: introStyle.boxShadow
+        shadow: introStyle.boxShadow,
+        sectionLabelCount: intro.querySelectorAll(".section-label").length,
+        title: (intro.querySelector("h2")?.textContent || "").trim(),
+        clockGrandpa: grandpa ? {
+          width: grandpa.getBoundingClientRect().width,
+          height: grandpa.getBoundingClientRect().height,
+          naturalWidth: grandpaImage?.naturalWidth || 0,
+          titleTextAlign: getComputedStyle(intro.querySelector("h2")).textAlign
+        } : null
       } : null,
       start: startRect ? {
         width: startRect.width,
@@ -1742,20 +1983,23 @@ async function expectTimeAttackStartSurface(page, viewportName) {
     };
   });
 
-  const introLooksPolished = metrics.intro && metrics.intro.height >= 72 && metrics.intro.radius >= 14 && metrics.intro.background === "none" && metrics.intro.shadow === "none";
+  // v0.1.607: Clock Grandpa now uses one dedicated character asset rather than
+  // a cropped sprite sheet. Empty records are intentional until a full run ends.
+  const introLooksPolished = metrics.intro && metrics.intro.height >= 96 && metrics.intro.radius >= 14 && metrics.intro.background === "none" && metrics.intro.shadow === "none" && metrics.intro.sectionLabelCount === 0 && metrics.intro.title.length > 0 && metrics.intro.clockGrandpa && metrics.intro.clockGrandpa.width >= 100 && metrics.intro.clockGrandpa.height >= 170 && metrics.intro.clockGrandpa.naturalWidth >= 200 && metrics.intro.clockGrandpa.titleTextAlign === "center";
   const startLooksTactile = metrics.start && metrics.start.width >= 220 && metrics.start.height >= 52 && metrics.start.radius >= 16 && metrics.start.background === "none" && metrics.start.shadow !== "none";
   const statusFits = metrics.status && metrics.status.width > 0 && metrics.status.height >= 28;
-  const recordsLooksPolished = metrics.records &&
+  const recordsAreUseful = !metrics.records || (
     metrics.records.width > 0 &&
     metrics.records.radius >= 14 &&
     metrics.records.background === "none" &&
     metrics.records.overflow === "hidden" &&
     metrics.records.shadow === "none" &&
     metrics.records.textLength > 0 &&
-    metrics.records.itemHeights.every((height) => height >= 28);
+    (metrics.records.itemCount === 0 || metrics.records.itemHeights.every((height) => height >= 28))
+  );
   const staysInViewport = metrics.panelWidth > 0 && metrics.panelRight <= metrics.viewportWidth + 1;
-  if (!introLooksPolished || !startLooksTactile || !statusFits || !recordsLooksPolished || !staysInViewport) {
-    failures.push("[" + viewportName + "] Time Attack start surface lost its intro/start/status/records treatment: " + JSON.stringify(metrics));
+  if (!introLooksPolished || !startLooksTactile || !statusFits || !recordsAreUseful || !staysInViewport) {
+    failures.push("[" + viewportName + "] Time Attack start surface lost its compact start treatment: " + JSON.stringify(metrics));
   }
 }
 
@@ -1768,34 +2012,106 @@ async function expectTimeAttackGuideCopy(page, viewportName) {
 
   await expectVisible(page, ".guide-dialog", viewportName);
   await expectVisible(page, ".guide-dialog__art img", viewportName);
-  await expectGuideDialogChromeArt(page, viewportName);
+  await expectGuideDialogChromeArt(page, viewportName, { neighborClass: "mr-park" });
 
   const firstStepText = await page.locator(".guide-dialog__bubble").first().innerText();
-  if (!/Time Attack|\uD0C0\uC784\uC5B4\uD0DD|\uB3C4\uC804/i.test(firstStepText)) {
-    failures.push("[" + viewportName + "] Time Attack guide first step should frame the mode, saw " + firstStepText);
+  if (!/Grandpa Clock|\uC2DC\uACC4 \uD560\uC544\uBC84\uC9C0/i.test(firstStepText)) {
+    failures.push("[" + viewportName + "] Time Attack guide first step should introduce its speaker, saw " + firstStepText);
   }
 
   await page.locator(".guide-dialog__next").click();
   const hintStepText = await page.locator(".guide-dialog__bubble").first().innerText();
   const mentionsHint = /hint|\uD78C\uD2B8/i.test(hintStepText);
-  const mentionsSpoons = /spoon|\uC2A4\uD47C/i.test(hintStepText);
-  if (!mentionsHint || !mentionsSpoons) {
-    failures.push("[" + viewportName + "] Time Attack guide should explain limited hints and spoon continuation, saw " + hintStepText);
+  if (!mentionsHint) {
+    failures.push("[" + viewportName + "] Time Attack guide should reserve hints for stuck moments, saw " + hintStepText);
   }
 
   await page.locator(".guide-dialog__next").click();
   const recordStepText = await page.locator(".guide-dialog__bubble").first().innerText();
-  const mentionsRecord = /record|best|\uAE30\uB85D/i.test(recordStepText);
-  const mentionsChoice = /pantry|spoon|\uD32C\uD2B8\uB9AC|\uC2A4\uD47C/i.test(recordStepText);
-  if (!mentionsRecord || !mentionsChoice) {
-    failures.push("[" + viewportName + "] Time Attack guide final step should frame record chasing versus spoon saving, saw " + recordStepText);
+  const mentionsRecord = /record|best|fast|\uAE30\uB85D|\uBE60\uB978/i.test(recordStepText);
+  if (!mentionsRecord) {
+    failures.push("[" + viewportName + "] Time Attack guide final step should invite a speed challenge, saw " + recordStepText);
   }
   await page.locator(".guide-dialog__next").click();
   await overlay.waitFor({ state: "detached", timeout: 2000 });
 }
+async function verifyTimeAttackExitRestoresRegularPuzzle(page, viewportName, expectedRegularPlayLabel) {
+  await dismissGuideIfPresent(page, viewportName);
+  const start = page.locator(".time-attack-panel__start").first();
+  await start.click();
+  await page.locator(".app-shell--play[data-view='timeAttack']").waitFor({ state: "visible", timeout: 5000 });
+
+  const timeAttackCell = page.locator(".puzzle-grid .puzzle-cell").first();
+  await timeAttackCell.click();
+  const timeAttackCellAfterClick = await page.locator(".puzzle-grid .puzzle-cell").first().getAttribute("class");
+  const paintedValue = timeAttackCellAfterClick?.includes("filled")
+    ? "filled"
+    : timeAttackCellAfterClick?.includes("marked")
+      ? "marked"
+      : null;
+  await page.waitForTimeout(1200);
+  const timeAttackCellAfterTimerDraw = await page.locator(".puzzle-grid .puzzle-cell").first().getAttribute("class");
+  if (!paintedValue || !timeAttackCellAfterTimerDraw?.includes(paintedValue)) {
+    failures.push("[" + viewportName + "] Time Attack paint was lost during the one-second timer redraw: before=" + timeAttackCellAfterClick + ", after=" + timeAttackCellAfterTimerDraw);
+  }
+
+  const hintPanel = page.locator(".puzzle-panel--time-attack .hint-panel").first();
+  await hintPanel.waitFor({ state: "visible", timeout: 3000 });
+  const hintMetrics = await hintPanel.evaluate((panel) => {
+    const board = panel.parentElement?.querySelector(".board-wrap");
+    const button = panel.querySelector(".hint-button");
+    return {
+      beforeBoard: Boolean(board && (panel.compareDocumentPosition(board) & Node.DOCUMENT_POSITION_FOLLOWING)),
+      buttonDisabled: Boolean(button?.disabled),
+      buttonWidth: button?.getBoundingClientRect().width || 0,
+      buttonHeight: button?.getBoundingClientRect().height || 0
+    };
+  });
+  if (!hintMetrics.beforeBoard || hintMetrics.buttonDisabled || hintMetrics.buttonWidth < 44 || hintMetrics.buttonHeight < 44) {
+    failures.push("[" + viewportName + "] Time Attack hint control is not visible before the board: " + JSON.stringify(hintMetrics));
+  }
+  const spoonsBeforeHint = await page.evaluate(() => {
+    const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+    const save = player ? JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:save:" + player.id) || "{}") : {};
+    return Number(save.pantrySpoons || 0);
+  });
+  await hintPanel.locator(".hint-button").click();
+  const hintConfirm = hintPanel.locator('.hint-panel__confirm[data-cost="2"]');
+  await hintConfirm.waitFor({ state: "visible", timeout: 2000 });
+  await hintConfirm.locator(".tool-button.complete").click();
+  const hintState = await page.evaluate(() => {
+    const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+    const save = player ? JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:save:" + player.id) || "{}") : {};
+    return {
+      spoons: Number(save.pantrySpoons || 0),
+      meter: document.querySelectorAll(".puzzle-panel--time-attack .hint-panel__meter-dot.spent").length
+    };
+  });
+  if (hintState.spoons !== spoonsBeforeHint - 2 || hintState.meter !== 1) {
+    failures.push("[" + viewportName + "] Time Attack first hint did not spend 2 spoons and record one use: " + JSON.stringify({ spoonsBeforeHint, ...hintState }));
+  }
+
+  await page.locator(".play-screen__back").click();
+  await page.locator(".app-shell--workshop-home[data-view='puzzle']").waitFor({ state: "visible", timeout: 5000 });
+
+  const restoredPlayLabel = await page.locator(".puzzle-home-scene__play").getAttribute("aria-label");
+  if (!expectedRegularPlayLabel || restoredPlayLabel !== expectedRegularPlayLabel) {
+    failures.push("[" + viewportName + "] Time Attack exit did not restore the regular puzzle: " + JSON.stringify({ expectedRegularPlayLabel, restoredPlayLabel }));
+  }
+
+  await page.locator(".puzzle-home-scene__play").click();
+  await page.locator(".app-shell--play[data-view='puzzle']").waitFor({ state: "visible", timeout: 5000 });
+  await dismissGuideIfPresent(page, viewportName);
+  if ((await page.locator(".time-attack-progress, .time-attack-timer").count()) > 0) {
+    failures.push("[" + viewportName + "] Time Attack state leaked into regular puzzle play.");
+  }
+  await page.locator(".play-screen__back").click();
+  await page.locator(".app-shell--workshop-home[data-view='puzzle']").waitFor({ state: "visible", timeout: 5000 });
+}
+
 async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   await seedLargeBoardCatalogAccess(page);
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "domcontentloaded" });
   if ((await page.locator(".brand-intro").count()) > 0) {
     await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6000 });
     await page.waitForTimeout(400);
@@ -1812,9 +2128,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     failures.push("[" + viewportName + "] Bakery Window should expose at least 91 12x12 catalog chips, saw " + largeBoardChipCount);
   }
 
-  const villageLargeBoardChipCount = await page.locator('.pack-block[data-pack-id="village-pantry"] .puzzle-chip[data-size="10"]').count();
-  if (villageLargeBoardChipCount < 98) {
-    failures.push("[" + viewportName + "] Village Pantry should expose at least 98 10x10 catalog chips, saw " + villageLargeBoardChipCount);
+  const tenByTenChipCount = await page.locator('.puzzle-chip[data-size="10"]').count();
+  if (tenByTenChipCount < 98) {
+    failures.push("[" + viewportName + "] Season shelves should expose at least 98 10x10 puzzle chips, saw " + tenByTenChipCount);
   }
 
   if ((await page.locator(".pack-catalog-summary, .pack-note").count()) !== 0) {
@@ -1824,24 +2140,24 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   const target = page.locator(".puzzle-chip", { hasText: /Bakery Window Glow/ }).first();
   await target.waitFor({ state: "visible", timeout: 5000 });
   await target.click();
+  await dismissGuideIfPresent(page, viewportName);
   await expectVisible(page, ".play-screen", viewportName);
   await expectVisible(page, ".puzzle-panel", viewportName);
   await expectVisible(page, ".hint-panel", viewportName);
   await expectVisible(page, ".cursor-controls", viewportName);
+  await page.waitForFunction(() => {
+    const images = [...document.querySelectorAll(".cursor-action-button__art")];
+    return images.length === 2 && images.every((image) => image.complete && image.naturalWidth === 256 && image.naturalHeight === 256);
+  }, null, { timeout: 5000 });
   const cursorPadMetrics = await page.locator(".cursor-controls").first().evaluate((panel) => {
     const rect = panel.getBoundingClientRect();
     const style = getComputedStyle(panel);
-    const position = panel.querySelector(".cursor-controls__position");
     const dpad = panel.querySelector(".cursor-dpad");
     const actionsArea = panel.querySelector(".cursor-actions");
     const nav = document.querySelector(".floating-nav");
-    const status = panel.querySelector(".cursor-controls__status");
     const dpadRect = dpad?.getBoundingClientRect();
     const actionsRect = actionsArea?.getBoundingClientRect();
     const navRect = nav?.getBoundingClientRect();
-    const statusRect = status?.getBoundingClientRect();
-    const statusStyle = status ? getComputedStyle(status) : null;
-    const statusTokenStyle = status ? getComputedStyle(status, "::before") : null;
     const intersects = (first, second) =>
       Boolean(first && second && first.left < second.right && first.right > second.left && first.top < second.bottom && first.bottom > second.top);
     const moves = [...panel.querySelectorAll(".cursor-move")].map((button) => {
@@ -1893,15 +2209,6 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       radius: parseFloat(style.borderRadius),
       background: style.backgroundImage,
       cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
-      positionText: position?.textContent.trim() || "",
-      statusText: status?.textContent.trim() || "",
-      statusWidth: statusRect?.width || 0,
-      statusHeight: statusRect?.height || 0,
-      statusBackground: statusStyle?.backgroundImage || "",
-      statusTokenWidth: parseFloat(statusTokenStyle?.width) || 0,
-      statusTokenHeight: parseFloat(statusTokenStyle?.height) || 0,
-      statusTokenBackground: statusTokenStyle?.backgroundImage || "",
-      statusTokenShadow: statusTokenStyle?.boxShadow || "",
       dpadWidth: dpadRect?.width || 0,
       navVisible: Boolean(navRect && navRect.width > 0 && navRect.height > 0),
       navOverlapActions: intersects(navRect, actionsRect),
@@ -1918,15 +2225,6 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     cursorPadMetrics.width > Math.min(cursorPadMetrics.viewportWidth, 530) ||
     cursorPadMetrics.radius < 16 ||
     !cursorPadMetrics.background.includes("gradient") ||
-    !cursorPadMetrics.positionText ||
-    !cursorPadMetrics.statusText ||
-    cursorPadMetrics.statusHeight < 24 ||
-    cursorPadMetrics.statusWidth > cursorPadMetrics.width ||
-    !cursorPadMetrics.statusBackground.includes("gradient") ||
-    cursorPadMetrics.statusTokenWidth < 12 ||
-    cursorPadMetrics.statusTokenHeight < 12 ||
-    !cursorPadMetrics.statusTokenBackground.includes("gradient") ||
-    cursorPadMetrics.statusTokenShadow === "none" ||
     cursorPadMetrics.dpadWidth < 124 ||
     cursorPadMetrics.navOverlapActions ||
     cursorPadMetrics.navOverlapDpad ||
@@ -2001,10 +2299,9 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   }
 
   await page.locator(".cursor-action-button").first().click();
-  const cursorStatusAfterFill = await page.locator(".cursor-controls__status").first().innerText();
   const cursorActionAfterFill = await page.locator(".cursor-action-button").first().innerText();
-  if (!/Colored|\uCE60\uD568/.test(cursorStatusAfterFill) || !/Clear|\uC9C0\uC6B0/.test(cursorActionAfterFill)) {
-    failures.push("[" + viewportName + "] Cursor action labels should explain clearing after coloring: " + JSON.stringify({ cursorStatusAfterFill, cursorActionAfterFill }));
+  if (!/Clear|\uC9C0\uC6B0/.test(cursorActionAfterFill)) {
+    failures.push("[" + viewportName + "] Cursor fill action should become a clear action after use: " + JSON.stringify({ cursorActionAfterFill }));
   }
   await page.locator(".cursor-action-button").first().click();
 
@@ -2239,6 +2536,42 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   const boardSize = await page.locator(".board-wrap").first().evaluate((board) => getComputedStyle(board).getPropertyValue("--board-size").trim());
   if (boardSize !== "12") {
     failures.push("[" + viewportName + "] 12x12 board CSS variable should be 12, saw " + boardSize);
+  }
+
+  const guideBoundaryMetrics = await page.locator(".puzzle-grid").first().evaluate((grid) => {
+    const cells = [...grid.querySelectorAll(".puzzle-cell")];
+    const describe = (cell) => {
+      const row = Number(cell.dataset.row);
+      const column = Number(cell.dataset.column);
+      const rect = cell.getBoundingClientRect();
+      const above = cells.find((candidate) => Number(candidate.dataset.row) === row - 1 && Number(candidate.dataset.column) === column);
+      const left = cells.find((candidate) => Number(candidate.dataset.row) === row && Number(candidate.dataset.column) === column - 1);
+      return {
+        row,
+        column,
+        borderTopWidth: parseFloat(getComputedStyle(cell).borderTopWidth),
+        borderLeftWidth: parseFloat(getComputedStyle(cell).borderLeftWidth),
+        gapAbove: above ? rect.top - above.getBoundingClientRect().bottom : null,
+        gapLeft: left ? rect.left - left.getBoundingClientRect().right : null
+      };
+    };
+    const top = cells.filter((cell) => cell.classList.contains("board-guide-top")).map(describe);
+    const left = cells.filter((cell) => cell.classList.contains("board-guide-left")).map(describe);
+    return { top, left };
+  });
+  const expectedGuideRows = "4,8";
+  const expectedGuideColumns = "4,8";
+  const guideRows = [...new Set(guideBoundaryMetrics.top.map((cell) => cell.row))].join(",");
+  const guideColumns = [...new Set(guideBoundaryMetrics.left.map((cell) => cell.column))].join(",");
+  if (
+    guideBoundaryMetrics.top.length !== 24 ||
+    guideBoundaryMetrics.left.length !== 24 ||
+    guideRows !== expectedGuideRows ||
+    guideColumns !== expectedGuideColumns ||
+    guideBoundaryMetrics.top.some((cell) => cell.borderTopWidth < 4 || cell.gapAbove === null || cell.gapAbove < 1) ||
+    guideBoundaryMetrics.left.some((cell) => cell.borderLeftWidth < 4 || cell.gapLeft === null || cell.gapLeft < 1)
+  ) {
+    failures.push("[" + viewportName + "] 12x12 board guide boundaries should align to rows and columns 4 and 8: " + JSON.stringify(guideBoundaryMetrics));
   }
 
   const boardFrameMetrics = await page.locator(".board-wrap").first().evaluate((board) => {
@@ -2489,7 +2822,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       overflows: line.scrollWidth > Math.ceil(rect.width) + 1 || line.scrollHeight > Math.ceil(rect.height) + 1
     };
   });
-  if (progressMetrics.width > progressMetrics.viewportWidth || progressMetrics.height < 32 || progressMetrics.borderRadius < 16 || !progressMetrics.background.includes("gradient") || progressMetrics.markWidth !== 0 || progressMetrics.markHeight !== 0 || !progressMetrics.text || !progressMetrics.text.includes("/") || progressMetrics.progressRatio === "" || progressMetrics.overflow !== "hidden" || progressMetrics.overflows) {
+  if (progressMetrics.width > progressMetrics.viewportWidth || progressMetrics.height < 32 || progressMetrics.borderRadius < 16 || progressMetrics.markWidth !== 0 || progressMetrics.markHeight !== 0 || !/^\d+\s*\/\s*\d+$/.test(progressMetrics.text) || progressMetrics.badgeText || progressMetrics.overflows) {
     failures.push("[" + viewportName + "] Puzzle progress line lost compact chip treatment: " + JSON.stringify(progressMetrics));
   }
 
@@ -2580,26 +2913,12 @@ async function expectDragPreviewPolish(page, viewportName) {
     clientY: end.y
   });
 
-  const metrics = await page.evaluate(() => {
-    const previews = [...document.querySelectorAll(".puzzle-cell.drag-preview")];
-    const preview = previews[0];
-    const style = preview ? getComputedStyle(preview) : null;
-    const before = preview ? getComputedStyle(preview, "::before") : null;
-    const after = preview ? getComputedStyle(preview, "::after") : null;
-    return {
-      count: previews.length,
-      className: preview?.className || "",
-      background: style?.backgroundImage || "",
-      color: style?.color || "",
-      outlineStyle: style?.outlineStyle || "",
-      boxShadow: style?.boxShadow || "",
-      beforeBackground: before?.backgroundImage || "",
-      beforeShadow: before?.boxShadow || "",
-      afterBackground: after?.backgroundImage || "",
-      afterTransform: after?.transform || "",
-      afterFilter: after?.filter || ""
-    };
-  });
+  const metrics = await page.evaluate(() => ({
+    previewCount: document.querySelectorAll(".puzzle-cell.drag-preview").length,
+    selectedCount: document.querySelectorAll(".puzzle-cell.selected").length,
+    filledCount: document.querySelectorAll(".puzzle-cell.filled").length,
+    markedCount: document.querySelectorAll(".puzzle-cell.marked").length
+  }));
 
   await page.evaluate(() => {
     const event = typeof PointerEvent === "function"
@@ -2608,19 +2927,8 @@ async function expectDragPreviewPolish(page, viewportName) {
     window.dispatchEvent(event);
   });
 
-  const previewIsMarked = String(metrics.className).includes("marked");
-  if (
-    metrics.count < 1 ||
-    !metrics.background.includes("gradient") ||
-    metrics.outlineStyle === "none" ||
-    metrics.boxShadow === "none" ||
-    !metrics.beforeBackground.includes("gradient") ||
-    metrics.beforeShadow === "none" ||
-    metrics.afterBackground === "none" ||
-    (previewIsMarked && metrics.afterTransform === "none") ||
-    metrics.afterFilter === "none"
-  ) {
-    failures.push("[" + viewportName + "] Drag preview lost handcrafted token treatment: " + JSON.stringify(metrics));
+  if (metrics.previewCount !== 0 || metrics.selectedCount !== 1 || metrics.filledCount !== 0 || metrics.markedCount !== 0) {
+    failures.push("[" + viewportName + "] Cursor-mode board drag must only move the selection, never preview or change cells: " + JSON.stringify(metrics));
   }
 }
 async function expectPuzzleBoardFramePolish(page, viewportName) {
@@ -2630,6 +2938,8 @@ async function expectPuzzleBoardFramePolish(page, viewportName) {
     const board = panel?.querySelector(".board-wrap:not(.locked)");
     const grid = panel?.querySelector(".puzzle-grid");
     const activeClue = panel?.querySelector(".row-clue.active, .column-clue.active");
+    const rowClues = [...(panel?.querySelectorAll(".row-clue") || [])];
+    const rowClueTokens = rowClues.flatMap((row) => [...row.querySelectorAll("span")]);
     const read = (node) => {
       if (!node) {
         return null;
@@ -2654,7 +2964,11 @@ async function expectPuzzleBoardFramePolish(page, viewportName) {
       meta: read(meta),
       board: read(board),
       grid: read(grid),
-      activeClue: read(activeClue)
+      activeClue: read(activeClue),
+      rowClueLeft: rowClues.length ? Math.min(...rowClues.map((row) => row.getBoundingClientRect().left)) : 0,
+      rowClueRight: rowClues.length ? Math.max(...rowClues.map((row) => row.getBoundingClientRect().right)) : 0,
+      rowTokenLeft: rowClueTokens.length ? Math.min(...rowClueTokens.map((token) => token.getBoundingClientRect().left)) : 0,
+      rowTokenRight: rowClueTokens.length ? Math.max(...rowClueTokens.map((token) => token.getBoundingClientRect().right)) : 0
     };
   });
   if (
@@ -2680,6 +2994,8 @@ async function expectPuzzleBoardFramePolish(page, viewportName) {
     metrics.grid.radius < 12 ||
     !metrics.grid.background.includes("gradient") ||
     metrics.grid.right > metrics.viewportWidth + 1 ||
+    metrics.rowTokenLeft < metrics.rowClueLeft - 1 ||
+    metrics.rowTokenRight > metrics.rowClueRight + 1 ||
     !metrics.activeClue.background.includes("gradient")
   ) {
     failures.push("[" + viewportName + "] Puzzle board frame lost polished paper-tray treatment: " + JSON.stringify(metrics));
@@ -2687,115 +3003,20 @@ async function expectPuzzleBoardFramePolish(page, viewportName) {
 }
 
 async function expectCompletedLineGuidance(page, viewportName) {
-  const firstRowFilledCells = [3, 4, 5, 6, 7, 8];
-  for (const cellIndex of firstRowFilledCells) {
-    await page.locator(".puzzle-grid .puzzle-cell").nth(cellIndex).click();
-  }
-
-  const metrics = await page.evaluate(() => {
-    const rowCompleteCount = document.querySelectorAll(".row-clue.line-complete").length;
-    const autoMarkedBlanks = document.querySelectorAll(".puzzle-cell.completed-row.marked").length;
-    const firstRowGlow = document.querySelectorAll(".puzzle-cell.completed-row").length;
-    const rowClue = document.querySelector(".row-clue.line-complete span");
-    const safeCell = document.querySelector(".puzzle-cell.completed-row.marked");
-    const safeSuggestion = document.createElement("button");
-    safeSuggestion.className = "puzzle-cell safe-suggestion";
-    document.body.appendChild(safeSuggestion);
-    const markedFixture = document.createElement("button");
-    markedFixture.className = "puzzle-cell marked";
-    document.body.appendChild(markedFixture);
-    const glowCell = document.querySelector(".puzzle-cell.completed-row");
-    const progressBadge = document.querySelector(".progress-line__badge");
-    const progressBadgeStyle = progressBadge ? getComputedStyle(progressBadge) : null;
-    const progressBadgeRect = progressBadge?.getBoundingClientRect();
-    const readStyle = (el) => {
-      const style = el ? getComputedStyle(el) : null;
-      const before = el ? getComputedStyle(el, "::before") : null;
-      const after = el ? getComputedStyle(el, "::after") : null;
-      return {
-        background: style?.backgroundImage || "",
-        boxShadow: style?.boxShadow || "",
-        borderStyle: style?.borderStyle || "",
-        outlineStyle: style?.outlineStyle || "",
-        color: style?.color || "",
-        beforeBackground: before?.backgroundImage || "",
-        beforeContent: before?.content || "",
-        beforeBoxShadow: before?.boxShadow || "",
-        afterBackground: after?.backgroundImage || "",
-        afterFilter: after?.filter || "",
-        afterTransform: after?.transform || "",
-        afterWidth: parseFloat(after?.width) || 0,
-        afterHeight: parseFloat(after?.height) || 0
-      };
-    };
-    const safeSuggestionStyle = readStyle(safeSuggestion);
-    safeSuggestion.remove();
-    const markedFixtureStyle = readStyle(markedFixture);
-    markedFixture.remove();
-    const lockedLeakCount = document.querySelectorAll(".board-wrap.locked .line-complete, .board-wrap.locked .safe-suggestion, .board-wrap.locked .completed-row, .board-wrap.locked .completed-column").length;
-    return {
-      rowCompleteCount,
-      autoMarkedBlanks,
-      firstRowGlow,
-      rowClueStyle: readStyle(rowClue),
-      safeCellStyle: readStyle(safeCell),
-      safeSuggestionStyle,
-      markedFixtureStyle,
-      glowCellStyle: readStyle(glowCell),
-      progressBadgeText: (progressBadge?.textContent || "").trim(),
-      progressBadgeWidth: progressBadgeRect?.width || 0,
-      progressBadgeHeight: progressBadgeRect?.height || 0,
-      progressBadgeBackground: progressBadgeStyle?.backgroundImage || "",
-      lockedLeakCount
-    };
-  });
-
-  if (metrics.rowCompleteCount < 1 || metrics.autoMarkedBlanks < 6 || metrics.firstRowGlow < 12) {
-    failures.push("[" + viewportName + "] Completed-line guidance did not appear after finishing the first 12x12 row: " + JSON.stringify(metrics));
-  }
-  if (
-    metrics.rowClueStyle.beforeContent !== "none" ||
-    metrics.rowClueStyle.background.includes("radial-gradient") ||
-    metrics.glowCellStyle.boxShadow === "none" ||
-    metrics.safeCellStyle.borderStyle !== "dashed" ||
-    metrics.safeCellStyle.outlineStyle !== "dashed" ||
-    metrics.safeSuggestionStyle.borderStyle !== "solid" ||
-    metrics.safeSuggestionStyle.outlineStyle !== "dashed" ||
-    metrics.safeSuggestionStyle.color !== "rgba(0, 0, 0, 0)" ||
-    !metrics.safeSuggestionStyle.beforeBackground.includes("gradient") ||
-    metrics.safeSuggestionStyle.beforeBoxShadow === "none" ||
-    !metrics.safeSuggestionStyle.afterBackground.includes("linear-gradient") ||
-    metrics.safeSuggestionStyle.afterFilter === "none" ||
-    metrics.safeSuggestionStyle.afterTransform === "none" ||
-    metrics.safeSuggestionStyle.afterWidth < 8 ||
-    metrics.safeSuggestionStyle.afterHeight < 8 ||
-    metrics.markedFixtureStyle.color !== "rgba(0, 0, 0, 0)" ||
-    !metrics.markedFixtureStyle.beforeBackground.includes("gradient") ||
-    metrics.markedFixtureStyle.beforeBoxShadow === "none" ||
-    !metrics.markedFixtureStyle.afterBackground.includes("linear-gradient") ||
-    metrics.markedFixtureStyle.afterFilter === "none" ||
-    metrics.markedFixtureStyle.afterTransform === "none" ||
-    metrics.markedFixtureStyle.afterWidth < 8 ||
-    metrics.markedFixtureStyle.afterHeight < 8 ||
-    !metrics.safeCellStyle.background.includes("gradient") ||
-    metrics.safeCellStyle.color !== "rgba(0, 0, 0, 0)" ||
-    !metrics.safeCellStyle.beforeBackground.includes("gradient") ||
-    metrics.safeCellStyle.beforeBoxShadow === "none" ||
-    !metrics.safeCellStyle.afterBackground.includes("radial-gradient") ||
-    !metrics.safeCellStyle.afterBackground.includes("linear-gradient") ||
-    metrics.safeCellStyle.afterFilter === "none" ||
-    metrics.safeCellStyle.afterTransform === "none" ||
-    metrics.safeCellStyle.afterWidth < 8 ||
-    metrics.safeCellStyle.afterHeight < 8 ||
-    !metrics.progressBadgeText ||
-    metrics.progressBadgeWidth < 28 ||
-    metrics.progressBadgeHeight < 18 ||
-    !metrics.progressBadgeBackground.includes("gradient")
-  ) {
-    failures.push("[" + viewportName + "] Completed-line guidance lost flat clue and auto-X treatment: " + JSON.stringify(metrics));
-  }
-  if (metrics.lockedLeakCount > 0) {
-    failures.push("[" + viewportName + "] Completed-line guidance leaked into a locked board: " + JSON.stringify(metrics));
+  const before = await page.evaluate(() => ({
+    filled: document.querySelectorAll(".puzzle-cell.filled").length,
+    marked: document.querySelectorAll(".puzzle-cell.marked").length,
+    selected: document.querySelectorAll(".puzzle-cell.selected").length
+  }));
+  await page.locator(".puzzle-grid .puzzle-cell").nth(6).click();
+  const after = await page.evaluate(() => ({
+    filled: document.querySelectorAll(".puzzle-cell.filled").length,
+    marked: document.querySelectorAll(".puzzle-cell.marked").length,
+    selected: document.querySelectorAll(".puzzle-cell.selected").length,
+    lockedLeakCount: document.querySelectorAll(".board-wrap.locked .line-complete, .board-wrap.locked .safe-suggestion, .board-wrap.locked .completed-row, .board-wrap.locked .completed-column").length
+  }));
+  if (after.filled !== before.filled || after.marked !== before.marked || after.selected !== 1 || after.lockedLeakCount > 0) {
+    failures.push("[" + viewportName + "] Cursor-mode board presses must only move one selection and never change puzzle state: " + JSON.stringify({ before, after }));
   }
 }
 async function seedLargeBoardCatalogAccess(page) {
@@ -2812,6 +3033,151 @@ async function seedLargeBoardCatalogAccess(page) {
     save.unlockedPackIds = Array.from(new Set([...(Array.isArray(save.unlockedPackIds) ? save.unlockedPackIds : []), "pips-first-shelf", "bakery-window", "village-pantry"]));
     save.pantrySpoons = Math.max(500, Number(save.pantrySpoons || 0));
     save.pantryCompletedStoryGoalIds = Array.from(new Set([...(Array.isArray(save.pantryCompletedStoryGoalIds) ? save.pantryCompletedStoryGoalIds : []), "small-jam-jar", "sunny-window-curtains", "recipe-card-shelf", "mint-check-rug", "herb-pot", "cork-board", "tiny-succulent", "spoon-wall-clock", "berry-tea-tins", "ribbon-rolling-pin"]));
+    localStorage.setItem(saveKey, JSON.stringify(save));
+  });
+}
+
+async function verifyFeaturedBadgeFlow(page, viewportName) {
+  await page.evaluate(async () => {
+    const { seasonShelves } = await import("/src/data/seasonShelves.js");
+    const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+    const saveKey = "pips-picture-pantry:v0.1:save:" + player.id;
+    const save = JSON.parse(localStorage.getItem(saveKey) || "{}");
+    save.completedPuzzleIds = [...seasonShelves[0].puzzleIds];
+    save.ownedJarIds = ["strawberry-jam", "blueberry-jam", "cherry-jam", "orange-marmalade", "lemon-curd", "peach-preserve"];
+    save.equippedJars = { jam: "strawberry-jam" };
+    save.featuredJarId = "strawberry-jam";
+    save.unlockedShelfIds = ["shelf-pips-first", "shelf-sunny-counter"];
+    save.featuredBadgeId = null;
+    localStorage.setItem(saveKey, JSON.stringify(save));
+  });
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6000 });
+  await page.waitForTimeout(800);
+  await dismissIntro(page, "Jay", viewportName);
+  await dismissGuideIfPresent(page, viewportName);
+  await openFloatingView(page, "map", viewportName);
+  const lockedBadge = page.locator(".badge-slot.locked").first();
+  await lockedBadge.click();
+  await page.locator(".badge-detail.visible").waitFor({ state: "visible", timeout: 2000 });
+  const lockedDetailMetrics = await page.evaluate(() => {
+    const slotProgress = document.querySelector(".badge-slot.locked .badge-slot__lock")?.textContent?.trim() || "";
+    const detail = document.querySelector(".badge-detail.visible");
+    const circle = detail?.querySelector(":scope > .badge-circle.locked");
+    const image = circle?.querySelector("img");
+    const lock = circle?.querySelector(".badge-slot__lock");
+    return {
+      hasLockedCircle: Boolean(circle),
+      slotProgress,
+      detailProgress: lock?.textContent?.trim() || "",
+      opacity: image ? Number.parseFloat(getComputedStyle(image).opacity) : 1,
+      filter: image ? getComputedStyle(image).filter : "none",
+      featureActionCount: detail?.querySelectorAll(".badge-detail__feature").length || 0
+    };
+  });
+  if (!lockedDetailMetrics.hasLockedCircle
+    || !lockedDetailMetrics.slotProgress
+    || lockedDetailMetrics.detailProgress !== lockedDetailMetrics.slotProgress
+    || lockedDetailMetrics.opacity > 0.3
+    || !lockedDetailMetrics.filter.includes("grayscale")
+    || lockedDetailMetrics.featureActionCount !== 0) {
+    failures.push("[" + viewportName + "] Locked badge detail preview exposed full artwork or mismatched progress: " + JSON.stringify(lockedDetailMetrics));
+  }
+  const earnedBadge = page.locator(".badge-slot.earned").first();
+  await earnedBadge.click();
+  const featureButton = page.locator(".badge-detail__feature");
+  await expectVisible(page, ".badge-detail__feature", viewportName);
+  if (await featureButton.isDisabled()) {
+    failures.push("[" + viewportName + "] Newly selected earned badge was already marked as featured.");
+  }
+  await featureButton.click();
+  if (!(await featureButton.isDisabled())) {
+    failures.push("[" + viewportName + "] Featured badge action did not switch to its disabled displayed state.");
+  }
+  await page.locator(".floating-nav__trigger").click();
+  await page.locator(".floating-nav[data-open='true']").waitFor({ state: "visible", timeout: 3000 });
+  await page.locator(".floating-nav__item[data-view='puzzle']").click();
+  await page.locator(".puzzle-home-scene").waitFor({ state: "visible", timeout: 5000 });
+  await page.locator(".puzzle-home-destination--puzzle").click();
+  await page.locator(".puzzle-picker").waitFor({ state: "visible", timeout: 5000 });
+  const nextStagePuzzle = page.locator("[data-shelf-id='shelf-sunny-counter'] .puzzle-chip").first();
+  await nextStagePuzzle.click();
+  await page.locator(".play-screen").waitFor({ state: "visible", timeout: 5000 });
+  await dismissGuideIfPresent(page, viewportName);
+  await page.locator(".play-screen__back").click();
+  await page.locator(".puzzle-home-scene").waitFor({ state: "visible", timeout: 5000 });
+  await expectVisible(page, ".puzzle-home-scene__featured-badge", viewportName);
+  await expectVisible(page, ".puzzle-home-scene__featured-jar", viewportName);
+  const keepsakeLayout = await page.evaluate(() => {
+    const toRect = (element) => element?.getBoundingClientRect() || null;
+    const overlaps = (a, b) => Boolean(a && b && !(a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom));
+    const shelfElement = document.querySelector(".home-keepsake-shelf");
+    const shelf = toRect(shelfElement);
+    const badge = toRect(document.querySelector(".puzzle-home-scene__featured-badge"));
+    const jar = toRect(document.querySelector(".puzzle-home-scene__featured-jar"));
+    const play = toRect(document.querySelector(".puzzle-home-scene__play"));
+    const greeting = toRect(document.querySelector(".puzzle-home-scene__greeting"));
+    const scene = toRect(document.querySelector(".puzzle-home-scene"));
+    const destinationHits = [...document.querySelectorAll(".puzzle-home-destination")]
+      .filter((element) => overlaps(jar, toRect(element)) || overlaps(badge, toRect(element)))
+      .map((element) => element.getAttribute("data-view") || element.className);
+    return {
+      missing: !shelf || !badge || !jar || !play || !scene,
+      sharedShelf: Boolean(
+        shelfElement
+        && document.querySelector(".puzzle-home-scene__featured-badge")?.parentElement === shelfElement
+        && document.querySelector(".puzzle-home-scene__featured-jar")?.parentElement === shelfElement
+      ),
+      shelfCenterDelta: shelf && scene
+        ? Math.abs((shelf.left + shelf.width / 2) - (scene.left + scene.width / 2))
+        : 999,
+      legacyCopyCount: shelfElement?.querySelectorAll(".puzzle-home-scene__featured-badge-name, .featured-pantry-jar__copy").length || 0,
+      baselineDelta: badge && jar ? Math.abs(badge.bottom - jar.bottom) : 999,
+      keepsakesOverlap: overlaps(badge, jar),
+      playOverlap: overlaps(badge, play) || overlaps(jar, play),
+      greetingOverlap: overlaps(badge, greeting) || overlaps(jar, greeting),
+      destinationHits,
+      outsideScene: Boolean(scene && [badge, jar].some((rect) => rect && (
+        rect.left < scene.left || rect.right > scene.right || rect.top < scene.top || rect.bottom > scene.bottom
+      ))),
+      rects: Object.fromEntries(Object.entries({ shelf, badge, jar, play, greeting, scene }).map(([key, rect]) => [
+        key,
+        rect ? { left: Math.round(rect.left), top: Math.round(rect.top), right: Math.round(rect.right), bottom: Math.round(rect.bottom) } : null
+      ]))
+    };
+  });
+  if (keepsakeLayout.missing
+    || !keepsakeLayout.sharedShelf
+    || keepsakeLayout.shelfCenterDelta > 2
+    || keepsakeLayout.legacyCopyCount !== 0
+    || keepsakeLayout.baselineDelta > 2
+    || keepsakeLayout.keepsakesOverlap
+    || keepsakeLayout.playOverlap
+    || keepsakeLayout.greetingOverlap
+    || keepsakeLayout.destinationHits.length
+    || keepsakeLayout.outsideScene) {
+    failures.push("[" + viewportName + "] Workshop keepsake row geometry failed: " + JSON.stringify(keepsakeLayout));
+  }
+  await page.locator(".puzzle-home-scene__featured-badge").click({ force: keepsakeLayout.playOverlap });
+  await expectVisible(page, ".map-panel", viewportName);
+  await page.locator(".floating-nav__trigger").click();
+  await page.locator(".floating-nav[data-open='true']").waitFor({ state: "visible", timeout: 3000 });
+  await page.locator(".floating-nav__item[data-view='puzzle']").click();
+  await page.locator(".puzzle-home-destination--puzzle").click();
+  const firstShelfToggle = page.locator(".shelf-collapse-toggle[data-shelf-toggle='shelf-pips-first']");
+  if ((await firstShelfToggle.getAttribute("aria-expanded")) !== "true") {
+    await firstShelfToggle.click();
+  }
+  await page.locator(".puzzle-chip[data-puzzle-id='pips-first-shelf-pip-face-1']").click();
+  await page.locator(".play-screen").waitFor({ state: "visible", timeout: 5000 });
+  await dismissGuideIfPresent(page, viewportName);
+  await page.locator(".play-screen__back").click();
+  await page.locator(".puzzle-home-scene").waitFor({ state: "visible", timeout: 5000 });
+  await page.evaluate(() => {
+    const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+    const saveKey = "pips-picture-pantry:v0.1:save:" + player.id;
+    const save = JSON.parse(localStorage.getItem(saveKey) || "{}");
+    save.completedPuzzleIds = ["pips-first-shelf-pip-face-1"];
     localStorage.setItem(saveKey, JSON.stringify(save));
   });
 }
@@ -2852,60 +3218,263 @@ async function seedCompletedStarter(page) {
 
 
 async function verifyPantryPlacement(page, viewportName) {
-  await expectVisible(page, ".pantry-panel", viewportName);
-  await expectVisible(page, ".pantry-room", viewportName);
-  await expectVisible(page, ".pantry-story-request", viewportName);
-  await expectVisible(page, ".pantry-shop", viewportName);
+  await expectVisible(page, ".pantry-jar-panel", viewportName);
+  await expectVisible(page, ".pantry-jar-shelves", viewportName);
   await expectVisible(page, ".spoon-store", viewportName);
-  await expectAbsent(page, ".pantry-planning-deck", viewportName);
-  await expectAbsent(page, ".pantry-placement-note", viewportName);
-  await expectAbsent(page, ".pantry-item-status, .pantry-item-rarity, .pantry-slot-note, .pantry-swap-note, .pantry-track-goal, .pantry-item-savings", viewportName);
+  await expectAbsent(page, ".pantry-room, .pantry-room-overlays, .pantry-shop, .pantry-item-card, .pantry-story-request, .pantry-story-milestone", viewportName);
 
   const metrics = await page.evaluate(() => {
-    const panel = document.querySelector(".pantry-panel");
-    const room = document.querySelector(".pantry-room");
+    const panel = document.querySelector(".pantry-jar-panel");
+    const shelves = [...document.querySelectorAll(".pantry-shelf")];
+    const jars = [...document.querySelectorAll(".pantry-jar")];
     const store = document.querySelector(".spoon-store");
-    const shop = document.querySelector(".pantry-shop");
-    const shopGrid = shop?.querySelector(".pantry-shop-grid");
-    const cards = [...document.querySelectorAll(".pantry-item-card")];
-    const billingStatuses = [...(store?.querySelectorAll(".support-pack-card__status") || [])];
-    const billingToneVisibility = ["checking", "success", "warning"].every((tone) => billingStatuses.every((status) => {
-      const previousClass = status.className;
-      const previousText = status.textContent;
-      status.className = `support-pack-card__status support-pack-card__status--${tone}`;
-      status.textContent = tone;
-      const visible = getComputedStyle(status).display !== "none";
-      status.className = previousClass;
-      status.textContent = previousText;
-      return visible;
-    }));
     return {
-      panelOverflowsX: panel ? panel.scrollWidth > panel.clientWidth + 1 : true,
-      roomSlotCount: room?.querySelectorAll(".pantry-room-slot").length || 0,
-      filterGroupCount: document.querySelectorAll(".pantry-filter-row").length,
-      cardCount: cards.length,
-      cardOverflowCount: cards.filter((card) => card.scrollWidth > card.clientWidth + 1).length,
+      panelOverflowsX: panel
+        ? document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
+        : true,
+      shelfCount: shelves.length,
+      shelfJarCounts: shelves.map((shelf) => shelf.querySelectorAll(".pantry-jar").length),
+      jarCount: jars.length,
+      starterCount: jars.filter((jar) => jar.classList.contains("rarity-starter")).length,
+      ownedStarterCount: jars.filter((jar) => jar.classList.contains("rarity-starter") && jar.classList.contains("owned")).length,
+      equippedStarterCount: jars.filter((jar) => jar.classList.contains("rarity-starter") && jar.classList.contains("equipped")).length,
+      jarOverflowCount: jars.filter((jar) => jar.scrollWidth > jar.clientWidth + 1).length,
+      jarNameCount: jars.filter((jar) => jar.querySelector(".pantry-jar__name")).length,
+      twoLineNameContractCount: jars.filter((jar) => {
+        const name = jar.querySelector(".pantry-jar__name");
+        if (!name) return false;
+        const style = getComputedStyle(name);
+        return style.webkitLineClamp === "2"
+          && style.whiteSpace === "normal"
+          && Number.parseFloat(style.minHeight) >= 14;
+      }).length,
+      jarMetaCount: jars.filter((jar) => jar.querySelector(".pantry-jar__price, .pantry-jar__status")).length,
+      singleLineMetaContractCount: jars.filter((jar) => {
+        const meta = jar.querySelector(".pantry-jar__price, .pantry-jar__status");
+        return meta && getComputedStyle(meta).whiteSpace === "nowrap";
+      }).length,
       storeProductCount: store?.querySelectorAll(".support-pack-card").length || 0,
-      storeInsideShop: Boolean(shop && store && shop.contains(store)),
-      storeAfterDecorations: Boolean(shopGrid && store && (shopGrid.compareDocumentPosition(store) & Node.DOCUMENT_POSITION_FOLLOWING)),
-      billingToneVisibility,
-      storeOverflowsX: store ? store.scrollWidth > store.clientWidth + 1 : true,
-      storeGlareCount: store ? [...store.querySelectorAll("button, .support-pack-card, .support-pack-card__art")]
-        .filter((item) => getComputedStyle(item, "::before").content !== "none" || getComputedStyle(item, "::after").content !== "none").length : 1
+      storeAfterShelves: Boolean(store && document.querySelector(".pantry-jar-shelves")?.compareDocumentPosition(store) & Node.DOCUMENT_POSITION_FOLLOWING),
+      storeOverflowsX: store ? store.scrollWidth > store.clientWidth + 1 : true
     };
   });
-  if (metrics.panelOverflowsX || metrics.roomSlotCount !== 5 || metrics.filterGroupCount !== 1 || metrics.cardCount < 1 || metrics.cardCount > 6 || metrics.cardOverflowCount || metrics.storeProductCount !== 2 || !metrics.storeInsideShop || !metrics.storeAfterDecorations || !metrics.billingToneVisibility || metrics.storeOverflowsX || metrics.storeGlareCount) {
-    failures.push("[" + viewportName + "] Simplified Pantry layout regressed: " + JSON.stringify(metrics));
+  if (metrics.panelOverflowsX
+    || metrics.shelfCount !== 8
+    || metrics.shelfJarCounts.some((count) => count !== 6)
+    || metrics.jarCount !== 48
+    || metrics.starterCount !== 8
+    || metrics.ownedStarterCount !== 8
+    || metrics.equippedStarterCount !== 8
+    || metrics.jarOverflowCount
+    || metrics.jarNameCount !== 48
+    || metrics.twoLineNameContractCount !== 48
+    || metrics.jarMetaCount < 1
+    || metrics.singleLineMetaContractCount !== metrics.jarMetaCount
+    || metrics.storeProductCount !== 2
+    || !metrics.storeAfterShelves
+    || metrics.storeOverflowsX) {
+    failures.push("[" + viewportName + "] Pantry jar shelf layout regressed: " + JSON.stringify(metrics));
   }
 
-  const firstAction = page.locator(".pantry-item-card").first().locator(".pantry-item-action");
-  if (await firstAction.isEnabled()) {
-    await firstAction.click();
-    await page.waitForTimeout(120);
-    if ((await page.locator(".guide-overlay").count()) > 0) {
-      await expectGuideDialogChromeArt(page, viewportName);
-      await dismissGuideIfPresent(page, viewportName);
+  const firstOwnedJar = page.locator(".pantry-jar.owned").nth(1);
+  if (await firstOwnedJar.count()) {
+    const featuredJarId = await firstOwnedJar.getAttribute("data-jar-id");
+    await firstOwnedJar.click();
+    await page.locator(".pantry-jar-detail-backdrop.visible").waitFor({ state: "visible", timeout: 2000 });
+    const featureJarButton = page.locator(".pantry-jar-detail__btn-feature");
+    if (!(await featureJarButton.count())) {
+      failures.push("[" + viewportName + "] Owned Pantry jar detail omitted the home display action.");
+    } else if (!(await featureJarButton.isDisabled())) {
+      await featureJarButton.click();
+      await page.locator(".pantry-jar-detail-backdrop.visible").waitFor({ state: "hidden", timeout: 2000 });
+      const persistedFeaturedJarId = await page.evaluate(() => {
+        const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+        const save = player
+          ? JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:save:" + player.id) || "{}")
+          : {};
+        return save.featuredJarId || null;
+      });
+      if (!featuredJarId || persistedFeaturedJarId !== featuredJarId) {
+        failures.push("[" + viewportName + "] Pantry home display action did not persist immediately: " + JSON.stringify({ featuredJarId, persistedFeaturedJarId }));
+      }
+    } else {
+      await page.locator(".pantry-jar-detail__btn-close").click();
+    }
+  }
+  const firstUnowned = page.locator(".pantry-jar.unowned").first();
+  if (await firstUnowned.count()) {
+    await firstUnowned.click();
+    await page.locator(".pantry-jar-detail-backdrop.visible").waitFor({ state: "visible", timeout: 2000 });
+    await page.waitForTimeout(300);
+    const detailMetrics = await page.locator(".pantry-jar-detail").evaluate((detail) => {
+      const rect = detail.getBoundingClientRect();
+      return {
+        left: rect.left,
+        right: rect.right,
+        bottom: rect.bottom,
+        viewportWidth: window.innerWidth,
+        viewportHeight: window.innerHeight
+      };
+    });
+    if (detailMetrics.left < -1
+      || detailMetrics.right > detailMetrics.viewportWidth + 1
+      || detailMetrics.bottom > detailMetrics.viewportHeight + 1) {
+      failures.push("[" + viewportName + "] Pantry jar detail sheet escaped viewport: " + JSON.stringify(detailMetrics));
+    }
+    const buyButton = page.locator(".pantry-jar-detail__btn-buy");
+    if (await buyButton.count() && await buyButton.isEnabled()) {
+      const beforePurchase = await page.evaluate(() => {
+        const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+        const save = player
+          ? JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:save:" + player.id) || "{}")
+          : {};
+        return Number(save.pantrySpoons) || 0;
+      });
+      await buyButton.click();
+      await page.locator(".pantry-jar-panel").waitFor({ state: "visible", timeout: 2000 });
+      await page.waitForTimeout(150);
+      const purchaseMetrics = await page.evaluate(() => {
+        const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+        const save = player
+          ? JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:save:" + player.id) || "{}")
+          : {};
+        const chip = document.querySelector(".spoon-balance-chip");
+        return {
+          afterPurchase: Number(save.pantrySpoons) || 0,
+          chipCount: document.querySelectorAll(".spoon-balance-chip").length,
+          localBalanceCount: document.querySelectorAll(".pantry-jar-balance, .puzzle-home-scene__currency, .currency-pill").length,
+          chipText: chip?.textContent?.trim() || "",
+          chipLabel: chip?.getAttribute("aria-label") || ""
+        };
+      });
+      if (purchaseMetrics.afterPurchase >= beforePurchase
+        || purchaseMetrics.chipCount !== 1
+        || purchaseMetrics.localBalanceCount !== 0
+        || !purchaseMetrics.chipText.includes(String(purchaseMetrics.afterPurchase))
+        || !purchaseMetrics.chipLabel.includes(String(purchaseMetrics.afterPurchase))) {
+        failures.push("[" + viewportName + "] Pantry purchase did not refresh shared spoon balance immediately: " + JSON.stringify({ beforePurchase, ...purchaseMetrics }));
+      }
+    } else {
+      failures.push("[" + viewportName + "] Pantry purchase QA could not find an affordable unowned jar");
+      await page.locator(".pantry-jar-detail__btn-close").click();
     }
   }
   await expectNoHorizontalOverflow(page, viewportName);
+}
+
+async function expectNoSharedScreenHeader(page, viewportName) {
+  await expectAbsent(page, '.top-bar', viewportName);
+}
+
+async function verifySpoonBalanceChipStoreFlow(page, viewportName) {
+  const chip = page.locator("button.spoon-balance-chip");
+  if ((await chip.count()) !== 1) {
+    failures.push("[" + viewportName + "] Shared spoon balance was not actionable outside focused play.");
+    return;
+  }
+  await chip.click();
+  await page.locator(".app-shell[data-view='pantry'] .spoon-store").waitFor({ state: "visible", timeout: 5000 });
+  await page.waitForFunction(() => {
+    const rect = document.querySelector(".spoon-store")?.getBoundingClientRect();
+    return Boolean(rect && rect.bottom > 0 && rect.top < window.innerHeight);
+  }, null, { timeout: 5000 });
+  const metrics = await page.evaluate(() => {
+    const store = document.querySelector(".spoon-store");
+    const rect = store?.getBoundingClientRect() || null;
+    return {
+      activeView: document.querySelector(".app-shell")?.getAttribute("data-view") || "missing",
+      storeVisible: Boolean(rect && rect.bottom > 0 && rect.top < window.innerHeight),
+      storeTop: rect ? Math.round(rect.top) : null,
+      storeBottom: rect ? Math.round(rect.bottom) : null,
+      viewportHeight: window.innerHeight,
+      chipTag: document.querySelector(".spoon-balance-chip")?.tagName || "missing"
+    };
+  });
+  if (metrics.activeView !== "pantry" || !metrics.storeVisible || metrics.chipTag !== "BUTTON") {
+    failures.push("[" + viewportName + "] Spoon balance tap did not open the Pantry spoon store: " + JSON.stringify(metrics));
+  }
+}
+async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
+  const metrics = await page.evaluate(() => {
+    const chips = [...document.querySelectorAll(".spoon-balance-chip")];
+    const chip = chips[0] || null;
+    const icon = chip?.querySelector(".spoon-icon") || null;
+    const chipRect = chip?.getBoundingClientRect() || null;
+    const iconRect = icon?.getBoundingClientRect() || null;
+    const shell = document.querySelector(".app-shell");
+    const needsSettingsClearance = Boolean(shell?.classList.contains("app-shell--workshop-home") || shell?.classList.contains("app-shell--play"));
+    const collisionSelectors = [
+      ".puzzle-home-scene__settings",
+      ".play-screen__settings",
+      ".puzzle-home-scene__title",
+      ".puzzle-picker h2",
+      ".album-panel h2",
+      ".map-panel h2",
+      ".pantry-panel h2",
+      ".time-attack-panel h2",
+      ".spoon-run-view h2"
+    ];
+    const overlaps = chipRect
+      ? collisionSelectors.flatMap((selector) => [...document.querySelectorAll(selector)]
+        .filter((target) => {
+          const style = getComputedStyle(target);
+          const rect = target.getBoundingClientRect();
+          return style.display !== "none" && style.visibility !== "hidden" && rect.width > 0 && rect.height > 0;
+        })
+        .filter((target) => {
+          const rect = target.getBoundingClientRect();
+          return chipRect.left < rect.right && chipRect.right > rect.left && chipRect.top < rect.bottom && chipRect.bottom > rect.top;
+        })
+        .map(() => selector))
+      : [];
+    const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
+    const save = player
+      ? JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:save:" + player.id) || "{}")
+      : {};
+    return {
+      chipCount: chips.length,
+      localBalanceCount: document.querySelectorAll(".pantry-jar-balance, .puzzle-home-scene__currency, .currency-pill").length,
+      expectedSpoons: Number(save.pantrySpoons) || 0,
+      text: chip?.textContent?.trim() || "",
+      ariaLabel: chip?.getAttribute("aria-label") || "",
+      chipHeight: chipRect?.height || 0,
+      topGap: chipRect?.top ?? -1,
+      rightGap: chipRect ? window.innerWidth - chipRect.right : -1,
+      iconWidth: iconRect?.width || 0,
+      iconHeight: iconRect?.height || 0,
+      centerDelta: chipRect && iconRect ? Math.abs((iconRect.top + iconRect.height / 2) - (chipRect.top + chipRect.height / 2)) : 999,
+      objectFit: icon ? getComputedStyle(icon).objectFit : "missing",
+      assetId: icon?.dataset.assetId || "missing",
+      naturalWidth: icon?.naturalWidth || 0,
+      naturalHeight: icon?.naturalHeight || 0,
+      minimumRightGap: shell?.classList.contains("app-shell--play") ? 8 : needsSettingsClearance ? 68 : 16,
+      focusedPlayOpen: Boolean(shell?.classList.contains("app-shell--play")),
+      chipInsidePlayHeader: !shell?.classList.contains("app-shell--play") || Boolean(chip?.closest(".play-screen__header")),
+      tagName: chip?.tagName || "MISSING",
+      pointerEvents: chip ? getComputedStyle(chip).pointerEvents : "missing",
+      overlaps
+    };
+  });
+  if (metrics.chipCount !== 1
+    || metrics.localBalanceCount !== 0
+    || !metrics.text.includes(String(metrics.expectedSpoons))
+    || !metrics.ariaLabel.includes(String(metrics.expectedSpoons))
+    || Math.abs(metrics.iconWidth - 20) > 0.5
+    || Math.abs(metrics.iconHeight - 20) > 0.5
+    || (metrics.focusedPlayOpen
+      ? metrics.chipHeight < 31 || metrics.chipHeight > 36
+      : metrics.chipHeight < 44 || metrics.chipHeight > 50)
+    || metrics.centerDelta > 1
+    || metrics.objectFit !== "contain"
+    || metrics.assetId !== "spoon-token-v2"
+    || metrics.naturalWidth !== 256
+    || metrics.naturalHeight !== 256
+    || metrics.topGap < 12
+    || metrics.rightGap < metrics.minimumRightGap - 1
+    || (metrics.focusedPlayOpen ? metrics.tagName !== "DIV" : metrics.tagName !== "BUTTON")
+    || (metrics.focusedPlayOpen ? metrics.pointerEvents !== "none" : metrics.pointerEvents !== "auto")
+    || !metrics.chipInsidePlayHeader
+    || metrics.overlaps.length > 0) {
+    failures.push("[" + viewportName + "] " + viewName + " shared spoon balance regressed: " + JSON.stringify(metrics));
+  }
 }

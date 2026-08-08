@@ -1,5 +1,49 @@
 export const assetRegistry = [
   {
+    id: "pip-puzzle-workshop-source-v1",
+    usage: "puzzle-home-background-source",
+    path: "src/assets/generated/pip-puzzle-workshop-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-and-world-continuity",
+    note: "Original high-resolution source for the Pip puzzle workshop runtime asset."
+  },
+  {
+    id: "pantry-room-sunlit-source-v1",
+    usage: "pantry-room-background-source",
+    path: "src/assets/backgrounds/pantry-room-sunlit-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Original high-resolution source for the sunlit Pantry room runtime asset."
+  },
+  {
+    id: "pip-puzzle-workshop-v1",
+    usage: "puzzle-home-background",
+    path: "src/assets/generated/pip-puzzle-workshop-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-and-world-continuity",
+    note: "High-quality WebP runtime version of Pip's authored puzzle workshop scene. It remains deliberately distinct from the editable Pantry room."
+  },
+  {
+    id: "pantry-room-sunlit-v1",
+    usage: "pantry-room-background",
+    path: "src/assets/backgrounds/pantry-room-sunlit-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "High-quality WebP runtime version of the empty sunlit Pantry room background. It gives the five decoration slots a shared home without competing with equipped art."
+  },
+  {
     id: "sunny-spoon-studios-bumper-source-v1",
     usage: "studio-bumper-source",
     path: "src/assets/brand/sunny-spoon-studios-bumper-v1.png",
@@ -136,19 +180,32 @@ export const assetRegistry = [
     ["puzzle", "Puzzle board"],
     ["album", "Album book"],
     ["pantry", "Pantry jar"],
-    ["time-attack", "Spoon stopwatch"],
+    ["time-attack", "Retired spoon stopwatch", false],
     ["map", "Pantry map"]
-  ].map(([view, label]) => ({
+  ].map(([view, label, visible = true]) => ({
     id: `quick-travel-${view}-v1`,
     usage: "navigation-icon",
     path: `src/assets/icons/quick-travel-v1/quick-travel-${view}-v1.png`,
     sourceType: "raster",
     approval: "approved",
-    visible: true,
+    visible,
     mustReplaceBeforeMajorArtPass: false,
     identityStatus: "original-ui-approved",
-    note: `${label} artwork promoted from the reviewed v1 set for the shared quick-travel trigger and menu.`
+    note: visible
+      ? `${label} artwork promoted from the reviewed v1 set for the shared quick-travel trigger and menu.`
+      : `${label} retained only as replaced source history; runtime navigation uses Mr. Park's pocket watch instead.`
   })),
+  {
+    id: "quick-travel-time-attack-clock-v1",
+    usage: "navigation-icon",
+    path: "src/assets/icons/quick-travel-v1/quick-travel-time-attack-clock-v1.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "Mr. Park's pocket watch, isolated as the clear Time Attack destination artwork with no decorative aura."
+  },
   ...[
     ["fill", "Fill brush", "candidate-needs-ui-review"],
     ["mark", "Blank-check tile", "candidate-needs-ui-review"],
@@ -542,6 +599,78 @@ export const assetRegistry = [
     identityStatus: "approved-character-continuity",
     stagePackId: "village-pantry",
     note: "User-approved collectible badge art promoted into runtime UI in v0.1.96."
+  },
+  {
+    id: "badge-pip-bakery-door-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-bakery-door-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-window-table",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
+    id: "badge-pip-pastry-morning-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-pastry-morning-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-pastry-corner",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
+    id: "badge-pip-tin-collection-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-tin-collection-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-bakery-window",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
+    id: "badge-pip-village-path-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-village-path-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-market-table",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
+    id: "badge-pip-clock-corner-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-clock-corner-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-bakery-walk",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
+    id: "badge-pip-full-pantry-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-full-pantry-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-village-pantry",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
   },
   {
     id: "starter-counter-cloth-v1",
@@ -1526,8 +1655,316 @@ export const assetRegistry = [
     mustReplaceBeforeMajorArtPass: true,
     identityStatus: "rejected-wrong-character",
     note: "Rejected after user review: cute image but not Pip; do not use because it drifted into an unfamiliar bear-like mascot."
+  },
+  ...[
+    ["puzzle", "Puzzle notebook sticker"],
+    ["album", "Completed-picture album sticker"],
+    ["pantry", "Cozy pantry jar sticker"],
+    ["time-attack", "Clock Grandpa pocket watch sticker"],
+    ["map", "Achievement map sticker"],
+    ["settings", "Workshop settings sticker"]
+  ].map(([view, label]) => ({
+    id: `workshop-nav-${view}-source-v3`,
+    usage: "navigation-icon-source",
+    path: `src/assets/icons/workshop-nav-v3/workshop-nav-${view}-v3.png`,
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-navigation",
+    note: `${label} transparent source retained for the optimized workshop navigation runtime asset.`
+  })),
+  ...[
+    ["puzzle", "Puzzle notebook sticker"],
+    ["album", "Completed-picture album sticker"],
+    ["pantry", "Cozy pantry jar sticker"],
+    ["time-attack", "Clock Grandpa pocket watch sticker"],
+    ["map", "Achievement map sticker"],
+    ["settings", "Workshop settings sticker"]
+  ].map(([view, label]) => ({
+    id: `workshop-nav-${view}-v3`,
+    usage: "navigation-icon",
+    path: `src/assets/icons/workshop-nav-v3/workshop-nav-${view}-v3.webp`,
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-navigation",
+    note: `${label} rendered as a transparent cutout for the Pip puzzle workshop; no CSS card or ring is used at runtime.`
+  }))].concat([
+  {
+    id: "pantry-room-sunlit-source-v2",
+    usage: "pantry-room-background-source",
+    path: "src/assets/backgrounds/pantry-room-sunlit-v2.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Master-derived empty Pantry room source. Runtime uses the optimized v2 WebP."
+  },
+  {
+    id: "pantry-room-sunlit-v2",
+    usage: "pantry-room-background",
+    path: "src/assets/backgrounds/pantry-room-sunlit-v2.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved empty Pantry room base for the master-derived full-canvas overlay system."
+  },  {
+    id: "pantry-room-overlay-counter-01",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-counter-01.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-counter-02",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-counter-02.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-counter-03",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-counter-03.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-counter-04",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-counter-04.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-counter-05",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-counter-05.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-counter-06",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-counter-06.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-window-01",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-window-01.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-window-02",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-window-02.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-window-03",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-window-03.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-window-04",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-window-04.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-window-05",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-window-05.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-shelf-01",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-shelf-01.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-shelf-02",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-shelf-02.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-shelf-03",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-shelf-03.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-shelf-04",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-shelf-04.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-shelf-05",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-shelf-05.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-floor-01",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-floor-01.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-floor-02",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-floor-02.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-floor-03",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-floor-03.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-floor-04",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-floor-04.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-wall-01",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-wall-01.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-wall-02",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-wall-02.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-wall-03",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-wall-03.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-wall-04",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-wall-04.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-wall-05",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-wall-05.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
   }
-];
+]);
 
 export function getAssetRecordById(id) {
   return assetRegistry.find((asset) => asset.id === id) || null;

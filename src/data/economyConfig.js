@@ -1,13 +1,14 @@
 export const ECONOMY = {
   PUZZLE_REWARD_BY_SIZE: {
-    5: 3,
-    8: 6,
-    10: 10,
-    12: 15,
+    5: 2,
+    8: 4,
+    10: 6,
+    12: 10,
     15: 22,
     18: 30
   },
   DAILY_BONUS: 8,
+  LOGIN_BONUS: 3,
   STAGE_BONUS_BY_SIZE: {
     5: 40,
     8: 80,
@@ -17,15 +18,17 @@ export const ECONOMY = {
     18: 420
   },
   TIME_ATTACK_REWARD_BY_SIZE: {
-    5: 15,
-    8: 25,
-    10: 38,
-    12: 55
+    5: 10,
+    8: 18,
+    10: 30,
+    12: 45
   },
   TIME_ATTACK_RECORD_BONUS: 12,
   TIME_ATTACK_DAILY_LIMIT: 3,
   TIME_ATTACK_HINT_COSTS: [2, 4, 7],
   PUZZLE_EXTRA_HINT_BASE_COST_BY_SIZE: {
+    5: 3,
+    8: 5,
     10: 6,
     12: 9,
     15: 13,
@@ -33,8 +36,8 @@ export const ECONOMY = {
   },
   REPLAY_PICK_REWARD: 1,
   REPLAY_PICK_DAILY_LIMIT: 3,
-  COZY_PASS_SPOON_GRANT: 250,
-  SPOON_JAR_SMALL_GRANT: 750
+  COZY_PASS_SPOON_GRANT: 150,
+  SPOON_JAR_SMALL_GRANT: 500
 };
 
 export function getPuzzleReward(size) {
@@ -46,7 +49,7 @@ export function getStageBonus(size) {
 }
 
 export function getTimeAttackReward(size) {
-  return ECONOMY.TIME_ATTACK_REWARD_BY_SIZE[Number(size)] || 25;
+  return ECONOMY.TIME_ATTACK_REWARD_BY_SIZE[Number(size)] || 18;
 }
 
 export function getTimeAttackRecordBonus() {

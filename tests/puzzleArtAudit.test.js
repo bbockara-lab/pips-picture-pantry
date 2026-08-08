@@ -305,4 +305,12 @@ describe("puzzle art audit", () => {
     expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
   });
 
+  it("keeps the full Bakery and Village launch-art audit queue closed", () => {
+    const report = buildPuzzleArtAudit();
+
+    expect(report.totals.candidates).toBe(0);
+    expect(report.duplicateSolutions).toEqual([]);
+    expect(report.duplicateTitles).toEqual([]);
+  });
+
 });

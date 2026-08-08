@@ -1,595 +1,324 @@
-import { getApprovedPantryDecorations, getDecorationById, pantrySlots } from "../data/decorations.js";
-import { getDecorationArtUrl } from "../data/decorationArt.js";
+import { JAR_SHELVES, PANTRY_JARS, getJarsByShelf } from "../data/pantryJars.js";
+import { getJarArtUrl } from "../data/jarArt.js";
+import { getSeasonShelvesForPantryShelf } from "../data/stagePantryLinks.js";
 import {
-  buyDecoration,
-  clearPantryStoryGoalId,
-  equipDecoration,
-  getCompletedPantryStoryGoalIds,
-  getEquippedDecorations,
-  getOwnedDecorationIds,
+  buyJar,
+  ensureStarterJars,
+  getEquippedJars,
+  getFeaturedJarId,
+  getOwnedJarIds,
+  getPaidJarCount,
   getPantrySpoons,
-  getPantryStoryGoalId,
-  setPantryStoryGoalId
+  isShelfUnlocked,
+  setEquippedJar,
+  setFeaturedJar
 } from "../game/save.js";
 import { t } from "../i18n/index.js";
-import { renderPantryStoryDelivery, renderPantryStoryMilestone, renderPantryStoryRequest } from "./pantryStoryCards.js";
+import { appendSpoonLabel } from "./spoonIcon.js";
+import "../styles/pantryJarArt.css";
+import "../styles/pantrySpoon.css";
+import "../styles/pantryShelfCelebration.css";
 
-const rarityFilters = ["all", "starter", "common", "cozy", "rare"];
-const availabilityFilters = ["all", "canBuy", "owned"];
-const sortOptions = ["featured", "priceLow", "priceHigh", "rarity"];
-const rarityRank = { starter: 0, common: 1, cozy: 2, rare: 3, premium: 4 };
-const defaultShopCardLimit = 3;
-const pantryViewState = {
-  selectedSlotId: "all",
-  selectedRarity: "all",
-  selectedAvailability: "all",
-  selectedSort: "featured",
-  shopVisibleLimit: defaultShopCardLimit,
-  storyGoalId: null,
-  lastAction: null
-};
+let pendingShelfCelebrationId = null;
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
-  if (className) {
-    element.className = className;
-  }
+  if (className) element.className = className;
   element.textContent = text;
   parent.appendChild(element);
   return element;
 }
 
-function replaceWithOptional(parent, ...nodes) {
-  parent.replaceChildren();
-  nodes.forEach((node) => {
-    if (node && typeof node === "object" && "nodeType" in node) {
-      parent.appendChild(node);
-    }
-  });
+export function isPaidShelfComplete(shelfId, ownedIds) {
+  const owned = new Set(ownedIds);
+  const paidJars = getJarsByShelf(shelfId).filter((jar) => jar.cost > 0);
+  return paidJars.length > 0 && paidJars.every((jar) => owned.has(jar.id));
 }
 
-function setPantryActionFeedback(type, decoration) {
-  pantryViewState.lastAction = decoration?.id ? { type, decorationId: decoration.id } : null;
+export function isShelfCompletionTransition(shelfId, previousOwnedIds, nextOwnedIds) {
+  return !isPaidShelfComplete(shelfId, previousOwnedIds)
+    && isPaidShelfComplete(shelfId, nextOwnedIds);
 }
 
-function renderActionFeedback(equippedDecorations) {
-  const action = pantryViewState.lastAction;
-  const decoration = getDecorationById(action?.decorationId);
-  if (!decoration) {
-    return null;
+export function triggerShelfCelebration(shelfSection) {
+  if (!shelfSection) return false;
+  shelfSection.querySelectorAll(".pantry-sparkle").forEach((sparkle) => sparkle.remove());
+  shelfSection.classList.remove("pantry-shelf--celebrating");
+  void shelfSection.offsetWidth;
+  shelfSection.classList.add("pantry-shelf--celebrating");
+  for (let index = 0; index < 8; index += 1) {
+    const sparkle = document.createElement("span");
+    sparkle.className = "pantry-sparkle";
+    sparkle.setAttribute("aria-hidden", "true");
+    sparkle.style.left = (6 + index * 12) + "%";
+    sparkle.style.bottom = "8px";
+    sparkle.style.animationDelay = (index * 70) + "ms";
+    shelfSection.appendChild(sparkle);
+    globalThis.setTimeout(() => sparkle.remove(), 1800);
   }
+  globalThis.setTimeout(() => shelfSection.classList.remove("pantry-shelf--celebrating"), 2400);
+  return true;
+}
 
-  const slot = pantrySlots.find((candidate) => candidate.id === decoration.slot);
-  const slotLabel = slot ? t(slot.titleKey) : decoration.slot;
-  const placed = equippedDecorations[decoration.slot] === decoration.id;
-  const card = document.createElement("aside");
-  card.className = action.type === "storyComplete" ? "pantry-action-feedback story-complete" : "pantry-action-feedback";
+function renderJarVisual(jar, owned, compact = false) {
+  const visual = document.createElement("span");
+  visual.className = [
+    "pantry-jar__visual",
+    compact ? "pantry-jar__visual--compact" : ""
+  ].filter(Boolean).join(" ");
+  visual.dataset.jarId = jar.id;
 
-  const art = document.createElement("div");
-  art.className = "pantry-action-feedback__art";
+  const aura = document.createElement("span");
+  aura.className = "pantry-jar__aura";
   const image = document.createElement("img");
-  image.src = getDecorationArtUrl(decoration.assetId);
-  image.alt = t(decoration.titleKey);
-  art.appendChild(image);
+  image.className = "pantry-jar__art";
+  image.src = getJarArtUrl(jar.id);
+  image.alt = "";
+  image.loading = "lazy";
+  image.decoding = "async";
+  if (!owned) image.setAttribute("aria-hidden", "true");
 
-  const copy = document.createElement("div");
-  copy.className = "pantry-action-feedback__copy";
-  const titleKey = action.type === "storyComplete" ? "pantry.feedbackStoryCompleteTitle" : action.type === "equip" ? "pantry.feedbackEquipTitle" : "pantry.feedbackBuyTitle";
-  const title = document.createElement("h3");
-  title.textContent = t(titleKey, { item: t(decoration.titleKey) });
-  copy.appendChild(title);
-
-  const dismiss = document.createElement("button");
-  dismiss.type = "button";
-  dismiss.className = "pantry-action-feedback__dismiss";
-  dismiss.textContent = t("pantry.feedbackDismiss");
-  dismiss.addEventListener("click", () => {
-    pantryViewState.lastAction = null;
-    card.remove();
-  });
-
-  card.append(art, copy, dismiss);
-  return card;
+  visual.append(aura, image);
+  return visual;
 }
 
-function renderRoomSlot(slot, equippedDecorations, selectedSlotId, onSelectSlot) {
-  const decoration = getDecorationById(equippedDecorations[slot.id]);
-  const artUrl = decoration ? getDecorationArtUrl(decoration.assetId) : "";
-  const selected = selectedSlotId === slot.id;
-  const slotElement = document.createElement("button");
-  slotElement.className = "pantry-room-slot slot-" + slot.id + " " + (artUrl ? "filled" : "empty") + " " + (selected ? "selected" : "");
-  slotElement.type = "button";
-  slotElement.setAttribute("aria-pressed", String(selected));
-  slotElement.setAttribute("aria-label", t("pantry.slotAction", { slot: t(slot.titleKey) }));
-
-  if (artUrl) {
-    const image = document.createElement("img");
-    image.className = "pantry-room-decoration";
-    image.src = artUrl;
-    image.alt = t(decoration.titleKey);
-    slotElement.appendChild(image);
-  }
-
-  const label = document.createElement("span");
-  label.textContent = t(slot.titleKey);
-  slotElement.appendChild(label);
-  if (decoration) {
-    const value = document.createElement("strong");
-    value.textContent = t(decoration.titleKey);
-    slotElement.appendChild(value);
-  }
-  slotElement.addEventListener("click", () => onSelectSlot(selected ? "all" : slot.id));
-  return slotElement;
-}
-
-function compareDecorations(left, right, selectedSort, ownedIds, equippedDecorations, spoons) {
-  const leftOwned = ownedIds.includes(left.id);
-  const rightOwned = ownedIds.includes(right.id);
-  const leftEquipped = equippedDecorations[left.slot] === left.id;
-  const rightEquipped = equippedDecorations[right.slot] === right.id;
-  const leftAffordable = !leftOwned && spoons >= Number(left.cost || 0);
-  const rightAffordable = !rightOwned && spoons >= Number(right.cost || 0);
-
-  if (selectedSort === "priceLow") {
-    return Number(left.cost || 0) - Number(right.cost || 0) || left.id.localeCompare(right.id);
-  }
-  if (selectedSort === "priceHigh") {
-    return Number(right.cost || 0) - Number(left.cost || 0) || left.id.localeCompare(right.id);
-  }
-  if (selectedSort === "rarity") {
-    return (rarityRank[right.rarity] || 0) - (rarityRank[left.rarity] || 0) || Number(left.cost || 0) - Number(right.cost || 0) || left.id.localeCompare(right.id);
-  }
-
-  const score = (decoration, owned, equipped, affordable) => {
-    if (equipped) return 70;
-    if (!owned && Number(decoration.cost || 0) === 0) return 0;
-    if (affordable) return 10 + Number(decoration.cost || 0) / 1000;
-    if (owned) return 50;
-    return 30 + Math.max(0, Number(decoration.cost || 0) - spoons) / 1000;
-  };
-  return score(left, leftOwned, leftEquipped, leftAffordable) - score(right, rightOwned, rightEquipped, rightAffordable) || left.id.localeCompare(right.id);
-}
-
-function renderShopCard(decoration, ownedIds, equippedDecorations, spoons, storyGoalId, onRefresh, onFirstPurchase) {
-  const owned = ownedIds.includes(decoration.id);
-  const equipped = equippedDecorations[decoration.slot] === decoration.id;
-  const affordable = spoons >= Number(decoration.cost || 0);
-  const isStarterRoomRequest = decoration.id === "starter-counter-cloth";
-  const artUrl = getDecorationArtUrl(decoration.assetId);
-  const slot = pantrySlots.find((candidate) => candidate.id === decoration.slot);
-  const slotLabel = slot ? t(slot.titleKey) : decoration.slot;
-
-  const card = document.createElement("article");
-  card.className = ["pantry-item-card", "rarity-" + decoration.rarity, equipped ? "equipped" : ""].filter(Boolean).join(" ");
-
-  const art = document.createElement("div");
-  art.className = "pantry-item-art";
-  const image = document.createElement("img");
-  image.src = artUrl;
-  image.alt = t(decoration.titleKey);
-  art.appendChild(image);
-
-  const body = document.createElement("div");
-  body.className = "pantry-item-body";
-  const priceLabel = owned ? t("pantry.owned") : decoration.cost > 0 ? t("pantry.spoonCost", { count: decoration.cost }) : t("pantry.free");
-  const meta = document.createElement("div");
-  meta.className = "pantry-item-meta";
-  appendTextElement(meta, "span", "pantry-item-cost", priceLabel);
-  body.appendChild(meta);
-  appendTextElement(body, "h4", "", t(decoration.titleKey));
-
+function renderJar(jar, ownedIds, equippedJars, onOpen) {
+  const owned = ownedIds.includes(jar.id);
+  const equipped = equippedJars[jar.shelfId] === jar.id;
   const button = document.createElement("button");
-  button.className = "button secondary pantry-item-action";
   button.type = "button";
+  button.className = [
+    "pantry-jar",
+    "rarity-" + jar.rarity,
+    owned ? "owned" : "unowned",
+    equipped ? "equipped" : ""
+  ].join(" ");
+  button.dataset.jarId = jar.id;
+  button.setAttribute("aria-label", t("pantry.jar.openDetail", { item: t(jar.nameKey) }));
+  button.appendChild(renderJarVisual(jar, owned));
+  appendTextElement(button, "span", "pantry-jar__name", t(jar.nameKey));
+  if (!owned) {
+    const price = appendTextElement(button, "span", "pantry-jar__price", "");
+    appendSpoonLabel(price, t("pantry.jar.spoonCost", { count: jar.cost }), "tiny");
+  } else if (equipped) {
+    appendTextElement(button, "span", "pantry-jar__status", t("pantry.jar.equipped"));
+  }
+  button.addEventListener("click", () => onOpen(jar));
+  return button;
+}
 
-  if (equipped) {
-    button.disabled = true;
-    button.textContent = t("pantry.equipped");
-  } else if (owned) {
-    button.textContent = t("pantry.equipToSlot", { slot: slotLabel });
-    button.addEventListener("click", () => {
-      const storyCompleted = decoration.id === storyGoalId || isStarterRoomRequest;
-      equipDecoration(decoration);
-      setPantryActionFeedback(storyCompleted ? "storyComplete" : "equip", decoration);
-      if (storyCompleted) {
-        storyGoalId = null;
-        pantryViewState.storyGoalId = null;
-        onFirstPurchase?.(decoration, {
-          storyCompleted: true,
-          completedRequestCount: getCompletedPantryStoryGoalIds().length
-        });
+function renderShelf(shelf, ownedIds, equippedJars, onOpen) {
+  const section = document.createElement("section");
+  const shelfJars = getJarsByShelf(shelf.id);
+  const ownedCount = shelfJars.filter((jar) => ownedIds.includes(jar.id)).length;
+  section.className = "pantry-shelf" + (isPaidShelfComplete(shelf.id, ownedIds) ? " complete" : "");
+  section.dataset.shelfId = shelf.id;
+  section.style.setProperty("--shelf-progress", String(ownedCount));
+  const heading = document.createElement("div");
+  heading.className = "pantry-shelf__heading";
+  appendTextElement(heading, "h3", "pantry-shelf__title", t(shelf.nameKey));
+  appendTextElement(heading, "span", "pantry-shelf__progress", ownedCount + " / " + shelfJars.length);
+  section.appendChild(heading);
+
+  const linkedStages = getSeasonShelvesForPantryShelf(shelf.id);
+  const linkedStageNames = linkedStages.map((stage) => t(stage.titleKey)).join(" + ");
+  const linkedStagesOpen = linkedStages.length > 0 && linkedStages.every(isShelfUnlocked);
+  const connection = appendTextElement(
+    section,
+    "p",
+    `pantry-shelf__stage-link ${linkedStagesOpen ? "is-open" : "is-pending"}`,
+    t(linkedStagesOpen ? "pantry.shelfStageUnlocked" : "pantry.shelfUnlocksStage", {
+      stage: linkedStageNames
+    })
+  );
+  connection.setAttribute("aria-live", "polite");
+
+  const row = document.createElement("div");
+  row.className = "pantry-shelf__jars";
+  getJarsByShelf(shelf.id).forEach((jar) => {
+    row.appendChild(renderJar(jar, ownedIds, equippedJars, onOpen));
+  });
+  const board = document.createElement("div");
+  board.className = "pantry-shelf__board";
+  board.setAttribute("aria-hidden", "true");
+  section.append(row, board);
+  return section;
+}
+
+function createDetailPanel() {
+  const backdrop = document.createElement("div");
+  backdrop.className = "pantry-jar-detail-backdrop";
+  backdrop.hidden = true;
+  const panel = document.createElement("section");
+  panel.className = "pantry-jar-detail";
+  panel.setAttribute("role", "dialog");
+  panel.setAttribute("aria-modal", "true");
+  panel.setAttribute("aria-labelledby", "pantry-jar-detail-name");
+  backdrop.appendChild(panel);
+  return { backdrop, panel };
+}
+
+function showJarDetail({ backdrop, panel, jar, ownedIds, equippedJars, onRefresh, onFirstPurchase, onOpenSpoonStore }) {
+  const owned = ownedIds.includes(jar.id);
+  const equipped = equippedJars[jar.shelfId] === jar.id;
+  const shelf = JAR_SHELVES.find((candidate) => candidate.id === jar.shelfId);
+  const spoons = getPantrySpoons();
+  panel.replaceChildren();
+
+  const header = document.createElement("div");
+  header.className = "pantry-jar-detail__header";
+  const preview = document.createElement("div");
+  preview.className = "pantry-jar-detail__preview";
+  preview.appendChild(renderJarVisual(jar, owned, true));
+  const info = document.createElement("div");
+  info.className = "pantry-jar-detail__info";
+  const name = appendTextElement(info, "h3", "pantry-jar-detail__name", t(jar.nameKey));
+  name.id = "pantry-jar-detail-name";
+  appendTextElement(info, "p", "pantry-jar-detail__shelf", t("pantry.jar.shelfLabel", { shelf: t(shelf.nameKey) }));
+  appendTextElement(info, "p", "pantry-jar-detail__rarity", t("pantry.jar.rarity." + jar.rarity));
+  header.append(preview, info);
+
+  const actions = document.createElement("div");
+  actions.className = "pantry-jar-detail__actions";
+  const primary = document.createElement("button");
+  primary.type = "button";
+  if (!owned) {
+    const affordable = spoons >= jar.cost;
+    primary.className = "pantry-jar-detail__btn-buy";
+    if (affordable) {
+      appendSpoonLabel(primary, t("pantry.jar.buyAction", { count: jar.cost }), "small");
+    } else {
+      primary.textContent = t("pantry.jar.needSpoons", { count: jar.cost - spoons });
+    }
+    primary.addEventListener("click", () => {
+      if (!affordable) {
+        close();
+        onOpenSpoonStore?.(jar);
+        return;
       }
-      onRefresh?.();
-    });
-  } else {
-    button.disabled = !affordable;
-    button.textContent = affordable ? t("pantry.buy") : t("pantry.needMore", { count: Math.max(0, decoration.cost - spoons) });
-    button.addEventListener("click", () => {
-      if (buyDecoration(decoration)) {
-        const storyCompleted = decoration.id === storyGoalId || isStarterRoomRequest;
-        setPantryActionFeedback(storyCompleted ? "storyComplete" : "buy", decoration);
-        if (storyCompleted) {
-          storyGoalId = null;
-          pantryViewState.storyGoalId = null;
+      const previousOwnedIds = getOwnedJarIds();
+      const result = buyJar(jar.id);
+      if (result.ok) {
+        const nextOwnedIds = getOwnedJarIds();
+        if (isShelfCompletionTransition(jar.shelfId, previousOwnedIds, nextOwnedIds)) {
+          pendingShelfCelebrationId = jar.shelfId;
         }
-        onFirstPurchase?.(decoration, {
-          storyCompleted,
-          completedRequestCount: getCompletedPantryStoryGoalIds().length
+        close();
+        onFirstPurchase?.(jar, {
+          storyCompleted: false,
+          completedRequestCount: getPaidJarCount()
         });
         onRefresh?.();
       }
     });
+  } else if (!equipped) {
+    primary.className = "pantry-jar-detail__btn-equip";
+    primary.textContent = t("pantry.jar.equipAction");
+    primary.addEventListener("click", () => {
+      if (setEquippedJar(jar.shelfId, jar.id)) {
+        close();
+        onRefresh?.();
+      }
+    });
+  } else {
+    primary.className = "pantry-jar-detail__btn-equipped";
+    primary.textContent = t("pantry.jar.equipped");
+    primary.disabled = true;
   }
 
-  card.append(art, body, button);
+  const closeButton = document.createElement("button");
+  closeButton.type = "button";
+  closeButton.className = "pantry-jar-detail__btn-close";
+  closeButton.textContent = t("common.close");
+  const close = () => {
+    backdrop.classList.remove("visible");
+    backdrop.hidden = true;
+  };
+  closeButton.addEventListener("click", close);
+  actions.appendChild(primary);
+  if (owned) {
+    const featured = getFeaturedJarId() === jar.id;
+    const homeButton = document.createElement("button");
+    homeButton.type = "button";
+    homeButton.className = "pantry-jar-detail__btn-feature";
+    homeButton.textContent = t(featured ? "pantry.jar.featuredOnHome" : "pantry.jar.featureOnHome");
+    homeButton.disabled = featured;
+    homeButton.addEventListener("click", () => {
+      if (setFeaturedJar(jar.id)) {
+        close();
+        onRefresh?.();
+      }
+    });
+    actions.appendChild(homeButton);
+  }
+  actions.appendChild(closeButton);
+  panel.append(header, actions);
+
+  backdrop.hidden = false;
+  requestAnimationFrame(() => {
+    backdrop.classList.add("visible");
+    primary.focus();
+  });
+  backdrop.onclick = (event) => {
+    if (event.target === backdrop) close();
+  };
+  backdrop.onkeydown = (event) => {
+    if (event.key === "Escape") close();
+  };
+}
+
+function renderOnboarding() {
+  if (getPaidJarCount() > 0) return null;
+  const card = document.createElement("aside");
+  card.className = "pantry-jar-onboarding";
+  appendTextElement(card, "strong", "", t("pantry.jar.onboardingTitle"));
+  appendTextElement(card, "span", "", t("pantry.jar.onboardingPrompt"));
   return card;
 }
 
-function renderSlotFilters(selectedSlotId, onSelectSlot) {
-  const filters = document.createElement("div");
-  filters.className = "pantry-filter-row pantry-slot-filters";
-  filters.setAttribute("aria-label", t("pantry.slotFilterLabel"));
-
-  const options = [{ id: "all", titleKey: "pantry.allSlots" }, ...pantrySlots];
-  options.forEach((slot) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = selectedSlotId === slot.id ? "pantry-slot-filter active" : "pantry-slot-filter";
-    button.setAttribute("aria-pressed", String(selectedSlotId === slot.id));
-    button.textContent = t(slot.titleKey);
-    button.addEventListener("click", () => onSelectSlot(slot.id));
-    filters.appendChild(button);
-  });
-
-  return filters;
-}
-
-function renderRarityFilters(selectedRarity, onSelectRarity) {
-  const filters = document.createElement("div");
-  filters.className = "pantry-filter-row pantry-rarity-filters";
-  filters.setAttribute("aria-label", t("pantry.rarityFilterLabel"));
-
-  rarityFilters.forEach((rarity) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = selectedRarity === rarity ? "pantry-rarity-filter active" : "pantry-rarity-filter";
-    button.setAttribute("aria-pressed", String(selectedRarity === rarity));
-    button.textContent = rarity === "all" ? t("pantry.allRarities") : t("pantry.rarities." + rarity);
-    button.addEventListener("click", () => onSelectRarity(rarity));
-    filters.appendChild(button);
-  });
-
-  return filters;
-}
-
-function renderAvailabilityFilters(selectedAvailability, onSelectAvailability) {
-  const filters = document.createElement("div");
-  filters.className = "pantry-filter-row pantry-availability-filters";
-  filters.setAttribute("aria-label", t("pantry.availabilityFilterLabel"));
-
-  availabilityFilters.forEach((availability) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = selectedAvailability === availability ? "pantry-availability-filter active" : "pantry-availability-filter";
-    button.setAttribute("aria-pressed", String(selectedAvailability === availability));
-    button.textContent = t("pantry.availability." + availability);
-    button.addEventListener("click", () => onSelectAvailability(availability));
-    filters.appendChild(button);
-  });
-
-  return filters;
-}
-
-function renderSortControls(selectedSort, onSelectSort) {
-  const sortBar = document.createElement("div");
-  sortBar.className = "pantry-sort-bar";
-  sortBar.setAttribute("aria-label", t("pantry.sortLabel"));
-
-  const label = document.createElement("span");
-  label.className = "pantry-sort-label";
-  label.textContent = t("pantry.sortTitle");
-  sortBar.appendChild(label);
-
-  sortOptions.forEach((sortOption) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = selectedSort === sortOption ? "pantry-sort-option active" : "pantry-sort-option";
-    button.setAttribute("aria-pressed", String(selectedSort === sortOption));
-    button.textContent = t("pantry.sortOptions." + sortOption);
-    button.addEventListener("click", () => onSelectSort(sortOption));
-    sortBar.appendChild(button);
-  });
-
-  return sortBar;
-}
-
-function renderEmptyShopState(onResetFilters) {
-  const emptyState = document.createElement("article");
-  emptyState.className = "pantry-empty-state";
-
-  const title = document.createElement("h4");
-  title.textContent = t("pantry.emptyFilterTitle");
-  const body = document.createElement("p");
-  body.textContent = t("pantry.emptyFilterBody");
-  const resetButton = document.createElement("button");
-  resetButton.className = "button secondary pantry-reset-filters";
-  resetButton.type = "button";
-  resetButton.textContent = t("pantry.resetFilters");
-  resetButton.addEventListener("click", () => onResetFilters?.());
-
-  emptyState.append(title, body, resetButton);
-  return emptyState;
-}
-
-function renderShopLimitControl(visibleCount, totalCount, onShowMore) {
-  if (visibleCount >= totalCount) {
-    return null;
-  }
-
-  const control = document.createElement("div");
-  control.className = "pantry-shop-limit";
-
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "pantry-shop-limit__action";
-  button.textContent = t("pantry.shopLimitAction");
-  button.addEventListener("click", () => onShowMore?.());
-
-  control.appendChild(button);
-  return control;
-}
-
-function renderFilterSummary(count, total, isFiltered, onResetFilters) {
-  const summary = document.createElement("div");
-  summary.className = "pantry-filter-summary";
-
-  const text = document.createElement("p");
-  text.textContent = isFiltered
-    ? t("pantry.filterSummary", { count, total })
-    : t("pantry.filterSummaryAll", { count: total });
-  summary.appendChild(text);
-
-  if (isFiltered) {
-    const clearButton = document.createElement("button");
-    clearButton.className = "pantry-clear-filters";
-    clearButton.type = "button";
-    clearButton.textContent = t("pantry.clearFilters");
-    clearButton.addEventListener("click", () => onResetFilters?.());
-    summary.appendChild(clearButton);
-  }
-
-  return summary;
-}
-
-export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {}, onPlayForSpoons = () => {}, spoonStore = null) {
+export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {}, spoonStore = null, onOpenSpoonStore = () => {}) {
+  ensureStarterJars();
+  const ownedIds = getOwnedJarIds();
+  const equippedJars = getEquippedJars();
   const panel = document.createElement("section");
-  panel.className = "pantry-panel content-panel";
+  panel.className = "pantry-panel pantry-jar-panel content-panel";
 
-  const spoons = getPantrySpoons();
-  const ownedIds = getOwnedDecorationIds();
-  const equippedDecorations = getEquippedDecorations();
-  const approvedDecorations = getApprovedPantryDecorations();
-  const equippedCount = pantrySlots.filter((slot) => equippedDecorations[slot.id]).length;
-  let selectedSlotId = pantryViewState.selectedSlotId || "all";
-  let selectedRarity = rarityFilters.includes(pantryViewState.selectedRarity) ? pantryViewState.selectedRarity : "all";
-  let selectedAvailability = availabilityFilters.includes(pantryViewState.selectedAvailability) ? pantryViewState.selectedAvailability : "all";
-  let selectedSort = sortOptions.includes(pantryViewState.selectedSort) ? pantryViewState.selectedSort : "featured";
-  let shopVisibleLimit = Math.max(defaultShopCardLimit, Number(pantryViewState.shopVisibleLimit || defaultShopCardLimit));
-  let storyGoalId = pantryViewState.storyGoalId || getPantryStoryGoalId() || null;
-  pantryViewState.storyGoalId = storyGoalId;
+  const header = document.createElement("header");
+  header.className = "pantry-jar-header";
+  const copy = document.createElement("div");
+  appendTextElement(copy, "h2", "", t("pantry.title"));
+  header.prepend(copy);
 
-  const header = document.createElement("div");
-  header.className = "pantry-header";
-  const headerCopy = document.createElement("div");
-  appendTextElement(headerCopy, "p", "section-label", t("sections.pantryRoom"));
-  appendTextElement(headerCopy, "h2", "", t("pantry.title"));
-  appendTextElement(header, "p", "pantry-spoon-note", t("pantry.spoonNote", { count: spoons }));
-  header.insertBefore(headerCopy, header.firstChild);
+  const onboarding = renderOnboarding();
+  const shelves = document.createElement("div");
+  shelves.className = "pantry-jar-shelves";
+  const detail = createDetailPanel();
+  const openDetail = (jar) => showJarDetail({
+    ...detail,
+    jar,
+    ownedIds,
+    equippedJars,
+    onRefresh,
+    onFirstPurchase,
+    onOpenSpoonStore
+  });
+  JAR_SHELVES.forEach((shelf) => shelves.appendChild(renderShelf(shelf, ownedIds, equippedJars, openDetail)));
 
-  const room = document.createElement("div");
-  room.className = "pantry-room";
-  room.setAttribute("aria-label", t("pantry.roomAria"));
+  panel.append(header);
+  if (onboarding) panel.appendChild(onboarding);
+  panel.append(shelves);
+  if (spoonStore) panel.appendChild(spoonStore);
+  panel.appendChild(detail.backdrop);
 
-  const placementNote = document.createElement("p");
-  placementNote.className = "pantry-placement-note";
-  placementNote.textContent = t("pantry.placementNote", { count: equippedCount, total: pantrySlots.length });
-
-  const storyRequestMount = document.createElement("div");
-  storyRequestMount.className = "pantry-story-request-mount";
-
-  const storyMilestoneMount = document.createElement("div");
-  storyMilestoneMount.className = "pantry-story-milestone-mount";
-
-  const storyDeliveryMount = document.createElement("div");
-  storyDeliveryMount.className = "pantry-story-delivery-mount";
-
-  const actionFeedbackMount = document.createElement("div");
-  actionFeedbackMount.className = "pantry-action-feedback-mount";
-
-  const shop = document.createElement("section");
-  shop.className = "pantry-shop";
-  const shopHeading = document.createElement("div");
-  shopHeading.className = "pantry-shop-heading";
-  const shopCopy = document.createElement("div");
-  appendTextElement(shopCopy, "h3", "", t("pantry.shopTitle"));
-  shopHeading.appendChild(shopCopy);
-  shop.appendChild(shopHeading);
-
-  const filtersMount = document.createElement("div");
-  const grid = document.createElement("div");
-  grid.className = "pantry-shop-grid";
-  const shopLimitMount = document.createElement("div");
-  shopLimitMount.className = "pantry-shop-limit-mount";
-  shop.append(filtersMount, grid, shopLimitMount);
-  if (spoonStore) {
-    shop.appendChild(spoonStore);
-  }
-
-  function drawDecorations() {
-    room.replaceChildren();
-    actionFeedbackMount.replaceChildren();
-    const feedback = renderActionFeedback(equippedDecorations);
-    if (feedback) {
-      actionFeedbackMount.appendChild(feedback);
-    }
-    pantrySlots.forEach((slot) => {
-      room.appendChild(renderRoomSlot(slot, equippedDecorations, selectedSlotId, selectSlot));
+  const celebrationShelfId = pendingShelfCelebrationId;
+  if (celebrationShelfId) {
+    pendingShelfCelebrationId = null;
+    globalThis.requestAnimationFrame(() => {
+      const shelfSection = panel.querySelector(
+        '.pantry-shelf[data-shelf-id="' + celebrationShelfId + '"]'
+      );
+      triggerShelfCelebration(shelfSection);
     });
-
-    replaceWithOptional(storyRequestMount, renderPantryStoryRequest(approvedDecorations, ownedIds, equippedDecorations, startStoryRequest));
-    replaceWithOptional(storyMilestoneMount, renderPantryStoryMilestone(approvedDecorations, ownedIds, equippedDecorations, selectStoryArrival));
-    replaceWithOptional(storyDeliveryMount, renderPantryStoryDelivery(approvedDecorations, storyGoalId, ownedIds, spoons, showStoryGoal, onPlayForSpoons));
-    filtersMount.replaceChildren();
-    filtersMount.className = "pantry-filter-stack";
-
-    const visibleDecorations = approvedDecorations
-      .filter((decoration) => selectedSlotId === "all" || decoration.slot === selectedSlotId)
-      .filter((decoration) => selectedRarity === "all" || decoration.rarity === selectedRarity)
-      .filter((decoration) => {
-        if (selectedAvailability === "owned") {
-          return ownedIds.includes(decoration.id);
-        }
-        if (selectedAvailability === "canBuy") {
-          return !ownedIds.includes(decoration.id) && spoons >= Number(decoration.cost || 0);
-        }
-        return true;
-      });
-
-    const sortedDecorations = [...visibleDecorations]
-      .sort((left, right) => compareDecorations(left, right, selectedSort, ownedIds, equippedDecorations, spoons));
-    const visibleShopDecorations = sortedDecorations.slice(0, shopVisibleLimit);
-    const isFiltered = selectedSlotId !== "all" || selectedRarity !== "all" || selectedAvailability !== "all";
-    filtersMount.append(renderSlotFilters(selectedSlotId, selectSlot));
-    if (isFiltered) filtersMount.appendChild(renderFilterSummary(visibleDecorations.length, approvedDecorations.length, isFiltered, resetFilters));
-
-    grid.replaceChildren();
-    shopLimitMount.replaceChildren();
-    if (visibleDecorations.length === 0) {
-      grid.appendChild(renderEmptyShopState(resetFilters));
-      return;
-    }
-
-    visibleShopDecorations.forEach((decoration) => {
-      grid.appendChild(renderShopCard(decoration, ownedIds, equippedDecorations, spoons, storyGoalId, onRefresh, onFirstPurchase));
-    });
-
-    const shopLimitControl = renderShopLimitControl(visibleShopDecorations.length, visibleDecorations.length, showMoreDecorations);
-    if (shopLimitControl) {
-      shopLimitMount.appendChild(shopLimitControl);
-    }
   }
-
-  function planNextRoomRequest(decoration) {
-    if (!decoration) {
-      return;
-    }
-    if (Number(decoration.cost || 0) === 0) {
-      startStoryRequest(decoration);
-      return;
-    }
-    selectStoryArrival(decoration);
-  }
-
-  function selectStoryArrival(decoration) {
-    if (!decoration) {
-      return;
-    }
-    storyGoalId = decoration.id;
-    selectedSlotId = decoration.slot || "all";
-    selectedAvailability = "all";
-    selectedRarity = "all";
-    setPantryStoryGoalId(storyGoalId);
-    pantryViewState.storyGoalId = storyGoalId;
-    pantryViewState.selectedSlotId = selectedSlotId;
-    pantryViewState.selectedAvailability = selectedAvailability;
-    pantryViewState.selectedRarity = selectedRarity;
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
-  function showStoryGoal(decoration) {
-    if (!decoration) {
-      return;
-    }
-    selectedSlotId = decoration.slot || "all";
-    selectedAvailability = "all";
-    selectedRarity = "all";
-    pantryViewState.selectedSlotId = selectedSlotId;
-    pantryViewState.selectedAvailability = selectedAvailability;
-    pantryViewState.selectedRarity = selectedRarity;
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
-  function startStoryRequest(decoration) {
-    if (!decoration) {
-      return;
-    }
-    selectedSlotId = decoration.slot || "all";
-    selectedAvailability = ownedIds.includes(decoration.id) ? "owned" : "canBuy";
-    selectedRarity = "all";
-    pantryViewState.selectedSlotId = selectedSlotId;
-    pantryViewState.selectedAvailability = selectedAvailability;
-    pantryViewState.selectedRarity = selectedRarity;
-    pantryViewState.storyGoalId = storyGoalId;
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
-  function selectSlot(slotId) {
-    selectedSlotId = slotId || "all";
-    pantryViewState.selectedSlotId = selectedSlotId;
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
-  function selectRarity(rarity) {
-    selectedRarity = rarityFilters.includes(rarity) ? rarity : "all";
-    pantryViewState.selectedRarity = selectedRarity;
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
-  function selectAvailability(availability) {
-    selectedAvailability = availabilityFilters.includes(availability) ? availability : "all";
-    pantryViewState.selectedAvailability = selectedAvailability;
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
-  function selectSort(sortOption) {
-    selectedSort = sortOptions.includes(sortOption) ? sortOption : "featured";
-    pantryViewState.selectedSort = selectedSort;
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
-  function resetFilters() {
-    selectedSlotId = "all";
-    selectedRarity = "all";
-    selectedAvailability = "all";
-    pantryViewState.selectedSlotId = selectedSlotId;
-    pantryViewState.selectedRarity = selectedRarity;
-    pantryViewState.selectedAvailability = selectedAvailability;
-    shopVisibleLimit = defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
-  function showMoreDecorations() {
-    shopVisibleLimit += defaultShopCardLimit;
-    pantryViewState.shopVisibleLimit = shopVisibleLimit;
-    drawDecorations();
-  }
-
-  drawDecorations();
-  panel.append(header, room, storyRequestMount, storyMilestoneMount, storyDeliveryMount, actionFeedbackMount, shop);
   return panel;
 }

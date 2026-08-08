@@ -1,4 +1,5 @@
 import { puzzleTitle, t } from "../i18n/index.js";
+import { getDailyDateKey } from "../game/dailyPuzzle.js";
 import { renderPuzzleView } from "./puzzleView.js";
 import { appendPuzzleControlArt } from "./puzzleControlArt.js";
 
@@ -6,6 +7,7 @@ export function renderPlayScreen(activePuzzle, options) {
   const {
     dailyPuzzle,
     dailyBonus = 0,
+    dailyChallenge = false,
     controlMode,
     onClosePuzzle,
     onViewAlbum,
@@ -14,6 +16,7 @@ export function renderPlayScreen(activePuzzle, options) {
     onPreviousStagePuzzle,
     onNextStagePuzzle,
     onShowPuzzlePicker,
+    onSelectView,
     onPuzzleComplete,
     getStageNavigation,
     isTimeAttack = false,
@@ -24,6 +27,7 @@ export function renderPlayScreen(activePuzzle, options) {
     replayChallenge = false,
     replayPicked = false,
     getTimeAttackHintCost,
+    puzzleState = null,
     onPuzzleStateChange
   } = options;
 
@@ -39,7 +43,13 @@ export function renderPlayScreen(activePuzzle, options) {
   backButton.type = "button";
   backButton.className = "play-screen__back";
   backButton.textContent = t("playScreen.back");
-  backButton.addEventListener("click", onClosePuzzle);
+  backButton.addEventListener("click", () => {
+    if (isTimeAttack) {
+      onClosePuzzle();
+      return;
+    }
+    openPauseMenu();
+  });
 
   const title = document.createElement("div");
   title.className = "play-screen__title";
@@ -79,8 +89,8 @@ export function renderPlayScreen(activePuzzle, options) {
   const body = document.createElement("div");
   body.className = "play-screen__body";
   body.appendChild(renderPuzzleView(activePuzzle, {
-    dailyKey: !isTimeAttack && !replayChallenge && activePuzzle.id === dailyPuzzle.id ? getDailyKey() : null,
-    dailyBonus: !isTimeAttack && !replayChallenge && activePuzzle.id === dailyPuzzle.id ? dailyBonus : 0,
+    dailyKey: dailyChallenge && !isTimeAttack && !replayChallenge ? getDailyDateKey() : null,
+    dailyBonus: dailyChallenge && !isTimeAttack && !replayChallenge ? dailyBonus : 0,
     onNextPuzzle,
     controlMode,
     compactHeader: true,
@@ -89,13 +99,62 @@ export function renderPlayScreen(activePuzzle, options) {
     replayPicked,
     isTimeAttack,
     getTimeAttackHintCost,
+    puzzleState,
     onPuzzleStateChange,
     onViewAlbum: replayChallenge ? onClosePuzzle : onViewAlbum,
     onPuzzleComplete
   }));
 
   screen.append(header, body);
+
+  function openPauseMenu() {
+    if (screen.querySelector(".play-pause-overlay")) return;
+    const overlay = document.createElement("div");
+    overlay.className = "play-pause-overlay";
+    overlay.setAttribute("role", "dialog");
+    overlay.setAttribute("aria-modal", "true");
+    overlay.setAttribute("aria-labelledby", "play-pause-title");
+
+    const panel = document.createElement("section");
+    panel.className = "play-pause-menu";
+    const heading = document.createElement("div");
+    heading.className = "play-pause-menu__heading";
+    const eyebrow = document.createElement("p");
+    eyebrow.textContent = puzzleTitle(activePuzzle);
+    const pauseTitle = document.createElement("h2");
+    pauseTitle.id = "play-pause-title";
+    pauseTitle.textContent = t("playPause.title");
+    heading.append(eyebrow, pauseTitle);
+
+    const actions = document.createElement("div");
+    actions.className = "play-pause-menu__actions";
+    actions.append(
+      createPauseAction(t("playPause.continue"), "continue", () => overlay.remove()),
+      createPauseAction(t("playPause.home"), "home", onClosePuzzle),
+      createPauseAction(t("playPause.pictures"), "pictures", onShowPuzzlePicker),
+      createPauseAction(t("views.album"), "album", () => onSelectView?.("album")),
+      createPauseAction(t("views.pantry"), "pantry", () => onSelectView?.("pantry")),
+      createPauseAction(t("header.settings"), "settings", onRequestSettings)
+    );
+    panel.append(heading, actions);
+    overlay.appendChild(panel);
+    overlay.addEventListener("click", (event) => {
+      if (event.target === overlay) overlay.remove();
+    });
+    screen.appendChild(overlay);
+    panel.querySelector("button")?.focus();
+  }
+
   return screen;
+}
+
+function createPauseAction(label, destination, onClick) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `play-pause-menu__action play-pause-menu__action--${destination}`;
+  button.textContent = label;
+  button.addEventListener("click", onClick);
+  return button;
 }
 
 export function getTimeAttackElapsedSeconds(startedAt) {
@@ -103,9 +162,6 @@ export function getTimeAttackElapsedSeconds(startedAt) {
   return Math.max(0, Math.floor((Date.now() - startedAt) / 1000));
 }
 
-function getDailyKey() {
-  return new Date().toISOString().slice(0, 10);
-}
 
 function formatElapsedSeconds(seconds) {
   const value = Math.max(0, Math.floor(Number(seconds) || 0));

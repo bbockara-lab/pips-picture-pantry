@@ -1,11 +1,19 @@
 import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
-import { puzzlePacks } from "../data/packs.js";
-import { puzzles } from "../data/puzzles.js";
-import { getStageArtUrl, hasApprovedStageArt } from "../data/stageArt.js";
+import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-v1.webp";
+import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
+import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, getSeasonShelfSizeCounts, seasonShelves } from "../data/seasonShelves.js";
+import { PANTRY_JARS, getJarById } from "../data/pantryJars.js";
+import { getPaidJarProgressForPantryShelf, getPantryShelfForSeasonShelf } from "../data/stagePantryLinks.js";
 import { ECONOMY } from "../data/economyConfig.js";
-import { canUnlockPack, getCompletedPuzzleIds, getPackPantryRoomRequirement, getPantrySpoons, getReplayDailyCount, isPackUnlocked } from "../game/save.js";
+import { getCompletedPuzzleIds, getFeaturedBadgeId, getFeaturedJarId, getOwnedJarIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
+import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
+import { getPreviousSeasonShelf, isSeasonShelfComplete } from "../game/seasonShelfProgress.js";
+import { renderColoredPuzzleArt } from "./coloredPuzzleArt.js";
+import { getJarArtUrl } from "../data/jarArt.js";
+import { getBadgeArtUrl } from "../data/badgeArt.js";
+import { getPackBadgeStatus } from "../game/badges.js";
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -17,240 +25,286 @@ function appendTextElement(parent, tagName, className, text) {
   return element;
 }
 
-function createMeterFill() {
-  return document.createElement("span");
+const DAILY_GREETING_KEYS = [
+  "home.greetingMessages.0",
+  "home.greetingMessages.1",
+  "home.greetingMessages.2",
+  "home.greetingMessages.3",
+  "home.greetingMessages.4",
+  "home.greetingMessages.5",
+  "home.greetingMessages.6"
+];
+
+export function getDailyGreetingKey(now = new Date()) {
+  const dayNumber = Math.floor(Date.UTC(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate()
+  ) / 86400000);
+  return DAILY_GREETING_KEYS[dayNumber % DAILY_GREETING_KEYS.length];
 }
 
-export function renderPuzzleHub(activePuzzle, onOpenPuzzle, options = {}) {
-  const { onOpenPantry = () => {}, onUnlockPack = () => {}, onViewAlbum = () => {} } = options;
+export function hasAffordableUnownedPantryJar(jars, ownedJarIds, spoons) {
+  const owned = ownedJarIds instanceof Set ? ownedJarIds : new Set(ownedJarIds || []);
+  const balance = Math.max(0, Number(spoons) || 0);
+  return jars.some((jar) => (
+    !owned.has(jar.id)
+    && Number(jar.cost) > 0
+    && Number(jar.cost) <= balance
+  ));
+}
+
+export function getPuzzleHubOpenDecision(
+  activePuzzle,
+  completedPuzzleIds = getCompletedPuzzleIds(),
+  shelfUnlocked = isShelfUnlocked
+) {
+  const completed = completedPuzzleIds instanceof Set
+    ? completedPuzzleIds
+    : new Set(completedPuzzleIds || []);
+  const currentShelf = getSeasonShelfForPuzzle(activePuzzle);
+  if (!currentShelf || !isSeasonShelfComplete(currentShelf, completed)) {
+    return { type: "open", puzzle: activePuzzle };
+  }
+
+  const nextShelf = seasonShelves[currentShelf.index + 1] || null;
+  if (!nextShelf) {
+    return { type: "open", puzzle: activePuzzle };
+  }
+  if (!shelfUnlocked(nextShelf)) {
+    return { type: "unlock-guide", currentShelf, nextShelf };
+  }
+
+  const nextShelfPuzzles = getSeasonShelfPuzzles(nextShelf);
+  const nextPuzzle = nextShelfPuzzles.find((puzzle) => !completed.has(puzzle.id))
+    || nextShelfPuzzles[0]
+    || activePuzzle;
+  return { type: "open", puzzle: nextPuzzle };
+}
+
+export function renderPuzzleHub(activePuzzle, options = {}) {
+  const {
+    onOpenPuzzle = () => {},
+    onShowList = () => {},
+    onSelectView = () => {},
+    onOpenSettings = () => {}
+  } = typeof options === "function" ? { onOpenPuzzle: options } : options;
   const stack = document.createElement("div");
-  stack.className = "puzzle-hub-stack";
+  stack.className = "puzzle-hub-stack puzzle-home";
 
-  const panel = document.createElement("section");
-  panel.className = "puzzle-hub-panel content-panel";
+  const scene = document.createElement("section");
+  scene.className = "puzzle-home-scene";
+  scene.style.setProperty("--puzzle-home-background", `url("${puzzleWorkshopBackgroundUrl}")`);
+  scene.setAttribute("aria-label", t("home.sceneAria"));
 
-  const copy = document.createElement("div");
-  appendTextElement(copy, "p", "section-label", t("sections.currentPicture"));
-  appendTextElement(copy, "h2", "", puzzleTitle(activePuzzle));
+  const viewTitle = appendTextElement(scene, "h1", "puzzle-home-scene__title", t("views.puzzle"));
+  viewTitle.setAttribute("aria-label", t("views.puzzle"));
 
-  const action = document.createElement("button");
-  action.type = "button";
-  action.className = "tool-button";
-  action.textContent = t("playScreen.open");
-  action.addEventListener("click", onOpenPuzzle);
+  const greetingWrap = document.createElement("div");
+  greetingWrap.className = "puzzle-home-scene__greeting-wrap hub-greeting-wrap";
+  const greetingPip = document.createElement("img");
+  greetingPip.className = "puzzle-home-scene__greeting-pip hub-greeting-pip";
+  greetingPip.src = pipGuideUrl;
+  greetingPip.alt = "";
+  greetingPip.setAttribute("aria-hidden", "true");
+  greetingPip.dataset.assetId = "pip-chrome-v2";
+  const greeting = appendTextElement(
+    greetingWrap,
+    "p",
+    "puzzle-home-scene__greeting hub-greeting-bubble",
+    t(getDailyGreetingKey())
+  );
+  greeting.setAttribute("aria-live", "polite");
+  greetingWrap.append(greetingPip, greeting);
+  scene.appendChild(greetingWrap);
 
-  panel.append(copy, action);
-  stack.append(panel);
+  const activeShelf = getSeasonShelfForPuzzle(activePuzzle);
+  const featuredJarId = getFeaturedJarId();
+  const featuredJar = featuredJarId && getOwnedJarIds().includes(featuredJarId)
+    ? getJarById(featuredJarId)
+    : null;
+
+  const featuredBadgeId = getFeaturedBadgeId();
+  const featuredBadgeStatus = featuredBadgeId
+    ? getPackBadgeStatus(getCompletedPuzzleIds()).find(
+      (status) => status.earned && status.badge.id === featuredBadgeId
+    )
+    : null;
+
+  if (featuredJar || featuredBadgeStatus) {
+    const keepsakeShelf = document.createElement("div");
+    keepsakeShelf.className = "home-keepsake-shelf";
+    keepsakeShelf.setAttribute("aria-label", t("home.keepsakeShelfAria"));
+
+    if (featuredJar) {
+      const jarButton = document.createElement("button");
+      jarButton.type = "button";
+      jarButton.className = "home-keepsake-shelf__item home-keepsake-shelf__jar puzzle-home-scene__featured-jar";
+      jarButton.dataset.jarId = featuredJar.id;
+      jarButton.setAttribute("aria-label", t("pantry.jar.featuredAria", { item: t(featuredJar.nameKey) }));
+      const jarImage = document.createElement("img");
+      jarImage.className = "home-keepsake-jar";
+      jarImage.src = getJarArtUrl(featuredJar.id);
+      jarImage.alt = "";
+      jarImage.setAttribute("aria-hidden", "true");
+      jarImage.dataset.assetId = `jar-${featuredJar.id}-v1`;
+      jarButton.appendChild(jarImage);
+      jarButton.addEventListener("click", () => onSelectView("pantry"));
+      keepsakeShelf.appendChild(jarButton);
+    }
+
+    if (featuredBadgeStatus) {
+      const featuredBadge = document.createElement("button");
+      featuredBadge.type = "button";
+      featuredBadge.className = "home-keepsake-shelf__item home-keepsake-shelf__badge puzzle-home-scene__featured-badge";
+      featuredBadge.setAttribute("aria-label", t("badges.featuredAria", {
+        title: t(featuredBadgeStatus.badge.titleKey)
+      }));
+      const badgeImage = document.createElement("img");
+      badgeImage.src = getBadgeArtUrl(featuredBadgeStatus.badge.id);
+      badgeImage.alt = "";
+      badgeImage.setAttribute("aria-hidden", "true");
+      featuredBadge.appendChild(badgeImage);
+      featuredBadge.addEventListener("click", () => onSelectView("map"));
+      keepsakeShelf.appendChild(featuredBadge);
+    }
+
+    scene.appendChild(keepsakeShelf);
+  }
+
+  const play = document.createElement("button");
+  play.type = "button";
+  play.className = "puzzle-home-scene__play";
+  play.dataset.destination = "play";
+  play.setAttribute("aria-label", `${t("playScreen.open")}: ${puzzleTitle(activePuzzle)}`);
+  const playArt = getPuzzleControlArt("fill");
+  if (playArt) {
+    const image = document.createElement("img");
+    image.src = playArt.src;
+    image.alt = "";
+    image.setAttribute("aria-hidden", "true");
+    image.dataset.assetId = playArt.assetId;
+    play.appendChild(image);
+  }
+  const playLabel = document.createElement("span");
+  playLabel.className = "puzzle-home-scene__play-label";
+  appendTextElement(playLabel, "span", "puzzle-home-scene__play-label-main", t("playScreen.open"));
+  play.appendChild(playLabel);
+  play.addEventListener("click", onOpenPuzzle);
+
+  const destinations = document.createElement("nav");
+  destinations.className = "puzzle-home-destinations";
+  destinations.setAttribute("aria-label", t("home.destinationsAria"));
+  const destinationItems = [
+    ["puzzle", "home.pictureList", onShowList],
+    ["album", "home.albumLabel", () => onSelectView("album")],
+    ["pantry", "home.pantryLabel", () => onSelectView("pantry")],
+    ["spoonRun", "views.spoonRun", () => onSelectView("spoonRun")],
+    ["map", "home.mapLabel", () => onSelectView("map")]
+  ];
+  const completedIds = new Set(getCompletedPuzzleIds());
+  const activeShelfPuzzles = activeShelf ? getSeasonShelfPuzzles(activeShelf) : [];
+  const activeShelfCompletedCount = activeShelfPuzzles.filter((puzzle) => completedIds.has(puzzle.id)).length;
+  const ownedJarIds = new Set(getOwnedJarIds());
+  const pantrySpoons = getPantrySpoons();
+  const hasNewPantryItem = hasAffordableUnownedPantryJar(PANTRY_JARS, ownedJarIds, pantrySpoons);
+  destinationItems.forEach(([artId, labelKey, onClick]) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `puzzle-home-destination puzzle-home-destination--${artId}`;
+    button.dataset.destination = artId;
+    const art = getQuickTravelArt(artId);
+    if (art) {
+      const image = document.createElement("img");
+      image.src = art.src;
+      image.alt = "";
+      image.setAttribute("aria-hidden", "true");
+      image.dataset.assetId = art.assetId;
+      button.appendChild(image);
+    }
+    appendTextElement(button, "span", "puzzle-home-destination__label", t(labelKey));
+    if (artId === "puzzle") {
+      appendTextElement(
+        button,
+        "span",
+        "puzzle-home-destination__badge",
+        `${activeShelfCompletedCount}/${activeShelfPuzzles.length}`
+      );
+    } else if (artId === "pantry" && hasNewPantryItem) {
+      const badge = appendTextElement(button, "span", "puzzle-home-destination__badge puzzle-home-destination__badge--new", "");
+      badge.setAttribute("aria-label", t("home.new"));
+    }
+    button.setAttribute("aria-label", t(labelKey));
+    button.title = t(labelKey);
+    button.addEventListener("click", onClick);
+    destinations.appendChild(button);
+  });
+
+  const sceneControls = document.createElement("div");
+  sceneControls.className = "puzzle-home-scene__controls";
+
+  const settingsButton = document.createElement("button");
+  settingsButton.type = "button";
+  settingsButton.className = "puzzle-home-scene__settings";
+  settingsButton.dataset.destination = "settings";
+  settingsButton.setAttribute("aria-label", t("header.settings"));
+  const settingsArt = getQuickTravelArt("settings");
+  if (settingsArt) {
+    const image = document.createElement("img");
+    image.src = settingsArt.src;
+    image.alt = "";
+    image.setAttribute("aria-hidden", "true");
+    image.dataset.assetId = settingsArt.assetId;
+    settingsButton.appendChild(image);
+  }
+  settingsButton.addEventListener("click", onOpenSettings);
+
+  sceneControls.append(settingsButton);
+  scene.append(destinations, sceneControls, play);
+  stack.append(scene);
   return stack;
 }
 
-function createSeasonProgressCard(actions = {}) {
-  const progressionPacks = puzzlePacks.filter((pack) => pack.access !== "bonus-pack");
-  const progressionPackIds = new Set(progressionPacks.map((pack) => pack.id));
-  const seasonPuzzles = puzzles.filter((puzzle) => progressionPackIds.has(puzzle.packId));
-  const completedSet = new Set(getCompletedPuzzleIds());
-  const completed = seasonPuzzles.filter((puzzle) => completedSet.has(puzzle.id)).length;
-  const total = seasonPuzzles.length || 1;
-  const remaining = Math.max(0, total - completed);
-  const unlockedCount = progressionPacks.filter((pack) => isPackUnlocked(pack)).length;
-  const nextLockedPack = progressionPacks.find((pack) => !isPackUnlocked(pack));
-  const percent = Math.min(100, Math.round((completed / total) * 100));
-
-  const card = document.createElement("section");
-  card.className = "season-progress-card content-panel";
-  card.style.setProperty("--season-progress", percent + "%");
-
-  const bodyKey = nextLockedPack
-    ? "seasonProgress.bodyLocked"
-    : remaining > 0
-      ? "seasonProgress.bodyUnlocked"
-      : "seasonProgress.bodyComplete";
-  const bodyParams = nextLockedPack ? { pack: t(nextLockedPack.titleKey) } : {};
-
-  const header = document.createElement("div");
-  header.className = "season-progress-card__header";
-  const copy = document.createElement("div");
-  appendTextElement(copy, "p", "section-label", t("seasonProgress.eyebrow"));
-  appendTextElement(copy, "h2", "", t("seasonProgress.title"));
-  appendTextElement(copy, "p", "", t(bodyKey, bodyParams));
-  const percentBadge = document.createElement("strong");
-  percentBadge.className = "season-progress-card__percent";
-  percentBadge.textContent = percent + "%";
-  header.append(copy, percentBadge);
-
-  const meter = document.createElement("div");
-  meter.className = "season-progress-meter";
-  meter.setAttribute("aria-hidden", "true");
-  meter.appendChild(createMeterFill());
-
-  const stats = document.createElement("div");
-  stats.className = "season-progress-stats";
-  stats.append(
-    createSeasonStat(t("seasonProgress.catalogStat", { completed, total })),
-    createSeasonStat(t("seasonProgress.stageStat", { unlocked: unlockedCount, total: progressionPacks.length })),
-    createSpoonSeasonStat(t("seasonProgress.spoonStat", { count: getPantrySpoons() }))
-  );
-
-  const goal = createSeasonGoalCard({ nextLockedPack, remaining, progressionPacks, ...actions });
-
-  const teaser = document.createElement("div");
-  teaser.className = "season-next-card";
-  appendTextElement(teaser, "span", "season-next-card__label", t("seasonProgress.nextSeasonLabel"));
-  appendTextElement(teaser, "strong", "", t("seasonProgress.nextSeasonTitle"));
-  appendTextElement(teaser, "p", "", t("seasonProgress.nextSeasonBody"));
-  const teaserChips = document.createElement("div");
-  teaserChips.className = "season-next-card__chips";
-  teaserChips.setAttribute("aria-label", t("seasonProgress.nextSeasonChipsLabel"));
-  appendTextElement(teaserChips, "span", "", t("seasonProgress.nextSeasonChipDrop"));
-  appendTextElement(teaserChips, "span", "", t("seasonProgress.nextSeasonChipSeason"));
-  appendTextElement(teaserChips, "span", "", t("seasonProgress.nextSeasonChipCommunity"));
-  teaser.appendChild(teaserChips);
-
-  card.append(header, meter, stats, goal, teaser);
-  return card;
-}
-
-function createSeasonGoalCard({ nextLockedPack, remaining, progressionPacks, onOpenPantry, onUnlockPack, onViewAlbum }) {
-  const goal = document.createElement("div");
-  goal.className = "season-progress-goal";
-
-  let title = "";
-  let body = "";
-  let actionLabel = "";
-  let actionHandler = null;
-  if (nextLockedPack) {
-    const packName = t(nextLockedPack.titleKey);
-    const roomRequirement = getPackPantryRoomRequirement(nextLockedPack);
-    const spoonGap = Math.max(0, Number(nextLockedPack.unlockCost || 0) - getPantrySpoons());
-    const ready = canUnlockPack(nextLockedPack);
-    title = ready
-      ? t("seasonProgress.goalReadyTitle", { pack: packName })
-      : t("seasonProgress.goalLockedTitle", { pack: packName });
-    body = ready
-      ? t("seasonProgress.goalReadyBody")
-      : getUnlockPlanText(ready, roomRequirement, spoonGap);
-    if (ready) {
-      actionLabel = t("seasonProgress.goalOpenAction");
-      actionHandler = () => onUnlockPack(nextLockedPack.id);
-    } else if (!roomRequirement.met) {
-      actionLabel = t("seasonProgress.goalPantryAction");
-      actionHandler = onOpenPantry;
-    } else if (spoonGap > 0) {
-      actionLabel = t("seasonProgress.goalSpoonAction");
-      actionHandler = onOpenPantry;
-    }
-  } else if (remaining > 0) {
-    title = t("seasonProgress.goalUnlockedTitle");
-    body = t("seasonProgress.goalUnlockedBody", { count: remaining });
-    actionLabel = t("seasonProgress.goalAlbumAction");
-    actionHandler = onViewAlbum;
-  } else {
-    title = t("seasonProgress.goalCompleteTitle");
-    body = t("seasonProgress.goalCompleteBody", { count: progressionPacks.length });
-  }
-
-  appendTextElement(goal, "span", "", t("seasonProgress.goalEyebrow"));
-  appendTextElement(goal, "strong", "", title);
-  appendTextElement(goal, "p", "", body);
-  if (actionLabel && actionHandler) {
-    const action = document.createElement("button");
-    action.type = "button";
-    action.className = "tool-button season-progress-goal__action";
-    action.textContent = actionLabel;
-    action.addEventListener("click", actionHandler);
-    goal.appendChild(action);
-  }
-  return goal;
-}
-
-function createSeasonStat(text) {
-  const stat = document.createElement("span");
-  stat.textContent = text;
-  return stat;
-}
-
-function createSpoonSeasonStat(text) {
-  const stat = document.createElement("span");
-  stat.className = "season-progress-stats__spoons";
-  stat.append(createSpoonIcon("small"), document.createTextNode(text));
-  return stat;
-}
-
-
 export function getStageNavigation(activePuzzle, onPrevious, onNext, onShowList) {
-  const pack = puzzlePacks.find((candidate) => candidate.id === activePuzzle.packId);
-  const packPuzzles = puzzles.filter((puzzle) => puzzle.packId === activePuzzle.packId);
-  const currentIndex = packPuzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
+  const shelf = getSeasonShelfForPuzzle(activePuzzle);
+  const shelfPuzzles = getSeasonShelfPuzzles(shelf);
+  const currentIndex = shelfPuzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
   return {
-    packTitle: pack ? t(pack.titleKey) : t("sections.currentPicture"),
+    packTitle: shelf ? t(shelf.titleKey) : t("sections.currentPicture"),
     current: Math.max(currentIndex + 1, 1),
-    total: packPuzzles.length || 1,
+    total: shelfPuzzles.length || 1,
     hasPrevious: currentIndex > 0,
-    hasNext: currentIndex >= 0 && currentIndex < packPuzzles.length - 1,
+    hasNext: currentIndex >= 0 && currentIndex < shelfPuzzles.length - 1,
     onPrevious,
     onNext,
     onShowList
   };
 }
 
-export function renderDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle, dailyBonus) {
+export function isDailyCompleteForDate(completedDate, today) {
+  return Boolean(completedDate && today && completedDate === today);
+}
+
+export function renderDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle, options = {}) {
+  const completed = isDailyCompleteForDate(options.completedDate, options.today);
+  const selected = dailyPuzzle.id === activePuzzleId;
   const card = document.createElement("section");
-  card.className = dailyPuzzle.id === activePuzzleId ? "daily-card active" : "daily-card";
+  card.className = "daily-card" + (selected ? " active" : "") + (completed ? " completed" : "");
 
   const text = document.createElement("div");
   appendTextElement(text, "p", "section-label", t("daily.eyebrow"));
   appendTextElement(text, "h2", "", puzzleTitle(dailyPuzzle));
 
-  const rewardNote = document.createElement("p");
-  rewardNote.className = "daily-reward-note";
-  rewardNote.textContent = t("daily.reward", { count: dailyBonus || 0 });
-  text.appendChild(rewardNote);
-
   const button = document.createElement("button");
   button.type = "button";
   button.className = "tool-button daily-button";
-  button.textContent = dailyPuzzle.id === activePuzzleId ? t("daily.selected") : t("daily.play");
-  button.disabled = dailyPuzzle.id === activePuzzleId;
-  button.addEventListener("click", () => onSelectPuzzle(dailyPuzzle.id));
-
-  card.append(text, button);
-  return card;
-}
-
-export function renderTimeAttackTeaserCard(onOpenTimeAttack = () => {}) {
-  const card = document.createElement("section");
-  card.className = "time-attack-teaser-card";
-
-  const badge = document.createElement("span");
-  badge.className = "time-attack-teaser-card__badge";
-  badge.setAttribute("aria-hidden", "true");
-  const timeAttackArt = getQuickTravelArt("timeAttack");
-  if (timeAttackArt) {
-    const image = document.createElement("img");
-    image.src = timeAttackArt.src;
-    image.alt = "";
-    image.dataset.assetId = timeAttackArt.assetId;
-    badge.appendChild(image);
+  button.textContent = completed ? t("daily.completed") : selected ? t("daily.selected") : t("daily.play");
+  button.disabled = completed || selected;
+  if (!completed && !selected) {
+    button.addEventListener("click", () => onSelectPuzzle(dailyPuzzle.id));
   }
 
-  const copy = document.createElement("div");
-  appendTextElement(copy, "p", "section-label", t("timeAttack.hubEyebrow"));
-  appendTextElement(copy, "h2", "", t("timeAttack.hubTitle"));
-  appendTextElement(copy, "p", "", t("timeAttack.hubBody"));
-
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "tool-button time-attack-teaser-card__action";
-  button.setAttribute("aria-label", t("timeAttack.hubAction"));
-
-  const actionLabel = document.createElement("span");
-  actionLabel.className = "time-attack-teaser-card__action-label";
-  actionLabel.textContent = t("timeAttack.hubAction");
-
-  button.append(actionLabel);
-  button.addEventListener("click", onOpenTimeAttack);
-
-  card.append(badge, copy, button);
+  card.append(text, button);
   return card;
 }
 
@@ -266,7 +320,6 @@ export function renderReplayPicksCard(replayPicks, activePuzzleId, onSelectPuzzl
   const header = document.createElement("div");
   header.className = "replay-picks-card__header";
   const headerCopy = document.createElement("div");
-  appendTextElement(headerCopy, "p", "section-label", t("replayPicks.eyebrow"));
   appendTextElement(headerCopy, "h2", "", t("replayPicks.title"));
   const count = document.createElement("span");
   count.textContent = t("replayPicks.count", { count: dailyCount, limit: dailyLimit });
@@ -280,7 +333,6 @@ export function renderReplayPicksCard(replayPicks, activePuzzleId, onSelectPuzzl
     button.className = puzzle.id === activePuzzleId ? "replay-pick-button active" : "replay-pick-button";
     button.dataset.puzzleId = puzzle.id;
     appendTextElement(button, "span", "", puzzleTitle(puzzle));
-    appendTextElement(button, "small", "", t("replayPicks.challenge"));
     button.addEventListener("click", () => onReplayPick(puzzle.id));
     list.appendChild(button);
   });
@@ -289,77 +341,139 @@ export function renderReplayPicksCard(replayPicks, activePuzzleId, onSelectPuzzl
   return card;
 }
 
-export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack, options = {}) {
+export function renderSpoonRunView({
+  dailyPuzzle,
+  activePuzzleId,
+  replayPicks,
+  completedDate,
+  today,
+  dailyCount,
+  dailyLimit,
+  onSelectDaily = () => {},
+  onSelectReplay = () => {}
+}) {
+  const view = document.createElement("section");
+  view.className = "spoon-run-view content-panel";
+
+  const header = document.createElement("header");
+  header.className = "spoon-run-view__header";
+  const icon = document.createElement("img");
+  icon.src = spoonTokenUrl;
+  icon.alt = "";
+  icon.setAttribute("aria-hidden", "true");
+  icon.dataset.assetId = "spoon-token-v2";
+  const copy = document.createElement("div");
+  appendTextElement(copy, "p", "section-label", t("spoonRun.eyebrow"));
+  appendTextElement(copy, "h1", "", t("views.spoonRun"));
+  header.append(icon, copy);
+  appendTextElement(header, "p", "spoon-run-view__intro", t("spoonRun.intro"));
+
+  const cards = document.createElement("div");
+  cards.className = "spoon-run-view__cards";
+  cards.appendChild(renderDailyCard(
+    dailyPuzzle,
+    activePuzzleId,
+    onSelectDaily,
+    { completedDate, today }
+  ));
+  const replayCard = renderReplayPicksCard(
+    replayPicks,
+    activePuzzleId,
+    onSelectReplay,
+    { dailyCount, dailyLimit, onReplayPick: onSelectReplay }
+  );
+  if (replayCard) {
+    cards.appendChild(replayCard);
+  }
+
+  view.append(header, cards);
+  return view;
+}
+export function getShelfCollapsedState(shelfId, isComplete, collapseOverrides = new Map()) {
+  if (collapseOverrides instanceof Map && collapseOverrides.has(shelfId)) {
+    return Boolean(collapseOverrides.get(shelfId));
+  }
+  return Boolean(isComplete);
+}
+
+export function getShelfTeaserKey(shelf) {
+  return `${shelf?.titleKey || ""}Teaser`;
+}
+
+export function formatShelfPuzzleSummary(shelf) {
+  return Object.entries(getSeasonShelfSizeCounts(shelf))
+    .map(([size, count]) => t("puzzlePicker.sizeCount", { size, count }))
+    .join(" · ");
+}
+
+export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {}) {
   const {
-    hideCompletedStages = false,
-    onToggleHideCompletedStages = () => {},
-    onOpenPantry = () => {}
+    shelfCollapseOverrides = new Map(),
+    onToggleShelfCollapsed = () => {},
+    onOpenPantry = () => {},
+    onGoHome = () => {}
   } = options;
   const completedPuzzleIds = getCompletedPuzzleIds();
   const completedPuzzleIdSet = new Set(completedPuzzleIds);
   const section = document.createElement("section");
   section.className = "puzzle-picker content-panel";
-  const stageStats = puzzlePacks
-    .filter((pack) => pack.access !== "bonus-pack")
-    .map((pack) => {
-      const packPuzzles = puzzles.filter((puzzle) => puzzle.packId === pack.id);
-      const completeCount = packPuzzles.filter((puzzle) => completedPuzzleIdSet.has(puzzle.id)).length;
-      return {
-        pack,
-        total: packPuzzles.length,
-        completeCount,
-        complete: packPuzzles.length > 0 && completeCount >= packPuzzles.length
-      };
-    });
-  const completedStageCount = stageStats.filter((stat) => stat.complete).length;
-  if (completedStageCount > 0) {
-    section.appendChild(createStageFilterBar(hideCompletedStages, completedStageCount, onToggleHideCompletedStages));
-  }
+  const homeButton = document.createElement("button");
+  homeButton.type = "button";
+  homeButton.className = "puzzle-picker__home";
+  homeButton.textContent = t("home.sceneAria");
+  homeButton.addEventListener("click", onGoHome);
+  section.appendChild(homeButton);
 
-  puzzlePacks.forEach((pack) => {
-    if (pack.access === "bonus-pack") {
-      // Future theme packs stay hidden until their art, puzzles, and store path are ready.
+  seasonShelves.forEach((shelf) => {
+    const shelfPuzzles = getSeasonShelfPuzzles(shelf);
+    const completeCount = shelfPuzzles.filter((puzzle) => completedPuzzleIdSet.has(puzzle.id)).length;
+    const unlocked = isShelfUnlocked(shelf);
+    const isStageComplete = shelfPuzzles.length > 0 && completeCount >= shelfPuzzles.length;
+    if (!unlocked) {
+      const lockedBlock = document.createElement("article");
+      lockedBlock.className = "pack-block pack-block--locked";
+      lockedBlock.dataset.shelfId = shelf.id;
+      lockedBlock.dataset.locked = "true";
+      const lockedHeader = document.createElement("div");
+      lockedHeader.className = "pack-header";
+      appendTextElement(lockedHeader, "p", "section-label", `🔒 ${t(shelf.titleKey)}`);
+      const preview = document.createElement("div");
+      preview.className = "locked-stage-preview";
+      shelfPuzzles.slice(0, 3).forEach((puzzle) => {
+        preview.appendChild(renderColoredPuzzleArt(puzzle, { className: "locked-stage-preview__art" }));
+      });
+      appendTextElement(lockedBlock, "p", "locked-stage-summary", formatShelfPuzzleSummary(shelf));
+      appendTextElement(lockedBlock, "p", "locked-stage-teaser", t(getShelfTeaserKey(shelf)));
+      lockedBlock.append(lockedHeader, preview, createUnlockPanel(shelf, onOpenPantry));
+      section.appendChild(lockedBlock);
       return;
     }
-    const packPuzzles = puzzles.filter((puzzle) => puzzle.packId === pack.id);
-    const completeCount = packPuzzles.filter((puzzle) => completedPuzzleIdSet.has(puzzle.id)).length;
-    const unlocked = isPackUnlocked(pack);
-    const isBonusPreview = pack.access === "bonus-pack";
-    const isStageComplete = !isBonusPreview && packPuzzles.length > 0 && completeCount >= packPuzzles.length;
-    if (hideCompletedStages && isStageComplete) {
-      return;
-    }
+
+    const collapsed = getShelfCollapsedState(shelf.id, isStageComplete, shelfCollapseOverrides);
     const packBlock = document.createElement("article");
-    packBlock.className = unlocked ? "pack-block" : "pack-block locked";
-    packBlock.dataset.packId = pack.id;
-    if (packPuzzles.some((puzzle) => puzzle.id === activePuzzleId)) {
-      packBlock.dataset.activeStage = "true";
-    }
+    packBlock.className = collapsed ? "pack-block pack-block--collapsed" : "pack-block";
+    packBlock.dataset.shelfId = shelf.id;
+    packBlock.dataset.collapsed = String(collapsed);
+    if (shelfPuzzles.some((puzzle) => puzzle.id === activePuzzleId)) packBlock.dataset.activeStage = "true";
 
+    const contentId = `shelf-content-${shelf.id}`;
     const header = document.createElement("div");
     header.className = "pack-header";
     const headerCopy = document.createElement("div");
-    appendTextElement(headerCopy, "p", "section-label", t(pack.titleKey));
-    header.append(headerCopy);
+    appendTextElement(headerCopy, "p", "section-label", t(shelf.titleKey));
+    if (isStageComplete) {
+      appendTextElement(headerCopy, "span", "pack-stage-complete-badge", `✓ ${t("puzzlePicker.stageComplete")}`);
+    }
+    header.append(headerCopy, createShelfCollapseToggle(shelf, collapsed, contentId, onToggleShelfCollapsed));
     packBlock.appendChild(header);
-    packBlock.appendChild(createStagePreview(pack, completeCount, packPuzzles.length));
 
-    if (isBonusPreview) {
-      packBlock.appendChild(createBonusPackPanel());
-      section.appendChild(packBlock);
-      return;
-    }
-
-    if (!unlocked) {
-      packBlock.appendChild(createUnlockPanel(pack, onUnlockPack, onOpenPantry));
-      section.appendChild(packBlock);
-      return;
-    }
-
+    const content = document.createElement("div");
+    content.id = contentId;
+    content.className = "pack-block__content";
+    content.hidden = collapsed;
     const list = document.createElement("div");
     list.className = "puzzle-list";
-
-    packPuzzles.forEach((puzzle) => {
+    shelfPuzzles.forEach((puzzle) => {
       const complete = completedPuzzleIdSet.has(puzzle.id);
       const button = document.createElement("button");
       button.type = "button";
@@ -367,226 +481,121 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, onUnlockPack,
       button.dataset.size = String(puzzle.size);
       button.dataset.complete = String(complete);
       button.dataset.puzzleId = puzzle.id;
-
       const label = document.createElement("span");
       label.textContent = puzzleTitle(puzzle);
       button.appendChild(label);
-
       const meta = document.createElement("small");
-      if (complete) {
-        meta.textContent = t("puzzlePicker.complete");
-      } else {
-        meta.textContent = t("puzzlePicker.sizeReward", { size: puzzle.size, count: puzzle.reward || 0 });
-      }
+      meta.textContent = complete ? t("puzzlePicker.complete") : t("puzzlePicker.size", { size: puzzle.size });
       button.appendChild(meta);
-      button.setAttribute("aria-label", `${puzzleTitle(puzzle)} - ${complete ? meta.textContent : t("puzzlePicker.rewardLabel", { size: puzzle.size, count: puzzle.reward || 0 })}`);
+      button.setAttribute("aria-label", `${puzzleTitle(puzzle)} - ${meta.textContent}`);
       button.addEventListener("click", () => onSelectPuzzle(puzzle.id));
-
       list.appendChild(button);
     });
-
-    packBlock.appendChild(list);
+    content.appendChild(list);
+    packBlock.appendChild(content);
     section.appendChild(packBlock);
   });
-
   return section;
 }
 
-function createStageFilterBar(hideCompletedStages, hiddenStageCount, onToggleHideCompletedStages) {
-  const bar = document.createElement("div");
-  bar.className = "stage-filter-bar";
-
+function createShelfCollapseToggle(shelf, collapsed, contentId, onToggleShelfCollapsed) {
   const button = document.createElement("button");
   button.type = "button";
-  button.className = hideCompletedStages ? "stage-filter-toggle active" : "stage-filter-toggle";
-  button.setAttribute("aria-pressed", String(hideCompletedStages));
-  button.textContent = hideCompletedStages ? t("stageFilter.showCompleted") : t("stageFilter.hideCompleted");
-  button.addEventListener("click", onToggleHideCompletedStages);
-
-  bar.append(button);
-  return bar;
+  button.className = "shelf-collapse-toggle";
+  button.dataset.shelfToggle = shelf.id;
+  button.setAttribute("aria-controls", contentId);
+  button.setAttribute("aria-expanded", String(!collapsed));
+  button.setAttribute("aria-label", t(collapsed ? "puzzlePicker.expandShelf" : "puzzlePicker.collapseShelf", { title: t(shelf.titleKey) }));
+  button.textContent = collapsed ? "▼" : "▲";
+  button.addEventListener("click", () => onToggleShelfCollapsed(shelf.id, !collapsed));
+  return button;
 }
-
-function createStagePreview(pack, completeCount, total) {
-  const preview = document.createElement("div");
-  const isBonusPreview = pack.access === "bonus-pack";
-  preview.className = isBonusPreview ? "stage-preview bonus-preview" : "stage-preview";
-  preview.setAttribute("aria-hidden", "true");
-  const stageProgressRatio = completeCount / Math.max(total || 20, 1);
-  preview.style.setProperty("--stage-progress", `${Math.round(stageProgressRatio * 100)}%`);
-  preview.style.setProperty("--stage-progress-ratio", String(Math.min(1, Math.max(0, stageProgressRatio))));
-  if (isBonusPreview) {
-    const future = document.createElement("div");
-    future.className = "future-mural-card";
-    appendTextElement(future, "span", "", t(`map.sets.${pack.muralSet}`));
-    preview.appendChild(future);
-    return preview;
-  }
-  const wrap = document.createElement("div");
-  wrap.className = "stage-pip-preview tile-stage-preview";
-  const previewTileTotal = 20;
-  const previewCompleteCount = Math.round(stageProgressRatio * previewTileTotal);
-  if (hasApprovedStageArt(pack.id)) {
-    wrap.append(createStageTileMosaic(pack, previewCompleteCount, previewTileTotal), createStageProgressMeter());
-  } else {
-    wrap.append(createStageFallbackMosaic(previewCompleteCount, previewTileTotal), createStageProgressMeter());
-  }
-  preview.appendChild(wrap);
-  return preview;
-}
-
-function createStageTileMosaic(pack, completeCount, total) {
-  const columns = 5;
-  const rows = Math.ceil(total / columns);
-  const mosaic = document.createElement("div");
-  mosaic.className = "pip-tile-mosaic stage-tile-mosaic";
-  const artUrl = getStageArtUrl(pack.id);
-  if (!artUrl) {
-    return createStageFallbackMosaic(completeCount, total);
-  }
-  const peekIndex = getPeekTileIndex(pack.id, total);
-  for (let index = 0; index < total; index += 1) {
-    const tile = document.createElement("span");
-    const col = index % columns;
-    const row = Math.floor(index / columns);
-    const revealed = index < completeCount;
-    const peek = !revealed && index === peekIndex;
-    tile.className = revealed ? "pip-tile revealed" : peek ? "pip-tile peek" : "pip-tile";
-    tile.style.backgroundImage = `url("${artUrl}")`;
-    tile.style.backgroundSize = `${columns * 100}% ${rows * 100}%`;
-    tile.style.backgroundPosition = `${columns === 1 ? 50 : (col / (columns - 1)) * 100}% ${rows === 1 ? 50 : (row / (rows - 1)) * 100}%`;
-    mosaic.appendChild(tile);
-  }
-  return mosaic;
-}
-
-function createStageFallbackMosaic(completeCount, total) {
-  const mosaic = document.createElement("div");
-  mosaic.className = "pip-tile-mosaic stage-tile-mosaic stage-tile-mosaic--fallback";
-  const safeTotal = Math.max(1, total || 20);
-  const safeComplete = Math.min(Math.max(0, completeCount || 0), safeTotal);
-  const peekIndex = Math.min(safeTotal - 1, Math.max(safeComplete, Math.floor(safeTotal / 2)));
-  for (let index = 0; index < safeTotal; index += 1) {
-    const tile = document.createElement("span");
-    const revealed = index < safeComplete;
-    const peek = !revealed && index === peekIndex;
-    tile.className = revealed ? "pip-tile revealed" : peek ? "pip-tile peek" : "pip-tile";
-    mosaic.appendChild(tile);
-  }
-  return mosaic;
-}
-
-function getPeekTileIndex(packId, total) {
-  const preferred = {
-    "starter-pantry": 7,
-    "sunny-spoon-sign": 8,
-    "apron-drawer": 12,
-    "bakery-window": 13,
-    "village-pantry": 16
+export function getShelfLockConditions(shelf, completedPuzzleIds = getCompletedPuzzleIds()) {
+  const completed = new Set(completedPuzzleIds || []);
+  const previousShelf = getPreviousSeasonShelf(shelf);
+  const previousPuzzles = previousShelf ? getSeasonShelfPuzzles(previousShelf) : [];
+  const puzzleRemaining = previousPuzzles.filter((puzzle) => !completed.has(puzzle.id)).length;
+  const roomRequirement = getShelfPantryRoomRequirement(shelf);
+  const pantryShelf = getPantryShelfForSeasonShelf(shelf);
+  const pantryShelfProgress = pantryShelf
+    ? getPaidJarProgressForPantryShelf(pantryShelf.id, getOwnedJarIds())
+    : { current: 0, total: 0, complete: true };
+  return {
+    puzzle: {
+      met: Boolean(previousShelf) && isSeasonShelfComplete(previousShelf, [...completed]),
+      remaining: puzzleRemaining
+    },
+    pantry: {
+      met: roomRequirement.met,
+      remaining: roomRequirement.remaining,
+      shelf: pantryShelf,
+      progress: pantryShelfProgress
+    },
+    roomRequirement
   };
-  return Math.min(Math.max(preferred[packId] ?? Math.floor(total / 2), 0), Math.max(total - 1, 0));
 }
 
-function createStageProgressMeter() {
-  const meter = document.createElement("div");
-  meter.className = "stage-progress-meter";
-  meter.setAttribute("aria-hidden", "true");
-  meter.appendChild(createMeterFill());
-  return meter;
+function appendLockCondition(parent, type, condition) {
+  if (type === "Pantry" && condition.shelf) {
+    const row = document.createElement("div");
+    row.className = `unlock-panel__condition unlock-panel__condition--pantry ${condition.met ? "is-met" : "is-unmet"}`;
+    row.dataset.condition = "pantry";
+    appendTextElement(
+      row,
+      "p",
+      "unlock-panel__condition-title",
+      `${condition.met ? "✓" : "🏺"} ${t("shelf.requiresPantryShelf", { shelf: t(condition.shelf.nameKey) })}`
+    );
+    appendTextElement(
+      row,
+      "p",
+      "unlock-panel__condition-progress",
+      t("shelf.pantryProgress", {
+        current: condition.progress.current,
+        total: condition.progress.total
+      })
+    );
+    parent.appendChild(row);
+    return row;
+  }
+  const key = condition.met
+    ? `shelves.lockCondition${type}Done`
+    : `shelves.lockCondition${type}`;
+  const text = t(key, { count: condition.remaining });
+  const row = appendTextElement(
+    parent,
+    "p",
+    `unlock-panel__condition ${condition.met ? "is-met" : "is-unmet"}`,
+    condition.met ? text : `✗ ${text}`
+  );
+  row.dataset.condition = type.toLowerCase();
+  return row;
 }
 
-function createBonusPackPanel() {
-  const panel = document.createElement("div");
-  panel.className = "unlock-panel bonus-pack-panel";
-  appendTextElement(panel, "p", "", t("packs.futurePackHint"));
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "tool-button";
-  button.disabled = true;
-  button.textContent = t("packs.pricePreview");
-  panel.appendChild(button);
-  return panel;
-}
-
-function createUnlockPanel(pack, onUnlockPack, onOpenPantry) {
+function createUnlockPanel(shelf, onOpenPantry) {
   const panel = document.createElement("div");
   panel.className = "unlock-panel";
-  const canOpen = canUnlockPack(pack);
-  const roomRequirement = getPackPantryRoomRequirement(pack);
-  const spoonGap = Math.max(0, Number(pack.unlockCost || 0) - getPantrySpoons());
-  const disabledText = roomRequirement.met
-    ? t("packs.needMore", { count: spoonGap })
-    : t("packs.needPantryRoom");
-  const planText = getUnlockPlanText(canOpen, roomRequirement, spoonGap);
+  const lockConditions = getShelfLockConditions(shelf);
   const requirements = document.createElement("div");
   requirements.className = "unlock-panel__requirements";
-  const copy = document.createElement("p");
-  copy.className = "unlock-panel__cost";
-  copy.append(createSpoonIcon("small"), document.createTextNode(String(pack.unlockCost)));
-  requirements.appendChild(copy);
-  if (roomRequirement.required > 0) {
-    appendTextElement(requirements, "p", "unlock-panel__room", t("packs.roomRequirement", roomRequirement));
-  }
-  appendTextElement(requirements, "p", "unlock-panel__plan", planText);
-  const gateReason = getUnlockGateReason(canOpen, roomRequirement, spoonGap);
-  if (gateReason) {
-    appendTextElement(requirements, "p", "unlock-panel__gate", gateReason);
-  }
+  appendLockCondition(requirements, "Puzzle", lockConditions.puzzle);
+  appendLockCondition(requirements, "Pantry", lockConditions.pantry);
 
-  const actions = document.createElement("div");
-  actions.className = "unlock-panel__actions";
-  const unlockButton = document.createElement("button");
-  unlockButton.type = "button";
-  unlockButton.className = "tool-button";
-  unlockButton.disabled = !canOpen;
-  unlockButton.textContent = canOpen ? t("packs.openStage") : disabledText;
-  unlockButton.addEventListener("click", () => onUnlockPack(pack.id));
-  actions.appendChild(unlockButton);
-  if (!roomRequirement.met) {
+  if (!lockConditions.pantry.met) {
+    const actions = document.createElement("div");
+    actions.className = "unlock-panel__actions";
     const pantryButton = document.createElement("button");
     pantryButton.type = "button";
     pantryButton.className = "stage-gate-link";
     pantryButton.textContent = t("packs.visitPantry");
     pantryButton.addEventListener("click", onOpenPantry);
     actions.appendChild(pantryButton);
+    panel.append(requirements, actions);
+    return panel;
   }
-  panel.append(requirements, actions);
+
+  panel.appendChild(requirements);
   return panel;
-}
-
-function getUnlockPlanText(canOpen, roomRequirement, spoonGap) {
-  if (canOpen) {
-    return t("packs.unlockPlanReady");
-  }
-  if (!roomRequirement.met && spoonGap > 0) {
-    return t("packs.unlockPlanNeedBoth", { count: spoonGap, completed: roomRequirement.completed, required: roomRequirement.required });
-  }
-  if (!roomRequirement.met) {
-    return t("packs.unlockPlanNeedPantry", roomRequirement);
-  }
-  return t("packs.unlockPlanNeedSpoons", { count: spoonGap });
-}
-
-function getUnlockGateReason(canOpen, roomRequirement, spoonGap) {
-  if (canOpen) {
-    return "";
-  }
-  if (!roomRequirement.met && spoonGap > 0) {
-    return t("packs.unlockGateNeedBoth", { count: spoonGap, completed: roomRequirement.completed, required: roomRequirement.required });
-  }
-  if (!roomRequirement.met) {
-    return t("packs.unlockGateNeedPantry", roomRequirement);
-  }
-  return t("packs.unlockGateNeedSpoons", { count: spoonGap });
-}
-
-function createSpoonIcon(size = "") {
-  const icon = document.createElement("img");
-  icon.className = size ? `spoon-icon ${size}` : "spoon-icon";
-  icon.src = spoonTokenUrl;
-  icon.alt = "";
-  icon.setAttribute("aria-hidden", "true");
-  return icon;
 }
 
 function getPuzzleChipClass(puzzle, activePuzzleId, unlocked, complete) {

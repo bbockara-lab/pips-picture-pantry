@@ -1,6 +1,859 @@
+## Store platform media audit - Apple handoff and Play landscape preview (2026-08-04)
+
+- Apple media is not yet final: the existing localized 1290x2796 iPhone 6.9 screenshot candidates match accepted dimensions but were captured from the shared current web UI, not a real iOS build. Re-capture the same five scenes from Xcode Simulator or a physical iPhone after the Mac/iOS build runs.
+- Apple App Preview is optional and has not been produced; create it only from verified iOS footage after the Xcode handoff. If iPad distribution remains enabled, a separate 13-inch iPad screenshot set is required.
+- Meow Tower's Editors' Choice badge is a manual Google Play editorial distinction, while its large hero presentation also depends on a preview video/feature graphic and eligible Play surfaces; the layout is not solely an Editors' Choice perk.
+- Added localized 1920x1080 Google Play landscape preview videos using fresh v0.1.703 gameplay for the full 15.57-second duration, with the portrait game feed placed on a designed full-bleed pantry background and existing game music. No black bars or simulated gameplay are used.
+- Outputs: `upload/google-play/en-US/preview-video-landscape-1920x1080.mp4` and `upload/google-play/ko-KR/preview-video-landscape-1920x1080.mp4`, plus 1280x720 thumbnails. Both fully decoded as H.264/AAC, 30 fps, 48 kHz stereo.
+- Play delivery still requires uploading the landscape video to YouTube as Public or Unlisted with ads disabled and embedding enabled, then pasting the standard YouTube URL into the Play preview-video field.
+
+## Character launch Short v1 - quiet open-day artwork (2026-08-04)
+
+- Added a second launch-video concept intentionally separate from the gameplay introduction: Pip opens the pantry holding a small OPEN sign in a restrained hand-painted scene.
+- New artwork uses the current Pip/pantry identity as visual reference and avoids UI mockups, glossy mobile-ad styling, excessive particles, malformed anatomy, or synthetic notification-tone music.
+- The 10.93-second video uses only a subtle camera push and a 2.5-second localized end card. English and Korean outputs are 1080x1920 H.264/AAC with the existing `src/assets/music/bgm-cozy.mp3` track.
+- Outputs: `upload/youtube/en-US/character-launch-short-1080x1920.mp4` and `upload/youtube/ko-KR/character-launch-short-1080x1920.mp4`. Both fully decoded in FFmpeg verification.
+- The existing public Short remains unchanged; upload/visibility changes still require explicit approval.
+
+## Store media v0.1.703 - current-gameplay rebuild (2026-08-04)
+
+- Rebuilt all upload candidates from a fresh automated run of the current v0.1.703 app; the deprecated June phone screenshots and rejected YouTube v4 media are not sources for this package.
+- Captured five current scenes per locale (puzzle in progress, puzzle complete, picture library, album, pantry) and packaged Google Play 1080x1920 plus App Store iPhone 6.9 1290x2796 RGB PNG sets under `store-assets/store-media/v0.1.703/upload/`.
+- Added localized 1024x500 Google Play feature graphics using a current real puzzle screen, without device frames, CSS mockups, or generated gameplay.
+- Added separate localized videos: an 18.47-second YouTube launch Short with restrained title/end cards, and a 15.57-second Google Play preview that begins immediately with real gameplay. Both use `src/assets/music/bgm-cozy.mp3`; no synthetic notification-tone track is used.
+- Google Play video delivery remains a YouTube Public or Unlisted URL with ads disabled; the evergreen preview omits download CTAs and is kept separate from the launch Short.
+- QA passed for 22 PNG assets and four H.264/AAC MP4 files: expected dimensions, RGB mode, 1080x1920 video, 48 kHz stereo audio, duration bounds, and full decode. See `store-assets/store-media/v0.1.703/qa-report.json`.
+- App Store screenshots are accepted-size candidates from the shared current UI. Confirm them in the real iOS build/device before submission; no Apple App Preview was claimed or produced in this pass.
+
+## YouTube launch short v4 - gameplay-first direction (2026-08-04)
+
+- Replaced the earlier multi-scene promotional approach with an 11-second launch short built from existing Pip character assets and in-game puzzle/album screenshots that were later confirmed to be stale June captures.
+- The sequence is intentionally simple: Pip says "We're open!", real puzzle play, the completed-picture album, then a Google Play availability card.
+- No new generated artwork was introduced. Motion is limited to subtle character movement, screenshot drift, and short crossfades so the game itself remains the focus.
+- Rendered sunny-spoon-studios-launch-short-v4.mp4 at 1080x1920, 30 fps, with AAC audio, but provenance review found that its game screens came from the stale 2026-06-30 phone-screenshots set. V4 is rejected and must not be uploaded. The existing public Short remains unchanged.
+
+## Studio site v0.1.3 - support routes and Korean editorial pass (2026-08-02)
+
+- Added a dedicated support section: studio email for missing Spoon or purchase-restoration help, plus official Google Play and Apple refund routes.
+- Rewrote the full Korean homepage copy in Sunny Spoon Studios' warm, playful voice instead of literal translation, and removed damaged encoding text.
+- Corrected the feature-list marker and added a responsive support-card layout.
+- Validation: JavaScript syntax and `npm run qa:studio-site` passed; deployed to Firebase Hosting and confirmed v0.1.3, support/refund routes, and the Korean editorial copy at `https://sunny-spoon-pantry.web.app/`.
+
+## Studio site v0.1.2 - mobile language control and artwork correction (2026-08-01)
+
+- Removed the malformed-arm Pip launch artwork from the studio homepage and replaced both affected placements with the approved keepsakes artwork.
+- Moved the language control out of the collapsed mobile navigation into an always-visible header action group, while retaining the separate menu toggle.
+- Verification: JavaScript syntax check and `npm run qa:studio-site` passed, including all 42 translation keys, responsive/reduced-motion rules, privacy linkage, artwork rejection/allow-list checks, and absence of analytics/tracking loaders.
+- Deployment target remains the experimental `studio-preview` Firebase channel; the live game/privacy hosting release is unchanged.
+- Corrected the language button's damaged Korean text/closing markup with encoding-safe HTML entities.
+- Browser verification on the refreshed preview passed at 390x844: the Korean control is visible before opening the menu, switches the document to `lang=ko` and the control to `EN`, renders Korean hero copy, and keeps the mobile menu functional. Desktop language-control visibility also passed.
+- Artwork verification confirmed the malformed-arm asset is absent and the approved keepsakes artwork is present.
+- Refreshed experimental preview: `https://sunny-spoon-pantry--studio-preview-kqq29sdv.web.app` (expires 2026-08-08). No live promotion was performed.
+## Studio site v0.1.0 - experimental preview (2026-08-01)
+
+- Added a responsive Sunny Spoon Studios homepage under `store-assets/`, with English/Korean copy, studio and game positioning, YouTube/contact links, and the existing privacy policy retained.
+- Added original launch key art and a visible `Studio site v0.1.0` label. The page is structured to support additional games without expanding the main app bundle.
+- Verification: JavaScript syntax checks and `npm run qa:studio-site` passed, including required assets, bilingual behavior, responsive/reduced-motion rules, privacy linkage, and absence of analytics/tracking loaders.
+- Experimental Firebase preview: `https://sunny-spoon-pantry--studio-preview-kqq29sdv.web.app` (expires 2026-08-08). The existing live hosting release was not promoted or replaced.
+- Next action: review the preview on phone and desktop, then explicitly approve live promotion or request revisions.
+
+## v0.1.700 - Step 55 mobile drag gesture ownership (2026-07-30)
+
+- Release AAB completed after separating the centered Workshop keepsake shelf from the enlarged Play Now action. Mobile geometry now passes at 360x740, 390x844, 430x932, and 675x900.
+- Signed upload artifact: `android/app/build/outputs/bundle/release/app-release.aab` (20,125,157 bytes, SHA-256 `C2FFECDC647D3518475A4A5471048B7FEDBF816122C478F4D121246246CAEF19`, `jarsigner` verified).
+- Final candidate verification: 48 test files / 288 tests, release/candidate gates, live privacy policy, billing checks, production build, Capacitor sync, and Gradle `bundleRelease` passed.
+
+- Added a final `.puzzle-grid` interaction contract with `touch-action: none`, `user-select: none`, and the WebKit selection guard.
+- Android/WebView now routes the full drag gesture to the existing pointer stroke handlers instead of cancelling `pointermove` when the gesture resembles page scrolling.
+- Added focused CSS regression coverage; the board suite passes 11/11. The mobile pointer-drag scenario and the complete four-width mobile sweep now pass.
+- Android upload identity is now `versionCode 36` / `versionName 1.1.8`; Play Console confirmed code 35 had already been registered and cannot be reused.
+- Signed AAB automation now discovers the external Key Paths config, validates the keystore/alias, and blocks stale Play upload codes before building.
+
+## v0.1.699 - Step 54 pending consumable purchase recovery (2026-07-30)
+
+- Added an Android startup recovery pass for incomplete Google Play consumable purchases using the installed `@capgo/native-purchases` API: `getPurchases({ productType: INAPP })` followed by `consumePurchase({ purchaseToken })`.
+- Recovery is restricted to completed purchases for `pip_cozy_support` and `pip_spoon_jar_small`; existing duplicate-safe purchase keys prevent a restored transaction from granting spoons twice while still allowing consumption to be retried.
+- `renderApp()` runs recovery in the background after the first draw and redraws only when a supported purchase was found.
+- Verification: billing/save focused suite 35/35, billing release check, Android release gate, and production build passed.
+- Android release identity remains `versionCode 34` / `versionName 1.1.6`; no AAB was built in this step.
+
+# v0.1.698 - Step 53 Spoon Run Header Composition
+
+- Moved the Spoon Run introduction out of the narrow title column and into a full-width second header row.
+- Converted the header to a two-row grid so the 64px spoon icon and title share the first row without forcing the Korean heading into excessive wrapping.
+- Added focused source and CSS regression coverage for the direct-child introduction and full-width grid placement.
+- Android remains versionCode 34 / versionName 1.1.6; no AAB was requested or built for this incremental test fix.
+
+# v0.1.697 - Step 52 Floating Navigation Menu Containment
+
+- Increased the open quick-travel menu padding to 10px so the final Settings destination remains fully enclosed by the menu surface.
+- Added an 80dvh maximum height with contained vertical scrolling for short screens, preserving access to all seven destinations without clipping.
+- Added focused regression coverage for the final one-column menu, padding, and overflow contract.
+- Android remains versionCode 34 / versionName 1.1.6; no AAB was requested or built for this incremental test fix.
+
+# v0.1.696 - Step 51 Play Now Size and Clearance
+
+- Increased the Workshop Play Now action from the stale 96px override to a responsive 128-160px primary target.
+- Raised the action above the floating navigation using shared safe-area-aware clearance, preventing the two controls from competing at the bottom edge.
+- Added a focused regression test that locks the final size, icon scale, and navigation clearance contract.
+- Android remains versionCode 34 / versionName 1.1.6; no AAB was requested or built for this incremental test fix.
+
+# v0.1.695 - Step 50 Login Bonus Placement
+
+- Moved the three-second login bonus Pip popover to 42% viewport height so it no longer competes with the Workshop's upper controls or the large background Pip.
+- Updated the arrival animation to preserve the popover's two-axis centering throughout its entrance.
+- Android remains versionCode 34 / versionName 1.1.6; no AAB was requested or built for this incremental test fix.
+
+# v0.1.694 - Step 49 Guide Safe-Area Clearance
+
+- Increased the general onboarding guide's bottom clearance to `max(48px, safe-area + 24px)`, keeping its Next button above gesture navigation and the physical screen edge.
+- Pantry-neighbour conversations retain their dedicated `padding: 16px` override and are not changed by this step.
+- Android remains versionCode 34 / versionName 1.1.6; no AAB was requested or built for this incremental test fix.
+
+# v0.1.693 Android upload rebuild - 2026-07-30
+
+- Play Console reported that versionCode 33 was already used, so the signed upload candidate is rebuilt as versionCode 34 / versionName 1.1.6.
+- The visible/package version remains v0.1.693; product source and behavior are unchanged from the reviewed candidate.
+
+## v0.1.693 - Focused Play Spoon Header Containment
+
+- Moved the shared spoon balance chip into the focused-play header instead of leaving it as an independent fixed overlay.
+- Reserved a dedicated second header row for the balance while pinning Back, title, Settings, and puzzle size to the first row, preventing the balance from covering Settings on narrow screens.
+- Kept the focused-play balance visible and noninteractive, preserving the established shared-economy contract.
+- Extended source and rendered mobile checks to require the focused-play chip inside the header and reject collisions with header controls.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 48 test files / 282 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.692 - Step 48 Pantry Jar Two-Line Names
+
+- Changed Pantry jar names from a one-line ellipsis to a two-line clamp with a permanently reserved two-line label area, so long Korean and English names remain readable without shifting jar artwork.
+- Stretched shelf grid cells and raised jar cards to 128px so artwork, labels, prices, and equipped status remain aligned across three-column mobile and six-column tablet layouts.
+- Preserved price and status as single-line labels and added a compact two-line height contract below 380px.
+- Added focused source tests and rendered mobile assertions for the two-line name, single-line price/status, and equal-height shelf-cell contracts.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 48 test files / 282 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.691 - Step 47 Intro Spoon Balance Containment
+
+- Hid the shared spoon balance chip while the branded onboarding intro is open, matching the existing floating-navigation containment behavior.
+- Kept the shared balance DOM intact while making it invisible and noninteractive, so the normal post-intro balance flow remains unchanged.
+- Extended source and rendered mobile regression checks to reject a visible or interactive spoon chip during the intro.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 47 test files / 280 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.690 - Step 46 Unified Home Keepsake Shelf
+
+- Added an owned-jar detail action that selects a Pantry jar for the Workshop home independently from the stage-equipped jar used by puzzle completion.
+- Replaced the separate home jar and Badge cards with one centered wooden keepsake shelf. Jar and Badge presentation is image-only, remains individually actionable, and centers correctly when either item is absent.
+- Persisted `featuredJarId` only for owned jars and retained existing equipped-jar, stage-gate, and completion behavior.
+- Added focused persistence/source/i18n tests and rendered mobile checks for the detail action, shared parent shelf, image-only contract, centered geometry, and collisions.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed on retry: 47 test files / 280 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900. The prior attempt reached build/release successfully but hit a transient initial Vite navigation timeout before product assertions; it did not reproduce.
+## v0.1.689 - Step 45 Recovery Bundle
+
+- Restored 14px vertical / 16px horizontal padding on both locked stage-card rules so later CSS no longer cancels the intended inset.
+- Reasserted focused-play quick travel at a 68px minimum trigger with a 40px icon, 20px global safe-area clearance, and 86px focused-play control-deck clearance.
+- Kept the equipped Pantry jar on the left and featured Badge on the right above Play Now. The draft fixed +80px offset overlapped the current 96px Play control at every candidate width, so the final measured rule uses `clamp(112px, 30vw, 132px)` and passes collision checks at all four widths.
+- Reworded Spoon Run calls to action from earning language to collecting language in both Korean and English.
+- Corrected the Time Attack mobile regression check to preserve whichever valid auto-mode value was actually painted (`filled` or completed-line `marked`) across the one-second timer redraw, rather than falsely requiring every first-cell click to be filled.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed on retry: 47 test files / 278 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900. The first candidate attempt reached build/release successfully but hit a transient initial Vite navigation timeout before product assertions; it did not reproduce.
+
+## v0.1.688 - Actionable Shared Spoon Balance
+- Step 44 turns the shared spoon balance into a direct store shortcut on every non-focused-play surface: tapping it switches to Pantry and scrolls the existing spoon store into view.
+- Focused regular-puzzle and Time Attack play keep the balance visible but intentionally noninteractive, preventing accidental navigation while painting.
+- Interactive chips use a 44px minimum touch target plus hover, pressed, and keyboard-focus feedback; the compact focused-play chip keeps its established 32px footprint.
+- Mobile QA now covers the Album-to-store route, focused/non-focused element semantics, store visibility after navigation, and the existing immediate balance refresh after Pantry purchase flows.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 47 test files / 278 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.687 - Workshop Keepsake Display Row
+
+- Completed Step 43 by moving the equipped Pantry jar and featured earned Badge into one shared, safe-area-aware row above Play Now; each keepsake still renders and navigates independently when the other is absent.
+- Replaced the old center/top placements with left/right anchoring, a shared measured baseline, and a compact-height jar treatment that continues to hide copy below 700px height.
+- The current 96px animated Play control required a measured 124px lift rather than the draft 72px offset. The Map destination now sits at 25% from the bottom (28% at 380px and below) to preserve a collision-free left display area.
+- Mobile QA now rejects jar/badge overlap, baseline drift, Play/greeting/navigation collisions, and keepsakes escaping the Workshop scene.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 47 test files / 278 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.686 - Locked Badge Detail Preview
+
+- Completed Step 42 by reusing the Badge Shelf's circular artwork and progress-lock treatment in the selected badge detail panel.
+- Locked badge details now keep artwork grayscale and 28% opaque while showing the same completed/total progress as their shelf slot; earned badge details remain clear and retain the home-display action.
+- Added source regression coverage and rendered mobile checks for locked artwork treatment, matching progress, and absence of the earned-only action at all four candidate widths.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed on retry: 47 test files / 277 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900. The first candidate attempt reached build/release successfully but hit a transient initial Vite navigation timeout before assertions; it did not reproduce.
+## v0.1.685 - Unified Spoon Balance Across Views
+
+- Completed Step 41 by rendering one shared fixed spoon balance chip from `appShell.js` in every main view, including Workshop and Pantry.
+- Removed the Pantry-local balance and Workshop-local currency elements so the displayed balance has one source, one approved spoon-token asset, and one accessibility label.
+- Added settings-button clearance on Workshop and focused play, plus safe-area-aware positioning on all other views.
+- Mobile QA now rejects duplicate/local balance elements, title or settings overlap, stale displayed values, incorrect token art, and Pantry purchases that do not update the shared balance immediately.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 47 test files / 276 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.684 - Quick Travel Touch Target and Safe-Area Gap
+
+- Completed Step 40 by increasing the Play-shell quick-travel trigger minimum height from 58px to 68px and its icon from 34px to 40px.
+- Updated the fixed quick-travel offset so every device keeps 20px of breathing room above its bottom safe area; the Play-shell contract retains its 86px control-deck clearance.
+- Extended regression coverage for the exact CSS contracts and rendered mobile QA for a minimum 68px trigger height plus a minimum 20px bottom gap.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 47 test files / 276 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.683 - Locked Stage Card Spacing
+
+- Completed Step 39 by adding 14px vertical and 16px horizontal inner spacing to every locked stage card, keeping previews, summaries, teasers, and unlock controls clear of the dashed boundary.
+- Corrected the mobile QA selector from the nonexistent `.pack-block.locked` to the rendered `.pack-block--locked` contract.
+- Mobile QA now fails when a locked card is missing, has less than the required padding, or horizontally overflows; all four candidate widths passed, including 360x740.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 47 test files / 276 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.682 - Readable Workshop Title and Korean Pip Naming
+
+- Completed Step 38 by changing the Workshop title to cream text on a subtle dark translucent pill with a compact shadow for stable readability over the scene artwork.
+- Standardized Korean player-facing copy from "Pip" to "핍" throughout `ko.js`, while preserving the protected English brand name "Pip's Picture Pantry".
+- Added regression coverage for the title styling and the single allowed Korean-locale `Pip` occurrence, and updated the launch-integrity contract to the new Korean Workshop name.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 47 test files / 276 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.681 - Featured Badge Keepsake
+
+- Completed Step 37 by allowing one earned Badge Shelf keepsake to be selected for Workshop-home display; locked badges never expose the selection action.
+- The selection persists per player, and the active detail action changes to a disabled displayed state after selection.
+- Workshop home validates that the saved badge is still earned, renders approved badge artwork beside the selected Pantry jar, and opens the Badge Shelf when tapped.
+- Added focused save/source regression coverage and real rendered mobile checks for selection, persistence, jar/badge coexistence, non-overlap, and return navigation at all four candidate widths.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 47 test files / 275 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA with featured badge selection/coexistence checks at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.680 - Spoon Balance Chip Icon Sizing
+
+- Completed Step 36 by constraining the shared spoon balance chip artwork to 20x20px with contained aspect ratio and fixed flex sizing.
+- The 20px token now sits centered inside the chip's 32px minimum height instead of rendering at its source-image dimensions.
+- Extended mobile QA to measure the rendered icon size, chip height, vertical centering, and object-fit in Spoon Run, Badge, and Time Attack views at all four candidate widths.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 46 test files / 272 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA with spoon-chip geometry checks at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.679 - Meaningful Selected Pantry Jars
+
+- Completed Step 35 by resolving the selected Pantry jar from the active puzzle stage's Pantry shelf through a shared save helper.
+- The Workshop shows the selected jar beside Pip as a compact, tappable "Today's Pantry" card that opens Pantry; stages without a mapped open Pantry shelf remain uncluttered.
+- Regular puzzle completion now shows the same approved jar WebP and localized jar name. Time Attack and missing selections intentionally render no jar card.
+- Pantry jar actions now use explicit select/selected language in KO and EN, with focused behavior, source-contract, and launch-integrity regression coverage.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 46 test files / 272 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.678 - Daily Login Spoon Bonus
+
+- Completed Step 34 by adding a separate three-spoon login reward without changing the existing eight-spoon Today Picture bonus.
+- The active player can claim the login reward once per local calendar date; the persisted date prevents duplicate grants and permits the next day's claim.
+- After the Workshop is fully rendered, a lightweight Pip speech bubble announces the reward and dismisses after three seconds or immediately when tapped. It stays hidden behind first-run guides and is never claimed into the pre-player legacy profile.
+- Added save-level date and balance regression coverage, presentation/source contracts, reduced-motion styling, and launch-integrity guards.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 45 test files / 267 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.677 - Completed Shelf Guidance
+
+- Completed Step 33 by routing the Workshop Play Now action through the active season shelf state instead of blindly reopening the selected completed puzzle.
+- An unfinished shelf still opens its current puzzle. A completed shelf advances to the first unfinished puzzle on the next shelf when that shelf is unlocked.
+- When the next shelf is locked, a repeatable Pip dialogue explains that the shelf is complete and offers direct Pantry and Spoon Run actions without marking a one-time guide as seen.
+- Added localized KO/EN copy, responsive two-action dialogue styling, and regression coverage for all three routing outcomes plus both destination buttons.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 44 test files / 262 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.676 - Pip's Puzzle Room Identity
+
+- Completed Step 32 by renaming the Puzzle destination to "Pip's Puzzle Room" / "Pip의 퍼즐방" across the shared view label.
+- Added a visible h1 title inside the Workshop scene above the greeting, with balanced wrapping and mobile-safe separation from the spoon and Settings controls.
+- Added i18n, rendering, styling, and launch-integrity regression coverage for the Workshop identity.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 44 test files / 258 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.675 - Fixed Quick-Travel Navigation
+
+- Completed Step 31 by locking the floating quick-travel control to the viewport instead of relying on scroll-position-dependent sticky behavior.
+- The trigger now stays at the lower-right safe-area boundary with a 20px minimum inset, while its menu continues to open above it.
+- The navigation layer is fixed at z-index 50 so completion and guide overlays remain above it; the enlarged 80px trigger and non-blocking pointer contract are preserved.
+- Added focused regression and launch-integrity coverage for the fixed positioning contract.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 44 test files / 257 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.674 - Complete and Future Puzzle Stage Roadmap
+
+- Completed Step 30 by keeping completed puzzle stages collapsed by default while adding a clear green completion pill to each completed stage header.
+- The puzzle picker now exposes the full future stage roadmap instead of only the immediate next locked stage.
+- Every locked stage shows its exact puzzle-size mix, three blurred silhouettes derived from real puzzles in that stage, and a localized teaser without revealing puzzle titles.
+- Existing previous-stage and exact Pantry-shelf lock conditions remain intact, including paid-jar progress and Pantry navigation.
+- Added focused roadmap regression coverage and launch-integrity guards for full locked-stage visibility, teaser derivation, silhouette previews, and completion status.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 44 test files / 257 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.673 - Pantry Shelf and Puzzle Stage Connections
+
+- Completed Step 29 by linking all eight paid Pantry jar shelves to their exact puzzle-stage gates from the existing `pantryRoomStepRequired` model.
+- Every Pantry shelf now shows a compact pending/opened stage badge. Paired gates name both stages and switch to the quieter opened state only after all linked stages are available.
+- The next locked puzzle stage now names the exact Pantry shelf it needs and shows shelf-local paid-jar progress such as 3/5, while retaining the separate previous-stage puzzle condition from Step 27.
+- Added a shared mapping module, full eight-shelf mapping coverage, shelf-local progress tests, and launch-integrity guards so Pantry and puzzle guidance cannot drift apart.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 43 test files / 253 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.672 - Automatic Stage Gates and Spoon Rebalance
+
+- Completed Step 28 by removing stage-entry spoon charges and the manual unlock action. Stages now open automatically when the previous stage is complete and the cumulative paid-Pantry-jar requirement is met.
+- The puzzle list exposes only the immediate next locked stage, with separate puzzle and Pantry progress rows plus a direct Pantry action when jars are still required.
+- Removed the retired manual shelf-unlock API, callbacks, styles, and translations; legacy explicitly unlocked shelf IDs remain readable for save compatibility.
+- Rebalanced authored puzzle rewards to 2/4/6/10 spoons for 5x5/8x8/10x10/12x12 boards and stage bonuses to 520 total. Daily and Time Attack rewards are unchanged.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed after fixing a shared spoon-icon import caught by the first mobile run: 42 test files / 251 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.671 - Explicit Stage Lock Conditions
+
+- Completed Step 27 by showing previous-stage puzzle completion and paid Pantry jar progress as separate status rows on every locked stage card.
+- Each condition reports its own remaining count and uses distinct completed/incomplete styling, so players can see exactly which requirement is blocking progress.
+- The condition calculation is covered by a functional test for both unmet and met states. The launch-integrity contract now protects the two-condition guidance.
+- Step 28 behavior was intentionally not mixed into this patch: current spoon unlock costs and the existing unlock button remain until the next Step removes them.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 42 test files / 250 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.670 - Shared Spoon Balance
+
+- Completed Step 26 by adding a shared, safe-area-aware spoon balance chip to views that previously had no persistent currency display, including active puzzle and Time Attack play.
+- The chip reuses the approved `spoon-token-v2` artwork and reads the latest saved balance on every shell redraw.
+- Pantry and the Workshop home intentionally keep their existing dedicated spoon displays, avoiding duplicate balances on those screens.
+- Added regression coverage for the shared renderer, placement condition, localization, fixed positioning, and non-blocking pointer behavior.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Candidate verification passed: 41 test files / 249 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, and HTTP probe. The combined runner encountered a first-navigation `networkidle` timeout after all earlier gates passed; isolated mobile QA then passed at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.669 - Daily Picture Completion Flow
+
+- Completed Step 25 by ending a solved Daily Picture with its reveal, existing puzzle and Daily reward rows, and one OK action that returns directly to Spoon Run.
+- Daily completion no longer offers Next Picture. Ordinary puzzle completions and replay completions retain their existing action rules.
+- Once today's Daily Picture is complete, its Spoon Run card shows the completed state and has neither an enabled action nor a click handler.
+- Added regression coverage for the Daily completion return path and completed-card interaction lock.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Candidate checks passed: 41 test files / 248 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, and HTTP probe. The combined runner encountered two non-product mobile-runner transients on separate attempts (a non-reproducing Time Attack paint assertion and a first-navigation `networkidle` timeout); isolated mobile QA then passed at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.668 - Reliable Progress Reset
+
+- Completed Step 24 by reloading the app immediately after the confirmed progress reset, preventing stale in-memory puzzle, spoon, Pantry, and guide state from being redrawn after LocalStorage is cleared.
+- The existing two-step settings confirmation remains in place. Resetting deletes only the active player's progress save; the active player identity and name remain available after reload.
+- Added regression coverage for the reload contract and for preserving the active player while clearing completed puzzles and spoon balance.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 41 test files / 246 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.667 - Replay Daily-Limit Completion
+
+- Completed Step 23 by replacing the final 3/3 replay completion's Next Picture action with a single Back to Earn Spoons action.
+- The final rewarded replay now shows a dedicated come-back-tomorrow message and returns directly to the Spoon Run view; ordinary completions and replay completions with remaining rewards keep the existing Next Picture action.
+- Exhaustion requires a successful reward and zero remaining daily slots, so hinted, duplicate, or otherwise ineligible replay completions cannot trigger the end-of-day state accidentally.
+- Added regression coverage for rewarded-final, ineligible, remaining, and non-replay completion states.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 40 test files / 244 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.666 - Pantry Header Simplification
+
+- Completed Step 22 by removing the duplicate Pantry jar-collection eyebrow above the existing Pantry title.
+- Removed the retired Korean and English eyebrow keys instead of replacing them with another duplicate title, keeping the header future-proof for additional collectible types.
+- Added a launch-integrity guard that blocks the retired `pantry.jar.eyebrow` render path from returning.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built.
+- Full candidate verification passed: 40 test files / 243 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.665 - IAP Spoon Grant Rebalance
+
+- Completed Step 21 by changing the repeatable US$0.99 support grant from 250 to 150 spoons and the US$2.99 Small Spoon Jar grant from 750 to 500 spoons; store prices and product IDs are unchanged.
+- The 500-spoon jar remains a value step above three support packs (500 vs 450, about 11% bonus), while purchase-token duplicate protection and consumable behavior remain unchanged.
+- Runtime config, Billing/store copy contracts, future real-device validation templates, and focused purchase/save regression tests now share the same 150/500 values. Historical 250-spoon real-device evidence remains preserved as a record of the earlier build.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built. Play Console product descriptions must be updated to 150/500 before the next Android upload.
+- Full candidate verification passed: 40 test files / 243 tests, 333-puzzle catalog and uniqueness gates, Billing contract, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.664 - Small Puzzle Hint Access
+
+- Completed Step 20 by granting one starter hint to 5x5 puzzles and two starter hints to 8x8 puzzles; existing 10x10+ limits remain unchanged.
+- After starter hints are exhausted, normal 5x5 hints cost 3 spoons and 8x8 hints cost 5 spoons, with the existing paid-use escalation retained.
+- Small-puzzle hints still reveal exactly one cell, and focused tests cover allowance, reveal count, starter-to-spoon boundaries, and escalating costs.
+- Full candidate verification passed: 40 test files / 242 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.663 - Puzzle Picker Mosaic Removal
+
+- Completed Step 19 by removing the stage-art and fallback tile mosaics from unlocked and next-locked puzzle-picker shelves.
+- Puzzle-picker shelves now contain only their header, independent collapse control, puzzle grid, and the unlock panel where applicable; stage-completion artwork remains unchanged.
+- Removed the retired mosaic import, render helpers, preview CSS, and progress canvas CSS; mobile QA now fails if any retired mosaic container returns.
+- Full candidate verification passed: 40 test files / 240 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.662 - Per-Shelf Puzzle Picker Collapse
+
+- Completed Step 18 by removing the global persisted Hide Completed control and replacing it with an independent 44px expand/collapse arrow in every unlocked shelf header.
+- Completed shelves default closed, unfinished shelves default open, and explicit player choices remain in an in-memory override Map for the current app session only.
+- Each toggle exposes translated shelf-specific labels, `aria-expanded`, and `aria-controls`; collapsed puzzle content is removed from interaction with the native `hidden` state.
+- Full candidate verification passed: 40 test files / 239 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.661 - Canonical Shelf Names and Distinct Wooden Spoon
+
+- Completed Step 17 by making every badge milestone display the canonical `shelves.*` name already used by the puzzle picker and shelf-completion overlay.
+- Replaced the duplicated thirteenth first-shelf spoon with a centered horizontal wooden-spoon silhouette and distinct Korean/English title and image copy.
+- Full candidate verification passed: 40 test files / 236 tests, 333-puzzle catalog and uniqueness gates, zero duplicate/repeated-title art findings, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.660 - Itemized Completion Spoon Rewards
+
+- Completed Step 16 by showing puzzle completion, Daily bonus, and shelf completion spoons as separate positive reward rows instead of presenting a combined total.
+- The completion flow now carries the exact savePuzzleState() reward result and the exact markShelfCompletedIfFirst() bonus into the completion banner; zero-value rows remain hidden.
+- Daily completion copy no longer embeds a combined spoon total, and the shelf completion row receives a distinct warm-gold treatment.
+- Full candidate verification passed: 40 test files / 234 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.659 - Centered Completion Action
+
+- Completed Step 15 by converting the completion action area from the obsolete two-column layout to a single centered column capped at 320px.
+- The completion scene still exposes only the existing Next Picture action; no navigation behavior changed.
+- Mobile QA now measures one action button, its bounded width, and its horizontal center against the completion banner to prevent the half-width regression from returning.
+- Full candidate verification passed: 40 test files / 233 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.658 - Late Pantry Economy and Badge Glow Verification
+
+- Completed Step 14 by strengthening the paid price curve for the late Fruit, Oil, and Tea shelves while preserving the Pickle shelf's approved 25-135 range; the full 48-jar catalog now totals 3,310 spoons.
+- Extracted the badge earned-state handoff into tested helpers: the newly earned badge ID is consumed once and only the matching earned slot receives the one-time gold glow class.
+- The final Full Pantry badge keeps its permanent gold pulse, while the existing reduced-motion rule disables both animations for motion-sensitive players.
+- Full candidate verification passed: 40 test files / 232 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.657 - Time Attack Reward Rebalance
+
+- Completed Step 13 by reducing Time Attack base rewards from 15/25/38/55 to 10/18/30/45 spoons for 5x5, 8x8, 10x10, and 12x12 boards.
+- The record-improvement bonus remains 12 spoons and the rewarded-run daily limit remains 3, preserving the mode's incentive while reducing its share of daily spoon income.
+- Runtime fallback reward now matches the 8x8 baseline at 18 spoons; economy and save regression tests lock both the new table and accumulated balances.
+- Full candidate verification passed: 39 test files / 228 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.656 - Time Attack Hint Restoration
+
+- Completed Step 12 by placing the Time Attack hint control before the puzzle board so it remains immediately visible during the timed run.
+- Time Attack now charges every hint in the configured `2 -> 4 -> 7` spoon sequence instead of inheriting normal-puzzle starter hints.
+- The existing run result path continues to aggregate `hintsUsed` across completed rounds and the active round; focused regression coverage now locks both cost order and final result accounting.
+- Candidate gates passed: 39 test files / 227 tests, 333-puzzle catalog and asset gates, production build, and Android release gate. Mobile QA separately passed at 360x740, 390x844, 430x932, and 675x900, including visible pre-board hint placement, the first 2-spoon charge, and one-use meter accounting.
+## v0.1.655 - Spoon Run First-Visit Guide
+
+- Completed Step 11 with a two-slide Pip introduction that explains the daily bonus picture and up to three clean-replay spoon rewards.
+- The guide opens automatically on the first Spoon Run visit only, then records `spoonRunIntro` through the existing guide acknowledgement save flow.
+- Added regression coverage for the registered guide steps, Pip speaker label, first-visit trigger, persisted acknowledgement, and Korean/English key parity.
+- Full candidate verification passed: 38 test files / 225 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900, including the two-step Spoon Run first-visit guide.
+## v0.1.654 - Spoon Run Replay Isolation
+
+- Completed Step 10 by separating the explicit Spoon Run pick flag from general replay/challenge mode, so only a card deliberately selected from Spoon Run can claim the clean-replay spoon reward.
+- Replay completion `Next Picture` remains inside the stable replay pool; after the final candidate it returns to the replay list in Spoon Run instead of entering the general unfinished-puzzle flow.
+- Successful replay feedback now shows both the awarded `+1` spoon and the number of replay rewards remaining today.
+- Full candidate verification passed: 38 test files / 223 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.653 - Daily Spoon Run Completion Continuity
+
+- Completed Step 9 by keeping Today's Picture completion inside Spoon Run: `Next Picture` now closes the Daily challenge and focuses the replay list instead of entering the general unfinished-puzzle flow.
+- Daily completion feedback now reports the actual spoon amount awarded, with first-time normal puzzle reward and the once-per-date Daily bonus accounted for separately.
+- Daily challenge state is cleared on picker, view, Workshop, and Time Attack exits so it cannot leak into another play mode.
+- Date-specific completion remains independent from general puzzle completion; full candidate verification passes 38 test files / 223 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.652 - Spoon Run Integrated View
+
+- Added `spoonRun` as a first-class view and floating navigation destination using the approved `spoon-token-v2` economy icon.
+- Moved Today's Picture and Replay Picks off the Workshop home into the focused Spoon Run view; the Workshop shortcut now replaces the former Time Attack shortcut.
+- Preserved Time Attack in floating navigation and retained the existing Daily/Replay reward and selection flows.
+- Updated responsive placement and mobile QA navigation helpers; `qa:candidate` passes 38 files / 222 tests plus 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.651 - Workshop Time Attack Card Removal
+
+- Removed the duplicate Time Attack teaser card and its dead renderer from the Workshop supporting-card stack.
+- Kept Time Attack available through the existing Workshop/floating navigation icons and added a regression contract that forbids the duplicate teaser card.
+- Updated mobile QA to require the teaser card to be absent while the current Time Attack navigation entry remains intact.
+- Verification passed: 38 test files / 222 tests, catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.650 - Completion Action Simplification
+
+- Removed the redundant Menu/Back action from both standard and replay completion banners; completion now presents only the `Next picture` action.
+- Preserved floating navigation as the single route to other app destinations and added a source regression test for the one-button completion contract.
+- Verification passed: 38 test files / 221 tests, catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## v0.1.649 - Replay Next-Picture Continuity
+
+- Completion `Next picture` now stays inside the stable Daily replay-pick pool instead of falling through to the normal unfinished-puzzle selector.
+- Replay navigation moves forward without wrapping; after the last candidate it closes the challenge and returns to the replay card on the Workshop hub.
+- Verification passed: 38 test files / 220 tests, catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.648 - Daily Completion Isolation
+
+- Added a local-calendar Daily completion date that is stored separately from general `completedPuzzleIds`; the Daily card now shows complete only when its saved date matches today.
+- Daily entry now carries an explicit challenge context, starts from a fresh board even when the same picture was completed normally, and records completion only after that Daily run is solved.
+- Kept normal first-completion rewards separate while allowing the Daily bonus once per date; tomorrow naturally returns the Daily card to incomplete.
+- Verification passed: 38 test files / 218 tests, catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.641 - Badge Artwork Single-Surface Cleanup
+
+- Removed the earned-badge shelf from the shared app shell, so collected badge artwork is no longer persistently shown on Puzzle, Album, Pantry, Time Attack, or Settings surfaces.
+- Kept the Badge navigation destination, the Badge collection view, semantic text badge styles, and transient completion feedback intact.
+- Added a source regression test that requires the Badge collection view to remain the only persistent badge-art surface.
+- Verification passed: 38 test files / 205 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.640 - Time Attack Paint Persistence Recovery
+
+- Root cause confirmed: `renderPuzzleView()`'s inner `update(nextState, options)` parameter shadowed the outer render options, so `onPuzzleStateChange` never reached App Shell.
+- Time Attack now passes its transient puzzle state through App Shell and Play Screen back into Puzzle View on each one-second timer redraw instead of recreating an empty board.
+- Mobile QA now paints a Time Attack cell, waits beyond the timer redraw interval, and requires the same cell to remain filled before exiting to the unchanged regular puzzle.
+- - Verification passed: 37 test files / 203 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900. The mobile flow starts Time Attack, paints a cell, waits 1.2 seconds beyond the timer redraw, requires the cell to remain filled, then confirms regular-puzzle restoration.
+
+## v0.1.639 - Pantry Shelf Progression and Completion Celebration
+
+- Changed Pantry stage progress from individual paid-jar purchases to completed paid-jar shelves: all five paid jars in JAM, HONEY, HERB, or SPICE now contribute exactly one gate step.
+- Mapped the five content packs and all 15 Season 0 shelves to the 0/1/2/3/4 completed-Pantry-shelf gates while preserving puzzle completion and spoon unlock costs as separate requirements.
+- Added a one-time last-jar celebration after the refreshed Pantry renders: gold shelf-board sweep, six staggered jar bounces, and eight self-cleaning sparkles, with reduced-motion support.
+- Removed paid jars from the legacy Pantry story-goal counter so unrelated legacy decoration progress cannot unlock jar-shelf stage gates.
+- Automated verification passed: 37 test files / 202 tests, 333-puzzle catalog and asset checks, production build, Android release gate, and mobile layouts at 360x740, 390x844, 430x932, and 675x900 via `npm run qa:candidate`. The shelf-completion transition is unit-tested; visual observation of the purchase-triggered animation remains pending because the local browser connection was blocked by the OneDrive ACL.
+
+## v0.1.638 - Pantry Spoon Token Consistency
+
+- Replaced platform spoon emoji rendering in Pantry shelf prices, the Pantry balance, and the jar purchase button with the approved `spoon-token-v2.png` economy asset.
+- Added a shared Pantry spoon-label renderer with explicit asset identity metadata and responsive icon sizing.
+- Verification passed: 37 test files / 202 tests, production build, Android release gate, and mobile layouts at 360x740, 390x844, 430x932, and 675x900 via `npm run qa:candidate`.
+
+## v0.1.637 - Premium Pantry Jar Art Collection
+
+- Rebuilt all 24 Pantry jars as individually art-directed raster collectibles with transparent WebP runtime assets: distinct silhouettes, fabrics, ribbons, golden spoon charms, illustrated labels, glass/material detail, and escalating rarity finishes.
+- Uses CSS only for the four category-specific shelf scenes and runtime states: wood grain, progress medallions, locked/equipped treatments, and a full-shelf completion sheen.
+- Kept the v0.1.636 jar economy, purchase, equip, stage-gate, Spoon Store, and save behavior unchanged. Existing beta decoration/spoon migration remains intentionally out of scope.
+- Visible/package version is v0.1.637. Android remains versionCode 33 / versionName 1.1.5; no AAB is built or authorized for this visual-quality pass.
+- Verification passed: 24/24 art mapping and alpha checks; 36 test files / 201 tests; production build; Android release gate; and mobile layout at 360x740, 390x844, 430x932, and 675x900 via `npm run qa:candidate`.
+
+## v0.1.636 - CSS Pantry Jar Collection
+
+- Replaced the legacy background-room, overlay-art, slot-filter, and decoration-card Pantry with four CSS-only jar shelves: Jam, Honey, Herbs, and Spices.
+- Added 24 data-driven jars with starter/common/rare/special/luxury pricing, glass/lid/fill variables, and five CSS fill textures. Each shelf owns six jars and displays one equipped jar at a time.
+- Added independent `ownedJarIds` and `equippedJars` save state. Four starter jars are granted and equipped idempotently; only paid jar purchases append one Pantry room step for existing stage gates.
+- Jar purchases validate balance and ownership, deduct spoons, grant the jar, update stage progress, and persist once. The bottom sheet supports purchase, equip, insufficient-balance routing, backdrop close, Escape close, safe-area padding, and focus.
+- Workshop Pantry notification now tracks unowned jars instead of retired decorations. The Spoon Store remains below the shelves.
+- Verification state: automated verified; real-device review remains pending. `npm run qa:candidate` passed 35 test files / 199 tests, asset/Billing/build/Android release gates, and mobile runtime QA at 360x740, 390x844, 430x932, and 675x900.
+- Visible/package version is v0.1.636. Android remains versionCode 33 / versionName 1.1.5; no AAB is built or authorized in this UI replacement.
+
+## v0.1.635 - Time Attack Exit State Recovery
+
+- Root cause confirmed: starting Time Attack replaced `activePuzzle` with a generated run puzzle, while close/navigation/completion/timeout paths cleared only parts of the Time Attack state and never restored the regular puzzle.
+- Added `preTimeAttackPuzzle` and one `clearTimeAttackSession()` path that clears the run, seed, timer start, round index, hint count, puzzle state, and restores the original regular puzzle.
+- The X/back close path now returns directly to the Puzzle Workshop. Defensive navigation cleanup prevents a partially active run from leaking into any other view. Normal completion and timeout also restore the original puzzle while preserving the Time Attack result screen.
+- Added source regression tests and a four-width runtime flow: remember regular Play Now target, start Time Attack, exit, require the same regular target, open it, require `data-view="puzzle"`, and reject Time Attack UI leakage.
+- Verification state: automated verified; real-device confirmation remains pending. Focused Time Attack/save/board tests passed 33/33, and `npm run qa:candidate` passed 34 test files / 195 tests plus the 360x740, 390x844, 430x932, and 675x900 runtime flow from Time Attack exit into the unchanged regular puzzle.
+- Visible/package version is v0.1.635. Android remains versionCode 33 / versionName 1.1.5; no AAB is built or authorized in this recovery slice.
+
+## v0.1.634 - Workshop Supporting Cards Recovery
+
+- Root cause confirmed: `renderDailyCard`, `renderTimeAttackTeaserCard`, and `renderReplayPicksCard` remained implemented with CSS/i18n support, but their `createShell()` call sites were removed during the full-screen Workshop redesign.
+- Restored all three entries below `renderPuzzleHub()`. Replay Picks uses completed unlocked puzzles, the saved daily count/limit, and enters the existing replay challenge path.
+- Added `.puzzle-hub-cards` as an inset, width-bounded wrapper below the full-screen scene with 120 px plus safe-area bottom clearance.
+- Added focused regression coverage plus four-width runtime assertions for card presence, ordering below the scene, horizontal containment, bottom clearance, and the returning-player Replay Picks state.
+- Verification state: automated verified; real-device verification pending. Focused tests passed 12/12, and the complete candidate gate passed 33 test files / 193 tests, launch integrity, hygiene/assets/store/Billing/privacy checks, production build, and runtime geometry/interaction QA at 360x740, 390x844, 430x932, and 675x900. The runtime checks require Daily and Time Attack cards for a fresh profile, Replay Picks for a seeded returning profile, all cards below the scene, horizontal containment, 120 px bottom clearance, and minimum action target sizes. Browser-plugin inspection was unavailable because its Windows sandbox process failed on the OneDrive ACL.
+- Visible/package version is v0.1.634. Android remains versionCode 33 / versionName 1.1.5; no AAB is built or authorized in this recovery slice.
+
+## Release Safety Update - 2026-07-28 Clean-Commit AAB Gate
+
+- Added `scripts/release_commit_gate.js` and `npm run qa:release:commit`.
+- A signed AAB is now blocked unless the worktree is completely clean, package/UI versions match, the same versions exist at HEAD, `docs/CONTEXT.md` contains the release version, the HEAD subject names that version, and committed Android versionCode/versionName are present.
+- `scripts/build_android_signed_release_bundle.ps1` runs this gate both before QA and again after all QA gates. It deletes the previous exact `app-release.aab` only after both commit checks pass, preventing a stale bundle from being mistaken for a new build.
+- Enforcement verified on the current intentionally dirty v0.1.633 worktree: standalone gate exit 1; signed-build exit 1 before QA/build/signing; existing AAB SHA-256 remained `FD377B40179B98F4507B3D564B7BE6BD50A29089E0263FA099095775000B9C05`.
+- Current release state remains blocked until all intended v0.1.633 files are reviewed and committed. This gate does not claim the three outstanding real-device UX defects are resolved.
+
+## v0.1.633 - Android Touch Paint Re-render Recovery
+
+- Reproduced the real failure sequence in browser QA at all four review widths: touch `pointerdown` → `pointerup` painted the cell, the state update re-rendered the board, then Android's delayed `click` with `detail: 0` toggled the newly rendered cell back to empty.
+- Root cause: `suppressPointerClickUntil` lived inside `renderCells()`. The successful pointer paint triggered a re-render, so the replacement board reset suppression to `0` before the synthetic click arrived.
+- Moved the suppression timestamp to module lifetime so the replacement board consumes the delayed click. The 300 ms window and keyboard/click fallback behavior remain otherwise unchanged.
+- Mobile QA now executes the full Android-style event sequence against tap-mode focused play and requires the cell to remain filled after the replacement board receives the synthetic click.
+- Play Now status was inspected without another style change: the final Workshop rule computes a minimum 96x96 target, and the existing mobile geometry gate requires at least 96 px.
+- Verification state: automated verified; real-device verification pending. The pre-fix Android sequence failed at all four widths (`filled` → synthetic click → `empty`). After moving suppression to module lifetime, `tests/boardView.test.js` passed 10/10 and `npm run qa:mobile` passed the same sequence plus the 96 px Play Now geometry gate at 360x740, 390x844, 430x932, and 675x900.
+- Visible/package version is v0.1.633. The signed Android AAB was built as versionCode 33 / versionName 1.1.5 at `android/app/build/outputs/bundle/release/app-release.aab` (16,862,424 bytes; SHA-256 `FD377B40179B98F4507B3D564B7BE6BD50A29089E0263FA099095775000B9C05`; `jar verified`). Full candidate QA passed earlier on the same source state; a later signed-script rerun hit only the known local Playwright `networkidle` harness timeout, after which the already-verified source was synced and signed directly.
+
+## v0.1.632 - Empty Album Play Now Recovery
+
+- Root cause confirmed: the empty Album action received `() => onSelectView("puzzle")`, which only returned to the Workshop home and explicitly set `playOpen = false`.
+- Connected the empty Album action to the existing `onNextPuzzle` / `selectNextPuzzle()` path. That path selects the first unlocked unfinished puzzle and delegates to `selectPuzzle()`, which sets the puzzle active and opens focused play.
+- Mobile QA now starts with a genuinely empty Album, presses its only action, requires the play screen and board to replace the Album, then returns to the Workshop home before continuing the existing suite.
+- Verification state: automated verified; real-device verification pending. `tests/guideDialog.test.js` passed 5/5. `npm run qa:mobile` passed the empty Album → Play Now → play screen/board → Workshop return flow at 360x740, 390x844, 430x932, and 675x900.
+- Visible/package version is v0.1.632. Android remains versionCode 32 / versionName 1.1.4; no AAB was built.
+
+## v0.1.631 - Badge Guide Trigger Recovery
+
+- Root cause confirmed in `src/game/save.js`: `"map"` was missing from `GUIDE_IDS`, so both `hasSeenGuide("map")` and `markGuideSeen("map")` normalized to `"puzzle"`. A user who had seen the puzzle guide was therefore incorrectly treated as having seen the Badge guide.
+- Added `"map"` as an independent persisted guide ID. The existing `appShell.js` trigger and `renderGuideDialog(activeGuide, ...)` path were already connected and did not require another render call.
+- Save tests now prove that seeing the puzzle/time-attack guides does not mark the map guide seen, and that map acknowledgement persists independently.
+- Mobile QA now enters the Map after the puzzle guide has been acknowledged, requires `.guide-dialog--map` to open, validates Pip and badge copy, closes it, and then continues Map layout checks.
+- Verification state: automated verified; real-device verification pending. `tests/save.test.js` and `tests/guideDialog.test.js` passed 25/25. `npm run qa:mobile` passed the full Badge guide entry/dismissal flow at 360x740, 390x844, 430x932, and 675x900; an initial run stopped before product assertions on the existing 2-second intro-detach timeout, and the immediate retry completed successfully.
+- Visible/package version is v0.1.631. Android remains versionCode 32 / versionName 1.1.4; no AAB was built.
+
+## v0.1.630 - Guide Name Tag Visibility Candidate
+
+- Fixed the actual guide stacking conflict: `.guide-dialog__art` no longer creates a lower stacking context beneath the dialogue bubble, while `.guide-dialog__name-tag` is explicitly layered above the bubble.
+- The guide art now uses `overflow: visible`, so the name tag can cross the character/dialogue seam without being clipped.
+- Mobile visual QA now requires the puzzle, map, and Time Attack speaker name tag to have text and measurable geometry, remain inside the viewport, use visible overflow, and be the topmost element at its center point.
+- Updated the stale Time Attack first-step QA assertion to match the current speaker introduction copy.
+- Verification state: automated verified; real-device verification pending. `npm run qa:mobile` passed at 360x740, 390x844, 430x932, and 675x900, including topmost-element checks for the name tag; `tests/guideDialog.test.js` passed 4/4.
+- Visible/package version is v0.1.630. Android remains versionCode 32 / versionName 1.1.4; no AAB was built.
+
+## v0.1.629 - Workshop Greeting Layout Candidate
+
+- Reproduced the v0.1.626 Workshop issue from the supplied device screenshot: Pip and the greeting read as separate elements, the bubble used a plain white card treatment, and the first four destination icons sat too close to the greeting zone.
+- Updated the actual final `.hub-greeting-*` rules instead of appending another override: Pip-to-bubble gap is 4px, padding is compact, and the bubble now uses the game paper/ink border, asymmetric speech-corner radius, and tactile shadow.
+- Moved Picture List and Album from 22% to 28% scene height, and Time Attack and Pantry from 38% to 44%. Badge and Play Now positions were intentionally left unchanged.
+- Strengthened mobile QA to measure final computed Pip/bubble gap, themed bubble border/background/radius/shadow, scene containment, and that all four requested destinations start below the greeting group.
+- Verification state: **Automated verified; device verification pending.** Workshop measurements passed at 360x740 / 390x844 / 430x932 / 675x900. The mobile command still exits nonzero only for the separately tracked stale Time Attack guide-copy assertion.
+- Visible/package version is v0.1.629. Android remains versionCode 32 / versionName 1.1.4; no AAB was built.
+- Pantry shop remains outside this issue.
+
+## v0.1.628 - Settings Radio Collision Candidate
+
+- Adopted `docs/VERIFICATION_PROTOCOL.md`: issues move through Reproduced, Candidate fix, Automated verified, Device verified, and only then Resolved. Source presence or code review alone can no longer be reported as a fix.
+- Confirmed the recurring language-radio collision was a cascade failure: the later `.settings-language-group > button` rule at the end of the active settings block overwrote the earlier 30px left padding with `padding: 10px 4px !important`.
+- Replaced the actual winning shorthand with `padding: 8px 4px 8px 34px !important`; no new final override was appended.
+- Mobile QA now measures computed left padding, rendered radio marker dimensions, and the remaining marker-to-text gap at 360x740 / 390x844 / 430x932 / 675x900. All four settings measurements passed.
+- Verification state: **Automated verified; device verification pending.** The full mobile command still exits nonzero only for the separately tracked stale Time Attack guide-copy assertion at all four widths.
+- Visible/package version is v0.1.628. Android remains versionCode 32 / versionName 1.1.4; no AAB was built for this single-issue candidate.
+- Pantry shop work remains explicitly excluded from this issue.
+
+## v0.1.627 - Repeatable Cozy Support Purchase Recovery
+
+- Corrected the US$0.99 `pip_cozy_support` flow to match its Google Play consumable configuration: the purchase action remains available after a completed purchase and each new transaction grants 250 spoons.
+- Replaced the permanent `cozyPassPurchased` ownership gate with the shared bounded purchase-token ledger, so duplicate callbacks cannot grant twice while distinct purchases can each grant once.
+- Removed purchase restore and its owned-state UI/copy because a consumed repeatable top-up is not a restorable permanent entitlement.
+- Real-device evidence from v0.1.626 is accepted as passed: Google Play checkout completed and exactly 250 spoons were granted. The product owner waived further paid repeat transactions; v0.1.627 automated purchase-token coverage is the remaining repeat/duplicate evidence.
+- Visible/package version is v0.1.627. Android upload numbering remains versionCode 32 / versionName 1.1.4 until the next requested AAB build.
+- Scope is intentionally limited to Billing recovery; reported puzzle coloring and other UX issues remain under separate review.
+- Verification: 32 test files / 189 tests, Billing release check, source hygiene, assets/store/privacy checks, production build, and Android release gate passed. Full `qa:candidate` reached mobile QA; the first run timed out at `networkidle`, and the direct retry exposed the pre-existing Time Attack guide-copy assertion now under separate UX review.
+
+## v0.1.626 - Real-Device Guide and Board Release Candidate
+
+- Finalized the requested guide name-tag metrics, artwork positioning, dialogue overlap, and marked-cell centering as the last CSS override block.
+- Carries forward the v0.1.625 Play Now resize/pulse, Workshop Pip scale, localized guide introductions, Billing consumable flags, and Android touch suppression repairs.
+- Visible/package version is v0.1.626. Android internal-test upload numbering is versionCode 32 / versionName 1.1.4, above the tested vc31 / 1.1.3 build.
+- Verification: 32 test files / 191 tests, catalog, uniqueness, art, assets, store, Billing wiring, privacy, production build, and Android vc32 release gate passed. The final mobile Playwright pass reached HTTP 200 but timed out at `page.goto(..., networkidle)` before product assertions, matching the current local browser-harness issue; signed release completed with `jar verified`. The sole release-folder AAB is `android/app/build/outputs/bundle/release/app-release.aab` (16,862,997 bytes; SHA-256 `A4270771AB2006FFA411460AFD2DAD3DE2520938AC58DCB1E105FB28810F7F80`).
+## v0.1.625 - Play Now Reach and First-Entry Cue
+
+- Enlarged the fixed Play Now trigger from 56px to 80px, its artwork from 44px to 60px, and raised it from +16px to +32px above the safe-area baseline.
+- Added a warm pulse cue only while the Puzzle guide is unseen; reduced-motion users receive no repeating animation.
+- Added a source-level regression guard for the unseen-guide condition and the final CSS size/position contract.
+- Enlarged the Workshop home greeting Pip from the previous 28-40px compact override to a responsive 90-120px conversation scale while preserving the higher-specificity override and automatic aspect ratio.
+- Reworked the Puzzle, Time Attack, and Badge Map guide presentation with localized character name tags, overlapping dialogue cards, larger Pip artwork, and new first-step introductions; Pantry neighbor guides retain their separate side-by-side layout.
+- Centered the marked-cell × glyph and safe-suggestion state with a final grid/place-items override so Android rendering no longer shifts the symbol toward the upper-right corner.
+- Android upload numbering remains versionCode 31 / versionName 1.1.3. No AAB is built for this incremental UI slice while additional real-device feedback is still being collected.
+- Verification: `tests/floatingNav.test.js` plus `tests/save.test.js` passed (23 tests), JavaScript syntax checks passed, and the production build completed successfully.
+- Guide follow-up verification: guide/i18n/home regression suites passed (21 tests), both locale modules and guide code passed syntax checks, and the production build completed successfully.
+- Marked-cell follow-up verification: `tests/boardView.test.js` passed all 9 tests and the production build completed successfully.
+## v0.1.624 - Real-Device Settings and Guide Follow-ups
+
+- Reserved 30px of left padding in each compact language option so the radio control no longer collides with System, English, or Korean labels on a real Android device.
+- Applied the shared content-panel spacing contract to Pantry and Time Attack: 14px outer padding, plus 10px between the Pantry room and its following story content.
+- Recast the Time Attack first-run guide as a Mr. Park neighbor conversation with new clock, hint, and speed-challenge copy in English and Korean.
+- Added a three-step Pip guide for the Badge Map, automatic first-entry display, and a dedicated Badge guide replay button with Map artwork in Settings.
+- Raised the fixed floating navigation control 16px above its existing safe-area offset so it no longer sits against the gesture/navigation edge on real devices.
+- Restored the Workshop home greeting Pip to its intended compact 28-40px range by making the higher-specificity width and auto-height declarations override the shared 160px greeting class; added regression coverage for this cascade.
+- This real-device feedback batch is now frozen for the next signed internal-test AAB.
+- Android upload numbering is prepared at versionCode 31 / versionName 1.1.3 because Play internal testing already accepted versionCode 30 / versionName 1.1.2.
+- Verification: the focused tests and candidate suite cover 31 files / 187 tests, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900. The existing local-only signing environment file under `99. Key Paths/Android/Pip's Picture Pantry` was rediscovered from repository release documentation; its secret values remain outside the repo and are never printed.
+- Internal-test AAB: upload-key-signed v0.1.624 at Android versionCode 31 / versionName 1.1.3 after production build, Capacitor sync, and `jarsigner` verification. Sole release-folder AAB: `pips-picture-pantry-v0.1.624-vc31-internal.aab`; size 16,862,539 bytes; SHA-256 `B8A38FCC8E8160F48117BEEFC5FFE313CA9E235D7C867C5149817ED824724334`. This is for Play internal-test Billing evidence only; production remains blocked on both real-device purchase records.
+## v0.1.623 - Android Cell Input, Billing, and Pip Greeting Scale
+
+- Suppress every synthesized click arriving within 300ms after a pointer paint commit, including Android clicks with `event.detail === 0`, so one touch no longer paints and immediately toggles the same cell back.
+- Added `isConsumable: true` to the Cozy Support Pack native purchase call as required by the current Android Billing integration.
+- Increased the Workshop greeting Pip artwork from 80px to 160px while retaining the connected speech-bubble structure; the non-interactive greeting layer passes pointer input through to scene destinations beneath it.
+- Verification: focused board/Billing/home tests passed (19 tests), and `npm run qa:candidate` passed (31 test files / 184 tests; production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900). The first mobile run exposed greeting pointer interception; `pointer-events: none` corrected it before the clean rerun.
+- Internal-test AAB: upload-key-signed v0.1.623 at Android versionCode 30 / versionName 1.1.2; Capacitor sync and jarsigner verification passed. Only `pips-picture-pantry-v0.1.623-vc30-internal.aab` remains in the release folder. Size: 16,862,278 bytes; SHA-256: `0794D7A3935DC43743BC1FEA97B23204BE815F0FA7D56ADDE5750F3D21AF6BD6`.
+
+## v0.1.622 - Guide Alignment, Greeting Bubble, and Billing Flag
+
+- Centered guide overlays with safe-area-aware vertical padding.
+- Connected the Workshop Pip greeting to explicit wrap, portrait, and speech-bubble styles while retaining the existing scene selectors.
+- Kept the Cozy Support Pack non-consumable and restorable, while the repeatable Small Spoon Jar remains the only purchase using `isConsumable: true`.
+- Verification: `npm run qa:candidate` passed (31 test files / 184 tests; Billing, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900 included). Real-device Billing purchase/restore and repeat-purchase evidence remains pending.
+- Internal-test AAB: upload-key-signed v0.1.622 build created at Android versionCode 30 / versionName 1.1.2 after candidate QA, live privacy verification, the final Billing contract correction, production build, Capacitor sync, and jarsigner verification. SHA-256: 01B19C3AB7304655D0C0001EF565246C3646D075781D0BBDD309FED656D18A65. Use it only for Play internal-test Billing evidence; production submission remains blocked on the real-device records.
+## v0.1.621 - Daily Pip Greeting and Single Cell Input
+
+- Added a short Pip speech bubble greeting on the Workshop home that rotates once per local calendar day across seven localized messages.
+- Replaced the zero-delay click guard after pointer painting with a bounded synthetic-click guard, so one touch or mouse press changes a puzzle cell only once while keyboard activation remains available.
+- Added regression coverage for delayed pointer clicks.
+- Verification: `npm run qa:candidate` passed (31 test files / 184 tests; catalog, uniqueness, art, launch, hygiene, assets, store, Billing, privacy, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900).
+
+## v0.1.619 - Single-Scene Onboarding and Puzzle Controls
+
+- Rebuilt standard Pip guides as one mint scene with Pip grounded in the backdrop and a single floating dialogue card; story-neighbour conversations retain their two-character layout.
+- Restored the approved raster Fill, Blank, and Undo artwork at every board size, including the previous 5x5 fallback that hid those icons, and aligned guide action chips to the same vertical rhythm.
+- Verification: `npm run qa:candidate` passed (182 tests; mobile QA at 360x740, 390x844, 430x932, and 675x900).
+
+## v0.1.618 - Workshop labels and input containment
+
+- Workshop home: placed a small Pip beside the greeting, restored readable labels beneath destination artwork, and converted the Pantry novelty marker to a nonverbal dot.
+- Workshop CTA: removed the opaque button shell so the paint-tool art and label sit directly in the room.
+- Settings: constrained the three language choices so narrow Android widths cannot overlap.
+- QA: updated the home visual contract so visible labels are required.
+- Verification: `npm run qa:candidate` passed (182 tests, four mobile viewports); the fallback candidate server port is now forwarded to visual QA.
+pm run qa:candidate passed (182 tests, four mobile viewports); the fallback candidate server port is now forwarded to visual QA.
+
+## v0.1.616 - Final Approval Candidate Clarity
+- Added the missing Pantry-decoration hint beneath the locked-stage requirement so the next action is explicit.
+- Renamed and structurally separated the primary Puzzle CTA from its picture icon: Solve now / Play Now.
+- Added a one-time shelf-completion burst and badge-earned line to the existing mounted completion overlay; this avoids trying to animate an unmounted Puzzle-list mosaic.
+- Verification: focused release-clarity tests, mobile QA, and the full candidate gate passed. An upload-key-signed internal-test AAB was rebuilt at Android versionCode 28 / versionName 1.1.0; it is for real-device Billing evidence only, not production submission.
+## v0.1.617 - Device-first Onboarding and Workshop Clarity
+- Rebalanced full-screen Pip dialogue into a deliberate 40/60 character-and-card composition for tall Android devices, with safe scrolling inside the dialogue half.
+- Tightened the three language buttons, added a short friendly Workshop greeting, visible scene-destination progress badges, and a larger circular play action.
+- Added an actionable empty/progress hint to the Badge Shelf so a new player understands how badges arrive.
+- Verification: `npm run qa:candidate` passed ? 30 test files / 182 tests, catalog, art, hygiene, store, Billing configuration, build, Android release gate, and mobile QA at 360?740 / 390?844 / 430?932 / 675?900. The only remaining release evidence is real-device Play Billing purchase/restore and repeat-purchase.
+- Internal-test AAB: upload-key-signed v0.1.617 build created at Android versionCode 29 / versionName 1.1.1 after standard release QA and Capacitor sync. It intentionally skips the final Billing-evidence gate; use it only for Play internal-test Billing evidence. Any later production upload must increment Android versionCode again.
+
+## v0.1.615 - Earned Badge Lightness
+- Reframed earned badges as lightweight, transparent achievement tokens rather than a separate report-like card.
+- Kept the approved badge art and accessible earned-label copy intact while removing the opaque shelf surface that fought the game background.
+- Verification: source hygiene, responsive mobile geometry, build, and the targeted visual contract pass.
+## v0.1.614 - Pantry Slot Switching
+- Tapping a room slot now brings its matching shop choices into view, so owned decorations and new purchases can be swapped without hunting below the room.
+- The persistent slot model remains explicit: an item changes only within its matching room location, while purchase still equips it immediately.
+- Verification: four-width mobile visual QA, Pantry overlay contracts, save behavior, and source hygiene pass.
+
+## v0.1.613 - Workshop Navigation Hierarchy
+- Rebuilt the Puzzle Room home hierarchy: one large primary play action, five anchored destination icons, and a compact top-right settings/currency control group.
+- Replaced the duplicated primary puzzle icon with the approved fill-control artwork, keeping the picture list icon distinct.
+- Updated mobile visual QA to enforce the new five-destination scene, compact settings target, no collisions, and the distinct primary play art.
+
+## v0.1.612 - Clear Stage Gate
+- Simplified Pantry-gated stage copy to describe the actual action: decorate the Pantry, then continue.
+- Removed the misleading story requirement wording and kept the unlock requirement compact at every supported width.
+
+## v0.1.611 - Pantry Overlay Matte Repair
+
+- Reprocessed all 25 master-coordinate Pantry overlays after detecting residual chroma-magenta pixels from generated source mattes.
+- The normalization pipeline now removes matte pixels both before cropping and after LANCZOS resizing, preventing semi-transparent purple edge halos from leaking onto the room background.
+- Verified every overlay remains 1024x1536 and contains zero visible magenta-matte pixels.
+## v0.1.610 - Pantry Room v2 Master Overlay Pipeline
+
+- Replaced the v1 room path that visually placed independent shop thumbnails over a background with a master-derived room base plus 25 transparent full-canvas overlays.
+- The active `sunlit-v2` base is an empty 1024x1536 Pantry room. Counter (6), window (5), shelf (5), floor (4), and back-wall (5) items now render only through their approved perspective-safe overlay counterpart.
+- The room no longer relies on responsive per-item CSS coordinates: each overlay preserves its canonical master coordinate system at every viewport, while the original catalog art remains shop-only.
+- Added asset-manifest approval records and a unit contract requiring all 25 purchasable decorations to resolve to a v2 overlay. Base/overlay dimension and alpha checks pass locally.
+- Verification: 178 unit tests, 201-asset manifest QA, production build, Android release gate, four-width mobile QA, and the full candidate gate pass. The 64-frame v0.1.610 visual-review pack was regenerated, including the Pantry room/shop state. Real-device Billing purchase/restore and repeat-purchase evidence remain external release work.
+## v0.1.609 - Large Board Guide Boundaries
+
+- Added tactile board separators only where they improve play: no divider on 5x5, one centered vertical/horizontal boundary on 8x8 and 10x10, and 4-cell boundaries on 12x12.
+- The guide boundaries use the existing cell frame rather than an overlay, so they remain aligned with drag painting, cursor selection, completed-line guidance, and X marks at every mobile size.
+- Added a board helper unit test and extended the 12x12 mobile visual contract to verify both separator directions and their exact cell-boundary alignment.
+
+## v0.1.608 - Reachable Progress and Pantry Switching
+
+- Added the missing earned-badge shelf layout so stage badges render at controlled, responsive dimensions instead of their source-image size.
+- The puzzle list now reveals exactly the next locked shelf after its predecessor is complete, reusing the existing cost, pantry-progress, and open-stage controls rather than ending the visible route.
+- Pantry offers now say `Replace` when a purchasable item will replace the current decoration in that room slot; owned items remain separately reachable for re-equipping.
+- Verification: full qa:candidate passes: 175 tests, catalog and art audits, source hygiene, 174-asset manifest, store checks, billing configuration, production build, Android release gate, and mobile visual QA at 360x740 / 390x844 / 430x932 / 675x900. Real-device Billing evidence remains external.
+## v0.1.607 - Core Play-Flow Repairs
+
+- Time Attack now starts every round from a fresh transient board, advances through all three rounds without reading or overwriting normal puzzle progress, and returns to its own results/records path only after the run ends.
+- Repaired the guide overlay's responsive structure, removed the stale settings corner pseudo-artifact, and made Clock Grandpa use the dedicated character portrait instead of the duplicate-headed sprite sheet.
+- Restored decorating-room control: equipped and owned pieces stay reachable first in the shop list, and an owned story item can be placed again directly from Pip's request.
+- Puzzle play now labels its existing header return action as `Menu`; no floating navigation is layered over a live board.
+- Verification: 175 automated tests and mobile visual QA at 360x740, 390x844, 430x932, and 675x900 pass. Full candidate verification is next. Real-device Billing evidence remains external.
+## v0.1.606 - Destination-Specific Screen Ownership
+
+- Removed the shared `핍의 퍼즐방` / app-title header from every non-play destination. Album, stage map, decorating room, Time Attack, and settings now own only their own screen content instead of inheriting the Workshop name.
+- Kept the dedicated puzzle-play HUD separate: it names the actual puzzle being solved rather than branding every screen as the Workshop.
+- Extended four-width mobile QA to fail whenever the retired `.top-bar` reappears after navigating to album, map, decorating room, or Time Attack.
+- Next: complete the full Workshop composition pass (dominant next-puzzle affordance, meaningful cutout hierarchy, and furnished-room progression) without reintroducing global chrome.
+## v0.1.605 - Workshop Cutout Scale Correction
+
+- Repacked only the v3 runtime WebP files against their alpha bounds. The source PNG archives remain intact; the app now spends its 76px destination target on the visible illustration rather than transparent canvas margin.
+- This directly protects the Workshop hierarchy: the primary Play action remains largest, while Puzzle/Album/Pantry/Clock Grandpa/Badge/Settings are discoverable cutouts instead of tiny marks in a large hit area.
+- Next: rerun the four-width mobile check and visual review pack before requesting a new player-facing visual pass.
+## v0.1.604 - Workshop Cutout Art Replacement
+
+- Replaced the Workshop navigation source art with a new v3 set whose corners are verified transparent and whose white outline follows each object rather than forming a CSS plate. The six destinations now use one coherent native cutout system: puzzle card, album, pantry jar, Clock Grandpa pocket watch, badge map, and settings gear.
+- Routed the v3 IDs through manifest, runtime allowlist, shared floating navigation, and four-width visual QA expectations together. Removed the last unused puzzle-control import from the navigation route.
+- Recorded the Pantry room-art pipeline as a separate art-production contract: complete furnished master scene first, then a clean room base and matching alpha overlays. Current room coordinates remain intentionally frozen until that input exists.
+- Next: inspect the v3 artwork in the full visual review pack before any screen-level geometry changes; follow it with the full candidate gate. Real-device Billing evidence remains the only external release blocker.
+## v0.1.603 - UI Rework v2 Integration
+
+- Adopted the integrated UI-rework contract: the Workshop keeps direct cutout destination art and one primary play action, while Time Attack and all non-play destinations share a quiet warm surface.
+- Added reduced-motion-safe breathing/pulse cues without adding new text or card frames. The scene motion is clipped within the Workshop so it cannot increase document overflow.
+- Kept the Pantry slot geometry frozen. A finished furnished-room master plus per-slot transparent overlays is required before any further placement-art work; current product thumbnails will not be coordinate-tuned into the room.
+- Unified the compact, icon-only shared return trigger and removed a stale puzzle-control import from that route.
+- Kept the primary Workshop action stationary while its shadow pulses: this preserves its invitation cue without blocking real pointer interaction or the complete 64-frame visual review flow.
+- Verification: 175 tests, source hygiene, asset manifest QA (174 assets), mobile visual QA at 360x740 / 390x844 / 430x932 / 675x900, production build, Android release gate, and the full candidate gate pass. Only the two real-device Billing evidence records remain external release blockers.
+## v0.1.602 - Unified Settings Navigation Art
+
+- Routed the shared floating navigation settings destination through the same approved Workshop sticker artwork as the home scene.
+- This removes the last cross-screen mismatch where settings still used the compact puzzle-control glyph while every other destination used the new navigation system.
+- Verification: source hygiene, asset-manifest, mobile visual QA, and production build are pending for this isolated follow-up.
+
+## v0.1.601 - Workshop Sticker Navigation
+
+- Replaced the six Workshop navigation illustrations with a coherent transparent sticker set: puzzle notebook, completed-picture album, Clock Grandpa pocket watch, Pantry jar, achievement map, and settings gear.
+- Rebuilt the scene hierarchy around physical workshop anchors and one large lower-right Play action. Destination controls now stay clear of Pip and his notebook instead of reading as a flat six-card menu.
+- Archived high-resolution alpha sources alongside optimized 512px WebP runtime copies; no chroma-key source is shipped.
+- Verification: asset manifest validation and four-width mobile visual QA passed.
+
+## v0.1.600 - Screen-Aware Navigation and Time Attack Entry
+
+- Added an explicit active-view marker to the app shell so each destination can own its surface without leaking home composition styles.
+- Time Attack now opens without the generic header and presents Clock Grandpa as a centered challenge entry; the run ladder and start action remain unchanged.
+- Reworked the shared return picker into a compact icon-only control with a labeled expanded destination panel, preserving accessibility labels and readable destination names.
+- Next: finish the Pantry installation-art pipeline only after master furnished-room artwork and per-slot transparent overlays are available; do not solve those scene problems with more CSS coordinates.
+
+## v0.1.599 - Workshop Cutout Navigation Foundation
+
+- Started the UI rework v2 from the player-facing home: destination artwork now renders as glow-backed sticker cutouts instead of a second ring/card frame, while the Workshop background and primary play action receive gentle motion with reduced-motion support.
+- This is intentionally a visual-foundation slice only. The Pantry furnishing pipeline is deferred until installed-scene art and placement metadata are authored; no attempt is made to force current product thumbnails into room coordinates.
+- Next: add explicit `data-view` routing for warm sub-screen composition, rebuild the Time Attack entry without the generic header, then create the Pantry master-room asset pipeline.
+## v0.1.598 - Puzzle Room icon hierarchy
+
+- Reset the legacy two-column icon grid inside each workshop destination, so the hidden accessibility label no longer consumes half of the ring. Approved destination art now uses the full button area instead of rendering as a thin, hard-to-find strip.
+- Mobile QA now enforces six 76px+ scene targets, large 72px+ rendered art, and a 96px+ primary Play target across all four required widths. This protects the deliberate visual hierarchy from future CSS cascade regressions.
+- Verification: `npm run qa:mobile`, 175 tests, and source hygiene pass at 360x740 / 390x844 / 430x932 / 675x900.
+
+## v0.1.597 ? Shared-menu alignment
+
+- The non-home menu trigger now centers its current-route art and `�޴�` / `Menu` label as a single group instead of pinning the art against the left edge of a wide bar.
+- The trigger retains its full-width touch target and opens the same direct Puzzle Room return route alongside the other destinations.
+## v0.1.596 ? Puzzle Room destination-art legibility
+
+- Workshop scene destination targets retain their 84px+ tap areas, while the approved destination artwork is enlarged within the white-ringed color buttons; this removes the transparent-padding effect that made each icon read too small.
+- The scene stays text-light: one large lower-right `Ǯ��` / `Play` action plus destination-only buttons around Pip, with all labels preserved for assistive technology.
+## v0.1.595 - Puzzle Room Hierarchy and Clear Returns - 2026-07-26
+
+- Replaced the accidental top-wide `Solve this picture` bar with one large in-scene Play action. It has a clear puzzle icon, a concise local label, and a dedicated lower-right priority position.
+- Rebuilt the six workshop destinations as high-contrast, white-ringed, color-coded scene buttons with deliberate left/right positions: picture list and album at the upper room, Time Attack and Pantry in the mid room, badge map and Settings at the lower edges.
+- Opening Picture List now replaces the workshop instead of rendering below a full-screen scene. It has an explicit Puzzle Room return button and keeps the common menu available; the menu's first item now names the Puzzle Room directly.
+- Corrected the focused-play back label to Puzzle Room / ?�즐�? matching its existing route instead of falsely calling it the Picture List.
+- Hidden the underlying focused-play Settings icon while the Settings modal is open so it cannot appear as a pale, unexplained ghost control.
+- Verification: 175 tests and `npm run qa:mobile` at 360x740 / 390x844 / 430x932 / 675x900 pass. Local capture artifacts were regenerated for the revised home, Settings, and Picture List.
+- External release blocker unchanged: record real-device Billing evidence for `pip_cozy_support` purchase/restore and `pip_spoon_jar_small` repeat purchase.
 # Pip's Picture Pantry - Active Context
 
+## v0.1.593 - Purchase Motivation and Puzzle Integrity - 2026-07-26
+
+- Added a unique-solution guard for all 333 authored puzzles and every generated Time Attack board size. Future catalog additions now fail candidate QA if their clue set can resolve to more than one board.
+- Kept the full free route intact while making a decor shortfall actionable: an unavailable item now offers a direct `Add spoons` route to the optional Pantry store instead of a dead disabled purchase button.
+- Opening Pantry now requests native Google Play product metadata on that actual surface, so current Android prices can appear without first visiting Settings. Web stays deliberately non-purchasable.
+- Kept the Puzzle Workshop distinct from Pip's editable Pantry, but equipped Pantry furnishings now appear as small, physical workshop details. The optional Support Pack also leaves a permanent thank-you keepsake there.
+- Added active-play language-switch coverage: normal puzzle cells, selected mode, and cursor are preserved when language changes; an active Time Attack run remains held by the app shell while its labels redraw.
+- Verification: 175 tests, 333 unique authored solutions, art audit with 0 duplicate silhouettes / 0 duplicate titles / 0 review candidates, 162 registered assets, 64-frame visual review pack, build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900 all pass.
+- Release blocker unchanged: record real-device Billing evidence for `pip_cozy_support` purchase/restore and `pip_spoon_jar_small` purchase/repeat before the signed Play upload.
 ## Current Launch Candidate Snapshot - 2026-07-17
+
+### v0.1.592 - Separate Puzzle Workshop Home
+
+- Split the player-facing spaces cleanly: the new home is an original Pip puzzle workshop scene, while the editable Pantry remains a separate room that fills as the player buys and equips furnishings.
+- Removed the studio-name line from the normal game header; it remains an opening-brand responsibility rather than recurring in-play copy.
+- Korean UI now uses `?? ???` for the play home and `?? ??? ?` for the furnishing route, including visible early puzzle names.
+- Replaced the labeled destination card grid with six accessible, icon-only scene destinations around the workshop. The current puzzle remains one compact bottom action.
+- Centered the floating menu label independently of its icon and reduced the starter counter furnishing zone so it reads as a placed object, not a room-scale illustration.
+- Verification: 170 tests, asset manifest QA (160 assets), four-width mobile QA (360x740 / 390x844 / 430x932 / 675x900), and regenerated 64-image visual review pack pass. Full candidate/build validation follows this context update.
+- Release blocker unchanged: real-device Billing evidence for `pip_cozy_support` purchase/restore and `pip_spoon_jar_small` repeat purchase.
+
+### v0.1.591 - Pip's Picture Room Home and Navigation
+
+- Renamed the Korean player-facing space to `Pip??그림�?, retaining the English product name only where it is part of the brand. The room, Pantry route, and home copy now use the same familiar Korean concept.
+- Rebuilt the first landing screen as Pip's actual warm picture room: Pip, one clear current-picture action, and six direct destinations. The picture shelf only opens after `그림 목록`, so the initial screen invites play rather than presenting a catalogue.
+- Moved Settings fully into the destination menu. Outside the home screen, the menu now sits in normal document flow immediately below the header and opens one destination per row, preventing the former bottom overlay from covering Pantry shop actions.
+- Tightened the Pantry header and constrained the counter decoration to furnishing scale so the background remains the room and the item reads as an object placed in it.
+- Verification: `npm run test` (170 tests), `npm run qa:mobile` at 360x740 / 390x844 / 430x932 / 675x900, and the regenerated 64-image visual review pack pass. Full candidate/build validation follows this context update. No Android bundle was created.
+- Release blocker unchanged: real-device Billing evidence for `pip_cozy_support` purchase/restore and `pip_spoon_jar_small` repeat purchase.
+
+### v0.1.590 - Mobile Play Safety and Pantry Room
+
+- Made cursor-mode board presses selection-only: direct taps and drag gestures move the selected cell without coloring or marking a puzzle. Color and Blank now apply only through their explicit actions.
+- Removed the cramped row/column and selected-state status chips. Puzzle progress is now a compact `{filled} / {target}` count, and automatic X marks use the quieter mint treatment without the old shadow-heavy ornament.
+- Moved Reset Progress out of the live header into Settings, behind its existing confirmation flow. Completion `Menu` now returns to the puzzle hub at the top; the in-play Picture List remains the explicit route to the full list.
+- Rebuilt the Pantry as Pip's actual warm room with an approved sunlit window, shelf, counter, floor, and purposefully placed decoration zones. The shop remains below the room, with spoon items first and optional support packs last.
+- Localized the Korean brand title to `Pip??그림 ?�트�?, replaced Settings guide replay placeholders with approved raster art, centered Time Attack Start, and consolidated Quick Travel into the requested vertical order.
+- Verification: focused unit tests, asset/hygiene checks, production build, and four-width mobile QA (360x740 / 390x844 / 430x932 / 675x900) pass. The visual pack is regenerated for manual review; external Billing purchase evidence remains the only release blocker.
+
+### v0.1.589 - Clock Grandfather Focus
+
+- Time Attack now gives the Clock Grandfather and his pocket watch a clear, near-full-height presence at the start of the challenge; it reads as a distinct game route without the former ambiguous aura treatment.
+- Verified the focused Time Attack surface through the four-width mobile visual QA. No Android bundle was created.
+
+### v0.1.588 - Shelf Completion Handoff
+
+- A completed non-final shelf now returns to the picture list, where the next shelf can be chosen or opened; the final Village Pantry shelf instead leads directly into Pip's Pantry.
+- The completion overlay has distinct final-shelf copy and action, so it never promises a nonexistent ?�next shelf.??- Verified focused shelf/save/i18n tests and mobile visual QA at 360x740, 390x844, 430x932, and 675x900. No Android bundle was created.
+
+### v0.1.587 - Season Shelf Progression Rebuild
+
+- Repackaged the unchanged 333 authored puzzle IDs into 15 short player-facing shelves (20-23 pictures each), so the opening experience now moves 5x5 -> mixed 5x5/8x8 -> 10x10 tastes -> gradual 12x12 introduction instead of dropping a 136-board wall after the opening packs.
+- Added save-compatible shelf progress: legacy pack unlocks migrate to their matching shelves, completed legacy packs seed their matching shelf-completion records, and all existing puzzle completion IDs remain untouched.
+- The picker, in-play previous/next navigation, daily candidate access, shelf completion rewards, and keepsake badge milestones now use shelf progression rather than the old five oversized pack boundaries. The 15 shelf unlock costs total 970 spoons and shelf bonuses total 750 spoons, matching the old five-pack economy instead of accidentally inflating late-game currency.
+- Removed the last player-facing global catalog pressure from Album counts; normal play communicates shelf progress only. Existing approved stage/badge art is temporarily reused through `artPackId` while each new shelf gets its own future visual pass.
+- Shelf completion is now a concise Pip moment (art, one line, spoon bonus, next action) rather than a reward report. The Time Attack start view now carries the approved clock-grandpa character crop so the mode reads as a timed visit with a world character, not a bare utility panel.
+- The former hidden-bonus-pack QA guard now proves the stronger shelf invariant: no future `-plus` pack can appear in the curated launch shelf journey, while legacy saves remain safely migrated.
+- Verification in this slice: focused shelf/save/badge/i18n tests, production build, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900. No Android bundle was created.
 
 - Mode remains `live-candidate`, now focused on final Android release hardening rather than bulk feature expansion.
 - Season 0 launch catalog target is complete at 333 polished puzzles; future 1,000+ depth moves to seasonal/quarterly updates.
@@ -404,14 +1257,14 @@ Last updated: 2026-07-10
 - Added the same badge state to the Roadmap view so the 100-card completion goal has a visible pride reward, not only a revealed picture.
 - Expanded future paid-theme placeholders from two to five 20-card set concepts: Cozy Cafe Room, Bakery Morning, Seasonal Pantry, Village Picnic, and Sunny Spoon Festival.
 - Fixed the missing `packs.preview` i18n key so Korean no longer shows a raw translation key in bonus-stage badges.
-- Changed future paid-stage copy from vague Coming Soon wording to a price-preview placeholder (`$0.99 planned` / `예상 가격 $0.99`) for later store wiring.
+- Changed future paid-stage copy from vague Coming Soon wording to a price-preview placeholder (`$0.99 planned` / `?�상 가�?$0.99`) for later store wiring.
 - Kept BGM disabled intentionally and documented `startMusic()` as a placeholder until an original looped music file is added; current SFX remains active.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 25 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and the release script requires jarsigner `jar verified` before succeeding.
 
 ## Progress Update - 2026-06-29 v0.1.19 Store-Safe Add-On Copy
 
 - Bumped visible app version to v0.1.19 and Android release version to versionCode 12 / versionName 1.0.11.
-- Replaced hardcoded `$0.99 planned` add-on text with store-safe value copy: `Optional add-on - 100 puzzles` / `선택 추가 세트 - 100개 퍼즐`.
+- Replaced hardcoded `$0.99 planned` add-on text with store-safe value copy: `Optional add-on - 100 puzzles` / `?�택 추�? ?�트 - 100�??�즐`.
 - Changed the top badge shelf so it appears only after the first 100-card Pip Portrait badge is earned; in-progress badge tracking remains in the Roadmap view.
 - Removed the residual BOM from `src/ui/appShell.js`.
 - Verification after this slice: node --check passed on appShell; npm run test passed with 25 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932.
@@ -447,7 +1300,7 @@ Last updated: 2026-07-10
 
 - Bumped visible app version to v0.1.23 and Android release version to versionCode 16 / versionName 1.0.15.
 - Added an optional WebAudio cozy music loop using a quiet 12-second C-major pattern with soft note envelopes and low bass support.
-- Restored the music toggle in Settings as `Cozy music on/off` / `아늑한 음악 켜기/끄기`; music remains opt-in and does not autoplay by default.
+- Restored the music toggle in Settings as `Cozy music on/off` / `?�늑???�악 켜기/?�기`; music remains opt-in and does not autoplay by default.
 - Kept SFX behavior unchanged and preserved the previous tap, card-complete, and stage-complete effects.
 - Verification after this slice: node --check passed on changed JS modules; npm run test passed with 28 tests; npm run build passed; npm run qa:mobile passed at 360x740, 390x844, and 430x932; signed AAB rebuilt and jarsigner reported `jar verified`.
 
@@ -522,7 +1375,7 @@ Last updated: 2026-07-10
 ## Progress Update - 2026-07-01 v0.1.33 Tutorial Label Polish
 
 - Bumped visible app version to v0.1.33 while keeping Android release numbering at versionCode 25 / versionName 1.0.24 because the next closed-test AAB has not been uploaded yet.
-- Renamed the first-puzzle help heading from the Korean `그림 칸 가이드` wording to a friendlier picture-square guide label, while keeping the visual clue examples for adjacent 3 cells and separated 1 1 1 cells.
+- Renamed the first-puzzle help heading from the Korean `그림 �?가?�드` wording to a friendlier picture-square guide label, while keeping the visual clue examples for adjacent 3 cells and separated 1 1 1 cells.
 - Verification after this slice: node --check passed for ko/en i18n and appShell; npm run build passed; signed AAB rebuilt for the next closed-test upload.
 ## Tester Feedback - 2026-07-01 Stage Navigation / Puzzle Size Expansion
 
@@ -2094,19 +2947,19 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Kept the change visual-only on top of v0.1.246 timeout recording behavior.
 
 ### v0.1.248 - Time Attack Result Detail Polish
-- 타임어택 타임아웃 결과에서 보상이 있는 타임아웃과 진행 부족으로 보상이 없는 타임아웃을 문구로 분리했다.
-- 결과 카드에 사용한 힌트 수를 노출해, 기록 경쟁과 스푼 소비가 한 화면에서 함께 이해되도록 정리했다.
-- 버전 표기는 v0.1.248로 갱신했다.
+- ?�?�어???�?�아??결과?�서 보상???�는 ?�?�아?�과 진행 부족으�?보상???�는 ?�?�아?�을 문구�?분리?�다.
+- 결과 카드???�용???�트 ?��? ?�출?? 기록 경쟁�??�푼 ?�비가 ???�면?�서 ?�께 ?�해?�도�??�리?�다.
+- 버전 ?�기??v0.1.248�?갱신?�다.
 
 ### v0.1.249 - Time Attack Record Hint Visibility
-- 타임어택 최고 기록 요약과 기록 목록에 사용한 힌트 수를 함께 표시하도록 정리했다.
-- 진행 칸 수, 시간, 힌트 수가 한 줄에 같이 보여 기록 경쟁과 스푼 소비의 관계가 더 명확해졌다.
-- 버전 표기는 v0.1.249로 갱신했다.
+- ?�?�어??최고 기록 ?�약�?기록 목록???�용???�트 ?��? ?�께 ?�시?�도�??�리?�다.
+- 진행 �??? ?�간, ?�트 ?��? ??줄에 같이 보여 기록 경쟁�??�푼 ?�비??관계�? ??명확?�졌??
+- 버전 ?�기??v0.1.249�?갱신?�다.
 
 ### v0.1.250 - Opening Version Visibility
-- 오프닝 게임 시작 화면과 이름 입력 화면에 작은 버전 칩을 추가해, 미리보기에서 현재 빌드를 즉시 확인할 수 있게 했다.
-- APP_VERSION을 src/data/appVersion.js로 분리해 앱 쉘과 브랜드 인트로가 같은 버전 값을 공유하도록 정리했다.
-- 모바일 QA가 오프닝 버전 칩을 확인하도록 확장했다.
+- ?�프??게임 ?�작 ?�면�??�름 ?�력 ?�면???��? 버전 칩을 추�??? 미리보기?�서 ?�재 빌드�?즉시 ?�인?????�게 ?�다.
+- APP_VERSION??src/data/appVersion.js�?분리?????�과 브랜???�트로�? 같�? 버전 값을 공유?�도�??�리?�다.
+- 모바??QA가 ?�프??버전 칩을 ?�인?�도�??�장?�다.
 
 ### v0.1.251 - Four Puzzle Quality Batch
 - Added four readable free puzzles: Cranberry Linzer Star, Hazelnut Cocoa Tart, Braided Herb Basket, and Blue Daisy Teacup.
@@ -2159,14 +3012,14 @@ Verification after this slice: `node --check scripts\\mobile_visual_check.js` pa
 - Season 0 now reaches the 333-puzzle launch target. Next major priority should shift from bulk puzzle count to first-session polish, art consistency, Pantry story/economy flow, Time Attack feel, completion effects, and mobile QA.
 
 ### v0.1.261 - Season 0 Progress Hub
-- Puzzle Hub에 Season 0 진행 카드를 추가해 333개 출시 퍼즐을 하나의 런칭 시즌 카탈로그로 보이게 했다.
-- 카드에서 전체 완성률, 열린 스테이지 수, 보유 스푼을 함께 보여 주어 다음 스테이지 해금과 Pantry 요청이 자연스러운 목표가 되도록 정리했다.
-- 다음 시즌 업데이트 예고 문구를 추가해 출시 후 계절성 퍼즐 팩 확장 방향을 UI 안에 심었다.
-- 모바일 preview guard에서 발견된 대형 팩 mosaic 압축 문제를 함께 수정했다. 실제 136개/137개 퍼즐 수를 그대로 렌더하지 않고 20칸 샘플에 진행률을 환산해 stage art가 안정적으로 보이게 했다.
+- Puzzle Hub??Season 0 진행 카드�?추�???333�?출시 ?�즐???�나???�칭 ?�즌 카탈로그�?보이�??�다.
+- 카드?�서 ?�체 ?�성�? ?�린 ?�테?��? ?? 보유 ?�푼???�께 보여 주어 ?�음 ?�테?��? ?�금�?Pantry ?�청???�연?�러??목표가 ?�도�??�리?�다.
+- ?�음 ?�즌 ?�데?�트 ?�고 문구�?추�???출시 ??계절???�즐 ???�장 방향??UI ?�에 ?�었??
+- 모바??preview guard?�서 발견???�????mosaic ?�축 문제�??�께 ?�정?�다. ?�제 136�?137�??�즐 ?��? 그�?�??�더?��? ?�고 20�??�플??진행률을 ?�산??stage art가 ?�정?�으�?보이�??�다.
 
 ### v0.1.262 - Stage Unlock Plan Copy
-- 잠긴 스테이지 카드에 다음 행동 플랜 문구를 추가했다. 스푼 부족, Pantry 요청 부족, 둘 다 부족한 상황을 각각 설명해 다음 퍼즐을 열기 위한 목표를 더 명확하게 보여 준다.
-- Season 0의 333개 퍼즐을 단순 목록이 아니라 스푼 수급과 Pantry 진행으로 단계적으로 열어 가는 구조로 느끼게 하는 UI 보강이다.
+- ?�긴 ?�테?��? 카드???�음 ?�동 ?�랜 문구�?추�??�다. ?�푼 부�? Pantry ?�청 부�? ????부족한 ?�황??각각 ?�명???�음 ?�즐???�기 ?�한 목표�???명확?�게 보여 준??
+- Season 0??333�??�즐???�순 목록???�니???�푼 ?�급�?Pantry 진행?�로 ?�계?�으�??�어 가??구조�??�끼�??�는 UI 보강?�다.
 
 
 ### v0.1.263 - Opening Promise Strip
@@ -2973,12 +3826,12 @@ Current launch direction:
 ### v0.1.411 Billing QA Guard Addendum
 - Added `npm run qa:billing` so the optional Pip Support Pack cannot drift away from Android Billing permissions, product ID wiring, i18n copy, policy docs, and Play Console listing disclosure.
 - Wired Billing QA into `npm run qa:candidate` and the Android release gate so final candidate checks include the monetization surface, not only gameplay and store graphics.
-- The player-facing copy remains one gentle support/spoon surface; the guard fails if support-pack UI copy reintroduces paid/free or 유료/무료 wording.
+- The player-facing copy remains one gentle support/spoon surface; the guard fails if support-pack UI copy reintroduces paid/free or ?�료/무료 wording.
 
 ### Playable Pack Catalog Guard Addendum
 - Strengthened `npm run qa:catalog` so any launch/playable pack with zero authored puzzles fails immediately, while `bonus-pack` entries may remain hidden future previews.
 - This protects the Season 0 launch flow from accidentally exposing an empty stage after the catalog pivot to 333 polished puzzles plus later seasonal drops.
-- The Billing QA forbidden-copy regex is already normalized to explicit Korean terms (`유료` / `무료`), so the guard remains readable and does not depend on mojibake fragments.
+- The Billing QA forbidden-copy regex is already normalized to explicit Korean terms (`?�료` / `무료`), so the guard remains readable and does not depend on mojibake fragments.
 ### Support Pack Visible Copy QA Guard
 - Mobile visual QA now verifies that the Settings Support Pack card renders with both support and restore actions, keeps the 250-spoon value visible, and does not expose paid/free tier wording in player-facing copy.
 - This closes the remaining Billing UI wiring gap before real Play Console product testing: code paths, startup restore sync, and visible support-card copy are now guarded locally.
@@ -3139,7 +3992,7 @@ Current launch direction:
 
 ### v0.1.442 Opening Mode Chip Action Affordance
 - Bumped the visible app version to v0.1.442 and package version to 0.1.442.
-- Added a small Open/열기 capsule to the opening Puzzle/Pantry/Time Attack chips so the launch promises read as tappable entry points without changing routing or the player-name pending-view flow.
+- Added a small Open/?�기 capsule to the opening Puzzle/Pantry/Time Attack chips so the launch promises read as tappable entry points without changing routing or the player-name pending-view flow.
 - Strengthened mobile visual QA so every opening mode chip must keep the action capsule, arrow cue, gradient body, and no-overflow treatment at the 360/390/430px Android viewports.
 
 ### v0.1.443 Time Attack Entry CTA Clarity
@@ -3502,7 +4355,7 @@ Current launch direction:
 
 ### v0.1.505 Korean Resident Names and Conversation Polish
 - Bumped the visible app version and package metadata to v0.1.505.
-- Localized human resident names in Korean story scenes as `박 선생님`, `릴리`, and `마테오`; retained `Pip` as the established character and product brand name.
+- Localized human resident names in Korean story scenes as `�??�생??, `릴리`, and `마테??; retained `Pip` as the established character and product brand name.
 - Rewrote translation-like guide phrases across the first puzzle, Time Attack, first room story, and all three resident arrivals into shorter natural Korean conversation while preserving the original mechanics and story beats.
 - Added i18n regression checks that require the three Korean resident names and reject `Mr. Park`, `Lily`, or `Mateo` in their Korean introduction copy.
 - Hardened resident screenshots to wait for decoded character images, loaded fonts, and two completed animation frames before capture; this prevents partially painted speech panels from being mistaken for text overflow or section intrusion.
@@ -3510,8 +4363,8 @@ Current launch direction:
 
 ### v0.1.506 Korean Clock Grandpa Naming
 - Bumped the visible app version and package metadata to v0.1.506.
-- Replaced the formal `박 선생님` localization with the warmer role-based name `시계 할아버지` in his Korean title and first introduction.
-- Uses the shorter `할아버지` after the introduction so repeated sentences sound natural while the clock remains his memorable first-encounter identity.
+- Replaced the formal `�??�생?? localization with the warmer role-based name `?�계 ?�아버�?` in his Korean title and first introduction.
+- Uses the shorter `?�아버�?` after the introduction so repeated sentences sound natural while the clock remains his memorable first-encounter identity.
 - Kept the English `Mr. Park`, internal guide ID, save-state marker, artwork mapping, and milestone behavior unchanged.
 
 ### v0.1.507 Korean Pantry and Spoon Copy Polish
@@ -3524,7 +4377,7 @@ Current launch direction:
 
 ### v0.1.508 Korean Player Name Defaults
 - Bumped the visible app version and package metadata to v0.1.508.
-- Replaced the English `Jay` name-field example with the natural Korean example `하늘` when the app is displayed in Korean.
+- Replaced the English `Jay` name-field example with the natural Korean example `?�늘` when the app is displayed in Korean.
 - Replaced the fallback player address `Friend` with `친구`, so Pip does not switch back to an English human name when a Korean player has no saved display name.
 - Kept `Pip` and the English locale unchanged because Pip is the established character and product brand.
 - Verification: 115 unit tests and mobile visual QA at 360x740, 390x844, 430x932, and 675x900 passed.
@@ -3622,14 +4475,14 @@ Current launch direction:
 - Extended the completed-picture color system beyond the first shelf. Sunny Spoon Sign, Apron Drawer, Bakery Window, and Village Pantry now each resolve through a documented stage palette while puzzle-specific authored palettes still take priority.
 - Applied the same stage identity to the immediate completion reveal and the saved Album card instead of allowing the two surfaces to drift.
 - Expanded visual review with five-column contact sheets for the first shelf, Sunny Spoon Sign, and Apron Drawer. The 42-frame pack now exposes 60 completed cards for side-by-side silhouette, palette, title-wrap, and spacing review.
-- Localized the recurring Sunny Spoon Sign and Apron Drawer picture names used by the first 40 post-starter puzzles, including natural `두 번째 ...` variants, and localized their Korean stage/badge names.
+- Localized the recurring Sunny Spoon Sign and Apron Drawer picture names used by the first 40 post-starter puzzles, including natural `??번째 ...` variants, and localized their Korean stage/badge names.
 - The contact-sheet audit also exposed that Sunny Spoon Sign and Apron Drawer currently reuse the same 20 base silhouettes. This is recorded as the next content-art replacement slice rather than hidden by color changes.
 - Verification: 129 unit tests, the localized 42-frame visual pack, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, production build, source diff check, and the full release-candidate gate passed.
 
 ### v0.1.519 Apron Drawer Identity Recovery
 - Replaced Apron Drawer's copied Sunny Spoon Sign content with 20 pack-specific 8x8 silhouettes while preserving every existing puzzle ID and therefore save compatibility.
 - The new set uses ten sewing and drawer motifs plus ten distinct variants: pocket apron, patch pocket, four-hole button, thread spool, sewing scissors, needle, pincushion, apron bow, folded gingham, and drawer handle.
-- Added natural Korean titles for all ten motifs and their `두 번째 ...` variants; changed the technically valid but awkward `실패` label to the clearer player-facing `실타래`.
+- Added natural Korean titles for all ten motifs and their `??번째 ...` variants; changed the technically valid but awkward `?�패` label to the clearer player-facing `?��???.
 - Replaced diagonal/confetti stage coloring with region-based palettes. Edges, centers, and upper/lower regions now form coherent Sunny Spoon, apron, bakery, and village color groupings.
 - Added a data contract requiring all 20 Apron Drawer solutions to be unique and none to duplicate a Sunny Spoon Sign solution.
 - Visual review: the refreshed Apron Drawer contact sheet now shows a distinct sewing-themed shelf with stable title wrapping and no repeated Sunny Spoon silhouettes.
@@ -3795,10 +4648,10 @@ Current launch direction:
 
 ### v0.1.540 Pantry Store Ordering
 
-- Moved the Support Pack and Small Spoon Jar into the Pantry shop itself. Spoon-priced decoration filters, cards, and the “show more” action always appear first; paid packs follow as the final shop section.
+- Moved the Support Pack and Small Spoon Jar into the Pantry shop itself. Spoon-priced decoration filters, cards, and the ?�show more??action always appear first; paid packs follow as the final shop section.
 - Kept purchases out of Settings and added measured mobile QA guards for both Pantry-shop containment and decoration-before-paid-pack ordering.
 - Removed the unused Daily `notePrefix` and `noteSuffix` translation keys identified by Claude review.
-- Visual review confirms the Pantry order is room and request, spoon-priced decorations, “show more,” then Support Pack and Small Spoon Jar. The full candidate gate and 51-frame v0.1.540 visual pack pass.
+- Visual review confirms the Pantry order is room and request, spoon-priced decorations, ?�show more,??then Support Pack and Small Spoon Jar. The full candidate gate and 51-frame v0.1.540 visual pack pass.
 - Manual review confirms the 12x12 clue tokens are uniform, the status chips share a baseline, the cross-shaped D-pad preserves direction, and the compact hint card contains no explanatory body copy.
 
 
@@ -3806,14 +4659,14 @@ Current launch direction:
 
 - Unified decoration and paid-pack cards around one 76px artwork frame, 16px card radius, 1px border, flat background, 44px actions, and shared spacing.
 - Removed the paid section's nested store-container appearance and separated it with one quiet divider after the spoon-priced decoration list.
-- Shortened the two shop section titles and renamed the ambiguous Korean starter item from 첫 카운터 보 to 체크 카운터보.
+- Shortened the two shop section titles and renamed the ambiguous Korean starter item from �?카운??�?to 체크 카운?�보.
 
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.541 visual pack pass.
 
 
 ### v0.1.542 Pantry Request Copy Reduction
 
-- Removed the repeated 부탁한 소품 target chip from the first Pantry request card; the artwork, title, and action already identify the item.
+- Removed the repeated 부?�한 ?�품 target chip from the first Pantry request card; the artwork, title, and action already identify the item.
 - Reduced the start, placement, and completion bodies to one short conversational sentence in Korean and English.
 
 - Verification: 141 unit tests, the full release-candidate gate, production build, Android release gate, and four-width mobile QA pass.
@@ -3822,7 +4675,7 @@ Current launch direction:
 
 - Removed the completed-request archive, room-level counter, chapter meter, and stage-cost report from the Pantry screen. Story progress remains in save data and still triggers the existing full-screen Pip and neighbor dialogue.
 - After the first request, the inline milestone now asks only which of the next three decorations the player wants to view.
-- Shortened the Korean and English labels to `다음 소품` / `Next decoration` and concise item actions.
+- Shortened the Korean and English labels to `?�음 ?�품` / `Next decoration` and concise item actions.
 - Verification: 141 unit tests, full candidate gate, production build, Android release gate, four-width mobile QA, and the regenerated 51-frame v0.1.543 visual pack pass. Real-device Billing evidence remains external.
 
 ### v0.1.544 Pantry Goal Card Reduction
@@ -3965,7 +4818,7 @@ Current launch direction:
 
 ### v0.1.562 Direct Guide and Mobile Rhythm
 - Changed the `1 1 1` Pip lesson from a pre-filled diagram into a required three-cell interaction, so the player performs the rule instead of watching an answer appear.
-- Removed the secondary `Not now` / `나중에 볼게요` action from Pip conversations; story and tutorial moments now present one clear next action.
+- Removed the secondary `Not now` / `?�중??볼게?? action from Pip conversations; story and tutorial moments now present one clear next action.
 - Added compact, no-wrap puzzle progress treatment and responsive settings grids for 360px through 675px layouts.
 - Compressed the current-picture hub card and stage unlock presentation; spoon requirements now use a restrained 30px token instead of a dominant standalone reward image.
 - Updated mobile and visual-review automation to play through both interactive tutorial rows.
@@ -3973,7 +4826,7 @@ Current launch direction:
 ### v0.1.563 Balanced Dialogue and Time Attack Cleanup
 - Constrained Pip dialogue to a centered 20-22 character reading measure with balanced wrapping, so two-line Korean copy keeps a stable visual center.
 - Rebuilt the `1 1 1` tutorial clue as three independent circular clue tokens matching the live puzzle board grammar.
-- Changed the final tutorial action from the awkward `같이 시작` / `Start together` to `자, 가보자!` / `Ready? Go!`.
+- Changed the final tutorial action from the awkward `같이 ?�작` / `Start together` to `?? 가보자!` / `Ready? Go!`.
 - Shortened cursor status chips to the state itself and normalized their height, padding, and baseline against the row/column position chip.
 - Simplified Time Attack to the playable essentials: Pip, a short prompt, 5x5 to 8x8 to 10x10, Start, reward status, and records. Removed report-like round descriptions, decorative orb/glare layers, and card shadows.
 - Mobile visual QA passed at 360x740, 390x844, 430x932, and 675x900 after updating the flat-card regression contract.
@@ -3990,3 +4843,262 @@ Current launch direction:
 - Redrew all twenty-eight high-density Village Pantry 10x10 candidates across containers, utensils, linens, cookware, and storage objects.
 - Replaced near-solid 79-91% blocks with distinct silhouettes using readable handles, holes, checks, nesting, woven gaps, labels, mesh, and open ceramic space.
 - Added seven art-audit regression tests and seven dedicated four-card completion contact sheets.
+
+
+### v0.1.566 Launch Art Audit Closure
+
+- Added specific silhouette, color-mood, and tag briefs to all 27 legacy Bakery Window and Village Pantry puzzles that lacked authored art guidance.
+- Reworked six blank-edge compositions and synchronized their progression and quality overrides so runtime art matches source data.
+- Closed the 273-puzzle Bakery/Village audit at zero duplicate silhouettes, zero repeated titles, and zero review candidates.
+- Added a zero-queue regression test and a six-card contact sheet for the final composition repairs.
+
+
+### v0.1.567 Phase E concise dialogue pass
+- Shortened active KO/EN hint prompts to the choice, spoon cost, and balance needed at the moment of action.
+- Rewrote Time Attack, first Pantry placement, room-story, and three neighbor guide steps as short character dialogue instead of feature reports.
+- Restored the Korean neighbor guide copy in Unicode-safe form and strengthened the non-puzzle Korean mojibake test to reject CJK corruption fragments.
+- Reduced the large-board tap-mode Pip card to one instruction plus its visual clue examples; duplicate automatic-X explanations no longer compete with the board.
+- Focused i18n and Pantry guide-flow tests pass. Full visual-pack and candidate gates remain the next verification step.
+
+
+### v0.1.568 Phase E Pantry visibility cleanup
+- Removed the duplicate Pantry spoon count and the unmounted placement-report node so the room, request, decorations, and paid packs remain the visible hierarchy.
+- Removed legacy rarity, availability, and sort state that no longer had visible controls but could still hide decoration cards for returning sessions.
+- Pantry filtering now follows only the visible room-slot choice, with the featured affordability ordering preserved.
+- Unified starter-hint body copy on one key; large-board reveal count remains an interaction result rather than explanatory text.
+- Full unit tests and four-width mobile visual QA pass before the final candidate rerun.
+
+### v0.1.569 Phase E Time Attack result cleanup
+- Removed the extra intro sentence so the Time Attack screen moves directly from its title to Pip, the three board sizes, and Start.
+- Reduced stored records to board size, solved cells, and elapsed time; current-board diagnostics and zero-use hint reports are no longer shown to players.
+- Result cards show hint usage only when a hint was actually used, and timeout copy is now a short game response instead of an economy report.
+- Removed the now-unused board-progress formatter and added KO/EN regression coverage for the compact result format.
+- Verification: 160 unit tests, four-width mobile QA, the regenerated 61-frame visual pack, full candidate gate, production build, and Android release gate pass.
+
+### v0.1.570 Phase E settings choice cleanup
+- Removed the explanatory sentence above the two guide replay buttons; the settings screen now presents only the guide label and direct choices.
+- Removed the retired Time Attack board-progress and best-summary translation keys noted in Review 16, plus the unused guide-body style and translation.
+- Settings remains preferences-only; paid spoon packs stay below Pantry decorations in the Pantry shop.
+- Verification: 160 unit tests, source hygiene, four-width mobile QA, the regenerated 61-frame visual pack, full candidate gate, production build, and Android release gate pass.
+
+### v0.1.571 retired season report removal
+- Removed the unmounted Season 0 progress dashboard, its 333-picture metrics, next-season marketing teaser, goal cards, translations, and CSS.
+- Simplified the puzzle-hub call back to its active responsibility: show the current picture and open it. Stage unlock and Pantry routing remain owned by the live puzzle picker.
+- Removed the never-called season teaser QA helper while retaining the launch regression that requires the retired dashboard to stay absent.
+- Added source-hygiene guards across puzzleHubView, KO/EN translations, and CSS so the report UI cannot silently return.
+- Verification: 160 unit tests, source hygiene, clean full-candidate QA, four-width mobile QA, production build, Android release gate, and the regenerated 61-frame visual pack pass.
+
+### v0.1.572 retired intro and Pip-strip cleanup
+- Removed the unmounted small Pip strip and player-facing version footer functions, along with their KO/EN translations.
+- Used selector-aware CSS cleanup to remove 105 retired selectors for the Pip strip, version footer, intro seal, feature promise strip, launch note, version chip, and cast strip while preserving any active selectors sharing a rule.
+- Kept legacy hidden artwork entries in the asset manifest as audit history; no approved runtime art was removed.
+- Added source-hygiene guards so the retired strip, footer, intro marketing copy, and ornamental CSS cannot silently return.
+- Verification passed: 160 unit tests, source hygiene, the full candidate gate, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, build, Android release gate, and the 61-frame visual review pack.
+
+### v0.1.573 collection-surface copy cleanup
+
+- Removed the Album note that repeated what the completed-picture grid already shows.
+- Removed repeated "Badge earned" labels from the earned badge shelf and badge room; artwork and badge names now carry the state, while accessible shelf labeling remains.
+- Removed the matching dead translations and CSS selectors and added source-hygiene guards against reintroducing report-like collection copy.
+- Verification passed: 160 unit tests, source hygiene, the full candidate gate, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, build, Android release gate, and the 61-frame visual review pack.
+
+### v0.1.574 replay surface and encoding cleanup
+
+- Reduced the replay-picks card to one title, today's count, and direct picture choices; removed the duplicate eyebrow and repeated per-button replay label.
+- Removed the legacy replay-card color blobs and button glare pseudo-elements, plus their unused explainer styles and translations.
+- Shortened the clean-replay rule/result while preserving the one-spoon reward contract, and repaired the corrupted daily-reward separator in both locales.
+- Added translation, launch-integrity, and source-hygiene guards for the compact replay grammar and retired ornament layers.
+- Verification passed: 160 unit tests, source hygiene, launch integrity, the full candidate gate, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, build, Android release gate, and the 61-frame visual review pack.
+
+### v0.1.575 locked-stage decision cleanup
+
+- Reduced each locked stage to the unlock cost, Pantry request progress when required, and the action available now.
+- Removed the duplicate plan paragraph and gate-reason chip, along with their seven KO/EN translation keys, helper functions, and CSS selectors.
+- Kept the live unlock checks, disabled-button reason, Pantry route, spoon balance, and save behavior unchanged.
+- Updated launch-integrity and source-hygiene contracts to protect the compact lock state.
+- Verification passed: 160 unit tests, source hygiene, launch integrity, the full candidate gate, mobile QA at 360x740 / 390x844 / 430x932 / 675x900, build, Android release gate, and the 61-frame visual review pack.
+
+### v0.1.576-v0.1.580 Phase E release-surface polish
+
+- Removed the remaining hub, replay, lock, and quick-travel report copy so each surface leads with one player decision rather than a feature explanation.
+- Kept Quick Travel reachable with approved raster art while reducing its phone trigger to a 48px icon, avoiding Pantry-card title collisions. The three language choices now remain on one compact line at phone widths.
+- Moved Pip's Time Attack presence to the full-screen guide only. The live Time Attack screen now shows the 5x5 / 8x8 / 10x10 ladder, Start, daily status, and earned records.
+- Corrected the visual-review pack so its Time Attack capture closes the one-time guide before recording the actual start screen.
+- Verification: 160 unit tests, source hygiene, the 61-frame visual review pack, full candidate gate, production build, Android release gate, and measured mobile QA at 360x740 / 390x844 / 430x932 / 675x900 pass at v0.1.580.
+- External release evidence remains unchanged: real-device Billing purchase/restore for `pip_cozy_support` and purchase/repeat for `pip_spoon_jar_small`.
+
+### v0.1.581-v0.1.582 final play-choice polish
+
+- Removed duplicated hub and Time Attack labels; each surface now begins with the active picture or mode title rather than an extra category label.
+- Puzzle choices now show only the picture name and board size. Spoon awards remain a completion moment instead of a pre-play report on every card.
+- Regression checks reject restoring reward-report metadata to puzzle choices.
+- Verification: 160 unit tests, source hygiene, the regenerated 61-frame visual review pack, full candidate gate, production build, Android release gate, and measured mobile QA at 360x740 / 390x844 / 430x932 / 675x900 pass at v0.1.582.
+- Remaining release evidence is external only: real-device Billing purchase/restore for `pip_cozy_support` and purchase/repeat for `pip_spoon_jar_small`.
+
+### v0.1.586 release-structure first slice
+
+- Removed the player-facing Album denominator, so the live Album celebrates completed pictures without presenting the fixed Season 0 total as a distant obligation.
+- Kept the Badge room visually compact while restoring accessible earned/progress labels through dynamic ARIA text rather than visible report copy.
+- Confirmed future `bonus-pack` records are already excluded from the live puzzle picker; they remain data-only until content, artwork, and a real store path exist.
+- Started the release-structure audit: the 333 authored puzzles remain valid content, but their current five-pack distribution will be reworked into smaller, progressive shelves without changing puzzle IDs or discarding completed work.
+
+### v0.1.583 Time Attack clock identity
+
+- Replaced the retired spoon-stopwatch destination art with Mr. Park's isolated pocket watch across the Time Attack hub card and Quick Travel.
+- Removed the inherited circular badge, aura, and pseudo-element decoration so the watch itself is the clear Time Attack cue at phone and wide layouts.
+- Registered the new raster asset and added hygiene plus four-width visual assertions to prevent a fallback to the retired ambiguous icon.
+- Verification: 160 unit tests, 158 registered assets, source hygiene, the regenerated 61-frame visual review pack, full candidate gate, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900 pass at v0.1.583.
+- Remaining release evidence is external only: real-device Billing purchase/restore for `pip_cozy_support` and purchase/repeat for `pip_spoon_jar_small`.
+
+### v0.1.584-v0.1.585 final surface audit
+
+- Replaced the lingering Pantry ?�show more decorations??glare card with one flat, full-width action and removed its retired meter, sparkle, and pseudo-element rules.
+- Reduced the Badge room from collection-report copy to the current badge artwork, name, and compact progress only.
+- Fixed the opening grain layer so it is decorative-only and can never intercept a player tap while the intro exits.
+- Added hygiene and mobile regression checks for retired Pantry glare, Badge-report copy, and the intro grain pointer contract.
+- Verification: 160 unit tests, source hygiene, 158 registered assets, the regenerated 61-frame visual review pack, full candidate gate, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900 pass at v0.1.585.
+- Remaining release evidence is external only: real-device Billing purchase/restore for `pip_cozy_support` and purchase/repeat for `pip_spoon_jar_small`.
+
+### 2026-07-26 Pre-release spatial-contract audit
+
+- Began a menu-by-menu geometry audit after Production access was granted and before release submission.
+- Strengthened four-width mobile QA so the six workshop destinations must remain inside the illustrated scene, cannot overlap one another, and cannot overlap the current-puzzle action.
+- Added the same containment and collision guard to the five Pantry room slots, alongside the existing horizontal-overflow, shop ordering, card, and Billing-status checks.
+- Added `docs/HOME_SCENE_CONTRACT.md`: the workshop and Pantry remain distinct surfaces, while future decoration/theme work must use one equipped-decoration save source and authored perspective-safe overlays. Persistent destinations stay in side rails; Pip and room storytelling own the center.
+### 2026-07-26 Runtime background optimization
+
+- Preserved the approved PNG masters for Pip's Puzzle Workshop and the sunlit Decor Room, then added quality-checked WebP runtime versions.
+- Runtime payload drops from about 2.4MB each to 424KB (Workshop) and 346KB (Decor Room), while pixel RMS comparison remains below 1.9.
+- Asset QA now requires the runtime WebP imports and the archived non-visible PNG source records, preventing accidental reversion to direct PNG bundling.
+
+### v0.1.594 full-screen Puzzle Room home correction
+
+- Replaced the card-based home with one full-screen, authored Puzzle Room scene: no external header, title block, or separate spoon pill appears over the home.
+- Moved the spoon balance into the scene and rebuilt the current-puzzle call to action as a direct `???�즐 ?��? action with puzzle art and the active picture name.
+- Converted the six destinations to large, icon-only in-scene controls; labels remain available to assistive technology while no longer reading as white folder cards.
+- Removed the incorrect Pantry-decoration/supporter-keepsake overlays from the Puzzle Room. The editable Pantry remains its own room; future shared room themes must be authored as complete scene variants rather than placing purchased items at arbitrary coordinates.
+- Stopped the initial brand-intro fade-in so the existing home cannot flash before the Sunny Spoon Studios bumper.
+- Reworked the mobile QA contract for the full-screen home: it now checks full-scene containment, icon/action collisions, in-scene currency, and the absence of retired Pantry-prop overlays. The normal header contract remains active for all other views.
+- Verification: 175 unit tests, source hygiene, full `qa:candidate`, production build, Android release gate, and four-width mobile QA pass at v0.1.594. Only the two real-device Billing evidence items remain external release blockers.
+
+## v0.1.642 - 2026-07-29 - Pantry 8-shelf economy and art expansion
+
+- Expanded Pantry collection from 4 shelves / 24 jars to 8 shelves / 48 jars while keeping one free starter jar per shelf.
+- Added 24 individually generated, transparent 256px WebP jar artworks for Pickles, Fruit Preserves, Herb Oils, and Botanical Teas.
+- Switched stage gating from completed jar shelves to paid jar count, using nine thresholds: 0, 5, 10, 15, 20, 25, 30, 35, and 40.
+- Rebalanced jar shelf totals to 180/200/240/280/340/420/520/640 spoons (2,820 total) and stage unlocks to 1,535 spoons with 810 stage bonus spoons.
+- Preserved completed-shelf counting only for Pantry collection celebration effects.
+- Validation: `npm run qa:candidate` passed 38 test files / 205 tests, all 333 puzzle catalog checks, 48 mapped jar assets, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.643 - 2026-07-29 - Nine-stage Badge Shelf
+
+- Rebuilt the Badge menu as three authored wooden shelves with nine stage badges, while keeping persistent badge artwork confined to the Badge menu.
+- Kept the original Stage 0-2 badge art and added six transparent 256px WebP scenes for Stages 3-8: Bakery Door, Pastry Morning, Tin Collection, Village Path, Clock Corner, and Full Pantry.
+- Mapped each badge to completion of its full stage puzzle group across all 333 authored puzzles. The last puzzle of a stage now triggers a short earned toast, and the newly earned slot glows when the Badge menu opens.
+- Locked badges remain visible in subdued grayscale with progress; earned badges restore full color. The final Full Pantry badge keeps a gentle gold pulse, with reduced-motion support.
+- Updated mobile and source-hygiene contracts so duplicate persistent badge artwork stays removed from non-Badge menus while the dedicated Badge collection UI and transient earned toast remain supported.
+- Validation: `npm run qa:candidate` passed 38 test files / 207 tests, all 333 puzzle catalog checks, 207 registered assets, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.644 - 2026-07-29 - Badge spacing and first-run guide verification
+
+- Fixed a legacy `.badge-shelf { display: flex; }` cascade that squeezed the new three-slot shelves and caused neighboring badge circles to overlap.
+- Reduced badge circle sizing and added explicit slot gaps so all three badges remain separated at 360x740, 390x844, 430x932, and 675x900.
+- Made unearned badge artwork substantially more mysterious with grayscale treatment and `0.12` image opacity while keeping progress and unlock hints readable.
+- Strengthened mobile QA to reject non-positive badge gaps, locked art opacity above `0.15`, and any shelf containment regression.
+- Verified the true first-entry Badge guide as Pip with three populated steps, sequential `1 -> 2 -> 3` progression, and a clean final dismissal at all four QA widths.
+- Validation: `npm run qa:candidate` passed 38 test files / 207 tests, all 333 puzzle catalog checks, production build, Android release gate, and four-width mobile visual QA.
+
+## v0.1.645 - 2026-07-29 - Affordable Pantry notification
+
+- Changed the Workshop Pantry notification so it appears only when the player can currently afford an unowned paid jar.
+- Free starter jars, unaffordable jars, and already-owned jars no longer keep the notification permanently lit.
+- Reused the same computed condition on the `home.pantryLabel` destination button and avoided repeated save reads for the displayed spoon balance.
+- Added focused regression coverage for zero balance, affordability thresholds, ownership, and all-owned states.
+- Validation: `npm run qa:candidate` passed 38 test files / 210 tests, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.646 - 2026-07-29 - Guide overlay isolation
+
+- Raised every guide overlay above Pantry jar detail sheets and transient UI so neighbor conversations cannot be covered by the underlying Pantry screen.
+- Locked document scrolling and overscroll while any guide is active, then released the lock through the normal guide-close redraw.
+- Strengthened Pantry neighbor backdrops to cover the full dynamic viewport while keeping the approved Mr. Park artwork fully contained.
+- Extended mobile visual QA to reject incomplete viewport coverage, overlay z-index below transient UI, missing background scroll lock, or clipped guide character art.
+- Android versionCode/versionName remain unchanged; no AAB was requested for this step.
+- Validation: `npm run qa:candidate` passed 38 test files / 211 tests, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.647 - 2026-07-29 - Pip's Pantry naming
+
+- Unified the Pantry destination name across floating navigation and the Workshop home.
+- Korean now uses `Pip의 팬트리`; English now uses `Pip's Pantry` for both `views.pantry` and `home.pantryLabel`.
+- Added focused i18n coverage so the two entry points cannot drift apart again.
+- Validation: `npm run qa:candidate` passed 38 test files / 212 tests, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+- Android versionCode/versionName remain unchanged; no AAB was requested for this step.
+## Studio site v0.1.2 - 2026-08-01 - Live Firebase Hosting promotion
+
+- Promoted the verified Sunny Spoon Studios bilingual homepage from the experimental preview channel to the live `sunny-spoon-pantry` Firebase Hosting site.
+- Live homepage: `https://sunny-spoon-pantry.web.app/`.
+- Preserved the public privacy policy at `https://sunny-spoon-pantry.web.app/privacy-policy.html`.
+- The live site uses the corrected nine-keepsakes artwork instead of the malformed-arm shelf artwork, and keeps the Korean language control visible in the primary header actions.
+- Verification: `npm run qa:studio-site` passed; the live homepage returned HTTP 200 with `Studio site v0.1.2`, the Korean toggle, and `04-nine-keepsakes.png`; the live privacy policy also returned HTTP 200.
+
+## Studio site v0.1.4 - 2026-08-02 - Live image recovery
+
+- Classified as a live recovery because the deployed studio homepage was missing its primary artwork.
+- Root cause: the homepage referenced nonexistent `site/images/*` assets, and its rendered markup no longer matched the CSS component contract.
+- Rebuilt the homepage with verified existing launch artwork only; the malformed-arm shelf artwork was excluded.
+- Restored the English/Korean language switch and clarified support and store-managed refund guidance.
+- Verification: `npm run qa:studio-site` passed (11 files, 46 translation keys, 8 local image references); Firebase Hosting deployment completed; the live page reported `Studio site v0.1.4`; representative image URLs returned HTTP 200.
+
+## v0.1.701 - 2026-08-03 - Mobile tutorial guide containment
+
+- Rebalanced the compact puzzle guide to reserve 52% of the dialog for tutorial text and practice content while keeping 48% for Pip artwork.
+- Reduced mobile artwork padding and centered the guide within 360-430px viewports.
+- Extended mobile visual QA to assert guide pages 1-3 keep dialogue text, practice grids, and the next button inside the viewport.
+- Repaired corrupted Korean matchers in the mobile QA script so candidate validation can parse and run.
+- Android versionCode/versionName remain unchanged; no AAB was requested for this step.
+- Validation: `npx vitest run tests/guideDialog.test.js` passed 11 tests; `npm run qa:candidate` passed 48 test files / 289 tests, build/release checks, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.702 - 2026-08-03 - Unified mobile Pip guide composition
+
+- Classified as a focused live update: aligned the Map, Spoon Run, first Pantry purchase, and Pantry room-story Pip guides with the approved Time Attack conversation rhythm without changing the interactive puzzle guide or neighbor artwork.
+- Reserved 48% of the compact dialog for enlarged, centered Pip artwork and 52% for the dialogue bubble; reduced top padding so Pip no longer sits small beneath excess empty space.
+- Prepared the next Play upload identity as Android `versionCode 37` / `versionName 1.1.9` after the published code 36 release.
+- Verification: 48 test files / 289 tests, focused guide tests, full candidate and final release gates, production build, Capacitor sync, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900 passed. The signed versionCode 37 AAB is 20,125,473 bytes; `jarsigner` reported `jar verified`; SHA-256 is `7B3F8B48D609FDF6EB6523C347F40FEB2CD6EC91FA5DD52E16CB8365E4354592`.
+
+## Studio site v0.1.5 - 2026-08-03 - Public launch and centered-layout recovery
+
+- Classified as a live recovery after the homepage HTML retained retired component classes while the stylesheet expected the newer centered section contract.
+- Reconnected the game, feature, studio, connect, and support sections to the shared 1,180px centered layout and centered the sticky header content.
+- Replaced the obsolete production-review and coming-soon messaging with direct Google Play download actions for the published app: https://play.google.com/store/apps/details?id=com.sunnyspoonstudios.pipspicturepantry.
+- Restored clean English/Korean localization, including the in-game Korean naming 핍 and 핍의 퍼즐방, and repaired the corrupted feature bullet and footer text.
+- Verification: npm run qa:studio-site passed; headless Chromium passed at 2048x1200 and 390x844 with symmetric section margins, no horizontal overflow, a working Korean switch, and the expected Google Play package link.
+
+## Studio site v0.1.6 - 2026-08-03 - Feature-section width recovery
+
+- Classified as a follow-up live recovery after the full-width feature background and shared centered section class were found to be competing on the same DOM element.
+- Split the green feature background from its dedicated centered inner container so the heading and three feature cards retain their intended usable width.
+- Verification: npm run qa:studio-site passed; Chromium at 1754px measured a centered 1,180px grid with three approximately 383px cards; Chromium at 390px measured a 371px single-column grid with no horizontal overflow.
+
+## Studio site v0.1.7 - 2026-08-03 - CSS and JavaScript cache-bust recovery
+
+- Classified as a live delivery recovery: the v0.1.6 HTML could be combined with a browser-cached pre-recovery stylesheet because only the page URL, not its CSS/JavaScript subresource URLs, had been versioned.
+- Added explicit v017 query versions to the stylesheet and language script URLs so existing visitors fetch the matching layout contract immediately after deployment.
+- Live Chromium diagnosis before this change confirmed the fresh-resource DOM was structurally correct at 1656px: the feature background occupied 1656px, its inner container occupied 1,180px, and the three cards occupied approximately 383px each.
+
+## Studio site v0.1.8 - 2026-08-03 - Full studio and connect layout repair
+
+- Classified as a live layout recovery after the studio section retained a two-column grid with only one child and the connect section placed three direct children into a two-column grid.
+- Converted the studio section to one full-width card and grouped the connect heading and body into a single copy column opposite a dedicated action column.
+- Versioned CSS and JavaScript subresources as v018 to prevent mixed layout contracts from browser caches.
+- Full-page Chromium validation passed at 1656px, 820px, and 390px: all primary sections are centered with no horizontal overflow; the desktop studio card occupies the full 1,180px section; connect is a bounded 688px/413px two-column composition; desktop feature cards are approximately 383px each; tablet and mobile layouts stack into full-width single columns.
+
+## v0.1.703 - 2026-08-03 - Non-puzzle Pip guide bubble alignment
+
+- Classified as a focused live update for the Map, Spoon Run intro, first Pantry purchase, and Pantry room-story Pip guides only; puzzle practice and neighbor-character guides remain unchanged.
+- Centered non-puzzle Pip guide dialogue text, reserved 36px at the bottom of the art row for the Pip name tag, and vertically centered each bubble's content.
+- Android identity remains `versionCode 37` / `versionName 1.1.9`. After visual confirmation, the signed Play-upload AAB was built from commit `ca6cf33`; it is 20,125,591 bytes, `jarsigner` reported `jar verified`, and SHA-256 is `A66606C1FCF2524E8404ADE0D372D4BFAE09B2483C402DFA086ABCCDD5281BD5`.
+- Verification: direct Chromium rendering passed for Map, Spoon Run intro, first Pantry purchase, and Pantry room-story at 360px / 390px / 430px; centered text and bubble content, 36px art reserve, zero name-tag overlap, contained dialogue, and no dialog overflow were confirmed. `npm run qa:candidate` passed 48 test files / 289 tests, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900.
+## v0.1.704 - 2026-08-05 - Focused puzzle play release candidate
+
+- Unified and polished character dialogue layouts, removed the overlapping Settings spoon balance, and introduced the enlarged focused-puzzle play layout across Android and iOS.
+- Large puzzles now prioritize the board, expose D-pad controls from 8x8 upward, preserve complete multi-token row clues without left-edge clipping, and use the existing navigation affordance for leaving focused play.
+- Release identity: package/UI v0.1.704; Android versionCode 38 / versionName 1.1.10; initial iOS marketing version 1.0 / build 1.

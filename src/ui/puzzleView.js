@@ -10,38 +10,55 @@ import {
   undoLastMove
 } from "../game/puzzleState.js";
 import { getPuzzleExtraHintCost } from "../data/economyConfig.js";
-import { getPantrySpoons, loadPuzzleState, recordReplayReward, savePuzzleState, spendPantrySpoons } from "../game/save.js";
+import { getSeasonShelfForPuzzle } from "../data/seasonShelves.js";
+import { getEquippedJarForCurrentStage, getPantrySpoons, loadPuzzleState, recordReplayReward, savePuzzleState, spendPantrySpoons } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { playComplete, playCursorAction, playCursorMove, playTap } from "./audio.js";
 import { getHintLimit, getHintRevealCount, renderHintPanel, renderHowToPlayCard, renderMarkHint } from "./puzzleAssistView.js";
 import { moveSelectedCell, renderCursorControls, shouldShowCursorControls, toggleSelectedCell } from "./puzzleCursorControls.js";
 import { getLineGuidance, renderBoard } from "./boardView.js";
-import { renderCompletionBanner } from "./pipReaction.js";
+import { isReplayExhausted, renderCompletionBanner } from "./pipReaction.js";
 import { createPuzzleControlArtImage } from "./puzzleControlArt.js";
 
 export function renderPuzzleView(puzzle, options = {}) {
   const isReplayChallenge = Boolean(options.replayChallenge);
   const isTimeAttack = Boolean(options.isTimeAttack);
-  let state = isReplayChallenge ? createPuzzleState(puzzle) : loadPuzzleState(puzzle.id) || createPuzzleState(puzzle);
+  const isDailyChallenge = Boolean(options.dailyKey);
+  // Time Attack is a fresh three-round run. Reusing a normal puzzle save here
+  // can make a round arrive already completed and skip straight out of the run.
+  const usesTransientState = isReplayChallenge || isTimeAttack || isDailyChallenge;
+  let state = isTimeAttack
+    ? options.puzzleState || createPuzzleState(puzzle)
+    : isReplayChallenge || isDailyChallenge
+      ? createPuzzleState(puzzle)
+      : loadPuzzleState(puzzle.id) || createPuzzleState(puzzle);
   let replayCleanStatus = createReplayCleanStatus();
   let replayResult = null;
+  let dailyResult = null;
+  let rewardResult = null;
+  let stageBonus = 0;
   const controlMode = options.controlMode || "auto";
   const section = document.createElement("section");
-  section.className = state.completed ? "puzzle-panel content-panel completed" : "puzzle-panel content-panel";
+  section.className = [
+    "puzzle-panel",
+    "content-panel",
+    state.completed ? "completed" : "",
+    isTimeAttack ? "puzzle-panel--time-attack" : ""
+  ].filter(Boolean).join(" ");
   section.tabIndex = 0;
   section.addEventListener("keydown", handlePuzzleKeydown);
 
-  function update(nextState, options = {}) {
+  function update(nextState, updateOptions = {}) {
     const wasCompleted = state.completed;
-    const shouldAutoMark = !options.skipAutoLineMarks && nextState.cells !== state.cells && !nextState.completed;
+    const shouldAutoMark = !updateOptions.skipAutoLineMarks && nextState.cells !== state.cells && !nextState.completed;
     const resolvedState = shouldAutoMark ? applyCompletedLineMarks(nextState, puzzle.solution) : nextState;
     state = {
       ...resolvedState,
       completed: isSolved(resolvedState, puzzle.solution) || resolvedState.completed
     };
     replayCleanStatus = getReplayCleanStatusAfterState(isReplayChallenge, replayCleanStatus, state, puzzle.solution);
-    if (!isReplayChallenge) {
-      savePuzzleState(state, {
+    if (!usesTransientState) {
+      rewardResult = savePuzzleState(state, {
         reward: puzzle.reward || 0,
         dailyBonus: options.dailyBonus || 0,
         dailyKey: options.dailyKey || null
@@ -49,6 +66,14 @@ export function renderPuzzleView(puzzle, options = {}) {
     }
     options.onPuzzleStateChange?.(puzzle, state);
     if (!wasCompleted && state.completed) {
+      if (isDailyChallenge) {
+        dailyResult = savePuzzleState(state, {
+          reward: puzzle.reward || 0,
+          dailyBonus: options.dailyBonus || 0,
+          dailyKey: options.dailyKey
+        });
+        rewardResult = dailyResult;
+      }
       if (isReplayChallenge) {
         replayResult = recordReplayReward({
           puzzleId: puzzle.id,
@@ -58,7 +83,7 @@ export function renderPuzzleView(puzzle, options = {}) {
       }
       playComplete();
       if (!isReplayChallenge) {
-        options.onPuzzleComplete?.(puzzle, state);
+        stageBonus = Number(options.onPuzzleComplete?.(puzzle, state)?.bonus || 0);
       }
     }
     draw();
@@ -101,7 +126,12 @@ export function renderPuzzleView(puzzle, options = {}) {
 
   function draw() {
     section.replaceChildren();
-    section.className = state.completed ? "puzzle-panel content-panel completed" : "puzzle-panel content-panel";
+    section.className = [
+    "puzzle-panel",
+    "content-panel",
+    state.completed ? "completed" : "",
+    isTimeAttack ? "puzzle-panel--time-attack" : ""
+  ].filter(Boolean).join(" ");
     section.classList.toggle("replay-challenge", isReplayChallenge);
 
     const meta = document.createElement("div");
@@ -124,14 +154,21 @@ export function renderPuzzleView(puzzle, options = {}) {
       section.appendChild(createReplayChallengeNote(!isReplayClean(replayCleanStatus)));
     }
     if (state.completed) {
-      section.appendChild(renderCompletionBanner(puzzle, { ...options, replayResult }));
+      section.appendChild(renderCompletionBanner(puzzle, {
+        ...options,
+        replayResult,
+        replayExhausted: isReplayExhausted(isReplayChallenge, replayResult),
+        isDailyPuzzle: isDailyChallenge,
+        dailyResult,
+        rewardResult,
+        stageBonus,
+        equippedJar: isTimeAttack
+          ? null
+          : getEquippedJarForCurrentStage(getSeasonShelfForPuzzle(puzzle))
+      }));
       return;
     }
     const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode);
-    if (options.stageNavigation && !cursorControlsEnabled) {
-      section.appendChild(createStageNavigation(options.stageNavigation));
-    }
-
     // Cursor mode already explains movement and the two available actions
     // beside its D-pad. Repeating the full Pip lesson and tap controls above
     // a large board makes the board feel secondary.
@@ -139,9 +176,20 @@ export function renderPuzzleView(puzzle, options = {}) {
       section.appendChild(renderHowToPlayCard());
     }
 
+    if (isTimeAttack) {
+      appendHintPanel(true);
+    }
+
     section.appendChild(renderBoard(puzzle, state, (row, column, action = {}) => {
       playTap();
       const cursorState = setCursor(state, row, column, puzzle.size);
+      if (cursorControlsEnabled) {
+        // In D-pad mode a board tap only repositions the cursor. Applying the
+        // current paint action here made Blank feel broken because a tap could
+        // colour a square before the player pressed either action.
+        update(cursorState, { skipAutoLineMarks: true });
+        return;
+      }
       if (Array.isArray(action.paintCells) && action.paintValue) {
         update(paintCells(cursorState, action.paintCells, action.paintValue));
         return;
@@ -150,7 +198,8 @@ export function renderPuzzleView(puzzle, options = {}) {
     }, {
       completed: state.completed,
       locked: state.completed,
-      cursorEnabled: cursorControlsEnabled
+      cursorEnabled: cursorControlsEnabled,
+      cursorOnly: cursorControlsEnabled
     }));
     if (!cursorControlsEnabled) {
       section.appendChild(createControls(state, update));
@@ -158,30 +207,8 @@ export function renderPuzzleView(puzzle, options = {}) {
     if (!state.completed && cursorControlsEnabled) {
       section.appendChild(renderCursorControls(state, puzzle, update));
     }
-    const baseHintLimit = getHintLimit(puzzle);
-    const hintLimit = isTimeAttack ? Math.min(baseHintLimit, 3) : baseHintLimit;
-    if (!state.completed && hintLimit > 0) {
-      const paidHintCount = Math.max(0, Number(state.paidHintsUsed || 0));
-      const hintCost = getPuzzleHintCost({
-        puzzleSize: puzzle.size,
-        hintsUsed: state.hintsUsed,
-        paidHintsUsed: paidHintCount,
-        hintLimit,
-        isTimeAttack,
-        getTimeAttackHintCost: options.getTimeAttackHintCost
-      });
-      const revealCount = getHintRevealCount(puzzle, { isTimeAttack });
-      section.appendChild(renderHintPanel(state, puzzle, update, hintLimit, {
-        cost: hintCost,
-        revealCount,
-        balance: hintCost > 0 ? getPantrySpoons() : 0,
-        paid: hintCost > 0,
-        timeAttack: isTimeAttack,
-        compact: cursorControlsEnabled,
-        onSpendHint: hintCost > 0
-          ? (cost) => spendPantrySpoons(cost, isTimeAttack ? "time-attack-hint" : "puzzle-extra-hint").allowed
-          : null
-      }));
+    if (!isTimeAttack) {
+      appendHintPanel(true);
     }
     section.appendChild(createProgressLine(state, puzzle));
 
@@ -190,7 +217,34 @@ export function renderPuzzleView(puzzle, options = {}) {
     }
 
   }
-
+  function appendHintPanel(compact = false) {
+    const baseHintLimit = getHintLimit(puzzle);
+    const hintLimit = isTimeAttack ? 3 : baseHintLimit;
+    if (state.completed || hintLimit <= 0) {
+      return;
+    }
+    const paidHintCount = Math.max(0, Number(state.paidHintsUsed || 0));
+    const hintCost = getPuzzleHintCost({
+      puzzleSize: puzzle.size,
+      hintsUsed: state.hintsUsed,
+      paidHintsUsed: paidHintCount,
+      hintLimit,
+      isTimeAttack,
+      getTimeAttackHintCost: options.getTimeAttackHintCost
+    });
+    const revealCount = getHintRevealCount(puzzle, { isTimeAttack });
+    section.appendChild(renderHintPanel(state, puzzle, update, hintLimit, {
+      cost: hintCost,
+      revealCount,
+      balance: hintCost > 0 ? getPantrySpoons() : 0,
+      paid: hintCost > 0,
+      timeAttack: isTimeAttack,
+      compact,
+      onSpendHint: hintCost > 0
+        ? (cost) => spendPantrySpoons(cost, isTimeAttack ? "time-attack-hint" : "puzzle-extra-hint").allowed
+        : null
+    }));
+  }
   draw();
   options.onPuzzleStateChange?.(puzzle, state);
   return section;
@@ -204,12 +258,12 @@ export function getPuzzleHintCost({
   isTimeAttack = false,
   getTimeAttackHintCost
 } = {}) {
-  if (Number(hintsUsed || 0) < hintLimit) {
-    return 0;
-  }
-
   if (isTimeAttack) {
     return getTimeAttackHintCost?.(paidHintsUsed) || 0;
+  }
+
+  if (Number(hintsUsed || 0) < hintLimit) {
+    return 0;
   }
 
   return getPuzzleExtraHintCost(puzzleSize, paidHintsUsed);

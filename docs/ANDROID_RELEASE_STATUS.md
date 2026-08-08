@@ -1,25 +1,468 @@
+## v0.1.702 signed Play update candidate - 2026-08-03
+
+- Step 59 aligns the Map, Spoon Run, first Pantry purchase, and Pantry room-story Pip guides to the approved 48/52 mobile conversation composition.
+- Release identity: Android versionCode 37 / versionName 1.1.9; visible/package version v0.1.702.
+- Signed AAB: `android/app/build/outputs/bundle/release/app-release.aab` (20,125,473 bytes).
+- SHA-256: `7B3F8B48D609FDF6EB6523C347F40FEB2CD6EC91FA5DD52E16CB8365E4354592`; `jarsigner` verification passed.
+- Full signed automation passed the release commit gate, 48 files / 289 tests, candidate/final release gates, live privacy check, production build, Capacitor sync, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+- Play Console store-listing changes are saved but not yet submitted; upload this AAB and review the combined release/listing changes before submission.
+
+# v0.1.700 Android upload rebuild - 2026-07-30
+
+- Last Play Console upload: versionCode **37** / versionName **"1.1.9"** (production review).
+- Current signed upload target: versionCode 38 / versionName 1.1.10.
+- versionCode 33 was rejected by Play Console as already used; do not upload or reuse the earlier code-33 bundle.
+- The signed build script now auto-loads the external Key Paths environment file, verifies the keystore and alias before QA/build, and never prints password values.
+
+- Upload-ready AAB built successfully: `android/app/build/outputs/bundle/release/app-release.aab` (20,125,157 bytes).
+- SHA-256: `C2FFECDC647D3518475A4A5471048B7FEDBF816122C478F4D121246246CAEF19`; `jarsigner` verification passed.
+- Final verification passed: 48 test files / 288 tests, candidate and release gates, live privacy, billing, four mobile/tablet widths, Capacitor sync, and Gradle `bundleRelease`.
+
+## 2026-07-30 v0.1.693 focused play spoon header containment
+
+- Current package/UI candidate: v0.1.693.
+- The shared focused-play spoon balance now occupies a dedicated second row inside the play header and no longer overlays Settings or puzzle-size controls.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this layout fix.
+- Full candidate verification passed: 48 test files / 282 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.692 Pantry jar two-line names
+
+- Current package/UI candidate: v0.1.692.
+- Pantry shelf cards reserve two name lines while keeping price/status on one line, with aligned artwork across mobile three-column and tablet six-column layouts.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this layout step.
+- Full candidate verification passed: 48 test files / 282 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.691 intro spoon balance containment
+
+- Current package/UI candidate: v0.1.691.
+- The shared spoon balance chip is hidden and noninteractive while the branded onboarding intro is open, then resumes its established behavior after dismissal.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this containment step.
+- Full candidate verification passed: 47 test files / 280 tests, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.690 unified home keepsake shelf
+
+- Current package/UI candidate: v0.1.690.
+- Owned Pantry jars can now be selected explicitly for Workshop display without changing the stage-equipped completion jar.
+- The selected jar and featured earned Badge now share one centered, image-only wooden shelf above Play Now; either item also centers correctly when shown alone.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this UI/state step.
+- Full candidate verification passed on retry: 47 test files / 280 tests, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900; the prior attempt encountered a non-reproducing initial Vite navigation timeout.
+## 2026-07-30 v0.1.689 Step 45 recovery bundle
+
+- Current package/UI candidate: v0.1.689.
+- Locked stage cards retain their inset, focused-play quick travel retains its recovered touch target and safe-area spacing, and Workshop keepsakes remain left/right above Play Now using the collision-tested responsive lift.
+- Spoon Run calls to action now use collecting language in Korean and English, and mobile QA now validates the actual Time Attack auto-mode paint value across timer redraws.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this recovery/UI step.
+- Full candidate verification passed on retry: 47 test files / 278 tests, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900. The first attempt encountered a non-reproducing initial Vite navigation timeout.
+
+## 2026-07-30 v0.1.688 actionable shared spoon balance
+- Current package/UI candidate: v0.1.688.
+- The shared spoon balance now opens Pantry and scrolls to the existing spoon store from every non-focused-play view; focused puzzle and Time Attack play retain a noninteractive balance display.
+- Interactive balance chips now meet a 44px touch-target minimum, and mobile QA verifies navigation, focus-state semantics, store visibility, and immediate post-purchase balance refresh.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this UI/navigation step.
+- Full candidate verification passed: 47 test files / 278 tests, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.687 Workshop keepsake display row
+
+- Current package/UI candidate: v0.1.687.
+- The equipped Pantry jar and featured earned Badge now share one measured row above Play Now, retain independent rendering/navigation, and avoid the greeting, Play action, navigation destinations, and scene edges at all candidate widths.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this UI step.
+- Full candidate verification passed: 47 test files / 278 tests, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.686 locked Badge detail preview
+
+- Current package/UI candidate: v0.1.686.
+- Selecting an unearned Badge Shelf item now keeps its detail artwork obscured and shows the same completed/total progress overlay as the shelf slot; earned details stay clear and actionable.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this UI step.
+- Full candidate verification passed on retry: 47 test files / 277 tests, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900; an earlier attempt encountered a non-reproducing initial Vite navigation timeout.
+## 2026-07-30 v0.1.685 unified spoon balance across views
+
+- Current package/UI candidate: v0.1.685.
+- Workshop, Puzzle list, Album, Pantry, Badge, Time Attack, and Spoon Run now share one fixed spoon balance chip; Pantry and Workshop no longer render competing local balances.
+- The chip keeps safe-area and settings-button clearance, and mobile QA verifies one-instance rendering, no header collision, saved-value parity, approved token art, and immediate refresh after a Pantry purchase.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this UI step.
+- Full candidate verification passed: 47 test files / 276 tests, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.684 quick travel touch target and safe-area gap
+
+- Current package/UI candidate: v0.1.684.
+- Enlarged the Play-shell quick-travel trigger to a 68px minimum height with a 40px icon.
+- The global floating navigation now stays 20px above the device bottom safe area; Play-shell clearance remains 86px.
+- Android packaging remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this UI-only step.
+- Full candidate verification passed: 47 test files / 276 tests, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.683 locked stage card spacing
+
+- Current package/UI candidate: v0.1.683.
+- Locked stage cards now maintain 14px vertical and 16px horizontal inset spacing without horizontal clipping at 360px.
+- The mobile gate now targets the real locked-card class and measures both padding and overflow.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 47 test files / 276 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at all four candidate widths.
+## 2026-07-30 v0.1.682 Workshop title readability and Korean naming
+
+- Current package/UI candidate: v0.1.682.
+- The Workshop title now remains readable over its artwork through cream text, a compact shadow, and a subtle dark translucent pill.
+- Korean player-facing copy consistently uses "핍"; the English app brand remains unchanged.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 47 test files / 276 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.681 featured Badge keepsake
+
+- Current package/UI candidate: v0.1.681.
+- Earned badges can be selected from the Badge Shelf and displayed beside the current Pantry jar on Workshop home.
+- Locked badges cannot be selected, stale/unearned saved IDs do not render, and tapping the featured badge returns to the Badge Shelf.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 47 test files / 275 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA with featured badge selection/coexistence checks at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.680 spoon balance chip icon sizing
+
+- Current package/UI candidate: v0.1.680.
+- The shared fixed spoon balance chip now constrains its approved token art to 20x20px and keeps it vertically centered in the 32px chip.
+- Mobile QA now measures this contract in Spoon Run, Badge, and Time Attack across all four candidate widths.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 46 test files / 272 tests, 333-puzzle catalog and uniqueness gates, art and asset audits, production build, Android release gate, HTTP probe, and mobile QA with spoon-chip geometry checks at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.679 selected Pantry jar surfaces
+
+- Current package/UI candidate: v0.1.679.
+- The active puzzle stage resolves its selected Pantry jar through the stage-to-shelf mapping and presents the approved jar art on Workshop home and regular puzzle completion.
+- The Workshop card opens Pantry directly; Time Attack, unmapped stages, and missing selections stay hidden.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 46 test files / 272 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.678 daily login spoon bonus
+
+- Current package/UI candidate: v0.1.678.
+- Active players receive three Pantry spoons once per local calendar day, independently of the existing Today Picture bonus.
+- A tappable Pip speech bubble reports the grant after the Workshop renders and closes automatically after three seconds.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 45 test files / 267 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.677 completed-shelf guidance
+
+- Current package/UI candidate: v0.1.677.
+- Workshop Play Now now distinguishes an unfinished shelf, an unlocked next shelf, and a locked next shelf after completion.
+- A locked next shelf opens a repeatable Pip prompt with direct Pantry and Spoon Run destinations; it does not alter the one-time guide history.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 44 test files / 262 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-30 v0.1.676 Pip's Puzzle Room identity
+
+- Current package/UI candidate: v0.1.676.
+- The shared Puzzle destination is now "Pip's Puzzle Room" / "Pip의 퍼즐방", and the Workshop scene displays the same title above Pip's greeting.
+- The title is constrained away from the upper-right currency and Settings controls and remains readable across the mobile candidate widths.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 44 test files / 258 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-30 v0.1.675 fixed quick-travel navigation
+
+- Current package/UI candidate: v0.1.675.
+- The floating quick-travel trigger is now fixed to the lower-right viewport safe area at z-index 50 and remains visible independently of scroll position; its menu continues to open above the trigger.
+- The existing enlarged 80px trigger remains intact, and focused regression plus launch-integrity guards protect the positioning contract.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 44 test files / 257 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-30 v0.1.674 complete and future puzzle stage roadmap
+
+- Current package/UI candidate: v0.1.674.
+- Completed stages remain collapsed by default and now show an explicit green completion pill.
+- The puzzle picker exposes every future locked stage with its exact puzzle-size mix, representative blurred puzzle silhouettes, and localized teaser copy while preserving the previous-stage and exact Pantry-shelf gates.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 44 test files / 257 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.673 Pantry shelf and puzzle stage connections
+
+- Current package/UI candidate: v0.1.673.
+- All eight paid Pantry shelves now identify the puzzle stage or paired stages they gate and show pending versus fully opened status.
+- The next locked stage names its required Pantry shelf and reports shelf-local paid-jar progress out of five alongside the previous-stage puzzle condition.
+- The shared mapping and functional coverage protect all eight shelf-to-stage relationships. Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 43 test files / 253 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-30 v0.1.672 automatic stage gates and spoon rebalance
+
+- Current package/UI candidate: v0.1.672.
+- Stage entry no longer spends spoons or requires a manual unlock button. The immediate next stage opens automatically after previous-stage completion plus its cumulative paid-Pantry-jar gate.
+- Puzzle rewards are now 2/4/6/10 spoons for 5x5/8x8/10x10/12x12, and authored stage bonuses total 520; Daily and Time Attack rewards are unchanged.
+- Legacy explicitly unlocked shelf IDs remain compatible. Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed after the mobile runner caught and prompted repair of a shared spoon-icon import: 42 test files / 251 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-30 v0.1.671 explicit stage lock conditions
+
+- Current package/UI candidate: v0.1.671.
+- Locked stage cards now show previous-stage puzzle progress and paid Pantry jar progress independently, including remaining counts and completed/incomplete visual states.
+- Step 28 is still pending, so this Step retains the current spoon unlock cost and unlock action.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 42 test files / 250 tests, catalog, uniqueness, art and asset checks, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-30 v0.1.670 shared spoon balance
+
+- Current package/UI candidate: v0.1.670.
+- A shared safe-area-aware spoon balance chip now appears on views without an existing persistent balance, including active puzzle and Time Attack play, and refreshes from saved state on every shell redraw.
+- Pantry and Workshop home retain their own dedicated balance displays, so the shared chip is suppressed there.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Candidate verification passed through 41 test files / 249 tests, catalog and uniqueness checks, production build, Android release gate, and HTTP probe. After a combined-run first-navigation `networkidle` timeout, isolated mobile QA passed at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-30 v0.1.669 Daily Picture completion flow
+
+- Current package/UI candidate: v0.1.669.
+- A solved Daily Picture now keeps its reveal and separate puzzle/Daily reward rows, then offers one OK action back to Spoon Run instead of Next Picture.
+- Today's completed Daily card is visibly complete and non-interactive; normal and replay completion paths remain unchanged.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Candidate checks passed: 41 test files / 248 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, and HTTP probe. After two different non-reproducing combined-run mobile transients, isolated mobile QA passed at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-30 v0.1.668 reliable progress reset
+
+- Current package/UI candidate: v0.1.668.
+- Confirming progress reset now clears the active player's saved progress and reloads the app, so no stale in-memory puzzle, spoon, Pantry, or guide state survives on web. The active player name remains intact.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 41 test files / 246 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-30 v0.1.667 replay daily-limit completion
+
+- Current package/UI candidate: v0.1.667.
+- The rewarded third replay completion now ends the daily replay flow with a come-back-tomorrow message and one direct action back to Earn Spoons; earlier and ineligible replay completions retain their normal flow.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 40 test files / 244 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-30 v0.1.666 Pantry header simplification
+
+- Current package/UI candidate: v0.1.666.
+- The duplicate Pantry jar-collection eyebrow and its locale keys are removed; the existing Pantry title remains the sole header label.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 40 test files / 243 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.665 IAP spoon grant rebalance
+
+- Current package/UI candidate: v0.1.665.
+- Current app-side grants are 150 spoons for `pip_cozy_support` and 500 spoons for `pip_spoon_jar_small`; prices, IDs, repeatable consumable behavior, and duplicate-token protection are unchanged.
+- Historical 250-spoon real-device evidence below remains intentionally unchanged because it records the result of an earlier build. Play Console product descriptions must be aligned to 150/500 before the next Android upload and real-device validation.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 40 test files / 243 tests, 333-puzzle catalog and uniqueness gates, Billing contract, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.664 small puzzle hint access
+
+- Current package/UI candidate: v0.1.664.
+- Normal 5x5 and 8x8 puzzles now provide 1 and 2 starter hints respectively, followed by size-aware spoon hints at 3sp and 5sp base cost.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 40 test files / 242 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-30 v0.1.663 puzzle picker mosaic removal
+
+- Current package/UI candidate: v0.1.663.
+- Retired stage mosaics and their fallback/CSS paths are removed from the puzzle picker; stage-completion artwork is intentionally retained.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 40 test files / 240 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, HTTP probe, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-30 v0.1.662 per-shelf puzzle picker collapse
+
+- Current package/UI candidate: v0.1.662.
+- The persisted global completed-stage filter is retired; each unlocked shelf now has its own accessible session-only collapse control, with completed shelves closed by default.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 40 test files / 239 tests, 333-puzzle catalog and uniqueness gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.661 canonical shelf names and distinct wooden spoon
+
+- Current package/UI candidate: v0.1.661.
+- Badge labels now use the same canonical shelf names as the puzzle picker and completion overlay; the duplicated first-shelf spoon is now a distinct horizontal wooden-spoon puzzle.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 40 test files / 236 tests, 333-puzzle catalog and uniqueness gates, zero duplicate/repeated-title art findings, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.660 itemized completion spoon rewards
+
+- Current package/UI candidate: v0.1.660.
+- Completion now separates puzzle reward, Daily bonus, and shelf completion bonus using the actual awarded values; zero-value rows are omitted.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 40 test files / 234 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-30 v0.1.659 centered completion action
+
+- Current package/UI candidate: v0.1.659.
+- Centered the single Next Picture completion action in a one-column layout with a 320px maximum width and added geometry regression coverage.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 40 test files / 233 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-29 v0.1.658 late Pantry economy and badge glow verification
+
+- Current package/UI candidate: v0.1.658.
+- Raised late Fruit, Oil, and Tea shelf pricing and locked the full catalog at 3,310 spoons; Pickle remains in its approved range.
+- Added behavioral coverage for one-time earned-badge state consumption and matching-slot glow, plus source contracts for the final badge pulse and reduced-motion fallback.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 40 test files / 232 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-29 v0.1.657 Time Attack reward rebalance
+
+- Current package/UI candidate: v0.1.657.
+- Time Attack base rewards are now 10/18/30/45 spoons by board size; the 12-spoon record bonus and three rewarded runs per day remain unchanged.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 39 test files / 228 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-29 v0.1.656 Time Attack hint restoration
+
+- Current package/UI candidate: v0.1.656.
+- Restored a visible pre-board Time Attack hint control with sequential 2, 4, and 7 spoon charges and full-run `hintsUsed` accounting.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Candidate gates passed: 39 test files / 227 tests, 333-puzzle catalog and asset gates, production build, and Android release gate. Mobile QA separately passed at 360x740, 390x844, 430x932, and 675x900, including visible pre-board hint placement, the first 2-spoon charge, and one-use meter accounting.
+## 2026-07-29 v0.1.655 Spoon Run first-visit guide
+
+- Current package/UI candidate: v0.1.655.
+- Added a one-time two-slide Pip guide for Today's Picture and clean replay rewards when Spoon Run is first opened.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 38 test files / 225 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900, including the two-step Spoon Run first-visit guide.
+## 2026-07-29 v0.1.654 Spoon Run replay isolation
+
+- Current package/UI candidate: v0.1.654.
+- Explicit Spoon Run picks are now tracked separately from generic replay mode; only those picks can receive clean-replay rewards.
+- Replay exhaustion returns to the Spoon Run replay list, and successful completion reports `+1` spoon plus today's remaining reward count.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 38 test files / 223 tests, 333-puzzle catalog and asset gates, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-29 v0.1.653 Daily Spoon Run completion continuity
+
+- Current package/UI candidate: v0.1.653.
+- Today's Picture completion now reports the actual awarded spoons and returns `Next Picture` to the replay list inside Spoon Run.
+- Daily challenge state is cleared when leaving its play flow; date-specific completion and once-per-date bonus guards remain intact.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Full candidate verification passed: 38 test files / 223 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-29 v0.1.652 Spoon Run integrated view
+
+- Current package/UI candidate: v0.1.652.
+- Added the Spoon Run view and navigation entry; Daily and Replay cards now live there instead of below Workshop home.
+- Time Attack remains available through floating navigation.
+- Android version remains versionCode 33 / versionName 1.1.5; no AAB was built for this step.
+- `npm run qa:candidate` passed: 38 test files / 222 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-29 v0.1.651 Workshop Time Attack card removal
+
+- Current package/UI candidate: v0.1.651.
+- The duplicate Workshop Time Attack teaser was removed; Time Attack remains available through floating navigation.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Verification passed: 38 test files / 222 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-29 v0.1.650 Completion action simplification
+
+- Current package/UI candidate: v0.1.650.
+- Standard and replay completion banners now expose only `Next picture`; redundant Menu/Back actions were removed.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Verification passed: 38 test files / 221 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+## 2026-07-29 v0.1.649 Replay next-picture continuity
+
+- Current package/UI candidate: v0.1.649.
+- Replay completion now advances only through the Daily replay pool and returns to its Workshop card when the pool is exhausted.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Verification passed: 38 test files / 220 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-29 v0.1.648 Daily completion isolation
+
+- Current package/UI candidate: v0.1.648.
+- Daily completion is now tracked by local calendar date independently from general puzzle completion, including a fresh Daily board for previously completed pictures.
+- Android remains versionCode 33 / versionName 1.1.5; no AAB was requested or built for this Step.
+- Verification passed: 38 test files / 218 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## 2026-07-29 v0.1.641 Badge artwork single-surface cleanup
+
+- Current package/UI candidate: v0.1.641.
+- Earned badge artwork is now persistently rendered only inside the Badge collection view.
+- The Badge navigation entry, text badge semantics, and transient completion feedback remain available.
+- Android version remains versionCode 33 / versionName 1.1.5; no AAB was requested for this UI-only phase.
+- Verification passed: 38 test files / 205 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+
+## Billing / IAP Real-Device Validation - Small Spoon Jar
+
+- Status: **waived by product owner**
+- Product: `pip_spoon_jar_small`
+- Decision: no further paid purchase will be made for this candidate after the successful US$0.99 Play Billing checkout and 250-spoon grant established the live purchase channel.
+- Remaining evidence: repeatable consumable flags, distinct-token grant behavior, and duplicate-token rejection are covered by automated Billing tests. The missing US$2.99 real-device purchase remains an explicit release risk, not a reported pass.
+
+## 2026-07-29 v0.1.640 Time Attack paint persistence recovery
+
+- Current package/UI candidate: v0.1.640.
+- Time Attack cell state is now propagated through one-second timer redraws; the prior callback-shadowing reset path is removed.
+- Android stays versionCode 33 / versionName 1.1.5. No AAB was built.
+- - Verification passed: 37 test files / 203 tests, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900. Time Attack paint persistence was exercised across a 1.2-second timer redraw before the exit/restoration flow.
+
+## 2026-07-29 v0.1.639 Pantry shelf progression and celebration
+
+- Current package/UI candidate: v0.1.639.
+- Stage gate progress now counts completed five-paid-jar shelves, not individual purchases or legacy decoration story goals.
+- JAM/HONEY/HERB/SPICE completion maps to Sunny Spoon Sign/Apron Drawer/Bakery Window/Village Pantry at requirements 1/2/3/4.
+- The last paid jar on a shelf triggers a gold sweep, staggered jar bounce, and sparkle celebration after the Pantry redraw.
+- Android stays versionCode 33 / versionName 1.1.5. No AAB was built.
+- Automated verification passed: 37 test files / 202 tests, 333-puzzle catalog and asset checks, production build, Android release gate, and mobile layouts at 360x740, 390x844, 430x932, and 675x900 via `npm run qa:candidate`. The shelf-completion transition is unit-tested; visual observation of the purchase-triggered animation remains pending because the local browser connection was blocked by the OneDrive ACL.
+
+## 2026-07-29 v0.1.638 Pantry spoon token consistency
+
+- Current package/UI candidate: v0.1.638.
+- Pantry shelf prices, balance, and purchase action now use the approved spoon-token-v2 raster asset rather than the platform-dependent spoon emoji.
+- Android stays versionCode 33 / versionName 1.1.5. No AAB was built.
+- Verification passed: 37 test files / 202 tests, production build, Android release gate, and mobile layouts at 360x740, 390x844, 430x932, and 675x900 via `npm run qa:candidate`.
+
+## 2026-07-29 v0.1.637 premium Pantry jar art collection
+
+- Current package/UI candidate: v0.1.637.
+- Replaces the shared CSS jar template with 24 individually art-directed transparent WebP collectibles. CSS now handles category shelf staging, responsive layout, and owned/equipped/complete states.
+- Economy, Billing/Spoon Store, ownership/equip persistence, and Pantry stage gates remain behaviorally unchanged from v0.1.636.
+- Android stays versionCode 33 / versionName 1.1.5. No AAB was built for this visual pass.
+- Candidate QA passed: 24/24 asset mapping and alpha checks; 36 test files / 201 tests; production build; Android release gate; and 360x740, 390x844, 430x932, 675x900 mobile layouts.
+
+## 2026-07-29 v0.1.636 CSS Pantry jar collection
+
+- Current package/UI candidate: v0.1.636.
+- The current prepared upload code is 33 (versionCode 33 / versionName 1.1.5); no new AAB is authorized or built for this UI replacement.
+- Replaces the legacy decoration room with 24 CSS-rendered jars across four shelves while preserving Play Billing and Spoon Store entry points.
+- Paid jar purchase is a single-save transaction and advances the existing Pantry room step gate; free starters do not advance it.
+- Verification state: automated verified; real-device review remains pending. `npm run qa:candidate` passed 35 test files / 199 tests, asset/Billing/build/Android release gates, and four-width mobile runtime QA.
+
+## 2026-07-29 v0.1.635 Time Attack exit recovery
+
+- Current package/UI candidate: v0.1.635.
+- The current prepared upload code is 33 (versionCode 33 / versionName 1.1.5); no new AAB is authorized or built for this recovery slice.
+- Restores the regular puzzle and fully clears Time Attack session state on close, view navigation, completion, and timeout.
+- Verification state: automated verified; real-device confirmation remains pending. Focused tests passed 33/33, and `npm run qa:candidate` passed 34 test files / 195 tests plus the 360x740, 390x844, 430x932, and 675x900 Time Attack exit-to-regular-puzzle runtime flow.
+
+## 2026-07-29 v0.1.634 Workshop cards recovery
+
+- Current package/UI candidate: v0.1.634.
+- The current prepared upload code is 33 (versionCode 33 / versionName 1.1.5); no new AAB is authorized or built for this recovery slice.
+- Restores the Daily, Time Attack teaser, and eligible completed-puzzle Replay Picks cards below the full-screen Workshop scene.
+- Adds a bounded `.puzzle-hub-cards` wrapper with safe-area/floating-control clearance and four-width runtime QA coverage.
+- Verification state: automated verified; real-device verification pending. The full candidate gate passed 33 test files / 193 tests, production build, and four-width runtime QA including fresh-profile Daily/Time Attack cards and returning-profile Replay Picks.
+
+## 2026-07-28 v0.1.633 signed AAB candidate
+
+- Current app candidate: package/UI v0.1.633.
+- Current Android AAB target: versionCode 33 / versionName 1.1.5.
+- Signed AAB built at `android/app/build/outputs/bundle/release/app-release.aab`.
+- Size: 16,862,424 bytes.
+- SHA-256: `FD377B40179B98F4507B3D564B7BE6BD50A29089E0263FA099095775000B9C05`.
+- Signature verification: `jar verified`.
+- Full candidate QA passed earlier on this source state (32 files / 191 tests and four-width mobile QA). The signed-build rerun later stopped only on the known local Playwright `networkidle` timeout before product assertions, so the already-passed QA evidence was used for the final Android sync/build/signing step.
+- Scope includes the verified Android touch paint re-render recovery, Badge guide trigger recovery, guide name-tag visibility, empty Album direct play, Workshop greeting/layout, and Billing consumable recovery.
+
 # Android Release Status
 
-Last updated: 2026-07-21
+Last updated: 2026-07-28
+
+## Billing / IAP Real-Device Validation - Pip Cozy Support - 2026-07-28
+
+- Status: **passed**
+- App build: v0.1.626 / Android versionCode 32 / versionName 1.1.4
+- Track: Google Play internal test
+- Product ID: `pip_cozy_support`
+- Google Play purchase sheet loaded at US$0.99.
+- Real purchase completed successfully.
+- Exactly 250 spoons were granted and shown in the app.
+- Additional paid repeat purchase is waived by the product owner; repeatability and duplicate protection are covered by the v0.1.627 purchase-token tests.
+- No further real-money test is required for this product before launch.
+
+## Current Launch Checkpoint - 2026-07-28
+
+- Google Play production access has been granted. Production release submission itself has not been created yet.
+- Current web candidate: package 0.1.627 / UI v0.1.627; next internal-test upload target is versionCode 32 / versionName 1.1.4.
+- The full candidate gate currently covers 187 unit tests, authored-catalog/uniqueness/art audits, runtime assets (201), store/listing/privacy/Billing wiring, production build, Android release gate, and mobile QA at 360x740 / 390x844 / 430x932 / 675x900.
+- Latest verified flow repairs include Pantry overlay alpha cleanup, reachable owned-decoration swapping, Time Attack three-round transition protection, one-time stage-completion protection, and lightweight earned-badge treatment.
+- Play internal testing already accepted versionCode 30 / versionName 1.1.2. Its verified source artifact was `pips-picture-pantry-v0.1.623-vc30-internal.aab` (16,862,278 bytes; SHA-256 `0794D7A3935DC43743BC1FEA97B23204BE815F0FA7D56ADDE5750F3D21AF6BD6`).
+- Signed v0.1.624 internal-test candidate built at versionCode 31 / versionName 1.1.3. Upload-key signature verified with `jarsigner`; sole release-folder AAB: `pips-picture-pantry-v0.1.624-vc31-internal.aab`; size 16,862,539 bytes; SHA-256 `B8A38FCC8E8160F48117BEEFC5FFE313CA9E235D7C867C5149817ED824724334`. Use it only to collect the two real-device Billing records.
+- Signed v0.1.626 internal-test candidate built at versionCode 32 / versionName 1.1.4. Upload-key signature verified with `jarsigner`; sole release-folder AAB: `app-release.aab`; size 16,862,997 bytes; SHA-256 `A4270771AB2006FFA411460AFD2DAD3DE2520938AC58DCB1E105FB28810F7F80`.
+- Real-device evidence now confirms the first pip_cozy_support purchase and 250-spoon grant. Remaining external release evidence: pip_cozy_support repeat purchase and pip_spoon_jar_small purchase + repeat on a real Play-enabled device. Do not submit the production track until both records are added and the final release gate passes.
+
+---
 
 ## Public Launch Checklist (release-safe, 2026-07-14)
 
 **versionCode management rule:**
-- Last Play Console upload: versionCode **27** / versionName **"1.0.26"** (v0.1.35, closed testing).
-- v0.1.36 through current local builds have not been uploaded as AABs; they are local/GitHub development versions only.
+- Last Play Console upload: versionCode **31** / versionName **"1.1.3"** (internal testing).
+- The v0.1.626 changes have not yet been uploaded; they are the next internal-test candidate.
 - The next Play Console upload has been prepared in `android/app/build.gradle`:
-  - `versionCode` -> **28** (above the last uploaded Play Console code 27).
-  - `versionName` -> **"1.1.0"** for the public-launch Billing candidate. Keep it separate from the web/internal app version in `package.json` and `src/data/appVersion.js`.
+  - `versionCode` -> **32** (above the latest uploaded Play Console code 31).
+  - `versionName` -> **"1.1.4"** for the next internal-test Billing candidate. Keep it separate from the web/internal app version in `package.json` and `src/data/appVersion.js`.
 
-**Automation status:** `build.gradle` versionCode is still manually managed. `scripts/build_android_release_bundle.ps1` and signed-bundle scripts do not auto-increment it. The current prepared upload code is 28; increase it again only if another AAB is uploaded before this candidate.
+**Automation status:** `build.gradle` versionCode is still manually managed. `scripts/build_android_release_bundle.ps1` and signed-bundle scripts do not auto-increment it. The current prepared upload code is 32; increase it again only if another AAB is uploaded before this candidate.
 
 **Automated guard:** run `npm run qa:release` during normal QA and `npm run qa:release:final` immediately before building the signed Play upload AAB. The normal guard reports release-number warnings without blocking local polish; the final guard fails if `versionCode` / `versionName` still match the last uploaded Play build.
 
 **Minimum release patch example:**
 ```gradle
 // android/app/build.gradle defaultConfig
-versionCode 28
-versionName "1.1.0" // or the final public launch version name
+versionCode 31
+versionName "1.1.3" // next internal-test Billing candidate
 ```
 
 **Verification method:** after the release build, upload the AAB to the Play Console internal/closed test track and confirm there is no version conflict message. Record the accepted package/version details below before promoting.
@@ -36,6 +479,14 @@ versionName "1.1.0" // or the final public launch version name
 ---
 
 ## Current State
+
+### Final Candidate Refresh - 2026-07-25
+
+- Current web candidate: package `0.1.589` / UI `v0.1.589`.
+- `npm run qa:candidate` passes with 168 tests, asset/store/privacy/Billing wiring checks, production build, Android release gate, and mobile QA at 360x740, 390x844, 430x932, and 675x900.
+- `npm run qa:visual-pack` produced a 61-screen review pack for `v0.1.589`; the focused Time Attack Clock Grandfather, Pantry/shop, Pip guide, completion, shelf map, and 12x12 cursor states were manually checked from that pack.
+- Firebase Hosting was refreshed from `store-assets`, and `npm run qa:privacy:live` now confirms the public policy includes both launch Billing product IDs.
+- `npm run qa:release:final` correctly stops before signed upload because only the two real-device Billing evidence records remain. No AAB was created in this refresh.
 
 - 2026-07-10 planning update: launch content strategy now targets about 333 polished Season 0 puzzles rather than completing 1,000 puzzles before release.
 - Long-term 1,000+ puzzle depth remains a live-service update goal through seasonal/quarterly content packs.
@@ -68,17 +519,17 @@ versionName "1.1.0" // or the final public launch version name
 
 - Upload keystore exists outside the repo under D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Pip's Picture Pantry.
 - Local-only signing env file exists outside the repo and is not committed.
-- Current pre-upload blocker: complete `docs/PLAY_CONSOLE_BILLING_SETUP.md`, create and activate the `pip_cozy_support` and `pip_spoon_jar_small` managed products, record real-device purchase/restore/repeat evidence, run `npm run qa:billing` and `npm run qa:release:final`, then build and verify the signed Play-upload AAB.
+- Current pre-upload blocker: complete `docs/PLAY_CONSOLE_BILLING_SETUP.md`, create and activate the `pip_cozy_support` and `pip_spoon_jar_small` managed products, record real-device repeat-purchase evidence, run `npm run qa:billing` and `npm run qa:release:final`, then build and verify the signed Play-upload AAB.
 
 ## Billing Product Validation - 2026-07-18
 
 - v1 Android store products now require two active Play Console managed products before final signed upload:
-  - `pip_cozy_support`: one-time support pack, 250 spoons, restore required.
+  - `pip_cozy_support`: repeatable consumable support pack, 250 spoons per completed purchase.
   - `pip_spoon_jar_small`: repeatable Small Spoon Jar, 750 spoons per completed purchase.
 - `npm run qa:billing` must pass before release candidate signing.
 - Real-device evidence still pending:
-  - Support purchase grants 250 spoons once.
-  - Support restore recognizes ownership without duplicate grant.
+  - Support purchase grants 250 spoons per new purchase token.
+  - Support repeat purchase grants another 250 spoons; duplicate callbacks do not grant twice.
   - Spoon jar purchase grants 750 spoons.
   - Spoon jar repeat purchase grants another 750 spoons with a new store token.
   - Cancelled or failed purchase sheets do not grant spoons.
@@ -123,11 +574,11 @@ versionName "1.1.0" // or the final public launch version name
 
 1. Finish final human review on Android/WebView and visible store screenshots.
 2. Complete `docs/PLAY_CONSOLE_BILLING_SETUP.md` for the `pip_cozy_support` and `pip_spoon_jar_small` managed products.
-3. Keep the prepared Android `versionCode 28` / `versionName "1.1.0"` unless another Play upload happens before launch.
+3. Keep the prepared Android `versionCode 29` / `versionName "1.1.1"` unless another Play upload happens before launch.
 4. Run `npm run qa:billing` and `npm run qa:release:final`.
 5. Build the signed Play-upload AAB with `scripts/build_android_signed_release_bundle.ps1`.
 6. Upload the signed AAB to Google Play internal/closed testing and confirm Play Console accepts it.
-7. Verify real-device support purchase/restore and spoon jar purchase/repeat on an internal tester account.
+7. Verify real-device support repeat purchase and spoon jar purchase/repeat on an internal tester account.
 8. Capture accepted package/version details and real-device screenshots.
 9. Keep the upload keystore/env file backed up outside the repo.
 
@@ -1369,9 +1820,9 @@ versionName "1.1.0" // or the final public launch version name
 - Android bundle generation remains paused during local rework.
 
 ### v0.1.250 Opening Version Visibility
-- 오프닝 게임 시작 화면과 이름 입력 화면에 작은 버전 칩을 추가해, 미리보기에서 현재 빌드를 즉시 확인할 수 있게 했다.
-- APP_VERSION을 src/data/appVersion.js로 분리해 앱 쉘과 브랜드 인트로가 같은 버전 값을 공유하도록 정리했다.
-- 모바일 QA가 오프닝 버전 칩을 확인하도록 확장했다.
+- ?�프??게임 ?�작 ?�면�??�름 ?�력 ?�면???��? 버전 칩을 추�??? 미리보기?�서 ?�재 빌드�?즉시 ?�인?????�게 ?�다.
+- APP_VERSION??src/data/appVersion.js�?분리?????�과 브랜???�트로�? 같�? 버전 값을 공유?�도�??�리?�다.
+- 모바??QA가 ?�프??버전 칩을 ?�인?�도�??�장?�다.
 
 ## v0.1.251 - Four Puzzle Quality Batch
 - Added 4 quality-gated launch-catalog puzzles with titleKey, English/Korean catalog copy, and artReadability briefs.
@@ -1414,14 +1865,14 @@ versionName "1.1.0" // or the final public launch version name
 - Catalog now stands at 333/333 free puzzles, completing the Season 0 launch target. Android bundle generation remains paused during local rework while UX/art/game-feel polish continues.
 
 ### v0.1.261 - Season 0 Progress Hub
-- Puzzle Hub에 Season 0 진행 카드를 추가해 333개 출시 퍼즐을 하나의 런칭 시즌 카탈로그로 보이게 했다.
-- 카드에서 전체 완성률, 열린 스테이지 수, 보유 스푼을 함께 보여 주어 다음 스테이지 해금과 Pantry 요청이 자연스러운 목표가 되도록 정리했다.
-- 다음 시즌 업데이트 예고 문구를 추가해 출시 후 계절성 퍼즐 팩 확장 방향을 UI 안에 심었다.
-- 모바일 preview guard에서 발견된 대형 팩 mosaic 압축 문제를 함께 수정했다. 실제 136개/137개 퍼즐 수를 그대로 렌더하지 않고 20칸 샘플에 진행률을 환산해 stage art가 안정적으로 보이게 했다.
+- Puzzle Hub??Season 0 진행 카드�?추�???333�?출시 ?�즐???�나???�칭 ?�즌 카탈로그�?보이�??�다.
+- 카드?�서 ?�체 ?�성�? ?�린 ?�테?��? ?? 보유 ?�푼???�께 보여 주어 ?�음 ?�테?��? ?�금�?Pantry ?�청???�연?�러??목표가 ?�도�??�리?�다.
+- ?�음 ?�즌 ?�데?�트 ?�고 문구�?추�???출시 ??계절???�즐 ???�장 방향??UI ?�에 ?�었??
+- 모바??preview guard?�서 발견???�????mosaic ?�축 문제�??�께 ?�정?�다. ?�제 136�?137�??�즐 ?��? 그�?�??�더?��? ?�고 20�??�플??진행률을 ?�산??stage art가 ?�정?�으�?보이�??�다.
 
 ### v0.1.262 - Stage Unlock Plan Copy
-- 잠긴 스테이지 카드에 다음 행동 플랜 문구를 추가했다. 스푼 부족, Pantry 요청 부족, 둘 다 부족한 상황을 각각 설명해 다음 퍼즐을 열기 위한 목표를 더 명확하게 보여 준다.
-- Season 0의 333개 퍼즐을 단순 목록이 아니라 스푼 수급과 Pantry 진행으로 단계적으로 열어 가는 구조로 느끼게 하는 UI 보강이다.
+- ?�긴 ?�테?��? 카드???�음 ?�동 ?�랜 문구�?추�??�다. ?�푼 부�? Pantry ?�청 부�? ????부족한 ?�황??각각 ?�명???�음 ?�즐???�기 ?�한 목표�???명확?�게 보여 준??
+- Season 0??333�??�즐???�순 목록???�니???�푼 ?�급�?Pantry 진행?�로 ?�계?�으�??�어 가??구조�??�끼�??�는 UI 보강?�다.
 
 
 ### v0.1.263 - Opening Promise Strip
@@ -1658,7 +2109,7 @@ versionName "1.1.0" // or the final public launch version name
 - Added `npm run qa:android:candidate` as the fast Android candidate lane.
 - The lane runs the web candidate gate, Capacitor sync, unsigned Android release bundle build, and AAB output sanity check.
 - Verified the lane exits successfully and produces `android/app/build/outputs/bundle/release/app-release.aab`.
-- Android upload numbering is now prepared at `versionCode 28` / `versionName "1.1.0"`; bump again only if another AAB is uploaded before this public-launch Billing candidate.
+- Android upload numbering is now prepared at `versionCode 29` / `versionName "1.1.1"`; bump again only if another AAB is uploaded before this public-launch Billing candidate.
 
 ## Billing / IAP Release Note - 2026-07-16
 
@@ -1671,7 +2122,7 @@ versionName "1.1.0" // or the final public launch version name
 ## Billing / IAP Real-Device Validation - pending
 
 - Status: **pending**
-- App build: current candidate / Android versionCode 28 / versionName 1.1.0
+- App build: current candidate / Android versionCode 29 / versionName 1.1.1
 - Track and tester:
 - Device and Android version:
 - Evidence files or screenshots:
@@ -1690,3 +2141,61 @@ versionName "1.1.0" // or the final public launch version name
   - Replaying the same purchase token does not duplicate spoons:
   - Cancel/close grants no spoons:
 - When complete, change the heading date and status to `Status: **passed**`, record tester/device/build details, and keep the words `purchase`, `restore`, and `repeat` in this section so `npm run qa:release:final` can verify the release evidence. Use `npm run billing:evidence` to print a fresh copy of this checklist.
+
+## v0.1.642 local candidate note (2026-07-29)
+
+- Visible web version: v0.1.642.
+- Pantry data/economy now contains 8 shelves, 48 jars, 40 paid-jar gates, and 24 new transparent jar assets.
+- Android versionCode/versionName are unchanged; no AAB was requested or built for this slice.
+- Local candidate validation passed: 38 test files / 205 tests, production build, Android release gate, 48-jar asset contract, and four-width mobile visual QA.
+
+## v0.1.643 local candidate note (2026-07-29)
+
+- Visible web version: v0.1.643.
+- Badge menu now contains nine stage-completion badges on three wooden shelves, including six new transparent runtime WebP assets and earned-toast/glow feedback.
+- Persistent badge artwork remains limited to the Badge menu; no Android versionCode/versionName change and no AAB was requested or built for this slice.
+- Local candidate validation passed: 38 test files / 207 tests, 207 registered assets, production build, Android release gate, and four-width mobile visual QA.
+
+## v0.1.644 local candidate note (2026-07-29)
+
+- Visible web version: v0.1.644.
+- Badge shelves now guarantee separated three-slot geometry, and locked badge artwork is reduced to `0.12` opacity to preserve discovery.
+- First-entry Badge guide progression and dismissal are covered by the four-width mobile browser QA contract.
+- Android versionCode/versionName are unchanged; no AAB was requested or built for this slice.
+- Local `npm run qa:candidate` passed 38 test files / 207 tests, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.645 local candidate note (2026-07-29)
+
+- Visible web version: v0.1.645.
+- Workshop Pantry notification now represents an immediately affordable unowned paid jar instead of any unowned jar.
+- Android versionCode/versionName are unchanged; no AAB was requested or built for this step.
+- Local `npm run qa:candidate` passed 38 test files / 210 tests, production build, Android release gate, and four-width mobile visual QA.
+
+## v0.1.646 local candidate note (2026-07-29)
+
+- Visible web version: v0.1.646.
+- Guide overlays now stay above Pantry jar detail sheets, lock background scrolling, cover the full dynamic viewport, and keep Mr. Park artwork on-screen.
+- Android versionCode/versionName are unchanged; no AAB was requested or built for this step.
+- Local `npm run qa:candidate` passed 38 test files / 211 tests, production build, Android release gate, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+
+## v0.1.647 local candidate note (2026-07-29)
+
+- Visible web version: v0.1.647.
+- Pantry navigation and Workshop destinations now use the single localized name `Pip's Pantry` / `Pip의 팬트리`.
+- Android versionCode/versionName are unchanged; no AAB was requested or built for this step.
+- Local `npm run qa:candidate` passed 38 test files / 212 tests, production build, Android release gate, and four-width mobile visual QA.
+
+## v0.1.703 signed Play candidate (2026-08-03)
+
+- Build commit: `ca6cf33` (app change `6bf0cc9`).
+- Android identity: `versionCode 37` / `versionName 1.1.9`.
+- Output: `android/app/build/outputs/bundle/release/app-release.aab`.
+- Size: 20,125,591 bytes.
+- SHA-256: `A66606C1FCF2524E8404ADE0D372D4BFAE09B2483C402DFA086ABCCDD5281BD5`.
+- Verification: release commit gate, full candidate QA (48 files / 290 tests), production build, Capacitor sync, Gradle `bundleRelease`, and `jarsigner` verification passed.
+## v0.1.704 focused-play update candidate - 2026-08-05
+
+- Enlarged and clipped-safe focused puzzle board, D-pad from 8x8 upward, unified dialogue geometry, and Settings spoon cleanup are included for Android and iOS.
+- Release identity: Android versionCode 38 / versionName 1.1.10; package/UI v0.1.704.
+- Signed AAB: `android/app/build/outputs/bundle/release/app-release.aab` (20,128,450 bytes).
+- SHA-256: `4F9DA3978BEC8CEA92C28E8C20D65201282FA378DD1D2CCF27FC97A01AA06E63`; `jarsigner` verification passed.

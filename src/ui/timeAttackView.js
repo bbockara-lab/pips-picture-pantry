@@ -1,5 +1,5 @@
-import pipCoachUrl from "../assets/characters/pip-chrome-v2.png";
 import { t } from "../i18n/index.js";
+import clockGrandpaUrl from "../assets/characters/story-friend-mr-park-v1.png";
 
 export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLimit = 3, lastResult = null, onStart } = {}) {
   const panel = document.createElement("section");
@@ -7,11 +7,18 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
 
   const intro = document.createElement("div");
   intro.className = "time-attack-panel__intro";
-  appendTextElement(intro, "p", "section-label", t("timeAttack.eyebrow"));
+  const grandpa = document.createElement("span");
+  grandpa.className = "time-attack-panel__clock-grandpa";
+  grandpa.setAttribute("aria-hidden", "true");
+  const grandpaArt = document.createElement("img");
+  // Use the single Clock Grandpa character asset. The old sprite sheet was
+  // cropped by CSS and left a second, detached head in the entry scene.
+  grandpaArt.src = clockGrandpaUrl;
+  grandpaArt.alt = "";
+  grandpa.appendChild(grandpaArt);
   appendTextElement(intro, "h2", "", t("timeAttack.title"));
-  appendTextElement(intro, "p", "", t("timeAttack.body"));
+  intro.prepend(grandpa);
 
-  const coach = createTimeAttackCoachCard();
   const ladder = createTimeAttackLadder();
 
   const startButton = document.createElement("button");
@@ -26,34 +33,23 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
 
   const records = createRecordsPanel(bestScores);
 
-  if (lastResult) {
+  if (lastResult && records) {
     const result = createLastResultPanel(lastResult);
-    panel.append(intro, coach, ladder, startButton, status, result, records);
+    panel.append(intro, ladder, startButton, status, result, records);
     return panel;
   }
 
-  panel.append(intro, coach, ladder, startButton, status, records);
+  if (lastResult) {
+    const result = createLastResultPanel(lastResult);
+    panel.append(intro, ladder, startButton, status, result);
+    return panel;
+  }
+
+  panel.append(intro, ladder, startButton, status);
+  if (records) {
+    panel.appendChild(records);
+  }
   return panel;
-}
-
-function createTimeAttackCoachCard() {
-  const card = document.createElement("article");
-  card.className = "time-attack-coach-card";
-
-  const portrait = document.createElement("img");
-  portrait.className = "time-attack-coach-card__pip";
-  portrait.src = pipCoachUrl;
-  portrait.alt = "";
-  portrait.setAttribute("aria-hidden", "true");
-
-  const copy = document.createElement("div");
-  copy.className = "time-attack-coach-card__copy";
-  appendTextElement(copy, "p", "section-label", t("timeAttack.coachEyebrow"));
-  appendTextElement(copy, "h3", "", t("timeAttack.coachTitle"));
-  appendTextElement(copy, "p", "", t("timeAttack.coachBody"));
-
-  card.append(portrait, copy);
-  return card;
 }
 
 function appendTextElement(parent, tagName, className, text) {
@@ -72,10 +68,10 @@ function createTimeAttackLadder() {
   ladder.setAttribute("aria-label", t("timeAttack.ladderAria"));
 
   [
-    ["ladderRound1", "ladderSize1", "ladderWarmup"],
-    ["ladderRound2", "ladderSize2", "ladderTempo"],
-    ["ladderRound3", "ladderSize3", "ladderFinal"]
-  ].forEach(([roundKey, sizeKey, bodyKey], index) => {
+    ["ladderRound1", "ladderSize1"],
+    ["ladderRound2", "ladderSize2"],
+    ["ladderRound3", "ladderSize3"]
+  ].forEach(([roundKey, sizeKey], index) => {
     const item = document.createElement("li");
     item.className = index === 2 ? "time-attack-ladder__step is-final" : "time-attack-ladder__step";
 
@@ -104,28 +100,29 @@ function getRewardStatusText(dailyCount, dailyLimit) {
 }
 
 function createRecordsPanel(bestScores) {
+  const entries = Object.values(bestScores).sort((a, b) => Number(a.size || 0) - Number(b.size || 0));
   const records = document.createElement("div");
   records.className = "time-attack-records";
-  const entries = Object.values(bestScores).sort((a, b) => Number(a.size || 0) - Number(b.size || 0));
-  if (entries.length) {
-    const title = document.createElement("h3");
-    title.textContent = t("timeAttack.records");
-    const list = document.createElement("ul");
-    entries.forEach((record) => {
-      const item = document.createElement("li");
-      item.textContent = t("timeAttack.recordLine", {
-        size: record.size || "?",
-        progress: getRecordProgress(record),
-        boardProgress: getRecordBoardProgress(record),
-        time: formatElapsedSeconds(record.elapsedSeconds || 0),
-        hints: getRecordHints(record)
-      });
-      list.appendChild(item);
-    });
-    records.append(title, list);
-  } else {
-    records.textContent = t("timeAttack.noRecord");
+  const title = document.createElement("h3");
+  title.textContent = t("timeAttack.records");
+  if (!entries.length) {
+    const empty = document.createElement("p");
+    empty.className = "time-attack-records__empty";
+    empty.textContent = t("timeAttack.recordsEmpty");
+    records.append(title, empty);
+    return records;
   }
+  const list = document.createElement("ul");
+  entries.forEach((record) => {
+    const item = document.createElement("li");
+    item.textContent = t("timeAttack.recordLine", {
+      size: record.size || "?",
+      progress: getRecordProgress(record),
+      time: formatElapsedSeconds(record.elapsedSeconds || 0)
+    });
+    list.appendChild(item);
+  });
+  records.append(title, list);
   return records;
 }
 
@@ -152,17 +149,20 @@ function createLastResultPanel(lastResult) {
   score.className = "time-attack-panel__score";
   score.textContent = t("timeAttack.lastScore", {
     progress: getRecordProgress(lastResult),
-    boardProgress: getRecordBoardProgress(lastResult),
     time: formatElapsedSeconds(lastResult.elapsedSeconds || 0)
   });
 
-  const meta = document.createElement("p");
-  meta.className = "time-attack-panel__meta";
-  meta.textContent = t("timeAttack.resultMeta", {
-    hints: Math.max(0, Number(lastResult.hintsUsed || 0))
-  });
-
-  result.append(title, score, meta, reward);
+  result.append(title, score);
+  const hintsUsed = getRecordHints(lastResult);
+  if (hintsUsed > 0) {
+    const meta = document.createElement("p");
+    meta.className = "time-attack-panel__meta";
+    meta.textContent = t("timeAttack.resultMeta", {
+      hints: hintsUsed
+    });
+    result.appendChild(meta);
+  }
+  result.appendChild(reward);
   return result;
 }
 
@@ -176,16 +176,6 @@ function getRecordProgress(record) {
     return Math.floor(storedProgress);
   }
   return Math.max(0, Math.floor(Number(record?.score || 0) / 1000));
-}
-
-function getRecordBoardProgress(record) {
-  const current = Math.max(0, Math.floor(Number(record?.currentRoundCorrectCells || 0)));
-  const total = Math.max(current, Math.floor(Number(record?.currentRoundTotalCells || 0)));
-  const round = Math.max(1, Math.floor(Number(record?.currentRoundNumber || record?.completedRounds || 1)));
-  if (!total) {
-    return t("timeAttack.boardProgressFallback", { round, current });
-  }
-  return t("timeAttack.boardProgress", { round, current, total });
 }
 
 function formatElapsedSeconds(seconds) {

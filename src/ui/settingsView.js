@@ -3,6 +3,7 @@ import { getLanguagePreference, t } from "../i18n/index.js";
 import { getAudioPreferences } from "./audio.js";
 import supportPackGiftUrl from "../assets/billing/support-pack-gift-v1.png";
 import spoonJarSmallUrl from "../assets/billing/spoon-jar-small-v1.png";
+import { getQuickTravelArt } from "../data/quickTravelArt.js";
 
 const BILLING_PRODUCT_ART = {
   support: {
@@ -19,6 +20,7 @@ export function renderSettingsDialog({
   onClose,
   onLanguageChange,
   onPlayerChange,
+  onResetRequest = () => {},
   onSfxChange,
   onMusicChange,
   controlMode,
@@ -26,7 +28,6 @@ export function renderSettingsDialog({
   onReplayGuide = () => {},
   supportPack = null,
   onSupportPurchase = () => {},
-  onSupportRestore = () => {},
   spoonJar = null,
   onSpoonJarPurchase = () => {}
 }) {
@@ -47,7 +48,7 @@ export function renderSettingsDialog({
   dialog.appendChild(title);
 
   const group = document.createElement("div");
-  group.className = "language-options settings-choice-grid settings-choice-grid--language";
+  group.className = "language-options settings-choice-grid settings-choice-grid--language settings-language-group";
   group.setAttribute("role", "group");
   group.setAttribute("aria-label", t("settings.language"));
 
@@ -134,13 +135,19 @@ export function renderSettingsDialog({
 
   const guideGroup = createGuideReplayCard(onReplayGuide);
 
+  const resetButton = document.createElement("button");
+  resetButton.type = "button";
+  resetButton.className = "settings-reset";
+  resetButton.textContent = t("header.resetProgress");
+  resetButton.addEventListener("click", onResetRequest);
+
   const closeButton = document.createElement("button");
   closeButton.type = "button";
   closeButton.className = "tool-button settings-choice settings-choice--close settings-close";
   closeButton.textContent = t("settings.close");
   closeButton.addEventListener("click", onClose);
 
-  dialog.append(group, playerForm, controlGroup, audioGroup, guideGroup);
+  dialog.append(group, playerForm, controlGroup, audioGroup, guideGroup, resetButton);
   dialog.appendChild(closeButton);
   overlay.appendChild(dialog);
   return overlay;
@@ -149,7 +156,6 @@ export function renderSettingsDialog({
 export function renderSpoonStore({
   supportPack = null,
   onSupportPurchase = () => {},
-  onSupportRestore = () => {},
   spoonJar = null,
   onSpoonJarPurchase = () => {}
 } = {}) {
@@ -163,7 +169,7 @@ export function renderSpoonStore({
   heading.appendChild(title);
   const products = document.createElement("div");
   products.className = "spoon-store__products";
-  if (supportPack) products.appendChild(createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestore }));
+  if (supportPack) products.appendChild(createSupportPackCard({ supportPack, onSupportPurchase }));
   if (spoonJar) products.appendChild(createSpoonJarCard({ spoonJar, onSpoonJarPurchase }));
   store.append(heading, products);
   return store;
@@ -178,18 +184,15 @@ function createGuideReplayCard(onReplayGuide) {
   label.className = "section-label";
   label.textContent = t("settings.guideReplayTitle");
 
-  const body = document.createElement("p");
-  body.className = "settings-guide-card__body";
-  body.textContent = t("settings.guideReplayBody");
-
   const actions = document.createElement("div");
   actions.className = "settings-guide-card__actions";
   actions.append(
     createGuideReplayButton(t("settings.guideReplayPuzzleAction"), "puzzle", "puzzle", onReplayGuide),
-    createGuideReplayButton(t("settings.guideReplayTimeAttackAction"), "timeAttack", "time", onReplayGuide)
+    createGuideReplayButton(t("settings.guideReplayTimeAttackAction"), "timeAttack", "time", onReplayGuide),
+    createGuideReplayButton(t("settings.guideReplayMapAction"), "map", "map", onReplayGuide)
   );
 
-  group.append(label, body, actions);
+  group.append(label, actions);
   return group;
 }
 
@@ -199,9 +202,15 @@ function createGuideReplayButton(label, guideId, modifier, onReplayGuide) {
   button.className = `tool-button settings-choice settings-choice--guide-replay settings-choice--guide-replay-${modifier}`;
   button.dataset.guideTarget = guideId;
 
-  const icon = document.createElement("span");
-  icon.className = `settings-choice__guide-icon settings-choice__guide-icon--${modifier}`;
+  const icon = document.createElement("img");
+  const art = getQuickTravelArt(guideId === "timeAttack" ? "timeAttack" : guideId === "map" ? "map" : "puzzle");
+  icon.className = `settings-choice__guide-art settings-choice__guide-art--${modifier}`;
+  icon.src = art?.src || "";
+  icon.alt = "";
   icon.setAttribute("aria-hidden", "true");
+  if (art) {
+    icon.dataset.assetId = art.assetId;
+  }
 
   const text = document.createElement("span");
   text.className = "settings-choice__guide-label";
@@ -232,11 +241,9 @@ function createModalBackdrop() {
 }
 
 
-function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestore }) {
+function createSupportPackCard({ supportPack, onSupportPurchase }) {
   const group = document.createElement("div");
-  group.className = supportPack.owned
-    ? "support-pack-card support-pack-card--support support-pack-card--owned"
-    : "support-pack-card support-pack-card--support";
+  group.className = "support-pack-card support-pack-card--support";
   group.dataset.billingProduct = "pip_cozy_support";
   group.setAttribute("aria-label", t("settings.supportTitle"));
 
@@ -258,7 +265,7 @@ function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestor
   status.textContent = getSupportPackStatus(supportPack);
 
   const actions = document.createElement("div");
-  actions.className = "support-pack-card__actions";
+  actions.className = "support-pack-card__actions support-pack-card__actions--single";
 
   const purchaseButton = document.createElement("button");
   purchaseButton.type = "button";
@@ -267,14 +274,7 @@ function createSupportPackCard({ supportPack, onSupportPurchase, onSupportRestor
   purchaseButton.disabled = !canPurchaseSupportPack(supportPack);
   purchaseButton.addEventListener("click", onSupportPurchase);
 
-  const restoreButton = document.createElement("button");
-  restoreButton.type = "button";
-  restoreButton.className = "tool-button settings-choice settings-choice--restore";
-  restoreButton.textContent = t("settings.supportRestore");
-  restoreButton.disabled = !canRestoreSupportPack(supportPack);
-  restoreButton.addEventListener("click", onSupportRestore);
-
-  actions.append(purchaseButton, restoreButton);
+  actions.appendChild(purchaseButton);
   group.append(label, art, body, status, actions);
   return group;
 }
@@ -334,17 +334,14 @@ function createBillingProductArt(kind) {
 }
 
 function getSupportPackBody(supportPack) {
-  if (supportPack.owned) {
-    return t("settings.supportOwnedBody", { spoons: supportPack.spoons });
-  }
   return t("settings.supportBody", { spoons: supportPack.spoons });
 }
 
 export function getSupportPackFacts(supportPack) {
   return [
     t("settings.supportFactSpoons", { spoons: supportPack?.spoons || 0 }),
-    supportPack?.available ? t("settings.supportFactStore") : t("settings.supportFactAndroid"),
-    t("settings.supportFactRestore")
+    supportPack?.available ? (supportPack.storeName || t("settings.supportFactStore")) : t("settings.supportFactAndroid"),
+    t("settings.supportFactRepeat")
   ];
 }
 
@@ -352,25 +349,19 @@ export function getSupportPackStatus(supportPack) {
   if (supportPack.loading) {
     return t("settings.supportChecking");
   }
-  if (supportPack.owned) {
-    return t("settings.supportOwned");
-  }
   if (supportPack.status === "cancelled") {
     return t("settings.supportCancelled");
-  }
-  if (supportPack.status === "not-owned") {
-    return t("settings.supportNotFound");
   }
   if (supportPack.status === "network-error") {
     return t("settings.supportNetworkError");
   }
   if (supportPack.status === "already-owned") {
-    return t("settings.supportAlreadyOwned");
+    return t("settings.supportPendingConsumption");
   }
-  if (supportPack.status === "wrong-product" || supportPack.status === "failed" || supportPack.status === "product-unavailable") {
+  if (supportPack.status === "wrong-product" || supportPack.status === "failed" || supportPack.status === "product-unavailable" || supportPack.status === "missing-purchase-key") {
     return t("settings.supportFailed");
   }
-  if (supportPack.status === "purchased" || supportPack.status === "restored") {
+  if (supportPack.status === "purchased" || supportPack.status === "already-processed") {
     return t("settings.supportReady");
   }
   if (!supportPack.available) {
@@ -383,16 +374,16 @@ export function getSupportStatusTone(supportPack) {
   if (supportPack.loading) {
     return "checking";
   }
-  if (supportPack.owned || supportPack.status === "purchased" || supportPack.status === "restored") {
+  if (supportPack.status === "purchased" || supportPack.status === "already-processed") {
     return "success";
   }
   if (
     supportPack.status === "cancelled" ||
-    supportPack.status === "not-owned" ||
     supportPack.status === "network-error" ||
     supportPack.status === "already-owned" ||
     supportPack.status === "wrong-product" ||
     supportPack.status === "failed" ||
+    supportPack.status === "missing-purchase-key" ||
     supportPack.status === "product-unavailable" ||
     !supportPack.available
   ) {
@@ -408,30 +399,13 @@ function getSupportPurchaseLabel(supportPack) {
 }
 
 export function canPurchaseSupportPack(supportPack) {
-  return Boolean(supportPack?.available && !supportPack.loading && !supportPack.owned);
-}
-
-export function canRestoreSupportPack(supportPack) {
-  if (!supportPack || supportPack.loading || supportPack.owned) {
-    return false;
-  }
-  if (supportPack.available) {
-    return true;
-  }
-  return [
-    "already-owned",
-    "product-unavailable",
-    "network-error",
-    "failed",
-    "wrong-product",
-    "not-owned"
-  ].includes(supportPack.status);
+  return Boolean(supportPack?.available && !supportPack.loading);
 }
 
 export function getSpoonJarFacts(spoonJar) {
   return [
     t("settings.spoonJarFactSpoons", { spoons: spoonJar?.spoons || 0 }),
-    spoonJar?.available ? t("settings.supportFactStore") : t("settings.supportFactAndroid"),
+    spoonJar?.available ? (spoonJar.storeName || t("settings.supportFactStore")) : t("settings.supportFactAndroid"),
     t("settings.spoonJarFactRepeat")
   ];
 }

@@ -18,6 +18,8 @@ export const PUZZLE_PRACTICE = Object.freeze({
 const GUIDE_STEPS = {
   puzzle: ["guide.puzzle.step1", "guide.puzzle.step2", "guide.puzzle.step3"],
   timeAttack: ["guide.timeAttack.step1", "guide.timeAttack.step2", "guide.timeAttack.step3"],
+  map: ["guide.map.step1", "guide.map.step2", "guide.map.step3"],
+  spoonRunIntro: ["guide.spoonRunIntro.step1", "guide.spoonRunIntro.step2"],
   pantryFirstPurchase: ["guide.pantryFirstPurchase.step1", "guide.pantryFirstPurchase.step2", "guide.pantryFirstPurchase.step3"],
   pantryRoomStory: ["guide.pantryRoomStory.step1", "guide.pantryRoomStory.step2", "guide.pantryRoomStory.step3"],
   pantryNeighborMrPark: ["guide.pantryNeighborMrPark.step1", "guide.pantryNeighborMrPark.step2", "guide.pantryNeighborMrPark.step3"],
@@ -25,17 +27,33 @@ const GUIDE_STEPS = {
   pantryNeighborMateo: ["guide.pantryNeighborMateo.step1", "guide.pantryNeighborMateo.step2", "guide.pantryNeighborMateo.step3"]
 };
 const NEIGHBOR_GUIDE_CLASSES = {
+  timeAttack: { className: "mr-park", assetId: "story-friend-mr-park-v1", url: mrParkArtUrl },
   pantryNeighborMrPark: { className: "mr-park", assetId: "story-friend-mr-park-v1", url: mrParkArtUrl },
   pantryNeighborLily: { className: "lily", assetId: "story-friend-lily-v1", url: lilyArtUrl },
   pantryNeighborMateo: { className: "mateo", assetId: "story-friend-mateo-v1", url: mateoArtUrl }
 };
+const GUIDE_SPEAKER_NAME_KEYS = {
+  puzzle: "guide.puzzle.speakerName",
+  timeAttack: "guide.timeAttack.speakerName",
+  map: "guide.map.speakerName",
+  spoonRunIntro: "guide.spoonRunIntro.speakerName"
+};
+
+function appendGuideNameTag(art, guideId) {
+  const speakerNameKey = GUIDE_SPEAKER_NAME_KEYS[guideId];
+  if (!speakerNameKey) return;
+  const nameTag = document.createElement("p");
+  nameTag.className = "guide-dialog__name-tag";
+  nameTag.textContent = t(speakerNameKey);
+  art.appendChild(nameTag);
+}
 
 export function renderGuideDialog(guideId, onClose) {
   const steps = GUIDE_STEPS[guideId] || GUIDE_STEPS.puzzle;
   let index = 0;
 
   const overlay = document.createElement("div");
-  overlay.className = "guide-overlay";
+  overlay.className = `guide-overlay guide-overlay--${guideId}`;
   overlay.setAttribute("role", "dialog");
   overlay.setAttribute("aria-modal", "true");
   overlay.setAttribute("aria-labelledby", "guide-dialog-title");
@@ -61,6 +79,7 @@ export function renderGuideDialog(guideId, onClose) {
       image.src = neighborArt.url;
       image.alt = "";
       art.appendChild(image);
+      appendGuideNameTag(art, guideId);
       nodes.push(art);
     } else if (isRuntimeGuideArtApproved(GUIDE_ART_ASSET_ID)) {
       const art = document.createElement("div");
@@ -71,6 +90,7 @@ export function renderGuideDialog(guideId, onClose) {
       image.src = pipGuideSceneUrl;
       image.alt = "";
       art.appendChild(image);
+      appendGuideNameTag(art, guideId);
       nodes.push(art);
     }
 
@@ -107,10 +127,14 @@ export function renderGuideDialog(guideId, onClose) {
     nextButton.className = "guide-dialog__next";
     nextButton.textContent = isLast ? t("guide.done") : t("guide.next");
 
+    const content = document.createElement("div");
+    content.className = "guide-dialog__content";
+    content.append(body);
+    if (practice) content.appendChild(practice.element);
+    content.appendChild(dots);
+
     actions.append(nextButton);
-    bubble.append(body);
-    if (practice) bubble.appendChild(practice.element);
-    bubble.append(dots, actions);
+    bubble.append(content, actions);
     nodes.push(bubble);
 
     card.replaceChildren(...nodes);
@@ -132,6 +156,58 @@ export function renderGuideDialog(guideId, onClose) {
   }
 
   draw();
+  return overlay;
+}
+
+export function renderAllPuzzlesDoneDialog({ onPantry, onSpoonRun }) {
+  const overlay = document.createElement("div");
+  overlay.className = "guide-overlay guide-overlay--all-puzzles-done";
+  overlay.setAttribute("role", "dialog");
+  overlay.setAttribute("aria-modal", "true");
+  overlay.setAttribute("aria-labelledby", "all-puzzles-done-title");
+
+  const card = document.createElement("section");
+  card.className = "guide-dialog guide-dialog--all-puzzles-done";
+  card.dataset.guideId = "allPuzzlesDone";
+
+  if (isRuntimeGuideArtApproved(GUIDE_ART_ASSET_ID)) {
+    const art = document.createElement("div");
+    art.className = "guide-dialog__art";
+    art.setAttribute("aria-hidden", "true");
+    const image = document.createElement("img");
+    image.src = pipGuideSceneUrl;
+    image.alt = "";
+    art.appendChild(image);
+    appendGuideNameTag(art, "puzzle");
+    card.appendChild(art);
+  }
+
+  const bubble = document.createElement("div");
+  bubble.className = "guide-dialog__bubble";
+  const title = document.createElement("p");
+  title.id = "all-puzzles-done-title";
+  title.className = "guide-dialog__line guide-dialog__line--title";
+  title.textContent = t("guide.allPuzzlesDone");
+  const hint = document.createElement("p");
+  hint.className = "guide-dialog__line guide-dialog__line--hint";
+  hint.textContent = t("guide.unlockNextHint");
+
+  const actions = document.createElement("div");
+  actions.className = "guide-dialog__actions guide-dialog__actions--destinations";
+  const pantryButton = document.createElement("button");
+  pantryButton.type = "button";
+  pantryButton.className = "guide-dialog__destination guide-dialog__destination--pantry";
+  pantryButton.textContent = t("guide.goToPantry");
+  pantryButton.addEventListener("click", onPantry);
+  const spoonRunButton = document.createElement("button");
+  spoonRunButton.type = "button";
+  spoonRunButton.className = "guide-dialog__destination guide-dialog__destination--spoon-run";
+  spoonRunButton.textContent = t("guide.goToSpoonRun");
+  spoonRunButton.addEventListener("click", onSpoonRun);
+  actions.append(pantryButton, spoonRunButton);
+  bubble.append(title, hint, actions);
+  card.appendChild(bubble);
+  overlay.appendChild(card);
   return overlay;
 }
 

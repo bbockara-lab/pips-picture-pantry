@@ -1,7 +1,7 @@
 import { Capacitor } from "@capacitor/core";
 import { NativePurchases, PURCHASE_TYPE } from "@capgo/native-purchases";
 import { ECONOMY } from "../data/economyConfig.js";
-import { grantCozySupportPack, grantSpoonJarPurchase, hasCozySupportPack } from "./save.js";
+import { grantCozySupportPack, grantSpoonJarPurchase } from "./save.js";
 
 export const COZY_SUPPORT_PRODUCT_ID = "pip_cozy_support";
 export const SPOON_JAR_SMALL_PRODUCT_ID = "pip_spoon_jar_small";
@@ -21,12 +21,21 @@ const FALLBACK_SPOON_JAR_SMALL_PRODUCT = Object.freeze({
 });
 
 export function isBillingRuntimeAvailable() {
-  return Capacitor.isNativePlatform() && Capacitor.getPlatform() === "android";
+  return Capacitor.isNativePlatform() && isSupportedBillingPlatform(Capacitor.getPlatform());
+}
+
+export function isSupportedBillingPlatform(platform) {
+  return platform === "android" || platform === "ios";
+}
+
+export function getNativeStoreName(platform = Capacitor.getPlatform()) {
+  if (platform === "ios") return "App Store";
+  if (platform === "android") return "Google Play";
+  return "Store";
 }
 
 export async function getCozySupportProduct() {
-  const result = await getBillingProduct(COZY_SUPPORT_PRODUCT_ID, FALLBACK_SUPPORT_PRODUCT);
-  return { ...result, owned: hasCozySupportPack() };
+  return getBillingProduct(COZY_SUPPORT_PRODUCT_ID, FALLBACK_SUPPORT_PRODUCT);
 }
 
 export async function getSpoonJarSmallProduct() {
@@ -48,6 +57,7 @@ async function getBillingProduct(productIdentifier, fallbackProduct) {
     return {
       available: true,
       reason: "ready",
+      storeName: getNativeStoreName(),
       product: {
         ...fallbackProduct,
         ...product,
@@ -70,13 +80,20 @@ export async function purchaseCozySupportPack() {
       productIdentifier: COZY_SUPPORT_PRODUCT_ID,
       productType: PURCHASE_TYPE.INAPP,
       quantity: 1,
+      isConsumable: true,
       autoAcknowledgePurchases: true
     });
     if (!isCozySupportEntitlement(transaction)) {
       return { ok: false, status: "wrong-product", grant: null, transaction };
     }
 
-    return { ok: true, status: "purchased", grant: grantCozySupportPack("purchase"), transaction };
+    const purchaseKey = getPurchaseKey(transaction, COZY_SUPPORT_PRODUCT_ID);
+    const grant = grantCozySupportPack(purchaseKey, "purchase");
+    if (!grant.granted && !grant.duplicate) {
+      return { ok: false, status: grant.reason || "failed", grant, transaction };
+    }
+
+    return { ok: true, status: grant.duplicate ? "already-processed" : "purchased", grant, transaction };
   } catch (error) {
     return { ok: false, status: getBillingErrorStatus(error), grant: null, error };
   }
@@ -111,32 +128,63 @@ export async function purchaseSpoonJarSmall() {
   }
 }
 
-export async function restoreCozySupportPack() {
+export async function restorePendingPurchases() {
   if (!isBillingRuntimeAvailable()) {
-    return { ok: false, status: "native-store-required", grant: null };
+    return { restored: [], consumed: [], failed: [] };
   }
 
   try {
-    await NativePurchases.restorePurchases();
-    const { purchases } = await NativePurchases.getPurchases({ productType: PURCHASE_TYPE.INAPP });
-    const owned = isCozySupportEntitlement(purchases);
-    if (!owned) {
-      return { ok: false, status: "not-owned", grant: null };
+    const { purchases = [] } = await NativePurchases.getPurchases({
+      productType: PURCHASE_TYPE.INAPP,
+      onlyCurrentEntitlements: true
+    });
+    return restorePendingPurchaseRecords(purchases, {
+      consumePurchase: (purchaseToken) => NativePurchases.consumePurchase({ purchaseToken })
+    });
+  } catch (error) {
+    return { restored: [], consumed: [], failed: [], error };
+  }
+}
+
+export async function restorePendingPurchaseRecords(purchases, { consumePurchase } = {}) {
+  const restored = [];
+  const consumed = [];
+  const failed = [];
+
+  for (const purchase of Array.isArray(purchases) ? purchases : []) {
+    const productId = getObjectProductId(purchase);
+    const purchaseToken = firstString(purchase?.purchaseToken, purchase?.token, purchase?.transactionId);
+    if (!isCompletedAndroidPurchase(purchase) || !purchaseToken) continue;
+
+    let grant = null;
+    if (productId === COZY_SUPPORT_PRODUCT_ID) {
+      grant = grantCozySupportPack(getPurchaseKey(purchase, productId), "restore");
+    } else if (productId === SPOON_JAR_SMALL_PRODUCT_ID) {
+      grant = grantSpoonJarPurchase(getPurchaseKey(purchase, productId), "restore");
+    } else {
+      continue;
     }
 
-    return { ok: true, status: "restored", grant: grantCozySupportPack("restore") };
-  } catch (error) {
-    return { ok: false, status: getBillingErrorStatus(error), grant: null, error };
+    if (!grant.granted && !grant.duplicate) {
+      failed.push(productId);
+      continue;
+    }
+
+    restored.push(productId);
+    try {
+      await consumePurchase?.(purchaseToken);
+      consumed.push(productId);
+    } catch {
+      failed.push(productId);
+    }
   }
+
+  return { restored, consumed, failed };
 }
 
-export async function syncCozySupportEntitlement() {
-  if (hasCozySupportPack()) {
-    return { ok: true, status: "already-owned", grant: null };
-  }
-  return restoreCozySupportPack();
+function isCompletedAndroidPurchase(purchase) {
+  return purchase?.purchaseState === undefined || String(purchase.purchaseState) === "1";
 }
-
 export function isCozySupportEntitlement(payload) {
   return hasProductId(payload, COZY_SUPPORT_PRODUCT_ID);
 }

@@ -1,6 +1,17 @@
 import { describe, expect, it } from "vitest";
 import { t, setLanguagePreference } from "../src/i18n/index.js";
-import { getHintMeterState, getHintTitleText } from "../src/ui/puzzleAssistView.js";
+import { getHintLimit, getHintMeterState, getHintRevealCount, getHintTitleText } from "../src/ui/puzzleAssistView.js";
+
+describe("small puzzle hint allowances", () => {
+  it("grants starter hints to 5x5 and 8x8 puzzles without changing larger limits", () => {
+    expect([5, 8, 10, 12, 15, 18].map((size) => getHintLimit({ size }))).toEqual([1, 2, 3, 4, 5, 5]);
+  });
+
+  it("keeps one revealed cell per small-puzzle hint", () => {
+    expect(getHintRevealCount({ size: 5 })).toBe(1);
+    expect(getHintRevealCount({ size: 8 })).toBe(1);
+  });
+});
 
 describe("puzzle assist hint copy", () => {
   it("maps remaining starter hints into one visible allowance meter", () => {
@@ -28,7 +39,7 @@ describe("puzzle assist hint copy", () => {
     expect(englishCopy.toLowerCase()).not.toContain("paid");
     expect(englishCopy.toLowerCase()).not.toContain("free");
     expect(englishCopy).toContain("spoons");
-    expect(englishCopy).toContain("Starter hints");
+    expect(englishCopy.toLowerCase()).toContain("starter hints");
 
     setLanguagePreference("ko");
     const koreanCopy = [

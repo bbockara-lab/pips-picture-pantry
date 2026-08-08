@@ -230,6 +230,16 @@ async function dismissGuideIfPresent(page) {
 
 async function openFloatingView(page, view) {
   await dismissGuideIfPresent(page);
+  if ((await page.locator(".floating-nav__trigger").count()) === 0) {
+    const directButton = page.locator('button[data-destination="' + view + '"]').first();
+    if (await directButton.count()) {
+      await directButton.scrollIntoViewIfNeeded();
+      await directButton.click();
+      const directSelectors = { album: ".album-panel", map: ".map-panel", pantry: ".pantry-panel", puzzle: ".pack-block", timeAttack: ".time-attack-panel" };
+      if (directSelectors[view]) await page.locator(directSelectors[view]).first().waitFor({ state: "visible", timeout: 6000 });
+      return;
+    }
+  }
   if ((await page.locator(".floating-nav__trigger").count()) === 0 && (await page.locator(".play-screen__back").count()) > 0) {
     await page.locator(".play-screen__back").click();
   }
@@ -237,6 +247,10 @@ async function openFloatingView(page, view) {
   await page.locator(".floating-nav__trigger").first().click();
   await page.locator(".floating-nav__item[data-view='" + view + "']").click();
   const selectors = { album: ".album-panel", map: ".map-panel", pantry: ".pantry-panel", puzzle: ".pack-block", timeAttack: ".time-attack-panel" };
+  if (view === "puzzle") {
+    await page.locator(".puzzle-home-scene").first().waitFor({ state: "visible", timeout: 6000 });
+    await page.locator('button[data-destination="puzzle"]').first().click();
+  }
   if (selectors[view]) await page.locator(selectors[view]).first().waitFor({ state: "visible", timeout: 6000 });
 }
 
@@ -246,10 +260,10 @@ async function returnToPuzzleHub(page) {
     await page.locator(".play-screen__back").first().click();
   }
   await page.locator(".app-shell").first().waitFor({ state: "visible", timeout: 6000 });
-  if ((await page.locator(".time-attack-teaser-card").count()) === 0 && (await page.locator(".floating-nav__trigger").count()) > 0) {
+  if ((await page.locator(".puzzle-home-scene").count()) === 0 && (await page.locator(".floating-nav__trigger").count()) > 0) {
     await openFloatingView(page, "puzzle");
   }
-  await page.locator(".time-attack-teaser-card, .pack-block").first().waitFor({ state: "visible", timeout: 6000 });
+  await page.locator(".puzzle-home-scene, .pack-block").first().waitFor({ state: "visible", timeout: 6000 });
 }
 
 async function seedReturningPlayer(page, options = {}) {
@@ -287,14 +301,14 @@ async function capturePackArtContactSheet(browser, { packId, name, playerId, max
   }
   const page = await browser.newPage({ viewport: reviewViewports.artContactSheet });
   try {
-    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
     await page.evaluate(() => localStorage.setItem("pip-picture-pantry-language", "ko"));
     await seedReturningPlayer(page, {
       name: "하늘",
       id: playerId,
       completedPuzzleIds
     });
-    await page.reload({ waitUntil: "networkidle" });
+    await page.reload({ waitUntil: "domcontentloaded" });
     await dismissIntro(page);
     await dismissGuideIfPresent(page);
     await openFloatingView(page, "album");
@@ -319,10 +333,10 @@ async function capturePackArtContactSheet(browser, { packId, name, playerId, max
 async function capturePuzzleSelectionArtContactSheet(browser, { puzzleIds, name, playerId }) {
   const page = await browser.newPage({ viewport: reviewViewports.artContactSheet });
   try {
-    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
     await page.evaluate(() => localStorage.setItem("pip-picture-pantry-language", "ko"));
     await seedReturningPlayer(page, { name: "하늘", id: playerId, completedPuzzleIds: puzzleIds });
-    await page.reload({ waitUntil: "networkidle" });
+    await page.reload({ waitUntil: "domcontentloaded" });
     await dismissIntro(page);
     await dismissGuideIfPresent(page);
     await openFloatingView(page, "album");
@@ -366,7 +380,7 @@ async function capturePantryNeighborReveal(page, options) {
     localStorage.setItem(saveKey, JSON.stringify(save));
     localStorage.setItem("pip-picture-pantry-language", "ko");
   }, options);
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "domcontentloaded" });
   await dismissIntro(page);
   await dismissGuideIfPresent(page);
   await openFloatingView(page, "pantry");
@@ -417,7 +431,7 @@ async function capturePantryNeighborReveal(page, options) {
 async function captureIsolatedPantryNeighborReveal(browser, options) {
   const page = await browser.newPage({ viewport: reviewViewports.mobile });
   try {
-    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
     await capturePantryNeighborReveal(page, options);
   } finally {
     await page.close();
@@ -427,6 +441,16 @@ async function captureIsolatedPantryNeighborReveal(browser, options) {
 async function captureSettings(page, options = {}) {
   const namePrefix = options.namePrefix || "";
   const viewportName = options.viewportName || "mobile";
+  const directSettings = page.locator('button[data-destination="settings"]').first();
+  if (await directSettings.count()) {
+    await directSettings.click();
+    await capture(page, namePrefix + "settings-preferences", ".modal-backdrop--settings", {
+      settleMs: 320,
+      viewportName
+    });
+    await page.locator(".settings-close").click();
+    return;
+  }
   await page.locator('button[aria-label="Settings"], button[aria-label="설정"]').first().click();
   await capture(page, namePrefix + "settings-preferences", ".modal-backdrop--settings", {
     settleMs: 320,
@@ -450,6 +474,13 @@ async function captureFloatingNavMenu(page, options = {}) {
   const namePrefix = options.namePrefix || "";
   const viewportName = options.viewportName || "mobile";
   await returnToPuzzleHub(page);
+  if ((await page.locator(".floating-nav__trigger").count()) === 0) {
+    await capture(page, namePrefix + "main-menu-direct-destinations", ".puzzle-home-destinations", {
+      settleMs: 260,
+      viewportName
+    });
+    return;
+  }
   await page.locator(".floating-nav__trigger").first().waitFor({ state: "visible", timeout: 5000 });
   await page.locator(".floating-nav__trigger").first().click();
   await page.locator(".floating-nav[data-open='true'] .floating-nav__menu").waitFor({ state: "visible", timeout: 3000 });
@@ -463,10 +494,7 @@ async function captureFloatingNavMenu(page, options = {}) {
 async function capturePuzzleHubTimeAttackTeaser(page, name = "puzzle-hub-time-attack-teaser", options = {}) {
   const viewportName = options.viewportName || "mobile";
   await returnToPuzzleHub(page);
-  if ((await page.locator(".time-attack-teaser-card").count()) === 0) {
-    await openFloatingView(page, "puzzle");
-  }
-  await capture(page, name, ".time-attack-teaser-card", { settleMs: 260, viewportName });
+  await capture(page, name, ".puzzle-home-scene", { settleMs: 260, viewportName });
 }
 
 async function captureKoreanFirstRun(browser) {
@@ -476,11 +504,13 @@ async function captureKoreanFirstRun(browser) {
     localStorage.setItem("pip-picture-pantry-language", "ko");
   });
   try {
-    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
     await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6500 });
     await capture(page, "ko-opening-brand-intro", ".brand-intro.game-stage");
     await dismissIntro(page);
     await page.locator(".app-shell").waitFor({ state: "visible", timeout: 6000 });
+    await capture(page, "ko-puzzle-home", ".puzzle-home", { fullPage: true });
+    await page.locator(".puzzle-home-scene__play").click();
     if ((await page.locator(".guide-overlay").count()) > 0) {
       await capture(page, "ko-pip-guide-dialog", ".guide-dialog");
       await page.locator(".guide-dialog__next").click();
@@ -507,10 +537,10 @@ async function captureKoreanFirstRun(browser) {
 
   const returningPage = await browser.newPage({ viewport: reviewViewports.mobile });
   try {
-    await returningPage.goto(baseUrl, { waitUntil: "networkidle" });
+    await returningPage.goto(baseUrl, { waitUntil: "domcontentloaded" });
     await returningPage.evaluate(() => localStorage.setItem("pip-picture-pantry-language", "ko"));
     await seedReturningPlayer(returningPage, { name: "하늘", id: "haneul" });
-    await returningPage.reload({ waitUntil: "networkidle" });
+    await returningPage.reload({ waitUntil: "domcontentloaded" });
     await dismissIntro(returningPage);
     await dismissGuideIfPresent(returningPage);
     await captureSettings(returningPage, { namePrefix: "ko-" });
@@ -555,11 +585,13 @@ async function captureWidePreviewReview(browser) {
     localStorage.setItem("pip-picture-pantry-language", "ko");
   });
   try {
-    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
     await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6500 });
     await captureWide("opening-brand-intro", ".brand-intro.game-stage");
     await dismissIntro(page);
     await page.locator(".app-shell").waitFor({ state: "visible", timeout: 6000 });
+    await captureWide("puzzle-home", ".puzzle-home", { fullPage: true });
+    await page.locator(".puzzle-home-scene__play").click();
     if ((await page.locator(".guide-overlay").count()) > 0) {
       await captureWide("pip-guide-dialog", ".guide-dialog");
       await page.locator(".guide-dialog__next").click();
@@ -571,9 +603,9 @@ async function captureWidePreviewReview(browser) {
     await capturePuzzleHubTimeAttackTeaser(page, "wide-puzzle-hub-time-attack-teaser", { viewportName: "wide-preview" });
     await captureFloatingNavMenu(page, { namePrefix: "wide-", viewportName: "wide-preview" });
 
-    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
     await seedReturningPlayer(page, { name: "하늘", id: "haneul" });
-    await page.reload({ waitUntil: "networkidle" });
+    await page.reload({ waitUntil: "domcontentloaded" });
     await dismissIntro(page);
     await dismissGuideIfPresent(page);
     await captureSettings(page, { namePrefix: "wide-", viewportName: "wide-preview" });
@@ -583,7 +615,8 @@ async function captureWidePreviewReview(browser) {
     await page.locator(".spoon-store").scrollIntoViewIfNeeded();
     await captureWide("spoon-store", ".spoon-store");
     await openFloatingView(page, "timeAttack");
-    await captureWide("time-attack-coach", ".time-attack-panel", { fullPage: true });
+    await dismissGuideIfPresent(page);
+    await captureWide("time-attack-start", ".time-attack-panel", { fullPage: true });
   } finally {
     await page.close();
   }
@@ -611,11 +644,13 @@ async function main() {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ viewport: reviewViewports.mobile });
   try {
-    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
     await page.locator(".brand-intro.game-stage").waitFor({ state: "visible", timeout: 6500 });
     await capture(page, "opening-brand-intro", ".brand-intro.game-stage");
     await dismissIntro(page);
     await page.locator(".app-shell").waitFor({ state: "visible", timeout: 6000 });
+    await capture(page, "puzzle-home", ".puzzle-home", { fullPage: true });
+    await page.locator(".puzzle-home-scene__play").click();
     if ((await page.locator(".guide-overlay").count()) > 0) {
       await capture(page, "pip-guide-dialog", ".guide-dialog");
       await page.locator(".guide-dialog__next").click();
@@ -757,6 +792,18 @@ async function main() {
     });
     await capturePuzzleSelectionArtContactSheet(browser, {
       puzzleIds: [
+        "bakery-window-pantry-jar-13",
+        "bakery-window-tiny-bow-5",
+        "bakery-window-whisk-16",
+        "village-pantry-cornflower-tea-canister-87",
+        "village-pantry-hanging-ladle-59",
+        "village-pantry-potted-basil-42"
+      ],
+      name: "final-blank-edge-composition-repairs",
+      playerId: "blank-edge-repair-review"
+    });
+    await capturePuzzleSelectionArtContactSheet(browser, {
+      puzzleIds: [
         "village-pantry-blue-gingham-cloth-66",
         "village-pantry-wooden-egg-crate-76",
         "village-pantry-checkered-tea-towel-77",
@@ -847,7 +894,7 @@ async function main() {
 
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await seedReturningPlayer(page);
-    await page.reload({ waitUntil: "networkidle" });
+    await page.reload({ waitUntil: "domcontentloaded" });
     await dismissIntro(page);
     await captureSettings(page);
 
@@ -856,7 +903,8 @@ async function main() {
     await page.locator(".spoon-store").scrollIntoViewIfNeeded();
     await capture(page, "spoon-store", ".spoon-store");
     await openFloatingView(page, "timeAttack");
-    await capture(page, "time-attack-coach", ".time-attack-panel", { fullPage: true });
+    await dismissGuideIfPresent(page);
+    await capture(page, "time-attack-start", ".time-attack-panel", { fullPage: true });
     await openFloatingView(page, "album");
     await capture(page, "album-progress", ".album-panel");
     await openFloatingView(page, "map");

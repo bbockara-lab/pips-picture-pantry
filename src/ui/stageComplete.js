@@ -4,20 +4,24 @@ import { getStageArtUrl, hasApprovedStageArt } from "../data/stageArt.js";
 import { t } from "../i18n/index.js";
 
 export function renderStageCompleteOverlay(pack, onDismiss = () => {}, completionResult = {}) {
+  const isFinalShelf = Boolean(pack?.isFinal);
   const overlay = document.createElement("div");
   overlay.className = "stage-complete-overlay";
   overlay.setAttribute("role", "dialog");
   overlay.setAttribute("aria-modal", "true");
-  overlay.setAttribute("aria-label", t("stageComplete.ariaLabel"));
+  overlay.setAttribute("aria-label", t(isFinalShelf ? "stageComplete.finalAriaLabel" : "stageComplete.ariaLabel"));
 
   const card = document.createElement("section");
-  card.className = "stage-complete-card";
+  // This overlay is created only after markShelfCompletedIfFirst succeeds.
+  // Keep the reward moment here instead of animating an unmounted hub mosaic.
+  card.className = "stage-complete-card stage-complete-card--burst";
   const bonus = Math.max(0, Number(completionResult?.bonus || 0));
 
-  if (hasApprovedStageArt(pack.id)) {
+  const artId = pack.artPackId || pack.id;
+  if (hasApprovedStageArt(artId)) {
     const art = document.createElement("img");
     art.className = "stage-complete-pip";
-    art.src = getStageArtUrl(pack.id);
+    art.src = getStageArtUrl(artId);
     art.alt = "";
     card.appendChild(art);
   } else {
@@ -31,9 +35,10 @@ export function renderStageCompleteOverlay(pack, onDismiss = () => {}, completio
 
   const copy = document.createElement("div");
   copy.className = "stage-complete-copy";
-  appendTextElement(copy, "p", "stage-complete-eyebrow", t("stageComplete.eyebrow"));
+  appendTextElement(copy, "p", "stage-complete-eyebrow", t(isFinalShelf ? "stageComplete.finalEyebrow" : "stageComplete.eyebrow"));
   appendTextElement(copy, "h2", "", t(pack.titleKey));
-  appendTextElement(copy, "p", "", t("stageComplete.message"));
+  appendTextElement(copy, "p", "", t(isFinalShelf ? "stageComplete.finalMessage" : "stageComplete.message"));
+  appendTextElement(copy, "p", "stage-complete-badge", t("packs.packComplete", { title: t(pack.titleKey) }));
 
   if (bonus > 0) {
     const bonusLine = document.createElement("p");
@@ -45,17 +50,10 @@ export function renderStageCompleteOverlay(pack, onDismiss = () => {}, completio
     copy.appendChild(bonusLine);
   }
 
-  const facts = document.createElement("div");
-  facts.className = "stage-complete-facts";
-  facts.setAttribute("aria-label", t("stageComplete.factsLabel"));
-  appendTextElement(facts, "span", "", t("stageComplete.albumFact"));
-  appendTextElement(facts, "span", "", t("stageComplete.nextFact"));
-  copy.appendChild(facts);
-
   const cta = document.createElement("button");
   cta.type = "button";
   cta.className = "tool-button stage-complete-cta";
-  cta.textContent = t("stageComplete.cta");
+  cta.textContent = t(isFinalShelf ? "stageComplete.finalCta" : "stageComplete.cta");
   copy.appendChild(cta);
   card.appendChild(copy);
 

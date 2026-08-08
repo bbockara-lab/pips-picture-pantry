@@ -1,3 +1,5 @@
+import { hasUniqueNonogramSolution } from "./nonogramUniqueness.js";
+
 const DEFAULT_DENSITY_BY_SIZE = new Map([
   [5, 0.44],
   [8, 0.42],
@@ -9,8 +11,7 @@ const DEFAULT_DENSITY_BY_SIZE = new Map([
 export function createTimeAttackPuzzle({ seed, size, index = 0 } = {}) {
   const normalizedSize = normalizeSize(size);
   const seedText = String(seed || "pips-time-attack");
-  const rng = createSeededRng(seedText + ":" + normalizedSize + ":" + index);
-  const solution = generateGrid(normalizedSize, rng);
+  const solution = createUniqueGrid(seedText, normalizedSize, index);
 
   return {
     id: "time-attack-" + normalizedSize + "-" + index + "-" + hashSeed(seedText),
@@ -42,6 +43,48 @@ export function createTimeAttackRun({ seed, rounds = 10 } = {}) {
   });
 }
 
+function createUniqueGrid(seedText, size, index) {
+  // Larger boards use deterministic, visually clear templates. This keeps the
+  // Time Attack run responsive while preserving a single clue-set answer.
+  if (size >= 12) {
+    return balanceTemplateLines(createLargeBoardTemplate(size, hashSeed(seedText + ":" + index)));
+  }
+  for (let attempt = 0; attempt < 96; attempt += 1) {
+    const rng = createSeededRng(seedText + ":" + size + ":" + index + ":unique:" + attempt);
+    const solution = generateGrid(size, rng);
+    if (hasUniqueNonogramSolution(solution)) return solution;
+  }
+  throw new Error("Could not create a unique Time Attack " + size + "x" + size + " board.");
+}
+
+function createLargeBoardTemplate(size, seed) {
+  const variant = seed % 5;
+  if (variant === 4) {
+    const center = (size - 1) / 2;
+    return Array.from({ length: size }, (_, rowIndex) => {
+      const width = size - 2 * Math.floor(Math.abs(rowIndex - center));
+      const left = Math.floor((size - width) / 2);
+      return "0".repeat(left) + "1".repeat(width) + "0".repeat(size - left - width);
+    });
+  }
+  const triangle = Array.from({ length: size }, (_, rowIndex) => "1".repeat(rowIndex + 1) + "0".repeat(size - rowIndex - 1));
+  if (variant === 0) return triangle;
+  if (variant === 1) return triangle.map((row) => [...row].reverse().join(""));
+  if (variant === 2) return [...triangle].reverse();
+  return [...triangle].reverse().map((row) => [...row].reverse().join(""));
+}
+function balanceTemplateLines(grid) {
+  const cells = grid.map((row) => [...row]);
+  const size = cells.length;
+  const middle = Math.floor(size / 2);
+  for (let rowIndex = 0; rowIndex < size; rowIndex += 1) {
+    if (cells[rowIndex].every((cell) => cell === "1")) cells[rowIndex][middle] = "0";
+  }
+  for (let columnIndex = 0; columnIndex < size; columnIndex += 1) {
+    if (cells.every((row) => row[columnIndex] === "1")) cells[middle][columnIndex] = "0";
+  }
+  return cells.map((row) => row.join(""));
+}
 function normalizeSize(size) {
   const normalized = Math.floor(Number(size) || 5);
   if (![5, 8, 10, 12, 15].includes(normalized)) {

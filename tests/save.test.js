@@ -5,6 +5,7 @@ import {
   equipDecoration,
   getActivePlayerName,
   getCompletedPuzzleIds,
+  getDailyCompletedDate,
   getCompletionDates,
   getCompletedPantryStoryGoalIds,
   grantCozySupportPack,
@@ -12,19 +13,24 @@ import {
   getPackPantryRoomRequirement,
   getPlayerRecords,
   hasActivePlayer,
-  hasCozySupportPack,
   hasSeenGuide,
   getPantrySpoons,
   getPantryStoryGoalId,
   getEquippedDecorations,
   getOwnedDecorationIds,
   getUnlockedPackIds,
+  getUnlockedShelfIds,
   canUnlockPack,
+  claimLoginBonus,
+  isShelfUnlocked,
   loadSave,
   markGuideSeen,
   markPackCompletedIfFirst,
+  markShelfCompletedIfFirst,
+  recordDailyComplete,
   recordPantryStoryGoalComplete,
   recordReplayReward,
+  resetProgress,
   recordTimeAttackResult,
   spendPantrySpoons,
   getTimeAttackBestScores,
@@ -37,6 +43,8 @@ import {
   setActivePlayerName,
   unlockPack
 } from "../src/game/save.js";
+import { seasonShelves } from "../src/data/seasonShelves.js";
+import { PANTRY_JARS } from "../src/data/pantryJars.js";
 import { pantryDecorations } from "../src/data/decorations.js";
 import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackProgress, TIME_ATTACK_LIMIT_SECONDS } from "../src/ui/timeAttackFlow.js";
 
@@ -62,6 +70,32 @@ class LocalStorageMock {
   }
 }
 
+describe("daily login spoon bonus", () => {
+  beforeEach(() => {
+    globalThis.localStorage = new LocalStorageMock();
+  });
+
+  it("grants once per local date and grants again on the next date", () => {
+    setActivePlayerName("Pip");
+
+    expect(claimLoginBonus("2026-07-30")).toBe(3);
+    expect(getPantrySpoons()).toBe(3);
+    expect(loadSave().lastLoginBonusDate).toBe("2026-07-30");
+    expect(claimLoginBonus("2026-07-30")).toBeNull();
+    expect(getPantrySpoons()).toBe(3);
+
+    expect(claimLoginBonus("2026-07-31")).toBe(3);
+    expect(getPantrySpoons()).toBe(6);
+    expect(loadSave().lastLoginBonusDate).toBe("2026-07-31");
+  });
+
+  it("rejects invalid dates without changing the balance", () => {
+    setActivePlayerName("Pip");
+    expect(claimLoginBonus("not-a-date")).toBeNull();
+    expect(getPantrySpoons()).toBe(0);
+    expect(loadSave()).toBeNull();
+  });
+});
 describe("player save profiles", () => {
   beforeEach(() => {
     globalThis.localStorage = new LocalStorageMock();
@@ -76,6 +110,18 @@ describe("player save profiles", () => {
     expect(getPlayerRecords()).toHaveLength(1);
   });
 
+  it("tracks Daily completion by date independently from completed puzzle ids", () => {
+    setActivePlayerName("Jay");
+    saveGame({ puzzleStates: {}, completedPuzzleIds: ["pip-face-5"] });
+
+    expect(getDailyCompletedDate()).toBeNull();
+    expect(recordDailyComplete("2026-07-29")).toBe(true);
+    expect(getDailyCompletedDate()).toBe("2026-07-29");
+    expect(recordDailyComplete("2026-07-29")).toBe(false);
+    expect(recordDailyComplete("not-a-date")).toBe(false);
+    expect(getDailyCompletedDate()).toBe("2026-07-29");
+  });
+
   it("keeps progress separate by player name", () => {
     setActivePlayerName("Jay");
     saveGame({ puzzleStates: {}, completedPuzzleIds: ["pip-face-5"] });
@@ -86,6 +132,18 @@ describe("player save profiles", () => {
 
     setActivePlayerName("Jay");
     expect(loadSave().completedPuzzleIds).toEqual(["pip-face-5"]);
+  });
+
+  it("resets only the active player's progress and preserves the player identity", () => {
+    setActivePlayerName("Jay");
+    saveGame({ puzzleStates: {}, completedPuzzleIds: ["pip-face-5"], pantrySpoons: 42 });
+
+    resetProgress();
+
+    expect(hasActivePlayer()).toBe(true);
+    expect(getActivePlayerName()).toBe("Jay");
+    expect(getCompletedPuzzleIds()).toEqual([]);
+    expect(getPantrySpoons()).toBe(0);
   });
 
   it("migrates legacy progress into the first named profile", () => {
@@ -124,28 +182,60 @@ describe("player save profiles", () => {
     expect(getUnlockedPackIds()).toContain("sunny-spoon-sign");
   });
 
+  it("awards the Daily bonus once even when the picture was completed before today", () => {
+    setActivePlayerName("Jay");
+    const completedState = {
+      puzzleId: "pips-first-shelf-pip-face-1",
+      size: 5,
+      mode: "fill",
+      completed: true,
+      history: [],
+      cells: Array.from({ length: 5 }, () => Array(5).fill("fill"))
+    };
+
+    expect(savePuzzleState(completedState, { reward: 3 })).toEqual({
+      puzzleReward: 3,
+      dailyBonus: 0,
+      totalReward: 3
+    });
+    expect(savePuzzleState(completedState, { reward: 3, dailyBonus: 8, dailyKey: "2026-07-29" })).toEqual({
+      puzzleReward: 0,
+      dailyBonus: 8,
+      totalReward: 8
+    });
+    expect(getPantrySpoons()).toBe(11);
+    expect(savePuzzleState(completedState, { reward: 3, dailyBonus: 8, dailyKey: "2026-07-29" })).toEqual({
+      puzzleReward: 0,
+      dailyBonus: 0,
+      totalReward: 0
+    });
+    expect(getPantrySpoons()).toBe(11);
+  });
+
   it("requires pantry room progress before opening gated stages", () => {
     setActivePlayerName("Jay");
-    const gatedPack = { id: "sunny-spoon-sign", access: "unlockable", unlockCost: 24, pantryRoomStepRequired: 3 };
+    const gatedPack = { id: "sunny-spoon-sign", access: "unlockable", unlockCost: 24, pantryRoomStepRequired: 15 };
     saveGame({ ...loadSave(), pantrySpoons: 24 });
 
     expect(getPackPantryRoomRequirement(gatedPack)).toEqual({
-      required: 3,
+      required: 15,
       completed: 0,
-      remaining: 3,
+      remaining: 15,
       met: false
     });
     expect(canUnlockPack(gatedPack)).toBe(false);
     expect(unlockPack(gatedPack)).toBe(false);
     expect(getPantrySpoons()).toBe(24);
 
-    recordPantryStoryGoalComplete("small-jam-jar");
-    recordPantryStoryGoalComplete("herb-pot");
-    recordPantryStoryGoalComplete("cork-board");
+    const firstThreeShelfIds = new Set(["jam", "honey", "herb"]);
+    const firstThreeShelfJars = PANTRY_JARS
+      .filter((jar) => jar.cost > 0 && firstThreeShelfIds.has(jar.shelfId))
+      .map((jar) => jar.id);
+    saveGame({ ...loadSave(), ownedJarIds: firstThreeShelfJars });
 
     expect(getPackPantryRoomRequirement(gatedPack)).toEqual({
-      required: 3,
-      completed: 3,
+      required: 15,
+      completed: 15,
       remaining: 0,
       met: true
     });
@@ -164,6 +254,45 @@ describe("player save profiles", () => {
     expect(loadSave().completedPackIds).toEqual(["pips-first-shelf"]);
   });
 
+  it("migrates legacy pack access to the matching Season 0 shelves", () => {
+    setActivePlayerName("Jay");
+    saveGame({
+      ...loadSave(),
+      unlockedPackIds: ["pips-first-shelf", "bakery-window"],
+      completedPackIds: ["pips-first-shelf"]
+    });
+
+    expect(getUnlockedShelfIds()).toEqual(expect.arrayContaining([
+      "shelf-pips-first",
+      "shelf-market-counter",
+      "shelf-bakery-window"
+    ]));
+    expect(loadSave().completedShelfIds).toContain("shelf-pips-first");
+  });
+
+  it("opens a shelf automatically after its previous shelf and Pantry gate are complete", () => {
+    setActivePlayerName("Jay");
+    const starter = seasonShelves[0];
+    const nextShelf = seasonShelves[1];
+    const completedStarterIds = starter.puzzleIds;
+    const completedJamShelfIds = PANTRY_JARS
+      .filter((jar) => jar.shelfId === "jam" && jar.cost > 0)
+      .map((jar) => jar.id);
+    saveGame({
+      ...loadSave(),
+      completedPuzzleIds: completedStarterIds,
+      pantrySpoons: 0,
+      ownedJarIds: []
+    });
+
+    expect(isShelfUnlocked(nextShelf)).toBe(false);
+    saveGame({ ...loadSave(), ownedJarIds: completedJamShelfIds });
+    expect(isShelfUnlocked(nextShelf)).toBe(true);
+    expect(getPantrySpoons()).toBe(0);
+    expect(markShelfCompletedIfFirst(starter)).toEqual({ completed: true, bonus: starter.stageBonus });
+    expect(markShelfCompletedIfFirst(starter)).toEqual({ completed: false, bonus: 0 });
+  });
+
   it("tracks first-run guide acknowledgements", () => {
     setActivePlayerName("Jay");
 
@@ -174,6 +303,13 @@ describe("player save profiles", () => {
 
     markGuideSeen("timeAttack");
     markGuideSeen("timeAttack");
+    expect(hasSeenGuide("spoonRunIntro")).toBe(false);
+    markGuideSeen("spoonRunIntro");
+    markGuideSeen("spoonRunIntro");
+    expect(hasSeenGuide("spoonRunIntro")).toBe(true);
+    expect(hasSeenGuide("map")).toBe(false);
+    markGuideSeen("map");
+    expect(hasSeenGuide("map")).toBe(true);
     markGuideSeen("pantryFirstPurchase");
     expect(hasSeenGuide("pantryFirstPurchase")).toBe(true);
     markGuideSeen("pantryRoomStory");
@@ -187,6 +323,8 @@ describe("player save profiles", () => {
     expect(loadSave().seenGuideIds).toEqual([
       "puzzle",
       "timeAttack",
+      "spoonRunIntro",
+      "map",
       "pantryFirstPurchase",
       "pantryRoomStory",
       "pantryNeighborMrPark",
@@ -197,7 +335,12 @@ describe("player save profiles", () => {
 
   it("limits replay rewards to clean Pip picks", () => {
     setActivePlayerName("Jay");
-    const firstDate = "2026-07-06";
+    const now = new Date();
+    const firstDate = [
+      now.getFullYear(),
+      String(now.getMonth() + 1).padStart(2, "0"),
+      String(now.getDate()).padStart(2, "0")
+    ].join("-");
     const completedIds = [
       "pips-first-shelf-pip-face-1",
       "pips-first-shelf-soup-2",
@@ -207,13 +350,15 @@ describe("player save profiles", () => {
     saveGame({ ...loadSave(), completedPuzzleIds: completedIds });
 
     expect(recordReplayReward({ puzzleId: completedIds[0], clean: false, picked: true, dateKey: firstDate })).toEqual({
-      reward: 0, rewardAllowed: false, reason: "not-eligible", dailyCount: 0
+      reward: 0, rewardAllowed: false, reason: "not-eligible", dailyCount: 0, dailyLimit: 3, remaining: 3
     });
     expect(recordReplayReward({ puzzleId: completedIds[0], clean: true, picked: false, dateKey: firstDate })).toEqual({
-      reward: 0, rewardAllowed: false, reason: "not-eligible", dailyCount: 0
+      reward: 0, rewardAllowed: false, reason: "not-eligible", dailyCount: 0, dailyLimit: 3, remaining: 3
     });
 
-    expect(recordReplayReward({ puzzleId: completedIds[0], clean: true, picked: true, dateKey: firstDate }).reward).toBe(1);
+    expect(recordReplayReward({ puzzleId: completedIds[0], clean: true, picked: true, dateKey: firstDate })).toEqual({
+      reward: 1, rewardAllowed: true, reason: "claimed", dailyCount: 1, dailyLimit: 3, remaining: 2
+    });
     expect(recordReplayReward({ puzzleId: completedIds[0], clean: true, picked: true, dateKey: firstDate }).reason).toBe("already-claimed");
     expect(recordReplayReward({ puzzleId: completedIds[1], clean: true, picked: true, dateKey: firstDate }).reward).toBe(1);
     expect(recordReplayReward({ puzzleId: completedIds[2], clean: true, picked: true, dateKey: firstDate }).reward).toBe(1);
@@ -260,6 +405,26 @@ describe("player save profiles", () => {
     expect(progress.currentRoundNumber).toBe(2);
   });
 
+  it("moves a completed Time Attack board to the next round before saving a record", () => {
+    setActivePlayerName("Jay");
+    const session = createTimeAttackSession({ now: 1000 });
+    const firstPuzzle = session.run[0];
+    const result = advanceTimeAttackSession({
+      run: session.run,
+      seed: session.seed,
+      startedAt: Date.now(),
+      roundIndex: 0,
+      puzzle: firstPuzzle,
+      puzzleState: {
+        cells: firstPuzzle.solution.map((row) => [...row].map((cell) => cell === "1" ? "filled" : "marked"))
+      }
+    });
+
+    expect(result.status).toBe("next-round");
+    expect(result.roundIndex).toBe(1);
+    expect(result.activePuzzle.id).toBe(session.run[1].id);
+    expect(getTimeAttackBestScores()).toEqual({});
+  });
   it("records partial time attack timeout runs by cells reached", () => {
     setActivePlayerName("Jay");
     const session = createTimeAttackSession({ now: 1000 });
@@ -335,10 +500,10 @@ describe("player save profiles", () => {
       currentRoundNumber: 1,
       hintsUsed: 1
     });
-    expect(first.reward).toBe(27);
+    expect(first.reward).toBe(22);
     expect(first.recordImproved).toBe(true);
     expect(first.rewardAllowed).toBe(true);
-    expect(getPantrySpoons()).toBe(27);
+    expect(getPantrySpoons()).toBe(22);
     expect(getTimeAttackDailyCount()).toBe(1);
     expect(getTimeAttackBestScores()["5"].score).toBe(4004);
     expect(getTimeAttackBestScores()["5"].progressCells).toBe(4);
@@ -346,9 +511,9 @@ describe("player save profiles", () => {
     expect(getTimeAttackBestScores()["5"].currentRoundNumber).toBe(1);
 
     const second = recordTimeAttackResult({ size: 5, score: 3003, seed: "seed-b", completedRounds: 1, progressCells: 3 });
-    expect(second.reward).toBe(15);
+    expect(second.reward).toBe(10);
     expect(second.recordImproved).toBe(false);
-    expect(getPantrySpoons()).toBe(42);
+    expect(getPantrySpoons()).toBe(32);
   });
 
 
@@ -431,29 +596,36 @@ describe("player save profiles", () => {
     expect(getPantrySpoons()).toBe(22);
   });
 
-  it("grants the cozy support pack once", () => {
+  it("grants the repeatable cozy support pack once per store purchase token", () => {
     setActivePlayerName("Jay");
     saveGame({ ...loadSave(), pantrySpoons: 12 });
 
-    expect(hasCozySupportPack()).toBe(false);
-    expect(grantCozySupportPack("purchase")).toEqual({
+    expect(grantCozySupportPack("pip_cozy_support:token-a", "purchase")).toEqual({
       granted: true,
-      alreadyOwned: false,
-      balance: 262,
-      spoons: 250,
-      source: "purchase"
+      duplicate: false,
+      balance: 162,
+      spoons: 150,
+      source: "purchase",
+      reason: "granted"
     });
-    expect(hasCozySupportPack()).toBe(true);
-    expect(getPantrySpoons()).toBe(262);
-
-    expect(grantCozySupportPack("restore")).toEqual({
+    expect(grantCozySupportPack("pip_cozy_support:token-a", "purchase")).toEqual({
       granted: false,
-      alreadyOwned: true,
-      balance: 262,
+      duplicate: true,
+      balance: 162,
       spoons: 0,
-      source: "restore"
+      source: "purchase",
+      reason: "already-processed"
     });
-    expect(getPantrySpoons()).toBe(262);
+    expect(grantCozySupportPack("pip_cozy_support:token-b", "purchase")).toEqual({
+      granted: true,
+      duplicate: false,
+      balance: 312,
+      spoons: 150,
+      source: "purchase",
+      reason: "granted"
+    });
+    expect(grantCozySupportPack("", "purchase").reason).toBe("missing-purchase-key");
+    expect(getPantrySpoons()).toBe(312);
   });
 
   it("grants the small spoon jar once per store purchase token", () => {
@@ -463,22 +635,22 @@ describe("player save profiles", () => {
     expect(grantSpoonJarPurchase("pip_spoon_jar_small:token-a", "purchase")).toEqual({
       granted: true,
       duplicate: false,
-      balance: 770,
-      spoons: 750,
+      balance: 520,
+      spoons: 500,
       source: "purchase",
       reason: "granted"
     });
-    expect(getPantrySpoons()).toBe(770);
+    expect(getPantrySpoons()).toBe(520);
 
     expect(grantSpoonJarPurchase("pip_spoon_jar_small:token-a", "purchase")).toEqual({
       granted: false,
       duplicate: true,
-      balance: 770,
+      balance: 520,
       spoons: 0,
       source: "purchase",
       reason: "already-processed"
     });
-    expect(getPantrySpoons()).toBe(770);
+    expect(getPantrySpoons()).toBe(520);
 
     expect(grantSpoonJarPurchase("", "purchase").reason).toBe("missing-purchase-key");
   });
