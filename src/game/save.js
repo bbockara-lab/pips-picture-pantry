@@ -12,6 +12,7 @@ const ACTIVE_PLAYER_KEY = "pips-picture-pantry:v0.1:active-player";
 const PLAYERS_KEY = "pips-picture-pantry:v0.1:players";
 const GUIDE_IDS = new Set([
   "puzzle",
+  "cursorControlsIntro",
   "timeAttack",
   "map",
   "spoonRunIntro",
@@ -42,7 +43,13 @@ const LEGACY_PACK_SHELF_IDS = {
     "shelf-clock-corner",
     "shelf-bakery-walk",
     "shelf-garden-path",
-    "shelf-village-pantry"
+    "shelf-village-pantry",
+    "shelf-herb-terrace",
+    "shelf-sunroom-table",
+    "shelf-orchard-window",
+    "shelf-lantern-courtyard",
+    "shelf-moonlit-veranda",
+    "shelf-hearth-gallery"
   ]
 };
 const TIME_ATTACK_DAILY_COUNT_RETENTION_DAYS = 30;

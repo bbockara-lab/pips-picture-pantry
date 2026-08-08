@@ -1,0 +1,20 @@
+{
+  "version": "v0.1.708",
+  "platforms": [
+    "YouTube Shorts",
+    "Instagram Reels"
+  ],
+  "durationSeconds": 27.2,
+  "resolution": "1080x1920",
+  "safeArea": "Primary content avoids the right-side action rail and bottom 200 px.",
+  "creativeDirection": "Latest continuous gameplay over softly defocused pantry artwork, with Pip overlapping the lower-left of the gameplay capture as a secondary guide.",
+  "gameplayStartSeconds": 2.0,
+  "gameplay": "store-assets/store-media/v0.1.708/raw/premium-trailer/gameplay-en-premium-v1.webm",
+  "background": "store-assets/store-media/v0.1.704/video-art/premium-trailer/pantry-cinematic-background-v1.png",
+  "pip": "src/assets/characters/pip-chrome-v2.png",
+  "logo": "store-assets/brand/pips-picture-pantry-logo-v1.png",
+  "music": "src/assets/music/bgm-cozy.mp3",
+  "video": "store-assets/store-media/v0.1.708/upload/social/en-US/pips-picture-pantry-gameplay-short-1080x1920-v1.mp4",
+  "cover": "store-assets/store-media/v0.1.708/upload/social/en-US/pips-picture-pantry-gameplay-short-cover-1080x1920-v1.jpg",
+  "sha256": "634cefb5c00eedc3a1632c757d81cd7002fee48d9d1ca50cffb0b220869f1321"
+}

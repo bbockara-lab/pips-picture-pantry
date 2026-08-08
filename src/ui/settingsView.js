@@ -188,6 +188,7 @@ function createGuideReplayCard(onReplayGuide) {
   actions.className = "settings-guide-card__actions";
   actions.append(
     createGuideReplayButton(t("settings.guideReplayPuzzleAction"), "puzzle", "puzzle", onReplayGuide),
+    createGuideReplayButton(t("settings.guideReplayCursorAction"), "cursorControlsIntro", "cursor", onReplayGuide),
     createGuideReplayButton(t("settings.guideReplayTimeAttackAction"), "timeAttack", "time", onReplayGuide),
     createGuideReplayButton(t("settings.guideReplayMapAction"), "map", "map", onReplayGuide)
   );

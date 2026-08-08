@@ -1,3 +1,11 @@
+## v0.1.712 stabilization candidate - 2026-08-08
+
+- Last Play Console upload: versionCode **40** / versionName **"1.1.12"** (approved and live).
+- Current prepared upload target: versionCode 44 / versionName 1.1.16.
+- Step 61 adds the one-time 8×8 cursor-controls introduction. Step 62 batches 1–3 expand the catalog from 333 to exactly 500 uniquely solvable puzzles across six new bilingual shelves.
+- The 40-jar gate remains economically meaningful: authored rewards before that gate total 2,252 spoons against 3,310 spoons of jar costs. The complete 500-puzzle path grants 3,840 authored spoons against 6,016 spoons of combined paid-jar and room-decoration sinks.
+- No AAB has been generated for this target yet; packaging waits until the requested stabilization steps are complete.
+
 ## v0.1.702 signed Play update candidate - 2026-08-03
 
 - Step 59 aligns the Map, Spoon Run, first Pantry purchase, and Pantry room-story Pip guides to the approved 48/52 mobile conversation composition.
@@ -9,8 +17,8 @@
 
 # v0.1.700 Android upload rebuild - 2026-07-30
 
-- Last Play Console upload: versionCode **37** / versionName **"1.1.9"** (production review).
-- Current signed upload target: versionCode 38 / versionName 1.1.10.
+- Historical Play Console upload: versionCode **37** / versionName **"1.1.9"** (production review).
+- Historical signed upload target: versionCode 38 / versionName 1.1.10.
 - versionCode 33 was rejected by Play Console as already used; do not upload or reuse the earlier code-33 bundle.
 - The signed build script now auto-loads the external Key Paths environment file, verifies the keystore and alias before QA/build, and never prints password values.
 

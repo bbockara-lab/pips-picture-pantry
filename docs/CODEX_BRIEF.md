@@ -2726,7 +2726,7 @@ name-tag를 art 안이 아닌 bubble 상단으로 이동하거나, art의 bottom
 ### Release context
 
 - Android's first store update is **approved and live on Google Play** (baseline: web/app `v0.1.708`, `versionCode 40` / `versionName 1.1.12`). Treat this as the current shipped state both stores should align to.
-- iOS is still waiting on its **first-ever App Store approval** — not yet submitted. See `docs/IOS_RELEASE_STATUS.md`. iOS should catch up to whatever Android has shipped once it clears approval; don't block these Android/web hotfixes on iOS.
+- iOS **1.0 (build 1) is submitted and waiting for its first App Store review** together with both in-app purchases (submitted 2026-08-06 12:34 AM EDT). See `docs/IOS_RELEASE_STATUS.md`. After the initial release is approved and live, iOS should receive the same stabilization changes already prepared for Android/web.
 - Starting now: a **5–6 week hotfix/stabilization period**, targeting roughly **one release per week**. Ship the four items below as **separate, sequential releases**, same as Steps 1–60 above — do not batch them into one giant release.
 
 ### Version Log — keep this updated (this is not optional)
@@ -2736,6 +2736,10 @@ Every release in this stabilization period: add a row here recording the version
 | Date | Version (web / Android) | What shipped |
 |---|---|---|
 | 2026-08-05 | 0.1.708 / versionCode 40, 1.1.12 | Baseline for this stabilization period (Android's approved first update). |
+| 2026-08-08 | 0.1.709 / versionCode 41, 1.1.13 | Step 61: one-time Pip cursor-controls introduction on the first 8×8 puzzle, with the real D-pad UI and bilingual copy. |
+| 2026-08-08 | 0.1.710 / versionCode 42, 1.1.14 | Step 62 batch 1: 56 unique puzzles (16 8×8, 40 10×10) and two bilingual shelves, growing the catalog from 333 to 389. AAB deferred until all requested steps are complete. |
+| 2026-08-08 | 0.1.711 / versionCode 43, 1.1.15 | Step 62 batch 2: 56 more unique puzzles (16 8×8, 40 10×10) and two bilingual shelves, growing the catalog from 389 to 445. AAB remains deferred. |
+| 2026-08-08 | 0.1.712 / versionCode 44, 1.1.16 | Step 62 batch 3: the final 55 unique puzzles (15 8×8, 40 10×10) and two bilingual shelves, reaching the 500-puzzle launch target. AAB remains deferred. |
 
 ---
 
@@ -2768,6 +2772,29 @@ Every release in this stabilization period: add a row here recording the version
 5. Keep puzzle IDs stable and never reuse/renumber existing ones — completion, album stamps, and replay history are keyed by these IDs.
 
 **Verification**: `npm run qa:catalog`, `npm run qa:uniqueness`, `npm run qa:art-audit`, `npm test`.
+
+#### 2026-08-08 batch-1 follow-up verification
+
+- Settings > Pip's Guide now includes a dedicated bilingual D-pad guide replay action (`cursorControlsIntro`). The guide copy explicitly says the player can switch back to direct cell tapping at any time in Settings.
+- The first 56 stabilization puzzles remain isolated to the final two shelves: each shelf contains 8 8×8 boards and 20 10×10 boards, and both require all 40 paid Pantry jars.
+- Economy timing is covered by regression tests: authored puzzle and shelf rewards available before the 40-jar gate total 2,252 spoons, while all paid Pantry jars cost 3,310 spoons. The 1,058-spoon timing gap preserves the optional top-up incentive; daily/login/replay/Time Attack rewards remain the no-purchase path. Separately, the 24 paid room decorations cost another 2,706 spoons. After batch 2, the complete 445-puzzle path grants 3,470 authored spoons, still 2,546 below the 6,016-spoon combined jar/decorating sink.
+- Full test result after the follow-up: 48 files, 299 tests passed. No AAB was produced because release packaging remains deferred until the requested stabilization steps are complete.
+
+#### 2026-08-08 batch-2 follow-up verification
+
+- Added another 56 uniquely solvable puzzles and the bilingual Orchard Window and Lantern Courtyard shelves, bringing the authored catalog to 445 without changing any existing puzzle IDs.
+- Each new shelf contains 8 8×8 boards and 20 10×10 boards and stays behind the existing 40-jar Pantry gate. Therefore the pre-gate reward timing remains exactly 2,252 spoons versus 3,310 spoons of jar costs; the optional purchase incentive is not weakened before the gate.
+- The remaining Step 62 target is 55 puzzles to reach 500. `LAUNCH_CATALOG_TARGET` intentionally remains 333 until the full catalog is authored and assigned to shelves.
+- Verification passed for all 48 test files / 299 tests, the 445-puzzle catalog report, uniqueness audit, art audit, launch-integrity gate, asset/store/Billing checks, and the production build. The aggregate `qa:candidate` reaches mobile QA but still stops on the existing visual-contract findings for the cursor card treatment, board-frame clipping/paper tray, compact 430px header, and 675px tablet overflow; these remain pre-AAB UI blockers for the following stabilization work.
+- No AAB was produced; release packaging remains deferred until all requested stabilization steps are complete.
+
+#### 2026-08-08 batch-3 completion verification
+
+- Added the final 55 uniquely solvable puzzles and the bilingual Moonlit Veranda and Hearth Gallery shelves, bringing the authored catalog to exactly 500 without renumbering any existing puzzle IDs.
+- Moonlit Veranda contains 8 8×8 and 20 10×10 boards; Hearth Gallery contains 7 8×8 and 20 10×10 boards. Both remain behind the existing 40-jar Pantry gate, so pre-gate rewards stay at 2,252 spoons against 3,310 spoons of jar costs.
+- The complete path now grants 3,110 puzzle spoons plus 730 shelf bonuses, or 3,840 authored spoons. That remains 2,176 below the 6,016-spoon combined paid-jar and room-decoration sink, preserving optional purchase motivation while leaving daily/login/replay/Time Attack as the no-purchase path.
+- `LAUNCH_CATALOG_TARGET` is now 500. Catalog, uniqueness, and art-quality checks pass; all 48 test files / 299 tests pass; the production build, launch-integrity guard, assets, store listing, Billing, privacy, and Android release gate also pass at web/app `0.1.712` and Android `versionCode 44` / `versionName 1.1.16`.
+- The aggregate candidate gate reaches its final mobile-visual phase after all nonvisual checks pass. Existing mobile layout findings remain explicitly outside Step 62 and must be cleared during the following UI stabilization steps before AAB packaging. No AAB was produced.
 
 ---
 

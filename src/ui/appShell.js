@@ -566,6 +566,8 @@ export function renderApp(root) {
     root.replaceChildren();
     if (!activeGuide && activeView === "puzzle" && playOpen && !hasSeenGuide("puzzle")) {
       activeGuide = "puzzle";
+    } else if (!activeGuide && activeView === "puzzle" && playOpen && Number(activePuzzle?.size) === 8 && !hasSeenGuide("cursorControlsIntro")) {
+      activeGuide = "cursorControlsIntro";
     } else if (!activeGuide && activeView === "timeAttack" && !playOpen && !hasSeenGuide("timeAttack")) {
       activeGuide = "timeAttack";
     } else if (!activeGuide && activeView === "map" && !hasSeenGuide("map")) {

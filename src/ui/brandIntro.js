@@ -1,12 +1,13 @@
 import openingKeyVisualUrl from "../assets/brand/opening-key-visual-v1.webp";
-import studioBumperUrl from "../assets/brand/sunny-spoon-studios-bumper-v1.webp";
+import studioLogoUrl from "../assets/brand/sunny-spoon-studios-logo-v2.webp";
+import gameLogoUrl from "../assets/brand/pips-picture-pantry-logo-v1.webp";
 import { isRuntimeStudioBumperArtApproved } from "../data/runtimeArt.js";
 import { hasActivePlayer, setActivePlayerName } from "../game/save.js";
 import { t } from "../i18n/index.js";
 
-const STUDIO_DURATION_MS = 900;
+const STUDIO_DURATION_MS = 1300;
 const INTRO_EXIT_MS = 260;
-const STUDIO_BUMPER_ASSET_ID = "sunny-spoon-studios-bumper-v1";
+const STUDIO_BUMPER_ASSET_ID = "sunny-spoon-studios-logo-v2";
 
 export function renderBrandIntro(root) {
   root.dataset.introOpen = "true";
@@ -28,12 +29,11 @@ export function renderBrandIntro(root) {
     bumperArt.className = "studio-bumper__art";
     bumperArt.setAttribute("aria-hidden", "true");
     const bumperImage = document.createElement("img");
-    bumperImage.src = studioBumperUrl;
+    bumperImage.src = studioLogoUrl;
     bumperImage.alt = "";
     bumperArt.appendChild(bumperImage);
     studioBumper.appendChild(bumperArt);
   }
-  appendTextElement(studioBumper, "p", "", "Sunny Spoon Studios");
   intro.appendChild(studioBumper);
 
   const content = document.createElement("div");
@@ -46,9 +46,12 @@ export function renderBrandIntro(root) {
     if (intro.classList.contains("leaving")) {
       return;
     }
+    // Remove the studio layer before the game identity is painted. Keeping the
+    // fading layer composited underneath the next stage left a one-frame text
+    // remnant on some Android WebViews.
+    studioBumper.remove();
     intro.classList.remove("studio-stage");
     intro.classList.add("game-stage");
-    studioBumper.setAttribute("aria-hidden", "true");
     content.removeAttribute("aria-hidden");
   };
 
@@ -115,13 +118,21 @@ export function renderBrandIntro(root) {
 
 function renderGameIdentity(content) {
   content.append(buildKeyVisual(false));
-  appendTextElement(content, "h2", "", t("app.title"));
+  content.append(buildGameLogo());
 
   const button = document.createElement("button");
   button.className = "brand-intro__skip";
   button.type = "button";
   button.textContent = t("brandIntro.skip");
   content.appendChild(button);
+}
+
+function buildGameLogo() {
+  const logo = document.createElement("img");
+  logo.className = "brand-intro__game-logo";
+  logo.src = gameLogoUrl;
+  logo.alt = t("app.title");
+  return logo;
 }
 
 function buildKeyVisual(isSmall) {

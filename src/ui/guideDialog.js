@@ -3,7 +3,9 @@ import mrParkArtUrl from "../assets/characters/story-friend-mr-park-v1.png";
 import lilyArtUrl from "../assets/characters/story-friend-lily-v1.png";
 import mateoArtUrl from "../assets/characters/story-friend-mateo-v1.png";
 import { isRuntimeGuideArtApproved } from "../data/runtimeArt.js";
+import { createPuzzleState } from "../game/puzzleState.js";
 import { t } from "../i18n/index.js";
+import { renderCursorControls } from "./puzzleCursorControls.js";
 
 const GUIDE_ART_ASSET_ID = "pip-chrome-v2";
 export const PUZZLE_PRACTICE = Object.freeze({
@@ -17,6 +19,7 @@ export const PUZZLE_PRACTICE = Object.freeze({
 });
 const GUIDE_STEPS = {
   puzzle: ["guide.puzzle.step1", "guide.puzzle.step2", "guide.puzzle.step3"],
+  cursorControlsIntro: ["guide.cursorControlsIntro.step1", "guide.cursorControlsIntro.step2"],
   timeAttack: ["guide.timeAttack.step1", "guide.timeAttack.step2", "guide.timeAttack.step3"],
   map: ["guide.map.step1", "guide.map.step2", "guide.map.step3"],
   spoonRunIntro: ["guide.spoonRunIntro.step1", "guide.spoonRunIntro.step2"],
@@ -34,6 +37,7 @@ const NEIGHBOR_GUIDE_CLASSES = {
 };
 const GUIDE_SPEAKER_NAME_KEYS = {
   puzzle: "guide.puzzle.speakerName",
+  cursorControlsIntro: "guide.cursorControlsIntro.speakerName",
   timeAttack: "guide.timeAttack.speakerName",
   map: "guide.map.speakerName",
   spoonRunIntro: "guide.spoonRunIntro.speakerName"
@@ -106,6 +110,8 @@ export function renderGuideDialog(guideId, onClose) {
       ? createPuzzlePractice()
       : guideId === "puzzle" && index === 2
         ? createSeparatedClueExample()
+        : guideId === "cursorControlsIntro" && index === 0
+          ? createCursorControlsPreview()
         : null;
 
     const dots = document.createElement("div");
@@ -157,6 +163,24 @@ export function renderGuideDialog(guideId, onClose) {
 
   draw();
   return overlay;
+}
+
+function createCursorControlsPreview() {
+  const element = document.createElement("div");
+  element.className = "guide-cursor-preview";
+  const puzzle = { id: "guide-cursor-preview", size: 8 };
+  let state = createPuzzleState(puzzle);
+
+  function draw() {
+    const controls = renderCursorControls(state, puzzle, (nextState) => {
+      state = nextState;
+      draw();
+    });
+    element.replaceChildren(controls);
+  }
+
+  draw();
+  return { element };
 }
 
 export function renderAllPuzzlesDoneDialog({ onPantry, onSpoonRun }) {

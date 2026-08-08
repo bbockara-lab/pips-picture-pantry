@@ -20,7 +20,7 @@ describe("Pantry shelf and puzzle stage links", () => {
       { shelf: "pickle", stages: ["shelf-tin-row", "shelf-bakery-window"] },
       { shelf: "fruit", stages: ["shelf-village-square", "shelf-market-table"] },
       { shelf: "oil", stages: ["shelf-clock-corner", "shelf-bakery-walk"] },
-      { shelf: "tea", stages: ["shelf-garden-path", "shelf-village-pantry"] }
+      { shelf: "tea", stages: ["shelf-garden-path", "shelf-village-pantry", "shelf-herb-terrace", "shelf-sunroom-table", "shelf-orchard-window", "shelf-lantern-courtyard", "shelf-moonlit-veranda", "shelf-hearth-gallery"] }
     ]);
     expect(getPantryShelfForSeasonShelf(seasonShelves[0])).toBeNull();
   });

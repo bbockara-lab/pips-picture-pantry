@@ -4,26 +4,28 @@ import { mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import http from "node:http";
 import { dirname, resolve } from "node:path";
 import { chromium } from "@playwright/test";
-import { APP_VERSION } from "../src/data/appVersion.js";
 
 const ROOT = process.cwd();
 const PORT = 5197;
 const BASE_URL = `http://127.0.0.1:${PORT}/`;
-const OUT = resolve(ROOT, "store-assets", "store-media", APP_VERSION);
+const RELEASE_VERSION = "v0.1.708";
+const OUT = resolve(ROOT, "store-assets", "store-media", RELEASE_VERSION);
 const RAW = resolve(OUT, "raw");
 const VIDEO = resolve(RAW, "video");
 const isWindows = process.platform === "win32";
 
 const targets = [
   { id: "google-play", viewport: { width: 432, height: 768 }, deviceScaleFactor: 2.5, expected: [1080, 1920] },
+  { id: "google-play-tablet-7", viewport: { width: 800, height: 1280 }, deviceScaleFactor: 2, expected: [1600, 2560] },
+  { id: "google-play-tablet-10", viewport: { width: 1024, height: 1366 }, deviceScaleFactor: 2, expected: [2048, 2732] },
   { id: "app-store-6.9", viewport: { width: 430, height: 932 }, deviceScaleFactor: 3, expected: [1290, 2796] },
   { id: "app-store-ipad-13", viewport: { width: 1024, height: 1366 }, deviceScaleFactor: 2, expected: [2048, 2732] },
 ];
 
 const manifest = {
-  appVersion: APP_VERSION,
-  androidVersionCode: 37,
-  androidVersionName: "1.1.9",
+  appVersion: RELEASE_VERSION,
+  androidVersionCode: 40,
+  androidVersionName: "1.1.12",
   generatedAt: new Date().toISOString(),
   source: "Live Playwright render of the current local app; no legacy store screenshots used.",
   captures: [],
@@ -188,6 +190,7 @@ async function screenshot(page, target, language, order, scene) {
 }
 
 async function captureSet(browser, target, language) {
+  console.log(`Capturing ${target.id} ${language}...`);
   const context = await browser.newContext({
     viewport: target.viewport,
     deviceScaleFactor: target.deviceScaleFactor,
@@ -216,6 +219,7 @@ async function captureSet(browser, target, language) {
     await page.locator(".completion-actions button").first().click();
     await page.locator(".puzzle-grid .puzzle-cell").first().waitFor({ state: "visible", timeout: 5000 });
     await page.locator(".play-screen__back").first().click();
+    await page.locator(".play-pause-menu__action--home").first().click();
     await page.locator(".puzzle-home-scene, .pack-block").first().waitFor({ state: "visible", timeout: 5000 });
     await screenshot(page, target, language, 3, "puzzle-library");
 
@@ -227,6 +231,7 @@ async function captureSet(browser, target, language) {
   } finally {
     await context.close();
   }
+  console.log(`Captured ${target.id} ${language}.`);
 }
 
 async function recordGameplay(browser, language) {
@@ -287,11 +292,16 @@ async function main() {
     await waitForServer();
     browser = await chromium.launch({ headless: true });
     if (!process.argv.includes("--video-only")) {
-      for (const target of targets) {
+      const requestedTarget = process.argv.find((argument) => argument.startsWith("--target="))?.split("=")[1];
+      const selectedTargets = requestedTarget ? targets.filter((target) => target.id === requestedTarget) : targets;
+      if (!selectedTargets.length) throw new Error(`Unknown capture target: ${requestedTarget}`);
+      for (const target of selectedTargets) {
         for (const language of ["en", "ko"]) await captureSet(browser, target, language);
       }
     }
-    for (const language of ["en", "ko"]) await recordGameplay(browser, language);
+    if (!process.argv.includes("--screenshots-only")) {
+      for (const language of ["en", "ko"]) await recordGameplay(browser, language);
+    }
   } finally {
     await browser?.close();
     if (isWindows && server.pid) spawnSync("taskkill", ["/pid", String(server.pid), "/t", "/f"], { stdio: "ignore" });

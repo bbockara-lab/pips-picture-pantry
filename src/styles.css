@@ -19900,6 +19900,60 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
 }
 
 /* v0.1.705 final authority - focused puzzle geometry. */
+.guide-cursor-preview {
+  width: min(100%, 350px);
+  margin-inline: auto;
+}
+
+.guide-cursor-preview .cursor-controls {
+  width: 100%;
+  margin: 0;
+  padding: 8px;
+  border-radius: 16px;
+}
+
+.guide-cursor-preview .cursor-controls__body {
+  grid-template-columns: 116px minmax(0, 1fr);
+  gap: 8px;
+  margin-top: 0;
+}
+
+.guide-cursor-preview .cursor-dpad {
+  grid-template-columns: repeat(3, 34px);
+  grid-template-rows: repeat(3, 34px);
+  width: 110px;
+  min-height: 110px;
+}
+
+.guide-cursor-preview .cursor-move {
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+  min-height: 34px;
+}
+
+.guide-cursor-preview .cursor-action-button {
+  min-height: 46px;
+  padding: 5px 8px;
+  grid-template-columns: 28px minmax(0, 1fr);
+  font-size: 0.8rem;
+}
+
+.guide-cursor-preview .cursor-action-button__art {
+  width: 28px;
+  height: 28px;
+}
+
+@media (max-width: 520px) {
+  .guide-dialog--cursorControlsIntro {
+    grid-template: minmax(150px, 36fr) minmax(0, 64fr) / minmax(0, 1fr) !important;
+  }
+
+  .guide-dialog--cursorControlsIntro .guide-dialog__content {
+    gap: 9px !important;
+  }
+}
+
 .app-shell--play .spoon-balance-chip { display: none !important; }
 .app-shell--play .play-screen__body { width: 100%; }
 .app-shell--play .puzzle-panel:not(.completed),
@@ -20012,5 +20066,111 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
     justify-content: flex-end;
     gap: 1px;
     overflow: hidden;
+  }
+}
+
+/* v0.1.708 release authority — one measurable board-width contract.
+ * Mobile width budget includes: page gutter (12), board padding/border and
+ * column gap (20), grid frame inset (12), and every inter-cell gap. */
+.app-shell--play .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+  --board-row-clue-width: 74px !important;
+  --clue-token-size: 22px !important;
+  --board-grid-gap: clamp(2px, 0.75vw, 3px);
+  --board-cell-size: clamp(
+    17px,
+    calc((min(100vw, 620px) - var(--board-row-clue-width) - 44px - (var(--board-grid-gap) * var(--board-gap-count))) / var(--board-size)),
+    52px
+  ) !important;
+  grid-template-columns: var(--board-row-clue-width) var(--board-grid-frame-size);
+  column-gap: 6px;
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: 100%;
+  overflow: visible;
+}
+
+.app-shell--play .puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clues {
+  box-sizing: border-box;
+  width: var(--board-row-clue-width);
+  min-width: 0;
+  overflow: visible;
+}
+
+.app-shell--play .puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clue {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding-inline: 2px;
+  gap: 1px;
+  justify-content: flex-end;
+  overflow: visible;
+}
+
+@media (max-width: 520px) {
+  .app-shell--play .play-screen[data-puzzle-size="8"] .puzzle-panel:not(.completed) .board-wrap:not(.locked),
+  .app-shell--play .play-screen[data-puzzle-size="10"] .puzzle-panel:not(.completed) .board-wrap:not(.locked),
+  .app-shell--play .play-screen[data-puzzle-size="12"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --board-row-clue-width: 70px !important;
+  }
+
+  .app-shell--play .play-screen[data-puzzle-size="8"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --clue-token-size: 15px !important;
+  }
+
+  .app-shell--play .play-screen[data-puzzle-size="10"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --clue-token-size: 12px !important;
+  }
+
+  .app-shell--play .play-screen[data-puzzle-size="12"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --clue-token-size: 10px !important;
+  }
+}
+
+/* The studio bumper is never allowed to remain as a composited fading layer
+ * below the game logo. brandIntro.js also removes it at the stage boundary. */
+.brand-intro.game-stage .studio-bumper {
+  display: none !important;
+  transition: none !important;
+}
+
+/* v0.1.707 premium launch identity — shared by Android and iOS. */
+.brand-intro.studio-stage .studio-bumper {
+  width: min(88vw, 520px);
+}
+
+.brand-intro.studio-stage .studio-bumper__art {
+  width: 100%;
+  aspect-ratio: 1100 / 604;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.brand-intro.studio-stage .studio-bumper__art img {
+  width: 100%;
+  height: auto;
+  border-radius: 0;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 20px rgba(20, 13, 12, 0.32));
+}
+
+.brand-intro__game-logo {
+  display: block;
+  width: min(82%, 310px);
+  height: auto;
+  margin: -4px auto 2px;
+  filter: drop-shadow(0 7px 10px rgba(61, 43, 46, 0.18));
+}
+
+@media (max-width: 370px) {
+  .brand-intro.studio-stage .studio-bumper {
+    width: min(92vw, 440px);
+  }
+
+  .brand-intro__game-logo {
+    width: min(78%, 270px);
   }
 }

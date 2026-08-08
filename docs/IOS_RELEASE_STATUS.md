@@ -1,6 +1,13 @@
 # iOS Release Status
 
-Last updated: 2026-08-05
+Last updated: 2026-08-06
+
+## 2026-08-06 first App Store submission
+
+- An initial app-only submission at 12:27 AM EDT was canceled after App Store Connect showed only `Items Submitted (1)`.
+- The corrected submission was sent on **2026-08-06 at 12:34 AM EDT** with all three required items: app version 1.0 (build 1), `pip_cozy_support`, and `pip_spoon_jar_small`.
+- Corrected submission ID: `02720e2c-9f46-4364-8de2-02aec9f58983`.
+- All three items showed **Waiting for Review** immediately after submission.
 
 ## 2026-08-05 Apple Developer approval, App Store Connect setup, and archive blocker
 
@@ -20,17 +27,18 @@ Last updated: 2026-08-05
 - Fixed `ios/App/App/Info.plist`: removed `UIInterfaceOrientationLandscapeLeft`/`Right` from the iPhone `UISupportedInterfaceOrientations` array (iPhone is now portrait-only). iPad keeps all four orientations. Reason: no landscape CSS in `src/styles.css` and no `screenOrientation` lock in the Android manifest either, so landscape was never actually designed/tested on any platform. Committed as `ba916b3`.
 - Simulator build succeeds ("Build Succeeded" in Xcode for the iPhone 17 Pro simulator destination).
 
-### Archive blocker (unresolved)
+### Archive signing blocker (unresolved; no physical device required)
 
 - `xcodebuild archive -destination "generic/platform=iOS" -allowProvisioningUpdates` (also retried with `-configuration Release` explicitly) fails every time with:
   ```
   error: Communication with Apple failed: Your team has no devices from which to generate a provisioning profile. Connect a device to use or manually add device IDs in Certificates, Identifiers & Profiles.
   error: No profiles for 'com.sunnyspoonstudios.pipspicturepantry' were found: Xcode couldn't find any iOS App Development provisioning profiles matching 'com.sunnyspoonstudios.pipspicturepantry'.
   ```
-- Root cause: this Apple Developer account was approved today and has **zero registered devices**. Automatic signing resolution appears to require an iOS App Development profile (which needs a device) even when archiving for Release/distribution on a brand-new team, so the archive is blocked before it can even reach the App Store distribution signing step.
+- Root cause confirmed on 2026-08-05: the Mac keychain contains only an `Apple Development` identity and no `Apple Distribution` identity. In addition, the project-level Release configuration inherited a legacy `CODE_SIGN_IDENTITY = "iPhone Developer"` override. That Release override has now been removed. Automatic signing still chooses development signing during Archive and therefore asks for a registered device.
 - The Xcode GUI shows the same underlying issue in Signing & Capabilities (yellow warning: "Communication with Apple failed... Your team has no devices...").
 - No cable is currently available to connect a real device: the owner's iPhone 12 Pro is Lightning, the cable on hand is USB-A-to-Lightning, and this Mac only has USB-C ports (no adapter on hand yet).
-- **Next step to unblock**: get a USB-C-to-Lightning cable (or a USB-A-to-USB-C adapter for the existing cable), connect the iPhone 12 Pro once so Xcode registers it as a device, then retry the archive. After that: Organizer → Distribute App → App Store Connect upload → TestFlight → install on the iPhone over Wi-Fi (no cable needed after the first registration) → collect the real-device evidence the "TestFlight and submission gates" section below still requires (screenshots, Sandbox purchase/repeat evidence for both products, guide-overlay/save/reset checks).
+- A physical device is **not required** for App Store Connect distribution. Apple requires registered devices for Development and Ad Hoc profiles, but not for an App Store Connect distribution profile.
+- **Cable-free next step**: create an Apple Distribution certificate in Xcode (`Settings > Accounts > Manage Certificates`) and create/download an App Store Connect distribution provisioning profile for `com.sunnyspoonstudios.pipspicturepantry` in Certificates, Identifiers & Profiles. Then configure Release for manual Apple Distribution signing and retry Archive. After upload, install through TestFlight without registering the iPhone UDID.
 
 ## Current state
 
@@ -103,5 +111,5 @@ npm run ios:open
 
 - `pip-pantry-v3` was owner-approved on 2026-08-04 and applied to the Xcode asset catalog as a 1024px opaque PNG.
 - Package resolution for `capacitor-swift-pm` now completes fine once Xcode has been opened with network access; simulator builds succeed.
-- **Blocked on archiving for a real device / TestFlight** — see "Archive blocker (unresolved)" above. Needs a USB-C-to-Lightning cable or adapter before it can proceed.
+- **Blocked on distribution signing assets, not on a real device** — see "Archive signing blocker" above. No cable is required; an Apple Distribution certificate and App Store Connect provisioning profile must be created once.
 - Once unblocked: upload the first build, add Review Screenshots to both in-app purchases, and collect the real-device Sandbox purchase/repeat evidence still required by "TestFlight and submission gates" below.

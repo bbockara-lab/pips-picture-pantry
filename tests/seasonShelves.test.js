@@ -2,13 +2,14 @@ import { describe, expect, it } from "vitest";
 import { puzzles } from "../src/data/puzzles.js";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, getSeasonShelfSizeCounts, seasonShelves } from "../src/data/seasonShelves.js";
 import { getPuzzleReward } from "../src/data/economyConfig.js";
+import { PANTRY_JARS } from "../src/data/pantryJars.js";
 import { getPreviousSeasonShelf, getSeasonShelfProgress, isSeasonShelfComplete } from "../src/game/seasonShelfProgress.js";
 
 describe("Season 0 shelves", () => {
   it("repackages every authored puzzle exactly once without changing puzzle IDs", () => {
     const assignedIds = seasonShelves.flatMap((shelf) => shelf.puzzleIds);
 
-    expect(seasonShelves).toHaveLength(15);
+    expect(seasonShelves).toHaveLength(21);
     expect(assignedIds).toHaveLength(puzzles.length);
     expect(new Set(assignedIds).size).toBe(puzzles.length);
     expect(new Set(assignedIds)).toEqual(new Set(puzzles.map((puzzle) => puzzle.id)));
@@ -29,9 +30,9 @@ describe("Season 0 shelves", () => {
     expect(getSeasonShelfPuzzles(shelf)[0]?.id).toBe("pips-first-shelf-pip-face-1");
   });
 
-  it("marks only the village pantry as the closing shelf", () => {
+  it("marks only the hearth gallery as the closing shelf", () => {
     expect(seasonShelves.filter((shelf) => shelf.isFinal)).toHaveLength(1);
-    expect(seasonShelves.at(-1)?.id).toBe("shelf-village-pantry");
+    expect(seasonShelves.at(-1)?.id).toBe("shelf-hearth-gallery");
   });
 
   it("balances the nine-stage shelf economy against the expanded Pantry", () => {
@@ -40,7 +41,7 @@ describe("Season 0 shelves", () => {
       stageBonus: result.stageBonus + Number(shelf.stageBonus || 0)
     }), { unlockCost: 0, stageBonus: 0 });
 
-    expect(totals).toEqual({ unlockCost: 0, stageBonus: 520 });
+    expect(totals).toEqual({ unlockCost: 0, stageBonus: 730 });
   });
 
   it("reserves spoon spending for Pantry jars while keeping the authored reward curve", () => {
@@ -52,13 +53,48 @@ describe("Season 0 shelves", () => {
       ),
       0
     );
-    expect(puzzleRewards).toBe(2202);
+    expect(puzzleRewards).toBe(3110);
   });
 
   it("maps forty paid Pantry jars to nine five-jar stage gates", () => {
     expect(seasonShelves.map((shelf) => shelf.pantryRoomStepRequired)).toEqual([
-      0, 5, 10, 15, 15, 20, 20, 25, 25, 30, 30, 35, 35, 40, 40
+      0, 5, 10, 15, 15, 20, 20, 25, 25, 30, 30, 35, 35, 40, 40, 40, 40, 40, 40, 40, 40
     ]);
+  });
+
+  it("places the stabilization puzzles after the final Pantry gate without erasing the spoon gap", () => {
+    const stabilizationShelves = seasonShelves.slice(-6);
+    expect(stabilizationShelves.map((shelf) => shelf.id)).toEqual([
+      "shelf-herb-terrace",
+      "shelf-sunroom-table",
+      "shelf-orchard-window",
+      "shelf-lantern-courtyard",
+      "shelf-moonlit-veranda",
+      "shelf-hearth-gallery"
+    ]);
+    expect(stabilizationShelves.map((shelf) => getSeasonShelfSizeCounts(shelf))).toEqual([
+      { 8: 8, 10: 20 },
+      { 8: 8, 10: 20 },
+      { 8: 8, 10: 20 },
+      { 8: 8, 10: 20 },
+      { 8: 8, 10: 20 },
+      { 8: 7, 10: 20 }
+    ]);
+    expect(stabilizationShelves.every((shelf) => shelf.pantryRoomStepRequired === 40)).toBe(true);
+
+    const rewardsBeforeFinalGate = seasonShelves
+      .filter((shelf) => shelf.pantryRoomStepRequired < 40)
+      .reduce((total, shelf) => total
+        + Number(shelf.stageBonus || 0)
+        + getSeasonShelfPuzzles(shelf).reduce(
+          (shelfTotal, puzzle) => shelfTotal + getPuzzleReward(puzzle.size),
+          0
+        ), 0);
+    const paidJarCost = PANTRY_JARS.reduce((total, jar) => total + Number(jar.cost || 0), 0);
+
+    expect(rewardsBeforeFinalGate).toBe(2252);
+    expect(paidJarCost).toBe(3310);
+    expect(paidJarCost - rewardsBeforeFinalGate).toBeGreaterThanOrEqual(500);
   });
 
   it("uses the previous shelf and current shelf completion as separate progression facts", () => {

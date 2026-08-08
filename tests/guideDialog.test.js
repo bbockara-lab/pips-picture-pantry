@@ -4,6 +4,8 @@ import { describe, expect, it } from "vitest";
 const guideSource = readFileSync(new URL("../src/ui/guideDialog.js", import.meta.url), "utf8");
 const appShellSource = readFileSync(new URL("../src/ui/appShell.js", import.meta.url), "utf8");
 const settingsSource = readFileSync(new URL("../src/ui/settingsView.js", import.meta.url), "utf8");
+const englishSource = readFileSync(new URL("../src/i18n/en.js", import.meta.url), "utf8");
+const koreanSource = readFileSync(new URL("../src/i18n/ko.js", import.meta.url), "utf8");
 const mobileQaSource = readFileSync(new URL("../scripts/mobile_visual_check.js", import.meta.url), "utf8");
 const stylesSource = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
 
@@ -32,9 +34,26 @@ describe("guide dialog character and badge wiring", () => {
       /activeView === "spoonRun" && !hasSeenGuide\("spoonRunIntro"\)[\s\S]*?activeGuide = "spoonRunIntro"/
     );
   });
+  it("opens the real cursor-control intro once on the first 8x8 puzzle", () => {
+    expect(guideSource).toContain(
+      'cursorControlsIntro: ["guide.cursorControlsIntro.step1", "guide.cursorControlsIntro.step2"]'
+    );
+    expect(guideSource).toContain('cursorControlsIntro: "guide.cursorControlsIntro.speakerName"');
+    expect(guideSource).toContain('import { renderCursorControls } from "./puzzleCursorControls.js"');
+    expect(guideSource).toContain("function createCursorControlsPreview()");
+    expect(guideSource).toContain("renderCursorControls(state, puzzle");
+    expect(appShellSource).toMatch(
+      /!hasSeenGuide\("puzzle"\)[\s\S]*?Number\(activePuzzle\?\.size\) === 8 && !hasSeenGuide\("cursorControlsIntro"\)[\s\S]*?activeGuide = "cursorControlsIntro"/
+    );
+  });
   it("verifies and dismisses the Spoon Run intro in mobile candidate QA", () => {
     expect(mobileQaSource).toContain("expectSpoonRunFirstVisitGuide(page, viewport.name)");
     expect(mobileQaSource).toContain(".guide-dialog--spoonRunIntro");
+  });
+  it("checks that the real cursor-control preview stays inside the mobile guide", () => {
+    expect(mobileQaSource).toContain("expectCursorControlsGuideContained");
+    expect(mobileQaSource).toContain('document.querySelectorAll(".guide-cursor-preview").length');
+    expect(mobileQaSource).toContain('preview?.querySelectorAll(".cursor-move").length || 0');
   });
   it("keeps launch guides above the gesture safe area without changing neighbour dialogs", () => {
     expect(stylesSource).toContain(
@@ -78,6 +97,15 @@ describe("guide dialog character and badge wiring", () => {
       'createGuideReplayButton(t("settings.guideReplayMapAction"), "map", "map", onReplayGuide)'
     );
     expect(settingsSource).toContain('guideId === "map" ? "map" : "puzzle"');
+  });
+  it("offers the D-pad guide again from settings and explains that controls remain changeable", () => {
+    expect(settingsSource).toContain(
+      'createGuideReplayButton(t("settings.guideReplayCursorAction"), "cursorControlsIntro", "cursor", onReplayGuide)'
+    );
+    expect(englishSource).toContain('guideReplayCursorAction: "D-pad guide"');
+    expect(englishSource).toContain("You can switch back to tapping cells anytime in Settings.");
+    expect(koreanSource).toContain('guideReplayCursorAction: "방향키 가이드"');
+    expect(koreanSource).toContain("설정에서 언제든 칸 직접 누르기로 바꿀 수 있어요.");
   });
   it("centers and separates every non-puzzle Pip guide bubble", () => {
     for (const guideId of ["map", "spoonRunIntro", "pantryFirstPurchase", "pantryRoomStory"]) {

@@ -56,7 +56,7 @@ export const assetRegistry = [
   },
   {
     id: "sunny-spoon-studios-bumper-v1",
-    usage: "studio-bumper",
+    usage: "studio-bumper-superseded",
     path: "src/assets/brand/sunny-spoon-studios-bumper-v1.webp",
     sourceType: "raster",
     approval: "approved",
@@ -64,6 +64,28 @@ export const assetRegistry = [
     mustReplaceBeforeMajorArtPass: false,
     identityStatus: "approved-studio-continuity",
     note: "Approved reusable Sunny Spoon Studios bumper art promoted into the first launch stage in v0.1.128. Prompt requested no text, no puzzle/Pantry-specific clutter, and a reusable spoon-sun studio identity mark."
+  },
+  {
+    id: "sunny-spoon-studios-logo-v2",
+    usage: "studio-bumper",
+    path: "src/assets/brand/sunny-spoon-studios-logo-v2.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-studio-continuity",
+    note: "Premium transparent Sunny Spoon Studios wordmark with a golden spoon-sun emblem, promoted for the shared Android and iOS launch bumper."
+  },
+  {
+    id: "pips-picture-pantry-logo-v1",
+    usage: "game-title-logo",
+    path: "src/assets/brand/pips-picture-pantry-logo-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-product-continuity",
+    note: "Premium transparent Pip's Picture Pantry title logo used by the shared Android and iOS opening identity screen."
   },
   {
     id: "opening-key-visual-source-v1",

@@ -46,7 +46,7 @@ function checkAndroidVersion() {
     releaseStatus.match(/Last Play Console upload: versionCode \*\*(\d+)\*\*/)?.[1],
   );
   const target = releaseStatus.match(
-    /Current signed upload target: versionCode (\d+) \/ versionName ([\d.]+)\./,
+    /Current (?:prepared|signed) upload target: versionCode (\d+) \/ versionName ([\d.]+)\./,
   );
 
   if (!versionCode || !versionName || !lastUploadedCode || !target) {
@@ -56,7 +56,7 @@ function checkAndroidVersion() {
     fail(`Android versionCode ${versionCode} must be above Play Console code ${lastUploadedCode}`);
   }
   if (Number(target[1]) !== versionCode || target[2] !== versionName) {
-    fail("Android build.gradle and current signed upload target are out of sync");
+    fail("Android build.gradle and current upload target are out of sync");
   }
 }
 
@@ -109,8 +109,8 @@ function checkPackUnlockGuidance() {
 
   const shelfSource = read("src/data/seasonShelves.js");
   const unlockCosts = [...shelfSource.matchAll(/unlockCost:\s*(\d+)/g)].map((match) => Number(match[1]));
-  if (unlockCosts.length !== 15 || unlockCosts.some((cost) => cost !== 0)) {
-    fail("src/data/seasonShelves.js must keep all 15 stage unlock costs at zero");
+  if (unlockCosts.length < 17 || unlockCosts.some((cost) => cost !== 0)) {
+    fail("src/data/seasonShelves.js must keep every authored stage unlock cost at zero");
   }
   expectIncludes("src/data/economyConfig.js", "5: 2", "5x5 reward 2");
   expectIncludes("src/data/economyConfig.js", "8: 4", "8x8 reward 4");

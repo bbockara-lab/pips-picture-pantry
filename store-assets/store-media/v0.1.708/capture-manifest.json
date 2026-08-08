@@ -1,0 +1,860 @@
+{
+  "appVersion": "v0.1.708",
+  "androidVersionCode": 40,
+  "androidVersionName": "1.1.12",
+  "generatedAt": "2026-08-06T01:08:21.768Z",
+  "source": "Live Playwright render of the current local app; no legacy store screenshots used.",
+  "captures": [
+    {
+      "target": "google-play",
+      "language": "en",
+      "order": 1,
+      "scene": "puzzle-in-progress",
+      "viewportCss": {
+        "width": 432,
+        "height": 768
+      },
+      "deviceScaleFactor": 2.5,
+      "expectedPixels": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play/en/01-puzzle-in-progress.png",
+      "sha256": "80122db43e348f9157619f762c31f2a1346085772e731d22524bf5da15d672e0"
+    },
+    {
+      "target": "google-play",
+      "language": "en",
+      "order": 2,
+      "scene": "puzzle-complete",
+      "viewportCss": {
+        "width": 432,
+        "height": 768
+      },
+      "deviceScaleFactor": 2.5,
+      "expectedPixels": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play/en/02-puzzle-complete.png",
+      "sha256": "b70812557167c30440965edb69cd59ca3d46328dc5255ea43f5d0ddc04732f35"
+    },
+    {
+      "target": "google-play",
+      "language": "en",
+      "order": 3,
+      "scene": "puzzle-library",
+      "viewportCss": {
+        "width": 432,
+        "height": 768
+      },
+      "deviceScaleFactor": 2.5,
+      "expectedPixels": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play/en/03-puzzle-library.png",
+      "sha256": "a13d38f19023710d7eaa53f9976d0bba6205c3f48b6bdfff974ae5b68bb39e9b"
+    },
+    {
+      "target": "google-play",
+      "language": "en",
+      "order": 4,
+      "scene": "picture-album",
+      "viewportCss": {
+        "width": 432,
+        "height": 768
+      },
+      "deviceScaleFactor": 2.5,
+      "expectedPixels": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play/en/04-picture-album.png",
+      "sha256": "59b596b259663c4c192c96d3898b3ef28789e727ba51eca0022420fe426336ab"
+    },
+    {
+      "target": "google-play",
+      "language": "en",
+      "order": 5,
+      "scene": "pantry-room",
+      "viewportCss": {
+        "width": 432,
+        "height": 768
+      },
+      "deviceScaleFactor": 2.5,
+      "expectedPixels": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play/en/05-pantry-room.png",
+      "sha256": "27b41e030fb3f598b6590af17a2b8577251f9411c7233d1ce0928fa917ff339c"
+    },
+    {
+      "target": "google-play",
+      "language": "ko",
+      "order": 1,
+      "scene": "puzzle-in-progress",
+      "viewportCss": {
+        "width": 432,
+        "height": 768
+      },
+      "deviceScaleFactor": 2.5,
+      "expectedPixels": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play/ko/01-puzzle-in-progress.png",
+      "sha256": "7bd0b3a75b4271b913ddb088778153bd20f80d890ecc1c05d31833a8fde1b323"
+    },
+    {
+      "target": "google-play",
+      "language": "ko",
+      "order": 2,
+      "scene": "puzzle-complete",
+      "viewportCss": {
+        "width": 432,
+        "height": 768
+      },
+      "deviceScaleFactor": 2.5,
+      "expectedPixels": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play/ko/02-puzzle-complete.png",
+      "sha256": "b4573087cb0c6efaba59e21d9e497ba21a8b5f2fdd837d1903cae7639b33f207"
+    },
+    {
+      "target": "google-play",
+      "language": "ko",
+      "order": 3,
+      "scene": "puzzle-library",
+      "viewportCss": {
+        "width": 432,
+        "height": 768
+      },
+      "deviceScaleFactor": 2.5,
+      "expectedPixels": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play/ko/03-puzzle-library.png",
+      "sha256": "6193b44d5bc3f366b461c537b67ff22c07b156b6715ac315a41d94ad0e181c1a"
+    },
+    {
+      "target": "google-play",
+      "language": "ko",
+      "order": 4,
+      "scene": "picture-album",
+      "viewportCss": {
+        "width": 432,
+        "height": 768
+      },
+      "deviceScaleFactor": 2.5,
+      "expectedPixels": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play/ko/04-picture-album.png",
+      "sha256": "1ff1ab16182b07759e5ee9808effc9989e8ba0259270b995de5ee86b35000302"
+    },
+    {
+      "target": "google-play",
+      "language": "ko",
+      "order": 5,
+      "scene": "pantry-room",
+      "viewportCss": {
+        "width": 432,
+        "height": 768
+      },
+      "deviceScaleFactor": 2.5,
+      "expectedPixels": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play/ko/05-pantry-room.png",
+      "sha256": "39f1dafc79b14a6bc5143b58e1573ee56b1b5a35cb3a5b39a6b3b5788779662b"
+    },
+    {
+      "target": "google-play-tablet-7",
+      "language": "en",
+      "order": 1,
+      "scene": "puzzle-in-progress",
+      "viewportCss": {
+        "width": 800,
+        "height": 1280
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-7/en/01-puzzle-in-progress.png",
+      "sha256": "6f17a427645d9a6db58df304763df7861da24f9ba725d548ea587d4964d96898"
+    },
+    {
+      "target": "google-play-tablet-7",
+      "language": "en",
+      "order": 2,
+      "scene": "puzzle-complete",
+      "viewportCss": {
+        "width": 800,
+        "height": 1280
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-7/en/02-puzzle-complete.png",
+      "sha256": "d56c2d7a31af7c2abee09ab6da949d5e13018abbcdf83324e2d2edc3b3c0ffde"
+    },
+    {
+      "target": "google-play-tablet-7",
+      "language": "en",
+      "order": 3,
+      "scene": "puzzle-library",
+      "viewportCss": {
+        "width": 800,
+        "height": 1280
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-7/en/03-puzzle-library.png",
+      "sha256": "8eb7db89c4e5e6f4fa21556768cb07b048fa8110f6f21cd7a5253a6f2563327a"
+    },
+    {
+      "target": "google-play-tablet-7",
+      "language": "en",
+      "order": 4,
+      "scene": "picture-album",
+      "viewportCss": {
+        "width": 800,
+        "height": 1280
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-7/en/04-picture-album.png",
+      "sha256": "bcb812ac053e4e85aac84499e35df4c673bdde31edb29112e7ffdbad04349232"
+    },
+    {
+      "target": "google-play-tablet-7",
+      "language": "en",
+      "order": 5,
+      "scene": "pantry-room",
+      "viewportCss": {
+        "width": 800,
+        "height": 1280
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-7/en/05-pantry-room.png",
+      "sha256": "7d41f2b745df0110396b52025627b191f0479d93462efe4a2e72e972d8d3657e"
+    },
+    {
+      "target": "google-play-tablet-7",
+      "language": "ko",
+      "order": 1,
+      "scene": "puzzle-in-progress",
+      "viewportCss": {
+        "width": 800,
+        "height": 1280
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-7/ko/01-puzzle-in-progress.png",
+      "sha256": "2a5607fbb5350ae4be69a09208c6a2ed45a5a75eaa4701906693ba7cf7ccddd8"
+    },
+    {
+      "target": "google-play-tablet-7",
+      "language": "ko",
+      "order": 2,
+      "scene": "puzzle-complete",
+      "viewportCss": {
+        "width": 800,
+        "height": 1280
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-7/ko/02-puzzle-complete.png",
+      "sha256": "6fa39dfe244c1c77b7d08dfb0c4f2c2bcddc70b2a9ed691c7f2463ae33193de0"
+    },
+    {
+      "target": "google-play-tablet-7",
+      "language": "ko",
+      "order": 3,
+      "scene": "puzzle-library",
+      "viewportCss": {
+        "width": 800,
+        "height": 1280
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-7/ko/03-puzzle-library.png",
+      "sha256": "c7ea2f4331a3425170937109d6d78a3c5e0548edd827ffd5009d98baf7f72f8c"
+    },
+    {
+      "target": "google-play-tablet-7",
+      "language": "ko",
+      "order": 4,
+      "scene": "picture-album",
+      "viewportCss": {
+        "width": 800,
+        "height": 1280
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-7/ko/04-picture-album.png",
+      "sha256": "9ee660ce38fd391f25694532280b6cbc5292ea3c3b2bceeae0e3008bf16945ec"
+    },
+    {
+      "target": "google-play-tablet-7",
+      "language": "ko",
+      "order": 5,
+      "scene": "pantry-room",
+      "viewportCss": {
+        "width": 800,
+        "height": 1280
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-7/ko/05-pantry-room.png",
+      "sha256": "268de58c7b42d9a1f97b94cd9dbb029fad2fd07ac4c7033edfc8b8d3dedc8b1b"
+    },
+    {
+      "target": "google-play-tablet-10",
+      "language": "en",
+      "order": 1,
+      "scene": "puzzle-in-progress",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-10/en/01-puzzle-in-progress.png",
+      "sha256": "db555b63ece66b9d6d04eb5e65d3c4442912d4c07d721422862891088d5405e3"
+    },
+    {
+      "target": "google-play-tablet-10",
+      "language": "en",
+      "order": 2,
+      "scene": "puzzle-complete",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-10/en/02-puzzle-complete.png",
+      "sha256": "10d4226383f0d03f7b2033d7b8b818e74be565dea5fc724640a5cafcb90b4e47"
+    },
+    {
+      "target": "google-play-tablet-10",
+      "language": "en",
+      "order": 3,
+      "scene": "puzzle-library",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-10/en/03-puzzle-library.png",
+      "sha256": "361ea1c8bda8249e322fbad96bf569c98945ae171cf91a6dcdcd150de63fa86c"
+    },
+    {
+      "target": "google-play-tablet-10",
+      "language": "en",
+      "order": 4,
+      "scene": "picture-album",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-10/en/04-picture-album.png",
+      "sha256": "0b175d550b90cebe9f04619be0cf099d875d46c756048ec2cdd75bb1884db8de"
+    },
+    {
+      "target": "google-play-tablet-10",
+      "language": "en",
+      "order": 5,
+      "scene": "pantry-room",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-10/en/05-pantry-room.png",
+      "sha256": "8eee5f5a01cfc7fb37ad5e0b9f26ced596206dc42039db5b842cc034f82b4a60"
+    },
+    {
+      "target": "google-play-tablet-10",
+      "language": "ko",
+      "order": 1,
+      "scene": "puzzle-in-progress",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-10/ko/01-puzzle-in-progress.png",
+      "sha256": "c7de9ba82272865d205b4b9a26565334d7fe8e9aa5a686d7b1778a6e2491102b"
+    },
+    {
+      "target": "google-play-tablet-10",
+      "language": "ko",
+      "order": 2,
+      "scene": "puzzle-complete",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-10/ko/02-puzzle-complete.png",
+      "sha256": "0e5f7d77cd05c0c351e8f3466949e779dc1bc86c591f5ed88dde1ac9e93e9769"
+    },
+    {
+      "target": "google-play-tablet-10",
+      "language": "ko",
+      "order": 3,
+      "scene": "puzzle-library",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-10/ko/03-puzzle-library.png",
+      "sha256": "08364ce5591eec5d99bbace63cf746043201b3337bb699e8bace3f13ac444071"
+    },
+    {
+      "target": "google-play-tablet-10",
+      "language": "ko",
+      "order": 4,
+      "scene": "picture-album",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-10/ko/04-picture-album.png",
+      "sha256": "f94961585cc76d0b3a969eaf06401c920bd9216debc47fc6a08ca72e6b7a6492"
+    },
+    {
+      "target": "google-play-tablet-10",
+      "language": "ko",
+      "order": 5,
+      "scene": "pantry-room",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/google-play-tablet-10/ko/05-pantry-room.png",
+      "sha256": "432cb3037e6968c73f643d37374f6b9d5f6887071a6b06a9a85ef4339c46187a"
+    },
+    {
+      "target": "app-store-6.9",
+      "language": "en",
+      "order": 1,
+      "scene": "puzzle-in-progress",
+      "viewportCss": {
+        "width": 430,
+        "height": 932
+      },
+      "deviceScaleFactor": 3,
+      "expectedPixels": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-6.9/en/01-puzzle-in-progress.png",
+      "sha256": "ad0602cfe6d482107aa2f9a814dcbc1821048b22d26ff9b452a36cf8940b8b9c"
+    },
+    {
+      "target": "app-store-6.9",
+      "language": "en",
+      "order": 2,
+      "scene": "puzzle-complete",
+      "viewportCss": {
+        "width": 430,
+        "height": 932
+      },
+      "deviceScaleFactor": 3,
+      "expectedPixels": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-6.9/en/02-puzzle-complete.png",
+      "sha256": "8ea4f6a38242201d72281a7098fb4a0dfe32753c44b7bfd88e5257bdfdf85de1"
+    },
+    {
+      "target": "app-store-6.9",
+      "language": "en",
+      "order": 3,
+      "scene": "puzzle-library",
+      "viewportCss": {
+        "width": 430,
+        "height": 932
+      },
+      "deviceScaleFactor": 3,
+      "expectedPixels": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-6.9/en/03-puzzle-library.png",
+      "sha256": "78976e0e61ba13a99afe7837af478b94c91c22e6dcfb4682d64b03bd5f526829"
+    },
+    {
+      "target": "app-store-6.9",
+      "language": "en",
+      "order": 4,
+      "scene": "picture-album",
+      "viewportCss": {
+        "width": 430,
+        "height": 932
+      },
+      "deviceScaleFactor": 3,
+      "expectedPixels": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-6.9/en/04-picture-album.png",
+      "sha256": "793fc83249df96b9683a784382deebe18657453cfd37c18c5729bdafb1104b8d"
+    },
+    {
+      "target": "app-store-6.9",
+      "language": "en",
+      "order": 5,
+      "scene": "pantry-room",
+      "viewportCss": {
+        "width": 430,
+        "height": 932
+      },
+      "deviceScaleFactor": 3,
+      "expectedPixels": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-6.9/en/05-pantry-room.png",
+      "sha256": "73cbdb60b274ea97ce0318a271f78aff60b0250780974b7f6ebc106ab43ba84e"
+    },
+    {
+      "target": "app-store-6.9",
+      "language": "ko",
+      "order": 1,
+      "scene": "puzzle-in-progress",
+      "viewportCss": {
+        "width": 430,
+        "height": 932
+      },
+      "deviceScaleFactor": 3,
+      "expectedPixels": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-6.9/ko/01-puzzle-in-progress.png",
+      "sha256": "c6028b1c233c61f85a0ab60fca2690e34991680ee06961484ba2103684a1cadf"
+    },
+    {
+      "target": "app-store-6.9",
+      "language": "ko",
+      "order": 2,
+      "scene": "puzzle-complete",
+      "viewportCss": {
+        "width": 430,
+        "height": 932
+      },
+      "deviceScaleFactor": 3,
+      "expectedPixels": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-6.9/ko/02-puzzle-complete.png",
+      "sha256": "0cf1dcd085d67e823ebd90c09918a684b67492b070b73fffec534f2fce63b9a4"
+    },
+    {
+      "target": "app-store-6.9",
+      "language": "ko",
+      "order": 3,
+      "scene": "puzzle-library",
+      "viewportCss": {
+        "width": 430,
+        "height": 932
+      },
+      "deviceScaleFactor": 3,
+      "expectedPixels": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-6.9/ko/03-puzzle-library.png",
+      "sha256": "7ba8439bb1a8ffecc8756a4a2009d5d226ac0f1a736a9884489ceba327f14398"
+    },
+    {
+      "target": "app-store-6.9",
+      "language": "ko",
+      "order": 4,
+      "scene": "picture-album",
+      "viewportCss": {
+        "width": 430,
+        "height": 932
+      },
+      "deviceScaleFactor": 3,
+      "expectedPixels": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-6.9/ko/04-picture-album.png",
+      "sha256": "9aa20ce520de4c2ba06a8f1e438396bd2ea50d17f1e0122b0923950c9b39bfa3"
+    },
+    {
+      "target": "app-store-6.9",
+      "language": "ko",
+      "order": 5,
+      "scene": "pantry-room",
+      "viewportCss": {
+        "width": 430,
+        "height": 932
+      },
+      "deviceScaleFactor": 3,
+      "expectedPixels": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-6.9/ko/05-pantry-room.png",
+      "sha256": "78da618728e23ceadbd2ebfbcd7f43c493c21b5f8cbbd34c15269da148b3d8e3"
+    },
+    {
+      "target": "app-store-ipad-13",
+      "language": "en",
+      "order": 1,
+      "scene": "puzzle-in-progress",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-ipad-13/en/01-puzzle-in-progress.png",
+      "sha256": "db555b63ece66b9d6d04eb5e65d3c4442912d4c07d721422862891088d5405e3"
+    },
+    {
+      "target": "app-store-ipad-13",
+      "language": "en",
+      "order": 2,
+      "scene": "puzzle-complete",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-ipad-13/en/02-puzzle-complete.png",
+      "sha256": "10d4226383f0d03f7b2033d7b8b818e74be565dea5fc724640a5cafcb90b4e47"
+    },
+    {
+      "target": "app-store-ipad-13",
+      "language": "en",
+      "order": 3,
+      "scene": "puzzle-library",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-ipad-13/en/03-puzzle-library.png",
+      "sha256": "68718cf65d241e0f707cc6eac897744e1a0ea68e11cce993b30a603041d89d34"
+    },
+    {
+      "target": "app-store-ipad-13",
+      "language": "en",
+      "order": 4,
+      "scene": "picture-album",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-ipad-13/en/04-picture-album.png",
+      "sha256": "0b175d550b90cebe9f04619be0cf099d875d46c756048ec2cdd75bb1884db8de"
+    },
+    {
+      "target": "app-store-ipad-13",
+      "language": "en",
+      "order": 5,
+      "scene": "pantry-room",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-ipad-13/en/05-pantry-room.png",
+      "sha256": "8eee5f5a01cfc7fb37ad5e0b9f26ced596206dc42039db5b842cc034f82b4a60"
+    },
+    {
+      "target": "app-store-ipad-13",
+      "language": "ko",
+      "order": 1,
+      "scene": "puzzle-in-progress",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-ipad-13/ko/01-puzzle-in-progress.png",
+      "sha256": "c7de9ba82272865d205b4b9a26565334d7fe8e9aa5a686d7b1778a6e2491102b"
+    },
+    {
+      "target": "app-store-ipad-13",
+      "language": "ko",
+      "order": 2,
+      "scene": "puzzle-complete",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-ipad-13/ko/02-puzzle-complete.png",
+      "sha256": "5986c46e8f9d0fdade3c6a75e5eee5fffc193dd08318dd989f30a60860ff17c5"
+    },
+    {
+      "target": "app-store-ipad-13",
+      "language": "ko",
+      "order": 3,
+      "scene": "puzzle-library",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-ipad-13/ko/03-puzzle-library.png",
+      "sha256": "6da1a2bba947a50b0fb62116ebc1f967a5b7270b4042d086339d7af3993e48ca"
+    },
+    {
+      "target": "app-store-ipad-13",
+      "language": "ko",
+      "order": 4,
+      "scene": "picture-album",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-ipad-13/ko/04-picture-album.png",
+      "sha256": "f94961585cc76d0b3a969eaf06401c920bd9216debc47fc6a08ca72e6b7a6492"
+    },
+    {
+      "target": "app-store-ipad-13",
+      "language": "ko",
+      "order": 5,
+      "scene": "pantry-room",
+      "viewportCss": {
+        "width": 1024,
+        "height": 1366
+      },
+      "deviceScaleFactor": 2,
+      "expectedPixels": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/v0.1.708/raw/app-store-ipad-13/ko/05-pantry-room.png",
+      "sha256": "432cb3037e6968c73f643d37374f6b9d5f6887071a6b06a9a85ef4339c46187a"
+    }
+  ],
+  "videos": []
+}

@@ -2,6 +2,9 @@ import { APRON_DRAWER_PUZZLE_OVERRIDES } from "./apronDrawerPuzzles.js";
 import { PROGRESSION_PUZZLE_OVERRIDES } from "./progressionPuzzleOverrides.js";
 import { QUALITY_PUZZLE_OVERRIDES } from "./qualityPuzzleOverrides.js";
 import { UNIQUENESS_PUZZLE_OVERRIDES } from "./uniquenessPuzzleOverrides.js";
+import { STABILIZATION_PUZZLES_BATCH_1 } from "./stabilizationPuzzles.js";
+import { STABILIZATION_PUZZLES_BATCH_2 } from "./stabilizationPuzzlesBatch2.js";
+import { STABILIZATION_PUZZLES_BATCH_3 } from "./stabilizationPuzzlesBatch3.js";
 
 export const puzzles = [
   {
@@ -8947,7 +8950,10 @@ export const puzzles = [
           "0011111100",
           "0110000110"
       ]
-  }
+  },
+  ...STABILIZATION_PUZZLES_BATCH_1,
+  ...STABILIZATION_PUZZLES_BATCH_2,
+  ...STABILIZATION_PUZZLES_BATCH_3
 
 ];
 

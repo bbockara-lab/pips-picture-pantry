@@ -9,10 +9,12 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "v0.1.703"
+VERSION = "v0.1.708"
 BASE = ROOT / "store-assets" / "store-media" / VERSION
 RAW = BASE / "raw"
 UPLOAD = BASE / "upload"
+PANTRY_BACKGROUND = ROOT / "store-assets" / "store-media" / "v0.1.704" / "video-art" / "premium-trailer" / "pantry-cinematic-background-v1.png"
+GAME_LOGO = ROOT / "store-assets" / "brand" / "pips-picture-pantry-logo-v1.png"
 
 SCENES = [
     "01-puzzle-in-progress.png",
@@ -47,10 +49,53 @@ def save_rgb(source: Path, destination: Path) -> None:
     Image.open(source).convert("RGB").save(destination, "PNG", optimize=True)
 
 
+def tablet_store_frame(source: Path, destination: Path, size: tuple[int, int]) -> None:
+    """Build a tablet-category store image from an exact current-app capture.
+
+    The live UI remains unaltered inside the panel; the surrounding artwork only
+    replaces the excessive blank tablet gutters exposed by the app's narrow
+    reading-width layout.
+    """
+    artwork = Image.open(PANTRY_BACKGROUND).convert("RGB")
+    background = crop_cover(artwork, size, focus_y=0.50).filter(ImageFilter.GaussianBlur(8))
+    tint = Image.new("RGBA", size, (255, 247, 225, 112))
+    canvas = Image.alpha_composite(background.convert("RGBA"), tint)
+
+    live = Image.open(source).convert("RGB")
+    panel_height = round(size[1] * 0.82)
+    panel_width = round(panel_height * live.width / live.height)
+    live = live.resize((panel_width, panel_height), Image.Resampling.LANCZOS)
+    radius = max(42, round(panel_width * 0.045))
+    mask = Image.new("L", live.size, 0)
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, live.width, live.height), radius, fill=255)
+
+    x = (size[0] - panel_width) // 2
+    y = round(size[1] * 0.145)
+    shadow = Image.new("RGBA", size, (0, 0, 0, 0))
+    ImageDraw.Draw(shadow).rounded_rectangle(
+        (x + 18, y + 24, x + panel_width + 18, y + panel_height + 24),
+        radius,
+        fill=(52, 31, 23, 74),
+    )
+    canvas = Image.alpha_composite(canvas, shadow.filter(ImageFilter.GaussianBlur(18)))
+    canvas.paste(live, (x, y), mask)
+
+    logo = Image.open(GAME_LOGO).convert("RGBA")
+    logo.thumbnail((round(size[0] * 0.42), round(size[1] * 0.14)), Image.Resampling.LANCZOS)
+    logo_x = (size[0] - logo.width) // 2
+    logo_y = round(size[1] * 0.005)
+    canvas.alpha_composite(logo, (logo_x, logo_y))
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    canvas.convert("RGB").save(destination, "PNG", optimize=True)
+
+
 def package_screenshots() -> list[dict]:
     packaged = []
     target_map = {
         "google-play": ("google-play", (1080, 1920)),
+        "google-play-tablet-7": ("google-play/tablet-7", (1600, 2560)),
+        "google-play-tablet-10": ("google-play/tablet-10", (2048, 2732)),
         "app-store-6.9": ("app-store/iphone-6.9", (1290, 2796)),
         "app-store-ipad-13": ("app-store/ipad-13", (2048, 2732)),
     }
@@ -59,7 +104,17 @@ def package_screenshots() -> list[dict]:
             for scene in SCENES:
                 source = RAW / raw_target / language / scene
                 destination = UPLOAD / upload_target / locale / scene
-                save_rgb(source, destination)
+                if upload_target.startswith("google-play/tablet-") or upload_target == "app-store/ipad-13":
+                    # Use the latest phone-density capture as the crisp UI panel;
+                    # every element shown is still a direct render of this build.
+                    phone_source = (
+                        RAW / "app-store-6.9" / language / scene
+                        if upload_target == "app-store/ipad-13"
+                        else RAW / "google-play" / language / scene
+                    )
+                    tablet_store_frame(phone_source, destination, expected)
+                else:
+                    save_rgb(source, destination)
                 with Image.open(destination) as image:
                     if image.size != expected:
                         raise RuntimeError(f"Unexpected size for {destination}: {image.size}, expected {expected}")
@@ -142,7 +197,13 @@ def main() -> None:
     packaged = package_screenshots()
     features = [feature_graphic(locale) for locale in ("en-US", "ko-KR")]
     review = []
-    for store in ("google-play", "app-store/iphone-6.9", "app-store/ipad-13"):
+    for store in (
+        "google-play",
+        "google-play/tablet-7",
+        "google-play/tablet-10",
+        "app-store/iphone-6.9",
+        "app-store/ipad-13",
+    ):
         for locale in ("en-US", "ko-KR"):
             paths = [UPLOAD / store / locale / scene for scene in SCENES]
             review.append(contact_sheet(store, locale, paths, 210 if store == "google-play" else 190))

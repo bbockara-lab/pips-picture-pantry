@@ -47,7 +47,7 @@ for (const viewport of viewports) {
     await expectStarterBoardAlignment(page, viewport.name);
     await expectStageNavigationPolish(page, viewport.name);
     await expectPlayScreenNavClearance(page, viewport.name);
-    await page.locator(".play-screen__back").click();
+    await exitPlayScreen(page);
   }
   await expectAbsent(page, ".pip-strip", viewport.name);
   await expectSpoonBalanceChipSize(page, viewport.name, "Workshop");
@@ -415,11 +415,16 @@ async function dismissGuideIfPresent(page, viewportName) {
   if (navCount > 0) {
     failures.push("[" + viewportName + "] Floating navigation should be hidden while the Pip guide overlay is open.");
   }
-  for (let step = 0; step < 4 && await overlay.first().isVisible(); step += 1) {
+  // A first-time 8x8 can legitimately chain the three-page puzzle guide and
+  // the two-page cursor-controls intro. Keep dismissing until both are done.
+  for (let step = 0; step < 8 && await overlay.first().isVisible(); step += 1) {
     const dialog = page.locator(".guide-dialog").first();
     const stepNumber = Number(await dialog.getAttribute("data-step"));
     if (await dialog.evaluate((node) => node.classList.contains("guide-dialog--puzzle"))) {
       await expectPuzzleGuidePageContained(page, viewportName, stepNumber);
+    }
+    if (await dialog.evaluate((node) => node.classList.contains("guide-dialog--cursorControlsIntro"))) {
+      await expectCursorControlsGuideContained(page, viewportName, stepNumber);
     }
     const practice = page.locator(".guide-practice");
     if (await practice.count()) {
@@ -485,7 +490,7 @@ async function expectGuideDialogChromeArt(page, viewportName, options = {}) {
         && nameTagRect.top >= 0
         && nameTagRect.bottom <= window.innerHeight,
       nameTagOnTop: Boolean(nameTag) && (nameTagCenterElement === nameTag || nameTag.contains(nameTagCenterElement)),
-      expectsNameTag: dialog.matches(".guide-dialog--puzzle, .guide-dialog--map, .guide-dialog--timeAttack, .guide-dialog--spoonRunIntro"),
+      expectsNameTag: dialog.matches(".guide-dialog--puzzle, .guide-dialog--cursorControlsIntro, .guide-dialog--map, .guide-dialog--timeAttack, .guide-dialog--spoonRunIntro"),
       bodyText: (line?.textContent || "").trim(),
       buttonCount: dialog.querySelectorAll(".guide-dialog__actions button").length,
       hasLegacyLabels: Boolean(dialog.querySelector(".guide-dialog__eyebrow, .guide-dialog__speaker")),
@@ -509,6 +514,38 @@ async function expectGuideDialogChromeArt(page, viewportName, options = {}) {
   if (!metrics.overlayFixed || !overlayCoversViewport || metrics.overlayZIndex <= 140 || metrics.bodyOverflow !== "hidden" || !isContained || !metrics.imageContained || metrics.imageWidth < minImageWidth || metrics.imageHeight < 150 || metrics.bodyText.length < 12 || metrics.buttonCount !== 1 || metrics.hasLegacyLabels || metrics.artBefore !== "none" || metrics.artAfter !== "none" || metrics.bubbleBefore !== "none" || metrics.bubbleAfter !== "none" || metrics.overflows || !metrics.neighborMatched || nameTagRegressed) {
     const guideLabel = options.neighborClass ? `${options.neighborClass} neighbor conversation` : "Clean Pip conversation";
     failures.push("[" + viewportName + "] " + guideLabel + " regressed: " + JSON.stringify(metrics));
+  }
+}
+
+async function expectCursorControlsGuideContained(page, viewportName, stepNumber) {
+  const metrics = await page.evaluate(() => {
+    const preview = document.querySelector(".guide-cursor-preview");
+    const bubble = document.querySelector(".guide-dialog--cursorControlsIntro .guide-dialog__bubble");
+    const rect = preview?.getBoundingClientRect();
+    const bubbleRect = bubble?.getBoundingClientRect();
+    return {
+      previewCount: document.querySelectorAll(".guide-cursor-preview").length,
+      moveCount: preview?.querySelectorAll(".cursor-move").length || 0,
+      actionCount: preview?.querySelectorAll(".cursor-action-button").length || 0,
+      contained: Boolean(rect && bubbleRect)
+        && rect.left >= bubbleRect.left - 1
+        && rect.right <= bubbleRect.right + 1
+        && rect.top >= bubbleRect.top - 1
+        && rect.bottom <= bubbleRect.bottom + 1
+    };
+  });
+  const expectsPreview = stepNumber === 1;
+  if ((expectsPreview && (metrics.previewCount !== 1 || metrics.moveCount !== 4 || metrics.actionCount !== 2 || !metrics.contained))
+    || (!expectsPreview && metrics.previewCount !== 0)) {
+    failures.push(`[${viewportName}] Cursor-controls guide step ${stepNumber} regressed: ${JSON.stringify(metrics)}`);
+  }
+}
+
+async function exitPlayScreen(page) {
+  await page.locator(".play-screen__back").click();
+  const homeAction = page.locator(".play-pause-menu__action--home");
+  if (await homeAction.count()) {
+    await homeAction.click();
   }
 }
 
@@ -963,8 +1000,16 @@ async function expectStarterBoardAlignment(page, viewportName) {
       const cellRect = cells[rowIndex * columnClues.length]?.getBoundingClientRect();
       return cellRect ? centerOf(clueRect, "y") - centerOf(cellRect, "y") : 999;
     });
+    const rowTokens = [...board.querySelectorAll(".row-clue span")];
+    const tokenRects = rowTokens.map((token) => token.getBoundingClientRect());
+    const boardRect = board.getBoundingClientRect();
     return {
       boardSize: getComputedStyle(board).getPropertyValue("--board-size").trim(),
+      viewportWidth: window.innerWidth,
+      boardLeft: boardRect.left,
+      boardRight: boardRect.right,
+      minimumTokenLeft: tokenRects.reduce((minimum, rect) => Math.min(minimum, rect.left), window.innerWidth),
+      maximumTokenRight: tokenRects.reduce((maximum, rect) => Math.max(maximum, rect.right), 0),
       columnDeltas,
       rowDeltas,
       maxColumnDelta: columnDeltas.reduce((max, delta) => Math.max(max, Math.abs(delta)), 0),
@@ -974,6 +1019,10 @@ async function expectStarterBoardAlignment(page, viewportName) {
 
   if (
     boardMetrics.boardSize !== "5" ||
+    boardMetrics.boardLeft < -0.5 ||
+    boardMetrics.boardRight > boardMetrics.viewportWidth + 0.5 ||
+    boardMetrics.minimumTokenLeft < -0.5 ||
+    boardMetrics.maximumTokenRight > boardMetrics.viewportWidth + 0.5 ||
     boardMetrics.maxColumnDelta > 1 ||
     boardMetrics.maxRowDelta > 1
   ) {
@@ -1159,7 +1208,7 @@ async function verifyEmptyAlbumPlayNowFlow(page, viewportName) {
   if ((await page.locator(".album-panel").count()) !== 0) {
     failures.push("[" + viewportName + "] Empty Album Play Now action left the Album mounted instead of opening a puzzle.");
   }
-  await page.locator(".play-screen__back").click();
+  await exitPlayScreen(page);
   await expectVisible(page, ".puzzle-home-scene", viewportName);
 }
 
@@ -1869,7 +1918,7 @@ async function openFloatingView(page, view, viewportName = view) {
     }
   }
   if ((await page.locator(".floating-nav__trigger").count()) === 0 && (await page.locator(".play-screen__back").count()) > 0) {
-    await page.locator(".play-screen__back").click();
+    await exitPlayScreen(page);
   }
   const trigger = page.locator(".floating-nav__trigger").first();
   await trigger.waitFor({ state: "visible", timeout: 4000 });
@@ -2091,7 +2140,7 @@ async function verifyTimeAttackExitRestoresRegularPuzzle(page, viewportName, exp
     failures.push("[" + viewportName + "] Time Attack first hint did not spend 2 spoons and record one use: " + JSON.stringify({ spoonsBeforeHint, ...hintState }));
   }
 
-  await page.locator(".play-screen__back").click();
+  await exitPlayScreen(page);
   await page.locator(".app-shell--workshop-home[data-view='puzzle']").waitFor({ state: "visible", timeout: 5000 });
 
   const restoredPlayLabel = await page.locator(".puzzle-home-scene__play").getAttribute("aria-label");
@@ -2105,7 +2154,7 @@ async function verifyTimeAttackExitRestoresRegularPuzzle(page, viewportName, exp
   if ((await page.locator(".time-attack-progress, .time-attack-timer").count()) > 0) {
     failures.push("[" + viewportName + "] Time Attack state leaked into regular puzzle play.");
   }
-  await page.locator(".play-screen__back").click();
+  await exitPlayScreen(page);
   await page.locator(".app-shell--workshop-home[data-view='puzzle']").waitFor({ state: "visible", timeout: 5000 });
 }
 
@@ -2119,7 +2168,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   }
   await dismissGuideIfPresent(page, viewportName);
   if ((await page.locator(".play-screen__back").count()) > 0) {
-    await page.locator(".play-screen__back").click();
+    await exitPlayScreen(page);
   }
 
   await openFloatingView(page, "puzzle");
@@ -2874,7 +2923,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   await expectCompletedLineGuidance(page, viewportName);
   await expectDragPreviewPolish(page, viewportName);
   await expectNoHorizontalOverflow(page, viewportName);
-  await page.locator(".play-screen__back").click();
+  await exitPlayScreen(page);
 }
 
 async function expectDragPreviewPolish(page, viewportName) {
@@ -3104,7 +3153,7 @@ async function verifyFeaturedBadgeFlow(page, viewportName) {
   await nextStagePuzzle.click();
   await page.locator(".play-screen").waitFor({ state: "visible", timeout: 5000 });
   await dismissGuideIfPresent(page, viewportName);
-  await page.locator(".play-screen__back").click();
+  await exitPlayScreen(page);
   await page.locator(".puzzle-home-scene").waitFor({ state: "visible", timeout: 5000 });
   await expectVisible(page, ".puzzle-home-scene__featured-badge", viewportName);
   await expectVisible(page, ".puzzle-home-scene__featured-jar", viewportName);
@@ -3171,7 +3220,7 @@ async function verifyFeaturedBadgeFlow(page, viewportName) {
   await page.locator(".puzzle-chip[data-puzzle-id='pips-first-shelf-pip-face-1']").click();
   await page.locator(".play-screen").waitFor({ state: "visible", timeout: 5000 });
   await dismissGuideIfPresent(page, viewportName);
-  await page.locator(".play-screen__back").click();
+  await exitPlayScreen(page);
   await page.locator(".puzzle-home-scene").waitFor({ state: "visible", timeout: 5000 });
   await page.evaluate(() => {
     const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");

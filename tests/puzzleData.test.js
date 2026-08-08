@@ -66,7 +66,7 @@ describe("puzzle data", () => {
     });
   });
 
-  it("gives Apron Drawer its own twenty solved silhouettes", () => {
+  it("keeps every Apron Drawer silhouette distinct from Sunny Counter", () => {
     const sunnySolutions = new Set(
       puzzles
         .filter((puzzle) => puzzle.packId === "sunny-spoon-sign")
@@ -75,8 +75,8 @@ describe("puzzle data", () => {
     const apronPuzzles = puzzles.filter((puzzle) => puzzle.packId === "apron-drawer");
     const apronSolutions = new Set(apronPuzzles.map((puzzle) => puzzle.solution.join("/")));
 
-    expect(apronPuzzles).toHaveLength(20);
-    expect(apronSolutions).toHaveLength(20);
+    expect(apronPuzzles).toHaveLength(67);
+    expect(apronSolutions).toHaveLength(67);
     apronSolutions.forEach((solution) => expect(sunnySolutions.has(solution)).toBe(false));
   });
 
