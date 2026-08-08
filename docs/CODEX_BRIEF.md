@@ -1,7 +1,7 @@
 ﻿# Codex Work Brief — Pip's Picture Pantry
 
-> Prepared by Claude (reviewer). Current app: **v0.1.460**. Last candidate gate: **v0.1.459 passed**.
-> Release blocker remaining: real-device Billing evidence only (non-Codex scope).
+> Prepared by Claude (reviewer). Original P1–P4 brief below is historical (v0.1.460 era, all long since resolved through Step 60). **Jump to the bottom section, "NEW — v0.1.708 stabilization period", for current work.**
+> Baseline as of 2026-08-05: web/app **v0.1.708**, Android **versionCode 40 / versionName 1.1.12** — Android's first store update is approved and live on Google Play. iOS is still waiting on its first-ever App Store approval (see `docs/IOS_RELEASE_STATUS.md`).
 
 ---
 
@@ -2716,3 +2716,88 @@ name-tag를 art 안이 아닌 bubble 상단으로 이동하거나, art의 bottom
 - 버블 텍스트가 가운데 정렬인지
 - "핍" 칩이 텍스트와 겹치지 않는지
 - 버블 내부 텍스트가 세로 중앙에 자리잡는지
+
+---
+
+## NEW — v0.1.708 이후 안정화 기간 (Steps 61–64)
+
+> Prepared by Claude (reviewer), 2026-08-05.
+
+### Release context
+
+- Android's first store update is **approved and live on Google Play** (baseline: web/app `v0.1.708`, `versionCode 40` / `versionName 1.1.12`). Treat this as the current shipped state both stores should align to.
+- iOS is still waiting on its **first-ever App Store approval** — not yet submitted. See `docs/IOS_RELEASE_STATUS.md`. iOS should catch up to whatever Android has shipped once it clears approval; don't block these Android/web hotfixes on iOS.
+- Starting now: a **5–6 week hotfix/stabilization period**, targeting roughly **one release per week**. Ship the four items below as **separate, sequential releases**, same as Steps 1–60 above — do not batch them into one giant release.
+
+### Version Log — keep this updated (this is not optional)
+
+Every release in this stabilization period: add a row here recording the version you bumped to (`package.json` + `android/app/build.gradle` versionCode/versionName) and what shipped, in the **same commit/PR** as the feature work.
+
+| Date | Version (web / Android) | What shipped |
+|---|---|---|
+| 2026-08-05 | 0.1.708 / versionCode 40, 1.1.12 | Baseline for this stabilization period (Android's approved first update). |
+
+---
+
+### Step 61 — One-time keypad/cursor-controls intro dialog for the first 8×8 puzzle
+
+**Context**: The D-pad/cursor-control input system already exists and already auto-enables for boards size 8×8+ (`shouldShowCursorControls({ size: 8 }, "auto") === true` in `src/ui/puzzleCursorControls.js`, covered by `tests/cursorControls.test.js`). Players can already override the mode in Settings via three choices — Auto / Direct / Cursor — see `src/ui/settingsView.js` lines ~108–118 (`settings.controlsAuto` / `settings.controlsDirect` / `settings.controlsCursor`) backed by `getControlModePreference()` / `setControlModePreference()` in `src/ui/preferences.js` (`localStorage` key `pips-picture-pantry:v0.1:control-mode`, values `"auto" | "direct" | "cursor"`).
+
+**What's missing**: nothing introduces this control scheme to a player the first time they hit an 8×8 board — the D-pad just appears with no explanation. Owner wants a one-time dialog the first time an 8×8 puzzle opens.
+
+**Required work**:
+1. In `src/ui/guideDialog.js`, add a new guide id, e.g. `cursorControlsIntro`, to the `GUIDE_STEPS` map (same pattern as the existing entries — array of i18n keys like `guide.cursorControlsIntro.step1`).
+2. Add the matching copy to **both** `src/i18n/ko.js` and `src/i18n/en.js` under a `guide.cursorControlsIntro` block. Voice: Pip speaking directly to the player, first person, warm and short, matching `guide.puzzle.step1/2/3`. Rough content to translate/polish, don't ship literally: "Puzzles are getting a little bigger from here, so here's a keypad to help you move around. You can always switch back to tapping directly in Settings. Ready? Let's play!"
+3. Show the **real control UI** inside the dialog, not just text — follow the existing pattern used for the `puzzle` guide's steps 2/3 (`createPuzzlePractice()` / `createSeparatedClueExample()`, wired via the `practice` conditional inside `draw()` in `guideDialog.js`). Add a `guideId === "cursorControlsIntro"` branch there and a new helper (e.g. `createCursorControlsPreview()`) that renders the real component from `src/ui/puzzleCursorControls.js` (`renderCursorControls(state, puzzle, update)`) against a small sample state, so the player sees the actual D-pad. A static (non-interactive) preview is fine for v1 — only make it interactive if trivial given the existing component.
+4. Trigger once, the first time an 8×8 puzzle is opened. In `src/ui/appShell.js`, in the `draw()` function's guide-selection `if/else if` chain (~line 566, right after the existing `activeView === "puzzle" && playOpen && !hasSeenGuide("puzzle")` branch), add: `else if (!activeGuide && activeView === "puzzle" && playOpen && activePuzzle.size === 8 && !hasSeenGuide("cursorControlsIntro"))`. Order matters — this must come **after** the base `"puzzle"` guide check so a brand-new player still sees the normal how-to-play guide first if their very first puzzle happens to be 8×8.
+5. No save-schema change needed — reuse the existing generic `hasSeenGuide(guideId)` / `markGuideSeen(guideId)` pair in `src/game/save.js`.
+
+**Verification**: add a test asserting the new guide fires on first 8×8 open and not again after `markGuideSeen("cursorControlsIntro")`. Run `npm test` and `npm run qa:mobile`.
+
+---
+
+### Step 62 — Grow the puzzle catalog from 333 to ~500
+
+**Context**: `LAUNCH_CATALOG_TARGET = 333` is defined in `scripts/puzzle_catalog_report.js`. Puzzles live in `src/data/puzzles.js`. Stages ("shelves") are defined in `src/data/seasonShelves.js` as `SHELF_BLUEPRINT` — each shelf declares exactly how many puzzles of each size (`5/8/10/12`) it consumes, in array order, via a running cursor per size. **If the puzzle counts per size don't exactly match what the shelves consume, `seasonShelves.js` throws at import time** (`Season shelf ${id} needs ${count} ${size}x${size} puzzles.`), so new puzzles and new/expanded shelves must be added together, in the same change.
+
+**Required work** (this is the biggest item — split it across 2–3 of the weekly releases rather than one giant PR):
+1. Author ~167 new puzzle entries in `src/data/puzzles.js`, following the existing entry shape exactly.
+2. Every new puzzle must pass the existing solver-uniqueness check (`npm run qa:uniqueness`, backed by `src/game/nonogramUniqueness.js` — each clue must have exactly one valid solution) and must not duplicate the solution/image of any existing puzzle.
+3. Design new stages and matching Pantry theming, extending `SHELF_BLUEPRINT` in `seasonShelves.js`. Each new shelf needs: a unique `id`, a new `titleKey` (add copy to `shelves.*` in both `ko.js`/`en.js` — and to `shelves.*.teaser` per the Step 30 pattern if that convention is still in use), a `sizes` map summing to exactly the new puzzles added for that shelf, `pantryRoomStepRequired` continuing the existing progression numbering, `stageBonus` (see the Step 28 economy pass this project already went through — don't reintroduce inflated bonus numbers), and an `artPackId`. **Flag explicitly if a new `artPackId` needs new art assets** — check `npm run qa:art-audit` for what it expects.
+4. Update `LAUNCH_CATALOG_TARGET` from `333` to `500` only once the full 500 is actually reached — don't bump it early with a partial batch or `npm run qa:catalog` will fail on intermediate releases.
+5. Keep puzzle IDs stable and never reuse/renumber existing ones — completion, album stamps, and replay history are keyed by these IDs.
+
+**Verification**: `npm run qa:catalog`, `npm run qa:uniqueness`, `npm run qa:art-audit`, `npm test`.
+
+---
+
+### Step 63 — Home screen Play button: further pass on top of Step 51
+
+**Context**: Step 51 (already shipped, `v0.1.696`, confirmed live in `src/styles.css` ~line 19590 with `!important` overrides) already made `.puzzle-home-scene__play` bigger and repositioned it above the floating nav. Owner has reviewed the current state and still wants: the Play button pushed even more clearly bigger/more prominent than the other buttons, and the **overall arrangement of the other home-screen buttons** (`.puzzle-home-destination` row, `src/ui/puzzleHubView.js` ~line 195) made more visually settled/balanced around it. This is an iterative polish pass, not a bug fix — use your judgment on the exact spacing, but the one hard requirement carried over from before: Play must stay the largest tap target on the screen at every reviewed width.
+
+**Also flag, don't necessarily fix in this same step**: `.puzzle-home-scene__play` (and its `.app-shell--workshop-home` scoped variant) is currently defined at **over a dozen different locations** scattered across `src/styles.css` (search for the class name — it appears from line ~2860 through ~19598), accumulated from many previous iterative fixes, most now overridden by later `!important` rules. This is real technical debt: the next person to touch Play-button sizing has to fight the same cascade every time. If it's low-risk to consolidate the dead/superseded rules into the one effective block while doing this pass, do it; if it's risky to untangle safely, leave a comment marking which block is the live one and skip the cleanup rather than risking a regression.
+
+**Verification**: `npm run qa:mobile` / `qa:visual-pack` at 360×740, 390×844, 430×932, 675×900 — confirm Play's measured size vs. the destination buttons at each width.
+
+---
+
+### Step 64 — Redesign "Spoon Run" (스푼 모으러 가기) + home-screen earn-today indicator
+
+**Context**: This is the `spoonRun` view — `renderSpoonRunView()` in `src/ui/puzzleHubView.js` (~line 344). Step 53 (already shipped) fixed the header's icon/title/intro grid layout. What's still open is everything else about this screen: it composes a header followed by two flat cards, `renderDailyCard()` (~line 288) and `renderReplayPicksCard()` (~line 311, capped by `ECONOMY.REPLAY_PICK_DAILY_LIMIT = 3` in `src/data/economyConfig.js`). Owner's complaint: it still reads like a flat file/folder list — "like doing office work" — not a warm part of the game, and it's not obvious how many spoons are actually earnable today until you dig into each card.
+
+**Bug to check first, before any redesign work**: `renderReplayPicksCard()` returns nothing at all (no card rendered) if `replayPicks` is empty (`if (!Array.isArray(replayPicks) || replayPicks.length === 0) { ... }`, top of the function). Owner previously observed the daily puzzle and replay picks "didn't seem to be reflected properly." Verify: does `getDailyReplayPicks({ allPuzzles: getDailyPuzzleCandidates(), completedPuzzleIds: getCompletedPuzzleIds() })` (called in `appShell.js` ~line 843) actually return picks under normal play conditions? Does `renderDailyCard()` correctly reflect completion via `isDailyCompleteForDate(completedDate, today)` (~line 284)? Check `tests/dailyPuzzle.test.js` / `tests/replayPicks.test.js` for existing coverage, and add a regression test if there's a real bug — don't reskin a broken screen without understanding why it looked broken.
+
+**Redesign work**:
+1. Add character/scene art beyond the small spoon-token icon currently there — bring in an approved character asset (check `src/data/runtimeArt.js` / `isRuntimeGuideArtApproved()` for what's cleared for use) so the screen reads as a designed scene, not a bare list.
+2. Rework the spatial layout of the daily/replay cards so they don't read as a stacked document list — more breathing room, clearer hierarchy between "today's picture" and "replay picks." Use the Pantry/Album screens as your visual reference for how this game handles warmth and space elsewhere.
+3. Make "how many spoons are earnable today" immediately visible in this screen's header/intro — compute from `ECONOMY.PUZZLE_REWARD_BY_SIZE[dailyPuzzle.size]` (check whether `ECONOMY.DAILY_BONUS` also applies specifically to the daily puzzle, or only to something else — verify against current completion logic before assuming) plus remaining replay picks × `ECONOMY.REPLAY_PICK_REWARD`, counting only what's not already completed today.
+4. On the **home screen**, add a "+N spoons today" indicator on the `spoonRun` destination button itself (`puzzle-home-destination--spoonRun`, `src/ui/puzzleHubView.js` ~line 195–238) so the button advertises the opportunity instead of relying on the player opening it first. Reuse the existing numeric badge pattern already used on that same button row for shelf progress (`puzzle-home-destination__badge`, plain count text — not the dot-style `--new` badge used for Pantry, since this needs an actual number). Put the "earnable today" calculation in **one shared helper function** and call it from both this badge and the Spoon Run header (point 3) so the two numbers can never drift apart.
+
+**Verification**: `npm test` (extend `tests/dailyPuzzle.test.js` / `tests/replayPicks.test.js`, add coverage for the new badge), `npm run qa:mobile`.
+
+---
+
+### General rules for this stabilization period
+
+- Ship Steps 61, 63, and 64 as normal weekly releases. Split Step 62 across multiple weeks as noted.
+- Every release: update the Version Log table above, bump `package.json` version and `android/app/build.gradle` versionCode/versionName, and run the full existing gate (`npm test`, `npm run qa:candidate`) before calling a release done.
