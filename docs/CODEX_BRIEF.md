@@ -2798,6 +2798,35 @@ Every release in this stabilization period: add a row here recording the version
 
 ---
 
+### Step 62.1 — REQUIRED rework: Step 62 shipped zero new Pantry purchase content. Fix it before touching Step 63/64.
+
+**This step blocks Steps 63 and 64. Do not start either until this is done and verified.**
+
+**What went wrong**: Step 62 grew the puzzle catalog from 333 to 500 (+50%) but added **no new purchase-driving content whatsoever**. Stage unlocking and the Pantry are supposed to be tightly coupled — that coupling is this game's core purchase motivation — and this step broke that coupling by taking a shortcut instead of doing the Pantry design/art work the new stages actually needed.
+
+Here is the exact mechanism, confirmed by reading the code, not assumed:
+- `getPantryRoomStepCount()` in `src/game/save.js` returns `getPaidJarCount()` — a season shelf's `pantryRoomStepRequired` is checked against **how many paid Pantry Jars the player has bought**, via `getShelfPantryRoomRequirement()`.
+- Paid Pantry Jars live in `src/data/pantryJars.js`: exactly **8 fixed `JAR_SHELVES`** (jam, honey, herb, spice, pickle, fruit, oil, tea), each with exactly 6 `PANTRY_JARS` (1 free starter + 5 paid: common/common/rare/special/luxury). That's a hard-capped, closed catalog of **40 paid jars total** — which is exactly why `pantryRoomStepRequired` topped out at `40` before Step 62 (`src/data/stagePantryLinks.js` maps `required / 5 - 1` directly into the `JAR_SHELVES` array index, so `40` = the 8th and last jar shelf).
+- Every paid jar has a unique hand-authored icon in `src/assets/jars/` — confirmed exactly **48 files for 48 `PANTRY_JARS` entries**, 1:1, zero spares sitting unused.
+- Step 62 added 6 new season shelves (`shelf-herb-terrace` through `shelf-hearth-gallery`, 167 puzzles) and set **every one of them to `pantryRoomStepRequired: 40`** — the exact same, already-existing, already-maxed-out gate that 2 pre-existing shelves already used. No new `JAR_SHELVES`, no new `PANTRY_JARS`, no new jar art, no new i18n. The entire monetization loop this game is built around did not grow at all, even though a third of the puzzle catalog just shipped behind it.
+
+Do not repeat this shortcut. "No new art needed" is only an acceptable outcome when it's actually true — here it very specifically is not, because the jar-icon catalog is a closed, fully-consumed 1:1 set.
+
+**Also disambiguate before starting** (this naming collision is an easy way to waste a work cycle): `PANTRY_JARS` (spoon-purchased, drives stage unlocks — what this step is about) and the real-money IAP product `pip_spoon_jar_small` (`ECONOMY.SPOON_JAR_SMALL_GRANT` in `src/data/economyConfig.js`, App Store/Play billing product, completely unrelated) both use the word "jar." Do not touch the IAP product for this step.
+
+**Required work**:
+1. Design **3 new `JAR_SHELVES`** entries in `src/data/pantryJars.js`, continuing the existing 2-season-shelves-per-jar-shelf pacing used for every tier from `pantryRoomStepRequired: 15` onward. This maps the 6 new season shelves to 3 new jar-shelf checkpoints at `pantryRoomStepRequired: 45, 50, 55` (verify this arithmetic against `stagePantryLinks.js`'s `required / 5 - 1` formula before finalizing — it must keep resolving to a valid `JAR_SHELVES` index with no gaps). Give each new shelf a themed `id`/`nameKey`, on-brand with the existing 8 (jam/honey/herb/spice/pickle/fruit/oil/tea) and with the new Pantry stage names shipped in Step 62 (Herb Terrace, Sunroom Table, Orchard Window, Lantern Courtyard, Moonlit Veranda, Hearth Gallery).
+2. For each new jar shelf, author exactly 6 `PANTRY_JARS` entries (1 starter at `cost: 0`, then common/common/rare/special/luxury), continuing the cost-escalation curve already visible across the 8 existing tiers (roughly: jam 15/15/35/45/70 → tea 90/90/140/200/300, rising tier over tier). Don't invent a discontinuous jump — extrapolate the existing trend.
+3. Produce matching jar icon art for all 15 new paid jars (5 × 3 shelves) in `src/assets/jars/`, same style/format/dimensions as the existing 48 `jar-<id>-v1.webp` files, and wire them the same way the existing ones are wired (check `assetManifest.js` / wherever `src/assets/jars/*` is registered for rendering — follow that exact existing pattern, don't invent a new loading path).
+4. Add `pantry.shelf.*` and `pantry.jar.*` i18n keys for every new shelf and jar in **both** `src/i18n/en.js` and `src/i18n/ko.js`.
+5. Update the 6 new season shelves in `src/data/seasonShelves.js` so their `pantryRoomStepRequired` values actually reflect real progression — spread across `45/50/55` (2 season shelves per new jar-shelf checkpoint, matching the existing pacing) — instead of all sitting at the reused `40`.
+6. Recompute and record the spoon-economy balance (the same shortfall-vs-total-sink figure already tracked in the Step 62 batch notes above) including the new jar costs in the total sink. The qualitative bar to hit: authored free-play spoons should stay meaningfully below the new combined paid-jar + room-decoration total, preserving the existing optional-purchase incentive — don't target an exact number, but do report the new totals the same way the batch-1/2/3 notes above did.
+7. Do not touch `LAUNCH_CATALOG_TARGET`, puzzle IDs, or puzzle content — this step is Pantry-side only, no puzzle catalog changes.
+
+**Verification**: `npm test` (check `tests/stagePantryLinks.test.js` and `tests/save.test.js` specifically — they cover this exact linkage), `npm run qa:catalog`, `npm run qa:uniqueness`, `npm run qa:art-audit`, plus manual confirmation that a save file with `getPaidJarCount()` between 40 and 55 correctly unlocks exactly the right subset of the 6 new season shelves (no shelf should be reachable before its jar-shelf checkpoint is actually bought, and none should stay locked past it).
+
+---
+
 ### Step 63 — Home screen Play button: further pass on top of Step 51
 
 **Context**: Step 51 (already shipped, `v0.1.696`, confirmed live in `src/styles.css` ~line 19590 with `!important` overrides) already made `.puzzle-home-scene__play` bigger and repositioned it above the floating nav. Owner has reviewed the current state and still wants: the Play button pushed even more clearly bigger/more prominent than the other buttons, and the **overall arrangement of the other home-screen buttons** (`.puzzle-home-destination` row, `src/ui/puzzleHubView.js` ~line 195) made more visually settled/balanced around it. This is an iterative polish pass, not a bug fix — use your judgment on the exact spacing, but the one hard requirement carried over from before: Play must stay the largest tap target on the screen at every reviewed width.
@@ -2827,4 +2856,5 @@ Every release in this stabilization period: add a row here recording the version
 ### General rules for this stabilization period
 
 - Ship Steps 61, 63, and 64 as normal weekly releases. Split Step 62 across multiple weeks as noted.
+- **Step 62.1 is mandatory and blocks Steps 63 and 64 — do it next, before either of them.** It closes the Pantry-economy gap Step 62 left open (see Step 62.1 above for the full rationale and required work).
 - Every release: update the Version Log table above, bump `package.json` version and `android/app/build.gradle` versionCode/versionName, and run the full existing gate (`npm test`, `npm run qa:candidate`) before calling a release done.
