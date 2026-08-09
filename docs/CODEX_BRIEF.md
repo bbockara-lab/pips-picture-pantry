@@ -2977,6 +2977,37 @@ Contributing factors found by reading the CSS (not yet confirmed against a live 
 
 ---
 
+### Step 65 — Real-gameplay QA on a fresh install found 3 issues (1 confirmed root-caused, 2 need device verification)
+
+Owner (and a fresh-install playtester) actually played the current build end to end — not just screenshots this time. Three separate findings; treat them independently.
+
+**65.1 — CONFIRMED BUG: tapping "확인"/"Confirm" after finishing the daily puzzle from Spoon Run does nothing at all.**
+Owner: "게임을 처음 깔고서 바로 스푼벌기로 와서 오늘의 그림을 풀고나면 확인을 눌렀을 때 어떠한 액션도 안떠, 최소한 스푼벌기 화면으로라도 돌아와야 되는게 아닌지?" (fresh install, went straight to Spoon Run, solved Today's Picture, tapping Confirm does nothing — at minimum it should return to Spoon Run).
+
+Root cause, confirmed by tracing the actual prop chain (not guessed):
+- `src/ui/appShell.js` line 804 passes `onBackToSpoonRun: () => onSelectView("spoonRun")` into `renderPlayScreen(...)`'s options.
+- `src/ui/playScreen.js` `renderPlayScreen()` destructures its `options` at the top (lines 7-32) — `onBackToSpoonRun` is **not in that destructuring list**. It then builds an explicit new object literal to pass into `renderPuzzleView(...)` (lines 91-106, e.g. `dailyKey`, `dailyBonus`, `onNextPuzzle`, `onPuzzleComplete`, etc.) — **`onBackToSpoonRun` is not in that object either.**
+- So `onBackToSpoonRun` is silently dropped at the `playScreen.js` boundary. By the time it reaches `src/ui/pipReaction.js`'s `renderCompletionBanner()`, it's `undefined`. The confirm button's click handler (line 88-94) calls it as `onBackToSpoonRun?.()` — optional chaining means this **fails completely silently**: no error, no console warning, no navigation. This exactly matches the reported symptom.
+
+**Fix**: add `onBackToSpoonRun` to the destructured options list in `renderPlayScreen()` (`src/ui/playScreen.js` ~line 7-32) and to the object passed into `renderPuzzleView(...)` (~line 91-106). Mechanical, low-risk, one property added in two places. **Add a regression test** asserting `playScreen.js`'s call into `renderPuzzleView` includes `onBackToSpoonRun` — this exact class of bug (a prop silently dropped between two explicit-object-literal boundaries instead of a spread) is easy to reintroduce the next time either file is touched, and it fails silent.
+
+While fixing, audit whether any other props from `renderPlayScreen`'s options list have the same problem (declared in `appShell.js`'s call, not destructured/not forwarded) — this specific pattern (explicit destructure + explicit re-pack instead of spreading) is inherently fragile; don't just patch this one property if others are missing too.
+
+**65.2 — Needs device verification: the separate login/daily-open bonus popover.**
+Owner: "게임을 처음 플레이 하려고 들어온 것 같은데 데일리 보너스가 안주어진건 오늘 이미 받아서 그런건가? 제대로 동작하고 있는지 확인필요, 그리고 데일리 보너스 화면에 뜨는걸 못봐서 다른 아이콘이랑 겹치는지를 모르겠는데 그것도 육안 확인필요" (seems like a first-time player, but no daily bonus appeared — is that because it was already claimed today? Needs verification it's working correctly. Also never saw the daily-bonus screen show up at all, so can't tell if it overlaps other icons — needs a visual check too).
+
+This is **not** the same reward as the "일일 보너스 +8sp" row already confirmed working in the completion-banner screenshot (that one is the daily-*puzzle* bonus, gated by `dailyRewardedDates` in `src/game/save.js`, unrelated to this). This is the separate **login bonus** system: `claimLoginBonus()` (`src/game/save.js` ~line 152, gated by `save.lastLoginBonusDate`), auto-presented via `scheduleLoginBonusPresentation()` in `src/ui/appShell.js` (~line 636-650) as a `.login-bonus-popover` (`src/ui/loginBonusPopover.js`) that self-dismisses after 3 seconds (`globalThis.setTimeout(dismissLoginBonus, 3000)`).
+For a genuinely fresh install, `lastLoginBonusDate` should be unset, so this should fire on first launch. Verify on an actual fresh install/reset save: (1) does it actually appear at all, (2) does `#app:has(.login-bonus-popover) .puzzle-home-scene__greeting-wrap` (styles.css) still correctly reserve space for it now that the Step 63.1/64.1/65 home-screen composition has changed — screenshot it, don't just assume the existing CSS coordination survived the recent layout rework. 3 seconds is also a short window for a screenshot-based QA pass to catch by luck — consider whether the automated visual pack should force it visible (e.g. via a debug/test flag) rather than relying on timing.
+
+**65.3 — Needs device verification, leading hypothesis is test-data contamination, not a reward-logic bug: spoon count jumped to 1016 after only completing the daily puzzle.**
+Owner: "이유는 모르겠는데... 스푼벌기에서 오늘의 퍼즐을 풀고나니 갑자기 스푼이 1016개가 됬는데 이게 맞는건지? ...1000개가 넘게 갑자기 생기는건 말이 안되는 듯" (after only completing the daily puzzle from Spoon Run, spoons suddenly became 1016 — that can't be right).
+
+Traced `savePuzzleState()`'s daily-completion call site (`src/ui/puzzleView.js` line 61-75): it grants `reward: puzzle.reward || 0` plus `dailyBonus: options.dailyBonus || 0` — both small, bounded per-puzzle values (matching the `+3sp`/`+8sp` seen correctly in the owner's own first screenshot for a *different* session). Nothing in that path multiplies or compounds into four digits. **Leading hypothesis**: `scripts/visual_review_pack.js` seeds `save.pantrySpoons = 999` twice (lines 292, 376) for its own screenshot-capture purposes — `999 + 3 (puzzle) + 8 (daily bonus) = 1010`, close enough to the reported `1016` (a few more spoons from some other small step in between would close the gap) that this is very likely QA seed data leaking into whatever build/profile was used for this manual playtest, not a real reward bug. Confirm by checking whether the device/simulator/profile used for this manual test had `qa:visual-pack` or `qa:mobile` run against it beforehand (same app install, same storage). If it's confirmed as contamination, no product code fix is needed — just don't manually playtest on a profile a QA script has touched, and consider having `visual_review_pack.js` use a distinctly-named/isolated storage key so this can't happen again. If a genuinely fresh, never-QA-touched install *also* shows an inflated spoon count after just the daily puzzle, that's a real bug — re-open with exact before/after numbers on a confirmed-fresh save.
+
+**Verification for all three**: reproduce on an actual fresh install (device or Simulator, not just Playwright/`qa:mobile`), not code-only. `npm test` for 65.1's regression test once added.
+
+---
+
 ### General rules for this stabilization period
 
 - Ship Steps 61, 63, and 64 as normal weekly releases. Split Step 62 across multiple weeks as noted.
