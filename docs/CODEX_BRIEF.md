@@ -2741,6 +2741,7 @@ Every release in this stabilization period: add a row here recording the version
 | 2026-08-08 | 0.1.711 / versionCode 43, 1.1.15 | Step 62 batch 2: 56 more unique puzzles (16 8×8, 40 10×10) and two bilingual shelves, growing the catalog from 389 to 445. AAB remains deferred. |
 | 2026-08-08 | 0.1.712 / versionCode 44, 1.1.16 | Step 62 batch 3: the final 55 unique puzzles (15 8×8, 40 10×10) and two bilingual shelves, reaching the 500-puzzle launch target. AAB remains deferred. |
 | 2026-08-08 | 0.1.713 / versionCode 45, 1.1.17 | Step 62.1: three new Pantry jar shelves, 18 jar entries/assets, three new stage badges, and 45/50/55 progression gates for the six Step 62 shelves. AAB remains deferred for review. |
+| 2026-08-08 | 0.1.714 / versionCode 46, 1.1.18 | Step 63: canonical Workshop home composition with a visibly dominant Play action, balanced destination pairs, connected Pip dialogue, and login-bonus collision protection. AAB remains deferred. |
 
 ---
 
@@ -2841,6 +2842,31 @@ Do not repeat this shortcut. "No new art needed" is only an acceptable outcome w
 
 ---
 
+### Step 62.2 — Unresolved: user-reported crash when selecting a jam jar in the Pantry
+
+**Report** (owner, 2026-08-08, secondhand from a player): the app crashes/force-closes ("튕기다") on Android while interacting with a jar in the Jam & Fruit Preserves shelf ("잼병을 선택하다가"). No screenshot, stack trace, device model, or Android version was available at report time. This is unconfirmed and unreproduced — treat the description as approximate, not exact repro steps.
+
+**What was already checked and ruled out** (Claude, same day, web dev build only — no Android device or build available):
+- Static review of the full jar-selection code path: `src/ui/pantryView.js` (`renderJar`, `renderShelf`, `showJarDetail`, `renderPantryView`), `src/data/pantryJars.js`, `src/data/jarArt.js`, `src/data/stagePantryLinks.js`, and the relevant `src/game/save.js` functions (`buyJar`, `setEquippedJar`, `ensureStarterJars`, `getPaidJarCount`, `getOwnedJarIds`, `getEquippedJars`). All jar/shelf lookups are defensively written (`?.`, `|| []`, `|| {}`, explicit `find()` result checks) — no unguarded property access found that a currently-valid `jam` jar/shelf record would hit.
+- `src/game/billing.js`: every `NativePurchases.*` call is wrapped in `try/catch`, so a native Billing plugin rejection should not throw an unhandled JS exception.
+- Live interactive testing in the Vite dev build (browser, not Android): opened the Pantry, opened the detail panel for the owned starter jam jar ("딸기 잼") and a locked jam jar ("블루베리 잼"), and clicked through the insufficient-funds path (tapping "스푼 N개 더 필요" routes to the spoon-store section via `onOpenSpoonStore`). No console error or crash in any of these. Could not test an actual completed purchase (test save only had 3 spoons) or the shelf-completion celebration path (`isShelfCompletionTransition` / `triggerShelfCelebration` in `pantryView.js`, fired from the `buyJar` success handler) — that celebration animation path is more complex (sparkle DOM injection, `requestAnimationFrame`, `globalThis.setTimeout`) and was **not exercised** by this testing. Neither was a real purchase completing on an actual **just-finished-a-shelf** save state.
+- Checked `docs/*.md` for prior known crash reports — found none related to Pantry/jars.
+- Play Console Android Vitals (Crashes & ANRs) had no data yet when checked same-day — too soon after the report for a real stack trace to have populated.
+
+**Confirmed and fixed in passing** (unrelated to the crash, found via the live testing above): the jar detail panel's close button called `t("common.close")`, a key that was **never defined** in `src/i18n/en.js` or `src/i18n/ko.js`, so every player saw the literal string "common.close" on that button, not a translated label. Fixed by adding `pantry.jar.close` (matching the existing `pantry.jar.*` naming already used by every other button in that panel — `buyAction`, `needSpoons`, `equipAction`, `featureOnHome`, etc.) to both locale files and repointing `pantryView.js` at it. Committed already (`7987044`) — do not redo this part, but do keep it in mind: it means the close button's translation had apparently never been exercised/reviewed on a real device either, which is a small signal that this general area of the Pantry may not get much manual QA pass-through.
+
+**What Codex should check that Claude could not** (no Android device/build available on the reviewing machine):
+1. **Play Console Android Vitals → Crashes & ANRs** should have real data by the time this is read (it needed 24-48h to populate from the report time). Get the actual stack trace/exception type before guessing further — this is the highest-value next step by far.
+2. If a stack trace points to native Billing/StoreKit-adjacent code: check whether `NativePurchases.getProduct` / `isBillingSupported` (called from wherever the spoon-store product cards resolve their price — `createSupportPackCard/createSpoonJarCard` in `src/ui/settingsView.js` and their wiring in `appShell.js`) can be reached from a cold Pantry→jar-tap→insufficient-funds path in a state where Billing hasn't finished initializing yet, and whether that's actually guarded end-to-end (not just inside `billing.js`'s own `try/catch` — check the caller side too).
+3. The shelf-completion celebration path (`isShelfCompletionTransition`, `triggerShelfCelebration`, `pendingShelfCelebrationId` in `pantryView.js`) was never exercised in this investigation. Test an actual purchase that completes a shelf (e.g., a save with 5/6 jam jars owned, enough spoons, buying the last one) on a real device/build.
+4. Test with a **realistic, non-fresh save state** — the reviewing session only had a brand-new save (3 spoons, only starter jars owned). A returning player with money, partial shelf progress, or an equipped/owned-but-now-mismatched jar (e.g. from an older app version's data shape) may hit a path this investigation didn't.
+5. Older/low-RAM Android devices: the Pantry now renders 66 jar images (`loading="lazy"` is set on each, so this is probably fine, but wasn't load-tested on real hardware).
+6. If you can get more from the original reporter — exact device/Android version, whether it was a fresh tap vs. a repeat/rapid tap, and whether it happened on a paid purchase attempt specifically vs. just opening the detail panel — that alone would likely narrow this immediately.
+
+**Do not** re-guess blindly without the Android Vitals stack trace if it's available — get the real error first.
+
+---
+
 ### Step 63 — Home screen Play button: further pass on top of Step 51
 
 **Context**: Step 51 (already shipped, `v0.1.696`, confirmed live in `src/styles.css` ~line 19590 with `!important` overrides) already made `.puzzle-home-scene__play` bigger and repositioned it above the floating nav. Owner has reviewed the current state and still wants: the Play button pushed even more clearly bigger/more prominent than the other buttons, and the **overall arrangement of the other home-screen buttons** (`.puzzle-home-destination` row, `src/ui/puzzleHubView.js` ~line 195) made more visually settled/balanced around it. This is an iterative polish pass, not a bug fix — use your judgment on the exact spacing, but the one hard requirement carried over from before: Play must stay the largest tap target on the screen at every reviewed width.
@@ -2848,6 +2874,14 @@ Do not repeat this shortcut. "No new art needed" is only an acceptable outcome w
 **Also flag, don't necessarily fix in this same step**: `.puzzle-home-scene__play` (and its `.app-shell--workshop-home` scoped variant) is currently defined at **over a dozen different locations** scattered across `src/styles.css` (search for the class name — it appears from line ~2860 through ~19598), accumulated from many previous iterative fixes, most now overridden by later `!important` rules. This is real technical debt: the next person to touch Play-button sizing has to fight the same cascade every time. If it's low-risk to consolidate the dead/superseded rules into the one effective block while doing this pass, do it; if it's risky to untangle safely, leave a comment marking which block is the live one and skip the cleanup rather than risking a regression.
 
 **Verification**: `npm run qa:mobile` / `qa:visual-pack` at 360×740, 390×844, 430×932, 675×900 — confirm Play's measured size vs. the destination buttons at each width.
+
+**Completed 2026-08-08 (`v0.1.714`, Android `versionCode 46` / `versionName 1.1.18`)**:
+- Treated the Workshop as one composition rather than enlarging an isolated control. The two upper destination pairs share centered rows, Map and Play form a stable lower pair above the floating navigation, and settings remains visually secondary.
+- Play is the largest tap target at every reviewed width (`130–164px`) and its visible artwork is also larger, not just its invisible hit area. Mobile QA measures the visible Play art at roughly `1.26×–1.40×` the largest destination artwork.
+- Pip and the greeting bubble now form a compact speaking unit with a connecting tail. Old absolute `left/top/transform` cascade values are explicitly neutralized in the canonical Step 63 block so the pair cannot drift off-screen.
+- The three-second login-bonus Pip uses its own upper speaking zone; the idle greeting yields while it is present. Automated mobile QA mounts the real popover and fails on any collision with destinations, Play, settings, or the viewport.
+- Focused Workshop/login-bonus tests pass. The complete mobile pass reports no Step 63 home or login-bonus regression at 360×740, 390×844, 430×932, or 675×900. Its remaining findings are the previously documented cursor-card, puzzle-board containment/paper-tray, compact 430px play header, and 675px tablet clue/grid issues; they are outside this home-screen step.
+- No AAB was generated. Stop here for review before Step 64.
 
 ---
 
