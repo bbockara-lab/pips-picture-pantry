@@ -1,4 +1,11 @@
 {
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "store-monitor",
+      "runtime": "nodejs22"
+    }
+  ],
   "hosting": {
     "public": "store-assets",
     "ignore": [
