@@ -3140,6 +3140,14 @@ Before touching CSS: confirm whether the split-card look is the actual intended 
 
 **Verification for all of 67.1-67.5**: `npm test`, `npm run qa:mobile` must show **zero** findings across all 4 widths (360×740, 390×844, 430×932, 675×900) in both `ko` and `en` — this is the actual bar, not "no new regressions". Add a real screenshot check by eye at 675×900 for 67.3's clue-token misalignment specifically, since that one is a genuine geometry bug I could see in the raw numbers but did not personally confirm on screen. Do not claim any of 67.1-67.5 done from the automated pass alone if the automated pass itself might be stale (67.4) — resolve the stale-test-vs-real-bug question explicitly for that one and say which way you went and why.
 
+**Step 67 completed 2026-08-09 (all five release-candidate blockers cleared; stop before AAB/version work)**:
+- **67.1:** removed the earlier duplicate mobile D-pad override and made the one final mobile authority use a 128px pad with four 40×40px movement buttons. The shared 40px control contract now wins at every tested width.
+- **67.2:** the final mobile play-header authority now enforces a 64px minimum height. The previous 430px-only 59px collapse is gone without changing the wider layout.
+- **67.3:** restored clipping on the board frame and clue lane, raised the mobile 12×12 clue token from 10px to 11px, and replaced the one-size-fits-all clue lane with catalog-derived size contracts. The authored 500-puzzle catalog's maximum row-clue group counts are 3/4/5/6 for 5×5/8×8/10×10/12×12; each lane now budgets for that maximum while preserving the largest available grid cells. The 675px `21212` clue stays inside its own row box and the board remains inside the viewport.
+- **67.4:** confirmed the split-card composition is intentional: the neutral `.puzzle-panel` is only a layout wrapper, while `.play-screen__header`, `.board-wrap`, and `.puzzle-grid` own the visible paper-card treatment. Updated the stale QA assertion to validate those visible cards instead of restoring a redundant outer card, removed the dead undefined `cardBefore` read, and correctly measure the header's bottom-corner radius.
+- **67.5:** traced the Spoon Run overflow to its decorative `::after` ellipse extending 24px right and 34px below the clipped card, not to localized copy. Kept the highlight artwork but bounded it inside the card, eliminating phantom scroll width/height in both locales.
+- Verification passes: full `51 files / 320 tests`, production build, and `npm run qa:mobile` with **zero findings** at 360×740, 390×844, 430×932, and 675×900 across the bilingual matrix. No native version bump, AAB, or store submission is included; stop here for owner/Claude review.
+
 ---
 
 ### General rules for this stabilization period

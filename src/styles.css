@@ -176,32 +176,6 @@
     padding: 6px;
   }
 
-  .app-shell--play .cursor-controls--compact {
-    padding: 8px;
-  }
-
-  .app-shell--play .cursor-controls--compact .cursor-controls__body {
-    grid-template-columns: 126px minmax(0, 1fr);
-    gap: 7px;
-    margin-top: 7px;
-  }
-
-  .app-shell--play .cursor-controls--compact .cursor-dpad {
-    width: 124px;
-    min-height: 124px;
-    grid-template-columns: repeat(3, 38px);
-    grid-template-rows: repeat(3, 38px);
-  }
-
-  .app-shell--play .cursor-controls--compact .cursor-move {
-    width: 38px;
-    min-width: 38px;
-    height: 38px;
-  }
-
-  .app-shell--play .cursor-controls--compact .cursor-action-button {
-    min-height: 52px;
-  }
 }
 
 /* v0.1.704 - canonical mobile guide-dialog contract.
@@ -19652,6 +19626,7 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   .app-shell--play .play-screen__header {
     grid-template-columns: auto minmax(0, 1fr) 42px auto;
     grid-template-rows: auto;
+    min-height: 64px;
     gap: 7px;
     padding: max(7px, env(safe-area-inset-top)) 8px 7px;
   }
@@ -19680,20 +19655,20 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   }
   .app-shell--play .cursor-controls--compact { padding: 8px; }
   .app-shell--play .cursor-controls--compact .cursor-controls__body {
-    grid-template-columns: 126px minmax(0, 1fr);
+    grid-template-columns: 128px minmax(0, 1fr);
     gap: 7px;
     margin-top: 7px;
   }
   .app-shell--play .cursor-controls--compact .cursor-dpad {
-    width: 124px;
-    min-height: 124px;
-    grid-template-columns: repeat(3, 38px);
-    grid-template-rows: repeat(3, 38px);
+    width: 128px;
+    min-height: 128px;
+    grid-template-columns: repeat(3, 40px);
+    grid-template-rows: repeat(3, 40px);
   }
   .app-shell--play .cursor-controls--compact .cursor-move {
-    width: 38px;
-    min-width: 38px;
-    height: 38px;
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
   }
   .app-shell--play .cursor-controls--compact .cursor-action-button { min-height: 52px; }
 }
@@ -19738,12 +19713,13 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
  * Mobile width budget includes: page gutter (12), board padding/border and
  * column gap (20), grid frame inset (12), and every inter-cell gap. */
 .app-shell--play .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
-  --board-row-clue-width: 74px !important;
+  /* 5×5 can contain three 22px clue tokens: 66px + gaps + inset. */
+  --board-row-clue-width: 78px !important;
   --clue-token-size: 22px !important;
   --board-grid-gap: clamp(2px, 0.75vw, 3px);
   --board-cell-size: clamp(
     17px,
-    calc((min(100vw, 620px) - var(--board-row-clue-width) - 44px - (var(--board-grid-gap) * var(--board-gap-count))) / var(--board-size)),
+    calc((min(100vw, 500px) - var(--board-row-clue-width) - 44px - (var(--board-grid-gap) * var(--board-gap-count))) / var(--board-size)),
     52px
   ) !important;
   grid-template-columns: var(--board-row-clue-width) var(--board-grid-frame-size);
@@ -19751,14 +19727,30 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   box-sizing: border-box;
   width: fit-content;
   max-width: 100%;
-  overflow: visible;
+  overflow: clip;
+  overflow-clip-margin: 8px;
+}
+
+/* Allocate the clue lane from the catalog's real maximum run counts instead
+ * of shrinking every board to the 12×12 worst case. This preserves the
+ * largest possible cells while keeping every row clue inside its own lane. */
+.app-shell--play .play-screen[data-puzzle-size="8"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+  --board-row-clue-width: 96px !important;
+}
+
+.app-shell--play .play-screen[data-puzzle-size="10"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+  --board-row-clue-width: 119px !important;
+}
+
+.app-shell--play .play-screen[data-puzzle-size="12"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+  --board-row-clue-width: 142px !important;
 }
 
 .app-shell--play .puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clues {
   box-sizing: border-box;
   width: var(--board-row-clue-width);
   min-width: 0;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .app-shell--play .puzzle-panel:not(.completed) .board-wrap:not(.locked) .row-clue {
@@ -19768,7 +19760,7 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   padding-inline: 2px;
   gap: 1px;
   justify-content: flex-end;
-  overflow: visible;
+  overflow: hidden;
 }
 
 @media (max-width: 520px) {
@@ -19787,7 +19779,8 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   }
 
   .app-shell--play .play-screen[data-puzzle-size="12"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
-    --clue-token-size: 10px !important;
+    --board-row-clue-width: 80px !important;
+    --clue-token-size: 11px !important;
   }
 }
 
@@ -19871,13 +19864,12 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
 .spoon-run-view__header.spoon-run-scene::after {
   content: "";
   position: absolute;
-  right: -24px;
-  bottom: -34px;
-  width: 180px;
-  height: 100px;
-  border-radius: 50%;
+  right: 0;
+  bottom: 0;
+  width: 156px;
+  height: 66px;
+  border-radius: 100% 0 26px 0;
   background: rgba(255, 255, 255, 0.3);
-  transform: rotate(-8deg);
 }
 
 .spoon-run-view__header.spoon-run-scene > .spoon-run-scene__pip {

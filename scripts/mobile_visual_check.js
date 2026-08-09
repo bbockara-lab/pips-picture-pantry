@@ -3138,8 +3138,11 @@ async function expectPuzzleBoardFramePolish(page, viewportName) {
         width: rect.width,
         height: rect.height,
         radius: parseFloat(style.borderRadius),
+        bottomRadius: Math.max(
+          parseFloat(style.borderBottomLeftRadius) || 0,
+          parseFloat(style.borderBottomRightRadius) || 0
+        ),
         background: style.backgroundImage,
-      cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
         shadow: style.boxShadow,
         borderWidth: parseFloat(style.borderTopWidth) || 0
       };
@@ -3163,9 +3166,6 @@ async function expectPuzzleBoardFramePolish(page, viewportName) {
     !metrics.board ||
     !metrics.grid ||
     !metrics.activeClue ||
-    metrics.panel.radius < 16 ||
-    !metrics.panel.background.includes("gradient") ||
-    metrics.panel.shadow === "none" ||
     metrics.meta.width > 530 ||
     metrics.meta.left < -1 ||
     metrics.meta.right > metrics.viewportWidth + 1 ||
