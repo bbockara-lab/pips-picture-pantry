@@ -3160,6 +3160,14 @@ Before touching CSS: confirm whether the split-card look is the actual intended 
 
 ---
 
+### Marketing homepage refresh 2026-08-09 (Claude, not part of the Step sequence — store-assets only, no game code touched)
+
+Updated the Sunny Spoon Studios homepage (`store-assets/index.html`, `store-assets/site/app.js`, `store-assets/site/styles.css`) for the Android 1.1.19 release candidate: stats corrected 333/48+/9 → 500/66/12 (2 languages unchanged), "nine story badges" → "twelve" in both locales, Korean stats restructured to read naturally (noun-first) instead of a literal EN mirror, and the stale "Nine keepsakes" illustration (baked-in "9") replaced with a real captured screenshot of the current Badges screen (`store-assets/site/screens/badge-shelf-1.1.19.png`; old asset removed). Added a quiet, non-link "Coming soon to the App Store" note since iOS is still in first-launch review. Fixed a real pre-existing bug found during responsive testing: the mobile nav's `.menu-toggle` had CSS but no HTML element or JS wiring, so the header nav was unreachable below 820px — added the button and open/close logic. Updated `scripts/studio_site_check.js` to match (it was hard-asserting the old 333/48+/9 numbers and literally rejected the phrase "Coming soon" as stale). Verified with `npm run qa:studio-site`, full `npm test`, and computed-style overflow checks at 360/390/430/768/1440/1920px in both locales — all clean. Deployed to Firebase Hosting; live and cache-bust-verified at https://sunny-spoon-pantry.web.app.
+
+Two things intentionally left untouched, out of scope for this task: (1) the in-game Korean `app.title` (`src/i18n/ko.js`) still says "핍의 퍼즐방", diverging from the official "Pip's Picture Pantry"/"핍의 픽쳐 팬트리" name now used consistently on the homepage — a real product-naming question, not something to silently fix in game code. (2) `docs/PLAY_CONSOLE_STORE_LISTING.md` (the actual Play Console listing copy, checked by `scripts/play_store_listing_check.js`) still says "333 picture puzzles" in two places — separate surface from the homepage, not updated here.
+
+---
+
 ### General rules for this stabilization period
 
 - Ship Steps 61, 63, and 64 as normal weekly releases. Split Step 62 across multiple weeks as noted.
