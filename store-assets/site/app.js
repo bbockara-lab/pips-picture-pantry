@@ -10,18 +10,19 @@ const copy = {
     "downloadGame": "Get it on Google Play",
     "meetPip": "Meet Pip",
     "firstGame": "Our first game",
-    "gameIntro": "Complete picture puzzles and watch Pip's pantry grow, one shelf at a time.",
-    "puzzles": "picture puzzles",
-    "jars": "pantry jars",
-    "badges": "story badges",
-    "languages": "languages",
-    "featureOne": "Gentle nonogram-style picture puzzles",
-    "featureTwo": "A pantry that grows as you play",
-    "featureThree": "Time Attack and Spoon Run challenges",
+    "gameIntro": "Solve 500 cozy picture puzzles from 5×5 to 12×12, collect 66 pantry jars and 12 story badges, and visit Spoon Run for today's puzzle and replay rewards.",
+    "statPuzzles": "<strong>500</strong> <span>picture puzzles</span>",
+    "statJars": "<strong>66</strong> <span>pantry jars</span>",
+    "statBadges": "<strong>12</strong> <span>story badges</span>",
+    "statLanguages": "<strong>2</strong> <span>languages</span>",
+    "featureOne": "500 gentle picture puzzles from 5×5 up to 12×12, with comfy D-pad controls for the bigger boards",
+    "featureTwo": "Fill your pantry with jars and cozy decorations as you complete puzzles",
+    "featureThree": "Visit Spoon Run for today's puzzle and replay rewards — see today's spoon count right on the home screen",
     "featureFour": "No third-party ads or tracking SDKs",
     "availableNow": "Available now on",
+    "iosComingSoon": "Coming soon to the App Store",
     "captionOne": "A warm welcome from Pip",
-    "captionTwo": "Collect nine story badges",
+    "captionTwo": "Collect twelve story badges",
     "madeFor": "Made for quiet breaks",
     "whyTitle": "A little satisfaction in every tap",
     "cardOneTitle": "Reveal a hidden picture",
@@ -59,18 +60,19 @@ const copy = {
     "downloadGame": "Google Play에서 다운로드",
     "meetPip": "핍 만나기",
     "firstGame": "첫 번째 게임",
-    "gameIntro": "그림 퍼즐을 하나씩 완성하며 핍의 팬트리를 차곡차곡 키워 보세요.",
-    "puzzles": "개의 그림 퍼즐",
-    "jars": "종 이상의 팬트리 병",
-    "badges": "개의 이야기 배지",
-    "languages": "개 언어 지원",
-    "featureOne": "부담 없이 즐기는 노노그램 그림 퍼즐",
-    "featureTwo": "플레이할수록 풍성해지는 나만의 팬트리",
-    "featureThree": "타임어택과 스푼런으로 즐기는 색다른 도전",
+    "gameIntro": "5×5부터 12×12까지 이어지는 그림 퍼즐 500개를 풀고, 팬트리 항아리 66개와 이야기 배지 12개를 차곡차곡 모아 보세요. 오늘의 퍼즐과 다시 도전할 그림은 '스푼 모으러 가기'에서 만날 수 있어요.",
+    "statPuzzles": "<span>그림 퍼즐</span> <strong>500</strong><span>개</span>",
+    "statJars": "<span>팬트리 항아리</span> <strong>66</strong><span>개</span>",
+    "statBadges": "<span>이야기 배지</span> <strong>12</strong><span>개</span>",
+    "statLanguages": "<span>지원 언어</span> <strong>2</strong><span>개</span>",
+    "featureOne": "5×5부터 12×12까지, 방향키로 편하게 즐기는 그림 퍼즐 500개",
+    "featureTwo": "퍼즐을 풀며 항아리와 아기자기한 소품으로 채워가는 나만의 팬트리",
+    "featureThree": "오늘의 퍼즐과 다시 도전할 그림은 '스푼 모으러 가기'에서, 오늘 얻을 스푼도 홈 화면에서 바로 확인",
     "featureFour": "제3자 광고와 추적 SDK 없음",
     "availableNow": "지금 만나보세요",
+    "iosComingSoon": "App Store 출시 준비 중",
     "captionOne": "핍의 따뜻한 환영",
-    "captionTwo": "이야기 배지 아홉 개 모으기",
+    "captionTwo": "이야기 배지 열두 개 모으기",
     "madeFor": "조용한 휴식을 위한 게임",
     "whyTitle": "한 칸을 채울 때마다 느끼는 작은 만족",
     "cardOneTitle": "숨은 그림을 완성해요",
@@ -80,7 +82,7 @@ const copy = {
     "cardThreeTitle": "포근한 퍼즐로 쉬어 가세요",
     "cardThreeBody": "부담 없는 플레이와 기분 좋은 그림, 집처럼 편안한 팬트리를 천천히 즐겨 보세요.",
     "studioTitle": "작아도 오래 간직하고 싶은 게임",
-    "studioBody": "Sunny Spoon Studios는 다정한 캐릭터와 기분 좋은 손맛, 자꾸만 다시 찾고 싶은 작은 세상을 만듭니다. 핍의 퍼즐방에서 그 첫 이야기를 시작합니다.",
+    "studioBody": "Sunny Spoon Studios는 다정한 캐릭터와 기분 좋은 손맛, 자꾸만 다시 찾고 싶은 작은 세상을 만듭니다. 핍의 픽쳐 팬트리에서 그 첫 이야기를 시작합니다.",
     "stayClose": "팬트리의 다음 소식",
     "connectTitle": "새로운 퍼즐과 계절 테마, 제작 뒷이야기를 전해드려요",
     "visitYouTube": "YouTube 채널 보기",
@@ -98,6 +100,18 @@ const copy = {
     "footerTagline": "포근한 퍼즐, 따뜻한 작은 세상"
   }
 };
+
+const menuToggle = document.querySelector("#menuToggle");
+const siteNav = document.querySelector(".site-nav");
+function closeMenu() {
+  siteNav?.classList.remove("is-open");
+  menuToggle?.setAttribute("aria-expanded", "false");
+}
+menuToggle?.addEventListener("click", () => {
+  const isOpen = siteNav?.classList.toggle("is-open");
+  menuToggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
+});
+siteNav?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
 
 const toggle = document.querySelector("#languageToggle");
 let language = localStorage.getItem("sunny-spoon-language") === "ko" ? "ko" : "en";

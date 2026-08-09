@@ -71,6 +71,7 @@ html[lang="ko"] :is(.section-heading h2, .studio-card h2, .connect-section h2, .
 .store-pill { display: grid; min-width: 190px; padding: .8rem 1rem; border-radius: 15px; background: var(--ink); color: white; }
 .store-pill small { opacity: .75; }
 .store-pill--muted { background: #e9dfc7; color: var(--ink); }
+.store-note { margin: 0; align-self: center; color: var(--muted); font-size: .85rem; font-style: italic; }
 .phone-gallery { position: relative; min-height: 620px; }
 .phone { position: absolute; width: min(60%, 290px); margin: 0; overflow: hidden; border: 9px solid #3f2b25; border-radius: 38px; background: #38251f; box-shadow: var(--shadow); }
 .phone img { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; }
