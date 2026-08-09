@@ -2742,6 +2742,7 @@ Every release in this stabilization period: add a row here recording the version
 | 2026-08-08 | 0.1.712 / versionCode 44, 1.1.16 | Step 62 batch 3: the final 55 unique puzzles (15 8×8, 40 10×10) and two bilingual shelves, reaching the 500-puzzle launch target. AAB remains deferred. |
 | 2026-08-08 | 0.1.713 / versionCode 45, 1.1.17 | Step 62.1: three new Pantry jar shelves, 18 jar entries/assets, three new stage badges, and 45/50/55 progression gates for the six Step 62 shelves. AAB remains deferred for review. |
 | 2026-08-08 | 0.1.714 / versionCode 46, 1.1.18 | Step 63: canonical Workshop home composition with a visibly dominant Play action, balanced destination pairs, connected Pip dialogue, and login-bonus collision protection. AAB remains deferred. |
+| 2026-08-08 | 0.1.715 / versionCode 47, 1.1.19 | Step 64: Pip-led Spoon Run scene, shared exact earn-today calculation, home `+N` badge, and a visible empty replay state. AAB remains deferred pending native checks. |
 
 ---
 
@@ -2898,6 +2899,44 @@ Do not repeat this shortcut. "No new art needed" is only an acceptable outcome w
 4. On the **home screen**, add a "+N spoons today" indicator on the `spoonRun` destination button itself (`puzzle-home-destination--spoonRun`, `src/ui/puzzleHubView.js` ~line 195–238) so the button advertises the opportunity instead of relying on the player opening it first. Reuse the existing numeric badge pattern already used on that same button row for shelf progress (`puzzle-home-destination__badge`, plain count text — not the dot-style `--new` badge used for Pantry, since this needs an actual number). Put the "earnable today" calculation in **one shared helper function** and call it from both this badge and the Spoon Run header (point 3) so the two numbers can never drift apart.
 
 **Verification**: `npm test` (extend `tests/dailyPuzzle.test.js` / `tests/replayPicks.test.js`, add coverage for the new badge), `npm run qa:mobile`.
+
+**Completed 2026-08-08 (`v0.1.715`, Android `versionCode 47` / `versionName 1.1.19`)**:
+- Added one shared `getSpoonRunOpportunity()` calculation for both the Workshop destination badge and Spoon Run header. It counts only an unfinished daily puzzle, its still-available daily bonus, and eligible unrewarded replay picks within the daily limit, so the two displayed totals cannot drift.
+- The Workshop now advertises the exact opportunity as a numeric `+N` badge. On a fresh 5×5 daily state the native Android check shows `+10` (`2` puzzle spoons + `8` daily bonus), matching the Spoon Run scene.
+- Rebuilt Spoon Run as a warm Pip-led scene with a connected opportunity speech bubble, distinct daily/replay areas, and a persistent friendly empty-replay state instead of silently omitting the section. The final native pass also fixed an older Step 53 direct-child grid rule that initially overlaid the header copy on the new bubble.
+- Added three reward-calculation regression tests and updated the Workshop source contract. The complete suite passes at 50 files / 308 tests; production build and native Capacitor sync pass for Android and iOS.
+- The four-width mobile QA pass reports no Spoon Run or Workshop-home regression. It still reports the previously tracked play-screen cursor-card, board-frame/paper-tray, compact 430px header, and 675px clue/grid findings, which are outside Step 64 and remain release-candidate blockers for the following stabilization work.
+- Installed the Debug build on Pixel 8 API 37.1 and visually checked the home composition and Spoon Run scene. Built, installed, and launched the same web payload on iPhone 17 Pro / iOS 26.5 for the owner-assisted native comparison.
+- No AAB was generated. Stop here after Android/iPhone review; release packaging remains the next separately approved action.
+
+---
+
+### Step 63.1 / 64.1 — Owner visual QA found 4 real bugs the automated mobile check missed
+
+**Context**: the owner reviewed the Step 63/64 build on a real device (screenshots, portrait phone, ~375-430px width) after the "no regression" result logged above. `npm run qa:mobile` / the four-width automated pass did not catch any of these — they're either outside what that script asserts on, or state/viewport-specific in a way it doesn't hit. Don't trust that pass alone for this class of bug going forward; add real assertions for whichever of the below make sense as regression tests once fixed.
+
+**1. Spoon Run header: the small spoon token renders as if it "escaped" the opportunity bubble.**
+Owner: "말풍선 오른쪽에 작은 스푼 하나가 혼자 떠 있음. 말풍선에 들어가려고 했던 앤데 못 들어간 것이 아닌지?" (a small spoon sits alone to the right of the speech bubble, like it was meant to be inside the bubble but isn't).
+Root cause, confirmed by reading CSS (`src/styles.css` ~line 20326-20441, the `.spoon-run-scene` block): `.spoon-run-scene__token` (the small spoon icon element, appended in `renderSpoonRunView()` in `src/ui/puzzleHubView.js` ~line 415-420) is `position: absolute; top: 16px; right: 16px;` relative to the *whole header card* — pinned to the card's top-right corner, completely independent of `.spoon-run-scene__opportunity` (the "+N 오늘 받을 수 있는 스푼" bubble), which is separately grid-positioned at `grid-row: 2; grid-column: 2`. The two elements were never actually linked; the token just happens to land near the bubble at some widths and look like a stray/escaped piece. Decide deliberately: either move the token to be a real child of the bubble (so it scales/positions with it), or reposition/restyle it as a clearly separate decorative accent (e.g. move it further from the bubble, or onto Pip) so it doesn't read as broken.
+
+**2. Same header: the bubble may be covering title text.**
+Owner: "+10 오늘 받을 수 있는 스푼 말풍선이 그 뒤에 있는 글자를 가리는 것으로 보임." Not fully confirmed by static CSS reading (this needs an actual real-device/render check, which wasn't available in this pass) — `.spoon-run-scene__copy` (grid-row 1) and `.spoon-run-scene__opportunity` (grid-row 2) shouldn't overlap in the grid as written, but `grid-template-rows: auto auto auto` combined with `.spoon-run-scene__pip` spanning `grid-row: 1 / 4` with `align-self: end` (line ~20355-20365) is a known-tricky combination for implicit row sizing. Reproduce on a real device at narrow widths (360-390px) and check computed layout before changing anything blind.
+
+**3. English home title wraps and overlaps Pip's art; fine in Korean.**
+Owner: "영어 버전에서 Pip's Puzzle Room이 줄바꿈되면서 핍이랑 겹침."
+Root cause, confirmed: `.app-shell--workshop-home .puzzle-home-scene__title` (`src/styles.css` line 19149, narrowed further at the `max-width: 430px` query at line 19167) is `position: absolute`, pinned near the top-left corner with `max-width: min(48%, 240px)` (44% under 430px). Korean "핍의 팬트리" (5 characters) fits on one line inside that width; English "Pip's Puzzle Room" does not and wraps to 2 lines. The title box has no reserved height for a 2-line wrap and no positional awareness of where Pip's character art actually starts, so the taller wrapped box grows straight down into Pip. This is a locale-width bug: pick one — widen `max-width` for longer locales (needs a locale-aware value or a more generous universal max-width that still leaves room for the character), reduce the font-size clamp further for 2-line cases, or explicitly reserve/shift vertical clearance so a 2-line title never reaches the art regardless of language. Verify against **both** `ko` and `en` at 360-430px after fixing.
+
+**4. Play Now button position still feels wrong; Badges button looks orphaned below the other 4.**
+Owner on Play: "위치가 좀 애매하지 않나 싶음, 오른쪽에 배치된 앱들이랑 오른쪽 정렬을 하든지 아니면 아예 가운데 위치 시키든지... 근데 이건 좀 고민이 필요하겠다" (unsure the position is right; maybe right-align with the other icons, maybe center it, but centering might look odd since the button is close to square and would sit alone) — explicitly asking for design judgment here, not a specific fix.
+Owner on Badges: "배지는 근데 왜 혼자 내려와 있는거야?" (why is Badges hanging down alone).
+
+Root cause for both, confirmed: **this is the exact technical debt Step 63's original brief already flagged and explicitly allowed skipping if risky — it is no longer safe to skip.**
+- `puzzle-home-scene__play` now appears at **45 separate locations** in `src/styles.css` (was "over a dozen" when Step 63 started — it grew, it wasn't consolidated).
+- `puzzle-home-destinations` (and the related per-button `.puzzle-home-destination--*` selectors) appear at **9+ separate locations**. Critically, the four paired buttons (`puzzle`/`album`/`pantry`/`map`) get their `top/left/right/bottom` percentages set together in one place (e.g. `src/styles.css` ~line 17252-17256, then apparently overridden again at ~line 17450-17454 with *different* percentages — two competing declarations for the same four buttons), while `spoonRun`'s position is set **entirely separately**, far away at ~line 18853. `map` (the Badges button — `home.mapLabel` i18n key, confirmed as "Badges"/"배지", not a mistranslation) is positioned at `bottom: 8%; left: 3%` in one declaration and `bottom: 22%; left: 4%` in the other — bottom-left, away from the top-clustered puzzle/album/pantry group, which is *why* it reads as detached. That may be a real layout/cascade bug (two conflicting declarations, unclear which wins at which width) or it may just be a weak composition choice that happens to be consistent — check which by diffing computed styles on a real device, then fix the actual problem rather than adding a 10th declaration on top.
+
+**Required work for #4**: consolidate `puzzle-home-scene__play` and `puzzle-home-destinations`/`puzzle-home-destination--*` down to one authoritative block each (plus real, minimal responsive overrides), deleting the dead/superseded rules, before making any further positional tweaks. Trying to patch on top of 45+9 scattered declarations again will just add a 46th/10th and make the next pass harder. This was optional in Step 63; treat it as required now that it's visibly causing bugs.
+
+**Verification**: `npm test`, `npm run qa:mobile` / `qa:visual-pack` at 360x740, 390x844, 430x932, 675x900 in **both** `ko` and `en`, plus a real-device check (not just the automated pass, which already missed all four of these) before calling this done.
 
 ---
 
