@@ -2977,7 +2977,7 @@ Contributing factors found by reading the CSS (not yet confirmed against a live 
 
 ---
 
-### Step 65 — Real-gameplay QA on a fresh install found 3 issues (1 confirmed root-caused, 2 need device verification)
+### Step 65 — Real-gameplay QA on a fresh install: 3 bugs (1 confirmed root-caused, 2 need device verification) + 1 design question
 
 Owner (and a fresh-install playtester) actually played the current build end to end — not just screenshots this time. Three separate findings; treat them independently.
 
@@ -3004,7 +3004,19 @@ Owner: "이유는 모르겠는데... 스푼벌기에서 오늘의 퍼즐을 풀�
 
 Traced `savePuzzleState()`'s daily-completion call site (`src/ui/puzzleView.js` line 61-75): it grants `reward: puzzle.reward || 0` plus `dailyBonus: options.dailyBonus || 0` — both small, bounded per-puzzle values (matching the `+3sp`/`+8sp` seen correctly in the owner's own first screenshot for a *different* session). Nothing in that path multiplies or compounds into four digits. **Leading hypothesis**: `scripts/visual_review_pack.js` seeds `save.pantrySpoons = 999` twice (lines 292, 376) for its own screenshot-capture purposes — `999 + 3 (puzzle) + 8 (daily bonus) = 1010`, close enough to the reported `1016` (a few more spoons from some other small step in between would close the gap) that this is very likely QA seed data leaking into whatever build/profile was used for this manual playtest, not a real reward bug. Confirm by checking whether the device/simulator/profile used for this manual test had `qa:visual-pack` or `qa:mobile` run against it beforehand (same app install, same storage). If it's confirmed as contamination, no product code fix is needed — just don't manually playtest on a profile a QA script has touched, and consider having `visual_review_pack.js` use a distinctly-named/isolated storage key so this can't happen again. If a genuinely fresh, never-QA-touched install *also* shows an inflated spoon count after just the daily puzzle, that's a real bug — re-open with exact before/after numbers on a confirmed-fresh save.
 
-**Verification for all three**: reproduce on an actual fresh install (device or Simulator, not just Playwright/`qa:mobile`), not code-only. `npm test` for 65.1's regression test once added.
+**Reinforcing evidence, same root cause**: Owner: "안드로이드에서는 잼을 산적이 없는 것 같은데 팬트리도 채워져 있네" (on the Android session, doesn't seem like any jam was purchased, yet the Pantry already shows jars owned) — the same screenshot showing 1016 spoons also shows **5 of 6 Jam & Fruit Preserves jars already owned** (only Peach Preserve, 70sp, still locked) on a session the owner believes never manually bought anything. This is consistent with the same contamination theory, but sharpens the fix if confirmed: `scripts/mobile_visual_check.js` line 3228 seeds `save.ownedJarIds = ["strawberry-jam", "blueberry-jam", "cherry-jam", "orange-marmalade", "lemon-curd", "peach-preserve"]` (all 6, not 5 — so if this is the exact source, check why one is missing; it may instead simply be that the huge contaminated spoon balance let whoever last touched this profile buy several jars in-session, which would still trace back to the same root contamination). Either way: **do not treat this as two separate bugs** — resolve 65.3 by confirming whether the test/manual-play profile boundary is actually isolated, and check both `pantrySpoons` and `ownedJarIds`/`ownedDecorationIds` seeding across `mobile_visual_check.js` and `visual_review_pack.js` together, not just the spoon number.
+
+**65.4 — Design/UX question, not a bug: does "Selected" on a jar need to be a separate action at all?**
+Owner: "저 잼을 선택하는건 무슨 의미가 있는 거니? 아무 의미 없는 것 같은데 그냥 잼 클릭하면 디스플레이 온 홈이랑 클로즈 버튼만 있으면 될 것 같은데" (what does selecting that jam actually do? seems pointless — clicking a jar should probably just need Display-on-home and Close).
+
+Checked: **it is not actually meaningless, but the game never explains it anywhere, so it reads as pointless.** The per-shelf "equipped"/"Selected" jar (`setEquippedJar`/`getEquippedJars` in `src/game/save.js`) is read by `getEquippedJarForCurrentStage()` (`src/game/save.js` ~line 291) and passed as `equippedJar` into `renderCompletionBanner()` (`src/ui/puzzleView.js` line 165-167), which renders it via `renderFeaturedJar(equippedJar, ...)` (`src/ui/pipReaction.js` line 97) — **it's the jar shown as a small companion on the puzzle-completion celebration screen for that shelf's stage.** So "Selected" is a real personalization choice (which of your owned jars from this shelf shows up when you finish a puzzle in the matching stage), it's just completely undiscoverable from the Pantry screen itself — nothing tells the player what selecting does or where its effect shows up.
+
+This is an owner design call, not something to fix blindly either direction:
+- **Option A**: keep the mechanic, make its purpose visible (e.g. a one-line hint in the jar detail panel, or connect it visually to the completion banner the first time it's seen).
+- **Option B**: owner's suggestion — drop "Selected" as a separate action, keep only "Display on home" + "Close" on the jar detail panel, and have `getEquippedJarForCurrentStage()` fall back to some automatic choice (e.g. most recently purchased, or highest rarity owned) for the completion banner instead of a manually chosen one.
+Do not implement either without the owner picking one — Option B is a real feature removal (loses the manual per-shelf choice), not just a UI simplification.
+
+**Verification for all of 65.1-65.4**: reproduce on an actual fresh install (device or Simulator, not just Playwright/`qa:mobile`), not code-only. `npm test` for 65.1's regression test once added.
 
 ---
 
