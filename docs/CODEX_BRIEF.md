@@ -3026,6 +3026,50 @@ Checked: **it is not actually meaningless, but the game never explains it anywhe
 
 **Verification for all of 65.1-65.4**: reproduce on an actual fresh install (device or Simulator, not just Playwright/`qa:mobile`), not code-only. `npm test` for 65.1's regression test once added.
 
+**65.1 completed 2026-08-09 (uncommitted; stop for owner review before 65.2)**:
+- Added `onBackToSpoonRun` to `renderPlayScreen()`'s explicit option destructure and to the explicit object forwarded into `renderPuzzleView()`. The Daily completion banner's Confirm action now receives the callback already supplied by `appShell.js` and returns to Spoon Run instead of silently doing nothing.
+- Audited the complete `renderPlayScreen` option boundary. The remaining callbacks supplied by `appShell.js` are either forwarded to `renderPuzzleView` or consumed directly by the play header/pause menu; no second silently dropped navigation callback was found.
+- Added a source-wiring regression test covering both boundaries so removing either occurrence fails the suite. No work from 65.2-65.4 is included in this change.
+
+**65.2 completed 2026-08-09 (verification + regression coverage; no product behavior change)**:
+- Verified the genuine first-player lifecycle on a fully uninstalled/reinstalled Pixel 8 Android emulator using the latest synced native build. After entering the first player name, the separate login bonus popover appeared on the Workshop home screen, the balance changed from 0 to exactly 3 spoons, and the popover dismissed itself after 3 seconds.
+- Reviewed the live screenshot by eye. Pip and the `+3 daily spoons!` bubble remain clear of the fixed spoon balance, settings, all five destination controls, and the enlarged Play control. While the login popover is visible, the normal home greeting is correctly suppressed; after dismissal it returns in the intended location. Evidence is retained locally under `qa-artifacts/step65-2/` (gitignored).
+- Force-stopped and relaunched the same fresh Android install on the same date, passed through the returning-player Start screen, and confirmed that no second login popover appeared and the balance remained 3. The date gate therefore prevents duplicate same-day awards in the actual native app, not just in the save unit test.
+- Built, fully uninstalled/reinstalled, and launched the same latest payload on the iPhone 17 Pro simulator. The clean iOS start screen renders correctly. Automated post-Start capture could not be performed because this Mac has not granted accessibility mouse-control permission to the test process; no product defect is being inferred from that tooling limitation. Android satisfies the brief's required actual fresh-install reproduction, and both native shells use the same synced Capacitor web/save implementation.
+- Added regression coverage for the first-player timing edge: the intro-dismiss event must remain wired back to `draw()`, which is what retries `scheduleLoginBonusPresentation()` after the initial intro-open guard. Existing save coverage still verifies `claimLoginBonus()` returns 3 once per local date and rejects invalid dates.
+- Targeted verification passes at 2 files / 30 tests, the production web build passes, the Android debug build passes, and the iOS Simulator Debug build passes. No work from 65.3 or 65.4 is included here; stop for owner/reviewer approval before continuing.
+
+**65.2 owner refinement 2026-08-09 (pending review; no 65.3/65.4 work)**:
+- The reward amount and once-per-local-date save gate remain unchanged. Only its home-screen presentation changed after live owner review.
+- Removed the separate login-bonus Pip/popover. The existing Workshop Pip and its existing `aria-live` greeting bubble now show the localized `+3 daily spoons!` message for three seconds, then the same bubble returns to that day's normal greeting. This prevents a differently sized second Pip from appearing or shifting the composition.
+- `renderPuzzleHub()` now accepts an optional greeting-message override; the null fallback remains `t(getDailyGreetingKey())`. `appShell.js` owns the three-second state/timer and redraws once to restore the normal greeting. No duplicate Pip DOM, overlay CSS, or bonus-specific position exists.
+- Regression and mobile-geometry checks now require the reward to reuse the existing Pip/bubble position and reject reintroduction of a `.login-bonus-popover`.
+
+**65.3 completed 2026-08-09 (actual fresh-install verification + QA isolation guard; no 65.4 work)**:
+- Fully uninstalled and reinstalled the latest Android debug build on Pixel 8, then created a new `Fresh QA` player and inspected the native Capacitor WebView save before playing. The genuine initial save was exactly 3 spoons from the login reward, with zero completed puzzles, zero owned jars, and zero owned decorations.
+- Entered Spoon Run through the real UI, completed its first-run guide, completed the actual 2026-08-09 Daily picture `Tiny Bow 2` by tapping its 15 solution cells, and read the native save again. The completion awarded exactly `+3` puzzle spoons and `+8` Daily spoons: balance `3 -> 14`. `ownedJarIds` and `ownedDecorationIds` remained empty. Repeating the same completion path is covered to award zero additional spoons.
+- Conclusion: the reported `1016` balance and `5/6` Pantry jars are not produced by the fresh-player or Daily reward path. They came from a previously seeded/non-fresh QA or manual-test profile. The visual review script deliberately seeds 999 spoons, while mobile visual QA separately seeds large balances and jar ownership; these values are test fixtures, not shipped defaults. Playwright creates isolated browser contexts and cannot modify the installed Capacitor WebView's storage, so a native freshness claim must be verified by uninstall/clear-data rather than by appearance alone.
+- Added a loopback-origin guard shared by `mobile_visual_check.js` and `visual_review_pack.js`. Both scripts now refuse to run their save-seeding code against a non-local URL, preventing QA progress from being written to a deployed player-facing web origin. Added launch-integrity assertions so either guard cannot be silently removed.
+- Added a save regression test that reproduces the exact fresh lifecycle (`login +3`, puzzle `+3`, Daily `+8`), locks the final balance to 14, proves a duplicate completion adds zero, and proves neither jars nor decorations are granted by that path.
+- Native completion evidence is retained locally at `qa-artifacts/step65-3/fresh-daily-complete.png` (gitignored). Targeted save coverage passes 28/28 and the launch-integrity guard passes. Stop here for owner/reviewer approval before Step 65.4.
+
+---
+
+### Step 66 — Badges home button needs a progress count; reconsider the Pantry "new item" dot
+
+Owner: "배지에도 진행상황 X/X 표시할 수 있게 해줘, 팬트리 아이콘 옆에 표기되는 빨간색 점도 다른 것과 통일성 있는 걸로 변경해주고. 굳이 표현할 거 없으면 안해도 되고" (add an X/X progress count to Badges too; change the Pantry icon's red dot to something consistent with the others — but skip it if there's nothing meaningful to show).
+
+**66.1 — Add a progress badge to the Badges home destination, matching the Pictures pattern.**
+In the `destinationItems.forEach` loop (`src/ui/puzzleHubView.js` ~line 199-256), `artId === "puzzle"` already renders `${activeShelfCompletedCount}/${activeShelfPuzzles.length}` via `puzzle-home-destination__badge`, and `artId === "spoonRun"` renders a `+N` opportunity badge — but **`artId === "map"` (the Badges button) has no badge case at all.** Add one: reuse `getPackBadgeStatus(getCompletedPuzzleIds())` from `src/game/badges.js` (already imported and used for the featured-badge section ~line 128-133 of the same file). Count `.filter((status) => status.earned).length` against `BADGE_MILESTONES.length` (12 total after Step 62.1's 3 new badges) and render it with the same plain `puzzle-home-destination__badge` class as Pictures uses (a flat `X/Y` count, not the `+N` opportunity style — this is collection progress, not an actionable prompt).
+
+**66.2 — Pantry's red dot: replace with a real number if one fits, otherwise drop it — owner explicitly okay with removal.**
+Current: `hasAffordableUnownedPantryJar(PANTRY_JARS, ownedJarIds, pantrySpoons)` (`src/ui/puzzleHubView.js` line 47-54) returns a boolean, rendered as an empty-text dot (`puzzle-home-destination__badge--new`) when the player can currently afford at least one unowned paid jar. It's the only destination badge that isn't an actual number, which is why it reads as inconsistent next to Pictures' `X/Y` and Spoon Run's `+N`.
+This is not a mechanical swap — a boolean doesn't become a count for free. Two directions, use judgment on which reads better in the actual layout:
+- Overall Pantry collection progress, mirroring the Pictures badge most directly: `getPaidJarCount()` / total paid jars (`PANTRY_JARS.filter((jar) => jar.cost > 0).length`, currently 55) — same style as the `X/6` each individual jar shelf already shows inside the Pantry screen, just rolled up. Note this changes what the badge *means*, from "you can afford something new right now" to "how much of the Pantry you've collected" — the current dot's nudge-to-purchase signal would be lost; decide if that's an acceptable tradeoff.
+- If neither a real count nor the dot reads well in context, remove the Pantry badge entirely — the owner explicitly said this is fine rather than forcing an awkward number.
+
+**Verification**: `npm test`, `npm run qa:mobile` at the usual widths, both locales.
+
 ---
 
 ### General rules for this stabilization period
