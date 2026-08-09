@@ -8,6 +8,7 @@ import {
   claimLoginBonus,
   getDailyCompletedDate,
   getReplayDailyCount,
+  getReplayRewardedPuzzleIds,
   getPantrySpoons,
   getTimeAttackBestScores,
   getTimeAttackDailyCount,
@@ -20,6 +21,7 @@ import {
   resetProgress,
   setActivePlayerName
 } from "../game/save.js";
+import { getSpoonRunOpportunity } from "../game/spoonRunRewards.js";
 import { getCozySupportProduct, getSpoonJarSmallProduct, purchaseCozySupportPack, purchaseSpoonJarSmall, restorePendingPurchases } from "../game/billing.js";
 import { setLanguagePreference } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
@@ -760,6 +762,22 @@ function createShell({
   shell.dataset.view = activeView;
   const hasBlockingOverlay = Boolean(resetOpen || settingsOpen || activeGuide || allPuzzlesDonePromptOpen);
   const isWorkshopHome = activeView === "puzzle" && !playOpen && !puzzleListOpen;
+  const today = getDailyDateKey();
+  const completedDate = getDailyCompletedDate();
+  const replayPicks = getDailyReplayPicks({
+    allPuzzles: getDailyPuzzleCandidates(),
+    completedPuzzleIds: getCompletedPuzzleIds()
+  });
+  const replayRewardedPuzzleIds = getReplayRewardedPuzzleIds(today);
+  const replayDailyCount = getReplayDailyCount(today);
+  const spoonRunOpportunity = getSpoonRunOpportunity({
+    dailyPuzzle,
+    dailyCompleted: completedDate === today,
+    replayPicks,
+    replayRewardedPuzzleIds,
+    replayDailyCount,
+    replayDailyLimit: ECONOMY.REPLAY_PICK_DAILY_LIMIT
+  });
   if (isWorkshopHome) {
     shell.classList.add("app-shell--workshop-home");
   }
@@ -844,14 +862,12 @@ function createShell({
     shell.appendChild(renderSpoonRunView({
       dailyPuzzle,
       activePuzzleId: activePuzzle.id,
-      replayPicks: getDailyReplayPicks({
-        allPuzzles: getDailyPuzzleCandidates(),
-        completedPuzzleIds: getCompletedPuzzleIds()
-      }),
-      completedDate: getDailyCompletedDate(),
-      today: getDailyDateKey(),
-      dailyCount: getReplayDailyCount(),
+      replayPicks,
+      completedDate,
+      today,
+      dailyCount: replayDailyCount,
       dailyLimit: ECONOMY.REPLAY_PICK_DAILY_LIMIT,
+      opportunity: spoonRunOpportunity,
       onSelectDaily: (puzzleId) => onSelectPuzzle(puzzleId, "puzzle", { dailyChallenge: true }),
       onSelectReplay: (puzzleId) => onSelectPuzzle(puzzleId, "puzzle", { replayChallenge: true, replayPicked: true })
     }));
@@ -867,7 +883,8 @@ function createShell({
       onOpenPuzzle,
       onShowList: onShowPuzzlePicker,
       onSelectView,
-      onOpenSettings: onRequestSettings
+      onOpenSettings: onRequestSettings,
+      spoonRunOpportunity
     }));
 
   }

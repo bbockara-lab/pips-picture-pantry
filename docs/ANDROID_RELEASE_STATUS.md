@@ -1,14 +1,22 @@
-## v0.1.713 Pantry progression candidate - 2026-08-08
+## v0.1.715 Spoon Run scene candidate - 2026-08-08
 
 - Last Play Console upload: versionCode **40** / versionName **"1.1.12"** (approved and live).
-- Current prepared upload target: versionCode 45 / versionName 1.1.17.
+- Current prepared upload target: versionCode 47 / versionName 1.1.19.
+- Step 64 turns Spoon Run into a warm Pip-led game scene, keeps daily and replay opportunities visibly distinct, and shows the same calculated `+N` opportunity on the Workshop destination and inside Spoon Run.
+- Step 63.1/64.1 native-review fixes are included: 82 superseded Workshop positioning rules were removed, Play/destination geometry now has one authority, English/Korean titles are single-line and collision-checked, and the Spoon Run token is structurally contained by its opportunity bubble.
+- Native Android verification: Debug build installed and interactively traversed on Pixel 8 API 37.1; Workshop title/Pip/icon/Play alignment and Spoon Run title/bubble/token containment were visually and geometrically checked after the final CSS consolidation.
+- Native iOS verification: the synchronized payload built successfully and was installed/launched on iPhone 17 Pro / iOS 26.5 for the matching owner-assisted screen check.
+- No AAB has been generated for this candidate.
+- The shared reward helper counts the daily puzzle-size reward plus the daily bonus only while unclaimed, then adds only unclaimed clean-replay slots remaining under the daily cap. An empty replay pool now renders a friendly unlock explanation instead of disappearing.
+- Step 63 remains included: Play is visibly and interactively dominant, destination pairs share stable center lines, Pip's greeting is connected to its speech bubble, and the temporary login-bonus Pip has a separate collision-safe speaking zone.
+- Mobile QA confirms the Step 63/64.1 home, login-bonus, bilingual title, and Spoon Run header contracts at 360x740, 390x844, 430x932, and 675x900. The visible Play artwork measures about 1.26x–1.40x the largest destination artwork, with no destination/settings/login-bonus collisions or horizontal scene overflow.
 - Steps 61–62 remain included. Step 62.1 adds three bilingual Pantry jar shelves, 18 unique transparent jar assets, and 15 paid jars so the six new puzzle shelves now advance at 45/50/55 paid-jar checkpoints.
 - The Badge Shelf expands from 9 to 12 milestones across four groups. Three unique transparent badge artworks cover the six Step 62 stages in two-stage pairs; Full Pantry returns to its original milestone and the new Hearth Gallery badge becomes the final-glow reward.
 - The complete 500-puzzle path grants 3,840 authored spoons against 6,415 paid-jar spoons plus 2,706 room-decoration spoons: a 9,121-spoon combined sink and a 5,281-spoon authored-reward gap.
 - Local Pantry verification passed 49 test files / 304 tests, the 500-puzzle catalog and uniqueness gates, 393-asset art audit, the 212-entry runtime asset registry, the exact 66-entry jar-art contract, production build, and Android release gate. The expanded 11-shelf / 66-jar mobile Pantry contract also passes.
 - The aggregate mobile visual gate still reports the previously documented cursor-card, puzzle-board containment, compact 430px header, and 675px tablet clue/grid findings. They are outside this Pantry-only step and remain pre-AAB stabilization work.
 - A mandatory content-impact checklist and automatic progression graph test now guard stage-to-Pantry-to-badge-to-art completeness in future expansions.
-- No AAB has been generated for this target yet; packaging waits until the requested stabilization steps are complete.
+- No AAB has been generated for this target yet; packaging remains deferred until native Android and iOS checks are complete.
 
 ## v0.1.702 signed Play update candidate - 2026-08-03
 

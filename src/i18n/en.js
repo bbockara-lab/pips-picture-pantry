@@ -16,7 +16,13 @@ export const en = {
   },
   spoonRun: {
     eyebrow: "Spoon runs",
-    intro: "Play today's picture or revisit a favorite to collect more spoons."
+    intro: "Take today's picture trail, then revisit a favorite for a clean-run bonus.",
+    availableToday: "spoons available today",
+    homeOpportunity: "+{count} spoons available today",
+    dailyReward: "+{count} spoons with today's bonus",
+    replayReward: "+{count} spoons still available from clean replays",
+    collected: "Today's reward collected",
+    replayEmpty: "Finish any picture to open tomorrow's cozy replay picks."
   },
   views: {
     puzzle: "Pip's Puzzle Room",

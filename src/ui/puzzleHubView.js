@@ -87,7 +87,8 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     onOpenPuzzle = () => {},
     onShowList = () => {},
     onSelectView = () => {},
-    onOpenSettings = () => {}
+    onOpenSettings = () => {},
+    spoonRunOpportunity = { total: 0 }
   } = typeof options === "function" ? { onOpenPuzzle: options } : options;
   const stack = document.createElement("div");
   stack.className = "puzzle-hub-stack puzzle-home";
@@ -230,11 +231,25 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
         "puzzle-home-destination__badge",
         `${activeShelfCompletedCount}/${activeShelfPuzzles.length}`
       );
+    } else if (artId === "spoonRun") {
+      const badge = appendTextElement(
+        button,
+        "span",
+        "puzzle-home-destination__badge puzzle-home-destination__badge--spoon-run",
+        `+${Math.max(0, Number(spoonRunOpportunity?.total) || 0)}`
+      );
+      badge.setAttribute("aria-label", t("spoonRun.homeOpportunity", {
+        count: Math.max(0, Number(spoonRunOpportunity?.total) || 0)
+      }));
     } else if (artId === "pantry" && hasNewPantryItem) {
       const badge = appendTextElement(button, "span", "puzzle-home-destination__badge puzzle-home-destination__badge--new", "");
       badge.setAttribute("aria-label", t("home.new"));
     }
-    button.setAttribute("aria-label", t(labelKey));
+    button.setAttribute("aria-label", artId === "spoonRun"
+      ? `${t(labelKey)}. ${t("spoonRun.homeOpportunity", {
+        count: Math.max(0, Number(spoonRunOpportunity?.total) || 0)
+      })}`
+      : t(labelKey));
     button.title = t(labelKey);
     button.addEventListener("click", onClick);
     destinations.appendChild(button);
@@ -291,9 +306,22 @@ export function renderDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle, opt
   const card = document.createElement("section");
   card.className = "daily-card" + (selected ? " active" : "") + (completed ? " completed" : "");
 
+  const glow = document.createElement("div");
+  glow.className = "daily-card__sun";
+  glow.setAttribute("aria-hidden", "true");
+  const token = document.createElement("img");
+  token.src = spoonTokenUrl;
+  token.alt = "";
+  token.dataset.assetId = "spoon-token-v2";
+  glow.appendChild(token);
+
   const text = document.createElement("div");
+  text.className = "daily-card__copy";
   appendTextElement(text, "p", "section-label", t("daily.eyebrow"));
   appendTextElement(text, "h2", "", puzzleTitle(dailyPuzzle));
+  appendTextElement(text, "p", "daily-card__reward", completed
+    ? t("spoonRun.collected")
+    : t("spoonRun.dailyReward", { count: Math.max(0, Number(options.reward) || 0) }));
 
   const button = document.createElement("button");
   button.type = "button";
@@ -304,38 +332,58 @@ export function renderDailyCard(dailyPuzzle, activePuzzleId, onSelectPuzzle, opt
     button.addEventListener("click", () => onSelectPuzzle(dailyPuzzle.id));
   }
 
-  card.append(text, button);
+  card.append(glow, text, button);
   return card;
 }
 
 export function renderReplayPicksCard(replayPicks, activePuzzleId, onSelectPuzzle, options = {}) {
-  if (!Array.isArray(replayPicks) || replayPicks.length === 0) {
-    return null;
-  }
-
-  const { dailyCount = getReplayDailyCount(), dailyLimit = ECONOMY.REPLAY_PICK_DAILY_LIMIT, onReplayPick = onSelectPuzzle } = options;
+  const picks = Array.isArray(replayPicks) ? replayPicks : [];
+  const {
+    dailyCount = getReplayDailyCount(),
+    dailyLimit = ECONOMY.REPLAY_PICK_DAILY_LIMIT,
+    reward = 0,
+    onReplayPick = onSelectPuzzle
+  } = options;
   const card = document.createElement("section");
-  card.className = "replay-picks-card";
+  card.className = "replay-picks-card" + (picks.length ? "" : " replay-picks-card--empty");
 
   const header = document.createElement("div");
   header.className = "replay-picks-card__header";
   const headerCopy = document.createElement("div");
   appendTextElement(headerCopy, "h2", "", t("replayPicks.title"));
+  appendTextElement(headerCopy, "p", "replay-picks-card__reward", t("spoonRun.replayReward", {
+    count: Math.max(0, Number(reward) || 0)
+  }));
   const count = document.createElement("span");
   count.textContent = t("replayPicks.count", { count: dailyCount, limit: dailyLimit });
   header.append(headerCopy, count);
 
   const list = document.createElement("div");
   list.className = "replay-picks-list";
-  replayPicks.forEach((puzzle) => {
+  picks.forEach((puzzle, index) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = puzzle.id === activePuzzleId ? "replay-pick-button active" : "replay-pick-button";
     button.dataset.puzzleId = puzzle.id;
-    appendTextElement(button, "span", "", puzzleTitle(puzzle));
+    appendTextElement(button, "span", "replay-pick-button__number", String(index + 1));
+    appendTextElement(button, "span", "replay-pick-button__title", puzzleTitle(puzzle));
+    appendTextElement(button, "span", "replay-pick-button__spoon", `+${ECONOMY.REPLAY_PICK_REWARD}`);
     button.addEventListener("click", () => onReplayPick(puzzle.id));
     list.appendChild(button);
   });
+
+  if (!picks.length) {
+    const empty = document.createElement("div");
+    empty.className = "replay-picks-card__empty";
+    const emptyPip = document.createElement("img");
+    emptyPip.src = pipGuideUrl;
+    emptyPip.alt = "";
+    emptyPip.setAttribute("aria-hidden", "true");
+    emptyPip.dataset.assetId = "pip-chrome-v2";
+    appendTextElement(empty, "p", "", t("spoonRun.replayEmpty"));
+    empty.prepend(emptyPip);
+    list.appendChild(empty);
+  }
 
   card.append(header, list);
   return card;
@@ -349,6 +397,7 @@ export function renderSpoonRunView({
   today,
   dailyCount,
   dailyLimit,
+  opportunity = { dailyReward: 0, replayReward: 0, total: 0 },
   onSelectDaily = () => {},
   onSelectReplay = () => {}
 }) {
@@ -356,17 +405,31 @@ export function renderSpoonRunView({
   view.className = "spoon-run-view content-panel";
 
   const header = document.createElement("header");
-  header.className = "spoon-run-view__header";
+  header.className = "spoon-run-view__header spoon-run-scene";
+  const pip = document.createElement("img");
+  pip.className = "spoon-run-scene__pip";
+  pip.src = pipGuideUrl;
+  pip.alt = "";
+  pip.setAttribute("aria-hidden", "true");
+  pip.dataset.assetId = "pip-chrome-v2";
   const icon = document.createElement("img");
+  icon.className = "spoon-run-scene__token";
   icon.src = spoonTokenUrl;
   icon.alt = "";
   icon.setAttribute("aria-hidden", "true");
   icon.dataset.assetId = "spoon-token-v2";
   const copy = document.createElement("div");
+  copy.className = "spoon-run-scene__copy";
   appendTextElement(copy, "p", "section-label", t("spoonRun.eyebrow"));
   appendTextElement(copy, "h1", "", t("views.spoonRun"));
-  header.append(icon, copy);
-  appendTextElement(header, "p", "spoon-run-view__intro", t("spoonRun.intro"));
+  const opportunityBubble = document.createElement("div");
+  opportunityBubble.className = "spoon-run-scene__opportunity";
+  appendTextElement(opportunityBubble, "strong", "", `+${Math.max(0, Number(opportunity.total) || 0)}`);
+  appendTextElement(opportunityBubble, "span", "", t("spoonRun.availableToday"));
+  opportunityBubble.appendChild(icon);
+  const intro = appendTextElement(header, "p", "spoon-run-view__intro", t("spoonRun.intro"));
+  header.append(pip, copy, opportunityBubble);
+  header.appendChild(intro);
 
   const cards = document.createElement("div");
   cards.className = "spoon-run-view__cards";
@@ -374,17 +437,15 @@ export function renderSpoonRunView({
     dailyPuzzle,
     activePuzzleId,
     onSelectDaily,
-    { completedDate, today }
+    { completedDate, today, reward: opportunity.dailyReward }
   ));
   const replayCard = renderReplayPicksCard(
     replayPicks,
     activePuzzleId,
     onSelectReplay,
-    { dailyCount, dailyLimit, onReplayPick: onSelectReplay }
+    { dailyCount, dailyLimit, reward: opportunity.replayReward, onReplayPick: onSelectReplay }
   );
-  if (replayCard) {
-    cards.appendChild(replayCard);
-  }
+  cards.appendChild(replayCard);
 
   view.append(header, cards);
   return view;

@@ -92,15 +92,21 @@ describe("Workshop Play Now layout", () => {
     expect(step63Styles).toContain("--workshop-destination-size: clamp(74px, 20vw, 92px)");
     expect(step63Styles).toContain("--workshop-play-size: clamp(130px, 36vw, 164px)");
     expect(step63Styles).toContain("bottom: var(--workshop-nav-clearance) !important");
-    expect(step63Styles).toContain("width: min(78%, 116px) !important");
-    expect(step63Styles).toContain("top: clamp(220px, 30%, 280px) !important");
-    expect(step63Styles).toContain("top: clamp(350px, 47%, 440px) !important");
+    expect(step63Styles).toContain("width: min(90%, 120px) !important");
+    expect(step63Styles).toContain("top: clamp(250px, 32%, 300px) !important");
+    expect(step63Styles).toContain("top: clamp(370px, 48%, 450px) !important");
+    expect(step63Styles).toContain("left: 50% !important");
+    expect(step63Styles).toContain("background: transparent !important");
+    expect(step63Styles).toContain("color: #fffdf4");
+    expect(step63Styles).toContain("text-shadow: 0 2px 1px rgba(61, 43, 46, 0.88)");
   });
 
   it("connects Pip to the greeting and reserves that speaking zone for login rewards", () => {
     const step63Styles = styles.slice(styles.indexOf("v0.1.714 - Step 63 canonical Workshop composition"));
     expect(step63Styles).toContain("margin-right: -22px");
     expect(step63Styles).toContain(".puzzle-home-scene__greeting::before");
+    expect(step63Styles).toContain("top: clamp(92px, 12%, 116px) !important");
+    expect(step63Styles).toContain("max-width: calc(100% - 170px) !important");
     expect(step63Styles).toContain("#app:has(.login-bonus-popover) .puzzle-home-scene__greeting-wrap");
     expect(step63Styles).toContain("top: clamp(112px, 16dvh, 150px)");
   });

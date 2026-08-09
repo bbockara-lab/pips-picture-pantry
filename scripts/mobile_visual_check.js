@@ -60,6 +60,7 @@ for (const viewport of viewports) {
   await expectVisible(page, ".spoon-run-view", viewport.name);
   await expectSpoonBalanceChipSize(page, viewport.name, "Spoon Run");
   await expectSpoonRunFirstVisitGuide(page, viewport.name);
+  await expectSpoonRunSceneLayout(page, viewport.name);
   await expectDailyRewardPolish(page, viewport.name);
   await expectTimeAttackNavigationEntry(page, viewport.name);
   await expectResetDialogPolish(page, viewport.name);
@@ -362,6 +363,52 @@ async function expectSpoonRunFirstVisitGuide(page, viewportName) {
 
   await dialog.locator(".guide-dialog__next").click({ force: true });
   await overlay.waitFor({ state: "detached", timeout: 3000 });
+}
+
+async function expectSpoonRunSceneLayout(page, viewportName) {
+  await expectVisible(page, ".spoon-run-view__header.spoon-run-scene", viewportName);
+  const metrics = await page.locator(".spoon-run-view__header.spoon-run-scene").evaluate((header) => {
+    const rectOf = (element) => {
+      const rect = element?.getBoundingClientRect();
+      return rect ? { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom } : null;
+    };
+    const intersects = (left, right) => Boolean(left && right
+      && left.left < right.right - 1
+      && left.right > right.left + 1
+      && left.top < right.bottom - 1
+      && left.bottom > right.top + 1);
+    const contains = (outer, inner) => Boolean(outer && inner
+      && inner.left >= outer.left - 1
+      && inner.right <= outer.right + 1
+      && inner.top >= outer.top - 1
+      && inner.bottom <= outer.bottom + 1);
+    const copy = header.querySelector(".spoon-run-scene__copy");
+    const title = copy?.querySelector("h1");
+    const bubble = header.querySelector(".spoon-run-scene__opportunity");
+    const token = header.querySelector(".spoon-run-scene__token");
+    const pip = header.querySelector(".spoon-run-scene__pip");
+    const intro = header.querySelector(".spoon-run-view__intro");
+    const headerBox = rectOf(header);
+    const copyBox = rectOf(copy);
+    const titleBox = rectOf(title);
+    const bubbleBox = rectOf(bubble);
+    const tokenBox = rectOf(token);
+    const pipBox = rectOf(pip);
+    const introBox = rectOf(intro);
+    return {
+      tokenParentIsBubble: token?.parentElement === bubble,
+      tokenInsideBubble: contains(bubbleBox, tokenBox),
+      titleBubbleOverlap: intersects(titleBox, bubbleBox),
+      copyBubbleOverlap: intersects(copyBox, bubbleBox),
+      introBubbleOverlap: intersects(introBox, bubbleBox),
+      pipBubbleOverlap: intersects(pipBox, bubbleBox),
+      contentInsideHeader: [copyBox, bubbleBox, pipBox, introBox].every((box) => contains(headerBox, box)),
+      overflows: header.scrollWidth > header.clientWidth + 1 || header.scrollHeight > header.clientHeight + 1
+    };
+  });
+  if (!metrics.tokenParentIsBubble || !metrics.tokenInsideBubble || metrics.titleBubbleOverlap || metrics.copyBubbleOverlap || metrics.introBubbleOverlap || metrics.pipBubbleOverlap || !metrics.contentInsideHeader || metrics.overflows) {
+    failures.push("[" + viewportName + "] Spoon Run scene layout regressed: " + JSON.stringify(metrics));
+  }
 }
 async function expectPuzzleGuidePageContained(page, viewportName, expectedStep) {
   const dialog = page.locator(".guide-dialog--puzzle").first();
@@ -1740,6 +1787,8 @@ async function expectPuzzleHomePolish(page, viewportName) {
     const greetingWrap = home.querySelector(".puzzle-home-scene__greeting-wrap");
     const greetingPip = home.querySelector(".puzzle-home-scene__greeting-pip");
     const greetingBubble = home.querySelector(".puzzle-home-scene__greeting");
+    const spoonBalance = home.ownerDocument.querySelector(".spoon-balance-chip");
+    const title = home.querySelector(".puzzle-home-scene__title");
     const shell = home.closest(".app-shell");
     const hubCards = shell?.querySelector(".puzzle-hub-cards");
     const hubCardsStyle = hubCards ? getComputedStyle(hubCards) : null;
@@ -1779,6 +1828,23 @@ async function expectPuzzleHomePolish(page, viewportName) {
     const greetingWrapBox = boxOf(greetingWrap);
     const greetingPipBox = boxOf(greetingPip);
     const greetingBubbleBox = boxOf(greetingBubble);
+    const spoonBalanceBox = boxOf(spoonBalance);
+    const titleBox = boxOf(title);
+    const titleStyle = title ? getComputedStyle(title) : null;
+    const titleLineHeight = titleStyle ? parseFloat(titleStyle.lineHeight) || 0 : 0;
+    const originalTitle = title?.textContent || "";
+    const titleVariants = title ? ["Pip's Puzzle Room", "핍의 퍼즐방"].map((text) => {
+      title.textContent = text;
+      const box = boxOf(title);
+      const lineHeight = parseFloat(getComputedStyle(title).lineHeight) || 0;
+      return {
+        text,
+        wraps: !box || lineHeight <= 0 || box.bottom - box.top > lineHeight * 1.55,
+        overlapsPip: intersects(box, greetingPipBox),
+        outsideScene: !box || !sceneBox || box.left < sceneBox.left - 1 || box.right > sceneBox.right + 1 || box.top < sceneBox.top - 1 || box.bottom > sceneBox.bottom + 1
+      };
+    }) : [];
+    if (title) title.textContent = originalTitle;
     const greetingWrapStyle = greetingWrap ? getComputedStyle(greetingWrap) : null;
     const greetingBubbleStyle = greetingBubble ? getComputedStyle(greetingBubble) : null;
     const primaryDestinationBoxes = destinations
@@ -1815,7 +1881,15 @@ async function expectPuzzleHomePolish(page, viewportName) {
       greetingBubbleRadius: greetingBubbleStyle ? parseFloat(greetingBubbleStyle.borderTopLeftRadius) || 0 : 0,
       greetingBubbleShadow: greetingBubbleStyle?.boxShadow || "none",
       greetingBubbleBackground: greetingBubbleStyle?.backgroundColor || "",
+      titleWraps: !titleBox || titleLineHeight <= 0 || titleBox.bottom - titleBox.top > titleLineHeight * 1.55,
+      titleGreetingPipOverlap: intersects(titleBox, greetingPipBox),
+      titleOutsideScene: !titleBox || !sceneBox || titleBox.left < sceneBox.left - 1 || titleBox.right > sceneBox.right + 1 || titleBox.top < sceneBox.top - 1 || titleBox.bottom > sceneBox.bottom + 1,
+      titleVariants,
       greetingOutsideScene: !greetingWrapBox || !sceneBox || greetingWrapBox.left < sceneBox.left - 1 || greetingWrapBox.right > sceneBox.right + 1 || greetingWrapBox.top < sceneBox.top - 1 || greetingWrapBox.bottom > sceneBox.bottom + 1,
+      greetingSpoonBalanceOverlap: intersects(greetingWrapBox, spoonBalanceBox)
+        || intersects(greetingPipBox, spoonBalanceBox)
+        || intersects(greetingBubbleBox, spoonBalanceBox)
+        || intersects(titleBox, spoonBalanceBox),
       primaryDestinationsBelowGreeting: Boolean(greetingWrapBox && primaryDestinationBoxes.length === 4 && primaryDestinationBoxes.every((box) => box && box.top >= greetingWrapBox.bottom + 4)),
       settingsOutsideScene: !settingsBox || !sceneBox || settingsBox.left < sceneBox.left - 1 || settingsBox.right > sceneBox.right + 1 || settingsBox.top < sceneBox.top - 1 || settingsBox.bottom > sceneBox.bottom + 1,
       settingsTargetLargeEnough: Boolean(settingsBox && Math.min(settingsBox.right - settingsBox.left, settingsBox.bottom - settingsBox.top) >= 44),
@@ -1826,8 +1900,11 @@ async function expectPuzzleHomePolish(page, viewportName) {
         ? (playImageBox.right - playImageBox.left) / maxDestinationArtWidth
         : 0,
       topPairCenterDelta: Math.abs(centerY(destinationBoxById.puzzle) - centerY(destinationBoxById.album)),
+      topBadgeCenterDelta: Math.max(
+        Math.abs(centerY(destinationBoxById.map) - centerY(destinationBoxById.puzzle)),
+        Math.abs(centerY(destinationBoxById.map) - centerY(destinationBoxById.album))
+      ),
       middlePairCenterDelta: Math.abs(centerY(destinationBoxById.spoonRun) - centerY(destinationBoxById.pantry)),
-      lowerPairCenterDelta: Math.abs(centerY(destinationBoxById.map) - centerY(playBox)),
       workshopShell: Boolean(shell?.classList.contains("app-shell--workshop-home")),
       supportingCardClasses: hubCards ? [...hubCards.children].map((child) => child.className) : [],
       supportingCardsBelowScene: Boolean(sceneBox && hubCardsBox && hubCardsBox.top >= sceneBox.bottom - 1),
@@ -1845,7 +1922,8 @@ async function expectPuzzleHomePolish(page, viewportName) {
   const expected = ["puzzle", "album", "pantry", "spoonRun", "map"];
   const expectedAssets = { puzzle: "workshop-nav-puzzle-v3", album: "workshop-nav-album-v3", pantry: "workshop-nav-pantry-v3", spoonRun: "spoon-token-v2", map: "workshop-nav-map-v3" };
   const hasStaleDestinationTreatment = metrics.destinationArt.some((art) => art.assetId !== expectedAssets[art.id] || art.backgroundColor !== "rgba(0, 0, 0, 0)" || art.borderTopWidth !== "0px" || art.boxShadow !== "none");
-  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.greetingGap > 0 || metrics.greetingFlexGap > 0 || metrics.greetingBubbleBorder < 2 || metrics.greetingBubbleRadius < 16 || metrics.greetingBubbleShadow === "none" || metrics.greetingBubbleBackground === "rgb(255, 255, 255)" || metrics.greetingOutsideScene || !metrics.primaryDestinationsBelowGreeting || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || metrics.playVisualDominance < 1.24 || metrics.topPairCenterDelta > 2 || metrics.middlePairCenterDelta > 2 || metrics.lowerPairCenterDelta > 12 || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.hasHiddenDestinationLabel || metrics.playAssetId !== "puzzle-control-fill-v1" || metrics.supportingCardClasses.length !== 0 || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
+  const titleVariantRegression = metrics.titleVariants.some((variant) => variant.wraps || variant.overlapsPip || variant.outsideScene);
+  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.greetingGap > 0 || metrics.greetingFlexGap > 0 || metrics.greetingBubbleBorder < 2 || metrics.greetingBubbleRadius < 16 || metrics.greetingBubbleShadow === "none" || metrics.greetingBubbleBackground === "rgb(255, 255, 255)" || metrics.greetingOutsideScene || metrics.greetingSpoonBalanceOverlap || metrics.titleWraps || metrics.titleGreetingPipOverlap || metrics.titleOutsideScene || titleVariantRegression || !metrics.primaryDestinationsBelowGreeting || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || metrics.playVisualDominance < 1.24 || metrics.topPairCenterDelta > 2 || metrics.topBadgeCenterDelta > 2 || metrics.middlePairCenterDelta > 2 || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.hasHiddenDestinationLabel || metrics.playAssetId !== "puzzle-control-fill-v1" || metrics.supportingCardClasses.length !== 0 || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
     failures.push("[" + viewportName + "] Puzzle workshop home/direct destinations regressed: " + JSON.stringify(metrics));
   }
   await expectLoginBonusHomeClearance(page, viewportName);
@@ -1853,16 +1931,19 @@ async function expectPuzzleHomePolish(page, viewportName) {
 
 async function expectLoginBonusHomeClearance(page, viewportName) {
   await page.evaluate(async () => {
-    document.querySelector(".login-bonus-popover")?.remove();
+    document.querySelectorAll(".login-bonus-popover").forEach((popover) => popover.remove());
     const { renderLoginBonusPopover } = await import("/src/ui/loginBonusPopover.js");
-    document.querySelector("#app")?.appendChild(renderLoginBonusPopover(3, () => {}));
+    const testPopover = renderLoginBonusPopover(3, () => {});
+    testPopover.dataset.qaLoginBonus = "true";
+    document.querySelector("#app")?.appendChild(testPopover);
   });
-  await expectVisible(page, ".login-bonus-popover", viewportName);
+  await expectVisible(page, ".login-bonus-popover[data-qa-login-bonus='true']", viewportName);
   await page.waitForFunction(() => {
-    const image = document.querySelector(".login-bonus-popover__pip");
+    const image = document.querySelector(".login-bonus-popover[data-qa-login-bonus='true'] .login-bonus-popover__pip");
     return image?.complete && image.naturalWidth > 0;
   }, null, { timeout: 5000 });
-  const metrics = await page.locator(".login-bonus-popover").evaluate((popover) => {
+  const testPopover = page.locator(".login-bonus-popover[data-qa-login-bonus='true']");
+  const metrics = await testPopover.evaluate((popover) => {
     const rectOf = (element) => element?.getBoundingClientRect() || null;
     const overlaps = (left, right) => Boolean(left && right
       && left.left < right.right - 1
@@ -1882,7 +1963,7 @@ async function expectLoginBonusHomeClearance(page, viewportName) {
       rect: popoverRect ? { left: popoverRect.left, top: popoverRect.top, right: popoverRect.right, bottom: popoverRect.bottom } : null
     };
   });
-  await page.locator(".login-bonus-popover").evaluate((popover) => popover.remove());
+  await testPopover.evaluate((popover) => popover.remove());
   if (metrics.collisionCount > 0 || metrics.greetingOpacity > 0.05 || metrics.outsideViewport) {
     failures.push("[" + viewportName + "] Login bonus Pip collided with the Workshop composition: " + JSON.stringify(metrics));
   }

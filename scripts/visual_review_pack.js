@@ -228,6 +228,16 @@ async function dismissGuideIfPresent(page) {
   }
 }
 
+async function leavePlayForHome(page) {
+  const back = page.locator(".play-screen__back").first();
+  if ((await back.count()) === 0) return;
+  await back.click();
+  const homeAction = page.locator(".play-pause-menu__action--home").first();
+  await homeAction.waitFor({ state: "visible", timeout: 3000 });
+  await homeAction.click();
+  await page.locator(".puzzle-home-scene").first().waitFor({ state: "visible", timeout: 6000 });
+}
+
 async function openFloatingView(page, view) {
   await dismissGuideIfPresent(page);
   if ((await page.locator(".floating-nav__trigger").count()) === 0) {
@@ -241,7 +251,7 @@ async function openFloatingView(page, view) {
     }
   }
   if ((await page.locator(".floating-nav__trigger").count()) === 0 && (await page.locator(".play-screen__back").count()) > 0) {
-    await page.locator(".play-screen__back").click();
+    await leavePlayForHome(page);
   }
   await page.locator(".floating-nav__trigger").first().waitFor({ state: "visible", timeout: 5000 });
   await page.locator(".floating-nav__trigger").first().click();
@@ -257,7 +267,7 @@ async function openFloatingView(page, view) {
 async function returnToPuzzleHub(page) {
   await dismissGuideIfPresent(page);
   if ((await page.locator(".floating-nav__trigger").count()) === 0 && (await page.locator(".play-screen__back").count()) > 0) {
-    await page.locator(".play-screen__back").first().click();
+    await leavePlayForHome(page);
   }
   await page.locator(".app-shell").first().waitFor({ state: "visible", timeout: 6000 });
   if ((await page.locator(".puzzle-home-scene").count()) === 0 && (await page.locator(".floating-nav__trigger").count()) > 0) {
@@ -462,7 +472,7 @@ async function captureSettings(page, options = {}) {
 async function captureLargeBoard(page) {
   await openFloatingView(page, "puzzle");
   const back = page.locator(".play-screen__back");
-  if ((await back.count()) > 0) await back.first().click();
+  if ((await back.count()) > 0) await leavePlayForHome(page);
   await page.locator(".pack-block").first().waitFor({ state: "visible", timeout: 6000 });
   const target = page.locator(".puzzle-chip", { hasText: /Bakery Window Glow/ }).first();
   if ((await target.count()) === 0) return;
@@ -509,6 +519,8 @@ async function captureKoreanFirstRun(browser) {
     await capture(page, "ko-opening-brand-intro", ".brand-intro.game-stage");
     await dismissIntro(page);
     await page.locator(".app-shell").waitFor({ state: "visible", timeout: 6000 });
+    await page.locator(".login-bonus-popover").waitFor({ state: "detached", timeout: 5000 }).catch(() => {});
+    await page.waitForTimeout(3600);
     await capture(page, "ko-puzzle-home", ".puzzle-home", { fullPage: true });
     await page.locator(".puzzle-home-scene__play").click();
     if ((await page.locator(".guide-overlay").count()) > 0) {
@@ -649,6 +661,8 @@ async function main() {
     await capture(page, "opening-brand-intro", ".brand-intro.game-stage");
     await dismissIntro(page);
     await page.locator(".app-shell").waitFor({ state: "visible", timeout: 6000 });
+    await page.locator(".login-bonus-popover").waitFor({ state: "detached", timeout: 5000 }).catch(() => {});
+    await page.waitForTimeout(3600);
     await capture(page, "puzzle-home", ".puzzle-home", { fullPage: true });
     await page.locator(".puzzle-home-scene__play").click();
     if ((await page.locator(".guide-overlay").count()) > 0) {
@@ -659,9 +673,9 @@ async function main() {
       await dismissGuideIfPresent(page);
     }
     await capture(page, "first-puzzle-board", ".play-screen", { fullPage: true });
+    await captureKoreanFirstRun(browser);
     await capturePuzzleHubTimeAttackTeaser(page);
     await captureFloatingNavMenu(page);
-    await captureKoreanFirstRun(browser);
     await captureWidePreviewReview(browser);
     await capturePackArtContactSheet(browser, {
       packId: "pips-first-shelf",

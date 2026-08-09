@@ -2965,6 +2965,16 @@ Contributing factors found by reading the CSS (not yet confirmed against a live 
 
 **Verification**: actual screenshots in both `ko` and `en` at 360-430px width, reviewed by eye before claiming done — the existing automated `qa:mobile` pass already missed all three of these once. `npm test`, `npm run qa:mobile`/`qa:visual-pack` still required in addition, not instead.
 
+**Completed 2026-08-08 (second real-device review correction, retained in `v0.1.715`)**:
+- Removed the Play control's card treatment from the authoritative Workshop block: the outer fill is transparent and its border, shadow, and pulse animation are all disabled. The Play artwork, label, tap target, and independent lower-right emphasis remain. A source regression test now rejects any non-transparent Play background as well as a restored border, shadow, or animation.
+- Matched the Play label to the other home navigation artwork with an off-white label and a restrained brown readability shadow; the former standalone black label override is removed.
+- Recomposed the destinations instead of treating Badges as Play's undersized lower-left partner. Pictures, Badges, and Album now form one centered upper navigation row; Collect Spoons and Pantry form the second row; Play remains the larger independent action below/right. This removes the orphaned Badges placement without shrinking Play back into an ordinary destination.
+- Moved Pip's home greeting unit down, kept Pip and the bubble connected, and reserved a top-right safe zone for the fixed spoon-balance chip. The English/Korean title also reserves that chip area. Mobile geometry now fails specifically when the home title, Pip, or greeting bubble intersects the spoon chip.
+- Reviewed the rendered home screen by eye in both locales. English: `qa-artifacts/visual-review/v0.1.715/screenshots/02-puzzle-home.png`; Korean: `qa-artifacts/visual-review/v0.1.715/screenshots/07-ko-puzzle-home.png`. Both show a transparent Play container, centered Badges navigation, and clear separation between the greeting and spoon balance.
+- Full unit coverage passes at 50 files / 310 tests, and the production build passes. The Workshop-home-specific mobile checks pass at 360×740, 390×844, 430×932, and 675×900.
+- Honest gate status: the aggregate `qa:mobile` command remains red only on separately tracked Spoon Run/play-board/cursor/tablet findings outside A-C above. `qa:visual-pack` generated and verified both required home screenshots, then stopped later at its stale Pantry locator for the former `Small Jam Jar` catalog item. Therefore neither aggregate command is being represented as globally green; these two non-home/tooling findings remain explicit follow-up work.
+- No AAB was generated, no native version was bumped, and no store submission was made in this correction pass. Stop here for reviewer approval before release packaging.
+
 ---
 
 ### General rules for this stabilization period

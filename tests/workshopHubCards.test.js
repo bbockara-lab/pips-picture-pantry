@@ -61,16 +61,46 @@ describe("Workshop supporting cards wiring", () => {
     );
   });
 
-  it("gives the Spoon Run introduction the full header width", () => {
-    expect(puzzleHubSource).toMatch(
-      /header\.append\(icon, copy\);\s*appendTextElement\(header, "p", "spoon-run-view__intro"/
-    );
-    const step53Styles = styles.slice(styles.indexOf("v0.1.698 - Step 53 Spoon Run header"));
-    expect(step53Styles).toMatch(
-      /\.spoon-run-view__header\s*\{[\s\S]*?grid-template-columns:\s*64px minmax\(0, 1fr\);[\s\S]*?grid-template-rows:\s*auto auto;/
-    );
-    expect(step53Styles).toMatch(
-      /\.spoon-run-view__intro\s*\{[\s\S]*?grid-row:\s*2;[\s\S]*?grid-column:\s*1 \/ -1;/
-    );
+  it("builds Spoon Run as a Pip scene with one shared earn-today value", () => {
+    expect(puzzleHubSource).toContain('pip.className = "spoon-run-scene__pip"');
+    expect(puzzleHubSource).toContain('opportunityBubble.className = "spoon-run-scene__opportunity"');
+    expect(puzzleHubSource).toContain("puzzle-home-destination__badge--spoon-run");
+    expect(appShellSource).toContain("getSpoonRunOpportunity({");
+    expect(appShellSource).toContain("spoonRunOpportunity");
+    expect(styles).toContain("Step 64 canonical Spoon Run scene");
+    expect(puzzleHubSource).toContain("opportunityBubble.appendChild(icon)");
+    expect(puzzleHubSource).toContain("header.append(pip, copy, opportunityBubble)");
+    expect(puzzleHubSource).not.toContain("header.append(pip, icon");
+    expect(styles).toContain(".spoon-run-scene__opportunity > .spoon-run-scene__token");
+  });
+
+  it("keeps Workshop positioning in one canonical composition block", () => {
+    const canonicalMarker = "v0.1.714 - Step 63 canonical Workshop composition";
+    const canonicalIndex = styles.indexOf(canonicalMarker);
+    expect(canonicalIndex).toBeGreaterThan(-1);
+
+    const supersededStyles = styles.slice(0, canonicalIndex);
+    expect(supersededStyles).not.toContain(".puzzle-home-scene__play");
+    expect(supersededStyles).not.toContain(".puzzle-home-destinations");
+    expect(supersededStyles).not.toContain(".puzzle-home-destination--");
+
+    const canonicalStyles = styles.slice(canonicalIndex);
+    expect(canonicalStyles).toContain("white-space: nowrap");
+    expect(canonicalStyles).toContain(".app-shell--workshop-home .puzzle-home-destinations");
+    expect(canonicalStyles).toContain(".app-shell--workshop-home .puzzle-home-scene__play");
+  });
+
+  it("keeps Play free of card-like background treatment", () => {
+    const canonicalMarker = "v0.1.714 - Step 63 canonical Workshop composition";
+    const canonicalStyles = styles.slice(styles.indexOf(canonicalMarker));
+    const playRule = canonicalStyles.match(
+      /\.app-shell--workshop-home \.puzzle-home-scene__play\s*\{([\s\S]*?)\}/
+    )?.[1] || "";
+
+    expect(playRule).toMatch(/background:\s*transparent\s*!important;/);
+    expect(playRule).toMatch(/border:\s*0\s*!important;/);
+    expect(playRule).toMatch(/box-shadow:\s*none\s*!important;/);
+    expect(playRule).toMatch(/animation:\s*none;/);
+    expect(playRule).not.toMatch(/linear-gradient|background-color|#ffd96b|#f4bb36/);
   });
 });
