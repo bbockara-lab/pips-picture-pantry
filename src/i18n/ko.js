@@ -638,6 +638,7 @@ export const ko = {
       buyAction: "{count} \uD83E\uDD44 \uAD6C\uB9E4",
       needSpoons: "\uC2A4\uD47C {count}\uAC1C \uB354 \uD544\uC694",
       equipAction: "\uC774 \uBCD1 \uC120\uD0DD\uD558\uAE30",
+      close: "\uB2EB\uAE30",
       featureOnHome: "\uD648\uC5D0 \uD45C\uC2DC\uD558\uAE30",
       featuredOnHome: "\uD648\uC5D0 \uD45C\uC2DC \uC911",
       featuredAria: "{item}, \uD648\uC5D0 \uD45C\uC2DC\uD55C \uBCD1. \uD32C\uD2B8\uB9AC \uC5F4\uAE30",

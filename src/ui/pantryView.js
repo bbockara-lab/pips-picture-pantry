@@ -229,7 +229,7 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, equippedJars, onRefresh
   const closeButton = document.createElement("button");
   closeButton.type = "button";
   closeButton.className = "pantry-jar-detail__btn-close";
-  closeButton.textContent = t("common.close");
+  closeButton.textContent = t("pantry.jar.close");
   const close = () => {
     backdrop.classList.remove("visible");
     backdrop.hidden = true;

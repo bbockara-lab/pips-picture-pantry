@@ -639,6 +639,7 @@ export const en = {
       buyAction: "Buy for {count} 🥄",
       needSpoons: "Need {count} more spoons",
       equipAction: "Select this jar",
+      close: "Close",
       featureOnHome: "Display on home",
       featuredOnHome: "Displayed on home",
       featuredAria: "{item}, displayed jar. Open Pantry",
