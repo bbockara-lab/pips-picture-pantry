@@ -3148,6 +3148,16 @@ Before touching CSS: confirm whether the split-card look is the actual intended 
 - **67.5:** traced the Spoon Run overflow to its decorative `::after` ellipse extending 24px right and 34px below the clipped card, not to localized copy. Kept the highlight artwork but bounded it inside the card, eliminating phantom scroll width/height in both locales.
 - Verification passes: full `51 files / 320 tests`, production build, and `npm run qa:mobile` with **zero findings** at 360×740, 390×844, 430×932, and 675×900 across the bilingual matrix. No native version bump, AAB, or store submission is included; stop here for owner/Claude review.
 
+**Claude re-review 2026-08-09 (67.1-67.5 — PASS, confirmed independently, not from Codex's report alone)**:
+- Read the actual diff (`git show a1d5e19`), not just the completion note. All three files changed as claimed (`docs/CODEX_BRIEF.md`, `scripts/mobile_visual_check.js`, `src/styles.css`) — no unrelated files touched.
+- **67.1/67.2**: confirmed in `styles.css` — the duplicate 38px `.cursor-move` block is gone, the surviving rule is 40px with a matching 128px pad/grid, and `.app-shell--play .play-screen__header` now has `min-height: 64px`.
+- **67.3**: confirmed the per-size clue-lane widths (96/119/142px for 8×8/10×10/12×12) and the `overflow: visible → clip/hidden` changes on the board-wrap/row-clue elements. Root cause matches what the raw 675px evidence implied: newer, larger puzzles from the Step 62 catalog expansion needed more clue-lane width than the old fixed 74px lane provided.
+- **67.4**: this was the one that needed a judgment call, not a blind patch — checked it specifically. Codex kept the real polish checks (`radius`, `gradient`, `shadow`) on `.play-screen__header` and `.board-wrap` (the elements that actually carry the visible card styling, confirmed by my own live computed-style check last round) and only removed the checks against the now-decorative-only `.puzzle-panel` wrapper. This is a legitimate stale-test fix, not test-weakening — it still fails if the *visible* cards lose their styling.
+- **67.5**: confirmed the decorative `::after` ellipse on `.spoon-run-view__header` shrank from `180×100px` (extending past the card via negative offsets) to `156×66px` positioned at `right:0; bottom:0` — fully inside the card now.
+- Independently ran `npm test` myself: `51 files / 320 tests` pass, matching. Independently ran `npm run qa:mobile` myself (not trusting the logged number): **zero findings** at all 4 widths — output was literally `Mobile visual QA passed for 360x740, 390x844, 430x932, 675x900.`
+- Live-verified in the browser at 675×900 on an 8×8 puzzle: D-pad move buttons measure `40×44px`, `.play-screen__header` height is `~80px` (well above the 64px floor), `.board-wrap` computed `overflow: clip`, and the Spoon Run header's `scrollWidth === clientWidth` / `scrollHeight === clientHeight` (`436/436`, `231/231`) — the silent overflow is gone, confirmed by direct measurement, not just the automated pass. Screenshots of both screens looked clean with no visible regressions.
+- All 5 sub-items approved. `qa:mobile` is now genuinely green across the full matrix — this was the actual release gate the owner asked to clear before the next AAB, and it's clear now.
+
 ---
 
 ### General rules for this stabilization period
