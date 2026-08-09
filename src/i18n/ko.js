@@ -95,6 +95,7 @@ export const ko = {
     groupA: "\uc120\ubc18 A - 핍\uc758 \uccab\uac78\uc74c",
     groupB: "\uc120\ubc18 B - 핍\uc758 \ube75\uc9d1",
     groupC: "\uc120\ubc18 C - 핍\uc758 \ub9c8\uc744",
+    groupD: "\uc120\ubc18 D - 핍\uc758 \uc0ac\uacc4\uc808",
     earned: "\uc218\uc9d1 \uc644\ub8cc",
     stageRequirement: "Stage {stage} \uc644\ub8cc",
     detailEarned: "\uc18c\uc911\ud55c \ubc30\uc9c0\uac00 \uc120\ubc18 \uc704\uc5d0\uc11c \ube5b\ub098\uace0 \uc788\uc5b4\uc694.",
@@ -623,7 +624,10 @@ export const ko = {
       pickle: "피클",
       fruit: "과일청",
       oil: "허브 오일",
-      tea: "보태니컬 차"
+      tea: "보태니컬 차",
+      sunroom: "햇살 온실 허브",
+      orchard: "과수원 과일 저장식",
+      hearth: "화롯가 달콤한 병"
     },
     jar: {
       balance: "\uD83E\uDD44 {count}",
@@ -694,7 +698,25 @@ export const ko = {
       lavenderBlend: "라벤더 블렌드",
       rosePetalTea: "장미 꽃잎 차",
       jasminePearl: "자스민 펄",
-      spiceChaiBlend: "스파이스 차이"
+      spiceChaiBlend: "스파이스 차이",
+      pressedFernTonic: "고사리 잎 토닉",
+      basilDewInfusion: "바질 이슬차",
+      mintBlossomCordial: "민트 꽃 코디얼",
+      rosemaryCitrusElixir: "로즈마리 시트러스 엘릭서",
+      lavenderSageTonic: "라벤더 세이지 토닉",
+      goldenHerbEssence: "골든 허브 에센스",
+      appleBlossomWater: "사과꽃 워터",
+      pearVanillaPreserve: "배 바닐라 조림",
+      plumHoneyCompote: "자두 꿀 콩포트",
+      quinceSpiceMarmalade: "향신료 모과 마멀레이드",
+      moonPeachConserve: "달빛 복숭아 조림",
+      jeweledOrchardPreserve: "보석빛 과수원 조림",
+      hearthCocoaMix: "화롯가 코코아 믹스",
+      toastedHazelnutSpread: "구운 헤이즐넛 스프레드",
+      chestnutVanillaCream: "밤 바닐라 크림",
+      emberBerryConserve: "불꽃 베리 조림",
+      spicedFigPudding: "향신료 무화과 푸딩",
+      midnightCaramelReserve: "한밤의 캐러멜 리저브"
     },
     items: {
       starterCounter: { title: "\uccb4\ud06c \uce74\uc6b4\ud130\ubcf4", description: "핍\uc758 \uccab \uc11c\ube59 \uc790\ub9ac\ub97c \ub36e\uc5b4 \uc8fc\ub294 \ubd80\ub4dc\ub7ec\uc6b4 \uccb4\ud06c\ubcf4\uc608\uc694." },

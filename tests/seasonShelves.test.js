@@ -3,6 +3,7 @@ import { puzzles } from "../src/data/puzzles.js";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, getSeasonShelfSizeCounts, seasonShelves } from "../src/data/seasonShelves.js";
 import { getPuzzleReward } from "../src/data/economyConfig.js";
 import { PANTRY_JARS } from "../src/data/pantryJars.js";
+import { pantryDecorations } from "../src/data/decorations.js";
 import { getPreviousSeasonShelf, getSeasonShelfProgress, isSeasonShelfComplete } from "../src/game/seasonShelfProgress.js";
 
 describe("Season 0 shelves", () => {
@@ -35,7 +36,7 @@ describe("Season 0 shelves", () => {
     expect(seasonShelves.at(-1)?.id).toBe("shelf-hearth-gallery");
   });
 
-  it("balances the nine-stage shelf economy against the expanded Pantry", () => {
+  it("balances the full stage economy against the expanded Pantry", () => {
     const totals = seasonShelves.reduce((result, shelf) => ({
       unlockCost: result.unlockCost + Number(shelf.unlockCost || 0),
       stageBonus: result.stageBonus + Number(shelf.stageBonus || 0)
@@ -56,13 +57,13 @@ describe("Season 0 shelves", () => {
     expect(puzzleRewards).toBe(3110);
   });
 
-  it("maps forty paid Pantry jars to nine five-jar stage gates", () => {
+  it("maps fifty-five paid Pantry jars to eleven five-jar stage gates", () => {
     expect(seasonShelves.map((shelf) => shelf.pantryRoomStepRequired)).toEqual([
-      0, 5, 10, 15, 15, 20, 20, 25, 25, 30, 30, 35, 35, 40, 40, 40, 40, 40, 40, 40, 40
+      0, 5, 10, 15, 15, 20, 20, 25, 25, 30, 30, 35, 35, 40, 40, 45, 45, 50, 50, 55, 55
     ]);
   });
 
-  it("places the stabilization puzzles after the final Pantry gate without erasing the spoon gap", () => {
+  it("places stabilization shelves at three new Pantry gates and preserves the full economy gap", () => {
     const stabilizationShelves = seasonShelves.slice(-6);
     expect(stabilizationShelves.map((shelf) => shelf.id)).toEqual([
       "shelf-herb-terrace",
@@ -80,21 +81,21 @@ describe("Season 0 shelves", () => {
       { 8: 8, 10: 20 },
       { 8: 7, 10: 20 }
     ]);
-    expect(stabilizationShelves.every((shelf) => shelf.pantryRoomStepRequired === 40)).toBe(true);
+    expect(stabilizationShelves.map((shelf) => shelf.pantryRoomStepRequired)).toEqual([45, 45, 50, 50, 55, 55]);
 
-    const rewardsBeforeFinalGate = seasonShelves
-      .filter((shelf) => shelf.pantryRoomStepRequired < 40)
-      .reduce((total, shelf) => total
-        + Number(shelf.stageBonus || 0)
-        + getSeasonShelfPuzzles(shelf).reduce(
-          (shelfTotal, puzzle) => shelfTotal + getPuzzleReward(puzzle.size),
-          0
-        ), 0);
+    const authoredRewards = seasonShelves.reduce((total, shelf) => total
+      + Number(shelf.stageBonus || 0)
+      + getSeasonShelfPuzzles(shelf).reduce(
+        (shelfTotal, puzzle) => shelfTotal + getPuzzleReward(puzzle.size),
+        0
+      ), 0);
     const paidJarCost = PANTRY_JARS.reduce((total, jar) => total + Number(jar.cost || 0), 0);
+    const decorationCost = pantryDecorations.reduce((total, decoration) => total + Number(decoration.cost || 0), 0);
 
-    expect(rewardsBeforeFinalGate).toBe(2252);
-    expect(paidJarCost).toBe(3310);
-    expect(paidJarCost - rewardsBeforeFinalGate).toBeGreaterThanOrEqual(500);
+    expect(authoredRewards).toBe(3840);
+    expect(paidJarCost).toBe(6415);
+    expect(decorationCost).toBe(2706);
+    expect(paidJarCost + decorationCost - authoredRewards).toBe(5281);
   });
 
   it("uses the previous shelf and current shelf completion as separate progression facts", () => {

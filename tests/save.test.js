@@ -16,6 +16,7 @@ import {
   hasSeenGuide,
   getPantrySpoons,
   getPantryStoryGoalId,
+  getShelfPantryRoomRequirement,
   getEquippedDecorations,
   getOwnedDecorationIds,
   getUnlockedPackIds,
@@ -291,6 +292,31 @@ describe("player save profiles", () => {
     expect(getPantrySpoons()).toBe(0);
     expect(markShelfCompletedIfFirst(starter)).toEqual({ completed: true, bonus: starter.stageBonus });
     expect(markShelfCompletedIfFirst(starter)).toEqual({ completed: false, bonus: 0 });
+  });
+
+  it("opens exactly the intended stabilization gate subset from 40 through 55 paid jars", () => {
+    setActivePlayerName("Jay");
+    const paidJarIds = PANTRY_JARS.filter((jar) => jar.cost > 0).map((jar) => jar.id);
+    const stabilizationShelves = seasonShelves.slice(-6);
+    const metStageIdsAt = (paidCount) => {
+      saveGame({ ...loadSave(), ownedJarIds: paidJarIds.slice(0, paidCount) });
+      return stabilizationShelves
+        .filter((shelf) => getShelfPantryRoomRequirement(shelf).met)
+        .map((shelf) => shelf.id);
+    };
+
+    expect(metStageIdsAt(40)).toEqual([]);
+    expect(metStageIdsAt(44)).toEqual([]);
+    expect(metStageIdsAt(45)).toEqual(["shelf-herb-terrace", "shelf-sunroom-table"]);
+    expect(metStageIdsAt(49)).toEqual(["shelf-herb-terrace", "shelf-sunroom-table"]);
+    expect(metStageIdsAt(50)).toEqual([
+      "shelf-herb-terrace",
+      "shelf-sunroom-table",
+      "shelf-orchard-window",
+      "shelf-lantern-courtyard"
+    ]);
+    expect(metStageIdsAt(54)).toHaveLength(4);
+    expect(metStageIdsAt(55)).toEqual(stabilizationShelves.map((shelf) => shelf.id));
   });
 
   it("tracks first-run guide acknowledgements", () => {

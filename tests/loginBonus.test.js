@@ -19,9 +19,9 @@ describe("daily login bonus presentation", () => {
     expect(popover).toContain('addEventListener("click", onDismiss, { once: true })');
     expect(styles).toContain("v0.1.678 - daily login spoon bonus");
     expect(styles).toContain(".login-bonus-popover__bubble");
-    expect(styles).toMatch(
-      /\.login-bonus-popover\s*\{[\s\S]*?top:\s*42%;[\s\S]*?transform:\s*translate\(-50%, -50%\);/
-    );
+    const step63Styles = styles.slice(styles.indexOf("v0.1.714 - Step 63 canonical Workshop composition"));
+    expect(step63Styles).toContain("top: clamp(112px, 16dvh, 150px)");
+    expect(step63Styles).toContain("#app:has(.login-bonus-popover) .puzzle-home-scene__greeting-wrap");
     expect(styles).toMatch(
       /@keyframes login-bonus-arrive\s*\{[\s\S]*?translate\(-50%, calc\(-50% - 8px\)\)[\s\S]*?translate\(-50%, -50%\)/
     );

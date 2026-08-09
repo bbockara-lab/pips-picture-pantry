@@ -7,6 +7,9 @@ import pipTinCollectionBadgeUrl from "../assets/badges/badge-pip-tin-collection-
 import pipVillagePathBadgeUrl from "../assets/badges/badge-pip-village-path-v1.webp";
 import pipClockCornerBadgeUrl from "../assets/badges/badge-pip-clock-corner-v1.webp";
 import pipFullPantryBadgeUrl from "../assets/badges/badge-pip-full-pantry-v1.webp";
+import pipSunroomBotanicalsBadgeUrl from "../assets/badges/badge-pip-sunroom-botanicals-v1.webp";
+import pipOrchardLanternBadgeUrl from "../assets/badges/badge-pip-orchard-lantern-v1.webp";
+import pipHearthGalleryBadgeUrl from "../assets/badges/badge-pip-hearth-gallery-v1.webp";
 
 const approvedBadgeArtUrls = Object.freeze({
   "badge-pips-first-shelf": pipsFirstShelfBadgeUrl,
@@ -17,7 +20,10 @@ const approvedBadgeArtUrls = Object.freeze({
   "badge-pip-tin-collection": pipTinCollectionBadgeUrl,
   "badge-pip-village-path": pipVillagePathBadgeUrl,
   "badge-pip-clock-corner": pipClockCornerBadgeUrl,
-  "badge-pip-full-pantry": pipFullPantryBadgeUrl
+  "badge-pip-full-pantry": pipFullPantryBadgeUrl,
+  "badge-pip-sunroom-botanicals": pipSunroomBotanicalsBadgeUrl,
+  "badge-pip-orchard-lantern": pipOrchardLanternBadgeUrl,
+  "badge-pip-hearth-gallery": pipHearthGalleryBadgeUrl
 });
 
 export function getBadgeArtUrl(badgeId) {

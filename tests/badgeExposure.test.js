@@ -33,7 +33,7 @@ describe("badge artwork exposure", () => {
     expect(mapViewSource).toMatch(/storage\?\.removeItem\(LAST_EARNED_BADGE_KEY\)/);
     expect(mapViewSource).toMatch(/justEarnedId === status\.badge\.id \? "badge-slot--just-earned"/);
     expect(stylesSource).toMatch(/\.badge-slot--just-earned \.badge-circle[\s\S]*badge-earn-glow 1\.8s/);
-    expect(stylesSource).toMatch(/\.badge-slot\[data-badge-id="badge-pip-full-pantry"\]\.earned \.badge-circle[\s\S]*badge-final-pulse 3s/);
+    expect(stylesSource).toMatch(/\.badge-slot\[data-badge-id="badge-pip-hearth-gallery"\]\.earned \.badge-circle[\s\S]*badge-final-pulse 3s/);
     expect(stylesSource).toMatch(/@media \(prefers-reduced-motion: reduce\)[\s\S]*badge-slot--just-earned/);
   });
 });

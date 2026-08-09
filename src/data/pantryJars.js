@@ -6,7 +6,10 @@ export const JAR_SHELVES = [
   { id: "pickle", nameKey: "pantry.shelf.pickle" },
   { id: "fruit", nameKey: "pantry.shelf.fruit" },
   { id: "oil", nameKey: "pantry.shelf.oil" },
-  { id: "tea", nameKey: "pantry.shelf.tea" }
+  { id: "tea", nameKey: "pantry.shelf.tea" },
+  { id: "sunroom", nameKey: "pantry.shelf.sunroom" },
+  { id: "orchard", nameKey: "pantry.shelf.orchard" },
+  { id: "hearth", nameKey: "pantry.shelf.hearth" }
 ];
 
 export const PANTRY_JARS = [
@@ -57,7 +60,25 @@ export const PANTRY_JARS = [
   { id: "lavender-blend", shelfId: "tea", rarity: "common", cost: 90, nameKey: "pantry.jar.lavenderBlend" },
   { id: "rose-petal-tea", shelfId: "tea", rarity: "rare", cost: 140, nameKey: "pantry.jar.rosePetalTea" },
   { id: "jasmine-pearl", shelfId: "tea", rarity: "special", cost: 200, nameKey: "pantry.jar.jasminePearl" },
-  { id: "spice-chai-blend", shelfId: "tea", rarity: "luxury", cost: 300, nameKey: "pantry.jar.spiceChaiBlend" }
+  { id: "spice-chai-blend", shelfId: "tea", rarity: "luxury", cost: 300, nameKey: "pantry.jar.spiceChaiBlend" },
+  { id: "pressed-fern-tonic", shelfId: "sunroom", rarity: "starter", cost: 0, nameKey: "pantry.jar.pressedFernTonic" },
+  { id: "basil-dew-infusion", shelfId: "sunroom", rarity: "common", cost: 105, nameKey: "pantry.jar.basilDewInfusion" },
+  { id: "mint-blossom-cordial", shelfId: "sunroom", rarity: "common", cost: 105, nameKey: "pantry.jar.mintBlossomCordial" },
+  { id: "rosemary-citrus-elixir", shelfId: "sunroom", rarity: "rare", cost: 160, nameKey: "pantry.jar.rosemaryCitrusElixir" },
+  { id: "lavender-sage-tonic", shelfId: "sunroom", rarity: "special", cost: 225, nameKey: "pantry.jar.lavenderSageTonic" },
+  { id: "golden-herb-essence", shelfId: "sunroom", rarity: "luxury", cost: 330, nameKey: "pantry.jar.goldenHerbEssence" },
+  { id: "apple-blossom-water", shelfId: "orchard", rarity: "starter", cost: 0, nameKey: "pantry.jar.appleBlossomWater" },
+  { id: "pear-vanilla-preserve", shelfId: "orchard", rarity: "common", cost: 120, nameKey: "pantry.jar.pearVanillaPreserve" },
+  { id: "plum-honey-compote", shelfId: "orchard", rarity: "common", cost: 120, nameKey: "pantry.jar.plumHoneyCompote" },
+  { id: "quince-spice-marmalade", shelfId: "orchard", rarity: "rare", cost: 180, nameKey: "pantry.jar.quinceSpiceMarmalade" },
+  { id: "moon-peach-conserve", shelfId: "orchard", rarity: "special", cost: 250, nameKey: "pantry.jar.moonPeachConserve" },
+  { id: "jeweled-orchard-preserve", shelfId: "orchard", rarity: "luxury", cost: 360, nameKey: "pantry.jar.jeweledOrchardPreserve" },
+  { id: "hearth-cocoa-mix", shelfId: "hearth", rarity: "starter", cost: 0, nameKey: "pantry.jar.hearthCocoaMix" },
+  { id: "toasted-hazelnut-spread", shelfId: "hearth", rarity: "common", cost: 135, nameKey: "pantry.jar.toastedHazelnutSpread" },
+  { id: "chestnut-vanilla-cream", shelfId: "hearth", rarity: "common", cost: 135, nameKey: "pantry.jar.chestnutVanillaCream" },
+  { id: "ember-berry-conserve", shelfId: "hearth", rarity: "rare", cost: 200, nameKey: "pantry.jar.emberBerryConserve" },
+  { id: "spiced-fig-pudding", shelfId: "hearth", rarity: "special", cost: 280, nameKey: "pantry.jar.spicedFigPudding" },
+  { id: "midnight-caramel-reserve", shelfId: "hearth", rarity: "luxury", cost: 400, nameKey: "pantry.jar.midnightCaramelReserve" }
 ];
 
 export function getJarById(id) {

@@ -18481,7 +18481,7 @@ body.guide-open {
   }
 }
 
-/* v0.1.643 — nine-stage Badge Shelf */
+/* v0.1.643 base / v0.1.713 expansion — twelve-stage Badge Shelf */
 .badge-view {
   overflow: hidden;
   background:
@@ -18543,6 +18543,12 @@ body.guide-open {
   background:
     radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.52), transparent 30%),
     linear-gradient(180deg, rgba(255, 244, 220, 0.97), rgba(239, 205, 158, 0.9));
+}
+
+.badge-shelf[data-group="D"] {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.54), transparent 30%),
+    linear-gradient(180deg, rgba(241, 246, 224, 0.97), rgba(222, 207, 164, 0.92));
 }
 
 .badge-shelf__title {
@@ -18740,7 +18746,7 @@ body.guide-open {
   50% { box-shadow: 0 0 22px rgba(201, 130, 42, 0.82), 0 0 42px rgba(201, 130, 42, 0.34); }
 }
 
-.badge-slot[data-badge-id="badge-pip-full-pantry"].earned .badge-circle {
+.badge-slot[data-badge-id="badge-pip-hearth-gallery"].earned .badge-circle {
   animation: badge-final-pulse 3s ease-in-out infinite;
 }
 
@@ -18817,7 +18823,7 @@ body.guide-open {
 
 @media (prefers-reduced-motion: reduce) {
   .badge-slot--just-earned .badge-circle,
-  .badge-slot[data-badge-id="badge-pip-full-pantry"].earned .badge-circle,
+  .badge-slot[data-badge-id="badge-pip-hearth-gallery"].earned .badge-circle,
   .badge-earned-toast {
     animation: none;
   }
@@ -19598,6 +19604,134 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
 .app-shell--workshop-home .puzzle-home-scene__play > img {
   width: min(62%, 74px) !important;
   height: min(62%, 74px) !important;
+}
+
+/* v0.1.714 - Step 63 canonical Workshop composition.
+   This is the live home-layout contract. Earlier Workshop blocks document the
+   iterations that led here; future home positioning changes belong together
+   in this block so the scene cannot drift one icon at a time. */
+.app-shell--workshop-home .puzzle-home-scene {
+  --workshop-destination-size: clamp(74px, 20vw, 92px);
+  --workshop-play-size: clamp(130px, 36vw, 164px);
+  --workshop-nav-clearance: calc(
+    max(20px, calc(env(safe-area-inset-bottom, 0px) + 20px))
+    + clamp(72px, 19vw, 88px)
+  );
+}
+
+.app-shell--workshop-home .puzzle-home-scene__greeting-wrap {
+  top: clamp(62px, 9%, 94px) !important;
+  width: min(calc(100% - 28px), 360px) !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  align-items: center !important;
+}
+
+.app-shell--workshop-home .puzzle-home-scene__greeting-pip {
+  position: relative;
+  z-index: 2;
+  width: clamp(112px, 30vw, 148px) !important;
+  margin-right: -22px;
+}
+
+.app-shell--workshop-home .puzzle-home-scene__greeting {
+  position: relative !important;
+  z-index: 1;
+  min-width: 0;
+  margin-left: 0 !important;
+  padding: 11px 14px 11px 24px !important;
+  border-radius: 18px 18px 18px 7px !important;
+  text-align: left !important;
+}
+
+.app-shell--workshop-home .puzzle-home-scene__greeting::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  width: 18px;
+  height: 18px;
+  border-bottom: 2px solid var(--ink, #3d2b2e);
+  border-left: 2px solid var(--ink, #3d2b2e);
+  border-radius: 0 0 0 5px;
+  background: var(--paper, #fff8e8);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.app-shell--workshop-home .puzzle-home-destination {
+  width: var(--workshop-destination-size) !important;
+  min-width: var(--workshop-destination-size) !important;
+}
+
+.app-shell--workshop-home .puzzle-home-destination > img {
+  width: var(--workshop-destination-size) !important;
+  height: var(--workshop-destination-size) !important;
+}
+
+.app-shell--workshop-home .puzzle-home-destination--puzzle,
+.app-shell--workshop-home .puzzle-home-destination--album {
+  top: clamp(220px, 30%, 280px) !important;
+}
+
+.app-shell--workshop-home .puzzle-home-destination--spoonRun,
+.app-shell--workshop-home .puzzle-home-destination--pantry {
+  top: clamp(350px, 47%, 440px) !important;
+}
+
+.app-shell--workshop-home .puzzle-home-destination--puzzle,
+.app-shell--workshop-home .puzzle-home-destination--spoonRun,
+.app-shell--workshop-home .puzzle-home-destination--map {
+  left: 4% !important;
+}
+
+.app-shell--workshop-home .puzzle-home-destination--album,
+.app-shell--workshop-home .puzzle-home-destination--pantry {
+  right: 4% !important;
+}
+
+.app-shell--workshop-home .puzzle-home-destination--map {
+  bottom: calc(var(--workshop-nav-clearance) + 24px) !important;
+}
+
+.app-shell--workshop-home .puzzle-home-scene__play {
+  right: 4% !important;
+  bottom: var(--workshop-nav-clearance) !important;
+  width: var(--workshop-play-size) !important;
+  min-width: var(--workshop-play-size) !important;
+  height: var(--workshop-play-size) !important;
+  min-height: var(--workshop-play-size) !important;
+  justify-content: center;
+  gap: 2px !important;
+}
+
+.app-shell--workshop-home .puzzle-home-scene__play > img {
+  width: min(78%, 116px) !important;
+  height: min(78%, 116px) !important;
+}
+
+.app-shell--workshop-home .puzzle-home-scene__play-label {
+  font-size: clamp(0.9rem, 3.8vw, 1.08rem) !important;
+  line-height: 1.05 !important;
+}
+
+/* The three-second login reward temporarily uses the same speaking zone as
+   the greeting. Hiding the idle greeting prevents two Pips from competing,
+   and keeps the reward clear of every navigation icon and Play. */
+#app:has(.login-bonus-popover) .puzzle-home-scene__greeting-wrap {
+  opacity: 0;
+}
+
+.login-bonus-popover {
+  top: clamp(112px, 16dvh, 150px);
+}
+
+.login-bonus-popover__pip {
+  width: clamp(78px, 22vw, 102px);
+  height: clamp(78px, 22vw, 102px);
+}
+
+.login-bonus-popover__bubble {
+  margin-left: -12px;
 }
 
 /* v0.1.697 - Step 52 floating-navigation menu containment */

@@ -8,7 +8,7 @@ import {
 } from "../src/data/stagePantryLinks.js";
 
 describe("Pantry shelf and puzzle stage links", () => {
-  it("maps all eight paid Pantry shelves to the authored stage gates", () => {
+  it("maps all eleven paid Pantry shelves to the authored stage gates", () => {
     expect(JAR_SHELVES.map((shelf) => ({
       shelf: shelf.id,
       stages: getSeasonShelvesForPantryShelf(shelf.id).map((stage) => stage.id)
@@ -20,7 +20,10 @@ describe("Pantry shelf and puzzle stage links", () => {
       { shelf: "pickle", stages: ["shelf-tin-row", "shelf-bakery-window"] },
       { shelf: "fruit", stages: ["shelf-village-square", "shelf-market-table"] },
       { shelf: "oil", stages: ["shelf-clock-corner", "shelf-bakery-walk"] },
-      { shelf: "tea", stages: ["shelf-garden-path", "shelf-village-pantry", "shelf-herb-terrace", "shelf-sunroom-table", "shelf-orchard-window", "shelf-lantern-courtyard", "shelf-moonlit-veranda", "shelf-hearth-gallery"] }
+      { shelf: "tea", stages: ["shelf-garden-path", "shelf-village-pantry"] },
+      { shelf: "sunroom", stages: ["shelf-herb-terrace", "shelf-sunroom-table"] },
+      { shelf: "orchard", stages: ["shelf-orchard-window", "shelf-lantern-courtyard"] },
+      { shelf: "hearth", stages: ["shelf-moonlit-veranda", "shelf-hearth-gallery"] }
     ]);
     expect(getPantryShelfForSeasonShelf(seasonShelves[0])).toBeNull();
   });

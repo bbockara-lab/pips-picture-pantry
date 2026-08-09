@@ -1311,10 +1311,10 @@ async function expectMapPolish(page, viewportName) {
     metrics.mapRight > metrics.viewportWidth + 1 ||
     metrics.mapRadius < 14 ||
     !metrics.mapBackground.includes("linear-gradient") ||
-    metrics.shelfCount !== 3 ||
+    metrics.shelfCount !== 4 ||
     metrics.shelfSlotCounts.some((count) => count !== 3) ||
-    metrics.slotCount !== 9 ||
-    metrics.lockedSlotCount !== 9 ||
+    metrics.slotCount !== 12 ||
+    metrics.lockedSlotCount !== 12 ||
     metrics.slotOutsideShelfCount !== 0 ||
     metrics.minCircleSize < 60 ||
     metrics.minCircleGap < 8 ||
@@ -1773,6 +1773,7 @@ async function expectPuzzleHomePolish(page, viewportName) {
       };
     });
     const playBox = boxOf(play);
+    const playImageBox = boxOf(play?.querySelector("img"));
     const settingsBox = boxOf(settings);
     const controlsBox = boxOf(controls);
     const greetingWrapBox = boxOf(greetingWrap);
@@ -1784,6 +1785,12 @@ async function expectPuzzleHomePolish(page, viewportName) {
       .filter((button) => ["puzzle", "album", "spoonRun", "pantry"].includes(button.dataset.destination || ""))
       .map(boxOf);
     const settingsImage = settings?.querySelector("img");
+    const destinationBoxById = Object.fromEntries(destinations.map((button, index) => [
+      button.dataset.destination || "",
+      destinationBoxes[index]
+    ]));
+    const centerY = (box) => box ? (box.top + box.bottom) / 2 : 0;
+    const maxDestinationArtWidth = Math.max(0, ...destinationArt.map((art) => art.width));
     return {
       overflow: home.scrollWidth > home.clientWidth + 1,
       sceneOverflow: scene ? scene.scrollWidth > scene.clientWidth + 1 : true,
@@ -1815,6 +1822,12 @@ async function expectPuzzleHomePolish(page, viewportName) {
       settingsAssetId: settingsImage?.dataset.assetId || "",
       playOutsideScene: !playBox || !sceneBox || playBox.left < sceneBox.left - 1 || playBox.right > sceneBox.right + 1 || playBox.top < sceneBox.top - 1 || playBox.bottom > sceneBox.bottom + 1,
       playLargeEnough: Boolean(playBox && Math.min(playBox.right - playBox.left, playBox.bottom - playBox.top) >= 96),
+      playVisualDominance: playImageBox && maxDestinationArtWidth > 0
+        ? (playImageBox.right - playImageBox.left) / maxDestinationArtWidth
+        : 0,
+      topPairCenterDelta: Math.abs(centerY(destinationBoxById.puzzle) - centerY(destinationBoxById.album)),
+      middlePairCenterDelta: Math.abs(centerY(destinationBoxById.spoonRun) - centerY(destinationBoxById.pantry)),
+      lowerPairCenterDelta: Math.abs(centerY(destinationBoxById.map) - centerY(playBox)),
       workshopShell: Boolean(shell?.classList.contains("app-shell--workshop-home")),
       supportingCardClasses: hubCards ? [...hubCards.children].map((child) => child.className) : [],
       supportingCardsBelowScene: Boolean(sceneBox && hubCardsBox && hubCardsBox.top >= sceneBox.bottom - 1),
@@ -1832,8 +1845,46 @@ async function expectPuzzleHomePolish(page, viewportName) {
   const expected = ["puzzle", "album", "pantry", "spoonRun", "map"];
   const expectedAssets = { puzzle: "workshop-nav-puzzle-v3", album: "workshop-nav-album-v3", pantry: "workshop-nav-pantry-v3", spoonRun: "spoon-token-v2", map: "workshop-nav-map-v3" };
   const hasStaleDestinationTreatment = metrics.destinationArt.some((art) => art.assetId !== expectedAssets[art.id] || art.backgroundColor !== "rgba(0, 0, 0, 0)" || art.borderTopWidth !== "0px" || art.boxShadow !== "none");
-  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.greetingGap > 5 || metrics.greetingFlexGap > 4 || metrics.greetingBubbleBorder < 2 || metrics.greetingBubbleRadius < 16 || metrics.greetingBubbleShadow === "none" || metrics.greetingBubbleBackground === "rgb(255, 255, 255)" || metrics.greetingOutsideScene || !metrics.primaryDestinationsBelowGreeting || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.hasHiddenDestinationLabel || metrics.playAssetId !== "puzzle-control-fill-v1" || metrics.supportingCardClasses.length !== 0 || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
+  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.greetingGap > 0 || metrics.greetingFlexGap > 0 || metrics.greetingBubbleBorder < 2 || metrics.greetingBubbleRadius < 16 || metrics.greetingBubbleShadow === "none" || metrics.greetingBubbleBackground === "rgb(255, 255, 255)" || metrics.greetingOutsideScene || !metrics.primaryDestinationsBelowGreeting || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || metrics.playVisualDominance < 1.24 || metrics.topPairCenterDelta > 2 || metrics.middlePairCenterDelta > 2 || metrics.lowerPairCenterDelta > 12 || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.hasHiddenDestinationLabel || metrics.playAssetId !== "puzzle-control-fill-v1" || metrics.supportingCardClasses.length !== 0 || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
     failures.push("[" + viewportName + "] Puzzle workshop home/direct destinations regressed: " + JSON.stringify(metrics));
+  }
+  await expectLoginBonusHomeClearance(page, viewportName);
+}
+
+async function expectLoginBonusHomeClearance(page, viewportName) {
+  await page.evaluate(async () => {
+    document.querySelector(".login-bonus-popover")?.remove();
+    const { renderLoginBonusPopover } = await import("/src/ui/loginBonusPopover.js");
+    document.querySelector("#app")?.appendChild(renderLoginBonusPopover(3, () => {}));
+  });
+  await expectVisible(page, ".login-bonus-popover", viewportName);
+  await page.waitForFunction(() => {
+    const image = document.querySelector(".login-bonus-popover__pip");
+    return image?.complete && image.naturalWidth > 0;
+  }, null, { timeout: 5000 });
+  const metrics = await page.locator(".login-bonus-popover").evaluate((popover) => {
+    const rectOf = (element) => element?.getBoundingClientRect() || null;
+    const overlaps = (left, right) => Boolean(left && right
+      && left.left < right.right - 1
+      && left.right > right.left + 1
+      && left.top < right.bottom - 1
+      && left.bottom > right.top + 1);
+    const popoverRect = rectOf(popover);
+    const interactiveRects = [
+      ...document.querySelectorAll(".puzzle-home-destination, .puzzle-home-scene__play, .puzzle-home-scene__settings")
+    ].map(rectOf);
+    const greeting = document.querySelector(".puzzle-home-scene__greeting-wrap");
+    const style = getComputedStyle(greeting);
+    return {
+      collisionCount: interactiveRects.filter((rect) => overlaps(popoverRect, rect)).length,
+      greetingOpacity: Number.parseFloat(style.opacity),
+      outsideViewport: !popoverRect || popoverRect.left < -1 || popoverRect.right > window.innerWidth + 1 || popoverRect.top < -1 || popoverRect.bottom > window.innerHeight + 1,
+      rect: popoverRect ? { left: popoverRect.left, top: popoverRect.top, right: popoverRect.right, bottom: popoverRect.bottom } : null
+    };
+  });
+  await page.locator(".login-bonus-popover").evaluate((popover) => popover.remove());
+  if (metrics.collisionCount > 0 || metrics.greetingOpacity > 0.05 || metrics.outsideViewport) {
+    failures.push("[" + viewportName + "] Login bonus Pip collided with the Workshop composition: " + JSON.stringify(metrics));
   }
 }
 
@@ -3308,15 +3359,15 @@ async function verifyPantryPlacement(page, viewportName) {
     };
   });
   if (metrics.panelOverflowsX
-    || metrics.shelfCount !== 8
+    || metrics.shelfCount !== 11
     || metrics.shelfJarCounts.some((count) => count !== 6)
-    || metrics.jarCount !== 48
-    || metrics.starterCount !== 8
-    || metrics.ownedStarterCount !== 8
-    || metrics.equippedStarterCount !== 8
+    || metrics.jarCount !== 66
+    || metrics.starterCount !== 11
+    || metrics.ownedStarterCount !== 11
+    || metrics.equippedStarterCount !== 11
     || metrics.jarOverflowCount
-    || metrics.jarNameCount !== 48
-    || metrics.twoLineNameContractCount !== 48
+    || metrics.jarNameCount !== 66
+    || metrics.twoLineNameContractCount !== 66
     || metrics.jarMetaCount < 1
     || metrics.singleLineMetaContractCount !== metrics.jarMetaCount
     || metrics.storeProductCount !== 2

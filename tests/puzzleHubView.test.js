@@ -87,14 +87,22 @@ describe("Workshop Play Now shelf completion routing", () => {
 });
 
 describe("Workshop Play Now layout", () => {
-  it("keeps the primary action large and above the floating navigation", () => {
-    const step51Styles = styles.slice(styles.indexOf("v0.1.696 - Step 51 Play Now"));
-    expect(step51Styles).toMatch(
-      /\.puzzle-home-scene__play\s*\{[\s\S]*?bottom:\s*calc\(max\(20px, calc\(env\(safe-area-inset-bottom, 0px\) \+ 20px\)\) \+ clamp\(72px, 19vw, 88px\)\) !important;/
-    );
-    expect(step51Styles).toContain("width: clamp(128px, 34vw, 160px) !important");
-    expect(step51Styles).toContain("height: clamp(128px, 34vw, 160px) !important");
-    expect(step51Styles).toContain("width: min(62%, 74px) !important");
+  it("keeps the primary action visibly dominant inside one canonical composition", () => {
+    const step63Styles = styles.slice(styles.indexOf("v0.1.714 - Step 63 canonical Workshop composition"));
+    expect(step63Styles).toContain("--workshop-destination-size: clamp(74px, 20vw, 92px)");
+    expect(step63Styles).toContain("--workshop-play-size: clamp(130px, 36vw, 164px)");
+    expect(step63Styles).toContain("bottom: var(--workshop-nav-clearance) !important");
+    expect(step63Styles).toContain("width: min(78%, 116px) !important");
+    expect(step63Styles).toContain("top: clamp(220px, 30%, 280px) !important");
+    expect(step63Styles).toContain("top: clamp(350px, 47%, 440px) !important");
+  });
+
+  it("connects Pip to the greeting and reserves that speaking zone for login rewards", () => {
+    const step63Styles = styles.slice(styles.indexOf("v0.1.714 - Step 63 canonical Workshop composition"));
+    expect(step63Styles).toContain("margin-right: -22px");
+    expect(step63Styles).toContain(".puzzle-home-scene__greeting::before");
+    expect(step63Styles).toContain("#app:has(.login-bonus-popover) .puzzle-home-scene__greeting-wrap");
+    expect(step63Styles).toContain("top: clamp(112px, 16dvh, 150px)");
   });
 });
 

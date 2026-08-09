@@ -7,7 +7,8 @@ const LAST_EARNED_BADGE_KEY = "pip-last-earned-badge";
 const BADGE_GROUPS = [
   { id: "A", titleKey: "badges.groupA" },
   { id: "B", titleKey: "badges.groupB" },
-  { id: "C", titleKey: "badges.groupC" }
+  { id: "C", titleKey: "badges.groupC" },
+  { id: "D", titleKey: "badges.groupD" }
 ];
 
 export function renderPantryMapView() {

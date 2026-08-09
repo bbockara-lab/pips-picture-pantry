@@ -19,12 +19,12 @@ const SHELF_BLUEPRINT = [
   { id: "shelf-bakery-walk", titleKey: "shelves.bakeryWalk", sizes: { 10: 10, 12: 13 }, unlockCost: 0, pantryRoomStepRequired: 35, stageBonus: 40, artPackId: "village-pantry" },
   { id: "shelf-garden-path", titleKey: "shelves.gardenPath", sizes: { 10: 10, 12: 13 }, unlockCost: 0, pantryRoomStepRequired: 40, stageBonus: 40, artPackId: "village-pantry" },
   { id: "shelf-village-pantry", titleKey: "shelves.villagePantry", sizes: { 10: 10, 12: 12 }, unlockCost: 0, pantryRoomStepRequired: 40, stageBonus: 60, artPackId: "village-pantry" },
-  { id: "shelf-herb-terrace", titleKey: "shelves.herbTerrace", sizes: { 8: 8, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 40, stageBonus: 35, artPackId: "village-pantry" },
-  { id: "shelf-sunroom-table", titleKey: "shelves.sunroomTable", sizes: { 8: 8, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 40, stageBonus: 35, artPackId: "village-pantry" },
-  { id: "shelf-orchard-window", titleKey: "shelves.orchardWindow", sizes: { 8: 8, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 40, stageBonus: 35, artPackId: "village-pantry" },
-  { id: "shelf-lantern-courtyard", titleKey: "shelves.lanternCourtyard", sizes: { 8: 8, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 40, stageBonus: 35, artPackId: "village-pantry" },
-  { id: "shelf-moonlit-veranda", titleKey: "shelves.moonlitVeranda", sizes: { 8: 8, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 40, stageBonus: 35, artPackId: "village-pantry" },
-  { id: "shelf-hearth-gallery", titleKey: "shelves.hearthGallery", sizes: { 8: 7, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 40, stageBonus: 35, artPackId: "village-pantry" }
+  { id: "shelf-herb-terrace", titleKey: "shelves.herbTerrace", sizes: { 8: 8, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 45, stageBonus: 35, artPackId: "village-pantry" },
+  { id: "shelf-sunroom-table", titleKey: "shelves.sunroomTable", sizes: { 8: 8, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 45, stageBonus: 35, artPackId: "village-pantry" },
+  { id: "shelf-orchard-window", titleKey: "shelves.orchardWindow", sizes: { 8: 8, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 50, stageBonus: 35, artPackId: "village-pantry" },
+  { id: "shelf-lantern-courtyard", titleKey: "shelves.lanternCourtyard", sizes: { 8: 8, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 50, stageBonus: 35, artPackId: "village-pantry" },
+  { id: "shelf-moonlit-veranda", titleKey: "shelves.moonlitVeranda", sizes: { 8: 8, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 55, stageBonus: 35, artPackId: "village-pantry" },
+  { id: "shelf-hearth-gallery", titleKey: "shelves.hearthGallery", sizes: { 8: 7, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 55, stageBonus: 35, artPackId: "village-pantry" }
 ];
 
 const SUPPORTED_SIZES = [5, 8, 10, 12];

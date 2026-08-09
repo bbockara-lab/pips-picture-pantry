@@ -9,7 +9,10 @@ export const BADGE_MILESTONES = Object.freeze([
   { stage: 5, group: "B", shelfIds: ["shelf-tin-row", "shelf-bakery-window"], id: "badge-pip-tin-collection", titleKey: "shelves.bakeryWindow" },
   { stage: 6, group: "C", shelfIds: ["shelf-village-square", "shelf-market-table"], id: "badge-pip-village-path", titleKey: "shelves.marketTable" },
   { stage: 7, group: "C", shelfIds: ["shelf-clock-corner", "shelf-bakery-walk"], id: "badge-pip-clock-corner", titleKey: "shelves.bakeryWalk" },
-  { stage: 8, group: "C", shelfIds: ["shelf-garden-path", "shelf-village-pantry", "shelf-herb-terrace", "shelf-sunroom-table", "shelf-orchard-window", "shelf-lantern-courtyard", "shelf-moonlit-veranda", "shelf-hearth-gallery"], id: "badge-pip-full-pantry", titleKey: "shelves.hearthGallery", final: true }
+  { stage: 8, group: "C", shelfIds: ["shelf-garden-path", "shelf-village-pantry"], id: "badge-pip-full-pantry", titleKey: "shelves.villagePantry" },
+  { stage: 9, group: "D", shelfIds: ["shelf-herb-terrace", "shelf-sunroom-table"], id: "badge-pip-sunroom-botanicals", titleKey: "shelves.sunroomTable" },
+  { stage: 10, group: "D", shelfIds: ["shelf-orchard-window", "shelf-lantern-courtyard"], id: "badge-pip-orchard-lantern", titleKey: "shelves.lanternCourtyard" },
+  { stage: 11, group: "D", shelfIds: ["shelf-moonlit-veranda", "shelf-hearth-gallery"], id: "badge-pip-hearth-gallery", titleKey: "shelves.hearthGallery", final: true }
 ]);
 
 function getMilestonePuzzles(milestone) {

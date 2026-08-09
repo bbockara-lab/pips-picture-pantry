@@ -15,14 +15,14 @@ class SessionStorageMock {
 describe("badge earned glow state", () => {
   it("consumes the newly earned badge id once", () => {
     const storage = new SessionStorageMock();
-    rememberJustEarnedBadgeId("badge-pip-full-pantry", storage);
-    expect(consumeJustEarnedBadgeId(storage)).toBe("badge-pip-full-pantry");
+    rememberJustEarnedBadgeId("badge-pip-hearth-gallery", storage);
+    expect(consumeJustEarnedBadgeId(storage)).toBe("badge-pip-hearth-gallery");
     expect(consumeJustEarnedBadgeId(storage)).toBe("");
   });
 
   it("adds the one-time glow class only to the matching earned slot", () => {
-    const status = { earned: true, badge: { id: "badge-pip-full-pantry" } };
-    expect(getBadgeSlotClassName(status, "badge-pip-full-pantry")).toBe("badge-slot earned badge-slot--just-earned");
+    const status = { earned: true, badge: { id: "badge-pip-hearth-gallery" } };
+    expect(getBadgeSlotClassName(status, "badge-pip-hearth-gallery")).toBe("badge-slot earned badge-slot--just-earned");
     expect(getBadgeSlotClassName(status, "badge-other")).toBe("badge-slot earned");
     expect(getBadgeSlotClassName({ ...status, earned: false }, "badge-other")).toBe("badge-slot locked");
   });

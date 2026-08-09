@@ -2740,6 +2740,7 @@ Every release in this stabilization period: add a row here recording the version
 | 2026-08-08 | 0.1.710 / versionCode 42, 1.1.14 | Step 62 batch 1: 56 unique puzzles (16 8×8, 40 10×10) and two bilingual shelves, growing the catalog from 333 to 389. AAB deferred until all requested steps are complete. |
 | 2026-08-08 | 0.1.711 / versionCode 43, 1.1.15 | Step 62 batch 2: 56 more unique puzzles (16 8×8, 40 10×10) and two bilingual shelves, growing the catalog from 389 to 445. AAB remains deferred. |
 | 2026-08-08 | 0.1.712 / versionCode 44, 1.1.16 | Step 62 batch 3: the final 55 unique puzzles (15 8×8, 40 10×10) and two bilingual shelves, reaching the 500-puzzle launch target. AAB remains deferred. |
+| 2026-08-08 | 0.1.713 / versionCode 45, 1.1.17 | Step 62.1: three new Pantry jar shelves, 18 jar entries/assets, three new stage badges, and 45/50/55 progression gates for the six Step 62 shelves. AAB remains deferred for review. |
 
 ---
 
@@ -2825,6 +2826,19 @@ Do not repeat this shortcut. "No new art needed" is only an acceptable outcome w
 
 **Verification**: `npm test` (check `tests/stagePantryLinks.test.js` and `tests/save.test.js` specifically — they cover this exact linkage), `npm run qa:catalog`, `npm run qa:uniqueness`, `npm run qa:art-audit`, plus manual confirmation that a save file with `getPaidJarCount()` between 40 and 55 correctly unlocks exactly the right subset of the 6 new season shelves (no shelf should be reachable before its jar-shelf checkpoint is actually bought, and none should stay locked past it).
 
+#### 2026-08-08 Step 62.1 completion verification
+
+- Expanded the closed Pantry catalog from 8 shelves / 48 jars / 40 paid jars to 11 shelves / 66 jars / 55 paid jars. The new Sunroom Botanicals, Orchard Preserves, and Hearthside Treats shelves each contain one free starter and five progressively priced paid jars, with bilingual shelf and jar names.
+- Added 18 unique 256×256 transparent runtime WebP icons, including starter art, and kept the catalog-to-art mapping exactly 1:1 (66 entries, 66 files, no unmapped or spare jar art).
+- Restored the existing Full Pantry badge to its original Garden Path + Village Pantry milestone, then added three unique 256×256 transparent badge artworks for the six Step 62 stages in two-stage pairs. The Badge Shelf now has four groups / 12 milestones, and permanent final-badge glow moves to the new Hearth Gallery finale.
+- Reassigned the six Step 62 season shelves to paid-jar checkpoints `45, 45, 50, 50, 55, 55`. Regression coverage checks saves at 40, 44, 45, 49, 50, 54, and 55 paid jars so each pair opens at its checkpoint and neither early nor late.
+- The 500-puzzle path still grants 3,110 puzzle spoons plus 730 stage bonuses = 3,840 authored spoons. Paid jars now cost 6,415 spoons; room decorations cost another 2,706; the combined sink is 9,121 and the authored-reward gap is 5,281. Optional top-up motivation is therefore stronger while recurring free rewards remain a no-purchase route.
+- `LAUNCH_CATALOG_TARGET`, all puzzle IDs, and all puzzle content remain unchanged. The unrelated real-money product `pip_spoon_jar_small` was not modified.
+- Release identity is web/app `0.1.713` and Android `versionCode 45` / `versionName 1.1.17`. No AAB was produced; Step 63/64 remain untouched pending reviewer approval.
+- Final local verification passed all 49 test files / 304 tests, the exact-500 catalog gate, uniqueness audit, art audit (393 audited assets, zero duplicates/review candidates), the 212-entry runtime asset registry, the 66-entry jar-art contract, launch integrity, asset/store/Billing/privacy checks, production build, and Android release gate. The Pantry shelf-layout mobile contract was updated from 8/48/8 to 11/66/11 and now passes.
+- The aggregate candidate gate reaches mobile visual QA after every nonvisual check passes, then still reports the pre-existing cursor-card treatment, puzzle-board frame/paper-tray containment, compact 430px header, and 675px tablet clue/grid overflow findings. These are not Step 62.1 Pantry regressions and remain deferred to the later UI stabilization work; this review handoff intentionally stops before Step 63/64.
+- Recurrence prevention: `docs/CONTENT_CHANGE_IMPACT_CHECKLIST.md` defines the mandatory content impact graph, and `tests/contentProgressionIntegrity.test.js` now fails if a stage is omitted from badges, a gated stage is omitted from Pantry linkage, badge order/finality drifts, or a badge has no runtime art.
+
 ---
 
 ### Step 63 — Home screen Play button: further pass on top of Step 51
@@ -2858,3 +2872,4 @@ Do not repeat this shortcut. "No new art needed" is only an acceptable outcome w
 - Ship Steps 61, 63, and 64 as normal weekly releases. Split Step 62 across multiple weeks as noted.
 - **Step 62.1 is mandatory and blocks Steps 63 and 64 — do it next, before either of them.** It closes the Pantry-economy gap Step 62 left open (see Step 62.1 above for the full rationale and required work).
 - Every release: update the Version Log table above, bump `package.json` version and `android/app/build.gradle` versionCode/versionName, and run the full existing gate (`npm test`, `npm run qa:candidate`) before calling a release done.
+- For every content expansion or collection change, complete `docs/CONTENT_CHANGE_IMPACT_CHECKLIST.md` and trace data, allocation, unlocks, economy, rewards, artwork, runtime registration, i18n, UI, persistence, QA, and release assets before handoff. Art is a required product dependency, not an optional follow-up.

@@ -95,6 +95,7 @@ export const en = {
     groupA: "Shelf A - Pip’s First Steps",
     groupB: "Shelf B - Pip’s Bakery",
     groupC: "Shelf C - Pip’s Village",
+    groupD: "Shelf D - Pip’s Seasons",
     earned: "Collected",
     stageRequirement: "Complete Stage {stage}",
     detailEarned: "This keepsake is shining on your shelf.",
@@ -624,7 +625,10 @@ export const en = {
       pickle: "Pickles",
       fruit: "Fruit Preserves",
       oil: "Herb Oils",
-      tea: "Botanical Teas"
+      tea: "Botanical Teas",
+      sunroom: "Sunroom Botanicals",
+      orchard: "Orchard Preserves",
+      hearth: "Hearthside Treats"
     },
     jar: {
       balance: "🥄 {count}",
@@ -695,7 +699,25 @@ export const en = {
       lavenderBlend: "Lavender Blend",
       rosePetalTea: "Rose Petal Tea",
       jasminePearl: "Jasmine Pearls",
-      spiceChaiBlend: "Spiced Chai Blend"
+      spiceChaiBlend: "Spiced Chai Blend",
+      pressedFernTonic: "Pressed Fern Tonic",
+      basilDewInfusion: "Basil Dew Infusion",
+      mintBlossomCordial: "Mint Blossom Cordial",
+      rosemaryCitrusElixir: "Rosemary Citrus Elixir",
+      lavenderSageTonic: "Lavender Sage Tonic",
+      goldenHerbEssence: "Golden Herb Essence",
+      appleBlossomWater: "Apple Blossom Water",
+      pearVanillaPreserve: "Pear & Vanilla Preserve",
+      plumHoneyCompote: "Plum & Honey Compote",
+      quinceSpiceMarmalade: "Spiced Quince Marmalade",
+      moonPeachConserve: "Moon Peach Conserve",
+      jeweledOrchardPreserve: "Jeweled Orchard Preserve",
+      hearthCocoaMix: "Hearth Cocoa Mix",
+      toastedHazelnutSpread: "Toasted Hazelnut Spread",
+      chestnutVanillaCream: "Chestnut Vanilla Cream",
+      emberBerryConserve: "Ember Berry Conserve",
+      spicedFigPudding: "Spiced Fig Pudding",
+      midnightCaramelReserve: "Midnight Caramel Reserve"
     },
     items: {
       starterCounter: { title: "Starter Counter Cloth", description: "A soft check cloth for Pip's first little serving spot." },

@@ -46,6 +46,24 @@ import lavenderBlend from "../assets/jars/jar-lavender-blend-v1.webp";
 import rosePetalTea from "../assets/jars/jar-rose-petal-tea-v1.webp";
 import jasminePearl from "../assets/jars/jar-jasmine-pearl-v1.webp";
 import spiceChaiBlend from "../assets/jars/jar-spice-chai-blend-v1.webp";
+import pressedFernTonic from "../assets/jars/jar-pressed-fern-tonic-v1.webp";
+import basilDewInfusion from "../assets/jars/jar-basil-dew-infusion-v1.webp";
+import mintBlossomCordial from "../assets/jars/jar-mint-blossom-cordial-v1.webp";
+import rosemaryCitrusElixir from "../assets/jars/jar-rosemary-citrus-elixir-v1.webp";
+import lavenderSageTonic from "../assets/jars/jar-lavender-sage-tonic-v1.webp";
+import goldenHerbEssence from "../assets/jars/jar-golden-herb-essence-v1.webp";
+import appleBlossomWater from "../assets/jars/jar-apple-blossom-water-v1.webp";
+import pearVanillaPreserve from "../assets/jars/jar-pear-vanilla-preserve-v1.webp";
+import plumHoneyCompote from "../assets/jars/jar-plum-honey-compote-v1.webp";
+import quinceSpiceMarmalade from "../assets/jars/jar-quince-spice-marmalade-v1.webp";
+import moonPeachConserve from "../assets/jars/jar-moon-peach-conserve-v1.webp";
+import jeweledOrchardPreserve from "../assets/jars/jar-jeweled-orchard-preserve-v1.webp";
+import hearthCocoaMix from "../assets/jars/jar-hearth-cocoa-mix-v1.webp";
+import toastedHazelnutSpread from "../assets/jars/jar-toasted-hazelnut-spread-v1.webp";
+import chestnutVanillaCream from "../assets/jars/jar-chestnut-vanilla-cream-v1.webp";
+import emberBerryConserve from "../assets/jars/jar-ember-berry-conserve-v1.webp";
+import spicedFigPudding from "../assets/jars/jar-spiced-fig-pudding-v1.webp";
+import midnightCaramelReserve from "../assets/jars/jar-midnight-caramel-reserve-v1.webp";
 
 export const JAR_ART = Object.freeze({
   "strawberry-jam": strawberryJam,
@@ -95,7 +113,25 @@ export const JAR_ART = Object.freeze({
   "lavender-blend": lavenderBlend,
   "rose-petal-tea": rosePetalTea,
   "jasmine-pearl": jasminePearl,
-  "spice-chai-blend": spiceChaiBlend
+  "spice-chai-blend": spiceChaiBlend,
+  "pressed-fern-tonic": pressedFernTonic,
+  "basil-dew-infusion": basilDewInfusion,
+  "mint-blossom-cordial": mintBlossomCordial,
+  "rosemary-citrus-elixir": rosemaryCitrusElixir,
+  "lavender-sage-tonic": lavenderSageTonic,
+  "golden-herb-essence": goldenHerbEssence,
+  "apple-blossom-water": appleBlossomWater,
+  "pear-vanilla-preserve": pearVanillaPreserve,
+  "plum-honey-compote": plumHoneyCompote,
+  "quince-spice-marmalade": quinceSpiceMarmalade,
+  "moon-peach-conserve": moonPeachConserve,
+  "jeweled-orchard-preserve": jeweledOrchardPreserve,
+  "hearth-cocoa-mix": hearthCocoaMix,
+  "toasted-hazelnut-spread": toastedHazelnutSpread,
+  "chestnut-vanilla-cream": chestnutVanillaCream,
+  "ember-berry-conserve": emberBerryConserve,
+  "spiced-fig-pudding": spicedFigPudding,
+  "midnight-caramel-reserve": midnightCaramelReserve
 });
 
 export function getJarArtUrl(jarId) {

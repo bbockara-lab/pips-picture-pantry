@@ -8,12 +8,21 @@ import {
   getPackBadgeStatus
 } from "../src/game/badges.js";
 
-describe("nine-stage shelf badges", () => {
-  it("maps nine badges across three shelf groups", () => {
-    expect(BADGE_MILESTONES).toHaveLength(9);
-    expect(BADGE_MILESTONES.map((badge) => badge.stage)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8]);
-    expect(BADGE_MILESTONES.map((badge) => badge.group)).toEqual(["A", "A", "A", "B", "B", "B", "C", "C", "C"]);
-    expect(BADGE_MILESTONES.at(-1)).toMatchObject({ id: "badge-pip-full-pantry", final: true });
+describe("twelve-stage shelf badges", () => {
+  it("maps twelve badges across four shelf groups", () => {
+    expect(BADGE_MILESTONES).toHaveLength(12);
+    expect(BADGE_MILESTONES.map((badge) => badge.stage)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+    expect(BADGE_MILESTONES.map((badge) => badge.group)).toEqual(["A", "A", "A", "B", "B", "B", "C", "C", "C", "D", "D", "D"]);
+    expect(BADGE_MILESTONES.at(-1)).toMatchObject({ id: "badge-pip-hearth-gallery", final: true });
+  });
+
+  it("keeps each Step 62 shelf in its own two-shelf badge milestone", () => {
+    expect(BADGE_MILESTONES.slice(-3).map((badge) => badge.shelfIds)).toEqual([
+      ["shelf-herb-terrace", "shelf-sunroom-table"],
+      ["shelf-orchard-window", "shelf-lantern-courtyard"],
+      ["shelf-moonlit-veranda", "shelf-hearth-gallery"]
+    ]);
+    expect(BADGE_MILESTONES[8].shelfIds).toEqual(["shelf-garden-path", "shelf-village-pantry"]);
   });
 
   it("uses the canonical shelf name for every badge milestone", () => {

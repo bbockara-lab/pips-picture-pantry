@@ -1,9 +1,13 @@
-## v0.1.712 stabilization candidate - 2026-08-08
+## v0.1.713 Pantry progression candidate - 2026-08-08
 
 - Last Play Console upload: versionCode **40** / versionName **"1.1.12"** (approved and live).
-- Current prepared upload target: versionCode 44 / versionName 1.1.16.
-- Step 61 adds the one-time 8×8 cursor-controls introduction. Step 62 batches 1–3 expand the catalog from 333 to exactly 500 uniquely solvable puzzles across six new bilingual shelves.
-- The 40-jar gate remains economically meaningful: authored rewards before that gate total 2,252 spoons against 3,310 spoons of jar costs. The complete 500-puzzle path grants 3,840 authored spoons against 6,016 spoons of combined paid-jar and room-decoration sinks.
+- Current prepared upload target: versionCode 45 / versionName 1.1.17.
+- Steps 61–62 remain included. Step 62.1 adds three bilingual Pantry jar shelves, 18 unique transparent jar assets, and 15 paid jars so the six new puzzle shelves now advance at 45/50/55 paid-jar checkpoints.
+- The Badge Shelf expands from 9 to 12 milestones across four groups. Three unique transparent badge artworks cover the six Step 62 stages in two-stage pairs; Full Pantry returns to its original milestone and the new Hearth Gallery badge becomes the final-glow reward.
+- The complete 500-puzzle path grants 3,840 authored spoons against 6,415 paid-jar spoons plus 2,706 room-decoration spoons: a 9,121-spoon combined sink and a 5,281-spoon authored-reward gap.
+- Local Pantry verification passed 49 test files / 304 tests, the 500-puzzle catalog and uniqueness gates, 393-asset art audit, the 212-entry runtime asset registry, the exact 66-entry jar-art contract, production build, and Android release gate. The expanded 11-shelf / 66-jar mobile Pantry contract also passes.
+- The aggregate mobile visual gate still reports the previously documented cursor-card, puzzle-board containment, compact 430px header, and 675px tablet clue/grid findings. They are outside this Pantry-only step and remain pre-AAB stabilization work.
+- A mandatory content-impact checklist and automatic progression graph test now guard stage-to-Pantry-to-badge-to-art completeness in future expansions.
 - No AAB has been generated for this target yet; packaging waits until the requested stabilization steps are complete.
 
 ## v0.1.702 signed Play update candidate - 2026-08-03

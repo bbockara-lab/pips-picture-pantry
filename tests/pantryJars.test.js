@@ -42,11 +42,11 @@ beforeEach(() => {
 });
 
 describe("Pantry jar collection", () => {
-  it("defines eight shelves with six jars and one starter each", () => {
-    expect(JAR_SHELVES).toHaveLength(8);
-    expect(PANTRY_JARS).toHaveLength(48);
-    expect(PANTRY_JARS.filter((jar) => jar.cost > 0)).toHaveLength(40);
-    expect(PANTRY_JARS.reduce((total, jar) => total + jar.cost, 0)).toBe(3310);
+  it("defines eleven shelves with six jars and one starter each", () => {
+    expect(JAR_SHELVES).toHaveLength(11);
+    expect(PANTRY_JARS).toHaveLength(66);
+    expect(PANTRY_JARS.filter((jar) => jar.cost > 0)).toHaveLength(55);
+    expect(PANTRY_JARS.reduce((total, jar) => total + jar.cost, 0)).toBe(6415);
     JAR_SHELVES.forEach((shelf) => {
       const jars = PANTRY_JARS.filter((jar) => jar.shelfId === shelf.id);
       expect(jars).toHaveLength(6);
@@ -64,7 +64,10 @@ describe("Pantry jar collection", () => {
     expect(paidCosts("fruit")).toEqual([65, 65, 100, 140, 200]);
     expect(paidCosts("oil")).toEqual([75, 75, 120, 170, 240]);
     expect(paidCosts("tea")).toEqual([90, 90, 140, 200, 300]);
-    expect(["pickle", "fruit", "oil", "tea"].map(total)).toEqual([340, 570, 680, 820]);
+    expect(paidCosts("sunroom")).toEqual([105, 105, 160, 225, 330]);
+    expect(paidCosts("orchard")).toEqual([120, 120, 180, 250, 360]);
+    expect(paidCosts("hearth")).toEqual([135, 135, 200, 280, 400]);
+    expect(["tea", "sunroom", "orchard", "hearth"].map(total)).toEqual([820, 925, 1030, 1150]);
   });
 
   it("grants and equips starters idempotently without stage progress", () => {
