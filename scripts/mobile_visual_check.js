@@ -1,7 +1,9 @@
 import { chromium } from "@playwright/test";
+import { assertIsolatedQaTarget } from "./qa_target_guard.js";
 
 const qaPort = process.env.PPP_QA_PORT || "5173";
 const TARGET_URL = process.env.PPP_URL || `http://127.0.0.1:${qaPort}/`;
+assertIsolatedQaTarget(TARGET_URL, "mobile_visual_check");
 const viewports = [
   { width: 360, height: 740, name: "360x740" },
   { width: 390, height: 844, name: "390x844" },
@@ -1930,42 +1932,34 @@ async function expectPuzzleHomePolish(page, viewportName) {
 }
 
 async function expectLoginBonusHomeClearance(page, viewportName) {
-  await page.evaluate(async () => {
-    document.querySelectorAll(".login-bonus-popover").forEach((popover) => popover.remove());
-    const { renderLoginBonusPopover } = await import("/src/ui/loginBonusPopover.js");
-    const testPopover = renderLoginBonusPopover(3, () => {});
-    testPopover.dataset.qaLoginBonus = "true";
-    document.querySelector("#app")?.appendChild(testPopover);
-  });
-  await expectVisible(page, ".login-bonus-popover[data-qa-login-bonus='true']", viewportName);
-  await page.waitForFunction(() => {
-    const image = document.querySelector(".login-bonus-popover[data-qa-login-bonus='true'] .login-bonus-popover__pip");
-    return image?.complete && image.naturalWidth > 0;
-  }, null, { timeout: 5000 });
-  const testPopover = page.locator(".login-bonus-popover[data-qa-login-bonus='true']");
-  const metrics = await testPopover.evaluate((popover) => {
+  const greeting = page.locator(".puzzle-home-scene__greeting");
+  const metrics = await greeting.evaluate((bubble) => {
     const rectOf = (element) => element?.getBoundingClientRect() || null;
     const overlaps = (left, right) => Boolean(left && right
       && left.left < right.right - 1
       && left.right > right.left + 1
       && left.top < right.bottom - 1
       && left.bottom > right.top + 1);
-    const popoverRect = rectOf(popover);
+    const beforeRect = rectOf(bubble);
+    const originalText = bubble.textContent;
+    bubble.textContent = "+3 daily spoons! 🥄";
+    const rewardRect = rectOf(bubble);
     const interactiveRects = [
       ...document.querySelectorAll(".puzzle-home-destination, .puzzle-home-scene__play, .puzzle-home-scene__settings")
     ].map(rectOf);
-    const greeting = document.querySelector(".puzzle-home-scene__greeting-wrap");
-    const style = getComputedStyle(greeting);
+    const pip = document.querySelector(".puzzle-home-scene__greeting-pip");
+    const pipSrc = pip?.getAttribute("src") || "";
+    bubble.textContent = originalText;
     return {
-      collisionCount: interactiveRects.filter((rect) => overlaps(popoverRect, rect)).length,
-      greetingOpacity: Number.parseFloat(style.opacity),
-      outsideViewport: !popoverRect || popoverRect.left < -1 || popoverRect.right > window.innerWidth + 1 || popoverRect.top < -1 || popoverRect.bottom > window.innerHeight + 1,
-      rect: popoverRect ? { left: popoverRect.left, top: popoverRect.top, right: popoverRect.right, bottom: popoverRect.bottom } : null
+      collisionCount: interactiveRects.filter((rect) => overlaps(rewardRect, rect)).length,
+      samePosition: Boolean(beforeRect && rewardRect && Math.abs(beforeRect.left - rewardRect.left) < 1 && Math.abs(beforeRect.top - rewardRect.top) < 1),
+      keepsPip: pipSrc.includes("pip-chrome-v2"),
+      outsideViewport: !rewardRect || rewardRect.left < -1 || rewardRect.right > window.innerWidth + 1 || rewardRect.top < -1 || rewardRect.bottom > window.innerHeight + 1,
+      rect: rewardRect ? { left: rewardRect.left, top: rewardRect.top, right: rewardRect.right, bottom: rewardRect.bottom } : null
     };
   });
-  await testPopover.evaluate((popover) => popover.remove());
-  if (metrics.collisionCount > 0 || metrics.greetingOpacity > 0.05 || metrics.outsideViewport) {
-    failures.push("[" + viewportName + "] Login bonus Pip collided with the Workshop composition: " + JSON.stringify(metrics));
+  if (metrics.collisionCount > 0 || !metrics.samePosition || !metrics.keepsPip || metrics.outsideViewport) {
+    failures.push("[" + viewportName + "] Login bonus greeting replacement regressed: " + JSON.stringify(metrics));
   }
 }
 
@@ -2030,6 +2024,13 @@ async function openSettings(page) {
 
 async function openFloatingView(page, view, viewportName = view) {
   await dismissGuideIfPresent(page, "floating-nav");
+  const viewSelectors = {
+    album: ".album-panel",
+    map: ".map-panel",
+    pantry: ".pantry-panel",
+    puzzle: ".pack-block",
+    timeAttack: ".time-attack-panel"
+  };
   if ((await page.locator(".floating-nav__trigger").count()) === 0) {
     const directButton = page.locator('button[data-destination="' + view + '"]').first();
     if (await directButton.count()) {
@@ -2052,19 +2053,23 @@ async function openFloatingView(page, view, viewportName = view) {
   if ((await page.locator(".floating-nav__trigger").count()) === 0 && (await page.locator(".play-screen__back").count()) > 0) {
     await exitPlayScreen(page);
   }
-  const trigger = page.locator(".floating-nav__trigger").first();
-  await trigger.waitFor({ state: "visible", timeout: 4000 });
-  await trigger.click();
-  await page.locator(".floating-nav[data-open='true']").waitFor({ state: "visible", timeout: 3000 });
-  await page.locator(".floating-nav__item[data-view='" + view + "']").click();
+  const destination = page.locator(".floating-nav__item[data-view='" + view + "']");
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const trigger = page.locator(".floating-nav__trigger").first();
+    await trigger.waitFor({ state: "visible", timeout: 4000 });
+    await trigger.click();
+    await page.locator(".floating-nav[data-open='true']").waitFor({ state: "visible", timeout: 3000 });
+    try {
+      await destination.click({ timeout: 4000 });
+      break;
+    } catch (error) {
+      const selector = viewSelectors[view];
+      if (selector && await page.locator(selector).first().isVisible()) break;
+      if (attempt === 1) throw error;
+      await page.waitForTimeout(100);
+    }
+  }
 
-  const viewSelectors = {
-    album: ".album-panel",
-    map: ".map-panel",
-    pantry: ".pantry-panel",
-    puzzle: ".pack-block",
-    timeAttack: ".time-attack-panel"
-  };
   if (view === "puzzle" && (await page.locator(".pack-block").count()) === 0) {
     await page.locator(".puzzle-home-destination--puzzle").click();
   }
@@ -3461,6 +3466,7 @@ async function verifyPantryPlacement(page, viewportName) {
   if (await firstOwnedJar.count()) {
     const featuredJarId = await firstOwnedJar.getAttribute("data-jar-id");
     await firstOwnedJar.click();
+    await dismissGuideIfPresent(page, viewportName);
     await page.locator(".pantry-jar-detail-backdrop.visible").waitFor({ state: "visible", timeout: 2000 });
     const featureJarButton = page.locator(".pantry-jar-detail__btn-feature");
     if (!(await featureJarButton.count())) {

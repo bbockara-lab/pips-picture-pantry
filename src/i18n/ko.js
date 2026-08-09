@@ -69,6 +69,7 @@ export const ko = {
     guideReplayAction: "핍 가이드 보기",
     guideReplayPuzzleAction: "그림 가이드",
     guideReplayCursorAction: "방향키 가이드",
+    guideReplayPantryJarAction: "항아리 선택 가이드",
     guideReplayMapAction: "\uBC30\uC9C0 \uAC00\uC774\uB4DC",
     guideReplayTimeAttackAction: "타임어택 가이드",
     spoonStoreTitle: "\uc2a4\ud47c \ub354 \ucc44\uc6b0\uae30",
@@ -245,6 +246,11 @@ export const ko = {
       speakerName: "핍",
       step1: "이제부터 그림이 조금 더 커져요. 방향키로 칸을 하나씩 편하게 옮겨 다녀요.",
       step2: "설정에서 언제든 칸 직접 누르기로 바꿀 수 있어요. 준비됐죠? 같이 풀어봐요!"
+    },
+    pantryJarIntro: {
+      speakerName: "핍",
+      step1: "이 항아리를 선택하면 이 선반 스테이지의 퍼즐 완료 화면에서 제 옆에 함께 나와요.",
+      step2: "홈에 표시하기를 누르면 퍼즐방의 제 옆에 놓여요. 두 선택은 언제든 바꿀 수 있어요!"
     },
     spoonRunIntro: {
       speakerName: "핍",
@@ -476,6 +482,7 @@ export const ko = {
       6: "\uc0c8 \uadf8\ub9bc\uc774 \uae30\ub2e4\ub824\uc694!"
     },
     new: "\uc0c8 \uc18c\ud488",
+    collectionProgress: "\uc804\uccb4 {total}\uac1c \uc911 {current}\uac1c \uc218\uc9d1",
     pantryLabel: "핍\uc758 \ud32c\ud2b8\ub9ac",
     timeAttackLabel: "\ud0c0\uc784\uc5b4\ud0dd",
     albumLabel: "\uc568\ubc94",

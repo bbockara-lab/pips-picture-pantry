@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { getSeasonShelfPuzzles, seasonShelves } from "../src/data/seasonShelves.js";
-import { getDailyGreetingKey, getPuzzleHubOpenDecision, getShelfCollapsedState, hasAffordableUnownedPantryJar, isDailyCompleteForDate } from "../src/ui/puzzleHubView.js";
+import { getBadgeHomeProgress, getDailyGreetingKey, getPantryHomeProgress, getPuzzleHubOpenDecision, getShelfCollapsedState, isDailyCompleteForDate } from "../src/ui/puzzleHubView.js";
 
 const styles = readFileSync("src/styles.css", "utf8");
 const hubSource = readFileSync("src/ui/puzzleHubView.js", "utf8");
@@ -39,26 +39,36 @@ describe("Daily completion status", () => {
   });
 });
 
-describe("Workshop Pantry notification", () => {
+describe("Workshop destination collection progress", () => {
   const jars = [
     { id: "starter", cost: 0 },
     { id: "common", cost: 15 },
     { id: "rare", cost: 40 }
   ];
 
-  it("ignores free starter jars and unaffordable jars", () => {
-    expect(hasAffordableUnownedPantryJar(jars, [], 0)).toBe(false);
-    expect(hasAffordableUnownedPantryJar(jars, ["starter"], 14)).toBe(false);
+  it("shows paid Pantry jar progress without counting the free starter jar", () => {
+    expect(getPantryHomeProgress(jars, 0)).toEqual({ current: 0, total: 2 });
+    expect(getPantryHomeProgress(jars, 1)).toEqual({ current: 1, total: 2 });
   });
 
-  it("lights only when an unowned paid jar is affordable", () => {
-    expect(hasAffordableUnownedPantryJar(jars, ["starter"], 15)).toBe(true);
-    expect(hasAffordableUnownedPantryJar(jars, ["starter", "common"], 39)).toBe(false);
-    expect(hasAffordableUnownedPantryJar(jars, ["starter", "common"], 40)).toBe(true);
+  it("clamps Pantry progress to the authored paid-jar total", () => {
+    expect(getPantryHomeProgress(jars, 999)).toEqual({ current: 2, total: 2 });
   });
 
-  it("stays off after every affordable jar is owned", () => {
-    expect(hasAffordableUnownedPantryJar(jars, jars.map((jar) => jar.id), 999)).toBe(false);
+  it("shows earned badge progress against every authored badge", () => {
+    const empty = getBadgeHomeProgress([]);
+    expect(empty.current).toBe(0);
+    expect(empty.total).toBe(12);
+    const firstBadgePuzzleIds = getSeasonShelfPuzzles(seasonShelves[0]).map((puzzle) => puzzle.id);
+    expect(getBadgeHomeProgress(firstBadgePuzzleIds)).toEqual({ current: 1, total: 12 });
+  });
+
+  it("renders Pantry and Badges as flat numeric progress, never the old red dot", () => {
+    expect(hubSource).toContain('artId === "pantry"');
+    expect(hubSource).toContain('artId === "map"');
+    expect(hubSource).toContain("getBadgeHomeProgress(completedIds)");
+    expect(hubSource).not.toContain("puzzle-home-destination__badge--new");
+    expect(styles).not.toContain("puzzle-home-destination__badge--new");
   });
 });
 
@@ -101,14 +111,14 @@ describe("Workshop Play Now layout", () => {
     expect(step63Styles).toContain("text-shadow: 0 2px 1px rgba(61, 43, 46, 0.88)");
   });
 
-  it("connects Pip to the greeting and reserves that speaking zone for login rewards", () => {
+  it("connects Pip to the greeting used for both idle and login-reward copy", () => {
     const step63Styles = styles.slice(styles.indexOf("v0.1.714 - Step 63 canonical Workshop composition"));
     expect(step63Styles).toContain("margin-right: -22px");
     expect(step63Styles).toContain(".puzzle-home-scene__greeting::before");
     expect(step63Styles).toContain("top: clamp(92px, 12%, 116px) !important");
     expect(step63Styles).toContain("max-width: calc(100% - 170px) !important");
-    expect(step63Styles).toContain("#app:has(.login-bonus-popover) .puzzle-home-scene__greeting-wrap");
-    expect(step63Styles).toContain("top: clamp(112px, 16dvh, 150px)");
+    expect(hubSource).toContain("greetingMessage || t(getDailyGreetingKey())");
+    expect(styles).not.toContain(".login-bonus-popover");
   });
 });
 

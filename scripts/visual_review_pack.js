@@ -5,12 +5,14 @@ import { relative, resolve, sep } from "node:path";
 import { chromium } from "@playwright/test";
 import { APP_VERSION } from "../src/data/appVersion.js";
 import { puzzles } from "../src/data/puzzles.js";
+import { assertIsolatedQaTarget } from "./qa_target_guard.js";
 
 const isWindows = process.platform === "win32";
 const requestedUrl = process.env.PPP_URL || "";
 const explicitPort = process.env.PPP_QA_PORT ? Number(process.env.PPP_QA_PORT) : null;
 let port = explicitPort || 5184;
 let baseUrl = requestedUrl || "http://127.0.0.1:" + port + "/";
+assertIsolatedQaTarget(baseUrl, "visual_review_pack");
 const visualReviewRoot = resolve(process.cwd(), "qa-artifacts", "visual-review");
 const outputRoot = resolve(visualReviewRoot, APP_VERSION);
 const shotsDir = resolve(outputRoot, "screenshots");
@@ -519,7 +521,7 @@ async function captureKoreanFirstRun(browser) {
     await capture(page, "ko-opening-brand-intro", ".brand-intro.game-stage");
     await dismissIntro(page);
     await page.locator(".app-shell").waitFor({ state: "visible", timeout: 6000 });
-    await page.locator(".login-bonus-popover").waitFor({ state: "detached", timeout: 5000 }).catch(() => {});
+    await page.waitForTimeout(3100);
     await page.waitForTimeout(3600);
     await capture(page, "ko-puzzle-home", ".puzzle-home", { fullPage: true });
     await page.locator(".puzzle-home-scene__play").click();
@@ -661,7 +663,7 @@ async function main() {
     await capture(page, "opening-brand-intro", ".brand-intro.game-stage");
     await dismissIntro(page);
     await page.locator(".app-shell").waitFor({ state: "visible", timeout: 6000 });
-    await page.locator(".login-bonus-popover").waitFor({ state: "detached", timeout: 5000 }).catch(() => {});
+    await page.waitForTimeout(3100);
     await page.waitForTimeout(3600);
     await capture(page, "puzzle-home", ".puzzle-home", { fullPage: true });
     await page.locator(".puzzle-home-scene__play").click();

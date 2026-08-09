@@ -6,6 +6,7 @@ import {
   ensureStarterJars,
   getEquippedJars,
   getFeaturedJarId,
+  hasSeenGuide,
   getOwnedJarIds,
   getPaidJarCount,
   getPantrySpoons,
@@ -20,6 +21,11 @@ import "../styles/pantrySpoon.css";
 import "../styles/pantryShelfCelebration.css";
 
 let pendingShelfCelebrationId = null;
+const PANTRY_JAR_GUIDE_ID = "pantryJarIntro";
+
+export function shouldShowPantryJarIntro(hasSeen = hasSeenGuide) {
+  return !hasSeen(PANTRY_JAR_GUIDE_ID);
+}
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -276,7 +282,28 @@ function renderOnboarding() {
   return card;
 }
 
-export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {}, spoonStore = null, onOpenSpoonStore = () => {}) {
+export function scheduleInitialJarDetailResume({
+  jar,
+  guidePending = shouldShowPantryJarIntro(),
+  showDetail = () => {},
+  onOpened = () => {},
+  requestFrame = globalThis.requestAnimationFrame
+} = {}) {
+  if (!jar || guidePending) return false;
+  requestFrame(() => {
+    showDetail(jar);
+    onOpened(jar);
+  });
+  return true;
+}
+
+export function renderPantryView(
+  onRefresh = () => {},
+  onFirstPurchase = () => {},
+  spoonStore = null,
+  onOpenSpoonStore = () => {},
+  { onRequestJarGuide = () => {}, initialJarDetailId = null, onInitialJarDetailOpened = () => {} } = {}
+) {
   ensureStarterJars();
   const ownedIds = getOwnedJarIds();
   const equippedJars = getEquippedJars();
@@ -293,15 +320,21 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   const shelves = document.createElement("div");
   shelves.className = "pantry-jar-shelves";
   const detail = createDetailPanel();
-  const openDetail = (jar) => showJarDetail({
-    ...detail,
-    jar,
-    ownedIds,
-    equippedJars,
-    onRefresh,
-    onFirstPurchase,
-    onOpenSpoonStore
-  });
+  const openDetail = (jar) => {
+    if (shouldShowPantryJarIntro()) {
+      onRequestJarGuide(jar);
+      return;
+    }
+    showJarDetail({
+      ...detail,
+      jar,
+      ownedIds,
+      equippedJars,
+      onRefresh,
+      onFirstPurchase,
+      onOpenSpoonStore
+    });
+  };
   JAR_SHELVES.forEach((shelf) => shelves.appendChild(renderShelf(shelf, ownedIds, equippedJars, openDetail)));
 
   panel.append(header);
@@ -309,6 +342,24 @@ export function renderPantryView(onRefresh = () => {}, onFirstPurchase = () => {
   panel.append(shelves);
   if (spoonStore) panel.appendChild(spoonStore);
   panel.appendChild(detail.backdrop);
+
+  const initialJar = initialJarDetailId
+    ? PANTRY_JARS.find((jar) => jar.id === initialJarDetailId)
+    : null;
+  scheduleInitialJarDetailResume({
+    jar: initialJar,
+    guidePending: shouldShowPantryJarIntro(),
+    showDetail: (jar) => showJarDetail({
+      ...detail,
+      jar,
+      ownedIds,
+      equippedJars,
+      onRefresh,
+      onFirstPurchase,
+      onOpenSpoonStore
+    }),
+    onOpened: onInitialJarDetailOpened
+  });
 
   const celebrationShelfId = pendingShelfCelebrationId;
   if (celebrationShelfId) {

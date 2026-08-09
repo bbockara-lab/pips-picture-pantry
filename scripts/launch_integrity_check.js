@@ -172,10 +172,17 @@ function checkDailyLoginBonus() {
   expectIncludes("src/ui/appShell.js", "hasActivePlayer() ? claimLoginBonus() : null", "active-player login claim");
   expectIncludes("src/ui/appShell.js", 'root.dataset.introOpen === "true"', "post-intro login presentation");
   expectIncludes("src/ui/appShell.js", "globalThis.setTimeout(dismissLoginBonus, 3000)", "three-second login bubble dismissal");
-  expectIncludes("src/ui/loginBonusPopover.js", "pip-chrome-v2.png", "approved Pip login art");
-  expectIncludes("src/ui/loginBonusPopover.js", 'addEventListener("click", onDismiss, { once: true })', "tap dismissal");
+  expectIncludes("src/ui/appShell.js", "greetingMessage: loginBonusMessage", "login reward reuses home greeting");
+  expectIncludes("src/ui/puzzleHubView.js", "greetingMessage || t(getDailyGreetingKey())", "daily greeting restoration fallback");
+  expectExcludes("src/ui/loginBonusMessage.js", "document.createElement", "duplicate login Pip popover");
   expectIncludes("src/styles.css", "v0.1.678 - daily login spoon bonus", "login bonus presentation contract");
   expectIncludes("tests/save.test.js", "grants once per local date", "login grant regression test");
+}
+function checkQaSaveIsolation() {
+  expectIncludes("scripts/qa_target_guard.js", "LOOPBACK_HOSTS", "loopback-only QA target allowlist");
+  expectIncludes("scripts/mobile_visual_check.js", "assertIsolatedQaTarget(TARGET_URL", "mobile QA storage isolation guard");
+  expectIncludes("scripts/visual_review_pack.js", "assertIsolatedQaTarget(baseUrl", "visual QA storage isolation guard");
+  expectIncludes("tests/save.test.js", "keeps a fresh Daily completion bounded", "fresh Daily reward and inventory regression test");
 }
 function checkFeaturedPantryJar() {
   expectIncludes("src/game/save.js", "export function getEquippedJarForCurrentStage", "current stage selected jar helper");
@@ -190,6 +197,32 @@ function checkFeaturedPantryJar() {
   expectIncludes("src/styles.css", "v0.1.679 - meaningful featured Pantry jar", "featured Pantry jar presentation contract");
   expectIncludes("tests/featuredPantryJar.test.js", "Selected Pantry jar meaning", "featured jar regression test");
 }
+function checkPantryJarGuide() {
+  expectIncludes("src/game/save.js", '"pantryJarIntro"', "persisted Pantry jar guide id");
+  expectIncludes("src/ui/pantryView.js", "shouldShowPantryJarIntro()", "first jar-detail guide gate");
+  expectIncludes("src/ui/pantryView.js", "onRequestJarGuide(jar)", "selected jar guide request");
+  expectIncludes("src/ui/appShell.js", "initialJarDetailId: pendingPantryJarDetailId", "selected jar detail resume");
+  expectIncludes("src/ui/pantryView.js", "scheduleInitialJarDetailResume({", "guide-safe jar detail resume scheduler");
+  expectIncludes("src/ui/pantryView.js", "guidePending: shouldShowPantryJarIntro()", "guide-open resume gate");
+  expectExcludes("src/ui/pantryView.js", "openDetail(initialJar)", "guide-reentering initial jar path");
+  expectIncludes("src/ui/guideDialog.js", 'pantryJarIntro: ["guide.pantryJarIntro.step1", "guide.pantryJarIntro.step2"]', "two-step Pantry jar guide");
+  expectIncludes("src/ui/settingsView.js", '"pantryJarIntro", "pantry", onReplayGuide', "Pantry jar guide replay");
+  expectIncludes("src/i18n/en.js", "Display on home puts it beside me in the Puzzle Room.", "English home-display explanation");
+  expectIncludes("src/i18n/ko.js", "홈에 표시하기를 누르면 퍼즐방의 제 옆에 놓여요.", "Korean home-display explanation");
+  expectIncludes("tests/pantryJarGuide.test.js", "resumes the exact selected jar detail", "Pantry jar guide lifecycle regression");
+  expectIncludes("tests/pantryJarGuide.test.js", "does not schedule repeated frames or re-enter the guide while it is open", "Pantry guide render-loop regression test");
+}
+function checkHomeCollectionProgress() {
+  const hub = "src/ui/puzzleHubView.js";
+  expectIncludes(hub, "BADGE_MILESTONES.length", "authored badge total");
+  expectIncludes(hub, "getPackBadgeStatus(completedPuzzleIds).filter", "earned badge count");
+  expectIncludes(hub, "getPaidJarCount()", "owned paid Pantry jar count");
+  expectRegex(hub, /artId === "pantry"[\s\S]*puzzle-home-destination__badge/, "Pantry numeric progress badge");
+  expectRegex(hub, /artId === "map"[\s\S]*puzzle-home-destination__badge/, "Badges numeric progress badge");
+  expectExcludes(hub, "puzzle-home-destination__badge--new", "ambiguous Pantry red dot");
+  expectExcludes("src/styles.css", "puzzle-home-destination__badge--new", "retired Pantry red dot styling");
+  expectIncludes("tests/puzzleHubView.test.js", "shows earned badge progress against every authored badge", "Badges progress regression test");
+}
 function main() {
   checkAndroidVersion();
   checkPackUnlockGuidance();
@@ -197,7 +230,10 @@ function main() {
   checkSimpleOpening();
   checkPlayerFacingClarity();
   checkDailyLoginBonus();
+  checkQaSaveIsolation();
   checkFeaturedPantryJar();
+  checkPantryJarGuide();
+  checkHomeCollectionProgress();
   console.log("Launch integrity guard passed: Android numbering, unlock guidance, replay rewards, simple opening, and player-facing clarity, and daily login rewards are locked.");
 }
 

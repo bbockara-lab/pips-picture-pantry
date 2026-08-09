@@ -5,7 +5,7 @@ import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, getSeasonShelfSizeCount
 import { PANTRY_JARS, getJarById } from "../data/pantryJars.js";
 import { getPaidJarProgressForPantryShelf, getPantryShelfForSeasonShelf } from "../data/stagePantryLinks.js";
 import { ECONOMY } from "../data/economyConfig.js";
-import { getCompletedPuzzleIds, getFeaturedBadgeId, getFeaturedJarId, getOwnedJarIds, getPantrySpoons, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
+import { getCompletedPuzzleIds, getFeaturedBadgeId, getFeaturedJarId, getOwnedJarIds, getPaidJarCount, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
 import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
@@ -13,7 +13,7 @@ import { getPreviousSeasonShelf, isSeasonShelfComplete } from "../game/seasonShe
 import { renderColoredPuzzleArt } from "./coloredPuzzleArt.js";
 import { getJarArtUrl } from "../data/jarArt.js";
 import { getBadgeArtUrl } from "../data/badgeArt.js";
-import { getPackBadgeStatus } from "../game/badges.js";
+import { BADGE_MILESTONES, getPackBadgeStatus } from "../game/badges.js";
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -44,14 +44,19 @@ export function getDailyGreetingKey(now = new Date()) {
   return DAILY_GREETING_KEYS[dayNumber % DAILY_GREETING_KEYS.length];
 }
 
-export function hasAffordableUnownedPantryJar(jars, ownedJarIds, spoons) {
-  const owned = ownedJarIds instanceof Set ? ownedJarIds : new Set(ownedJarIds || []);
-  const balance = Math.max(0, Number(spoons) || 0);
-  return jars.some((jar) => (
-    !owned.has(jar.id)
-    && Number(jar.cost) > 0
-    && Number(jar.cost) <= balance
-  ));
+export function getBadgeHomeProgress(completedPuzzleIds = getCompletedPuzzleIds()) {
+  return {
+    current: getPackBadgeStatus(completedPuzzleIds).filter((status) => status.earned).length,
+    total: BADGE_MILESTONES.length
+  };
+}
+
+export function getPantryHomeProgress(jars = PANTRY_JARS, paidJarCount = getPaidJarCount()) {
+  const total = jars.filter((jar) => Number(jar.cost) > 0).length;
+  return {
+    current: Math.min(total, Math.max(0, Number(paidJarCount) || 0)),
+    total
+  };
 }
 
 export function getPuzzleHubOpenDecision(
@@ -88,7 +93,8 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     onShowList = () => {},
     onSelectView = () => {},
     onOpenSettings = () => {},
-    spoonRunOpportunity = { total: 0 }
+    spoonRunOpportunity = { total: 0 },
+    greetingMessage = null
   } = typeof options === "function" ? { onOpenPuzzle: options } : options;
   const stack = document.createElement("div");
   stack.className = "puzzle-hub-stack puzzle-home";
@@ -113,7 +119,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     greetingWrap,
     "p",
     "puzzle-home-scene__greeting hub-greeting-bubble",
-    t(getDailyGreetingKey())
+    greetingMessage || t(getDailyGreetingKey())
   );
   greeting.setAttribute("aria-live", "polite");
   greetingWrap.append(greetingPip, greeting);
@@ -206,9 +212,8 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   const completedIds = new Set(getCompletedPuzzleIds());
   const activeShelfPuzzles = activeShelf ? getSeasonShelfPuzzles(activeShelf) : [];
   const activeShelfCompletedCount = activeShelfPuzzles.filter((puzzle) => completedIds.has(puzzle.id)).length;
-  const ownedJarIds = new Set(getOwnedJarIds());
-  const pantrySpoons = getPantrySpoons();
-  const hasNewPantryItem = hasAffordableUnownedPantryJar(PANTRY_JARS, ownedJarIds, pantrySpoons);
+  const badgeProgress = getBadgeHomeProgress(completedIds);
+  const pantryProgress = getPantryHomeProgress();
   destinationItems.forEach(([artId, labelKey, onClick]) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -224,12 +229,25 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
       button.appendChild(image);
     }
     appendTextElement(button, "span", "puzzle-home-destination__label", t(labelKey));
+    let collectionProgress = null;
     if (artId === "puzzle") {
+      collectionProgress = {
+        current: activeShelfCompletedCount,
+        total: activeShelfPuzzles.length
+      };
       appendTextElement(
         button,
         "span",
         "puzzle-home-destination__badge",
-        `${activeShelfCompletedCount}/${activeShelfPuzzles.length}`
+        `${collectionProgress.current}/${collectionProgress.total}`
+      );
+    } else if (artId === "pantry") {
+      collectionProgress = pantryProgress;
+      appendTextElement(
+        button,
+        "span",
+        "puzzle-home-destination__badge",
+        `${collectionProgress.current}/${collectionProgress.total}`
       );
     } else if (artId === "spoonRun") {
       const badge = appendTextElement(
@@ -241,15 +259,22 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
       badge.setAttribute("aria-label", t("spoonRun.homeOpportunity", {
         count: Math.max(0, Number(spoonRunOpportunity?.total) || 0)
       }));
-    } else if (artId === "pantry" && hasNewPantryItem) {
-      const badge = appendTextElement(button, "span", "puzzle-home-destination__badge puzzle-home-destination__badge--new", "");
-      badge.setAttribute("aria-label", t("home.new"));
+    } else if (artId === "map") {
+      collectionProgress = badgeProgress;
+      appendTextElement(
+        button,
+        "span",
+        "puzzle-home-destination__badge",
+        `${collectionProgress.current}/${collectionProgress.total}`
+      );
     }
     button.setAttribute("aria-label", artId === "spoonRun"
       ? `${t(labelKey)}. ${t("spoonRun.homeOpportunity", {
         count: Math.max(0, Number(spoonRunOpportunity?.total) || 0)
       })}`
-      : t(labelKey));
+      : collectionProgress
+        ? `${t(labelKey)}. ${t("home.collectionProgress", collectionProgress)}`
+        : t(labelKey));
     button.title = t(labelKey);
     button.addEventListener("click", onClick);
     destinations.appendChild(button);

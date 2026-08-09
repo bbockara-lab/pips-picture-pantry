@@ -69,6 +69,7 @@ export const en = {
     guideReplayAction: "Show Pip's guide",
     guideReplayPuzzleAction: "Picture guide",
     guideReplayCursorAction: "D-pad guide",
+    guideReplayPantryJarAction: "Jar display guide",
     guideReplayTimeAttackAction: "Time Attack guide",
     guideReplayMapAction: "Badge guide",
     spoonStoreTitle: "Add more spoons",
@@ -163,6 +164,7 @@ export const en = {
       6: "A new picture is waiting!"
     },
     new: "New",
+    collectionProgress: "{current} of {total} collected",
     pantryLabel: "Pip's Pantry",
     timeAttackLabel: "Time Attack",
     albumLabel: "Album",
@@ -267,6 +269,11 @@ export const en = {
       speakerName: "Pip",
       step1: "The pictures get a little bigger from here, so use these arrows to move from cell to cell.",
       step2: "You can switch back to tapping cells anytime in Settings. Ready? Let's play!"
+    },
+    pantryJarIntro: {
+      speakerName: "Pip",
+      step1: "Select this jar to place it beside me on the puzzle-completion screen for this shelf's stage.",
+      step2: "Display on home puts it beside me in the Puzzle Room. You can change either choice anytime!"
     },
     spoonRunIntro: {
       speakerName: "Pip",

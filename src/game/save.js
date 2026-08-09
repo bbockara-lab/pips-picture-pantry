@@ -13,6 +13,7 @@ const PLAYERS_KEY = "pips-picture-pantry:v0.1:players";
 const GUIDE_IDS = new Set([
   "puzzle",
   "cursorControlsIntro",
+  "pantryJarIntro",
   "timeAttack",
   "map",
   "spoonRunIntro",

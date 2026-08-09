@@ -47,7 +47,7 @@ import { renderStageCompleteOverlay } from "./stageComplete.js";
 import { canPurchaseSpoonJar, canPurchaseSupportPack, renderSettingsDialog, renderSpoonStore } from "./settingsView.js";
 import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackElapsedSeconds, TIME_ATTACK_LIMIT_SECONDS, TIME_ATTACK_TRIAL_ROUNDS } from "./timeAttackFlow.js";
 import { renderTimeAttackView } from "./timeAttackView.js";
-import { renderLoginBonusPopover } from "./loginBonusPopover.js";
+import { getLoginBonusMessage } from "./loginBonusMessage.js";
 
 const DAILY_BONUS = ECONOMY.DAILY_BONUS;
 let introOpenViewHandler = null;
@@ -77,6 +77,7 @@ export function renderApp(root) {
   let timeAttackLastResult = null;
   let preTimeAttackPuzzle = null;
   let activeGuide = null;
+  let pendingPantryJarDetailId = null;
   let allPuzzlesDonePromptOpen = false;
   let replayChallenge = false;
   let replayPicked = false;
@@ -225,6 +226,12 @@ export function renderApp(root) {
       activeGuide = null;
       draw();
     }
+  }
+
+  function requestPantryJarGuide(jar) {
+    pendingPantryJarDetailId = jar?.id || null;
+    activeGuide = "pantryJarIntro";
+    draw();
   }
 
   function replayGuideFromSettings(guideId = null) {
@@ -627,7 +634,13 @@ export function renderApp(root) {
       onAllPuzzlesDoneSpoonRun: () => selectView("spoonRun"),
       onCloseGuide: closeGuide,
       onPantryFirstPurchase: requestPantryFirstPurchaseGuide,
+      onRequestPantryJarGuide: requestPantryJarGuide,
+      pendingPantryJarDetailId,
+      onPendingPantryJarDetailOpened: () => {
+        pendingPantryJarDetailId = null;
+      },
       settingsDialogProps: getSettingsDialogProps(),
+      loginBonusMessage: loginBonusVisible ? getLoginBonusMessage(loginBonus) : null,
       timeAttackLimitSeconds: TIME_ATTACK_LIMIT_SECONDS
     });
     root.appendChild(shell);
@@ -642,13 +655,10 @@ export function renderApp(root) {
 
   function scheduleLoginBonusPresentation() {
     globalThis.setTimeout(() => {
-      if (!loginBonusVisible || root.dataset.introOpen === "true" || root.querySelector(".login-bonus-popover")) {
+      if (!loginBonusVisible || root.dataset.introOpen === "true" || loginBonusTimerHandle) {
         return;
       }
-      root.appendChild(renderLoginBonusPopover(loginBonus, dismissLoginBonus));
-      if (!loginBonusTimerHandle) {
-        loginBonusTimerHandle = globalThis.setTimeout(dismissLoginBonus, 3000);
-      }
+      loginBonusTimerHandle = globalThis.setTimeout(dismissLoginBonus, 3000);
     }, 0);
   }
   function dismissLoginBonus() {
@@ -657,7 +667,7 @@ export function renderApp(root) {
       globalThis.clearTimeout(loginBonusTimerHandle);
       loginBonusTimerHandle = null;
     }
-    root.querySelector(".login-bonus-popover")?.remove();
+    draw();
   }
 
   function scrollAfterDraw(container) {
@@ -755,7 +765,11 @@ function createShell({
   onAllPuzzlesDoneSpoonRun,
   onCloseGuide,
   onPantryFirstPurchase,
-  settingsDialogProps
+  onRequestPantryJarGuide,
+  pendingPantryJarDetailId,
+  onPendingPantryJarDetailOpened,
+  settingsDialogProps,
+  loginBonusMessage
 }) {
   const shell = document.createElement("main");
   shell.className = "app-shell";
@@ -848,7 +862,12 @@ function createShell({
       () => onSelectView("pantry"),
       onPantryFirstPurchase,
       spoonStore,
-      () => document.querySelector(".spoon-store")?.scrollIntoView({ behavior: "smooth", block: "center" })
+      () => document.querySelector(".spoon-store")?.scrollIntoView({ behavior: "smooth", block: "center" }),
+      {
+        onRequestJarGuide: onRequestPantryJarGuide,
+        initialJarDetailId: pendingPantryJarDetailId,
+        onInitialJarDetailOpened: onPendingPantryJarDetailOpened
+      }
     ));
   } else if (activeView === "timeAttack") {
     shell.appendChild(renderTimeAttackView({
@@ -884,7 +903,8 @@ function createShell({
       onShowList: onShowPuzzlePicker,
       onSelectView,
       onOpenSettings: onRequestSettings,
-      spoonRunOpportunity
+      spoonRunOpportunity,
+      greetingMessage: loginBonusMessage
     }));
 
   }

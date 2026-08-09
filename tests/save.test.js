@@ -18,6 +18,7 @@ import {
   getPantryStoryGoalId,
   getShelfPantryRoomRequirement,
   getEquippedDecorations,
+  getOwnedJarIds,
   getOwnedDecorationIds,
   getUnlockedPackIds,
   getUnlockedShelfIds,
@@ -213,6 +214,37 @@ describe("player save profiles", () => {
     expect(getPantrySpoons()).toBe(11);
   });
 
+  it("keeps a fresh Daily completion bounded and never grants Pantry inventory", () => {
+    setActivePlayerName("Fresh QA");
+    expect(claimLoginBonus("2026-08-09")).toBe(3);
+
+    const completedState = {
+      puzzleId: "pips-first-shelf-tiny-bow-2-15",
+      size: 5,
+      mode: "fill",
+      completed: true,
+      history: [],
+      cells: Array.from({ length: 5 }, () => Array(5).fill("filled"))
+    };
+
+    expect(savePuzzleState(completedState, {
+      reward: 3,
+      dailyBonus: 8,
+      dailyKey: "2026-08-09"
+    })).toEqual({ puzzleReward: 3, dailyBonus: 8, totalReward: 11 });
+    expect(getPantrySpoons()).toBe(14);
+    expect(getOwnedJarIds()).toEqual([]);
+    expect(getOwnedDecorationIds()).toEqual([]);
+
+    expect(savePuzzleState(completedState, {
+      reward: 3,
+      dailyBonus: 8,
+      dailyKey: "2026-08-09"
+    })).toEqual({ puzzleReward: 0, dailyBonus: 0, totalReward: 0 });
+    expect(getPantrySpoons()).toBe(14);
+    expect(getOwnedJarIds()).toEqual([]);
+  });
+
   it("requires pantry room progress before opening gated stages", () => {
     setActivePlayerName("Jay");
     const gatedPack = { id: "sunny-spoon-sign", access: "unlockable", unlockCost: 24, pantryRoomStepRequired: 15 };
@@ -338,6 +370,10 @@ describe("player save profiles", () => {
     markGuideSeen("spoonRunIntro");
     markGuideSeen("spoonRunIntro");
     expect(hasSeenGuide("spoonRunIntro")).toBe(true);
+    expect(hasSeenGuide("pantryJarIntro")).toBe(false);
+    markGuideSeen("pantryJarIntro");
+    markGuideSeen("pantryJarIntro");
+    expect(hasSeenGuide("pantryJarIntro")).toBe(true);
     expect(hasSeenGuide("map")).toBe(false);
     markGuideSeen("map");
     expect(hasSeenGuide("map")).toBe(true);
@@ -356,6 +392,7 @@ describe("player save profiles", () => {
       "cursorControlsIntro",
       "timeAttack",
       "spoonRunIntro",
+      "pantryJarIntro",
       "map",
       "pantryFirstPurchase",
       "pantryRoomStory",

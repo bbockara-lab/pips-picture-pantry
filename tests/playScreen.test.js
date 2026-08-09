@@ -25,6 +25,11 @@ describe("play screen wiring", () => {
     expect(playScreenSource).toMatch(/onViewAlbum:\s*replayChallenge\s*\?\s*onClosePuzzle\s*:\s*onViewAlbum/);
   });
 
+  it("forwards the Daily completion confirmation route to the puzzle view", () => {
+    expect(playScreenSource).toMatch(/onNextPuzzle,\s*\n\s*onBackToSpoonRun,\s*\n\s*onPreviousStagePuzzle/);
+    expect(playScreenSource).toMatch(/renderPuzzleView\([\s\S]*dailyBonus:[\s\S]*onNextPuzzle,\s*\n\s*onBackToSpoonRun,\s*\n\s*controlMode/);
+  });
+
   it("opens a pause destination menu instead of immediately leaving normal play", () => {
     expect(playScreenSource).toContain("openPauseMenu()");
     expect(playScreenSource).toContain('className = "play-pause-overlay"');

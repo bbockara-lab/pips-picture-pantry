@@ -189,6 +189,7 @@ function createGuideReplayCard(onReplayGuide) {
   actions.append(
     createGuideReplayButton(t("settings.guideReplayPuzzleAction"), "puzzle", "puzzle", onReplayGuide),
     createGuideReplayButton(t("settings.guideReplayCursorAction"), "cursorControlsIntro", "cursor", onReplayGuide),
+    createGuideReplayButton(t("settings.guideReplayPantryJarAction"), "pantryJarIntro", "pantry", onReplayGuide),
     createGuideReplayButton(t("settings.guideReplayTimeAttackAction"), "timeAttack", "time", onReplayGuide),
     createGuideReplayButton(t("settings.guideReplayMapAction"), "map", "map", onReplayGuide)
   );
@@ -204,7 +205,9 @@ function createGuideReplayButton(label, guideId, modifier, onReplayGuide) {
   button.dataset.guideTarget = guideId;
 
   const icon = document.createElement("img");
-  const art = getQuickTravelArt(guideId === "timeAttack" ? "timeAttack" : guideId === "map" ? "map" : "puzzle");
+  const art = getQuickTravelArt(
+    guideId === "timeAttack" ? "timeAttack" : guideId === "map" ? "map" : guideId === "pantryJarIntro" ? "pantry" : "puzzle"
+  );
   icon.className = `settings-choice__guide-art settings-choice__guide-art--${modifier}`;
   icon.src = art?.src || "";
   icon.alt = "";
