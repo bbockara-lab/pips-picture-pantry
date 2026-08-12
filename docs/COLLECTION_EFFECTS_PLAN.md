@@ -803,3 +803,11 @@ Claude의 핵심 반박을 수용한다. 특히 기존 `equippedJars`를 능력 
 - 목표 이상으로 이월된 값이 단순히 `9/8`처럼 보이지 않도록 완료 화면과 팬트리 상세에 한·영 이월 안내를 추가했다.
 - 최종 관련 회귀는 `5 files / 55 tests`, 전체 앱 회귀는 `52 files / 332 tests`, production build는 모두 통과했다.
 - 남은 게이트는 Claude의 수정 재검토와 Android/iOS 화면·재시작 저장 검증이다. 네이티브 버전 번호, AAB, archive 및 스토어 제출은 변경하지 않았다.
+
+## 22. Android/iOS 재시작 저장 검증 — 2026-08-11
+
+- **Android PASS** — Pixel 8 에뮬레이터에 최신 공용 빌드를 설치한 뒤 앱을 강제 종료하고 다시 실행했다. 재진입 전후 `스푼 17`, `그림 1/20`, `배지 0/12`, `팬트리 0/55`, `스푼 벌러 가기 +14`가 동일하게 복원됐다. 첫 WebView 렌더링은 수 초 지연됐지만 크래시나 빈 화면 고착은 없었다.
+- **iOS PASS(저장·마이그레이션)** — iPhone 17 Pro 시뮬레이터에서 앱 종료·재실행 후 WebKit LocalStorage의 실제 저장 레코드를 확인했다. 기존 스푼 6과 11개 보유 항아리, 선반 선택값(`strawberry-jam`, `acacia-honey` 등), `seenGuideIds`가 유지됐고 신규 필드 `activeJarId: null`, `jarEffectProgress: {}`, `jarEffectDaily`, `jarEffectCompletionKeys: []`도 안전한 기본값으로 마이그레이션됐다.
+- iOS 재실행 시 타이틀 화면부터 시작하는 것은 정상 진입 흐름이며 저장 삭제가 아니다. 앱 컨테이너와 LocalStorage 레코드는 재실행 후에도 유지됐다.
+- 이번 검증은 **기존 저장의 보존과 신규 필드 마이그레이션** 게이트를 통과한 것이다. 실제 항아리 효과 활성화→퍼즐 완료→보너스 표시의 최종 육안 QA는 다음 네이티브 후보 빌드에서 Android/iOS 각각 한 번씩 수행한다.
+- 네이티브 버전 번호, Android AAB, iOS archive 및 스토어 제출은 변경하지 않았다.
