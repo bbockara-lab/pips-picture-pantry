@@ -109,7 +109,7 @@ describe("guide dialog character and badge wiring", () => {
   });
   it("registers the jar display guide and offers it again from settings", () => {
     expect(guideSource).toContain(
-      'pantryJarIntro: ["guide.pantryJarIntro.step1", "guide.pantryJarIntro.step2"]'
+      'pantryJarIntro: ["guide.pantryJarIntro.step1", "guide.pantryJarIntro.step2", "guide.pantryJarIntro.step3"]'
     );
     expect(guideSource).toContain('pantryJarIntro: "guide.pantryJarIntro.speakerName"');
     expect(settingsSource).toContain(

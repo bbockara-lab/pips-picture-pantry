@@ -20,7 +20,7 @@ describe("pantry jar first-open guide", () => {
     expect(pantrySource).toMatch(
       /const openDetail = \(jar\) => \{[\s\S]*?shouldShowPantryJarIntro\(\)[\s\S]*?onRequestJarGuide\(jar\)[\s\S]*?showJarDetail\(\{/
     );
-    expect(pantrySource).toContain("renderShelf(shelf, ownedIds, equippedJars, openDetail)");
+    expect(pantrySource).toContain("renderShelf(shelf, ownedIds, equippedJars, activeJarId, openDetail)");
   });
 
   it("resumes the exact selected jar detail after the guide closes", () => {

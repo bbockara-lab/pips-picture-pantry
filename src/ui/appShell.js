@@ -5,6 +5,7 @@ import { getDailyDateKey, getDailyPuzzle } from "../game/dailyPuzzle.js";
 import { getDailyReplayPicks, getNextDailyReplayPick } from "../game/replayPicks.js";
 import {
   getCompletedPuzzleIds,
+  getRewardedPuzzleIds,
   claimLoginBonus,
   getDailyCompletedDate,
   getReplayDailyCount,
@@ -787,6 +788,7 @@ function createShell({
   const spoonRunOpportunity = getSpoonRunOpportunity({
     dailyPuzzle,
     dailyCompleted: completedDate === today,
+    rewardedPuzzleIds: getRewardedPuzzleIds(),
     replayPicks,
     replayRewardedPuzzleIds,
     replayDailyCount,

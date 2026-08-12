@@ -1,10 +1,11 @@
-import { ECONOMY, getDailyReplayPickLimit, getDailyTimeAttackLimit, getReplayPickReward, getTimeAttackRecordBonus, getTimeAttackReward } from "../data/economyConfig.js";
+import { ECONOMY, getDailyReplayPickLimit, getDailyTimeAttackLimit, getReplayPickReward, getTimeAttackMinRewardProgressRatio, getTimeAttackRecordBonus, getTimeAttackReward } from "../data/economyConfig.js";
 import { isDecorationArtApproved } from "../data/decorations.js";
 import { seasonShelves } from "../data/seasonShelves.js";
 import { getPreviousSeasonShelf, isSeasonShelfComplete } from "./seasonShelfProgress.js";
 import { restoreState, serializeState } from "./puzzleState.js";
 import { JAR_SHELVES, PANTRY_JARS, getJarById, getJarsByShelf } from "../data/pantryJars.js";
 import { getPantryShelfForSeasonShelf } from "../data/stagePantryLinks.js";
+import { applyJarCompletionEffect, getJarEffectDefinition } from "./jarEffects.js";
 
 const LEGACY_SAVE_KEY = "pips-picture-pantry:v0.1:save";
 const SAVE_PREFIX = "pips-picture-pantry:v0.1:save:";
@@ -85,6 +86,8 @@ export function savePuzzleState(state, rewardOptions = {}) {
   const wasCompleted = save.completedPuzzleIds.includes(state.puzzleId);
   let puzzleReward = 0;
   let dailyBonus = 0;
+  let dailyRewardClaimed = false;
+  let jarEffectResult = createEmptyJarEffectResult(save);
   save.puzzleStates[state.puzzleId] = serializeState(state);
 
   if (state.completed && !wasCompleted) {
@@ -104,19 +107,33 @@ export function savePuzzleState(state, rewardOptions = {}) {
       save.pantrySpoons += awardedDailyBonus;
       save.dailyRewardedDates.push(rewardOptions.dailyKey);
       dailyBonus = awardedDailyBonus;
+      dailyRewardClaimed = true;
     }
+  }
+
+  if (state.completed && (!wasCompleted || dailyRewardClaimed)) {
+    const dateKey = normalizeDateKey(rewardOptions.dailyKey) || getLocalDateKey();
+    const completionKey = rewardOptions.dailyKey
+      ? `daily:${dateKey}`
+      : `normal:${String(state.puzzleId || "")}`;
+    jarEffectResult = applyActiveJarEffect(save, completionKey, dateKey);
   }
 
   saveGame(save);
   return {
     puzzleReward,
     dailyBonus,
-    totalReward: puzzleReward + dailyBonus
+    ...jarEffectResult,
+    totalReward: puzzleReward + dailyBonus + jarEffectResult.jarEffectReward
   };
 }
 
 export function getCompletedPuzzleIds() {
   return loadSave()?.completedPuzzleIds || [];
+}
+
+export function getRewardedPuzzleIds() {
+  return loadSave()?.rewardedPuzzleIds || [];
 }
 
 export function setFeaturedBadge(badgeId) {
@@ -148,6 +165,42 @@ export function getFeaturedJarId() {
 
 export function getDailyCompletedDate() {
   return loadSave()?.dailyCompletedDate || null;
+}
+
+export function getActiveJarId() {
+  const save = loadSave();
+  const jarId = save?.activeJarId || null;
+  const jar = jarId ? getJarById(jarId) : null;
+  return jar && getJarEffectDefinition(jar) && save.ownedJarIds.includes(jarId) ? jarId : null;
+}
+
+export function setActiveJar(jarId) {
+  const save = loadSave() || createEmptySave();
+  const jar = getJarById(jarId);
+  if (!jar || !getJarEffectDefinition(jar) || !save.ownedJarIds.includes(jar.id)) return false;
+  save.activeJarId = jar.id;
+  saveGame(save);
+  return true;
+}
+
+export function getActiveJarEffectStatus(dateKey = getLocalDateKey()) {
+  const save = loadSave() || createEmptySave();
+  return getJarEffectStatus(save.activeJarId, dateKey, save);
+}
+
+export function getJarEffectStatus(jarId, dateKey = getLocalDateKey(), sourceSave = null) {
+  const save = sourceSave || loadSave() || createEmptySave();
+  const jar = jarId ? getJarById(jarId) : null;
+  const definition = getJarEffectDefinition(jar);
+  const dailyCount = save.jarEffectDaily?.date === dateKey ? Number(save.jarEffectDaily.count || 0) : 0;
+  return {
+    jar,
+    definition,
+    active: Boolean(jar && save.activeJarId === jar.id),
+    progress: jar ? Math.max(0, Number(save.jarEffectProgress[jar.id] || 0)) : 0,
+    dailyCount,
+    dailyLimit: definition?.dailyLimit || 0
+  };
 }
 
 export function claimLoginBonus(dateKey = getLocalDateKey()) {
@@ -544,7 +597,14 @@ export function recordTimeAttackResult({
   const normalizedHintsUsed = Math.max(0, Math.floor(Number(hintsUsed) || 0));
   const normalizedOutcome = outcome === "timeout" ? "timeout" : "complete";
   const recordImproved = normalizedScore > previousBest;
-  const rewardAllowed = dailyCount < getDailyTimeAttackLimit() && normalizedProgressCells > 0;
+  const currentRoundProgressRatio = normalizedCurrentRoundTotalCells > 0
+    ? Math.min(1, normalizedCurrentRoundCorrectCells / normalizedCurrentRoundTotalCells)
+    : 0;
+  const progressEligible = normalizedOutcome === "complete"
+    || currentRoundProgressRatio >= getTimeAttackMinRewardProgressRatio();
+  const rewardAllowed = dailyCount < getDailyTimeAttackLimit()
+    && normalizedProgressCells > 0
+    && progressEligible;
   let reward = 0;
 
   if (rewardAllowed) {
@@ -587,7 +647,9 @@ export function recordTimeAttackResult({
     currentRoundTotalCells: normalizedCurrentRoundTotalCells,
     currentRoundNumber: normalizedCurrentRoundNumber,
     hintsUsed: normalizedHintsUsed,
-    outcome: normalizedOutcome
+    outcome: normalizedOutcome,
+    progressEligible,
+    currentRoundProgressRatio
   };
 }
 
@@ -678,8 +740,32 @@ export function recordReplayReward({ puzzleId, clean = false, picked = false, da
   const reward = getReplayPickReward();
   save.replayRewardedPuzzleIdsByDate[dateKey] = [...rewardedToday, normalizedPuzzleId];
   save.pantrySpoons += reward;
+  const jarEffectResult = applyActiveJarEffect(save, `replay:${dateKey}:${normalizedPuzzleId}`, dateKey);
   saveGame(save);
-  return createReplayRewardResult(reward, true, "claimed", save.replayRewardedPuzzleIdsByDate[dateKey].length);
+  return {
+    ...createReplayRewardResult(reward, true, "claimed", save.replayRewardedPuzzleIdsByDate[dateKey].length),
+    ...jarEffectResult
+  };
+}
+
+function applyActiveJarEffect(save, completionKey, dateKey) {
+  const jar = save.activeJarId ? getJarById(save.activeJarId) : null;
+  return applyJarCompletionEffect(save, jar, completionKey, dateKey);
+}
+
+function createEmptyJarEffectResult(save) {
+  const jar = save?.activeJarId ? getJarById(save.activeJarId) : null;
+  const definition = getJarEffectDefinition(jar);
+  return {
+    activeJarId: jar?.id || null,
+    jarEffectReward: 0,
+    jarEffectAdvanced: false,
+    jarEffectTriggered: false,
+    jarEffectProgress: jar ? Math.max(0, Number(save?.jarEffectProgress?.[jar.id] || 0)) : 0,
+    jarEffectTarget: definition?.target || 0,
+    jarEffectDailyCount: 0,
+    jarEffectDailyLimit: definition?.dailyLimit || 0
+  };
 }
 
 function createReplayRewardResult(reward, rewardAllowed, reason, dailyCount) {
@@ -808,6 +894,16 @@ function normalizeSave(parsed) {
       : {},
     featuredBadgeId: parsed?.featuredBadgeId ? String(parsed.featuredBadgeId) : null,
     featuredJarId: parsed?.featuredJarId ? String(parsed.featuredJarId) : null,
+    activeJarId: parsed?.activeJarId ? String(parsed.activeJarId) : null,
+    jarEffectProgress: parsed?.jarEffectProgress && typeof parsed.jarEffectProgress === "object"
+      ? Object.fromEntries(Object.entries(parsed.jarEffectProgress).map(([id, count]) => [String(id), Math.max(0, Number(count) || 0)]))
+      : {},
+    jarEffectDaily: parsed?.jarEffectDaily && typeof parsed.jarEffectDaily === "object"
+      ? { date: normalizeDateKey(parsed.jarEffectDaily.date), count: Math.max(0, Number(parsed.jarEffectDaily.count) || 0) }
+      : { date: null, count: 0 },
+    jarEffectCompletionKeys: Array.isArray(parsed?.jarEffectCompletionKeys)
+      ? Array.from(new Set(parsed.jarEffectCompletionKeys.map((key) => String(key || "")).filter(Boolean))).slice(-1200)
+      : [],
     ownedDecorationIds: Array.isArray(parsed?.ownedDecorationIds) ? Array.from(new Set(parsed.ownedDecorationIds)) : [],
     equippedDecorations: parsed?.equippedDecorations && typeof parsed.equippedDecorations === "object" ? parsed.equippedDecorations : {},
     completionDates: parsed?.completionDates && typeof parsed.completionDates === "object" ? parsed.completionDates : {},

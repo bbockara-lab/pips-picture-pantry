@@ -17917,9 +17917,32 @@ body.guide-open {
   font-size: 0.86rem;
 }
 
+.pantry-jar-detail__effect {
+  display: grid;
+  gap: 5px;
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(154, 100, 40, 0.24);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255, 247, 207, 0.78), rgba(226, 246, 228, 0.72));
+}
+
+.pantry-jar-detail__effect p,
+.pantry-jar-detail__effect strong,
+.pantry-jar-detail__effect small {
+  margin: 0;
+}
+
+.pantry-jar-detail__effect p,
+.pantry-jar-detail__effect small {
+  color: var(--jar-muted);
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
 .pantry-jar-detail__actions {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -17946,9 +17969,24 @@ body.guide-open {
 }
 
 .pantry-jar-detail__btn-close {
+  grid-column: 1 / -1;
   border: 1px solid rgba(74, 55, 40, 0.25) !important;
   background: transparent !important;
   color: var(--jar-muted) !important;
+}
+
+.pantry-jar-panel .pantry-jar-detail__btn-effect {
+  border: 2px solid #4f8b67 !important;
+  background: linear-gradient(180deg, #edfff2, #cdebd7) !important;
+  color: #315f45 !important;
+}
+
+.pantry-jar-panel .pantry-jar-detail__btn-effect:disabled {
+  opacity: 0.72;
+}
+
+.pantry-jar.effect-active {
+  box-shadow: 0 0 0 3px rgba(79, 139, 103, 0.34);
 }
 
 @media (min-width: 520px) {

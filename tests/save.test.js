@@ -6,6 +6,8 @@ import {
   getActivePlayerName,
   getCompletedPuzzleIds,
   getDailyCompletedDate,
+  getActiveJarEffectStatus,
+  getActiveJarId,
   getCompletionDates,
   getCompletedPantryStoryGoalIds,
   grantCozySupportPack,
@@ -43,6 +45,7 @@ import {
   savePuzzleState,
   setPantryStoryGoalId,
   setActivePlayerName,
+  setActiveJar,
   unlockPack
 } from "../src/game/save.js";
 import { seasonShelves } from "../src/data/seasonShelves.js";
@@ -96,6 +99,80 @@ describe("daily login spoon bonus", () => {
     expect(claimLoginBonus("not-a-date")).toBeNull();
     expect(getPantrySpoons()).toBe(0);
     expect(loadSave()).toBeNull();
+  });
+});
+
+describe("active pantry jar effects", () => {
+  beforeEach(() => {
+    globalThis.localStorage = new LocalStorageMock();
+    setActivePlayerName("Pip");
+  });
+
+  it("migrates old saves with inactive effect defaults", () => {
+    saveGame({ pantrySpoons: 12, ownedJarIds: ["blueberry-jam"] });
+
+    expect(loadSave()).toMatchObject({
+      activeJarId: null,
+      jarEffectProgress: {},
+      jarEffectDaily: { date: null, count: 0 },
+      jarEffectCompletionKeys: []
+    });
+    expect(getActiveJarId()).toBe(null);
+  });
+
+  it("activates only an owned effect jar and persists its independent status", () => {
+    saveGame({ ...loadSave(), ownedJarIds: ["blueberry-jam"] });
+
+    expect(setActiveJar("cherry-jam")).toBe(false);
+    expect(setActiveJar("starter-jam-jar")).toBe(false);
+    expect(setActiveJar("blueberry-jam")).toBe(true);
+    expect(getActiveJarId()).toBe("blueberry-jam");
+    expect(loadSave().activeJarId).toBe("blueberry-jam");
+    expect(getActiveJarEffectStatus("2026-08-11")).toMatchObject({
+      active: true,
+      progress: 0,
+      dailyCount: 0,
+      dailyLimit: 1,
+      definition: { target: 8, reward: 1 }
+    });
+  });
+
+  it("preserves a normal puzzle's one-time jar progress after the daily payout cap", () => {
+    const today = new Date();
+    const dateKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+    saveGame({
+      ...loadSave(),
+      ownedJarIds: ["blueberry-jam"],
+      activeJarId: "blueberry-jam",
+      jarEffectProgress: { "blueberry-jam": 3 },
+      jarEffectDaily: { date: dateKey, count: 1 }
+    });
+    const completedState = {
+      puzzleId: "jar-cap-integration-puzzle",
+      size: 5,
+      mode: "fill",
+      completed: true,
+      history: [],
+      cells: Array.from({ length: 5 }, () => Array(5).fill("fill"))
+    };
+
+    expect(savePuzzleState(completedState, { reward: 0 })).toMatchObject({
+      jarEffectAdvanced: true,
+      jarEffectTriggered: false,
+      jarEffectReward: 0,
+      jarEffectProgress: 4
+    });
+    expect(loadSave()).toMatchObject({
+      completedPuzzleIds: ["jar-cap-integration-puzzle"],
+      jarEffectProgress: { "blueberry-jam": 4 },
+      jarEffectCompletionKeys: ["normal:jar-cap-integration-puzzle"]
+    });
+
+    expect(savePuzzleState(completedState, { reward: 0 })).toMatchObject({
+      jarEffectAdvanced: false,
+      jarEffectProgress: 4
+    });
+    expect(loadSave().jarEffectCompletionKeys).toEqual(["normal:jar-cap-integration-puzzle"]);
   });
 });
 describe("player save profiles", () => {
@@ -195,18 +272,18 @@ describe("player save profiles", () => {
       cells: Array.from({ length: 5 }, () => Array(5).fill("fill"))
     };
 
-    expect(savePuzzleState(completedState, { reward: 3 })).toEqual({
+    expect(savePuzzleState(completedState, { reward: 3 })).toMatchObject({
       puzzleReward: 3,
       dailyBonus: 0,
       totalReward: 3
     });
-    expect(savePuzzleState(completedState, { reward: 3, dailyBonus: 8, dailyKey: "2026-07-29" })).toEqual({
+    expect(savePuzzleState(completedState, { reward: 3, dailyBonus: 8, dailyKey: "2026-07-29" })).toMatchObject({
       puzzleReward: 0,
       dailyBonus: 8,
       totalReward: 8
     });
     expect(getPantrySpoons()).toBe(11);
-    expect(savePuzzleState(completedState, { reward: 3, dailyBonus: 8, dailyKey: "2026-07-29" })).toEqual({
+    expect(savePuzzleState(completedState, { reward: 3, dailyBonus: 8, dailyKey: "2026-07-29" })).toMatchObject({
       puzzleReward: 0,
       dailyBonus: 0,
       totalReward: 0
@@ -231,7 +308,7 @@ describe("player save profiles", () => {
       reward: 3,
       dailyBonus: 8,
       dailyKey: "2026-08-09"
-    })).toEqual({ puzzleReward: 3, dailyBonus: 8, totalReward: 11 });
+    })).toMatchObject({ puzzleReward: 3, dailyBonus: 8, totalReward: 11 });
     expect(getPantrySpoons()).toBe(14);
     expect(getOwnedJarIds()).toEqual([]);
     expect(getOwnedDecorationIds()).toEqual([]);
@@ -240,7 +317,7 @@ describe("player save profiles", () => {
       reward: 3,
       dailyBonus: 8,
       dailyKey: "2026-08-09"
-    })).toEqual({ puzzleReward: 0, dailyBonus: 0, totalReward: 0 });
+    })).toMatchObject({ puzzleReward: 0, dailyBonus: 0, totalReward: 0 });
     expect(getPantrySpoons()).toBe(14);
     expect(getOwnedJarIds()).toEqual([]);
   });
@@ -425,7 +502,7 @@ describe("player save profiles", () => {
       reward: 0, rewardAllowed: false, reason: "not-eligible", dailyCount: 0, dailyLimit: 3, remaining: 3
     });
 
-    expect(recordReplayReward({ puzzleId: completedIds[0], clean: true, picked: true, dateKey: firstDate })).toEqual({
+    expect(recordReplayReward({ puzzleId: completedIds[0], clean: true, picked: true, dateKey: firstDate })).toMatchObject({
       reward: 1, rewardAllowed: true, reason: "claimed", dailyCount: 1, dailyLimit: 3, remaining: 2
     });
     expect(recordReplayReward({ puzzleId: completedIds[0], clean: true, picked: true, dateKey: firstDate }).reason).toBe("already-claimed");
@@ -583,6 +660,44 @@ describe("player save profiles", () => {
     expect(second.reward).toBe(10);
     expect(second.recordImproved).toBe(false);
     expect(getPantrySpoons()).toBe(32);
+  });
+
+  it("requires half of the current board for timeout rewards", () => {
+    setActivePlayerName("Jay");
+
+    const belowHalf = recordTimeAttackResult({
+      size: 8,
+      score: 3100,
+      seed: "timeout-below-half",
+      completedRounds: 1,
+      progressCells: 56,
+      currentRoundCorrectCells: 31,
+      currentRoundTotalCells: 64,
+      currentRoundNumber: 2,
+      outcome: "timeout"
+    });
+    expect(belowHalf.rewardAllowed).toBe(false);
+    expect(belowHalf.progressEligible).toBe(false);
+    expect(belowHalf.reward).toBe(0);
+    expect(belowHalf.currentRoundProgressRatio).toBeCloseTo(31 / 64);
+    expect(getTimeAttackDailyCount()).toBe(0);
+
+    const halfComplete = recordTimeAttackResult({
+      size: 8,
+      score: 3200,
+      seed: "timeout-half-complete",
+      completedRounds: 1,
+      progressCells: 57,
+      currentRoundCorrectCells: 32,
+      currentRoundTotalCells: 64,
+      currentRoundNumber: 2,
+      outcome: "timeout"
+    });
+    expect(halfComplete.rewardAllowed).toBe(true);
+    expect(halfComplete.progressEligible).toBe(true);
+    expect(halfComplete.reward).toBe(30);
+    expect(halfComplete.currentRoundProgressRatio).toBe(0.5);
+    expect(getTimeAttackDailyCount()).toBe(1);
   });
 
 

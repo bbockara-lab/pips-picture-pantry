@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   ECONOMY,
   getDailyTimeAttackLimit,
+  getTimeAttackMinRewardProgressRatio,
   getPuzzleReward,
   getPuzzleExtraHintCost,
   getTimeAttackHintCost,
@@ -28,6 +29,7 @@ describe("economy config", () => {
     expect(getTimeAttackReward(999)).toBe(18);
     expect(getTimeAttackRecordBonus()).toBe(12);
     expect(getDailyTimeAttackLimit()).toBe(3);
+    expect(getTimeAttackMinRewardProgressRatio()).toBe(0.5);
   });
   it("keeps time attack hint costs escalating by run use", () => {
     expect(getTimeAttackHintCost(0)).toBe(2);

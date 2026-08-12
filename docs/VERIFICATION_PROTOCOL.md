@@ -21,6 +21,7 @@ Rules:
 
 ## Mandatory Signed-AAB Commit Gate
 
+- Complete `docs/TELEGRAM_IDEA_RELEASE_GATE.md` first. The current version's Idea Reconciliation Table must say `Telegram idea gate: PASS`; `PENDING`, `FAIL`, or an unavailable backlog blocks both Android and iOS submission work.
 - Run `node scripts/release_commit_gate.js` before release QA and again immediately before Android build/sync.
 - The signed AAB path must refuse a dirty worktree, untracked files, package/UI version mismatch, release versions absent from HEAD, a missing matching CONTEXT entry, or a HEAD subject that does not name the release version.
 - Remove the previous exact AAB only after the commit gate and QA gates pass. Never use an existing bundle as evidence for a new build.

@@ -234,7 +234,7 @@ export const en = {
     lastScore: "{progress} cells \u00b7 {time}",
     timeUp: "Time up",
     timeoutReward: "Time up \u00b7 +{reward} spoons",
-    timeoutNoReward: "Try one more cell next time.",
+    timeoutNoReward: "Reach halfway through the current board to earn spoons.",
     resultMeta: "Hints used: {hints}",
     round: "Time Attack {current}/{total}",
     elapsed: "Time {time}",
@@ -273,7 +273,8 @@ export const en = {
     pantryJarIntro: {
       speakerName: "Pip",
       step1: "Select this jar to place it beside me on the puzzle-completion screen for this shelf's stage.",
-      step2: "Display on home puts it beside me in the Puzzle Room. You can change either choice anytime!"
+      step2: "Display on home puts it beside me in the Puzzle Room. You can change either choice anytime!",
+      step3: "Activate effect is a separate choice. Finish eligible pictures to fill its progress and earn the shown bonus spoons."
     },
     spoonRunIntro: {
       speakerName: "Pip",
@@ -403,6 +404,9 @@ export const en = {
     puzzleReward: "Puzzle complete +{count}sp",
     dailyBonus: "Daily bonus +{count}sp",
     stageBonus: "Shelf completion bonus +{count}sp",
+    jarEffectBonus: "Active jar bonus +{count}sp",
+    jarEffectProgress: "Active jar progress {progress}/{target}",
+    jarEffectProgressBanked: "Jar progress banked {progress}/{target} · pays on the next eligible day",
     dailyReward: "Today's Picture complete! You earned +{count} spoons.",
     replayReward: "Clean replay! +{count} spoon. {remaining} replay rewards left today.",
     replayNoReward: "Replay complete. No spoon this time, but the card stayed safe.",
@@ -655,6 +659,13 @@ export const en = {
       close: "Close",
       featureOnHome: "Display on home",
       featuredOnHome: "Displayed on home",
+      effectActive: "Effect active",
+      activateEffect: "Activate effect",
+      effectNoBonus: "Starter jars are decorative and do not grant bonus spoons.",
+      effectDescription: "Complete {target} eligible pictures to earn +{reward} spoon, up to {limit} time(s) per day.",
+      effectProgress: "Effect progress {progress} / {target}",
+      effectProgressBanked: "Banked progress {progress} / {target} · pays on the next eligible day",
+      effectDailyLimit: "Today's effect bonus limit reached ({count} / {limit}).",
       featuredAria: "{item}, displayed jar. Open Pantry",
       todaysPantry: "Today's Pantry",
       onboardingTitle: "Your shelves are ready.",

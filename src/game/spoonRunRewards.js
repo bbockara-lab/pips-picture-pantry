@@ -1,7 +1,6 @@
 import {
   ECONOMY,
   getDailyReplayPickLimit,
-  getPuzzleReward,
   getReplayPickReward
 } from "../data/economyConfig.js";
 
@@ -9,13 +8,17 @@ export function getSpoonRunOpportunity(options = {}) {
   const {
     dailyPuzzle = null,
     dailyCompleted = false,
+    rewardedPuzzleIds = [],
     replayPicks = [],
     replayRewardedPuzzleIds = [],
     replayDailyCount = replayRewardedPuzzleIds.length,
     replayDailyLimit = getDailyReplayPickLimit()
   } = options;
 
-  const dailyPuzzleReward = dailyCompleted ? 0 : getPuzzleReward(dailyPuzzle?.size);
+  const rewardedPuzzles = new Set(rewardedPuzzleIds || []);
+  const dailyPuzzleReward = dailyCompleted || !dailyPuzzle || rewardedPuzzles.has(dailyPuzzle.id)
+    ? 0
+    : Math.max(0, Number(dailyPuzzle.reward) || 0);
   const dailyBonus = dailyCompleted || !dailyPuzzle ? 0 : ECONOMY.DAILY_BONUS;
   const rewarded = new Set(replayRewardedPuzzleIds || []);
   const unclaimedReplayPicks = Array.from(new Map(

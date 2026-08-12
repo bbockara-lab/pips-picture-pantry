@@ -1,9 +1,12 @@
 import { JAR_SHELVES, PANTRY_JARS, getJarsByShelf } from "../data/pantryJars.js";
 import { getJarArtUrl } from "../data/jarArt.js";
 import { getSeasonShelvesForPantryShelf } from "../data/stagePantryLinks.js";
+import { getJarEffectDefinition } from "../game/jarEffects.js";
 import {
   buyJar,
   ensureStarterJars,
+  getJarEffectStatus,
+  getActiveJarId,
   getEquippedJars,
   getFeaturedJarId,
   hasSeenGuide,
@@ -12,7 +15,8 @@ import {
   getPantrySpoons,
   isShelfUnlocked,
   setEquippedJar,
-  setFeaturedJar
+  setFeaturedJar,
+  setActiveJar
 } from "../game/save.js";
 import { t } from "../i18n/index.js";
 import { appendSpoonLabel } from "./spoonIcon.js";
@@ -88,16 +92,18 @@ function renderJarVisual(jar, owned, compact = false) {
   return visual;
 }
 
-function renderJar(jar, ownedIds, equippedJars, onOpen) {
+function renderJar(jar, ownedIds, equippedJars, activeJarId, onOpen) {
   const owned = ownedIds.includes(jar.id);
   const equipped = equippedJars[jar.shelfId] === jar.id;
+  const effectActive = activeJarId === jar.id;
   const button = document.createElement("button");
   button.type = "button";
   button.className = [
     "pantry-jar",
     "rarity-" + jar.rarity,
     owned ? "owned" : "unowned",
-    equipped ? "equipped" : ""
+    equipped ? "equipped" : "",
+    effectActive ? "effect-active" : ""
   ].join(" ");
   button.dataset.jarId = jar.id;
   button.setAttribute("aria-label", t("pantry.jar.openDetail", { item: t(jar.nameKey) }));
@@ -106,6 +112,8 @@ function renderJar(jar, ownedIds, equippedJars, onOpen) {
   if (!owned) {
     const price = appendTextElement(button, "span", "pantry-jar__price", "");
     appendSpoonLabel(price, t("pantry.jar.spoonCost", { count: jar.cost }), "tiny");
+  } else if (effectActive) {
+    appendTextElement(button, "span", "pantry-jar__status", t("pantry.jar.effectActive"));
   } else if (equipped) {
     appendTextElement(button, "span", "pantry-jar__status", t("pantry.jar.equipped"));
   }
@@ -113,7 +121,7 @@ function renderJar(jar, ownedIds, equippedJars, onOpen) {
   return button;
 }
 
-function renderShelf(shelf, ownedIds, equippedJars, onOpen) {
+function renderShelf(shelf, ownedIds, equippedJars, activeJarId, onOpen) {
   const section = document.createElement("section");
   const shelfJars = getJarsByShelf(shelf.id);
   const ownedCount = shelfJars.filter((jar) => ownedIds.includes(jar.id)).length;
@@ -142,7 +150,7 @@ function renderShelf(shelf, ownedIds, equippedJars, onOpen) {
   const row = document.createElement("div");
   row.className = "pantry-shelf__jars";
   getJarsByShelf(shelf.id).forEach((jar) => {
-    row.appendChild(renderJar(jar, ownedIds, equippedJars, onOpen));
+    row.appendChild(renderJar(jar, ownedIds, equippedJars, activeJarId, onOpen));
   });
   const board = document.createElement("div");
   board.className = "pantry-shelf__board";
@@ -183,6 +191,34 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, equippedJars, onRefresh
   appendTextElement(info, "p", "pantry-jar-detail__shelf", t("pantry.jar.shelfLabel", { shelf: t(shelf.nameKey) }));
   appendTextElement(info, "p", "pantry-jar-detail__rarity", t("pantry.jar.rarity." + jar.rarity));
   header.append(preview, info);
+
+  const effectStatus = getJarEffectStatus(jar.id);
+  const jarDefinition = effectStatus.definition || getJarEffectDefinition(jar);
+  const effect = document.createElement("div");
+  effect.className = "pantry-jar-detail__effect";
+  if (!jarDefinition) {
+    appendTextElement(effect, "p", "", t("pantry.jar.effectNoBonus"));
+  } else {
+    appendTextElement(effect, "p", "", t("pantry.jar.effectDescription", {
+      target: jarDefinition.target,
+      reward: jarDefinition.reward,
+      limit: jarDefinition.dailyLimit
+    }));
+    const progress = effectStatus.progress;
+    const progressKey = progress >= jarDefinition.target
+      ? "pantry.jar.effectProgressBanked"
+      : "pantry.jar.effectProgress";
+    appendTextElement(effect, "strong", "", t(progressKey, {
+      progress,
+      target: jarDefinition.target
+    }));
+    if (effectStatus.active && effectStatus.dailyCount >= jarDefinition.dailyLimit) {
+      appendTextElement(effect, "small", "", t("pantry.jar.effectDailyLimit", {
+        count: effectStatus.dailyCount,
+        limit: jarDefinition.dailyLimit
+      }));
+    }
+  }
 
   const actions = document.createElement("div");
   actions.className = "pantry-jar-detail__actions";
@@ -256,9 +292,24 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, equippedJars, onRefresh
       }
     });
     actions.appendChild(homeButton);
+    if (jarDefinition) {
+      const active = getActiveJarId() === jar.id;
+      const effectButton = document.createElement("button");
+      effectButton.type = "button";
+      effectButton.className = "pantry-jar-detail__btn-effect";
+      effectButton.textContent = t(active ? "pantry.jar.effectActive" : "pantry.jar.activateEffect");
+      effectButton.disabled = active;
+      effectButton.addEventListener("click", () => {
+        if (setActiveJar(jar.id)) {
+          close();
+          onRefresh?.();
+        }
+      });
+      actions.appendChild(effectButton);
+    }
   }
   actions.appendChild(closeButton);
-  panel.append(header, actions);
+  panel.append(header, effect, actions);
 
   backdrop.hidden = false;
   requestAnimationFrame(() => {
@@ -307,6 +358,7 @@ export function renderPantryView(
   ensureStarterJars();
   const ownedIds = getOwnedJarIds();
   const equippedJars = getEquippedJars();
+  const activeJarId = getActiveJarId();
   const panel = document.createElement("section");
   panel.className = "pantry-panel pantry-jar-panel content-panel";
 
@@ -335,7 +387,7 @@ export function renderPantryView(
       onOpenSpoonStore
     });
   };
-  JAR_SHELVES.forEach((shelf) => shelves.appendChild(renderShelf(shelf, ownedIds, equippedJars, openDetail)));
+  JAR_SHELVES.forEach((shelf) => shelves.appendChild(renderShelf(shelf, ownedIds, equippedJars, activeJarId, openDetail)));
 
   panel.append(header);
   if (onboarding) panel.appendChild(onboarding);

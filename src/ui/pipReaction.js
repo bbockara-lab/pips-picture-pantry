@@ -54,9 +54,14 @@ export function renderCompletionBanner(puzzle, {
   });
 
   copy.appendChild(message);
+  const jarEffectResult = dailyResult || rewardResult || replayResult || {};
   const rewardRows = getCompletionRewardRows({
     puzzleReward: (dailyResult || rewardResult)?.puzzleReward,
     dailyBonus: dailyResult?.dailyBonus,
+    jarEffectReward: jarEffectResult.jarEffectReward,
+    jarEffectAdvanced: jarEffectResult.jarEffectAdvanced,
+    jarEffectProgress: jarEffectResult.jarEffectProgress,
+    jarEffectTarget: jarEffectResult.jarEffectTarget,
     stageBonus
   });
   if (rewardRows.length) {
@@ -66,7 +71,7 @@ export function renderCompletionBanner(puzzle, {
       const line = document.createElement("p");
       line.className = "completion-reward-line";
       if (row.key === "completion.stageBonus") line.classList.add("completion-reward-line--stage");
-      line.textContent = t(row.key, { count: row.count });
+      line.textContent = t(row.key, row);
       rewardList.appendChild(line);
     });
     copy.appendChild(rewardList);
@@ -107,12 +112,33 @@ export function renderCompletionBanner(puzzle, {
 export function isReplayExhausted(replayChallenge, replayResult) {
   return Boolean(replayChallenge && replayResult?.rewardAllowed && replayResult.remaining === 0);
 }
-export function getCompletionRewardRows({ puzzleReward = 0, dailyBonus = 0, stageBonus = 0 } = {}) {
-  return [
+export function getCompletionRewardRows({
+  puzzleReward = 0,
+  dailyBonus = 0,
+  jarEffectReward = 0,
+  jarEffectAdvanced = false,
+  jarEffectProgress = 0,
+  jarEffectTarget = 0,
+  stageBonus = 0
+} = {}) {
+  const rows = [
     { key: "completion.puzzleReward", count: Math.max(0, Number(puzzleReward || 0)) },
     { key: "completion.dailyBonus", count: Math.max(0, Number(dailyBonus || 0)) },
+    { key: "completion.jarEffectBonus", count: Math.max(0, Number(jarEffectReward || 0)) },
     { key: "completion.stageBonus", count: Math.max(0, Number(stageBonus || 0)) }
   ].filter((row) => row.count > 0);
+  if (jarEffectAdvanced && !jarEffectReward && Number(jarEffectTarget) > 0) {
+    const progress = Math.max(0, Number(jarEffectProgress || 0));
+    const target = Math.max(0, Number(jarEffectTarget || 0));
+    rows.push({
+      key: progress >= target
+        ? "completion.jarEffectProgressBanked"
+        : "completion.jarEffectProgress",
+      progress,
+      target
+    });
+  }
+  return rows;
 }
 function getCompletionBannerMessage(puzzle, options = {}) {
   if (options.replayExhausted) {

@@ -211,7 +211,7 @@ export const ko = {
     lastScore: "{progress}\uce78 \u00b7 {time}",
     timeUp: "\uc2dc\uac04 \uc885\ub8cc",
     timeoutReward: "\uc2dc\uac04 \uc885\ub8cc \u00b7 \uc2a4\ud47c +{reward}",
-    timeoutNoReward: "\ub2e4\uc74c\uc5d4 \ud55c \uce78 \ub354!",
+    timeoutNoReward: "\ud604\uc7ac \ud37c\uc990\uc744 \uc808\ubc18 \uc774\uc0c1 \ud480\uba74 \uc2a4\ud47c\uc744 \ubc1b\uc744 \uc218 \uc788\uc5b4\uc694.",
     resultMeta: "\ud78c\ud2b8 {hints}\ud68c \uc0ac\uc6a9",
     round: "\ud0c0\uc784\uc5b4\ud0dd {current}/{total}",
     elapsed: "\uc2dc\uac04 {time}",
@@ -250,7 +250,8 @@ export const ko = {
     pantryJarIntro: {
       speakerName: "핍",
       step1: "이 항아리를 선택하면 이 선반 스테이지의 퍼즐 완료 화면에서 제 옆에 함께 나와요.",
-      step2: "홈에 표시하기를 누르면 퍼즐방의 제 옆에 놓여요. 두 선택은 언제든 바꿀 수 있어요!"
+      step2: "홈에 표시하기를 누르면 퍼즐방의 제 옆에 놓여요. 두 선택은 언제든 바꿀 수 있어요!",
+      step3: "효과 활성화는 또 다른 선택이에요. 대상 그림을 완성해 진행도를 채우면 표시된 추가 스푼을 받아요."
     },
     spoonRunIntro: {
       speakerName: "핍",
@@ -379,6 +380,9 @@ export const ko = {
     puzzleReward: "퍼즐 완성 +{count}sp",
     dailyBonus: "일일 보너스 +{count}sp",
     stageBonus: "선반 완성 보너스 +{count}sp",
+    jarEffectBonus: "활성 항아리 보너스 +{count}sp",
+    jarEffectProgress: "활성 항아리 진행도 {progress}/{target}",
+    jarEffectProgressBanked: "항아리 진척 이월 {progress}/{target} · 다음 지급 가능일에 반영",
     dailyReward: "\uC624\uB298\uC758 \uADF8\uB9BC \uC644\uB8CC! \uC2A4\uD47C +{count}\uC744 \uBC1B\uC558\uC5B4\uC694.",
     replayReward: "\uAE54\uB054\uD55C \uB9AC\uD50C\uB808\uC774! \uC2A4\uD47C +{count}. \uC624\uB298 \uB0A8\uC740 \uB9AC\uD50C\uB808\uC774 \uBCF4\uC0C1\uC740 {remaining}\uBC88\uC774\uC5D0\uC694.",
     replayNoReward: "\uB9AC\uD50C\uB808\uC774 \uC644\uB8CC! \uC774\uBC88\uC5D0\uB294 \uC2A4\uD47C \uC5C6\uC774, \uCE74\uB4DC\uB294 \uC548\uC804\uD558\uAC8C \uADF8\uB300\uB85C\uC608\uC694.",
@@ -654,6 +658,13 @@ export const ko = {
       close: "\uB2EB\uAE30",
       featureOnHome: "\uD648\uC5D0 \uD45C\uC2DC\uD558\uAE30",
       featuredOnHome: "\uD648\uC5D0 \uD45C\uC2DC \uC911",
+      effectActive: "효과 활성 중",
+      activateEffect: "효과 활성화",
+      effectNoBonus: "기본 항아리는 장식용으로, 추가 스푼 효과가 없어요.",
+      effectDescription: "대상 그림 {target}개를 완성하면 스푼 +{reward}, 하루 최대 {limit}회 받아요.",
+      effectProgress: "효과 진행도 {progress} / {target}",
+      effectProgressBanked: "이월 진척 {progress} / {target} · 다음 지급 가능일에 반영",
+      effectDailyLimit: "오늘의 효과 보너스를 모두 받았어요 ({count} / {limit}).",
       featuredAria: "{item}, \uD648\uC5D0 \uD45C\uC2DC\uD55C \uBCD1. \uD32C\uD2B8\uB9AC \uC5F4\uAE30",
       todaysPantry: "\uC624\uB298\uC758 \uD32C\uD2B8\uB9AC",
       onboardingTitle: "\uC120\uBC18\uC774 \uC900\uBE44\uB410\uC5B4\uC694.",

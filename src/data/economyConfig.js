@@ -25,6 +25,7 @@ export const ECONOMY = {
   },
   TIME_ATTACK_RECORD_BONUS: 12,
   TIME_ATTACK_DAILY_LIMIT: 3,
+  TIME_ATTACK_MIN_REWARD_PROGRESS_RATIO: 0.5,
   TIME_ATTACK_HINT_COSTS: [2, 4, 7],
   PUZZLE_EXTRA_HINT_BASE_COST_BY_SIZE: {
     5: 3,
@@ -58,6 +59,10 @@ export function getTimeAttackRecordBonus() {
 
 export function getDailyTimeAttackLimit() {
   return ECONOMY.TIME_ATTACK_DAILY_LIMIT;
+}
+
+export function getTimeAttackMinRewardProgressRatio() {
+  return ECONOMY.TIME_ATTACK_MIN_REWARD_PROGRESS_RATIO;
 }
 
 export function getTimeAttackHintCost(hintsUsed = 0) {

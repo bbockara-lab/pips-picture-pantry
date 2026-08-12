@@ -3174,3 +3174,42 @@ Two things intentionally left untouched, out of scope for this task: (1) the in-
 - **Step 62.1 is mandatory and blocks Steps 63 and 64 — do it next, before either of them.** It closes the Pantry-economy gap Step 62 left open (see Step 62.1 above for the full rationale and required work).
 - Every release: update the Version Log table above, bump `package.json` version and `android/app/build.gradle` versionCode/versionName, and run the full existing gate (`npm test`, `npm run qa:candidate`) before calling a release done.
 - For every content expansion or collection change, complete `docs/CONTENT_CHANGE_IMPACT_CHECKLIST.md` and trace data, allocation, unlocks, economy, rewards, artwork, runtime registration, i18n, UI, persistence, QA, and release assets before handoff. Art is a required product dependency, not an optional follow-up.
+
+---
+
+### Update policy + Telegram development inbox (2026-08-09)
+
+The owner approved a two-level update policy for both Android and iOS. Do not treat every release as mandatory.
+
+- **Normal content/update release:** keep gameplay available. On the Workshop home screen, Pip's existing dialogue bubble announces that a new version is available and offers a store-update action. This is informative, not blocking.
+- **Hotfix / minimum-supported-version release:** when the installed native build is below the remotely configured minimum supported build, show a dedicated blocking update screen explaining that a stability fix is required. The only primary action opens the correct Google Play or App Store listing. This is reserved for crash, save corruption, purchase, progression-blocking, security, or similarly severe defects.
+- The decision must be remote-configurable per platform. Never hard-code “latest version = mandatory”; store separate `latest` and `minimumSupported` native build values for Android and iOS so an ordinary release does not accidentally lock players out.
+- Offline/network failure must not strand a player because version policy could not be fetched. Use a signed/cached last-known policy with a considered grace path, then document the chosen behavior before implementation.
+- Implement and verify this as its own future step before claiming forced updates are live. It is policy/design only in this entry; the current store builds do not yet enforce it.
+
+The dedicated **Sunny Spoon Store Monitor** Telegram bot is also the owner-facing development inbox:
+
+- A persistent `💡 아이디어` button starts an explicit one-message capture flow. Only the next message after pressing the button is saved; ordinary monitoring chat text remains ignored so store alerts and development notes cannot be confused.
+- Ideas are stored in Firestore collection `storeReleaseIdeas` with `status: backlog`, `targetRelease: next`, Telegram source metadata, and server timestamps. Conversation state lives separately under `storeReleaseMonitorChats`.
+- At the beginning of a development cycle, Codex/Claude should read the backlog, reconcile it against this brief and the impact checklist, clarify dependencies, and only then mark ideas planned/completed. Telegram is the intake channel; `CODEX_BRIEF.md` remains the reviewed execution record.
+
+#### Mandatory release gate for both Codex and Claude
+
+- Read and follow `docs/TELEGRAM_IDEA_RELEASE_GATE.md` before planning a version and again immediately before any Android AAB, iOS archive, or store-review submission.
+- Every Telegram idea received after the previous submission must be copied into an Idea Reconciliation Table with its Telegram ID and classified as `planned`, `deferred`, `declined`, or `needs clarification`. No silent omission is allowed.
+- A planned idea needs implementation and verification evidence; a deferred or declined idea needs a reason and owner review. Platform parity, artwork, economy, save compatibility, localization, QA, and store-media impact must be considered where relevant.
+- Codex/Claude handoff must report the count in each classification and an explicit gate state: `PASS`, `PENDING`, or `FAIL`.
+- **AAB/archive/submission is forbidden until the owner-reviewed table says `Telegram idea gate: PASS`.** An emergency hotfix may defer unrelated ideas, but it may not skip reconciliation.
+
+#### Collection effects V1 — owner approved, shared implementation ready for Claude re-review
+
+- Telegram idea `telegram-415676354` proposes turning Pantry jars and Badges from display-only collections into gameplay effects with curated pair synergies.
+- The independent proposal is in `docs/COLLECTION_EFFECTS_PLAN.md`. It includes the proposed release order, equipment/display separation, effect boundaries, reward-screen UX, economy caps, save migration, QA gates, and explicit Claude review questions. The economy review now treats Daily/Spoon Run rewards and collection bonuses as one supply budget; a redistribution model must be compared against simply adding more free spoons.
+- Target is the **second iOS update after first launch**, paired with the equivalent Android release. The first iOS update remains a strict parity update with the Android version currently under review. This shared-code implementation does not alter the iOS 1.0 submission currently in review.
+- Claude's 2026-08-11 reviews established the global `activeJarId` structure and verified the reward economy. The owner then approved global `activeJarId`, fixed completion-count bonuses, retention of the Daily-display and Time-Attack eligibility hotfixes, and immediate V1 implementation.
+- Codex completed the requested live-code economy audit in `docs/COLLECTION_EFFECTS_PLAN.md` §14. Key findings: all 500 authored puzzle rewards currently differ from the size-based Daily display table; one-time authored puzzle plus stage rewards total 4,210 spoons against 6,415 spoons for all 55 paid Pantry jars; the first no-recurring-income progression deficit appears at the fourth shelf gate; and Time Attack currently permits a base reward after any positive progress, so even one correct cell followed by timeout can be farmed up to three times per day. No reward values or runtime code were changed. The next gate is Claude's second review plus owner decisions on `activeJarId`, the Time Attack eligibility rule, and whether to split the Daily reward-display mismatch into a separate hotfix.
+- Claude's second review independently verified the live reward paths and totals and endorsed all three proposals. The owner selected completion or 50% of the current board as the Time Attack gate and approved the V1 economy after resimulation.
+- Implementation is now present in the working tree. Core files are `src/game/jarEffects.js`, `src/game/save.js`, `src/ui/pantryView.js`, `src/ui/pipReaction.js`, `src/ui/guideDialog.js`, the EN/KO dictionaries and related tests. Exact rules, UX behavior, verification evidence and the Claude re-review checklist are in `docs/COLLECTION_EFFECTS_PLAN.md` §19.
+- Final verification: `tests/save.test.js`, `tests/jarEffects.test.js`, and `tests/pipReaction.test.js` pass `43/43`; the full app regression passes `52 files / 330 tests`, the production build passes, and Functions passes `9/9`. Root Vitest now excludes the Node-only Functions tests so each suite uses its intended runner. No native version bump, AAB, archive or store submission is included.
+- Claude's third review found one integration bug that the direct unit test missed: after an active jar reached its daily payout limit, first-time normal-puzzle completions were permanently consumed without advancing jar progress. Codex separated progression from payout gating in `src/game/jarEffects.js`: every unique eligible completion now records its key and advances progress, while the daily limit gates only spoon payout. Threshold overflow is retained with subtraction rather than reset, so banked progress pays on the next eligible day without losing excess. Completion and Pantry UI explicitly label over-threshold progress as banked instead of displaying an unexplained value such as `9/8`. A real `savePuzzleState()` integration regression test covers the one-time normal-puzzle path and duplicate prevention.
+- Status: **third-review correction implemented; full regression/build and Android/iOS visual plus restart-persistence QA pending.** Do not begin a store build until those gates and the Telegram idea release gate pass.
