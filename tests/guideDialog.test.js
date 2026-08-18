@@ -116,10 +116,10 @@ describe("guide dialog character and badge wiring", () => {
       'createGuideReplayButton(t("settings.guideReplayPantryJarAction"), "pantryJarIntro", "pantry", onReplayGuide)'
     );
     expect(englishSource).toContain('guideReplayPantryJarAction: "Jar display guide"');
-    expect(englishSource).toContain("Select this jar to place it beside me on the puzzle-completion screen");
+    expect(englishSource).toContain("Select this collectible to place it beside me on the puzzle-completion screen");
     expect(englishSource).toContain("Display on home puts it beside me in the Puzzle Room.");
     expect(koreanSource).toContain('guideReplayPantryJarAction: "항아리 선택 가이드"');
-    expect(koreanSource).toContain("이 항아리를 선택하면 이 선반 스테이지의 퍼즐 완료 화면에서");
+    expect(koreanSource).toContain("이 수집품을 선택하면 이 선반 스테이지의 퍼즐 완료 화면에서");
     expect(koreanSource).toContain("홈에 표시하기를 누르면 퍼즐방의 제 옆에 놓여요.");
   });
   it("centers and separates every non-puzzle Pip guide bubble", () => {

@@ -5,12 +5,13 @@ const MUSIC_KEY = "pips-picture-pantry:v0.1:music";
 let audioContext = null;
 let musicElement = null;
 let audioUnlocked = false;
+let appIsActive = true;
 
 
 export function getAudioPreferences() {
   return {
     sfx: readBool(SFX_KEY, true),
-    music: readBool(MUSIC_KEY, false)
+    music: readBool(MUSIC_KEY, true)
   };
 }
 
@@ -26,6 +27,9 @@ export function setMusicEnabled(enabled) {
 }
 
 export function unlockAudio() {
+  if (!appIsActive) {
+    return;
+  }
   const context = getContext();
   if (!context) {
     return;
@@ -80,7 +84,7 @@ export function playStageComplete() {
 }
 
 export function startMusic() {
-  if (!getAudioPreferences().music || !audioUnlocked) {
+  if (!appIsActive || !getAudioPreferences().music || !audioUnlocked) {
     return;
   }
 
@@ -98,7 +102,25 @@ export function stopMusic() {
   musicElement.pause();
 }
 
+export function setAudioAppActive(isActive) {
+  appIsActive = Boolean(isActive);
+  if (!appIsActive) {
+    stopMusic();
+    audioContext?.suspend?.();
+    return;
+  }
+
+  if (!audioUnlocked || !getAudioPreferences().music) {
+    return;
+  }
+  audioContext?.resume?.();
+  startMusic();
+}
+
 function playTone(frequency, duration, volume, type) {
+  if (!appIsActive) {
+    return;
+  }
   const context = getContext();
   if (!context) {
     return;

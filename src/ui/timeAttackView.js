@@ -17,6 +17,7 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
   grandpaArt.alt = "";
   grandpa.appendChild(grandpaArt);
   appendTextElement(intro, "h2", "", t("timeAttack.title"));
+  appendTextElement(intro, "p", "time-attack-panel__rules", t("timeAttack.body"));
   intro.prepend(grandpa);
 
   const ladder = createTimeAttackLadder();

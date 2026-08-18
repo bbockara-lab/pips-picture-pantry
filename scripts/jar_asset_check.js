@@ -8,8 +8,9 @@ const expectedNames = PANTRY_JARS.map((jar) => `jar-${jar.id}-v1.webp`);
 const actualNames = readdirSync(assetDir).filter((name) => name.endsWith(".webp")).sort();
 const errors = [];
 
-if (PANTRY_JARS.length !== 66) errors.push(`expected 66 catalog jars, found ${PANTRY_JARS.length}`);
-if (actualNames.length !== 66) errors.push(`expected 66 runtime WebP assets, found ${actualNames.length}`);
+if (actualNames.length !== PANTRY_JARS.length) {
+  errors.push(`expected ${PANTRY_JARS.length} runtime WebP assets, found ${actualNames.length}`);
+}
 
 for (const name of expectedNames) {
   const path = resolve(assetDir, name);

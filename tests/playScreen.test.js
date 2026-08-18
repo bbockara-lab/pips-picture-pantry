@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 const playScreenSource = readFileSync("src/ui/playScreen.js", "utf8");
+const indexSource = readFileSync("index.html", "utf8");
 
 describe("play screen wiring", () => {
   it("passes puzzle state changes through to the puzzle view", () => {
@@ -30,12 +31,15 @@ describe("play screen wiring", () => {
     expect(playScreenSource).toMatch(/renderPuzzleView\([\s\S]*dailyBonus:[\s\S]*onNextPuzzle,\s*\n\s*onBackToSpoonRun,\s*\n\s*controlMode/);
   });
 
-  it("opens a pause destination menu instead of immediately leaving normal play", () => {
-    expect(playScreenSource).toContain("openPauseMenu()");
-    expect(playScreenSource).toContain('className = "play-pause-overlay"');
-    expect(playScreenSource).toContain('createPauseAction(t("playPause.continue")');
-    expect(playScreenSource).toContain('createPauseAction(t("playPause.pictures")');
-    expect(playScreenSource).toContain('onSelectView?.("album")');
-    expect(playScreenSource).toContain('onSelectView?.("pantry")');
+  it("does not duplicate the shared quick-travel navigation with legacy header actions", () => {
+    expect(playScreenSource).not.toContain('className = "play-screen__back"');
+    expect(playScreenSource).not.toContain('className = "play-screen__settings');
+    expect(playScreenSource).not.toContain("openPauseMenu()");
+    expect(playScreenSource).not.toContain('className = "play-pause-overlay"');
+  });
+
+  it("prevents persistent iOS double-tap zoom during rapid puzzle input", () => {
+    expect(indexSource).toContain("maximum-scale=1.0");
+    expect(indexSource).toContain("user-scalable=no");
   });
 });

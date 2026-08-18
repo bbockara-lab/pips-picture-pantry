@@ -24,7 +24,7 @@ import {
 } from "../game/save.js";
 import { getSpoonRunOpportunity } from "../game/spoonRunRewards.js";
 import { getCozySupportProduct, getSpoonJarSmallProduct, purchaseCozySupportPack, purchaseSpoonJarSmall, restorePendingPurchases } from "../game/billing.js";
-import { setLanguagePreference } from "../i18n/index.js";
+import { setLanguagePreference, t } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
 import { renderResetDialog } from "./appChrome.js";
 import { playStageComplete, setMusicEnabled, setSfxEnabled, startMusic } from "./audio.js";
@@ -49,12 +49,16 @@ import { canPurchaseSpoonJar, canPurchaseSupportPack, renderSettingsDialog, rend
 import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackElapsedSeconds, TIME_ATTACK_LIMIT_SECONDS, TIME_ATTACK_TRIAL_ROUNDS } from "./timeAttackFlow.js";
 import { renderTimeAttackView } from "./timeAttackView.js";
 import { getLoginBonusMessage } from "./loginBonusMessage.js";
+import { dismissOptionalUpdate, openUpdateStore, resolveUpdateDecision } from "../game/updatePolicy.js";
+import { renderMandatoryUpdateView } from "./updateGateView.js";
 
 const DAILY_BONUS = ECONOMY.DAILY_BONUS;
 let introOpenViewHandler = null;
 let introDismissedHandler = null;
+let renderGeneration = 0;
 
 export function renderApp(root) {
+  const generation = ++renderGeneration;
   const dailyPuzzle = getDailyPuzzle(getDailyPuzzleCandidates());
   const loginBonus = hasActivePlayer() ? claimLoginBonus() : null;
   let loginBonusVisible = Boolean(loginBonus);
@@ -87,6 +91,13 @@ export function renderApp(root) {
   let cozySupportRequestId = 0;
   let spoonJarState = createDefaultSpoonJarState();
   let spoonJarRequestId = 0;
+  let updateDecision = { kind: "none" };
+
+  void resolveUpdateDecision().then((decision) => {
+    if (generation !== renderGeneration) return;
+    updateDecision = decision;
+    if (root.dataset.introOpen !== "true") draw();
+  });
 
   function selectPuzzle(puzzleId, scrollTarget = "puzzle", options = {}) {
     const nextPuzzle = puzzles.find((puzzle) => puzzle.id === puzzleId) || dailyPuzzle;
@@ -372,8 +383,6 @@ export function renderApp(root) {
   function requestSettings() {
     settingsOpen = true;
     resetOpen = false;
-    loadCozySupportProduct();
-    loadSpoonJarProduct();
     draw();
   }
 
@@ -574,6 +583,11 @@ export function renderApp(root) {
       return;
     }
     root.replaceChildren();
+    if (updateDecision.kind === "mandatory") {
+      document.body.classList.remove("guide-open");
+      root.appendChild(renderMandatoryUpdateView(updateDecision, () => openUpdateStore(updateDecision.storeUrl)));
+      return;
+    }
     if (!activeGuide && activeView === "puzzle" && playOpen && !hasSeenGuide("puzzle")) {
       activeGuide = "puzzle";
     } else if (!activeGuide && activeView === "puzzle" && playOpen && Number(activePuzzle?.size) === 8 && !hasSeenGuide("cursorControlsIntro")) {
@@ -642,6 +656,13 @@ export function renderApp(root) {
       },
       settingsDialogProps: getSettingsDialogProps(),
       loginBonusMessage: loginBonusVisible ? getLoginBonusMessage(loginBonus) : null,
+      updateNotice: !loginBonusVisible && updateDecision.kind === "optional" ? updateDecision : null,
+      onUpdateNow: () => openUpdateStore(updateDecision.storeUrl),
+      onUpdateLater: () => {
+        dismissOptionalUpdate(updateDecision.platform, updateDecision.latestBuild);
+        updateDecision = { kind: "none" };
+        draw();
+      },
       timeAttackLimitSeconds: TIME_ATTACK_LIMIT_SECONDS
     });
     root.appendChild(shell);
@@ -649,7 +670,10 @@ export function renderApp(root) {
     if (loginBonusVisible && activeView === "puzzle" && !playOpen && !puzzleListOpen && !activeGuide) {
       scheduleLoginBonusPresentation();
     }
-    if (activeView === "timeAttack" && playOpen && activeTimeAttackStartedAt) {
+    // Replacing the settings DOM once per second cancels an in-progress iOS
+    // pan gesture and resets the sheet to the top. Time still elapses from the
+    // original timestamp; the next draw after closing handles timeout normally.
+    if (activeView === "timeAttack" && playOpen && activeTimeAttackStartedAt && !settingsOpen) {
       timeAttackTimerHandle = globalThis.setTimeout(draw, 1000);
     }
   }
@@ -770,7 +794,10 @@ function createShell({
   pendingPantryJarDetailId,
   onPendingPantryJarDetailOpened,
   settingsDialogProps,
-  loginBonusMessage
+  loginBonusMessage,
+  updateNotice,
+  onUpdateNow,
+  onUpdateLater
 }) {
   const shell = document.createElement("main");
   shell.className = "app-shell";
@@ -841,6 +868,9 @@ function createShell({
     if (playHeader && spoonBalanceChip && settingsButton) {
       playHeader.insertBefore(spoonBalanceChip, settingsButton);
     }
+    if (!hasBlockingOverlay) {
+      shell.appendChild(renderFloatingNav(activeView, onSelectView));
+    }
     if (settingsOpen) {
       shell.appendChild(renderSettingsDialog(settingsDialogProps));
     }
@@ -860,7 +890,7 @@ function createShell({
     shell.appendChild(renderPantryMapView());
   } else if (activeView === "pantry") {
     const spoonStore = renderSpoonStore(settingsDialogProps);
-    shell.appendChild(renderPantryView(
+    const pantryView = renderPantryView(
       () => onSelectView("pantry"),
       onPantryFirstPurchase,
       spoonStore,
@@ -870,7 +900,13 @@ function createShell({
         initialJarDetailId: pendingPantryJarDetailId,
         onInitialJarDetailOpened: onPendingPantryJarDetailOpened
       }
-    ));
+    );
+    shell.appendChild(pantryView);
+    const pantryHeader = pantryView.querySelector(".pantry-jar-header");
+    const spoonBalanceChip = shell.querySelector(":scope > .spoon-balance-chip");
+    if (pantryHeader && spoonBalanceChip) {
+      pantryHeader.appendChild(spoonBalanceChip);
+    }
   } else if (activeView === "timeAttack") {
     shell.appendChild(renderTimeAttackView({
       bestScores: getTimeAttackBestScores(),
@@ -896,8 +932,7 @@ function createShell({
     shell.appendChild(renderPuzzlePicker(activePuzzle.id, onSelectPuzzle, {
       shelfCollapseOverrides,
       onToggleShelfCollapsed,
-      onOpenPantry: () => onSelectView("pantry"),
-      onGoHome: onClosePuzzle
+      onOpenPantry: () => onSelectView("pantry")
     }));
   } else {
     shell.appendChild(renderPuzzleHub(activePuzzle, {
@@ -906,7 +941,13 @@ function createShell({
       onSelectView,
       onOpenSettings: onRequestSettings,
       spoonRunOpportunity,
-      greetingMessage: loginBonusMessage
+      greetingMessage: loginBonusMessage || (updateNotice ? t("updatePolicy.optionalMessage", { version: updateNotice.latestVersion }) : null),
+      greetingAction: updateNotice ? {
+        updateLabel: t("updatePolicy.updateNow"),
+        laterLabel: t("updatePolicy.later"),
+        onUpdate: onUpdateNow,
+        onLater: onUpdateLater
+      } : null
     }));
 
   }

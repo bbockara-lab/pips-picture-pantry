@@ -21,7 +21,7 @@ describe("Selected Pantry jar meaning", () => {
     expect(pantrySource).toContain('className = "pantry-jar-detail__btn-feature"');
   });
 
-  it("shows the directly selected jar on Workshop home and opens Pantry on tap", () => {
+  it("shows the directly selected jar in Pip's Puzzle Room and opens Pantry on tap", () => {
     expect(hubSource).toContain("const featuredJarId = getFeaturedJarId()");
     expect(hubSource).toContain("getJarById(featuredJarId)");
     expect(hubSource).toContain('className = "home-keepsake-jar"');

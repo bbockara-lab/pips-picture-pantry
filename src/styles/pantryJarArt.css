@@ -137,7 +137,7 @@
 @media (max-width: 390px) {
   .pantry-jar-panel .pantry-jar { min-height: 122px; }
   .pantry-jar-panel .pantry-jar__visual { height: 91px; }
-  .pantry-jar__name, .pantry-jar__price, .pantry-jar__status { font-size: 0.55rem; }
+  .pantry-jar__name, .pantry-jar__price { font-size: 0.55rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .pantry-jar__art, .pantry-shelf.complete::after { animation: none !important; transition: none !important; }

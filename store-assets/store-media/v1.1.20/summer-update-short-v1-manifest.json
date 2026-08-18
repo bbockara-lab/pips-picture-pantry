@@ -1,0 +1,37 @@
+{
+  "asset": "summer-update-short-v1",
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "duration_seconds": 21.97,
+    "video_codec": "H.264 High",
+    "audio_codec": "AAC"
+  },
+  "files": {
+    "video": "upload/social/en-US/pips-summer-update-short-1080x1920-v1.mp4",
+    "cover": "upload/social/en-US/pips-summer-update-short-cover-1080x1920-v1.jpg",
+    "contact_sheet": "review/social/en-US/pips-summer-update-short-contact-sheet-v1.jpg"
+  },
+  "content": [
+    "Summer update introduction",
+    "Slow summer puzzle gameplay",
+    "Three new summer jars: Lemonade, Watermelon, Summer Salad",
+    "Six new summer Pantry shelves",
+    "Play-now closing card"
+  ],
+  "youtube": {
+    "title": "Pip’s Picture Pantry Summer Update Is Here ☀️🍉 #Shorts",
+    "alternate_korean_title": "핍의 팬트리에 여름이 왔어요 ☀️🍉 | Pip’s Picture Pantry #Shorts",
+    "android_url": "https://play.google.com/store/apps/details?id=com.sunnyspoonstudios.pipspicturepantry",
+    "ios_status": "Awaiting App Store review",
+    "hashtags": [
+      "PipsPicturePantry",
+      "Nonogram",
+      "CozyGames",
+      "PuzzleGame",
+      "SummerUpdate",
+      "Shorts"
+    ]
+  }
+}

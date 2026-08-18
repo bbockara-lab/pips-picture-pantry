@@ -1,12 +1,10 @@
 import { JAR_SHELVES, PANTRY_JARS, getJarsByShelf } from "../data/pantryJars.js";
 import { getJarArtUrl } from "../data/jarArt.js";
 import { getSeasonShelvesForPantryShelf } from "../data/stagePantryLinks.js";
-import { getJarEffectDefinition } from "../game/jarEffects.js";
 import {
   buyJar,
   ensureStarterJars,
-  getJarEffectStatus,
-  getActiveJarId,
+  getPantryGrowthBonusStatus,
   getEquippedJars,
   getFeaturedJarId,
   hasSeenGuide,
@@ -15,8 +13,7 @@ import {
   getPantrySpoons,
   isShelfUnlocked,
   setEquippedJar,
-  setFeaturedJar,
-  setActiveJar
+  setFeaturedJar
 } from "../game/save.js";
 import { t } from "../i18n/index.js";
 import { appendSpoonLabel } from "./spoonIcon.js";
@@ -50,12 +47,17 @@ export function isShelfCompletionTransition(shelfId, previousOwnedIds, nextOwned
     && isPaidShelfComplete(shelfId, nextOwnedIds);
 }
 
-export function triggerShelfCelebration(shelfSection) {
+export function triggerShelfCelebration(shelfSection, bonusMessage = "") {
   if (!shelfSection) return false;
   shelfSection.querySelectorAll(".pantry-sparkle").forEach((sparkle) => sparkle.remove());
   shelfSection.classList.remove("pantry-shelf--celebrating");
   void shelfSection.offsetWidth;
   shelfSection.classList.add("pantry-shelf--celebrating");
+  if (bonusMessage) {
+    const bonus = appendTextElement(shelfSection, "strong", "pantry-shelf__bonus-celebration", bonusMessage);
+    bonus.setAttribute("role", "status");
+    globalThis.setTimeout(() => bonus.remove(), 2400);
+  }
   for (let index = 0; index < 8; index += 1) {
     const sparkle = document.createElement("span");
     sparkle.className = "pantry-sparkle";
@@ -92,18 +94,16 @@ function renderJarVisual(jar, owned, compact = false) {
   return visual;
 }
 
-function renderJar(jar, ownedIds, equippedJars, activeJarId, onOpen) {
+function renderJar(jar, ownedIds, equippedJars, onOpen) {
   const owned = ownedIds.includes(jar.id);
   const equipped = equippedJars[jar.shelfId] === jar.id;
-  const effectActive = activeJarId === jar.id;
   const button = document.createElement("button");
   button.type = "button";
   button.className = [
     "pantry-jar",
     "rarity-" + jar.rarity,
     owned ? "owned" : "unowned",
-    equipped ? "equipped" : "",
-    effectActive ? "effect-active" : ""
+    equipped ? "equipped" : ""
   ].join(" ");
   button.dataset.jarId = jar.id;
   button.setAttribute("aria-label", t("pantry.jar.openDetail", { item: t(jar.nameKey) }));
@@ -112,21 +112,24 @@ function renderJar(jar, ownedIds, equippedJars, activeJarId, onOpen) {
   if (!owned) {
     const price = appendTextElement(button, "span", "pantry-jar__price", "");
     appendSpoonLabel(price, t("pantry.jar.spoonCost", { count: jar.cost }), "tiny");
-  } else if (effectActive) {
-    appendTextElement(button, "span", "pantry-jar__status", t("pantry.jar.effectActive"));
   } else if (equipped) {
-    appendTextElement(button, "span", "pantry-jar__status", t("pantry.jar.equipped"));
+    const status = appendTextElement(button, "span", "pantry-jar__status", t("pantry.jar.equipped"));
+    status.dataset.status = "selected";
+    status.title = t("pantry.jar.equipped");
   }
   button.addEventListener("click", () => onOpen(jar));
   return button;
 }
 
-function renderShelf(shelf, ownedIds, equippedJars, activeJarId, onOpen) {
+function renderShelf(shelf, ownedIds, equippedJars, onOpen) {
   const section = document.createElement("section");
   const shelfJars = getJarsByShelf(shelf.id);
   const ownedCount = shelfJars.filter((jar) => ownedIds.includes(jar.id)).length;
   section.className = "pantry-shelf" + (isPaidShelfComplete(shelf.id, ownedIds) ? " complete" : "");
   section.dataset.shelfId = shelf.id;
+  if (["summer-orchard", "sunny-garden", "picnic-table"].includes(shelf.id)) {
+    section.dataset.eventTheme = "summer";
+  }
   section.style.setProperty("--shelf-progress", String(ownedCount));
   const heading = document.createElement("div");
   heading.className = "pantry-shelf__heading";
@@ -150,7 +153,7 @@ function renderShelf(shelf, ownedIds, equippedJars, activeJarId, onOpen) {
   const row = document.createElement("div");
   row.className = "pantry-shelf__jars";
   getJarsByShelf(shelf.id).forEach((jar) => {
-    row.appendChild(renderJar(jar, ownedIds, equippedJars, activeJarId, onOpen));
+    row.appendChild(renderJar(jar, ownedIds, equippedJars, onOpen));
   });
   const board = document.createElement("div");
   board.className = "pantry-shelf__board";
@@ -192,33 +195,17 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, equippedJars, onRefresh
   appendTextElement(info, "p", "pantry-jar-detail__rarity", t("pantry.jar.rarity." + jar.rarity));
   header.append(preview, info);
 
-  const effectStatus = getJarEffectStatus(jar.id);
-  const jarDefinition = effectStatus.definition || getJarEffectDefinition(jar);
+  const growthStatus = getPantryGrowthBonusStatus();
   const effect = document.createElement("div");
   effect.className = "pantry-jar-detail__effect";
-  if (!jarDefinition) {
-    appendTextElement(effect, "p", "", t("pantry.jar.effectNoBonus"));
-  } else {
-    appendTextElement(effect, "p", "", t("pantry.jar.effectDescription", {
-      target: jarDefinition.target,
-      reward: jarDefinition.reward,
-      limit: jarDefinition.dailyLimit
-    }));
-    const progress = effectStatus.progress;
-    const progressKey = progress >= jarDefinition.target
-      ? "pantry.jar.effectProgressBanked"
-      : "pantry.jar.effectProgress";
-    appendTextElement(effect, "strong", "", t(progressKey, {
-      progress,
-      target: jarDefinition.target
-    }));
-    if (effectStatus.active && effectStatus.dailyCount >= jarDefinition.dailyLimit) {
-      appendTextElement(effect, "small", "", t("pantry.jar.effectDailyLimit", {
-        count: effectStatus.dailyCount,
-        limit: jarDefinition.dailyLimit
-      }));
-    }
-  }
+  appendTextElement(effect, "p", "", t("pantry.jar.growthEffectDescription", {
+    chance: growthStatus.chance,
+    reward: growthStatus.reward
+  }));
+  appendTextElement(effect, "strong", "", t("pantry.jar.growthEffectProgress", {
+    completed: growthStatus.completedShelves,
+    cap: growthStatus.futureShelfCap
+  }));
 
   const actions = document.createElement("div");
   actions.className = "pantry-jar-detail__actions";
@@ -292,21 +279,6 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, equippedJars, onRefresh
       }
     });
     actions.appendChild(homeButton);
-    if (jarDefinition) {
-      const active = getActiveJarId() === jar.id;
-      const effectButton = document.createElement("button");
-      effectButton.type = "button";
-      effectButton.className = "pantry-jar-detail__btn-effect";
-      effectButton.textContent = t(active ? "pantry.jar.effectActive" : "pantry.jar.activateEffect");
-      effectButton.disabled = active;
-      effectButton.addEventListener("click", () => {
-        if (setActiveJar(jar.id)) {
-          close();
-          onRefresh?.();
-        }
-      });
-      actions.appendChild(effectButton);
-    }
   }
   actions.appendChild(closeButton);
   panel.append(header, effect, actions);
@@ -358,14 +330,19 @@ export function renderPantryView(
   ensureStarterJars();
   const ownedIds = getOwnedJarIds();
   const equippedJars = getEquippedJars();
-  const activeJarId = getActiveJarId();
+  const growthStatus = getPantryGrowthBonusStatus();
   const panel = document.createElement("section");
   panel.className = "pantry-panel pantry-jar-panel content-panel";
+  panel.dataset.eventTheme = "summer";
 
   const header = document.createElement("header");
   header.className = "pantry-jar-header";
   const copy = document.createElement("div");
   appendTextElement(copy, "h2", "", t("pantry.title"));
+  appendTextElement(copy, "span", "pantry-event-badge", `☀ ${t("home.summerEventWeek")}`);
+  appendTextElement(copy, "span", "pantry-growth-bonus", t("pantry.jar.growthBonusSummary", {
+    chance: growthStatus.chance
+  }));
   header.prepend(copy);
 
   const onboarding = renderOnboarding();
@@ -387,7 +364,7 @@ export function renderPantryView(
       onOpenSpoonStore
     });
   };
-  JAR_SHELVES.forEach((shelf) => shelves.appendChild(renderShelf(shelf, ownedIds, equippedJars, activeJarId, openDetail)));
+  JAR_SHELVES.forEach((shelf) => shelves.appendChild(renderShelf(shelf, ownedIds, equippedJars, openDetail)));
 
   panel.append(header);
   if (onboarding) panel.appendChild(onboarding);
@@ -420,7 +397,9 @@ export function renderPantryView(
       const shelfSection = panel.querySelector(
         '.pantry-shelf[data-shelf-id="' + celebrationShelfId + '"]'
       );
-      triggerShelfCelebration(shelfSection);
+      triggerShelfCelebration(shelfSection, t("pantry.jar.shelfBonusCelebration", {
+        chance: growthStatus.chance
+      }));
     });
   }
   return panel;

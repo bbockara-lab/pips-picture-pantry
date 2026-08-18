@@ -11,6 +11,7 @@ tmp/
 .tmp/
 tmp-*
 qa-artifacts/
+release-artifacts/
 .firebase/
 # Android release signing secrets
 *.jks

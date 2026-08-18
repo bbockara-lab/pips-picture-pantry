@@ -58,32 +58,10 @@ describe("Pip completion scene", () => {
     ]);
   });
 
-  it("shows active-jar progress only when an eligible completion advances it", () => {
-    expect(getCompletionRewardRows({
-      puzzleReward: 3,
-      jarEffectAdvanced: true,
-      jarEffectProgress: 4,
-      jarEffectTarget: 6
-    })).toContainEqual({ key: "completion.jarEffectProgress", progress: 4, target: 6 });
-    expect(getCompletionRewardRows({
-      jarEffectAdvanced: false,
-      jarEffectProgress: 4,
-      jarEffectTarget: 6
-    })).toEqual([]);
+  it("shows pantry growth rewards as a separate completion row", () => {
     expect(getCompletionRewardRows({
       jarEffectReward: 1,
-      jarEffectAdvanced: true,
-      jarEffectProgress: 0,
-      jarEffectTarget: 6
     })).toEqual([{ key: "completion.jarEffectBonus", count: 1 }]);
-    expect(getCompletionRewardRows({
-      jarEffectAdvanced: true,
-      jarEffectProgress: 7,
-      jarEffectTarget: 6
-    })).toContainEqual({
-      key: "completion.jarEffectProgressBanked",
-      progress: 7,
-      target: 6
-    });
+    expect(getCompletionRewardRows({ jarEffectReward: 0 })).toEqual([]);
   });
 });

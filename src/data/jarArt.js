@@ -64,6 +64,24 @@ import chestnutVanillaCream from "../assets/jars/jar-chestnut-vanilla-cream-v1.w
 import emberBerryConserve from "../assets/jars/jar-ember-berry-conserve-v1.webp";
 import spicedFigPudding from "../assets/jars/jar-spiced-fig-pudding-v1.webp";
 import midnightCaramelReserve from "../assets/jars/jar-midnight-caramel-reserve-v1.webp";
+import cherryBowl from "../assets/jars/jar-cherry-bowl-v1.webp";
+import peachBasket from "../assets/jars/jar-peach-basket-v1.webp";
+import watermelonBasket from "../assets/jars/jar-watermelon-basket-v1.webp";
+import berryPunnet from "../assets/jars/jar-berry-punnet-v1.webp";
+import melonCrate from "../assets/jars/jar-melon-crate-v1.webp";
+import plumBasket from "../assets/jars/jar-plum-basket-v1.webp";
+import tomatoTrug from "../assets/jars/jar-tomato-trug-v1.webp";
+import sweetCornBasket from "../assets/jars/jar-sweet-corn-basket-v1.webp";
+import cucumberTray from "../assets/jars/jar-cucumber-tray-v1.webp";
+import basilBundle from "../assets/jars/jar-basil-bundle-v1.webp";
+import lemonBasket from "../assets/jars/jar-lemon-basket-v1.webp";
+import pepperBunch from "../assets/jars/jar-pepper-bunch-v1.webp";
+import lemonadePitcher from "../assets/jars/jar-lemonade-pitcher-v1.webp";
+import fruitTart from "../assets/jars/jar-fruit-tart-v1.webp";
+import picnicSandwiches from "../assets/jars/jar-picnic-sandwiches-v1.webp";
+import summerSalad from "../assets/jars/jar-summer-salad-v1.webp";
+import berryShortcake from "../assets/jars/jar-berry-shortcake-v1.webp";
+import shavedIceBowl from "../assets/jars/jar-shaved-ice-bowl-v1.webp";
 
 export const JAR_ART = Object.freeze({
   "strawberry-jam": strawberryJam,
@@ -131,7 +149,25 @@ export const JAR_ART = Object.freeze({
   "chestnut-vanilla-cream": chestnutVanillaCream,
   "ember-berry-conserve": emberBerryConserve,
   "spiced-fig-pudding": spicedFigPudding,
-  "midnight-caramel-reserve": midnightCaramelReserve
+  "midnight-caramel-reserve": midnightCaramelReserve,
+  "cherry-bowl": cherryBowl,
+  "peach-basket": peachBasket,
+  "watermelon-basket": watermelonBasket,
+  "berry-punnet": berryPunnet,
+  "melon-crate": melonCrate,
+  "plum-basket": plumBasket,
+  "tomato-trug": tomatoTrug,
+  "sweet-corn-basket": sweetCornBasket,
+  "cucumber-tray": cucumberTray,
+  "basil-bundle": basilBundle,
+  "lemon-basket": lemonBasket,
+  "pepper-bunch": pepperBunch,
+  "lemonade-pitcher": lemonadePitcher,
+  "fruit-tart": fruitTart,
+  "picnic-sandwiches": picnicSandwiches,
+  "summer-salad": summerSalad,
+  "berry-shortcake": berryShortcake,
+  "shaved-ice-bowl": shavedIceBowl
 });
 
 export function getJarArtUrl(jarId) {

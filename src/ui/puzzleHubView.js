@@ -1,11 +1,13 @@
 import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
-import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-v1.webp";
+import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-summer-v1.webp";
 import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
+import pipSummerHomeUrl from "../assets/characters/pip-home-summer-v1.webp";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, getSeasonShelfSizeCounts, seasonShelves } from "../data/seasonShelves.js";
+import { puzzles } from "../data/puzzles.js";
 import { PANTRY_JARS, getJarById } from "../data/pantryJars.js";
 import { getPaidJarProgressForPantryShelf, getPantryShelfForSeasonShelf } from "../data/stagePantryLinks.js";
 import { ECONOMY } from "../data/economyConfig.js";
-import { getCompletedPuzzleIds, getFeaturedBadgeId, getFeaturedJarId, getOwnedJarIds, getPaidJarCount, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
+import { getCompletedPuzzleIds, getFeaturedBadgeId, getFeaturedJarId, getOwnedJarIds, getPaidJarCount, getPantryGrowthBonusStatus, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
 import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
@@ -94,13 +96,15 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     onSelectView = () => {},
     onOpenSettings = () => {},
     spoonRunOpportunity = { total: 0 },
-    greetingMessage = null
+    greetingMessage = null,
+    greetingAction = null
   } = typeof options === "function" ? { onOpenPuzzle: options } : options;
   const stack = document.createElement("div");
   stack.className = "puzzle-hub-stack puzzle-home";
 
   const scene = document.createElement("section");
   scene.className = "puzzle-home-scene";
+  scene.dataset.eventTheme = "summer";
   scene.style.setProperty("--puzzle-home-background", `url("${puzzleWorkshopBackgroundUrl}")`);
   scene.setAttribute("aria-label", t("home.sceneAria"));
 
@@ -109,12 +113,19 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
 
   const greetingWrap = document.createElement("div");
   greetingWrap.className = "puzzle-home-scene__greeting-wrap hub-greeting-wrap";
+  const eventRibbon = appendTextElement(
+    greetingWrap,
+    "span",
+    "puzzle-home-scene__event-ribbon",
+    t("home.summerEventWeek")
+  );
+  eventRibbon.setAttribute("aria-label", t("home.summerEventWeek"));
   const greetingPip = document.createElement("img");
   greetingPip.className = "puzzle-home-scene__greeting-pip hub-greeting-pip";
-  greetingPip.src = pipGuideUrl;
+  greetingPip.src = pipSummerHomeUrl;
   greetingPip.alt = "";
   greetingPip.setAttribute("aria-hidden", "true");
-  greetingPip.dataset.assetId = "pip-chrome-v2";
+  greetingPip.dataset.assetId = "pip-home-summer-v1";
   const greeting = appendTextElement(
     greetingWrap,
     "p",
@@ -122,6 +133,23 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     greetingMessage || t(getDailyGreetingKey())
   );
   greeting.setAttribute("aria-live", "polite");
+  if (greetingAction) {
+    greeting.classList.add("hub-greeting-bubble--update");
+    const actions = document.createElement("span");
+    actions.className = "hub-greeting-bubble__actions";
+    const update = document.createElement("button");
+    update.type = "button";
+    update.className = "hub-greeting-bubble__update";
+    update.textContent = greetingAction.updateLabel;
+    update.addEventListener("click", greetingAction.onUpdate);
+    const later = document.createElement("button");
+    later.type = "button";
+    later.className = "hub-greeting-bubble__later";
+    later.textContent = greetingAction.laterLabel;
+    later.addEventListener("click", greetingAction.onLater);
+    actions.append(update, later);
+    greeting.appendChild(actions);
+  }
   greetingWrap.append(greetingPip, greeting);
   scene.appendChild(greetingWrap);
 
@@ -156,6 +184,18 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
       jarImage.setAttribute("aria-hidden", "true");
       jarImage.dataset.assetId = `jar-${featuredJar.id}-v1`;
       jarButton.appendChild(jarImage);
+      const growthBonus = getPantryGrowthBonusStatus();
+      if (growthBonus.chance > 0) {
+        const bonusBadge = document.createElement("span");
+        bonusBadge.className = "home-keepsake-shelf__bonus";
+        bonusBadge.textContent = t("pantry.jar.growthBadgeCompact", {
+          chance: growthBonus.chance
+        });
+        bonusBadge.setAttribute("aria-label", t("pantry.jar.growthBadgeAria", {
+          chance: growthBonus.chance
+        }));
+        jarButton.appendChild(bonusBadge);
+      }
       jarButton.addEventListener("click", () => onSelectView("pantry"));
       keepsakeShelf.appendChild(jarButton);
     }
@@ -207,6 +247,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     ["album", "home.albumLabel", () => onSelectView("album")],
     ["pantry", "home.pantryLabel", () => onSelectView("pantry")],
     ["spoonRun", "views.spoonRun", () => onSelectView("spoonRun")],
+    ["timeAttack", "views.timeAttack", () => onSelectView("timeAttack")],
     ["map", "home.mapLabel", () => onSelectView("map")]
   ];
   const completedIds = new Set(getCompletedPuzzleIds());
@@ -234,6 +275,17 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
       collectionProgress = {
         current: activeShelfCompletedCount,
         total: activeShelfPuzzles.length
+      };
+      appendTextElement(
+        button,
+        "span",
+        "puzzle-home-destination__badge",
+        `${collectionProgress.current}/${collectionProgress.total}`
+      );
+    } else if (artId === "album") {
+      collectionProgress = {
+        current: completedIds.size,
+        total: puzzles.length
       };
       appendTextElement(
         button,
@@ -496,20 +548,13 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {})
   const {
     shelfCollapseOverrides = new Map(),
     onToggleShelfCollapsed = () => {},
-    onOpenPantry = () => {},
-    onGoHome = () => {}
+    onOpenPantry = () => {}
   } = options;
   const completedPuzzleIds = getCompletedPuzzleIds();
   const completedPuzzleIdSet = new Set(completedPuzzleIds);
   const section = document.createElement("section");
   section.className = "puzzle-picker content-panel";
-  const homeButton = document.createElement("button");
-  homeButton.type = "button";
-  homeButton.className = "puzzle-picker__home";
-  homeButton.textContent = t("home.sceneAria");
-  homeButton.addEventListener("click", onGoHome);
-  section.appendChild(homeButton);
-
+  section.dataset.eventTheme = "summer";
   seasonShelves.forEach((shelf) => {
     const shelfPuzzles = getSeasonShelfPuzzles(shelf);
     const completeCount = shelfPuzzles.filter((puzzle) => completedPuzzleIdSet.has(puzzle.id)).length;
@@ -520,6 +565,7 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {})
       lockedBlock.className = "pack-block pack-block--locked";
       lockedBlock.dataset.shelfId = shelf.id;
       lockedBlock.dataset.locked = "true";
+      if (shelf.artPackId === "summer-pantry") lockedBlock.dataset.eventTheme = "summer";
       const lockedHeader = document.createElement("div");
       lockedHeader.className = "pack-header";
       appendTextElement(lockedHeader, "p", "section-label", `🔒 ${t(shelf.titleKey)}`);
@@ -539,6 +585,7 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {})
     const packBlock = document.createElement("article");
     packBlock.className = collapsed ? "pack-block pack-block--collapsed" : "pack-block";
     packBlock.dataset.shelfId = shelf.id;
+    if (shelf.artPackId === "summer-pantry") packBlock.dataset.eventTheme = "summer";
     packBlock.dataset.collapsed = String(collapsed);
     if (shelfPuzzles.some((puzzle) => puzzle.id === activePuzzleId)) packBlock.dataset.activeStage = "true";
 
@@ -547,6 +594,9 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {})
     header.className = "pack-header";
     const headerCopy = document.createElement("div");
     appendTextElement(headerCopy, "p", "section-label", t(shelf.titleKey));
+    if (shelf.artPackId === "summer-pantry") {
+      appendTextElement(headerCopy, "span", "pack-event-badge", `☀ ${t("home.summerEventWeek")}`);
+    }
     if (isStageComplete) {
       appendTextElement(headerCopy, "span", "pack-stage-complete-badge", `✓ ${t("puzzlePicker.stageComplete")}`);
     }

@@ -1,5 +1,16 @@
 export const assetRegistry = [
   {
+    id: "pip-puzzle-workshop-summer-v1",
+    usage: "puzzle-home-background",
+    path: "src/assets/generated/pip-puzzle-workshop-summer-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-summer-world-continuity",
+    note: "Summer common-release Workshop background with quiet UI space and seasonal produce at the scene edges. Contains no baked-in character, logo, text, or controls."
+  },
+  {
     id: "pip-puzzle-workshop-source-v1",
     usage: "puzzle-home-background-source",
     path: "src/assets/generated/pip-puzzle-workshop-v1.png",
@@ -729,6 +740,42 @@ export const assetRegistry = [
     identityStatus: "approved-character-continuity",
     stagePackId: "shelf-hearth-gallery",
     note: "Generated final collectible badge art for the Step 62 Hearth milestone in v0.1.713."
+  },
+  {
+    id: "badge-pip-summer-market-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-summer-market-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-fruit-market",
+    note: "Generated collectible badge art for the combined Summer Pantry release."
+  },
+  {
+    id: "badge-pip-picnic-lawn-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-picnic-lawn-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-picnic-lawn",
+    note: "Generated collectible badge art for the combined Summer Pantry release."
+  },
+  {
+    id: "badge-pip-sunset-feast-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-sunset-feast-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-sunset-feast",
+    note: "Generated final collectible badge art for the combined Summer Pantry release."
   },
   {
     id: "starter-counter-cloth-v1",

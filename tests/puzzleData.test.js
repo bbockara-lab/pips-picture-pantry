@@ -245,7 +245,7 @@ describe("puzzle data", () => {
     });
 
     expect(puzzles.filter((puzzle) => puzzle.access === "free").length).toBeGreaterThanOrEqual(133);
-    expect(puzzlePacks.filter((pack) => pack.access === "unlockable")).toHaveLength(4);
+    expect(puzzlePacks.filter((pack) => pack.access === "unlockable")).toHaveLength(5);
     const bonusPacks = puzzlePacks.filter((pack) => pack.access === "bonus-pack");
     expect(bonusPacks).toHaveLength(5);
     bonusPacks.forEach((pack) => {

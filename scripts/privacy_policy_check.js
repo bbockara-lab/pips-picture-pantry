@@ -24,7 +24,7 @@ function requireText(label, text, pattern) {
   if (!pattern.test(text)) errors.push(`${label} missing`);
 }
 
-requireInBoth("current date", /2026-07-18/);
+requireInBoth("current date", /2026-08-16/);
 requireInBoth("no collection statement", /does not collect, transmit, sell, or share personal information/);
 requireInBoth("local-only storage statement", /stored locally on your device|stored only on your device/);
 requireInBoth("no advertising or analytics SDKs", /does not include third-party advertising SDKs, analytics SDKs, or tracking SDKs/);
@@ -32,7 +32,11 @@ requireInBoth("optional in-app support purchase", /optional in-app support purch
 requireInBoth("cozy support product id", /pip_cozy_support/);
 requireInBoth("small spoon jar product id", /pip_spoon_jar_small/);
 requireInBoth("no payment card collection", /does not collect, store, or receive your payment card details/);
-requireInBoth("no data sharing statement", /do not share user data with third parties/);
+requireInBoth("no gameplay data sharing statement", /do not share gameplay data with third parties/);
+requireInBoth("consent-gated website analytics", /Google Analytics only after a visitor chooses[\s\S]{0,80}Allow analytics/);
+requireInBoth("analytics decline controls", /decline analytics or change their choice[\s\S]{0,100}Privacy choices/);
+requireInBoth("game and website data separation", /not combined with gameplay progress or in-app purchase records/);
+requireInBoth("no sale statement", /do not sell personal information/);
 requireInBoth("data deletion guidance", /delete it by using the reset option in the app or by uninstalling the app/);
 requireInBoth("contact email", /sunnyspoonstudios@gmail.com/);
 requireText("Play listing privacy URL", listing, /https:\/\/sunny-spoon-pantry\.web\.app\/privacy-policy\.html/);
@@ -40,7 +44,6 @@ requireText("Play listing privacy URL", listing, /https:\/\/sunny-spoon-pantry\.
 const forbiddenRuntimeClaims = [
   /account creation/i,
   /cloud save/i,
-  /analytics provider/i,
   /advertising identifier/i,
   /location data/i,
   /contacts/i
@@ -63,7 +66,7 @@ if (shouldCheckLive) {
   const livePolicy = await fetchLivePolicy();
   if (livePolicy) {
     const liveChecks = [
-      ["current date", /2026-07-18/],
+      ["current date", /2026-08-16/],
       ["no collection statement", /does not collect, transmit, sell, or share personal information/],
       ["local-only storage statement", /stored locally on your device|stored only on your device/],
       ["no advertising or analytics SDKs", /does not include third-party advertising SDKs, analytics SDKs, or tracking SDKs/],
@@ -71,7 +74,11 @@ if (shouldCheckLive) {
       ["live cozy support product id", /pip_cozy_support/],
       ["live small spoon jar product id", /pip_spoon_jar_small/],
       ["live no payment card collection", /does not collect, store, or receive your payment card details/],
-      ["no data sharing statement", /do not share user data with third parties/],
+      ["no gameplay data sharing statement", /do not share gameplay data with third parties/],
+      ["consent-gated website analytics", /Google Analytics only after a visitor chooses[\s\S]{0,80}Allow analytics/],
+      ["analytics decline controls", /decline analytics or change their choice[\s\S]{0,100}Privacy choices/],
+      ["game and website data separation", /not combined with gameplay progress or in-app purchase records/],
+      ["no sale statement", /do not sell personal information/],
       ["data deletion guidance", /delete it by using the reset option in the app or by uninstalling the app/],
       ["contact email", /sunnyspoonstudios@gmail.com/]
     ];

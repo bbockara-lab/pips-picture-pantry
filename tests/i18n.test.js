@@ -80,7 +80,7 @@ describe("i18n", () => {
     expect(t("pantry.jar.featureOnHome")).toBe("Display on home");
     expect(t("pantry.jar.featuredOnHome")).toBe("Displayed on home");
     expect(t("pantry.jar.featuredAria", { item: "Strawberry Jam" }))
-      .toBe("Strawberry Jam, displayed jar. Open Pantry");
+      .toBe("Strawberry Jam, displayed collectible. Open Pantry");
   });
 
   it("resolves explicit and data-backed puzzle copy", () => {
@@ -164,6 +164,7 @@ describe("i18n", () => {
       "guide.timeAttack.step1",
       "guide.timeAttack.step2",
       "guide.timeAttack.step3",
+      "timeAttack.body",
       "guide.map.step1",
       "guide.map.step2",
       "guide.map.step3",
@@ -227,6 +228,10 @@ describe("i18n", () => {
       expect(value).not.toContain("\uFFFD");
       expect(value).not.toContain("\u5360");
     });
+
+    expect(t("timeAttack.body")).toContain("3분");
+    expect(t("guide.timeAttack.step1")).toContain("5×5");
+    expect(t("guide.timeAttack.step3")).toContain("2개, 4개, 7개");
     expect(t("guide.eyebrow")).toBe("핍\uc758 \uc791\uc740 \uc548\ub0b4");
     expect(t("playerIntro.placeholder")).toBe("하늘");
     expect(t("playerIntro.defaultName")).toBe("친구");
@@ -234,7 +239,7 @@ describe("i18n", () => {
     expect(t("playerIntro.defaultName")).not.toBe("Friend");
     expect(t("guide.speaker")).toContain("핍");
     expect(t("guide.puzzle.step1")).toBe("어서 와요! 저는 핍이에요. 함께 그림을 완성해 봐요!");
-    expect(t("guide.timeAttack.step2")).toBe("\uC2DC\uAC04\uC774 \uBD80\uC871\uD560 \uB550 \uD78C\uD2B8 \uD558\uB098\uAC00 \uD310\uC744 \uAD6C\uD560 \uC218 \uC788\uC5B4\uC694.");
+    expect(t("guide.timeAttack.step2")).toContain("맞힌 칸");
     expect(t("guide.map.step3")).toContain("\uC120\uBC18");
     expect(t("guide.pantryFirstPurchase.step3")).toContain("\uC2A4\uD47C");
     expect(t("guide.pantryNeighborMrPark.title")).toContain("시계 할아버지");

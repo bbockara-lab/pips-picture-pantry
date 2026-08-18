@@ -30,6 +30,7 @@ export function renderCompletionBanner(puzzle, {
 } = {}) {
   const banner = document.createElement("div");
   banner.className = "completion-banner";
+  if (puzzle?.packId === "summer-pantry") banner.dataset.eventTheme = "summer";
   const isFirstPipFace = isFirstPipFacePuzzle(puzzle);
   if (isFirstPipFace) {
     banner.classList.add("completion-banner--first-pip-face");
@@ -59,9 +60,6 @@ export function renderCompletionBanner(puzzle, {
     puzzleReward: (dailyResult || rewardResult)?.puzzleReward,
     dailyBonus: dailyResult?.dailyBonus,
     jarEffectReward: jarEffectResult.jarEffectReward,
-    jarEffectAdvanced: jarEffectResult.jarEffectAdvanced,
-    jarEffectProgress: jarEffectResult.jarEffectProgress,
-    jarEffectTarget: jarEffectResult.jarEffectTarget,
     stageBonus
   });
   if (rewardRows.length) {
@@ -116,9 +114,6 @@ export function getCompletionRewardRows({
   puzzleReward = 0,
   dailyBonus = 0,
   jarEffectReward = 0,
-  jarEffectAdvanced = false,
-  jarEffectProgress = 0,
-  jarEffectTarget = 0,
   stageBonus = 0
 } = {}) {
   const rows = [
@@ -127,17 +122,6 @@ export function getCompletionRewardRows({
     { key: "completion.jarEffectBonus", count: Math.max(0, Number(jarEffectReward || 0)) },
     { key: "completion.stageBonus", count: Math.max(0, Number(stageBonus || 0)) }
   ].filter((row) => row.count > 0);
-  if (jarEffectAdvanced && !jarEffectReward && Number(jarEffectTarget) > 0) {
-    const progress = Math.max(0, Number(jarEffectProgress || 0));
-    const target = Math.max(0, Number(jarEffectTarget || 0));
-    rows.push({
-      key: progress >= target
-        ? "completion.jarEffectProgressBanked"
-        : "completion.jarEffectProgress",
-      progress,
-      target
-    });
-  }
   return rows;
 }
 function getCompletionBannerMessage(puzzle, options = {}) {

@@ -24,7 +24,13 @@ const SHELF_BLUEPRINT = [
   { id: "shelf-orchard-window", titleKey: "shelves.orchardWindow", sizes: { 8: 8, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 50, stageBonus: 35, artPackId: "village-pantry" },
   { id: "shelf-lantern-courtyard", titleKey: "shelves.lanternCourtyard", sizes: { 8: 8, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 50, stageBonus: 35, artPackId: "village-pantry" },
   { id: "shelf-moonlit-veranda", titleKey: "shelves.moonlitVeranda", sizes: { 8: 8, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 55, stageBonus: 35, artPackId: "village-pantry" },
-  { id: "shelf-hearth-gallery", titleKey: "shelves.hearthGallery", sizes: { 8: 7, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 55, stageBonus: 35, artPackId: "village-pantry" }
+  { id: "shelf-hearth-gallery", titleKey: "shelves.hearthGallery", sizes: { 8: 7, 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 55, stageBonus: 35, artPackId: "village-pantry" },
+  { id: "shelf-summer-window", titleKey: "shelves.summerWindow", sizes: { 5: 6, 8: 10 }, unlockCost: 0, pantryRoomStepRequired: 60, stageBonus: 40, artPackId: "summer-pantry" },
+  { id: "shelf-fruit-market", titleKey: "shelves.fruitMarket", sizes: { 5: 6, 8: 10 }, unlockCost: 0, pantryRoomStepRequired: 60, stageBonus: 40, artPackId: "summer-pantry" },
+  { id: "shelf-garden-basket", titleKey: "shelves.gardenBasket", sizes: { 8: 4, 10: 9, 12: 4 }, unlockCost: 0, pantryRoomStepRequired: 65, stageBonus: 40, artPackId: "summer-pantry" },
+  { id: "shelf-picnic-lawn", titleKey: "shelves.picnicLawn", sizes: { 8: 4, 10: 9, 12: 4 }, unlockCost: 0, pantryRoomStepRequired: 65, stageBonus: 40, artPackId: "summer-pantry" },
+  { id: "shelf-seaside-table", titleKey: "shelves.seasideTable", sizes: { 10: 9, 12: 8 }, unlockCost: 0, pantryRoomStepRequired: 70, stageBonus: 40, artPackId: "summer-pantry" },
+  { id: "shelf-sunset-feast", titleKey: "shelves.sunsetFeast", sizes: { 10: 9, 12: 8 }, unlockCost: 0, pantryRoomStepRequired: 70, stageBonus: 40, artPackId: "summer-pantry" }
 ];
 
 const SUPPORTED_SIZES = [5, 8, 10, 12];

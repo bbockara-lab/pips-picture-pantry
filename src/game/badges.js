@@ -12,7 +12,10 @@ export const BADGE_MILESTONES = Object.freeze([
   { stage: 8, group: "C", shelfIds: ["shelf-garden-path", "shelf-village-pantry"], id: "badge-pip-full-pantry", titleKey: "shelves.villagePantry" },
   { stage: 9, group: "D", shelfIds: ["shelf-herb-terrace", "shelf-sunroom-table"], id: "badge-pip-sunroom-botanicals", titleKey: "shelves.sunroomTable" },
   { stage: 10, group: "D", shelfIds: ["shelf-orchard-window", "shelf-lantern-courtyard"], id: "badge-pip-orchard-lantern", titleKey: "shelves.lanternCourtyard" },
-  { stage: 11, group: "D", shelfIds: ["shelf-moonlit-veranda", "shelf-hearth-gallery"], id: "badge-pip-hearth-gallery", titleKey: "shelves.hearthGallery", final: true }
+  { stage: 11, group: "D", shelfIds: ["shelf-moonlit-veranda", "shelf-hearth-gallery"], id: "badge-pip-hearth-gallery", titleKey: "shelves.hearthGallery" },
+  { stage: 12, group: "E", shelfIds: ["shelf-summer-window", "shelf-fruit-market"], id: "badge-pip-summer-market", titleKey: "shelves.fruitMarket" },
+  { stage: 13, group: "E", shelfIds: ["shelf-garden-basket", "shelf-picnic-lawn"], id: "badge-pip-picnic-lawn", titleKey: "shelves.picnicLawn" },
+  { stage: 14, group: "E", shelfIds: ["shelf-seaside-table", "shelf-sunset-feast"], id: "badge-pip-sunset-feast", titleKey: "shelves.sunsetFeast", final: true }
 ]);
 
 function getMilestonePuzzles(milestone) {

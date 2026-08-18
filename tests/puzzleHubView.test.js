@@ -58,9 +58,9 @@ describe("Workshop destination collection progress", () => {
   it("shows earned badge progress against every authored badge", () => {
     const empty = getBadgeHomeProgress([]);
     expect(empty.current).toBe(0);
-    expect(empty.total).toBe(12);
+    expect(empty.total).toBe(15);
     const firstBadgePuzzleIds = getSeasonShelfPuzzles(seasonShelves[0]).map((puzzle) => puzzle.id);
-    expect(getBadgeHomeProgress(firstBadgePuzzleIds)).toEqual({ current: 1, total: 12 });
+    expect(getBadgeHomeProgress(firstBadgePuzzleIds)).toEqual({ current: 1, total: 15 });
   });
 
   it("renders Pantry and Badges as flat numeric progress, never the old red dot", () => {
@@ -69,6 +69,15 @@ describe("Workshop destination collection progress", () => {
     expect(hubSource).toContain("getBadgeHomeProgress(completedIds)");
     expect(hubSource).not.toContain("puzzle-home-destination__badge--new");
     expect(styles).not.toContain("puzzle-home-destination__badge--new");
+    expect(hubSource).toContain('t("pantry.jar.growthBadgeCompact"');
+    expect(hubSource).not.toContain('`+${growthBonus.chance}%`');
+  });
+
+  it("keeps all six Workshop destinations visible and gives the Album global progress", () => {
+    expect(hubSource).toContain('["timeAttack", "views.timeAttack", () => onSelectView("timeAttack")]');
+    expect(hubSource).toContain('artId === "album"');
+    expect(hubSource).toContain("total: puzzles.length");
+    expect(styles).toContain(".puzzle-home-destination--timeAttack");
   });
 });
 
@@ -115,7 +124,7 @@ describe("Workshop Play Now layout", () => {
     const step63Styles = styles.slice(styles.indexOf("v0.1.714 - Step 63 canonical Workshop composition"));
     expect(step63Styles).toContain("margin-right: -22px");
     expect(step63Styles).toContain(".puzzle-home-scene__greeting::before");
-    expect(step63Styles).toContain("top: clamp(92px, 12%, 116px) !important");
+    expect(step63Styles).toContain("top: max(clamp(92px, 12%, 116px), calc(env(safe-area-inset-top, 0px) + 76px)) !important");
     expect(step63Styles).toContain("max-width: calc(100% - 170px) !important");
     expect(hubSource).toContain("greetingMessage || t(getDailyGreetingKey())");
     expect(styles).not.toContain(".login-bonus-popover");

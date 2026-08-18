@@ -1,3 +1,10 @@
+import { SUMMER_PUZZLES } from "../data/summerPuzzles.js";
+
+const summerPuzzleCopy = Object.fromEntries(SUMMER_PUZZLES.map((puzzle) => [
+  puzzle.id,
+  { title: puzzle.title, imageName: puzzle.title }
+]));
+
 export const en = {
   app: {
     title: "Pip's Picture Pantry",
@@ -103,6 +110,7 @@ export const en = {
     groupB: "Shelf B - Pip’s Bakery",
     groupC: "Shelf C - Pip’s Village",
     groupD: "Shelf D - Pip’s Seasons",
+    groupE: "Shelf E - Pip’s Summer",
     earned: "Collected",
     stageRequirement: "Complete Stage {stage}",
     detailEarned: "This keepsake is shining on your shelf.",
@@ -119,6 +127,8 @@ export const en = {
     pipClockCorner: "Clock Corner",
     pipFullPantry: "Full Pantry",
     pipPortrait: "Pip Portrait",
+    summerPantry: "Summer Pantry Badge",
+    summerPantryDesc: "Complete the summer Pantry picture collection.",
     progress: "{completed}/{total} cards",
     earnedAria: "{title} badge earned",
     progressAria: "{title} badge progress {completed} of {total}",
@@ -147,7 +157,8 @@ export const en = {
     pantryMap: "Badge Shelf"
   },
   home: {
-    sceneAria: "Pip's picture room",
+    sceneAria: "Pip's Puzzle Room",
+    summerEventWeek: "Summer Pantry Week",
     keepsakeShelfAria: "Home display shelf",
     destinationsAria: "Play destinations",
     currentPicture: "Ready to color",
@@ -169,6 +180,13 @@ export const en = {
     timeAttackLabel: "Time Attack",
     albumLabel: "Album",
     mapLabel: "Badges"
+  },
+  updatePolicy: {
+    optionalMessage: "A new version {version} is ready! Want to visit the store?",
+    mandatoryTitle: "A required update is ready",
+    mandatoryMessage: "Please update to version {version} to keep playing safely.",
+    updateNow: "Update",
+    later: "Later"
   },
   playScreen: {
     aria: "Focused puzzle play",
@@ -202,7 +220,7 @@ export const en = {
   },
   timeAttack: {
     title: "Time Attack",
-    body: "Three puzzles. Each one a little bigger.",
+    body: "Solve 5×5 → 8×8 → 10×10 in 3 minutes total. The clock keeps running between boards.",
     hubEyebrow: "Time Attack",
     hubTitle: "Three-puzzle challenge",
     hubAction: "Start",
@@ -272,7 +290,7 @@ export const en = {
     },
     pantryJarIntro: {
       speakerName: "Pip",
-      step1: "Select this jar to place it beside me on the puzzle-completion screen for this shelf's stage.",
+      step1: "Select this collectible to place it beside me on the puzzle-completion screen for this shelf's stage.",
       step2: "Display on home puts it beside me in the Puzzle Room. You can change either choice anytime!",
       step3: "Activate effect is a separate choice. Finish eligible pictures to fill its progress and earn the shown bonus spoons."
     },
@@ -284,9 +302,9 @@ export const en = {
     timeAttack: {
       speakerName: "Grandpa Clock",
       title: "Mr. Park's quick challenge",
-      step1: "Ho ho! Welcome, friend. I'm Grandpa Clock — keeper of time and puzzles!",
-      step2: "When the clock runs short, a hint can save your run.",
-      step3: "Shall we see how fast you can go?"
+      step1: "You have 3 minutes total to solve 5×5, 8×8, then 10×10. The clock keeps running between boards.",
+      step2: "Finish all three to set a record. If time runs out, every correct cell you reached still counts toward your result.",
+      step3: "Hints are optional. They cost 2, then 4, then 7 spoons and slightly lower your score, so save them for when you truly need one."
     },
     map: {
       speakerName: "Pip",
@@ -295,16 +313,16 @@ export const en = {
       step3: "Your shelf fills up as the pantry grows."
     },
     pantryFirstPurchase: {
-      title: "Your first pantry jar",
-      step1: "Lovely choice. Your first jar is ready for its shelf.",
-      step2: "Tap any jar you own when you want to change the shelf display.",
+      title: "Your first pantry collectible",
+      step1: "Lovely choice. Your first collectible is ready for its shelf.",
+      step2: "Tap any collectible you own when you want to change the shelf display.",
       step3: "Solve pictures, collect spoons, and fill every shelf."
     },
     pantryRoomStory: {
       title: "The pantry shelves are growing",
-      step1: "One new jar made the pantry feel much fuller.",
-      step2: "Keep collecting jars and new stages will open.",
-      step3: "Every paid jar adds one step to your pantry story."
+      step1: "One new collectible made the pantry feel much fuller.",
+      step2: "Keep collecting and new stages will open.",
+      step3: "Every paid collectible adds one step to your pantry story."
     },
     pantryNeighborMrPark: {
       title: "Grandpa Clock is here",
@@ -334,7 +352,7 @@ export const en = {
   playPause: {
     title: "Puzzle paused",
     continue: "Continue puzzle",
-    home: "Workshop home",
+    home: "Pip's Puzzle Room",
     pictures: "Picture list"
   },
   controls: {
@@ -404,9 +422,7 @@ export const en = {
     puzzleReward: "Puzzle complete +{count}sp",
     dailyBonus: "Daily bonus +{count}sp",
     stageBonus: "Shelf completion bonus +{count}sp",
-    jarEffectBonus: "Active jar bonus +{count}sp",
-    jarEffectProgress: "Active jar progress {progress}/{target}",
-    jarEffectProgressBanked: "Jar progress banked {progress}/{target} · pays on the next eligible day",
+    jarEffectBonus: "Extra spoons · Pantry growth bonus +{count}sp",
     dailyReward: "Today's Picture complete! You earned +{count} spoons.",
     replayReward: "Clean replay! +{count} spoon. {remaining} replay rewards left today.",
     replayNoReward: "Replay complete. No spoon this time, but the card stayed safe.",
@@ -484,9 +500,21 @@ export const en = {
     moonlitVerandaTeaser: "Tea trays, quilts, and garden keepsakes rest beneath the moon",
     hearthGallery: "Hearth Gallery",
     hearthGalleryTeaser: "The last warm village treasures gather beside the glowing hearth",
+    summerWindow: "Summer Window",
+    summerWindowTeaser: "Open the shutters to a bright table of fruit and summer light",
+    fruitMarket: "Fruit Market",
+    fruitMarketTeaser: "Baskets of ripe fruit fill the sunny market",
+    gardenBasket: "Garden Basket",
+    gardenBasketTeaser: "Fresh garden ingredients wait in woven baskets",
+    picnicLawn: "Picnic Lawn",
+    picnicLawnTeaser: "A checked blanket and cool treats wait in the shade",
+    seasideTable: "Seaside Table",
+    seasideTableTeaser: "Shells, lemonade, and sea breeze gather by the table",
+    sunsetFeast: "Sunset Feast",
+    sunsetFeastTeaser: "Pip’s summer pantry glows around an evening feast",
     lockConditionPuzzle: "Complete {count} more puzzle(s) on the previous shelf",
     lockConditionPuzzleDone: "Previous shelf complete ✓",
-    lockConditionPantry: "Own {count} more paid Pantry jar(s)",
+    lockConditionPantry: "Own {count} more paid Pantry collectible(s)",
     lockConditionPantryDone: "Pantry requirement met ✓"
   },
   shelf: {
@@ -528,7 +556,11 @@ export const en = {
     "village-pantry": {
       title: "Village Pantry",
       note: "Village pantry badge pictures"
-    }    ,
+    },
+    "summer-pantry": {
+      title: "Summer Pantry",
+      note: "A sunny season of markets, gardens, picnics, and seaside treats"
+    },
     "cafe-window-plus": {
       title: "Cafe Window Plus",
       note: "Optional theme stage planned for later"
@@ -611,6 +643,31 @@ export const en = {
       premium: "Premium"
     },
     slotAction: "Shop decorations for {slot}",
+    shelf: {
+      summerOrchard: "Summer Orchard",
+      sunnyGarden: "Sunny Garden",
+      picnicTable: "Picnic Table"
+    },
+    collectible: {
+      watermelonBasket: "Watermelon Basket",
+      peachBasket: "Peach Basket",
+      cherryBowl: "Cherry Bowl",
+      berryPunnet: "Berry Punnet",
+      melonCrate: "Melon Crate",
+      plumBasket: "Ribboned Plum Basket",
+      tomatoTrug: "Tomato Trug",
+      sweetCornBasket: "Sweet Corn Basket",
+      cucumberTray: "Cucumber Tray",
+      basilBundle: "Basil Bundle",
+      lemonBasket: "Lemon Basket",
+      pepperBunch: "Sweet Pepper Bunch",
+      lemonadePitcher: "Lemonade Pitcher",
+      fruitTart: "Fruit Tart",
+      picnicSandwiches: "Picnic Sandwiches",
+      summerSalad: "Summer Salad",
+      berryShortcake: "Berry Shortcake",
+      shavedIceBowl: "Shaved Ice Bowl"
+    },
     emptySlot: "Waiting for a cozy touch",
     owned: "Owned",
     equipped: "Equipped",
@@ -645,7 +702,10 @@ export const en = {
       tea: "Botanical Teas",
       sunroom: "Sunroom Botanicals",
       orchard: "Orchard Preserves",
-      hearth: "Hearthside Treats"
+      hearth: "Hearthside Treats",
+      summerOrchard: "Summer Orchard",
+      sunnyGarden: "Sunny Garden",
+      picnicTable: "Picnic Table"
     },
     jar: {
       balance: "🥄 {count}",
@@ -655,21 +715,22 @@ export const en = {
       equipped: "Selected ✓",
       buyAction: "Buy for {count} 🥄",
       needSpoons: "Need {count} more spoons",
-      equipAction: "Select this jar",
+      equipAction: "Select this collectible",
       close: "Close",
       featureOnHome: "Display on home",
       featuredOnHome: "Displayed on home",
-      effectActive: "Effect active",
-      activateEffect: "Activate effect",
-      effectNoBonus: "Starter jars are decorative and do not grant bonus spoons.",
-      effectDescription: "Complete {target} eligible pictures to earn +{reward} spoon, up to {limit} time(s) per day.",
+      growthEffectDescription: "Pantry growth gives every eligible picture a {chance}% chance to find +{reward} bonus spoon.",
+      growthEffectProgress: "{completed}/{cap} Pantry levels complete",
+      growthBonusSummary: "Bonus spoon chance {chance}%",
+      shelfBonusCelebration: "Bonus spoon chance grew to {chance}%!",
+      growthBadgeCompact: "{chance}% chance",
+      growthBadgeAria: "Chance to earn one bonus spoon: {chance} percent",
       effectProgress: "Effect progress {progress} / {target}",
       effectProgressBanked: "Banked progress {progress} / {target} · pays on the next eligible day",
-      effectDailyLimit: "Today's effect bonus limit reached ({count} / {limit}).",
-      featuredAria: "{item}, displayed jar. Open Pantry",
+      featuredAria: "{item}, displayed collectible. Open Pantry",
       todaysPantry: "Today's Pantry",
       onboardingTitle: "Your shelves are ready.",
-      onboardingPrompt: "Buy your first jar and begin filling Pip's pantry!",
+      onboardingPrompt: "Choose your first collectible and begin filling Pip's pantry!",
       rarity: {
         starter: "Starter",
         common: "Common",
@@ -802,6 +863,7 @@ export const en = {
     }
   },
   puzzles: {
+    ...summerPuzzleCopy,
     "stability-tea-tray-113": { title: "Tea Tray", imageName: "Tea Tray" },
     "stability-breakfast-tray-114": { title: "Breakfast Tray", imageName: "Breakfast Tray" },
     "stability-kitchen-timer-115": { title: "Kitchen Timer", imageName: "Kitchen Timer" },

@@ -12,6 +12,11 @@ const NAV_ITEMS = [
   ["settings", "header.settings"]
 ];
 
+// The Time Attack clock redraws the shell once per second. Keep the quick
+// travel disclosure state outside the disposable DOM so a redraw cannot make
+// an open menu appear to crash or close itself.
+let quickTravelOpen = false;
+
 function createQuickTravelIcon(view, extraClass = "") {
   const icon = document.createElement("span");
   icon.className = `floating-nav__icon floating-nav__icon--raster floating-nav__icon--${view}${extraClass ? ` ${extraClass}` : ""}`;
@@ -32,7 +37,7 @@ function createQuickTravelIcon(view, extraClass = "") {
 export function renderFloatingNav(activeView, onSelectView) {
   const nav = document.createElement("nav");
   nav.className = "floating-nav";
-  nav.dataset.open = "false";
+  nav.dataset.open = String(quickTravelOpen);
   nav.setAttribute("aria-label", t("views.navLabel"));
 
   const menu = document.createElement("div");
@@ -46,7 +51,7 @@ export function renderFloatingNav(activeView, onSelectView) {
     trigger.classList.add("floating-nav__trigger--pulse");
   }
   trigger.dataset.view = activeItem[0];
-  trigger.setAttribute("aria-expanded", "false");
+  trigger.setAttribute("aria-expanded", String(quickTravelOpen));
   const triggerLabelText = t("views.menu") + ": " + t(activeItem[1]);
   trigger.setAttribute("aria-label", triggerLabelText);
   trigger.title = triggerLabelText;
@@ -62,11 +67,14 @@ export function renderFloatingNav(activeView, onSelectView) {
   trigger.append(triggerIcon, triggerText);
 
   function setOpen(open) {
+    quickTravelOpen = Boolean(open);
     nav.dataset.open = String(open);
     trigger.setAttribute("aria-expanded", String(open));
   }
 
-  trigger.addEventListener("click", () => {
+  trigger.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     setOpen(nav.dataset.open !== "true");
   });
 
@@ -86,7 +94,9 @@ export function renderFloatingNav(activeView, onSelectView) {
     itemLabel.className = "floating-nav__label";
     itemLabel.textContent = t(labelKey);
     item.append(itemIcon, itemLabel);
-    item.addEventListener("click", () => {
+    item.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       setOpen(false);
       onSelectView(view);
     });

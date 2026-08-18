@@ -39,6 +39,7 @@ export function renderPuzzleView(puzzle, options = {}) {
   let stageBonus = 0;
   const controlMode = options.controlMode || "auto";
   const section = document.createElement("section");
+  if (puzzle.packId === "summer-pantry") section.dataset.eventTheme = "summer";
   section.className = [
     "puzzle-panel",
     "content-panel",
@@ -133,10 +134,17 @@ export function renderPuzzleView(puzzle, options = {}) {
     isTimeAttack ? "puzzle-panel--time-attack" : ""
   ].filter(Boolean).join(" ");
     section.classList.toggle("replay-challenge", isReplayChallenge);
+    section.dataset.eventTheme = puzzle.packId === "summer-pantry" ? "summer" : "";
 
     const meta = document.createElement("div");
     meta.className = "puzzle-meta";
     const metaCopy = document.createElement("div");
+    if (puzzle.packId === "summer-pantry") {
+      const eventBadge = document.createElement("span");
+      eventBadge.className = "puzzle-meta__event-badge";
+      eventBadge.textContent = `☀ ${t("home.summerEventWeek")}`;
+      metaCopy.appendChild(eventBadge);
+    }
     const metaLabel = document.createElement("p");
     metaLabel.className = "section-label";
     metaLabel.textContent = isReplayChallenge ? t("replayPicks.challengeLabel") : getPuzzleLabel(puzzle);

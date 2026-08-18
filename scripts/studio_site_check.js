@@ -13,11 +13,11 @@ const requiredFiles = [
   "store-assets/site/app.js",
   "store-assets/site/sunny-spoon-studios-social-v1.png",
   "store-assets/privacy-policy.html",
-  "store-assets/social-campaigns/launch-2026/01-meet-pip.png",
   "store-assets/social-campaigns/launch-2026/02-hidden-picture.png",
-  "store-assets/site/screens/badge-shelf-1.1.19.png",
-  "store-assets/social-campaigns/launch-2026/05-grandpa-clock.png",
+  "store-assets/social-campaigns/launch-2026/03-fill-the-shelves.png",
   "store-assets/social-campaigns/launch-2026/06-quiet-puzzle-break.png",
+  "store-assets/site/screens/puzzle-home-v0.1.715.png",
+  "store-assets/store-media/common-candidate-1.1.20/raw/google-play/en/05-badge-collection-15.png",
   "store-assets/youtube/sunny-spoon-studios-youtube-avatar-v1.png",
 ];
 
@@ -30,11 +30,13 @@ const css = read("store-assets/site/styles.css");
 const js = read("store-assets/site/app.js");
 
 for (const marker of [
-  "Studio site v0.1.10",
+  "Studio site v0.1.15",
   "privacy-policy.html",
-  "./site/styles.css?v=020",
-  "./site/app.js?v=020",
+  "./site/styles.css?v=025",
+  "./site/app.js?v=025",
   "@SunnySpoonStudios",
+  "https://apps.apple.com/app/id6798479149",
+  "https://play.google.com/store/apps/details?id=com.sunnyspoonstudios.pipspicturepantry",
   "sunnyspoonstudios@gmail.com",
   'class="language-toggle"',
   'class="site-header"',
@@ -47,11 +49,11 @@ for (const marker of [
   assert(html.includes(marker), `Missing HTML marker: ${marker}`);
 }
 
-for (const marker of ["500", "66", "12"]) {
+for (const marker of ["600", "84", "15"]) {
   assert(html.includes(marker), `Missing product metric: ${marker}`);
 }
 
-for (const staleMetric of ["333", "48+"]) {
+for (const staleMetric of ["333", "48+", "500", "66"]) {
   assert(!html.includes(staleMetric), `Stale product metric remains: ${staleMetric}`);
 }
 
@@ -64,6 +66,7 @@ for (const marker of [
   ".support-card",
   "html[lang=\"ko\"] body",
   ".hero-line",
+  ".consent-banner",
 ]) {
   assert(css.includes(marker), `Missing CSS marker: ${marker}`);
 }
@@ -74,6 +77,8 @@ for (const marker of [
   "한국어",
   "포근한 퍼즐",
   "applyLanguage",
+  "sunny-spoon-analytics-consent",
+  "G-J5G7MD2FNG",
 ]) {
   assert(js.includes(marker), `Missing language marker: ${marker}`);
 }
@@ -98,12 +103,13 @@ for (const staleReference of [
   "site/images/pip-hero.png",
   "phone-puzzle.png",
   "phone-shelves.png",
-  "03-fill-the-shelves.png",
 ]) {
   assert(!html.includes(staleReference), `Stale or rejected asset reference remains: ${staleReference}`);
 }
 
-assert(!/google-analytics|googletagmanager|facebook\.net|pixel/i.test(html), "Unexpected tracking code found");
+assert(!/google-analytics|googletagmanager|facebook\.net|pixel/i.test(html), "Analytics must not load before consent");
+assert(js.includes("choice === \"granted\""), "Analytics must be gated behind explicit consent");
+assert(js.includes('href.includes("apps.apple.com")'), "Missing App Store outbound analytics classification");
 
 console.log(`Studio site check passed: ${requiredFiles.length} files, ${new Set(translationKeys).size} translation keys, ${localSources.length} local image references.`);
 
@@ -111,11 +117,7 @@ for (const staleClass of ["section-shell", "stats-grid", "status-row", "Producti
   assert(!html.includes(staleClass), `Stale studio-site contract remains: ${staleClass}`);
 }
 
-// "Coming soon" is legitimate again as of the iOS-review period: it now scopes specifically to the
-// App Store note (store-note), not to the game's overall availability. Guard the scope instead of
-// banning the phrase outright, so a real iOS launch update still catches any leftover placeholder.
-assert(html.includes('class="store-note"'), "Missing scoped App Store availability note (.store-note)");
-assert(!/available now on[\s\S]{0,60}coming soon/i.test(html), "\"Coming soon\" appears to describe the game's own availability, not just the App Store");
+assert(!/coming soon to the App Store|App Store 출시 준비 중/i.test(html + js), "Stale pre-launch App Store copy remains");
 assert(css.includes(".header-inner"), "Missing centered header contract");
 assert(css.includes(".feature-section__inner"), "Missing centered feature-section inner contract");
 assert(css.includes(".studio-section { display: block; }"), "Studio section must not reserve an empty grid column");

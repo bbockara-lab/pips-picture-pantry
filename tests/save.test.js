@@ -6,8 +6,7 @@ import {
   getActivePlayerName,
   getCompletedPuzzleIds,
   getDailyCompletedDate,
-  getActiveJarEffectStatus,
-  getActiveJarId,
+  getPantryGrowthBonusStatus,
   getCompletionDates,
   getCompletedPantryStoryGoalIds,
   grantCozySupportPack,
@@ -45,11 +44,10 @@ import {
   savePuzzleState,
   setPantryStoryGoalId,
   setActivePlayerName,
-  setActiveJar,
   unlockPack
 } from "../src/game/save.js";
 import { seasonShelves } from "../src/data/seasonShelves.js";
-import { PANTRY_JARS } from "../src/data/pantryJars.js";
+import { JAR_SHELVES, PANTRY_JARS, getJarsByShelf } from "../src/data/pantryJars.js";
 import { pantryDecorations } from "../src/data/decorations.js";
 import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackProgress, TIME_ATTACK_LIMIT_SECONDS } from "../src/ui/timeAttackFlow.js";
 
@@ -102,53 +100,31 @@ describe("daily login spoon bonus", () => {
   });
 });
 
-describe("active pantry jar effects", () => {
+describe("pantry growth spoon bonus", () => {
   beforeEach(() => {
     globalThis.localStorage = new LocalStorageMock();
     setActivePlayerName("Pip");
   });
 
-  it("migrates old saves with inactive effect defaults", () => {
+  it("migrates old saves with an empty passive completion ledger", () => {
     saveGame({ pantrySpoons: 12, ownedJarIds: ["blueberry-jam"] });
 
     expect(loadSave()).toMatchObject({
-      activeJarId: null,
-      jarEffectProgress: {},
-      jarEffectDaily: { date: null, count: 0 },
-      jarEffectCompletionKeys: []
-    });
-    expect(getActiveJarId()).toBe(null);
-  });
-
-  it("activates only an owned effect jar and persists its independent status", () => {
-    saveGame({ ...loadSave(), ownedJarIds: ["blueberry-jam"] });
-
-    expect(setActiveJar("cherry-jam")).toBe(false);
-    expect(setActiveJar("starter-jam-jar")).toBe(false);
-    expect(setActiveJar("blueberry-jam")).toBe(true);
-    expect(getActiveJarId()).toBe("blueberry-jam");
-    expect(loadSave().activeJarId).toBe("blueberry-jam");
-    expect(getActiveJarEffectStatus("2026-08-11")).toMatchObject({
-      active: true,
-      progress: 0,
-      dailyCount: 0,
-      dailyLimit: 1,
-      definition: { target: 8, reward: 1 }
+      pantryBonusCompletionKeys: []
     });
   });
 
-  it("preserves a normal puzzle's one-time jar progress after the daily payout cap", () => {
-    const today = new Date();
-    const dateKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+  it("applies the completed-shelf chance once through the real puzzle save path", () => {
+    const firstShelfPaidIds = getJarsByShelf(JAR_SHELVES[0].id)
+      .filter((jar) => jar.cost > 0)
+      .map((jar) => jar.id);
     saveGame({
-      ...loadSave(),
-      ownedJarIds: ["blueberry-jam"],
-      activeJarId: "blueberry-jam",
-      jarEffectProgress: { "blueberry-jam": 3 },
-      jarEffectDaily: { date: dateKey, count: 1 }
+      ownedJarIds: firstShelfPaidIds
     });
+    expect(getPantryGrowthBonusStatus()).toMatchObject({ completedShelves: 1, chance: 5, reward: 1 });
+
     const completedState = {
-      puzzleId: "jar-cap-integration-puzzle",
+      puzzleId: "pantry-passive-integration-puzzle",
       size: 5,
       mode: "fill",
       completed: true,
@@ -156,23 +132,25 @@ describe("active pantry jar effects", () => {
       cells: Array.from({ length: 5 }, () => Array(5).fill("fill"))
     };
 
-    expect(savePuzzleState(completedState, { reward: 0 })).toMatchObject({
-      jarEffectAdvanced: true,
-      jarEffectTriggered: false,
-      jarEffectReward: 0,
-      jarEffectProgress: 4
+    expect(savePuzzleState(completedState, { reward: 0, pantryBonusRoll: 0.02 })).toMatchObject({
+      pantryBonusTriggered: true,
+      pantryBonusReward: 1,
+      pantryBonusChance: 5,
+      jarEffectTriggered: true,
+      jarEffectReward: 1
     });
     expect(loadSave()).toMatchObject({
-      completedPuzzleIds: ["jar-cap-integration-puzzle"],
-      jarEffectProgress: { "blueberry-jam": 4 },
-      jarEffectCompletionKeys: ["normal:jar-cap-integration-puzzle"]
+      completedPuzzleIds: ["pantry-passive-integration-puzzle"],
+      pantrySpoons: 1,
+      pantryBonusCompletionKeys: ["normal:pantry-passive-integration-puzzle"]
     });
 
-    expect(savePuzzleState(completedState, { reward: 0 })).toMatchObject({
-      jarEffectAdvanced: false,
-      jarEffectProgress: 4
+    expect(savePuzzleState(completedState, { reward: 0, pantryBonusRoll: 0 })).toMatchObject({
+      pantryBonusTriggered: false,
+      pantryBonusReward: 0
     });
-    expect(loadSave().jarEffectCompletionKeys).toEqual(["normal:jar-cap-integration-puzzle"]);
+    expect(loadSave().pantrySpoons).toBe(1);
+    expect(loadSave().pantryBonusCompletionKeys).toEqual(["normal:pantry-passive-integration-puzzle"]);
   });
 });
 describe("player save profiles", () => {
@@ -406,7 +384,17 @@ describe("player save profiles", () => {
   it("opens exactly the intended stabilization gate subset from 40 through 55 paid jars", () => {
     setActivePlayerName("Jay");
     const paidJarIds = PANTRY_JARS.filter((jar) => jar.cost > 0).map((jar) => jar.id);
-    const stabilizationShelves = seasonShelves.slice(-6);
+    const stabilizationShelfIds = [
+      "shelf-herb-terrace",
+      "shelf-sunroom-table",
+      "shelf-orchard-window",
+      "shelf-lantern-courtyard",
+      "shelf-moonlit-veranda",
+      "shelf-hearth-gallery"
+    ];
+    const stabilizationShelves = stabilizationShelfIds.map((id) =>
+      seasonShelves.find((shelf) => shelf.id === id)
+    );
     const metStageIdsAt = (paidCount) => {
       saveGame({ ...loadSave(), ownedJarIds: paidJarIds.slice(0, paidCount) });
       return stabilizationShelves
@@ -426,6 +414,31 @@ describe("player save profiles", () => {
     ]);
     expect(metStageIdsAt(54)).toHaveLength(4);
     expect(metStageIdsAt(55)).toEqual(stabilizationShelves.map((shelf) => shelf.id));
+  });
+
+  it("opens the summer stage pairs only at 60, 65, and 70 paid collectibles", () => {
+    setActivePlayerName("Jay");
+    const paidCollectibleIds = PANTRY_JARS.filter((collectible) => collectible.cost > 0)
+      .map((collectible) => collectible.id);
+    const summerShelves = seasonShelves.filter((shelf) => shelf.artPackId === "summer-pantry");
+    const metStageIdsAt = (paidCount) => {
+      saveGame({ ...loadSave(), ownedJarIds: paidCollectibleIds.slice(0, paidCount) });
+      return summerShelves
+        .filter((shelf) => getShelfPantryRoomRequirement(shelf).met)
+        .map((shelf) => shelf.id);
+    };
+
+    expect(metStageIdsAt(59)).toEqual([]);
+    expect(metStageIdsAt(60)).toEqual(["shelf-summer-window", "shelf-fruit-market"]);
+    expect(metStageIdsAt(64)).toHaveLength(2);
+    expect(metStageIdsAt(65)).toEqual([
+      "shelf-summer-window",
+      "shelf-fruit-market",
+      "shelf-garden-basket",
+      "shelf-picnic-lawn"
+    ]);
+    expect(metStageIdsAt(69)).toHaveLength(4);
+    expect(metStageIdsAt(70)).toEqual(summerShelves.map((shelf) => shelf.id));
   });
 
   it("tracks first-run guide acknowledgements", () => {

@@ -1,81 +1,89 @@
 import { describe, expect, it } from "vitest";
-import { applyJarCompletionEffect, getJarEffectProgress } from "../src/game/jarEffects.js";
+import { JAR_SHELVES, getJarsByShelf } from "../src/data/pantryJars.js";
+import {
+  applyPantryGrowthBonus,
+  getPantryGrowthBonusChance,
+  getPantryGrowthBonusStatus
+} from "../src/game/jarEffects.js";
+
+function ownedForShelves(count) {
+  return JAR_SHELVES.slice(0, count).flatMap((shelf) =>
+    getJarsByShelf(shelf.id).filter((jar) => jar.cost > 0).map((jar) => jar.id)
+  );
+}
 
 function makeSave(overrides = {}) {
   return {
     pantrySpoons: 0,
-    jarEffectProgress: {},
-    jarEffectCompletionKeys: [],
-    jarEffectDaily: { date: "2026-08-11", count: 0 },
+    ownedJarIds: [],
+    pantryBonusCompletionKeys: [],
     ...overrides
   };
 }
 
-const commonJar = { id: "common-a", rarity: "common" };
-const rareJar = { id: "rare-a", rarity: "rare" };
-
-describe("pantry jar completion effects", () => {
-  it("awards one spoon on the eighth distinct completion for a common jar", () => {
-    const save = makeSave();
-    for (let index = 1; index <= 7; index += 1) {
-      expect(applyJarCompletionEffect(save, commonJar, `normal:p${index}`, "2026-08-11").jarEffectReward).toBe(0);
-    }
-    const result = applyJarCompletionEffect(save, commonJar, "normal:p8", "2026-08-11");
-    expect(result).toMatchObject({ jarEffectReward: 1, jarEffectAdvanced: true, jarEffectTriggered: true, jarEffectProgress: 0, jarEffectDailyCount: 1 });
-    expect(save.pantrySpoons).toBe(1);
+describe("pantry growth spoon bonus", () => {
+  it("front-loads the 24-shelf curve and caps at 26 percent", () => {
+    expect(Array.from({ length: 15 }, (_, count) => getPantryGrowthBonusChance(count))).toEqual([
+      0, 5, 7, 9, 10, 11, 12, 13, 13, 14, 14, 15, 15, 16, 16
+    ]);
+    expect(getPantryGrowthBonusChance(15)).toBe(17);
+    expect(getPantryGrowthBonusChance(24)).toBe(26);
+    expect(getPantryGrowthBonusChance(99)).toBe(26);
   });
 
-  it("does not count the same completion key twice", () => {
-    const save = makeSave();
-    applyJarCompletionEffect(save, commonJar, "normal:p1", "2026-08-11");
-    applyJarCompletionEffect(save, commonJar, "normal:p1", "2026-08-11");
-    expect(getJarEffectProgress(save, commonJar, "2026-08-11").progress).toBe(1);
-  });
-
-  it("banks progress and consumes completion keys after the daily payout limit", () => {
-    const save = makeSave({
-      jarEffectProgress: { "common-a": 3 },
-      jarEffectDaily: { date: "2026-08-11", count: 1 }
+  it("stays monotonic across every planned level and normalizes unusual input", () => {
+    const planned = Array.from({ length: 25 }, (_, count) => getPantryGrowthBonusChance(count));
+    planned.slice(1).forEach((chance, index) => {
+      expect(chance).toBeGreaterThanOrEqual(planned[index]);
     });
-    const result = applyJarCompletionEffect(save, commonJar, "normal:held", "2026-08-11");
-    expect(save.jarEffectProgress["common-a"]).toBe(4);
-    expect(save.jarEffectCompletionKeys).toContain("normal:held");
+    expect(getPantryGrowthBonusChance(-1)).toBe(0);
+    expect(getPantryGrowthBonusChance(Number.NaN)).toBe(0);
+    expect(getPantryGrowthBonusChance(Number.POSITIVE_INFINITY)).toBe(26);
+  });
+
+  it("counts only fully completed paid pantry shelves", () => {
+    const firstShelf = JAR_SHELVES[0];
+    const paidIds = getJarsByShelf(firstShelf.id).filter((jar) => jar.cost > 0).map((jar) => jar.id);
+    const partial = makeSave({ ownedJarIds: paidIds.slice(0, -1) });
+    const complete = makeSave({ ownedJarIds: paidIds });
+
+    expect(getPantryGrowthBonusStatus(partial)).toMatchObject({ completedShelves: 0, chance: 0 });
+    expect(getPantryGrowthBonusStatus(complete)).toMatchObject({
+      completedShelves: 1,
+      futureShelfCap: 24,
+      chance: 5,
+      reward: 1
+    });
+  });
+
+  it("awards one spoon when an independent roll is below the current chance", () => {
+    const save = makeSave({ ownedJarIds: ownedForShelves(1) });
+    const result = applyPantryGrowthBonus(save, "normal:p1", 0.049);
+
     expect(result).toMatchObject({
-      jarEffectAdvanced: true,
-      jarEffectTriggered: false,
-      jarEffectReward: 0,
-      jarEffectDailyCount: 1
+      pantryBonusTriggered: true,
+      pantryBonusReward: 1,
+      pantryBonusChance: 5,
+      completedPantryShelves: 1
     });
-  });
-
-  it("carries threshold overflow into the next eligible payout day", () => {
-    const save = makeSave({
-      jarEffectProgress: { "common-a": 7 },
-      jarEffectDaily: { date: "2026-08-11", count: 1 }
-    });
-
-    applyJarCompletionEffect(save, commonJar, "normal:banked-1", "2026-08-11");
-    applyJarCompletionEffect(save, commonJar, "normal:banked-2", "2026-08-11");
-    expect(save.jarEffectProgress["common-a"]).toBe(9);
-    expect(save.pantrySpoons).toBe(0);
-
-    const nextDay = applyJarCompletionEffect(save, commonJar, "daily:2026-08-12", "2026-08-12");
-    expect(nextDay).toMatchObject({ jarEffectTriggered: true, jarEffectReward: 1, jarEffectProgress: 2 });
-    expect(save.jarEffectProgress["common-a"]).toBe(2);
     expect(save.pantrySpoons).toBe(1);
+    expect(save.pantryBonusCompletionKeys).toEqual(["normal:p1"]);
   });
 
-  it("keeps progress independently for every jar", () => {
-    const save = makeSave();
-    applyJarCompletionEffect(save, commonJar, "normal:p1", "2026-08-11");
-    applyJarCompletionEffect(save, rareJar, "daily:p2:2026-08-11", "2026-08-11");
-    expect(save.jarEffectProgress).toEqual({ "common-a": 1, "rare-a": 1 });
+  it("treats the chance boundary as a miss and never rerolls the same completion", () => {
+    const save = makeSave({ ownedJarIds: ownedForShelves(1) });
+
+    expect(applyPantryGrowthBonus(save, "normal:p1", 0.05).pantryBonusTriggered).toBe(false);
+    expect(applyPantryGrowthBonus(save, "normal:p1", 0).pantryBonusTriggered).toBe(false);
+    expect(save.pantrySpoons).toBe(0);
+    expect(save.pantryBonusCompletionKeys).toEqual(["normal:p1"]);
   });
 
-  it("does nothing for a starter jar without a rarity effect", () => {
-    const save = makeSave();
-    const result = applyJarCompletionEffect(save, { id: "starter" }, "normal:p1", "2026-08-11");
-    expect(result.jarEffectReward).toBe(0);
-    expect(save.jarEffectCompletionKeys).toEqual([]);
+  it("uses the account-wide shelf rate regardless of which collectible is displayed", () => {
+    const save = makeSave({ ownedJarIds: ownedForShelves(3), featuredJarId: "starter-jam-jar" });
+    expect(getPantryGrowthBonusStatus(save)).toMatchObject({ completedShelves: 3, chance: 9 });
+
+    save.featuredJarId = "blueberry-jam";
+    expect(getPantryGrowthBonusStatus(save)).toMatchObject({ completedShelves: 3, chance: 9 });
   });
 });

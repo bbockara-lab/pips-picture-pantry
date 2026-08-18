@@ -1,0 +1,37 @@
+{
+  "release": "common-candidate-1.1.20",
+  "trimStartSeconds": 3.2,
+  "durationSeconds": 23.5,
+  "storyOrder": [
+    "puzzle gameplay",
+    "completion collectible bonus",
+    "600 puzzle library",
+    "15 badges",
+    "summer pantry"
+  ],
+  "creativeRules": [
+    "gameplay is the literal first scene",
+    "one Pip pose only; no overlapping characters",
+    "restrained background blur",
+    "large centered crisp gameplay",
+    "no forced ads is explicit"
+  ],
+  "outputs": [
+    {
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/video/en/summer-update-landscape-1920x1080.mp4",
+      "sha256": "383ff8eacbe6761cf24cc36964319562598a1abe72e8500bb59edc50ce20a90a"
+    },
+    {
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/video/en/summer-update-short-1080x1920.mp4",
+      "sha256": "9b9223eec986a8130d24d6463495dd7f0194f798d012b86ea0dfaac2a89669be"
+    },
+    {
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/video/ko/summer-update-landscape-1920x1080.mp4",
+      "sha256": "4f7939fe16ca08ccd1ccf2e2e315b4c37e8b122ea3276481b099dfdb5195f320"
+    },
+    {
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/video/ko/summer-update-short-1080x1920.mp4",
+      "sha256": "5b0718b1434adf08bb9e2eb31f8f1154c40410c47b1674a2f4b928e0d4ba767a"
+    }
+  ]
+}

@@ -5,7 +5,7 @@ import { getPreviousSeasonShelf, isSeasonShelfComplete } from "./seasonShelfProg
 import { restoreState, serializeState } from "./puzzleState.js";
 import { JAR_SHELVES, PANTRY_JARS, getJarById, getJarsByShelf } from "../data/pantryJars.js";
 import { getPantryShelfForSeasonShelf } from "../data/stagePantryLinks.js";
-import { applyJarCompletionEffect, getJarEffectDefinition } from "./jarEffects.js";
+import { applyPantryGrowthBonus, getPantryGrowthBonusStatus as readPantryGrowthBonusStatus } from "./jarEffects.js";
 
 const LEGACY_SAVE_KEY = "pips-picture-pantry:v0.1:save";
 const SAVE_PREFIX = "pips-picture-pantry:v0.1:save:";
@@ -87,7 +87,7 @@ export function savePuzzleState(state, rewardOptions = {}) {
   let puzzleReward = 0;
   let dailyBonus = 0;
   let dailyRewardClaimed = false;
-  let jarEffectResult = createEmptyJarEffectResult(save);
+  let jarEffectResult = createEmptyPantryBonusResult(save);
   save.puzzleStates[state.puzzleId] = serializeState(state);
 
   if (state.completed && !wasCompleted) {
@@ -116,7 +116,7 @@ export function savePuzzleState(state, rewardOptions = {}) {
     const completionKey = rewardOptions.dailyKey
       ? `daily:${dateKey}`
       : `normal:${String(state.puzzleId || "")}`;
-    jarEffectResult = applyActiveJarEffect(save, completionKey, dateKey);
+    jarEffectResult = applyPantryGrowthBonus(save, completionKey, rewardOptions.pantryBonusRoll);
   }
 
   saveGame(save);
@@ -167,40 +167,8 @@ export function getDailyCompletedDate() {
   return loadSave()?.dailyCompletedDate || null;
 }
 
-export function getActiveJarId() {
-  const save = loadSave();
-  const jarId = save?.activeJarId || null;
-  const jar = jarId ? getJarById(jarId) : null;
-  return jar && getJarEffectDefinition(jar) && save.ownedJarIds.includes(jarId) ? jarId : null;
-}
-
-export function setActiveJar(jarId) {
-  const save = loadSave() || createEmptySave();
-  const jar = getJarById(jarId);
-  if (!jar || !getJarEffectDefinition(jar) || !save.ownedJarIds.includes(jar.id)) return false;
-  save.activeJarId = jar.id;
-  saveGame(save);
-  return true;
-}
-
-export function getActiveJarEffectStatus(dateKey = getLocalDateKey()) {
-  const save = loadSave() || createEmptySave();
-  return getJarEffectStatus(save.activeJarId, dateKey, save);
-}
-
-export function getJarEffectStatus(jarId, dateKey = getLocalDateKey(), sourceSave = null) {
-  const save = sourceSave || loadSave() || createEmptySave();
-  const jar = jarId ? getJarById(jarId) : null;
-  const definition = getJarEffectDefinition(jar);
-  const dailyCount = save.jarEffectDaily?.date === dateKey ? Number(save.jarEffectDaily.count || 0) : 0;
-  return {
-    jar,
-    definition,
-    active: Boolean(jar && save.activeJarId === jar.id),
-    progress: jar ? Math.max(0, Number(save.jarEffectProgress[jar.id] || 0)) : 0,
-    dailyCount,
-    dailyLimit: definition?.dailyLimit || 0
-  };
+export function getPantryGrowthBonusStatus() {
+  return readPantryGrowthBonusStatus(loadSave() || createEmptySave());
 }
 
 export function claimLoginBonus(dateKey = getLocalDateKey()) {
@@ -436,11 +404,7 @@ export function getPantryRoomStepCount() {
 }
 
 export function getCompletedPantryJarShelfCount() {
-  const ownedIds = new Set(getOwnedJarIds());
-  return JAR_SHELVES.filter((shelf) => {
-    const paidJars = getJarsByShelf(shelf.id).filter((jar) => jar.cost > 0);
-    return paidJars.length > 0 && paidJars.every((jar) => ownedIds.has(jar.id));
-  }).length;
+  return readPantryGrowthBonusStatus(loadSave() || createEmptySave()).completedShelves;
 }
 
 export function getPackPantryRoomRequirement(pack) {
@@ -740,7 +704,7 @@ export function recordReplayReward({ puzzleId, clean = false, picked = false, da
   const reward = getReplayPickReward();
   save.replayRewardedPuzzleIdsByDate[dateKey] = [...rewardedToday, normalizedPuzzleId];
   save.pantrySpoons += reward;
-  const jarEffectResult = applyActiveJarEffect(save, `replay:${dateKey}:${normalizedPuzzleId}`, dateKey);
+  const jarEffectResult = applyPantryGrowthBonus(save, `replay:${dateKey}:${normalizedPuzzleId}`);
   saveGame(save);
   return {
     ...createReplayRewardResult(reward, true, "claimed", save.replayRewardedPuzzleIdsByDate[dateKey].length),
@@ -748,23 +712,15 @@ export function recordReplayReward({ puzzleId, clean = false, picked = false, da
   };
 }
 
-function applyActiveJarEffect(save, completionKey, dateKey) {
-  const jar = save.activeJarId ? getJarById(save.activeJarId) : null;
-  return applyJarCompletionEffect(save, jar, completionKey, dateKey);
-}
-
-function createEmptyJarEffectResult(save) {
-  const jar = save?.activeJarId ? getJarById(save.activeJarId) : null;
-  const definition = getJarEffectDefinition(jar);
+function createEmptyPantryBonusResult(save) {
+  const status = readPantryGrowthBonusStatus(save);
   return {
-    activeJarId: jar?.id || null,
+    pantryBonusReward: 0,
+    pantryBonusTriggered: false,
+    pantryBonusChance: status.chance,
+    completedPantryShelves: status.completedShelves,
     jarEffectReward: 0,
-    jarEffectAdvanced: false,
-    jarEffectTriggered: false,
-    jarEffectProgress: jar ? Math.max(0, Number(save?.jarEffectProgress?.[jar.id] || 0)) : 0,
-    jarEffectTarget: definition?.target || 0,
-    jarEffectDailyCount: 0,
-    jarEffectDailyLimit: definition?.dailyLimit || 0
+    jarEffectTriggered: false
   };
 }
 
@@ -903,6 +859,9 @@ function normalizeSave(parsed) {
       : { date: null, count: 0 },
     jarEffectCompletionKeys: Array.isArray(parsed?.jarEffectCompletionKeys)
       ? Array.from(new Set(parsed.jarEffectCompletionKeys.map((key) => String(key || "")).filter(Boolean))).slice(-1200)
+      : [],
+    pantryBonusCompletionKeys: Array.isArray(parsed?.pantryBonusCompletionKeys)
+      ? Array.from(new Set(parsed.pantryBonusCompletionKeys.map((key) => String(key || "")).filter(Boolean))).slice(-1600)
       : [],
     ownedDecorationIds: Array.isArray(parsed?.ownedDecorationIds) ? Array.from(new Set(parsed.ownedDecorationIds)) : [],
     equippedDecorations: parsed?.equippedDecorations && typeof parsed.equippedDecorations === "object" ? parsed.equippedDecorations : {},

@@ -8,16 +8,24 @@ import {
   getPackBadgeStatus
 } from "../src/game/badges.js";
 
-describe("twelve-stage shelf badges", () => {
-  it("maps twelve badges across four shelf groups", () => {
-    expect(BADGE_MILESTONES).toHaveLength(12);
-    expect(BADGE_MILESTONES.map((badge) => badge.stage)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-    expect(BADGE_MILESTONES.map((badge) => badge.group)).toEqual(["A", "A", "A", "B", "B", "B", "C", "C", "C", "D", "D", "D"]);
-    expect(BADGE_MILESTONES.at(-1)).toMatchObject({ id: "badge-pip-hearth-gallery", final: true });
+describe("fifteen-stage shelf badges", () => {
+  it("maps fifteen badges across five shelf groups", () => {
+    expect(BADGE_MILESTONES).toHaveLength(15);
+    expect(BADGE_MILESTONES.map((badge) => badge.stage)).toEqual(Array.from({ length: 15 }, (_, index) => index));
+    expect(BADGE_MILESTONES.map((badge) => badge.group)).toEqual(["A", "A", "A", "B", "B", "B", "C", "C", "C", "D", "D", "D", "E", "E", "E"]);
+    expect(BADGE_MILESTONES.at(-1)).toMatchObject({ id: "badge-pip-sunset-feast", final: true });
+  });
+
+  it("keeps each summer Pantry shelf in its own two-stage badge milestone", () => {
+    expect(BADGE_MILESTONES.slice(-3).map((badge) => badge.shelfIds)).toEqual([
+      ["shelf-summer-window", "shelf-fruit-market"],
+      ["shelf-garden-basket", "shelf-picnic-lawn"],
+      ["shelf-seaside-table", "shelf-sunset-feast"]
+    ]);
   });
 
   it("keeps each Step 62 shelf in its own two-shelf badge milestone", () => {
-    expect(BADGE_MILESTONES.slice(-3).map((badge) => badge.shelfIds)).toEqual([
+    expect(BADGE_MILESTONES.slice(9, 12).map((badge) => badge.shelfIds)).toEqual([
       ["shelf-herb-terrace", "shelf-sunroom-table"],
       ["shelf-orchard-window", "shelf-lantern-courtyard"],
       ["shelf-moonlit-veranda", "shelf-hearth-gallery"]

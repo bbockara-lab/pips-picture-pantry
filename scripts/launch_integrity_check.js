@@ -125,7 +125,7 @@ function checkPackUnlockGuidance() {
   expectIncludes("src/ui/pantryView.js", "linkedStages.every(isShelfUnlocked)", "Pantry shelf open-state badge");
   expectIncludes("src/ui/pantryView.js", "pantry.shelfStageUnlocked", "opened stage badge copy");
   expectIncludes("src/data/stagePantryLinks.js", "PAID_JARS_PER_SHELF = 5", "five paid jars per Pantry shelf mapping");
-  expectIncludes("tests/stagePantryLinks.test.js", "maps all eleven paid Pantry shelves", "Pantry-stage mapping regression test");
+  expectIncludes("tests/stagePantryLinks.test.js", "maps all fourteen paid Pantry shelves", "Pantry-stage mapping regression test");
   expectExcludes(hub, "if (!previousShelf || !isShelfUnlocked(previousShelf)) return;", "next-locked-stage-only filter");
   expectIncludes(hub, "locked-stage-preview", "future stage silhouettes");
   expectIncludes(hub, "pack-stage-complete-badge", "completed stage badge");
@@ -205,7 +205,7 @@ function checkPantryJarGuide() {
   expectIncludes("src/ui/pantryView.js", "scheduleInitialJarDetailResume({", "guide-safe jar detail resume scheduler");
   expectIncludes("src/ui/pantryView.js", "guidePending: shouldShowPantryJarIntro()", "guide-open resume gate");
   expectExcludes("src/ui/pantryView.js", "openDetail(initialJar)", "guide-reentering initial jar path");
-  expectIncludes("src/ui/guideDialog.js", 'pantryJarIntro: ["guide.pantryJarIntro.step1", "guide.pantryJarIntro.step2"]', "two-step Pantry jar guide");
+  expectIncludes("src/ui/guideDialog.js", 'pantryJarIntro: ["guide.pantryJarIntro.step1", "guide.pantryJarIntro.step2", "guide.pantryJarIntro.step3"]', "three-step Pantry jar guide");
   expectIncludes("src/ui/settingsView.js", '"pantryJarIntro", "pantry", onReplayGuide', "Pantry jar guide replay");
   expectIncludes("src/i18n/en.js", "Display on home puts it beside me in the Puzzle Room.", "English home-display explanation");
   expectIncludes("src/i18n/ko.js", "홈에 표시하기를 누르면 퍼즐방의 제 옆에 놓여요.", "Korean home-display explanation");

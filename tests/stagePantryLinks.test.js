@@ -8,7 +8,7 @@ import {
 } from "../src/data/stagePantryLinks.js";
 
 describe("Pantry shelf and puzzle stage links", () => {
-  it("maps all eleven paid Pantry shelves to the authored stage gates", () => {
+  it("maps all fourteen paid Pantry shelves to the authored stage gates", () => {
     expect(JAR_SHELVES.map((shelf) => ({
       shelf: shelf.id,
       stages: getSeasonShelvesForPantryShelf(shelf.id).map((stage) => stage.id)
@@ -23,7 +23,10 @@ describe("Pantry shelf and puzzle stage links", () => {
       { shelf: "tea", stages: ["shelf-garden-path", "shelf-village-pantry"] },
       { shelf: "sunroom", stages: ["shelf-herb-terrace", "shelf-sunroom-table"] },
       { shelf: "orchard", stages: ["shelf-orchard-window", "shelf-lantern-courtyard"] },
-      { shelf: "hearth", stages: ["shelf-moonlit-veranda", "shelf-hearth-gallery"] }
+      { shelf: "hearth", stages: ["shelf-moonlit-veranda", "shelf-hearth-gallery"] },
+      { shelf: "summer-orchard", stages: ["shelf-summer-window", "shelf-fruit-market"] },
+      { shelf: "sunny-garden", stages: ["shelf-garden-basket", "shelf-picnic-lawn"] },
+      { shelf: "picnic-table", stages: ["shelf-seaside-table", "shelf-sunset-feast"] }
     ]);
     expect(getPantryShelfForSeasonShelf(seasonShelves[0])).toBeNull();
   });

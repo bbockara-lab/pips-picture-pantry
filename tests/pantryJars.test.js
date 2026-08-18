@@ -42,11 +42,11 @@ beforeEach(() => {
 });
 
 describe("Pantry jar collection", () => {
-  it("defines eleven shelves with six jars and one starter each", () => {
-    expect(JAR_SHELVES).toHaveLength(11);
-    expect(PANTRY_JARS).toHaveLength(66);
-    expect(PANTRY_JARS.filter((jar) => jar.cost > 0)).toHaveLength(55);
-    expect(PANTRY_JARS.reduce((total, jar) => total + jar.cost, 0)).toBe(6415);
+  it("defines fourteen shelves with six collectibles and one starter each", () => {
+    expect(JAR_SHELVES).toHaveLength(14);
+    expect(PANTRY_JARS).toHaveLength(84);
+    expect(PANTRY_JARS.filter((jar) => jar.cost > 0)).toHaveLength(70);
+    expect(PANTRY_JARS.reduce((total, jar) => total + jar.cost, 0)).toBe(10655);
     JAR_SHELVES.forEach((shelf) => {
       const jars = PANTRY_JARS.filter((jar) => jar.shelfId === shelf.id);
       expect(jars).toHaveLength(6);

@@ -1,74 +1,76 @@
-const EFFECT_BY_RARITY = Object.freeze({
-  common: Object.freeze({ target: 8, dailyLimit: 1, reward: 1 }),
-  rare: Object.freeze({ target: 7, dailyLimit: 1, reward: 1 }),
-  special: Object.freeze({ target: 6, dailyLimit: 2, reward: 1 }),
-  luxury: Object.freeze({ target: 5, dailyLimit: 2, reward: 1 })
-});
+import { JAR_SHELVES, getJarsByShelf } from "../data/pantryJars.js";
 
-export const JAR_EFFECT_COMPLETION_RETENTION = 1200;
+export const PANTRY_BONUS_FUTURE_SHELF_CAP = 24;
+export const PANTRY_BONUS_MAX_CHANCE = 26;
+export const PANTRY_BONUS_REWARD = 1;
+export const PANTRY_BONUS_COMPLETION_RETENTION = 1600;
 
-export function getJarEffectDefinition(jar) {
-  return EFFECT_BY_RARITY[jar?.rarity] || null;
+// Front-load the first Pantry levels so the effect is visible early, then
+// taper toward the existing 16% live-content and 26% future-content caps.
+export const PANTRY_BONUS_EARLY_CURVE = Object.freeze([
+  0, 5, 7, 9, 10, 11, 12, 13, 13, 14, 14, 15, 15, 16, 16
+]);
+
+export function getCompletedPantryShelfCountFromSave(save) {
+  const owned = new Set(Array.isArray(save?.ownedJarIds) ? save.ownedJarIds : []);
+  return JAR_SHELVES.filter((shelf) => {
+    const paidJars = getJarsByShelf(shelf.id).filter((jar) => jar.cost > 0);
+    return paidJars.length > 0 && paidJars.every((jar) => owned.has(jar.id));
+  }).length;
 }
 
-export function getJarEffectProgress(save, jar, dateKey) {
-  const jarId = jar?.id || null;
-  const definition = getJarEffectDefinition(jar);
-  const daily = save?.jarEffectDaily?.date === dateKey
-    ? save.jarEffectDaily
-    : { date: dateKey, count: 0 };
+// The first completed shelf starts at 5%. Growth tapers through the 14 live
+// shelves, then resumes at one point per future shelf to reach 26% at 24.
+export function getPantryGrowthBonusChance(completedShelfCount) {
+  const completed = Math.max(0, Math.floor(Number(completedShelfCount) || 0));
+  if (completed < PANTRY_BONUS_EARLY_CURVE.length) {
+    return PANTRY_BONUS_EARLY_CURVE[completed];
+  }
+  return Math.min(PANTRY_BONUS_MAX_CHANCE, completed + 2);
+}
+
+export function getPantryGrowthBonusStatus(save) {
+  const completedShelves = getCompletedPantryShelfCountFromSave(save);
   return {
-    progress: Math.max(0, Number(save?.jarEffectProgress?.[jarId] || 0)),
-    dailyCount: Math.max(0, Number(daily.count || 0)),
-    target: definition?.target || 0,
-    dailyLimit: definition?.dailyLimit || 0
+    completedShelves,
+    futureShelfCap: PANTRY_BONUS_FUTURE_SHELF_CAP,
+    chance: getPantryGrowthBonusChance(completedShelves),
+    reward: PANTRY_BONUS_REWARD
   };
 }
 
-export function applyJarCompletionEffect(save, jar, completionKey, dateKey) {
-  const definition = getJarEffectDefinition(jar);
+export function applyPantryGrowthBonus(save, completionKey, randomValue = Math.random()) {
+  const status = getPantryGrowthBonusStatus(save);
   const base = {
-    activeJarId: jar?.id || null,
+    pantryBonusReward: 0,
+    pantryBonusTriggered: false,
+    pantryBonusChance: status.chance,
+    completedPantryShelves: status.completedShelves,
+    // Compatibility for completion consumers while old saves migrate.
     jarEffectReward: 0,
-    jarEffectAdvanced: false,
-    jarEffectTriggered: false,
-    jarEffectProgress: 0,
-    jarEffectTarget: definition?.target || 0,
-    jarEffectDailyCount: 0,
-    jarEffectDailyLimit: definition?.dailyLimit || 0
+    jarEffectTriggered: false
   };
-  if (!definition || !completionKey || !dateKey) return base;
+  if (!completionKey || status.chance <= 0) return base;
 
-  save.jarEffectProgress ||= {};
-  save.jarEffectCompletionKeys = Array.isArray(save.jarEffectCompletionKeys)
-    ? save.jarEffectCompletionKeys
+  save.pantryBonusCompletionKeys = Array.isArray(save.pantryBonusCompletionKeys)
+    ? save.pantryBonusCompletionKeys
     : [];
-  if (save.jarEffectCompletionKeys.includes(completionKey)) {
-    return { ...base, jarEffectProgress: Math.max(0, Number(save.jarEffectProgress[jar.id] || 0)) };
-  }
-  if (save.jarEffectDaily?.date !== dateKey) save.jarEffectDaily = { date: dateKey, count: 0 };
+  if (save.pantryBonusCompletionKeys.includes(completionKey)) return base;
+  save.pantryBonusCompletionKeys = [...save.pantryBonusCompletionKeys, completionKey]
+    .slice(-PANTRY_BONUS_COMPLETION_RETENTION);
 
-  const dailyCount = Math.max(0, Number(save.jarEffectDaily.count || 0));
-  let progress = Math.max(0, Number(save.jarEffectProgress[jar.id] || 0));
-  save.jarEffectCompletionKeys = [...save.jarEffectCompletionKeys, completionKey]
-    .slice(-JAR_EFFECT_COMPLETION_RETENTION);
-  progress += 1;
-  base.jarEffectAdvanced = true;
+  const numericRoll = Number(randomValue);
+  const roll = Number.isFinite(numericRoll)
+    ? Math.max(0, Math.min(0.999999, numericRoll))
+    : Math.random();
+  if (roll >= status.chance / 100) return base;
 
-  // The daily limit caps payouts, not eligible completion progress. Normal
-  // puzzles only have one first-completion opportunity, so dropping progress
-  // here would make that contribution unrecoverable after the cap is reached.
-  if (progress >= definition.target && dailyCount < definition.dailyLimit) {
-    progress -= definition.target;
-    save.jarEffectDaily.count = dailyCount + 1;
-    save.pantrySpoons += definition.reward;
-    base.jarEffectReward = definition.reward;
-    base.jarEffectTriggered = true;
-  }
-  save.jarEffectProgress[jar.id] = progress;
+  save.pantrySpoons += PANTRY_BONUS_REWARD;
   return {
     ...base,
-    jarEffectProgress: progress,
-    jarEffectDailyCount: Math.max(0, Number(save.jarEffectDaily.count || 0))
+    pantryBonusReward: PANTRY_BONUS_REWARD,
+    pantryBonusTriggered: true,
+    jarEffectReward: PANTRY_BONUS_REWARD,
+    jarEffectTriggered: true
   };
 }

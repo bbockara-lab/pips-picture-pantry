@@ -56,6 +56,24 @@
 .pantry-shelf--celebrating .pantry-jar:nth-child(5) .pantry-jar__visual { animation-delay: 280ms; }
 .pantry-shelf--celebrating .pantry-jar:nth-child(6) .pantry-jar__visual { animation-delay: 350ms; }
 
+.pantry-shelf__bonus-celebration {
+  position: absolute;
+  z-index: 30;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 7px 13px;
+  border: 2px solid rgba(116, 73, 20, 0.64);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fffbd7, #ffd765);
+  box-shadow: 0 5px 14px rgba(90, 52, 14, 0.28);
+  color: #654019;
+  font-size: 0.86rem;
+  font-weight: 900;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 .pantry-sparkle {
   position: absolute;
   z-index: 20;

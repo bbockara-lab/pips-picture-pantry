@@ -74,7 +74,7 @@ function assertRuntimeBackground({ id, sourceId, usage, runtimeSource, runtimeFi
 }
 
 assertRuntimeBackground({
-  id: "pip-puzzle-workshop-v1",
+  id: "pip-puzzle-workshop-summer-v1",
   sourceId: "pip-puzzle-workshop-source-v1",
   usage: "puzzle-home-background",
   runtimeSource: puzzleHubSource,

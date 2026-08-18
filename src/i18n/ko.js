@@ -1,3 +1,10 @@
+import { SUMMER_PUZZLES } from "../data/summerPuzzles.js";
+
+const summerPuzzleCopy = Object.fromEntries(SUMMER_PUZZLES.map((puzzle) => [
+  puzzle.id,
+  { title: puzzle.titleKo, imageName: puzzle.titleKo }
+]));
+
 export const ko = {
   app: {
     title: "\ud54d\uc758 \ud37c\uc990\ubc29",
@@ -103,6 +110,7 @@ export const ko = {
     groupB: "\uc120\ubc18 B - 핍\uc758 \ube75\uc9d1",
     groupC: "\uc120\ubc18 C - 핍\uc758 \ub9c8\uc744",
     groupD: "\uc120\ubc18 D - 핍\uc758 \uc0ac\uacc4\uc808",
+    groupE: "선반 E - 핍의 여름",
     earned: "\uc218\uc9d1 \uc644\ub8cc",
     stageRequirement: "Stage {stage} \uc644\ub8cc",
     detailEarned: "\uc18c\uc911\ud55c \ubc30\uc9c0\uac00 \uc120\ubc18 \uc704\uc5d0\uc11c \ube5b\ub098\uace0 \uc788\uc5b4\uc694.",
@@ -119,6 +127,8 @@ export const ko = {
     pipClockCorner: "\uc2dc\uacc4 \ucf54\ub108",
     pipFullPantry: "\uac00\ub4dd \ucc2c \ud32c\ud2b8\ub9ac",
     pipPortrait: "핍 \ucd08\uc0c1\ud654",
+    summerPantry: "여름 팬트리 배지",
+    summerPantryDesc: "여름 팬트리 그림 컬렉션을 완성해요.",
     progress: "{completed}/{total}\uc7a5",
     earnedAria: "{title} \ud68d\ub4dd",
     progressAria: "{title} \uc9c4\ud589 {completed}/{total}",
@@ -179,7 +189,7 @@ export const ko = {
   },
   timeAttack: {
     title: "\ud0c0\uc784\uc5b4\ud0dd",
-    body: "\uC138 \uD310, \uC870\uAE08\uC529 \uCEE4\uC838\uC694.",
+    body: "총 3분 안에 5×5 → 8×8 → 10×10 세 판을 이어서 풀어요. 판이 바뀌어도 시간은 멈추거나 초기화되지 않아요.",
     hubEyebrow: "\ud0c0\uc784\uc5b4\ud0dd",
     hubTitle: "\uD37C\uC990 3\uD310 \uB3C4\uC804",
     hubAction: "\uc2dc\uc791",
@@ -249,7 +259,7 @@ export const ko = {
     },
     pantryJarIntro: {
       speakerName: "핍",
-      step1: "이 항아리를 선택하면 이 선반 스테이지의 퍼즐 완료 화면에서 제 옆에 함께 나와요.",
+      step1: "이 수집품을 선택하면 이 선반 스테이지의 퍼즐 완료 화면에서 제 옆에 함께 나와요.",
       step2: "홈에 표시하기를 누르면 퍼즐방의 제 옆에 놓여요. 두 선택은 언제든 바꿀 수 있어요!",
       step3: "효과 활성화는 또 다른 선택이에요. 대상 그림을 완성해 진행도를 채우면 표시된 추가 스푼을 받아요."
     },
@@ -261,9 +271,9 @@ export const ko = {
     timeAttack: {
       speakerName: "시계 할아버지",
       title: "\uC2DC\uACC4 \uD560\uC544\uBC84\uC9C0\uC758 \uBE60\uB978 \uB3C4\uC804",
-      step1: "허허, 잘 왔어요! 저는 시계 할아버지예요. 이제 타임어택을 설명해 드릴게요!",
-      step2: "\uC2DC\uAC04\uC774 \uBD80\uC871\uD560 \uB550 \uD78C\uD2B8 \uD558\uB098\uAC00 \uD310\uC744 \uAD6C\uD560 \uC218 \uC788\uC5B4\uC694.",
-      step3: "\uC5BC\uB9C8\uB098 \uBE60\uB978\uC9C0 \uD55C\uBC88 \uBD10\uBCFC\uAE4C\uC694?"
+      step1: "총 3분 동안 5×5, 8×8, 10×10 퍼즐을 차례로 풀어요. 다음 판으로 넘어가도 시계는 계속 갑니다.",
+      step2: "세 판을 모두 끝내면 기록이 남아요. 시간이 끝나도 지금까지 맞힌 칸은 진행 기록에 포함됩니다.",
+      step3: "힌트는 필수가 아니에요. 사용하면 스푼이 2개, 4개, 7개 순서로 들고 기록 점수도 조금 줄어드니 정말 필요할 때만 골라요."
     },
     map: {
       speakerName: "핍",
@@ -311,7 +321,7 @@ export const ko = {
   playPause: {
     title: "퍼즐 일시정지",
     continue: "계속 플레이",
-    home: "워크숍 홈",
+    home: "핍의 퍼즐방",
     pictures: "그림 목록"
   },
   controls: {
@@ -380,9 +390,7 @@ export const ko = {
     puzzleReward: "퍼즐 완성 +{count}sp",
     dailyBonus: "일일 보너스 +{count}sp",
     stageBonus: "선반 완성 보너스 +{count}sp",
-    jarEffectBonus: "활성 항아리 보너스 +{count}sp",
-    jarEffectProgress: "활성 항아리 진행도 {progress}/{target}",
-    jarEffectProgressBanked: "항아리 진척 이월 {progress}/{target} · 다음 지급 가능일에 반영",
+    jarEffectBonus: "추가 스푼 · 팬트리 성장 보너스 +{count}sp",
     dailyReward: "\uC624\uB298\uC758 \uADF8\uB9BC \uC644\uB8CC! \uC2A4\uD47C +{count}\uC744 \uBC1B\uC558\uC5B4\uC694.",
     replayReward: "\uAE54\uB054\uD55C \uB9AC\uD50C\uB808\uC774! \uC2A4\uD47C +{count}. \uC624\uB298 \uB0A8\uC740 \uB9AC\uD50C\uB808\uC774 \uBCF4\uC0C1\uC740 {remaining}\uBC88\uC774\uC5D0\uC694.",
     replayNoReward: "\uB9AC\uD50C\uB808\uC774 \uC644\uB8CC! \uC774\uBC88\uC5D0\uB294 \uC2A4\uD47C \uC5C6\uC774, \uCE74\uB4DC\uB294 \uC548\uC804\uD558\uAC8C \uADF8\uB300\uB85C\uC608\uC694.",
@@ -460,9 +468,21 @@ export const ko = {
     moonlitVerandaTeaser: "차 쟁반과 누비 이불, 정원 소품들이 달빛 아래 쉬고 있어요",
     hearthGallery: "난롯가 갤러리",
     hearthGalleryTeaser: "마지막 마을 보물들이 따뜻한 난롯가에 모두 모였어요",
+    summerWindow: "여름 창가",
+    summerWindowTeaser: "덧창을 열면 여름 햇살과 과일이 놓인 테이블이 보여요",
+    fruitMarket: "과일 장터",
+    fruitMarketTeaser: "잘 익은 과일 바구니가 햇살 좋은 장터를 채워요",
+    gardenBasket: "정원 바구니",
+    gardenBasketTeaser: "갓 따 온 여름 채소와 허브가 바구니에서 기다려요",
+    picnicLawn: "피크닉 잔디밭",
+    picnicLawnTeaser: "체크 담요와 시원한 간식이 나무 그늘 아래 기다려요",
+    seasideTable: "바닷가 테이블",
+    seasideTableTeaser: "조개와 레모네이드, 바닷바람이 테이블에 모여요",
+    sunsetFeast: "노을빛 만찬",
+    sunsetFeastTeaser: "핍의 여름 팬트리가 저녁 만찬과 함께 빛나요",
     lockConditionPuzzle: "\uc774\uc804 \ud37c\uc990 {count}\uac1c \ub354 \ud544\uc694",
     lockConditionPuzzleDone: "\uc774\uc804 \uc120\ubc18 \uc644\uc131 ✓",
-    lockConditionPantry: "\ud32c\ud2b8\ub9ac \ubcd1 {count}\uac1c \ub354 \ud544\uc694",
+    lockConditionPantry: "팬트리 수집품 {count}개 더 필요",
     lockConditionPantryDone: "\ud32c\ud2b8\ub9ac \uc870\uac74 \ucda9\uc871 ✓"
   },
   shelf: {
@@ -471,6 +491,7 @@ export const ko = {
   },
   home: {
     sceneAria: "\ud54d\uc758 \ud37c\uc990\ubc29",
+    summerEventWeek: "\uc5ec\ub984 \ud32c\ud2b8\ub9ac \uc8fc\uac04",
     keepsakeShelfAria: "\uD648 \uC804\uC2DC \uC120\uBC18",
     destinationsAria: "\ubc14\ub85c \uac00\uae30",
     currentPicture: "\uc9c0\uae08 \ud480 \uadf8\ub9bc",
@@ -491,6 +512,13 @@ export const ko = {
     timeAttackLabel: "\ud0c0\uc784\uc5b4\ud0dd",
     albumLabel: "\uc568\ubc94",
     mapLabel: "\ubc30\uc9c0"
+  },
+  updatePolicy: {
+    optionalMessage: "\uc0c8 \ubc84\uc804 {version}\uc774 \ub098\uc654\uc5b4\uc694! \uc2a4\ud1a0\uc5b4\ub85c \uac08\uae4c\uc694?",
+    mandatoryTitle: "\ud544\uc218 \uc5c5\ub370\uc774\ud2b8\uac00 \ub098\uc654\uc5b4\uc694",
+    mandatoryMessage: "\uc548\uc804\ud558\uac8c \uacc4\uc18d \ud50c\ub808\uc774\ud558\ub824\uba74 {version} \ubc84\uc804\uc73c\ub85c \uc5c5\ub370\uc774\ud2b8\ud574 \uc8fc\uc138\uc694.",
+    updateNow: "\uc5c5\ub370\uc774\ud2b8",
+    later: "\ub098\uc911\uc5d0"
   },
   packs: {
     free: "\uae30\ubcf8 \ud3ec\ud568",
@@ -527,7 +555,11 @@ export const ko = {
     "village-pantry": {
       title: "\ub9c8\uc744 \ud32c\ud2b8\ub9ac",
       note: "\uccab \ub85c\ub4dc\ub9f5\uc744 \ub9c8\ubb34\ub9ac\ud558\ub294 \uadf8\ub9bc"
-    }    ,
+    },
+    "summer-pantry": {
+      title: "여름 팬트리",
+      note: "장터와 정원, 피크닉과 바닷가 간식으로 채운 햇살 좋은 계절"
+    },
     "cafe-window-plus": {
       title: "Cafe Window Plus",
       note: "\ucd94\ud6c4 \uc120\ud0dd\ud615 \ud14c\ub9c8 \uc2a4\ud14c\uc774\uc9c0"
@@ -610,6 +642,31 @@ export const ko = {
       premium: "프리미엄"
     },
     slotAction: "{slot}에 놓을 장식 보기",
+    shelf: {
+      summerOrchard: "여름 과수원",
+      sunnyGarden: "햇살 정원",
+      picnicTable: "피크닉 테이블"
+    },
+    collectible: {
+      watermelonBasket: "수박 바구니",
+      peachBasket: "복숭아 바구니",
+      cherryBowl: "체리 그릇",
+      berryPunnet: "베리 팩",
+      melonCrate: "멜론 상자",
+      plumBasket: "리본 자두 바구니",
+      tomatoTrug: "토마토 채집 바구니",
+      sweetCornBasket: "옥수수 바구니",
+      cucumberTray: "오이 쟁반",
+      basilBundle: "바질 묶음",
+      lemonBasket: "레몬 바구니",
+      pepperBunch: "파프리카 묶음",
+      lemonadePitcher: "레모네이드 피처",
+      fruitTart: "과일 타르트",
+      picnicSandwiches: "피크닉 샌드위치",
+      summerSalad: "여름 샐러드",
+      berryShortcake: "베리 쇼트케이크",
+      shavedIceBowl: "빙수 그릇"
+    },
     emptySlot: "포근한 장식을 기다리는 중",
     owned: "보유 중",
     equipped: "장착됨",
@@ -644,7 +701,10 @@ export const ko = {
       tea: "보태니컬 차",
       sunroom: "햇살 온실 허브",
       orchard: "과수원 과일 저장식",
-      hearth: "화롯가 달콤한 병"
+      hearth: "화롯가 달콤한 병",
+      summerOrchard: "여름 과수원",
+      sunnyGarden: "햇살 정원",
+      picnicTable: "피크닉 테이블"
     },
     jar: {
       balance: "\uD83E\uDD44 {count}",
@@ -654,21 +714,22 @@ export const ko = {
       equipped: "\uD604\uC7AC \uC120\uD0DD\uB428 ✓",
       buyAction: "{count} \uD83E\uDD44 \uAD6C\uB9E4",
       needSpoons: "\uC2A4\uD47C {count}\uAC1C \uB354 \uD544\uC694",
-      equipAction: "\uC774 \uBCD1 \uC120\uD0DD\uD558\uAE30",
+      equipAction: "이 수집품 선택하기",
       close: "\uB2EB\uAE30",
       featureOnHome: "\uD648\uC5D0 \uD45C\uC2DC\uD558\uAE30",
       featuredOnHome: "\uD648\uC5D0 \uD45C\uC2DC \uC911",
-      effectActive: "효과 활성 중",
-      activateEffect: "효과 활성화",
-      effectNoBonus: "기본 항아리는 장식용으로, 추가 스푼 효과가 없어요.",
-      effectDescription: "대상 그림 {target}개를 완성하면 스푼 +{reward}, 하루 최대 {limit}회 받아요.",
+      growthEffectDescription: "팬트리가 성장하면 대상 그림을 완성할 때마다 {chance}% 확률로 보너스 스푼 {reward}개를 더 받아요.",
+      growthEffectProgress: "팬트리 레벨 {completed}/{cap} 완성",
+      growthBonusSummary: "추가 스푼 확률 {chance}%",
+      shelfBonusCelebration: "추가 스푼 확률이 {chance}%로 올랐어요!",
+      growthBadgeCompact: "확률 {chance}%",
+      growthBadgeAria: "추가 스푼 획득 확률 {chance}%",
       effectProgress: "효과 진행도 {progress} / {target}",
       effectProgressBanked: "이월 진척 {progress} / {target} · 다음 지급 가능일에 반영",
-      effectDailyLimit: "오늘의 효과 보너스를 모두 받았어요 ({count} / {limit}).",
-      featuredAria: "{item}, \uD648\uC5D0 \uD45C\uC2DC\uD55C \uBCD1. \uD32C\uD2B8\uB9AC \uC5F4\uAE30",
+      featuredAria: "{item}, 홈에 전시한 수집품. 팬트리 열기",
       todaysPantry: "\uC624\uB298\uC758 \uD32C\uD2B8\uB9AC",
       onboardingTitle: "\uC120\uBC18\uC774 \uC900\uBE44\uB410\uC5B4\uC694.",
-      onboardingPrompt: "\uCCAB \uBC88\uC9F8 \uBCD1\uC744 \uAD6C\uB9E4\uD574\uC11C \uD32C\uD2B8\uB9AC\uB97C \uCC44\uC6CC\uBCF4\uC138\uC694!",
+      onboardingPrompt: "첫 수집품을 선택해 팬트리를 채워보세요!",
       rarity: {
         starter: "\uC2A4\uD0C0\uD130",
         common: "\uC77C\uBC18",
@@ -801,6 +862,7 @@ export const ko = {
     }
   },
   puzzles: {
+    ...summerPuzzleCopy,
     "stability-tea-tray-113": { title: "차 쟁반", imageName: "차 쟁반" },
     "stability-breakfast-tray-114": { title: "아침 쟁반", imageName: "아침 쟁반" },
     "stability-kitchen-timer-115": { title: "주방 타이머", imageName: "주방 타이머" },

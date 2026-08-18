@@ -89,6 +89,24 @@ export const puzzlePacks = [
     }
   },
   {
+    id: "summer-pantry",
+    titleKey: "packs.summer-pantry.title",
+    noteKey: "packs.summer-pantry.note",
+    access: "unlockable",
+    monetizationRole: "free-progression",
+    unlockCost: 0,
+    pantryRoomStepRequired: 60,
+    size: 12,
+    stageBonus: 240,
+    muralPart: "summer-table",
+    muralSet: "summer-pantry",
+    badge: {
+      id: "badge-summer-pantry",
+      titleKey: "badges.summerPantry",
+      descriptionKey: "badges.summerPantryDesc"
+    }
+  },
+  {
     id: "cafe-window-plus",
     titleKey: "packs.cafe-window-plus.title",
     noteKey: "packs.cafe-window-plus.note",

@@ -9,7 +9,10 @@ export const JAR_SHELVES = [
   { id: "tea", nameKey: "pantry.shelf.tea" },
   { id: "sunroom", nameKey: "pantry.shelf.sunroom" },
   { id: "orchard", nameKey: "pantry.shelf.orchard" },
-  { id: "hearth", nameKey: "pantry.shelf.hearth" }
+  { id: "hearth", nameKey: "pantry.shelf.hearth" },
+  { id: "summer-orchard", nameKey: "pantry.shelf.summerOrchard" },
+  { id: "sunny-garden", nameKey: "pantry.shelf.sunnyGarden" },
+  { id: "picnic-table", nameKey: "pantry.shelf.picnicTable" }
 ];
 
 export const PANTRY_JARS = [
@@ -78,7 +81,25 @@ export const PANTRY_JARS = [
   { id: "chestnut-vanilla-cream", shelfId: "hearth", rarity: "common", cost: 135, nameKey: "pantry.jar.chestnutVanillaCream" },
   { id: "ember-berry-conserve", shelfId: "hearth", rarity: "rare", cost: 200, nameKey: "pantry.jar.emberBerryConserve" },
   { id: "spiced-fig-pudding", shelfId: "hearth", rarity: "special", cost: 280, nameKey: "pantry.jar.spicedFigPudding" },
-  { id: "midnight-caramel-reserve", shelfId: "hearth", rarity: "luxury", cost: 400, nameKey: "pantry.jar.midnightCaramelReserve" }
+  { id: "midnight-caramel-reserve", shelfId: "hearth", rarity: "luxury", cost: 400, nameKey: "pantry.jar.midnightCaramelReserve" },
+  { id: "watermelon-basket", shelfId: "summer-orchard", rarity: "starter", cost: 0, nameKey: "pantry.collectible.watermelonBasket", collectibleType: "basket", displayStyle: "woven-basket" },
+  { id: "peach-basket", shelfId: "summer-orchard", rarity: "common", cost: 150, nameKey: "pantry.collectible.peachBasket", collectibleType: "basket", displayStyle: "woven-basket" },
+  { id: "cherry-bowl", shelfId: "summer-orchard", rarity: "common", cost: 150, nameKey: "pantry.collectible.cherryBowl", collectibleType: "bowl", displayStyle: "ceramic-bowl" },
+  { id: "berry-punnet", shelfId: "summer-orchard", rarity: "rare", cost: 225, nameKey: "pantry.collectible.berryPunnet", collectibleType: "punnet", displayStyle: "paper-punnet" },
+  { id: "melon-crate", shelfId: "summer-orchard", rarity: "special", cost: 315, nameKey: "pantry.collectible.melonCrate", collectibleType: "crate", displayStyle: "wooden-crate" },
+  { id: "plum-basket", shelfId: "summer-orchard", rarity: "luxury", cost: 450, nameKey: "pantry.collectible.plumBasket", collectibleType: "basket", displayStyle: "ribbon-basket" },
+  { id: "tomato-trug", shelfId: "sunny-garden", rarity: "starter", cost: 0, nameKey: "pantry.collectible.tomatoTrug", collectibleType: "trug", displayStyle: "garden-trug" },
+  { id: "sweet-corn-basket", shelfId: "sunny-garden", rarity: "common", cost: 165, nameKey: "pantry.collectible.sweetCornBasket", collectibleType: "basket", displayStyle: "garden-basket" },
+  { id: "cucumber-tray", shelfId: "sunny-garden", rarity: "common", cost: 165, nameKey: "pantry.collectible.cucumberTray", collectibleType: "tray", displayStyle: "wooden-tray" },
+  { id: "basil-bundle", shelfId: "sunny-garden", rarity: "rare", cost: 245, nameKey: "pantry.collectible.basilBundle", collectibleType: "bundle", displayStyle: "tied-herbs" },
+  { id: "lemon-basket", shelfId: "sunny-garden", rarity: "special", cost: 340, nameKey: "pantry.collectible.lemonBasket", collectibleType: "basket", displayStyle: "sunny-basket" },
+  { id: "pepper-bunch", shelfId: "sunny-garden", rarity: "luxury", cost: 490, nameKey: "pantry.collectible.pepperBunch", collectibleType: "bundle", displayStyle: "hanging-bunch" },
+  { id: "lemonade-pitcher", shelfId: "picnic-table", rarity: "starter", cost: 0, nameKey: "pantry.collectible.lemonadePitcher", collectibleType: "pitcher", displayStyle: "glass-pitcher" },
+  { id: "fruit-tart", shelfId: "picnic-table", rarity: "common", cost: 180, nameKey: "pantry.collectible.fruitTart", collectibleType: "prepared-food", displayStyle: "cake-stand" },
+  { id: "picnic-sandwiches", shelfId: "picnic-table", rarity: "common", cost: 180, nameKey: "pantry.collectible.picnicSandwiches", collectibleType: "prepared-food", displayStyle: "picnic-board" },
+  { id: "summer-salad", shelfId: "picnic-table", rarity: "rare", cost: 270, nameKey: "pantry.collectible.summerSalad", collectibleType: "prepared-food", displayStyle: "salad-bowl" },
+  { id: "berry-shortcake", shelfId: "picnic-table", rarity: "special", cost: 375, nameKey: "pantry.collectible.berryShortcake", collectibleType: "prepared-food", displayStyle: "cake-stand" },
+  { id: "shaved-ice-bowl", shelfId: "picnic-table", rarity: "luxury", cost: 540, nameKey: "pantry.collectible.shavedIceBowl", collectibleType: "prepared-food", displayStyle: "ice-bowl" }
 ];
 
 export function getJarById(id) {
@@ -92,3 +113,10 @@ export function getJarsByShelf(shelfId) {
 export function getStarterJarIds() {
   return PANTRY_JARS.filter((jar) => jar.rarity === "starter").map((jar) => jar.id);
 }
+
+// Shape-neutral aliases let seasonal themes use ingredients and prepared food
+// without breaking saves or older UI code that still uses the historical "jar" name.
+export const PANTRY_COLLECTION_SHELVES = JAR_SHELVES;
+export const PANTRY_COLLECTIBLES = PANTRY_JARS;
+export const getCollectibleById = getJarById;
+export const getCollectiblesByShelf = getJarsByShelf;

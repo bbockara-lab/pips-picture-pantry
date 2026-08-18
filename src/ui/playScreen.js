@@ -1,7 +1,6 @@
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getDailyDateKey } from "../game/dailyPuzzle.js";
 import { renderPuzzleView } from "./puzzleView.js";
-import { appendPuzzleControlArt } from "./puzzleControlArt.js";
 
 export function renderPlayScreen(activePuzzle, options) {
   const {
@@ -11,13 +10,11 @@ export function renderPlayScreen(activePuzzle, options) {
     controlMode,
     onClosePuzzle,
     onViewAlbum,
-    onRequestSettings,
     onNextPuzzle,
     onBackToSpoonRun,
     onPreviousStagePuzzle,
     onNextStagePuzzle,
     onShowPuzzlePicker,
-    onSelectView,
     onPuzzleComplete,
     getStageNavigation,
     isTimeAttack = false,
@@ -39,18 +36,6 @@ export function renderPlayScreen(activePuzzle, options) {
 
   const header = document.createElement("header");
   header.className = "play-screen__header";
-
-  const backButton = document.createElement("button");
-  backButton.type = "button";
-  backButton.className = "play-screen__back";
-  backButton.textContent = t("playScreen.back");
-  backButton.addEventListener("click", () => {
-    if (isTimeAttack) {
-      onClosePuzzle();
-      return;
-    }
-    openPauseMenu();
-  });
 
   const title = document.createElement("div");
   title.className = "play-screen__title";
@@ -77,15 +62,7 @@ export function renderPlayScreen(activePuzzle, options) {
   size.className = "difficulty";
   size.textContent = `${activePuzzle.size}×${activePuzzle.size}`;
 
-  const settingsButton = document.createElement("button");
-  settingsButton.type = "button";
-  settingsButton.className = "play-screen__settings icon-button icon-button--settings";
-  settingsButton.title = t("header.settings");
-  settingsButton.setAttribute("aria-label", t("header.settings"));
-  appendPuzzleControlArt(settingsButton, "settings", "icon-button__raster-art");
-  settingsButton.addEventListener("click", onRequestSettings);
-
-  header.append(backButton, title, settingsButton, size);
+  header.append(title, size);
 
   const body = document.createElement("div");
   body.className = "play-screen__body";
@@ -109,54 +86,7 @@ export function renderPlayScreen(activePuzzle, options) {
 
   screen.append(header, body);
 
-  function openPauseMenu() {
-    if (screen.querySelector(".play-pause-overlay")) return;
-    const overlay = document.createElement("div");
-    overlay.className = "play-pause-overlay";
-    overlay.setAttribute("role", "dialog");
-    overlay.setAttribute("aria-modal", "true");
-    overlay.setAttribute("aria-labelledby", "play-pause-title");
-
-    const panel = document.createElement("section");
-    panel.className = "play-pause-menu";
-    const heading = document.createElement("div");
-    heading.className = "play-pause-menu__heading";
-    const eyebrow = document.createElement("p");
-    eyebrow.textContent = puzzleTitle(activePuzzle);
-    const pauseTitle = document.createElement("h2");
-    pauseTitle.id = "play-pause-title";
-    pauseTitle.textContent = t("playPause.title");
-    heading.append(eyebrow, pauseTitle);
-
-    const actions = document.createElement("div");
-    actions.className = "play-pause-menu__actions";
-    actions.append(
-      createPauseAction(t("playPause.continue"), "continue", () => overlay.remove()),
-      createPauseAction(t("playPause.home"), "home", onClosePuzzle),
-      createPauseAction(t("playPause.pictures"), "pictures", onShowPuzzlePicker),
-      createPauseAction(t("views.album"), "album", () => onSelectView?.("album")),
-      createPauseAction(t("views.pantry"), "pantry", () => onSelectView?.("pantry")),
-      createPauseAction(t("header.settings"), "settings", onRequestSettings)
-    );
-    panel.append(heading, actions);
-    overlay.appendChild(panel);
-    overlay.addEventListener("click", (event) => {
-      if (event.target === overlay) overlay.remove();
-    });
-    screen.appendChild(overlay);
-    panel.querySelector("button")?.focus();
-  }
-
   return screen;
-}
-
-function createPauseAction(label, destination, onClick) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = `play-pause-menu__action play-pause-menu__action--${destination}`;
-  button.textContent = label;
-  button.addEventListener("click", onClick);
-  return button;
 }
 
 export function getTimeAttackElapsedSeconds(startedAt) {

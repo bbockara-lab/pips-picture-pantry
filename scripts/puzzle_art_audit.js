@@ -31,8 +31,12 @@ function hasReadableBrief(puzzle) {
   );
 }
 
-export function buildPuzzleArtAudit({ puzzleList = puzzles, packIds = ["bakery-window", "village-pantry"] } = {}) {
-  const audited = puzzleList.filter((puzzle) => packIds.includes(puzzle.packId));
+export const DEFAULT_ART_AUDIT_PACK_IDS = ["bakery-window", "village-pantry"];
+export const RELEASE_ART_AUDIT_PACK_IDS = [...DEFAULT_ART_AUDIT_PACK_IDS, "summer-pantry"];
+
+export function buildPuzzleArtAudit({ puzzleList = puzzles, packIds = DEFAULT_ART_AUDIT_PACK_IDS } = {}) {
+  const auditedPackIds = new Set(packIds);
+  const audited = puzzleList.filter((puzzle) => auditedPackIds.has(puzzle.packId));
   const signatureGroups = new Map();
   const titleGroups = new Map();
 
@@ -117,6 +121,22 @@ export function formatPuzzleArtAudit(report = buildPuzzleArtAudit(), limit = 30)
   return lines.join("\n");
 }
 
+export function buildReleasePuzzleArtAudits({
+  puzzleList = puzzles,
+  packIds = RELEASE_ART_AUDIT_PACK_IDS
+} = {}) {
+  return packIds.map((packId) => ({
+    packId,
+    report: buildPuzzleArtAudit({ puzzleList, packIds: [packId] })
+  }));
+}
+
+export function formatReleasePuzzleArtAudits(audits = buildReleasePuzzleArtAudits(), limit = 30) {
+  return audits
+    .map(({ packId, report }) => `[Pack: ${packId}]\n${formatPuzzleArtAudit(report, limit)}`)
+    .join("\n\n");
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  console.log(formatPuzzleArtAudit());
+  console.log(formatReleasePuzzleArtAudits());
 }

@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { puzzles } from "../src/data/puzzles.js";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, getSeasonShelfSizeCounts, seasonShelves } from "../src/data/seasonShelves.js";
-import { getPuzzleReward } from "../src/data/economyConfig.js";
 import { PANTRY_JARS } from "../src/data/pantryJars.js";
 import { pantryDecorations } from "../src/data/decorations.js";
 import { getPreviousSeasonShelf, getSeasonShelfProgress, isSeasonShelfComplete } from "../src/game/seasonShelfProgress.js";
@@ -10,7 +9,7 @@ describe("Season 0 shelves", () => {
   it("repackages every authored puzzle exactly once without changing puzzle IDs", () => {
     const assignedIds = seasonShelves.flatMap((shelf) => shelf.puzzleIds);
 
-    expect(seasonShelves).toHaveLength(21);
+    expect(seasonShelves).toHaveLength(27);
     expect(assignedIds).toHaveLength(puzzles.length);
     expect(new Set(assignedIds).size).toBe(puzzles.length);
     expect(new Set(assignedIds)).toEqual(new Set(puzzles.map((puzzle) => puzzle.id)));
@@ -31,9 +30,9 @@ describe("Season 0 shelves", () => {
     expect(getSeasonShelfPuzzles(shelf)[0]?.id).toBe("pips-first-shelf-pip-face-1");
   });
 
-  it("marks only the hearth gallery as the closing shelf", () => {
+  it("marks only the summer sunset feast as the closing shelf", () => {
     expect(seasonShelves.filter((shelf) => shelf.isFinal)).toHaveLength(1);
-    expect(seasonShelves.at(-1)?.id).toBe("shelf-hearth-gallery");
+    expect(seasonShelves.at(-1)?.id).toBe("shelf-sunset-feast");
   });
 
   it("balances the full stage economy against the expanded Pantry", () => {
@@ -42,29 +41,30 @@ describe("Season 0 shelves", () => {
       stageBonus: result.stageBonus + Number(shelf.stageBonus || 0)
     }), { unlockCost: 0, stageBonus: 0 });
 
-    expect(totals).toEqual({ unlockCost: 0, stageBonus: 730 });
+    expect(totals).toEqual({ unlockCost: 0, stageBonus: 970 });
   });
 
   it("reserves spoon spending for Pantry jars while keeping the authored reward curve", () => {
     expect(seasonShelves.every((shelf) => shelf.unlockCost === 0)).toBe(true);
     const puzzleRewards = seasonShelves.reduce(
       (total, shelf) => total + getSeasonShelfPuzzles(shelf).reduce(
-        (shelfTotal, puzzle) => shelfTotal + getPuzzleReward(puzzle.size),
+        (shelfTotal, puzzle) => shelfTotal + Number(puzzle.reward || 0),
         0
       ),
       0
     );
-    expect(puzzleRewards).toBe(3110);
+    expect(puzzleRewards).toBe(4124);
   });
 
-  it("maps fifty-five paid Pantry jars to eleven five-jar stage gates", () => {
+  it("maps seventy paid Pantry collectibles to fourteen five-item stage gates", () => {
     expect(seasonShelves.map((shelf) => shelf.pantryRoomStepRequired)).toEqual([
-      0, 5, 10, 15, 15, 20, 20, 25, 25, 30, 30, 35, 35, 40, 40, 45, 45, 50, 50, 55, 55
+      0, 5, 10, 15, 15, 20, 20, 25, 25, 30, 30, 35, 35, 40, 40,
+      45, 45, 50, 50, 55, 55, 60, 60, 65, 65, 70, 70
     ]);
   });
 
   it("places stabilization shelves at three new Pantry gates and preserves the full economy gap", () => {
-    const stabilizationShelves = seasonShelves.slice(-6);
+    const stabilizationShelves = seasonShelves.slice(15, 21);
     expect(stabilizationShelves.map((shelf) => shelf.id)).toEqual([
       "shelf-herb-terrace",
       "shelf-sunroom-table",
@@ -86,16 +86,16 @@ describe("Season 0 shelves", () => {
     const authoredRewards = seasonShelves.reduce((total, shelf) => total
       + Number(shelf.stageBonus || 0)
       + getSeasonShelfPuzzles(shelf).reduce(
-        (shelfTotal, puzzle) => shelfTotal + getPuzzleReward(puzzle.size),
+        (shelfTotal, puzzle) => shelfTotal + Number(puzzle.reward || 0),
         0
       ), 0);
     const paidJarCost = PANTRY_JARS.reduce((total, jar) => total + Number(jar.cost || 0), 0);
     const decorationCost = pantryDecorations.reduce((total, decoration) => total + Number(decoration.cost || 0), 0);
 
-    expect(authoredRewards).toBe(3840);
-    expect(paidJarCost).toBe(6415);
+    expect(authoredRewards).toBe(5094);
+    expect(paidJarCost).toBe(10655);
     expect(decorationCost).toBe(2706);
-    expect(paidJarCost + decorationCost - authoredRewards).toBe(5281);
+    expect(paidJarCost + decorationCost - authoredRewards).toBe(8267);
   });
 
   it("uses the previous shelf and current shelf completion as separate progression facts", () => {
