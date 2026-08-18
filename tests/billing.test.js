@@ -77,6 +77,7 @@ describe("billing support pack guards", () => {
     expect(getSupportPackStatus({ ...baseSupportPack, status: "already-owned" })).toContain("finishing");
     expect(getSupportPackStatus({ ...baseSupportPack, status: "failed" })).toContain("could not finish");
     expect(getSupportPackStatus({ ...baseSupportPack, status: "wrong-product" })).toContain("could not finish");
+    expect(getSupportPackStatus({ ...baseSupportPack, loading: true, status: "purchasing", storeName: "App Store" })).toContain("Opening the App Store purchase window");
   });
 
   it("separates support pack status tones for player feedback", () => {
@@ -89,6 +90,7 @@ describe("billing support pack guards", () => {
     };
 
     expect(getSupportStatusTone({ ...baseSupportPack, loading: true })).toBe("checking");
+    expect(getSupportStatusTone({ ...baseSupportPack, loading: true, status: "purchasing" })).toBe("checking");
     expect(getSupportStatusTone({ ...baseSupportPack, status: "already-processed" })).toBe("success");
     expect(getSupportStatusTone({ ...baseSupportPack, status: "purchased" })).toBe("success");
     expect(getSupportStatusTone({ ...baseSupportPack, status: "network-error" })).toBe("warning");
@@ -145,6 +147,7 @@ describe("billing support pack guards", () => {
     expect(getSpoonJarFacts({ ...baseSpoonJar, storeName: "App Store" })).toEqual(["500 spoons", "App Store", "Repeatable top-up"]);
     expect(getSpoonJarStatus({ ...baseSpoonJar, status: "purchased" })).toContain("Spoons arrive");
     expect(getSpoonJarStatus({ ...baseSpoonJar, status: "missing-purchase-key" })).toContain("jar could not be filled");
+    expect(getSpoonJarStatus({ ...baseSpoonJar, loading: true, status: "purchasing", storeName: "Google Play" })).toContain("Opening the Google Play purchase window");
     expect(getSpoonJarStatusTone({ ...baseSpoonJar, loading: true })).toBe("checking");
     expect(getSpoonJarStatusTone({ ...baseSpoonJar, status: "purchased" })).toBe("success");
     expect(getSpoonJarStatusTone({ ...baseSpoonJar, available: false })).toBe("warning");

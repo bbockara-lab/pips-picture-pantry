@@ -1,7 +1,7 @@
 ## Local migration recovery release - 2026-08-18
 
 - Last Play Console upload: versionCode **40** / versionName **"1.1.12"** (approved and live).
-- Current signed upload target: versionCode 49 / versionName 1.1.21.
+- Current prepared upload target: versionCode 50 / versionName 1.1.21.
 - Recovered-source signed AAB: `release-artifacts/android-1.1.21-49-recovered/app-release.aab` (23,298,831 bytes).
 - SHA-256: `16385D29185E8E1A20DFA5B0686FCA46F3D957B13B4F3686F1B988A2A694AA72`; `jarsigner` verification passed.
 - The local source of truth now includes the 600-puzzle catalog, 84 Pantry jars, 15 badges, and the summer artwork/content recovered during the OneDrive-to-local migration audit.

@@ -467,7 +467,7 @@ export function renderApp(root) {
 
   async function loadSpoonJarProduct() {
     const requestId = ++spoonJarRequestId;
-    spoonJarState = { ...spoonJarState, loading: true, status: "checking" };
+    spoonJarState = { ...spoonJarState, loading: true, status: "purchasing" };
     draw();
     const result = await getSpoonJarSmallProduct();
     if (requestId !== spoonJarRequestId) return;
@@ -493,7 +493,7 @@ export function renderApp(root) {
 
   async function loadCozySupportProduct() {
     const requestId = ++cozySupportRequestId;
-    cozySupportState = { ...cozySupportState, loading: true, status: "checking" };
+    cozySupportState = { ...cozySupportState, loading: true, status: "purchasing" };
     draw();
     const result = await getCozySupportProduct();
     if (requestId !== cozySupportRequestId) return;
@@ -507,10 +507,6 @@ export function renderApp(root) {
     draw();
     const result = await purchaseCozySupportPack();
     cozySupportState = normalizeCozySupportState({ ...cozySupportState, ...result }, result.status || "failed");
-    if (result.ok) {
-      await loadCozySupportProduct();
-      return;
-    }
     draw();
   }
 

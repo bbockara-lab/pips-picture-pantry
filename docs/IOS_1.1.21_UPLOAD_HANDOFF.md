@@ -7,25 +7,25 @@ Prepared: 2026-08-18
 - App: Pip's Picture Pantry
 - Bundle ID: `com.sunnyspoonstudios.pipspicturepantry`
 - Version: `1.1.21`
-- Build: `3`
-- IPA: `release-artifacts/ios-1.1.21-3-local-recovered/export/App.ipa`
-- Archive: `release-artifacts/ios-1.1.21-3-local-recovered/PipsPicturePantry-1.1.21-3.xcarchive`
-- IPA size: 24,465,860 bytes
-- IPA SHA-256: `746f8395b3e5680d4e8d6674070502b4a2f7b6eb1569c933b1d265bf93cf66f0`
+- Build: `4`
+- IPA: `release-artifacts/ios-1.1.21-4-purchase-ux/export/App.ipa`
+- Archive: `release-artifacts/ios-1.1.21-4-purchase-ux/PipsPicturePantry-1.1.21-4.xcarchive`
+- IPA size: recorded after export
+- IPA SHA-256: recorded after export
 - Export method: App Store Connect
 - Architecture: arm64
 - Distribution certificate expires: 2027-08-05
 - App Store provisioning profile expires: 2027-08-05
 - Entitlements: distribution build (`get-task-allow=false`) with TestFlight beta reports enabled
 
-The exported bundle was checked for the compact 54×54 quick-travel launcher and the audio preference/lifecycle fix. Music is paused immediately when disabled and is not restarted on app resume while the saved music preference is off.
+The exported bundle must include the compact 54×54 quick-travel launcher, audio preference/lifecycle fix, and distinct purchase-window-opening feedback. Music is paused immediately when disabled and is not restarted on app resume while the saved music preference is off.
 
 ## Upload order
 
-1. Open Xcode Organizer and select `PipsPicturePantry-1.1.21-3.xcarchive`, or upload `App.ipa` with Transporter.
-2. Confirm the destination is App Store Connect and the detected identity is version 1.1.21, build 3.
-3. Wait for App Store Connect processing to finish, then attach build 3 to the 1.1.21 version.
-4. Do not reuse build 2. If App Store Connect says build 3 already exists, increment the build number and create a new archive rather than overwriting it.
+1. Open Xcode Organizer and select `PipsPicturePantry-1.1.21-4.xcarchive`, or upload `App.ipa` with Transporter.
+2. Confirm the destination is App Store Connect and the detected identity is version 1.1.21, build 4.
+3. Wait for App Store Connect processing to finish, then attach build 4 to the 1.1.21 version.
+4. Do not upload the superseded local build 3. If App Store Connect says build 4 already exists, increment the build number and create a new archive rather than overwriting it.
 5. Confirm App Privacy remains **Data Not Collected** for the app. Website consented analytics is separate from the app and is documented at the public privacy URL.
 6. Verify the in-app purchases required by this version are available: `pip_cozy_support` and `pip_spoon_jar_small`.
 7. Add the English and Korean release notes below, select the intended release timing, and submit for review.
@@ -78,4 +78,3 @@ Verified dimensions are 1290×2796 for iPhone and 2048×2732 for iPad. The scree
 - 59 Vitest files / 364 tests and 3 Functions tests passed.
 - Live privacy policy matches the local policy.
 - Screenshot manifests and checksums passed.
-

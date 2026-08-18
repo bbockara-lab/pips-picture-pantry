@@ -350,6 +350,9 @@ export function getSupportPackFacts(supportPack) {
 }
 
 export function getSupportPackStatus(supportPack) {
+  if (supportPack.status === "purchasing") {
+    return t("settings.purchaseOpening", { store: supportPack.storeName || t("settings.supportFactStore") });
+  }
   if (supportPack.loading) {
     return t("settings.supportChecking");
   }
@@ -375,6 +378,9 @@ export function getSupportPackStatus(supportPack) {
 }
 
 export function getSupportStatusTone(supportPack) {
+  if (supportPack.status === "purchasing") {
+    return "checking";
+  }
   if (supportPack.loading) {
     return "checking";
   }
@@ -397,6 +403,7 @@ export function getSupportStatusTone(supportPack) {
 }
 
 function getSupportPurchaseLabel(supportPack) {
+  if (supportPack.status === "purchasing") return t("settings.purchaseOpeningButton");
   if (!supportPack.priceString) return t("settings.supportPricePending");
   const price = supportPack.priceString;
   return t("settings.supportBuy", { price });
@@ -415,6 +422,9 @@ export function getSpoonJarFacts(spoonJar) {
 }
 
 export function getSpoonJarStatus(spoonJar) {
+  if (spoonJar.status === "purchasing") {
+    return t("settings.purchaseOpening", { store: spoonJar.storeName || t("settings.supportFactStore") });
+  }
   if (spoonJar.loading) return t("settings.supportChecking");
   if (spoonJar.status === "cancelled") return t("settings.supportCancelled");
   if (spoonJar.status === "network-error") return t("settings.supportNetworkError");
@@ -425,6 +435,7 @@ export function getSpoonJarStatus(spoonJar) {
 }
 
 export function getSpoonJarStatusTone(spoonJar) {
+  if (spoonJar.status === "purchasing") return "checking";
   if (spoonJar.loading) return "checking";
   if (spoonJar.status === "purchased" || spoonJar.status === "already-processed") return "success";
   if (["cancelled", "network-error", "wrong-product", "failed", "product-unavailable", "missing-purchase-key"].includes(spoonJar.status) || !spoonJar.available) return "warning";
@@ -432,6 +443,7 @@ export function getSpoonJarStatusTone(spoonJar) {
 }
 
 function getSpoonJarPurchaseLabel(spoonJar) {
+  if (spoonJar.status === "purchasing") return t("settings.purchaseOpeningButton");
   if (!spoonJar.priceString) return t("settings.supportPricePending");
   const price = spoonJar.priceString;
   return t("settings.spoonJarBuy", { price, spoons: spoonJar.spoons });

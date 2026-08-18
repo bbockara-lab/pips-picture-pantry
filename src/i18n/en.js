@@ -83,6 +83,8 @@ export const en = {
     supportTitle: "Pip Support Pack",
     supportBody: "Support Pip and add {spoons} spoons.",
     supportChecking: "Checking the store connection...",
+    purchaseOpening: "Opening the {store} purchase window. Please wait...",
+    purchaseOpeningButton: "Opening purchase...",
     supportAndroidOnly: "Store connection is being prepared.",
     supportReady: "Spoons arrive right after purchase.",
     supportCancelled: "Purchase was cancelled. You can try again anytime.",
