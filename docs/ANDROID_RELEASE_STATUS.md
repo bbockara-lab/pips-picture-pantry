@@ -2,8 +2,9 @@
 
 - Last Play Console upload: versionCode **40** / versionName **"1.1.12"** (approved and live).
 - Current prepared upload target: versionCode 50 / versionName 1.1.21.
-- Recovered-source signed AAB: `release-artifacts/android-1.1.21-49-recovered/app-release.aab` (23,298,831 bytes).
-- SHA-256: `16385D29185E8E1A20DFA5B0686FCA46F3D957B13B4F3686F1B988A2A694AA72`; `jarsigner` verification passed.
+- Upload-ready signed AAB: `release-artifacts/android-1.1.21-50-purchase-ux/app-release.aab` (23,298,964 bytes).
+- SHA-256: `A829C1883F452BFD7A8322665BC8AC2CC6DC93F3975704C16CD832BA3DCDBD71`; `jarsigner` verification passed.
+- This build separates product lookup from purchase progress: after a purchase tap it names the App Store or Google Play purchase window instead of showing an alarming store-connection check. The earlier local code-49 AAB is superseded and must not be uploaded.
 - The local source of truth now includes the 600-puzzle catalog, 84 Pantry jars, 15 badges, and the summer artwork/content recovered during the OneDrive-to-local migration audit.
 - Production build, 59 Vitest files / 364 tests, Functions checks, asset registry, 600-puzzle catalog, uniqueness, store-site, and signed Android packaging checks passed locally.
 - OneDrive remains a read-only backup; this release artifact was generated from the local Developer workspace.

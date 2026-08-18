@@ -10,15 +10,15 @@ Prepared: 2026-08-18
 - Build: `4`
 - IPA: `release-artifacts/ios-1.1.21-4-purchase-ux/export/App.ipa`
 - Archive: `release-artifacts/ios-1.1.21-4-purchase-ux/PipsPicturePantry-1.1.21-4.xcarchive`
-- IPA size: recorded after export
-- IPA SHA-256: recorded after export
+- IPA size: 24,465,996 bytes
+- IPA SHA-256: `aac6ea31a33016a7cd1f0acd388cef5374c0d17602a058e49d27ae080f8f04ae`
 - Export method: App Store Connect
 - Architecture: arm64
 - Distribution certificate expires: 2027-08-05
 - App Store provisioning profile expires: 2027-08-05
 - Entitlements: distribution build (`get-task-allow=false`) with TestFlight beta reports enabled
 
-The exported bundle must include the compact 54×54 quick-travel launcher, audio preference/lifecycle fix, and distinct purchase-window-opening feedback. Music is paused immediately when disabled and is not restarted on app resume while the saved music preference is off.
+The exported bundle was checked for the compact 54×54 quick-travel launcher, audio preference/lifecycle fix, and distinct purchase-window-opening feedback. Music is paused immediately when disabled and is not restarted on app resume while the saved music preference is off.
 
 ## Upload order
 
