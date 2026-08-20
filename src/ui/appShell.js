@@ -51,6 +51,7 @@ import { renderTimeAttackView } from "./timeAttackView.js";
 import { getLoginBonusMessage } from "./loginBonusMessage.js";
 import { dismissOptionalUpdate, openUpdateStore, resolveUpdateDecision } from "../game/updatePolicy.js";
 import { renderMandatoryUpdateView } from "./updateGateView.js";
+import { getUnreadMailboxCount, renderMailboxView } from "./mailboxView.js";
 
 const DAILY_BONUS = ECONOMY.DAILY_BONUS;
 let introOpenViewHandler = null;
@@ -246,7 +247,7 @@ export function renderApp(root) {
     draw();
   }
 
-  function replayGuideFromSettings(guideId = null) {
+  function replayGuide(guideId = null) {
     settingsOpen = false;
     resetOpen = false;
     activeGuide = guideId || (activeView === "timeAttack" ? "timeAttack" : "puzzle");
@@ -457,7 +458,6 @@ export function renderApp(root) {
       onMusicChange: changeMusic,
       onControlModeChange: changeControlMode,
       controlMode,
-      onReplayGuide: replayGuideFromSettings,
       supportPack: cozySupportState,
       onSupportPurchase: buyCozySupportPack,
       spoonJar: spoonJarState,
@@ -644,6 +644,7 @@ export function renderApp(root) {
       onAllPuzzlesDonePantry: () => selectView("pantry"),
       onAllPuzzlesDoneSpoonRun: () => selectView("spoonRun"),
       onCloseGuide: closeGuide,
+      onReplayGuide: replayGuide,
       onPantryFirstPurchase: requestPantryFirstPurchaseGuide,
       onRequestPantryJarGuide: requestPantryJarGuide,
       pendingPantryJarDetailId,
@@ -785,6 +786,7 @@ function createShell({
   onAllPuzzlesDonePantry,
   onAllPuzzlesDoneSpoonRun,
   onCloseGuide,
+  onReplayGuide,
   onPantryFirstPurchase,
   onRequestPantryJarGuide,
   pendingPantryJarDetailId,
@@ -865,7 +867,7 @@ function createShell({
       playHeader.insertBefore(spoonBalanceChip, settingsButton);
     }
     if (!hasBlockingOverlay) {
-      shell.appendChild(renderFloatingNav(activeView, onSelectView));
+      shell.appendChild(renderFloatingNav(activeView, onSelectView, getUnreadMailboxCount()));
     }
     if (settingsOpen) {
       shell.appendChild(renderSettingsDialog(settingsDialogProps));
@@ -878,10 +880,14 @@ function createShell({
 
 
   if (!hasBlockingOverlay && (activeView !== "puzzle" || puzzleListOpen)) {
-    shell.appendChild(renderFloatingNav(activeView, onSelectView));
+    shell.appendChild(renderFloatingNav(activeView, onSelectView, getUnreadMailboxCount()));
   }
   if (activeView === "album") {
     shell.appendChild(renderAlbumView(onNextPuzzle));
+  } else if (activeView === "mailbox") {
+    shell.appendChild(renderMailboxView({
+      onReplayGuide
+    }));
   } else if (activeView === "map") {
     shell.appendChild(renderPantryMapView());
   } else if (activeView === "pantry") {
@@ -936,6 +942,8 @@ function createShell({
       onShowList: onShowPuzzlePicker,
       onSelectView,
       onOpenSettings: onRequestSettings,
+      onOpenMailbox: () => onSelectView("mailbox"),
+      unreadMailboxCount: getUnreadMailboxCount(),
       spoonRunOpportunity,
       greetingMessage: loginBonusMessage || (updateNotice ? t("updatePolicy.optionalMessage", { version: updateNotice.latestVersion }) : null),
       greetingAction: updateNotice ? {

@@ -1,3 +1,10 @@
+## Mailbox and home polish release - 2026-08-19
+
+- Last Play Console upload: versionCode **50** / versionName **"1.1.21"** (released).
+- Current prepared upload target: versionCode 51 / versionName 1.1.22.
+- Scope: adds the developer mailbox and unlocked Pip-story archive, displays the installed app version in Settings, improves the home Play/mailbox/settings composition, keeps Pip present in the home artwork contract, and removes the unintended permanent Time Attack navigation highlight.
+- OneDrive remains a read-only backup; source, builds, and release artifacts must come only from the local Developer workspace.
+
 ## Local migration recovery release - 2026-08-18
 
 - Last Play Console upload: versionCode **40** / versionName **"1.1.12"** (approved and live).

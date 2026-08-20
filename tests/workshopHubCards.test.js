@@ -8,6 +8,11 @@ const quickTravelSource = readFileSync(new URL("../src/data/quickTravelArt.js", 
 const styles = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
 
 describe("Workshop supporting cards wiring", () => {
+  it("uses balanced home-only artwork for the primary play action", () => {
+    expect(puzzleHubSource).toContain('getHomeActionArt("play")');
+    expect(puzzleHubSource).not.toContain('getPuzzleControlArt("fill")');
+  });
+
   it("labels the Workshop as Pip's Puzzle Room", () => {
     expect(puzzleHubSource).toContain('"puzzle-home-scene__title", t("views.puzzle")');
     expect(styles).toContain("v0.1.676 - Workshop view identity");

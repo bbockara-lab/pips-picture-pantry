@@ -12268,6 +12268,10 @@ img {
 }
 
 .floating-nav__item[data-view="timeAttack"] {
+  background: #fffdf7;
+}
+
+.floating-nav__item[data-view="timeAttack"].active {
   background:
     radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.76) 0 8%, transparent 9%),
     linear-gradient(135deg, rgba(255, 239, 174, 0.98), rgba(255, 248, 232, 0.98) 48%, rgba(204, 232, 219, 0.96));
@@ -16928,7 +16932,8 @@ img {
   gap: 8px;
 }
 
-.app-shell--workshop-home .puzzle-home-scene__settings {
+.app-shell--workshop-home .puzzle-home-scene__settings,
+.app-shell--workshop-home .puzzle-home-scene__mailbox {
   display: grid;
   width: 52px;
   min-width: 52px;
@@ -16942,7 +16947,8 @@ img {
   box-shadow: none;
 }
 
-.app-shell--workshop-home .puzzle-home-scene__settings img {
+.app-shell--workshop-home .puzzle-home-scene__settings img,
+.app-shell--workshop-home .puzzle-home-scene__mailbox img {
   display: block;
   width: 100%;
   height: 100%;
@@ -16994,7 +17000,8 @@ img {
   }
 
 
-  .app-shell--workshop-home .puzzle-home-scene__settings {
+  .app-shell--workshop-home .puzzle-home-scene__settings,
+  .app-shell--workshop-home .puzzle-home-scene__mailbox {
     width: 46px;
     min-width: 46px;
     height: 46px;
@@ -17007,6 +17014,101 @@ img {
     height: 76px;
     min-height: 76px;
   }
+}
+
+.puzzle-home-scene__mailbox,
+.floating-nav__item--mailbox {
+  position: relative;
+}
+
+.mailbox-unread-dot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  border: 2px solid #fff9e9;
+  border-radius: 50%;
+  background: #d65a45;
+  box-shadow: 0 2px 5px rgba(76, 38, 28, 0.32);
+  font-size: 0;
+}
+
+.mailbox-view {
+  width: min(860px, calc(100% - 28px));
+  margin: 28px auto 120px;
+  color: #49372d;
+}
+
+.mailbox-view__header {
+  padding: 26px 24px;
+  border: 1px solid rgba(133, 102, 67, 0.2);
+  border-radius: 26px;
+  background: linear-gradient(145deg, rgba(255, 251, 235, 0.97), rgba(236, 244, 220, 0.96));
+  box-shadow: 0 12px 32px rgba(81, 58, 39, 0.12);
+}
+
+.mailbox-view__header p { margin: 0 0 5px; color: #8a6947; font-weight: 800; }
+.mailbox-view__header h1 { margin: 0 0 8px; font-size: clamp(2rem, 7vw, 3.2rem); }
+.mailbox-view__header span { line-height: 1.55; }
+
+.mailbox-view__filters {
+  display: flex;
+  gap: 8px;
+  margin: 18px 0;
+  overflow-x: auto;
+}
+
+.mailbox-view__filters button {
+  padding: 10px 17px;
+  border: 1px solid #cdbb92;
+  border-radius: 999px;
+  background: #fffaf0;
+  color: #5f4938;
+  white-space: nowrap;
+}
+
+.mailbox-view__filters button.active { background: #6f8961; color: white; border-color: #6f8961; }
+.mailbox-view__list { display: grid; gap: 12px; }
+
+.mailbox-message {
+  overflow: hidden;
+  border: 1px solid rgba(137, 104, 70, 0.22);
+  border-radius: 20px;
+  background: rgba(255, 252, 242, 0.97);
+  box-shadow: 0 7px 20px rgba(79, 53, 35, 0.08);
+}
+
+.mailbox-message__summary {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 13px;
+  width: 100%;
+  padding: 18px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.mailbox-message__summary strong,
+.mailbox-message__summary small { display: block; }
+.mailbox-message__summary strong { margin-bottom: 5px; font-size: 1.05rem; }
+.mailbox-message__summary small { color: #796858; line-height: 1.45; }
+.mailbox-message__seal { width: 16px; height: 16px; margin-top: 3px; border-radius: 50%; background: #d7cdb6; }
+.mailbox-message.is-unread .mailbox-message__seal { background: #d65a45; box-shadow: 0 0 0 3px #f8dfb7; }
+
+.mailbox-message__letter { padding: 0 18px 22px; }
+.mailbox-message__letter img { display: block; width: 100%; max-height: 480px; object-fit: cover; border-radius: 16px; }
+.mailbox-message__date { margin: 16px 2px 8px; color: #8a735f; font-weight: 700; }
+.mailbox-message__body { margin: 0 2px; white-space: pre-line; line-height: 1.75; }
+
+@media (max-width: 520px) {
+  .mailbox-view { width: min(100% - 18px, 860px); margin-top: 12px; }
+  .mailbox-view__header { padding: 21px 18px; border-radius: 20px; }
+  .mailbox-message__summary { padding: 16px 14px; }
+  .mailbox-message__letter { padding: 0 12px 18px; }
 }
 
 /* v0.1.615: earned badges stay as lightweight tokens, never a report card. */
@@ -18773,7 +18875,7 @@ body.guide-open {
 }
 
 .app-shell--workshop-home .spoon-balance-chip {
-  right: max(68px, calc(env(safe-area-inset-right, 0px) + 68px));
+  right: max(132px, calc(env(safe-area-inset-right, 0px) + 132px));
 }
 /* v0.1.671 - explicit stage lock conditions */
 .unlock-panel__requirements {
@@ -19571,6 +19673,74 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   transform: translateY(-3px) scale(1.045);
   outline: 3px solid rgba(255, 236, 125, 0.96);
   outline-offset: 3px;
+}
+
+/* v0.1.700 - Home control alignment and balanced primary play action. */
+.app-shell--workshop-home .puzzle-home-scene__settings,
+.app-shell--workshop-home .puzzle-home-scene__mailbox,
+.app-shell--workshop-home .puzzle-home-destination,
+.app-shell--workshop-home .puzzle-home-scene__play {
+  -webkit-tap-highlight-color: transparent;
+  outline: none !important;
+}
+
+.app-shell--workshop-home .puzzle-home-scene__settings:focus-visible,
+.app-shell--workshop-home .puzzle-home-scene__mailbox:focus-visible,
+.app-shell--workshop-home .puzzle-home-destination:focus-visible {
+  outline: none !important;
+  filter: brightness(1.05);
+}
+
+.app-shell--workshop-home .puzzle-home-scene__play {
+  --workshop-play-size: clamp(118px, 31vw, 142px);
+  left: 50% !important;
+  right: auto !important;
+  bottom: calc(var(--workshop-nav-clearance) + 8px) !important;
+  transform: translateX(-50%);
+}
+
+.app-shell--workshop-home .puzzle-home-scene__play > img {
+  width: min(92%, 126px) !important;
+  height: min(92%, 126px) !important;
+  object-fit: contain;
+}
+
+.app-shell--workshop-home .puzzle-home-scene__play:hover,
+.app-shell--workshop-home .puzzle-home-scene__play:focus-visible {
+  transform: translateX(-50%) translateY(-3px) scale(1.035);
+  outline: none !important;
+}
+
+.app-shell--workshop-home .puzzle-home-destination:hover,
+.app-shell--workshop-home .puzzle-home-destination:focus-visible {
+  outline: none !important;
+}
+
+@media (max-width: 430px) {
+  .app-shell--workshop-home .spoon-balance-chip {
+    right: max(116px, calc(env(safe-area-inset-right, 0px) + 116px));
+  }
+}
+
+/* v0.1.701 - Keep Play Now independent from the picture-list route. */
+.app-shell--workshop-home .puzzle-home-scene__play {
+  --workshop-play-size: clamp(114px, 29vw, 136px);
+  left: auto !important;
+  right: 7% !important;
+  bottom: calc(var(--workshop-nav-clearance) + 8px) !important;
+  transform: none;
+}
+
+.app-shell--workshop-home .puzzle-home-scene__play:hover,
+.app-shell--workshop-home .puzzle-home-scene__play:focus-visible {
+  transform: translateY(-3px) scale(1.035);
+}
+
+.spoon-balance-chip {
+  justify-content: center;
+  min-width: 112px;
+  padding-inline: 12px;
+  text-align: center;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -20628,6 +20798,20 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
    the dialog's vertical scroller to claim those gestures. */
 .modal-backdrop--settings .settings-dialog * {
   touch-action: pan-y;
+}
+
+.settings-version {
+  margin: 2px 0 0;
+  color: rgba(86, 65, 47, 0.68);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.settings-version[hidden] {
+  display: none;
 }
 
 .modal-backdrop--settings .settings-choice--close {

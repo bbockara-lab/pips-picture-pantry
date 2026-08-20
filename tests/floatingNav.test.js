@@ -45,7 +45,8 @@ describe("Play Now floating navigation", () => {
     );
   });
 
-  it("keeps all seven destinations, including Settings, inside a scrollable menu", () => {
+  it("keeps every destination, including Mailbox and Settings, inside a scrollable menu", () => {
+    expect(navSource).toContain('["mailbox", "views.mailbox"]');
     const step52Styles = stylesSource.slice(
       stylesSource.indexOf("v0.1.697 - Step 52 floating-navigation menu containment")
     );
@@ -57,7 +58,7 @@ describe("Play Now floating navigation", () => {
 
   it("uses the shared floating navigation on the puzzle list without a duplicate Home button", () => {
     expect(shellSource).toMatch(
-      /if \(!hasBlockingOverlay && \(activeView !== "puzzle" \|\| puzzleListOpen\)\) \{\s*shell\.appendChild\(renderFloatingNav\(activeView, onSelectView\)\);/
+      /if \(!hasBlockingOverlay && \(activeView !== "puzzle" \|\| puzzleListOpen\)\) \{\s*shell\.appendChild\(renderFloatingNav\(activeView, onSelectView, getUnreadMailboxCount\(\)\)\);/
     );
     expect(shellSource).not.toContain("onGoHome: onClosePuzzle");
     expect(pickerSource).not.toContain("puzzle-picker__home");
@@ -67,7 +68,7 @@ describe("Play Now floating navigation", () => {
 
   it("uses the same shared navigation during normal and Time Attack play", () => {
     expect(shellSource).toMatch(
-      /if \(\(activeView === "puzzle" \|\| activeView === "timeAttack"\) && playOpen\)[\s\S]*?if \(!hasBlockingOverlay\) \{\s*shell\.appendChild\(renderFloatingNav\(activeView, onSelectView\)\);/
+      /if \(\(activeView === "puzzle" \|\| activeView === "timeAttack"\) && playOpen\)[\s\S]*?if \(!hasBlockingOverlay\) \{\s*shell\.appendChild\(renderFloatingNav\(activeView, onSelectView, getUnreadMailboxCount\(\)\)\);/
     );
   });
 

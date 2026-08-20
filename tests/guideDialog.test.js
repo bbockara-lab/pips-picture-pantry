@@ -92,29 +92,26 @@ describe("guide dialog character and badge wiring", () => {
     expect(appShellSource).not.toContain('renderAlbumView(() => onSelectView("puzzle"))');
   });
 
-  it("offers the map guide replay with map artwork in settings", () => {
-    expect(settingsSource).toContain(
-      'createGuideReplayButton(t("settings.guideReplayMapAction"), "map", "map", onReplayGuide)'
-    );
-    expect(settingsSource).toContain('guideId === "map" ? "map"');
+  it("archives the map guide in Pip's Mailbox", () => {
+    const mailboxSource = readFileSync(new URL("../src/data/mailboxMessages.js", import.meta.url), "utf8");
+    expect(mailboxSource).toContain('["guide-map", "map"]');
+    expect(settingsSource).not.toContain("createGuideReplayCard");
   });
-  it("offers the D-pad guide again from settings and explains that controls remain changeable", () => {
-    expect(settingsSource).toContain(
-      'createGuideReplayButton(t("settings.guideReplayCursorAction"), "cursorControlsIntro", "cursor", onReplayGuide)'
-    );
+  it("offers the D-pad guide again from the mailbox and explains that controls remain changeable", () => {
+    const mailboxSource = readFileSync(new URL("../src/data/mailboxMessages.js", import.meta.url), "utf8");
+    expect(mailboxSource).toContain('["guide-cursor", "cursorControlsIntro"]');
     expect(englishSource).toContain('guideReplayCursorAction: "D-pad guide"');
     expect(englishSource).toContain("You can switch back to tapping cells anytime in Settings.");
     expect(koreanSource).toContain('guideReplayCursorAction: "방향키 가이드"');
     expect(koreanSource).toContain("설정에서 언제든 칸 직접 누르기로 바꿀 수 있어요.");
   });
-  it("registers the jar display guide and offers it again from settings", () => {
+  it("registers the jar display guide and offers it again from the mailbox", () => {
     expect(guideSource).toContain(
       'pantryJarIntro: ["guide.pantryJarIntro.step1", "guide.pantryJarIntro.step2", "guide.pantryJarIntro.step3"]'
     );
     expect(guideSource).toContain('pantryJarIntro: "guide.pantryJarIntro.speakerName"');
-    expect(settingsSource).toContain(
-      'createGuideReplayButton(t("settings.guideReplayPantryJarAction"), "pantryJarIntro", "pantry", onReplayGuide)'
-    );
+    const mailboxSource = readFileSync(new URL("../src/data/mailboxMessages.js", import.meta.url), "utf8");
+    expect(mailboxSource).toContain('["guide-pantry-jar", "pantryJarIntro"]');
     expect(englishSource).toContain('guideReplayPantryJarAction: "Jar display guide"');
     expect(englishSource).toContain("Select this collectible to place it beside me on the puzzle-completion screen");
     expect(englishSource).toContain("Display on home puts it beside me in the Puzzle Room.");

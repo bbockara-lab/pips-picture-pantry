@@ -243,6 +243,7 @@ describe("i18n", () => {
     expect(t("guide.map.step3")).toContain("\uC120\uBC18");
     expect(t("guide.pantryFirstPurchase.step3")).toContain("\uC2A4\uD47C");
     expect(t("guide.pantryNeighborMrPark.title")).toContain("시계 할아버지");
+    expect(t("mailbox.messages.story-mr-park.title")).toContain("시계 할아버지");
     expect(t("guide.pantryNeighborMrPark.step2")).toContain("\uB530\uB73B\uD55C \uC218\uD504");
     expect(t("guide.pantryNeighborMrPark.step2")).not.toContain("\uC2DC\uACC4 \uD560\uC544\uBC84\uC9C0");
     expect(t("guide.pantryNeighborLily.title")).toContain("릴리");

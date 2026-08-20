@@ -13,6 +13,19 @@ The current workshop image is an authored first scene. It intentionally does not
 - The current puzzle action is centered at the bottom and may not overlap a destination icon.
 - The Pantry has five selectable room slots and is the source of truth for owned and equipped decorations.
 
+## Non-negotiable Pip presence rule
+
+Pip must participate visibly in every player-facing home/workshop scene, including every seasonal, regional, holiday, collaboration, and event theme. A themed room with props but no Pip is not an approvable home screen.
+
+- Pip may be authored directly into the background or supplied as a dedicated, approved companion layer for that exact theme.
+- The interpretation should belong to the theme: for example, a Korean theme may show Pip in hanbok, while a winter theme may show Pip preparing the room in winter clothes.
+- Pip does not have to solve a puzzle in every scene. Cooking, arranging jars, greeting the player, resting, celebrating, or another readable activity is acceptable.
+- A generic Pip sticker placed without perspective, lighting, costume, or narrative integration does not satisfy this rule.
+- Pip must remain recognizable as the approved Sunny Spoon character and must not be obscured by navigation, the greeting bubble, or the current-puzzle action.
+- Every visible `puzzle-home-background` manifest entry must declare either `pipPresence: "baked-in"` or `pipPresence: "companion"`. Companion scenes must name an approved visible `puzzle-home-character` asset through `pipCharacterAssetId`.
+
+This rule is enforced by `npm run qa:assets`, which is part of `npm run qa:candidate` for every release.
+
 ## Required next presentation layer
 
 This is the next visual-system slice, not a claim about the current build:

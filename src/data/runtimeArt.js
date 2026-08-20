@@ -12,7 +12,8 @@ const APPROVED_QUICK_TRAVEL_ART_IDS = new Set([
   "workshop-nav-pantry-v3",
   "workshop-nav-time-attack-v3",
   "workshop-nav-map-v3",
-  "workshop-nav-settings-v3"
+  "workshop-nav-settings-v3",
+  "workshop-nav-mailbox-v1"
 ]);
 const APPROVED_PUZZLE_CONTROL_ART_IDS = new Set([
   "puzzle-control-fill-v1",
@@ -21,6 +22,9 @@ const APPROVED_PUZZLE_CONTROL_ART_IDS = new Set([
   "puzzle-control-hint-v1",
   "puzzle-control-settings-v1",
   "puzzle-control-reset-v1"
+]);
+const APPROVED_HOME_ACTION_ART_IDS = new Set([
+  "workshop-play-now-v2"
 ]);
 
 export function isRuntimeGuideArtApproved(assetId) {
@@ -37,6 +41,10 @@ export function isRuntimeQuickTravelArtApproved(assetId) {
 
 export function isRuntimePuzzleControlArtApproved(assetId) {
   return APPROVED_PUZZLE_CONTROL_ART_IDS.has(assetId);
+}
+
+export function isRuntimeHomeActionArtApproved(assetId) {
+  return APPROVED_HOME_ACTION_ART_IDS.has(assetId);
 }
 
 const APPROVED_PANTRY_DECORATION_ASSET_IDS = new Set([

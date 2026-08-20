@@ -10,7 +10,7 @@ import { ECONOMY } from "../data/economyConfig.js";
 import { getCompletedPuzzleIds, getFeaturedBadgeId, getFeaturedJarId, getOwnedJarIds, getPaidJarCount, getPantryGrowthBonusStatus, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
-import { getPuzzleControlArt } from "../data/puzzleControlArt.js";
+import { getHomeActionArt } from "../data/homeActionArt.js";
 import { getPreviousSeasonShelf, isSeasonShelfComplete } from "../game/seasonShelfProgress.js";
 import { renderColoredPuzzleArt } from "./coloredPuzzleArt.js";
 import { getJarArtUrl } from "../data/jarArt.js";
@@ -95,6 +95,8 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     onShowList = () => {},
     onSelectView = () => {},
     onOpenSettings = () => {},
+    onOpenMailbox = () => {},
+    unreadMailboxCount = 0,
     spoonRunOpportunity = { total: 0 },
     greetingMessage = null,
     greetingAction = null
@@ -224,7 +226,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   play.className = "puzzle-home-scene__play";
   play.dataset.destination = "play";
   play.setAttribute("aria-label", `${t("playScreen.open")}: ${puzzleTitle(activePuzzle)}`);
-  const playArt = getPuzzleControlArt("fill");
+  const playArt = getHomeActionArt("play");
   if (playArt) {
     const image = document.createElement("img");
     image.src = playArt.src;
@@ -335,6 +337,30 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   const sceneControls = document.createElement("div");
   sceneControls.className = "puzzle-home-scene__controls";
 
+  const mailboxButton = document.createElement("button");
+  mailboxButton.type = "button";
+  mailboxButton.className = "puzzle-home-scene__mailbox";
+  mailboxButton.dataset.destination = "mailbox";
+  mailboxButton.setAttribute("aria-label", unreadMailboxCount > 0
+    ? `${t("views.mailbox")}. ${t("mailbox.unreadCount", { count: unreadMailboxCount })}`
+    : t("views.mailbox"));
+  const mailboxArt = getQuickTravelArt("mailbox");
+  if (mailboxArt) {
+    const image = document.createElement("img");
+    image.src = mailboxArt.src;
+    image.alt = "";
+    image.setAttribute("aria-hidden", "true");
+    image.dataset.assetId = mailboxArt.assetId;
+    mailboxButton.appendChild(image);
+  }
+  if (unreadMailboxCount > 0) {
+    const dot = document.createElement("span");
+    dot.className = "mailbox-unread-dot";
+    dot.setAttribute("aria-hidden", "true");
+    mailboxButton.appendChild(dot);
+  }
+  mailboxButton.addEventListener("click", onOpenMailbox);
+
   const settingsButton = document.createElement("button");
   settingsButton.type = "button";
   settingsButton.className = "puzzle-home-scene__settings";
@@ -351,7 +377,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   }
   settingsButton.addEventListener("click", onOpenSettings);
 
-  sceneControls.append(settingsButton);
+  sceneControls.append(mailboxButton, settingsButton);
   scene.append(destinations, sceneControls, play);
   stack.append(scene);
   return stack;

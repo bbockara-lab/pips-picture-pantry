@@ -1,5 +1,95 @@
 export const assetRegistry = [
   {
+    id: "workshop-play-now-v2",
+    usage: "workshop-home-primary-play-action",
+    path: "src/assets/icons/workshop-nav-v3/workshop-play-now-v2.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-icon-continuity",
+    note: "Play-forward golden medallion backed by a compact nonogram notebook, balanced for an independent lower-corner home action."
+  },
+  {
+    id: "workshop-play-now-source-v2",
+    usage: "workshop-home-primary-play-action-source",
+    path: "src/assets/icons/workshop-nav-v3/workshop-play-now-v2.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-icon-continuity",
+    note: "Transparent high-resolution source for the play-forward Workshop Play Now icon."
+  },
+  {
+    id: "workshop-play-now-v1",
+    usage: "workshop-home-primary-play-action",
+    path: "src/assets/icons/workshop-nav-v3/workshop-play-now-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-icon-continuity",
+    note: "Balanced spiral nonogram notebook with a centered play medallion for the Workshop home primary action."
+  },
+  {
+    id: "workshop-play-now-source-v1",
+    usage: "workshop-home-primary-play-action-source",
+    path: "src/assets/icons/workshop-nav-v3/workshop-play-now-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-icon-continuity",
+    note: "Original high-resolution source for the balanced Workshop Play Now icon."
+  },
+  {
+    id: "workshop-nav-mailbox-v1",
+    usage: "quick-travel-mailbox-icon",
+    path: "src/assets/icons/workshop-nav-v3/workshop-nav-mailbox-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-icon-continuity",
+    note: "Cream envelope with a spoon seal, authored for Pip's Mailbox and matched to the Workshop navigation family."
+  },
+  {
+    id: "workshop-nav-mailbox-source-v1",
+    usage: "quick-travel-mailbox-icon-source",
+    path: "src/assets/icons/workshop-nav-v3/workshop-nav-mailbox-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-icon-continuity",
+    note: "Original high-resolution source for the Mailbox navigation icon."
+  },
+  {
+    id: "pip-developer-letter-welcome-v1",
+    usage: "mailbox-developer-letter-art",
+    path: "src/assets/mailbox/pip-developer-letter-welcome-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-character-and-world-continuity",
+    note: "Pip writing the first developer welcome letter at a warm Pantry workshop desk."
+  },
+  {
+    id: "pip-developer-letter-welcome-source-v1",
+    usage: "mailbox-developer-letter-art-source",
+    path: "src/assets/mailbox/pip-developer-letter-welcome-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-character-and-world-continuity",
+    note: "Original high-resolution source for Pip's first developer welcome letter."
+  },
+  {
     id: "pip-puzzle-workshop-summer-v1",
     usage: "puzzle-home-background",
     path: "src/assets/generated/pip-puzzle-workshop-summer-v1.webp",
@@ -7,8 +97,21 @@ export const assetRegistry = [
     approval: "approved",
     visible: true,
     mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "companion",
+    pipCharacterAssetId: "pip-home-summer-v1",
     identityStatus: "approved-summer-world-continuity",
     note: "Summer common-release Workshop background with quiet UI space and seasonal produce at the scene edges. Contains no baked-in character, logo, text, or controls."
+  },
+  {
+    id: "pip-home-summer-v1",
+    usage: "puzzle-home-character",
+    path: "src/assets/characters/pip-home-summer-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "Theme-authored summer Pip companion that guarantees Pip visibly participates in the summer Workshop home scene."
   },
   {
     id: "pip-puzzle-workshop-source-v1",
@@ -40,6 +143,7 @@ export const assetRegistry = [
     approval: "approved",
     visible: true,
     mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
     identityStatus: "approved-character-and-world-continuity",
     note: "High-quality WebP runtime version of Pip's authored puzzle workshop scene. It remains deliberately distinct from the editable Pantry room."
   },

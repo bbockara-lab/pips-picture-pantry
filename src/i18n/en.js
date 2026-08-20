@@ -38,8 +38,34 @@ export const en = {
     pantry: "Pip's Pantry",
     map: "Badges",
     timeAttack: "Time Attack",
+    mailbox: "Pip's Mailbox",
     navLabel: "Main views",
     menu: "Menu"
+  },
+  mailbox: {
+    eyebrow: "Letters from the Pantry",
+    title: "Pip's Mailbox",
+    intro: "Developer letters and Pip's stories are kept here for you.",
+    filters: { all: "All", letters: "Letters", stories: "Pip's Stories" },
+    unreadCount: "{count} unread",
+    welcomeTitle: "A warm hello from the developers",
+    welcomePreview: "Thank you for visiting Pip's little Pantry.",
+    welcomeDate: "August 2026 · Sunny Spoon Studios",
+    welcomeArtAlt: "Pip writing a letter at a warm Pantry desk",
+    welcomeBody: "Hello from Sunny Spoon Studios.\n\nThank you so much for finding Pip's Picture Pantry. We are carefully polishing this little puzzle room, one square at a time, into a warm place you will want to visit for a long while.\n\nWe will keep bringing you new picture puzzles, seasonal stories, and more comfortable ways to play. We hope you will look forward to every new scene with Pip.\n\nThe time you spend with Pip and your warm support mean more to us than you know.\n\n— Sunny Spoon Studios",
+    messages: {
+      "guide-puzzle": { title: "How picture puzzles work", preview: "Replay Pip's first puzzle guide." },
+      "guide-cursor": { title: "Moving around bigger boards", preview: "Replay the D-pad guide." },
+      "guide-pantry-jar": { title: "Pip's jar display tip", preview: "See how Pantry jars are selected." },
+      "guide-time-attack": { title: "A note about Time Attack", preview: "Replay the quick challenge guide." },
+      "guide-map": { title: "Pip's badge guide", preview: "See how your Pantry journey is recorded." },
+      "story-spoon-run": { title: "Spoon Run", preview: "Pip explains where today's spoons are waiting." },
+      "story-first-purchase": { title: "The first Pantry keepsake", preview: "Revisit Pip's first decoration story." },
+      "story-pantry-room": { title: "A room coming to life", preview: "Revisit Pip's Pantry room story." },
+      "story-mr-park": { title: "A visit from Grandpa Clock", preview: "Read this neighbor story again." },
+      "story-lily": { title: "A visit from Lily", preview: "Read this neighbor story again." },
+      "story-mateo": { title: "A visit from Mateo", preview: "Read this neighbor story again." }
+    }
   },
   header: {
     settings: "Settings",
@@ -57,6 +83,7 @@ export const en = {
   },
   settings: {
     title: "Settings",
+    version: "Version {version} (build {build})",
     language: "Language",
     languageNote: "Use your device language by default, or choose a language for this app.",
     systemDefault: "System",

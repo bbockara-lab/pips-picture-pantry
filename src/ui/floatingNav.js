@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   ["pantry", "views.pantry"],
   ["timeAttack", "views.timeAttack"],
   ["map", "views.map"],
+  ["mailbox", "views.mailbox"],
   ["settings", "header.settings"]
 ];
 
@@ -34,7 +35,7 @@ function createQuickTravelIcon(view, extraClass = "") {
   return icon;
 }
 
-export function renderFloatingNav(activeView, onSelectView) {
+export function renderFloatingNav(activeView, onSelectView, unreadMailboxCount = 0) {
   const nav = document.createElement("nav");
   nav.className = "floating-nav";
   nav.dataset.open = String(quickTravelOpen);
@@ -94,6 +95,12 @@ export function renderFloatingNav(activeView, onSelectView) {
     itemLabel.className = "floating-nav__label";
     itemLabel.textContent = t(labelKey);
     item.append(itemIcon, itemLabel);
+    if (view === "mailbox" && unreadMailboxCount > 0) {
+      const badge = document.createElement("span");
+      badge.className = "mailbox-unread-dot";
+      badge.setAttribute("aria-label", t("mailbox.unreadCount", { count: unreadMailboxCount }));
+      item.appendChild(badge);
+    }
     item.addEventListener("click", (event) => {
       event.preventDefault();
       event.stopPropagation();

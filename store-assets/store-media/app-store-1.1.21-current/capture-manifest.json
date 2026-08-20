@@ -1,0 +1,156 @@
+{
+  "version": "1.1.21",
+  "build": 4,
+  "generatedAt": "2026-08-18T23:31:30.513Z",
+  "source": "Current local app render",
+  "expectedPixels": [
+    1290,
+    2796
+  ],
+  "captures": [
+    {
+      "locale": "en-US",
+      "order": 1,
+      "name": "puzzle-in-progress",
+      "path": "store-assets/store-media/app-store-1.1.21-current/upload/app-store/iphone-6.9/en-US/01-puzzle-in-progress.png",
+      "dimensions": [
+        430,
+        932,
+        3
+      ],
+      "sha256": "43153768bf03b3c76db401fa642aa2bc4febcb966d15ec7ee617be6c695e987d"
+    },
+    {
+      "locale": "en-US",
+      "order": 2,
+      "name": "puzzle-complete",
+      "path": "store-assets/store-media/app-store-1.1.21-current/upload/app-store/iphone-6.9/en-US/02-puzzle-complete.png",
+      "dimensions": [
+        430,
+        932,
+        3
+      ],
+      "sha256": "9c1b091b0958e862852f0c042d851398a31d32b3b7d7f2a1c9ee882bebaf8ce7"
+    },
+    {
+      "locale": "en-US",
+      "order": 3,
+      "name": "home-menu-with-time-attack",
+      "path": "store-assets/store-media/app-store-1.1.21-current/upload/app-store/iphone-6.9/en-US/03-home-menu-with-time-attack.png",
+      "dimensions": [
+        430,
+        932,
+        3
+      ],
+      "sha256": "4213470265c438038d397f1620f1dc38584caa2b87a66fcb3b486692e51dfbfa"
+    },
+    {
+      "locale": "en-US",
+      "order": 4,
+      "name": "time-attack",
+      "path": "store-assets/store-media/app-store-1.1.21-current/upload/app-store/iphone-6.9/en-US/04-time-attack.png",
+      "dimensions": [
+        430,
+        932,
+        3
+      ],
+      "sha256": "e43a6e2093b909b8ef890a87c1bf3a6983fdcf11755f4197207847d8b5264116"
+    },
+    {
+      "locale": "en-US",
+      "order": 5,
+      "name": "picture-album",
+      "path": "store-assets/store-media/app-store-1.1.21-current/upload/app-store/iphone-6.9/en-US/05-picture-album.png",
+      "dimensions": [
+        430,
+        932,
+        3
+      ],
+      "sha256": "3d71bfda09c956f4bc61991f2994ecd746932af2d1efbff8b0fc7e11eda6e84a"
+    },
+    {
+      "locale": "en-US",
+      "order": 6,
+      "name": "pantry",
+      "path": "store-assets/store-media/app-store-1.1.21-current/upload/app-store/iphone-6.9/en-US/06-pantry.png",
+      "dimensions": [
+        430,
+        932,
+        3
+      ],
+      "sha256": "f433a45e7caae10fcba6176fb594133627cea6156be9c7b5d4fb0c3bb7e3c029"
+    },
+    {
+      "locale": "ko-KR",
+      "order": 1,
+      "name": "puzzle-in-progress",
+      "path": "store-assets/store-media/app-store-1.1.21-current/upload/app-store/iphone-6.9/ko-KR/01-puzzle-in-progress.png",
+      "dimensions": [
+        430,
+        932,
+        3
+      ],
+      "sha256": "5a98939a21ace358d681ee999c9648e5548c1c864cfe9bf2effcd3c9c94668c8"
+    },
+    {
+      "locale": "ko-KR",
+      "order": 2,
+      "name": "puzzle-complete",
+      "path": "store-assets/store-media/app-store-1.1.21-current/upload/app-store/iphone-6.9/ko-KR/02-puzzle-complete.png",
+      "dimensions": [
+        430,
+        932,
+        3
+      ],
+      "sha256": "bf062e542f9f6564875406a144840a6ef9919dbff136d915bed0483e8ad3eb6c"
+    },
+    {
+      "locale": "ko-KR",
+      "order": 3,
+      "name": "home-menu-with-time-attack",
+      "path": "store-assets/store-media/app-store-1.1.21-current/upload/app-store/iphone-6.9/ko-KR/03-home-menu-with-time-attack.png",
+      "dimensions": [
+        430,
+        932,
+        3
+      ],
+      "sha256": "9bc3635b93d06d7ea7cc603f100ebac54fce7061e409a40223fd597998bad713"
+    },
+    {
+      "locale": "ko-KR",
+      "order": 4,
+      "name": "time-attack",
+      "path": "store-assets/store-media/app-store-1.1.21-current/upload/app-store/iphone-6.9/ko-KR/04-time-attack.png",
+      "dimensions": [
+        430,
+        932,
+        3
+      ],
+      "sha256": "fb3cce68488e1bd4b56bda0c457fe55b9156ca24850543a900544bc4fcc471b1"
+    },
+    {
+      "locale": "ko-KR",
+      "order": 5,
+      "name": "picture-album",
+      "path": "store-assets/store-media/app-store-1.1.21-current/upload/app-store/iphone-6.9/ko-KR/05-picture-album.png",
+      "dimensions": [
+        430,
+        932,
+        3
+      ],
+      "sha256": "78758d6b5ed94eef7abe5381e6104a569be53f2e6b1f7555762b0c375ba84d96"
+    },
+    {
+      "locale": "ko-KR",
+      "order": 6,
+      "name": "pantry",
+      "path": "store-assets/store-media/app-store-1.1.21-current/upload/app-store/iphone-6.9/ko-KR/06-pantry.png",
+      "dimensions": [
+        430,
+        932,
+        3
+      ],
+      "sha256": "0f8efb0e7121a7178fd9bb21d99d1e39a543ca340f577209e8b7c825ce48d52c"
+    }
+  ]
+}

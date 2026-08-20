@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 
 const puzzleHubSource = readFileSync("src/ui/puzzleHubView.js", "utf8");
 const stageCompleteSource = readFileSync("src/ui/stageComplete.js", "utf8");
+const settingsSource = readFileSync("src/ui/settingsView.js", "utf8");
 const styles = readFileSync("src/styles.css", "utf8");
 
 // These source contracts keep the approval-candidate UI copy and visible
@@ -30,5 +31,20 @@ describe("release candidate clarity", () => {
     expect(stageCompleteSource).toContain("stage-complete-card--burst");
     expect(stageCompleteSource).toContain('t("packs.packComplete"');
     expect(styles).toContain(".stage-complete-badge");
+  });
+
+  it("keeps native version and build information visible in Settings", () => {
+    const packageJson = JSON.parse(readFileSync("package.json", "utf8"));
+    const en = readFileSync("src/i18n/en.js", "utf8");
+    const ko = readFileSync("src/i18n/ko.js", "utf8");
+
+    expect(packageJson.dependencies["@capacitor/app"]).toBeTruthy();
+    expect(settingsSource).toContain('import { App } from "@capacitor/app"');
+    expect(settingsSource).toContain("App.getInfo()");
+    expect(settingsSource).toContain('version.className = "settings-version"');
+    expect(settingsSource).toContain('t("settings.version"');
+    expect(en).toContain('version: "Version {version} (build {build})"');
+    expect(ko).toContain('version: "\\ubc84\\uc804 {version} (\\ube4c\\ub4dc {build})"');
+    expect(styles).toContain(".settings-version");
   });
 });

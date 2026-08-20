@@ -749,6 +749,20 @@ export function markGuideSeen(guideId) {
   }
 }
 
+export function getReadMailboxMessageIds() {
+  return loadSave()?.readMailboxMessageIds || [];
+}
+
+export function markMailboxMessageRead(messageId) {
+  const normalizedId = String(messageId || "").trim();
+  if (!normalizedId) return;
+  const save = loadSave() || createEmptySave();
+  if (!save.readMailboxMessageIds.includes(normalizedId)) {
+    save.readMailboxMessageIds.push(normalizedId);
+    saveGame(save);
+  }
+}
+
 export function isPackUnlocked(pack) {
   if (!pack || pack.access === "free" || Number(pack.unlockCost || 0) <= 0) {
     return true;
@@ -878,6 +892,9 @@ function normalizeSave(parsed) {
     timeAttackDailyCount: pruneTimeAttackDailyCount(parsed?.timeAttackDailyCount),
     replayRewardedPuzzleIdsByDate: pruneReplayRewardedPuzzleIdsByDate(parsed?.replayRewardedPuzzleIdsByDate),
     seenGuideIds: Array.isArray(parsed?.seenGuideIds) ? Array.from(new Set(parsed.seenGuideIds.map(normalizeGuideId).filter(Boolean))) : [],
+    readMailboxMessageIds: Array.isArray(parsed?.readMailboxMessageIds)
+      ? Array.from(new Set(parsed.readMailboxMessageIds.map((id) => String(id || "").trim()).filter(Boolean)))
+      : [],
     processedBillingPurchaseIds: Array.isArray(parsed?.processedBillingPurchaseIds)
       ? Array.from(new Set(parsed.processedBillingPurchaseIds.map((id) => String(id || "").trim()).filter(Boolean)))
         .slice(-PROCESSED_BILLING_PURCHASE_RETENTION)

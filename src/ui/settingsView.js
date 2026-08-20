@@ -1,9 +1,9 @@
+import { App } from "@capacitor/app";
 import { getActivePlayerName } from "../game/save.js";
 import { getLanguagePreference, t } from "../i18n/index.js";
 import { getAudioPreferences } from "./audio.js";
 import supportPackGiftUrl from "../assets/billing/support-pack-gift-v1.png";
 import spoonJarSmallUrl from "../assets/billing/spoon-jar-small-v1.png";
-import { getQuickTravelArt } from "../data/quickTravelArt.js";
 
 const BILLING_PRODUCT_ART = {
   support: {
@@ -25,7 +25,6 @@ export function renderSettingsDialog({
   onMusicChange,
   controlMode,
   onControlModeChange,
-  onReplayGuide = () => {},
   supportPack = null,
   onSupportPurchase = () => {},
   spoonJar = null,
@@ -133,8 +132,6 @@ export function renderSettingsDialog({
     createAudioToggle(t("settings.music"), audio.music, onMusicChange)
   );
 
-  const guideGroup = createGuideReplayCard(onReplayGuide);
-
   const resetButton = document.createElement("button");
   resetButton.type = "button";
   resetButton.className = "settings-reset";
@@ -147,7 +144,25 @@ export function renderSettingsDialog({
   closeButton.textContent = t("settings.close");
   closeButton.addEventListener("click", onClose);
 
-  dialog.append(group, playerForm, controlGroup, audioGroup, guideGroup, resetButton);
+  const version = document.createElement("p");
+  version.className = "settings-version";
+  version.hidden = true;
+  version.setAttribute("aria-live", "polite");
+  void App.getInfo()
+    .then((info) => {
+      if (!info?.version) return;
+      version.textContent = t("settings.version", {
+        version: info.version,
+        build: info.build || "-"
+      });
+      version.hidden = false;
+    })
+    .catch(() => {
+      // Native bundle metadata is unavailable in the browser preview.
+    });
+
+  dialog.append(group, playerForm, controlGroup, audioGroup, resetButton);
+  dialog.appendChild(version);
   dialog.appendChild(closeButton);
   overlay.appendChild(dialog);
   return overlay;
@@ -173,56 +188,6 @@ export function renderSpoonStore({
   if (spoonJar) products.appendChild(createSpoonJarCard({ spoonJar, onSpoonJarPurchase }));
   store.append(heading, products);
   return store;
-}
-
-function createGuideReplayCard(onReplayGuide) {
-  const group = document.createElement("div");
-  group.className = "settings-guide-card";
-  group.setAttribute("aria-label", t("settings.guideReplayTitle"));
-
-  const label = document.createElement("p");
-  label.className = "section-label";
-  label.textContent = t("settings.guideReplayTitle");
-
-  const actions = document.createElement("div");
-  actions.className = "settings-guide-card__actions";
-  actions.append(
-    createGuideReplayButton(t("settings.guideReplayPuzzleAction"), "puzzle", "puzzle", onReplayGuide),
-    createGuideReplayButton(t("settings.guideReplayCursorAction"), "cursorControlsIntro", "cursor", onReplayGuide),
-    createGuideReplayButton(t("settings.guideReplayPantryJarAction"), "pantryJarIntro", "pantry", onReplayGuide),
-    createGuideReplayButton(t("settings.guideReplayTimeAttackAction"), "timeAttack", "time", onReplayGuide),
-    createGuideReplayButton(t("settings.guideReplayMapAction"), "map", "map", onReplayGuide)
-  );
-
-  group.append(label, actions);
-  return group;
-}
-
-function createGuideReplayButton(label, guideId, modifier, onReplayGuide) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = `tool-button settings-choice settings-choice--guide-replay settings-choice--guide-replay-${modifier}`;
-  button.dataset.guideTarget = guideId;
-
-  const icon = document.createElement("img");
-  const art = getQuickTravelArt(
-    guideId === "timeAttack" ? "timeAttack" : guideId === "map" ? "map" : guideId === "pantryJarIntro" ? "pantry" : "puzzle"
-  );
-  icon.className = `settings-choice__guide-art settings-choice__guide-art--${modifier}`;
-  icon.src = art?.src || "";
-  icon.alt = "";
-  icon.setAttribute("aria-hidden", "true");
-  if (art) {
-    icon.dataset.assetId = art.assetId;
-  }
-
-  const text = document.createElement("span");
-  text.className = "settings-choice__guide-label";
-  text.textContent = label;
-
-  button.append(icon, text);
-  button.addEventListener("click", () => onReplayGuide(guideId));
-  return button;
 }
 
 function createAudioToggle(label, active, onChange) {

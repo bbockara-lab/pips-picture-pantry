@@ -46,6 +46,30 @@ for (const asset of assetRegistry) {
   }
 }
 
+const visibleHomeBackgrounds = assetRegistry.filter((asset) => asset.visible && asset.usage === "puzzle-home-background");
+for (const background of visibleHomeBackgrounds) {
+  if (!['baked-in', 'companion'].includes(background.pipPresence)) {
+    errors.push(`${background.id}: every visible home background must declare Pip as baked-in or as a theme-authored companion`);
+    continue;
+  }
+  if (background.pipPresence === "companion") {
+    const character = assetRegistry.find((asset) => asset.id === background.pipCharacterAssetId);
+    if (!character || character.usage !== "puzzle-home-character" || !character.visible || character.approval !== "approved") {
+      errors.push(`${background.id}: companion home scene must reference one approved visible puzzle-home-character asset`);
+      continue;
+    }
+    if (character.identityStatus !== "approved-character-continuity") {
+      errors.push(`${character.id}: themed home Pip must preserve approved character continuity`);
+    }
+    if (!puzzleHubSource.includes(`data-asset-id`) && !puzzleHubSource.includes(`dataset.assetId`)) {
+      errors.push("src/ui/puzzleHubView.js: themed Pip companion must expose its approved asset id in the rendered home scene");
+    }
+    if (!puzzleHubSource.includes(`\"${character.id}\"`)) {
+      errors.push(`src/ui/puzzleHubView.js: home scene does not render required Pip companion ${character.id}`);
+    }
+  }
+}
+
 const approvedStudioBumperAssets = assetRegistry.filter((asset) => asset.usage === "studio-bumper" && asset.visible && asset.approval === "approved");
 if (approvedStudioBumperAssets.length !== 1) {
   errors.push("src/data/assetManifest.js: exactly one approved visible studio-bumper asset is required for the launch studio stage");

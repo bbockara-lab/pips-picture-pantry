@@ -38,8 +38,34 @@ export const ko = {
     pantry: "핍\uc758 \ud32c\ud2b8\ub9ac",
     map: "\ubc30\uc9c0",
     timeAttack: "\ud0c0\uc784\uc5b4\ud0dd",
+    mailbox: "핍의 편지함",
     navLabel: "\uc8fc\uc694 \ud654\uba74",
     menu: "\uba54\ub274"
+  },
+  mailbox: {
+    eyebrow: "팬트리에서 온 편지",
+    title: "핍의 편지함",
+    intro: "개발자 편지와 핍의 이야기를 이곳에 차곡차곡 보관해 두었어요.",
+    filters: { all: "전체", letters: "편지", stories: "핍의 이야기" },
+    unreadCount: "읽지 않은 편지 {count}개",
+    welcomeTitle: "개발자가 보내는 따뜻한 첫 편지",
+    welcomePreview: "핍의 작은 팬트리를 찾아와 주셔서 고맙습니다.",
+    welcomeDate: "2026년 8월 · Sunny Spoon Studios",
+    welcomeArtAlt: "따뜻한 팬트리 책상에서 편지를 쓰는 핍",
+    welcomeBody: "안녕하세요, Sunny Spoon Studios입니다.\n\n핍의 팬트리를 찾아와 주셔서 정말 고맙습니다. 이 작은 퍼즐방을 오래 머물고 싶은 따뜻한 공간으로 만들기 위해 한 칸씩 정성껏 다듬고 있어요.\n\n앞으로도 새로운 그림 퍼즐과 계절 이야기, 더 편안한 기능을 꾸준히 전해드리겠습니다. 핍과 함께할 다음 장면도 많이 기대해 주세요.\n\n여러분이 핍과 보내는 시간과 따뜻한 응원이 저희에게 정말 큰 힘이 됩니다.\n\n— Sunny Spoon Studios",
+    messages: {
+      "guide-puzzle": { title: "그림 퍼즐을 푸는 방법", preview: "핍의 첫 퍼즐 안내를 다시 봐요." },
+      "guide-cursor": { title: "큰 퍼즐판에서 움직이기", preview: "방향키 안내를 다시 봐요." },
+      "guide-pantry-jar": { title: "핍의 항아리 진열 팁", preview: "팬트리 항아리를 고르는 방법이에요." },
+      "guide-time-attack": { title: "타임어택 안내", preview: "빠른 도전 안내를 다시 봐요." },
+      "guide-map": { title: "핍의 배지 안내", preview: "팬트리 여정을 기록하는 방법이에요." },
+      "story-spoon-run": { title: "스푼 모으러 가기", preview: "오늘의 스푼이 기다리는 곳을 알려드려요." },
+      "story-first-purchase": { title: "팬트리의 첫 기념품", preview: "핍의 첫 장식 이야기를 다시 봐요." },
+      "story-pantry-room": { title: "조금씩 살아나는 방", preview: "핍의 팬트리 방 이야기를 다시 봐요." },
+      "story-mr-park": { title: "시계 할아버지의 방문", preview: "이웃 이야기를 다시 읽어 봐요." },
+      "story-lily": { title: "릴리의 방문", preview: "이웃 이야기를 다시 읽어 봐요." },
+      "story-mateo": { title: "마테오의 방문", preview: "이웃 이야기를 다시 읽어 봐요." }
+    }
   },
   header: {
     settings: "\uc124\uc815",
@@ -57,6 +83,7 @@ export const ko = {
   },
   settings: {
     title: "\uc124\uc815",
+    version: "\ubc84\uc804 {version} (\ube4c\ub4dc {build})",
     language: "\uc5b8\uc5b4",
     languageNote: "\uae30\uae30 \uc5b8\uc5b4\ub97c \uae30\ubcf8\uc73c\ub85c \uc0ac\uc6a9\ud558\uac70\ub098, \uc774 \uc571\uc5d0\uc11c \uc0ac\uc6a9\ud560 \uc5b8\uc5b4\ub97c \uc120\ud0dd\ud558\uc138\uc694.",
     systemDefault: "\uc2dc\uc2a4\ud15c",
