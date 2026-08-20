@@ -17,7 +17,13 @@ export function renderMailboxView({ onReplayGuide = () => {}, onMailboxChange = 
     root.replaceChildren();
     const header = document.createElement("header");
     header.className = "mailbox-view__header";
-    header.innerHTML = `<p>${t("mailbox.eyebrow")}</p><h1>${t("mailbox.title")}</h1><span>${t("mailbox.intro")}</span>`;
+    const eyebrow = document.createElement("p");
+    eyebrow.textContent = t("mailbox.eyebrow");
+    const title = document.createElement("h1");
+    title.textContent = t("mailbox.title");
+    const intro = document.createElement("span");
+    intro.textContent = t("mailbox.intro");
+    header.append(eyebrow, title, intro);
     const filters = document.createElement("div");
     filters.className = "mailbox-view__filters";
     [["all", "mailbox.filters.all"], ["letter", "mailbox.filters.letters"], ["story", "mailbox.filters.stories"]].forEach(([value, key]) => {
@@ -37,7 +43,16 @@ export function renderMailboxView({ onReplayGuide = () => {}, onMailboxChange = 
       const button = document.createElement("button");
       button.type = "button";
       button.className = "mailbox-message__summary";
-      button.innerHTML = `<span class="mailbox-message__seal" aria-hidden="true"></span><span><strong>${t(message.titleKey)}</strong><small>${t(message.previewKey)}</small></span>`;
+      const seal = document.createElement("span");
+      seal.className = "mailbox-message__seal";
+      seal.setAttribute("aria-hidden", "true");
+      const copy = document.createElement("span");
+      const messageTitle = document.createElement("strong");
+      messageTitle.textContent = t(message.titleKey);
+      const preview = document.createElement("small");
+      preview.textContent = t(message.previewKey);
+      copy.append(messageTitle, preview);
+      button.append(seal, copy);
       button.addEventListener("click", () => {
         markMailboxMessageRead(message.id);
         if (message.guideId) {
