@@ -1928,11 +1928,11 @@ async function expectPuzzleHomePolish(page, viewportName) {
       playAssetId: play?.querySelector("img")?.dataset.assetId || ""
     };
   });
-  const expected = ["puzzle", "album", "pantry", "spoonRun", "map"];
-  const expectedAssets = { puzzle: "workshop-nav-puzzle-v3", album: "workshop-nav-album-v3", pantry: "workshop-nav-pantry-v3", spoonRun: "spoon-token-v2", map: "workshop-nav-map-v3" };
+  const expected = ["puzzle", "album", "pantry", "spoonRun", "timeAttack", "map"];
+  const expectedAssets = { puzzle: "workshop-nav-puzzle-v3", album: "workshop-nav-album-v3", pantry: "workshop-nav-pantry-v3", spoonRun: "spoon-token-v2", timeAttack: "workshop-nav-time-attack-v3", map: "workshop-nav-map-v3" };
   const hasStaleDestinationTreatment = metrics.destinationArt.some((art) => art.assetId !== expectedAssets[art.id] || art.backgroundColor !== "rgba(0, 0, 0, 0)" || art.borderTopWidth !== "0px" || art.boxShadow !== "none");
   const titleVariantRegression = metrics.titleVariants.some((variant) => variant.wraps || variant.overlapsPip || variant.outsideScene);
-  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.greetingGap > 0 || metrics.greetingFlexGap > 0 || metrics.greetingBubbleBorder < 2 || metrics.greetingBubbleRadius < 16 || metrics.greetingBubbleShadow === "none" || metrics.greetingBubbleBackground === "rgb(255, 255, 255)" || metrics.greetingOutsideScene || metrics.greetingSpoonBalanceOverlap || metrics.titleWraps || metrics.titleGreetingPipOverlap || metrics.titleOutsideScene || titleVariantRegression || !metrics.primaryDestinationsBelowGreeting || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || metrics.playVisualDominance < 1.24 || metrics.topPairCenterDelta > 2 || metrics.topBadgeCenterDelta > 2 || metrics.middlePairCenterDelta > 2 || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.hasHiddenDestinationLabel || metrics.playAssetId !== "puzzle-control-fill-v1" || metrics.supportingCardClasses.length !== 0 || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
+  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-summer-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.greetingGap > 0 || metrics.greetingFlexGap > 0 || metrics.greetingBubbleBorder < 2 || metrics.greetingBubbleRadius < 16 || metrics.greetingBubbleShadow === "none" || metrics.greetingBubbleBackground === "rgb(255, 255, 255)" || metrics.greetingOutsideScene || metrics.greetingSpoonBalanceOverlap || metrics.titleWraps || metrics.titleGreetingPipOverlap || metrics.titleOutsideScene || titleVariantRegression || !metrics.primaryDestinationsBelowGreeting || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || metrics.playVisualDominance < 1.24 || metrics.topPairCenterDelta > 2 || metrics.topBadgeCenterDelta > 2 || metrics.middlePairCenterDelta > 2 || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.hasHiddenDestinationLabel || metrics.playAssetId !== "workshop-play-now-v2" || metrics.supportingCardClasses.length !== 0 || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
     failures.push("[" + viewportName + "] Puzzle workshop home/direct destinations regressed: " + JSON.stringify(metrics));
   }
   await expectLoginBonusHomeClearance(page, viewportName);
@@ -1960,7 +1960,7 @@ async function expectLoginBonusHomeClearance(page, viewportName) {
     return {
       collisionCount: interactiveRects.filter((rect) => overlaps(rewardRect, rect)).length,
       samePosition: Boolean(beforeRect && rewardRect && Math.abs(beforeRect.left - rewardRect.left) < 1 && Math.abs(beforeRect.top - rewardRect.top) < 1),
-      keepsPip: pipSrc.includes("pip-chrome-v2"),
+      keepsPip: pipSrc.includes("pip-home-summer-v1"),
       outsideViewport: !rewardRect || rewardRect.left < -1 || rewardRect.right > window.innerWidth + 1 || rewardRect.top < -1 || rewardRect.bottom > window.innerHeight + 1,
       rect: rewardRect ? { left: rewardRect.left, top: rewardRect.top, right: rewardRect.right, bottom: rewardRect.bottom } : null
     };
@@ -2207,23 +2207,24 @@ async function expectTimeAttackGuideCopy(page, viewportName) {
   await expectVisible(page, ".guide-dialog__art img", viewportName);
   await expectGuideDialogChromeArt(page, viewportName, { neighborClass: "mr-park" });
 
+  const speakerText = await page.locator(".guide-dialog__name-tag").first().innerText();
   const firstStepText = await page.locator(".guide-dialog__bubble").first().innerText();
-  if (!/Grandpa Clock|\uC2DC\uACC4 \uD560\uC544\uBC84\uC9C0/i.test(firstStepText)) {
-    failures.push("[" + viewportName + "] Time Attack guide first step should introduce its speaker, saw " + firstStepText);
-  }
-
-  await page.locator(".guide-dialog__next").click();
-  const hintStepText = await page.locator(".guide-dialog__bubble").first().innerText();
-  const mentionsHint = /hint|\uD78C\uD2B8/i.test(hintStepText);
-  if (!mentionsHint) {
-    failures.push("[" + viewportName + "] Time Attack guide should reserve hints for stuck moments, saw " + hintStepText);
+  if (!/Grandpa Clock|\uC2DC\uACC4 \uD560\uC544\uBC84\uC9C0/i.test(speakerText) || !/3 minutes|3\uBD84|5×5/i.test(firstStepText)) {
+    failures.push("[" + viewportName + "] Time Attack guide should identify Clock Grandpa and explain the timed run, saw " + speakerText + " / " + firstStepText);
   }
 
   await page.locator(".guide-dialog__next").click();
   const recordStepText = await page.locator(".guide-dialog__bubble").first().innerText();
-  const mentionsRecord = /record|best|fast|\uAE30\uB85D|\uBE60\uB978/i.test(recordStepText);
+  const mentionsRecord = /record|correct cell|\uAE30\uB85D|\uC815\uB2F5/i.test(recordStepText);
   if (!mentionsRecord) {
-    failures.push("[" + viewportName + "] Time Attack guide final step should invite a speed challenge, saw " + recordStepText);
+    failures.push("[" + viewportName + "] Time Attack guide should explain record scoring, saw " + recordStepText);
+  }
+
+  await page.locator(".guide-dialog__next").click();
+  const hintStepText = await page.locator(".guide-dialog__bubble").first().innerText();
+  const mentionsHint = /hint|spoons|\uD78C\uD2B8|\uC2A4\uD47C/i.test(hintStepText);
+  if (!mentionsHint) {
+    failures.push("[" + viewportName + "] Time Attack guide final step should explain optional hints, saw " + hintStepText);
   }
   await page.locator(".guide-dialog__next").click();
   await overlay.waitFor({ state: "detached", timeout: 2000 });
@@ -2415,7 +2416,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     };
   });
   if (
-    cursorPadMetrics.width > Math.min(cursorPadMetrics.viewportWidth, 530) ||
+    cursorPadMetrics.width > Math.min(cursorPadMetrics.viewportWidth - 12, 650) ||
     cursorPadMetrics.radius < 16 ||
     !cursorPadMetrics.background.includes("gradient") ||
     cursorPadMetrics.dpadWidth < 124 ||
@@ -3051,10 +3052,11 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     };
   });
   const shelfNodes = [toolShelfMetrics.hint, toolShelfMetrics.progress];
+  const shelfWidthLimit = Math.min(toolShelfMetrics.viewportWidth - 12, 650);
   const controlsAreAbsent = toolShelfMetrics.controls === null;
   const progressAfterHint = toolShelfMetrics.progress.top > toolShelfMetrics.hint.bottom;
   if (
-    shelfNodes.some((metrics) => !metrics || metrics.left < -1 || metrics.right > toolShelfMetrics.viewportWidth + 1 || metrics.width > 530) ||
+    shelfNodes.some((metrics) => !metrics || metrics.left < -1 || metrics.right > toolShelfMetrics.viewportWidth + 1 || metrics.width > shelfWidthLimit) ||
     !controlsAreAbsent ||
     !progressAfterHint ||
     toolShelfMetrics.hint.radius < 16 ||
@@ -3173,7 +3175,7 @@ async function expectPuzzleBoardFramePolish(page, viewportName) {
     !metrics.board ||
     !metrics.grid ||
     !metrics.activeClue ||
-    metrics.meta.width > 530 ||
+    metrics.meta.width > Math.min(metrics.viewportWidth, 650) ||
     metrics.meta.left < -1 ||
     metrics.meta.right > metrics.viewportWidth + 1 ||
     Math.max(metrics.meta.radius, metrics.meta.bottomRadius) < 16 ||
@@ -3452,15 +3454,15 @@ async function verifyPantryPlacement(page, viewportName) {
     };
   });
   if (metrics.panelOverflowsX
-    || metrics.shelfCount !== 11
+    || metrics.shelfCount !== 14
     || metrics.shelfJarCounts.some((count) => count !== 6)
-    || metrics.jarCount !== 66
-    || metrics.starterCount !== 11
-    || metrics.ownedStarterCount !== 11
-    || metrics.equippedStarterCount !== 11
+    || metrics.jarCount !== 84
+    || metrics.starterCount !== 14
+    || metrics.ownedStarterCount !== 14
+    || metrics.equippedStarterCount !== 14
     || metrics.jarOverflowCount
-    || metrics.jarNameCount !== 66
-    || metrics.twoLineNameContractCount !== 66
+    || metrics.jarNameCount !== 84
+    || metrics.twoLineNameContractCount !== 84
     || metrics.jarMetaCount < 1
     || metrics.singleLineMetaContractCount !== metrics.jarMetaCount
     || metrics.storeProductCount !== 2

@@ -55,8 +55,8 @@ export function renderMailboxView({ onReplayGuide = () => {}, onMailboxChange = 
       button.append(seal, copy);
       button.addEventListener("click", () => {
         markMailboxMessageRead(message.id);
+        onMailboxChange();
         if (message.guideId) {
-          onMailboxChange();
           return onReplayGuide(message.guideId);
         }
         openMessageId = openMessageId === message.id ? null : message.id;

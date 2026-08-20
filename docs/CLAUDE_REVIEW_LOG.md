@@ -13732,3 +13732,105 @@ Vite가 빌드 시점에 해시 파일명으로 `assets/`에 복사. 2.4MB 파�
 
 실기기 Billing 증거 2건 변동 없음.
 
+
+
+---
+
+## Review 21 — v0.1.716 / store 1.1.22 (Mailbox + Home Polish)
+
+**커밋:** `63317e9` (HEAD)
+**범위:** Pip's Mailbox 신규 기능, 홈 Play 액션 재배치, Settings 버전 표시 — 업로드 예정 AAB/IPA의 정합성 검증
+**검증:** AAB/IPA 해시·서명 재검증, `jarsigner`, `android_release_gate.js` 재실행, `npm run test`(vitest+functions) 재실행, `npm run qa:candidate` 재실행, 관련 소스 직접 추적
+
+---
+
+### 변경 요약
+
+| 영역 | 변경 내용 |
+|------|-----------|
+| 메일박스 | 홈에 새 목적지 추가, 개발자 웰컴레터 + 안내/스토리 리플레이 아카이브 |
+| 홈 Play 액션 | 워크테이블 중앙 메달리온 아트로 교체, 목적지 그리드와 분리 |
+| Settings | 네이티브 `App.getInfo()`로 설치 버전/빌드 표시 |
+| 퀵트래블 | 활성 목적지만 강조하도록 수정 (Time Attack 상시 강조 버그 해결) |
+| 릴리스 아이덴티티 | Android versionCode 51 / 1.1.22, iOS build 5 / 1.1.22, package 0.1.716 |
+
+---
+
+### 코드에서 직접 확인한 사실
+
+**릴리스 아티팩트 정합성 — 문서 주장과 실물이 정확히 일치**
+
+- `android-1.1.22-51-mailbox-home-polish/app-release.aab`: 23,554,884 bytes, SHA-256 `b909a476...` — 문서와 완전 일치. `jarsigner -verify` → `jar verified.`
+- `ios-1.1.22-5-mailbox-home-polish/export/App.ipa`: 24,722,045 bytes, SHA-256 `f708a0cf...` — 문서와 완전 일치.
+- `android/app/build.gradle`(51 / 1.1.22), `ios/App/App.xcodeproj/project.pbxproj`(MARKETING_VERSION 1.1.22 / CURRENT_PROJECT_VERSION 5), `src/data/releaseBuild.js`의 `RELEASE_BUILD` 세 곳이 서로 일치.
+- AAB 내부 번들 JS(`index-BTCD7eWO.js`)에서 `pip-developer-letter` 문자열 확인 — 메일박스 기능이 실제로 이 빌드에 포함됨.
+- `node scripts/android_release_gate.js` 통과. `npm run test`(vitest 60 files / 369 tests + functions 3 tests) 재현 — `docs/CONTEXT.md`의 v0.1.716 항목이 적은 수치와 정확히 일치.
+
+**`npm run qa:candidate`가 지금 HEAD에서 실패함 — mobile QA 단계에서 다수 항목 FAIL**
+
+과거 릴리스(v0.1.700~703 등)는 항상 "npm run qa:candidate passed ... mobile QA at 360x740/390x844/430x932/675x900"를 명시적으로 기록했다. 이번 v0.1.716 `CONTEXT.md` 항목은 이 문구가 빠지고 "Pixel 8 native Android inspection"으로 대체됐다. 실제로 지금 `npm run qa:candidate`를 실행하면 mobile QA 단계에서 실패한다(exit 1). 원인을 추적하면 두 갈래로 나뉜다.
+
+1. **실제 회귀로 보이는 것:** `expectSpoonBalanceChipSize`(`scripts/mobile_visual_check.js:3671`) 체크에서 360×740, 390×844 두 뷰포트에 한해 `.spoon-balance-chip`이 `.puzzle-home-scene__title`과 실제로 겹침(`overlaps: [".puzzle-home-scene__title"]`). 430×932 이상에서는 겹치지 않는다 — 즉 좁은 폰(전형적인 360~390px 기기)에서만 재현되는 폭 의존적 충돌이며, 정확히 이번 릴리스가 광고하는 "개선된 홈 레이아웃" 범위 안에 있다.
+2. **QA 스크립트 자체의 노후화로 보이는 것(앱 버그 아님):**
+   - `verifyPantryPlacement`(`scripts/mobile_visual_check.js:3455-3462`)가 `shelfCount !== 11` / `jarCount !== 66` / `starterCount !== 11`을 하드코딩. 실제 앱은 14개 선반·84개 항아리(과거 리뷰에서 이미 문서화된 의도적 콘텐츠 확장)를 갖고 있어 항상 실패한다.
+   - 홈 배경 체크가 `backgroundImage.includes("pip-puzzle-workshop-v1")`을 요구하지만 실제 배경은 시즌 아트 `pip-puzzle-workshop-summer-v1.webp`(`b5fcf18`, 1.1.21 사이클에서 도입) — substring 불일치로 항상 실패.
+   - 로그인 보너스 인사말 체크가 `pipSrc.includes("pip-chrome-v2")`를 요구하지만 실제 홈 인사말 Pip는 시즌 전용 `pip-home-summer-v1`(`puzzleHubView.js:126`) — 역시 substring 불일치로 항상 실패.
+   - 이 스크립트 자체가 `b69441c`("test: align v0.1.716 mobile exit flow")로 이번 사이클에 직접 손을 댔음에도 위 세 하드코딩은 갱신되지 않았다. 즉 최소 1.1.21 사이클 이후로 `qa:mobile`은 사실상 상시 FAIL 상태였을 가능성이 높고, 서명 전에 실제로 그린 상태를 본 적이 없었을 수 있다.
+
+---
+
+### 클린 항목
+
+1. AAB/IPA 실물 해시·크기·서명이 문서 기록과 1바이트 오차 없이 일치 — 아티팩트 유통 과정에서 변조·재빌드 흔적 없음.
+2. build.gradle / pbxproj / releaseBuild.js 세 곳의 버전 아이덴티티가 서로 일치 — 수동 기록 오류 없음.
+3. vitest 60/369, functions 3/3 — 문서 수치 그대로 재현됨.
+4. `android_release_gate.js`가 package.json ↔ `APP_VERSION` 동기화를 실제로 강제하고 있고 현재 통과.
+5. Settings 버전 표시는 하드코딩 상수가 아니라 `App.getInfo()` 네이티브 값을 사용 — 실제 설치된 스토어 버전을 항상 정확히 반영하는 견고한 설계.
+
+---
+
+### 설계 노트
+
+**두 개의 버전 축 — `APP_VERSION`(v0.1.716, 내부/빌드 게이트용) vs `RELEASE_BUILD`(1.1.22, 스토어/UI 노출용)**
+
+`src/data/appVersion.js`는 UI에서 전혀 참조되지 않고 오직 `android_release_gate.js`, `release_commit_gate.js`, `billing_validation_template.js`, `visual_review_pack.js` 등 빌드 스크립트에서만 package.json과의 동기화 검증용으로 쓰인다. 반면 사용자에게 보이는 Settings 버전은 `RELEASE_BUILD`도 거치지 않고 네이티브 `App.getInfo()`를 직접 읽는다. 두 값 다 지금은 서로 일치하지만, 서로 다른 파일 3곳(package.json, appVersion.js, releaseBuild.js)을 매 릴리스마다 수동으로 맞춰야 하는 구조다 — `android_release_gate.js`는 이 중 Android/package 축만 자동 검증하고, iOS 축은 자동 게이트가 없다(아래 P1 참고).
+
+---
+
+### P0 플래그
+
+**출시 후보(HEAD)가 표준 릴리스 게이트(`npm run qa:candidate`)를 통과하지 못한 상태로 서명·아카이브됨**
+
+이전 릴리스들은 예외 없이 "qa:candidate passed ... mobile QA at 4개 뷰포트"를 명시했다. 이번 v0.1.716은 이 항목이 조용히 빠지고 Pixel 8 육안 확인으로 대체됐다. 실제로 지금 `npm run qa:candidate`를 돌리면 mobile QA에서 실패한다. 위에 정리했듯 실패 사유 중 상당수는 QA 스크립트 노후화(펜트리 66개 항아리 하드코딩 등)이지만, 스푼 잔액 칩과 홈 타이틀 겹침은 이번 릴리스 범위 안의 실제 회귀로 보인다 — 자동 게이트가 이미 깨진 상태였기 때문에 이 회귀가 걸러지지 않고 그대로 서명까지 간 것으로 보인다. 업로드 전에 (a) 360~390px 폭에서 스푼 잔액 칩과 홈 타이틀 겹침을 실기기로 직접 확인하고, (b) `scripts/mobile_visual_check.js`의 하드코딩된 펜트리 66/11 카운트·워크숍 배경 파일명·인사말 Pip 에셋 ID를 현재 콘텐츠에 맞게 갱신해 게이트를 실제로 그린 상태로 복구할 것을 권장.
+
+---
+
+### P1 플래그
+
+**메일박스 미확인 배지가 편지 열람 직후 갱신되지 않음**
+
+`src/ui/mailboxView.js:10,59`에 정의된 `onMailboxChange` 콜백은 story/guide 메시지를 열 때만 호출되고, 이번 릴리스의 핵심 콘텐츠인 개발자 웰컴레터(`kind: "letter"`) 열람 경로에서는 전혀 호출되지 않는다. 호출부인 `src/ui/appShell.js:888`도 `onReplayGuide`만 전달하고 `onMailboxChange`는 넘기지 않는다. 결과: 메일박스 화면에 머문 채로 편지를 읽어도 같은 화면에 떠 있는 floatingNav 배지("1")는 그대로 남고, 사용자가 다른 화면으로 이동했다가 돌아와야 사라진다. 이번 릴리스가 광고하는 대표 기능(첫 편지)에서 바로 드러나는 흠이라 P1로 표시.
+
+**iOS 릴리스 아이덴티티에 대한 자동 게이트 부재**
+
+`android_release_gate.js`는 Android versionCode/versionName ↔ package.json ↔ `APP_VERSION`만 검증한다. iOS `project.pbxproj`의 MARKETING_VERSION/CURRENT_PROJECT_VERSION을 자동으로 대조하는 스크립트가 없다(`scripts/` 전체 검색 결과 매치 없음). 지금은 수동으로 일치하지만, 이 축을 깨뜨려도 어떤 게이트도 잡아내지 못한다.
+
+---
+
+### P2 플래그
+
+**`qa:mobile`에 남아있을 수 있는 추가 하드코딩된 콘텐츠 스냅샷**
+
+위 P0에서 지적한 3개 하드코딩(펜트리 66/11, 워크숍 배경, 인사말 Pip 에셋) 외에, 675×900 뷰포트에서도 "Cursor pad lost tactile large-board treatment", "Puzzle board frame lost polished paper-tray treatment"가 FAIL로 찍혔다. 태블릿 폭 전용 실제 회귀인지 추가 스냅샷 노후화인지는 미확인 — 후속 조사 권장.
+
+---
+
+## Codex Response 21 — 2026-08-19
+
+- 업로드 전 배포를 중단하고 Review 21의 P0/P1 항목을 수정했다.
+- 400px 이하 홈에서는 스푼 잔액을 제목과 분리된 중앙 두 번째 행에 배치하고 인사말 여백을 조정했다.
+- 개발자 편지를 포함한 모든 편지 열람 직후 미확인 상태를 다시 계산해 플로팅 네비게이션 배지가 즉시 사라지도록 연결했다.
+- 모바일 QA의 Pantry 수량을 14개 선반/84개 항아리로, 홈 배경·Pip·Play·Time Attack 에셋 및 안내 순서를 현재 계약으로 갱신했다.
+- 퍼즐 보드와 커서 도구의 반응형 너비 검사는 실제 360/390/430/675 레이아웃 계약을 따르도록 수정했다.
+- iOS `MARKETING_VERSION`과 `CURRENT_PROJECT_VERSION`을 `RELEASE_BUILD`와 직접 대조하는 `qa:ios-release` 게이트를 추가하고 전체 후보 게이트에 포함했다.
+- `npm run qa:mobile`이 360×740, 390×844, 430×932, 675×900 네 뷰포트에서 모두 통과했다.

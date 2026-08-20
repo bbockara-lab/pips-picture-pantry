@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
+import fs from "node:fs";
 import { MAILBOX_MESSAGES, getUnlockedMailboxMessages } from "../src/data/mailboxMessages.js";
 import { getReadMailboxMessageIds, markMailboxMessageRead, setActivePlayerName } from "../src/game/save.js";
 
@@ -35,5 +36,12 @@ describe("Pip's Mailbox", () => {
     markMailboxMessageRead("developer-welcome-2026-08");
     markMailboxMessageRead("developer-welcome-2026-08");
     expect(getReadMailboxMessageIds()).toEqual(["developer-welcome-2026-08"]);
+  });
+
+  it("refreshes unread navigation immediately when any mailbox item is opened", () => {
+    const mailboxSource = fs.readFileSync(new URL("../src/ui/mailboxView.js", import.meta.url), "utf8");
+    const shellSource = fs.readFileSync(new URL("../src/ui/appShell.js", import.meta.url), "utf8");
+    expect(mailboxSource).toMatch(/markMailboxMessageRead\(message\.id\);\s*onMailboxChange\(\);/);
+    expect(shellSource).toMatch(/onMailboxChange:[\s\S]*?renderFloatingNav\(activeView, onSelectView, getUnreadMailboxCount\(\)\)/);
   });
 });

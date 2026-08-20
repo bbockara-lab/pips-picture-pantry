@@ -886,7 +886,13 @@ function createShell({
     shell.appendChild(renderAlbumView(onNextPuzzle));
   } else if (activeView === "mailbox") {
     shell.appendChild(renderMailboxView({
-      onReplayGuide
+      onReplayGuide,
+      onMailboxChange: () => {
+        const currentNav = shell.querySelector(".floating-nav");
+        if (currentNav) {
+          currentNav.replaceWith(renderFloatingNav(activeView, onSelectView, getUnreadMailboxCount()));
+        }
+      }
     }));
   } else if (activeView === "map") {
     shell.appendChild(renderPantryMapView());

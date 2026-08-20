@@ -25,6 +25,7 @@
     "ios:sync": "npm run build && cap sync ios",
     "ios:open": "cap open ios",
     "qa:release": "node scripts/android_release_gate.js",
+    "qa:ios-release": "node scripts/ios_release_gate.js",
     "qa:release:final": "node scripts/android_release_gate.js --final",
     "qa:candidate": "node scripts/release_candidate_check.js",
     "qa:android:candidate": "powershell -ExecutionPolicy Bypass -File scripts/android_candidate_check.ps1",

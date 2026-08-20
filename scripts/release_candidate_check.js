@@ -20,7 +20,8 @@ const checks = [
   ["billing", "npm run qa:billing"],
   ["privacy policy", "npm run qa:privacy"],
   ["build", "npm run build"],
-  ["release gate", "npm run qa:release"]
+  ["Android release gate", "npm run qa:release"],
+  ["iOS release gate", "npm run qa:ios-release"]
 ];
 
 function commandFor(command) {
