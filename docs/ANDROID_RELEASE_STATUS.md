@@ -2,6 +2,9 @@
 
 - Last Play Console upload: versionCode **50** / versionName **"1.1.21"** (released).
 - Current prepared upload target: versionCode 51 / versionName 1.1.22.
+- Upload-ready signed AAB: `release-artifacts/android-1.1.22-51-mailbox-home-polish/app-release.aab` (23,554,884 bytes).
+- SHA-256: `B909A47609BBE81002C8D1845292D20E99C960CF94663E638AE6EC353821EF4D`; `jarsigner` verification passed.
+- Pixel 8 native visual review passed for the home composition, mailbox, Settings version label, Play action, centered spoon balance, and neutral inactive Time Attack navigation state.
 - Scope: adds the developer mailbox and unlocked Pip-story archive, displays the installed app version in Settings, improves the home Play/mailbox/settings composition, keeps Pip present in the home artwork contract, and removes the unintended permanent Time Attack navigation highlight.
 - OneDrive remains a read-only backup; source, builds, and release artifacts must come only from the local Developer workspace.
 
