@@ -1,3 +1,14 @@
+## v0.1.716 / store 1.1.22 mailbox and home polish release (2026-08-19)
+
+- Added Pip's Mailbox beside Settings on the home screen and as a quick-travel destination. It contains a warm developer welcome letter and only archives Pip stories after the matching in-game guide has actually been seen.
+- Corrected the archived visitor name to Clock Grandpa, added a friendly mailbox illustration, and kept future Pantry visitor stories locked until their normal progression triggers.
+- Reworked the home Play action into a centered play-medallion artwork on the lower worktable, kept it clear of the destination grid, centered the spoon balance contents, and removed keyboard-style focus rectangles from pointer taps.
+- Settings now shows the installed public version and platform build. The home-scene contract permanently requires Pip to appear in every seasonal or cultural home concept.
+- Normalized quick-travel emphasis so only the current destination has an active button background; Time Attack no longer remains highlighted while another view is active.
+- Prepared store version `1.1.22`: Android versionCode `51`, iOS build `5`, visible/package version `v0.1.716`.
+- Pixel 8 native Android inspection confirmed the intro, home composition, mailbox first-run visibility, and Settings version `1.1.22 (build 51)`. Automated verification passed 60 Vitest files / 369 tests, 3 Functions tests, production build, and Capacitor Android/iOS sync.
+- OneDrive is a read-only backup. All source, release builds, and signing references use only the local Developer workspace and external local Key-Paths folder.
+
 ## Store platform media audit - Apple handoff and Play landscape preview (2026-08-04)
 
 - Apple media is not yet final: the existing localized 1290x2796 iPhone 6.9 screenshot candidates match accepted dimensions but were captured from the shared current web UI, not a real iOS build. Re-capture the same five scenes from Xcode Simulator or a physical iPhone after the Mac/iOS build runs.
