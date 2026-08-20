@@ -2,10 +2,13 @@
 
 - Last Play Console upload: versionCode **50** / versionName **"1.1.21"** (released).
 - Current prepared upload target: versionCode 51 / versionName 1.1.22.
-- Upload-ready signed AAB: `release-artifacts/android-1.1.22-51-mailbox-home-polish/app-release.aab` (23,554,884 bytes).
-- SHA-256: `B909A47609BBE81002C8D1845292D20E99C960CF94663E638AE6EC353821EF4D`; `jarsigner` verification passed.
+- Review-fixed upload-ready signed AAB: `release-artifacts/android-1.1.22-51-mailbox-home-polish-review-fixed/app-release.aab` (23,554,957 bytes).
+- SHA-256: `59F4787C2E5031EBCA9ABA8DC5628537C3E987BEA709DF9C4730EB3DE31D05E2`; `jarsigner` verification passed.
+- The earlier `release-artifacts/android-1.1.22-51-mailbox-home-polish/app-release.aab` predates the release-review fixes and is superseded; **do not upload it**.
 - Pixel 8 native visual review passed for the home composition, mailbox, Settings version label, Play action, centered spoon balance, and neutral inactive Time Attack navigation state.
 - Scope: adds the developer mailbox and unlocked Pip-story archive, displays the installed app version in Settings, improves the home Play/mailbox/settings composition, keeps Pip present in the home artwork contract, and removes the unintended permanent Time Attack navigation highlight.
+- Release-review corrections are included: narrow 360/390px home headers no longer overlap the spoon balance, mailbox unread badges clear immediately after opening a letter, and the mobile QA fixture now reflects the live 84-jar/14-shelf summer release data.
+- Full candidate/final verification passed with 60 Vitest files / 370 tests, 3 Functions tests, Android and iOS identity gates, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
 - OneDrive remains a read-only backup; source, builds, and release artifacts must come only from the local Developer workspace.
 
 ## Local migration recovery release - 2026-08-18

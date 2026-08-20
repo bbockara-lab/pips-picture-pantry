@@ -7,12 +7,15 @@ Prepared on 2026-08-19 from the local Developer workspace. OneDrive was not used
 - Marketing version: **1.1.22**
 - Build: **5**
 - Bundle ID: `com.sunnyspoonstudios.pipspicturepantry`
-- IPA: `release-artifacts/ios-1.1.22-5-mailbox-home-polish/export/App.ipa`
-- Size: 24,722,045 bytes
-- SHA-256: `F708A0CF075D549FC22959E1E539B94FBCA070A650459232EB6935C1760B3D97`
-- Archive: `release-artifacts/ios-1.1.22-5-mailbox-home-polish/PipsPicturePantry-1.1.22-5.xcarchive`
+- IPA: `release-artifacts/ios-1.1.22-5-mailbox-home-polish-review-fixed/export/App.ipa`
+- Size: 24,722,202 bytes
+- SHA-256: `882C45CFA3A8293778FEE97BFD0E0C877546B868AC280B842CE093D494B51D0E`
+- Archive: `release-artifacts/ios-1.1.22-5-mailbox-home-polish-review-fixed/PipsPicturePantry-1.1.22-5.xcarchive`
+- The earlier `release-artifacts/ios-1.1.22-5-mailbox-home-polish/export/App.ipa` predates the release-review fixes and is superseded; **do not upload it**.
 - Archive and export completed successfully using the Apple Distribution identity and the App Store distribution profile.
 - Exported IPA metadata was inspected and matches version 1.1.22, build 5, and the production bundle ID.
+- Release-review corrections are included: narrow 360/390px home headers no longer overlap the spoon balance, and mailbox unread badges clear immediately after opening a letter.
+- Full candidate/final verification passed with 60 Vitest files / 370 tests, 3 Functions tests, Android and iOS identity gates, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
 
 ## What's New — English
 
