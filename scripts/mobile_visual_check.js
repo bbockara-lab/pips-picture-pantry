@@ -591,11 +591,18 @@ async function expectCursorControlsGuideContained(page, viewportName, stepNumber
 }
 
 async function exitPlayScreen(page) {
-  await page.locator(".play-screen__back").click();
-  const homeAction = page.locator(".play-pause-menu__action--home");
-  if (await homeAction.count()) {
-    await homeAction.click();
+  const legacyBack = page.locator(".play-screen__back");
+  if (await legacyBack.count()) {
+    await legacyBack.click();
+    const homeAction = page.locator(".play-pause-menu__action--home");
+    if (await homeAction.count()) await homeAction.click();
+    return;
   }
+  const trigger = page.locator(".floating-nav__trigger").first();
+  await trigger.waitFor({ state: "visible", timeout: 4000 });
+  await trigger.click();
+  await page.locator(".floating-nav[data-open='true']").waitFor({ state: "visible", timeout: 3000 });
+  await page.locator(".floating-nav__item[data-view='puzzle']").click();
 }
 
 async function expectAbsent(page, selector, viewportName) {
