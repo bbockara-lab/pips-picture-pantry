@@ -1,12 +1,16 @@
 ## Functional fixes release preparation - 2026-08-21
 
 - Current prepared upload target: versionCode 52 / versionName 1.1.23.
+- Upload-ready signed AAB: `release-artifacts/android-1.1.23-52-controls-replay-fixes/app-release.aab` (24,543,354 bytes).
+- SHA-256: `E2A000C56F28C343ACE9C1298A9B81DD151CBA8B08FFE51D59A0474B54E8096B`; `jarsigner` verification passed.
+- **HOLD:** versionCode 51 / 1.1.22 is still in Play review. Upload this versionCode 52 artifact only after the versionCode 51 release lane has completed and Play Console accepts the next production release.
 
 - Shared public version target: **1.1.23**. Android uses versionCode **52**; iOS uses build **6**; the installed-app label is **v0.1.717**.
 - Scope is limited to functional fixes: instant direct/cursor control switching on the puzzle screen, cursor long-press continuous painting, the updated first-keypad-play Pip guide, the third clean-replay reward/final-pick transition fix, and consistent scroll reset when entering app views.
 - Korean Harvest remains a separately gated `candidate` theme and is not activated by this release.
 - Android versionCode **51** / 1.1.22 is in Play review. Do **not** upload versionCode 52 until versionCode 51 has completed and the Play release lane is available.
 - iOS 1.1.22 is released, so iOS build 6 / 1.1.23 may be uploaded and submitted independently once the signed IPA verification below is complete.
+- Final candidate verification passed with 66 Vitest files / 393 tests, 3 Functions tests, Android and iOS identity gates, production build, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
 
 ## Store synchronization status - 2026-08-20
 
