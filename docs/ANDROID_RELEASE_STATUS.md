@@ -1,9 +1,19 @@
+## Functional fixes release preparation - 2026-08-21
+
+- Current prepared upload target: versionCode 52 / versionName 1.1.23.
+
+- Shared public version target: **1.1.23**. Android uses versionCode **52**; iOS uses build **6**; the installed-app label is **v0.1.717**.
+- Scope is limited to functional fixes: instant direct/cursor control switching on the puzzle screen, cursor long-press continuous painting, the updated first-keypad-play Pip guide, the third clean-replay reward/final-pick transition fix, and consistent scroll reset when entering app views.
+- Korean Harvest remains a separately gated `candidate` theme and is not activated by this release.
+- Android versionCode **51** / 1.1.22 is in Play review. Do **not** upload versionCode 52 until versionCode 51 has completed and the Play release lane is available.
+- iOS 1.1.22 is released, so iOS build 6 / 1.1.23 may be uploaded and submitted independently once the signed IPA verification below is complete.
+
 ## Store synchronization status - 2026-08-20
 
 - App Store **1.1.22** is released.
 - Google Play versionCode **48** remains the currently released Android build.
-- Google Play versionCode **50** / versionName **1.1.21** is still in review as of the 2026-08-20 store-monitor check; do not describe it as released until Play Console confirms rollout.
-- Android versionCode **51** / versionName **1.1.22** is already packaged and verified as the platform catch-up release. Upload it only after versionCode 50 completes, using the review-fixed artifact documented below.
+- Google Play versionCode **50** / versionName **1.1.21** completed review after this snapshot.
+- Android versionCode **51** / versionName **1.1.22** was uploaded afterward and is now in review as of 2026-08-21, using the review-fixed artifact documented below.
 - The Korean Harvest update is developed above this synchronization point. Its final Android versionCode must be assigned only after every intervening Play upload is known; its public versionName should match the corresponding iOS seasonal release.
 
 ## Mailbox and home polish release - 2026-08-19

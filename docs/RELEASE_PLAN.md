@@ -1,6 +1,13 @@
 # Release Plan
 
-Last updated: 2026-08-20
+Last updated: 2026-08-21
+
+## Functional Fix Release Before Korean Harvest — 2026-08-21
+
+- Prepare shared version **1.1.23** as Android versionCode **52** and iOS build **6**.
+- Include puzzle-screen direct/cursor switching, cursor long-press continuous painting, its Pip guide update, the third replay-pick reward fix, and app-wide view-entry scroll reset.
+- Keep Korean Harvest content in `candidate` state and inactive in this release.
+- iOS may proceed now because 1.1.22 is live. Android 52 must wait until Android 51 / 1.1.22 finishes Play review.
 
 ## Current Store Synchronization — 2026-08-20
 
