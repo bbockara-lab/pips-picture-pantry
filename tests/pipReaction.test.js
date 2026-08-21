@@ -35,8 +35,8 @@ describe("Pip completion scene", () => {
     expect(pipReactionSource).toContain('? "completion.confirm"');
     expect(pipReactionSource).toContain('return t("completion.replayExhausted")');
   });
-  it("returns Daily completion to Spoon Run with one confirmation action", () => {
-    expect(pipReactionSource).toContain("replayExhausted || isDailyPuzzle");
+  it("returns Daily and the final replay pick to Spoon Run with one confirmation action", () => {
+    expect(pipReactionSource).toContain("replayExhausted || replayLastPick || isDailyPuzzle");
     expect(pipReactionSource).toContain('return t("completion.dailyDone")');
     expect(pipReactionSource).toContain('? "completion.confirm"');
     expect(pipReactionSource).toContain(': "completion.nextPicture"');

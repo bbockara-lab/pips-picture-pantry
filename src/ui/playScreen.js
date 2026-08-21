@@ -24,6 +24,7 @@ export function renderPlayScreen(activePuzzle, options) {
     timeAttackLimitSeconds = 0,
     replayChallenge = false,
     replayPicked = false,
+    replayLastPick = false,
     getTimeAttackHintCost,
     puzzleState = null,
     onPuzzleStateChange
@@ -76,6 +77,7 @@ export function renderPlayScreen(activePuzzle, options) {
     stageNavigation: isTimeAttack || replayChallenge ? null : getStageNavigation(activePuzzle, onPreviousStagePuzzle, onNextStagePuzzle, onShowPuzzlePicker),
     replayChallenge,
     replayPicked,
+    replayLastPick,
     isTimeAttack,
     getTimeAttackHintCost,
     puzzleState,

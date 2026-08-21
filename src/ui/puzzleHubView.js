@@ -463,6 +463,7 @@ export function renderReplayPicksCard(replayPicks, activePuzzleId, onSelectPuzzl
     dailyCount = getReplayDailyCount(),
     dailyLimit = ECONOMY.REPLAY_PICK_DAILY_LIMIT,
     reward = 0,
+    rewardedPuzzleIds = [],
     onReplayPick = onSelectPuzzle
   } = options;
   const card = document.createElement("section");
@@ -482,14 +483,16 @@ export function renderReplayPicksCard(replayPicks, activePuzzleId, onSelectPuzzl
   const list = document.createElement("div");
   list.className = "replay-picks-list";
   picks.forEach((puzzle, index) => {
+    const rewarded = rewardedPuzzleIds.includes(puzzle.id);
     const button = document.createElement("button");
     button.type = "button";
-    button.className = puzzle.id === activePuzzleId ? "replay-pick-button active" : "replay-pick-button";
+    button.className = ["replay-pick-button", puzzle.id === activePuzzleId ? "active" : "", rewarded ? "claimed" : ""].filter(Boolean).join(" ");
     button.dataset.puzzleId = puzzle.id;
     appendTextElement(button, "span", "replay-pick-button__number", String(index + 1));
     appendTextElement(button, "span", "replay-pick-button__title", puzzleTitle(puzzle));
-    appendTextElement(button, "span", "replay-pick-button__spoon", `+${ECONOMY.REPLAY_PICK_REWARD}`);
-    button.addEventListener("click", () => onReplayPick(puzzle.id));
+    appendTextElement(button, "span", "replay-pick-button__spoon", rewarded ? t("spoonRun.collected") : `+${ECONOMY.REPLAY_PICK_REWARD}`);
+    button.disabled = rewarded;
+    if (!rewarded) button.addEventListener("click", () => onReplayPick(puzzle.id));
     list.appendChild(button);
   });
 
@@ -514,6 +517,7 @@ export function renderSpoonRunView({
   dailyPuzzle,
   activePuzzleId,
   replayPicks,
+  replayRewardedPuzzleIds = [],
   completedDate,
   today,
   dailyCount,
@@ -564,7 +568,7 @@ export function renderSpoonRunView({
     replayPicks,
     activePuzzleId,
     onSelectReplay,
-    { dailyCount, dailyLimit, reward: opportunity.replayReward, onReplayPick: onSelectReplay }
+    { dailyCount, dailyLimit, reward: opportunity.replayReward, rewardedPuzzleIds: replayRewardedPuzzleIds, onReplayPick: onSelectReplay }
   );
   cards.appendChild(replayCard);
 

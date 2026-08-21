@@ -22,6 +22,7 @@ export function renderCompletionBanner(puzzle, {
   replayChallenge = false,
   replayResult = null,
   replayExhausted = false,
+  replayLastPick = false,
   dailyChallenge = false,
   isDailyPuzzle = false,
   dailyResult = null,
@@ -85,13 +86,13 @@ export function renderCompletionBanner(puzzle, {
   const actionButton = document.createElement("button");
   actionButton.type = "button";
   actionButton.className = "tool-button";
-  actionButton.textContent = t(replayExhausted
+  actionButton.textContent = t(replayExhausted || replayLastPick
     ? "completion.backToSpoonRun"
     : isDailyPuzzle
       ? "completion.confirm"
       : "completion.nextPicture");
   actionButton.addEventListener("click", () => {
-    if (replayExhausted || isDailyPuzzle) {
+    if (replayExhausted || replayLastPick || isDailyPuzzle) {
       onBackToSpoonRun?.();
       return;
     }

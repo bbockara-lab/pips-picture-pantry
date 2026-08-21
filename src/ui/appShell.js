@@ -100,11 +100,11 @@ export function renderApp(root) {
     if (root.dataset.introOpen !== "true") draw();
   });
 
-  function queuePlayScrollReset() {
-    pendingScrollTarget = "play";
+  function queueViewportTopReset() {
+    pendingScrollTarget = "top";
   }
 
-  function selectPuzzle(puzzleId, scrollTarget = "play", options = {}) {
+  function selectPuzzle(puzzleId, scrollTarget = "top", options = {}) {
     const nextPuzzle = puzzles.find((puzzle) => puzzle.id === puzzleId) || dailyPuzzle;
     if (!isShelfUnlocked(getSeasonShelfForPuzzle(nextPuzzle))) {
       return;
@@ -119,7 +119,7 @@ export function renderApp(root) {
     puzzleListOpen = false;
     resetOpen = false;
     settingsOpen = false;
-    pendingScrollTarget = scrollTarget === "puzzle" ? "play" : scrollTarget;
+    pendingScrollTarget = scrollTarget === "puzzle" ? "top" : scrollTarget;
     draw();
   }
 
@@ -162,7 +162,7 @@ export function renderApp(root) {
       });
       const nextReplayPick = getNextDailyReplayPick(replayPicks, activePuzzle.id);
       if (nextReplayPick) {
-        selectPuzzle(nextReplayPick.id, "play", { replayChallenge: true, replayPicked: true });
+        selectPuzzle(nextReplayPick.id, "top", { replayChallenge: true, replayPicked: true });
         return;
       }
       replayChallenge = false;
@@ -199,7 +199,7 @@ export function renderApp(root) {
     }
   }
 
-  function selectView(view, scrollTarget = "view") {
+  function selectView(view, scrollTarget = "top") {
     if (view === "settings") {
       requestSettings();
       return;
@@ -234,7 +234,7 @@ export function renderApp(root) {
     }
     activePuzzle = decision.puzzle || activePuzzle;
     playOpen = true;
-    queuePlayScrollReset();
+    queueViewportTopReset();
     draw();
   }
 
@@ -268,7 +268,7 @@ export function renderApp(root) {
     puzzleListOpen = false;
     resetOpen = false;
     settingsOpen = false;
-    pendingScrollTarget = "view";
+    queueViewportTopReset();
     draw();
   }
 
@@ -298,7 +298,7 @@ export function renderApp(root) {
     resetOpen = false;
     settingsOpen = false;
     timeAttackLastResult = session.lastResult;
-    queuePlayScrollReset();
+    queueViewportTopReset();
     draw();
   }
   function closeTimeAttackRun() {
@@ -308,6 +308,7 @@ export function renderApp(root) {
     playOpen = false;
     puzzleListOpen = false;
     clearTimeAttackSession();
+    queueViewportTopReset();
     draw();
   }
 
@@ -332,7 +333,7 @@ export function renderApp(root) {
       activeTimeAttackPuzzleState = null;
       timeAttackRoundIndex = result.roundIndex;
       activePuzzle = result.activePuzzle;
-      queuePlayScrollReset();
+      queueViewportTopReset();
       draw();
       return;
     }
@@ -343,6 +344,7 @@ export function renderApp(root) {
     activeView = "timeAttack";
     playOpen = false;
     clearTimeAttackSession();
+    queueViewportTopReset();
     draw();
   }
 
@@ -705,8 +707,8 @@ export function renderApp(root) {
     }
     const target = pendingScrollTarget;
     pendingScrollTarget = null;
-    if (target === "play") {
-      const resetPlayViewport = () => {
+    if (target === "top" || target === "play" || target === "view") {
+      const resetViewport = () => {
         const scrollRoot = document.scrollingElement || document.documentElement;
         if (scrollRoot) {
           scrollRoot.scrollTop = 0;
@@ -720,11 +722,11 @@ export function renderApp(root) {
       // WebKit can restore the previous page position after the replacement DOM
       // has painted. Reset immediately and once more on the next frame so every
       // normal, replay, and Time Attack board begins from its intended top edge.
-      resetPlayViewport();
+      resetViewport();
       if (typeof globalThis.requestAnimationFrame === "function") {
-        globalThis.requestAnimationFrame(resetPlayViewport);
+        globalThis.requestAnimationFrame(resetViewport);
       } else {
-        globalThis.setTimeout(resetPlayViewport, 0);
+        globalThis.setTimeout(resetViewport, 0);
       }
       return;
     }
@@ -735,10 +737,8 @@ export function renderApp(root) {
           ? ".replay-picks-card"
           : target === "spoonStore"
             ? ".spoon-store"
-            : target === "view"
-            ? ".app-shell"
             : ".puzzle-panel";
-      container.querySelector(selector)?.scrollIntoView({ behavior: target === "view" ? "auto" : "smooth", block: "start" });
+      container.querySelector(selector)?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 0);
   }
 
@@ -838,6 +838,7 @@ function createShell({
     allPuzzles: getDailyPuzzleCandidates(),
     completedPuzzleIds: getCompletedPuzzleIds()
   });
+  const replayLastPick = Boolean(replayChallenge && !getNextDailyReplayPick(replayPicks, activePuzzle.id));
   const replayRewardedPuzzleIds = getReplayRewardedPuzzleIds(today);
   const replayDailyCount = getReplayDailyCount(today);
   const spoonRunOpportunity = getSpoonRunOpportunity({
@@ -888,7 +889,8 @@ function createShell({
       puzzleState: activeView === "timeAttack" ? timeAttackPuzzleState : null,
       onPuzzleStateChange: activeView === "timeAttack" ? onTimeAttackPuzzleStateChange : null,
       replayChallenge,
-      replayPicked
+      replayPicked,
+      replayLastPick
     }));
     const playHeader = shell.querySelector(".play-screen__header");
     const spoonBalanceChip = shell.querySelector(":scope > .spoon-balance-chip");
@@ -958,6 +960,7 @@ function createShell({
       dailyPuzzle,
       activePuzzleId: activePuzzle.id,
       replayPicks,
+      replayRewardedPuzzleIds,
       completedDate,
       today,
       dailyCount: replayDailyCount,
