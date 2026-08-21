@@ -2,7 +2,15 @@ import { describe, expect, it, afterEach } from "vitest";
 import { CELL } from "../src/game/nonogram.js";
 import { createPuzzleState, setCursor, toggleCell } from "../src/game/puzzleState.js";
 import { setActiveLocale } from "../src/i18n/index.js";
-import { getCursorActionDescriptors, getCursorActionLabels, getSelectedCursorCell, shouldShowCursorControls } from "../src/ui/puzzleCursorControls.js";
+import {
+  applyCursorAction,
+  createCursorControlSession,
+  getCursorActionDescriptors,
+  getCursorActionLabels,
+  getSelectedCursorCell,
+  moveSelectedCell,
+  shouldShowCursorControls
+} from "../src/ui/puzzleCursorControls.js";
 
 const puzzle = { id: "cursor-label-puzzle", size: 3 };
 
@@ -58,6 +66,33 @@ describe("automatic large-board controls", () => {
   it("respects explicit tap and cursor preferences", () => {
     expect(shouldShowCursorControls({ size: 12 }, "direct")).toBe(false);
     expect(shouldShowCursorControls({ size: 5 }, "cursor")).toBe(true);
+  });
+});
+
+describe("continuous cursor painting", () => {
+  it("paints along the route with the selected brush and keeps move-only available", () => {
+    let state = createPuzzleState(puzzle);
+    const session = createCursorControlSession(state);
+    const update = (next) => {
+      state = next;
+    };
+
+    applyCursorAction(state, "fill", update, session);
+    moveSelectedCell(state, 0, 1, puzzle.size, update, session);
+    moveSelectedCell(state, 1, 0, puzzle.size, update, session);
+
+    expect(state.cells[0][0]).toBe(CELL.filled);
+    expect(state.cells[0][1]).toBe(CELL.filled);
+    expect(state.cells[1][1]).toBe(CELL.filled);
+
+    applyCursorAction(state, "mark", update, session);
+    moveSelectedCell(state, 0, 1, puzzle.size, update, session);
+    expect(state.cells[1][2]).toBe(CELL.marked);
+
+    session.trailEnabled = false;
+    moveSelectedCell(state, 1, 0, puzzle.size, update, session);
+    expect(state.cursor).toEqual({ row: 2, column: 2 });
+    expect(state.cells[2][2]).toBe(CELL.empty);
   });
 });
 

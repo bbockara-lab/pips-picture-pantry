@@ -869,6 +869,7 @@ function createShell({
       dailyBonus: DAILY_BONUS,
       dailyChallenge,
       controlMode,
+      onControlModeChange,
       onClosePuzzle: activeView === "timeAttack" ? onCloseTimeAttack : onClosePuzzle,
       onRequestSettings,
       onViewAlbum: activeView === "timeAttack" ? onCloseTimeAttack : onClosePuzzle,

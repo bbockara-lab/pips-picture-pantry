@@ -38,6 +38,12 @@ describe("play screen wiring", () => {
     expect(playScreenSource).not.toContain('className = "play-pause-overlay"');
   });
 
+  it("offers an in-game shortcut between direct input and the D-pad", () => {
+    expect(playScreenSource).toContain("shouldShowCursorControls(activePuzzle, controlMode)");
+    expect(playScreenSource).toContain('className = "play-screen__control-toggle"');
+    expect(playScreenSource).toContain('onControlModeChange?.(usesCursorControls ? "direct" : "cursor")');
+  });
+
   it("prevents persistent iOS double-tap zoom during rapid puzzle input", () => {
     expect(indexSource).toContain("maximum-scale=1.0");
     expect(indexSource).toContain("user-scalable=no");

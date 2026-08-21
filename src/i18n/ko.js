@@ -106,6 +106,10 @@ export const ko = {
     controlsAuto: "\ud070 \ud310\uc5d0\uc11c \uc790\ub3d9",
     controlsDirect: "\uce78 \uc9c1\uc811 \ub204\ub974\uae30",
     controlsCursor: "\ubc29\ud5a5\ud0a4 \uc0ac\uc6a9",
+    controlsDirectShort: "\uc9c1\uc811",
+    controlsCursorShort: "\ubc29\ud5a5\ud0a4",
+    switchToDirect: "\uce78\uc744 \uc9c1\uc811 \ub204\ub974\ub294 \ubc29\uc2dd\uc73c\ub85c \ubc14\uafb8\uae30",
+    switchToCursor: "\ubc29\ud5a5\ud0a4 \uc870\uc791\uc73c\ub85c \ubc14\uafb8\uae30",
     guideReplayTitle: "핍\uc758 \uac00\uc774\ub4dc",
     guideReplayAction: "핍 가이드 보기",
     guideReplayPuzzleAction: "그림 가이드",
@@ -293,8 +297,9 @@ export const ko = {
     },
     cursorControlsIntro: {
       speakerName: "핍",
-      step1: "이제부터 그림이 조금 더 커져요. 방향키로 칸을 하나씩 편하게 옮겨 다녀요.",
-      step2: "설정에서 언제든 칸 직접 누르기로 바꿀 수 있어요. 준비됐죠? 같이 풀어봐요!"
+      step1: "칠하기나 빈칸을 먼저 고르고 방향키를 누르면, 이동한 칸이 바로 표시돼요.",
+      step2: "방향키를 꾹 누르면 손가락으로 미는 것처럼 여러 칸을 쭉 이어 칠할 수 있어요. ‘이어 칠하기’를 끄면 한 칸씩 이동해요.",
+      step3: "게임 위쪽 조작 버튼으로 방향키와 칸 직접 누르기를 바로 바꿀 수 있어요. 설정에서도 기본 방식을 정할 수 있답니다."
     },
     pantryJarIntro: {
       speakerName: "핍",
@@ -384,6 +389,8 @@ export const ko = {
     cursorClearFill: "\uc0c9 \uc9c0\uc6b0\uae30",
     cursorMark: "\ube48\uce78",
     cursorClearMark: "X \uc9c0\uc6b0\uae30",
+    cursorTrailOn: "\uc774\uc5b4 \uce60\ud558\uae30 \ucf1c\uc9d0",
+    cursorTrailOff: "\uc774\uc5b4 \uce60\ud558\uae30 \uaebc\uc9d0",
     hint: "\uD78C\uD2B8 \uC4F0\uAE30",
     hintWithCost: "\uD78C\uD2B8 \uC4F0\uAE30",
     hintConfirmTitle: "\uC2A4\uD47C\uC73C\uB85C \uD78C\uD2B8\uB97C \uBCFC\uAE4C\uC694?",

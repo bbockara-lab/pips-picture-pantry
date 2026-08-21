@@ -2360,9 +2360,13 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const style = getComputedStyle(panel);
     const dpad = panel.querySelector(".cursor-dpad");
     const actionsArea = panel.querySelector(".cursor-actions");
+    const trailToggle = panel.querySelector(".cursor-trail-toggle");
+    const controlToggle = document.querySelector(".play-screen__control-toggle");
     const nav = document.querySelector(".floating-nav");
     const dpadRect = dpad?.getBoundingClientRect();
     const actionsRect = actionsArea?.getBoundingClientRect();
+    const trailToggleRect = trailToggle?.getBoundingClientRect();
+    const controlToggleRect = controlToggle?.getBoundingClientRect();
     const navRect = nav?.getBoundingClientRect();
     const intersects = (first, second) =>
       Boolean(first && second && first.left < second.right && first.right > second.left && first.top < second.bottom && first.bottom > second.top);
@@ -2416,6 +2420,12 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       background: style.backgroundImage,
       cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
       dpadWidth: dpadRect?.width || 0,
+      trailToggleWidth: trailToggleRect?.width || 0,
+      trailToggleHeight: trailToggleRect?.height || 0,
+      trailToggleLabel: trailToggle?.getAttribute("aria-label") || trailToggle?.textContent.trim() || "",
+      controlToggleWidth: controlToggleRect?.width || 0,
+      controlToggleHeight: controlToggleRect?.height || 0,
+      controlToggleLabel: controlToggle?.getAttribute("aria-label") || controlToggle?.textContent.trim() || "",
       navVisible: Boolean(navRect && navRect.width > 0 && navRect.height > 0),
       navOverlapActions: intersects(navRect, actionsRect),
       navOverlapDpad: intersects(navRect, dpadRect),
@@ -2432,6 +2442,12 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     cursorPadMetrics.radius < 16 ||
     !cursorPadMetrics.background.includes("gradient") ||
     cursorPadMetrics.dpadWidth < 124 ||
+    cursorPadMetrics.trailToggleWidth < 44 ||
+    cursorPadMetrics.trailToggleHeight < 44 ||
+    !cursorPadMetrics.trailToggleLabel ||
+    cursorPadMetrics.controlToggleWidth < 44 ||
+    cursorPadMetrics.controlToggleHeight < 44 ||
+    !cursorPadMetrics.controlToggleLabel ||
     cursorPadMetrics.navOverlapActions ||
     cursorPadMetrics.navOverlapDpad ||
     cursorPadMetrics.moves.length !== 4 ||
@@ -2506,8 +2522,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
 
   await page.locator(".cursor-action-button").first().click();
   const cursorActionAfterFill = await page.locator(".cursor-action-button").first().innerText();
-  if (!/Clear|\uC9C0\uC6B0/.test(cursorActionAfterFill)) {
-    failures.push("[" + viewportName + "] Cursor fill action should become a clear action after use: " + JSON.stringify({ cursorActionAfterFill }));
+  if (!/Color|\uCE60\uD558\uAE30/.test(cursorActionAfterFill)) {
+    failures.push("[" + viewportName + "] Cursor trail brush should remain in fill mode after use: " + JSON.stringify({ cursorActionAfterFill }));
   }
   await page.locator(".cursor-action-button").first().click();
 
@@ -3028,7 +3044,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       overflows: line.scrollWidth > Math.ceil(rect.width) + 1 || line.scrollHeight > Math.ceil(rect.height) + 1
     };
   });
-  if (progressMetrics.width > progressMetrics.viewportWidth || progressMetrics.height < 32 || progressMetrics.borderRadius < 16 || progressMetrics.markWidth !== 0 || progressMetrics.markHeight !== 0 || !/^\d+\s*\/\s*\d+$/.test(progressMetrics.text) || progressMetrics.badgeText || progressMetrics.overflows) {
+  if (progressMetrics.width > progressMetrics.viewportWidth || progressMetrics.height < 32 || progressMetrics.borderRadius < 16 || progressMetrics.markWidth !== 0 || progressMetrics.markHeight !== 0 || !/^\d+\s*\/\s*\d+/.test(progressMetrics.text) || progressMetrics.badgeText || progressMetrics.overflows) {
     failures.push("[" + viewportName + "] Puzzle progress line lost compact chip treatment: " + JSON.stringify(progressMetrics));
   }
 
@@ -3086,6 +3102,10 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
 
 async function expectDragPreviewPolish(page, viewportName) {
   const cells = page.locator(".puzzle-grid .puzzle-cell");
+  const baseline = await page.evaluate(() => ({
+    filledCount: document.querySelectorAll(".puzzle-cell.filled").length,
+    markedCount: document.querySelectorAll(".puzzle-cell.marked").length
+  }));
   const firstBox = await cells.nth(2).boundingBox();
   const secondBox = await cells.nth(3).boundingBox();
   if (!firstBox || !secondBox) {
@@ -3134,7 +3154,7 @@ async function expectDragPreviewPolish(page, viewportName) {
     window.dispatchEvent(event);
   });
 
-  if (metrics.previewCount !== 0 || metrics.selectedCount !== 1 || metrics.filledCount !== 0 || metrics.markedCount !== 0) {
+  if (metrics.previewCount !== 0 || metrics.selectedCount !== 1 || metrics.filledCount !== baseline.filledCount || metrics.markedCount !== baseline.markedCount) {
     failures.push("[" + viewportName + "] Cursor-mode board drag must only move the selection, never preview or change cells: " + JSON.stringify(metrics));
   }
 }

@@ -8053,6 +8053,44 @@ img {
   background: linear-gradient(180deg, #fffaf2 0%, #a9dcc7 100%);
 }
 
+.cursor-action-button.is-active {
+  border-color: #8b632d;
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.9),
+    0 0 0 6px rgba(219, 157, 42, 0.26),
+    0 4px 0 rgba(67, 45, 51, 0.18);
+}
+
+.cursor-trail-toggle {
+  min-height: 44px;
+  border: 1.5px solid rgba(103, 80, 69, 0.42);
+  border-radius: 999px;
+  background: rgba(255, 252, 239, 0.94);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 850;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: 0 3px 0 rgba(83, 63, 51, 0.12);
+}
+
+.cursor-trail-toggle.is-active {
+  border-color: rgba(95, 139, 92, 0.72);
+  background: linear-gradient(180deg, #f4ffe8 0%, #dcefc8 100%);
+}
+
+.cursor-trail-toggle.is-active::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: #6aa75f;
+  box-shadow: 0 0 0 3px rgba(106, 167, 95, 0.14);
+}
+
 .cursor-controls--compact {
   gap: 7px;
   padding: 10px;
@@ -8131,7 +8169,12 @@ img {
 }
 
 .cursor-controls--compact .cursor-action-button {
-  min-height: 56px;
+  min-height: 48px;
+}
+
+.cursor-controls--compact .cursor-trail-toggle {
+  min-height: 44px;
+  font-size: 0.72rem;
 }
 
 .hint-panel--compact .hint-panel__copy {
@@ -20846,4 +20889,89 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   box-shadow:
     0 -10px 14px rgba(255, 250, 240, 0.92),
     0 4px 0 rgba(61, 43, 46, 0.2);
+}
+
+/* v0.1.717 - final play-header authority. Players can switch between direct
+   tapping and the D-pad without leaving the current puzzle. */
+.app-shell--play .play-screen__header {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-rows: auto;
+}
+
+.app-shell--play .play-screen__title {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.app-shell--play .play-screen__control-toggle {
+  grid-column: 2;
+  grid-row: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 78px;
+  min-height: 44px;
+  border: 2px solid rgba(61, 43, 46, 0.72);
+  border-radius: 13px;
+  padding: 6px 9px;
+  background: linear-gradient(180deg, #fffaf0 0%, #f7ead0 100%);
+  color: var(--ink);
+  box-shadow: 0 3px 0 rgba(61, 43, 46, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.76);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+  touch-action: manipulation;
+}
+
+.app-shell--play .play-screen__control-toggle[data-control-mode="cursor"] {
+  background: linear-gradient(180deg, #fff2bc 0%, #f7d979 100%);
+}
+
+.app-shell--play .play-screen__control-toggle:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 rgba(61, 43, 46, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.76);
+}
+
+.app-shell--play .play-screen__control-toggle:focus-visible {
+  outline: 3px solid rgba(216, 145, 43, 0.5);
+  outline-offset: 2px;
+}
+
+.app-shell--play .play-screen__control-toggle-icon {
+  display: grid;
+  place-items: center;
+  width: 19px;
+  height: 19px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.66);
+  font-size: 0.86rem;
+}
+
+.app-shell--play .play-screen__header .difficulty {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+@media (max-width: 390px) {
+  .app-shell--play .play-screen__header {
+    gap: 5px;
+  }
+
+  .app-shell--play .play-screen__control-toggle {
+    min-width: 44px;
+    width: 44px;
+    padding-inline: 0;
+  }
+
+  .app-shell--play .play-screen__control-toggle-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }

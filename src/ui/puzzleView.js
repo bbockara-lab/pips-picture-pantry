@@ -15,7 +15,7 @@ import { getEquippedJarForCurrentStage, getPantrySpoons, loadPuzzleState, record
 import { puzzleTitle, t } from "../i18n/index.js";
 import { playComplete, playCursorAction, playCursorMove, playTap } from "./audio.js";
 import { getHintLimit, getHintRevealCount, renderHintPanel, renderHowToPlayCard, renderMarkHint } from "./puzzleAssistView.js";
-import { moveSelectedCell, renderCursorControls, shouldShowCursorControls, toggleSelectedCell } from "./puzzleCursorControls.js";
+import { applyCursorAction, createCursorControlSession, moveSelectedCell, renderCursorControls, shouldShowCursorControls } from "./puzzleCursorControls.js";
 import { getLineGuidance, renderBoard } from "./boardView.js";
 import { isReplayExhausted, renderCompletionBanner } from "./pipReaction.js";
 import { createPuzzleControlArtImage } from "./puzzleControlArt.js";
@@ -39,6 +39,7 @@ export function renderPuzzleView(puzzle, options = {}) {
   let rewardResult = null;
   let stageBonus = 0;
   const controlMode = options.controlMode || "auto";
+  const cursorControlSession = createCursorControlSession(state);
   const section = document.createElement("section");
   const puzzleTheme = getSeasonalThemeForPack(puzzle.packId);
   if (puzzleTheme) section.dataset.eventTheme = puzzleTheme.id;
@@ -105,22 +106,22 @@ export function renderPuzzleView(puzzle, options = {}) {
     const key = event.key;
     if (key === "ArrowUp") {
       event.preventDefault();
-      moveSelectedCell(state, -1, 0, puzzle.size, update);
+      moveSelectedCell(state, -1, 0, puzzle.size, update, cursorControlSession);
     } else if (key === "ArrowDown") {
       event.preventDefault();
-      moveSelectedCell(state, 1, 0, puzzle.size, update);
+      moveSelectedCell(state, 1, 0, puzzle.size, update, cursorControlSession);
     } else if (key === "ArrowLeft") {
       event.preventDefault();
-      moveSelectedCell(state, 0, -1, puzzle.size, update);
+      moveSelectedCell(state, 0, -1, puzzle.size, update, cursorControlSession);
     } else if (key === "ArrowRight") {
       event.preventDefault();
-      moveSelectedCell(state, 0, 1, puzzle.size, update);
+      moveSelectedCell(state, 0, 1, puzzle.size, update, cursorControlSession);
     } else if (key === " " || key === "Enter") {
       event.preventDefault();
-      toggleSelectedCell(state, "fill", update);
+      applyCursorAction(state, "fill", update, cursorControlSession);
     } else if (key.toLowerCase() === "x" || key === "Backspace" || key === "Delete") {
       event.preventDefault();
-      toggleSelectedCell(state, "mark", update);
+      applyCursorAction(state, "mark", update, cursorControlSession);
     } else if (key.toLowerCase() === "z" && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
       update(undoLastMove(state), { skipAutoLineMarks: true });
@@ -215,7 +216,11 @@ export function renderPuzzleView(puzzle, options = {}) {
       section.appendChild(createControls(state, update));
     }
     if (!state.completed && cursorControlsEnabled) {
-      section.appendChild(renderCursorControls(state, puzzle, update));
+      section.appendChild(renderCursorControls(state, puzzle, update, {
+        session: cursorControlSession,
+        getState: () => state,
+        redraw: draw
+      }));
     }
     if (!isTimeAttack) {
       appendHintPanel(true);

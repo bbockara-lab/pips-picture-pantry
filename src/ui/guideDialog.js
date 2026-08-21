@@ -5,7 +5,7 @@ import mateoArtUrl from "../assets/characters/story-friend-mateo-v1.png";
 import { isRuntimeGuideArtApproved } from "../data/runtimeArt.js";
 import { createPuzzleState } from "../game/puzzleState.js";
 import { t } from "../i18n/index.js";
-import { renderCursorControls } from "./puzzleCursorControls.js";
+import { createCursorControlSession, renderCursorControls } from "./puzzleCursorControls.js";
 
 const GUIDE_ART_ASSET_ID = "pip-chrome-v2";
 export const PUZZLE_PRACTICE = Object.freeze({
@@ -19,7 +19,7 @@ export const PUZZLE_PRACTICE = Object.freeze({
 });
 const GUIDE_STEPS = {
   puzzle: ["guide.puzzle.step1", "guide.puzzle.step2", "guide.puzzle.step3"],
-  cursorControlsIntro: ["guide.cursorControlsIntro.step1", "guide.cursorControlsIntro.step2"],
+  cursorControlsIntro: ["guide.cursorControlsIntro.step1", "guide.cursorControlsIntro.step2", "guide.cursorControlsIntro.step3"],
   pantryJarIntro: ["guide.pantryJarIntro.step1", "guide.pantryJarIntro.step2", "guide.pantryJarIntro.step3"],
   timeAttack: ["guide.timeAttack.step1", "guide.timeAttack.step2", "guide.timeAttack.step3"],
   map: ["guide.map.step1", "guide.map.step2", "guide.map.step3"],
@@ -112,7 +112,7 @@ export function renderGuideDialog(guideId, onClose) {
       ? createPuzzlePractice()
       : guideId === "puzzle" && index === 2
         ? createSeparatedClueExample()
-        : guideId === "cursorControlsIntro" && index === 0
+        : guideId === "cursorControlsIntro" && index <= 1
           ? createCursorControlsPreview()
         : null;
 
@@ -172,12 +172,13 @@ function createCursorControlsPreview() {
   element.className = "guide-cursor-preview";
   const puzzle = { id: "guide-cursor-preview", size: 8 };
   let state = createPuzzleState(puzzle);
+  const session = createCursorControlSession(state);
 
   function draw() {
     const controls = renderCursorControls(state, puzzle, (nextState) => {
       state = nextState;
       draw();
-    });
+    }, { session, getState: () => state, redraw: draw });
     element.replaceChildren(controls);
   }
 
