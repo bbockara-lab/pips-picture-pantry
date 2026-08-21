@@ -1,6 +1,14 @@
+## Store synchronization status - 2026-08-20
+
+- App Store **1.1.22** is released.
+- Google Play versionCode **48** remains the currently released Android build.
+- Google Play versionCode **50** / versionName **1.1.21** is still in review as of the 2026-08-20 store-monitor check; do not describe it as released until Play Console confirms rollout.
+- Android versionCode **51** / versionName **1.1.22** is already packaged and verified as the platform catch-up release. Upload it only after versionCode 50 completes, using the review-fixed artifact documented below.
+- The Korean Harvest update is developed above this synchronization point. Its final Android versionCode must be assigned only after every intervening Play upload is known; its public versionName should match the corresponding iOS seasonal release.
+
 ## Mailbox and home polish release - 2026-08-19
 
-- Last Play Console upload: versionCode **50** / versionName **"1.1.21"** (released).
+- Last Play Console upload: versionCode **50** / versionName **"1.1.21"** (in review as of 2026-08-20; versionCode 48 is live).
 - Current prepared upload target: versionCode 51 / versionName 1.1.22.
 - Review-fixed upload-ready signed AAB: `release-artifacts/android-1.1.22-51-mailbox-home-polish-review-fixed/app-release.aab` (23,554,957 bytes).
 - SHA-256: `59F4787C2E5031EBCA9ABA8DC5628537C3E987BEA709DF9C4730EB3DE31D05E2`; `jarsigner` verification passed.
