@@ -53,6 +53,13 @@ export const en = {
     welcomeDate: "August 2026 · Sunny Spoon Studios",
     welcomeArtAlt: "Pip writing a letter at a warm Pantry desk",
     welcomeBody: "Hello from Sunny Spoon Studios.\n\nThank you so much for finding Pip's Picture Pantry. We are carefully polishing this little puzzle room, one square at a time, into a warm place you will want to visit for a long while.\n\nWe will keep bringing you new picture puzzles, seasonal stories, and more comfortable ways to play. We hope you will look forward to every new scene with Pip.\n\nThe time you spend with Pip and your warm support mean more to us than you know.\n\n— Sunny Spoon Studios",
+    koreanHarvest: {
+      title: "A letter beneath the harvest moon",
+      preview: "Pip prepared a warm Chuseok table for you.",
+      date: "September 2026 · Sunny Spoon Studios",
+      artAlt: "Hanbok Pip writing a letter beside songpyeon beneath the full moon",
+      body: "Thank you for spending quiet puzzle moments with Pip.\n\nWe made this Korean harvest celebration with great care. Every moonlit picture, songpyeon plate, and little Pantry keepsake was prepared to share the warmth of Chuseok with players around the world.\n\nWe will keep filling the Pantry with new pictures, stories, and small surprises. We hope the full moon brings warmth to your day.\n\n— Sunny Spoon Studios"
+    },
     messages: {
       "guide-puzzle": { title: "How picture puzzles work", preview: "Replay Pip's first puzzle guide." },
       "guide-cursor": { title: "Moving around bigger boards", preview: "Replay the D-pad guide." },
@@ -140,6 +147,7 @@ export const en = {
     groupC: "Shelf C - Pip’s Village",
     groupD: "Shelf D - Pip’s Seasons",
     groupE: "Shelf E - Pip’s Summer",
+    groupF: "Shelf F - Harvest Moon Festival",
     earned: "Collected",
     stageRequirement: "Complete Stage {stage}",
     detailEarned: "This keepsake is shining on your shelf.",
@@ -158,6 +166,8 @@ export const en = {
     pipPortrait: "Pip Portrait",
     summerPantry: "Summer Pantry Badge",
     summerPantryDesc: "Complete the summer Pantry picture collection.",
+    koreanHarvest: "Harvest Moon Badge",
+    koreanHarvestDesc: "Complete Pip's Korean harvest moon picture collection.",
     progress: "{completed}/{total} cards",
     earnedAria: "{title} badge earned",
     progressAria: "{title} badge progress {completed} of {total}",
@@ -188,6 +198,7 @@ export const en = {
   home: {
     sceneAria: "Pip's Puzzle Room",
     summerEventWeek: "Summer Pantry Week",
+    koreanHarvestEvent: "Korean Harvest Moon Festival",
     keepsakeShelfAria: "Home display shelf",
     destinationsAria: "Play destinations",
     currentPicture: "Ready to color",
@@ -541,6 +552,16 @@ export const en = {
     seasideTableTeaser: "Shells, lemonade, and sea breeze gather by the table",
     sunsetFeast: "Sunset Feast",
     sunsetFeastTeaser: "Pip’s summer pantry glows around an evening feast",
+    koreanHarvest: {
+      "moonrise-table": "Moonrise Table",
+      "moonrise-tableTeaser": "Half moons, songpyeon, pears, and chestnuts welcome the harvest moon",
+      "harvest-courtyard": "Harvest Courtyard",
+      "harvest-courtyardTeaser": "Persimmons, rice sheaves, bojagi, and lanterns gather in the courtyard",
+      "moon-jar-room": "Moon Jar Room",
+      "moon-jar-roomTeaser": "Korean craft and quiet moonlight fill Pip's special room",
+      "full-moon-feast": "Full Moon Feast",
+      "full-moon-feastTeaser": "Finish the celebration with Pip beneath the bright full moon"
+    },
     lockConditionPuzzle: "Complete {count} more puzzle(s) on the previous shelf",
     lockConditionPuzzleDone: "Previous shelf complete ✓",
     lockConditionPantry: "Own {count} more paid Pantry collectible(s)",
@@ -549,6 +570,18 @@ export const en = {
   shelf: {
     requiresPantryShelf: "Complete the '{shelf}' shelf",
     pantryProgress: "Currently own {current}/{total}"
+  },
+  koreanHarvest: {
+    rewards: {
+      title: "Harvest Moon Keepsakes",
+      progress: "{current}/{total} pictures",
+      "songpyeon-tray": "Songpyeon Soban",
+      "bojagi-gift": "Bojagi Gift",
+      "moon-jar": "Moon Jar",
+      "moonlit-lantern": "Moonlit Hanji Lantern",
+      unlocked: "Collected",
+      unlockAt: "Complete {count} pictures"
+    }
   },
   packs: {
     free: "Included",
@@ -589,6 +622,10 @@ export const en = {
     "summer-pantry": {
       title: "Summer Pantry",
       note: "A sunny season of markets, gardens, picnics, and seaside treats"
+    },
+    "korean-harvest": {
+      title: "Korean Harvest Moon",
+      note: "Sixteen warm Chuseok pictures beneath the full moon"
     },
     "cafe-window-plus": {
       title: "Cafe Window Plus",

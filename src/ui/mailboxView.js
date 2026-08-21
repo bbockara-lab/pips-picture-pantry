@@ -69,7 +69,7 @@ export function renderMailboxView({ onReplayGuide = () => {}, onMailboxChange = 
         if (message.art) {
           const image = document.createElement("img");
           image.src = message.art.src;
-          image.alt = t("mailbox.welcomeArtAlt");
+          image.alt = t(message.artAltKey || "mailbox.welcomeArtAlt");
           image.dataset.assetId = message.art.assetId;
           detail.appendChild(image);
         }

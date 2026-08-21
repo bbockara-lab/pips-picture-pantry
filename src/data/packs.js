@@ -1,3 +1,5 @@
+import { KOREAN_HARVEST_CONTENT, isKoreanHarvestContentRuntimeReady } from "./koreanHarvestContent.js";
+
 export const puzzlePacks = [
   {
     id: "pips-first-shelf",
@@ -160,7 +162,26 @@ export const puzzlePacks = [
     muralPart: "bonus-festival",
     muralSet: "sunny-spoon-festival",
     pricePreviewKey: "packs.pricePreview"
-  }
+  },
+  ...(isKoreanHarvestContentRuntimeReady() ? [{
+    id: "korean-harvest",
+    titleKey: "packs.korean-harvest.title",
+    noteKey: "packs.korean-harvest.note",
+    access: "free",
+    monetizationRole: "seasonal-event",
+    unlockCost: 0,
+    pantryRoomStepRequired: 0,
+    size: 12,
+    catalogCount: KOREAN_HARVEST_CONTENT.puzzles.length,
+    stageBonus: 120,
+    muralPart: "harvest-moon",
+    muralSet: "korean-harvest",
+    badge: {
+      id: "badge-korean-harvest",
+      titleKey: "badges.koreanHarvest",
+      descriptionKey: "badges.koreanHarvestDesc"
+    }
+  }] : [])
 ];
 
 export function getPackById(id) {

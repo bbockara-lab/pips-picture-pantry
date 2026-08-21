@@ -90,6 +90,30 @@ export const assetRegistry = [
     note: "Original high-resolution source for Pip's first developer welcome letter."
   },
   {
+    id: "pip-korean-harvest-letter-v1",
+    usage: "mailbox-seasonal-letter-art",
+    path: "src/assets/mailbox/pip-korean-harvest-letter-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-character-and-world-continuity",
+    note: "Korean Harvest developer-letter illustration with identity-locked hanbok Pip writing beside songpyeon under the full moon. Runtime-approved art; message visibility remains season-gated."
+  },
+  {
+    id: "pip-korean-harvest-letter-source-v1",
+    usage: "mailbox-seasonal-letter-art-source",
+    path: "src/assets/mailbox/pip-korean-harvest-letter-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-character-and-world-continuity",
+    note: "High-resolution source for Pip's Korean Harvest developer letter."
+  },
+  {
     id: "pip-puzzle-workshop-summer-v1",
     usage: "puzzle-home-background",
     path: "src/assets/generated/pip-puzzle-workshop-summer-v1.webp",
@@ -101,6 +125,142 @@ export const assetRegistry = [
     pipCharacterAssetId: "pip-home-summer-v1",
     identityStatus: "approved-summer-world-continuity",
     note: "Summer common-release Workshop background with quiet UI space and seasonal produce at the scene edges. Contains no baked-in character, logo, text, or controls."
+  },
+  {
+    id: "pip-puzzle-workshop-korean-harvest-v1",
+    usage: "puzzle-home-background-seasonal",
+    path: "src/assets/generated/pip-puzzle-workshop-korean-harvest-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-korean-harvest-world-continuity",
+    note: "Overlay-verified Korean Harvest Workshop composition. Pip wears a restrained jade-and-cream hanbok and prepares songpyeon under full-moon and hanji-lantern light; runtime exposure remains controlled by the seasonal publish gate."
+  },
+  {
+    id: "pip-puzzle-workshop-korean-harvest-source-v1",
+    usage: "puzzle-home-background-source",
+    path: "src/assets/generated/pip-puzzle-workshop-korean-harvest-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "candidate-korean-harvest-world-continuity",
+    note: "High-resolution source for the first Korean Harvest Workshop composition candidate."
+  },
+  {
+    id: "badge-pip-korean-harvest-v2",
+    usage: "seasonal-badge",
+    path: "src/assets/badges/badge-pip-korean-harvest-v2.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-korean-harvest-character-continuity",
+    note: "Overlay-verified transparent Korean Harvest badge with full moon, tiled roof, songpyeon and hanbok Pip, authored in the event indigo, jade, cream and aged-brass palette; runtime exposure remains event-gated."
+  },
+  {
+    id: "badge-pip-korean-harvest-source-v2",
+    usage: "seasonal-badge-source",
+    path: "src/assets/badges/badge-pip-korean-harvest-v2.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "candidate-korean-harvest-character-continuity",
+    note: "Transparent high-resolution source for the Korean Harvest badge candidate."
+  },
+  {
+    id: "korean-harvest-songpyeon-tray-v1",
+    usage: "seasonal-pantry-reward",
+    path: "src/assets/seasonal/korean-harvest/songpyeon-tray-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-korean-harvest-object-continuity",
+    note: "Transparent game-ready Korean Harvest reward art: a walnut lacquer soban with songpyeon, rice sheaf and restrained bojagi detail. Approved as an isolated candidate asset; remains hidden until the event is activated."
+  },
+  {
+    id: "korean-harvest-songpyeon-tray-source-v1",
+    usage: "seasonal-pantry-reward-source",
+    path: "src/assets/seasonal/korean-harvest/songpyeon-tray-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-korean-harvest-object-continuity",
+    note: "Transparent high-resolution source for the Korean Harvest songpyeon soban reward."
+  },
+  {
+    id: "korean-harvest-bojagi-gift-v1",
+    usage: "seasonal-pantry-reward",
+    path: "src/assets/seasonal/korean-harvest/bojagi-gift-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-korean-harvest-object-continuity",
+    note: "Transparent game-ready Korean Harvest reward art: a jade, cream and persimmon bojagi parcel with restrained maedeup detail."
+  },
+  {
+    id: "korean-harvest-bojagi-gift-source-v1",
+    usage: "seasonal-pantry-reward-source",
+    path: "src/assets/seasonal/korean-harvest/bojagi-gift-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-korean-harvest-object-continuity",
+    note: "Transparent high-resolution source for the Korean Harvest bojagi parcel reward."
+  },
+  {
+    id: "korean-harvest-moon-jar-v1",
+    usage: "seasonal-pantry-reward",
+    path: "src/assets/seasonal/korean-harvest/moon-jar-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-korean-harvest-object-continuity",
+    note: "Transparent game-ready Korean Harvest reward art: warm white moon jar with restrained harvest-moon and rice-stalk painting."
+  },
+  {
+    id: "korean-harvest-moon-jar-source-v1",
+    usage: "seasonal-pantry-reward-source",
+    path: "src/assets/seasonal/korean-harvest/moon-jar-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-korean-harvest-object-continuity",
+    note: "Transparent high-resolution source for the Korean Harvest moon jar reward."
+  },
+  {
+    id: "korean-harvest-moonlit-lantern-v1",
+    usage: "seasonal-pantry-reward",
+    path: "src/assets/seasonal/korean-harvest/moonlit-lantern-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-korean-harvest-object-continuity",
+    note: "Transparent game-ready Korean Harvest reward art: a straight-frame Korean hanji lantern with full moon, rice and maedeup details."
+  },
+  {
+    id: "korean-harvest-moonlit-lantern-source-v1",
+    usage: "seasonal-pantry-reward-source",
+    path: "src/assets/seasonal/korean-harvest/moonlit-lantern-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-korean-harvest-object-continuity",
+    note: "Transparent high-resolution source for the Korean Harvest hanji lantern reward."
   },
   {
     id: "pip-home-summer-v1",

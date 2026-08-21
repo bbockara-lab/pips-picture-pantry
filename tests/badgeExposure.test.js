@@ -18,6 +18,8 @@ describe("badge artwork exposure", () => {
     expect(mapViewSource).toMatch(/badge-shelves/);
     expect(mapViewSource).toMatch(/badge-slot/);
     expect(mapViewSource).toMatch(/renderBadgeEarnedToast/);
+    expect(mapViewSource).toMatch(/id: "E", titleKey: "badges\.groupE"/);
+    expect(mapViewSource).toMatch(/statuses\.some\(\(status\) => status\.badge\.group === group\.id\)/);
   });
 
   it("keeps locked badge detail artwork obscured with matching progress", () => {

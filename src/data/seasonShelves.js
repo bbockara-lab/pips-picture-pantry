@@ -1,4 +1,5 @@
 import { puzzles } from "./puzzles.js";
+import { KOREAN_HARVEST_CONTENT, isKoreanHarvestContentRuntimeReady } from "./koreanHarvestContent.js";
 
 // Season 0 keeps every authored puzzle, but publishes them as short shelves
 // rather than five oversized catalog packs. Puzzle IDs remain stable so save
@@ -30,7 +31,8 @@ const SHELF_BLUEPRINT = [
   { id: "shelf-garden-basket", titleKey: "shelves.gardenBasket", sizes: { 8: 4, 10: 9, 12: 4 }, unlockCost: 0, pantryRoomStepRequired: 65, stageBonus: 40, artPackId: "summer-pantry" },
   { id: "shelf-picnic-lawn", titleKey: "shelves.picnicLawn", sizes: { 8: 4, 10: 9, 12: 4 }, unlockCost: 0, pantryRoomStepRequired: 65, stageBonus: 40, artPackId: "summer-pantry" },
   { id: "shelf-seaside-table", titleKey: "shelves.seasideTable", sizes: { 10: 9, 12: 8 }, unlockCost: 0, pantryRoomStepRequired: 70, stageBonus: 40, artPackId: "summer-pantry" },
-  { id: "shelf-sunset-feast", titleKey: "shelves.sunsetFeast", sizes: { 10: 9, 12: 8 }, unlockCost: 0, pantryRoomStepRequired: 70, stageBonus: 40, artPackId: "summer-pantry" }
+  { id: "shelf-sunset-feast", titleKey: "shelves.sunsetFeast", sizes: { 10: 9, 12: 8 }, unlockCost: 0, pantryRoomStepRequired: 70, stageBonus: 40, artPackId: "summer-pantry" },
+  ...(isKoreanHarvestContentRuntimeReady() ? KOREAN_HARVEST_CONTENT.shelves : [])
 ];
 
 const SUPPORTED_SIZES = [5, 8, 10, 12];
@@ -41,18 +43,20 @@ const puzzlesBySize = new Map(SUPPORTED_SIZES.map((size) => [
 const cursorsBySize = new Map(SUPPORTED_SIZES.map((size) => [size, 0]));
 
 export const seasonShelves = Object.freeze(SHELF_BLUEPRINT.map((blueprint, index) => {
-  const puzzleIds = [];
-  SUPPORTED_SIZES.forEach((size) => {
-    const count = Number(blueprint.sizes[size] || 0);
-    const bucket = puzzlesBySize.get(size) || [];
-    const cursor = cursorsBySize.get(size) || 0;
-    const selected = bucket.slice(cursor, cursor + count);
-    if (selected.length !== count) {
-      throw new Error(`Season shelf ${blueprint.id} needs ${count} ${size}x${size} puzzles.`);
-    }
-    cursorsBySize.set(size, cursor + count);
-    puzzleIds.push(...selected.map((puzzle) => puzzle.id));
-  });
+  const puzzleIds = blueprint.puzzleIds ? [...blueprint.puzzleIds] : [];
+  if (!blueprint.puzzleIds) {
+    SUPPORTED_SIZES.forEach((size) => {
+      const count = Number(blueprint.sizes[size] || 0);
+      const bucket = puzzlesBySize.get(size) || [];
+      const cursor = cursorsBySize.get(size) || 0;
+      const selected = bucket.slice(cursor, cursor + count);
+      if (selected.length !== count) {
+        throw new Error(`Season shelf ${blueprint.id} needs ${count} ${size}x${size} puzzles.`);
+      }
+      cursorsBySize.set(size, cursor + count);
+      puzzleIds.push(...selected.map((puzzle) => puzzle.id));
+    });
+  }
   return Object.freeze({
     ...blueprint,
     index,
@@ -61,10 +65,11 @@ export const seasonShelves = Object.freeze(SHELF_BLUEPRINT.map((blueprint, index
   });
 }));
 
+const assignedExplicitPuzzleIds = new Set(SHELF_BLUEPRINT.flatMap((blueprint) => blueprint.puzzleIds || []));
 const unassignedPuzzleIds = SUPPORTED_SIZES.flatMap((size) => {
   const bucket = puzzlesBySize.get(size) || [];
   return bucket.slice(cursorsBySize.get(size) || 0).map((puzzle) => puzzle.id);
-});
+}).filter((puzzleId) => !assignedExplicitPuzzleIds.has(puzzleId));
 
 if (unassignedPuzzleIds.length) {
   throw new Error(`Season shelf blueprint leaves ${unassignedPuzzleIds.length} authored puzzles unassigned.`);

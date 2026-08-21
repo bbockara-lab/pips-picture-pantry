@@ -5,6 +5,7 @@ import {
   buyJar,
   ensureStarterJars,
   getPantryGrowthBonusStatus,
+  getCompletedPuzzleIds,
   getEquippedJars,
   getFeaturedJarId,
   hasSeenGuide,
@@ -20,6 +21,9 @@ import { appendSpoonLabel } from "./spoonIcon.js";
 import "../styles/pantryJarArt.css";
 import "../styles/pantrySpoon.css";
 import "../styles/pantryShelfCelebration.css";
+import "../styles/koreanHarvestRewards.css";
+import { getLiveSeasonalTheme, getSeasonalThemeLabel } from "../data/seasonalThemes.js";
+import { renderKoreanHarvestRewardShelf } from "./koreanHarvestRewardShelf.js";
 
 let pendingShelfCelebrationId = null;
 const PANTRY_JAR_GUIDE_ID = "pantryJarIntro";
@@ -333,13 +337,14 @@ export function renderPantryView(
   const growthStatus = getPantryGrowthBonusStatus();
   const panel = document.createElement("section");
   panel.className = "pantry-panel pantry-jar-panel content-panel";
-  panel.dataset.eventTheme = "summer";
+  const liveTheme = getLiveSeasonalTheme();
+  panel.dataset.eventTheme = liveTheme?.id || "";
 
   const header = document.createElement("header");
   header.className = "pantry-jar-header";
   const copy = document.createElement("div");
   appendTextElement(copy, "h2", "", t("pantry.title"));
-  appendTextElement(copy, "span", "pantry-event-badge", `☀ ${t("home.summerEventWeek")}`);
+  appendTextElement(copy, "span", "pantry-event-badge", getSeasonalThemeLabel(liveTheme, t));
   appendTextElement(copy, "span", "pantry-growth-bonus", t("pantry.jar.growthBonusSummary", {
     chance: growthStatus.chance
   }));
@@ -348,6 +353,8 @@ export function renderPantryView(
   const onboarding = renderOnboarding();
   const shelves = document.createElement("div");
   shelves.className = "pantry-jar-shelves";
+  const seasonalRewardShelf = renderKoreanHarvestRewardShelf(getCompletedPuzzleIds());
+  if (seasonalRewardShelf) shelves.appendChild(seasonalRewardShelf);
   const detail = createDetailPanel();
   const openDetail = (jar) => {
     if (shouldShowPantryJarIntro()) {

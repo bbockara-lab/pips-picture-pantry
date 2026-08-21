@@ -19,6 +19,7 @@ import { moveSelectedCell, renderCursorControls, shouldShowCursorControls, toggl
 import { getLineGuidance, renderBoard } from "./boardView.js";
 import { isReplayExhausted, renderCompletionBanner } from "./pipReaction.js";
 import { createPuzzleControlArtImage } from "./puzzleControlArt.js";
+import { getSeasonalThemeForPack, getSeasonalThemeLabel } from "../data/seasonalThemes.js";
 
 export function renderPuzzleView(puzzle, options = {}) {
   const isReplayChallenge = Boolean(options.replayChallenge);
@@ -39,7 +40,8 @@ export function renderPuzzleView(puzzle, options = {}) {
   let stageBonus = 0;
   const controlMode = options.controlMode || "auto";
   const section = document.createElement("section");
-  if (puzzle.packId === "summer-pantry") section.dataset.eventTheme = "summer";
+  const puzzleTheme = getSeasonalThemeForPack(puzzle.packId);
+  if (puzzleTheme) section.dataset.eventTheme = puzzleTheme.id;
   section.className = [
     "puzzle-panel",
     "content-panel",
@@ -134,15 +136,15 @@ export function renderPuzzleView(puzzle, options = {}) {
     isTimeAttack ? "puzzle-panel--time-attack" : ""
   ].filter(Boolean).join(" ");
     section.classList.toggle("replay-challenge", isReplayChallenge);
-    section.dataset.eventTheme = puzzle.packId === "summer-pantry" ? "summer" : "";
+    section.dataset.eventTheme = puzzleTheme?.id || "";
 
     const meta = document.createElement("div");
     meta.className = "puzzle-meta";
     const metaCopy = document.createElement("div");
-    if (puzzle.packId === "summer-pantry") {
+    if (puzzleTheme) {
       const eventBadge = document.createElement("span");
       eventBadge.className = "puzzle-meta__event-badge";
-      eventBadge.textContent = `☀ ${t("home.summerEventWeek")}`;
+      eventBadge.textContent = getSeasonalThemeLabel(puzzleTheme, t);
       metaCopy.appendChild(eventBadge);
     }
     const metaLabel = document.createElement("p");

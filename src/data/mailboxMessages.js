@@ -1,4 +1,6 @@
 import welcomeArtUrl from "../assets/mailbox/pip-developer-letter-welcome-v1.webp";
+import koreanHarvestLetterArtUrl from "../assets/mailbox/pip-korean-harvest-letter-v1.webp";
+import { KOREAN_HARVEST_CONTENT, isKoreanHarvestContentRuntimeReady } from "./koreanHarvestContent.js";
 
 const GUIDE_MESSAGES = [
   ["guide-puzzle", "puzzle"],
@@ -22,6 +24,7 @@ export const MAILBOX_MESSAGES = [
     previewKey: "mailbox.welcomePreview",
     bodyKey: "mailbox.welcomeBody",
     dateKey: "mailbox.welcomeDate",
+    artAltKey: "mailbox.welcomeArtAlt",
     art: { assetId: "pip-developer-letter-welcome-v1", src: welcomeArtUrl }
   },
   ...GUIDE_MESSAGES.map(([id, guideId]) => ({
@@ -33,8 +36,23 @@ export const MAILBOX_MESSAGES = [
   }))
 ];
 
+export function getRuntimeSeasonalMailboxMessages() {
+  if (!isKoreanHarvestContentRuntimeReady()) return [];
+  return [{
+    id: KOREAN_HARVEST_CONTENT.mailboxLetter.id,
+    kind: "letter",
+    titleKey: "mailbox.koreanHarvest.title",
+    previewKey: "mailbox.koreanHarvest.preview",
+    bodyKey: "mailbox.koreanHarvest.body",
+    dateKey: "mailbox.koreanHarvest.date",
+    artAltKey: "mailbox.koreanHarvest.artAlt",
+    art: { assetId: "pip-korean-harvest-letter-v1", src: koreanHarvestLetterArtUrl }
+  }];
+}
+
 export function getMailboxMessages(kind = "all") {
-  return kind === "all" ? MAILBOX_MESSAGES : MAILBOX_MESSAGES.filter((message) => message.kind === kind);
+  const messages = [...MAILBOX_MESSAGES, ...getRuntimeSeasonalMailboxMessages()];
+  return kind === "all" ? messages : messages.filter((message) => message.kind === kind);
 }
 
 export function getUnlockedMailboxMessages(kind = "all", hasSeenGuide = () => false) {

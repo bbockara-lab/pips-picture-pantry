@@ -1,0 +1,48 @@
+.seasonal-reward-shelf {
+  margin: 0 0 1rem;
+  padding: 0.9rem;
+  border: 1px solid color-mix(in srgb, #b58a45 58%, transparent);
+  border-radius: 22px;
+  background: linear-gradient(145deg, rgba(244, 234, 213, 0.98), rgba(221, 229, 214, 0.94));
+  box-shadow: 0 9px 20px rgba(63, 42, 31, 0.13);
+}
+.seasonal-reward-shelf > header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  color: #362823;
+}
+.seasonal-reward-shelf > header h3 { margin: 0; font-size: 1rem; }
+.seasonal-reward-shelf > header span { font-size: 0.72rem; color: #675349; }
+.seasonal-reward-shelf__items {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+}
+.seasonal-reward-card {
+  display: grid;
+  justify-items: center;
+  gap: 0.22rem;
+  min-width: 0;
+  padding: 0.45rem 0.3rem;
+  border-radius: 15px;
+  background: rgba(255, 251, 240, 0.78);
+  text-align: center;
+}
+.seasonal-reward-card img {
+  display: block;
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 5px rgba(53, 31, 22, 0.2));
+}
+.seasonal-reward-card strong { font-size: 0.66rem; line-height: 1.15; }
+.seasonal-reward-card small { font-size: 0.58rem; color: #715e53; }
+.seasonal-reward-card.is-locked img { opacity: 0.28; filter: grayscale(0.75); }
+@media (max-width: 380px) {
+  .seasonal-reward-shelf__items { gap: 0.3rem; }
+  .seasonal-reward-card img { width: 58px; height: 58px; }
+  .seasonal-reward-card strong { font-size: 0.58rem; }
+}

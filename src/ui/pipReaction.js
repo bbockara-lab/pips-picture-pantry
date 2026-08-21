@@ -2,6 +2,7 @@ import pipCompleteStickerUrl from "../assets/characters/pip-completion-v2.png";
 import { getCompletionPaletteId } from "../data/completionPalettes.js";
 import { puzzleAlbumText, puzzleImageName, puzzleTitle, t } from "../i18n/index.js";
 import { renderFeaturedJar } from "./featuredPantryJar.js";
+import { getSeasonalThemeForPack } from "../data/seasonalThemes.js";
 
 export const FIRST_PIP_FACE_PUZZLE_ID = "pips-first-shelf-pip-face-1";
 
@@ -30,7 +31,8 @@ export function renderCompletionBanner(puzzle, {
 } = {}) {
   const banner = document.createElement("div");
   banner.className = "completion-banner";
-  if (puzzle?.packId === "summer-pantry") banner.dataset.eventTheme = "summer";
+  const puzzleTheme = getSeasonalThemeForPack(puzzle?.packId);
+  if (puzzleTheme) banner.dataset.eventTheme = puzzleTheme.id;
   const isFirstPipFace = isFirstPipFacePuzzle(puzzle);
   if (isFirstPipFace) {
     banner.classList.add("completion-banner--first-pip-face");

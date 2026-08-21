@@ -8,7 +8,9 @@ const BADGE_GROUPS = [
   { id: "A", titleKey: "badges.groupA" },
   { id: "B", titleKey: "badges.groupB" },
   { id: "C", titleKey: "badges.groupC" },
-  { id: "D", titleKey: "badges.groupD" }
+  { id: "D", titleKey: "badges.groupD" },
+  { id: "E", titleKey: "badges.groupE" },
+  { id: "F", titleKey: "badges.groupF" }
 ];
 
 export function renderPantryMapView() {
@@ -31,7 +33,7 @@ export function renderPantryMapView() {
 
   const shelves = document.createElement("div");
   shelves.className = "badge-shelves";
-  BADGE_GROUPS.forEach((group) => {
+  BADGE_GROUPS.filter((group) => statuses.some((status) => status.badge.group === group.id)).forEach((group) => {
     const shelf = document.createElement("section");
     shelf.className = "badge-shelf";
     shelf.dataset.group = group.id;

@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import fs from "node:fs";
-import { MAILBOX_MESSAGES, getUnlockedMailboxMessages } from "../src/data/mailboxMessages.js";
+import { MAILBOX_MESSAGES, getRuntimeSeasonalMailboxMessages, getUnlockedMailboxMessages } from "../src/data/mailboxMessages.js";
 import { getReadMailboxMessageIds, markMailboxMessageRead, setActivePlayerName } from "../src/game/save.js";
 
 class LocalStorageMock {
@@ -17,6 +17,11 @@ describe("Pip's Mailbox", () => {
   it("ships a developer letter and archives every existing guide story", () => {
     expect(MAILBOX_MESSAGES[0]).toMatchObject({ id: "developer-welcome-2026-08", kind: "letter" });
     expect(MAILBOX_MESSAGES.filter((message) => message.guideId)).toHaveLength(11);
+  });
+
+  it("keeps the Korean Harvest letter hidden while the season is a candidate", () => {
+    expect(getRuntimeSeasonalMailboxMessages()).toEqual([]);
+    expect(getUnlockedMailboxMessages().some((message) => message.id === "developer-korean-harvest-2026")).toBe(false);
   });
 
   it("archives story messages only after their in-game guide has been seen", () => {

@@ -1,5 +1,6 @@
 import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
 import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-summer-v1.webp";
+import koreanHarvestWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-korean-harvest-v1.webp";
 import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
 import pipSummerHomeUrl from "../assets/characters/pip-home-summer-v1.webp";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, getSeasonShelfSizeCounts, seasonShelves } from "../data/seasonShelves.js";
@@ -16,6 +17,15 @@ import { renderColoredPuzzleArt } from "./coloredPuzzleArt.js";
 import { getJarArtUrl } from "../data/jarArt.js";
 import { getBadgeArtUrl } from "../data/badgeArt.js";
 import { BADGE_MILESTONES, getPackBadgeStatus } from "../game/badges.js";
+import { getLiveSeasonalTheme, getSeasonalTheme, getSeasonalThemeForPack, getSeasonalThemeLabel } from "../data/seasonalThemes.js";
+
+const HOME_THEME_BACKGROUNDS = Object.freeze({
+  "pip-puzzle-workshop-summer-v1": puzzleWorkshopBackgroundUrl,
+  "pip-puzzle-workshop-korean-harvest-v1": koreanHarvestWorkshopBackgroundUrl
+});
+const HOME_THEME_CHARACTERS = Object.freeze({
+  "pip-home-summer-v1": pipSummerHomeUrl
+});
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -103,11 +113,16 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   } = typeof options === "function" ? { onOpenPuzzle: options } : options;
   const stack = document.createElement("div");
   stack.className = "puzzle-hub-stack puzzle-home";
+  const previewThemeId = import.meta.env.DEV
+    ? new URLSearchParams(globalThis.location?.search || "").get("seasonalTheme")
+    : null;
+  const homeTheme = (previewThemeId && getSeasonalTheme(previewThemeId)) || getLiveSeasonalTheme();
 
   const scene = document.createElement("section");
   scene.className = "puzzle-home-scene";
-  scene.dataset.eventTheme = "summer";
-  scene.style.setProperty("--puzzle-home-background", `url("${puzzleWorkshopBackgroundUrl}")`);
+  scene.dataset.eventTheme = homeTheme?.id || "";
+  const homeBackgroundUrl = HOME_THEME_BACKGROUNDS[homeTheme?.homeBackgroundAssetId] || puzzleWorkshopBackgroundUrl;
+  scene.style.setProperty("--puzzle-home-background", `url("${homeBackgroundUrl}")`);
   scene.setAttribute("aria-label", t("home.sceneAria"));
 
   const viewTitle = appendTextElement(scene, "h1", "puzzle-home-scene__title", t("views.puzzle"));
@@ -119,15 +134,9 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     greetingWrap,
     "span",
     "puzzle-home-scene__event-ribbon",
-    t("home.summerEventWeek")
+    getSeasonalThemeLabel(homeTheme, t)
   );
-  eventRibbon.setAttribute("aria-label", t("home.summerEventWeek"));
-  const greetingPip = document.createElement("img");
-  greetingPip.className = "puzzle-home-scene__greeting-pip hub-greeting-pip";
-  greetingPip.src = pipSummerHomeUrl;
-  greetingPip.alt = "";
-  greetingPip.setAttribute("aria-hidden", "true");
-  greetingPip.dataset.assetId = "pip-home-summer-v1";
+  eventRibbon.setAttribute("aria-label", t(homeTheme.eventLabelKey));
   const greeting = appendTextElement(
     greetingWrap,
     "p",
@@ -152,7 +161,16 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     actions.append(update, later);
     greeting.appendChild(actions);
   }
-  greetingWrap.append(greetingPip, greeting);
+  if (homeTheme?.pipPresence === "companion") {
+    const greetingPip = document.createElement("img");
+    greetingPip.className = "puzzle-home-scene__greeting-pip hub-greeting-pip";
+    greetingPip.src = HOME_THEME_CHARACTERS[homeTheme.homeCharacterAssetId] || pipSummerHomeUrl;
+    greetingPip.alt = "";
+    greetingPip.setAttribute("aria-hidden", "true");
+    greetingPip.dataset.assetId = homeTheme.homeCharacterAssetId;
+    greetingWrap.appendChild(greetingPip);
+  }
+  greetingWrap.appendChild(greeting);
   scene.appendChild(greetingWrap);
 
   const activeShelf = getSeasonShelfForPuzzle(activePuzzle);
@@ -580,7 +598,7 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {})
   const completedPuzzleIdSet = new Set(completedPuzzleIds);
   const section = document.createElement("section");
   section.className = "puzzle-picker content-panel";
-  section.dataset.eventTheme = "summer";
+  section.dataset.eventTheme = getLiveSeasonalTheme()?.id || "";
   seasonShelves.forEach((shelf) => {
     const shelfPuzzles = getSeasonShelfPuzzles(shelf);
     const completeCount = shelfPuzzles.filter((puzzle) => completedPuzzleIdSet.has(puzzle.id)).length;
@@ -591,7 +609,8 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {})
       lockedBlock.className = "pack-block pack-block--locked";
       lockedBlock.dataset.shelfId = shelf.id;
       lockedBlock.dataset.locked = "true";
-      if (shelf.artPackId === "summer-pantry") lockedBlock.dataset.eventTheme = "summer";
+      const lockedShelfTheme = getSeasonalThemeForPack(shelf.artPackId);
+      if (lockedShelfTheme) lockedBlock.dataset.eventTheme = lockedShelfTheme.id;
       const lockedHeader = document.createElement("div");
       lockedHeader.className = "pack-header";
       appendTextElement(lockedHeader, "p", "section-label", `🔒 ${t(shelf.titleKey)}`);
@@ -611,7 +630,8 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {})
     const packBlock = document.createElement("article");
     packBlock.className = collapsed ? "pack-block pack-block--collapsed" : "pack-block";
     packBlock.dataset.shelfId = shelf.id;
-    if (shelf.artPackId === "summer-pantry") packBlock.dataset.eventTheme = "summer";
+    const shelfTheme = getSeasonalThemeForPack(shelf.artPackId);
+    if (shelfTheme) packBlock.dataset.eventTheme = shelfTheme.id;
     packBlock.dataset.collapsed = String(collapsed);
     if (shelfPuzzles.some((puzzle) => puzzle.id === activePuzzleId)) packBlock.dataset.activeStage = "true";
 
@@ -620,8 +640,8 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {})
     header.className = "pack-header";
     const headerCopy = document.createElement("div");
     appendTextElement(headerCopy, "p", "section-label", t(shelf.titleKey));
-    if (shelf.artPackId === "summer-pantry") {
-      appendTextElement(headerCopy, "span", "pack-event-badge", `☀ ${t("home.summerEventWeek")}`);
+    if (shelfTheme) {
+      appendTextElement(headerCopy, "span", "pack-event-badge", getSeasonalThemeLabel(shelfTheme, t));
     }
     if (isStageComplete) {
       appendTextElement(headerCopy, "span", "pack-stage-complete-badge", `✓ ${t("puzzlePicker.stageComplete")}`);

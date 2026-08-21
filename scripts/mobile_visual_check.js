@@ -4,6 +4,10 @@ import { assertIsolatedQaTarget } from "./qa_target_guard.js";
 const qaPort = process.env.PPP_QA_PORT || "5173";
 const TARGET_URL = process.env.PPP_URL || `http://127.0.0.1:${qaPort}/`;
 assertIsolatedQaTarget(TARGET_URL, "mobile_visual_check");
+const PREVIEW_THEME_ID = new URL(TARGET_URL).searchParams.get("seasonalTheme") || "";
+const EXPECTED_HOME_THEME = PREVIEW_THEME_ID === "korean-harvest"
+  ? { id: "korean-harvest", backgroundAssetId: "pip-puzzle-workshop-korean-harvest-v1", pipPresence: "baked-in" }
+  : { id: "summer", backgroundAssetId: "pip-puzzle-workshop-summer-v1", pipPresence: "companion" };
 const viewports = [
   { width: 360, height: 740, name: "360x740" },
   { width: 390, height: 844, name: "390x844" },
@@ -1367,10 +1371,10 @@ async function expectMapPolish(page, viewportName) {
     metrics.mapRight > metrics.viewportWidth + 1 ||
     metrics.mapRadius < 14 ||
     !metrics.mapBackground.includes("linear-gradient") ||
-    metrics.shelfCount !== 4 ||
+    metrics.shelfCount !== 5 ||
     metrics.shelfSlotCounts.some((count) => count !== 3) ||
-    metrics.slotCount !== 12 ||
-    metrics.lockedSlotCount !== 12 ||
+    metrics.slotCount !== 15 ||
+    metrics.lockedSlotCount !== 15 ||
     metrics.slotOutsideShelfCount !== 0 ||
     metrics.minCircleSize < 60 ||
     metrics.minCircleGap < 8 ||
@@ -1867,6 +1871,7 @@ async function expectPuzzleHomePolish(page, viewportName) {
     const centerY = (box) => box ? (box.top + box.bottom) / 2 : 0;
     const maxDestinationArtWidth = Math.max(0, ...destinationArt.map((art) => art.width));
     return {
+      eventTheme: scene?.dataset.eventTheme || "",
       overflow: home.scrollWidth > home.clientWidth + 1,
       sceneOverflow: scene ? scene.scrollWidth > scene.clientWidth + 1 : true,
       backgroundImage: sceneStyle?.backgroundImage || "",
@@ -1884,7 +1889,7 @@ async function expectPuzzleHomePolish(page, viewportName) {
       destinationArt,
       playCollision: destinationBoxes.some((box) => intersects(box, playBox)),
       controlsCollision: destinationBoxes.some((box) => intersects(box, controlsBox)) || intersects(playBox, controlsBox),
-      greetingGap: greetingPipBox && greetingBubbleBox ? Math.max(0, greetingBubbleBox.left - greetingPipBox.right) : 999,
+      greetingGap: greetingPipBox && greetingBubbleBox ? Math.max(0, greetingBubbleBox.left - greetingPipBox.right) : 0,
       greetingFlexGap: greetingWrapStyle ? parseFloat(greetingWrapStyle.gap) || 0 : 999,
       greetingBubbleBorder: greetingBubbleStyle ? parseFloat(greetingBubbleStyle.borderTopWidth) || 0 : 0,
       greetingBubbleRadius: greetingBubbleStyle ? parseFloat(greetingBubbleStyle.borderTopLeftRadius) || 0 : 0,
@@ -1932,7 +1937,7 @@ async function expectPuzzleHomePolish(page, viewportName) {
   const expectedAssets = { puzzle: "workshop-nav-puzzle-v3", album: "workshop-nav-album-v3", pantry: "workshop-nav-pantry-v3", spoonRun: "spoon-token-v2", timeAttack: "workshop-nav-time-attack-v3", map: "workshop-nav-map-v3" };
   const hasStaleDestinationTreatment = metrics.destinationArt.some((art) => art.assetId !== expectedAssets[art.id] || art.backgroundColor !== "rgba(0, 0, 0, 0)" || art.borderTopWidth !== "0px" || art.boxShadow !== "none");
   const titleVariantRegression = metrics.titleVariants.some((variant) => variant.wraps || variant.overlapsPip || variant.outsideScene);
-  if (metrics.overflow || metrics.sceneOverflow || !metrics.backgroundImage.includes("pip-puzzle-workshop-summer-v1") || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.greetingGap > 0 || metrics.greetingFlexGap > 0 || metrics.greetingBubbleBorder < 2 || metrics.greetingBubbleRadius < 16 || metrics.greetingBubbleShadow === "none" || metrics.greetingBubbleBackground === "rgb(255, 255, 255)" || metrics.greetingOutsideScene || metrics.greetingSpoonBalanceOverlap || metrics.titleWraps || metrics.titleGreetingPipOverlap || metrics.titleOutsideScene || titleVariantRegression || !metrics.primaryDestinationsBelowGreeting || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || metrics.playVisualDominance < 1.24 || metrics.topPairCenterDelta > 2 || metrics.topBadgeCenterDelta > 2 || metrics.middlePairCenterDelta > 2 || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.hasHiddenDestinationLabel || metrics.playAssetId !== "workshop-play-now-v2" || metrics.supportingCardClasses.length !== 0 || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
+  if (metrics.overflow || metrics.sceneOverflow || metrics.eventTheme !== EXPECTED_HOME_THEME.id || !metrics.backgroundImage.includes(EXPECTED_HOME_THEME.backgroundAssetId) || metrics.destinationCount !== expected.length || metrics.destinationOverflow || metrics.destinationOutsideScene || metrics.destinationCollisions || !metrics.destinationTargetsLargeEnough || !metrics.destinationArtLargeEnough || metrics.playCollision || metrics.controlsCollision || metrics.greetingGap > 0 || metrics.greetingFlexGap > 0 || metrics.greetingBubbleBorder < 2 || metrics.greetingBubbleRadius < 16 || metrics.greetingBubbleShadow === "none" || metrics.greetingBubbleBackground === "rgb(255, 255, 255)" || metrics.greetingOutsideScene || metrics.greetingSpoonBalanceOverlap || metrics.titleWraps || metrics.titleGreetingPipOverlap || metrics.titleOutsideScene || titleVariantRegression || !metrics.primaryDestinationsBelowGreeting || metrics.settingsOutsideScene || !metrics.settingsTargetLargeEnough || metrics.settingsAssetId !== "workshop-nav-settings-v3" || metrics.playOutsideScene || !metrics.playLargeEnough || metrics.playVisualDominance < 1.24 || metrics.topPairCenterDelta > 2 || metrics.topBadgeCenterDelta > 2 || metrics.middlePairCenterDelta > 2 || !metrics.workshopShell || metrics.hasRetiredHomeProps || metrics.hasHiddenDestinationLabel || metrics.playAssetId !== "workshop-play-now-v2" || metrics.supportingCardClasses.length !== 0 || hasStaleDestinationTreatment || expected.some((id) => !metrics.ids.includes(id))) {
     failures.push("[" + viewportName + "] Puzzle workshop home/direct destinations regressed: " + JSON.stringify(metrics));
   }
   await expectLoginBonusHomeClearance(page, viewportName);
@@ -1956,16 +1961,23 @@ async function expectLoginBonusHomeClearance(page, viewportName) {
     ].map(rectOf);
     const pip = document.querySelector(".puzzle-home-scene__greeting-pip");
     const pipSrc = pip?.getAttribute("src") || "";
+    const scene = document.querySelector(".puzzle-home-scene");
+    const sceneBackground = scene ? getComputedStyle(scene).backgroundImage : "";
     bubble.textContent = originalText;
     return {
       collisionCount: interactiveRects.filter((rect) => overlaps(rewardRect, rect)).length,
       samePosition: Boolean(beforeRect && rewardRect && Math.abs(beforeRect.left - rewardRect.left) < 1 && Math.abs(beforeRect.top - rewardRect.top) < 1),
-      keepsPip: pipSrc.includes("pip-home-summer-v1"),
+      pipSrc,
+      eventTheme: scene?.dataset.eventTheme || "",
+      sceneBackground,
       outsideViewport: !rewardRect || rewardRect.left < -1 || rewardRect.right > window.innerWidth + 1 || rewardRect.top < -1 || rewardRect.bottom > window.innerHeight + 1,
       rect: rewardRect ? { left: rewardRect.left, top: rewardRect.top, right: rewardRect.right, bottom: rewardRect.bottom } : null
     };
   });
-  if (metrics.collisionCount > 0 || !metrics.samePosition || !metrics.keepsPip || metrics.outsideViewport) {
+  const keepsPip = EXPECTED_HOME_THEME.pipPresence === "baked-in"
+    ? metrics.eventTheme === EXPECTED_HOME_THEME.id && metrics.sceneBackground.includes(EXPECTED_HOME_THEME.backgroundAssetId)
+    : metrics.pipSrc.includes("pip-home-summer-v1");
+  if (metrics.collisionCount > 0 || !metrics.samePosition || !keepsPip || metrics.outsideViewport) {
     failures.push("[" + viewportName + "] Login bonus greeting replacement regressed: " + JSON.stringify(metrics));
   }
 }

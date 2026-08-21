@@ -13,6 +13,7 @@ import pipHearthGalleryBadgeUrl from "../assets/badges/badge-pip-hearth-gallery-
 import pipSummerMarketBadgeUrl from "../assets/badges/badge-pip-summer-market-v1.webp";
 import pipPicnicLawnBadgeUrl from "../assets/badges/badge-pip-picnic-lawn-v1.webp";
 import pipSunsetFeastBadgeUrl from "../assets/badges/badge-pip-sunset-feast-v1.webp";
+import pipKoreanHarvestBadgeUrl from "../assets/badges/badge-pip-korean-harvest-v2.webp";
 
 const approvedBadgeArtUrls = Object.freeze({
   "badge-pips-first-shelf": pipsFirstShelfBadgeUrl,
@@ -29,7 +30,8 @@ const approvedBadgeArtUrls = Object.freeze({
   "badge-pip-hearth-gallery": pipHearthGalleryBadgeUrl,
   "badge-pip-summer-market": pipSummerMarketBadgeUrl,
   "badge-pip-picnic-lawn": pipPicnicLawnBadgeUrl,
-  "badge-pip-sunset-feast": pipSunsetFeastBadgeUrl
+  "badge-pip-sunset-feast": pipSunsetFeastBadgeUrl,
+  "badge-pip-korean-harvest": pipKoreanHarvestBadgeUrl
 });
 
 export function getBadgeArtUrl(badgeId) {

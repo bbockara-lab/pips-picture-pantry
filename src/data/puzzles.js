@@ -6,6 +6,7 @@ import { STABILIZATION_PUZZLES_BATCH_1 } from "./stabilizationPuzzles.js";
 import { STABILIZATION_PUZZLES_BATCH_2 } from "./stabilizationPuzzlesBatch2.js";
 import { STABILIZATION_PUZZLES_BATCH_3 } from "./stabilizationPuzzlesBatch3.js";
 import { SUMMER_PUZZLES } from "./summerPuzzles.js";
+import { KOREAN_HARVEST_CONTENT, isKoreanHarvestContentRuntimeReady } from "./koreanHarvestContent.js";
 
 export const puzzles = [
   {
@@ -8955,8 +8956,8 @@ export const puzzles = [
   ...STABILIZATION_PUZZLES_BATCH_1,
   ...STABILIZATION_PUZZLES_BATCH_2,
   ...STABILIZATION_PUZZLES_BATCH_3,
-  ...SUMMER_PUZZLES
-
+  ...SUMMER_PUZZLES,
+  ...(isKoreanHarvestContentRuntimeReady() ? KOREAN_HARVEST_CONTENT.puzzles : [])
 ];
 
 puzzles.forEach((puzzle) => {

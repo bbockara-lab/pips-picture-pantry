@@ -1,6 +1,14 @@
 # Release Plan
 
-Last updated: 2026-06-28
+Last updated: 2026-08-20
+
+## Current Store Synchronization — 2026-08-20
+
+- iOS 1.1.22 is released.
+- Android versionCode 48 is live; versionCode 50 / versionName 1.1.21 is in review.
+- Android versionCode 51 / versionName 1.1.22 is the verified catch-up artifact and must follow versionCode 50.
+- The Korean Harvest release is the next shared content line after Android reaches 1.1.22. Do not hardcode its Android versionCode until all earlier Play uploads are complete.
+- Store version names should converge for the seasonal release even though iOS build numbers and Android version codes remain platform-specific.
 
 ## Target
 
@@ -40,3 +48,10 @@ Ship an Android-first MVP within one week. Keep iOS ready for Mac Mini packaging
 - 360px mobile layout has no text overlap.
 - Build completes.
 - Rollback path is clear before store upload.
+
+## Confirmed Post-Korean-Theme Monetization Sequence — 2026-08-20
+
+- The Korean seasonal/theme release remains advertising-free.
+- The immediately following planned update should test one small bottom banner slot on ordinary puzzle play.
+- The experiment must follow `docs/MONETIZATION_PLAN.md`: dedicated non-overlay layout space, control/safe-area separation, ad-free onboarding/dialogue/purchases, privacy/store declarations, physical-device verification, metrics, rollback/remote disable planning, and a permanent Remove Ads purchase path.
+- This is an approved roadmap item, not authorization to add an SDK or production ad unit before the Korean release and pre-implementation gates are complete.

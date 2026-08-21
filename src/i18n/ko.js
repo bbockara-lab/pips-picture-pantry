@@ -53,6 +53,13 @@ export const ko = {
     welcomeDate: "2026년 8월 · Sunny Spoon Studios",
     welcomeArtAlt: "따뜻한 팬트리 책상에서 편지를 쓰는 핍",
     welcomeBody: "안녕하세요, Sunny Spoon Studios입니다.\n\n핍의 팬트리를 찾아와 주셔서 정말 고맙습니다. 이 작은 퍼즐방을 오래 머물고 싶은 따뜻한 공간으로 만들기 위해 한 칸씩 정성껏 다듬고 있어요.\n\n앞으로도 새로운 그림 퍼즐과 계절 이야기, 더 편안한 기능을 꾸준히 전해드리겠습니다. 핍과 함께할 다음 장면도 많이 기대해 주세요.\n\n여러분이 핍과 보내는 시간과 따뜻한 응원이 저희에게 정말 큰 힘이 됩니다.\n\n— Sunny Spoon Studios",
+    koreanHarvest: {
+      title: "보름달 아래에서 온 편지",
+      preview: "핍이 여러분을 위해 따뜻한 추석상을 준비했어요.",
+      date: "2026년 9월 · Sunny Spoon Studios",
+      artAlt: "보름달 아래 송편을 곁에 두고 편지를 쓰는 한복 차림의 핍",
+      body: "핍과 함께 조용한 퍼즐 시간을 보내 주셔서 고맙습니다.\n\n이번 추석 잔치도 정성을 다해 준비했어요. 달빛을 담은 그림과 송편 한 접시, 팬트리에 놓일 작은 소품마다 세계의 플레이어들과 추석의 따뜻함을 나누고 싶은 마음을 담았습니다.\n\n앞으로도 팬트리에 새로운 그림과 이야기, 작은 놀라움을 차곡차곡 채워 나가겠습니다. 보름달처럼 따뜻한 하루 보내세요.\n\n— Sunny Spoon Studios"
+    },
     messages: {
       "guide-puzzle": { title: "그림 퍼즐을 푸는 방법", preview: "핍의 첫 퍼즐 안내를 다시 봐요." },
       "guide-cursor": { title: "큰 퍼즐판에서 움직이기", preview: "방향키 안내를 다시 봐요." },
@@ -140,6 +147,7 @@ export const ko = {
     groupC: "\uc120\ubc18 C - 핍\uc758 \ub9c8\uc744",
     groupD: "\uc120\ubc18 D - 핍\uc758 \uc0ac\uacc4\uc808",
     groupE: "선반 E - 핍의 여름",
+    groupF: "선반 F - 추석 보름달 잔치",
     earned: "\uc218\uc9d1 \uc644\ub8cc",
     stageRequirement: "Stage {stage} \uc644\ub8cc",
     detailEarned: "\uc18c\uc911\ud55c \ubc30\uc9c0\uac00 \uc120\ubc18 \uc704\uc5d0\uc11c \ube5b\ub098\uace0 \uc788\uc5b4\uc694.",
@@ -158,6 +166,8 @@ export const ko = {
     pipPortrait: "핍 \ucd08\uc0c1\ud654",
     summerPantry: "여름 팬트리 배지",
     summerPantryDesc: "여름 팬트리 그림 컬렉션을 완성해요.",
+    koreanHarvest: "추석 보름달 배지",
+    koreanHarvestDesc: "핍의 추석 보름달 그림 컬렉션을 완성해요.",
     progress: "{completed}/{total}\uc7a5",
     earnedAria: "{title} \ud68d\ub4dd",
     progressAria: "{title} \uc9c4\ud589 {completed}/{total}",
@@ -509,6 +519,16 @@ export const ko = {
     seasideTableTeaser: "조개와 레모네이드, 바닷바람이 테이블에 모여요",
     sunsetFeast: "노을빛 만찬",
     sunsetFeastTeaser: "핍의 여름 팬트리가 저녁 만찬과 함께 빛나요",
+    koreanHarvest: {
+      "moonrise-table": "달맞이 소반",
+      "moonrise-tableTeaser": "반달 송편과 배, 밤이 보름달을 맞이해요",
+      "harvest-courtyard": "추수 안뜰",
+      "harvest-courtyardTeaser": "감과 벼 이삭, 보자기와 한지등이 안뜰에 모였어요",
+      "moon-jar-room": "달항아리 방",
+      "moon-jar-roomTeaser": "한국의 손길과 고요한 달빛이 핍의 특별한 방을 채워요",
+      "full-moon-feast": "보름달 잔치",
+      "full-moon-feastTeaser": "밝은 보름달 아래 핍과 함께 잔치를 마무리해요"
+    },
     lockConditionPuzzle: "\uc774\uc804 \ud37c\uc990 {count}\uac1c \ub354 \ud544\uc694",
     lockConditionPuzzleDone: "\uc774\uc804 \uc120\ubc18 \uc644\uc131 ✓",
     lockConditionPantry: "팬트리 수집품 {count}개 더 필요",
@@ -521,6 +541,7 @@ export const ko = {
   home: {
     sceneAria: "\ud54d\uc758 \ud37c\uc990\ubc29",
     summerEventWeek: "\uc5ec\ub984 \ud32c\ud2b8\ub9ac \uc8fc\uac04",
+    koreanHarvestEvent: "\ud54d\uc758 \ucd94\uc11d \ubcf4\ub984\ub2ec \uc794\uce58",
     keepsakeShelfAria: "\uD648 \uC804\uC2DC \uC120\uBC18",
     destinationsAria: "\ubc14\ub85c \uac00\uae30",
     currentPicture: "\uc9c0\uae08 \ud480 \uadf8\ub9bc",
@@ -548,6 +569,18 @@ export const ko = {
     mandatoryMessage: "\uc548\uc804\ud558\uac8c \uacc4\uc18d \ud50c\ub808\uc774\ud558\ub824\uba74 {version} \ubc84\uc804\uc73c\ub85c \uc5c5\ub370\uc774\ud2b8\ud574 \uc8fc\uc138\uc694.",
     updateNow: "\uc5c5\ub370\uc774\ud2b8",
     later: "\ub098\uc911\uc5d0"
+  },
+  koreanHarvest: {
+    rewards: {
+      title: "보름달 아래 모은 소품",
+      progress: "그림 {current}/{total}",
+      "songpyeon-tray": "송편 소반",
+      "bojagi-gift": "보자기 선물",
+      "moon-jar": "달항아리",
+      "moonlit-lantern": "달빛 한지등",
+      unlocked: "수집 완료",
+      unlockAt: "그림 {count}개 완성"
+    }
   },
   packs: {
     free: "\uae30\ubcf8 \ud3ec\ud568",
@@ -588,6 +621,10 @@ export const ko = {
     "summer-pantry": {
       title: "여름 팬트리",
       note: "장터와 정원, 피크닉과 바닷가 간식으로 채운 햇살 좋은 계절"
+    },
+    "korean-harvest": {
+      title: "추석 보름달 잔치",
+      note: "보름달 아래에서 만나는 따뜻한 추석 그림 16장"
     },
     "cafe-window-plus": {
       title: "Cafe Window Plus",

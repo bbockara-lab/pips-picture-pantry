@@ -1,6 +1,6 @@
 # Monetization Plan
 
-Last updated: 2026-07-28
+Last updated: 2026-08-20
 
 ## Position
 
@@ -31,6 +31,59 @@ Shared rules:
 
 - User-facing copy should not use paid/free category language in English or Korean. Use store, support, spoons, jar, and thank-you language.
 - Ads remain deferred for v1.
+
+## Post-Korean-Theme Banner Ad Experiment — Owner Direction 2026-08-20
+
+### Release order
+
+1. Ship the Korean seasonal/theme update without introducing advertising.
+2. In the following update, run a limited small-banner monetization experiment.
+3. Treat the first advertising release as an instrumented experiment, not a permanent entitlement to occupy every screen.
+
+### Initial placement
+
+- Start with one dedicated bottom advertising rail on ordinary puzzle play only.
+- Do not place the banner over the puzzle grid, clue numbers, cursor/D-pad, hint, fill/blank, undo, completion action, floating navigation, or device safe area.
+- The page must reserve a real layout slot for the loaded banner; never position an ad as an overlay over gameplay.
+- When no ad is available, collapse the slot so an empty white/black bar does not remain.
+- Maintain clear separation from interactive game controls to reduce accidental taps.
+- Do not show the first banner during onboarding, the guided practice puzzle, character dialogue, purchase flow, or a developer letter.
+- Home-screen, Pantry, Album, Time Attack, mailbox, and full-screen interstitial placements are outside the first experiment.
+
+### Commercial stance
+
+- Evaluate the banner as a real revenue surface rather than hiding it so thoroughly that it cannot perform.
+- Keep the ad visibly separate from Sunny Spoon artwork and label it according to the provider/platform requirements.
+- Measure impressions, fill rate, effective revenue, session length, puzzle completion, early exits, repeat sessions, crashes, and layout regressions.
+- Compare revenue against any loss in play completion and retention before expanding placement.
+- If the banner performs without materially damaging play, consider additional calm non-gameplay placements in a later experiment.
+- Interstitial, rewarded, and app-open formats require a separate owner decision and design review; they are not implicitly approved by this banner direction.
+
+### Player purchase path
+
+- Prepare a one-time Remove Ads purchase alongside or immediately after the banner experiment so players have a direct permanent opt-out.
+- Decide before implementation whether previous Pip Support Pack purchasers receive ad removal automatically or a separate loyalty benefit.
+- Store copy must say exactly which formats are removed and whether any future optional rewarded format remains.
+
+### Mandatory pre-implementation gates
+
+- Select an ad provider only after SDK size, child/family suitability, data collection, consent support, regional availability, fill, and mediation requirements are reviewed.
+- Update the privacy policy, App Store privacy disclosure, Google Play Data safety form, age-rating answers, consent flow, and store release notes before public rollout.
+- Add Android and iOS native test-ad configuration; production ad-unit identifiers must never be used for automated or development tapping.
+- Add QA for loaded, failed, offline, consent-required, purchased-ad-free, narrow-phone, tablet, rotation, keyboard, and safe-area states.
+- Verify the exact signed Android and iOS candidates on physical devices before calling the placement resolved.
+- Establish a remote disable path or release rollback plan before enabling production inventory.
+
+### Success and stop criteria
+
+Initial thresholds must be set from baseline analytics collected before the ad release. At minimum, stop or remotely disable the experiment if it causes:
+
+- puzzle controls or clues to become obscured;
+- meaningful puzzle-completion or next-day-retention decline;
+- accidental-navigation/tap complaints;
+- consent, privacy, age-rating, or store-policy uncertainty;
+- material crash, ANR, startup, battery, or network regressions;
+- banner persistence after a verified Remove Ads entitlement.
 
 ## Why It Ships In v1
 
@@ -69,8 +122,8 @@ The support pack offers a low-cost way to support Pip, while the Small Spoon Jar
 ## Deferred
 
 - Larger consumable spoon bundles.
-- Ad removal package.
-- Rewarded ads.
+- Ad removal package is deferred only until the post-Korean-theme banner experiment described above.
+- Rewarded ads remain separately deferred and are not part of the first banner experiment.
 - Cozy Pass subscription.
 - Server-side receipt validation.
 - Automatic refund/revocation sync.
