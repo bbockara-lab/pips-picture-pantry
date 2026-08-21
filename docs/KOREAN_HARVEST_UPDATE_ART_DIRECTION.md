@@ -94,9 +94,10 @@ Each final puzzle must pass silhouette readability and nonogram clue validation 
 
 ## Approved event-gated key visual
 
-- Source PNG: `src/assets/generated/pip-puzzle-workshop-korean-harvest-v1.png`
-- Runtime WebP: `src/assets/generated/pip-puzzle-workshop-korean-harvest-v1.webp`
+- Source PNG: `src/assets/generated/pip-puzzle-workshop-korean-harvest-v2-cute-capybara.png`
+- Runtime WebP: `src/assets/generated/pip-puzzle-workshop-korean-harvest-v2-cute-capybara.webp`
 - Pip presence: baked in
+- Character direction: 80–85% cute mascot readability with 15–20% capybara anatomy; warm rounded muzzle, tiny rounded ears, friendly dark eyes, and no realistic rodent treatment.
 - Status: approved for event-gated use after full-device overlay review at 360×740, 390×844, 430×932 and 675×900. It is registered for preview, but it does not replace the live summer scene until the two release statuses are deliberately promoted together.
 
 ## Implemented candidate content — 2026-08-20
@@ -109,7 +110,7 @@ Each final puzzle must pass silhouette readability and nonogram clue validation 
   - `src/assets/seasonal/korean-harvest/moon-jar-v1.webp`
   - `src/assets/seasonal/korean-harvest/moonlit-lantern-v1.webp`
 - One approved bilingual developer-letter illustration:
-  - `src/assets/mailbox/pip-korean-harvest-letter-v1.webp`
+  - `src/assets/mailbox/pip-korean-harvest-letter-v2-cute-capybara.webp`
 - One approved event badge:
   - `src/assets/badges/badge-pip-korean-harvest-v2.webp`
 - Dedicated completion palette: indigo, muted jade, warm cream, persimmon and aged brass.

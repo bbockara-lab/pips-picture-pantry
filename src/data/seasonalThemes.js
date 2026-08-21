@@ -25,7 +25,7 @@ export const seasonalThemes = Object.freeze([
   Object.freeze({
     id: "korean-harvest",
     status: THEME_STATUS.CANDIDATE,
-    homeBackgroundAssetId: "pip-puzzle-workshop-korean-harvest-v1",
+    homeBackgroundAssetId: "pip-puzzle-workshop-korean-harvest-v2-cute-capybara",
     homeCharacterAssetId: null,
     pipPresence: "baked-in",
     packId: "korean-harvest",

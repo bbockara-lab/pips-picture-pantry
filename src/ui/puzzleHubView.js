@@ -1,6 +1,6 @@
 import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
 import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-summer-v1.webp";
-import koreanHarvestWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-korean-harvest-v1.webp";
+import koreanHarvestWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-korean-harvest-v2-cute-capybara.webp";
 import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
 import pipSummerHomeUrl from "../assets/characters/pip-home-summer-v1.webp";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, getSeasonShelfSizeCounts, seasonShelves } from "../data/seasonShelves.js";
@@ -21,7 +21,7 @@ import { getLiveSeasonalTheme, getSeasonalTheme, getSeasonalThemeForPack, getSea
 
 const HOME_THEME_BACKGROUNDS = Object.freeze({
   "pip-puzzle-workshop-summer-v1": puzzleWorkshopBackgroundUrl,
-  "pip-puzzle-workshop-korean-harvest-v1": koreanHarvestWorkshopBackgroundUrl
+  "pip-puzzle-workshop-korean-harvest-v2-cute-capybara": koreanHarvestWorkshopBackgroundUrl
 });
 const HOME_THEME_CHARACTERS = Object.freeze({
   "pip-home-summer-v1": pipSummerHomeUrl

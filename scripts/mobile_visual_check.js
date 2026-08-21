@@ -6,7 +6,7 @@ const TARGET_URL = process.env.PPP_URL || `http://127.0.0.1:${qaPort}/`;
 assertIsolatedQaTarget(TARGET_URL, "mobile_visual_check");
 const PREVIEW_THEME_ID = new URL(TARGET_URL).searchParams.get("seasonalTheme") || "";
 const EXPECTED_HOME_THEME = PREVIEW_THEME_ID === "korean-harvest"
-  ? { id: "korean-harvest", backgroundAssetId: "pip-puzzle-workshop-korean-harvest-v1", pipPresence: "baked-in" }
+  ? { id: "korean-harvest", backgroundAssetId: "pip-puzzle-workshop-korean-harvest-v2-cute-capybara", pipPresence: "baked-in" }
   : { id: "summer", backgroundAssetId: "pip-puzzle-workshop-summer-v1", pipPresence: "companion" };
 const viewports = [
   { width: 360, height: 740, name: "360x740" },

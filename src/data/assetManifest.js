@@ -90,28 +90,28 @@ export const assetRegistry = [
     note: "Original high-resolution source for Pip's first developer welcome letter."
   },
   {
-    id: "pip-korean-harvest-letter-v1",
+    id: "pip-korean-harvest-letter-v2-cute-capybara",
     usage: "mailbox-seasonal-letter-art",
-    path: "src/assets/mailbox/pip-korean-harvest-letter-v1.webp",
+    path: "src/assets/mailbox/pip-korean-harvest-letter-v2-cute-capybara.webp",
     sourceType: "raster",
     approval: "approved",
     visible: true,
     mustReplaceBeforeMajorArtPass: false,
     pipPresence: "baked-in",
     identityStatus: "approved-character-and-world-continuity",
-    note: "Korean Harvest developer-letter illustration with identity-locked hanbok Pip writing beside songpyeon under the full moon. Runtime-approved art; message visibility remains season-gated."
+    note: "Korean Harvest developer-letter illustration with the approved cute capybara Pip identity, writing beside songpyeon under the full moon. Runtime-approved art; message visibility remains season-gated."
   },
   {
-    id: "pip-korean-harvest-letter-source-v1",
+    id: "pip-korean-harvest-letter-source-v2-cute-capybara",
     usage: "mailbox-seasonal-letter-art-source",
-    path: "src/assets/mailbox/pip-korean-harvest-letter-v1.png",
+    path: "src/assets/mailbox/pip-korean-harvest-letter-v2-cute-capybara.png",
     sourceType: "raster",
     approval: "source-archived",
     visible: false,
     mustReplaceBeforeMajorArtPass: false,
     pipPresence: "baked-in",
     identityStatus: "approved-character-and-world-continuity",
-    note: "High-resolution source for Pip's Korean Harvest developer letter."
+    note: "High-resolution source for Pip's cute-capybara Korean Harvest developer letter."
   },
   {
     id: "pip-puzzle-workshop-summer-v1",
@@ -127,28 +127,28 @@ export const assetRegistry = [
     note: "Summer common-release Workshop background with quiet UI space and seasonal produce at the scene edges. Contains no baked-in character, logo, text, or controls."
   },
   {
-    id: "pip-puzzle-workshop-korean-harvest-v1",
+    id: "pip-puzzle-workshop-korean-harvest-v2-cute-capybara",
     usage: "puzzle-home-background-seasonal",
-    path: "src/assets/generated/pip-puzzle-workshop-korean-harvest-v1.webp",
+    path: "src/assets/generated/pip-puzzle-workshop-korean-harvest-v2-cute-capybara.webp",
     sourceType: "raster",
     approval: "approved",
     visible: true,
     mustReplaceBeforeMajorArtPass: false,
     pipPresence: "baked-in",
     identityStatus: "approved-korean-harvest-world-continuity",
-    note: "Overlay-verified Korean Harvest Workshop composition. Pip wears a restrained jade-and-cream hanbok and prepares songpyeon under full-moon and hanji-lantern light; runtime exposure remains controlled by the seasonal publish gate."
+    note: "Overlay-verified Korean Harvest Workshop composition using the approved cute capybara Pip identity. Pip wears a restrained jade-and-cream hanbok and prepares songpyeon under full-moon and hanji-lantern light; runtime exposure remains controlled by the seasonal publish gate."
   },
   {
-    id: "pip-puzzle-workshop-korean-harvest-source-v1",
+    id: "pip-puzzle-workshop-korean-harvest-source-v2-cute-capybara",
     usage: "puzzle-home-background-source",
-    path: "src/assets/generated/pip-puzzle-workshop-korean-harvest-v1.png",
+    path: "src/assets/generated/pip-puzzle-workshop-korean-harvest-v2-cute-capybara.png",
     sourceType: "raster",
     approval: "source-archived",
     visible: false,
     mustReplaceBeforeMajorArtPass: false,
     pipPresence: "baked-in",
     identityStatus: "candidate-korean-harvest-world-continuity",
-    note: "High-resolution source for the first Korean Harvest Workshop composition candidate."
+    note: "High-resolution source for the approved cute-capybara Korean Harvest Workshop composition."
   },
   {
     id: "badge-pip-korean-harvest-v2",

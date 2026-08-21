@@ -71,9 +71,9 @@ Localization and art governance:
 - `src/i18n/ko.js`
 - `src/data/assetManifest.js`
 - `src/assets/seasonal/korean-harvest/`
-- `src/assets/mailbox/pip-korean-harvest-letter-v1.webp`
+- `src/assets/mailbox/pip-korean-harvest-letter-v2-cute-capybara.webp`
 - `src/assets/badges/badge-pip-korean-harvest-v2.webp`
-- `src/assets/generated/pip-puzzle-workshop-korean-harvest-v1.webp`
+- `src/assets/generated/pip-puzzle-workshop-korean-harvest-v2-cute-capybara.webp`
 
 Tests and QA:
 
@@ -164,3 +164,37 @@ Return findings first, ordered P0 through P3. Every actionable finding should in
 - `READY FOR ACTIVATION CHECKLIST`
 
 Do not declare the event live, build release binaries, commit, push or modify store submissions as part of this review.
+
+---
+
+## Claude Review Response — 2026-08-20
+
+**Verified independently:** `npm run test` (65 files / 388 tests, functions 3/3), `npm run qa:assets` (239 assets), `npm run build`, `git diff --check` — all pass and match the evidence claimed above. Also validated `KOREAN_HARVEST_PUZZLES` programmatically: 16 puzzles, no duplicate ids, no duplicate solution grids, every row length matches `size`, no fully-empty grid. i18n parity checked directly: 27 `korean`/`harvest`-matching keys in `en.js` and `ko.js`, zero missing either direction.
+
+### P0 — release blockers
+
+None found. Specifically checked and confirmed clean:
+- `puzzles.js`, `packs.js`, `seasonShelves.js`, `mailboxMessages.js`, `badges.js` all gate their Korean Harvest additions behind `isKoreanHarvestContentRuntimeReady()` (or the equivalent `koreanHarvestIsLive` const in `badges.js`), which correctly requires **both** `KOREAN_HARVEST_CONTENT.status === "live"` and `seasonalThemes` theme status `"live"`. Right now both are `"candidate"`, so none of these arrays receive the Korean Harvest entries at runtime.
+- The `?seasonalTheme=korean-harvest` dev preview in `puzzleHubView.js:116-117` is wrapped in `import.meta.env.DEV`, which Vite dead-code-eliminates in production builds — confirmed this branch is unreachable via query string in the actual shipped bundle.
+- Catalog/shelf/reward cadence agrees exactly with the spec: 16 puzzles, 4 shelves × 4 puzzles, 4 rewards at 4/8/12/16 completions. `pack.size` (12) and `pack.catalogCount` (16, derived) are not confused anywhere I checked.
+- `npm run build` reproduces the same >500kB main-chunk advisory noted in the handoff — non-blocking, unrelated to this candidate.
+
+### P1 — correctness and activation safety
+
+**Full Korean Harvest content ships in plaintext inside the current production JS bundle, extractable without any in-app path.** The runtime gate hides the content from the UI, but `koreanHarvestPuzzles.js` and `koreanHarvestContent.js` are unconditionally imported, so Vite bundles their full contents regardless of the runtime flag. I confirmed this directly:
+
+```
+grep -o "Half Moon\|송편\|Rabbit Rice Cake\|Harvest Moon Letter\|보름달 아래에서 온 편지" dist/assets/index-*.js
+```
+
+returned all five strings. This means the full puzzle title list (English + Korean), every solved grid, and the complete developer letter body are sitting in plaintext in the shipped AAB/IPA today — anyone who unzips the app package and greps the JS gets the entire event ahead of the 2026-09-17 publish date, independent of the in-app activation gate. This doesn't contradict the "invisible to current users during normal play" requirement, but it does contradict "no future story or mailbox content may leak before activation" taken literally — the leak vector is static bundle inspection, not app navigation. Whether this matters depends on how much the team cares about datamining-class leaks (common in mobile games, sometimes accepted); flagging so it's a conscious decision rather than an oversight. If it needs closing, the puzzle solutions/letter body would need to move behind a fetch-at-activation boundary instead of a bundled ES module — a larger change, not a quick fix, so treating as P1 rather than P0.
+
+### P2 — presentation and product quality
+
+- `KOREAN_HARVEST_CONTENT.mailboxLetter.unlockRule: "theme-live"` (`src/data/koreanHarvestContent.js:65`) is defined but never read anywhere — `getRuntimeSeasonalMailboxMessages()` gates on `isKoreanHarvestContentRuntimeReady()` directly and ignores this field. Harmless, but decorative/dead — either wire it in or drop it.
+- `badges.js:4` computes `const koreanHarvestIsLive = isKoreanHarvestContentRuntimeReady()` once at module load. Fine today since activation is a rebuild-and-ship event, not a live remote toggle — just noting this would need to become a function call (not a module-level const) if activation is ever made a runtime/remote-config flip instead of a new build.
+- Did not do a device-level visual pass on the narrow-phone layout, cultural tone, or safe-area handling for the new background/badge/letter art (P2 items in the original scope) — that needs an actual rendered check (`PPP_URL=... npm run qa:mobile` with the dev server up), which I didn't run this pass. Recommend before activation, not before this candidate merges.
+
+### Verdict
+
+**READY FOR ACTIVATION CHECKLIST** — no P0 blockers; the one P1 (bundle-level content exposure) is an architectural tradeoff to consciously accept or defer, not a defect to fix before this candidate can sit safely in the tree. Do the narrow-phone/cultural visual pass before flipping both status flags to `live`.
