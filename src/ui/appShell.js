@@ -100,7 +100,11 @@ export function renderApp(root) {
     if (root.dataset.introOpen !== "true") draw();
   });
 
-  function selectPuzzle(puzzleId, scrollTarget = "puzzle", options = {}) {
+  function queuePlayScrollReset() {
+    pendingScrollTarget = "play";
+  }
+
+  function selectPuzzle(puzzleId, scrollTarget = "play", options = {}) {
     const nextPuzzle = puzzles.find((puzzle) => puzzle.id === puzzleId) || dailyPuzzle;
     if (!isShelfUnlocked(getSeasonShelfForPuzzle(nextPuzzle))) {
       return;
@@ -115,7 +119,7 @@ export function renderApp(root) {
     puzzleListOpen = false;
     resetOpen = false;
     settingsOpen = false;
-    pendingScrollTarget = scrollTarget;
+    pendingScrollTarget = scrollTarget === "puzzle" ? "play" : scrollTarget;
     draw();
   }
 
@@ -158,7 +162,7 @@ export function renderApp(root) {
       });
       const nextReplayPick = getNextDailyReplayPick(replayPicks, activePuzzle.id);
       if (nextReplayPick) {
-        selectPuzzle(nextReplayPick.id, "puzzle", { replayChallenge: true, replayPicked: true });
+        selectPuzzle(nextReplayPick.id, "play", { replayChallenge: true, replayPicked: true });
         return;
       }
       replayChallenge = false;
@@ -230,6 +234,7 @@ export function renderApp(root) {
     }
     activePuzzle = decision.puzzle || activePuzzle;
     playOpen = true;
+    queuePlayScrollReset();
     draw();
   }
 
@@ -293,6 +298,7 @@ export function renderApp(root) {
     resetOpen = false;
     settingsOpen = false;
     timeAttackLastResult = session.lastResult;
+    queuePlayScrollReset();
     draw();
   }
   function closeTimeAttackRun() {
@@ -326,6 +332,7 @@ export function renderApp(root) {
       activeTimeAttackPuzzleState = null;
       timeAttackRoundIndex = result.roundIndex;
       activePuzzle = result.activePuzzle;
+      queuePlayScrollReset();
       draw();
       return;
     }
@@ -698,6 +705,29 @@ export function renderApp(root) {
     }
     const target = pendingScrollTarget;
     pendingScrollTarget = null;
+    if (target === "play") {
+      const resetPlayViewport = () => {
+        const scrollRoot = document.scrollingElement || document.documentElement;
+        if (scrollRoot) {
+          scrollRoot.scrollTop = 0;
+          scrollRoot.scrollLeft = 0;
+        }
+        document.body.scrollTop = 0;
+        document.body.scrollLeft = 0;
+        globalThis.scrollTo?.({ top: 0, left: 0, behavior: "auto" });
+      };
+
+      // WebKit can restore the previous page position after the replacement DOM
+      // has painted. Reset immediately and once more on the next frame so every
+      // normal, replay, and Time Attack board begins from its intended top edge.
+      resetPlayViewport();
+      if (typeof globalThis.requestAnimationFrame === "function") {
+        globalThis.requestAnimationFrame(resetPlayViewport);
+      } else {
+        globalThis.setTimeout(resetPlayViewport, 0);
+      }
+      return;
+    }
     globalThis.setTimeout(() => {
       const selector = target === "picker"
         ? `[data-shelf-id="${getSeasonShelfForPuzzle(activePuzzle)?.id || ""}"]`
