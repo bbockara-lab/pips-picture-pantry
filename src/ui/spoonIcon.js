@@ -26,7 +26,10 @@ export function renderSpoonBalanceChip(spoons, onTap = null) {
   chip.className = "spoon-balance-chip";
   const count = Number(spoons) || 0;
   const label = t("currency.spoons", { count });
-  chip.replaceChildren(createSpoonIcon("small"), document.createTextNode(String(count)));
+  const countElement = document.createElement("span");
+  countElement.className = "spoon-balance-chip__count";
+  countElement.textContent = String(count);
+  chip.replaceChildren(createSpoonIcon("small"), countElement);
   chip.setAttribute("aria-label", label);
   return chip;
 }
