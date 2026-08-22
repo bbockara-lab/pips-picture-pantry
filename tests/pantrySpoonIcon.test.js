@@ -31,6 +31,7 @@ describe("Pantry spoon currency rendering", () => {
     expect(stylesSource).toMatch(/\.spoon-balance-chip:is\(button\)\s*\{[\s\S]*?min-height:\s*44px;[\s\S]*?pointer-events:\s*auto;[\s\S]*?cursor:\s*pointer;/);
     expect(stylesSource).toMatch(/\.spoon-balance-chip \.spoon-icon\s*\{[\s\S]*?width:\s*20px;[\s\S]*?height:\s*20px;[\s\S]*?object-fit:\s*contain;/);
     expect(helperSource).toContain('countElement.className = "spoon-balance-chip__count"');
+    expect(helperSource).toContain('chip.dataset.digits = String(Math.max(1, String(count).length))');
     expect(helperSource).toContain('chip.replaceChildren(createSpoonIcon("small"), countElement)');
     expect(stylesSource).toMatch(/\.app-shell--workshop-home \.spoon-balance-chip::before\s*\{[\s\S]*?width:\s*104px;[\s\S]*?height:\s*38px;[\s\S]*?spoon-balance-hud-v1\.png/);
     expect(stylesSource).toMatch(/\.app-shell--play \.spoon-balance-chip\s*\{[\s\S]*?position:\s*static;[\s\S]*?grid-column:\s*2 \/ -1;[\s\S]*?grid-row:\s*2;/);

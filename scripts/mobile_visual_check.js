@@ -3625,7 +3625,7 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
     const chipRect = chip?.getBoundingClientRect() || null;
     const iconRect = icon?.getBoundingClientRect() || null;
     const shell = document.querySelector(".app-shell");
-    const compactWorkshopBalance = Boolean(shell?.classList.contains("app-shell--workshop-home"));
+    const compactWorkshopBalance = Boolean(shell?.classList.contains("app-shell--workshop-home") || shell?.dataset.view === "pantry");
     const needsSettingsClearance = Boolean(shell?.classList.contains("app-shell--workshop-home") || shell?.classList.contains("app-shell--play"));
     const collisionSelectors = [
       ".puzzle-home-scene__settings",
@@ -3637,7 +3637,7 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
       ".pantry-panel h2",
       ".time-attack-panel h2",
       ".spoon-run-view h2"
-    ];
+    ].filter((selector) => !(shell?.dataset.view === "pantry" && selector === ".pantry-panel h2"));
     const overlaps = chipRect
       ? collisionSelectors.flatMap((selector) => [...document.querySelectorAll(selector)]
         .filter((target) => {

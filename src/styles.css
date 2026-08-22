@@ -19802,6 +19802,125 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   }
 }
 
+/* Illustrated spoon counter: one shared economy HUD in the workshop and pantry. */
+:is(.app-shell--workshop-home, .app-shell[data-view="pantry"]) .spoon-balance-chip {
+  width: 112px;
+  min-width: 112px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #4a342d;
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+:is(.app-shell--workshop-home, .app-shell[data-view="pantry"]) .spoon-balance-chip::before {
+  content: "";
+  position: absolute;
+  inset: 2px 0 auto auto;
+  width: 112px;
+  height: 40px;
+  background: url("./assets/icons/spoon-balance-hud-v1.png") center / contain no-repeat;
+  filter: drop-shadow(0 3px 3px rgba(61, 43, 46, 0.16));
+}
+
+:is(.app-shell--workshop-home, .app-shell[data-view="pantry"]) .spoon-balance-chip .spoon-icon {
+  display: none;
+}
+
+:is(.app-shell--workshop-home, .app-shell[data-view="pantry"]) .spoon-balance-chip__count {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: 16px;
+  min-width: 38px;
+  transform: translateY(-50%);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+:is(.app-shell--workshop-home, .app-shell[data-view="pantry"]) .spoon-balance-chip[data-digits="4"] .spoon-balance-chip__count,
+:is(.app-shell--workshop-home, .app-shell[data-view="pantry"]) .spoon-balance-chip[data-digits="5"] .spoon-balance-chip__count {
+  right: 10px;
+  min-width: 50px;
+  font-size: 0.78rem;
+  letter-spacing: -0.04em;
+}
+
+.app-shell[data-view="pantry"] .pantry-jar-header .spoon-balance-chip {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  flex: 0 0 112px;
+}
+
+/* Pantry header chips share one compact type and border rhythm. */
+.app-shell[data-view="pantry"] .pantry-jar-header {
+  position: relative;
+  display: block;
+}
+
+.pantry-jar-header > :first-child {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.pantry-jar-header > :first-child > h2 {
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  padding-right: 124px;
+}
+
+.pantry-jar-header :is(.pantry-event-badge, .pantry-growth-bonus) {
+  box-sizing: border-box;
+  min-height: 30px;
+  margin-top: 0;
+  padding: 5px 9px;
+  align-items: center;
+  border: 1.5px solid rgba(190, 128, 43, 0.42);
+  border-radius: 999px;
+  color: #70451f;
+  font-family: "Jua", ui-rounded, sans-serif;
+  font-size: 0.74rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+@media (max-width: 400px) {
+  .app-shell--workshop-home .spoon-balance-chip {
+    width: 90px;
+    min-width: 90px;
+    right: max(68px, calc(env(safe-area-inset-right, 0px) + 68px));
+  }
+
+  .app-shell--workshop-home .spoon-balance-chip::before {
+    width: 90px;
+    height: 33px;
+    top: 5px;
+  }
+
+  .app-shell--workshop-home .spoon-balance-chip__count {
+    right: 12px;
+  }
+
+  .pantry-jar-header :is(.pantry-event-badge, .pantry-growth-bonus) {
+    min-height: 28px;
+    padding: 4px 8px;
+    font-size: 0.68rem;
+  }
+}
+
 /* v0.1.701 - Keep Play Now independent from the picture-list route. */
 .app-shell--workshop-home .puzzle-home-scene__play {
   /* Exactly 1.5× the shared 74px / 20vw / 92px destination scale. */
@@ -21086,6 +21205,7 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   .app-shell--workshop-home .spoon-balance-chip {
     width: 90px;
     min-width: 90px;
+    right: max(68px, calc(env(safe-area-inset-right, 0px) + 68px));
   }
 
   .app-shell--workshop-home .spoon-balance-chip::before {

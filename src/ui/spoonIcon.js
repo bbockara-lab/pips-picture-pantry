@@ -26,6 +26,7 @@ export function renderSpoonBalanceChip(spoons, onTap = null) {
   chip.className = "spoon-balance-chip";
   const count = Number(spoons) || 0;
   const label = t("currency.spoons", { count });
+  chip.dataset.digits = String(Math.max(1, String(count).length));
   const countElement = document.createElement("span");
   countElement.className = "spoon-balance-chip__count";
   countElement.textContent = String(count);
