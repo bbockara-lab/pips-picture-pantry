@@ -53,6 +53,7 @@ describe("play screen wiring", () => {
     expect(settingsViewSource).toContain('additionalOptionsLabel.textContent = t("settings.cursorOptions")');
     expect(settingsViewSource).toContain('additionalOptions.className = "settings-choice-grid settings-choice-grid--additional"');
     expect(stylesSource).toMatch(/\.settings-choice-grid--additional\s*\{[\s\S]*?border-radius:\s*18px;/);
+    expect(stylesSource).toMatch(/\.settings-dialog \.additional-options\s*\{[\s\S]*?border:\s*2px solid[\s\S]*?border-radius:\s*14px;/);
   });
 
   it("prevents persistent iOS double-tap zoom during rapid puzzle input", () => {
