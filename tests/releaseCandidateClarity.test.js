@@ -20,6 +20,9 @@ describe("release candidate clarity", () => {
     expect(ko).toContain("lockConditionPantryDone");
     expect(styles).toContain(".unlock-panel__condition.is-met");
     expect(styles).toContain(".unlock-panel__condition.is-unmet");
+    expect(styles).toMatch(/\.pack-block--locked \.unlock-panel\s*\{[\s\S]*?width:\s*100%;[\s\S]*?padding-inline:\s*0;/);
+    expect(en).toContain('lockConditionPuzzle: "Solve {count} more on this shelf"');
+    expect(en).toContain('requiresPantryShelf: "Finish {shelf}"');
   });
 
   it("uses a distinct, structured primary puzzle CTA label", () => {

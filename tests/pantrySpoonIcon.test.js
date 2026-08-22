@@ -36,6 +36,12 @@ describe("Pantry spoon currency rendering", () => {
     expect(helperSource).toContain('artwork.dataset.assetId = "spoon-balance-hud-v1"');
     expect(helperSource).toContain('chip.replaceChildren(createSpoonIcon("small"), artwork, countElement)');
     expect(stylesSource).toMatch(/\.app-shell:not\(\.app-shell--play\) \.spoon-balance-chip__artwork\s*\{[\s\S]*?width:\s*112px;[\s\S]*?height:\s*40px;/);
+    expect(stylesSource).toMatch(/\.app-shell:not\(\.app-shell--play\) \.spoon-balance-chip\s*\{[\s\S]*?-webkit-backdrop-filter:\s*none;[\s\S]*?backdrop-filter:\s*none;/);
+    expect(stylesSource).toMatch(/not\(\[data-view="pantry"\]\) \.spoon-balance-chip\s*\{\s*opacity:\s*1;/);
+    expect(stylesSource).toMatch(/not\(\[data-view="pantry"\]\) \.spoon-balance-chip__artwork,[\s\S]*?\.spoon-balance-chip__count\s*\{\s*opacity:\s*0\.72;/);
+    expect(stylesSource).toMatch(/not\(\[data-view="pantry"\]\) \.spoon-balance-chip__artwork\s*\{\s*filter:\s*none;/);
+    expect(shellSource).not.toContain("pantryHeader.appendChild(spoonBalanceChip)");
+    expect(stylesSource).toMatch(/\.app-shell\[data-view="pantry"\] > \.spoon-balance-chip\s*\{[\s\S]*?position:\s*fixed;/);
     expect(stylesSource).toMatch(/data-view="album"[\s\S]*?data-view="map"[\s\S]*?data-view="mailbox"[\s\S]*?\.spoon-balance-chip\s*\{[\s\S]*?display:\s*none\s*!important;/);
     expect(stylesSource).toMatch(/\.app-shell--play \.spoon-balance-chip\s*\{[\s\S]*?position:\s*static;[\s\S]*?grid-column:\s*2 \/ -1;[\s\S]*?grid-row:\s*2;/);
     expect(shellSource).toContain('playHeader.insertBefore(spoonBalanceChip, settingsButton)');

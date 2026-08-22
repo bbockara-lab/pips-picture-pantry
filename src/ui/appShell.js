@@ -953,11 +953,6 @@ function createShell({
       }
     );
     shell.appendChild(pantryView);
-    const pantryHeader = pantryView.querySelector(".pantry-jar-header");
-    const spoonBalanceChip = shell.querySelector(":scope > .spoon-balance-chip");
-    if (pantryHeader && spoonBalanceChip) {
-      pantryHeader.appendChild(spoonBalanceChip);
-    }
   } else if (activeView === "timeAttack") {
     shell.appendChild(renderTimeAttackView({
       bestScores: getTimeAttackBestScores(),

@@ -19022,6 +19022,28 @@ body.guide-open {
   font-weight: 600;
   opacity: 0.82;
 }
+
+/* Puzzle-list lock content shares the same horizontal edges as its art preview. */
+.pack-block--locked .unlock-panel {
+  box-sizing: border-box;
+  width: 100%;
+  padding-inline: 0;
+}
+
+.pack-block--locked :is(
+  .unlock-panel__requirements,
+  .unlock-panel__condition,
+  .unlock-panel__actions,
+  .stage-gate-link
+) {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+
+.pack-block--locked .unlock-panel__condition {
+  white-space: nowrap;
+}
 /* v0.1.674 - complete and future puzzle stage roadmap */
 .pack-stage-complete-badge {
   display: inline-flex;
@@ -19838,6 +19860,8 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   border-radius: 0;
   background: transparent;
   box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   color: #4a342d;
   font-family: "Jua", ui-rounded, sans-serif;
   font-size: 0.9rem;
@@ -19876,10 +19900,10 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   text-align: right;
 }
 
-.app-shell[data-view="pantry"] .pantry-jar-header .spoon-balance-chip {
-  position: absolute;
-  top: 0;
-  right: 0;
+.app-shell[data-view="pantry"] > .spoon-balance-chip {
+  position: fixed;
+  top: calc(max(12px, env(safe-area-inset-top)) + 4px);
+  right: max(16px, calc(env(safe-area-inset-right, 0px) + 16px));
 }
 
 @media (max-width: 400px) {
@@ -21416,7 +21440,18 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
 }
 
 .app-shell:not(.app-shell--play):not(.app-shell--workshop-home):not([data-view="pantry"]) .spoon-balance-chip {
+  opacity: 1;
+}
+
+/* WebKit rasterizes filter + parent opacity as a rectangular layer. Fade the
+   two visible alpha-masked pieces instead so no translucent box appears. */
+.app-shell:not(.app-shell--play):not(.app-shell--workshop-home):not([data-view="pantry"]) .spoon-balance-chip__artwork,
+.app-shell:not(.app-shell--play):not(.app-shell--workshop-home):not([data-view="pantry"]) .spoon-balance-chip__count {
   opacity: 0.72;
+}
+
+.app-shell:not(.app-shell--play):not(.app-shell--workshop-home):not([data-view="pantry"]) .spoon-balance-chip__artwork {
+  filter: none;
 }
 
 .app-shell:not(.app-shell--play) .spoon-balance-chip__count,
