@@ -4,7 +4,10 @@ import { t } from "../i18n/index.js";
 import { playCursorAction, playCursorMove } from "./audio.js";
 import { appendPuzzleControlArt } from "./puzzleControlArt.js";
 
-export function shouldShowCursorControls(puzzle, controlMode, cursorControlsUnlocked = false) {
+export function shouldShowCursorControls(puzzle, controlMode, cursorControlsUnlocked = false, options = {}) {
+  if (options.isTimeAttack && Number(puzzle.size) < 8) {
+    return false;
+  }
   if (controlMode === "direct") {
     return false;
   }

@@ -99,7 +99,7 @@ export function renderPuzzleView(puzzle, options = {}) {
       return;
     }
 
-    const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode, cursorControlsUnlocked);
+    const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode, cursorControlsUnlocked, { isTimeAttack });
     if (!cursorControlsEnabled) {
       return;
     }
@@ -180,8 +180,8 @@ export function renderPuzzleView(puzzle, options = {}) {
       }));
       return;
     }
-    const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode, cursorControlsUnlocked);
-    const canSwitchControlMode = Number(puzzle.size) >= 8 || cursorControlsUnlocked;
+    const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode, cursorControlsUnlocked, { isTimeAttack });
+    const canSwitchControlMode = Number(puzzle.size) >= 8 || (cursorControlsUnlocked && !isTimeAttack);
     const controlModeToggle = canSwitchControlMode
       ? createControlModeToggle(cursorControlsEnabled, options.onControlModeChange)
       : null;

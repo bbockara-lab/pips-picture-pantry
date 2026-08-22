@@ -103,7 +103,6 @@ for (const viewport of viewports) {
   await expectVisible(page, ".album-stamp", viewport.name);
   await expectAlbumPolish(page, viewport.name);
   await expectSpoonBalanceChipSize(page, viewport.name, "Album");
-  await verifySpoonBalanceChipStoreFlow(page, viewport.name);
   await expectNoHorizontalOverflow(page, viewport.name);
 
   await openFloatingView(page, "map");
@@ -127,6 +126,8 @@ for (const viewport of viewports) {
   await expectNoSharedScreenHeader(page, viewport.name);
   await expectSpoonBalanceChipSize(page, viewport.name, "Pantry");
   await verifyPantryPlacement(page, viewport.name);
+  await dismissGuideIfPresent(page, "pantry-spoon-balance");
+  await verifySpoonBalanceChipStoreFlow(page, viewport.name);
 
   await openFloatingView(page, "timeAttack", viewport.name);
   await expectSpoonBalanceChipSize(page, viewport.name, "Time Attack");
@@ -2137,6 +2138,7 @@ async function expectTimeAttackStartSurface(page, viewportName) {
     const grandpa = intro?.querySelector(".time-attack-panel__clock-grandpa");
     const grandpaImage = grandpa?.querySelector("img");
     const recordItems = records ? Array.from(records.querySelectorAll("li")) : [];
+    const ladderSteps = Array.from(panel.querySelectorAll(".time-attack-ladder__step"));
     const introRect = intro?.getBoundingClientRect();
     const introStyle = intro ? getComputedStyle(intro) : null;
     const startRect = start?.getBoundingClientRect();
@@ -2148,6 +2150,18 @@ async function expectTimeAttackStartSurface(page, viewportName) {
       panelWidth: panelRect.width,
       panelRight: panelRect.right,
       viewportWidth: window.innerWidth,
+      ladderCenters: ladderSteps.map((step) => {
+        const stepRect = step.getBoundingClientRect();
+        const roundRect = step.querySelector(".time-attack-ladder__round")?.getBoundingClientRect();
+        const sizeRect = step.querySelector(".time-attack-ladder__size")?.getBoundingClientRect();
+        const center = stepRect.left + stepRect.width / 2;
+        return {
+          roundDelta: roundRect ? Math.abs(roundRect.left + roundRect.width / 2 - center) : 999,
+          sizeDelta: sizeRect ? Math.abs(sizeRect.left + sizeRect.width / 2 - center) : 999,
+          roundAlign: step.querySelector(".time-attack-ladder__round") ? getComputedStyle(step.querySelector(".time-attack-ladder__round")).textAlign : "missing",
+          sizeAlign: step.querySelector(".time-attack-ladder__size") ? getComputedStyle(step.querySelector(".time-attack-ladder__size")).textAlign : "missing"
+        };
+      }),
       intro: introRect ? {
         width: introRect.width,
         height: introRect.height,
@@ -2203,7 +2217,8 @@ async function expectTimeAttackStartSurface(page, viewportName) {
     (metrics.records.itemCount === 0 || metrics.records.itemHeights.every((height) => height >= 28))
   );
   const staysInViewport = metrics.panelWidth > 0 && metrics.panelRight <= metrics.viewportWidth + 1;
-  if (!introLooksPolished || !startLooksTactile || !statusFits || !recordsAreUseful || !staysInViewport) {
+  const ladderIsCentered = metrics.ladderCenters.length === 3 && metrics.ladderCenters.every((item) => item.roundDelta <= 1 && item.sizeDelta <= 1 && item.roundAlign === "center" && item.sizeAlign === "center");
+  if (!introLooksPolished || !startLooksTactile || !statusFits || !recordsAreUseful || !staysInViewport || !ladderIsCentered) {
     failures.push("[" + viewportName + "] Time Attack start surface lost its compact start treatment: " + JSON.stringify(metrics));
   }
 }
@@ -2422,6 +2437,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       trailTogglePresent: Boolean(trailToggle),
       controlToggleWidth: controlToggleRect?.width || 0,
       controlToggleHeight: controlToggleRect?.height || 0,
+      actionAreaHeight: actionsRect?.height || 0,
       controlToggleLabel: controlToggle?.getAttribute("aria-label") || controlToggle?.textContent.trim() || "",
       navVisible: Boolean(navRect && navRect.width > 0 && navRect.height > 0),
       navOverlapActions: intersects(navRect, actionsRect),
@@ -2442,6 +2458,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     cursorPadMetrics.trailTogglePresent ||
     cursorPadMetrics.controlToggleWidth < 44 ||
     cursorPadMetrics.controlToggleHeight < 44 ||
+    cursorPadMetrics.controlToggleHeight > 45 ||
+    cursorPadMetrics.actionAreaHeight > 141 ||
     !cursorPadMetrics.controlToggleLabel ||
     cursorPadMetrics.navOverlapActions ||
     cursorPadMetrics.navOverlapDpad ||
@@ -2451,6 +2469,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     cursorPadMetrics.actions.some((button, index) =>
       button.width < 120 ||
       button.height < 44 ||
+      button.height > 45 ||
       !button.background.includes("gradient") ||
       !button.text ||
       button.assetId !== (index === 0 ? "puzzle-control-fill-v1" : "puzzle-control-mark-v1") ||
@@ -3622,11 +3641,15 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
     const chips = [...document.querySelectorAll(".spoon-balance-chip")];
     const chip = chips[0] || null;
     const icon = chip?.querySelector(".spoon-icon") || null;
+    const artwork = chip?.querySelector(".spoon-balance-chip__artwork") || null;
     const countElement = chip?.querySelector(".spoon-balance-chip__count") || null;
     const chipRect = chip?.getBoundingClientRect() || null;
     const iconRect = icon?.getBoundingClientRect() || null;
     const shell = document.querySelector(".app-shell");
     const compactWorkshopBalance = Boolean(shell && !shell.classList.contains("app-shell--play"));
+    const activeView = shell?.dataset.view || "missing";
+    const hiddenExpected = ["album", "map", "mailbox"].includes(activeView);
+    const fullOpacityExpected = Boolean(shell?.classList.contains("app-shell--workshop-home") || activeView === "pantry");
     let fourDigitFits = false;
     if (countElement && compactWorkshopBalance) {
       const originalText = countElement.textContent;
@@ -3672,6 +3695,11 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
       localBalanceCount: document.querySelectorAll(".pantry-jar-balance, .puzzle-home-scene__currency, .currency-pill").length,
       expectedSpoons: Number(save.pantrySpoons) || 0,
       compactWorkshopBalance,
+      activeView,
+      hiddenExpected,
+      fullOpacityExpected,
+      display: chip ? getComputedStyle(chip).display : "missing",
+      opacity: chip ? Number.parseFloat(getComputedStyle(chip).opacity) : -1,
       text: chip?.textContent?.trim() || "",
       ariaLabel: chip?.getAttribute("aria-label") || "",
       chipHeight: chipRect?.height || 0,
@@ -3679,7 +3707,10 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
       rightGap: chipRect ? window.innerWidth - chipRect.right : -1,
       iconWidth: iconRect?.width || 0,
       iconHeight: iconRect?.height || 0,
-      artworkBackground: chip ? getComputedStyle(chip, "::before").backgroundImage : "missing",
+      artworkDisplay: artwork ? getComputedStyle(artwork).display : "missing",
+      artworkAssetId: artwork?.dataset.assetId || "missing",
+      artworkNaturalWidth: artwork?.naturalWidth || 0,
+      artworkNaturalHeight: artwork?.naturalHeight || 0,
       countTextAlign: countElement ? getComputedStyle(countElement).textAlign : "missing",
       fourDigitFits,
       centerDelta: chipRect && iconRect ? Math.abs((iconRect.top + iconRect.height / 2) - (chipRect.top + chipRect.height / 2)) : 999,
@@ -3695,6 +3726,12 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
       overlaps
     };
   });
+  if (metrics.hiddenExpected) {
+    if (metrics.chipCount !== 1 || metrics.localBalanceCount !== 0 || metrics.display !== "none") {
+      failures.push("[" + viewportName + "] " + viewName + " spoon balance should be hidden: " + JSON.stringify(metrics));
+    }
+    return;
+  }
   if (metrics.chipCount !== 1
     || metrics.localBalanceCount !== 0
     || !metrics.text.includes(String(metrics.expectedSpoons))
@@ -3703,9 +3740,16 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
       ? metrics.text !== String(metrics.expectedSpoons)
       : !metrics.text.includes(String(metrics.expectedSpoons)))
     || (metrics.compactWorkshopBalance
-      ? !metrics.artworkBackground.includes("spoon-balance-hud-v1")
+      ? metrics.artworkDisplay === "none"
+        || metrics.artworkAssetId !== "spoon-balance-hud-v1"
+        || metrics.artworkNaturalWidth !== 512
+        || metrics.artworkNaturalHeight !== 184
       : Math.abs(metrics.iconWidth - 20) > 0.5 || Math.abs(metrics.iconHeight - 20) > 0.5)
     || (metrics.compactWorkshopBalance && (metrics.countTextAlign !== "right" || !metrics.fourDigitFits))
+    || (metrics.compactWorkshopBalance
+      && !metrics.fullOpacityExpected
+      && (metrics.opacity < 0.7 || metrics.opacity > 0.74))
+    || (metrics.compactWorkshopBalance && metrics.fullOpacityExpected && metrics.opacity !== 1)
     || (metrics.compactWorkshopBalance
       ? metrics.chipHeight < 43 || metrics.chipHeight > 45
       : metrics.focusedPlayOpen

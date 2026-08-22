@@ -603,7 +603,7 @@ export function renderApp(root) {
     }
     if (!activeGuide && activeView === "puzzle" && playOpen && !hasSeenGuide("puzzle")) {
       activeGuide = "puzzle";
-    } else if (!activeGuide && activeView === "puzzle" && playOpen && Number(activePuzzle?.size) === 8 && !hasSeenGuide("cursorControlsIntro")) {
+    } else if (!activeGuide && (activeView === "puzzle" || activeView === "timeAttack") && playOpen && Number(activePuzzle?.size) === 8 && !hasSeenGuide("cursorControlsIntro")) {
       activeGuide = "cursorControlsIntro";
     } else if (!activeGuide && activeView === "timeAttack" && !playOpen && !hasSeenGuide("timeAttack")) {
       activeGuide = "timeAttack";

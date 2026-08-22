@@ -19802,6 +19802,31 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   }
 }
 
+/* Time Attack ladder labels share the exact center of each round card. */
+.time-attack-ladder__step {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  justify-items: center;
+  align-content: center;
+  text-align: center;
+}
+
+.time-attack-ladder__round,
+.time-attack-ladder__size {
+  grid-column: 1;
+  justify-self: center;
+  width: 100%;
+  text-align: center;
+}
+
+.time-attack-ladder__round {
+  grid-row: 1;
+}
+
+.time-attack-ladder__size {
+  grid-row: 2;
+}
+
 /* Final economy-HUD authority: every non-play menu uses one illustrated counter. */
 .app-shell:not(.app-shell--play) .spoon-balance-chip {
   width: 112px;
@@ -19877,6 +19902,61 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
     min-width: 45px;
     font-size: 0.8rem;
   }
+}
+
+/* Absolute compact-control authority: keep all three actions equal and short. */
+.app-shell--play .cursor-controls--compact {
+  padding: 6px !important;
+}
+
+.app-shell--play .cursor-controls--compact .cursor-controls__body {
+  grid-template-columns: 128px minmax(0, 1fr) !important;
+  gap: 6px !important;
+  align-items: start !important;
+  margin-top: 0 !important;
+}
+
+.app-shell--play .cursor-controls--compact .cursor-dpad {
+  align-self: start !important;
+  margin: 0 !important;
+}
+
+.app-shell--play .cursor-controls--compact .cursor-actions {
+  grid-template-rows: repeat(3, 44px) !important;
+  gap: 4px !important;
+  align-self: start !important;
+}
+
+.app-shell--play .cursor-controls--compact .cursor-action-button,
+.app-shell--play .cursor-controls--compact .control-mode-toggle {
+  width: 100%;
+  height: 44px !important;
+  min-height: 44px !important;
+  padding-block: 4px;
+  border-radius: 13px;
+}
+
+.app-shell--play .cursor-controls--compact .cursor-action-button {
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 6px;
+  padding-inline: 7px;
+}
+
+.app-shell--play .cursor-controls--compact .cursor-action-button__art {
+  width: 30px;
+  height: 30px;
+}
+
+.app-shell--play .cursor-controls--compact .control-mode-toggle {
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 5px;
+  padding-inline: 7px;
+  font-size: 0.72rem;
+}
+
+.app-shell--play .cursor-controls--compact .control-mode-toggle__icon {
+  width: 22px;
+  height: 22px;
 }
 
 /* Illustrated spoon counter: one shared economy HUD in the workshop and pantry. */
@@ -21297,6 +21377,10 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
 }
 
 /* Absolute final authority: one artwork and one right-anchored number across menus. */
+.app-shell:is([data-view="album"], [data-view="map"], [data-view="mailbox"]) .spoon-balance-chip {
+  display: none !important;
+}
+
 .app-shell:not(.app-shell--play) .spoon-balance-chip {
   width: 112px;
   min-width: 112px;
@@ -21314,17 +21398,25 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
 }
 
 .app-shell:not(.app-shell--play) .spoon-balance-chip::before {
-  content: "";
-  position: absolute;
-  inset: 2px 0 auto auto;
-  width: 112px;
-  height: 40px;
-  background: url("./assets/icons/spoon-balance-hud-v1.png") center / contain no-repeat;
-  filter: drop-shadow(0 3px 3px rgba(61, 43, 46, 0.16));
+  content: none;
 }
 
 .app-shell:not(.app-shell--play) .spoon-balance-chip .spoon-icon {
   display: none;
+}
+
+.app-shell:not(.app-shell--play) .spoon-balance-chip__artwork {
+  position: absolute;
+  inset: 2px 0 auto auto;
+  display: block;
+  width: 112px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 3px rgba(61, 43, 46, 0.16));
+}
+
+.app-shell:not(.app-shell--play):not(.app-shell--workshop-home):not([data-view="pantry"]) .spoon-balance-chip {
+  opacity: 0.72;
 }
 
 .app-shell:not(.app-shell--play) .spoon-balance-chip__count,
@@ -21359,6 +21451,10 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   }
 
   .app-shell--workshop-home .spoon-balance-chip::before {
+    content: none;
+  }
+
+  .app-shell--workshop-home .spoon-balance-chip__artwork {
     width: 90px;
     height: 33px;
     top: 5px;

@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it, afterEach } from "vitest";
 import { CELL } from "../src/game/nonogram.js";
 import { createPuzzleState, setCursor, toggleCell } from "../src/game/puzzleState.js";
-import { setActiveLocale } from "../src/i18n/index.js";
+import { setActiveLocale, t } from "../src/i18n/index.js";
 import {
   applyCursorAction,
   createCursorControlSession,
@@ -72,12 +72,23 @@ describe("automatic large-board controls", () => {
     expect(shouldShowCursorControls({ size: 5 }, "cursor")).toBe(false);
     expect(shouldShowCursorControls({ size: 5 }, "cursor", true)).toBe(true);
   });
+
+  it("introduces Time Attack cursor controls at 8×8 even when already unlocked", () => {
+    expect(shouldShowCursorControls({ size: 5 }, "cursor", true, { isTimeAttack: true })).toBe(false);
+    expect(shouldShowCursorControls({ size: 8 }, "auto", false, { isTimeAttack: true })).toBe(true);
+  });
 });
 
 describe("cursor control layout", () => {
   it("uses the balanced compact arrangement for unlocked 5×5 boards and larger", () => {
     expect(shouldUseCompactCursorLayout({ size: 5 })).toBe(true);
     expect(shouldUseCompactCursorLayout({ size: 8 })).toBe(true);
+  });
+
+  it("uses the same player-facing names as Settings", () => {
+    setActiveLocale("ko");
+    expect(t("settings.controlsDirectShort")).toBe("칸 직접 누르기");
+    expect(t("settings.controlsCursorShort")).toBe("방향키 사용");
   });
 });
 

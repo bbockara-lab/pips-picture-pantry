@@ -46,7 +46,7 @@ describe("guide dialog character and badge wiring", () => {
     expect(guideSource).toContain('cell.classList.toggle("is-filled", state.cells[0]?.[index] === "filled")');
     expect(stylesSource).toContain(".guide-cursor-trail-demo__cell.is-filled");
     expect(appShellSource).toMatch(
-      /!hasSeenGuide\("puzzle"\)[\s\S]*?Number\(activePuzzle\?\.size\) === 8 && !hasSeenGuide\("cursorControlsIntro"\)[\s\S]*?activeGuide = "cursorControlsIntro"/
+      /!hasSeenGuide\("puzzle"\)[\s\S]*?\(activeView === "puzzle" \|\| activeView === "timeAttack"\)[\s\S]*?Number\(activePuzzle\?\.size\) === 8 && !hasSeenGuide\("cursorControlsIntro"\)[\s\S]*?activeGuide = "cursorControlsIntro"/
     );
   });
   it("verifies and dismisses the Spoon Run intro in mobile candidate QA", () => {

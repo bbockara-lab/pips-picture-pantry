@@ -1,4 +1,5 @@
 import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
+import spoonBalanceHudUrl from "../assets/icons/spoon-balance-hud-v1.png";
 import { t } from "../i18n/index.js";
 
 export function createSpoonIcon(size = "") {
@@ -30,7 +31,13 @@ export function renderSpoonBalanceChip(spoons, onTap = null) {
   const countElement = document.createElement("span");
   countElement.className = "spoon-balance-chip__count";
   countElement.textContent = String(count);
-  chip.replaceChildren(createSpoonIcon("small"), countElement);
+  const artwork = document.createElement("img");
+  artwork.className = "spoon-balance-chip__artwork";
+  artwork.src = spoonBalanceHudUrl;
+  artwork.alt = "";
+  artwork.setAttribute("aria-hidden", "true");
+  artwork.dataset.assetId = "spoon-balance-hud-v1";
+  chip.replaceChildren(createSpoonIcon("small"), artwork, countElement);
   chip.setAttribute("aria-label", label);
   return chip;
 }
