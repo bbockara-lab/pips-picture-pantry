@@ -31,7 +31,7 @@ describe("Pantry spoon currency rendering", () => {
     expect(stylesSource).toMatch(/\.spoon-balance-chip:is\(button\)\s*\{[\s\S]*?min-height:\s*44px;[\s\S]*?pointer-events:\s*auto;[\s\S]*?cursor:\s*pointer;/);
     expect(stylesSource).toMatch(/\.spoon-balance-chip \.spoon-icon\s*\{[\s\S]*?width:\s*20px;[\s\S]*?height:\s*20px;[\s\S]*?object-fit:\s*contain;/);
     expect(helperSource).toContain('chip.replaceChildren(createSpoonIcon("small"), document.createTextNode(String(count)))');
-    expect(stylesSource).toMatch(/\.app-shell--workshop-home \.spoon-balance-chip\s*\{[\s\S]*?right:\s*max\(132px, calc\(env\(safe-area-inset-right, 0px\) \+ 132px\)\);[\s\S]*?border-radius:\s*16px;[\s\S]*?background:\s*linear-gradient/);
+    expect(stylesSource).toMatch(/\.app-shell--workshop-home \.spoon-balance-chip\s*\{[\s\S]*?right:\s*max\(132px, calc\(env\(safe-area-inset-right, 0px\) \+ 132px\)\);[\s\S]*?border-radius:\s*999px;[\s\S]*?background:\s*rgba\(255, 250, 235, 0\.92\)/);
     expect(stylesSource).toMatch(/\.app-shell--play \.spoon-balance-chip\s*\{[\s\S]*?position:\s*static;[\s\S]*?grid-column:\s*2 \/ -1;[\s\S]*?grid-row:\s*2;/);
     expect(shellSource).toContain('playHeader.insertBefore(spoonBalanceChip, settingsButton)');
     expect(stylesSource).toMatch(/#app\[data-intro-open="true"\] \.spoon-balance-chip\s*\{[\s\S]*?visibility:\s*hidden;[\s\S]*?pointer-events:\s*none;/);
