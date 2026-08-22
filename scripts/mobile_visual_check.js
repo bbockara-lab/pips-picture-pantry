@@ -3622,10 +3622,22 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
     const chips = [...document.querySelectorAll(".spoon-balance-chip")];
     const chip = chips[0] || null;
     const icon = chip?.querySelector(".spoon-icon") || null;
+    const countElement = chip?.querySelector(".spoon-balance-chip__count") || null;
     const chipRect = chip?.getBoundingClientRect() || null;
     const iconRect = icon?.getBoundingClientRect() || null;
     const shell = document.querySelector(".app-shell");
-    const compactWorkshopBalance = Boolean(shell?.classList.contains("app-shell--workshop-home") || shell?.dataset.view === "pantry");
+    const compactWorkshopBalance = Boolean(shell && !shell.classList.contains("app-shell--play"));
+    let fourDigitFits = false;
+    if (countElement && compactWorkshopBalance) {
+      const originalText = countElement.textContent;
+      const originalDigits = chip.dataset.digits;
+      countElement.textContent = "9999";
+      chip.dataset.digits = "4";
+      fourDigitFits = countElement.scrollWidth <= countElement.clientWidth + 0.5;
+      countElement.textContent = originalText;
+      if (originalDigits === undefined) delete chip.dataset.digits;
+      else chip.dataset.digits = originalDigits;
+    }
     const needsSettingsClearance = Boolean(shell?.classList.contains("app-shell--workshop-home") || shell?.classList.contains("app-shell--play"));
     const collisionSelectors = [
       ".puzzle-home-scene__settings",
@@ -3668,6 +3680,8 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
       iconWidth: iconRect?.width || 0,
       iconHeight: iconRect?.height || 0,
       artworkBackground: chip ? getComputedStyle(chip, "::before").backgroundImage : "missing",
+      countTextAlign: countElement ? getComputedStyle(countElement).textAlign : "missing",
+      fourDigitFits,
       centerDelta: chipRect && iconRect ? Math.abs((iconRect.top + iconRect.height / 2) - (chipRect.top + chipRect.height / 2)) : 999,
       objectFit: icon ? getComputedStyle(icon).objectFit : "missing",
       assetId: icon?.dataset.assetId || "missing",
@@ -3691,6 +3705,7 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
     || (metrics.compactWorkshopBalance
       ? !metrics.artworkBackground.includes("spoon-balance-hud-v1")
       : Math.abs(metrics.iconWidth - 20) > 0.5 || Math.abs(metrics.iconHeight - 20) > 0.5)
+    || (metrics.compactWorkshopBalance && (metrics.countTextAlign !== "right" || !metrics.fourDigitFits))
     || (metrics.compactWorkshopBalance
       ? metrics.chipHeight < 43 || metrics.chipHeight > 45
       : metrics.focusedPlayOpen

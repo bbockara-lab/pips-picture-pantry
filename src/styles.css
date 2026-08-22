@@ -19802,6 +19802,83 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   }
 }
 
+/* Final economy-HUD authority: every non-play menu uses one illustrated counter. */
+.app-shell:not(.app-shell--play) .spoon-balance-chip {
+  width: 112px;
+  min-width: 112px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #4a342d;
+  font-family: "Jua", ui-rounded, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.app-shell:not(.app-shell--play) .spoon-balance-chip::before {
+  content: "";
+  position: absolute;
+  inset: 2px 0 auto auto;
+  width: 112px;
+  height: 40px;
+  background: url("./assets/icons/spoon-balance-hud-v1.png") center / contain no-repeat;
+  filter: drop-shadow(0 3px 3px rgba(61, 43, 46, 0.16));
+}
+
+.app-shell:not(.app-shell--play) .spoon-balance-chip .spoon-icon {
+  display: none;
+}
+
+.app-shell:not(.app-shell--play) .spoon-balance-chip__count,
+.app-shell:not(.app-shell--play) .spoon-balance-chip[data-digits] .spoon-balance-chip__count {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: 14px;
+  width: 58px;
+  min-width: 58px;
+  transform: translateY(-50%);
+  color: #4a342d;
+  font-size: 0.9rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+  line-height: 1;
+  text-align: right;
+}
+
+.app-shell[data-view="pantry"] .pantry-jar-header .spoon-balance-chip {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+@media (max-width: 400px) {
+  .app-shell--workshop-home .spoon-balance-chip {
+    width: 90px;
+    min-width: 90px;
+    right: max(68px, calc(env(safe-area-inset-right, 0px) + 68px));
+  }
+
+  .app-shell--workshop-home .spoon-balance-chip::before {
+    width: 90px;
+    height: 33px;
+    top: 5px;
+  }
+
+  .app-shell--workshop-home .spoon-balance-chip__count,
+  .app-shell--workshop-home .spoon-balance-chip[data-digits] .spoon-balance-chip__count {
+    right: 10px;
+    width: 45px;
+    min-width: 45px;
+    font-size: 0.8rem;
+  }
+}
+
 /* Illustrated spoon counter: one shared economy HUD in the workshop and pantry. */
 :is(.app-shell--workshop-home, .app-shell[data-view="pantry"]) .spoon-balance-chip {
   width: 112px;
@@ -21216,5 +21293,82 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
 
   .app-shell--workshop-home .spoon-balance-chip__count {
     right: 14px;
+  }
+}
+
+/* Absolute final authority: one artwork and one right-anchored number across menus. */
+.app-shell:not(.app-shell--play) .spoon-balance-chip {
+  width: 112px;
+  min-width: 112px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #4a342d;
+  font-family: "Jua", ui-rounded, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.app-shell:not(.app-shell--play) .spoon-balance-chip::before {
+  content: "";
+  position: absolute;
+  inset: 2px 0 auto auto;
+  width: 112px;
+  height: 40px;
+  background: url("./assets/icons/spoon-balance-hud-v1.png") center / contain no-repeat;
+  filter: drop-shadow(0 3px 3px rgba(61, 43, 46, 0.16));
+}
+
+.app-shell:not(.app-shell--play) .spoon-balance-chip .spoon-icon {
+  display: none;
+}
+
+.app-shell:not(.app-shell--play) .spoon-balance-chip__count,
+.app-shell:not(.app-shell--play) .spoon-balance-chip[data-digits] .spoon-balance-chip__count {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: 14px;
+  width: 58px;
+  min-width: 58px;
+  transform: translateY(-50%);
+  color: #4a342d;
+  font-size: 0.9rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+  line-height: 1;
+  text-align: right;
+}
+
+.app-shell[data-view="pantry"] .pantry-jar-header .spoon-balance-chip {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+@media (max-width: 400px) {
+  .app-shell--workshop-home .spoon-balance-chip {
+    width: 90px;
+    min-width: 90px;
+    right: max(68px, calc(env(safe-area-inset-right, 0px) + 68px));
+  }
+
+  .app-shell--workshop-home .spoon-balance-chip::before {
+    width: 90px;
+    height: 33px;
+    top: 5px;
+  }
+
+  .app-shell--workshop-home .spoon-balance-chip__count,
+  .app-shell--workshop-home .spoon-balance-chip[data-digits] .spoon-balance-chip__count {
+    right: 10px;
+    width: 45px;
+    min-width: 45px;
+    font-size: 0.8rem;
   }
 }
