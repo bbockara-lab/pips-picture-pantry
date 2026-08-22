@@ -3667,6 +3667,7 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
       rightGap: chipRect ? window.innerWidth - chipRect.right : -1,
       iconWidth: iconRect?.width || 0,
       iconHeight: iconRect?.height || 0,
+      artworkBackground: chip ? getComputedStyle(chip, "::before").backgroundImage : "missing",
       centerDelta: chipRect && iconRect ? Math.abs((iconRect.top + iconRect.height / 2) - (chipRect.top + chipRect.height / 2)) : 999,
       objectFit: icon ? getComputedStyle(icon).objectFit : "missing",
       assetId: icon?.dataset.assetId || "missing",
@@ -3688,18 +3689,18 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
       ? metrics.text !== String(metrics.expectedSpoons)
       : !metrics.text.includes(String(metrics.expectedSpoons)))
     || (metrics.compactWorkshopBalance
-      ? metrics.iconWidth < 43 || metrics.iconWidth > 47 || metrics.iconHeight < 43 || metrics.iconHeight > 47
+      ? !metrics.artworkBackground.includes("spoon-balance-hud-v1")
       : Math.abs(metrics.iconWidth - 20) > 0.5 || Math.abs(metrics.iconHeight - 20) > 0.5)
     || (metrics.compactWorkshopBalance
       ? metrics.chipHeight < 43 || metrics.chipHeight > 45
       : metrics.focusedPlayOpen
       ? metrics.chipHeight < 31 || metrics.chipHeight > 36
       : metrics.chipHeight < 44 || metrics.chipHeight > 50)
-    || metrics.centerDelta > 1
-    || metrics.objectFit !== "contain"
-    || metrics.assetId !== "spoon-token-v2"
-    || metrics.naturalWidth !== 256
-    || metrics.naturalHeight !== 256
+    || (!metrics.compactWorkshopBalance && metrics.centerDelta > 1)
+    || (!metrics.compactWorkshopBalance && metrics.objectFit !== "contain")
+    || (!metrics.compactWorkshopBalance && metrics.assetId !== "spoon-token-v2")
+    || (!metrics.compactWorkshopBalance && metrics.naturalWidth !== 256)
+    || (!metrics.compactWorkshopBalance && metrics.naturalHeight !== 256)
     || metrics.topGap < (metrics.compactWorkshopBalance ? 9 : 12)
     || metrics.rightGap < metrics.minimumRightGap - 1
     || (metrics.focusedPlayOpen ? metrics.tagName !== "DIV" : metrics.tagName !== "BUTTON")
