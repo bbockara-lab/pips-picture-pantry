@@ -5022,6 +5022,12 @@ img {
   min-width: 0;
 }
 
+.settings-choice-grid--control .settings-choice--cursor-trail {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-height: 52px;
+}
+
 @media (max-width: 380px) {
   .settings-dialog h2 {
     padding-right: 36px;

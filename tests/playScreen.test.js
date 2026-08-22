@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 
 const playScreenSource = readFileSync("src/ui/playScreen.js", "utf8");
 const puzzleViewSource = readFileSync("src/ui/puzzleView.js", "utf8");
+const settingsViewSource = readFileSync("src/ui/settingsView.js", "utf8");
+const stylesSource = readFileSync("src/styles.css", "utf8");
 const indexSource = readFileSync("index.html", "utf8");
 
 describe("play screen wiring", () => {
@@ -44,6 +46,11 @@ describe("play screen wiring", () => {
     expect(playScreenSource).toContain("onControlModeChange,");
     expect(puzzleViewSource).toContain("createControlModeToggle(cursorControlsEnabled, options.onControlModeChange)");
     expect(puzzleViewSource).toContain('button.className = `control-mode-toggle control-mode-toggle--${targetMode}`');
+  });
+
+  it("keeps the cursor trail preference aligned with the full control choice group", () => {
+    expect(settingsViewSource).toContain("controlButtons.appendChild(trailToggle)");
+    expect(stylesSource).toMatch(/\.settings-choice-grid--control \.settings-choice--cursor-trail\s*\{[\s\S]*?grid-column:\s*1 \/ -1;[\s\S]*?width:\s*100%;/);
   });
 
   it("prevents persistent iOS double-tap zoom during rapid puzzle input", () => {
