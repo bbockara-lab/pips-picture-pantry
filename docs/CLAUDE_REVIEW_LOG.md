@@ -13834,3 +13834,121 @@ Vite가 빌드 시점에 해시 파일명으로 `assets/`에 복사. 2.4MB 파�
 - 퍼즐 보드와 커서 도구의 반응형 너비 검사는 실제 360/390/430/675 레이아웃 계약을 따르도록 수정했다.
 - iOS `MARKETING_VERSION`과 `CURRENT_PROJECT_VERSION`을 `RELEASE_BUILD`와 직접 대조하는 `qa:ios-release` 게이트를 추가하고 전체 후보 게이트에 포함했다.
 - `npm run qa:mobile`이 360×740, 390×844, 430×932, 675×900 네 뷰포트에서 모두 통과했다.
+
+---
+
+## Claude Review Request 22 — 2026-08-21 / 퍼즐 방향키 UX 1~6번
+
+상태: **리뷰 대기 중 — 아래 6개 관점을 각각 독립적으로 검토할 것.**
+
+### 사용자 요구사항
+
+1. 방향키는 첫 8×8 퍼즐에서 안내·해금되어야 하며, 그 전 5×5에서는 노출되거나 사용할 수 없어야 한다. 8×8 안내를 본 뒤에는 5×5에서도 사용할 수 있어야 한다.
+2. 해금 후 5×5 방향키 모드의 방향키·칠하기·빈칸 버튼 배열이 자연스러워야 한다.
+3. 방향키를 길게 누를 때 iOS 텍스트 선택 핸들/컨텍스트 메뉴가 나타나거나 다른 줄을 누르는 듯한 현상이 없어야 한다. 반복 이동과 이어 칠하기는 유지되어야 한다.
+4. 홈의 `지금 풀기` 버튼은 다른 홈 목적지 버튼보다 정확히 1.5배 커야 한다.
+5. 첫 방향키 안내는 방향키로 칸이 실제로 연속해서 칠해지는 모습을 보여줘야 한다. 퍼즐 화면의 `이어 칠하기 켜짐/꺼짐` 버튼은 제거하고 이어 칠하기를 기본 활성화한다. 끄려는 사용자는 설정에서만 변경하며 선택은 저장되어야 한다.
+6. 방향키/직접 누르기 전환 버튼은 상단 헤더가 아니라 칠하기·빈칸 조작 가까이에 있어야 한다.
+
+### 구현 결과 요약
+
+- `cursorControlsIntro` 완료 여부를 방향키 해금 상태로 사용한다.
+- 명시적으로 저장된 `cursor` 모드도 해금 전 5×5에서는 적용되지 않는다.
+- 해금 전에는 설정의 방향키 선택과 5×5 전환 버튼도 숨긴다.
+- 5×5 방향키 모드가 8×8 이상과 같은 compact 조작 배열을 사용한다.
+- 방향키 입력은 pointer capture를 사용하고 pointerup/pointercancel/lostpointercapture에서 반복 타이머를 정리한다.
+- 퍼즐판과 방향키 조작 영역에서 iOS text selection/touch callout을 차단한다.
+- `지금 풀기` 크기는 목적지 `clamp(74px, 20vw, 92px)` 대비 `clamp(111px, 30vw, 138px)`로 맞췄다.
+- 방향키 안내에 다섯 칸이 순차적으로 채워지는 반복 시연을 추가했다.
+- 퍼즐 내부 Trail Paint 토글을 삭제했다.
+- `cursor-trail` 로컬 설정을 추가했으며 저장값이 없으면 기본 `true`, 명시적으로 끈 경우에만 `false`이다.
+- 설정의 `이어 칠하기 사용`은 방향키 해금 후에만 표시된다.
+- 상단 `.play-screen__control-toggle`을 제거했다.
+- 직접 누르기에서는 전환 버튼을 칠하기/빈칸/되돌리기 아래에, 방향키 모드에서는 칠하기/빈칸과 같은 actions 열에 배치했다.
+- 한국어·영어 안내 문구를 새 위치와 기본 Trail Paint 동작에 맞게 수정했다.
+
+### 이번 리뷰 범위
+
+다음 변경 파일과 새 테스트를 검토할 것:
+
+- `scripts/mobile_visual_check.js`
+- `src/i18n/en.js`
+- `src/i18n/ko.js`
+- `src/styles.css`
+- `src/ui/appShell.js`
+- `src/ui/guideDialog.js`
+- `src/ui/playScreen.js`
+- `src/ui/preferences.js`
+- `src/ui/puzzleCursorControls.js`
+- `src/ui/puzzleView.js`
+- `src/ui/settingsView.js`
+- `tests/cursorControls.test.js`
+- `tests/cursorTrailPreference.test.js` (새 파일)
+- `tests/guideDialog.test.js`
+- `tests/playScreen.test.js`
+- `tests/workshopHubCards.test.js`
+
+`docs/SUNNY_SPOON_REALTIME_TERRITORY_GAME_FOUNDATION.md`는 사용자의 별도 기존 파일이므로 이번 리뷰에서 제외한다.
+
+### 요청하는 6개 독립 리뷰
+
+#### Review 22-A — 기능/요구사항 정합성
+
+- 위 1~6번이 실제 런타임 흐름에서 모두 충족되는지 추적한다.
+- 5×5 → 첫 8×8 안내 → 다시 5×5 순서와 직접/방향키 전환을 확인한다.
+- 요구사항을 겉보기만 만족하고 실제 상태 전달이 누락된 곳이 있는지 찾는다.
+
+#### Review 22-B — 저장 상태/진행 해금
+
+- 기존 사용자의 저장된 `control-mode=cursor`가 해금 조건을 우회하지 않는지 확인한다.
+- `cursorControlsIntro`를 닫는 시점과 해금 시점이 올바른지 확인한다.
+- Trail Paint 기본값·opt-out 저장·앱 재시작·리셋 진행 상황에서의 동작을 검토한다.
+- 설정을 변경한 뒤 현재 퍼즐 재렌더링에 실제로 반영되는지 확인한다.
+
+#### Review 22-C — 모바일 입력/iOS 길게 누르기
+
+- pointer capture, document listener 등록/해제, 타이머 수명, lost capture 처리의 경쟁 상태나 누수를 검토한다.
+- 보드 경계에서 계속 누를 때 반복 타이머가 안전한지 확인한다.
+- iOS Safari/WKWebView에서 text selection, callout, ghost click, scroll 개입 가능성을 확인한다.
+- 키보드 접근성과 버튼 기본 click 동작이 pointer 처리 때문에 깨지지 않는지 확인한다.
+
+#### Review 22-D — 반응형 레이아웃/시각 계약
+
+- 360×740, 390×844, 430×932, 675×900에서 5×5/8×8 조작 배열을 검토한다.
+- 직접 모드의 4번째 전환 버튼과 방향키 actions 열의 세 번째 전환 버튼이 넘침·과도한 세로 길이·플로팅 내비 겹침을 만들지 확인한다.
+- 상단 버튼 제거 후 헤더 grid에 빈 열이나 정렬 회귀가 없는지 확인한다.
+- `지금 풀기`의 컨테이너뿐 아니라 실제 보이는 그림/라벨도 다른 목적지 대비 사용자가 1.5배로 인식하는지 확인한다.
+
+#### Review 22-E — 안내/문구/접근성
+
+- 방향키 안내의 애니메이션이 실제 조작 결과를 이해시키는지 검토한다.
+- 애니메이션과 실제 방향키가 연결되어 보이는지, 단순 장식으로 오해되지 않는지 확인한다.
+- 한국어·영어 문구가 실제 위치와 동작을 정확히 설명하는지 확인한다.
+- 설정 토글의 현재 켜짐/꺼짐 상태가 텍스트·시각·ARIA 모두에서 충분히 명확한지 확인한다.
+- reduced-motion, screen reader, focus order를 검토한다.
+
+#### Review 22-F — 테스트/QA 회귀 방지
+
+- source-string assertion만 통과하고 실제 동작은 검증하지 못하는 테스트를 지적한다.
+- `mobile_visual_check.js`가 제거된 Trail Paint 버튼과 이동된 전환 버튼을 정확히 검사하는지 확인한다.
+- 5×5 해금 전/후 렌더링, 설정 토글 저장, 전환 버튼 클릭, pointer hold 정리를 실제 DOM/행동 테스트로 보강해야 하는지 판단한다.
+- dead CSS/i18n과 이전 selector가 남았는지 찾는다.
+
+### 리뷰 출력 형식
+
+각 Review 22-A~F를 별도 섹션으로 작성한다. 지적은 아래 형식만 사용한다.
+
+- 심각도: P0 / P1 / P2 / P3
+- 파일과 가능한 한 정확한 줄
+- 재현 조건 또는 실행 흐름
+- 왜 문제인지
+- 최소 수정 제안
+
+문제가 없는 관점은 `No actionable findings`라고 명시한다. 동일 원인은 한 번만 기록하고 다른 리뷰에서는 참조한다. 코드를 수정하지 말고 먼저 리뷰 결과만 이 로그 아래에 추가한다.
+
+### Codex 사전 검증
+
+- `npm test`: **67 files / 399 tests + functions 3/3 통과**
+- `npm run build`: 통과
+- `git diff --check`: 통과
+- 실제 iOS/Android 기기 확인과 전체 `qa:mobile` 실행은 아직 하지 않았다.

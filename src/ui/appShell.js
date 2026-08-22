@@ -32,7 +32,7 @@ import { getBadgeForCompletedShelf } from "../game/badges.js";
 import { renderBadgeEarnedToast, renderPantryMapView } from "./mapView.js";
 import { renderPantryView } from "./pantryView.js";
 import { getNextPantryGuideId } from "./pantryGuideFlow.js";
-import { getControlModePreference, setControlModePreference } from "./preferences.js";
+import { getControlModePreference, getCursorTrailPreference, setControlModePreference, setCursorTrailPreference } from "./preferences.js";
 import {
   getStageNavigation,
   getPuzzleHubOpenDecision,
@@ -435,6 +435,11 @@ export function renderApp(root) {
     draw();
   }
 
+  function changeCursorTrail(enabled) {
+    setCursorTrailPreference(enabled);
+    draw();
+  }
+
   function createDefaultCozySupportState(status = "idle") {
     return {
       available: false,
@@ -467,6 +472,9 @@ export function renderApp(root) {
       onMusicChange: changeMusic,
       onControlModeChange: changeControlMode,
       controlMode,
+      cursorControlsUnlocked: hasSeenGuide("cursorControlsIntro"),
+      cursorTrailEnabled: getCursorTrailPreference(),
+      onCursorTrailChange: changeCursorTrail,
       supportPack: cozySupportState,
       onSupportPurchase: buyCozySupportPack,
       spoonJar: spoonJarState,
@@ -869,6 +877,8 @@ function createShell({
       dailyBonus: DAILY_BONUS,
       dailyChallenge,
       controlMode,
+      cursorControlsUnlocked: hasSeenGuide("cursorControlsIntro"),
+      cursorTrailEnabled: getCursorTrailPreference(),
       onControlModeChange,
       onClosePuzzle: activeView === "timeAttack" ? onCloseTimeAttack : onClosePuzzle,
       onRequestSettings,

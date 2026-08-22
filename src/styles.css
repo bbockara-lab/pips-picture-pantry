@@ -2646,6 +2646,20 @@ body {
   }
 }
 
+/* v0.1.718 - D-pad holds belong to the puzzle, never to iOS text selection. */
+.app-shell--play .cursor-controls,
+.app-shell--play .cursor-controls *,
+.app-shell--play .board-wrap,
+.app-shell--play .board-wrap * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.app-shell--play .cursor-move {
+  touch-action: none;
+}
+
 
 /* v0.1.112 pantry sort and recommendation badges */
 .pantry-sort-bar {
@@ -8061,36 +8075,6 @@ img {
     0 4px 0 rgba(67, 45, 51, 0.18);
 }
 
-.cursor-trail-toggle {
-  min-height: 44px;
-  border: 1.5px solid rgba(103, 80, 69, 0.42);
-  border-radius: 999px;
-  background: rgba(255, 252, 239, 0.94);
-  color: var(--ink);
-  font: inherit;
-  font-size: 0.78rem;
-  font-weight: 850;
-  cursor: pointer;
-  touch-action: manipulation;
-  box-shadow: 0 3px 0 rgba(83, 63, 51, 0.12);
-}
-
-.cursor-trail-toggle.is-active {
-  border-color: rgba(95, 139, 92, 0.72);
-  background: linear-gradient(180deg, #f4ffe8 0%, #dcefc8 100%);
-}
-
-.cursor-trail-toggle.is-active::before {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 6px;
-  border-radius: 50%;
-  background: #6aa75f;
-  box-shadow: 0 0 0 3px rgba(106, 167, 95, 0.14);
-}
-
 .cursor-controls--compact {
   gap: 7px;
   padding: 10px;
@@ -8170,11 +8154,6 @@ img {
 
 .cursor-controls--compact .cursor-action-button {
   min-height: 48px;
-}
-
-.cursor-controls--compact .cursor-trail-toggle {
-  min-height: 44px;
-  font-size: 0.72rem;
 }
 
 .hint-panel--compact .hint-panel__copy {
@@ -19787,7 +19766,8 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
 
 /* v0.1.701 - Keep Play Now independent from the picture-list route. */
 .app-shell--workshop-home .puzzle-home-scene__play {
-  --workshop-play-size: clamp(114px, 29vw, 136px);
+  /* Exactly 1.5× the shared 74px / 20vw / 92px destination scale. */
+  --workshop-play-size: clamp(111px, 30vw, 138px);
   left: auto !important;
   right: 7% !important;
   bottom: calc(var(--workshop-nav-clearance) + 8px) !important;
@@ -20127,6 +20107,33 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   margin: 0;
   padding: 8px;
   border-radius: 16px;
+}
+
+.guide-cursor-trail-demo {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  width: min(100%, 250px);
+  margin: 0 auto 8px;
+}
+
+.guide-cursor-trail-demo__cell {
+  aspect-ratio: 1;
+  border: 2px solid rgba(61, 43, 46, 0.54);
+  border-radius: 9px;
+  background: #fffaf0;
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.5);
+  animation: guide-cursor-trail-fill 3s ease-in-out infinite;
+}
+
+.guide-cursor-trail-demo__cell:nth-child(2) { animation-delay: 0.28s; }
+.guide-cursor-trail-demo__cell:nth-child(3) { animation-delay: 0.56s; }
+.guide-cursor-trail-demo__cell:nth-child(4) { animation-delay: 0.84s; }
+.guide-cursor-trail-demo__cell:nth-child(5) { animation-delay: 1.12s; }
+
+@keyframes guide-cursor-trail-fill {
+  0%, 12%, 88%, 100% { background: #fffaf0; }
+  24%, 72% { background: linear-gradient(145deg, #ffd36b, #e58e5d); }
 }
 
 .guide-cursor-preview .cursor-controls__body {
@@ -20891,10 +20898,9 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
     0 4px 0 rgba(61, 43, 46, 0.2);
 }
 
-/* v0.1.717 - final play-header authority. Players can switch between direct
-   tapping and the D-pad without leaving the current puzzle. */
+/* v0.1.717 - final play-header authority. */
 .app-shell--play .play-screen__header {
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   grid-template-rows: auto;
 }
 
@@ -20903,56 +20909,57 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   grid-row: 1;
 }
 
-.app-shell--play .play-screen__control-toggle {
+.app-shell--play .play-screen__header .difficulty {
   grid-column: 2;
   grid-row: 1;
-  display: inline-flex;
+}
+
+/* v0.1.719 - control switching belongs beside the actions it changes. */
+.app-shell--play .control-mode-toggle {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 24px minmax(0, 1fr);
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  min-width: 78px;
+  gap: 7px;
+  min-width: 0;
   min-height: 44px;
-  border: 2px solid rgba(61, 43, 46, 0.72);
-  border-radius: 13px;
-  padding: 6px 9px;
-  background: linear-gradient(180deg, #fffaf0 0%, #f7ead0 100%);
+  padding: 7px 10px;
+  border: 2px solid rgba(61, 43, 46, 0.68);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fff8dc 0%, #f2d789 100%);
   color: var(--ink);
-  box-shadow: 0 3px 0 rgba(61, 43, 46, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.76);
+  box-shadow: 0 3px 0 rgba(61, 43, 46, 0.14);
   font: inherit;
   font-size: 0.78rem;
   font-weight: 900;
   line-height: 1;
-  white-space: nowrap;
   touch-action: manipulation;
 }
 
-.app-shell--play .play-screen__control-toggle[data-control-mode="cursor"] {
-  background: linear-gradient(180deg, #fff2bc 0%, #f7d979 100%);
-}
-
-.app-shell--play .play-screen__control-toggle:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 rgba(61, 43, 46, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.76);
-}
-
-.app-shell--play .play-screen__control-toggle:focus-visible {
-  outline: 3px solid rgba(216, 145, 43, 0.5);
-  outline-offset: 2px;
-}
-
-.app-shell--play .play-screen__control-toggle-icon {
+.app-shell--play .control-mode-toggle__icon {
+  position: relative;
   display: grid;
+  width: 24px;
+  height: 24px;
   place-items: center;
-  width: 19px;
-  height: 19px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.66);
-  font-size: 0.86rem;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.68);
 }
 
-.app-shell--play .play-screen__header .difficulty {
-  grid-column: 3;
-  grid-row: 1;
+.app-shell--play .control-mode-toggle--cursor .control-mode-toggle__icon::before {
+  content: "✥";
+  font-size: 1rem;
+}
+
+.app-shell--play .control-mode-toggle--direct .control-mode-toggle__icon::before {
+  content: "●";
+  font-size: 0.72rem;
+}
+
+.app-shell--play .controls .control-mode-toggle {
+  grid-column: 1 / -1;
+  width: 100%;
 }
 
 @media (max-width: 390px) {
@@ -20960,18 +20967,4 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
     gap: 5px;
   }
 
-  .app-shell--play .play-screen__control-toggle {
-    min-width: 44px;
-    width: 44px;
-    padding-inline: 0;
-  }
-
-  .app-shell--play .play-screen__control-toggle-label {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
 }

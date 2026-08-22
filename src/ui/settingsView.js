@@ -24,6 +24,9 @@ export function renderSettingsDialog({
   onSfxChange,
   onMusicChange,
   controlMode,
+  cursorControlsUnlocked = false,
+  cursorTrailEnabled = true,
+  onCursorTrailChange = () => {},
   onControlModeChange,
   supportPack = null,
   onSupportPurchase = () => {},
@@ -104,11 +107,14 @@ export function renderSettingsDialog({
   controlButtons.className = "language-options compact settings-choice-grid settings-choice-grid--control";
   controlButtons.setAttribute("role", "group");
   controlButtons.setAttribute("aria-label", t("settings.controls"));
-  [
+  const controlChoices = [
     ["auto", t("settings.controlsAuto")],
-    ["direct", t("settings.controlsDirect")],
-    ["cursor", t("settings.controlsCursor")]
-  ].forEach(([value, label]) => {
+    ["direct", t("settings.controlsDirect")]
+  ];
+  if (cursorControlsUnlocked) {
+    controlChoices.push(["cursor", t("settings.controlsCursor")]);
+  }
+  controlChoices.forEach(([value, label]) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = controlMode === value
@@ -120,6 +126,15 @@ export function renderSettingsDialog({
     controlButtons.appendChild(button);
   });
   controlGroup.appendChild(controlButtons);
+  if (cursorControlsUnlocked) {
+    const trailToggle = createSettingsToggle(
+      t("settings.cursorTrail"),
+      cursorTrailEnabled,
+      onCursorTrailChange
+    );
+    trailToggle.classList.add("settings-choice--cursor-trail");
+    controlGroup.appendChild(trailToggle);
+  }
 
   const audioGroup = document.createElement("div");
   audioGroup.className = "audio-options";
@@ -128,8 +143,8 @@ export function renderSettingsDialog({
   audioLabel.textContent = t("settings.sound");
   audioGroup.appendChild(audioLabel);
   audioGroup.append(
-    createAudioToggle(t("settings.sfx"), audio.sfx, onSfxChange),
-    createAudioToggle(t("settings.music"), audio.music, onMusicChange)
+    createSettingsToggle(t("settings.sfx"), audio.sfx, onSfxChange),
+    createSettingsToggle(t("settings.music"), audio.music, onMusicChange)
   );
 
   const resetButton = document.createElement("button");
@@ -190,7 +205,7 @@ export function renderSpoonStore({
   return store;
 }
 
-function createAudioToggle(label, active, onChange) {
+function createSettingsToggle(label, active, onChange) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = active

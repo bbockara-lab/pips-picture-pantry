@@ -4,28 +4,32 @@ import { t } from "../i18n/index.js";
 import { playCursorAction, playCursorMove } from "./audio.js";
 import { appendPuzzleControlArt } from "./puzzleControlArt.js";
 
-export function shouldShowCursorControls(puzzle, controlMode) {
+export function shouldShowCursorControls(puzzle, controlMode, cursorControlsUnlocked = false) {
   if (controlMode === "direct") {
     return false;
   }
   if (controlMode === "cursor") {
-    return true;
+    return Number(puzzle.size) >= 8 || cursorControlsUnlocked;
   }
   return Number(puzzle.size) >= 8;
 }
 
-export function createCursorControlSession(state = {}) {
+export function createCursorControlSession(state = {}, trailEnabled = true) {
   return {
-    trailEnabled: true,
+    trailEnabled: Boolean(trailEnabled),
     brushMode: state.mode === "mark" ? "mark" : "fill"
   };
+}
+
+export function shouldUseCompactCursorLayout(puzzle) {
+  return Number(puzzle?.size || 0) >= 5;
 }
 
 export function renderCursorControls(state, puzzle, update, options = {}) {
   const session = options.session || createCursorControlSession(state);
   const getState = options.getState || (() => state);
   const redraw = options.redraw || (() => {});
-  const compact = Number(puzzle.size || 0) >= 8;
+  const compact = shouldUseCompactCursorLayout(puzzle);
   const controls = document.createElement("section");
   controls.className = compact ? "cursor-controls cursor-controls--compact" : "cursor-controls";
   controls.setAttribute("aria-label", t("controls.cursorPanel"));
@@ -46,18 +50,9 @@ export function renderCursorControls(state, puzzle, update, options = {}) {
     createCursorActionButton(actionLabels.fill, () => applyCursorAction(getState(), "fill", update, session), session.brushMode === "fill" && session.trailEnabled),
     createCursorActionButton(actionLabels.mark, () => applyCursorAction(getState(), "mark", update, session), session.brushMode === "mark" && session.trailEnabled)
   );
-
-  const trailToggle = document.createElement("button");
-  trailToggle.type = "button";
-  trailToggle.className = "cursor-trail-toggle";
-  trailToggle.classList.toggle("is-active", session.trailEnabled);
-  trailToggle.textContent = t(session.trailEnabled ? "controls.cursorTrailOn" : "controls.cursorTrailOff");
-  trailToggle.setAttribute("aria-pressed", String(session.trailEnabled));
-  trailToggle.addEventListener("click", () => {
-    session.trailEnabled = !session.trailEnabled;
-    redraw();
-  });
-  actions.appendChild(trailToggle);
+  if (options.controlModeToggle) {
+    actions.appendChild(options.controlModeToggle);
+  }
 
   const body = document.createElement("div");
   body.className = "cursor-controls__body";
@@ -109,24 +104,36 @@ function createCursorMoveButton(position, label, ariaLabel, onMove) {
   button.setAttribute("aria-label", ariaLabel);
   let holdTimer = null;
   let repeatTimer = null;
+  let activePointerId = null;
   const stop = () => {
     clearTimeout(holdTimer);
     clearInterval(repeatTimer);
+    document.removeEventListener("pointerup", stop);
+    document.removeEventListener("pointercancel", stop);
+    if (activePointerId !== null && button.hasPointerCapture?.(activePointerId)) {
+      button.releasePointerCapture(activePointerId);
+    }
     holdTimer = null;
     repeatTimer = null;
+    activePointerId = null;
   };
   button.addEventListener("pointerdown", (event) => {
     event.preventDefault();
     stop();
+    activePointerId = event.pointerId;
+    button.setPointerCapture?.(event.pointerId);
     onMove();
     holdTimer = setTimeout(() => {
       repeatTimer = setInterval(onMove, 105);
     }, 320);
-    document.addEventListener("pointerup", stop, { once: true });
-    document.addEventListener("pointercancel", stop, { once: true });
+    document.addEventListener("pointerup", stop);
+    document.addEventListener("pointercancel", stop);
   });
   button.addEventListener("pointerup", stop);
   button.addEventListener("pointercancel", stop);
+  button.addEventListener("lostpointercapture", stop);
+  button.addEventListener("contextmenu", (event) => event.preventDefault());
+  button.addEventListener("selectstart", (event) => event.preventDefault());
   button.addEventListener("keydown", (event) => {
     if ((event.key === "Enter" || event.key === " ") && !event.repeat) onMove();
   });

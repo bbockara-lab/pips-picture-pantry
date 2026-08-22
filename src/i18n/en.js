@@ -106,6 +106,7 @@ export const en = {
     controlsAuto: "Auto for big boards",
     controlsDirect: "Tap cells",
     controlsCursor: "D-pad",
+    cursorTrail: "Use Trail Paint",
     controlsDirectShort: "Tap",
     controlsCursorShort: "D-pad",
     switchToDirect: "Switch to tapping cells",
@@ -330,8 +331,8 @@ export const en = {
     cursorControlsIntro: {
       speakerName: "Pip",
       step1: "Choose Color or Blank first. Each arrow move marks the square you enter.",
-      step2: "Press and hold an arrow to paint a smooth trail, just like sliding your finger. Turn Trail Paint off to move one square at a time.",
-      step3: "Use the control button at the top of the game to switch between the D-pad and direct taps anytime. You can still choose a default in Settings."
+      step2: "Press and hold an arrow to paint several squares in a smooth trail. Trail Paint starts on and can be turned off in Settings.",
+      step3: "Use the switch beside Color and Blank to change between the D-pad and direct taps anytime. You can still choose a default in Settings."
     },
     pantryJarIntro: {
       speakerName: "Pip",
@@ -421,8 +422,6 @@ export const en = {
     cursorClearFill: "Clear Color",
     cursorMark: "Blank",
     cursorClearMark: "Clear X",
-    cursorTrailOn: "Trail Paint On",
-    cursorTrailOff: "Trail Paint Off",
     hint: "Use hint",
     hintWithCost: "Use hint",
     hintConfirmTitle: "Use spoons for a hint?",

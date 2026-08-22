@@ -2361,11 +2361,10 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const dpad = panel.querySelector(".cursor-dpad");
     const actionsArea = panel.querySelector(".cursor-actions");
     const trailToggle = panel.querySelector(".cursor-trail-toggle");
-    const controlToggle = document.querySelector(".play-screen__control-toggle");
+    const controlToggle = panel.querySelector(".control-mode-toggle");
     const nav = document.querySelector(".floating-nav");
     const dpadRect = dpad?.getBoundingClientRect();
     const actionsRect = actionsArea?.getBoundingClientRect();
-    const trailToggleRect = trailToggle?.getBoundingClientRect();
     const controlToggleRect = controlToggle?.getBoundingClientRect();
     const navRect = nav?.getBoundingClientRect();
     const intersects = (first, second) =>
@@ -2420,9 +2419,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
       background: style.backgroundImage,
       cardBeforeBackground: typeof cardBefore !== "undefined" ? cardBefore.backgroundImage || "" : "",
       dpadWidth: dpadRect?.width || 0,
-      trailToggleWidth: trailToggleRect?.width || 0,
-      trailToggleHeight: trailToggleRect?.height || 0,
-      trailToggleLabel: trailToggle?.getAttribute("aria-label") || trailToggle?.textContent.trim() || "",
+      trailTogglePresent: Boolean(trailToggle),
       controlToggleWidth: controlToggleRect?.width || 0,
       controlToggleHeight: controlToggleRect?.height || 0,
       controlToggleLabel: controlToggle?.getAttribute("aria-label") || controlToggle?.textContent.trim() || "",
@@ -2442,9 +2439,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     cursorPadMetrics.radius < 16 ||
     !cursorPadMetrics.background.includes("gradient") ||
     cursorPadMetrics.dpadWidth < 124 ||
-    cursorPadMetrics.trailToggleWidth < 44 ||
-    cursorPadMetrics.trailToggleHeight < 44 ||
-    !cursorPadMetrics.trailToggleLabel ||
+    cursorPadMetrics.trailTogglePresent ||
     cursorPadMetrics.controlToggleWidth < 44 ||
     cursorPadMetrics.controlToggleHeight < 44 ||
     !cursorPadMetrics.controlToggleLabel ||

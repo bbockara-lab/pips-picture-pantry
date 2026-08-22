@@ -39,7 +39,8 @@ export function renderPuzzleView(puzzle, options = {}) {
   let rewardResult = null;
   let stageBonus = 0;
   const controlMode = options.controlMode || "auto";
-  const cursorControlSession = createCursorControlSession(state);
+  const cursorControlsUnlocked = Boolean(options.cursorControlsUnlocked);
+  const cursorControlSession = createCursorControlSession(state, options.cursorTrailEnabled !== false);
   const section = document.createElement("section");
   const puzzleTheme = getSeasonalThemeForPack(puzzle.packId);
   if (puzzleTheme) section.dataset.eventTheme = puzzleTheme.id;
@@ -98,7 +99,11 @@ export function renderPuzzleView(puzzle, options = {}) {
       return;
     }
 
-    const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode);
+    const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode, cursorControlsUnlocked);
+    const canSwitchControlMode = Number(puzzle.size) >= 8 || cursorControlsUnlocked;
+    const controlModeToggle = canSwitchControlMode
+      ? createControlModeToggle(cursorControlsEnabled, options.onControlModeChange)
+      : null;
     if (!cursorControlsEnabled) {
       return;
     }
@@ -179,7 +184,7 @@ export function renderPuzzleView(puzzle, options = {}) {
       }));
       return;
     }
-    const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode);
+    const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode, cursorControlsUnlocked);
     // Cursor mode already explains movement and the two available actions
     // beside its D-pad. Repeating the full Pip lesson and tap controls above
     // a large board makes the board feel secondary.
@@ -213,13 +218,14 @@ export function renderPuzzleView(puzzle, options = {}) {
       cursorOnly: cursorControlsEnabled
     }));
     if (!cursorControlsEnabled) {
-      section.appendChild(createControls(state, update));
+      section.appendChild(createControls(state, update, controlModeToggle));
     }
     if (!state.completed && cursorControlsEnabled) {
       section.appendChild(renderCursorControls(state, puzzle, update, {
         session: cursorControlSession,
         getState: () => state,
-        redraw: draw
+        redraw: draw,
+        controlModeToggle
       }));
     }
     if (!isTimeAttack) {
@@ -309,7 +315,7 @@ function getPuzzleLabel(puzzle) {
   return puzzle.id === "pip-face-5" ? t("sections.startHere") : t("sections.currentPicture");
 }
 
-function createControls(state, update) {
+function createControls(state, update, controlModeToggle = null) {
   const controls = document.createElement("div");
   controls.className = "controls";
 
@@ -333,7 +339,25 @@ function createControls(state, update) {
   undoButton.addEventListener("click", () => update(undoLastMove(state), { skipAutoLineMarks: true }));
 
   controls.append(fillButton, markButton, undoButton);
+  if (controlModeToggle) controls.appendChild(controlModeToggle);
   return controls;
+}
+
+function createControlModeToggle(usesCursorControls, onControlModeChange) {
+  const targetMode = usesCursorControls ? "direct" : "cursor";
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `control-mode-toggle control-mode-toggle--${targetMode}`;
+  button.dataset.targetControlMode = targetMode;
+  button.setAttribute("aria-label", t(usesCursorControls ? "settings.switchToDirect" : "settings.switchToCursor"));
+  const icon = document.createElement("span");
+  icon.className = "control-mode-toggle__icon";
+  icon.setAttribute("aria-hidden", "true");
+  const label = document.createElement("span");
+  label.textContent = t(usesCursorControls ? "settings.controlsDirectShort" : "settings.controlsCursorShort");
+  button.append(icon, label);
+  button.addEventListener("click", () => onControlModeChange?.(targetMode));
+  return button;
 }
 
 function createModeButton(label, active, onClick, iconName) {

@@ -42,6 +42,8 @@ describe("guide dialog character and badge wiring", () => {
     expect(guideSource).toContain('renderCursorControls } from "./puzzleCursorControls.js"');
     expect(guideSource).toContain("function createCursorControlsPreview()");
     expect(guideSource).toContain("renderCursorControls(state, puzzle");
+    expect(guideSource).toContain('trailDemo.className = "guide-cursor-trail-demo"');
+    expect(stylesSource).toContain("@keyframes guide-cursor-trail-fill");
     expect(appShellSource).toMatch(
       /!hasSeenGuide\("puzzle"\)[\s\S]*?Number\(activePuzzle\?\.size\) === 8 && !hasSeenGuide\("cursorControlsIntro"\)[\s\S]*?activeGuide = "cursorControlsIntro"/
     );
@@ -101,9 +103,9 @@ describe("guide dialog character and badge wiring", () => {
     const mailboxSource = readFileSync(new URL("../src/data/mailboxMessages.js", import.meta.url), "utf8");
     expect(mailboxSource).toContain('["guide-cursor", "cursorControlsIntro"]');
     expect(englishSource).toContain('guideReplayCursorAction: "D-pad guide"');
-    expect(englishSource).toContain("Use the control button at the top of the game to switch between the D-pad and direct taps anytime.");
+    expect(englishSource).toContain("Use the switch beside Color and Blank to change between the D-pad and direct taps anytime.");
     expect(koreanSource).toContain('guideReplayCursorAction: "방향키 가이드"');
-    expect(koreanSource).toContain("게임 위쪽 조작 버튼으로 방향키와 칸 직접 누르기를 바로 바꿀 수 있어요.");
+    expect(koreanSource).toContain("칠하기와 빈칸 버튼 가까이에 있는 전환 버튼으로 방향키와 칸 직접 누르기를 바로 바꿀 수 있어요.");
   });
   it("registers the jar display guide and offers it again from the mailbox", () => {
     expect(guideSource).toContain(

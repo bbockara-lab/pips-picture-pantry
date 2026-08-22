@@ -170,6 +170,14 @@ export function renderGuideDialog(guideId, onClose) {
 function createCursorControlsPreview() {
   const element = document.createElement("div");
   element.className = "guide-cursor-preview";
+  const trailDemo = document.createElement("div");
+  trailDemo.className = "guide-cursor-trail-demo";
+  trailDemo.setAttribute("aria-hidden", "true");
+  for (let index = 0; index < 5; index += 1) {
+    const cell = document.createElement("span");
+    cell.className = "guide-cursor-trail-demo__cell";
+    trailDemo.appendChild(cell);
+  }
   const puzzle = { id: "guide-cursor-preview", size: 8 };
   let state = createPuzzleState(puzzle);
   const session = createCursorControlSession(state);
@@ -179,7 +187,7 @@ function createCursorControlsPreview() {
       state = nextState;
       draw();
     }, { session, getState: () => state, redraw: draw });
-    element.replaceChildren(controls);
+    element.replaceChildren(trailDemo, controls);
   }
 
   draw();

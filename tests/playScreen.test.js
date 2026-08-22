@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 const playScreenSource = readFileSync("src/ui/playScreen.js", "utf8");
+const puzzleViewSource = readFileSync("src/ui/puzzleView.js", "utf8");
 const indexSource = readFileSync("index.html", "utf8");
 
 describe("play screen wiring", () => {
@@ -39,9 +40,10 @@ describe("play screen wiring", () => {
   });
 
   it("offers an in-game shortcut between direct input and the D-pad", () => {
-    expect(playScreenSource).toContain("shouldShowCursorControls(activePuzzle, controlMode)");
-    expect(playScreenSource).toContain('className = "play-screen__control-toggle"');
-    expect(playScreenSource).toContain('onControlModeChange?.(usesCursorControls ? "direct" : "cursor")');
+    expect(playScreenSource).not.toContain('className = "play-screen__control-toggle"');
+    expect(playScreenSource).toContain("onControlModeChange,");
+    expect(puzzleViewSource).toContain("createControlModeToggle(cursorControlsEnabled, options.onControlModeChange)");
+    expect(puzzleViewSource).toContain('button.className = `control-mode-toggle control-mode-toggle--${targetMode}`');
   });
 
   it("prevents persistent iOS double-tap zoom during rapid puzzle input", () => {

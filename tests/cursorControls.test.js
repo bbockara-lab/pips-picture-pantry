@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it, afterEach } from "vitest";
 import { CELL } from "../src/game/nonogram.js";
 import { createPuzzleState, setCursor, toggleCell } from "../src/game/puzzleState.js";
@@ -9,10 +10,13 @@ import {
   getCursorActionLabels,
   getSelectedCursorCell,
   moveSelectedCell,
-  shouldShowCursorControls
+  shouldShowCursorControls,
+  shouldUseCompactCursorLayout
 } from "../src/ui/puzzleCursorControls.js";
 
 const puzzle = { id: "cursor-label-puzzle", size: 3 };
+const cursorControlsSource = readFileSync("src/ui/puzzleCursorControls.js", "utf8");
+const stylesSource = readFileSync("src/styles.css", "utf8");
 
 describe("cursor control action labels", () => {
   afterEach(() => {
@@ -65,11 +69,25 @@ describe("automatic large-board controls", () => {
 
   it("respects explicit tap and cursor preferences", () => {
     expect(shouldShowCursorControls({ size: 12 }, "direct")).toBe(false);
-    expect(shouldShowCursorControls({ size: 5 }, "cursor")).toBe(true);
+    expect(shouldShowCursorControls({ size: 5 }, "cursor")).toBe(false);
+    expect(shouldShowCursorControls({ size: 5 }, "cursor", true)).toBe(true);
+  });
+});
+
+describe("cursor control layout", () => {
+  it("uses the balanced compact arrangement for unlocked 5×5 boards and larger", () => {
+    expect(shouldUseCompactCursorLayout({ size: 5 })).toBe(true);
+    expect(shouldUseCompactCursorLayout({ size: 8 })).toBe(true);
   });
 });
 
 describe("continuous cursor painting", () => {
+  it("starts enabled without rendering an in-puzzle Trail Paint toggle", () => {
+    expect(createCursorControlSession({}).trailEnabled).toBe(true);
+    expect(createCursorControlSession({}, false).trailEnabled).toBe(false);
+    expect(cursorControlsSource).not.toContain('className = "cursor-trail-toggle"');
+  });
+
   it("paints along the route with the selected brush and keeps move-only available", () => {
     let state = createPuzzleState(puzzle);
     const session = createCursorControlSession(state);
@@ -93,6 +111,14 @@ describe("continuous cursor painting", () => {
     moveSelectedCell(state, 1, 0, puzzle.size, update, session);
     expect(state.cursor).toEqual({ row: 2, column: 2 });
     expect(state.cells[2][2]).toBe(CELL.empty);
+  });
+
+  it("owns long-press pointer input without triggering browser text selection", () => {
+    expect(cursorControlsSource).toContain("button.setPointerCapture?.(event.pointerId)");
+    expect(cursorControlsSource).toContain('button.addEventListener("lostpointercapture", stop)');
+    expect(cursorControlsSource).toContain('button.addEventListener("contextmenu", (event) => event.preventDefault())');
+    expect(cursorControlsSource).toContain('button.addEventListener("selectstart", (event) => event.preventDefault())');
+    expect(stylesSource).toMatch(/v0\.1\.718[\s\S]*?-webkit-user-select:\s*none;[\s\S]*?-webkit-touch-callout:\s*none;[\s\S]*?\.app-shell--play \.cursor-move\s*\{[\s\S]*?touch-action:\s*none;/);
   });
 });
 

@@ -108,4 +108,12 @@ describe("Workshop supporting cards wiring", () => {
     expect(playRule).toMatch(/animation:\s*none;/);
     expect(playRule).not.toMatch(/linear-gradient|background-color|#ffd96b|#f4bb36/);
   });
+
+  it("keeps Play Now exactly 1.5 times larger than the other home destinations", () => {
+    const canonicalMarker = "v0.1.714 - Step 63 canonical Workshop composition";
+    const canonicalStyles = styles.slice(styles.indexOf(canonicalMarker));
+
+    expect(canonicalStyles).toContain("--workshop-destination-size: clamp(74px, 20vw, 92px)");
+    expect(canonicalStyles).toContain("--workshop-play-size: clamp(111px, 30vw, 138px)");
+  });
 });
