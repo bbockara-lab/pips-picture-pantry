@@ -13952,3 +13952,110 @@ Vite가 빌드 시점에 해시 파일명으로 `assets/`에 복사. 2.4MB 파�
 - `npm run build`: 통과
 - `git diff --check`: 통과
 - 실제 iOS/Android 기기 확인과 전체 `qa:mobile` 실행은 아직 하지 않았다.
+
+---
+
+## Claude Review 22 — 2026-08-21 / 퍼즐 방향키 UX 1~6번 응답
+
+상태: **검토 완료.** 코드는 수정하지 않았다. `git diff`(uncommitted) 전체를 직접 추적했고, `npm run test`(67 files / 399 tests, functions 3/3)와 `npm run qa:candidate`를 직접 재실행해 실제 런타임 동작까지 확인했다.
+
+### 사전 확인한 사실
+
+- `npx vitest run`: 67 files / 399 tests 통과, `docs/CLAUDE_REVIEW_LOG.md`에 적힌 Codex 사전 검증 수치와 일치.
+- `npm run qa:candidate` 재실행 결과 **mobile QA 단계에서 즉시 크래시** — 아래 Review 22-A의 P0 참고. Codex가 "실제 iOS/Android 기기 확인과 전체 `qa:mobile` 실행은 아직 하지 않았다"고 스스로 밝힌 바로 그 지점에서 실제로 문제가 있었다.
+
+---
+
+### Review 22-A — 기능/요구사항 정합성
+
+**P0 — `src/ui/puzzleView.js:221` `draw()`에서 `controlModeToggle` ReferenceError, 직접 모드 퍼즐 화면이 아예 렌더링되지 않음**
+
+- 재현 조건: `cursorControlsEnabled`가 `false`인 모든 퍼즐 진입 — 즉 방향키 해금 전의 모든 5×5 퍼즐, 또는 `controlMode === "direct"`로 저장된 모든 퍼즐. `npm run qa:candidate`를 그대로 재실행하면 실제로 재현된다:
+  ```
+  [360x740] PAGE ERROR: ReferenceError: controlModeToggle is not defined
+      at draw (http://127.0.0.1:5175/src/ui/puzzleView.js:221:57)
+      at renderPuzzleView ...
+      at renderPlayScreen ...
+      at createShell (appShell.js:875:23)
+      at draw (appShell.js:616:19)
+      at selectPuzzle (appShell.js:123:5)
+  ```
+- 왜 문제인가: `controlModeToggle`은 `handlePuzzleKeydown()` 함수(97~106줄) 안에서만 `const`로 선언된다. `draw()`(136줄~)는 별개의 함수 스코프이며 `controlModeToggle`을 자체적으로 선언하지 않은 채 221줄에서 그대로 참조한다. `handlePuzzleKeydown` 쪽 선언(102~106줄)은 그 함수 안에서 이후 한 번도 쓰이지 않는 죽은 코드다 — `draw()`에 들어가야 할 계산이 실수로 `handlePuzzleKeydown`에 붙거나 복붙 과정에서 `draw()` 쪽 사본이 누락된 것으로 보인다. 결과적으로 앱 셸 전체 렌더 체인(`selectPuzzle` → outer `draw` → `createShell` → `renderPlayScreen` → `renderPuzzleView`)이 예외로 중단되어, 방향키 미해금 상태의 5×5 퍼즐(신규 유저의 첫 화면 대부분)을 열면 퍼즐 화면 자체가 뜨지 않는다. 요구사항 1·2·6은 이 화면이 정상적으로 그려져야 검증 가능한데, 지금은 그 전제 자체가 깨져 있다.
+- 최소 수정 제안: `draw()` 본문에서 `createControls(state, update, controlModeToggle)`를 호출하기 전에 동일한 3줄(`cursorControlsEnabled`/`canSwitchControlMode`/`controlModeToggle` 계산)을 `draw()` 스코프에 추가한다. 동시에 `handlePuzzleKeydown`의 미사용 사본은 제거해 재발을 막는다.
+
+**P2 — "auto" 모드에서는 해금 후에도 5×5가 자동으로 방향키로 전환되지 않음 (요구사항 1 해석 확인 필요)**
+
+- `shouldShowCursorControls`(`src/ui/puzzleCursorControls.js:7-15`)의 `"auto"` 분기는 `Number(puzzle.size) >= 8`만 보고 `cursorControlsUnlocked`를 전혀 참조하지 않는다. 즉 해금 후에도 기본(`auto`) 상태의 5×5는 여전히 직접 누르기로 열리고, 사용자가 새 전환 버튼을 한 번 눌러 `controlMode`를 명시적으로 `"cursor"`로 바꿔야만 5×5에서 방향키가 나온다(그 경우엔 `"cursor"` 분기가 `cursorControlsUnlocked`를 올바르게 확인한다).
+- 왜 문제일 수 있는가: "8×8 안내를 본 뒤에는 5×5에서도 사용할 수 있어야 한다"가 "자동으로 켜져야 한다"인지 "옵션으로 켤 수 있어야 한다"인지에 따라 이건 버그일 수도, 의도한 동작일 수도 있다. 코드 자체는 두 가지 해석 중 후자로 일관되게 구현돼 있다.
+- 최소 수정 제안(만약 자동 전환이 요구사항이라면): `"auto"` 분기도 `|| cursorControlsUnlocked`를 추가.
+
+---
+
+### Review 22-B — 저장 상태/진행 해금
+
+`No actionable findings` (Review 22-A의 P0을 우회하는 별도 문제는 발견하지 못함)
+
+- 레거시 `control-mode=cursor` 저장값 우회 여부: `shouldShowCursorControls`의 `"cursor"` 분기가 `Number(puzzle.size) >= 8 || cursorControlsUnlocked`로 정확히 게이트한다. 5×5 + 저장된 `cursor` + 미해금 조합에서 여전히 `false`를 반환함을 직접 값 대입으로 확인.
+- `cursorControlsIntro`는 `src/game/save.js:16`의 기존 유효 가이드 ID 목록에 이미 포함돼 있어 `markGuideSeen`/`hasSeenGuide` 인프라를 그대로 재사용한다 — 새로 만든 별도 트래킹이 아니므로 해금 시점 자체의 신뢰도는 기존 가이드 시스템과 동일하다.
+- Trail Paint 기본값/opt-out 저장: `tests/cursorTrailPreference.test.js`가 실제 동작 테스트(로컬스토리지 목 사용)이며, `getCursorTrailPreference`/`setCursorTrailPreference`(`src/ui/preferences.js`) 로직도 직접 대입 확인 — 기본 `true`, 명시적 `"off"`만 `false`. 정상.
+- 설정에서 Trail Paint를 바꾼 뒤 현재 퍼즐에 반영되는지: `changeCursorTrail`(appShell.js)이 `setCursorTrailPreference` 후 outer `draw()`를 호출 → `renderPuzzleView`가 매번 새로 호출되며 `cursorControlSession`도 `options.cursorTrailEnabled`을 새로 읽어 재생성된다. 코드 경로상 즉시 반영되는 구조가 맞다. (단, 이 흐름 자체는 방향키 모드 퍼즐에서만 실사용 가능하며 Review 22-A의 P0과는 무관하다.)
+
+---
+
+### Review 22-C — 모바일 입력/iOS 길게 누르기
+
+`No actionable findings`
+
+- `createCursorMoveButton`(`src/ui/puzzleCursorControls.js`)의 pointer capture 수명주기를 추적: `pointerdown`에서 `stop()`을 먼저 호출해 이전 세션을 정리한 뒤 새 `activePointerId`를 캡처하고, `stop()` 자체가 `pointerup`/`pointercancel`을 문서 리스너에서 명시적으로 `removeEventListener`하며 `hasPointerCapture` 가드 뒤에 `releasePointerCapture`를 호출한다. `lostpointercapture`에서도 동일하게 `stop()`을 호출해 브라우저가 강제로 캡처를 뺏는 경우도 커버한다. 재진입(연속 pointerdown) 시에도 항상 `stop()`이 먼저 실행되므로 타이머/리스너 누적이 없다.
+- iOS 텍스트 선택/컨텍스트 메뉴: `.app-shell--play .cursor-controls, .cursor-controls *`에 `-webkit-user-select:none`/`-webkit-touch-callout:none`이 걸려 있고, `.cursor-move`에 `touch-action:none`이 추가로 걸려 브라우저 기본 제스처를 막는다. 버튼 자체에도 `contextmenu`/`selectstart` preventDefault가 붙어 이중으로 방어한다.
+- 키보드 접근성: `keydown` 핸들러는 `!event.repeat` 가드로 물리 키 1회당 `onMove()`를 한 번만 호출하며, 연속 이동은 OS/브라우저의 자체 키 반복에 맡긴다 — pointer 쪽 반복 타이머와 충돌하지 않는다.
+- 이 항목이 다루는 D-pad 버튼 자체는 `cursorControlsEnabled === true`일 때만 렌더링되므로 Review 22-A의 P0(직접 모드 크래시) 경로와는 겹치지 않는다.
+
+---
+
+### Review 22-D — 반응형 레이아웃/시각 계약
+
+**차단됨 — Review 22-A의 P0으로 인해 4개 해상도 실측 자체가 불가능했다.**
+
+`npm run qa:candidate`가 mobile QA 단계에서 렌더 크래시로 즉시 중단되어(위 Review 22-A 참고), 이번 diff의 레이아웃 관련 항목은 360×740/390×844/430×932/675×900에서 단 한 번도 실측되지 않았다. 소스 레벨에서 확인한 것과, 실측이 불가능해 확인하지 못한 것을 구분한다.
+
+- **소스로 확인됨**: `--workshop-play-size`가 `clamp(111px, 30vw, 138px)`로, 목적지 크기 `clamp(74px, 20vw, 92px)`의 정확히 1.5배(74×1.5=111, 20×1.5=30, 92×1.5=138)임을 직접 계산해 확인. `.play-screen__header`가 3열(`auto auto`)에서 2열(`auto`)로 줄고 `.difficulty`가 3열에서 2열로 옮겨져 서로 정합적이며, grid 잔여 빈 열은 없다. `.control-mode-toggle`은 직접 모드에서 `.controls` 안에 `grid-column: 1 / -1; width: 100%`로, 방향키 모드에서는 `.cursor-actions` 안에 형제로 배치되도록 코드가 짜여 있다.
+- **실측 불가**: 직접 모드에서 칠하기·빈칸·되돌리기·전환 버튼 4개가 한 줄/한 열에 들어갈 때 360px 폭에서 실제로 넘치거나 세로 길이가 과도해지는지, 플로팅 내비와 겹치는지는 현재 크래시 때문에 브라우저로 확인할 수 없었다. P0 수정 후 반드시 재검증 필요.
+
+---
+
+### Review 22-E — 안내/문구/접근성
+
+**P1 — 방향키 안내의 "이어 칠하기 시연" 애니메이션이 실제 D-pad와 코드로 연결돼 있지 않아 장식으로 오인될 수 있음**
+
+- 파일: `src/ui/guideDialog.js` `createCursorControlsPreview()`(약 172~193줄), `src/styles.css`의 `.guide-cursor-trail-demo` / `@keyframes guide-cursor-trail-fill`.
+- 재현 조건: 첫 8×8 퍼즐에서 `cursorControlsIntro` 가이드의 2단계(step2, 이어 칠하기 설명)를 연다.
+- 왜 문제인가: `element.replaceChildren(trailDemo, controls)`에서 보듯 `trailDemo`(5칸짜리 순수 CSS 데코 그리드, `animation: guide-cursor-trail-fill 3s ease-in-out infinite`로 자동 반복)와 `controls`(실제 조작 가능한 D-pad 미리보기)는 완전히 별개의 DOM/로직이다. 데모 칸은 사용자가 실제 D-pad를 누르든 말든 3초 주기로 혼자 반복 재생되며, 두 요소를 시각적으로 연결하는 화살표·강조선·문구가 없다. 요구사항 5("방향키로 칸이 실제로 연속해서 칠해지는 모습을 보여줘야 한다")와 이 리뷰가 직접 지목한 "단순 장식으로 오해되지 않는지" 우려가 그대로 실현될 여지가 있다 — 처음 보는 사용자는 위쪽 반짝이는 띠를 로딩 장식으로, 아래쪽 D-pad를 별개의 인터랙티브 요소로 인식하기 쉽다.
+- 최소 수정 제안: (a) 데모 칸을 실제 아래쪽 D-pad의 `pointerdown`/hold 이벤트에 연동해 실제로 누를 때만 채워지도록 하거나, (b) 최소한 데모와 D-pad 사이에 짧은 연결 문구나 아래쪽을 가리키는 화살표를 넣어 "이게 저 버튼을 누르면 생기는 모습"이라는 인과관계를 명시.
+
+**P2 — `guide-cursor-trail-fill` 애니메이션에 `prefers-reduced-motion` 가드 없음**
+
+- `src/styles.css`에 추가된 `@keyframes guide-cursor-trail-fill`과 그 사용처를 검색했으나 `@media (prefers-reduced-motion: reduce)` 관련 예외 처리를 찾지 못했다. 3초 무한 반복 색상 애니메이션이라 모션에 민감한 사용자에게는 불필요한 자극이 될 수 있다.
+- 최소 수정 제안: `@media (prefers-reduced-motion: reduce) { .guide-cursor-trail-demo__cell { animation: none; } }` 추가.
+
+**참고(장애물 아님)**: en/ko 안내 문구는 1:1로 갱신됐고 step3 문구("Use the switch beside Color and Blank…" / "칠하기와 빈칸 버튼 가까이에 있는 전환 버튼으로…")가 실제 새 배치를 정확히 설명한다 — 다만 Review 22-A의 P0이 고쳐지기 전까지는 정작 이 문구가 설명하는 화면(직접 모드) 자체가 뜨지 않는다는 점을 참고. Settings의 이어 칠하기 토글은 기존 SFX/Music 토글과 동일한 `createSettingsToggle` 컴포넌트(`aria-pressed` 포함)를 재사용하므로 새로운 접근성 회귀는 없음.
+
+---
+
+### Review 22-F — 테스트/QA 회귀 방지
+
+**핵심 지적 — 이번 diff의 새/변경 테스트 대부분이 소스 문자열 검사이며, 그래서 Review 22-A의 P0 크래시를 하나도 잡아내지 못했다**
+
+- `tests/cursorControls.test.js`의 `"owns long-press pointer input without triggering browser text selection"`(신규)은 `cursorControlsSource`/`stylesSource`를 `readFileSync`로 읽어 특정 문자열(`setPointerCapture`, `lostpointercapture`, `-webkit-touch-callout` 등)이 존재하는지만 확인한다. 실제 pointerdown → hold → pointerup 시퀀스를 시뮬레이션해 타이머가 실제로 시작·정지되는지는 전혀 검증하지 않는다.
+- `tests/guideDialog.test.js`의 신규 assertion들(`trailDemo.className`, `@keyframes guide-cursor-trail-fill`, 갱신된 안내 문구)도 전부 소스 텍스트 `toContain`/`toMatch`다. `renderGuideDialog`를 실제로 호출해 DOM을 검사하는 항목이 아니다.
+- `tests/playScreen.test.js`의 `"offers an in-game shortcut between direct input and the D-pad"`는 `playScreenSource`에 특정 문자열이 없음을, `puzzleViewSource`에 `createControlModeToggle(cursorControlsEnabled, options.onControlModeChange)`라는 호출 문자열이 있음을 확인할 뿐이다. 이 문자열은 실제로 파일에 존재하지만(`draw()` 안, 221줄 근처), 그 호출에 넘어가는 `controlModeToggle` 변수가 스코프 밖이라는 사실은 텍스트 검사로는 절대 드러나지 않는다 — 바로 이 테스트가 통과하면서 P0을 놓친 직접적인 사례다.
+- `tests/workshopHubCards.test.js`의 신규 1.5배 테스트는 두 `clamp()` 리터럴 문자열이 스타일시트에 그대로 존재하는지만 확인한다. 두 값이 앞으로도 함께 바뀌면 회귀를 잡아주긴 하지만, "111/30/138이 74/20/92의 정확히 1.5배"라는 관계 자체를 계산으로 검증하지는 않는다. 심각하지 않은 P3 수준의 아쉬움.
+- `scripts/mobile_visual_check.js`의 갱신(트레일 토글 부재 확인으로 전환, `.control-mode-toggle` 셀렉터로 교체)은 방향 자체는 맞으나, Codex 스스로 밝혔듯 실행되지 않은 채 인계됐고, 실제로 지금 실행하면 이 새 검사들이 실행되기도 전에 P0 크래시로 전체 mobile QA가 중단된다.
+- 근본 원인 겸 정리 제안: `src/ui/puzzleView.js`의 `handlePuzzleKeydown`(102~106줄)이 계산만 하고 쓰지 않는 `cursorControlsEnabled`/`canSwitchControlMode`/`controlModeToggle`를 갖고 있는 것 자체가 이번 버그의 흔적이다. P0 수정과 함께 이 죽은 코드도 제거할 것을 권한다.
+- 회귀 방지 제안: 이번처럼 스코프 버그는 실제 렌더를 실행하는 테스트가 아니면 잡을 수 없다. 최소한 `controlMode: "direct"`, `puzzle.size < 8`로 `renderPuzzleView`를 실제 호출해 예외 없이 `.control-mode-toggle`이 DOM에 나타나는지 확인하는 실행형 테스트 1개를 추가하는 것을 권한다.
+
+---
+
+### 종합
+
+Review 22-A의 P0(직접 모드 퍼즐 화면 크래시) 하나가 22-A/22-D/22-F 전반에 걸쳐 있다. 이 diff는 **커밋 전에 반드시 수정**이 필요하다 — `npm run qa:candidate`가 실제로 실행되면 mobile QA 단계에서 즉시 실패한다. 나머지(22-B, 22-C)는 실사용 로직 자체는 견고하게 짜여 있었고, 22-E는 P1 하나(트레일 데모의 인과관계 불명확)를 제외하면 대체로 양호했다.

@@ -43,7 +43,8 @@ describe("guide dialog character and badge wiring", () => {
     expect(guideSource).toContain("function createCursorControlsPreview()");
     expect(guideSource).toContain("renderCursorControls(state, puzzle");
     expect(guideSource).toContain('trailDemo.className = "guide-cursor-trail-demo"');
-    expect(stylesSource).toContain("@keyframes guide-cursor-trail-fill");
+    expect(guideSource).toContain('cell.classList.toggle("is-filled", state.cells[0]?.[index] === "filled")');
+    expect(stylesSource).toContain(".guide-cursor-trail-demo__cell.is-filled");
     expect(appShellSource).toMatch(
       /!hasSeenGuide\("puzzle"\)[\s\S]*?Number\(activePuzzle\?\.size\) === 8 && !hasSeenGuide\("cursorControlsIntro"\)[\s\S]*?activeGuide = "cursorControlsIntro"/
     );

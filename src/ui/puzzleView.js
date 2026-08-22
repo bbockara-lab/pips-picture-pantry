@@ -100,10 +100,6 @@ export function renderPuzzleView(puzzle, options = {}) {
     }
 
     const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode, cursorControlsUnlocked);
-    const canSwitchControlMode = Number(puzzle.size) >= 8 || cursorControlsUnlocked;
-    const controlModeToggle = canSwitchControlMode
-      ? createControlModeToggle(cursorControlsEnabled, options.onControlModeChange)
-      : null;
     if (!cursorControlsEnabled) {
       return;
     }
@@ -185,6 +181,10 @@ export function renderPuzzleView(puzzle, options = {}) {
       return;
     }
     const cursorControlsEnabled = shouldShowCursorControls(puzzle, controlMode, cursorControlsUnlocked);
+    const canSwitchControlMode = Number(puzzle.size) >= 8 || cursorControlsUnlocked;
+    const controlModeToggle = canSwitchControlMode
+      ? createControlModeToggle(cursorControlsEnabled, options.onControlModeChange)
+      : null;
     // Cursor mode already explains movement and the two available actions
     // beside its D-pad. Repeating the full Pip lesson and tap controls above
     // a large board makes the board feel secondary.

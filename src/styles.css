@@ -19722,8 +19722,8 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
 }
 
 .app-shell--workshop-home .puzzle-home-scene__play > img {
-  width: min(92%, 126px) !important;
-  height: min(92%, 126px) !important;
+  width: var(--workshop-play-size) !important;
+  height: var(--workshop-play-size) !important;
   object-fit: contain;
 }
 
@@ -19791,6 +19791,10 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   .app-shell--workshop-home .puzzle-home-scene__play,
   .app-shell--workshop-home .puzzle-home-destination img {
     animation: none;
+  }
+
+  .guide-cursor-trail-demo__cell {
+    transition: none;
   }
 }
 
@@ -20123,17 +20127,17 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   border-radius: 9px;
   background: #fffaf0;
   box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.5);
-  animation: guide-cursor-trail-fill 3s ease-in-out infinite;
+  transition: background 160ms ease, box-shadow 160ms ease;
 }
 
-.guide-cursor-trail-demo__cell:nth-child(2) { animation-delay: 0.28s; }
-.guide-cursor-trail-demo__cell:nth-child(3) { animation-delay: 0.56s; }
-.guide-cursor-trail-demo__cell:nth-child(4) { animation-delay: 0.84s; }
-.guide-cursor-trail-demo__cell:nth-child(5) { animation-delay: 1.12s; }
+.guide-cursor-trail-demo__cell.is-filled {
+  background: linear-gradient(145deg, #ffd36b, #e58e5d);
+}
 
-@keyframes guide-cursor-trail-fill {
-  0%, 12%, 88%, 100% { background: #fffaf0; }
-  24%, 72% { background: linear-gradient(145deg, #ffd36b, #e58e5d); }
+.guide-cursor-trail-demo__cell.is-selected {
+  box-shadow:
+    inset 0 0 0 3px rgba(255, 255, 255, 0.72),
+    0 0 0 3px rgba(216, 145, 43, 0.48);
 }
 
 .guide-cursor-preview .cursor-controls__body {

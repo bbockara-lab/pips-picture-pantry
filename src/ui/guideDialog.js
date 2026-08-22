@@ -183,6 +183,10 @@ function createCursorControlsPreview() {
   const session = createCursorControlSession(state);
 
   function draw() {
+    [...trailDemo.children].forEach((cell, index) => {
+      cell.classList.toggle("is-filled", state.cells[0]?.[index] === "filled");
+      cell.classList.toggle("is-selected", state.cursor.row === 0 && state.cursor.column === index);
+    });
     const controls = renderCursorControls(state, puzzle, (nextState) => {
       state = nextState;
       draw();
