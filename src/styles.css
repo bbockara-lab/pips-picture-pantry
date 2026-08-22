@@ -5022,29 +5022,24 @@ img {
   min-width: 0;
 }
 
-.settings-suboption--cursor-trail {
+.settings-choice-grid--additional {
   position: relative;
-  width: calc(100% - 24px);
-  margin: 10px 0 0 24px;
-  padding: 9px 10px 10px;
-  border-left: 3px solid rgba(106, 167, 130, 0.56);
-  border-radius: 0 14px 14px 0;
-  background: rgba(230, 244, 225, 0.46);
+  overflow: hidden;
+  padding: 10px;
+  border: 2px solid rgba(61, 43, 46, 0.12);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 0.78) 0 12%, transparent 13%),
+    linear-gradient(135deg, rgba(255, 250, 231, 0.92), rgba(235, 252, 238, 0.76));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.76),
+    0 5px 0 rgba(61, 43, 46, 0.07),
+    0 13px 22px rgba(122, 78, 53, 0.08);
 }
 
-.settings-suboption__label {
-  margin: 0 0 6px;
-  color: rgba(86, 65, 47, 0.78);
-  font-size: 0.72rem;
-  font-weight: 850;
-  line-height: 1.2;
-}
-
-.settings-suboption--cursor-trail .settings-choice--cursor-trail {
+.settings-choice-grid--additional .settings-choice--cursor-trail {
   width: 100%;
-  min-height: 46px;
-  border-width: 2px;
-  background: rgba(255, 252, 241, 0.88);
+  min-height: 52px;
 }
 
 @media (max-width: 380px) {
@@ -19820,32 +19815,32 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   right: max(132px, calc(env(safe-area-inset-right, 0px) + 132px));
   transform: none;
   width: auto;
-  min-width: 52px;
+  min-width: 72px;
   height: 52px;
   min-height: 52px;
-  gap: 3px;
-  padding: 4px;
+  gap: 2px;
+  padding: 4px 8px 4px 6px;
   justify-content: center;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  color: #fffdf4;
+  border: 2px solid rgba(101, 69, 46, 0.72);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255, 252, 235, 0.96), rgba(248, 225, 166, 0.94));
+  color: #4a342d;
   font-size: 1rem;
   font-weight: 900;
-  text-shadow: 0 2px 2px rgba(61, 43, 46, 0.86), 0 0 4px rgba(61, 43, 46, 0.5);
-  box-shadow: none;
-  backdrop-filter: none;
+  text-shadow: none;
+  box-shadow: 0 4px 0 rgba(101, 69, 46, 0.16), 0 8px 14px rgba(61, 43, 46, 0.14);
+  backdrop-filter: blur(4px);
 }
 
 .app-shell--workshop-home .spoon-balance-chip .spoon-icon {
-  width: 34px;
-  height: 34px;
-  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.94)) drop-shadow(0 3px 5px rgba(61, 43, 46, 0.3));
+  width: 30px;
+  height: 30px;
+  filter: drop-shadow(0 2px 3px rgba(61, 43, 46, 0.22));
 }
 
 .app-shell--workshop-home .spoon-balance-chip:is(button):hover {
-  background: transparent;
-  box-shadow: none;
+  background: linear-gradient(180deg, rgba(255, 255, 242, 0.98), rgba(250, 228, 167, 0.98));
+  box-shadow: 0 4px 0 rgba(101, 69, 46, 0.16), 0 8px 14px rgba(61, 43, 46, 0.14);
   filter: brightness(1.06);
 }
 
@@ -19853,14 +19848,14 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   .app-shell--workshop-home .spoon-balance-chip {
     top: max(10px, env(safe-area-inset-top));
     right: max(104px, calc(env(safe-area-inset-right, 0px) + 104px));
-    min-width: 46px;
+    min-width: 66px;
     height: 46px;
     min-height: 46px;
   }
 
   .app-shell--workshop-home .spoon-balance-chip .spoon-icon {
-    width: 30px;
-    height: 30px;
+    width: 27px;
+    height: 27px;
   }
 }
 

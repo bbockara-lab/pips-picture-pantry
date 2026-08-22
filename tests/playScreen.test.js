@@ -49,9 +49,10 @@ describe("play screen wiring", () => {
   });
 
   it("keeps the cursor trail preference aligned with the full control choice group", () => {
-    expect(settingsViewSource).toContain('trailOption.className = "settings-suboption settings-suboption--cursor-trail"');
-    expect(settingsViewSource).toContain('trailLabel.textContent = t("settings.cursorOptions")');
-    expect(stylesSource).toMatch(/\.settings-suboption--cursor-trail\s*\{[\s\S]*?margin:\s*10px 0 0 24px;[\s\S]*?border-left:/);
+    expect(settingsViewSource).toContain('additionalOptionsGroup.className = "additional-options"');
+    expect(settingsViewSource).toContain('additionalOptionsLabel.textContent = t("settings.cursorOptions")');
+    expect(settingsViewSource).toContain('additionalOptions.className = "settings-choice-grid settings-choice-grid--additional"');
+    expect(stylesSource).toMatch(/\.settings-choice-grid--additional\s*\{[\s\S]*?border-radius:\s*18px;/);
   });
 
   it("prevents persistent iOS double-tap zoom during rapid puzzle input", () => {

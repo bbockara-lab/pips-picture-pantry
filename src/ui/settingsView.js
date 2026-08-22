@@ -126,6 +126,7 @@ export function renderSettingsDialog({
     controlButtons.appendChild(button);
   });
   controlGroup.appendChild(controlButtons);
+  let additionalOptionsGroup = null;
   if (cursorControlsUnlocked) {
     const trailToggle = createSettingsToggle(
       t("settings.cursorTrail"),
@@ -133,13 +134,15 @@ export function renderSettingsDialog({
       onCursorTrailChange
     );
     trailToggle.classList.add("settings-choice--cursor-trail");
-    const trailOption = document.createElement("div");
-    trailOption.className = "settings-suboption settings-suboption--cursor-trail";
-    const trailLabel = document.createElement("p");
-    trailLabel.className = "settings-suboption__label";
-    trailLabel.textContent = t("settings.cursorOptions");
-    trailOption.append(trailLabel, trailToggle);
-    controlGroup.appendChild(trailOption);
+    additionalOptionsGroup = document.createElement("div");
+    additionalOptionsGroup.className = "additional-options";
+    const additionalOptionsLabel = document.createElement("p");
+    additionalOptionsLabel.className = "section-label";
+    additionalOptionsLabel.textContent = t("settings.cursorOptions");
+    const additionalOptions = document.createElement("div");
+    additionalOptions.className = "settings-choice-grid settings-choice-grid--additional";
+    additionalOptions.appendChild(trailToggle);
+    additionalOptionsGroup.append(additionalOptionsLabel, additionalOptions);
   }
 
   const audioGroup = document.createElement("div");
@@ -182,7 +185,9 @@ export function renderSettingsDialog({
       // Native bundle metadata is unavailable in the browser preview.
     });
 
-  dialog.append(group, playerForm, controlGroup, audioGroup, resetButton);
+  dialog.append(group, playerForm, controlGroup);
+  if (additionalOptionsGroup) dialog.appendChild(additionalOptionsGroup);
+  dialog.append(audioGroup, resetButton);
   dialog.appendChild(version);
   dialog.appendChild(closeButton);
   overlay.appendChild(dialog);

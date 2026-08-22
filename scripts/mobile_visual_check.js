@@ -3688,7 +3688,7 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
       ? metrics.text !== String(metrics.expectedSpoons)
       : !metrics.text.includes(String(metrics.expectedSpoons)))
     || (metrics.compactWorkshopBalance
-      ? metrics.iconWidth < 29 || metrics.iconWidth > 35 || metrics.iconHeight < 29 || metrics.iconHeight > 35
+      ? metrics.iconWidth < 26 || metrics.iconWidth > 31 || metrics.iconHeight < 26 || metrics.iconHeight > 31
       : Math.abs(metrics.iconWidth - 20) > 0.5 || Math.abs(metrics.iconHeight - 20) > 0.5)
     || (metrics.compactWorkshopBalance
       ? metrics.chipHeight < 45 || metrics.chipHeight > 53

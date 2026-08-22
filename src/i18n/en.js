@@ -107,7 +107,7 @@ export const en = {
     controlsDirect: "Tap cells",
     controlsCursor: "D-pad",
     cursorTrail: "Use Trail Paint",
-    cursorOptions: "D-pad options",
+    cursorOptions: "Additional Options",
     controlsDirectShort: "Tap",
     controlsCursorShort: "D-pad",
     switchToDirect: "Switch to tapping cells",
