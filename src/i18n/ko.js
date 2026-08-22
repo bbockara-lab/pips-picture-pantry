@@ -107,6 +107,7 @@ export const ko = {
     controlsDirect: "\uce78 \uc9c1\uc811 \ub204\ub974\uae30",
     controlsCursor: "\ubc29\ud5a5\ud0a4 \uc0ac\uc6a9",
     cursorTrail: "\uc774\uc5b4 \uce60\ud558\uae30 \uc0ac\uc6a9",
+    cursorOptions: "\ubc29\ud5a5\ud0a4 \ucd94\uac00 \uc635\uc158",
     controlsDirectShort: "\uc9c1\uc811",
     controlsCursorShort: "\ubc29\ud5a5\ud0a4",
     switchToDirect: "\uce78\uc744 \uc9c1\uc811 \ub204\ub974\ub294 \ubc29\uc2dd\uc73c\ub85c \ubc14\uafb8\uae30",

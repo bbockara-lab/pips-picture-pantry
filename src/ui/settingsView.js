@@ -133,7 +133,13 @@ export function renderSettingsDialog({
       onCursorTrailChange
     );
     trailToggle.classList.add("settings-choice--cursor-trail");
-    controlButtons.appendChild(trailToggle);
+    const trailOption = document.createElement("div");
+    trailOption.className = "settings-suboption settings-suboption--cursor-trail";
+    const trailLabel = document.createElement("p");
+    trailLabel.className = "settings-suboption__label";
+    trailLabel.textContent = t("settings.cursorOptions");
+    trailOption.append(trailLabel, trailToggle);
+    controlGroup.appendChild(trailOption);
   }
 
   const audioGroup = document.createElement("div");

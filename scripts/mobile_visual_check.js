@@ -3625,6 +3625,7 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
     const chipRect = chip?.getBoundingClientRect() || null;
     const iconRect = icon?.getBoundingClientRect() || null;
     const shell = document.querySelector(".app-shell");
+    const compactWorkshopBalance = Boolean(shell?.classList.contains("app-shell--workshop-home"));
     const needsSettingsClearance = Boolean(shell?.classList.contains("app-shell--workshop-home") || shell?.classList.contains("app-shell--play"));
     const collisionSelectors = [
       ".puzzle-home-scene__settings",
@@ -3658,6 +3659,7 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
       chipCount: chips.length,
       localBalanceCount: document.querySelectorAll(".pantry-jar-balance, .puzzle-home-scene__currency, .currency-pill").length,
       expectedSpoons: Number(save.pantrySpoons) || 0,
+      compactWorkshopBalance,
       text: chip?.textContent?.trim() || "",
       ariaLabel: chip?.getAttribute("aria-label") || "",
       chipHeight: chipRect?.height || 0,
@@ -3682,9 +3684,15 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
     || metrics.localBalanceCount !== 0
     || !metrics.text.includes(String(metrics.expectedSpoons))
     || !metrics.ariaLabel.includes(String(metrics.expectedSpoons))
-    || Math.abs(metrics.iconWidth - 20) > 0.5
-    || Math.abs(metrics.iconHeight - 20) > 0.5
-    || (metrics.focusedPlayOpen
+    || (metrics.compactWorkshopBalance
+      ? metrics.text !== String(metrics.expectedSpoons)
+      : !metrics.text.includes(String(metrics.expectedSpoons)))
+    || (metrics.compactWorkshopBalance
+      ? metrics.iconWidth < 29 || metrics.iconWidth > 35 || metrics.iconHeight < 29 || metrics.iconHeight > 35
+      : Math.abs(metrics.iconWidth - 20) > 0.5 || Math.abs(metrics.iconHeight - 20) > 0.5)
+    || (metrics.compactWorkshopBalance
+      ? metrics.chipHeight < 45 || metrics.chipHeight > 53
+      : metrics.focusedPlayOpen
       ? metrics.chipHeight < 31 || metrics.chipHeight > 36
       : metrics.chipHeight < 44 || metrics.chipHeight > 50)
     || metrics.centerDelta > 1
@@ -3692,7 +3700,7 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
     || metrics.assetId !== "spoon-token-v2"
     || metrics.naturalWidth !== 256
     || metrics.naturalHeight !== 256
-    || metrics.topGap < 12
+    || metrics.topGap < (metrics.compactWorkshopBalance ? 9 : 12)
     || metrics.rightGap < metrics.minimumRightGap - 1
     || (metrics.focusedPlayOpen ? metrics.tagName !== "DIV" : metrics.tagName !== "BUTTON")
     || (metrics.focusedPlayOpen ? metrics.pointerEvents !== "none" : metrics.pointerEvents !== "auto")
