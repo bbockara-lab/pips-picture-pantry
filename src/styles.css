@@ -21632,6 +21632,19 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   right: 0;
 }
 
+/* v0.1.718 - The compact 54px quick-travel button no longer needs the old
+   108px Spoon Run reserve. Keep only the button, safe inset, and a small gap
+   when replay picks are still locked so the empty state ends deliberately. */
+.spoon-run-view.content-panel.spoon-run-view--replay-empty {
+  padding-bottom: calc(max(env(safe-area-inset-bottom, 0px), 10px) + 58px);
+}
+
+@media (min-height: 880px) {
+  .spoon-run-view.content-panel.spoon-run-view--replay-empty {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 14px);
+  }
+}
+
 @media (max-width: 400px) {
   .app-shell--workshop-home .spoon-balance-chip {
     width: 90px;

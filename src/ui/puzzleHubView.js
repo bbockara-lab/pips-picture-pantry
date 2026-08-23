@@ -526,8 +526,9 @@ export function renderSpoonRunView({
   onSelectDaily = () => {},
   onSelectReplay = () => {}
 }) {
+  const hasReplayPicks = Array.isArray(replayPicks) && replayPicks.length > 0;
   const view = document.createElement("section");
-  view.className = "spoon-run-view content-panel";
+  view.className = "spoon-run-view content-panel" + (hasReplayPicks ? "" : " spoon-run-view--replay-empty");
 
   const header = document.createElement("header");
   header.className = "spoon-run-view__header spoon-run-scene";

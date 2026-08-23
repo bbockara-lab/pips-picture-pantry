@@ -66,6 +66,16 @@ describe("Workshop supporting cards wiring", () => {
     );
   });
 
+  it("compacts only the empty replay state around the current quick-travel button", () => {
+    expect(puzzleHubSource).toContain('spoon-run-view--replay-empty');
+    expect(styles).toMatch(
+      /\.spoon-run-view\.content-panel\.spoon-run-view--replay-empty\s*\{[\s\S]*?padding-bottom:\s*calc\(max\(env\(safe-area-inset-bottom,\s*0px\),\s*10px\) \+ 58px\);/
+    );
+    expect(styles).toMatch(
+      /@media \(min-height:\s*880px\)\s*\{[\s\S]*?\.spoon-run-view\.content-panel\.spoon-run-view--replay-empty\s*\{[\s\S]*?padding-bottom:\s*max\(env\(safe-area-inset-bottom,\s*0px\),\s*14px\);/
+    );
+  });
+
   it("builds Spoon Run as a Pip scene with one shared earn-today value", () => {
     expect(puzzleHubSource).toContain('pip.className = "spoon-run-scene__pip"');
     expect(puzzleHubSource).toContain('opportunityBubble.className = "spoon-run-scene__opportunity"');

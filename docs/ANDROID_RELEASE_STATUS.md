@@ -2,6 +2,7 @@
 
 - Rebuild target remains versionCode **52** / versionName **1.1.23** because the existing versionCode 52 AAB has not been uploaded to Play Console.
 - The 2026-08-21 artifact is superseded. The replacement includes the iPhone-compatible Workshop header collision guard, consistent economy-header spacing, and the Time Attack 3-2-1 start/BGM lifecycle fix.
+- The replacement also compacts the empty Spoon Run replay section on tall phones; native Pixel 8 review confirmed the empty card, quick-travel button, and bottom safe area remain separated without the former blank reserve.
 - iOS advances independently to **1.1.24 build 7** while Android completes its existing 1.1.23 release lane.
 
 ## Functional fixes release preparation - 2026-08-21
