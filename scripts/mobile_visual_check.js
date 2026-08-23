@@ -3700,6 +3700,8 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
       fullOpacityExpected,
       display: chip ? getComputedStyle(chip).display : "missing",
       opacity: chip ? Number.parseFloat(getComputedStyle(chip).opacity) : -1,
+      artworkOpacity: artwork ? Number.parseFloat(getComputedStyle(artwork).opacity) : -1,
+      countOpacity: countElement ? Number.parseFloat(getComputedStyle(countElement).opacity) : -1,
       text: chip?.textContent?.trim() || "",
       ariaLabel: chip?.getAttribute("aria-label") || "",
       chipHeight: chipRect?.height || 0,
@@ -3748,7 +3750,9 @@ async function expectSpoonBalanceChipSize(page, viewportName, viewName) {
     || (metrics.compactWorkshopBalance && (metrics.countTextAlign !== "right" || !metrics.fourDigitFits))
     || (metrics.compactWorkshopBalance
       && !metrics.fullOpacityExpected
-      && (metrics.opacity < 0.7 || metrics.opacity > 0.74))
+      && (metrics.opacity !== 1
+        || metrics.artworkOpacity < 0.7 || metrics.artworkOpacity > 0.74
+        || metrics.countOpacity < 0.7 || metrics.countOpacity > 0.74))
     || (metrics.compactWorkshopBalance && metrics.fullOpacityExpected && metrics.opacity !== 1)
     || (metrics.compactWorkshopBalance
       ? metrics.chipHeight < 43 || metrics.chipHeight > 45

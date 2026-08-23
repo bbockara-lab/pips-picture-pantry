@@ -19824,6 +19824,148 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   }
 }
 
+/* iPhone home-header collision guard. The Workshop controls reserve the
+   rightmost 107px (safe inset + mailbox + gap + settings), so the illustrated
+   balance must end before that lane at every compact iPhone width. */
+@media (max-width: 430px) {
+  .app-shell:not(.app-shell--play).app-shell--workshop-home .spoon-balance-chip {
+    right: max(116px, calc(env(safe-area-inset-right, 0px) + 116px));
+  }
+}
+
+/* Economy-header rhythm. These are the three menu surfaces that intentionally
+   keep the spoon balance visible. Their first panel begins 12px below the
+   44px fixed artwork, instead of sliding underneath it while scrolling. */
+.app-shell:is([data-view="timeAttack"], [data-view="spoonRun"], [data-view="pantry"])
+  > .content-panel {
+  margin-top: calc(
+    44px
+    + max(12px, env(safe-area-inset-top, 0px))
+    - env(safe-area-inset-top, 0px)
+  );
+}
+
+/* Time Attack begins on the final beat, not on the Start-button tap. The
+   full-screen warm-gold countdown creates an unmistakable transition while
+   leaving the game clock untouched until the overlay has finished. */
+.time-attack-countdown {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: max(24px, env(safe-area-inset-top, 0px)) 24px max(24px, env(safe-area-inset-bottom, 0px));
+  background:
+    radial-gradient(circle at 50% 46%, rgba(255, 215, 92, 0.24), transparent 34%),
+    rgba(43, 27, 21, 0.82);
+  -webkit-backdrop-filter: blur(5px) saturate(0.8);
+  backdrop-filter: blur(5px) saturate(0.8);
+}
+
+.time-attack-countdown__card {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  width: min(74vw, 330px);
+  aspect-ratio: 1;
+  border: 8px solid rgba(255, 244, 205, 0.94);
+  border-radius: 50%;
+  color: #fff8dc;
+  background:
+    radial-gradient(circle at 38% 30%, rgba(255, 255, 255, 0.9) 0 4%, transparent 5%),
+    radial-gradient(circle, #f8c446 0 42%, #dc8b1e 43% 54%, #6c3b25 55% 58%, #ffe5a0 59% 61%, #6c3b25 62% 66%, transparent 67%);
+  box-shadow:
+    0 18px 0 rgba(24, 13, 10, 0.34),
+    0 25px 42px rgba(0, 0, 0, 0.38),
+    0 0 54px rgba(255, 197, 58, 0.62);
+  animation: time-attack-countdown-card 0.82s cubic-bezier(0.18, 0.82, 0.22, 1) both;
+}
+
+.time-attack-countdown__card::before,
+.time-attack-countdown__card::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -18%;
+  border: 5px solid rgba(255, 220, 112, 0.72);
+  border-radius: 50%;
+  box-shadow: 0 0 28px rgba(255, 194, 50, 0.7);
+  animation: time-attack-countdown-ring 0.82s ease-out both;
+}
+
+.time-attack-countdown__card::after {
+  inset: -33%;
+  border-width: 3px;
+  animation-delay: 0.1s;
+}
+
+.time-attack-countdown__eyebrow {
+  position: absolute;
+  top: 24%;
+  padding: 5px 15px;
+  border: 2px solid rgba(90, 48, 28, 0.32);
+  border-radius: 999px;
+  color: #62351f;
+  background: rgba(255, 247, 213, 0.88);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 4.6vw, 1.3rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  box-shadow: 0 5px 0 rgba(99, 53, 31, 0.22);
+}
+
+.time-attack-countdown__value {
+  display: block;
+  margin-top: 14%;
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 40vw, 12rem);
+  font-weight: 900;
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  color: #fff8dc;
+  -webkit-text-stroke: 5px #5a2f21;
+  paint-order: stroke fill;
+  text-shadow:
+    0 7px 0 #b55f18,
+    0 12px 14px rgba(59, 28, 18, 0.45),
+    0 0 20px rgba(255, 255, 228, 0.78);
+  animation: time-attack-countdown-number 0.82s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.time-attack-countdown--go .time-attack-countdown__value {
+  margin-top: 16%;
+  font-size: clamp(3.5rem, 18vw, 5.5rem);
+  letter-spacing: -0.04em;
+}
+
+@keyframes time-attack-countdown-card {
+  0% { opacity: 0; transform: scale(0.58) rotate(-8deg); }
+  48% { opacity: 1; transform: scale(1.08) rotate(2deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+@keyframes time-attack-countdown-number {
+  0% { opacity: 0; transform: scale(1.7); filter: brightness(2); }
+  45% { opacity: 1; transform: scale(0.92); filter: brightness(1.35); }
+  100% { opacity: 1; transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes time-attack-countdown-ring {
+  0% { opacity: 0.9; transform: scale(0.45); }
+  100% { opacity: 0; transform: scale(1.12); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .time-attack-countdown__card,
+  .time-attack-countdown__value,
+  .time-attack-countdown__card::before,
+  .time-attack-countdown__card::after {
+    animation: none;
+  }
+}
+
 /* Time Attack ladder labels share the exact center of each round card. */
 .time-attack-ladder__step {
   grid-template-columns: minmax(0, 1fr);
@@ -19910,7 +20052,10 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   .app-shell--workshop-home .spoon-balance-chip {
     width: 90px;
     min-width: 90px;
-    right: max(68px, calc(env(safe-area-inset-right, 0px) + 68px));
+    /* The two 46px home controls plus their 5px gap occupy 97px. Keep the
+       currency artwork in its own lane to the left of both controls; the old
+       68px offset let a three-digit balance cover the mailbox on iPhone. */
+    right: max(116px, calc(env(safe-area-inset-right, 0px) + 116px));
   }
 
   .app-shell--workshop-home .spoon-balance-chip::before {
@@ -20082,7 +20227,7 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   .app-shell--workshop-home .spoon-balance-chip {
     width: 90px;
     min-width: 90px;
-    right: max(68px, calc(env(safe-area-inset-right, 0px) + 68px));
+    right: max(116px, calc(env(safe-area-inset-right, 0px) + 116px));
   }
 
   .app-shell--workshop-home .spoon-balance-chip::before {
@@ -21246,7 +21391,7 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   height: 38px;
 }
 
-/* v0.1.717 - iOS Settings has one scroll owner and an always-reachable exit.
+/* v0.1.718 - iOS Settings has one scroll owner and an always-reachable exit.
    Scrolling both the backdrop and the sheet made WebKit chain the gesture and
    spring the sheet back before its final action could be pressed. */
 .modal-backdrop--settings {
@@ -21310,7 +21455,7 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
     0 4px 0 rgba(61, 43, 46, 0.2);
 }
 
-/* v0.1.717 - final play-header authority. */
+/* v0.1.718 - final play-header authority. */
 .app-shell--play .play-screen__header {
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-rows: auto;
@@ -21386,7 +21531,7 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   .app-shell--workshop-home .spoon-balance-chip {
     width: 90px;
     min-width: 90px;
-    right: max(68px, calc(env(safe-area-inset-right, 0px) + 68px));
+    right: max(116px, calc(env(safe-area-inset-right, 0px) + 116px));
   }
 
   .app-shell--workshop-home .spoon-balance-chip::before {
@@ -21397,6 +21542,15 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
 
   .app-shell--workshop-home .spoon-balance-chip__count {
     right: 14px;
+  }
+}
+
+/* A 360px device cannot keep the English room title, a four-digit balance,
+   mailbox, and Settings on one row. Stack only the balance into the reserved
+   second header row; 375px+ iPhones retain the single-row composition. */
+@media (max-width: 370px) {
+  .app-shell:not(.app-shell--play).app-shell--workshop-home .spoon-balance-chip {
+    top: calc(max(12px, env(safe-area-inset-top, 0px)) + 36px);
   }
 }
 
@@ -21482,7 +21636,7 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   .app-shell--workshop-home .spoon-balance-chip {
     width: 90px;
     min-width: 90px;
-    right: max(68px, calc(env(safe-area-inset-right, 0px) + 68px));
+    right: max(116px, calc(env(safe-area-inset-right, 0px) + 116px));
   }
 
   .app-shell--workshop-home .spoon-balance-chip::before {

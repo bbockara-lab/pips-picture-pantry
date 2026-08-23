@@ -1,5 +1,10 @@
 # iOS Release Status
 
+## 2026-08-23 iOS 1.1.24 build 7 preparation
+
+- Next App Store update target: **1.1.24 build 7**, installed-app label **v0.1.718**.
+- Includes the released-iPhone Workshop spoon/mailbox collision fix, consistent balance-header spacing on Time Attack/Spoon Run/Pantry, and a Time Attack 3-2-1 start sequence with the timer beginning only after the countdown and BGM suppressed during the run.
+
 Last updated: 2026-08-06
 
 ## 2026-08-06 first App Store submission

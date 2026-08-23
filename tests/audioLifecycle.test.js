@@ -69,4 +69,18 @@ describe("app audio lifecycle", () => {
 
     expect(element.play).not.toHaveBeenCalled();
   });
+
+  it("keeps music silent across app resume during Time Attack, then restores it on exit", async () => {
+    const { audio, element } = await loadAudio();
+    audio.unlockAudio();
+    audio.setMusicSuppressed(true);
+    const playsBeforeResume = element.play.mock.calls.length;
+
+    audio.setAudioAppActive(false);
+    audio.setAudioAppActive(true);
+    expect(element.play.mock.calls.length).toBe(playsBeforeResume);
+
+    audio.setMusicSuppressed(false);
+    expect(element.play.mock.calls.length).toBe(playsBeforeResume + 1);
+  });
 });

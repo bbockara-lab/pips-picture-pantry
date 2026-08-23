@@ -1,3 +1,9 @@
+## v0.1.718 Android 52 rebuild — 2026-08-23
+
+- Rebuild target remains versionCode **52** / versionName **1.1.23** because the existing versionCode 52 AAB has not been uploaded to Play Console.
+- The 2026-08-21 artifact is superseded. The replacement includes the iPhone-compatible Workshop header collision guard, consistent economy-header spacing, and the Time Attack 3-2-1 start/BGM lifecycle fix.
+- iOS advances independently to **1.1.24 build 7** while Android completes its existing 1.1.23 release lane.
+
 ## Functional fixes release preparation - 2026-08-21
 
 - Current prepared upload target: versionCode 52 / versionName 1.1.23.

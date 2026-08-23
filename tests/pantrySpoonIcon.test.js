@@ -43,6 +43,8 @@ describe("Pantry spoon currency rendering", () => {
     expect(shellSource).not.toContain("pantryHeader.appendChild(spoonBalanceChip)");
     expect(stylesSource).toMatch(/\.app-shell\[data-view="pantry"\] > \.spoon-balance-chip\s*\{[\s\S]*?position:\s*fixed;/);
     expect(stylesSource).toMatch(/data-view="album"[\s\S]*?data-view="map"[\s\S]*?data-view="mailbox"[\s\S]*?\.spoon-balance-chip\s*\{[\s\S]*?display:\s*none\s*!important;/);
+    expect(stylesSource).toMatch(/iPhone home-header collision guard[\s\S]*?@media \(max-width: 430px\)[\s\S]*?\.app-shell:not\(\.app-shell--play\)\.app-shell--workshop-home \.spoon-balance-chip\s*\{[\s\S]*?right:\s*max\(116px, calc\(env\(safe-area-inset-right, 0px\) \+ 116px\)\);/);
+    expect(stylesSource).toMatch(/Economy-header rhythm[\s\S]*?data-view="timeAttack"[\s\S]*?data-view="spoonRun"[\s\S]*?data-view="pantry"[\s\S]*?> \.content-panel\s*\{[\s\S]*?margin-top:\s*calc\([\s\S]*?44px[\s\S]*?\+ max\(12px, env\(safe-area-inset-top, 0px\)\)[\s\S]*?- env\(safe-area-inset-top, 0px\)[\s\S]*?\);/);
     expect(stylesSource).toMatch(/\.app-shell--play \.spoon-balance-chip\s*\{[\s\S]*?position:\s*static;[\s\S]*?grid-column:\s*2 \/ -1;[\s\S]*?grid-row:\s*2;/);
     expect(shellSource).toContain('playHeader.insertBefore(spoonBalanceChip, settingsButton)');
     expect(stylesSource).toMatch(/#app\[data-intro-open="true"\] \.spoon-balance-chip\s*\{[\s\S]*?visibility:\s*hidden;[\s\S]*?pointer-events:\s*none;/);

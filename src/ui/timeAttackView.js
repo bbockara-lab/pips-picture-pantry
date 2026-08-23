@@ -53,6 +53,29 @@ export function renderTimeAttackView({ bestScores = {}, dailyCount = 0, dailyLim
   return panel;
 }
 
+export function renderTimeAttackCountdown(step) {
+  const overlay = document.createElement("div");
+  overlay.className = `time-attack-countdown time-attack-countdown--${step}`;
+  overlay.setAttribute("role", "status");
+  overlay.setAttribute("aria-live", "assertive");
+  overlay.setAttribute("aria-atomic", "true");
+
+  const card = document.createElement("div");
+  card.className = "time-attack-countdown__card";
+
+  const eyebrow = document.createElement("span");
+  eyebrow.className = "time-attack-countdown__eyebrow";
+  eyebrow.textContent = t("timeAttack.countdownEyebrow");
+
+  const value = document.createElement("strong");
+  value.className = "time-attack-countdown__value";
+  value.textContent = step === "go" ? t("timeAttack.countdownGo") : String(step);
+
+  card.append(eyebrow, value);
+  overlay.appendChild(card);
+  return overlay;
+}
+
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
   if (className) {

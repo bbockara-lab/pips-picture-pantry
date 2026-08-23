@@ -6,6 +6,7 @@ let audioContext = null;
 let musicElement = null;
 let audioUnlocked = false;
 let appIsActive = true;
+let musicSuppressed = false;
 
 
 export function getAudioPreferences() {
@@ -84,7 +85,7 @@ export function playStageComplete() {
 }
 
 export function startMusic() {
-  if (!appIsActive || !getAudioPreferences().music || !audioUnlocked) {
+  if (!appIsActive || musicSuppressed || !getAudioPreferences().music || !audioUnlocked) {
     return;
   }
 
@@ -100,6 +101,29 @@ export function stopMusic() {
   }
 
   musicElement.pause();
+}
+
+export function setMusicSuppressed(suppressed) {
+  musicSuppressed = Boolean(suppressed);
+  if (musicSuppressed) {
+    stopMusic();
+    return;
+  }
+  startMusic();
+}
+
+export function playTimeAttackCountdown(step) {
+  if (!getAudioPreferences().sfx) {
+    return;
+  }
+  const isGo = step === "go";
+  playTone(isGo ? 880 : 420 + (4 - Number(step || 3)) * 110, isGo ? 0.18 : 0.1, isGo ? 0.09 : 0.065, "sine");
+  if (isGo) {
+    globalThis.setTimeout(() => playTone(1175, 0.2, 0.075, "triangle"), 95);
+    lightVibrate(28);
+  } else {
+    lightVibrate(12);
+  }
 }
 
 export function setAudioAppActive(isActive) {

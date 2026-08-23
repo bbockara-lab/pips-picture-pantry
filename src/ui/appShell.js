@@ -27,7 +27,7 @@ import { getCozySupportProduct, getSpoonJarSmallProduct, purchaseCozySupportPack
 import { setLanguagePreference, t } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
 import { renderResetDialog } from "./appChrome.js";
-import { playStageComplete, setMusicEnabled, setSfxEnabled, startMusic } from "./audio.js";
+import { playStageComplete, playTimeAttackCountdown, setMusicEnabled, setMusicSuppressed, setSfxEnabled, startMusic } from "./audio.js";
 import { getBadgeForCompletedShelf } from "../game/badges.js";
 import { renderBadgeEarnedToast, renderPantryMapView } from "./mapView.js";
 import { renderPantryView } from "./pantryView.js";
@@ -47,7 +47,7 @@ import { renderSpoonBalanceChip } from "./spoonIcon.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
 import { canPurchaseSpoonJar, canPurchaseSupportPack, renderSettingsDialog, renderSpoonStore } from "./settingsView.js";
 import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackElapsedSeconds, TIME_ATTACK_LIMIT_SECONDS, TIME_ATTACK_TRIAL_ROUNDS } from "./timeAttackFlow.js";
-import { renderTimeAttackView } from "./timeAttackView.js";
+import { renderTimeAttackCountdown, renderTimeAttackView } from "./timeAttackView.js";
 import { getLoginBonusMessage } from "./loginBonusMessage.js";
 import { dismissOptionalUpdate, openUpdateStore, resolveUpdateDecision } from "../game/updatePolicy.js";
 import { renderMandatoryUpdateView } from "./updateGateView.js";
@@ -77,6 +77,8 @@ export function renderApp(root) {
   let activeTimeAttackSeed = null;
   let activeTimeAttackStartedAt = null;
   let timeAttackTimerHandle = null;
+  let timeAttackCountdownHandle = null;
+  let timeAttackCountdownStep = null;
   let timeAttackRoundIndex = 0;
   let activeTimeAttackHintsUsed = 0;
   let activeTimeAttackPuzzleState = null;
@@ -186,7 +188,17 @@ export function renderApp(root) {
     selectPuzzle(nextPuzzle.id);
   }
 
+  function clearTimeAttackCountdown() {
+    if (timeAttackCountdownHandle) {
+      globalThis.clearTimeout(timeAttackCountdownHandle);
+      timeAttackCountdownHandle = null;
+    }
+    timeAttackCountdownStep = null;
+  }
+
   function clearTimeAttackSession() {
+    clearTimeAttackCountdown();
+    setMusicSuppressed(false);
     activeTimeAttackRun = null;
     activeTimeAttackSeed = null;
     activeTimeAttackStartedAt = null;
@@ -204,7 +216,7 @@ export function renderApp(root) {
       requestSettings();
       return;
     }
-    if (activeTimeAttackRun || preTimeAttackPuzzle) {
+    if (timeAttackCountdownStep !== null || activeTimeAttackRun || preTimeAttackPuzzle) {
       clearTimeAttackSession();
     }
     replayChallenge = false;
@@ -280,7 +292,40 @@ export function renderApp(root) {
     });
   }
 
+  function scheduleTimeAttackCountdown() {
+    const delay = timeAttackCountdownStep === "go" ? 650 : 900;
+    timeAttackCountdownHandle = globalThis.setTimeout(() => {
+      timeAttackCountdownHandle = null;
+      if (timeAttackCountdownStep === 3) {
+        timeAttackCountdownStep = 2;
+      } else if (timeAttackCountdownStep === 2) {
+        timeAttackCountdownStep = 1;
+      } else if (timeAttackCountdownStep === 1) {
+        timeAttackCountdownStep = "go";
+      } else {
+        startTimeAttackRun();
+        return;
+      }
+      playTimeAttackCountdown(timeAttackCountdownStep);
+      draw();
+      scheduleTimeAttackCountdown();
+    }, delay);
+  }
+
+  function startTimeAttackCountdown() {
+    if (timeAttackCountdownStep !== null || activeTimeAttackRun) {
+      return;
+    }
+    timeAttackCountdownStep = 3;
+    setMusicSuppressed(true);
+    playTimeAttackCountdown(3);
+    draw();
+    scheduleTimeAttackCountdown();
+  }
+
   function startTimeAttackRun() {
+    clearTimeAttackCountdown();
+    setMusicSuppressed(true);
     preTimeAttackPuzzle = activePuzzle;
     const session = createTimeAttackSession({ currentPuzzle: activePuzzle, rounds: TIME_ATTACK_TRIAL_ROUNDS });
     activeTimeAttackSeed = session.seed;
@@ -647,7 +692,7 @@ export function renderApp(root) {
       dailyChallenge,
       replayPicked,
       onPuzzleComplete: checkStageComplete,
-      onStartTimeAttack: startTimeAttackRun,
+      onStartTimeAttack: startTimeAttackCountdown,
       onCloseTimeAttack: closeTimeAttackRun,
       onTimeAttackPuzzleComplete: completeTimeAttackPuzzle,
       onTimeAttackPuzzleStateChange: updateTimeAttackPuzzleState,
@@ -680,6 +725,9 @@ export function renderApp(root) {
       timeAttackLimitSeconds: TIME_ATTACK_LIMIT_SECONDS
     });
     root.appendChild(shell);
+    if (timeAttackCountdownStep !== null) {
+      root.appendChild(renderTimeAttackCountdown(timeAttackCountdownStep));
+    }
     scrollAfterDraw(root);
     if (loginBonusVisible && activeView === "puzzle" && !playOpen && !puzzleListOpen && !activeGuide) {
       scheduleLoginBonusPresentation();

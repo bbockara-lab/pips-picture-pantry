@@ -249,6 +249,8 @@ export const ko = {
     ladderTempo: "판이 커지면 힌트 타이밍이 중요해져요.",
     ladderFinal: "기록을 밀어붙이고, 정말 필요할 때만 힌트를 골라요.",
     start: "\uC2DC\uC791",
+    countdownEyebrow: "준비하세요",
+    countdownGo: "시작!",
     daily: "\uc624\ub298 \ubcf4\uc0c1 {count}/{limit}\ud68c",
     records: "\ub0b4 \uae30\ub85d",
     recordsEmpty: "3\ud310\uc744 \ub05d\uae4c\uc9c0 \ud480\uba74 \uc5ec\uae30\uc5d0 \uae30\ub85d\uc774 \ub0a8\uc544\uc694.",

@@ -7,7 +7,7 @@ const shellSource = readFileSync(new URL("../src/ui/appShell.js", import.meta.ur
 describe("Settings sheet scrolling", () => {
   it("uses the dialog as the only vertical scroll owner and keeps Close reachable", () => {
     const contract = stylesSource.slice(
-      stylesSource.indexOf("v0.1.717 - iOS Settings has one scroll owner")
+      stylesSource.indexOf("v0.1.718 - iOS Settings has one scroll owner")
     );
     expect(contract).toMatch(
       /\.modal-backdrop--settings\s*\{[\s\S]*?overflow:\s*hidden;[\s\S]*?overscroll-behavior:\s*none;[\s\S]*?touch-action:\s*pan-y;/

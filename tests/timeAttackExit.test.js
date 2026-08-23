@@ -19,6 +19,22 @@ describe("Time Attack paint persistence", () => {
 });
 
 describe("Time Attack exit recovery", () => {
+  it("finishes the visible countdown before creating the timed session", () => {
+    expect(appShellSource).toContain("let timeAttackCountdownStep = null");
+    expect(appShellSource).toContain("function startTimeAttackCountdown()");
+    expect(appShellSource).toContain("onStartTimeAttack: startTimeAttackCountdown");
+    expect(appShellSource).toMatch(
+      /function startTimeAttackRun\(\)[\s\S]*?createTimeAttackSession/
+    );
+    expect(appShellSource).toContain("renderTimeAttackCountdown(timeAttackCountdownStep)");
+  });
+
+  it("suppresses music for countdown and play, then restores it through cleanup", () => {
+    expect(appShellSource).toMatch(/function startTimeAttackCountdown\(\)[\s\S]*?setMusicSuppressed\(true\)/);
+    expect(appShellSource).toMatch(/function startTimeAttackRun\(\)[\s\S]*?setMusicSuppressed\(true\)/);
+    expect(appShellSource).toMatch(/function clearTimeAttackSession\(\)[\s\S]*?setMusicSuppressed\(false\)/);
+  });
+
   it("keeps and restores the regular puzzle around a Time Attack run", () => {
     expect(appShellSource).toContain("let preTimeAttackPuzzle = null");
     expect(appShellSource).toContain("preTimeAttackPuzzle = activePuzzle");

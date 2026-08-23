@@ -281,6 +281,8 @@ export const en = {
     ladderTempo: "Bigger clues make hint timing matter.",
     ladderFinal: "Push for the record, then choose if a hint is worth it.",
     start: "Start",
+    countdownEyebrow: "Get ready",
+    countdownGo: "GO!",
     daily: "Daily rewards {count}/{limit}",
     records: "My records",
     recordsEmpty: "Finish all three rounds to leave your first record here.",

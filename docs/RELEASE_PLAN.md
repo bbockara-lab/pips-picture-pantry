@@ -1,6 +1,13 @@
 # Release Plan
 
-Last updated: 2026-08-21
+Last updated: 2026-08-23
+
+## iOS 1.1.24 / Android 1.1.23 rebuilt candidate — 2026-08-23
+
+- Prepare iOS **1.1.24 build 7** from installed-app label **v0.1.718**.
+- Rebuild the not-yet-uploaded Android **versionCode 52 / versionName 1.1.23** candidate from the same v0.1.718 source; versionCode 52 is retained because the previous artifact was never uploaded.
+- Include the iPhone Workshop spoon/mailbox collision fix, dedicated balance-header spacing on Time Attack/Spoon Run/Pantry, and a 3-2-1 Time Attack start sequence whose timer begins after the countdown while normal BGM remains suppressed for the run.
+- The older versionCode 52 artifact is superseded and must not be uploaded.
 
 ## Functional Fix Release Before Korean Harvest — 2026-08-21
 

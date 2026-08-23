@@ -1,3 +1,11 @@
+## v0.1.718 / iOS 1.1.24 and Android 1.1.23 rebuilt candidate (2026-08-23)
+
+- Fixed the released-iPhone Workshop header collision by reserving the mailbox/settings lane for the controls and stacking only the spoon HUD on 360px devices.
+- Reserved a consistent header-like balance area on Time Attack, Spoon Run, and Pantry while preserving alpha-only translucency on the illustrated HUD.
+- Added a full-screen 3-2-1 / Start Time Attack transition. The timed session is created only after the countdown, normal BGM stays suppressed throughout the run, and music resumes through the shared exit/finish/timeout cleanup path.
+- Prepared installed-app label `v0.1.718`, iOS `1.1.24` build `7`, and a rebuilt Android `versionCode 52` / `versionName 1.1.23` candidate because code 52 has not yet been uploaded.
+- Verification passed: 67 Vitest files / 405 tests, 3 Functions tests, production build, Android/iOS release identity gates, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.716 / store 1.1.22 mailbox and home polish release (2026-08-19)
 
 - Added Pip's Mailbox beside Settings on the home screen and as a quick-travel destination. It contains a warm developer welcome letter and only archives Pip stories after the matching in-game guide has actually been seen.
