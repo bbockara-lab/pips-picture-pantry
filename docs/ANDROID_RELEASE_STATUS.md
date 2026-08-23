@@ -4,6 +4,8 @@
 - The 2026-08-21 artifact is superseded. The replacement includes the iPhone-compatible Workshop header collision guard, consistent economy-header spacing, and the Time Attack 3-2-1 start/BGM lifecycle fix.
 - The replacement also compacts the empty Spoon Run replay section on tall phones; native Pixel 8 review confirmed the empty card, quick-travel button, and bottom safe area remain separated without the former blank reserve.
 - iOS advances independently to **1.1.24 build 7** while Android completes its existing 1.1.23 release lane.
+- Upload-ready signed replacement AAB: `release-artifacts/android-1.1.23-52-v0.1.718-replay-spacing/Pips-Picture-Pantry-1.1.23-52.aab` (24,668,025 bytes).
+- SHA-256: `A73ACA54A10535AEDA927CF3922D1C5F92E21FD56409E070E0066EAD8C83279C`; `jarsigner` verification passed.
 
 ## Functional fixes release preparation - 2026-08-21
 
