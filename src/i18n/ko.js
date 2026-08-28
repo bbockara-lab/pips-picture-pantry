@@ -116,7 +116,7 @@ export const ko = {
     guideReplayAction: "핍 가이드 보기",
     guideReplayPuzzleAction: "그림 가이드",
     guideReplayCursorAction: "방향키 가이드",
-    guideReplayPantryJarAction: "항아리 선택 가이드",
+    guideReplayPantryJarAction: "수집품 전시 가이드",
     guideReplayMapAction: "\uBC30\uC9C0 \uAC00\uC774\uB4DC",
     guideReplayTimeAttackAction: "타임어택 가이드",
     spoonStoreTitle: "\uc2a4\ud47c \ub354 \ucc44\uc6b0\uae30",
@@ -307,9 +307,8 @@ export const ko = {
     },
     pantryJarIntro: {
       speakerName: "핍",
-      step1: "이 수집품을 선택하면 이 선반 스테이지의 퍼즐 완료 화면에서 제 옆에 함께 나와요.",
-      step2: "홈에 표시하기를 누르면 퍼즐방의 제 옆에 놓여요. 두 선택은 언제든 바꿀 수 있어요!",
-      step3: "효과 활성화는 또 다른 선택이에요. 대상 그림을 완성해 진행도를 채우면 표시된 추가 스푼을 받아요."
+      step1: "홈에 표시하기를 누르면 퍼즐방과 퍼즐 완료 화면에서 제 옆에 함께 나와요.",
+      step2: "선반의 수집품을 모두 모으면 추가 스푼 확률이 올라가요. 어떤 수집품을 전시해도 확률은 같아요!"
     },
     spoonRunIntro: {
       speakerName: "핍",
@@ -786,10 +785,8 @@ export const ko = {
       openDetail: "{item} \uC790\uC138\uD788 \uBCF4\uAE30",
       spoonCost: "{count} \uD83E\uDD44",
       shelfLabel: "{shelf}",
-      equipped: "\uD604\uC7AC \uC120\uD0DD\uB428 ✓",
       buyAction: "{count} \uD83E\uDD44 \uAD6C\uB9E4",
       needSpoons: "\uC2A4\uD47C {count}\uAC1C \uB354 \uD544\uC694",
-      equipAction: "이 수집품 선택하기",
       close: "\uB2EB\uAE30",
       featureOnHome: "\uD648\uC5D0 \uD45C\uC2DC\uD558\uAE30",
       featuredOnHome: "\uD648\uC5D0 \uD45C\uC2DC \uC911",

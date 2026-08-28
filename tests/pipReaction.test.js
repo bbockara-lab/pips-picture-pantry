@@ -58,6 +58,14 @@ describe("Pip completion scene", () => {
     ]);
   });
 
+  it("acknowledges the first Next Picture tap before navigating and blocks duplicates", () => {
+    expect(pipReactionSource).toContain("if (transitionStarted) return");
+    expect(pipReactionSource).toContain('actionButton.setAttribute("aria-busy", "true")');
+    expect(pipReactionSource).toContain('actionButton.classList.add("is-pressed", "is-transitioning")');
+    expect(pipReactionSource).toContain("globalThis.requestAnimationFrame(() => globalThis.requestAnimationFrame(runNavigation))");
+    expect(stylesSource).toMatch(/\.completion-actions \.tool-button\.is-transitioning[\s\S]*?cursor:\s*progress;/);
+  });
+
   it("shows pantry growth rewards as a separate completion row", () => {
     expect(getCompletionRewardRows({
       jarEffectReward: 1,

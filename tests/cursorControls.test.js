@@ -99,7 +99,7 @@ describe("continuous cursor painting", () => {
     expect(cursorControlsSource).not.toContain('className = "cursor-trail-toggle"');
   });
 
-  it("paints along the route with the selected brush and keeps move-only available", () => {
+  it("keeps quick direction taps move-only and paints only explicit held repeats", () => {
     let state = createPuzzleState(puzzle);
     const session = createCursorControlSession(state);
     const update = (next) => {
@@ -108,14 +108,16 @@ describe("continuous cursor painting", () => {
 
     applyCursorAction(state, "fill", update, session);
     moveSelectedCell(state, 0, 1, puzzle.size, update, session);
-    moveSelectedCell(state, 1, 0, puzzle.size, update, session);
+    expect(state.cells[0][1]).toBe(CELL.empty);
+
+    moveSelectedCell(state, 1, 0, puzzle.size, update, session, { paintTrail: true });
 
     expect(state.cells[0][0]).toBe(CELL.filled);
-    expect(state.cells[0][1]).toBe(CELL.filled);
+    expect(state.cells[0][1]).toBe(CELL.empty);
     expect(state.cells[1][1]).toBe(CELL.filled);
 
     applyCursorAction(state, "mark", update, session);
-    moveSelectedCell(state, 0, 1, puzzle.size, update, session);
+    moveSelectedCell(state, 0, 1, puzzle.size, update, session, { paintTrail: true });
     expect(state.cells[1][2]).toBe(CELL.marked);
 
     session.trailEnabled = false;
@@ -129,6 +131,8 @@ describe("continuous cursor painting", () => {
     expect(cursorControlsSource).toContain('button.addEventListener("lostpointercapture", stop)');
     expect(cursorControlsSource).toContain('button.addEventListener("contextmenu", (event) => event.preventDefault())');
     expect(cursorControlsSource).toContain('button.addEventListener("selectstart", (event) => event.preventDefault())');
+    expect(cursorControlsSource).toContain("const shouldMoveOnce = commitTap && activePointerId !== null && !holdActivated");
+    expect(cursorControlsSource).toContain("repeatTimer = setInterval(isTrailEnabled() ? onTrailMove : onMove, 105)");
     expect(stylesSource).toMatch(/v0\.1\.718[\s\S]*?-webkit-user-select:\s*none;[\s\S]*?-webkit-touch-callout:\s*none;[\s\S]*?\.app-shell--play \.cursor-move\s*\{[\s\S]*?touch-action:\s*none;/);
   });
 });

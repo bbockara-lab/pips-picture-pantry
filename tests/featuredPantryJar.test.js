@@ -28,11 +28,18 @@ describe("Selected Pantry jar meaning", () => {
     expect(hubSource).toContain('onSelectView("pantry")');
   });
 
-  it("keeps stage-equipped jar behavior on regular puzzle completion", () => {
-    expect(puzzleSource).toContain("equippedJar: isTimeAttack");
-    expect(puzzleSource).toContain("getEquippedJarForCurrentStage(getSeasonShelfForPuzzle(puzzle))");
+  it("uses the same home-displayed jar on regular puzzle completion", () => {
+    expect(puzzleSource).toContain("featuredJar: isTimeAttack");
+    expect(puzzleSource).toContain("getFeaturedJar()");
+    expect(puzzleSource).not.toContain("getEquippedJarForCurrentStage");
     expect(reactionSource).toContain('className: "completion-banner__featured-jar"');
-    expect(reactionSource).toContain("if (featuredJar) content.push(featuredJar)");
+    expect(reactionSource).toContain("if (featuredJarCard) content.push(featuredJarCard)");
+  });
+
+  it("does not expose a separate completion-only collectible selection", () => {
+    expect(pantrySource).not.toContain("setEquippedJar");
+    expect(pantrySource).not.toContain('t("pantry.jar.equipAction")');
+    expect(pantrySource).not.toContain('className = "pantry-jar-detail__btn-equip"');
   });
 
   it("renders the home jar as image-only inside the unified keepsake shelf", () => {

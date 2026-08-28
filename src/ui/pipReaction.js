@@ -28,7 +28,7 @@ export function renderCompletionBanner(puzzle, {
   dailyResult = null,
   rewardResult = null,
   stageBonus = 0,
-  equippedJar = null
+  featuredJar = null
 } = {}) {
   const banner = document.createElement("div");
   banner.className = "completion-banner";
@@ -91,20 +91,46 @@ export function renderCompletionBanner(puzzle, {
     : isDailyPuzzle
       ? "completion.confirm"
       : "completion.nextPicture");
+  let transitionStarted = false;
+  const clearPressedState = () => {
+    if (!transitionStarted) actionButton.classList.remove("is-pressed");
+  };
+  actionButton.addEventListener("pointerdown", () => actionButton.classList.add("is-pressed"));
+  actionButton.addEventListener("pointerup", clearPressedState);
+  actionButton.addEventListener("pointercancel", clearPressedState);
+  actionButton.addEventListener("pointerleave", clearPressedState);
   actionButton.addEventListener("click", () => {
-    if (replayExhausted || replayLastPick || isDailyPuzzle) {
-      onBackToSpoonRun?.();
-      return;
+    if (transitionStarted) return;
+    transitionStarted = true;
+    actionButton.disabled = true;
+    actionButton.setAttribute("aria-busy", "true");
+    actionButton.classList.add("is-pressed", "is-transitioning");
+    const navigate = replayExhausted || replayLastPick || isDailyPuzzle
+      ? onBackToSpoonRun
+      : onNextPuzzle;
+    const runNavigation = () => {
+      if (typeof navigate === "function") {
+        navigate();
+        return;
+      }
+      transitionStarted = false;
+      actionButton.disabled = false;
+      actionButton.removeAttribute("aria-busy");
+      actionButton.classList.remove("is-pressed", "is-transitioning");
+    };
+    if (typeof globalThis.requestAnimationFrame === "function") {
+      globalThis.requestAnimationFrame(() => globalThis.requestAnimationFrame(runNavigation));
+    } else {
+      globalThis.setTimeout(runNavigation, 32);
     }
-    onNextPuzzle?.();
   });
 
   actions.append(actionButton);
-  const featuredJar = renderFeaturedJar(equippedJar, {
+  const featuredJarCard = renderFeaturedJar(featuredJar, {
     className: "completion-banner__featured-jar"
   });
   const content = isFirstPipFace ? [copy, reveal] : [reaction, copy, reveal];
-  if (featuredJar) content.push(featuredJar);
+  if (featuredJarCard) content.push(featuredJarCard);
   content.push(actions);
   banner.append(...content);
   return banner;

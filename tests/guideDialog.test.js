@@ -110,17 +110,17 @@ describe("guide dialog character and badge wiring", () => {
   });
   it("registers the jar display guide and offers it again from the mailbox", () => {
     expect(guideSource).toContain(
-      'pantryJarIntro: ["guide.pantryJarIntro.step1", "guide.pantryJarIntro.step2", "guide.pantryJarIntro.step3"]'
+      'pantryJarIntro: ["guide.pantryJarIntro.step1", "guide.pantryJarIntro.step2"]'
     );
     expect(guideSource).toContain('pantryJarIntro: "guide.pantryJarIntro.speakerName"');
     const mailboxSource = readFileSync(new URL("../src/data/mailboxMessages.js", import.meta.url), "utf8");
     expect(mailboxSource).toContain('["guide-pantry-jar", "pantryJarIntro"]');
     expect(englishSource).toContain('guideReplayPantryJarAction: "Jar display guide"');
-    expect(englishSource).toContain("Select this collectible to place it beside me on the puzzle-completion screen");
-    expect(englishSource).toContain("Display on home puts it beside me in the Puzzle Room.");
-    expect(koreanSource).toContain('guideReplayPantryJarAction: "항아리 선택 가이드"');
-    expect(koreanSource).toContain("이 수집품을 선택하면 이 선반 스테이지의 퍼즐 완료 화면에서");
-    expect(koreanSource).toContain("홈에 표시하기를 누르면 퍼즐방의 제 옆에 놓여요.");
+    expect(englishSource).toContain("Display on home puts this collectible beside me in the Puzzle Room and on puzzle-completion screens.");
+    expect(englishSource).not.toContain("Activate effect is a separate choice");
+    expect(koreanSource).toContain('guideReplayPantryJarAction: "수집품 전시 가이드"');
+    expect(koreanSource).toContain("홈에 표시하기를 누르면 퍼즐방과 퍼즐 완료 화면에서 제 옆에 함께 나와요.");
+    expect(koreanSource).not.toContain("효과 활성화는 또 다른 선택이에요");
   });
   it("centers and separates every non-puzzle Pip guide bubble", () => {
     for (const guideId of ["map", "spoonRunIntro", "pantryFirstPurchase", "pantryRoomStory"]) {

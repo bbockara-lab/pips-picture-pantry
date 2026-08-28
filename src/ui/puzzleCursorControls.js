@@ -39,11 +39,19 @@ export function renderCursorControls(state, puzzle, update, options = {}) {
 
   const dpad = document.createElement("div");
   dpad.className = "cursor-dpad";
+  const createMoveControl = (position, label, ariaLabel, rowDelta, columnDelta) => createCursorMoveButton(
+    position,
+    label,
+    ariaLabel,
+    () => moveSelectedCell(getState(), rowDelta, columnDelta, puzzle.size, update, session),
+    () => moveSelectedCell(getState(), rowDelta, columnDelta, puzzle.size, update, session, { paintTrail: true }),
+    () => session.trailEnabled
+  );
   dpad.append(
-    createCursorMoveButton("up", "\u2191", t("controls.cursorUp"), () => moveSelectedCell(getState(), -1, 0, puzzle.size, update, session)),
-    createCursorMoveButton("left", "\u2190", t("controls.cursorLeft"), () => moveSelectedCell(getState(), 0, -1, puzzle.size, update, session)),
-    createCursorMoveButton("right", "\u2192", t("controls.cursorRight"), () => moveSelectedCell(getState(), 0, 1, puzzle.size, update, session)),
-    createCursorMoveButton("down", "\u2193", t("controls.cursorDown"), () => moveSelectedCell(getState(), 1, 0, puzzle.size, update, session))
+    createMoveControl("up", "\u2191", t("controls.cursorUp"), -1, 0),
+    createMoveControl("left", "\u2190", t("controls.cursorLeft"), 0, -1),
+    createMoveControl("right", "\u2192", t("controls.cursorRight"), 0, 1),
+    createMoveControl("down", "\u2193", t("controls.cursorDown"), 1, 0)
   );
 
   const actions = document.createElement("div");
@@ -67,12 +75,12 @@ export function renderCursorControls(state, puzzle, update, options = {}) {
   return controls;
 }
 
-export function moveSelectedCell(state, rowDelta, columnDelta, size, update, session = null) {
+export function moveSelectedCell(state, rowDelta, columnDelta, size, update, session = null, options = {}) {
   const priorCursor = state.cursor || { row: 0, column: 0 };
   const movedState = moveCursor(state, rowDelta, columnDelta, size);
   if (movedState.cursor.row === priorCursor.row && movedState.cursor.column === priorCursor.column) return;
   playCursorMove();
-  if (session?.trailEnabled) {
+  if (session?.trailEnabled && options.paintTrail) {
     const mode = session.brushMode || "fill";
     const value = mode === "mark" ? CELL.marked : CELL.filled;
     const nextState = setMode(movedState, mode);
@@ -99,7 +107,7 @@ export function applyCursorAction(state, mode, update, session = null) {
   update(paintCells(nextState, [{ row: nextState.cursor.row, column: nextState.cursor.column }], value));
 }
 
-function createCursorMoveButton(position, label, ariaLabel, onMove) {
+function createCursorMoveButton(position, label, ariaLabel, onMove, onTrailMove, isTrailEnabled) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "cursor-move cursor-move--" + position;
@@ -108,10 +116,12 @@ function createCursorMoveButton(position, label, ariaLabel, onMove) {
   let holdTimer = null;
   let repeatTimer = null;
   let activePointerId = null;
-  const stop = () => {
+  let holdActivated = false;
+  const stop = (commitTap = false) => {
+    const shouldMoveOnce = commitTap && activePointerId !== null && !holdActivated;
     clearTimeout(holdTimer);
     clearInterval(repeatTimer);
-    document.removeEventListener("pointerup", stop);
+    document.removeEventListener("pointerup", finishTap);
     document.removeEventListener("pointercancel", stop);
     if (activePointerId !== null && button.hasPointerCapture?.(activePointerId)) {
       button.releasePointerCapture(activePointerId);
@@ -119,20 +129,25 @@ function createCursorMoveButton(position, label, ariaLabel, onMove) {
     holdTimer = null;
     repeatTimer = null;
     activePointerId = null;
+    holdActivated = false;
+    if (shouldMoveOnce) onMove();
   };
+  const finishTap = () => stop(true);
   button.addEventListener("pointerdown", (event) => {
     event.preventDefault();
     stop();
     activePointerId = event.pointerId;
     button.setPointerCapture?.(event.pointerId);
-    onMove();
+    // Delay the single move until release so a deliberate hold can take the
+    // separate trail-paint path without painting an ordinary navigation tap.
     holdTimer = setTimeout(() => {
-      repeatTimer = setInterval(onMove, 105);
+      holdActivated = true;
+      repeatTimer = setInterval(isTrailEnabled() ? onTrailMove : onMove, 105);
     }, 320);
-    document.addEventListener("pointerup", stop);
+    document.addEventListener("pointerup", finishTap);
     document.addEventListener("pointercancel", stop);
   });
-  button.addEventListener("pointerup", stop);
+  button.addEventListener("pointerup", finishTap);
   button.addEventListener("pointercancel", stop);
   button.addEventListener("lostpointercapture", stop);
   button.addEventListener("contextmenu", (event) => event.preventDefault());

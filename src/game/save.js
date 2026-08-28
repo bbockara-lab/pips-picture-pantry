@@ -163,6 +163,11 @@ export function getFeaturedJarId() {
   return jarId && save.ownedJarIds.includes(jarId) ? jarId : null;
 }
 
+export function getFeaturedJar() {
+  const jarId = getFeaturedJarId();
+  return jarId ? getJarById(jarId) : null;
+}
+
 export function getDailyCompletedDate() {
   return loadSave()?.dailyCompletedDate || null;
 }

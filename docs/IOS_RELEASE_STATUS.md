@@ -1,5 +1,11 @@
 # iOS Release Status
 
+## 2026-08-28 iOS 1.1.25 build 8 preparation
+
+- Next App Store update target: **1.1.25 build 8**, installed-app label **v0.1.719**.
+- Includes corrected D-pad hold-to-paint behavior, immediate/guarded Next Picture activation, and the simplified single Pantry display selection shared by the home and normal completion screens.
+- App Store 1.1.24 build 7 is already released; build 8 is a new upload lane.
+
 ## 2026-08-23 iOS 1.1.24 build 7 preparation
 
 - Next App Store update target: **1.1.24 build 7**, installed-app label **v0.1.718**.

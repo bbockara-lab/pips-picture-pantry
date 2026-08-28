@@ -20,7 +20,7 @@ export const PUZZLE_PRACTICE = Object.freeze({
 const GUIDE_STEPS = {
   puzzle: ["guide.puzzle.step1", "guide.puzzle.step2", "guide.puzzle.step3"],
   cursorControlsIntro: ["guide.cursorControlsIntro.step1", "guide.cursorControlsIntro.step2", "guide.cursorControlsIntro.step3"],
-  pantryJarIntro: ["guide.pantryJarIntro.step1", "guide.pantryJarIntro.step2", "guide.pantryJarIntro.step3"],
+  pantryJarIntro: ["guide.pantryJarIntro.step1", "guide.pantryJarIntro.step2"],
   timeAttack: ["guide.timeAttack.step1", "guide.timeAttack.step2", "guide.timeAttack.step3"],
   map: ["guide.map.step1", "guide.map.step2", "guide.map.step3"],
   spoonRunIntro: ["guide.spoonRunIntro.step1", "guide.spoonRunIntro.step2"],

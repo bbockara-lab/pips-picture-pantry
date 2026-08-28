@@ -185,15 +185,17 @@ function checkQaSaveIsolation() {
   expectIncludes("tests/save.test.js", "keeps a fresh Daily completion bounded", "fresh Daily reward and inventory regression test");
 }
 function checkFeaturedPantryJar() {
-  expectIncludes("src/game/save.js", "export function getEquippedJarForCurrentStage", "current stage selected jar helper");
   expectIncludes("src/ui/featuredPantryJar.js", "getJarArtUrl(jar.id)", "approved jar artwork mapping");
   expectIncludes("src/game/save.js", "export function setFeaturedJar", "owned jar home-display setter");
   expectIncludes("src/game/save.js", "export function getFeaturedJarId", "persisted home-display jar getter");
+  expectIncludes("src/game/save.js", "export function getFeaturedJar()", "shared displayed jar helper");
   expectIncludes("src/ui/pantryView.js", "setFeaturedJar(jar.id)", "Pantry jar home-display action");
   expectIncludes("src/ui/puzzleHubView.js", 'jarButton.addEventListener("click", () => onSelectView("pantry"))', "Workshop jar opens Pantry");
   expectIncludes("src/ui/puzzleHubView.js", 'keepsakeShelf.className = "home-keepsake-shelf"', "unified Workshop keepsake shelf");
-  expectIncludes("src/ui/puzzleView.js", "equippedJar: isTimeAttack", "regular completion jar selection");
-  expectIncludes("src/ui/pipReaction.js", "if (featuredJar) content.push(featuredJar)", "completion jar optional rendering");
+  expectIncludes("src/ui/puzzleView.js", "featuredJar: isTimeAttack", "regular completion displayed jar selection");
+  expectIncludes("src/ui/puzzleView.js", "getFeaturedJar()", "completion reuses the home-displayed jar");
+  expectIncludes("src/ui/pipReaction.js", "if (featuredJarCard) content.push(featuredJarCard)", "completion jar optional rendering");
+  expectExcludes("src/ui/pantryView.js", "setEquippedJar", "retired completion-only collectible selection");
   expectIncludes("src/styles.css", "v0.1.679 - meaningful featured Pantry jar", "featured Pantry jar presentation contract");
   expectIncludes("tests/featuredPantryJar.test.js", "Selected Pantry jar meaning", "featured jar regression test");
 }
@@ -205,10 +207,10 @@ function checkPantryJarGuide() {
   expectIncludes("src/ui/pantryView.js", "scheduleInitialJarDetailResume({", "guide-safe jar detail resume scheduler");
   expectIncludes("src/ui/pantryView.js", "guidePending: shouldShowPantryJarIntro()", "guide-open resume gate");
   expectExcludes("src/ui/pantryView.js", "openDetail(initialJar)", "guide-reentering initial jar path");
-  expectIncludes("src/ui/guideDialog.js", 'pantryJarIntro: ["guide.pantryJarIntro.step1", "guide.pantryJarIntro.step2", "guide.pantryJarIntro.step3"]', "three-step Pantry jar guide");
+  expectIncludes("src/ui/guideDialog.js", 'pantryJarIntro: ["guide.pantryJarIntro.step1", "guide.pantryJarIntro.step2"]', "two-step Pantry display guide");
   expectIncludes("src/data/mailboxMessages.js", '["guide-pantry-jar", "pantryJarIntro"]', "Pantry jar guide mailbox replay");
-  expectIncludes("src/i18n/en.js", "Display on home puts it beside me in the Puzzle Room.", "English home-display explanation");
-  expectIncludes("src/i18n/ko.js", "홈에 표시하기를 누르면 퍼즐방의 제 옆에 놓여요.", "Korean home-display explanation");
+  expectIncludes("src/i18n/en.js", "Display on home puts this collectible beside me in the Puzzle Room and on puzzle-completion screens.", "English home-display explanation");
+  expectIncludes("src/i18n/ko.js", "홈에 표시하기를 누르면 퍼즐방과 퍼즐 완료 화면에서 제 옆에 함께 나와요.", "Korean home-display explanation");
   expectIncludes("tests/pantryJarGuide.test.js", "resumes the exact selected jar detail", "Pantry jar guide lifecycle regression");
   expectIncludes("tests/pantryJarGuide.test.js", "does not schedule repeated frames or re-enter the guide while it is open", "Pantry guide render-loop regression test");
 }

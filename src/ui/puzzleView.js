@@ -10,8 +10,7 @@ import {
   undoLastMove
 } from "../game/puzzleState.js";
 import { getPuzzleExtraHintCost } from "../data/economyConfig.js";
-import { getSeasonShelfForPuzzle } from "../data/seasonShelves.js";
-import { getEquippedJarForCurrentStage, getPantrySpoons, loadPuzzleState, recordReplayReward, savePuzzleState, spendPantrySpoons } from "../game/save.js";
+import { getFeaturedJar, getPantrySpoons, loadPuzzleState, recordReplayReward, savePuzzleState, spendPantrySpoons } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { playComplete, playCursorAction, playCursorMove, playTap } from "./audio.js";
 import { getHintLimit, getHintRevealCount, renderHintPanel, renderHowToPlayCard, renderMarkHint } from "./puzzleAssistView.js";
@@ -107,16 +106,16 @@ export function renderPuzzleView(puzzle, options = {}) {
     const key = event.key;
     if (key === "ArrowUp") {
       event.preventDefault();
-      moveSelectedCell(state, -1, 0, puzzle.size, update, cursorControlSession);
+      moveSelectedCell(state, -1, 0, puzzle.size, update, cursorControlSession, { paintTrail: event.repeat });
     } else if (key === "ArrowDown") {
       event.preventDefault();
-      moveSelectedCell(state, 1, 0, puzzle.size, update, cursorControlSession);
+      moveSelectedCell(state, 1, 0, puzzle.size, update, cursorControlSession, { paintTrail: event.repeat });
     } else if (key === "ArrowLeft") {
       event.preventDefault();
-      moveSelectedCell(state, 0, -1, puzzle.size, update, cursorControlSession);
+      moveSelectedCell(state, 0, -1, puzzle.size, update, cursorControlSession, { paintTrail: event.repeat });
     } else if (key === "ArrowRight") {
       event.preventDefault();
-      moveSelectedCell(state, 0, 1, puzzle.size, update, cursorControlSession);
+      moveSelectedCell(state, 0, 1, puzzle.size, update, cursorControlSession, { paintTrail: event.repeat });
     } else if (key === " " || key === "Enter") {
       event.preventDefault();
       applyCursorAction(state, "fill", update, cursorControlSession);
@@ -174,9 +173,9 @@ export function renderPuzzleView(puzzle, options = {}) {
         dailyResult,
         rewardResult,
         stageBonus,
-        equippedJar: isTimeAttack
+        featuredJar: isTimeAttack
           ? null
-          : getEquippedJarForCurrentStage(getSeasonShelfForPuzzle(puzzle))
+          : getFeaturedJar()
       }));
       return;
     }

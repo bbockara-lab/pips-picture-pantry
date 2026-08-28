@@ -1,3 +1,9 @@
+## v0.1.719 Android 52 replacement — 2026-08-28
+
+- Rebuild target remains versionCode **52** / versionName **1.1.23** because versionCode 52 has not been uploaded to Play Console.
+- This candidate supersedes every earlier code-52 artifact and adds corrected D-pad hold-to-paint behavior, immediate/guarded Next Picture activation, and the simplified single Pantry display selection.
+- Installed-app label is **v0.1.719**. The signed artifact path and SHA-256 are recorded after packaging verification.
+
 ## v0.1.718 Android 52 rebuild — 2026-08-23
 
 - Rebuild target remains versionCode **52** / versionName **1.1.23** because the existing versionCode 52 AAB has not been uploaded to Play Console.

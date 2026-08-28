@@ -6,14 +6,12 @@ import {
   ensureStarterJars,
   getPantryGrowthBonusStatus,
   getCompletedPuzzleIds,
-  getEquippedJars,
   getFeaturedJarId,
   hasSeenGuide,
   getOwnedJarIds,
   getPaidJarCount,
   getPantrySpoons,
   isShelfUnlocked,
-  setEquippedJar,
   setFeaturedJar
 } from "../game/save.js";
 import { t } from "../i18n/index.js";
@@ -98,16 +96,14 @@ function renderJarVisual(jar, owned, compact = false) {
   return visual;
 }
 
-function renderJar(jar, ownedIds, equippedJars, onOpen) {
+function renderJar(jar, ownedIds, onOpen) {
   const owned = ownedIds.includes(jar.id);
-  const equipped = equippedJars[jar.shelfId] === jar.id;
   const button = document.createElement("button");
   button.type = "button";
   button.className = [
     "pantry-jar",
     "rarity-" + jar.rarity,
-    owned ? "owned" : "unowned",
-    equipped ? "equipped" : ""
+    owned ? "owned" : "unowned"
   ].join(" ");
   button.dataset.jarId = jar.id;
   button.setAttribute("aria-label", t("pantry.jar.openDetail", { item: t(jar.nameKey) }));
@@ -116,16 +112,12 @@ function renderJar(jar, ownedIds, equippedJars, onOpen) {
   if (!owned) {
     const price = appendTextElement(button, "span", "pantry-jar__price", "");
     appendSpoonLabel(price, t("pantry.jar.spoonCost", { count: jar.cost }), "tiny");
-  } else if (equipped) {
-    const status = appendTextElement(button, "span", "pantry-jar__status", t("pantry.jar.equipped"));
-    status.dataset.status = "selected";
-    status.title = t("pantry.jar.equipped");
   }
   button.addEventListener("click", () => onOpen(jar));
   return button;
 }
 
-function renderShelf(shelf, ownedIds, equippedJars, onOpen) {
+function renderShelf(shelf, ownedIds, onOpen) {
   const section = document.createElement("section");
   const shelfJars = getJarsByShelf(shelf.id);
   const ownedCount = shelfJars.filter((jar) => ownedIds.includes(jar.id)).length;
@@ -157,7 +149,7 @@ function renderShelf(shelf, ownedIds, equippedJars, onOpen) {
   const row = document.createElement("div");
   row.className = "pantry-shelf__jars";
   getJarsByShelf(shelf.id).forEach((jar) => {
-    row.appendChild(renderJar(jar, ownedIds, equippedJars, onOpen));
+    row.appendChild(renderJar(jar, ownedIds, onOpen));
   });
   const board = document.createElement("div");
   board.className = "pantry-shelf__board";
@@ -179,9 +171,8 @@ function createDetailPanel() {
   return { backdrop, panel };
 }
 
-function showJarDetail({ backdrop, panel, jar, ownedIds, equippedJars, onRefresh, onFirstPurchase, onOpenSpoonStore }) {
+function showJarDetail({ backdrop, panel, jar, ownedIds, onRefresh, onFirstPurchase, onOpenSpoonStore }) {
   const owned = ownedIds.includes(jar.id);
-  const equipped = equippedJars[jar.shelfId] === jar.id;
   const shelf = JAR_SHELVES.find((candidate) => candidate.id === jar.shelfId);
   const spoons = getPantrySpoons();
   panel.replaceChildren();
@@ -213,9 +204,10 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, equippedJars, onRefresh
 
   const actions = document.createElement("div");
   actions.className = "pantry-jar-detail__actions";
-  const primary = document.createElement("button");
-  primary.type = "button";
+  let primary = null;
   if (!owned) {
+    primary = document.createElement("button");
+    primary.type = "button";
     const affordable = spoons >= jar.cost;
     primary.className = "pantry-jar-detail__btn-buy";
     if (affordable) {
@@ -244,19 +236,6 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, equippedJars, onRefresh
         onRefresh?.();
       }
     });
-  } else if (!equipped) {
-    primary.className = "pantry-jar-detail__btn-equip";
-    primary.textContent = t("pantry.jar.equipAction");
-    primary.addEventListener("click", () => {
-      if (setEquippedJar(jar.shelfId, jar.id)) {
-        close();
-        onRefresh?.();
-      }
-    });
-  } else {
-    primary.className = "pantry-jar-detail__btn-equipped";
-    primary.textContent = t("pantry.jar.equipped");
-    primary.disabled = true;
   }
 
   const closeButton = document.createElement("button");
@@ -268,7 +247,8 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, equippedJars, onRefresh
     backdrop.hidden = true;
   };
   closeButton.addEventListener("click", close);
-  actions.appendChild(primary);
+  if (primary) actions.appendChild(primary);
+  let focusTarget = primary;
   if (owned) {
     const featured = getFeaturedJarId() === jar.id;
     const homeButton = document.createElement("button");
@@ -283,6 +263,7 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, equippedJars, onRefresh
       }
     });
     actions.appendChild(homeButton);
+    focusTarget = homeButton;
   }
   actions.appendChild(closeButton);
   panel.append(header, effect, actions);
@@ -290,7 +271,7 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, equippedJars, onRefresh
   backdrop.hidden = false;
   requestAnimationFrame(() => {
     backdrop.classList.add("visible");
-    primary.focus();
+    (focusTarget || closeButton).focus();
   });
   backdrop.onclick = (event) => {
     if (event.target === backdrop) close();
@@ -333,7 +314,6 @@ export function renderPantryView(
 ) {
   ensureStarterJars();
   const ownedIds = getOwnedJarIds();
-  const equippedJars = getEquippedJars();
   const growthStatus = getPantryGrowthBonusStatus();
   const panel = document.createElement("section");
   panel.className = "pantry-panel pantry-jar-panel content-panel";
@@ -365,13 +345,12 @@ export function renderPantryView(
       ...detail,
       jar,
       ownedIds,
-      equippedJars,
       onRefresh,
       onFirstPurchase,
       onOpenSpoonStore
     });
   };
-  JAR_SHELVES.forEach((shelf) => shelves.appendChild(renderShelf(shelf, ownedIds, equippedJars, openDetail)));
+  JAR_SHELVES.forEach((shelf) => shelves.appendChild(renderShelf(shelf, ownedIds, openDetail)));
 
   panel.append(header);
   if (onboarding) panel.appendChild(onboarding);
@@ -389,7 +368,6 @@ export function renderPantryView(
       ...detail,
       jar,
       ownedIds,
-      equippedJars,
       onRefresh,
       onFirstPurchase,
       onOpenSpoonStore

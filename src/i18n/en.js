@@ -339,9 +339,8 @@ export const en = {
     },
     pantryJarIntro: {
       speakerName: "Pip",
-      step1: "Select this collectible to place it beside me on the puzzle-completion screen for this shelf's stage.",
-      step2: "Display on home puts it beside me in the Puzzle Room. You can change either choice anytime!",
-      step3: "Activate effect is a separate choice. Finish eligible pictures to fill its progress and earn the shown bonus spoons."
+      step1: "Display on home puts this collectible beside me in the Puzzle Room and on puzzle-completion screens.",
+      step2: "Complete a Pantry shelf to raise your extra-spoon chance. Your display choice never changes the odds!"
     },
     spoonRunIntro: {
       speakerName: "Pip",
@@ -787,10 +786,8 @@ export const en = {
       openDetail: "View {item}",
       spoonCost: "{count} 🥄",
       shelfLabel: "{shelf}",
-      equipped: "Selected ✓",
       buyAction: "Buy for {count} 🥄",
       needSpoons: "Need {count} more spoons",
-      equipAction: "Select this collectible",
       close: "Close",
       featureOnHome: "Display on home",
       featuredOnHome: "Displayed on home",

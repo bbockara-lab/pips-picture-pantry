@@ -1,3 +1,12 @@
+## v0.1.719 / iOS 1.1.25 and Android 1.1.23 interaction and Pantry clarity release (2026-08-28)
+
+- Corrected D-pad continuous painting: a quick direction tap only moves the cursor, while painting begins after a deliberate hold and continues as the cursor repeats. Turning the trail option off always keeps direction movement paint-free.
+- Made the post-completion Next Picture action respond immediately and ignore duplicate activation while the next puzzle is loading.
+- Removed the ambiguous separate Pantry collectible selection/effect controls. The collectible chosen with Home Display is now the single active display used beside Pip on the home screen and normal puzzle completion screens; shelf-completion bonus probability remains independent.
+- Updated the Pantry guide and bilingual copy to match the simplified display behavior, while retaining legacy save fields only for safe migration of existing players.
+- Prepared installed-app label `v0.1.719`, iOS `1.1.25` build `8`, and a rebuilt Android `versionCode 52` / `versionName 1.1.23` candidate because code 52 has not yet been uploaded.
+- Verification passed before packaging: 67 Vitest files / 408 tests, 3 Functions tests, production build, Android/iOS release identity gates, and mobile visual QA at 360x740, 390x844, 430x932, and 675x900.
+
 ## v0.1.718 / iOS 1.1.24 and Android 1.1.23 rebuilt candidate (2026-08-23)
 
 - Fixed the released-iPhone Workshop header collision by reserving the mailbox/settings lane for the controls and stacking only the spoon HUD on 360px devices.

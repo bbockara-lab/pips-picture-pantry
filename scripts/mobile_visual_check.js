@@ -3478,7 +3478,7 @@ async function verifyPantryPlacement(page, viewportName) {
       jarCount: jars.length,
       starterCount: jars.filter((jar) => jar.classList.contains("rarity-starter")).length,
       ownedStarterCount: jars.filter((jar) => jar.classList.contains("rarity-starter") && jar.classList.contains("owned")).length,
-      equippedStarterCount: jars.filter((jar) => jar.classList.contains("rarity-starter") && jar.classList.contains("equipped")).length,
+      completionOnlySelectionCount: jars.filter((jar) => jar.classList.contains("equipped")).length,
       jarOverflowCount: jars.filter((jar) => jar.scrollWidth > jar.clientWidth + 1).length,
       jarNameCount: jars.filter((jar) => jar.querySelector(".pantry-jar__name")).length,
       twoLineNameContractCount: jars.filter((jar) => {
@@ -3505,7 +3505,7 @@ async function verifyPantryPlacement(page, viewportName) {
     || metrics.jarCount !== 84
     || metrics.starterCount !== 14
     || metrics.ownedStarterCount !== 14
-    || metrics.equippedStarterCount !== 14
+    || metrics.completionOnlySelectionCount !== 0
     || metrics.jarOverflowCount
     || metrics.jarNameCount !== 84
     || metrics.twoLineNameContractCount !== 84
@@ -3523,6 +3523,9 @@ async function verifyPantryPlacement(page, viewportName) {
     await firstOwnedJar.click();
     await dismissGuideIfPresent(page, viewportName);
     await page.locator(".pantry-jar-detail-backdrop.visible").waitFor({ state: "visible", timeout: 2000 });
+    if ((await page.locator(".pantry-jar-detail__btn-equip, .pantry-jar-detail__btn-equipped, .pantry-jar-detail__btn-effect").count()) !== 0) {
+      failures.push("[" + viewportName + "] Retired completion-only selection/effect action is still visible.");
+    }
     const featureJarButton = page.locator(".pantry-jar-detail__btn-feature");
     if (!(await featureJarButton.count())) {
       failures.push("[" + viewportName + "] Owned Pantry jar detail omitted the home display action.");
