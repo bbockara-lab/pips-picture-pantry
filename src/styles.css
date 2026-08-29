@@ -18343,12 +18343,31 @@ body.guide-open {
 
 .pantry-jar-detail__effect {
   display: grid;
-  gap: 5px;
+  gap: 7px;
   margin: 0 0 14px;
-  padding: 12px 14px;
+  padding: 13px 15px 14px;
   border: 1px solid rgba(154, 100, 40, 0.24);
   border-radius: 14px;
   background: linear-gradient(135deg, rgba(255, 247, 207, 0.78), rgba(226, 246, 228, 0.72));
+}
+
+.pantry-jar-detail__effect-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pantry-jar-detail__effect-label {
+  color: var(--jar-ink);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.pantry-jar-detail__effect-chance {
+  color: #9b6416;
+  font-size: 1.16rem;
+  line-height: 1;
 }
 
 .pantry-jar-detail__effect p,
@@ -18364,9 +18383,13 @@ body.guide-open {
   line-height: 1.35;
 }
 
+.pantry-jar-detail__effect-progress {
+  font-weight: 800;
+}
+
 .pantry-jar-detail__actions {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 10px;
 }
 
@@ -18380,9 +18403,57 @@ body.guide-open {
 }
 
 .pantry-jar-detail__btn-buy {
+  grid-column: 1 / -1;
   border: 0 !important;
   background: #c8920a !important;
   color: #fff !important;
+}
+
+.pantry-jar-panel .pantry-jar-detail__btn-buy.is-shortfall {
+  display: grid !important;
+  grid-template-columns: 42px minmax(0, 1fr) 20px;
+  align-items: center;
+  min-height: 64px !important;
+  padding: 9px 14px 9px 10px !important;
+  text-align: left;
+  background: linear-gradient(180deg, #e5a800 0%, #ce8d00 100%) !important;
+  box-shadow: 0 4px 0 rgba(128, 79, 0, 0.2);
+}
+
+.pantry-jar-detail__shortfall-icon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.pantry-jar-detail__shortfall-copy {
+  display: grid;
+  gap: 1px;
+}
+
+.pantry-jar-detail__shortfall-copy strong,
+.pantry-jar-detail__shortfall-copy small {
+  color: inherit;
+  line-height: 1.25;
+}
+
+.pantry-jar-detail__shortfall-copy strong {
+  font-size: 0.92rem;
+}
+
+.pantry-jar-detail__shortfall-copy small {
+  font-size: 0.73rem;
+  font-weight: 800;
+  opacity: 0.9;
+}
+
+.pantry-jar-detail__shortfall-arrow {
+  font-size: 1.7rem;
+  line-height: 1;
+  text-align: right;
 }
 
 .pantry-jar-detail__btn-close {

@@ -15,7 +15,7 @@ import {
   setFeaturedJar
 } from "../game/save.js";
 import { t } from "../i18n/index.js";
-import { appendSpoonLabel } from "./spoonIcon.js";
+import { appendSpoonLabel, createSpoonIcon } from "./spoonIcon.js";
 import "../styles/pantryJarArt.css";
 import "../styles/pantrySpoon.css";
 import "../styles/pantryShelfCelebration.css";
@@ -193,11 +193,23 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, onRefresh, onFirstPurch
   const growthStatus = getPantryGrowthBonusStatus();
   const effect = document.createElement("div");
   effect.className = "pantry-jar-detail__effect";
-  appendTextElement(effect, "p", "", t("pantry.jar.growthEffectDescription", {
-    chance: growthStatus.chance,
-    reward: growthStatus.reward
+  const effectHeading = document.createElement("div");
+  effectHeading.className = "pantry-jar-detail__effect-heading";
+  appendTextElement(effectHeading, "span", "pantry-jar-detail__effect-label", t("pantry.jar.growthEffectLabel"));
+  appendTextElement(effectHeading, "strong", "pantry-jar-detail__effect-chance", t("pantry.jar.growthEffectChance", {
+    chance: growthStatus.chance
   }));
-  appendTextElement(effect, "strong", "", t("pantry.jar.growthEffectProgress", {
+  effect.appendChild(effectHeading);
+  appendTextElement(effect, "p", "pantry-jar-detail__effect-description", t(
+    growthStatus.chance > 0
+      ? "pantry.jar.growthEffectDescription"
+      : "pantry.jar.growthEffectDescriptionLocked",
+    {
+      chance: growthStatus.chance,
+      reward: growthStatus.reward
+    }
+  ));
+  appendTextElement(effect, "small", "pantry-jar-detail__effect-progress", t("pantry.jar.growthEffectProgress", {
     completed: growthStatus.completedShelves,
     cap: growthStatus.futureShelfCap
   }));
@@ -213,7 +225,18 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, onRefresh, onFirstPurch
     if (affordable) {
       appendSpoonLabel(primary, t("pantry.jar.buyAction", { count: jar.cost }), "small");
     } else {
-      primary.textContent = t("pantry.jar.needSpoons", { count: jar.cost - spoons });
+      primary.classList.add("is-shortfall");
+      const icon = document.createElement("span");
+      icon.className = "pantry-jar-detail__shortfall-icon";
+      icon.appendChild(createSpoonIcon("small"));
+      const copy = document.createElement("span");
+      copy.className = "pantry-jar-detail__shortfall-copy";
+      appendTextElement(copy, "strong", "", t("pantry.jar.needSpoons", { count: jar.cost - spoons }));
+      appendTextElement(copy, "small", "", t("pantry.jar.openSpoonStore"));
+      const arrow = appendTextElement(primary, "span", "pantry-jar-detail__shortfall-arrow", "›");
+      arrow.setAttribute("aria-hidden", "true");
+      primary.prepend(icon, copy);
+      primary.setAttribute("aria-label", t("pantry.jar.needSpoonsAction", { count: jar.cost - spoons }));
     }
     primary.addEventListener("click", () => {
       if (!affordable) {
