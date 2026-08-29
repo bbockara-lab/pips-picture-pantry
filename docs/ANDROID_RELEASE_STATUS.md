@@ -3,7 +3,9 @@
 - Play Console rejected the previous candidate because versionCode **52** had already been used. The replacement target is versionCode **53** / versionName **1.1.23**.
 - Current prepared upload target: versionCode 53 / versionName 1.1.23.
 - This candidate supersedes every earlier code-52 artifact and keeps the same verified v0.1.719 app content: corrected D-pad hold-to-paint behavior, immediate/guarded Next Picture activation, the simplified single Pantry display selection, and the clarified Pantry picture-bonus/shortfall actions.
-- Installed-app label is **v0.1.719**. The signed artifact path and SHA-256 are recorded after packaging verification.
+- Installed-app label is **v0.1.719**.
+- Upload-ready signed AAB: `release-artifacts/android-1.1.23-53-v0.1.719-controls-next-pantry/Pips-Picture-Pantry-1.1.23-53.aab` (24,668,401 bytes).
+- SHA-256: `273EC1D6E1486C440A4B04C5DA30C835524B7EFE3FEA40459F74F4624C87430E`; `jarsigner` verification passed and the release bundle manifest reports versionCode 53 / versionName 1.1.23.
 
 ## v0.1.718 Android 52 rebuild — 2026-08-23
 
