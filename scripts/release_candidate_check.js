@@ -19,6 +19,10 @@ const checks = [
   ["store listing", "npm run qa:store-listing"],
   ["billing", "npm run qa:billing"],
   ["privacy policy", "npm run qa:privacy"],
+  ["Telegram idea reconciliation", "npm run qa:telegram-ideas"],
+  ["Korean Harvest runtime audio", "npm run qa:audio"],
+  ["Korean Harvest store event", "npm run qa:harvest-event"],
+  ["remote update policy", "npm run qa:update-policy"],
   ["build", "npm run build"],
   ["Android release gate", "npm run qa:release"],
   ["iOS release gate", "npm run qa:ios-release"]

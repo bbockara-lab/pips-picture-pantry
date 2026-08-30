@@ -29,10 +29,11 @@ describe("Time Attack exit recovery", () => {
     expect(appShellSource).toContain("renderTimeAttackCountdown(timeAttackCountdownStep)");
   });
 
-  it("suppresses music for countdown and play, then restores it through cleanup", () => {
-    expect(appShellSource).toMatch(/function startTimeAttackCountdown\(\)[\s\S]*?setMusicSuppressed\(true\)/);
-    expect(appShellSource).toMatch(/function startTimeAttackRun\(\)[\s\S]*?setMusicSuppressed\(true\)/);
+  it("keeps authored Time Attack music active and restores regular scenes through cleanup", () => {
+    expect(appShellSource).toMatch(/function startTimeAttackCountdown\(\)[\s\S]*?setMusicSuppressed\(false\)/);
+    expect(appShellSource).toMatch(/function startTimeAttackRun\(\)[\s\S]*?setMusicSuppressed\(false\)/);
     expect(appShellSource).toMatch(/function clearTimeAttackSession\(\)[\s\S]*?setMusicSuppressed\(false\)/);
+    expect(appShellSource).toContain('if (activeView === "timeAttack") return "timeAttack"');
   });
 
   it("keeps and restores the regular puzzle around a Time Attack run", () => {

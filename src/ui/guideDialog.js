@@ -1,7 +1,5 @@
 import pipGuideSceneUrl from "../assets/characters/pip-chrome-v2.png";
 import mrParkArtUrl from "../assets/characters/story-friend-mr-park-v1.png";
-import lilyArtUrl from "../assets/characters/story-friend-lily-v1.png";
-import mateoArtUrl from "../assets/characters/story-friend-mateo-v1.png";
 import { isRuntimeGuideArtApproved } from "../data/runtimeArt.js";
 import { createPuzzleState } from "../game/puzzleState.js";
 import { t } from "../i18n/index.js";
@@ -24,17 +22,10 @@ const GUIDE_STEPS = {
   timeAttack: ["guide.timeAttack.step1", "guide.timeAttack.step2", "guide.timeAttack.step3"],
   map: ["guide.map.step1", "guide.map.step2", "guide.map.step3"],
   spoonRunIntro: ["guide.spoonRunIntro.step1", "guide.spoonRunIntro.step2"],
-  pantryFirstPurchase: ["guide.pantryFirstPurchase.step1", "guide.pantryFirstPurchase.step2", "guide.pantryFirstPurchase.step3"],
-  pantryRoomStory: ["guide.pantryRoomStory.step1", "guide.pantryRoomStory.step2", "guide.pantryRoomStory.step3"],
-  pantryNeighborMrPark: ["guide.pantryNeighborMrPark.step1", "guide.pantryNeighborMrPark.step2", "guide.pantryNeighborMrPark.step3"],
-  pantryNeighborLily: ["guide.pantryNeighborLily.step1", "guide.pantryNeighborLily.step2", "guide.pantryNeighborLily.step3"],
-  pantryNeighborMateo: ["guide.pantryNeighborMateo.step1", "guide.pantryNeighborMateo.step2", "guide.pantryNeighborMateo.step3"]
+  pantryFirstPurchase: ["guide.pantryFirstPurchase.step1", "guide.pantryFirstPurchase.step2", "guide.pantryFirstPurchase.step3"]
 };
 const NEIGHBOR_GUIDE_CLASSES = {
-  timeAttack: { className: "mr-park", assetId: "story-friend-mr-park-v1", url: mrParkArtUrl },
-  pantryNeighborMrPark: { className: "mr-park", assetId: "story-friend-mr-park-v1", url: mrParkArtUrl },
-  pantryNeighborLily: { className: "lily", assetId: "story-friend-lily-v1", url: lilyArtUrl },
-  pantryNeighborMateo: { className: "mateo", assetId: "story-friend-mateo-v1", url: mateoArtUrl }
+  timeAttack: { className: "mr-park", assetId: "story-friend-mr-park-v1", url: mrParkArtUrl }
 };
 const GUIDE_SPEAKER_NAME_KEYS = {
   puzzle: "guide.puzzle.speakerName",
@@ -198,7 +189,7 @@ function createCursorControlsPreview() {
   return { element };
 }
 
-export function renderAllPuzzlesDoneDialog({ onPantry, onSpoonRun }) {
+export function renderAllPuzzlesDoneDialog({ onPantry }) {
   const overlay = document.createElement("div");
   overlay.className = "guide-overlay guide-overlay--all-puzzles-done";
   overlay.setAttribute("role", "dialog");
@@ -238,12 +229,7 @@ export function renderAllPuzzlesDoneDialog({ onPantry, onSpoonRun }) {
   pantryButton.className = "guide-dialog__destination guide-dialog__destination--pantry";
   pantryButton.textContent = t("guide.goToPantry");
   pantryButton.addEventListener("click", onPantry);
-  const spoonRunButton = document.createElement("button");
-  spoonRunButton.type = "button";
-  spoonRunButton.className = "guide-dialog__destination guide-dialog__destination--spoon-run";
-  spoonRunButton.textContent = t("guide.goToSpoonRun");
-  spoonRunButton.addEventListener("click", onSpoonRun);
-  actions.append(pantryButton, spoonRunButton);
+  actions.append(pantryButton);
   bubble.append(title, hint, actions);
   card.appendChild(bubble);
   overlay.appendChild(card);

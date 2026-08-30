@@ -6,10 +6,10 @@ import {
   isKoreanHarvestContentRuntimeReady
 } from "../src/data/koreanHarvestContent.js";
 
-describe("Korean Harvest candidate content", () => {
-  it("stays isolated from runtime until theme, content, and reward art are approved", () => {
-    expect(KOREAN_HARVEST_CONTENT.status).toBe("candidate");
-    expect(isKoreanHarvestContentRuntimeReady()).toBe(false);
+describe("Korean Harvest live content", () => {
+  it("publishes only after theme, content, and reward art are approved", () => {
+    expect(KOREAN_HARVEST_CONTENT.status).toBe("live");
+    expect(isKoreanHarvestContentRuntimeReady()).toBe(true);
     expect(KOREAN_HARVEST_CONTENT.mailboxLetter.unlockRule).toBe("theme-live");
   });
 
@@ -19,6 +19,11 @@ describe("Korean Harvest candidate content", () => {
     expect(KOREAN_HARVEST_CONTENT.localization.eventTitle.ko).toContain("추석");
     expect(KOREAN_HARVEST_CONTENT.mailboxLetter.body.en.length).toBeGreaterThan(100);
     expect(KOREAN_HARVEST_CONTENT.mailboxLetter.body.ko.length).toBeGreaterThan(80);
+    expect(KOREAN_HARVEST_CONTENT.welcomeGift).toMatchObject({
+      id: "korean-harvest-2026-welcome-gift",
+      spoons: 50,
+      localDateWindow: { start: "2026-09-17", end: "2026-10-04" }
+    });
   });
 
   it("unlocks one pantry reward after each four-puzzle chapter", () => {

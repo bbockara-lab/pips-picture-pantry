@@ -14,14 +14,14 @@ class LocalStorageMock {
 describe("Pip's Mailbox", () => {
   beforeEach(() => { globalThis.localStorage = new LocalStorageMock(); });
 
-  it("ships a developer letter and archives every existing guide story", () => {
+  it("ships a developer letter and archives only current guide stories", () => {
     expect(MAILBOX_MESSAGES[0]).toMatchObject({ id: "developer-welcome-2026-08", kind: "letter" });
-    expect(MAILBOX_MESSAGES.filter((message) => message.guideId)).toHaveLength(11);
+    expect(MAILBOX_MESSAGES.filter((message) => message.guideId)).toHaveLength(7);
   });
 
-  it("keeps the Korean Harvest letter hidden while the season is a candidate", () => {
-    expect(getRuntimeSeasonalMailboxMessages()).toEqual([]);
-    expect(getUnlockedMailboxMessages().some((message) => message.id === "developer-korean-harvest-2026")).toBe(false);
+  it("publishes Pip's Korean Harvest letter with the live event", () => {
+    expect(getRuntimeSeasonalMailboxMessages()).toHaveLength(1);
+    expect(getUnlockedMailboxMessages().some((message) => message.id === "developer-korean-harvest-2026")).toBe(true);
   });
 
   it("archives story messages only after their in-game guide has been seen", () => {
@@ -30,10 +30,9 @@ describe("Pip's Mailbox", () => {
     expect(messages.map((message) => message.id)).toEqual([
       "developer-welcome-2026-08",
       "guide-puzzle",
-      "story-mr-park"
+      "developer-korean-harvest-2026"
     ]);
-    expect(messages.some((message) => message.id === "story-lily")).toBe(false);
-    expect(messages.some((message) => message.id === "story-mateo")).toBe(false);
+    expect(messages.some((message) => message.id === "story-mr-park")).toBe(false);
   });
 
   it("stores stable read message IDs in the active local save", () => {

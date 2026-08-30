@@ -1,5 +1,13 @@
 # iOS Release Status
 
+## 2026-08-29 iOS 1.1.26 build 9 Korean Harvest release
+
+- Next App Store update target: **1.1.26 build 9**, installed-app label **v0.1.720**; Android is aligned at **1.1.26 / versionCode 54**.
+- Includes the 16-picture Korean Harvest event, four event shelves and keepsakes, Pip’s one-time 50-spoon Chuseok gift (September 17–October 4), dedicated seasonal home/gift artwork, and the complete authored music and sound-effect catalog.
+- Also includes the held-direction D-pad correction, reliable first-tap Next Picture navigation, current-state Pantry guidance, and the single Home Display collectible model.
+- Do not make this build mandatory until both iOS build 9 and Android code 54 are publicly downloadable in every intended region. The pre-release hosted policy keeps iOS build 8 and Android code 53 supported.
+- Release artifact path reserved: `release-artifacts/ios-1.1.26-9-v0.1.720-korean-harvest/export/App.ipa`.
+
 ## 2026-08-28 iOS 1.1.25 build 8 preparation
 
 - Next App Store update target: **1.1.25 build 8**, installed-app label **v0.1.719**.

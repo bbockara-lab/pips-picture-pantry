@@ -133,7 +133,8 @@ describe("puzzle data", () => {
     expect(progressionPuzzles.length).toBeGreaterThanOrEqual(100);
     expect(progressionPacks.length).toBeGreaterThanOrEqual(5);
     progressionPacks.forEach((pack) => {
-      expect(puzzles.filter((puzzle) => puzzle.packId === pack.id).length).toBeGreaterThanOrEqual(20);
+      const minimumCatalogSize = pack.monetizationRole === "seasonal-event" ? 16 : 20;
+      expect(puzzles.filter((puzzle) => puzzle.packId === pack.id).length).toBeGreaterThanOrEqual(minimumCatalogSize);
     });
   });
 

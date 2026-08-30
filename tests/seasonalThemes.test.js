@@ -10,25 +10,25 @@ import {
 } from "../src/data/seasonalThemes.js";
 
 describe("seasonal theme registry", () => {
-  it("keeps the shipped summer theme as the only live theme", () => {
+  it("keeps Korean Harvest as the only live theme for the seasonal release", () => {
     const liveTheme = getLiveSeasonalTheme();
     expect(seasonalThemes.filter((theme) => theme.status === THEME_STATUS.LIVE)).toHaveLength(1);
-    expect(liveTheme?.id).toBe("summer");
+    expect(liveTheme?.id).toBe("korean-harvest");
     expect(isSeasonalThemeRuntimeReady(liveTheme)).toBe(true);
   });
 
-  it("keeps Korean Harvest gated until its complete content slice is approved", () => {
+  it("publishes Korean Harvest with Pip baked into the approved home scene", () => {
     const harvest = getSeasonalTheme("korean-harvest");
-    expect(harvest?.status).toBe(THEME_STATUS.CANDIDATE);
+    expect(harvest?.status).toBe(THEME_STATUS.LIVE);
     expect(harvest?.pipPresence).toBe("baked-in");
-    expect(isSeasonalThemeRuntimeReady(harvest)).toBe(false);
+    expect(isSeasonalThemeRuntimeReady(harvest)).toBe(true);
   });
 
-  it("resolves presentation from pack ids without exposing candidates", () => {
-    expect(getSeasonalThemeForPack("summer-pantry")?.id).toBe("summer");
-    expect(getSeasonalThemeForPack("korean-harvest")).toBeNull();
+  it("resolves presentation from pack ids without reviving archived themes", () => {
+    expect(getSeasonalThemeForPack("summer-pantry")).toBeNull();
+    expect(getSeasonalThemeForPack("korean-harvest")?.id).toBe("korean-harvest");
     expect(getSeasonalThemeForPack("korean-harvest", { includeCandidates: true })?.id).toBe("korean-harvest");
-    expect(getSeasonalThemeLabel(getLiveSeasonalTheme(), (key) => key)).toBe("☀ home.summerEventWeek");
+    expect(getSeasonalThemeLabel(getLiveSeasonalTheme(), (key) => key)).toBe("◐ home.koreanHarvestEvent");
   });
 
   it("rejects an incomplete live companion theme", () => {

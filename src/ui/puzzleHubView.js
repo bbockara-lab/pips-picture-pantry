@@ -74,29 +74,43 @@ export function getPantryHomeProgress(jars = PANTRY_JARS, paidJarCount = getPaid
 export function getPuzzleHubOpenDecision(
   activePuzzle,
   completedPuzzleIds = getCompletedPuzzleIds(),
-  shelfUnlocked = isShelfUnlocked
+  shelfUnlocked = isShelfUnlocked,
+  { resumeFromLastCompleted = true } = {}
 ) {
-  const completed = completedPuzzleIds instanceof Set
-    ? completedPuzzleIds
-    : new Set(completedPuzzleIds || []);
-  const currentShelf = getSeasonShelfForPuzzle(activePuzzle);
-  if (!currentShelf || !isSeasonShelfComplete(currentShelf, completed)) {
-    return { type: "open", puzzle: activePuzzle };
+  const completionOrder = completedPuzzleIds instanceof Set
+    ? [...completedPuzzleIds]
+    : [...(completedPuzzleIds || [])];
+  const completed = new Set(completionOrder);
+  const progressionPuzzles = seasonShelves.flatMap((shelf) => getSeasonShelfPuzzles(shelf));
+  const lastCompletedId = resumeFromLastCompleted
+    ? [...completionOrder].reverse().find((puzzleId) => progressionPuzzles.some((puzzle) => puzzle.id === puzzleId))
+    : null;
+  const anchorId = resumeFromLastCompleted ? lastCompletedId : activePuzzle?.id;
+  const anchorIndex = progressionPuzzles.findIndex((puzzle) => puzzle.id === anchorId);
+  const searchOrder = anchorIndex >= 0
+    ? [...progressionPuzzles.slice(anchorIndex + 1), ...progressionPuzzles.slice(0, anchorIndex + 1)]
+    : progressionPuzzles;
+  const nextPlayable = searchOrder.find((puzzle) => (
+    !completed.has(puzzle.id) && shelfUnlocked(getSeasonShelfForPuzzle(puzzle))
+  ));
+  if (nextPlayable) {
+    return { type: "open", puzzle: nextPlayable };
   }
 
-  const nextShelf = seasonShelves[currentShelf.index + 1] || null;
-  if (!nextShelf) {
-    return { type: "open", puzzle: activePuzzle };
-  }
-  if (!shelfUnlocked(nextShelf)) {
-    return { type: "unlock-guide", currentShelf, nextShelf };
+  const nextLockedShelf = seasonShelves.find((shelf) => {
+    if (shelfUnlocked(shelf)) return false;
+    const previousShelf = getPreviousSeasonShelf(shelf);
+    return Boolean(previousShelf) && isSeasonShelfComplete(previousShelf, completed);
+  });
+  if (nextLockedShelf) {
+    return {
+      type: "unlock-guide",
+      currentShelf: getPreviousSeasonShelf(nextLockedShelf),
+      nextShelf: nextLockedShelf
+    };
   }
 
-  const nextShelfPuzzles = getSeasonShelfPuzzles(nextShelf);
-  const nextPuzzle = nextShelfPuzzles.find((puzzle) => !completed.has(puzzle.id))
-    || nextShelfPuzzles[0]
-    || activePuzzle;
-  return { type: "open", puzzle: nextPuzzle };
+  return { type: "complete", puzzle: activePuzzle || progressionPuzzles[0] || null };
 }
 
 export function renderPuzzleHub(activePuzzle, options = {}) {
@@ -104,6 +118,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     onOpenPuzzle = () => {},
     onShowList = () => {},
     onSelectView = () => {},
+    onOpenFeaturedJar = () => {},
     onOpenSettings = () => {},
     onOpenMailbox = () => {},
     unreadMailboxCount = 0,
@@ -216,7 +231,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
         }));
         jarButton.appendChild(bonusBadge);
       }
-      jarButton.addEventListener("click", () => onSelectView("pantry"));
+      jarButton.addEventListener("click", () => onOpenFeaturedJar(featuredJar));
       keepsakeShelf.appendChild(jarButton);
     }
 
@@ -650,6 +665,11 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {})
     }
     if (isStageComplete) {
       appendTextElement(headerCopy, "span", "pack-stage-complete-badge", `✓ ${t("puzzlePicker.stageComplete")}`);
+      if (collapsed) {
+        appendTextElement(headerCopy, "p", "pack-stage-complete-summary", t("puzzlePicker.completedShelfSummary", {
+          count: shelfPuzzles.length
+        }));
+      }
     }
     header.append(headerCopy, createShelfCollapseToggle(shelf, collapsed, contentId, onToggleShelfCollapsed));
     packBlock.appendChild(header);

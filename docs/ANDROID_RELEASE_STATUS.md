@@ -1,3 +1,13 @@
+## v0.1.720 Android 54 Korean Harvest release — 2026-08-29
+
+- Last Play Console upload: versionCode **53** / versionName **"1.1.23"** (released before this seasonal candidate).
+- Current prepared upload target: versionCode 54 / versionName 1.1.26.
+- Shared seasonal identity: installed-app label **v0.1.720**, iOS **1.1.26 build 9**.
+- Scope: live 16-picture Korean Harvest event, four event shelves and rewards, Pip-led Chuseok home art, one-time 50-spoon gift during September 17–October 4, authored BGM/SFX, corrected D-pad held-paint behavior, reliable Next Picture navigation, and simplified Pantry display/bonus guidance.
+- Mandatory-update safety: upload both stores first with `minimumSupportedBuild` kept at the currently public Android 53 / iOS 8. Raise the hosted minimum to Android 54 / iOS 9 only after both exact builds are publicly downloadable in all intended regions. Roll back immediately if either store or build becomes unavailable.
+- Release artifact path reserved: `release-artifacts/android-1.1.26-54-v0.1.720-korean-harvest/Pips-Picture-Pantry-1.1.26-54.aab`.
+- Verification and SHA-256 are recorded in the packaging handoff after the signed bundle is produced from the final release commit.
+
 ## v0.1.719 Android 53 Play replacement — 2026-08-28
 
 - Play Console rejected the previous candidate because versionCode **52** had already been used. The replacement target is versionCode **53** / versionName **1.1.23**.

@@ -21,11 +21,16 @@ describe("Selected Pantry jar meaning", () => {
     expect(pantrySource).toContain('className = "pantry-jar-detail__btn-feature"');
   });
 
-  it("shows the directly selected jar in Pip's Puzzle Room and opens Pantry on tap", () => {
+  it("shows the directly selected jar in Pip's Puzzle Room and reopens its bonus detail on tap", () => {
     expect(hubSource).toContain("const featuredJarId = getFeaturedJarId()");
     expect(hubSource).toContain("getJarById(featuredJarId)");
     expect(hubSource).toContain('className = "home-keepsake-jar"');
-    expect(hubSource).toContain('onSelectView("pantry")');
+    expect(hubSource).toContain("onOpenFeaturedJar(featuredJar)");
+  });
+
+  it("labels the displayed bonus as a positive +chance", () => {
+    expect(hubSource).toContain('t("pantry.jar.growthBadgeCompact"');
+    expect(hubSource).toContain('t("pantry.jar.growthBadgeAria"');
   });
 
   it("uses the same home-displayed jar on regular puzzle completion", () => {

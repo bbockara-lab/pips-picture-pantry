@@ -2,6 +2,13 @@
 
 Last updated: 2026-08-23
 
+## Korean Harvest interaction and audio scope — 2026-08-28
+
+- Correct D-pad Trail Paint so a quick arrow tap moves only and a held arrow paints repeated destinations with the selected Color/Blank brush.
+- Correct the completion screen's Next Picture responsiveness: acknowledge the first tap immediately, suppress duplicate taps during transition, profile the render path and verify that one tap advances exactly one picture.
+- Replace the single shared BGM and oscillator placeholder effects with the authored music, stinger, UI, puzzle, reward, Pantry, Time Attack, mailbox and Pip-reaction cue set defined in `docs/KOREAN_HARVEST_AUDIO_AND_CURSOR_PLAN.md`.
+- Keep both platform packages on the same cue mapping and require physical-device, airplane-mode, lifecycle and long-press input verification before signing.
+
 ## iOS 1.1.24 / Android 1.1.23 rebuilt candidate — 2026-08-23
 
 - Prepare iOS **1.1.24 build 7** from installed-app label **v0.1.718**.

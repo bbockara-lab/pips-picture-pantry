@@ -25,6 +25,7 @@ import {
   getUnlockedShelfIds,
   canUnlockPack,
   claimLoginBonus,
+  claimSeasonalSpoonGift,
   isShelfUnlocked,
   loadSave,
   markGuideSeen,
@@ -97,6 +98,32 @@ describe("daily login spoon bonus", () => {
     expect(claimLoginBonus("not-a-date")).toBeNull();
     expect(getPantrySpoons()).toBe(0);
     expect(loadSave()).toBeNull();
+  });
+});
+
+describe("seasonal spoon gift", () => {
+  const gift = {
+    id: "korean-harvest-2026-welcome-gift",
+    spoons: 50,
+    localDateWindow: { start: "2026-09-17", end: "2026-10-04" }
+  };
+
+  beforeEach(() => {
+    globalThis.localStorage = new LocalStorageMock();
+    setActivePlayerName("Pip");
+  });
+
+  it("grants 50 spoons once during the local event window", () => {
+    expect(claimSeasonalSpoonGift(gift, "2026-09-17")).toMatchObject({ spoons: 50, balance: 50 });
+    expect(claimSeasonalSpoonGift(gift, "2026-09-25")).toBeNull();
+    expect(getPantrySpoons()).toBe(50);
+    expect(loadSave().claimedSeasonalGiftIds).toEqual([gift.id]);
+  });
+
+  it("does not grant before or after the event window", () => {
+    expect(claimSeasonalSpoonGift(gift, "2026-09-16")).toBeNull();
+    expect(claimSeasonalSpoonGift(gift, "2026-10-05")).toBeNull();
+    expect(getPantrySpoons()).toBe(0);
   });
 });
 
@@ -470,13 +497,9 @@ describe("player save profiles", () => {
     markGuideSeen("pantryFirstPurchase");
     expect(hasSeenGuide("pantryFirstPurchase")).toBe(true);
     markGuideSeen("pantryRoomStory");
-    expect(hasSeenGuide("pantryRoomStory")).toBe(true);
     markGuideSeen("pantryNeighborMrPark");
     markGuideSeen("pantryNeighborLily");
     markGuideSeen("pantryNeighborMateo");
-    expect(hasSeenGuide("pantryNeighborMrPark")).toBe(true);
-    expect(hasSeenGuide("pantryNeighborLily")).toBe(true);
-    expect(hasSeenGuide("pantryNeighborMateo")).toBe(true);
     expect(loadSave().seenGuideIds).toEqual([
       "puzzle",
       "cursorControlsIntro",
@@ -484,11 +507,7 @@ describe("player save profiles", () => {
       "spoonRunIntro",
       "pantryJarIntro",
       "map",
-      "pantryFirstPurchase",
-      "pantryRoomStory",
-      "pantryNeighborMrPark",
-      "pantryNeighborLily",
-      "pantryNeighborMateo"
+      "pantryFirstPurchase"
     ]);
   });
 

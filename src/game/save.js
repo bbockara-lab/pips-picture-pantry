@@ -18,11 +18,7 @@ const GUIDE_IDS = new Set([
   "timeAttack",
   "map",
   "spoonRunIntro",
-  "pantryFirstPurchase",
-  "pantryRoomStory",
-  "pantryNeighborMrPark",
-  "pantryNeighborLily",
-  "pantryNeighborMateo"
+  "pantryFirstPurchase"
 ]);
 const DEFAULT_PLAYER_NAME = "Friend";
 const STARTER_PACK_ID = "pips-first-shelf";
@@ -193,6 +189,28 @@ export function claimLoginBonus(dateKey = getLocalDateKey()) {
   save.pantrySpoons += bonus;
   saveGame(save);
   return bonus;
+}
+
+export function claimSeasonalSpoonGift(gift, dateKey = getLocalDateKey()) {
+  const giftId = String(gift?.id || "").trim();
+  const spoons = Math.max(0, Math.floor(Number(gift?.spoons) || 0));
+  const normalizedDateKey = normalizeDateKey(dateKey);
+  const start = normalizeDateKey(gift?.localDateWindow?.start);
+  const end = normalizeDateKey(gift?.localDateWindow?.end);
+  if (!giftId || spoons <= 0 || !normalizedDateKey || !start || !end || start > end) {
+    return null;
+  }
+  if (normalizedDateKey < start || normalizedDateKey > end) {
+    return null;
+  }
+  const save = loadSave() || createEmptySave();
+  if (save.claimedSeasonalGiftIds.includes(giftId)) {
+    return null;
+  }
+  save.claimedSeasonalGiftIds.push(giftId);
+  save.pantrySpoons += spoons;
+  saveGame(save);
+  return { id: giftId, spoons, balance: save.pantrySpoons };
 }
 
 export function recordDailyComplete(dateString) {
@@ -860,6 +878,9 @@ function normalizeSave(parsed) {
     dailyRewardedDates: Array.isArray(parsed?.dailyRewardedDates) ? parsed.dailyRewardedDates : [],
     dailyCompletedDate: normalizeDateKey(parsed?.dailyCompletedDate),
     lastLoginBonusDate: normalizeDateKey(parsed?.lastLoginBonusDate),
+    claimedSeasonalGiftIds: Array.isArray(parsed?.claimedSeasonalGiftIds)
+      ? Array.from(new Set(parsed.claimedSeasonalGiftIds.map((id) => String(id || "").trim()).filter(Boolean))).slice(-24)
+      : [],
     completedPackIds: Array.isArray(parsed?.completedPackIds) ? parsed.completedPackIds : [],
     ownedJarIds: Array.isArray(parsed?.ownedJarIds)
       ? Array.from(new Set(parsed.ownedJarIds.map((id) => String(id || "")).filter(Boolean)))

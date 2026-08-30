@@ -114,6 +114,30 @@ export const assetRegistry = [
     note: "High-resolution source for Pip's cute-capybara Korean Harvest developer letter."
   },
   {
+    id: "pip-chuseok-welcome-gift-v1",
+    usage: "seasonal-welcome-gift-art",
+    path: "src/assets/seasonal/korean-harvest/pip-chuseok-welcome-gift-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-character-continuity",
+    note: "Pip presents a jade-and-cream bojagi parcel, harvest spoon and songpyeon beneath the Chuseok full moon for the one-time 50-spoon welcome gift."
+  },
+  {
+    id: "pip-chuseok-welcome-gift-source-v1",
+    usage: "seasonal-welcome-gift-art-source",
+    path: "src/assets/seasonal/korean-harvest/pip-chuseok-welcome-gift-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-character-continuity",
+    note: "High-resolution source for Pip's Korean Chuseok 50-spoon welcome-gift illustration."
+  },
+  {
     id: "pip-puzzle-workshop-summer-v1",
     usage: "puzzle-home-background",
     path: "src/assets/generated/pip-puzzle-workshop-summer-v1.webp",

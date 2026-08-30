@@ -1,4 +1,4 @@
 export const RELEASE_BUILD = Object.freeze({
-  android: Object.freeze({ build: 53, version: "1.1.23" }),
-  ios: Object.freeze({ build: 8, version: "1.1.25" })
+  android: Object.freeze({ build: 54, version: "1.1.26" }),
+  ios: Object.freeze({ build: 9, version: "1.1.26" })
 });

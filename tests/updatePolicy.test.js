@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import fs from "node:fs";
 import { RELEASE_BUILD } from "../src/data/releaseBuild.js";
 import { evaluateUpdatePolicy, resolveUpdateDecision, validateUpdatePolicy } from "../src/game/updatePolicy.js";
 
@@ -15,6 +16,26 @@ function memoryStorage(seed = {}) {
 }
 
 describe("update policy", () => {
+  it("ships a valid safe hosted policy matching both native build identities", () => {
+    const hosted = validateUpdatePolicy(JSON.parse(fs.readFileSync("store-assets/app-update-policy.json", "utf8")));
+    expect(hosted).not.toBeNull();
+    expect(hosted.android.latestBuild).toBe(RELEASE_BUILD.android.build);
+    expect(hosted.android.latestVersion).toBe(RELEASE_BUILD.android.version);
+    expect(hosted.ios.latestBuild).toBe(RELEASE_BUILD.ios.build);
+    expect(hosted.ios.latestVersion).toBe(RELEASE_BUILD.ios.version);
+    expect(hosted.android.minimumSupportedBuild).toBeLessThan(RELEASE_BUILD.android.build);
+    expect(hosted.ios.minimumSupportedBuild).toBeLessThan(RELEASE_BUILD.ios.build);
+  });
+
+  it("keeps post-live mandatory and rollback policies ready as separate operator actions", () => {
+    const mandatory = validateUpdatePolicy(JSON.parse(fs.readFileSync("store-assets/app-update-policy-mandatory-after-both-live.json", "utf8")));
+    const rollback = validateUpdatePolicy(JSON.parse(fs.readFileSync("store-assets/app-update-policy-rollback.json", "utf8")));
+    expect(mandatory.android.minimumSupportedBuild).toBe(RELEASE_BUILD.android.build);
+    expect(mandatory.ios.minimumSupportedBuild).toBe(RELEASE_BUILD.ios.build);
+    expect(rollback.android.minimumSupportedBuild).toBeLessThan(RELEASE_BUILD.android.build);
+    expect(rollback.ios.minimumSupportedBuild).toBeLessThan(RELEASE_BUILD.ios.build);
+  });
+
   it("validates a strict HTTPS policy", () => {
     expect(validateUpdatePolicy(policy)?.android.latestBuild).toBe(48);
     expect(validateUpdatePolicy({ ...policy, android: { ...policy.android, storeUrl: "http://example.com" } })).toBeNull();

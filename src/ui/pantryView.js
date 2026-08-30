@@ -196,9 +196,14 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, onRefresh, onFirstPurch
   const effectHeading = document.createElement("div");
   effectHeading.className = "pantry-jar-detail__effect-heading";
   appendTextElement(effectHeading, "span", "pantry-jar-detail__effect-label", t("pantry.jar.growthEffectLabel"));
-  appendTextElement(effectHeading, "strong", "pantry-jar-detail__effect-chance", t("pantry.jar.growthEffectChance", {
-    chance: growthStatus.chance
-  }));
+  appendTextElement(
+    effectHeading,
+    "strong",
+    "pantry-jar-detail__effect-chance",
+    growthStatus.chance > 0
+      ? t("pantry.jar.growthEffectChance", { chance: growthStatus.chance })
+      : t("pantry.jar.growthEffectChanceLocked")
+  );
   effect.appendChild(effectHeading);
   appendTextElement(effect, "p", "pantry-jar-detail__effect-description", t(
     growthStatus.chance > 0
@@ -253,7 +258,6 @@ function showJarDetail({ backdrop, panel, jar, ownedIds, onRefresh, onFirstPurch
         }
         close();
         onFirstPurchase?.(jar, {
-          storyCompleted: false,
           completedRequestCount: getPaidJarCount()
         });
         onRefresh?.();
@@ -348,9 +352,14 @@ export function renderPantryView(
   const copy = document.createElement("div");
   appendTextElement(copy, "h2", "", t("pantry.title"));
   appendTextElement(copy, "span", "pantry-event-badge", getSeasonalThemeLabel(liveTheme, t));
-  appendTextElement(copy, "span", "pantry-growth-bonus", t("pantry.jar.growthBonusSummary", {
-    chance: growthStatus.chance
-  }));
+  appendTextElement(
+    copy,
+    "span",
+    "pantry-growth-bonus",
+    growthStatus.chance > 0
+      ? t("pantry.jar.growthBonusSummary", { chance: growthStatus.chance })
+      : t("pantry.jar.growthBonusSummaryLocked")
+  );
   header.prepend(copy);
 
   const onboarding = renderOnboarding();

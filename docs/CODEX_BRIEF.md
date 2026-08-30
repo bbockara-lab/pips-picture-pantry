@@ -2743,6 +2743,7 @@ Every release in this stabilization period: add a row here recording the version
 | 2026-08-08 | 0.1.713 / versionCode 45, 1.1.17 | Step 62.1: three new Pantry jar shelves, 18 jar entries/assets, three new stage badges, and 45/50/55 progression gates for the six Step 62 shelves. AAB remains deferred for review. |
 | 2026-08-08 | 0.1.714 / versionCode 46, 1.1.18 | Step 63: canonical Workshop home composition with a visibly dominant Play action, balanced destination pairs, connected Pip dialogue, and login-bonus collision protection. AAB remains deferred. |
 | 2026-08-08 | 0.1.715 / versionCode 47, 1.1.19 | Step 64: Pip-led Spoon Run scene, shared exact earn-today calculation, home `+N` badge, and a visible empty replay state. AAB remains deferred pending native checks. |
+| 2026-08-29 | 0.1.720 / versionCode 54, 1.1.26 | Korean Harvest: 16 puzzles, four shelves/rewards, Pip Chuseok art and 50-spoon gift, authored audio, interaction fixes, and safe post-publication mandatory-update controls. |
 
 ---
 

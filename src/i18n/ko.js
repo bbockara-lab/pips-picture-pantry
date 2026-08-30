@@ -6,6 +6,14 @@ const summerPuzzleCopy = Object.fromEntries(SUMMER_PUZZLES.map((puzzle) => [
 ]));
 
 export const ko = {
+  seasonalGift: {
+    eyebrow: "핍이 전하는 한국 명절 추석 선물",
+    title: "보름달처럼 넉넉한 선물이 왔어요",
+    body: "추석 연휴 전후로 팬트리를 찾아온 모든 분께 핍이 감사의 마음을 담아 준비했어요.",
+    reward: "보너스 스푼 +{count}개",
+    continue: "핍과 추석 보내기",
+    artAlt: "추석 선물을 건네는 핍"
+  },
   app: {
     title: "\ud54d\uc758 \ud37c\uc990\ubc29",
     studioName: "Sunny Spoon Studios",
@@ -63,7 +71,7 @@ export const ko = {
     messages: {
       "guide-puzzle": { title: "그림 퍼즐을 푸는 방법", preview: "핍의 첫 퍼즐 안내를 다시 봐요." },
       "guide-cursor": { title: "큰 퍼즐판에서 움직이기", preview: "방향키 안내를 다시 봐요." },
-      "guide-pantry-jar": { title: "핍의 항아리 진열 팁", preview: "팬트리 항아리를 고르는 방법이에요." },
+      "guide-pantry-jar": { title: "핍의 수집품 전시와 보너스", preview: "홈 전시와 추가 스푼 확률을 다시 확인해요." },
       "guide-time-attack": { title: "타임어택 안내", preview: "빠른 도전 안내를 다시 봐요." },
       "guide-map": { title: "핍의 배지 안내", preview: "팬트리 여정을 기록하는 방법이에요." },
       "story-spoon-run": { title: "스푼 모으러 가기", preview: "오늘의 스푼이 기다리는 곳을 알려드려요." },
@@ -116,7 +124,7 @@ export const ko = {
     guideReplayAction: "핍 가이드 보기",
     guideReplayPuzzleAction: "그림 가이드",
     guideReplayCursorAction: "방향키 가이드",
-    guideReplayPantryJarAction: "수집품 전시 가이드",
+    guideReplayPantryJarAction: "홈 전시와 보너스 가이드",
     guideReplayMapAction: "\uBC30\uC9C0 \uAC00\uC774\uB4DC",
     guideReplayTimeAttackAction: "타임어택 가이드",
     spoonStoreTitle: "\uc2a4\ud47c \ub354 \ucc44\uc6b0\uae30",
@@ -288,9 +296,9 @@ export const ko = {
     skip: "나중에 볼게요",
     next: "다음",
     done: "\uC790, \uAC00\uBCF4\uC790!",
-    allPuzzlesDone: "이 선반 그림은 모두 완성했어요!",
-    unlockNextHint: "다음 선반을 열려면 팬트리를 먼저 꾸며봐요 🏺",
-    goToPantry: "팬트리 꾸미기",
+    allPuzzlesDone: "이 스테이지의 그림을 모두 완성했어요!",
+    unlockNextHint: "다음 스테이지를 열려면 연결된 팬트리 선반을 완성해야 해요. 지금 팬트리로 이동할게요 🏺",
+    goToPantry: "팬트리 선반 채우러 가기",
     goToSpoonRun: "스푼 모으러 가기",
     puzzle: {
       speakerName: "핍",
@@ -307,8 +315,8 @@ export const ko = {
     },
     pantryJarIntro: {
       speakerName: "핍",
-      step1: "홈에 표시하기를 누르면 퍼즐방과 퍼즐 완료 화면에서 제 옆에 함께 나와요.",
-      step2: "선반의 수집품을 모두 모으면 추가 스푼 확률이 올라가요. 어떤 수집품을 전시해도 확률은 같아요!"
+      step1: "보유한 수집품에서 ‘홈에 표시하기’를 누르면 퍼즐방과 그림 완료 화면에서 제 곁에 함께 나와요.",
+      step2: "선반을 완성할수록 그림 완료 때 스푼 1개를 더 받을 확률이 올라가요. 현재 확률은 홈 수집품의 +표시와 팬트리에서 확인할 수 있어요."
     },
     spoonRunIntro: {
       speakerName: "핍",
@@ -330,34 +338,10 @@ export const ko = {
     },
     pantryFirstPurchase: {
       title: "\uCCAB \uBC88\uC9F8 \uD32C\uD2B8\uB9AC \uBCD1\uC774\uC5D0\uC694",
-      step1: "\uC88B\uC740 \uC120\uD0DD\uC774\uC5D0\uC694. \uCCAB \uBC88\uC9F8 \uBCD1\uC744 \uC120\uBC18\uC5D0 \uC62C\uB824\uBD10\uC694.",
-      step2: "\uBCF4\uC720\uD55C \uBCD1\uC744 \uB204\uB974\uBA74 \uC120\uBC18\uC5D0 \uC9C4\uC5F4\uD560 \uC218 \uC788\uC5B4\uC694.",
-      step3: "\uD37C\uC990\uB85C \uC2A4\uD47C\uC744 \uBAA8\uC544 \uBAA8\uB4E0 \uC120\uBC18\uC744 \uCC44\uC6CC\uBD10\uC694."
+      step1: "좋은 선택이에요. 첫 수집품이 팬트리에 들어왔어요.",
+      step2: "보유한 수집품을 누르고 ‘홈에 표시하기’를 선택하면 퍼즐방에서 저와 함께 보여요.",
+      step3: "선반을 완성할수록 그림 완료 때 추가 스푼을 받을 확률도 올라가요."
     },
-    pantryRoomStory: {
-      title: "\uD32C\uD2B8\uB9AC \uC120\uBC18\uC774 \uCC44\uC6CC\uC9C0\uACE0 \uC788\uC5B4\uC694",
-      step1: "\uC0C8 \uBCD1 \uD558\uB098\uB85C \uD32C\uD2B8\uB9AC\uAC00 \uD6E8\uC52C \uD48D\uC131\uD574\uC84C\uC5B4\uC694.",
-      step2: "\uBCD1\uC744 \uB354 \uBAA8\uC73C\uBA74 \uC0C8\uB85C\uC6B4 \uC2A4\uD14C\uC774\uC9C0\uB3C4 \uC5F4\uB824\uC694.",
-      step3: "\uC720\uB8CC \uBCD1 \uD558\uB098\uB9C8\uB2E4 \uD32C\uD2B8\uB9AC \uC774\uC57C\uAE30\uAC00 \uD55C \uCE78\uC529 \uC9C4\uD589\uB3FC\uC694."
-    },
-    pantryNeighborMrPark: {
-      title: "\uC2DC\uACC4 \uD560\uC544\uBC84\uC9C0\uAC00 \uC654\uC5B4\uC694",
-      step1: "\uB611\uB531\uB611\uB531… \uC2DC\uACC4 \uD560\uC544\uBC84\uC9C0\uAC00 \uBB38 \uC55E\uC5D0 \uC654\uC5B4\uC694.",
-      step2: "\uC870\uC6A9\uD55C \uC790\uB9AC\uC640 \uB530\uB73B\uD55C \uC218\uD504\uB97C \uC88B\uC544\uD558\uC2E0\uB300\uC694.",
-      step3: "\uB2E4\uC74C \uC790\uB9AC\uB3C4 \uD568\uAED8 \uC900\uBE44\uD574\uBCFC\uAE4C\uC694?"
-    },
-    pantryNeighborLily: {
-      title: "\uB9B4\uB9AC\uAC00 \uB2E4\uACFC\uD68C\uB97C \uC5F4\uACE0 \uC2F6\uB300\uC694",
-      step1: "\uB9B4\uB9AC\uAC00 \uC774 \uC791\uC740 \uD14C\uC774\uBE14\uC5D0\uC11C \uB2E4\uACFC\uD68C\uB97C \uC5F4\uACE0 \uC2F6\uB300\uC694.",
-      step2: "\uC0B0\uB538\uAE30 \uCC28 \uB808\uC2DC\uD53C\uB3C4 \uAC00\uC838\uC654\uC5B4\uC694.",
-      step3: "\uCE5C\uAD6C\uB4E4\uC774 \uBA38\uBB3C \uB2E4\uC74C \uC790\uB9AC\uB3C4 \uAFB8\uBA70\uBD10\uC694."
-    },
-    pantryNeighborMateo: {
-      title: "\uB9C8\uD14C\uC624\uAC00 \uC7BC \uD5A5\uAE30\uB97C \uB530\uB77C\uC654\uC5B4\uC694",
-      step1: "\uB9C8\uD14C\uC624\uAC00 \uC7BC \uD5A5\uAE30\uB97C \uB530\uB77C \uCC3E\uC544\uC654\uC5B4\uC694.",
-      step2: "\uD587\uC0B4 \uB4DC\uB294 \uACF3\uC5D0\uC11C \uCC45\uC744 \uC77D\uACE0 \uC2F6\uB300\uC694.",
-      step3: "\uB2E4\uC74C \uC774\uC6C3\uC744 \uC704\uD55C \uC790\uB9AC\uB3C4 \uB0A8\uACA8\uB458\uAE4C\uC694?"
-    }
   },
   stageNav: {
     position: "{current} / {total}",
@@ -469,6 +453,7 @@ export const ko = {
     sizeCount: "{size}×{size} 퍼즐 {count}개",
     complete: "\uc644\ub8cc",
     stageComplete: "완료",
+    completedShelfSummary: "그림 {count}개 완료 · 눌러서 다시 보기",
     sizeComplete: "{size}x{size} - \uc644\ub8cc",
     expandShelf: "{title} \ud3bc\uce58\uae30",
     collapseShelf: "{title} \uc811\uae30"
@@ -792,15 +777,17 @@ export const ko = {
       close: "\uB2EB\uAE30",
       featureOnHome: "\uD648\uC5D0 \uD45C\uC2DC\uD558\uAE30",
       featuredOnHome: "\uD648\uC5D0 \uD45C\uC2DC \uC911",
-      growthEffectLabel: "그림 완성 보너스 확률",
-      growthEffectChance: "{chance}%",
+      growthEffectLabel: "추가 스푼 획득 확률",
+      growthEffectChance: "+{chance}%",
+      growthEffectChanceLocked: "잠김",
       growthEffectDescription: "그림을 완성할 때 {chance}% 확률로 보너스 스푼 {reward}개를 더 받아요.",
       growthEffectDescriptionLocked: "선반 하나를 완성하면 그림 완성 보너스를 받을 기회가 열려요.",
       growthEffectProgress: "완성한 선반 {completed}/{cap}",
-      growthBonusSummary: "그림 완성 보너스 {chance}%",
-      shelfBonusCelebration: "추가 스푼 확률이 {chance}%로 올랐어요!",
-      growthBadgeCompact: "확률 {chance}%",
-      growthBadgeAria: "추가 스푼 획득 확률 {chance}%",
+      growthBonusSummary: "추가 스푼 확률 +{chance}%",
+      growthBonusSummaryLocked: "선반 완성 시 추가 스푼",
+      shelfBonusCelebration: "추가 스푼 확률이 +{chance}%로 올랐어요!",
+      growthBadgeCompact: "+{chance}%",
+      growthBadgeAria: "추가 스푼 획득 확률 +{chance}%",
       effectProgress: "효과 진행도 {progress} / {target}",
       effectProgressBanked: "이월 진척 {progress} / {target} · 다음 지급 가능일에 반영",
       featuredAria: "{item}, 홈에 전시한 수집품. 팬트리 열기",
@@ -940,6 +927,22 @@ export const ko = {
   },
   puzzles: {
     ...summerPuzzleCopy,
+    "korean-harvest-half-moon-1": { title: "반달", imageName: "반달" },
+    "korean-harvest-songpyeon-2": { title: "송편", imageName: "송편" },
+    "korean-harvest-korean-pear-3": { title: "한국 배", imageName: "한국 배" },
+    "korean-harvest-chestnut-4": { title: "밤", imageName: "밤" },
+    "korean-harvest-persimmon-branch-5": { title: "감나무 가지", imageName: "감나무 가지" },
+    "korean-harvest-rice-sheaf-6": { title: "벼 이삭", imageName: "벼 이삭" },
+    "korean-harvest-bojagi-knot-7": { title: "보자기 매듭", imageName: "보자기 매듭" },
+    "korean-harvest-paper-lantern-8": { title: "한지 등", imageName: "한지 등" },
+    "korean-harvest-moon-jar-9": { title: "달항아리", imageName: "달항아리" },
+    "korean-harvest-celadon-bottle-10": { title: "청자 병", imageName: "청자 병" },
+    "korean-harvest-tiled-roof-moon-11": { title: "기와지붕과 달", imageName: "기와지붕과 달" },
+    "korean-harvest-lacquer-tray-12": { title: "옻칠 소반", imageName: "옻칠 소반" },
+    "korean-harvest-full-moon-roof-13": { title: "보름달 기와집", imageName: "보름달 기와집" },
+    "korean-harvest-harvest-basket-14": { title: "추수 바구니", imageName: "추수 바구니" },
+    "korean-harvest-rabbit-rice-cake-15": { title: "달토끼 떡방아", imageName: "달토끼 떡방아" },
+    "korean-harvest-pip-in-hanbok-16": { title: "한복 입은 핍", imageName: "한복 입은 핍" },
     "stability-tea-tray-113": { title: "차 쟁반", imageName: "차 쟁반" },
     "stability-breakfast-tray-114": { title: "아침 쟁반", imageName: "아침 쟁반" },
     "stability-kitchen-timer-115": { title: "주방 타이머", imageName: "주방 타이머" },

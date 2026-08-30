@@ -13,11 +13,12 @@ const requiredFiles = [
   "store-assets/site/app.js",
   "store-assets/site/sunny-spoon-studios-social-v1.png",
   "store-assets/privacy-policy.html",
-  "store-assets/social-campaigns/launch-2026/02-hidden-picture.png",
-  "store-assets/social-campaigns/launch-2026/03-fill-the-shelves.png",
-  "store-assets/social-campaigns/launch-2026/06-quiet-puzzle-break.png",
   "store-assets/site/screens/puzzle-home-v0.1.715.png",
-  "store-assets/store-media/common-candidate-1.1.20/raw/google-play/en/05-badge-collection-15.png",
+  "store-assets/store-media/common-candidate-1.1.20/raw/app-store-6.9/en/01-puzzle-in-progress.png",
+  "store-assets/store-media/common-candidate-1.1.20/raw/app-store-6.9/en/02-puzzle-complete-collectible-bonus.png",
+  "store-assets/store-media/common-candidate-1.1.20/raw/app-store-6.9/en/06-summer-pantry-collectibles.png",
+  "store-assets/social/almost-wrong-tap-8x8/almost-wrong-tap-pantry-jar-8x8-en-v2-cover.jpg",
+  "store-assets/social/almost-wrong-tap-8x8/almost-wrong-tap-pantry-jar-8x8-en-v2.mp4",
   "store-assets/youtube/sunny-spoon-studios-youtube-avatar-v1.png",
 ];
 
@@ -30,10 +31,10 @@ const css = read("store-assets/site/styles.css");
 const js = read("store-assets/site/app.js");
 
 for (const marker of [
-  "Studio site v0.1.15",
+  "Studio site v0.1.16",
   "privacy-policy.html",
-  "./site/styles.css?v=025",
-  "./site/app.js?v=025",
+  "./site/styles.css?v=026",
+  "./site/app.js?v=026",
   "@SunnySpoonStudios",
   "https://apps.apple.com/app/id6798479149",
   "https://play.google.com/store/apps/details?id=com.sunnyspoonstudios.pipspicturepantry",
@@ -42,6 +43,7 @@ for (const marker of [
   'class="site-header"',
   'class="hero-art"',
   'class="phone-gallery"',
+  'class="gameplay-section"',
   'id="support"',
   "support.google.com/googleplay/workflow/9813244",
   "reportaproblem.apple.com",
@@ -64,6 +66,7 @@ for (const marker of [
   ".phone-gallery",
   ".support-grid",
   ".support-card",
+  ".gameplay-video-frame",
   "html[lang=\"ko\"] body",
   ".hero-line",
   ".consent-banner",

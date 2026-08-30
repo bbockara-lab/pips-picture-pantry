@@ -6,6 +6,14 @@ const summerPuzzleCopy = Object.fromEntries(SUMMER_PUZZLES.map((puzzle) => [
 ]));
 
 export const en = {
+  seasonalGift: {
+    eyebrow: "A Korean Chuseok gift from Pip",
+    title: "A warm harvest gift for you",
+    body: "Pip saved a little Chuseok thank-you for everyone joining the Pantry around the harvest moon.",
+    reward: "+{count} bonus spoons",
+    continue: "Celebrate with Pip",
+    artAlt: "Pip presenting a Chuseok harvest gift"
+  },
   app: {
     title: "Pip's Picture Pantry",
     studioName: "Sunny Spoon Studios",
@@ -63,7 +71,7 @@ export const en = {
     messages: {
       "guide-puzzle": { title: "How picture puzzles work", preview: "Replay Pip's first puzzle guide." },
       "guide-cursor": { title: "Moving around bigger boards", preview: "Replay the D-pad guide." },
-      "guide-pantry-jar": { title: "Pip's jar display tip", preview: "See how Pantry jars are selected." },
+      "guide-pantry-jar": { title: "Pip's home display bonus", preview: "Review home displays and the extra-spoon chance." },
       "guide-time-attack": { title: "A note about Time Attack", preview: "Replay the quick challenge guide." },
       "guide-map": { title: "Pip's badge guide", preview: "See how your Pantry journey is recorded." },
       "story-spoon-run": { title: "Spoon Run", preview: "Pip explains where today's spoons are waiting." },
@@ -116,7 +124,7 @@ export const en = {
     guideReplayAction: "Show Pip's guide",
     guideReplayPuzzleAction: "Picture guide",
     guideReplayCursorAction: "D-pad guide",
-    guideReplayPantryJarAction: "Jar display guide",
+    guideReplayPantryJarAction: "Home display bonus guide",
     guideReplayTimeAttackAction: "Time Attack guide",
     guideReplayMapAction: "Badge guide",
     spoonStoreTitle: "Add more spoons",
@@ -320,9 +328,9 @@ export const en = {
     skip: "Not now",
     next: "Next",
     done: "Ready? Go!",
-    allPuzzlesDone: "Every picture on this shelf is complete!",
-    unlockNextHint: "Decorate the pantry first to open the next shelf 🏺",
-    goToPantry: "Decorate the pantry",
+    allPuzzlesDone: "This stage is complete!",
+    unlockNextHint: "Complete its Pantry shelf to open the next stage. Let's go to the Pantry now 🏺",
+    goToPantry: "Fill the Pantry shelf",
     goToSpoonRun: "Collect Spoons",
     puzzle: {
       speakerName: "Pip",
@@ -339,8 +347,8 @@ export const en = {
     },
     pantryJarIntro: {
       speakerName: "Pip",
-      step1: "Display on home puts this collectible beside me in the Puzzle Room and on puzzle-completion screens.",
-      step2: "Complete a Pantry shelf to raise your extra-spoon chance. Your display choice never changes the odds!"
+      step1: "Choose Display on home for an owned collectible to place it beside me in the Puzzle Room and on picture-completion screens.",
+      step2: "Completing Pantry shelves raises your chance of getting 1 extra spoon after a picture. Check the current +chance on your home collectible or in the Pantry."
     },
     spoonRunIntro: {
       speakerName: "Pip",
@@ -362,34 +370,10 @@ export const en = {
     },
     pantryFirstPurchase: {
       title: "Your first pantry collectible",
-      step1: "Lovely choice. Your first collectible is ready for its shelf.",
-      step2: "Tap any collectible you own when you want to change the shelf display.",
-      step3: "Solve pictures, collect spoons, and fill every shelf."
+      step1: "Lovely choice. Your first collectible is now in the Pantry.",
+      step2: "Tap an owned collectible and choose Display on home to place it beside me in the Puzzle Room.",
+      step3: "Complete shelves to raise your chance of getting an extra spoon after a picture."
     },
-    pantryRoomStory: {
-      title: "The pantry shelves are growing",
-      step1: "One new collectible made the pantry feel much fuller.",
-      step2: "Keep collecting and new stages will open.",
-      step3: "Every paid collectible adds one step to your pantry story."
-    },
-    pantryNeighborMrPark: {
-      title: "Grandpa Clock is here",
-      step1: "Tick-tock... Grandpa Clock is at our door.",
-      step2: "He loves a quiet seat and warm soup.",
-      step3: "Shall we prepare the next spot together?"
-    },
-    pantryNeighborLily: {
-      title: "Lily wants to host tea",
-      step1: "Lily wants to host tea at our little table.",
-      step2: "She brought a berry-tea recipe too.",
-      step3: "Let's make another cozy spot for friends."
-    },
-    pantryNeighborMateo: {
-      title: "Mateo followed the scent of jam",
-      step1: "Mateo followed the scent of jam to our door.",
-      step2: "He wants to read in the sunny corner.",
-      step3: "Shall we save a spot for the next neighbor?"
-    }
   },
   stageNav: {
     position: "{current}/{total}",
@@ -502,6 +486,7 @@ export const en = {
     sizeCount: "{count} {size}×{size} puzzles",
     complete: "Complete",
     stageComplete: "Complete",
+    completedShelfSummary: "{count} pictures complete · Open to replay",
     sizeComplete: "{size}x{size} - Complete",
     expandShelf: "Expand {title}",
     collapseShelf: "Collapse {title}"
@@ -793,15 +778,17 @@ export const en = {
       close: "Close",
       featureOnHome: "Display on home",
       featuredOnHome: "Displayed on home",
-      growthEffectLabel: "Picture completion bonus",
-      growthEffectChance: "{chance}%",
+      growthEffectLabel: "Extra-spoon chance",
+      growthEffectChance: "+{chance}%",
+      growthEffectChanceLocked: "Locked",
       growthEffectDescription: "Complete a picture for a {chance}% chance to earn {reward} bonus spoon.",
       growthEffectDescriptionLocked: "Complete one shelf to unlock a chance of earning a picture completion bonus.",
       growthEffectProgress: "{completed}/{cap} shelves complete",
-      growthBonusSummary: "Picture bonus {chance}%",
-      shelfBonusCelebration: "Bonus spoon chance grew to {chance}%!",
-      growthBadgeCompact: "{chance}% chance",
-      growthBadgeAria: "Chance to earn one bonus spoon: {chance} percent",
+      growthBonusSummary: "Extra-spoon chance +{chance}%",
+      growthBonusSummaryLocked: "Complete a shelf for extra spoons",
+      shelfBonusCelebration: "Extra-spoon chance grew to +{chance}%!",
+      growthBadgeCompact: "+{chance}%",
+      growthBadgeAria: "Extra-spoon chance: plus {chance} percent",
       effectProgress: "Effect progress {progress} / {target}",
       effectProgressBanked: "Banked progress {progress} / {target} · pays on the next eligible day",
       featuredAria: "{item}, displayed collectible. Open Pantry",
@@ -941,6 +928,22 @@ export const en = {
   },
   puzzles: {
     ...summerPuzzleCopy,
+    "korean-harvest-half-moon-1": { title: "Half Moon", imageName: "Half Moon" },
+    "korean-harvest-songpyeon-2": { title: "Songpyeon", imageName: "Songpyeon" },
+    "korean-harvest-korean-pear-3": { title: "Korean Pear", imageName: "Korean Pear" },
+    "korean-harvest-chestnut-4": { title: "Chestnut", imageName: "Chestnut" },
+    "korean-harvest-persimmon-branch-5": { title: "Persimmon Branch", imageName: "Persimmon Branch" },
+    "korean-harvest-rice-sheaf-6": { title: "Rice Sheaf", imageName: "Rice Sheaf" },
+    "korean-harvest-bojagi-knot-7": { title: "Bojagi Knot", imageName: "Bojagi Knot" },
+    "korean-harvest-paper-lantern-8": { title: "Paper Lantern", imageName: "Paper Lantern" },
+    "korean-harvest-moon-jar-9": { title: "Moon Jar", imageName: "Moon Jar" },
+    "korean-harvest-celadon-bottle-10": { title: "Celadon Bottle", imageName: "Celadon Bottle" },
+    "korean-harvest-tiled-roof-moon-11": { title: "Tiled Roof Moon", imageName: "Tiled Roof Moon" },
+    "korean-harvest-lacquer-tray-12": { title: "Lacquer Tray", imageName: "Lacquer Tray" },
+    "korean-harvest-full-moon-roof-13": { title: "Full Moon Roof", imageName: "Full Moon Roof" },
+    "korean-harvest-harvest-basket-14": { title: "Harvest Basket", imageName: "Harvest Basket" },
+    "korean-harvest-rabbit-rice-cake-15": { title: "Rabbit Rice Cake", imageName: "Rabbit Rice Cake" },
+    "korean-harvest-pip-in-hanbok-16": { title: "Pip in Hanbok", imageName: "Pip in Hanbok" },
     "stability-tea-tray-113": { title: "Tea Tray", imageName: "Tea Tray" },
     "stability-breakfast-tray-114": { title: "Breakfast Tray", imageName: "Breakfast Tray" },
     "stability-kitchen-timer-115": { title: "Kitchen Timer", imageName: "Kitchen Timer" },

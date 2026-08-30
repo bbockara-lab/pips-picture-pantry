@@ -17809,6 +17809,87 @@ img {
   font-weight: 900;
 }
 
+.seasonal-gift-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  place-items: center;
+  padding: max(18px, env(safe-area-inset-top)) 18px max(18px, env(safe-area-inset-bottom));
+  background: rgba(18, 27, 50, 0.78);
+  backdrop-filter: blur(8px);
+}
+
+.seasonal-gift-card {
+  width: min(100%, 420px);
+  max-height: 100%;
+  overflow: auto;
+  padding: 18px;
+  border: 3px solid #b58a45;
+  border-radius: 30px;
+  background: linear-gradient(155deg, #fffaf0 0%, #f4ead5 58%, #dfe9dc 100%);
+  box-shadow: 0 18px 0 rgba(45, 29, 25, 0.24), 0 28px 60px rgba(8, 14, 30, 0.42);
+  color: #3c2925;
+  text-align: center;
+}
+
+.seasonal-gift-card__art {
+  display: block;
+  width: min(76%, 280px);
+  max-height: 250px;
+  margin: 0 auto 8px;
+  object-fit: contain;
+}
+
+.seasonal-gift-card__eyebrow {
+  display: inline-block;
+  margin: 0 0 8px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: #1f2f55;
+  color: #fff8e8;
+  font-weight: 800;
+}
+
+.seasonal-gift-card h1 {
+  margin: 0;
+  font-size: clamp(1.7rem, 7vw, 2.2rem);
+  line-height: 1.12;
+}
+
+.seasonal-gift-card__body {
+  margin: 12px auto;
+  max-width: 32ch;
+  color: #765342;
+  line-height: 1.55;
+}
+
+.seasonal-gift-card__reward {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 14px 0;
+  padding: 14px;
+  border: 2px solid #d6af5d;
+  border-radius: 20px;
+  background: rgba(255, 247, 210, 0.9);
+  color: #9b5b1d;
+  font-size: 1.25rem;
+}
+
+.seasonal-gift-card__button {
+  width: 100%;
+  min-height: 56px;
+  border: 3px solid #432e2b;
+  border-radius: 20px;
+  background: linear-gradient(#ffd969, #efad2d);
+  color: #3d2926;
+  font: inherit;
+  font-weight: 900;
+  box-shadow: 0 6px 0 rgba(72, 48, 38, 0.2);
+}
+
 .hub-greeting-wrap {
   display: flex !important;
   align-items: flex-end !important;
@@ -18934,8 +19015,29 @@ body.guide-open {
   cursor: pointer;
 }
 .shelf-collapse-toggle:focus-visible { outline: 3px solid rgba(53, 128, 91, 0.44); outline-offset: 2px; }
-.pack-block--collapsed .pack-header { align-items: center; }
-.pack-block--collapsed .section-label { margin-bottom: 0; }
+.pack-block--collapsed {
+  position: relative;
+  box-sizing: border-box;
+  min-height: 94px;
+  padding: 14px 16px;
+  border: 2px solid rgba(94, 71, 56, 0.24);
+  border-radius: 20px;
+  background:
+    linear-gradient(135deg, rgba(255, 252, 239, 0.97), rgba(237, 246, 224, 0.94));
+  box-shadow:
+    0 6px 0 rgba(83, 62, 48, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.pack-block--collapsed .pack-header { min-height: 62px; align-items: center; }
+.pack-block--collapsed .pack-header > div { min-width: 0; }
+.pack-block--collapsed .section-label { margin-bottom: 0; font-size: 1rem; }
+.pack-stage-complete-summary {
+  margin: 6px 0 0;
+  color: rgba(91, 61, 46, 0.76);
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
 .pack-block__content[hidden] { display: none !important; }
 /* v0.1.670 - shared spoon balance */
 .spoon-balance-chip {

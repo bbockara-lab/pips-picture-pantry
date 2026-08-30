@@ -22,7 +22,8 @@ void App.addListener("appStateChange", ({ isActive }) => {
 window.addEventListener("ppp:player-changed", () => renderApp(root));
 window.addEventListener("pointerdown", unlockAudio, { once: true });
 document.addEventListener("click", (event) => {
-  if (event.target.closest("button")) {
+  const button = event.target.closest("button");
+  if (button && !button.matches(".puzzle-cell, .cursor-move, .cursor-action-button")) {
     unlockAudio();
     playTap();
   }

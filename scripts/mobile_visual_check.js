@@ -5,9 +5,9 @@ const qaPort = process.env.PPP_QA_PORT || "5173";
 const TARGET_URL = process.env.PPP_URL || `http://127.0.0.1:${qaPort}/`;
 assertIsolatedQaTarget(TARGET_URL, "mobile_visual_check");
 const PREVIEW_THEME_ID = new URL(TARGET_URL).searchParams.get("seasonalTheme") || "";
-const EXPECTED_HOME_THEME = PREVIEW_THEME_ID === "korean-harvest"
-  ? { id: "korean-harvest", backgroundAssetId: "pip-puzzle-workshop-korean-harvest-v2-cute-capybara", pipPresence: "baked-in" }
-  : { id: "summer", backgroundAssetId: "pip-puzzle-workshop-summer-v1", pipPresence: "companion" };
+const EXPECTED_HOME_THEME = PREVIEW_THEME_ID === "summer"
+  ? { id: "summer", backgroundAssetId: "pip-puzzle-workshop-summer-v1", pipPresence: "companion" }
+  : { id: "korean-harvest", backgroundAssetId: "pip-puzzle-workshop-korean-harvest-v2-cute-capybara", pipPresence: "baked-in" };
 const viewports = [
   { width: 360, height: 740, name: "360x740" },
   { width: 390, height: 844, name: "390x844" },
@@ -637,7 +637,8 @@ async function expectVisible(page, selector, viewportName) {
     }
   }
 
-  const box = await page.locator(selector).first().boundingBox();
+  const visibleTarget = page.locator(`${selector}:visible`).first();
+  const box = await visibleTarget.boundingBox();
   if (!box || box.width < 1 || box.height < 1) {
     failures.push(`[${viewportName}] ${selector} is not visibly sized`);
   }
@@ -1274,7 +1275,10 @@ async function verifyEmptyAlbumPlayNowFlow(page, viewportName) {
 }
 
 async function expectTouchPaintSurvivesSyntheticClick(page, viewportName) {
-  const target = page.locator(".puzzle-grid .puzzle-cell").first();
+  // A safe-suggestion square is intentionally painted as an X even while Fill
+  // mode is active. Use a regular empty square so this check measures only the
+  // delayed Android synthetic-click suppression it is designed to cover.
+  const target = page.locator(".puzzle-grid .puzzle-cell:not(.safe-suggestion)").first();
   const box = await target.boundingBox();
   if (!box) {
     failures.push("[" + viewportName + "] Touch paint regression fixture could not locate its target cell.");
@@ -1296,10 +1300,10 @@ async function expectTouchPaintSurvivesSyntheticClick(page, viewportName) {
     window.dispatchEvent(event);
   });
   await page.waitForTimeout(50);
-  const afterPointerUp = await page.locator(".puzzle-grid .puzzle-cell").first().getAttribute("class");
-  await page.locator(".puzzle-grid .puzzle-cell").first().dispatchEvent("click", { detail: 0 });
+  const afterPointerUp = await target.getAttribute("class");
+  await target.dispatchEvent("click", { detail: 0 });
   await page.waitForTimeout(20);
-  const afterSyntheticClick = await page.locator(".puzzle-grid .puzzle-cell").first().getAttribute("class");
+  const afterSyntheticClick = await target.getAttribute("class");
   if (!afterPointerUp?.includes("filled") || !afterSyntheticClick?.includes("filled")) {
     failures.push("[" + viewportName + "] Android touch paint was toggled again by the delayed synthetic click: " + JSON.stringify({ afterPointerUp, afterSyntheticClick }));
   }
@@ -1372,10 +1376,10 @@ async function expectMapPolish(page, viewportName) {
     metrics.mapRight > metrics.viewportWidth + 1 ||
     metrics.mapRadius < 14 ||
     !metrics.mapBackground.includes("linear-gradient") ||
-    metrics.shelfCount !== 5 ||
-    metrics.shelfSlotCounts.some((count) => count !== 3) ||
-    metrics.slotCount !== 15 ||
-    metrics.lockedSlotCount !== 15 ||
+    metrics.shelfCount !== 6 ||
+    metrics.shelfSlotCounts.some((count, index) => count !== (index === 5 ? 1 : 3)) ||
+    metrics.slotCount !== 16 ||
+    metrics.lockedSlotCount !== 16 ||
     metrics.slotOutsideShelfCount !== 0 ||
     metrics.minCircleSize < 60 ||
     metrics.minCircleGap < 8 ||
@@ -2049,25 +2053,26 @@ async function openFloatingView(page, view, viewportName = view) {
     map: ".map-panel",
     pantry: ".pantry-panel",
     puzzle: ".pack-block",
+    spoonRun: ".spoon-run-view",
     timeAttack: ".time-attack-panel"
   };
   if ((await page.locator(".floating-nav__trigger").count()) === 0) {
-    const directButton = page.locator('button[data-destination="' + view + '"]').first();
-    if (await directButton.count()) {
-      await directButton.scrollIntoViewIfNeeded();
-      await directButton.click();
-      const directSelectors = {
-        album: ".album-panel",
-        map: ".map-panel",
-        pantry: ".pantry-panel",
-        puzzle: ".pack-block",
-        timeAttack: ".time-attack-panel"
-      };
-      const directSelector = directSelectors[view];
-      if (directSelector) {
-        await page.locator(directSelector).first().waitFor({ state: "visible", timeout: 5000 });
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      const directButton = page.locator('button[data-destination="' + view + '"]').first();
+      if (!(await directButton.count())) break;
+      try {
+        await directButton.click({ timeout: 4000 });
+        const directSelector = viewSelectors[view];
+        if (directSelector) {
+          await page.locator(directSelector).first().waitFor({ state: "visible", timeout: 5000 });
+        }
+        return;
+      } catch (error) {
+        const directSelector = viewSelectors[view];
+        if (directSelector && await page.locator(directSelector).first().isVisible()) return;
+        if (attempt === 2) throw error;
+        await page.waitForTimeout(100);
       }
-      return;
     }
   }
   if ((await page.locator(".floating-nav__trigger").count()) === 0 && (await page.locator(".play-screen__back").count()) > 0) {
@@ -2296,8 +2301,15 @@ async function verifyTimeAttackExitRestoresRegularPuzzle(page, viewportName, exp
     const save = player ? JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:save:" + player.id) || "{}") : {};
     return Number(save.pantrySpoons || 0);
   });
-  await hintPanel.locator(".hint-button").click();
-  const hintConfirm = hintPanel.locator('.hint-panel__confirm[data-cost="2"]');
+  // The running timer redraws this panel once per second. Resolve both the
+  // button and confirmation from the live document so a redraw between click
+  // and assertion cannot leave this QA check scoped to a detached panel.
+  const liveHintButton = page.locator(".puzzle-panel--time-attack .hint-panel .hint-button").first();
+  const hintConfirm = page.locator('.puzzle-panel--time-attack .hint-panel__confirm[data-cost="2"]').first();
+  for (let attempt = 0; attempt < 3 && !(await hintConfirm.isVisible()); attempt += 1) {
+    await liveHintButton.click();
+    await page.waitForTimeout(80);
+  }
   await hintConfirm.waitFor({ state: "visible", timeout: 2000 });
   await hintConfirm.locator(".tool-button.complete").click();
   const hintState = await page.evaluate(() => {
@@ -3550,7 +3562,11 @@ async function verifyPantryPlacement(page, viewportName) {
   if (await firstUnowned.count()) {
     await firstUnowned.click();
     await page.locator(".pantry-jar-detail-backdrop.visible").waitFor({ state: "visible", timeout: 2000 });
-    await page.waitForTimeout(300);
+    await page.waitForFunction(() => {
+      const detail = document.querySelector(".pantry-jar-detail-backdrop.visible .pantry-jar-detail");
+      if (!detail) return false;
+      return detail.getBoundingClientRect().bottom <= window.innerHeight + 1;
+    }, { timeout: 1500 });
     const detailMetrics = await page.locator(".pantry-jar-detail").evaluate((detail) => {
       const rect = detail.getBoundingClientRect();
       return {

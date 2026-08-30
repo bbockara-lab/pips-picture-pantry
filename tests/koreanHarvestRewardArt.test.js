@@ -17,7 +17,27 @@ describe("Korean Harvest reward shelf", () => {
     expect(getKoreanHarvestCompletedCount([first.id, second.id, "unrelated-puzzle"])).toBe(2);
   });
 
-  it("does not render candidate content into the live Pantry", () => {
-    expect(renderKoreanHarvestRewardShelf([])).toBeNull();
+  it("renders all four approved rewards into the live Pantry", () => {
+    const originalDocument = globalThis.document;
+    globalThis.document = {
+      createElement(tagName) {
+        return {
+          tagName,
+          children: [],
+          dataset: {},
+          className: "",
+          textContent: "",
+          append(...children) { this.children.push(...children); },
+          appendChild(child) { this.children.push(child); return child; }
+        };
+      }
+    };
+    try {
+      const shelf = renderKoreanHarvestRewardShelf([]);
+      expect(shelf?.dataset.eventTheme).toBe("korean-harvest");
+      expect(shelf?.children[1]?.children).toHaveLength(4);
+    } finally {
+      globalThis.document = originalDocument;
+    }
   });
 });

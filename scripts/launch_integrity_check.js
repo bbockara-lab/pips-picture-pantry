@@ -190,7 +190,7 @@ function checkFeaturedPantryJar() {
   expectIncludes("src/game/save.js", "export function getFeaturedJarId", "persisted home-display jar getter");
   expectIncludes("src/game/save.js", "export function getFeaturedJar()", "shared displayed jar helper");
   expectIncludes("src/ui/pantryView.js", "setFeaturedJar(jar.id)", "Pantry jar home-display action");
-  expectIncludes("src/ui/puzzleHubView.js", 'jarButton.addEventListener("click", () => onSelectView("pantry"))', "Workshop jar opens Pantry");
+  expectIncludes("src/ui/puzzleHubView.js", 'jarButton.addEventListener("click", () => onOpenFeaturedJar(featuredJar))', "Workshop jar opens its exact Pantry detail");
   expectIncludes("src/ui/puzzleHubView.js", 'keepsakeShelf.className = "home-keepsake-shelf"', "unified Workshop keepsake shelf");
   expectIncludes("src/ui/puzzleView.js", "featuredJar: isTimeAttack", "regular completion displayed jar selection");
   expectIncludes("src/ui/puzzleView.js", "getFeaturedJar()", "completion reuses the home-displayed jar");
@@ -209,8 +209,8 @@ function checkPantryJarGuide() {
   expectExcludes("src/ui/pantryView.js", "openDetail(initialJar)", "guide-reentering initial jar path");
   expectIncludes("src/ui/guideDialog.js", 'pantryJarIntro: ["guide.pantryJarIntro.step1", "guide.pantryJarIntro.step2"]', "two-step Pantry display guide");
   expectIncludes("src/data/mailboxMessages.js", '["guide-pantry-jar", "pantryJarIntro"]', "Pantry jar guide mailbox replay");
-  expectIncludes("src/i18n/en.js", "Display on home puts this collectible beside me in the Puzzle Room and on puzzle-completion screens.", "English home-display explanation");
-  expectIncludes("src/i18n/ko.js", "홈에 표시하기를 누르면 퍼즐방과 퍼즐 완료 화면에서 제 옆에 함께 나와요.", "Korean home-display explanation");
+  expectIncludes("src/i18n/en.js", "Choose Display on home for an owned collectible to place it beside me in the Puzzle Room and on picture-completion screens.", "English home-display explanation");
+  expectIncludes("src/i18n/ko.js", "보유한 수집품에서 ‘홈에 표시하기’를 누르면 퍼즐방과 그림 완료 화면에서 제 곁에 함께 나와요.", "Korean home-display explanation");
   expectIncludes("tests/pantryJarGuide.test.js", "resumes the exact selected jar detail", "Pantry jar guide lifecycle regression");
   expectIncludes("tests/pantryJarGuide.test.js", "does not schedule repeated frames or re-enter the guide while it is open", "Pantry guide render-loop regression test");
 }

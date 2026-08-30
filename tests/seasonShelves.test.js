@@ -9,7 +9,7 @@ describe("Season 0 shelves", () => {
   it("repackages every authored puzzle exactly once without changing puzzle IDs", () => {
     const assignedIds = seasonShelves.flatMap((shelf) => shelf.puzzleIds);
 
-    expect(seasonShelves).toHaveLength(27);
+    expect(seasonShelves).toHaveLength(31);
     expect(assignedIds).toHaveLength(puzzles.length);
     expect(new Set(assignedIds).size).toBe(puzzles.length);
     expect(new Set(assignedIds)).toEqual(new Set(puzzles.map((puzzle) => puzzle.id)));
@@ -30,9 +30,9 @@ describe("Season 0 shelves", () => {
     expect(getSeasonShelfPuzzles(shelf)[0]?.id).toBe("pips-first-shelf-pip-face-1");
   });
 
-  it("marks only the summer sunset feast as the closing shelf", () => {
+  it("marks only the Korean Harvest full-moon feast as the closing shelf", () => {
     expect(seasonShelves.filter((shelf) => shelf.isFinal)).toHaveLength(1);
-    expect(seasonShelves.at(-1)?.id).toBe("shelf-sunset-feast");
+    expect(seasonShelves.at(-1)?.id).toBe("shelf-korean-harvest-4");
   });
 
   it("balances the full stage economy against the expanded Pantry", () => {
@@ -41,7 +41,7 @@ describe("Season 0 shelves", () => {
       stageBonus: result.stageBonus + Number(shelf.stageBonus || 0)
     }), { unlockCost: 0, stageBonus: 0 });
 
-    expect(totals).toEqual({ unlockCost: 0, stageBonus: 970 });
+    expect(totals).toEqual({ unlockCost: 0, stageBonus: 1114 });
   });
 
   it("reserves spoon spending for Pantry jars while keeping the authored reward curve", () => {
@@ -53,13 +53,13 @@ describe("Season 0 shelves", () => {
       ),
       0
     );
-    expect(puzzleRewards).toBe(4124);
+    expect(puzzleRewards).toBe(4220);
   });
 
   it("maps seventy paid Pantry collectibles to fourteen five-item stage gates", () => {
     expect(seasonShelves.map((shelf) => shelf.pantryRoomStepRequired)).toEqual([
       0, 5, 10, 15, 15, 20, 20, 25, 25, 30, 30, 35, 35, 40, 40,
-      45, 45, 50, 50, 55, 55, 60, 60, 65, 65, 70, 70
+      45, 45, 50, 50, 55, 55, 60, 60, 65, 65, 70, 70, 0, 0, 0, 0
     ]);
   });
 
@@ -92,10 +92,10 @@ describe("Season 0 shelves", () => {
     const paidJarCost = PANTRY_JARS.reduce((total, jar) => total + Number(jar.cost || 0), 0);
     const decorationCost = pantryDecorations.reduce((total, decoration) => total + Number(decoration.cost || 0), 0);
 
-    expect(authoredRewards).toBe(5094);
+    expect(authoredRewards).toBe(5334);
     expect(paidJarCost).toBe(10655);
     expect(decorationCost).toBe(2706);
-    expect(paidJarCost + decorationCost - authoredRewards).toBe(8267);
+    expect(paidJarCost + decorationCost - authoredRewards).toBe(8027);
   });
 
   it("uses the previous shelf and current shelf completion as separate progression facts", () => {

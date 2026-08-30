@@ -1,0 +1,44 @@
+{
+  "eventId": "korean-harvest-2026",
+  "start": "2026-09-17T00:00:00-04:00",
+  "end": "2026-10-04T23:59:00-04:00",
+  "timeZone": "America/New_York",
+  "purchaseRequired": false,
+  "apple": {
+    "referenceName": "Korean Harvest 2026",
+    "badge": "special-event",
+    "priority": "normal",
+    "localizations": {
+      "en-US": {
+        "name": "Pip's Chuseok Moon Festival",
+        "shortDescription": "16 new puzzles and Pip's 50-spoon Chuseok gift",
+        "longDescription": "Celebrate Korean Chuseok with Pip, solve 16 harvest-moon puzzles, fill four new shelves, and claim 50 spoons."
+      },
+      "ko-KR": {
+        "name": "핍의 추석 보름달 잔치",
+        "shortDescription": "새 퍼즐 16개와 핍의 추석 선물 스푼 50개",
+        "longDescription": "핍과 함께 한국 명절 추석을 즐겨요. 보름달 퍼즐 16개를 풀고 새 선반 4개를 채우며 스푼 50개를 받아 보세요."
+      }
+    },
+    "media": {
+      "card": "upload/apple/event-card-1920x1080.png",
+      "detail": "upload/apple/event-detail-1080x1920.png"
+    }
+  },
+  "googlePlay": {
+    "type": "event",
+    "localizations": {
+      "en-US": {
+        "title": "Pip's Chuseok Moon Festival",
+        "tagline": "A warm Korean harvest celebration with Pip",
+        "description": "Celebrate Korean Chuseok under the full moon with Pip. Solve 16 new picture puzzles, complete four seasonal Pantry shelves, collect four harvest keepsakes, and open the game during the event to receive Pip's one-time gift of 50 spoons. No purchase is required."
+      },
+      "ko-KR": {
+        "title": "핍의 추석 보름달 잔치",
+        "tagline": "핍과 함께 즐기는 따뜻한 한국의 추석",
+        "description": "보름달 아래에서 핍과 함께 한국 명절 추석을 즐겨 보세요. 새 그림 퍼즐 16개를 풀고, 추석 선반 4개와 수집품 4개를 완성할 수 있어요. 이벤트 기간에 게임을 열면 핍이 준비한 스푼 50개 선물을 한 번 받을 수 있습니다. 구매는 필요하지 않아요."
+      }
+    },
+    "primaryImage": "upload/google-play/primary-image-1920x1080.jpg"
+  }
+}

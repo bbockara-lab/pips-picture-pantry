@@ -23,8 +23,8 @@ export const BADGE_MILESTONES = Object.freeze([
     stage: 15,
     group: "F",
     shelfIds: ["shelf-korean-harvest-1", "shelf-korean-harvest-2", "shelf-korean-harvest-3", "shelf-korean-harvest-4"],
-    id: "badge-korean-harvest",
-    titleKey: "badges.koreanHarvest",
+    id: "badge-pip-korean-harvest",
+    titleKey: "shelves.koreanHarvest.full-moon-feast",
     final: true
   }] : [])
 ]);

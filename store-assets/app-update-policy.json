@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "publishedAt": "2026-08-29T00:00:00Z",
+  "android": {
+    "latestBuild": 54,
+    "latestVersion": "1.1.26",
+    "minimumSupportedBuild": 53,
+    "storeUrl": "https://play.google.com/store/apps/details?id=com.sunnyspoonstudios.pipspicturepantry"
+  },
+  "ios": {
+    "latestBuild": 9,
+    "latestVersion": "1.1.26",
+    "minimumSupportedBuild": 8,
+    "storeUrl": "https://apps.apple.com/app/id6798479149"
+  }
+}

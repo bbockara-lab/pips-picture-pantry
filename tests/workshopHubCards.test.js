@@ -56,7 +56,7 @@ describe("Workshop supporting cards wiring", () => {
 
   it("returns Daily completion to the replay list inside Spoon Run", () => {
     expect(appShellSource).toMatch(
-      /function selectNextPuzzle\(\) \{\s*if \(dailyChallenge\) \{[\s\S]*?activeView = "spoonRun";[\s\S]*?pendingScrollTarget = "replay";/
+      /function selectNextPuzzle\(\) \{[\s\S]*?if \(dailyChallenge\) \{[\s\S]*?activeView = "spoonRun";[\s\S]*?pendingScrollTarget = "replay";/
     );
   });
 

@@ -23,11 +23,12 @@ import {
   setActivePlayerName
 } from "../game/save.js";
 import { getSpoonRunOpportunity } from "../game/spoonRunRewards.js";
+import { claimKoreanHarvestWelcomeGift } from "../game/koreanHarvestGift.js";
 import { getCozySupportProduct, getSpoonJarSmallProduct, purchaseCozySupportPack, purchaseSpoonJarSmall, restorePendingPurchases } from "../game/billing.js";
 import { setLanguagePreference, t } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
 import { renderResetDialog } from "./appChrome.js";
-import { playStageComplete, playTimeAttackCountdown, setMusicEnabled, setMusicSuppressed, setSfxEnabled, startMusic } from "./audio.js";
+import { playCue, playStageComplete, playTimeAttackCountdown, setMusicEnabled, setMusicScene, setMusicSuppressed, setSfxEnabled, startMusic } from "./audio.js";
 import { getBadgeForCompletedShelf } from "../game/badges.js";
 import { renderBadgeEarnedToast, renderPantryMapView } from "./mapView.js";
 import { renderPantryView } from "./pantryView.js";
@@ -52,6 +53,7 @@ import { getLoginBonusMessage } from "./loginBonusMessage.js";
 import { dismissOptionalUpdate, openUpdateStore, resolveUpdateDecision } from "../game/updatePolicy.js";
 import { renderMandatoryUpdateView } from "./updateGateView.js";
 import { getUnreadMailboxCount, renderMailboxView } from "./mailboxView.js";
+import { renderSeasonalGiftView } from "./seasonalGiftView.js";
 
 const DAILY_BONUS = ECONOMY.DAILY_BONUS;
 let introOpenViewHandler = null;
@@ -62,7 +64,10 @@ export function renderApp(root) {
   const generation = ++renderGeneration;
   const dailyPuzzle = getDailyPuzzle(getDailyPuzzleCandidates());
   const loginBonus = hasActivePlayer() ? claimLoginBonus() : null;
+  const seasonalGift = hasActivePlayer() ? claimKoreanHarvestWelcomeGift() : null;
   let loginBonusVisible = Boolean(loginBonus);
+  let seasonalGiftVisible = Boolean(seasonalGift);
+  let seasonalGiftSoundPlayed = false;
   let loginBonusTimerHandle = null;
   let activePuzzle = getStartPuzzle();
   let activeView = "puzzle";
@@ -109,8 +114,15 @@ export function renderApp(root) {
   function selectPuzzle(puzzleId, scrollTarget = "top", options = {}) {
     const nextPuzzle = puzzles.find((puzzle) => puzzle.id === puzzleId) || dailyPuzzle;
     if (!isShelfUnlocked(getSeasonShelfForPuzzle(nextPuzzle))) {
+      playCue("sfx_ui_locked", { volume: 0.62 });
       return;
     }
+
+    playCue(options.dailyChallenge
+      ? "sfx_daily_picture_select"
+      : options.replayChallenge
+        ? "sfx_replay_pick_select"
+        : "sfx_ui_card_select", { volume: 0.58 });
 
     activePuzzle = nextPuzzle;
     replayChallenge = Boolean(options.replayChallenge);
@@ -148,6 +160,7 @@ export function renderApp(root) {
   }
 
   function selectNextPuzzle() {
+    playCue("sfx_next_puzzle", { volume: 0.64 });
     if (dailyChallenge) {
       dailyChallenge = false;
       activeView = "spoonRun";
@@ -176,16 +189,22 @@ export function renderApp(root) {
       draw();
       return;
     }
-    const completedPuzzleIds = getCompletedPuzzleIds();
-    const unlockedPuzzles = puzzles.filter((puzzle) => isShelfUnlocked(getSeasonShelfForPuzzle(puzzle)));
-    const nextUnfinished = unlockedPuzzles.find((puzzle) => !completedPuzzleIds.includes(puzzle.id));
-    if (nextUnfinished) {
-      selectPuzzle(nextUnfinished.id);
+    const decision = getPuzzleHubOpenDecision(
+      activePuzzle,
+      getCompletedPuzzleIds(),
+      isShelfUnlocked,
+      { resumeFromLastCompleted: false }
+    );
+    if (decision.type === "open" && decision.puzzle) {
+      selectPuzzle(decision.puzzle.id);
       return;
     }
-    const currentIndex = unlockedPuzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
-    const nextPuzzle = unlockedPuzzles[(currentIndex + 1) % unlockedPuzzles.length] || dailyPuzzle;
-    selectPuzzle(nextPuzzle.id);
+    if (decision.type === "unlock-guide") {
+      allPuzzlesDonePromptOpen = true;
+      draw();
+      return;
+    }
+    showPuzzlePicker();
   }
 
   function clearTimeAttackCountdown() {
@@ -216,6 +235,14 @@ export function renderApp(root) {
       requestSettings();
       return;
     }
+    const viewCue = {
+      pantry: "sfx_pantry_open",
+      spoonRun: "sfx_spoon_run_open",
+      album: "sfx_album_page_open",
+      mailbox: "sfx_mail_open",
+      map: "sfx_ui_card_select"
+    }[view];
+    if (viewCue) playCue(viewCue, { volume: 0.58 });
     if (timeAttackCountdownStep !== null || activeTimeAttackRun || preTimeAttackPuzzle) {
       clearTimeAttackSession();
     }
@@ -264,6 +291,11 @@ export function renderApp(root) {
     draw();
   }
 
+  function openFeaturedJarFromHome(jar) {
+    pendingPantryJarDetailId = jar?.id || null;
+    selectView("pantry");
+  }
+
   function replayGuide(guideId = null) {
     settingsOpen = false;
     resetOpen = false;
@@ -287,7 +319,6 @@ export function renderApp(root) {
   function requestPantryFirstPurchaseGuide(_decoration, action = {}) {
     activeGuide = getNextPantryGuideId({
       completedRequestCount: action.completedRequestCount,
-      storyCompleted: action.storyCompleted,
       hasSeen: hasSeenGuide
     });
   }
@@ -317,7 +348,7 @@ export function renderApp(root) {
       return;
     }
     timeAttackCountdownStep = 3;
-    setMusicSuppressed(true);
+    setMusicSuppressed(false);
     playTimeAttackCountdown(3);
     draw();
     scheduleTimeAttackCountdown();
@@ -325,7 +356,7 @@ export function renderApp(root) {
 
   function startTimeAttackRun() {
     clearTimeAttackCountdown();
-    setMusicSuppressed(true);
+    setMusicSuppressed(false);
     preTimeAttackPuzzle = activePuzzle;
     const session = createTimeAttackSession({ currentPuzzle: activePuzzle, rounds: TIME_ATTACK_TRIAL_ROUNDS });
     activeTimeAttackSeed = session.seed;
@@ -374,6 +405,8 @@ export function renderApp(root) {
     }
 
     if (result.status === "next-round") {
+      playCue("sfx_time_round_complete", { volume: 0.72 });
+      globalThis.setTimeout(() => playCue("stinger_time_attack_round", { volume: 0.78 }), 110);
       activeTimeAttackHintsUsed += Math.max(0, Number(puzzleState?.hintsUsed || 0));
       activeTimeAttackPuzzleState = null;
       timeAttackRoundIndex = result.roundIndex;
@@ -384,6 +417,10 @@ export function renderApp(root) {
     }
 
     timeAttackLastResult = result.result;
+    playCue(result.result?.recordImproved ? "stinger_time_attack_best" : "stinger_time_attack_success", { volume: 0.84 });
+    if (result.result?.reward > 0) {
+      globalThis.setTimeout(() => playCue("sfx_spoon_gain_medium", { volume: 0.68 }), 220);
+    }
     replayChallenge = false;
     replayPicked = false;
     activeView = "timeAttack";
@@ -406,6 +443,8 @@ export function renderApp(root) {
       outcome: "timeout"
     });
     timeAttackLastResult = result.result;
+    playCue("sfx_time_expired", { volume: 0.72 });
+    globalThis.setTimeout(() => playCue("stinger_time_attack_fail", { volume: 0.72 }), 120);
     replayChallenge = false;
     replayPicked = false;
     activeView = "timeAttack";
@@ -459,6 +498,7 @@ export function renderApp(root) {
 
   function changeSfx(enabled) {
     setSfxEnabled(enabled);
+    if (enabled) playCue("sfx_ui_toggle_on", { volume: 0.62 });
     draw();
   }
 
@@ -466,6 +506,9 @@ export function renderApp(root) {
     setMusicEnabled(enabled);
     if (enabled) {
       startMusic();
+      playCue("sfx_ui_toggle_on", { volume: 0.62 });
+    } else {
+      playCue("sfx_ui_toggle_off", { volume: 0.62 });
     }
     draw();
   }
@@ -477,6 +520,7 @@ export function renderApp(root) {
 
   function changeControlMode(mode) {
     controlMode = setControlModePreference(mode);
+    playCue("sfx_control_mode_switch", { volume: 0.62 });
     draw();
   }
 
@@ -547,8 +591,10 @@ export function renderApp(root) {
   async function buySpoonJarSmall() {
     if (!canPurchaseSpoonJar(spoonJarState)) return;
     spoonJarState = { ...spoonJarState, loading: true, status: "checking" };
+    playCue("sfx_store_window_open", { volume: 0.65 });
     draw();
     const result = await purchaseSpoonJarSmall();
+    playPurchaseResult(result);
     spoonJarState = normalizeSpoonJarState({ ...spoonJarState, ...result }, result.status || "failed");
     draw();
   }
@@ -566,8 +612,10 @@ export function renderApp(root) {
   async function buyCozySupportPack() {
     if (!canPurchaseSupportPack(cozySupportState)) return;
     cozySupportState = { ...cozySupportState, loading: true, status: "checking" };
+    playCue("sfx_store_window_open", { volume: 0.65 });
     draw();
     const result = await purchaseCozySupportPack();
+    playPurchaseResult(result);
     cozySupportState = normalizeCozySupportState({ ...cozySupportState, ...result }, result.status || "failed");
     draw();
   }
@@ -594,6 +642,15 @@ export function renderApp(root) {
       spoons: product.spoonGrant || ECONOMY.SPOON_JAR_SMALL_GRANT,
       status
     };
+  }
+
+  function playPurchaseResult(result) {
+    if (result?.ok) {
+      playCue("sfx_store_purchase_success", { volume: 0.76 });
+      globalThis.setTimeout(() => playCue("sfx_spoon_gain_large", { volume: 0.72 }), 180);
+      return;
+    }
+    playCue(result?.status === "cancelled" ? "sfx_store_purchase_cancel" : "sfx_store_purchase_fail", { volume: 0.64 });
   }
 
 
@@ -640,6 +697,7 @@ export function renderApp(root) {
       finishTimeAttackByTimeout();
       return;
     }
+    setMusicScene(getMusicScene({ activeView, playOpen, activeGuide, settingsOpen, resetOpen }));
     root.replaceChildren();
     if (updateDecision.kind === "mandatory") {
       document.body.classList.remove("guide-open");
@@ -668,6 +726,7 @@ export function renderApp(root) {
       settingsOpen,
       onSelectPuzzle: selectPuzzle,
       onSelectView: selectView,
+      onOpenFeaturedJar: openFeaturedJarFromHome,
       onOpenSpoonStore: () => selectView("pantry", "spoonStore"),
       onOpenPuzzle: openPuzzleFromHub,
       onClosePuzzle: showPuzzleHub,
@@ -704,7 +763,6 @@ export function renderApp(root) {
       activeGuide,
       allPuzzlesDonePromptOpen,
       onAllPuzzlesDonePantry: () => selectView("pantry"),
-      onAllPuzzlesDoneSpoonRun: () => selectView("spoonRun"),
       onCloseGuide: closeGuide,
       onReplayGuide: replayGuide,
       onPantryFirstPurchase: requestPantryFirstPurchaseGuide,
@@ -725,11 +783,22 @@ export function renderApp(root) {
       timeAttackLimitSeconds: TIME_ATTACK_LIMIT_SECONDS
     });
     root.appendChild(shell);
+    if (seasonalGiftVisible && root.dataset.introOpen !== "true") {
+      if (!seasonalGiftSoundPlayed) {
+        seasonalGiftSoundPlayed = true;
+        playCue("pip_greeting", { volume: 0.58 });
+        globalThis.setTimeout(() => playCue("sfx_spoon_gain_large", { volume: 0.74 }), 180);
+      }
+      root.appendChild(renderSeasonalGiftView(seasonalGift, () => {
+        seasonalGiftVisible = false;
+        draw();
+      }));
+    }
     if (timeAttackCountdownStep !== null) {
       root.appendChild(renderTimeAttackCountdown(timeAttackCountdownStep));
     }
     scrollAfterDraw(root);
-    if (loginBonusVisible && activeView === "puzzle" && !playOpen && !puzzleListOpen && !activeGuide) {
+    if (!seasonalGiftVisible && loginBonusVisible && activeView === "puzzle" && !playOpen && !puzzleListOpen && !activeGuide) {
       scheduleLoginBonusPresentation();
     }
     // Replacing the settings DOM once per second cancels an in-progress iOS
@@ -814,6 +883,16 @@ export function renderApp(root) {
   });
 }
 
+function getMusicScene({ activeView, playOpen, activeGuide, settingsOpen, resetOpen }) {
+  if (activeGuide || settingsOpen || resetOpen || activeView === "mailbox") return "dialogue";
+  if (activeView === "timeAttack") return "timeAttack";
+  if (activeView === "pantry") return "pantry";
+  if (activeView === "spoonRun") return "spoonRun";
+  if (activeView === "album" || activeView === "map") return "albumMap";
+  if (activeView === "puzzle" && playOpen) return "puzzle";
+  return "home";
+}
+
 function getStartPuzzle() {
   return puzzles.find((puzzle) => puzzle.id === "pips-first-shelf-pip-face-1") || puzzles[0];
 }
@@ -833,6 +912,7 @@ function createShell({
   settingsOpen,
   onSelectPuzzle,
   onSelectView,
+  onOpenFeaturedJar,
   onOpenSpoonStore,
   onOpenPuzzle,
   onClosePuzzle,
@@ -870,7 +950,6 @@ function createShell({
   activeGuide,
   allPuzzlesDonePromptOpen,
   onAllPuzzlesDonePantry,
-  onAllPuzzlesDoneSpoonRun,
   onCloseGuide,
   onReplayGuide,
   onPantryFirstPurchase,
@@ -1034,6 +1113,7 @@ function createShell({
       onOpenPuzzle,
       onShowList: onShowPuzzlePicker,
       onSelectView,
+      onOpenFeaturedJar,
       onOpenSettings: onRequestSettings,
       onOpenMailbox: () => onSelectView("mailbox"),
       unreadMailboxCount: getUnreadMailboxCount(),
@@ -1062,8 +1142,7 @@ function createShell({
   }
   if (allPuzzlesDonePromptOpen) {
     shell.appendChild(renderAllPuzzlesDoneDialog({
-      onPantry: onAllPuzzlesDonePantry,
-      onSpoonRun: onAllPuzzlesDoneSpoonRun
+      onPantry: onAllPuzzlesDonePantry
     }));
   }
 

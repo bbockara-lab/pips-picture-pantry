@@ -73,15 +73,15 @@ describe("guide dialog character and badge wiring", () => {
     );
   });
 
-  it("renders the completed-shelf Pip prompt with Pantry and Spoon Run destinations", () => {
+  it("forces a completed-shelf player toward the Pantry gate", () => {
     expect(guideSource).toContain("export function renderAllPuzzlesDoneDialog");
     expect(guideSource).toContain('t("guide.allPuzzlesDone")');
     expect(guideSource).toContain('t("guide.unlockNextHint")');
     expect(guideSource).toContain('pantryButton.addEventListener("click", onPantry)');
-    expect(guideSource).toContain('spoonRunButton.addEventListener("click", onSpoonRun)');
+    expect(guideSource).not.toContain('spoonRunButton.addEventListener("click", onSpoonRun)');
     expect(appShellSource).toContain("getPuzzleHubOpenDecision(activePuzzle");
     expect(appShellSource).toContain('onAllPuzzlesDonePantry: () => selectView("pantry")');
-    expect(appShellSource).toContain('onAllPuzzlesDoneSpoonRun: () => selectView("spoonRun")');
+    expect(appShellSource).not.toContain('onAllPuzzlesDoneSpoonRun: () => selectView("spoonRun")');
   });
 
   it("adds localized speaker name tags only to the character-led launch guides", () => {
@@ -115,15 +115,15 @@ describe("guide dialog character and badge wiring", () => {
     expect(guideSource).toContain('pantryJarIntro: "guide.pantryJarIntro.speakerName"');
     const mailboxSource = readFileSync(new URL("../src/data/mailboxMessages.js", import.meta.url), "utf8");
     expect(mailboxSource).toContain('["guide-pantry-jar", "pantryJarIntro"]');
-    expect(englishSource).toContain('guideReplayPantryJarAction: "Jar display guide"');
-    expect(englishSource).toContain("Display on home puts this collectible beside me in the Puzzle Room and on puzzle-completion screens.");
+    expect(englishSource).toContain('guideReplayPantryJarAction: "Home display bonus guide"');
+    expect(englishSource).toContain("Choose Display on home for an owned collectible");
     expect(englishSource).not.toContain("Activate effect is a separate choice");
-    expect(koreanSource).toContain('guideReplayPantryJarAction: "수집품 전시 가이드"');
-    expect(koreanSource).toContain("홈에 표시하기를 누르면 퍼즐방과 퍼즐 완료 화면에서 제 옆에 함께 나와요.");
+    expect(koreanSource).toContain('guideReplayPantryJarAction: "홈 전시와 보너스 가이드"');
+    expect(koreanSource).toContain("‘홈에 표시하기’를 누르면 퍼즐방과 그림 완료 화면에서 제 곁에 함께 나와요.");
     expect(koreanSource).not.toContain("효과 활성화는 또 다른 선택이에요");
   });
   it("centers and separates every non-puzzle Pip guide bubble", () => {
-    for (const guideId of ["map", "spoonRunIntro", "pantryFirstPurchase", "pantryRoomStory"]) {
+    for (const guideId of ["map", "spoonRunIntro", "pantryFirstPurchase"]) {
       expect(stylesSource).toContain(`.guide-overlay--${guideId} .guide-dialog__line`);
       expect(stylesSource).toContain(`.guide-overlay--${guideId} .guide-dialog__art`);
       expect(stylesSource).toContain(`.guide-overlay--${guideId} .guide-dialog__bubble`);
@@ -133,6 +133,16 @@ describe("guide dialog character and badge wiring", () => {
     expect(stylesSource).toContain("padding-bottom: 36px !important;");
     expect(stylesSource).toContain("align-content: center !important;");
     expect(stylesSource).toContain("bottom: 32px !important;");
+  });
+
+  it("retires obsolete Pantry room and neighbour popups from runtime and mailbox", () => {
+    const mailboxSource = readFileSync(new URL("../src/data/mailboxMessages.js", import.meta.url), "utf8");
+    for (const guideId of ["pantryRoomStory", "pantryNeighborMrPark", "pantryNeighborLily", "pantryNeighborMateo"]) {
+      expect(guideSource).not.toContain(`${guideId}: [`);
+      expect(mailboxSource).not.toContain(`\"${guideId}\"`);
+    }
+    expect(guideSource).not.toContain("story-friend-lily-v1");
+    expect(guideSource).not.toContain("story-friend-mateo-v1");
   });
 
   it("keeps every mobile puzzle guide page inside the viewport", () => {

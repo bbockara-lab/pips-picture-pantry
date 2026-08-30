@@ -172,22 +172,6 @@ describe("i18n", () => {
       "guide.pantryFirstPurchase.step1",
       "guide.pantryFirstPurchase.step2",
       "guide.pantryFirstPurchase.step3",
-      "guide.pantryRoomStory.title",
-      "guide.pantryRoomStory.step1",
-      "guide.pantryRoomStory.step2",
-      "guide.pantryRoomStory.step3",
-      "guide.pantryNeighborMrPark.title",
-      "guide.pantryNeighborMrPark.step1",
-      "guide.pantryNeighborMrPark.step2",
-      "guide.pantryNeighborMrPark.step3",
-      "guide.pantryNeighborLily.title",
-      "guide.pantryNeighborLily.step1",
-      "guide.pantryNeighborLily.step2",
-      "guide.pantryNeighborLily.step3",
-      "guide.pantryNeighborMateo.title",
-      "guide.pantryNeighborMateo.step1",
-      "guide.pantryNeighborMateo.step2",
-      "guide.pantryNeighborMateo.step3",
       "playerIntro.pipCue",
       "timeAttack.ladderAria",
       "timeAttack.ladderRound1",
@@ -242,20 +226,7 @@ describe("i18n", () => {
     expect(t("guide.timeAttack.step2")).toContain("맞힌 칸");
     expect(t("guide.map.step3")).toContain("\uC120\uBC18");
     expect(t("guide.pantryFirstPurchase.step3")).toContain("\uC2A4\uD47C");
-    expect(t("guide.pantryNeighborMrPark.title")).toContain("시계 할아버지");
     expect(t("mailbox.messages.story-mr-park.title")).toContain("시계 할아버지");
-    expect(t("guide.pantryNeighborMrPark.step2")).toContain("\uB530\uB73B\uD55C \uC218\uD504");
-    expect(t("guide.pantryNeighborMrPark.step2")).not.toContain("\uC2DC\uACC4 \uD560\uC544\uBC84\uC9C0");
-    expect(t("guide.pantryNeighborLily.title")).toContain("릴리");
-    expect(t("guide.pantryNeighborMateo.title")).toContain("마테오");
-    [
-      "guide.pantryNeighborMrPark.title",
-      "guide.pantryNeighborMrPark.step1",
-      "guide.pantryNeighborLily.title",
-      "guide.pantryNeighborLily.step1",
-      "guide.pantryNeighborMateo.title",
-      "guide.pantryNeighborMateo.step1"
-    ].forEach((key) => expect(t(key)).not.toMatch(/Mr\.? Park|Lily|Mateo/));
     expect(t("controls.hintRemaining", { count: 1, limit: 3 })).toBe("\uD78C\uD2B8 1/3");
     expect(t("howToPlay.pipLine")).toContain("핍");
     expect(t("controls.lineCompleteHint")).toContain("\uc548\uc804\ud55c \ube48\uce78");

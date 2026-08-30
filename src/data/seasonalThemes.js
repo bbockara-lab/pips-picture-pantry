@@ -7,7 +7,7 @@ const THEME_STATUS = Object.freeze({
 export const seasonalThemes = Object.freeze([
   Object.freeze({
     id: "summer",
-    status: THEME_STATUS.LIVE,
+    status: THEME_STATUS.ARCHIVED,
     homeBackgroundAssetId: "pip-puzzle-workshop-summer-v1",
     homeCharacterAssetId: "pip-home-summer-v1",
     pipPresence: "companion",
@@ -24,7 +24,7 @@ export const seasonalThemes = Object.freeze([
   }),
   Object.freeze({
     id: "korean-harvest",
-    status: THEME_STATUS.CANDIDATE,
+    status: THEME_STATUS.LIVE,
     homeBackgroundAssetId: "pip-puzzle-workshop-korean-harvest-v2-cute-capybara",
     homeCharacterAssetId: null,
     pipPresence: "baked-in",

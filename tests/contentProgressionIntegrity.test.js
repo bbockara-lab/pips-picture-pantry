@@ -25,7 +25,7 @@ describe("content progression impact graph", () => {
     expect(new Set(BADGE_MILESTONES.map((badge) => badge.id)).size).toBe(BADGE_MILESTONES.length);
     expect(BADGE_MILESTONES.filter((badge) => badge.final)).toEqual([BADGE_MILESTONES.at(-1)]);
     expect(BADGE_MILESTONES.every((badge) => hasBadgeArt(badge.id))).toBe(true);
-    expect(groupCounts).toEqual({ A: 3, B: 3, C: 3, D: 3, E: 3 });
+    expect(groupCounts).toEqual({ A: 3, B: 3, C: 3, D: 3, E: 3, F: 1 });
   });
 
   it("keeps every gated stage connected to one paid Pantry shelf", () => {
@@ -35,7 +35,9 @@ describe("content progression impact graph", () => {
     const linkedStageIds = stageIdsByPantryShelf.flat();
 
     expect(stageIdsByPantryShelf.map((ids) => ids.length)).toEqual([1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]);
-    expect(linkedStageIds).toEqual(seasonShelves.slice(1).map((shelf) => shelf.id));
+    expect(linkedStageIds).toEqual(
+      seasonShelves.filter((shelf) => Number(shelf.pantryRoomStepRequired || 0) > 0).map((shelf) => shelf.id)
+    );
     expect(new Set(linkedStageIds).size).toBe(linkedStageIds.length);
   });
 });

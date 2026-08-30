@@ -9,11 +9,7 @@ const GUIDE_MESSAGES = [
   ["guide-time-attack", "timeAttack"],
   ["guide-map", "map"],
   ["story-spoon-run", "spoonRunIntro"],
-  ["story-first-purchase", "pantryFirstPurchase"],
-  ["story-pantry-room", "pantryRoomStory"],
-  ["story-mr-park", "pantryNeighborMrPark"],
-  ["story-lily", "pantryNeighborLily"],
-  ["story-mateo", "pantryNeighborMateo"]
+  ["story-first-purchase", "pantryFirstPurchase"]
 ];
 
 export const MAILBOX_MESSAGES = [

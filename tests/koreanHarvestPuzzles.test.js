@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { KOREAN_HARVEST_PUZZLES } from "../src/data/koreanHarvestPuzzles.js";
 import { puzzles } from "../src/data/puzzles.js";
 
-describe("Korean Harvest candidate puzzle catalog", () => {
+describe("Korean Harvest live puzzle catalog", () => {
   it("contains four directly-authored puzzles at every supported event size", () => {
     expect(KOREAN_HARVEST_PUZZLES).toHaveLength(16);
     expect(Object.fromEntries([5, 8, 10, 12].map((size) => [
@@ -23,17 +23,21 @@ describe("Korean Harvest candidate puzzle catalog", () => {
     }
   });
 
-  it("ships localized titles and remains gated as candidate content", () => {
+  it("ships localized titles as live content", () => {
     for (const puzzle of KOREAN_HARVEST_PUZZLES) {
       expect(puzzle.title).toBeTruthy();
       expect(puzzle.titleKo).toBeTruthy();
       expect(puzzle.packId).toBe("korean-harvest");
-      expect(puzzle.releaseStatus).toBe("candidate");
+      expect(puzzle.releaseStatus).toBe("live");
     }
   });
 
-  it("does not repeat any solution from the current 600-picture catalog", () => {
-    const liveFingerprints = new Set(puzzles.map((puzzle) => `${puzzle.size}:${puzzle.solution.join("/")}`));
+  it("does not repeat any solution from the non-event catalog", () => {
+    const liveFingerprints = new Set(
+      puzzles
+        .filter((puzzle) => puzzle.packId !== "korean-harvest")
+        .map((puzzle) => `${puzzle.size}:${puzzle.solution.join("/")}`)
+    );
     for (const puzzle of KOREAN_HARVEST_PUZZLES) {
       expect(liveFingerprints.has(`${puzzle.size}:${puzzle.solution.join("/")}`)).toBe(false);
     }

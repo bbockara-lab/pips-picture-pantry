@@ -47,9 +47,19 @@ const releaseIgnoredPaths = new Set([
   ".claude/",
   "docs/CLAUDE_REVIEW_LOG.md",
   "docs/CODEX_BRIEF.md",
+  "docs/SUNNY_SPOON_REALTIME_TERRITORY_GAME_FOUNDATION.md",
   "icon_pip_cozy_support.png",
   "icon_pip_spoon_jar_small.png",
+  "audio-production/",
   "scripts/__pycache__/",
+  "scripts/create_almost_wrong_tap_short.py",
+  "scripts/create_last_cell_apple_short.py",
+  "scripts/create_one_safe_move_short.py",
+  "scripts/create_pip_coloring_short_v3.py",
+  "scripts/create_pip_cozy_puzzle_night_short.py",
+  "scripts/create_pip_cozy_puzzle_night_short_v2.py",
+  "scripts/create_tiny_tap_heart_short.py",
+  "store-assets/social/",
 ]);
 const blockingDirtyLines = dirtyLines.filter((line) => {
   const filePath = line.slice(3).replaceAll("\\", "/");

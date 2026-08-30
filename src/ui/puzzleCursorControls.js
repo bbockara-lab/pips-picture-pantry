@@ -79,19 +79,20 @@ export function moveSelectedCell(state, rowDelta, columnDelta, size, update, ses
   const priorCursor = state.cursor || { row: 0, column: 0 };
   const movedState = moveCursor(state, rowDelta, columnDelta, size);
   if (movedState.cursor.row === priorCursor.row && movedState.cursor.column === priorCursor.column) return;
-  playCursorMove();
   if (session?.trailEnabled && options.paintTrail) {
     const mode = session.brushMode || "fill";
+    playCursorAction(mode, { trail: true });
     const value = mode === "mark" ? CELL.marked : CELL.filled;
     const nextState = setMode(movedState, mode);
     update(paintCells(nextState, [{ row: nextState.cursor.row, column: nextState.cursor.column }], value));
     return;
   }
+  playCursorMove();
   update(movedState);
 }
 
 export function toggleSelectedCell(state, mode, update) {
-  playCursorAction();
+  playCursorAction(mode);
   update(toggleCursorCell(state, mode));
 }
 
@@ -103,7 +104,7 @@ export function applyCursorAction(state, mode, update, session = null) {
   session.brushMode = mode;
   const value = mode === "mark" ? CELL.marked : CELL.filled;
   const nextState = setMode(state, mode);
-  playCursorAction();
+  playCursorAction(mode);
   update(paintCells(nextState, [{ row: nextState.cursor.row, column: nextState.cursor.column }], value));
 }
 

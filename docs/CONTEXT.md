@@ -1,3 +1,12 @@
+## v0.1.720 / iOS 1.1.26 and Android 1.1.26 Korean Harvest release (2026-08-29)
+
+- Activates Pip’s Korean Harvest Moon Festival with 16 uniquely solvable bilingual puzzles, four shelves, four approved reward artworks, the final Harvest badge and the seasonal mailbox letter.
+- Grants one local-save, one-time 50-spoon Chuseok gift from September 17 through October 4 and presents it before the regular login reward with dedicated Pip gift artwork.
+- Connects the complete authored Korean Harvest runtime audio library, including dedicated Time Attack music, navigation, puzzle, reward, Pantry and Pip-reaction cues.
+- Includes corrected D-pad held-paint behavior, deterministic Next Picture sequence handling, simplified Home Display collectible behavior, current Pantry bonus guidance and improved completed-shelf presentation.
+- Prepares safe mandatory-update rollout: the submitted policy advertises Android 54 / iOS 9 while continuing to support Android 53 / iOS 8; only a separately prepared post-release policy raises both minimums after both stores are verified live.
+- Release identity: installed-app label `v0.1.720`, Android versionCode `54` / versionName `1.1.26`, iOS build `9` / version `1.1.26`.
+
 ## v0.1.719 / iOS 1.1.25 and Android 1.1.23 interaction and Pantry clarity release (2026-08-28)
 
 - Corrected D-pad continuous painting: a quick direction tap only moves the cursor, while painting begins after a deliberate hold and continues as the cursor repeats. Turning the trail option off always keeps direction movement paint-free.

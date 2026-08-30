@@ -177,7 +177,7 @@ export const puzzlePacks = [
     muralPart: "harvest-moon",
     muralSet: "korean-harvest",
     badge: {
-      id: "badge-korean-harvest",
+      id: "badge-pip-korean-harvest",
       titleKey: "badges.koreanHarvest",
       descriptionKey: "badges.koreanHarvestDesc"
     }

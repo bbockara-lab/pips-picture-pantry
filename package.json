@@ -1,6 +1,6 @@
 {
   "name": "pips-picture-pantry",
-  "version": "0.1.719",
+  "version": "0.1.720",
   "private": true,
   "type": "module",
   "scripts": {
@@ -38,7 +38,11 @@
     "qa:bonus-pack": "node scripts/bonus_pack_visibility_check.js",
     "qa:launch-integrity": "node scripts/launch_integrity_check.js",
     "qa:jars": "node scripts/jar_asset_check.js",
-    "qa:studio-site": "node scripts/studio_site_check.js"
+    "qa:studio-site": "node scripts/studio_site_check.js",
+    "qa:update-policy": "node scripts/update_policy_check.js",
+    "qa:audio": "node scripts/audio_runtime_check.js",
+    "qa:harvest-event": "node scripts/korean_harvest_store_event_check.js",
+    "qa:telegram-ideas": "node scripts/telegram_idea_gate_check.js"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.0",

@@ -58,9 +58,9 @@ describe("Workshop destination collection progress", () => {
   it("shows earned badge progress against every authored badge", () => {
     const empty = getBadgeHomeProgress([]);
     expect(empty.current).toBe(0);
-    expect(empty.total).toBe(15);
+    expect(empty.total).toBe(16);
     const firstBadgePuzzleIds = getSeasonShelfPuzzles(seasonShelves[0]).map((puzzle) => puzzle.id);
-    expect(getBadgeHomeProgress(firstBadgePuzzleIds)).toEqual({ current: 1, total: 15 });
+    expect(getBadgeHomeProgress(firstBadgePuzzleIds)).toEqual({ current: 1, total: 16 });
   });
 
   it("renders Pantry and Badges as flat numeric progress, never the old red dot", () => {
@@ -87,9 +87,22 @@ describe("Workshop Play Now shelf completion routing", () => {
   const currentPuzzles = getSeasonShelfPuzzles(currentShelf);
   const nextPuzzles = getSeasonShelfPuzzles(nextShelf);
 
-  it("opens the current puzzle while the shelf is unfinished", () => {
-    const decision = getPuzzleHubOpenDecision(currentPuzzles[0], [currentPuzzles[0].id], () => false);
+  it("starts with the first picture for a new player", () => {
+    const decision = getPuzzleHubOpenDecision(
+      currentPuzzles[0],
+      [],
+      (shelf) => shelf.id === currentShelf.id
+    );
     expect(decision).toEqual({ type: "open", puzzle: currentPuzzles[0] });
+  });
+
+  it("resumes at the first unfinished picture after the latest completion", () => {
+    const decision = getPuzzleHubOpenDecision(
+      currentPuzzles[0],
+      [currentPuzzles[0].id],
+      (shelf) => shelf.id === currentShelf.id
+    );
+    expect(decision).toEqual({ type: "open", puzzle: currentPuzzles[1] });
   });
 
   it("shows the unlock guide when the completed shelf is followed by a locked shelf", () => {
@@ -102,6 +115,32 @@ describe("Workshop Play Now shelf completion routing", () => {
   it("advances to the next shelf when that shelf is already unlocked", () => {
     const decision = getPuzzleHubOpenDecision(currentPuzzles[0], currentPuzzles.map(({ id }) => id), () => true);
     expect(decision).toEqual({ type: "open", puzzle: nextPuzzles[0] });
+  });
+
+  it("returns to an earlier missed picture before asking for the Pantry", () => {
+    const completedExceptMissed = currentPuzzles
+      .filter((_, index) => index !== 2)
+      .map(({ id }) => id);
+    const decision = getPuzzleHubOpenDecision(
+      currentPuzzles.at(-1),
+      completedExceptMissed,
+      (shelf) => shelf.id === currentShelf.id,
+      { resumeFromLastCompleted: false }
+    );
+    expect(decision).toEqual({ type: "open", puzzle: currentPuzzles[2] });
+  });
+
+  it("does not cycle completed shelves when a later Pantry gate is locked", () => {
+    const thirdShelf = seasonShelves[2];
+    const completed = [...currentPuzzles, ...nextPuzzles].map(({ id }) => id);
+    const decision = getPuzzleHubOpenDecision(
+      currentPuzzles[0],
+      completed,
+      (shelf) => [currentShelf.id, nextShelf.id].includes(shelf.id)
+    );
+    expect(decision.type).toBe("unlock-guide");
+    expect(decision.currentShelf.id).toBe(nextShelf.id);
+    expect(decision.nextShelf.id).toBe(thirdShelf.id);
   });
 });
 
@@ -160,5 +199,11 @@ describe("Per-shelf puzzle picker collapse", () => {
     expect(hubSource).toContain('button.setAttribute("aria-expanded", String(!collapsed))');
     expect(hubSource).toContain('content.hidden = collapsed');
     expect(styles).toMatch(/\.shelf-collapse-toggle\s*\{[\s\S]*?min-width:\s*44px;[\s\S]*?height:\s*44px;/);
+  });
+
+  it("keeps a substantial rectangular stage card when a completed shelf is collapsed", () => {
+    expect(hubSource).toContain('"pack-stage-complete-summary"');
+    expect(hubSource).toContain('t("puzzlePicker.completedShelfSummary"');
+    expect(styles).toMatch(/\.pack-block--collapsed\s*\{[\s\S]*?min-height:\s*94px;[\s\S]*?border-radius:\s*20px;/);
   });
 });

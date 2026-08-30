@@ -38,11 +38,19 @@ export const KOREAN_HARVEST_CONTENT = Object.freeze({
   id: "korean-harvest-2026",
   themeId: "korean-harvest",
   packId: "korean-harvest",
-  status: CONTENT_STATUS.CANDIDATE,
+  status: CONTENT_STATUS.LIVE,
   availability: Object.freeze({
     publishDate: "2026-09-17",
     timezone: "America/New_York",
     requiresExplicitActivation: true
+  }),
+  welcomeGift: Object.freeze({
+    id: "korean-harvest-2026-welcome-gift",
+    spoons: 50,
+    localDateWindow: Object.freeze({
+      start: "2026-09-17",
+      end: "2026-10-04"
+    })
   }),
   localization: Object.freeze({
     supported: Object.freeze(["en", "ko"]),

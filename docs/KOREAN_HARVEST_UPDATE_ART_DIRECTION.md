@@ -4,6 +4,8 @@
 
 The Korean Harvest update is a shared Android and iOS content release built on top of the frozen `1.1.22` / Android version code `51` release candidate. It must not alter or replace those signed release artifacts.
 
+The full audio replacement and the confirmed D-pad Trail Paint correction are specified in `docs/KOREAN_HARVEST_AUDIO_AND_CURSOR_PLAN.md`, with production prompts in `docs/KOREAN_HARVEST_AUDIO_GENERATION_PROMPTS.md`. Both belong to the shared seasonal source line and must pass physical Android and iPhone verification before packaging.
+
 Target public window: September 2026, coordinated with the submitted App Store featuring nomination and a Google Play `Major update / New content` promotional-content submission.
 
 ## Player-facing promise
@@ -62,6 +64,9 @@ Every item below must be reviewed against the master palette and the key visual 
 - One claimable harvest gift may be attached only if save compatibility and one-time claiming are tested.
 - Envelope, unread badge, attachment card and claimed state use the same cream/indigo/brass family.
 - Story letters remain progression-gated; seasonal marketing must not unlock future story dialogue.
+- Players who open the live Korean Harvest build from 2026-09-17 through 2026-10-04 (device-local calendar date) receive one 50-spoon welcome gift per local player save. The first home presentation must explicitly identify it as Pip's gift for the Korean holiday Chuseok.
+- The gift remains airplane-mode compatible and is intentionally stored with local progress. Reinstalling or clearing app data resets all local progress, including the claim record; this release does not introduce accounts or a server identity solely for reward enforcement.
+- The gift presentation uses dedicated authored art rather than reusing the mailbox letter: `src/assets/seasonal/korean-harvest/pip-chuseok-welcome-gift-v1.webp` (runtime) and `pip-chuseok-welcome-gift-v1.png` (archived source). Pip visibly presents a jade-and-cream bojagi parcel beside songpyeon and the full Chuseok moon.
 
 ### Store promotion
 
@@ -98,7 +103,7 @@ Each final puzzle must pass silhouette readability and nonogram clue validation 
 - Runtime WebP: `src/assets/generated/pip-puzzle-workshop-korean-harvest-v2-cute-capybara.webp`
 - Pip presence: baked in
 - Character direction: 80–85% cute mascot readability with 15–20% capybara anatomy; warm rounded muzzle, tiny rounded ears, friendly dark eyes, and no realistic rodent treatment.
-- Status: approved for event-gated use after full-device overlay review at 360×740, 390×844, 430×932 and 675×900. It is registered for preview, but it does not replace the live summer scene until the two release statuses are deliberately promoted together.
+- Status: approved and deliberately promoted for the Korean Harvest release. Full-device overlay review remains a packaging gate at 360×740, 390×844, 430×932 and 675×900.
 
 ## Implemented candidate content — 2026-08-20
 
@@ -139,3 +144,16 @@ Do not activate only one of the two status fields. A partial promotion intention
 - Android and iOS load the same theme id and content catalog.
 - The theme can be disabled without invalidating an existing save.
 - `npm run test`, `npm run qa:assets`, `npm run qa:mobile` and both platform release gates pass before packaging.
+
+## Mandatory-update activation contract
+
+The Korean Harvest binaries contain the existing fail-open remote update gate. The hosted policy must be promoted in two phases so review or phased store propagation never locks players out of a version they cannot download.
+
+1. Before submission, bump the shared release version plus Android version code and iOS build, then update `store-assets/app-update-policy.json` so `latestBuild` points to the new binaries while `minimumSupportedBuild` remains the currently public Android/iOS build.
+2. Deploy that safe policy at or before submission. Older clients see only the dismissible update notice while either store is reviewing or propagating.
+3. Confirm the exact Android version code is publicly downloadable from Google Play and the exact iOS build is publicly downloadable from the App Store in every event region.
+4. Change both `minimumSupportedBuild` values to the new public build numbers and deploy the policy again. From that moment, every older online native build receives the blocking update screen and its only action opens the correct store.
+5. Preserve the prior safe policy as the rollback file. If either listing is unavailable, immediately redeploy it.
+6. Do not activate the mandatory policy from a signed app binary, and do not raise only one platform minimum while the user-facing event claims a simultaneous release.
+
+Run `npm run qa:update-policy` whenever either native build identity or the hosted JSON changes. The live endpoint is `https://sunny-spoon-pantry.web.app/app-update-policy.json`; it returned 404 during the 2026-08-29 audit, so hosting the safe policy is a release prerequisite.

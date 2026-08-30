@@ -1,4 +1,4 @@
-import { countMistakes, isSolved } from "../game/nonogram.js";
+import { CELL, countMistakes, isSolved } from "../game/nonogram.js";
 import { createReplayCleanStatus, isReplayClean, updateReplayCleanStatus } from "../game/replayChallenge.js";
 import {
   applyCompletedLineMarks,
@@ -12,7 +12,7 @@ import {
 import { getPuzzleExtraHintCost } from "../data/economyConfig.js";
 import { getFeaturedJar, getPantrySpoons, loadPuzzleState, recordReplayReward, savePuzzleState, spendPantrySpoons } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
-import { playComplete, playCursorAction, playCursorMove, playTap } from "./audio.js";
+import { playComplete, playCue, playCursorAction, playCursorMove, playTap } from "./audio.js";
 import { getHintLimit, getHintRevealCount, renderHintPanel, renderHowToPlayCard, renderMarkHint } from "./puzzleAssistView.js";
 import { applyCursorAction, createCursorControlSession, moveSelectedCell, renderCursorControls, shouldShowCursorControls } from "./puzzleCursorControls.js";
 import { getLineGuidance, renderBoard } from "./boardView.js";
@@ -196,9 +196,9 @@ export function renderPuzzleView(puzzle, options = {}) {
     }
 
     section.appendChild(renderBoard(puzzle, state, (row, column, action = {}) => {
-      playTap();
       const cursorState = setCursor(state, row, column, puzzle.size);
       if (cursorControlsEnabled) {
+        playCursorMove();
         // In D-pad mode a board tap only repositions the cursor. Applying the
         // current paint action here made Blank feel broken because a tap could
         // colour a square before the player pressed either action.
@@ -206,9 +206,14 @@ export function renderPuzzleView(puzzle, options = {}) {
         return;
       }
       if (Array.isArray(action.paintCells) && action.paintValue) {
+        playCue(action.paintValue === CELL.marked ? "sfx_drag_step_mark" : "sfx_drag_step_fill", { volume: 0.52 });
         update(paintCells(cursorState, action.paintCells, action.paintValue));
         return;
       }
+      const currentValue = state.cells?.[row]?.[column];
+      playCue(currentValue === CELL.empty
+        ? (state.mode === "mark" ? "sfx_cell_mark_x" : "sfx_cell_fill")
+        : "sfx_cell_clear", { volume: 0.58 });
       update(toggleCell(cursorState, row, column));
     }, {
       completed: state.completed,
