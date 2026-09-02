@@ -103,7 +103,8 @@ export function renderApp(root) {
   let dailyChallenge = false;
   let seasonalEventChallenge = false;
   let seasonalArchiveChallenge = false;
-  let koreanHarvestEventOpen = false;
+  let koreanHarvestEventOpen = root.dataset.openKoreanHarvestEvent === "true";
+  delete root.dataset.openKoreanHarvestEvent;
   let cozySupportState = createDefaultCozySupportState();
   let spoonJarState = createDefaultSpoonJarState();
   let billingCatalogRequestId = 0;

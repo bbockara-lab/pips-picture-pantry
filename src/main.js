@@ -8,6 +8,15 @@ const root = document.querySelector("#app");
 renderApp(root);
 renderBrandIntro(root);
 
+function openKoreanHarvestDeepLink(url) {
+  if (!url?.startsWith("pipspicturepantry://event/korean-harvest-2026")) return;
+  root.dataset.openKoreanHarvestEvent = "true";
+  renderApp(root);
+}
+
+void App.addListener("appUrlOpen", ({ url }) => openKoreanHarvestDeepLink(url));
+void App.getLaunchUrl().then(({ url } = {}) => openKoreanHarvestDeepLink(url));
+
 function syncDocumentAudioState() {
   setAudioAppActive(document.visibilityState !== "hidden");
 }
