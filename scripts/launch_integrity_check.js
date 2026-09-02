@@ -147,7 +147,9 @@ function checkReplayCleanRewardPath() {
 
 function checkSimpleOpening() {
   const intro = "src/ui/brandIntro.js";
-  expectIncludes(intro, "buildKeyVisual(false)", "opening key visual");
+  expectIncludes(intro, "buildKeyVisual(false, koreanHarvestLive)", "date-aware opening key visual");
+  expectIncludes(intro, "opening-key-visual-v1.webp", "permanent opening key visual");
+  expectIncludes(intro, "isKoreanHarvestEventVisible()", "seasonal opening visibility gate");
   expectIncludes(intro, "brand-intro__skip", "single Start action");
   expectExcludes(intro, "buildPromiseChip", "pre-start mode cards");
   expectIncludes("scripts/mobile_visual_check.js", "brand-intro__promise-strip", "removed mode-card regression guard");

@@ -1,5 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { getCursorTrailPreference, setCursorTrailPreference } from "../src/ui/preferences.js";
+import {
+  getControlModePreference,
+  getCursorTrailPreference,
+  setControlModePreference,
+  setCursorTrailPreference
+} from "../src/ui/preferences.js";
 
 function createStorage(initial = {}) {
   const values = new Map(Object.entries(initial));
@@ -23,5 +28,25 @@ describe("Trail Paint preference", () => {
     expect(getCursorTrailPreference()).toBe(false);
     setCursorTrailPreference(true);
     expect(getCursorTrailPreference()).toBe(true);
+  });
+});
+
+describe("puzzle control preference", () => {
+  beforeEach(() => {
+    vi.stubGlobal("localStorage", createStorage());
+  });
+
+  it("starts a new player with direct cell taps", () => {
+    expect(getControlModePreference()).toBe("direct");
+  });
+
+  it("keeps a returning player's explicit choice", () => {
+    setControlModePreference("cursor");
+    expect(getControlModePreference()).toBe("cursor");
+  });
+
+  it("falls back to direct taps for an invalid stored choice", () => {
+    setControlModePreference("invalid");
+    expect(getControlModePreference()).toBe("direct");
   });
 });

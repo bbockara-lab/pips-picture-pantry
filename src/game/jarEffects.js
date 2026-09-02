@@ -1,7 +1,9 @@
 import { JAR_SHELVES, getJarsByShelf } from "../data/pantryJars.js";
+import { KOREAN_HARVEST_DISPLAY_BONUS_CHANCE, isKoreanHarvestRewardUnlocked } from "../data/koreanHarvestContent.js";
 
 export const PANTRY_BONUS_FUTURE_SHELF_CAP = 24;
 export const PANTRY_BONUS_MAX_CHANCE = 26;
+export const PANTRY_BONUS_MAX_WITH_SEASONAL_DISPLAY = PANTRY_BONUS_MAX_CHANCE + KOREAN_HARVEST_DISPLAY_BONUS_CHANCE;
 export const PANTRY_BONUS_REWARD = 1;
 export const PANTRY_BONUS_COMPLETION_RETENTION = 1600;
 
@@ -31,10 +33,23 @@ export function getPantryGrowthBonusChance(completedShelfCount) {
 
 export function getPantryGrowthBonusStatus(save) {
   const completedShelves = getCompletedPantryShelfCountFromSave(save);
+  const baseChance = getPantryGrowthBonusChance(completedShelves);
+  const ownedJarIds = Array.isArray(save?.ownedJarIds) ? save.ownedJarIds : [];
+  const hasFeaturedJar = Boolean(save?.featuredJarId && ownedJarIds.includes(save.featuredJarId));
+  const seasonalRewardId = save?.featuredSeasonalRewardId || null;
+  const hasUnlockedSeasonalReward = Boolean(
+    seasonalRewardId && isKoreanHarvestRewardUnlocked(seasonalRewardId, save?.completedPuzzleIds)
+  );
+  const seasonalDisplayBonus = hasFeaturedJar && hasUnlockedSeasonalReward
+    ? KOREAN_HARVEST_DISPLAY_BONUS_CHANCE
+    : 0;
   return {
     completedShelves,
     futureShelfCap: PANTRY_BONUS_FUTURE_SHELF_CAP,
-    chance: getPantryGrowthBonusChance(completedShelves),
+    baseChance,
+    seasonalDisplayBonus,
+    seasonalBonusActive: seasonalDisplayBonus > 0,
+    chance: Math.min(PANTRY_BONUS_MAX_WITH_SEASONAL_DISPLAY, baseChance + seasonalDisplayBonus),
     reward: PANTRY_BONUS_REWARD
   };
 }

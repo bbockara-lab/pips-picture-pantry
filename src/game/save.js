@@ -1,6 +1,7 @@
 import { ECONOMY, getDailyReplayPickLimit, getDailyTimeAttackLimit, getReplayPickReward, getTimeAttackMinRewardProgressRatio, getTimeAttackRecordBonus, getTimeAttackReward } from "../data/economyConfig.js";
 import { isDecorationArtApproved } from "../data/decorations.js";
 import { seasonShelves } from "../data/seasonShelves.js";
+import { isKoreanHarvestRewardUnlocked } from "../data/koreanHarvestContent.js";
 import { getPreviousSeasonShelf, isSeasonShelfComplete } from "./seasonShelfProgress.js";
 import { restoreState, serializeState } from "./puzzleState.js";
 import { JAR_SHELVES, PANTRY_JARS, getJarById, getJarsByShelf } from "../data/pantryJars.js";
@@ -164,6 +165,23 @@ export function getFeaturedJar() {
   return jarId ? getJarById(jarId) : null;
 }
 
+export function setFeaturedSeasonalReward(rewardId) {
+  const save = loadSave() || createEmptySave();
+  const normalizedId = rewardId ? String(rewardId) : null;
+  if (normalizedId && !isKoreanHarvestRewardUnlocked(normalizedId, save.completedPuzzleIds)) return false;
+  save.featuredSeasonalRewardId = normalizedId;
+  saveGame(save);
+  return true;
+}
+
+export function getFeaturedSeasonalRewardId() {
+  const save = loadSave();
+  const rewardId = save?.featuredSeasonalRewardId || null;
+  return rewardId && isKoreanHarvestRewardUnlocked(rewardId, save?.completedPuzzleIds)
+    ? rewardId
+    : null;
+}
+
 export function getDailyCompletedDate() {
   return loadSave()?.dailyCompletedDate || null;
 }
@@ -211,6 +229,11 @@ export function claimSeasonalSpoonGift(gift, dateKey = getLocalDateKey()) {
   save.pantrySpoons += spoons;
   saveGame(save);
   return { id: giftId, spoons, balance: save.pantrySpoons };
+}
+
+export function hasClaimedSeasonalGift(giftId) {
+  const normalizedGiftId = String(giftId || "").trim();
+  return Boolean(normalizedGiftId && loadSave()?.claimedSeasonalGiftIds.includes(normalizedGiftId));
 }
 
 export function recordDailyComplete(dateString) {
@@ -663,6 +686,9 @@ export function isShelfUnlocked(shelf) {
   if (!shelf || shelf.id === STARTER_SHELF_ID) {
     return true;
   }
+  if (shelf.eventTheme === "korean-harvest" && !getPreviousSeasonShelf(shelf)) {
+    return true;
+  }
   if (getUnlockedShelfIds().includes(shelf.id)) {
     return true;
   }
@@ -890,6 +916,7 @@ function normalizeSave(parsed) {
       : {},
     featuredBadgeId: parsed?.featuredBadgeId ? String(parsed.featuredBadgeId) : null,
     featuredJarId: parsed?.featuredJarId ? String(parsed.featuredJarId) : null,
+    featuredSeasonalRewardId: parsed?.featuredSeasonalRewardId ? String(parsed.featuredSeasonalRewardId) : null,
     activeJarId: parsed?.activeJarId ? String(parsed.activeJarId) : null,
     jarEffectProgress: parsed?.jarEffectProgress && typeof parsed.jarEffectProgress === "object"
       ? Object.fromEntries(Object.entries(parsed.jarEffectProgress).map(([id, count]) => [String(id), Math.max(0, Number(count) || 0)]))

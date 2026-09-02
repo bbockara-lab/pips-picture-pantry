@@ -1,14 +1,17 @@
 import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
 import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-summer-v1.webp";
-import koreanHarvestWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-korean-harvest-v2-cute-capybara.webp";
+import koreanHarvestWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-korean-harvest-v3-event-space.webp";
 import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
 import pipSummerHomeUrl from "../assets/characters/pip-home-summer-v1.webp";
-import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, getSeasonShelfSizeCounts, seasonShelves } from "../data/seasonShelves.js";
+import pipHarvestGreetingUrl from "../assets/characters/pip-korean-harvest-greeting-v2.webp";
+import koreanHarvestEventBadgeUrl from "../assets/badges/badge-pip-korean-harvest-v2.webp";
+import { isKoreanHarvestEventVisible, KOREAN_HARVEST_CONTENT } from "../data/koreanHarvestContent.js";
+import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, getSeasonShelfSizeCounts, regularSeasonShelves } from "../data/seasonShelves.js";
 import { puzzles } from "../data/puzzles.js";
 import { PANTRY_JARS, getJarById } from "../data/pantryJars.js";
 import { getPaidJarProgressForPantryShelf, getPantryShelfForSeasonShelf } from "../data/stagePantryLinks.js";
 import { ECONOMY } from "../data/economyConfig.js";
-import { getCompletedPuzzleIds, getFeaturedBadgeId, getFeaturedJarId, getOwnedJarIds, getPaidJarCount, getPantryGrowthBonusStatus, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
+import { getCompletedPuzzleIds, getFeaturedBadgeId, getFeaturedJarId, getFeaturedSeasonalRewardId, getOwnedJarIds, getPaidJarCount, getPantryGrowthBonusStatus, getReplayDailyCount, getShelfPantryRoomRequirement, isShelfUnlocked } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { getQuickTravelArt } from "../data/quickTravelArt.js";
 import { getHomeActionArt } from "../data/homeActionArt.js";
@@ -16,15 +19,17 @@ import { getPreviousSeasonShelf, isSeasonShelfComplete } from "../game/seasonShe
 import { renderColoredPuzzleArt } from "./coloredPuzzleArt.js";
 import { getJarArtUrl } from "../data/jarArt.js";
 import { getBadgeArtUrl } from "../data/badgeArt.js";
+import { getKoreanHarvestRewardArtUrl } from "../data/koreanHarvestRewardArt.js";
 import { BADGE_MILESTONES, getPackBadgeStatus } from "../game/badges.js";
 import { getLiveSeasonalTheme, getSeasonalTheme, getSeasonalThemeForPack, getSeasonalThemeLabel } from "../data/seasonalThemes.js";
 
 const HOME_THEME_BACKGROUNDS = Object.freeze({
   "pip-puzzle-workshop-summer-v1": puzzleWorkshopBackgroundUrl,
-  "pip-puzzle-workshop-korean-harvest-v2-cute-capybara": koreanHarvestWorkshopBackgroundUrl
+  "pip-puzzle-workshop-korean-harvest-v3-event-space": koreanHarvestWorkshopBackgroundUrl
 });
 const HOME_THEME_CHARACTERS = Object.freeze({
-  "pip-home-summer-v1": pipSummerHomeUrl
+  "pip-home-summer-v1": pipSummerHomeUrl,
+  "pip-korean-harvest-greeting-v2": pipHarvestGreetingUrl
 });
 
 function appendTextElement(parent, tagName, className, text) {
@@ -81,7 +86,7 @@ export function getPuzzleHubOpenDecision(
     ? [...completedPuzzleIds]
     : [...(completedPuzzleIds || [])];
   const completed = new Set(completionOrder);
-  const progressionPuzzles = seasonShelves.flatMap((shelf) => getSeasonShelfPuzzles(shelf));
+  const progressionPuzzles = regularSeasonShelves.flatMap((shelf) => getSeasonShelfPuzzles(shelf));
   const lastCompletedId = resumeFromLastCompleted
     ? [...completionOrder].reverse().find((puzzleId) => progressionPuzzles.some((puzzle) => puzzle.id === puzzleId))
     : null;
@@ -97,7 +102,7 @@ export function getPuzzleHubOpenDecision(
     return { type: "open", puzzle: nextPlayable };
   }
 
-  const nextLockedShelf = seasonShelves.find((shelf) => {
+  const nextLockedShelf = regularSeasonShelves.find((shelf) => {
     if (shelfUnlocked(shelf)) return false;
     const previousShelf = getPreviousSeasonShelf(shelf);
     return Boolean(previousShelf) && isSeasonShelfComplete(previousShelf, completed);
@@ -113,6 +118,19 @@ export function getPuzzleHubOpenDecision(
   return { type: "complete", puzzle: activePuzzle || progressionPuzzles[0] || null };
 }
 
+export function getRegularJourneyCompleteDestination(
+  completedPuzzleIds = getCompletedPuzzleIds(),
+  dateKey
+) {
+  const completed = new Set(completedPuzzleIds || []);
+  const hasSeasonalPuzzleRemaining = KOREAN_HARVEST_CONTENT.puzzles.some(
+    (puzzle) => !completed.has(puzzle.id)
+  );
+  return isKoreanHarvestEventVisible(dateKey) && hasSeasonalPuzzleRemaining
+    ? "seasonal-event"
+    : "puzzle-picker";
+}
+
 export function renderPuzzleHub(activePuzzle, options = {}) {
   const {
     onOpenPuzzle = () => {},
@@ -121,6 +139,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     onOpenFeaturedJar = () => {},
     onOpenSettings = () => {},
     onOpenMailbox = () => {},
+    onOpenSeasonalEvent = () => {},
     unreadMailboxCount = 0,
     spoonRunOpportunity = { total: 0 },
     greetingMessage = null,
@@ -131,7 +150,9 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   const previewThemeId = import.meta.env.DEV
     ? new URLSearchParams(globalThis.location?.search || "").get("seasonalTheme")
     : null;
-  const homeTheme = (previewThemeId && getSeasonalTheme(previewThemeId)) || getLiveSeasonalTheme();
+  const homeTheme = (previewThemeId && getSeasonalTheme(previewThemeId))
+    || getLiveSeasonalTheme()
+    || getSeasonalTheme("summer");
 
   const scene = document.createElement("section");
   scene.className = "puzzle-home-scene";
@@ -145,13 +166,6 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
 
   const greetingWrap = document.createElement("div");
   greetingWrap.className = "puzzle-home-scene__greeting-wrap hub-greeting-wrap";
-  const eventRibbon = appendTextElement(
-    greetingWrap,
-    "span",
-    "puzzle-home-scene__event-ribbon",
-    getSeasonalThemeLabel(homeTheme, t)
-  );
-  eventRibbon.setAttribute("aria-label", t(homeTheme.eventLabelKey));
   const greeting = appendTextElement(
     greetingWrap,
     "p",
@@ -200,8 +214,11 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
       (status) => status.earned && status.badge.id === featuredBadgeId
     )
     : null;
+  const featuredSeasonalReward = KOREAN_HARVEST_CONTENT.rewards.find(
+    (reward) => reward.id === getFeaturedSeasonalRewardId()
+  ) || null;
 
-  if (featuredJar || featuredBadgeStatus) {
+  if (featuredJar || featuredBadgeStatus || featuredSeasonalReward) {
     const keepsakeShelf = document.createElement("div");
     keepsakeShelf.className = "home-keepsake-shelf";
     keepsakeShelf.setAttribute("aria-label", t("home.keepsakeShelfAria"));
@@ -251,6 +268,35 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
       keepsakeShelf.appendChild(featuredBadge);
     }
 
+    if (featuredSeasonalReward) {
+      const seasonalReward = document.createElement("button");
+      seasonalReward.type = "button";
+      seasonalReward.className = "home-keepsake-shelf__item home-keepsake-shelf__seasonal-reward";
+      seasonalReward.setAttribute("aria-label", t("koreanHarvest.rewards.featuredAria", {
+        item: t(`koreanHarvest.rewards.${featuredSeasonalReward.id}`)
+      }));
+      const image = document.createElement("img");
+      image.src = getKoreanHarvestRewardArtUrl(featuredSeasonalReward.assetId);
+      image.alt = "";
+      image.setAttribute("aria-hidden", "true");
+      image.dataset.assetId = featuredSeasonalReward.assetId;
+      seasonalReward.appendChild(image);
+      const growthBonus = getPantryGrowthBonusStatus();
+      if (growthBonus.seasonalBonusActive) {
+        const seasonalBonusBadge = appendTextElement(
+          seasonalReward,
+          "span",
+          "home-keepsake-shelf__bonus home-keepsake-shelf__bonus--seasonal",
+          t("koreanHarvest.rewards.bonusBadge", { chance: growthBonus.seasonalDisplayBonus })
+        );
+        seasonalBonusBadge.setAttribute("aria-label", t("koreanHarvest.rewards.bonusBadgeAria", {
+          chance: growthBonus.seasonalDisplayBonus
+        }));
+      }
+      seasonalReward.addEventListener("click", () => onSelectView("pantry"));
+      keepsakeShelf.appendChild(seasonalReward);
+    }
+
     scene.appendChild(keepsakeShelf);
   }
 
@@ -286,6 +332,8 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     ["map", "home.mapLabel", () => onSelectView("map")]
   ];
   const completedIds = new Set(getCompletedPuzzleIds());
+  const regularPuzzles = puzzles.filter((puzzle) => puzzle.packId !== KOREAN_HARVEST_CONTENT.packId);
+  const regularCompletedCount = regularPuzzles.filter((puzzle) => completedIds.has(puzzle.id)).length;
   const activeShelfPuzzles = activeShelf ? getSeasonShelfPuzzles(activeShelf) : [];
   const activeShelfCompletedCount = activeShelfPuzzles.filter((puzzle) => completedIds.has(puzzle.id)).length;
   const badgeProgress = getBadgeHomeProgress(completedIds);
@@ -319,8 +367,8 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
       );
     } else if (artId === "album") {
       collectionProgress = {
-        current: completedIds.size,
-        total: puzzles.length
+        current: regularCompletedCount,
+        total: regularPuzzles.length
       };
       appendTextElement(
         button,
@@ -411,6 +459,23 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   settingsButton.addEventListener("click", onOpenSettings);
 
   sceneControls.append(mailboxButton, settingsButton);
+  if (isKoreanHarvestEventVisible()) {
+    const eventButton = document.createElement("button");
+    eventButton.type = "button";
+    eventButton.className = "puzzle-home-scene__seasonal-event";
+    eventButton.setAttribute("aria-label", t("koreanHarvest.event.iconLabel"));
+    const eventArt = document.createElement("img");
+    eventArt.src = koreanHarvestEventBadgeUrl;
+    eventArt.alt = "";
+    eventArt.setAttribute("aria-hidden", "true");
+    eventArt.dataset.assetId = "badge-pip-korean-harvest-v2";
+    const eventLabel = appendTextElement(eventButton, "span", "puzzle-home-scene__seasonal-event-label", t("koreanHarvest.event.iconLabel"));
+    const eventCompleted = KOREAN_HARVEST_CONTENT.puzzles.filter((puzzle) => completedIds.has(puzzle.id)).length;
+    appendTextElement(eventButton, "strong", "puzzle-home-scene__seasonal-event-progress", `${eventCompleted}/${KOREAN_HARVEST_CONTENT.puzzles.length}`);
+    eventButton.append(eventArt, eventLabel);
+    eventButton.addEventListener("click", onOpenSeasonalEvent);
+    scene.appendChild(eventButton);
+  }
   scene.append(destinations, sceneControls, play);
   stack.append(scene);
   return stack;
@@ -608,6 +673,14 @@ export function formatShelfPuzzleSummary(shelf) {
     .join(" · ");
 }
 
+export function getPuzzlePickerShelfThemePresentation(shelf, translate = t) {
+  const theme = getSeasonalThemeForPack(shelf?.artPackId);
+  return {
+    theme,
+    label: theme ? getSeasonalThemeLabel(theme, translate) : ""
+  };
+}
+
 export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {}) {
   const {
     shelfCollapseOverrides = new Map(),
@@ -619,7 +692,7 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {})
   const section = document.createElement("section");
   section.className = "puzzle-picker content-panel";
   section.dataset.eventTheme = getLiveSeasonalTheme()?.id || "";
-  seasonShelves.forEach((shelf) => {
+  regularSeasonShelves.forEach((shelf) => {
     const shelfPuzzles = getSeasonShelfPuzzles(shelf);
     const completeCount = shelfPuzzles.filter((puzzle) => completedPuzzleIdSet.has(puzzle.id)).length;
     const unlocked = isShelfUnlocked(shelf);
@@ -650,7 +723,7 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {})
     const packBlock = document.createElement("article");
     packBlock.className = collapsed ? "pack-block pack-block--collapsed" : "pack-block";
     packBlock.dataset.shelfId = shelf.id;
-    const shelfTheme = getSeasonalThemeForPack(shelf.artPackId);
+    const { theme: shelfTheme, label: shelfThemeLabel } = getPuzzlePickerShelfThemePresentation(shelf);
     if (shelfTheme) packBlock.dataset.eventTheme = shelfTheme.id;
     packBlock.dataset.collapsed = String(collapsed);
     if (shelfPuzzles.some((puzzle) => puzzle.id === activePuzzleId)) packBlock.dataset.activeStage = "true";
@@ -661,7 +734,7 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {})
     const headerCopy = document.createElement("div");
     appendTextElement(headerCopy, "p", "section-label", t(shelf.titleKey));
     if (shelfTheme) {
-      appendTextElement(headerCopy, "span", "pack-event-badge", getSeasonalThemeLabel(shelfTheme, t));
+      appendTextElement(headerCopy, "span", "pack-event-badge", shelfThemeLabel);
     }
     if (isStageComplete) {
       appendTextElement(headerCopy, "span", "pack-stage-complete-badge", `✓ ${t("puzzlePicker.stageComplete")}`);

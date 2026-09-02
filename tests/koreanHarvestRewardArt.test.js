@@ -35,7 +35,8 @@ describe("Korean Harvest reward shelf", () => {
     try {
       const shelf = renderKoreanHarvestRewardShelf([]);
       expect(shelf?.dataset.eventTheme).toBe("korean-harvest");
-      expect(shelf?.children[1]?.children).toHaveLength(4);
+      const items = shelf?.children.find((child) => child.className === "seasonal-reward-shelf__items");
+      expect(items?.children).toHaveLength(4);
     } finally {
       globalThis.document = originalDocument;
     }

@@ -156,11 +156,60 @@ export const assetRegistry = [
     path: "src/assets/generated/pip-puzzle-workshop-korean-harvest-v2-cute-capybara.webp",
     sourceType: "raster",
     approval: "approved",
-    visible: true,
+    visible: false,
     mustReplaceBeforeMajorArtPass: false,
     pipPresence: "baked-in",
     identityStatus: "approved-korean-harvest-world-continuity",
     note: "Overlay-verified Korean Harvest Workshop composition using the approved cute capybara Pip identity. Pip wears a restrained jade-and-cream hanbok and prepares songpyeon under full-moon and hanji-lantern light; runtime exposure remains controlled by the seasonal publish gate."
+  },
+  {
+    id: "pip-puzzle-workshop-korean-harvest-v3-event-space",
+    usage: "puzzle-home-background-seasonal",
+    path: "src/assets/generated/pip-puzzle-workshop-korean-harvest-v3-event-space.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "companion",
+    pipCharacterAssetId: "pip-korean-harvest-greeting-v2",
+    identityStatus: "approved-korean-harvest-world-continuity",
+    note: "Korean Harvest Workshop without a baked-in character, preserving a clear greeting lane and lower-left event destination while the table keeps songpyeon and a puzzle notebook."
+  },
+  {
+    id: "pip-puzzle-workshop-korean-harvest-source-v3-event-space",
+    usage: "puzzle-home-background-seasonal-source",
+    path: "src/assets/generated/pip-puzzle-workshop-korean-harvest-v3-event-space.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "companion",
+    identityStatus: "approved-korean-harvest-world-continuity",
+    note: "High-resolution source for the character-free Korean Harvest event-space background."
+  },
+  {
+    id: "pip-korean-harvest-greeting-v2",
+    usage: "puzzle-home-character",
+    path: "src/assets/characters/pip-korean-harvest-greeting-v2.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "companion",
+    identityStatus: "approved-character-continuity",
+    note: "Transparent full-body Pip companion in jade-and-cream hanbok, waving beside the home greeting and carrying the approved golden spoon."
+  },
+  {
+    id: "pip-korean-harvest-greeting-source-v2",
+    usage: "puzzle-home-character-source",
+    path: "src/assets/characters/pip-korean-harvest-greeting-v2.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "companion",
+    identityStatus: "approved-character-continuity",
+    note: "Transparent high-resolution source for the Korean Harvest home greeting companion."
   },
   {
     id: "pip-puzzle-workshop-korean-harvest-source-v2-cute-capybara",
@@ -407,6 +456,50 @@ export const assetRegistry = [
     mustReplaceBeforeMajorArtPass: false,
     identityStatus: "approved-character-continuity",
     note: "Approved high-polish Sunny Spoon/Pip opening key visual promoted into the brand intro in v0.1.103."
+  },
+  {
+    id: "opening-key-visual-korean-harvest-source-v1",
+    usage: "opening-key-visual-korean-harvest-source",
+    path: "src/assets/brand/opening-key-visual-korean-harvest-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "High-resolution source for the Korean Harvest opening visual with Pip, songpyeon, harvest moon, hanji lantern and bojagi. Runtime uses optimized WebP."
+  },
+  {
+    id: "opening-key-visual-korean-harvest-v1",
+    usage: "opening-key-visual",
+    path: "src/assets/brand/opening-key-visual-korean-harvest-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "Retired first Korean Harvest event opening visual after character feedback found Pip too humanoid."
+  },
+  {
+    id: "opening-key-visual-korean-harvest-source-v2",
+    usage: "opening-key-visual-korean-harvest-source",
+    path: "src/assets/brand/opening-key-visual-korean-harvest-v2.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "High-resolution source for the revised Korean Harvest opening visual with Pip restored to the compact, rounded animal proportions of the established opening character."
+  },
+  {
+    id: "opening-key-visual-korean-harvest-v2",
+    usage: "opening-key-visual",
+    path: "src/assets/brand/opening-key-visual-korean-harvest-v2.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "Revised Korean Harvest event opening visual with compact, rounded Pip character proportions and code-rendered event identification below the artwork."
   },
   {
     id: "spoon-token-v1",

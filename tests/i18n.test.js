@@ -55,6 +55,8 @@ describe("i18n", () => {
   });
 
   it("formats translated strings", () => {
+    expect(t("brandIntro.eventTag")).toBe("Limited-time event");
+    expect(t("brandIntro.eventDates")).toBe("Sep 17–Oct 4");
     expect(t("progress.filled", { count: 3 })).toBe("3 filled");
     expect(t("progress.filledOf", { count: 3, target: 12 })).toBe("3 / 12");
     expect(t("progress.revisitOf", { count: 5, target: 12, mistakes: 1 })).toBe("5 / 12 · 1 to revisit");

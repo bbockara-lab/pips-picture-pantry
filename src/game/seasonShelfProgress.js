@@ -1,4 +1,4 @@
-import { getSeasonShelfById, getSeasonShelfForPuzzle, getSeasonShelfPuzzles, seasonShelves } from "../data/seasonShelves.js";
+import { eventSeasonShelves, getSeasonShelfById, getSeasonShelfForPuzzle, getSeasonShelfPuzzles, seasonShelves } from "../data/seasonShelves.js";
 
 export function getSeasonShelfProgress(shelfOrId, completedPuzzleIds = []) {
   const shelf = typeof shelfOrId === "string" ? getSeasonShelfById(shelfOrId) : shelfOrId;
@@ -22,7 +22,9 @@ export function getPreviousSeasonShelf(shelfOrId) {
   if (!shelf || shelf.index <= 0) {
     return null;
   }
-  return seasonShelves[shelf.index - 1] || null;
+  const shelfGroup = shelf.eventTheme === "korean-harvest" ? eventSeasonShelves : seasonShelves;
+  const groupIndex = shelfGroup.findIndex((candidate) => candidate.id === shelf.id);
+  return groupIndex > 0 ? shelfGroup[groupIndex - 1] : null;
 }
 
 export function getSeasonShelfForPuzzleId(puzzleId) {

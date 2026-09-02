@@ -7,12 +7,14 @@ import {
   getPantryGrowthBonusStatus,
   getCompletedPuzzleIds,
   getFeaturedJarId,
+  getFeaturedSeasonalRewardId,
   hasSeenGuide,
   getOwnedJarIds,
   getPaidJarCount,
   getPantrySpoons,
   isShelfUnlocked,
-  setFeaturedJar
+  setFeaturedJar,
+  setFeaturedSeasonalReward
 } from "../game/save.js";
 import { t } from "../i18n/index.js";
 import { appendSpoonLabel, createSpoonIcon } from "./spoonIcon.js";
@@ -365,7 +367,13 @@ export function renderPantryView(
   const onboarding = renderOnboarding();
   const shelves = document.createElement("div");
   shelves.className = "pantry-jar-shelves";
-  const seasonalRewardShelf = renderKoreanHarvestRewardShelf(getCompletedPuzzleIds());
+  const seasonalRewardShelf = renderKoreanHarvestRewardShelf(getCompletedPuzzleIds(), {
+    featuredRewardId: getFeaturedSeasonalRewardId(),
+    seasonalBonusActive: growthStatus.seasonalBonusActive,
+    onFeature: (rewardId) => {
+      if (setFeaturedSeasonalReward(rewardId)) onRefresh();
+    }
+  });
   if (seasonalRewardShelf) shelves.appendChild(seasonalRewardShelf);
   const detail = createDetailPanel();
   const openDetail = (jar) => {

@@ -19642,6 +19642,12 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   letter-spacing: -0.02em;
 }
 
+.app-shell--workshop-home .home-keepsake-shelf__bonus--seasonal {
+  border-color: rgba(28, 63, 104, 0.82);
+  background: linear-gradient(180deg, #fff4a9 0%, #8ec5d8 100%);
+  color: #17395f;
+}
+
 .pantry-growth-bonus {
   display: inline-flex;
   width: fit-content;
@@ -19746,6 +19752,30 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   gap: 0 !important;
   padding: 0 !important;
   align-items: center !important;
+}
+
+/* v0.1.721 - The Korean Harvest title must remain legible against the dark
+   timber, moonlight and guide dimmer. It is an event sign, not translucent
+   scenery, so give it an opaque moon-paper surface and a strong navy edge. */
+.app-shell--workshop-home
+  .puzzle-home-scene[data-event-theme="korean-harvest"]
+  .puzzle-home-scene__event-ribbon {
+  top: -34px;
+  left: 0;
+  max-width: 100%;
+  padding: 7px 17px 8px;
+  border: 3px solid #f8ddb0;
+  color: #172747;
+  background: linear-gradient(105deg, #fff8df 0%, #f8ddb0 52%, #dce8d5 100%);
+  box-shadow:
+    0 0 0 2px rgba(31, 47, 85, 0.92),
+    0 5px 0 rgba(31, 47, 85, 0.42),
+    0 9px 20px rgba(11, 20, 38, 0.38);
+  font-size: clamp(0.82rem, 3.35vw, 1rem);
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  opacity: 1;
+  text-shadow: 0 1px 0 #fffdf2;
 }
 
 .time-attack-panel__rules {
@@ -19982,6 +20012,44 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   .app-shell--workshop-home .puzzle-home-scene__greeting-wrap {
     top: max(100px, calc(env(safe-area-inset-top, 0px) + 94px)) !important;
   }
+}
+
+/* Seasonal Memories remains in the Album after the live-event chrome retires. */
+.album-seasonal-archive {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 2px solid rgba(181, 138, 69, 0.32);
+}
+
+.album-seasonal-archive .korean-harvest-event__challenge,
+.album-seasonal-archive .seasonal-reward-shelf {
+  margin: 12px 0;
+  padding: 15px;
+  border: 2px solid rgba(181, 138, 69, 0.38);
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(255, 251, 235, 0.96), rgba(231, 240, 222, 0.9));
+  box-shadow: 0 4px 0 rgba(74, 45, 32, 0.08);
+}
+
+.album-seasonal-archive h2,
+.album-seasonal-archive h3 {
+  margin: 0 0 7px;
+  font-family: "Jua", ui-rounded, sans-serif;
+}
+
+.album-seasonal-archive .korean-harvest-event__section-heading span {
+  display: block;
+  max-width: 34rem;
+  color: #6f5548;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.home-keepsake-shelf__seasonal-reward img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 5px rgba(58, 35, 24, 0.28));
 }
 
 /* iPhone home-header collision guard. The Workshop controls reserve the
@@ -21117,6 +21185,123 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   filter: drop-shadow(0 12px 20px rgba(20, 13, 12, 0.32));
 }
 
+/* Korean Harvest opening identity: the event is visible before Start, while
+ * the wording remains code-rendered so Korean and English never bake into art. */
+.brand-intro.game-stage {
+  background:
+    radial-gradient(circle at 50% 7%, rgba(255, 232, 146, 0.42), transparent 28%),
+    linear-gradient(180deg, #172b47 0%, #4d392f 46%, #d7c899 100%);
+}
+
+.brand-intro.game-stage .brand-intro__content:not(.name-stage) {
+  gap: 9px;
+  padding: 12px 14px 20px;
+  border-color: rgba(233, 198, 108, 0.58);
+  background: linear-gradient(180deg, rgba(255, 250, 235, 0.97), rgba(248, 237, 206, 0.96));
+  box-shadow:
+    0 0 0 3px rgba(32, 47, 60, 0.58),
+    0 18px 48px rgba(16, 21, 29, 0.34);
+}
+
+.brand-intro.game-stage .brand-intro__content:not(.name-stage) .brand-intro__key-visual {
+  width: min(100%, 352px);
+  max-height: min(48vh, 520px);
+  aspect-ratio: 941 / 1220;
+  margin: 0;
+  border: 2px solid #d8b75f;
+  border-radius: 18px;
+  box-shadow: 0 6px 0 rgba(71, 48, 38, 0.2);
+}
+
+.brand-intro.game-stage .brand-intro__content:not(.name-stage) .brand-intro__key-visual img {
+  object-position: 50% 25%;
+}
+
+.brand-intro__seasonal-event {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 4px 8px;
+  width: min(calc(100% - 22px), 336px);
+  min-height: 58px;
+  margin: 4px auto 0;
+  padding: 8px 12px;
+  border: 3px solid #20384e;
+  border-radius: 16px;
+  color: #fdf5dd;
+  background: linear-gradient(180deg, #31576b 0%, #1d3549 100%);
+  box-shadow:
+    0 4px 0 #d39a38,
+    0 9px 18px rgba(39, 28, 24, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.brand-intro__seasonal-event-tag {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  display: inline-grid;
+  place-items: center;
+  min-height: 35px;
+  padding: 4px 8px;
+  border-radius: 10px;
+  color: #4c2e22;
+  background: #f5c451;
+  font-size: 0.68rem;
+  font-weight: 950;
+  line-height: 1.05;
+  text-align: center;
+}
+
+.brand-intro__seasonal-event-title {
+  grid-column: 2;
+  color: #fff9e8;
+  font-size: clamp(0.9rem, 3.8vw, 1.08rem);
+  font-weight: 950;
+  line-height: 1.08;
+  text-align: left;
+}
+
+.brand-intro__seasonal-event-dates {
+  grid-column: 2;
+  color: #f4d98e;
+  font-size: 0.72rem;
+  font-weight: 850;
+  line-height: 1;
+  text-align: left;
+}
+
+.brand-intro__seasonal-event::after {
+  content: "☾";
+  grid-column: 3;
+  grid-row: 1 / 3;
+  color: #f7d66f;
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.brand-intro.game-stage .brand-intro__game-logo {
+  width: min(72%, 274px);
+  margin: 1px auto 0;
+}
+
+@media (max-height: 760px) {
+  .brand-intro.game-stage .brand-intro__content:not(.name-stage) .brand-intro__key-visual {
+    max-height: 38vh;
+  }
+
+  .brand-intro__seasonal-event {
+    min-height: 52px;
+    margin-top: 2px;
+    padding-block: 6px;
+  }
+
+  .brand-intro.game-stage .brand-intro__game-logo {
+    width: min(65%, 238px);
+  }
+}
+
 .brand-intro__game-logo {
   display: block;
   width: min(82%, 310px);
@@ -21790,6 +21975,368 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   position: absolute;
   top: 0;
   right: 0;
+}
+
+/* Korean Harvest event hub: the greeting stays Pip's everyday conversation;
+   the limited event lives in its own illustrated destination at lower left. */
+.app-shell--workshop-home .puzzle-home-scene__event-ribbon {
+  display: none !important;
+}
+
+.app-shell--workshop-home .puzzle-home-scene__seasonal-event {
+  position: absolute;
+  left: 4%;
+  bottom: calc(var(--workshop-nav-clearance) + 12px);
+  z-index: 7;
+  display: grid;
+  width: clamp(96px, 25vw, 116px);
+  min-width: 0;
+  padding: 0 2px 5px;
+  place-items: center;
+  border: 0;
+  color: #fff8e8;
+  background: transparent;
+  box-shadow: none;
+  font-family: "Jua", ui-rounded, sans-serif;
+  text-shadow: 0 2px 1px rgba(31, 28, 40, 0.9), 0 0 5px rgba(31, 47, 85, 0.72);
+}
+
+.puzzle-home-scene__seasonal-event img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 0 rgba(25, 35, 61, 0.28)) drop-shadow(0 10px 15px rgba(8, 12, 28, 0.42));
+}
+
+.puzzle-home-scene__seasonal-event-label {
+  margin-top: -4px;
+  font-size: clamp(0.72rem, 3vw, 0.9rem);
+  font-weight: 900;
+  line-height: 1.05;
+}
+
+.puzzle-home-scene__seasonal-event-progress {
+  position: absolute;
+  top: 2px;
+  right: -2px;
+  min-width: 42px;
+  padding: 3px 7px;
+  border: 2px solid #f8ddb0;
+  border-radius: 999px;
+  color: #1f2f55;
+  background: #fff8df;
+  box-shadow: 0 3px 0 rgba(31, 47, 85, 0.38);
+  font-size: 0.66rem;
+  text-shadow: none;
+  z-index: 2;
+}
+
+.korean-harvest-event-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: grid;
+  align-items: end;
+  padding: max(18px, env(safe-area-inset-top, 0px)) 10px 0;
+  background: rgba(16, 20, 34, 0.7);
+  backdrop-filter: blur(7px) saturate(0.8);
+}
+
+.korean-harvest-event {
+  position: relative;
+  width: min(100%, 620px);
+  max-height: calc(100dvh - max(18px, env(safe-area-inset-top, 0px)));
+  margin: 0 auto;
+  padding: 16px 14px calc(22px + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  border: 3px solid #d7bd82;
+  border-bottom: 0;
+  border-radius: 28px 28px 0 0;
+  color: #392c2b;
+  background:
+    radial-gradient(circle at 88% 2%, rgba(255, 220, 130, 0.46), transparent 25%),
+    linear-gradient(180deg, #fff9e9 0%, #f4ead5 60%, #e8efdf 100%);
+  box-shadow: 0 -8px 38px rgba(5, 10, 24, 0.38), inset 0 1px 0 #fff;
+}
+
+.korean-harvest-event__close {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  float: right;
+  width: 42px;
+  height: 42px;
+  border: 2px solid rgba(31, 47, 85, 0.44);
+  border-radius: 50%;
+  color: #1f2f55;
+  background: rgba(255, 250, 232, 0.95);
+  box-shadow: 0 3px 0 rgba(31, 47, 85, 0.18);
+  font-size: 1.65rem;
+  line-height: 1;
+}
+
+.korean-harvest-event__hero {
+  display: grid;
+  grid-template-columns: minmax(90px, 32%) 1fr;
+  align-items: center;
+  min-height: 168px;
+  margin: 2px 30px 12px 0;
+}
+
+.korean-harvest-event__hero > img {
+  width: 120%;
+  max-width: 180px;
+  margin-left: -10px;
+  filter: drop-shadow(0 8px 8px rgba(61, 43, 46, 0.18));
+}
+
+.korean-harvest-event__hero p,
+.korean-harvest-event__section-heading p {
+  margin: 0 0 4px;
+  color: #a84f2f;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.korean-harvest-event__hero h1 {
+  margin: 0 0 8px;
+  color: #1f2f55;
+  font-family: "Jua", ui-rounded, sans-serif;
+  font-size: clamp(1.48rem, 6vw, 2rem);
+  line-height: 1.06;
+}
+
+.korean-harvest-event__hero span,
+.korean-harvest-event__about p,
+.korean-harvest-event__gift p {
+  display: block;
+  margin: 0;
+  color: #6f5548;
+  line-height: 1.48;
+}
+
+.korean-harvest-event__about,
+.korean-harvest-event__gift,
+.korean-harvest-event__challenge,
+.korean-harvest-event .seasonal-reward-shelf {
+  margin: 12px 0;
+  padding: 15px;
+  border: 2px solid rgba(181, 138, 69, 0.38);
+  border-radius: 20px;
+  background: rgba(255, 253, 241, 0.8);
+  box-shadow: 0 4px 0 rgba(74, 45, 32, 0.08);
+}
+
+.korean-harvest-event h2,
+.korean-harvest-event h3 {
+  margin: 0 0 7px;
+  font-family: "Jua", ui-rounded, sans-serif;
+}
+
+.korean-harvest-event__gift {
+  display: grid;
+  grid-template-columns: 116px 1fr;
+  align-items: center;
+  background: linear-gradient(115deg, rgba(255, 240, 180, 0.9), rgba(221, 235, 215, 0.92));
+}
+
+.korean-harvest-event__gift > img {
+  width: 108px;
+  height: 108px;
+  border-radius: 18px;
+  object-fit: cover;
+}
+
+.korean-harvest-event__gift strong {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  color: #a84f2f;
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+.korean-harvest-event__gift strong .spoon-icon,
+.korean-harvest-event__gift strong .spoon-icon img {
+  flex: 0 0 24px;
+  width: 24px !important;
+  min-width: 24px !important;
+  height: 24px !important;
+  min-height: 24px !important;
+  object-fit: contain;
+}
+
+.korean-harvest-event__gift button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 11px;
+  border: 2px solid #4a2d20;
+  border-radius: 14px;
+  color: #39261f;
+  background: linear-gradient(#ffe38a, #edb634);
+  box-shadow: 0 4px 0 rgba(74, 45, 32, 0.25);
+  font-weight: 900;
+}
+
+.korean-harvest-event__section-heading,
+.seasonal-reward-shelf > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.korean-harvest-event__section-heading > strong {
+  flex: 0 0 auto;
+  padding: 5px 9px;
+  border-radius: 999px;
+  color: #1f2f55;
+  background: #f5df9e;
+  font-size: 0.76rem;
+}
+
+.korean-harvest-event__shelf {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(74, 45, 32, 0.28);
+}
+
+.korean-harvest-event__puzzles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.korean-harvest-event__puzzles button {
+  display: grid;
+  min-width: 0;
+  padding: 5px;
+  gap: 4px;
+  border: 2px solid rgba(74, 45, 32, 0.28);
+  border-radius: 12px;
+  color: #4a342d;
+  background: #fffaf0;
+  font-size: 0.62rem;
+  line-height: 1.15;
+}
+
+.korean-harvest-event__puzzles button.is-complete {
+  border-color: #718c72;
+  background: #e3f0df;
+}
+
+.korean-harvest-event__puzzles button.is-mystery {
+  border-color: #d3a84e;
+  background: linear-gradient(180deg, #fff9e7, #f8edc8);
+}
+
+.korean-harvest-event__puzzles button.is-locked {
+  background: #f6f1e6;
+}
+
+.korean-harvest-event__puzzles button:disabled {
+  filter: grayscale(0.7);
+  opacity: 0.48;
+}
+
+.korean-harvest-event__puzzle-art {
+  display: grid;
+  grid-template-columns: repeat(var(--stamp-size), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--stamp-size), minmax(0, 1fr));
+  width: 100%;
+  aspect-ratio: 1;
+  gap: 1px;
+  padding: 4px;
+  border-radius: 8px;
+  background: #f5ead0;
+}
+
+.korean-harvest-event__puzzle-art .stamp-cell.filled.colored {
+  background: var(--cell-color) !important;
+}
+
+.korean-harvest-event__puzzle-mystery {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 8px;
+  border-radius: 8px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(255, 236, 152, 0.9), transparent 38%),
+    linear-gradient(145deg, #f6efd8, #e6eddc);
+}
+
+.korean-harvest-event__puzzle-mystery img {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 3px rgba(75, 47, 30, 0.2));
+}
+
+.korean-harvest-event__puzzles button.is-locked .korean-harvest-event__puzzle-mystery img {
+  filter: grayscale(0.72) opacity(0.58);
+}
+
+.korean-harvest-event__locked {
+  margin: 8px 0 0;
+  color: #856b5c;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.korean-harvest-event .seasonal-reward-shelf__items {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.korean-harvest-event .seasonal-reward-card {
+  display: grid;
+  min-width: 0;
+  padding: 7px 4px;
+  place-items: center;
+  gap: 3px;
+  border-radius: 12px;
+  background: #fffaf0;
+  text-align: center;
+}
+
+.korean-harvest-event .seasonal-reward-card.is-locked {
+  filter: grayscale(0.75);
+  opacity: 0.5;
+}
+
+.korean-harvest-event .seasonal-reward-card img {
+  width: 62px;
+  max-width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.korean-harvest-event .seasonal-reward-card strong,
+.korean-harvest-event .seasonal-reward-card small {
+  font-size: 0.62rem;
+  line-height: 1.12;
+}
+
+@media (max-width: 370px) {
+  .korean-harvest-event__hero {
+    grid-template-columns: 92px 1fr;
+  }
+  .korean-harvest-event__gift {
+    grid-template-columns: 92px 1fr;
+  }
+  .korean-harvest-event__gift > img {
+    width: 84px;
+    height: 84px;
+  }
 }
 
 /* v0.1.718 - The compact 54px quick-travel button no longer needs the old

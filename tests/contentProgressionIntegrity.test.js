@@ -23,7 +23,12 @@ describe("content progression impact graph", () => {
     expect(BADGE_MILESTONES.map((badge) => badge.stage))
       .toEqual(BADGE_MILESTONES.map((_, index) => index));
     expect(new Set(BADGE_MILESTONES.map((badge) => badge.id)).size).toBe(BADGE_MILESTONES.length);
-    expect(BADGE_MILESTONES.filter((badge) => badge.final)).toEqual([BADGE_MILESTONES.at(-1)]);
+    expect(BADGE_MILESTONES.filter((badge) => badge.final)).toEqual([
+      expect.objectContaining({ id: "badge-pip-sunset-feast" })
+    ]);
+    expect(BADGE_MILESTONES.filter((badge) => badge.seasonal)).toEqual([
+      expect.objectContaining({ id: "badge-pip-korean-harvest" })
+    ]);
     expect(BADGE_MILESTONES.every((badge) => hasBadgeArt(badge.id))).toBe(true);
     expect(groupCounts).toEqual({ A: 3, B: 3, C: 3, D: 3, E: 3, F: 1 });
   });

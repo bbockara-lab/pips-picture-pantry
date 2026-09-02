@@ -64,6 +64,18 @@ for (const [label, relativePath, expectedWidth, expectedHeight, maxBytes] of ima
 if (metadata.start >= metadata.end) errors.push("Event start must precede event end");
 if (metadata.purchaseRequired !== false) errors.push("The free Chuseok event must not claim that a purchase is required");
 
+const googleEnglishDescription = metadata.googlePlay.localizations["en-US"]?.description || "";
+const googleKoreanDescription = metadata.googlePlay.localizations["ko-KR"]?.description || "";
+if (!googleEnglishDescription.includes("event screen") || !googleEnglishDescription.includes("claim")) {
+  errors.push("Google en-US must explain that the 50-spoon gift is claimed from the event screen");
+}
+if (!googleKoreanDescription.includes("이벤트 화면") || !googleKoreanDescription.includes("받아")) {
+  errors.push("Google ko-KR must explain that the 50-spoon gift is claimed from the event screen");
+}
+if (googleEnglishDescription.includes("open the game during the event") || googleKoreanDescription.includes("게임을 열면")) {
+  errors.push("Store copy must not describe the explicit event-screen gift as an automatic app-open reward");
+}
+
 if (errors.length) {
   console.error("Korean Harvest store-event check failed:\n- " + errors.join("\n- "));
   process.exit(1);

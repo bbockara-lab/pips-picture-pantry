@@ -20,7 +20,10 @@ export const en = {
   },
   brandIntro: {
     ariaLabel: "Sunny Spoon Studios and Pip's Picture Pantry opening screens",
-    skip: "Start"
+    skip: "Start",
+    eventTag: "Limited-time event",
+    eventTitle: "Pip's Korean Harvest Moon",
+    eventDates: "Sep 17–Oct 4"
   },
   playerIntro: {
     title: "What should Pip call you?",
@@ -565,6 +568,35 @@ export const en = {
     pantryProgress: "{current}/{total} owned"
   },
   koreanHarvest: {
+    archive: {
+      eyebrow: "Seasonal Memories · Always available",
+      title: "Harvest Moon Picture Archive",
+      body: "Your progress is saved. Continue unfinished tables or replay any picture you completed during the festival."
+    },
+    event: {
+      iconLabel: "Chuseok Event",
+      close: "Close the Chuseok event",
+      eyebrow: "Limited-time Korean holiday event",
+      title: "Pip's Harvest Moon Festival",
+      intro: "Come celebrate Chuseok under the full moon with Pip.",
+      aboutTitle: "What is Chuseok?",
+      aboutBody: "Chuseok is a Korean harvest holiday for sharing food, gratitude, and time with family beneath the full moon. Pip prepared songpyeon, moonlit pictures, and warm keepsakes for the Pantry.",
+      giftTitle: "Pip's Chuseok Gift",
+      claimGift: "Receive 50 spoons",
+      gift: {
+        available: "You opened Pip's festival invitation! Tap below to receive your holiday gift.",
+        upcoming: "The 50-spoon gift opens on September 17. Come back when the full-moon celebration begins!",
+        claimed: "Your 50-spoon Chuseok gift has been added to the Pantry.",
+        expired: "The holiday gift period has ended. The event pictures remain in your collection.",
+        unavailable: "Pip is still preparing this gift."
+      },
+      puzzleEyebrow: "Separate from the 600-picture journey",
+      puzzleTitle: "16 Harvest Moon Pictures",
+      progress: "{current}/{total} complete",
+      mysteryPuzzle: "Mystery picture",
+      lockedPuzzle: "Locked",
+      locked: "Complete the four pictures above to open this table."
+    },
     rewards: {
       title: "Harvest Moon Keepsakes",
       progress: "{current}/{total} pictures",
@@ -573,6 +605,15 @@ export const en = {
       "moon-jar": "Moon Jar",
       "moonlit-lantern": "Moonlit Hanji Lantern",
       unlocked: "Collected",
+      featureOnHome: "Display on home",
+      featured: "Displayed",
+      featureOnHomeBonus: "Display · +{chance}%",
+      featuredBonusActive: "Displayed · +{chance}% active",
+      featuredNeedsRegular: "Displayed · add a Pantry item",
+      bonusRule: "Display one beside your Pantry collectible to add +{chance}% to its extra-spoon chance.",
+      bonusBadge: "+{chance}%",
+      bonusBadgeAria: "Seasonal display bonus: plus {chance} percent",
+      featuredAria: "{item}, displayed seasonal keepsake. Open Pantry",
       unlockAt: "Complete {count} pictures"
     }
   },

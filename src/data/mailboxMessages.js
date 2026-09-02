@@ -1,6 +1,6 @@
 import welcomeArtUrl from "../assets/mailbox/pip-developer-letter-welcome-v1.webp";
 import koreanHarvestLetterArtUrl from "../assets/mailbox/pip-korean-harvest-letter-v2-cute-capybara.webp";
-import { KOREAN_HARVEST_CONTENT, isKoreanHarvestContentRuntimeReady } from "./koreanHarvestContent.js";
+import { KOREAN_HARVEST_CONTENT, isKoreanHarvestContentAvailable } from "./koreanHarvestContent.js";
 
 const GUIDE_MESSAGES = [
   ["guide-puzzle", "puzzle"],
@@ -33,7 +33,7 @@ export const MAILBOX_MESSAGES = [
 ];
 
 export function getRuntimeSeasonalMailboxMessages() {
-  if (!isKoreanHarvestContentRuntimeReady()) return [];
+  if (!isKoreanHarvestContentAvailable()) return [];
   return [{
     id: KOREAN_HARVEST_CONTENT.mailboxLetter.id,
     kind: "letter",

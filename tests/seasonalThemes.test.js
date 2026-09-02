@@ -17,10 +17,11 @@ describe("seasonal theme registry", () => {
     expect(isSeasonalThemeRuntimeReady(liveTheme)).toBe(true);
   });
 
-  it("publishes Korean Harvest with Pip baked into the approved home scene", () => {
+  it("publishes Korean Harvest with Pip beside the greeting in the approved home scene", () => {
     const harvest = getSeasonalTheme("korean-harvest");
     expect(harvest?.status).toBe(THEME_STATUS.LIVE);
-    expect(harvest?.pipPresence).toBe("baked-in");
+    expect(harvest?.pipPresence).toBe("companion");
+    expect(harvest?.homeCharacterAssetId).toBe("pip-korean-harvest-greeting-v2");
     expect(isSeasonalThemeRuntimeReady(harvest)).toBe(true);
   });
 

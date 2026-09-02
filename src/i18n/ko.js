@@ -20,7 +20,10 @@ export const ko = {
   },
   brandIntro: {
     ariaLabel: "Sunny Spoon Studios\uc640 Pip's Picture Pantry \uc2dc\uc791 \ud654\uba74",
-    skip: "\uc2dc\uc791"
+    skip: "\uc2dc\uc791",
+    eventTag: "\uae30\uac04 \ud55c\uc815 \uc774\ubca4\ud2b8",
+    eventTitle: "\ud54d\uc758 \ucd94\uc11d \ubcf4\ub984\ub2ec \uc794\uce58",
+    eventDates: "9.17–10.4"
   },
   playerIntro: {
     title: "핍\uc774 \ubb50\ub77c\uace0 \ubd80\ub974\uba74 \ub420\uae4c\uc694?",
@@ -564,6 +567,35 @@ export const ko = {
     later: "\ub098\uc911\uc5d0"
   },
   koreanHarvest: {
+    archive: {
+      eyebrow: "계절의 추억 · 언제든 플레이",
+      title: "추석 보름달 그림 보관함",
+      body: "진행도는 그대로 보관돼요. 멈춘 추석상을 이어서 풀거나 완성한 그림을 다시 만날 수 있어요."
+    },
+    event: {
+      iconLabel: "추석 이벤트",
+      close: "추석 이벤트 닫기",
+      eyebrow: "기간 한정 한국 명절 이벤트",
+      title: "핍의 추석 보름달 잔치",
+      intro: "핍과 함께 보름달 아래 따뜻한 추석을 보내요.",
+      aboutTitle: "추석은 어떤 날일까요?",
+      aboutBody: "추석은 보름달 아래 가족과 음식을 나누고 감사의 마음을 전하는 한국의 명절이에요. 핍이 송편과 달빛 그림, 팬트리에 둘 따뜻한 소품을 준비했어요.",
+      giftTitle: "핍의 추석 선물",
+      claimGift: "스푼 50개 받기",
+      gift: {
+        available: "핍의 잔치 초대장을 열었군요! 아래 버튼을 눌러 명절 선물을 받아요.",
+        upcoming: "스푼 50개 선물은 9월 17일에 열려요. 보름달 잔치가 시작되면 다시 와 주세요!",
+        claimed: "추석 선물 스푼 50개를 팬트리에 담았어요.",
+        expired: "명절 선물 기간은 끝났지만 완성한 이벤트 그림은 그대로 남아요.",
+        unavailable: "핍이 아직 선물을 준비하고 있어요."
+      },
+      puzzleEyebrow: "기본 그림 600개와 별도 진행",
+      puzzleTitle: "추석 보름달 그림 16개",
+      progress: "{current}/{total} 완성",
+      mysteryPuzzle: "비밀 그림",
+      lockedPuzzle: "아직 잠김",
+      locked: "위의 그림 4개를 완성하면 이 추석상이 열려요."
+    },
     rewards: {
       title: "보름달 아래 모은 소품",
       progress: "그림 {current}/{total}",
@@ -572,6 +604,15 @@ export const ko = {
       "moon-jar": "달항아리",
       "moonlit-lantern": "달빛 한지등",
       unlocked: "수집 완료",
+      featureOnHome: "홈에 전시",
+      featured: "전시 중",
+      featureOnHomeBonus: "홈에 전시 · +{chance}%",
+      featuredBonusActive: "전시 중 · +{chance}% 적용",
+      featuredNeedsRegular: "전시 중 · 일반 수집품을 추가하세요",
+      bonusRule: "일반 팬트리 수집품 옆에 함께 전시하면 추가 스푼 확률이 +{chance}% 올라가요.",
+      bonusBadge: "+{chance}%",
+      bonusBadgeAria: "추석 전시 보너스 확률 +{chance}%",
+      featuredAria: "{item}, 홈에 전시 중인 계절 소품. 팬트리 열기",
       unlockAt: "그림 {count}개 완성"
     }
   },

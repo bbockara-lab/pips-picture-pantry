@@ -1,4 +1,4 @@
-import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles } from "../data/seasonShelves.js";
+import { eventSeasonShelves, getSeasonShelfForPuzzle, getSeasonShelfPuzzles } from "../data/seasonShelves.js";
 import { ECONOMY, getTimeAttackHintCost } from "../data/economyConfig.js";
 import { puzzles } from "../data/puzzles.js";
 import { getDailyDateKey, getDailyPuzzle } from "../game/dailyPuzzle.js";
@@ -23,8 +23,16 @@ import {
   setActivePlayerName
 } from "../game/save.js";
 import { getSpoonRunOpportunity } from "../game/spoonRunRewards.js";
-import { claimKoreanHarvestWelcomeGift } from "../game/koreanHarvestGift.js";
-import { getCozySupportProduct, getSpoonJarSmallProduct, purchaseCozySupportPack, purchaseSpoonJarSmall, restorePendingPurchases } from "../game/billing.js";
+import { claimKoreanHarvestWelcomeGift, getKoreanHarvestGiftStatus } from "../game/koreanHarvestGift.js";
+import {
+  COZY_SUPPORT_PRODUCT_ID,
+  SPOON_JAR_SMALL_PRODUCT_ID,
+  getBillingProducts,
+  getCachedBillingProduct,
+  purchaseCozySupportPack,
+  purchaseSpoonJarSmall,
+  restorePendingPurchases
+} from "../game/billing.js";
 import { setLanguagePreference, t } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
 import { renderResetDialog } from "./appChrome.js";
@@ -37,6 +45,7 @@ import { getControlModePreference, getCursorTrailPreference, setControlModePrefe
 import {
   getStageNavigation,
   getPuzzleHubOpenDecision,
+  getRegularJourneyCompleteDestination,
   renderPuzzleHub,
   renderPuzzlePicker,
   renderSpoonRunView
@@ -53,7 +62,7 @@ import { getLoginBonusMessage } from "./loginBonusMessage.js";
 import { dismissOptionalUpdate, openUpdateStore, resolveUpdateDecision } from "../game/updatePolicy.js";
 import { renderMandatoryUpdateView } from "./updateGateView.js";
 import { getUnreadMailboxCount, renderMailboxView } from "./mailboxView.js";
-import { renderSeasonalGiftView } from "./seasonalGiftView.js";
+import { renderKoreanHarvestEventView } from "./koreanHarvestEventView.js";
 
 const DAILY_BONUS = ECONOMY.DAILY_BONUS;
 let introOpenViewHandler = null;
@@ -64,10 +73,7 @@ export function renderApp(root) {
   const generation = ++renderGeneration;
   const dailyPuzzle = getDailyPuzzle(getDailyPuzzleCandidates());
   const loginBonus = hasActivePlayer() ? claimLoginBonus() : null;
-  const seasonalGift = hasActivePlayer() ? claimKoreanHarvestWelcomeGift() : null;
   let loginBonusVisible = Boolean(loginBonus);
-  let seasonalGiftVisible = Boolean(seasonalGift);
-  let seasonalGiftSoundPlayed = false;
   let loginBonusTimerHandle = null;
   let activePuzzle = getStartPuzzle();
   let activeView = "puzzle";
@@ -95,10 +101,12 @@ export function renderApp(root) {
   let replayChallenge = false;
   let replayPicked = false;
   let dailyChallenge = false;
+  let seasonalEventChallenge = false;
+  let seasonalArchiveChallenge = false;
+  let koreanHarvestEventOpen = false;
   let cozySupportState = createDefaultCozySupportState();
-  let cozySupportRequestId = 0;
   let spoonJarState = createDefaultSpoonJarState();
-  let spoonJarRequestId = 0;
+  let billingCatalogRequestId = 0;
   let updateDecision = { kind: "none" };
 
   void resolveUpdateDecision().then((decision) => {
@@ -128,6 +136,9 @@ export function renderApp(root) {
     replayChallenge = Boolean(options.replayChallenge);
     replayPicked = Boolean(options.replayPicked);
     dailyChallenge = Boolean(options.dailyChallenge);
+    seasonalEventChallenge = Boolean(options.seasonalEventChallenge);
+    seasonalArchiveChallenge = Boolean(options.seasonalArchiveChallenge);
+    koreanHarvestEventOpen = false;
     activeView = "puzzle";
     playOpen = true;
     puzzleListOpen = false;
@@ -142,7 +153,7 @@ export function renderApp(root) {
     const currentIndex = shelfPuzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
     const nextPuzzle = shelfPuzzles[currentIndex + direction];
     if (nextPuzzle) {
-      selectPuzzle(nextPuzzle.id);
+      selectPuzzle(nextPuzzle.id, "top", { seasonalEventChallenge, seasonalArchiveChallenge });
     }
   }
 
@@ -150,6 +161,8 @@ export function renderApp(root) {
     replayChallenge = false;
     replayPicked = false;
     dailyChallenge = false;
+    seasonalEventChallenge = false;
+    seasonalArchiveChallenge = false;
     activeView = "puzzle";
     playOpen = false;
     puzzleListOpen = true;
@@ -157,6 +170,25 @@ export function renderApp(root) {
     settingsOpen = false;
     pendingScrollTarget = "picker";
     draw();
+  }
+
+  function showRegularJourneyCompleteDestination() {
+    const destination = getRegularJourneyCompleteDestination(getCompletedPuzzleIds());
+    if (destination === "seasonal-event") {
+      replayChallenge = false;
+      replayPicked = false;
+      dailyChallenge = false;
+      seasonalEventChallenge = false;
+      seasonalArchiveChallenge = false;
+      activeView = "puzzle";
+      playOpen = false;
+      puzzleListOpen = false;
+      koreanHarvestEventOpen = true;
+      pendingScrollTarget = "top";
+      draw();
+      return;
+    }
+    showPuzzlePicker();
   }
 
   function selectNextPuzzle() {
@@ -189,6 +221,33 @@ export function renderApp(root) {
       draw();
       return;
     }
+    if (seasonalEventChallenge || seasonalArchiveChallenge) {
+      const eventPuzzles = eventSeasonShelves.flatMap((shelf) => getSeasonShelfPuzzles(shelf));
+      const completed = new Set(getCompletedPuzzleIds());
+      const currentIndex = eventPuzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
+      const searchOrder = currentIndex >= 0
+        ? [...eventPuzzles.slice(currentIndex + 1), ...eventPuzzles.slice(0, currentIndex + 1)]
+        : eventPuzzles;
+      const next = searchOrder.find((puzzle) => !completed.has(puzzle.id) && isShelfUnlocked(getSeasonShelfForPuzzle(puzzle)));
+      if (next) {
+        selectPuzzle(next.id, "top", seasonalArchiveChallenge
+          ? { seasonalArchiveChallenge: true }
+          : { seasonalEventChallenge: true });
+        return;
+      }
+      const returnToArchive = seasonalArchiveChallenge;
+      seasonalEventChallenge = false;
+      seasonalArchiveChallenge = false;
+      playOpen = false;
+      if (returnToArchive) {
+        activeView = "album";
+        pendingScrollTarget = "top";
+      } else {
+        koreanHarvestEventOpen = true;
+      }
+      draw();
+      return;
+    }
     const decision = getPuzzleHubOpenDecision(
       activePuzzle,
       getCompletedPuzzleIds(),
@@ -204,7 +263,7 @@ export function renderApp(root) {
       draw();
       return;
     }
-    showPuzzlePicker();
+    showRegularJourneyCompleteDestination();
   }
 
   function clearTimeAttackCountdown() {
@@ -249,6 +308,9 @@ export function renderApp(root) {
     replayChallenge = false;
     replayPicked = false;
     dailyChallenge = false;
+    seasonalEventChallenge = false;
+    seasonalArchiveChallenge = false;
+    koreanHarvestEventOpen = false;
     activeView = view;
     playOpen = false;
     puzzleListOpen = false;
@@ -257,9 +319,9 @@ export function renderApp(root) {
     allPuzzlesDonePromptOpen = false;
     pendingScrollTarget = scrollTarget;
     if (view === "pantry") {
-      // Retrieve current Play prices on the actual Pantry store surface.
-      loadCozySupportProduct();
-      loadSpoonJarProduct();
+      // App-start preloading normally has prices ready before this view opens.
+      // Reuse the in-memory/catalog cache here without exposing a store handshake.
+      void refreshBillingProducts();
     }
     draw();
   }
@@ -271,7 +333,11 @@ export function renderApp(root) {
       draw();
       return;
     }
-    activePuzzle = decision.puzzle || activePuzzle;
+    if (decision.type === "complete") {
+      showRegularJourneyCompleteDestination();
+      return;
+    }
+    activePuzzle = decision.puzzle;
     playOpen = true;
     queueViewportTopReset();
     draw();
@@ -307,6 +373,23 @@ export function renderApp(root) {
     replayChallenge = false;
     replayPicked = false;
     dailyChallenge = false;
+    if (seasonalEventChallenge) {
+      seasonalEventChallenge = false;
+      playOpen = false;
+      puzzleListOpen = false;
+      koreanHarvestEventOpen = true;
+      draw();
+      return;
+    }
+    if (seasonalArchiveChallenge) {
+      seasonalArchiveChallenge = false;
+      activeView = "album";
+      playOpen = false;
+      puzzleListOpen = false;
+      pendingScrollTarget = "top";
+      draw();
+      return;
+    }
     activeView = "puzzle";
     playOpen = false;
     puzzleListOpen = false;
@@ -314,6 +397,29 @@ export function renderApp(root) {
     settingsOpen = false;
     queueViewportTopReset();
     draw();
+  }
+
+  function openKoreanHarvestEvent() {
+    playCue("sfx_ui_card_select", { volume: 0.62 });
+    koreanHarvestEventOpen = true;
+    draw();
+  }
+
+  function closeKoreanHarvestEvent() {
+    koreanHarvestEventOpen = false;
+    draw();
+  }
+
+  function claimKoreanHarvestGiftFromEvent() {
+    const claimed = claimKoreanHarvestWelcomeGift();
+    if (claimed) {
+      playCue("sfx_spoon_gain_large", { volume: 0.74 });
+    }
+    draw();
+  }
+
+  function playKoreanHarvestPuzzle(puzzleId) {
+    selectPuzzle(puzzleId, "top", { seasonalEventChallenge: true });
   }
 
   function requestPantryFirstPurchaseGuide(_decoration, action = {}) {
@@ -530,24 +636,26 @@ export function renderApp(root) {
   }
 
   function createDefaultCozySupportState(status = "idle") {
+    const cached = getCachedBillingProduct(COZY_SUPPORT_PRODUCT_ID);
     return {
-      available: false,
+      available: Boolean(cached?.available),
       loading: false,
-      priceString: "",
-      storeName: "Store",
+      priceString: cached?.product?.priceString || "",
+      storeName: cached?.storeName || "Store",
       spoons: ECONOMY.COZY_PASS_SPOON_GRANT,
-      status
+      status: cached ? "ready" : status
     };
   }
 
   function createDefaultSpoonJarState(status = "idle") {
+    const cached = getCachedBillingProduct(SPOON_JAR_SMALL_PRODUCT_ID);
     return {
-      available: false,
+      available: Boolean(cached?.available),
       loading: false,
-      priceString: "",
-      storeName: "Store",
+      priceString: cached?.product?.priceString || "",
+      storeName: cached?.storeName || "Store",
       spoons: ECONOMY.SPOON_JAR_SMALL_GRANT,
-      status
+      status: cached ? "ready" : status
     };
   }
 
@@ -571,14 +679,19 @@ export function renderApp(root) {
     };
   }
 
-  async function loadSpoonJarProduct() {
-    const requestId = ++spoonJarRequestId;
-    spoonJarState = { ...spoonJarState, loading: true, status: "purchasing" };
-    draw();
-    const result = await getSpoonJarSmallProduct();
-    if (requestId !== spoonJarRequestId) return;
-    spoonJarState = normalizeSpoonJarState(result, result?.reason || "ready");
-    draw();
+  async function refreshBillingProducts({ forceRefresh = false } = {}) {
+    const requestId = ++billingCatalogRequestId;
+    const catalog = await getBillingProducts({ forceRefresh });
+    if (requestId !== billingCatalogRequestId || generation !== renderGeneration) return;
+    cozySupportState = normalizeCozySupportState(
+      catalog?.products?.[COZY_SUPPORT_PRODUCT_ID],
+      catalog?.products?.[COZY_SUPPORT_PRODUCT_ID]?.reason || catalog?.reason || "ready"
+    );
+    spoonJarState = normalizeSpoonJarState(
+      catalog?.products?.[SPOON_JAR_SMALL_PRODUCT_ID],
+      catalog?.products?.[SPOON_JAR_SMALL_PRODUCT_ID]?.reason || catalog?.reason || "ready"
+    );
+    if (root.dataset.introOpen !== "true") draw();
   }
 
   function selectIntroView(view) {
@@ -596,16 +709,6 @@ export function renderApp(root) {
     const result = await purchaseSpoonJarSmall();
     playPurchaseResult(result);
     spoonJarState = normalizeSpoonJarState({ ...spoonJarState, ...result }, result.status || "failed");
-    draw();
-  }
-
-  async function loadCozySupportProduct() {
-    const requestId = ++cozySupportRequestId;
-    cozySupportState = { ...cozySupportState, loading: true, status: "purchasing" };
-    draw();
-    const result = await getCozySupportProduct();
-    if (requestId !== cozySupportRequestId) return;
-    cozySupportState = normalizeCozySupportState(result, result?.reason || "ready");
     draw();
   }
 
@@ -679,7 +782,7 @@ export function renderApp(root) {
       playStageComplete();
       document.body.appendChild(renderStageCompleteOverlay(
         shelf,
-        () => selectView(shelf.isFinal ? "pantry" : "puzzle"),
+        () => shelf.eventTheme ? openKoreanHarvestEvent() : selectView(shelf.isFinal ? "pantry" : "puzzle"),
         completionResult
       ));
       const badgeToast = renderBadgeEarnedToast(earnedBadge);
@@ -780,25 +883,23 @@ export function renderApp(root) {
         updateDecision = { kind: "none" };
         draw();
       },
+      onOpenSeasonalEvent: openKoreanHarvestEvent,
       timeAttackLimitSeconds: TIME_ATTACK_LIMIT_SECONDS
     });
     root.appendChild(shell);
-    if (seasonalGiftVisible && root.dataset.introOpen !== "true") {
-      if (!seasonalGiftSoundPlayed) {
-        seasonalGiftSoundPlayed = true;
-        playCue("pip_greeting", { volume: 0.58 });
-        globalThis.setTimeout(() => playCue("sfx_spoon_gain_large", { volume: 0.74 }), 180);
-      }
-      root.appendChild(renderSeasonalGiftView(seasonalGift, () => {
-        seasonalGiftVisible = false;
-        draw();
+    if (koreanHarvestEventOpen && root.dataset.introOpen !== "true") {
+      root.appendChild(renderKoreanHarvestEventView({
+        giftStatus: getKoreanHarvestGiftStatus(),
+        onClaimGift: claimKoreanHarvestGiftFromEvent,
+        onClose: closeKoreanHarvestEvent,
+        onPlayPuzzle: playKoreanHarvestPuzzle
       }));
     }
     if (timeAttackCountdownStep !== null) {
       root.appendChild(renderTimeAttackCountdown(timeAttackCountdownStep));
     }
     scrollAfterDraw(root);
-    if (!seasonalGiftVisible && loginBonusVisible && activeView === "puzzle" && !playOpen && !puzzleListOpen && !activeGuide) {
+    if (!koreanHarvestEventOpen && loginBonusVisible && activeView === "puzzle" && !playOpen && !puzzleListOpen && !activeGuide) {
       scheduleLoginBonusPresentation();
     }
     // Replacing the settings DOM once per second cancels an in-progress iOS
@@ -878,8 +979,14 @@ export function renderApp(root) {
   introOpenViewHandler = (event) => selectIntroView(event.detail?.view);
   window.addEventListener("ppp:intro-open-view", introOpenViewHandler);
   draw();
-  void restorePendingPurchases().then(({ restored }) => {
-    if (restored.length > 0) draw();
+  // Prime localized prices once at app start. The last successful catalog is
+  // already visible from the device cache while this silent refresh runs.
+  // Keep native billing operations serial so Play Billing product discovery
+  // does not compete with unfinished-purchase restoration on cold start.
+  void refreshBillingProducts({ forceRefresh: true }).finally(() => {
+    void restorePendingPurchases().then(({ restored }) => {
+      if (restored.length > 0 && generation === renderGeneration) draw();
+    });
   });
 }
 
@@ -898,8 +1005,9 @@ function getStartPuzzle() {
 }
 
 function getDailyPuzzleCandidates() {
-  const unlocked = puzzles.filter((puzzle) => isShelfUnlocked(getSeasonShelfForPuzzle(puzzle)));
-  return unlocked.length ? unlocked : puzzles;
+  const regularPuzzles = puzzles.filter((puzzle) => puzzle.packId !== "korean-harvest");
+  const unlocked = regularPuzzles.filter((puzzle) => isShelfUnlocked(getSeasonShelfForPuzzle(puzzle)));
+  return unlocked.length ? unlocked : regularPuzzles;
 }
 
 function createShell({
@@ -960,7 +1068,8 @@ function createShell({
   loginBonusMessage,
   updateNotice,
   onUpdateNow,
-  onUpdateLater
+  onUpdateLater,
+  onOpenSeasonalEvent
 }) {
   const shell = document.createElement("main");
   shell.className = "app-shell";
@@ -1053,7 +1162,10 @@ function createShell({
     shell.appendChild(renderFloatingNav(activeView, onSelectView, getUnreadMailboxCount()));
   }
   if (activeView === "album") {
-    shell.appendChild(renderAlbumView(onNextPuzzle));
+    shell.appendChild(renderAlbumView({
+      onPlay: onNextPuzzle,
+      onPlaySeasonal: (puzzleId) => onSelectPuzzle(puzzleId, "top", { seasonalArchiveChallenge: true })
+    }));
   } else if (activeView === "mailbox") {
     shell.appendChild(renderMailboxView({
       onReplayGuide,
@@ -1124,7 +1236,8 @@ function createShell({
         laterLabel: t("updatePolicy.later"),
         onUpdate: onUpdateNow,
         onLater: onUpdateLater
-      } : null
+      } : null,
+      onOpenSeasonalEvent
     }));
 
   }

@@ -34,8 +34,8 @@ for (const packId of bonusPackIds) {
 
 const hubSource = expectIncludes(
   "src/ui/puzzleHubView.js",
-  "seasonShelves.forEach((shelf) => {",
-  "launch puzzle picker must render only the curated season shelves."
+  "regularSeasonShelves.forEach((shelf) => {",
+  "launch puzzle picker must render only the permanent curated shelves; seasonal collections use their own destination."
 );
 
 if (hubSource.includes("puzzlePacks")) {

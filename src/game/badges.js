@@ -1,7 +1,7 @@
 import { getSeasonShelfById, getSeasonShelfPuzzles } from "../data/seasonShelves.js";
 import { isKoreanHarvestContentRuntimeReady } from "../data/koreanHarvestContent.js";
 
-const koreanHarvestIsLive = isKoreanHarvestContentRuntimeReady();
+const koreanHarvestIsAvailable = isKoreanHarvestContentRuntimeReady();
 
 export const BADGE_MILESTONES = Object.freeze([
   { stage: 0, group: "A", shelfIds: ["shelf-pips-first"], id: "badge-pips-first-shelf", titleKey: "shelves.pipsFirst" },
@@ -18,14 +18,14 @@ export const BADGE_MILESTONES = Object.freeze([
   { stage: 11, group: "D", shelfIds: ["shelf-moonlit-veranda", "shelf-hearth-gallery"], id: "badge-pip-hearth-gallery", titleKey: "shelves.hearthGallery" },
   { stage: 12, group: "E", shelfIds: ["shelf-summer-window", "shelf-fruit-market"], id: "badge-pip-summer-market", titleKey: "shelves.fruitMarket" },
   { stage: 13, group: "E", shelfIds: ["shelf-garden-basket", "shelf-picnic-lawn"], id: "badge-pip-picnic-lawn", titleKey: "shelves.picnicLawn" },
-  { stage: 14, group: "E", shelfIds: ["shelf-seaside-table", "shelf-sunset-feast"], id: "badge-pip-sunset-feast", titleKey: "shelves.sunsetFeast", final: !koreanHarvestIsLive },
-  ...(koreanHarvestIsLive ? [{
+  { stage: 14, group: "E", shelfIds: ["shelf-seaside-table", "shelf-sunset-feast"], id: "badge-pip-sunset-feast", titleKey: "shelves.sunsetFeast", final: true },
+  ...(koreanHarvestIsAvailable ? [{
     stage: 15,
     group: "F",
     shelfIds: ["shelf-korean-harvest-1", "shelf-korean-harvest-2", "shelf-korean-harvest-3", "shelf-korean-harvest-4"],
     id: "badge-pip-korean-harvest",
     titleKey: "shelves.koreanHarvest.full-moon-feast",
-    final: true
+    seasonal: true
   }] : [])
 ]);
 
@@ -50,7 +50,7 @@ export function getPackBadgeStatus(completedPuzzleIds) {
 }
 
 export function getNextBadgeProgress(completedPuzzleIds) {
-  return getPackBadgeStatus(completedPuzzleIds).find((status) => !status.earned) || null;
+  return getPackBadgeStatus(completedPuzzleIds).find((status) => !status.badge.seasonal && !status.earned) || null;
 }
 
 export function getEarnedPackBadges(completedPuzzleIds) {

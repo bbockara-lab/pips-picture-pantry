@@ -1,9 +1,11 @@
 import openingKeyVisualUrl from "../assets/brand/opening-key-visual-v1.webp";
+import koreanHarvestOpeningKeyVisualUrl from "../assets/brand/opening-key-visual-korean-harvest-v2.webp";
 import studioLogoUrl from "../assets/brand/sunny-spoon-studios-logo-v2.webp";
 import gameLogoUrl from "../assets/brand/pips-picture-pantry-logo-v1.webp";
 import { isRuntimeStudioBumperArtApproved } from "../data/runtimeArt.js";
 import { hasActivePlayer, setActivePlayerName } from "../game/save.js";
 import { t } from "../i18n/index.js";
+import { isKoreanHarvestEventVisible } from "../data/koreanHarvestContent.js";
 
 const STUDIO_DURATION_MS = 1300;
 const INTRO_EXIT_MS = 260;
@@ -117,7 +119,9 @@ export function renderBrandIntro(root) {
 }
 
 function renderGameIdentity(content) {
-  content.append(buildKeyVisual(false));
+  const koreanHarvestLive = isKoreanHarvestEventVisible();
+  content.append(buildKeyVisual(false, koreanHarvestLive));
+  if (koreanHarvestLive) content.append(buildSeasonalEventMarker());
   content.append(buildGameLogo());
 
   const button = document.createElement("button");
@@ -125,6 +129,17 @@ function renderGameIdentity(content) {
   button.type = "button";
   button.textContent = t("brandIntro.skip");
   content.appendChild(button);
+}
+
+function buildSeasonalEventMarker() {
+  const marker = document.createElement("div");
+  marker.className = "brand-intro__seasonal-event";
+  marker.setAttribute("aria-label", `${t("brandIntro.eventTag")}: ${t("brandIntro.eventTitle")}, ${t("brandIntro.eventDates")}`);
+
+  appendTextElement(marker, "span", "brand-intro__seasonal-event-tag", t("brandIntro.eventTag"));
+  appendTextElement(marker, "strong", "brand-intro__seasonal-event-title", t("brandIntro.eventTitle"));
+  appendTextElement(marker, "small", "brand-intro__seasonal-event-dates", t("brandIntro.eventDates"));
+  return marker;
 }
 
 function buildGameLogo() {
@@ -135,12 +150,12 @@ function buildGameLogo() {
   return logo;
 }
 
-function buildKeyVisual(isSmall) {
+function buildKeyVisual(isSmall, koreanHarvestLive = isKoreanHarvestEventVisible()) {
   const visual = document.createElement("div");
   visual.className = isSmall ? "brand-intro__key-visual small" : "brand-intro__key-visual";
   visual.setAttribute("aria-hidden", "true");
   const image = document.createElement("img");
-  image.src = openingKeyVisualUrl;
+  image.src = koreanHarvestLive ? koreanHarvestOpeningKeyVisualUrl : openingKeyVisualUrl;
   image.alt = "";
   visual.appendChild(image);
   return visual;

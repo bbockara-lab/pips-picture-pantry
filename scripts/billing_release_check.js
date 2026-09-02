@@ -48,6 +48,8 @@ requireIncludes(billingSource, "NativePurchases.purchaseProduct", "src/game/bill
 requireIncludes(billingSource, "isCozySupportEntitlement", "src/game/billing.js");
 requireIncludes(billingSource, "isSpoonJarSmallPurchase", "src/game/billing.js");
 requireIncludes(billingSource, "purchaseSpoonJarSmall", "src/game/billing.js");
+requireIncludes(billingSource, "NativePurchases.getProducts", "src/game/billing.js");
+requireIncludes(billingSource, "BILLING_PRICE_CACHE_KEY", "src/game/billing.js");
 requireIncludes(billingSource, "isConsumable: true", "src/game/billing.js");
 requireIncludes(billingSource, "getPurchaseKey", "src/game/billing.js");
 requireIncludes(billingSource, "already-owned", "src/game/billing.js");
@@ -56,7 +58,8 @@ requireIncludes(billingSource, "grantCozySupportPack(purchaseKey, \"purchase\")"
 requireIncludes(billingSource, "grantSpoonJarPurchase", "src/game/billing.js");
 const settingsSource = readProjectFile("src/ui/settingsView.js");
 const appShellSource = readProjectFile("src/ui/appShell.js");
-requireIncludes(appShellSource, "loadSpoonJarProduct();", "src/ui/appShell.js");
+requireIncludes(appShellSource, "void refreshBillingProducts({ forceRefresh: true })", "src/ui/appShell.js");
+requireIncludes(appShellSource, "getCachedBillingProduct", "src/ui/appShell.js");
 requireIncludes(appShellSource, "spoonJar: spoonJarState", "src/ui/appShell.js");
 requireIncludes(appShellSource, "onSpoonJarPurchase: buySpoonJarSmall", "src/ui/appShell.js");
 requireIncludes(settingsSource, "canPurchaseSupportPack", "src/ui/settingsView.js");

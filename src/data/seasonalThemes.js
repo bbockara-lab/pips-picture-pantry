@@ -25,12 +25,13 @@ export const seasonalThemes = Object.freeze([
   Object.freeze({
     id: "korean-harvest",
     status: THEME_STATUS.LIVE,
-    homeBackgroundAssetId: "pip-puzzle-workshop-korean-harvest-v2-cute-capybara",
-    homeCharacterAssetId: null,
-    pipPresence: "baked-in",
+    homeBackgroundAssetId: "pip-puzzle-workshop-korean-harvest-v3-event-space",
+    homeCharacterAssetId: "pip-korean-harvest-greeting-v2",
+    pipPresence: "companion",
     packId: "korean-harvest",
     eventLabelKey: "home.koreanHarvestEvent",
     badgeGlyph: "◐",
+    visibilityWindow: Object.freeze({ start: "2026-08-30", end: "2026-10-04" }),
     palette: Object.freeze({
       anchor: "#1f2f55",
       accent: "#b75f32",
@@ -46,8 +47,13 @@ export function getSeasonalTheme(themeId) {
   return seasonalThemes.find((theme) => theme.id === themeId) || null;
 }
 
-export function getLiveSeasonalTheme() {
-  return seasonalThemes.find((theme) => theme.status === THEME_STATUS.LIVE) || null;
+export function getLiveSeasonalTheme(now = new Date()) {
+  const dateKey = getLocalDateKey(now);
+  return seasonalThemes.find((theme) => (
+    theme.status === THEME_STATUS.LIVE
+    && (!theme.visibilityWindow
+      || (dateKey >= theme.visibilityWindow.start && dateKey <= theme.visibilityWindow.end))
+  )) || null;
 }
 
 export function getSeasonalThemeForPack(packId, { includeCandidates = false } = {}) {
@@ -68,6 +74,13 @@ export function isSeasonalThemeRuntimeReady(theme) {
   if (theme.pipPresence === "baked-in") return !theme.homeCharacterAssetId;
   if (theme.pipPresence === "companion") return Boolean(theme.homeCharacterAssetId);
   return false;
+}
+
+function getLocalDateKey(now) {
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 export { THEME_STATUS };

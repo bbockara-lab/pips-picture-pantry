@@ -6,8 +6,8 @@ const TARGET_URL = process.env.PPP_URL || `http://127.0.0.1:${qaPort}/`;
 assertIsolatedQaTarget(TARGET_URL, "mobile_visual_check");
 const PREVIEW_THEME_ID = new URL(TARGET_URL).searchParams.get("seasonalTheme") || "";
 const EXPECTED_HOME_THEME = PREVIEW_THEME_ID === "summer"
-  ? { id: "summer", backgroundAssetId: "pip-puzzle-workshop-summer-v1", pipPresence: "companion" }
-  : { id: "korean-harvest", backgroundAssetId: "pip-puzzle-workshop-korean-harvest-v2-cute-capybara", pipPresence: "baked-in" };
+  ? { id: "summer", backgroundAssetId: "pip-puzzle-workshop-summer-v1", pipPresence: "companion", pipAssetId: "pip-home-summer-v1" }
+  : { id: "korean-harvest", backgroundAssetId: "pip-puzzle-workshop-korean-harvest-v3-event-space", pipPresence: "companion", pipAssetId: "pip-korean-harvest-greeting-v2" };
 const viewports = [
   { width: 360, height: 740, name: "360x740" },
   { width: 390, height: 844, name: "390x844" },
@@ -1981,7 +1981,7 @@ async function expectLoginBonusHomeClearance(page, viewportName) {
   });
   const keepsPip = EXPECTED_HOME_THEME.pipPresence === "baked-in"
     ? metrics.eventTheme === EXPECTED_HOME_THEME.id && metrics.sceneBackground.includes(EXPECTED_HOME_THEME.backgroundAssetId)
-    : metrics.pipSrc.includes("pip-home-summer-v1");
+    : metrics.pipSrc.includes(EXPECTED_HOME_THEME.pipAssetId);
   if (metrics.collisionCount > 0 || !metrics.samePosition || !keepsPip || metrics.outsideViewport) {
     failures.push("[" + viewportName + "] Login bonus greeting replacement regressed: " + JSON.stringify(metrics));
   }
@@ -3287,19 +3287,28 @@ async function seedLargeBoardCatalogAccess(page) {
     save.pantrySpoons = Math.max(500, Number(save.pantrySpoons || 0));
     save.pantryCompletedStoryGoalIds = Array.from(new Set([...(Array.isArray(save.pantryCompletedStoryGoalIds) ? save.pantryCompletedStoryGoalIds : []), "small-jam-jar", "sunny-window-curtains", "recipe-card-shelf", "mint-check-rug", "herb-pot", "cork-board", "tiny-succulent", "spoon-wall-clock", "berry-tea-tins", "ribbon-rolling-pin"]));
     localStorage.setItem(saveKey, JSON.stringify(save));
+    // The player-facing default is direct tap. This scenario specifically
+    // verifies the large-board keypad artwork and layout, so opt into it
+    // explicitly instead of depending on the former auto/cursor default.
+    localStorage.setItem("pips-picture-pantry:v0.1:control-mode", "cursor");
   });
 }
 
 async function verifyFeaturedBadgeFlow(page, viewportName) {
   await page.evaluate(async () => {
     const { seasonShelves } = await import("/src/data/seasonShelves.js");
+    const { KOREAN_HARVEST_CONTENT } = await import("/src/data/koreanHarvestContent.js");
     const player = JSON.parse(localStorage.getItem("pips-picture-pantry:v0.1:active-player") || "null");
     const saveKey = "pips-picture-pantry:v0.1:save:" + player.id;
     const save = JSON.parse(localStorage.getItem(saveKey) || "{}");
-    save.completedPuzzleIds = [...seasonShelves[0].puzzleIds];
+    save.completedPuzzleIds = [
+      ...seasonShelves[0].puzzleIds,
+      ...KOREAN_HARVEST_CONTENT.puzzles.slice(0, 4).map((puzzle) => puzzle.id)
+    ];
     save.ownedJarIds = ["strawberry-jam", "blueberry-jam", "cherry-jam", "orange-marmalade", "lemon-curd", "peach-preserve"];
     save.equippedJars = { jam: "strawberry-jam" };
     save.featuredJarId = "strawberry-jam";
+    save.featuredSeasonalRewardId = "songpyeon-tray";
     save.unlockedShelfIds = ["shelf-pips-first", "shelf-sunny-counter"];
     save.featuredBadgeId = null;
     localStorage.setItem(saveKey, JSON.stringify(save));
@@ -3361,6 +3370,7 @@ async function verifyFeaturedBadgeFlow(page, viewportName) {
   await page.locator(".puzzle-home-scene").waitFor({ state: "visible", timeout: 5000 });
   await expectVisible(page, ".puzzle-home-scene__featured-badge", viewportName);
   await expectVisible(page, ".puzzle-home-scene__featured-jar", viewportName);
+  await expectVisible(page, ".home-keepsake-shelf__seasonal-reward", viewportName);
   const keepsakeLayout = await page.evaluate(() => {
     const toRect = (element) => element?.getBoundingClientRect() || null;
     const overlaps = (a, b) => Boolean(a && b && !(a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom));
@@ -3368,32 +3378,41 @@ async function verifyFeaturedBadgeFlow(page, viewportName) {
     const shelf = toRect(shelfElement);
     const badge = toRect(document.querySelector(".puzzle-home-scene__featured-badge"));
     const jar = toRect(document.querySelector(".puzzle-home-scene__featured-jar"));
+    const seasonal = toRect(document.querySelector(".home-keepsake-shelf__seasonal-reward"));
     const play = toRect(document.querySelector(".puzzle-home-scene__play"));
     const greeting = toRect(document.querySelector(".puzzle-home-scene__greeting"));
     const scene = toRect(document.querySelector(".puzzle-home-scene"));
     const destinationHits = [...document.querySelectorAll(".puzzle-home-destination")]
-      .filter((element) => overlaps(jar, toRect(element)) || overlaps(badge, toRect(element)))
+      .filter((element) => [jar, seasonal, badge].some((rect) => overlaps(rect, toRect(element))))
       .map((element) => element.getAttribute("data-view") || element.className);
+    const jarBonus = document.querySelector(".puzzle-home-scene__featured-jar .home-keepsake-shelf__bonus")?.textContent?.trim() || "";
+    const seasonalBonus = document.querySelector(".home-keepsake-shelf__seasonal-reward .home-keepsake-shelf__bonus--seasonal")?.textContent?.trim() || "";
     return {
-      missing: !shelf || !badge || !jar || !play || !scene,
+      missing: !shelf || !badge || !jar || !seasonal || !play || !scene,
       sharedShelf: Boolean(
         shelfElement
         && document.querySelector(".puzzle-home-scene__featured-badge")?.parentElement === shelfElement
         && document.querySelector(".puzzle-home-scene__featured-jar")?.parentElement === shelfElement
+        && document.querySelector(".home-keepsake-shelf__seasonal-reward")?.parentElement === shelfElement
       ),
       shelfCenterDelta: shelf && scene
         ? Math.abs((shelf.left + shelf.width / 2) - (scene.left + scene.width / 2))
         : 999,
       legacyCopyCount: shelfElement?.querySelectorAll(".puzzle-home-scene__featured-badge-name, .featured-pantry-jar__copy").length || 0,
-      baselineDelta: badge && jar ? Math.abs(badge.bottom - jar.bottom) : 999,
-      keepsakesOverlap: overlaps(badge, jar),
-      playOverlap: overlaps(badge, play) || overlaps(jar, play),
-      greetingOverlap: overlaps(badge, greeting) || overlaps(jar, greeting),
+      baselineDelta: [badge, seasonal].reduce(
+        (largest, rect) => Math.max(largest, jar && rect ? Math.abs(rect.bottom - jar.bottom) : 999),
+        0
+      ),
+      keepsakesOverlap: overlaps(badge, jar) || overlaps(badge, seasonal) || overlaps(jar, seasonal),
+      playOverlap: [badge, jar, seasonal].some((rect) => overlaps(rect, play)),
+      greetingOverlap: [badge, jar, seasonal].some((rect) => overlaps(rect, greeting)),
+      jarBonus,
+      seasonalBonus,
       destinationHits,
-      outsideScene: Boolean(scene && [badge, jar].some((rect) => rect && (
+      outsideScene: Boolean(scene && [badge, jar, seasonal].some((rect) => rect && (
         rect.left < scene.left || rect.right > scene.right || rect.top < scene.top || rect.bottom > scene.bottom
       ))),
-      rects: Object.fromEntries(Object.entries({ shelf, badge, jar, play, greeting, scene }).map(([key, rect]) => [
+      rects: Object.fromEntries(Object.entries({ shelf, badge, jar, seasonal, play, greeting, scene }).map(([key, rect]) => [
         key,
         rect ? { left: Math.round(rect.left), top: Math.round(rect.top), right: Math.round(rect.right), bottom: Math.round(rect.bottom) } : null
       ]))
@@ -3407,6 +3426,8 @@ async function verifyFeaturedBadgeFlow(page, viewportName) {
     || keepsakeLayout.keepsakesOverlap
     || keepsakeLayout.playOverlap
     || keepsakeLayout.greetingOverlap
+    || keepsakeLayout.jarBonus !== "+7%"
+    || keepsakeLayout.seasonalBonus !== "+2%"
     || keepsakeLayout.destinationHits.length
     || keepsakeLayout.outsideScene) {
     failures.push("[" + viewportName + "] Workshop keepsake row geometry failed: " + JSON.stringify(keepsakeLayout));

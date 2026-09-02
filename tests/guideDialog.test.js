@@ -91,7 +91,8 @@ describe("guide dialog character and badge wiring", () => {
     expect(guideSource).toContain('nameTag.className = "guide-dialog__name-tag"');
   });
   it("opens a real puzzle from the empty Album action", () => {
-    expect(appShellSource).toContain("renderAlbumView(onNextPuzzle)");
+    expect(appShellSource).toContain("onPlay: onNextPuzzle");
+    expect(appShellSource).toContain("seasonalArchiveChallenge: true");
     expect(appShellSource).not.toContain('renderAlbumView(() => onSelectView("puzzle"))');
   });
 

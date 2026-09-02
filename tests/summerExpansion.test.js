@@ -147,6 +147,9 @@ describe("Android 48 / iOS build 2 summer content contract", () => {
     expect(BADGE_MILESTONES).toHaveLength(16);
     expect(BADGE_MILESTONES.filter((badge) => badge.group === "E")).toHaveLength(3);
     expect(BADGE_MILESTONES.filter((badge) => badge.final)).toEqual([
+      expect.objectContaining({ id: "badge-pip-sunset-feast" })
+    ]);
+    expect(BADGE_MILESTONES.filter((badge) => badge.seasonal)).toEqual([
       expect.objectContaining({ id: "badge-pip-korean-harvest" })
     ]);
     expect(BADGE_MILESTONES.flatMap((badge) => badge.shelfIds)).toEqual(

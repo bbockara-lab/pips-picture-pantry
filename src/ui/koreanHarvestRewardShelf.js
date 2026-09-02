@@ -1,13 +1,16 @@
-import { KOREAN_HARVEST_CONTENT, isKoreanHarvestContentRuntimeReady } from "../data/koreanHarvestContent.js";
+import { KOREAN_HARVEST_CONTENT, KOREAN_HARVEST_DISPLAY_BONUS_CHANCE, getKoreanHarvestCompletedPuzzleCount, isKoreanHarvestContentRuntimeReady } from "../data/koreanHarvestContent.js";
 import { getKoreanHarvestRewardArtUrl } from "../data/koreanHarvestRewardArt.js";
 import { t } from "../i18n/index.js";
 
 export function getKoreanHarvestCompletedCount(completedPuzzleIds = []) {
-  const completed = completedPuzzleIds instanceof Set ? completedPuzzleIds : new Set(completedPuzzleIds || []);
-  return KOREAN_HARVEST_CONTENT.puzzles.filter((puzzle) => completed.has(puzzle.id)).length;
+  return getKoreanHarvestCompletedPuzzleCount(completedPuzzleIds);
 }
 
-export function renderKoreanHarvestRewardShelf(completedPuzzleIds = []) {
+export function renderKoreanHarvestRewardShelf(completedPuzzleIds = [], {
+  featuredRewardId = null,
+  onFeature = null,
+  seasonalBonusActive = false
+} = {}) {
   if (!isKoreanHarvestContentRuntimeReady()) return null;
   const completedCount = getKoreanHarvestCompletedCount(completedPuzzleIds);
   const section = document.createElement("section");
@@ -23,6 +26,12 @@ export function renderKoreanHarvestRewardShelf(completedPuzzleIds = []) {
     total: KOREAN_HARVEST_CONTENT.puzzles.length
   });
   header.append(title, progress);
+
+  const bonusRule = document.createElement("p");
+  bonusRule.className = "seasonal-reward-shelf__bonus-rule";
+  bonusRule.textContent = t("koreanHarvest.rewards.bonusRule", {
+    chance: KOREAN_HARVEST_DISPLAY_BONUS_CHANCE
+  });
 
   const items = document.createElement("div");
   items.className = "seasonal-reward-shelf__items";
@@ -42,9 +51,26 @@ export function renderKoreanHarvestRewardShelf(completedPuzzleIds = []) {
       ? t("koreanHarvest.rewards.unlocked")
       : t("koreanHarvest.rewards.unlockAt", { count: reward.unlockAfter });
     card.append(image, name, condition);
+    if (unlocked && typeof onFeature === "function") {
+      const action = document.createElement("button");
+      action.type = "button";
+      action.className = "seasonal-reward-card__feature";
+      action.textContent = reward.id === featuredRewardId
+        ? t(seasonalBonusActive
+          ? "koreanHarvest.rewards.featuredBonusActive"
+          : "koreanHarvest.rewards.featuredNeedsRegular", {
+          chance: KOREAN_HARVEST_DISPLAY_BONUS_CHANCE
+        })
+        : t("koreanHarvest.rewards.featureOnHomeBonus", {
+          chance: KOREAN_HARVEST_DISPLAY_BONUS_CHANCE
+        });
+      action.disabled = reward.id === featuredRewardId;
+      action.addEventListener("click", () => onFeature(reward.id));
+      card.appendChild(action);
+    }
     items.appendChild(card);
   });
 
-  section.append(header, items);
+  section.append(header, bonusRule, items);
   return section;
 }

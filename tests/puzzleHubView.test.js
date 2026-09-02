@@ -1,7 +1,8 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { getSeasonShelfPuzzles, seasonShelves } from "../src/data/seasonShelves.js";
-import { getBadgeHomeProgress, getDailyGreetingKey, getPantryHomeProgress, getPuzzleHubOpenDecision, getShelfCollapsedState, isDailyCompleteForDate } from "../src/ui/puzzleHubView.js";
+import { getBadgeHomeProgress, getDailyGreetingKey, getPantryHomeProgress, getPuzzleHubOpenDecision, getPuzzlePickerShelfThemePresentation, getRegularJourneyCompleteDestination, getShelfCollapsedState, isDailyCompleteForDate } from "../src/ui/puzzleHubView.js";
+import { KOREAN_HARVEST_CONTENT } from "../src/data/koreanHarvestContent.js";
 
 const styles = readFileSync("src/styles.css", "utf8");
 const hubSource = readFileSync("src/ui/puzzleHubView.js", "utf8");
@@ -73,10 +74,11 @@ describe("Workshop destination collection progress", () => {
     expect(hubSource).not.toContain('`+${growthBonus.chance}%`');
   });
 
-  it("keeps all six Workshop destinations visible and gives the Album global progress", () => {
+  it("keeps all six Workshop destinations visible and keeps event puzzles outside Album progress", () => {
     expect(hubSource).toContain('["timeAttack", "views.timeAttack", () => onSelectView("timeAttack")]');
     expect(hubSource).toContain('artId === "album"');
-    expect(hubSource).toContain("total: puzzles.length");
+    expect(hubSource).toContain('puzzle.packId !== KOREAN_HARVEST_CONTENT.packId');
+    expect(hubSource).toContain("total: regularPuzzles.length");
     expect(styles).toContain(".puzzle-home-destination--timeAttack");
   });
 });
@@ -142,9 +144,33 @@ describe("Workshop Play Now shelf completion routing", () => {
     expect(decision.currentShelf.id).toBe(nextShelf.id);
     expect(decision.nextShelf.id).toBe(thirdShelf.id);
   });
+
+  it("sends a completed regular journey to the live seasonal event when puzzles remain", () => {
+    expect(getRegularJourneyCompleteDestination([], "2026-09-20")).toBe("seasonal-event");
+  });
+
+  it("shows the completed regular picker when the seasonal event is complete or retired", () => {
+    const completedSeasonalIds = KOREAN_HARVEST_CONTENT.puzzles.map(({ id }) => id);
+    expect(getRegularJourneyCompleteDestination(completedSeasonalIds, "2026-09-20")).toBe("puzzle-picker");
+    expect(getRegularJourneyCompleteDestination([], "2026-10-05")).toBe("puzzle-picker");
+  });
+
+  it("routes both Play Now and Next Picture through the same complete destination", () => {
+    expect(shellSource.match(/showRegularJourneyCompleteDestination\(\);/g)).toHaveLength(2);
+    expect(shellSource).toContain('if (decision.type === "complete")');
+  });
 });
 
 describe("Workshop Play Now layout", () => {
+  it("formats a live shelf theme label without a deferred ReferenceError", () => {
+    const presentation = getPuzzlePickerShelfThemePresentation(
+      { artPackId: "korean-harvest" },
+      (key) => key
+    );
+    expect(presentation.theme?.id).toBe("korean-harvest");
+    expect(presentation.label).toBe("◐ home.koreanHarvestEvent");
+  });
+
   it("keeps the primary action visibly dominant inside one canonical composition", () => {
     const step63Styles = styles.slice(styles.indexOf("v0.1.714 - Step 63 canonical Workshop composition"));
     expect(step63Styles).toContain("--workshop-destination-size: clamp(74px, 20vw, 92px)");

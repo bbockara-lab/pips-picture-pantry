@@ -6,6 +6,7 @@ import {
   getActivePlayerName,
   getCompletedPuzzleIds,
   getDailyCompletedDate,
+  getFeaturedSeasonalRewardId,
   getPantryGrowthBonusStatus,
   getCompletionDates,
   getCompletedPantryStoryGoalIds,
@@ -44,10 +45,12 @@ import {
   saveGame,
   savePuzzleState,
   setPantryStoryGoalId,
+  setFeaturedSeasonalReward,
   setActivePlayerName,
   unlockPack
 } from "../src/game/save.js";
 import { seasonShelves } from "../src/data/seasonShelves.js";
+import { KOREAN_HARVEST_CONTENT } from "../src/data/koreanHarvestContent.js";
 import { JAR_SHELVES, PANTRY_JARS, getJarsByShelf } from "../src/data/pantryJars.js";
 import { pantryDecorations } from "../src/data/decorations.js";
 import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackProgress, TIME_ATTACK_LIMIT_SECONDS } from "../src/ui/timeAttackFlow.js";
@@ -124,6 +127,22 @@ describe("seasonal spoon gift", () => {
     expect(claimSeasonalSpoonGift(gift, "2026-09-16")).toBeNull();
     expect(claimSeasonalSpoonGift(gift, "2026-10-05")).toBeNull();
     expect(getPantrySpoons()).toBe(0);
+  });
+});
+
+describe("seasonal keepsake home display", () => {
+  beforeEach(() => {
+    globalThis.localStorage = new LocalStorageMock();
+    setActivePlayerName("Pip");
+  });
+
+  it("allows only earned keepsakes and preserves the selected display", () => {
+    expect(setFeaturedSeasonalReward("songpyeon-tray")).toBe(false);
+    const completedPuzzleIds = KOREAN_HARVEST_CONTENT.puzzles.slice(0, 4).map((puzzle) => puzzle.id);
+    saveGame({ completedPuzzleIds });
+    expect(setFeaturedSeasonalReward("songpyeon-tray")).toBe(true);
+    expect(getFeaturedSeasonalRewardId()).toBe("songpyeon-tray");
+    expect(setFeaturedSeasonalReward("moonlit-lantern")).toBe(false);
   });
 });
 

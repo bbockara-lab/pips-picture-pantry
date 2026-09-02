@@ -31,9 +31,12 @@ const SHELF_BLUEPRINT = [
   { id: "shelf-garden-basket", titleKey: "shelves.gardenBasket", sizes: { 8: 4, 10: 9, 12: 4 }, unlockCost: 0, pantryRoomStepRequired: 65, stageBonus: 40, artPackId: "summer-pantry" },
   { id: "shelf-picnic-lawn", titleKey: "shelves.picnicLawn", sizes: { 8: 4, 10: 9, 12: 4 }, unlockCost: 0, pantryRoomStepRequired: 65, stageBonus: 40, artPackId: "summer-pantry" },
   { id: "shelf-seaside-table", titleKey: "shelves.seasideTable", sizes: { 10: 9, 12: 8 }, unlockCost: 0, pantryRoomStepRequired: 70, stageBonus: 40, artPackId: "summer-pantry" },
-  { id: "shelf-sunset-feast", titleKey: "shelves.sunsetFeast", sizes: { 10: 9, 12: 8 }, unlockCost: 0, pantryRoomStepRequired: 70, stageBonus: 40, artPackId: "summer-pantry" },
-  ...(isKoreanHarvestContentRuntimeReady() ? KOREAN_HARVEST_CONTENT.shelves : [])
+  { id: "shelf-sunset-feast", titleKey: "shelves.sunsetFeast", sizes: { 10: 9, 12: 8 }, unlockCost: 0, pantryRoomStepRequired: 70, stageBonus: 40, artPackId: "summer-pantry" }
 ];
+
+const EVENT_SHELF_BLUEPRINT = isKoreanHarvestContentRuntimeReady()
+  ? KOREAN_HARVEST_CONTENT.shelves
+  : [];
 
 const SUPPORTED_SIZES = [5, 8, 10, 12];
 const puzzlesBySize = new Map(SUPPORTED_SIZES.map((size) => [
@@ -42,7 +45,7 @@ const puzzlesBySize = new Map(SUPPORTED_SIZES.map((size) => [
 ]));
 const cursorsBySize = new Map(SUPPORTED_SIZES.map((size) => [size, 0]));
 
-export const seasonShelves = Object.freeze(SHELF_BLUEPRINT.map((blueprint, index) => {
+export const regularSeasonShelves = Object.freeze(SHELF_BLUEPRINT.map((blueprint, index) => {
   const puzzleIds = blueprint.puzzleIds ? [...blueprint.puzzleIds] : [];
   if (!blueprint.puzzleIds) {
     SUPPORTED_SIZES.forEach((size) => {
@@ -60,12 +63,22 @@ export const seasonShelves = Object.freeze(SHELF_BLUEPRINT.map((blueprint, index
   return Object.freeze({
     ...blueprint,
     index,
-    isFinal: index === SHELF_BLUEPRINT.length - 1,
+    isFinal: false,
     puzzleIds: Object.freeze(puzzleIds)
   });
 }));
 
-const assignedExplicitPuzzleIds = new Set(SHELF_BLUEPRINT.flatMap((blueprint) => blueprint.puzzleIds || []));
+export const eventSeasonShelves = Object.freeze(EVENT_SHELF_BLUEPRINT.map((blueprint, index) => Object.freeze({
+  ...blueprint,
+  index: SHELF_BLUEPRINT.length + index,
+  isFinal: index === EVENT_SHELF_BLUEPRINT.length - 1,
+  puzzleIds: Object.freeze([...(blueprint.puzzleIds || [])])
+})));
+
+export const seasonShelves = Object.freeze([...regularSeasonShelves, ...eventSeasonShelves]);
+export const allSeasonShelves = seasonShelves;
+
+const assignedExplicitPuzzleIds = new Set(EVENT_SHELF_BLUEPRINT.flatMap((blueprint) => blueprint.puzzleIds || []));
 const unassignedPuzzleIds = SUPPORTED_SIZES.flatMap((size) => {
   const bucket = puzzlesBySize.get(size) || [];
   return bucket.slice(cursorsBySize.get(size) || 0).map((puzzle) => puzzle.id);
@@ -75,9 +88,9 @@ if (unassignedPuzzleIds.length) {
   throw new Error(`Season shelf blueprint leaves ${unassignedPuzzleIds.length} authored puzzles unassigned.`);
 }
 
-const shelfById = new Map(seasonShelves.map((shelf) => [shelf.id, shelf]));
+const shelfById = new Map(allSeasonShelves.map((shelf) => [shelf.id, shelf]));
 const shelfIdByPuzzleId = new Map(
-  seasonShelves.flatMap((shelf) => shelf.puzzleIds.map((puzzleId) => [puzzleId, shelf.id]))
+  allSeasonShelves.flatMap((shelf) => shelf.puzzleIds.map((puzzleId) => [puzzleId, shelf.id]))
 );
 
 if (shelfIdByPuzzleId.size !== puzzles.length) {

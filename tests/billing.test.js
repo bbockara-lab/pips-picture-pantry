@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { COZY_SUPPORT_PRODUCT_ID, SPOON_JAR_SMALL_PRODUCT_ID, getBillingErrorStatus, getNativeStoreName, getPurchaseKey, isCozySupportEntitlement, isSpoonJarSmallPurchase, isSupportedBillingPlatform, restorePendingPurchaseRecords } from "../src/game/billing.js";
+import { readFileSync } from "node:fs";
+import { BILLING_PRICE_CACHE_KEY, BILLING_PRODUCT_IDS, COZY_SUPPORT_PRODUCT_ID, SPOON_JAR_SMALL_PRODUCT_ID, getBillingErrorStatus, getCachedBillingProduct, getNativeStoreName, getPurchaseKey, isCozySupportEntitlement, isSpoonJarSmallPurchase, isSupportedBillingPlatform, restorePendingPurchaseRecords } from "../src/game/billing.js";
 import { canPurchaseSpoonJar, canPurchaseSupportPack, getSpoonJarFacts, getSpoonJarStatus, getSpoonJarStatusTone, getSupportPackFacts, getSupportPackStatus, getSupportStatusTone } from "../src/ui/settingsView.js";
 
 class LocalStorageMock {
@@ -31,6 +32,40 @@ describe("billing support pack guards", () => {
     expect(isSupportedBillingPlatform("web")).toBe(false);
     expect(getNativeStoreName("android")).toBe("Google Play");
     expect(getNativeStoreName("ios")).toBe("App Store");
+  });
+
+  it("keeps the last localized prices available before the native store refresh finishes", () => {
+    const storage = new LocalStorageMock();
+    storage.setItem(BILLING_PRICE_CACHE_KEY, JSON.stringify({
+      version: 1,
+      platform: "android",
+      storeName: "Google Play",
+      updatedAt: 123,
+      products: {
+        [COZY_SUPPORT_PRODUCT_ID]: { title: "Cozy Support Pack", priceString: "$0.99" },
+        [SPOON_JAR_SMALL_PRODUCT_ID]: { title: "Small Spoon Jar", priceString: "$2.99" }
+      }
+    }));
+
+    expect(BILLING_PRODUCT_IDS).toEqual([COZY_SUPPORT_PRODUCT_ID, SPOON_JAR_SMALL_PRODUCT_ID]);
+    expect(getCachedBillingProduct(COZY_SUPPORT_PRODUCT_ID, { storage, platform: "android" })).toMatchObject({
+      available: true,
+      reason: "cached",
+      storeName: "Google Play",
+      product: { identifier: COZY_SUPPORT_PRODUCT_ID, priceString: "$0.99", spoonGrant: 150 }
+    });
+    expect(getCachedBillingProduct(SPOON_JAR_SMALL_PRODUCT_ID, { storage, platform: "android" })?.product.priceString).toBe("$2.99");
+    expect(getCachedBillingProduct(COZY_SUPPORT_PRODUCT_ID, { storage, platform: "ios" })).toBeNull();
+  });
+
+  it("batches the two product lookups and primes them silently at app start", () => {
+    const billingSource = readFileSync(new URL("../src/game/billing.js", import.meta.url), "utf8");
+    const appShellSource = readFileSync(new URL("../src/ui/appShell.js", import.meta.url), "utf8");
+
+    expect(billingSource).toContain("NativePurchases.getProducts({");
+    expect(billingSource).not.toContain("NativePurchases.getProduct({");
+    expect(appShellSource).toContain("void refreshBillingProducts({ forceRefresh: true })");
+    expect(appShellSource).not.toContain('status: "purchasing" };\n    draw();\n    const result = await get');
   });
 
   it("recognizes the support product across common store response shapes", () => {

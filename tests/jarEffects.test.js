@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { JAR_SHELVES, getJarsByShelf } from "../src/data/pantryJars.js";
+import { KOREAN_HARVEST_CONTENT } from "../src/data/koreanHarvestContent.js";
 import {
   applyPantryGrowthBonus,
   getPantryGrowthBonusChance,
@@ -85,5 +86,54 @@ describe("pantry growth spoon bonus", () => {
 
     save.featuredJarId = "blueberry-jam";
     expect(getPantryGrowthBonusStatus(save)).toMatchObject({ completedShelves: 3, chance: 9 });
+  });
+
+  it("adds two percentage points when valid regular and seasonal collectibles are displayed together", () => {
+    const ownedJarIds = ownedForShelves(1);
+    const completedSeasonalIds = KOREAN_HARVEST_CONTENT.puzzles.slice(0, 4).map(({ id }) => id);
+    const save = makeSave({
+      ownedJarIds,
+      featuredJarId: ownedJarIds[0],
+      featuredSeasonalRewardId: "songpyeon-tray",
+      completedPuzzleIds: completedSeasonalIds
+    });
+    expect(getPantryGrowthBonusStatus(save)).toMatchObject({
+      baseChance: 5,
+      seasonalDisplayBonus: 2,
+      seasonalBonusActive: true,
+      chance: 7
+    });
+  });
+
+  it("requires both valid display slots before activating the seasonal boost", () => {
+    const ownedJarIds = ownedForShelves(1);
+    const completedSeasonalIds = KOREAN_HARVEST_CONTENT.puzzles.slice(0, 4).map(({ id }) => id);
+    const seasonalOnly = makeSave({
+      ownedJarIds,
+      featuredSeasonalRewardId: "songpyeon-tray",
+      completedPuzzleIds: completedSeasonalIds
+    });
+    const lockedSeasonal = makeSave({
+      ownedJarIds,
+      featuredJarId: ownedJarIds[0],
+      featuredSeasonalRewardId: "moonlit-lantern",
+      completedPuzzleIds: completedSeasonalIds
+    });
+    expect(getPantryGrowthBonusStatus(seasonalOnly)).toMatchObject({ chance: 5, seasonalDisplayBonus: 0 });
+    expect(getPantryGrowthBonusStatus(lockedSeasonal)).toMatchObject({ chance: 5, seasonalDisplayBonus: 0 });
+  });
+
+  it("uses the combined chance for the actual completion reward roll", () => {
+    const ownedJarIds = ownedForShelves(1);
+    const save = makeSave({
+      ownedJarIds,
+      featuredJarId: ownedJarIds[0],
+      featuredSeasonalRewardId: "songpyeon-tray",
+      completedPuzzleIds: KOREAN_HARVEST_CONTENT.puzzles.slice(0, 4).map(({ id }) => id)
+    });
+    expect(applyPantryGrowthBonus(save, "normal:seasonal-boost", 0.069)).toMatchObject({
+      pantryBonusTriggered: true,
+      pantryBonusChance: 7
+    });
   });
 });

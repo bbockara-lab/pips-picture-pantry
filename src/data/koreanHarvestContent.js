@@ -14,6 +14,8 @@ const KOREAN_HARVEST_REWARDS = Object.freeze([
   Object.freeze({ id: "moonlit-lantern", unlockAfter: 16, slot: "window", artStatus: "approved", assetId: "korean-harvest-moonlit-lantern-v1" })
 ]);
 
+export const KOREAN_HARVEST_DISPLAY_BONUS_CHANCE = 2;
+
 const KOREAN_HARVEST_SHELF_NAMES = Object.freeze([
   "moonrise-table",
   "harvest-courtyard",
@@ -30,7 +32,8 @@ export const KOREAN_HARVEST_SHELVES = Object.freeze(
     unlockCost: 0,
     pantryRoomStepRequired: 0,
     stageBonus: 24 + index * 8,
-    artPackId: "korean-harvest"
+    artPackId: "korean-harvest",
+    eventTheme: "korean-harvest"
   }))
 );
 
@@ -42,7 +45,11 @@ export const KOREAN_HARVEST_CONTENT = Object.freeze({
   availability: Object.freeze({
     publishDate: "2026-09-17",
     timezone: "America/New_York",
-    requiresExplicitActivation: true
+    requiresExplicitActivation: true,
+    homeWindow: Object.freeze({
+      start: "2026-08-30",
+      end: "2026-10-04"
+    })
   }),
   welcomeGift: Object.freeze({
     id: "korean-harvest-2026-welcome-gift",
@@ -96,6 +103,65 @@ export function isKoreanHarvestContentRuntimeReady(content = KOREAN_HARVEST_CONT
 export function getKoreanHarvestRewardForProgress(completedCount) {
   const count = Math.max(0, Number(completedCount) || 0);
   return KOREAN_HARVEST_CONTENT.rewards.filter((reward) => reward.unlockAfter <= count).at(-1) || null;
+}
+
+export function getKoreanHarvestCompletedPuzzleCount(completedPuzzleIds = []) {
+  const completed = completedPuzzleIds instanceof Set
+    ? completedPuzzleIds
+    : new Set(completedPuzzleIds || []);
+  return KOREAN_HARVEST_CONTENT.puzzles.filter((puzzle) => completed.has(puzzle.id)).length;
+}
+
+export function isKoreanHarvestRewardUnlocked(rewardId, completedPuzzleIds = []) {
+  const reward = KOREAN_HARVEST_CONTENT.rewards.find((candidate) => candidate.id === rewardId);
+  return Boolean(reward) && getKoreanHarvestCompletedPuzzleCount(completedPuzzleIds) >= reward.unlockAfter;
+}
+
+export function isKoreanHarvestEventVisible(dateKey = getLocalDateKey()) {
+  const start = KOREAN_HARVEST_CONTENT.availability.homeWindow.start;
+  const end = KOREAN_HARVEST_CONTENT.availability.homeWindow.end;
+  return isKoreanHarvestContentRuntimeReady()
+    && dateKey >= start
+    && dateKey <= end;
+}
+
+export function getKoreanHarvestLifecycle(dateKey = getLocalDateKey()) {
+  if (!isKoreanHarvestContentRuntimeReady()) return "unavailable";
+  const { start, end } = KOREAN_HARVEST_CONTENT.availability.homeWindow;
+  if (dateKey < start) return "upcoming";
+  if (dateKey <= end) return "live";
+  return "archive";
+}
+
+export function isKoreanHarvestArchiveAvailable(dateKey = getLocalDateKey()) {
+  return getKoreanHarvestLifecycle(dateKey) === "archive";
+}
+
+export function isKoreanHarvestContentAvailable(dateKey = getLocalDateKey()) {
+  return ["live", "archive"].includes(getKoreanHarvestLifecycle(dateKey));
+}
+
+export function getKoreanHarvestPlayerState(completedPuzzleIds = []) {
+  const completed = completedPuzzleIds instanceof Set ? completedPuzzleIds : new Set(completedPuzzleIds || []);
+  const completedCount = KOREAN_HARVEST_CONTENT.puzzles.filter((puzzle) => completed.has(puzzle.id)).length;
+  return Object.freeze({
+    state: completedCount === 0
+      ? "not-started"
+      : completedCount >= KOREAN_HARVEST_CONTENT.puzzles.length
+        ? "complete"
+        : "in-progress",
+    completedCount,
+    total: KOREAN_HARVEST_CONTENT.puzzles.length,
+    progressPreserved: true,
+    replayAvailable: completedCount > 0
+  });
+}
+
+function getLocalDateKey(now = new Date()) {
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 export { CONTENT_STATUS, KOREAN_HARVEST_REWARDS };
