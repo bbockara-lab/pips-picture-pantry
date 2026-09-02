@@ -6,7 +6,7 @@ Event window: September 17 through October 4, 2026 (`America/New_York`). The in-
 
 - Apple event card: `upload/apple/event-card-1920x1080.png`
 - Apple event details: `upload/apple/event-detail-1080x1920.png`
-- Google Play primary image: `upload/google-play/primary-image-1920x1080.jpg` (under 1 MB)
+- Google Play primary image: `upload/google-play/primary-image-1920x1080-v3-cute-capybara.jpg` (under 1 MB)
 - English/Korean copy and dates: `metadata.json`
 
 The art contains no baked-in text, store UI, borders, rounded corners, or generic screenshot framing. Pip, the bojagi gift, spoon and full moon remain within Google's central crop-safe region.
