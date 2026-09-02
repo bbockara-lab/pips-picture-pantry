@@ -1,4 +1,4 @@
-import pipHarvestGiftUrl from "../assets/seasonal/korean-harvest/pip-chuseok-welcome-gift-v1.webp";
+import pipHarvestGiftUrl from "../assets/seasonal/korean-harvest/pip-chuseok-welcome-gift-v2-capybara.webp";
 import { t } from "../i18n/index.js";
 import { createSpoonIcon } from "./spoonIcon.js";
 
@@ -16,7 +16,7 @@ export function renderSeasonalGiftView(gift, onClose) {
   art.className = "seasonal-gift-card__art";
   art.src = pipHarvestGiftUrl;
   art.alt = t("seasonalGift.artAlt");
-  art.dataset.assetId = "pip-chuseok-welcome-gift-v1";
+  art.dataset.assetId = "pip-chuseok-welcome-gift-v2-capybara";
 
   const eyebrow = document.createElement("p");
   eyebrow.className = "seasonal-gift-card__eyebrow";

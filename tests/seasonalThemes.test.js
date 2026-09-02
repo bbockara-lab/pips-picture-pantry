@@ -21,7 +21,7 @@ describe("seasonal theme registry", () => {
     const harvest = getSeasonalTheme("korean-harvest");
     expect(harvest?.status).toBe(THEME_STATUS.LIVE);
     expect(harvest?.pipPresence).toBe("companion");
-    expect(harvest?.homeCharacterAssetId).toBe("pip-korean-harvest-greeting-v2");
+    expect(harvest?.homeCharacterAssetId).toBe("pip-korean-harvest-greeting-v3-capybara");
     expect(isSeasonalThemeRuntimeReady(harvest)).toBe(true);
   });
 

@@ -7,7 +7,7 @@ const introSource = readFileSync(new URL("../src/ui/brandIntro.js", import.meta.
 
 describe("Korean Harvest opening identity", () => {
   it("uses the approved seasonal opening artwork", () => {
-    expect(introSource).toContain("opening-key-visual-korean-harvest-v2.webp");
+    expect(introSource).toContain("opening-key-visual-korean-harvest-v4-cute-capybara.webp");
   });
 
   it("identifies the limited-time event before the player presses Start", () => {

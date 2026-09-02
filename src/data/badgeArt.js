@@ -13,7 +13,7 @@ import pipHearthGalleryBadgeUrl from "../assets/badges/badge-pip-hearth-gallery-
 import pipSummerMarketBadgeUrl from "../assets/badges/badge-pip-summer-market-v1.webp";
 import pipPicnicLawnBadgeUrl from "../assets/badges/badge-pip-picnic-lawn-v1.webp";
 import pipSunsetFeastBadgeUrl from "../assets/badges/badge-pip-sunset-feast-v1.webp";
-import pipKoreanHarvestBadgeUrl from "../assets/badges/badge-pip-korean-harvest-v2.webp";
+import pipKoreanHarvestBadgeUrl from "../assets/badges/badge-pip-korean-harvest-v3-capybara.webp";
 
 const approvedBadgeArtUrls = Object.freeze({
   "badge-pips-first-shelf": pipsFirstShelfBadgeUrl,

@@ -7,7 +7,7 @@ assertIsolatedQaTarget(TARGET_URL, "mobile_visual_check");
 const PREVIEW_THEME_ID = new URL(TARGET_URL).searchParams.get("seasonalTheme") || "";
 const EXPECTED_HOME_THEME = PREVIEW_THEME_ID === "summer"
   ? { id: "summer", backgroundAssetId: "pip-puzzle-workshop-summer-v1", pipPresence: "companion", pipAssetId: "pip-home-summer-v1" }
-  : { id: "korean-harvest", backgroundAssetId: "pip-puzzle-workshop-korean-harvest-v3-event-space", pipPresence: "companion", pipAssetId: "pip-korean-harvest-greeting-v2" };
+  : { id: "korean-harvest", backgroundAssetId: "pip-puzzle-workshop-korean-harvest-v3-event-space", pipPresence: "companion", pipAssetId: "pip-korean-harvest-greeting-v3-capybara" };
 const viewports = [
   { width: 360, height: 740, name: "360x740" },
   { width: 390, height: 844, name: "390x844" },

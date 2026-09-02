@@ -1,5 +1,5 @@
 import openingKeyVisualUrl from "../assets/brand/opening-key-visual-v1.webp";
-import koreanHarvestOpeningKeyVisualUrl from "../assets/brand/opening-key-visual-korean-harvest-v2.webp";
+import koreanHarvestOpeningKeyVisualUrl from "../assets/brand/opening-key-visual-korean-harvest-v4-cute-capybara.webp";
 import studioLogoUrl from "../assets/brand/sunny-spoon-studios-logo-v2.webp";
 import gameLogoUrl from "../assets/brand/pips-picture-pantry-logo-v1.webp";
 import { isRuntimeStudioBumperArtApproved } from "../data/runtimeArt.js";

@@ -3,8 +3,8 @@ import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop
 import koreanHarvestWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-korean-harvest-v3-event-space.webp";
 import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
 import pipSummerHomeUrl from "../assets/characters/pip-home-summer-v1.webp";
-import pipHarvestGreetingUrl from "../assets/characters/pip-korean-harvest-greeting-v2.webp";
-import koreanHarvestEventBadgeUrl from "../assets/badges/badge-pip-korean-harvest-v2.webp";
+import pipHarvestGreetingUrl from "../assets/characters/pip-korean-harvest-greeting-v3-capybara.webp";
+import koreanHarvestEventBadgeUrl from "../assets/badges/badge-pip-korean-harvest-v3-capybara.webp";
 import { isKoreanHarvestEventVisible, KOREAN_HARVEST_CONTENT } from "../data/koreanHarvestContent.js";
 import { getSeasonShelfForPuzzle, getSeasonShelfPuzzles, getSeasonShelfSizeCounts, regularSeasonShelves } from "../data/seasonShelves.js";
 import { puzzles } from "../data/puzzles.js";
@@ -29,7 +29,7 @@ const HOME_THEME_BACKGROUNDS = Object.freeze({
 });
 const HOME_THEME_CHARACTERS = Object.freeze({
   "pip-home-summer-v1": pipSummerHomeUrl,
-  "pip-korean-harvest-greeting-v2": pipHarvestGreetingUrl
+  "pip-korean-harvest-greeting-v3-capybara": pipHarvestGreetingUrl
 });
 
 function appendTextElement(parent, tagName, className, text) {
@@ -468,7 +468,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     eventArt.src = koreanHarvestEventBadgeUrl;
     eventArt.alt = "";
     eventArt.setAttribute("aria-hidden", "true");
-    eventArt.dataset.assetId = "badge-pip-korean-harvest-v2";
+    eventArt.dataset.assetId = "badge-pip-korean-harvest-v3-capybara";
     const eventLabel = appendTextElement(eventButton, "span", "puzzle-home-scene__seasonal-event-label", t("koreanHarvest.event.iconLabel"));
     const eventCompleted = KOREAN_HARVEST_CONTENT.puzzles.filter((puzzle) => completedIds.has(puzzle.id)).length;
     appendTextElement(eventButton, "strong", "puzzle-home-scene__seasonal-event-progress", `${eventCompleted}/${KOREAN_HARVEST_CONTENT.puzzles.length}`);

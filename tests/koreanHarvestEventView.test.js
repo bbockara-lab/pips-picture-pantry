@@ -17,7 +17,7 @@ describe("Korean Harvest event destination", () => {
   it("keeps Pip's greeting separate from the event icon and explicit gift claim", () => {
     expect(home).not.toContain("getSeasonalThemeLabel(homeTheme, t)");
     expect(home).toContain("puzzle-home-scene__seasonal-event");
-    expect(home).toContain("pip-korean-harvest-greeting-v2");
+    expect(home).toContain("pip-korean-harvest-greeting-v3-capybara");
     expect(appShell).not.toContain("hasActivePlayer() ? claimKoreanHarvestWelcomeGift()");
     expect(appShell).toContain("claimKoreanHarvestGiftFromEvent");
   });

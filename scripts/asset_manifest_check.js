@@ -113,7 +113,7 @@ if (!pantryViewSource.includes("../data/pantryJars.js")) {
   errors.push("src/ui/pantryView.js: Pantry must render from the pantry jar data catalog");
 }
 // Opening seal must use the current approved Pip chrome asset, not the older app-icon crop.
-if (!brandIntroSource.includes("opening-key-visual-korean-harvest-v2.webp")) {
+if (!brandIntroSource.includes("opening-key-visual-korean-harvest-v4-cute-capybara.webp")) {
   errors.push("src/ui/brandIntro.js: Korean Harvest opening must use the approved seasonal key visual");
 }
 if (brandIntroSource.includes("pipSealUrl") || brandIntroSource.includes("brand-intro__seal")) {

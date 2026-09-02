@@ -1,5 +1,5 @@
 import welcomeArtUrl from "../assets/mailbox/pip-developer-letter-welcome-v1.webp";
-import koreanHarvestLetterArtUrl from "../assets/mailbox/pip-korean-harvest-letter-v2-cute-capybara.webp";
+import koreanHarvestLetterArtUrl from "../assets/mailbox/pip-korean-harvest-letter-v3-capybara.webp";
 import { KOREAN_HARVEST_CONTENT, isKoreanHarvestContentAvailable } from "./koreanHarvestContent.js";
 
 const GUIDE_MESSAGES = [
@@ -42,7 +42,7 @@ export function getRuntimeSeasonalMailboxMessages() {
     bodyKey: "mailbox.koreanHarvest.body",
     dateKey: "mailbox.koreanHarvest.date",
     artAltKey: "mailbox.koreanHarvest.artAlt",
-    art: { assetId: "pip-korean-harvest-letter-v2-cute-capybara", src: koreanHarvestLetterArtUrl }
+    art: { assetId: "pip-korean-harvest-letter-v3-capybara", src: koreanHarvestLetterArtUrl }
   }];
 }
 

@@ -90,21 +90,21 @@ export const assetRegistry = [
     note: "Original high-resolution source for Pip's first developer welcome letter."
   },
   {
-    id: "pip-korean-harvest-letter-v2-cute-capybara",
+    id: "pip-korean-harvest-letter-v3-capybara",
     usage: "mailbox-seasonal-letter-art",
-    path: "src/assets/mailbox/pip-korean-harvest-letter-v2-cute-capybara.webp",
+    path: "src/assets/mailbox/pip-korean-harvest-letter-v3-capybara.webp",
     sourceType: "raster",
     approval: "approved",
     visible: true,
     mustReplaceBeforeMajorArtPass: false,
     pipPresence: "baked-in",
     identityStatus: "approved-character-and-world-continuity",
-    note: "Korean Harvest developer-letter illustration with the approved cute capybara Pip identity, writing beside songpyeon under the full moon. Runtime-approved art; message visibility remains season-gated."
+    note: "Korean Harvest developer-letter illustration with Pip's broad, forward-projecting capybara muzzle restored, writing beside songpyeon under the full moon. Runtime-approved art; message visibility remains season-gated."
   },
   {
-    id: "pip-korean-harvest-letter-source-v2-cute-capybara",
+    id: "pip-korean-harvest-letter-source-v3-capybara",
     usage: "mailbox-seasonal-letter-art-source",
-    path: "src/assets/mailbox/pip-korean-harvest-letter-v2-cute-capybara.png",
+    path: "src/assets/mailbox/pip-korean-harvest-letter-v3-capybara.png",
     sourceType: "raster",
     approval: "source-archived",
     visible: false,
@@ -114,21 +114,21 @@ export const assetRegistry = [
     note: "High-resolution source for Pip's cute-capybara Korean Harvest developer letter."
   },
   {
-    id: "pip-chuseok-welcome-gift-v1",
+    id: "pip-chuseok-welcome-gift-v2-capybara",
     usage: "seasonal-welcome-gift-art",
-    path: "src/assets/seasonal/korean-harvest/pip-chuseok-welcome-gift-v1.webp",
+    path: "src/assets/seasonal/korean-harvest/pip-chuseok-welcome-gift-v2-capybara.webp",
     sourceType: "raster",
     approval: "approved",
     visible: true,
     mustReplaceBeforeMajorArtPass: false,
     pipPresence: "baked-in",
     identityStatus: "approved-character-continuity",
-    note: "Pip presents a jade-and-cream bojagi parcel, harvest spoon and songpyeon beneath the Chuseok full moon for the one-time 50-spoon welcome gift."
+    note: "Pip, with his broad forward-projecting capybara muzzle restored, presents a jade-and-cream bojagi parcel beneath the Chuseok full moon for the one-time 50-spoon welcome gift."
   },
   {
-    id: "pip-chuseok-welcome-gift-source-v1",
+    id: "pip-chuseok-welcome-gift-source-v2-capybara",
     usage: "seasonal-welcome-gift-art-source",
-    path: "src/assets/seasonal/korean-harvest/pip-chuseok-welcome-gift-v1.png",
+    path: "src/assets/seasonal/korean-harvest/pip-chuseok-welcome-gift-v2-capybara.png",
     sourceType: "raster",
     approval: "source-archived",
     visible: false,
@@ -171,7 +171,7 @@ export const assetRegistry = [
     visible: true,
     mustReplaceBeforeMajorArtPass: false,
     pipPresence: "companion",
-    pipCharacterAssetId: "pip-korean-harvest-greeting-v2",
+    pipCharacterAssetId: "pip-korean-harvest-greeting-v3-capybara",
     identityStatus: "approved-korean-harvest-world-continuity",
     note: "Korean Harvest Workshop without a baked-in character, preserving a clear greeting lane and lower-left event destination while the table keeps songpyeon and a puzzle notebook."
   },
@@ -188,21 +188,21 @@ export const assetRegistry = [
     note: "High-resolution source for the character-free Korean Harvest event-space background."
   },
   {
-    id: "pip-korean-harvest-greeting-v2",
+    id: "pip-korean-harvest-greeting-v3-capybara",
     usage: "puzzle-home-character",
-    path: "src/assets/characters/pip-korean-harvest-greeting-v2.webp",
+    path: "src/assets/characters/pip-korean-harvest-greeting-v3-capybara.webp",
     sourceType: "raster",
     approval: "approved",
     visible: true,
     mustReplaceBeforeMajorArtPass: false,
     pipPresence: "companion",
     identityStatus: "approved-character-continuity",
-    note: "Transparent full-body Pip companion in jade-and-cream hanbok, waving beside the home greeting and carrying the approved golden spoon."
+    note: "Transparent full-body Pip companion with the classic broad capybara muzzle, wearing jade-and-cream hanbok, waving beside the home greeting and carrying the approved golden spoon."
   },
   {
-    id: "pip-korean-harvest-greeting-source-v2",
+    id: "pip-korean-harvest-greeting-source-v3-capybara",
     usage: "puzzle-home-character-source",
-    path: "src/assets/characters/pip-korean-harvest-greeting-v2.png",
+    path: "src/assets/characters/pip-korean-harvest-greeting-v3-capybara.png",
     sourceType: "raster",
     approval: "source-archived",
     visible: false,
@@ -224,28 +224,28 @@ export const assetRegistry = [
     note: "High-resolution source for the approved cute-capybara Korean Harvest Workshop composition."
   },
   {
-    id: "badge-pip-korean-harvest-v2",
+    id: "badge-pip-korean-harvest-v3-capybara",
     usage: "seasonal-badge",
-    path: "src/assets/badges/badge-pip-korean-harvest-v2.webp",
+    path: "src/assets/badges/badge-pip-korean-harvest-v3-capybara.webp",
     sourceType: "raster",
     approval: "approved",
     visible: true,
     mustReplaceBeforeMajorArtPass: false,
     pipPresence: "baked-in",
     identityStatus: "approved-korean-harvest-character-continuity",
-    note: "Overlay-verified transparent Korean Harvest badge with full moon, tiled roof, songpyeon and hanbok Pip, authored in the event indigo, jade, cream and aged-brass palette; runtime exposure remains event-gated."
+    note: "Transparent Korean Harvest badge with full moon, tiled roof, songpyeon and hanbok Pip; Pip's projecting capybara muzzle remains readable at badge scale and runtime exposure remains event-gated."
   },
   {
-    id: "badge-pip-korean-harvest-source-v2",
+    id: "badge-pip-korean-harvest-source-v3-capybara",
     usage: "seasonal-badge-source",
-    path: "src/assets/badges/badge-pip-korean-harvest-v2.png",
+    path: "src/assets/badges/badge-pip-korean-harvest-v3-capybara.png",
     sourceType: "raster",
     approval: "source-archived",
     visible: false,
     mustReplaceBeforeMajorArtPass: false,
     pipPresence: "baked-in",
-    identityStatus: "candidate-korean-harvest-character-continuity",
-    note: "Transparent high-resolution source for the Korean Harvest badge candidate."
+    identityStatus: "approved-korean-harvest-character-continuity",
+    note: "Transparent high-resolution source for the capybara-corrected Korean Harvest badge."
   },
   {
     id: "korean-harvest-songpyeon-tray-v1",
@@ -480,26 +480,26 @@ export const assetRegistry = [
     note: "Retired first Korean Harvest event opening visual after character feedback found Pip too humanoid."
   },
   {
-    id: "opening-key-visual-korean-harvest-source-v2",
+    id: "opening-key-visual-korean-harvest-source-v4-cute-capybara",
     usage: "opening-key-visual-korean-harvest-source",
-    path: "src/assets/brand/opening-key-visual-korean-harvest-v2.png",
+    path: "src/assets/brand/opening-key-visual-korean-harvest-v4-cute-capybara.png",
     sourceType: "raster",
     approval: "source-archived",
     visible: false,
     mustReplaceBeforeMajorArtPass: false,
     identityStatus: "approved-character-continuity",
-    note: "High-resolution source for the revised Korean Harvest opening visual with Pip restored to the compact, rounded animal proportions of the established opening character."
+    note: "High-resolution source for the Korean Harvest opening visual with Pip's capybara muzzle, oversized head, narrow shoulders, compact torso, and small paws locked to the approved cute mascot proportions."
   },
   {
-    id: "opening-key-visual-korean-harvest-v2",
+    id: "opening-key-visual-korean-harvest-v4-cute-capybara",
     usage: "opening-key-visual",
-    path: "src/assets/brand/opening-key-visual-korean-harvest-v2.webp",
+    path: "src/assets/brand/opening-key-visual-korean-harvest-v4-cute-capybara.webp",
     sourceType: "raster",
     approval: "approved",
     visible: true,
     mustReplaceBeforeMajorArtPass: false,
     identityStatus: "approved-character-continuity",
-    note: "Revised Korean Harvest event opening visual with compact, rounded Pip character proportions and code-rendered event identification below the artwork."
+    note: "Korean Harvest event opening visual with Pip's classic capybara muzzle and corrected cute mascot proportions: oversized head, narrow sloped shoulders, compact torso, and small paws."
   },
   {
     id: "spoon-token-v1",

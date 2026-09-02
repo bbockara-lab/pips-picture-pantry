@@ -1,5 +1,5 @@
-import pipGreetingUrl from "../assets/characters/pip-korean-harvest-greeting-v2.webp";
-import giftArtUrl from "../assets/seasonal/korean-harvest/pip-chuseok-welcome-gift-v1.webp";
+import pipGreetingUrl from "../assets/characters/pip-korean-harvest-greeting-v3-capybara.webp";
+import giftArtUrl from "../assets/seasonal/korean-harvest/pip-chuseok-welcome-gift-v2-capybara.webp";
 import mysteryGiftUrl from "../assets/seasonal/korean-harvest/bojagi-gift-v1.webp";
 import { KOREAN_HARVEST_CONTENT } from "../data/koreanHarvestContent.js";
 import { eventSeasonShelves, getSeasonShelfPuzzles } from "../data/seasonShelves.js";
@@ -32,7 +32,7 @@ export function renderKoreanHarvestEventView({ giftStatus, onClaimGift, onClose,
   pip.src = pipGreetingUrl;
   pip.alt = "";
   pip.setAttribute("aria-hidden", "true");
-  pip.dataset.assetId = "pip-korean-harvest-greeting-v2";
+  pip.dataset.assetId = "pip-korean-harvest-greeting-v3-capybara";
   const heroCopy = document.createElement("div");
   appendTextElement(heroCopy, "p", "", t("koreanHarvest.event.eyebrow"));
   const heroTitle = appendTextElement(heroCopy, "h1", "", t("koreanHarvest.event.title"));
@@ -142,7 +142,7 @@ function renderGift(giftStatus, onClaimGift) {
   const art = document.createElement("img");
   art.src = giftArtUrl;
   art.alt = t("seasonalGift.artAlt");
-  art.dataset.assetId = "pip-chuseok-welcome-gift-v1";
+  art.dataset.assetId = "pip-chuseok-welcome-gift-v2-capybara";
   const copy = document.createElement("div");
   const title = document.createElement("h2");
   title.textContent = t("koreanHarvest.event.giftTitle");
