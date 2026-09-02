@@ -48,6 +48,11 @@ describe("play screen wiring", () => {
     expect(puzzleViewSource).toContain('button.className = `control-mode-toggle control-mode-toggle--${targetMode}`');
   });
 
+  it("keeps the full Pip lesson card out of every active puzzle board", () => {
+    expect(puzzleViewSource).not.toContain("renderHowToPlayCard");
+    expect(puzzleViewSource).not.toContain('section.appendChild(renderHowToPlayCard())');
+  });
+
   it("keeps the cursor trail preference aligned with the full control choice group", () => {
     expect(settingsViewSource).toContain('additionalOptionsGroup.className = "additional-options"');
     expect(settingsViewSource).toContain('additionalOptionsLabel.textContent = t("settings.cursorOptions")');

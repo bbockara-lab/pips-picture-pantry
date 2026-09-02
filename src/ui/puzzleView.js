@@ -13,7 +13,7 @@ import { getPuzzleExtraHintCost } from "../data/economyConfig.js";
 import { getFeaturedJar, getPantrySpoons, loadPuzzleState, recordReplayReward, savePuzzleState, spendPantrySpoons } from "../game/save.js";
 import { puzzleTitle, t } from "../i18n/index.js";
 import { playComplete, playCue, playCursorAction, playCursorMove, playTap } from "./audio.js";
-import { getHintLimit, getHintRevealCount, renderHintPanel, renderHowToPlayCard, renderMarkHint } from "./puzzleAssistView.js";
+import { getHintLimit, getHintRevealCount, renderHintPanel, renderMarkHint } from "./puzzleAssistView.js";
 import { applyCursorAction, createCursorControlSession, moveSelectedCell, renderCursorControls, shouldShowCursorControls } from "./puzzleCursorControls.js";
 import { getLineGuidance, renderBoard } from "./boardView.js";
 import { isReplayExhausted, renderCompletionBanner } from "./pipReaction.js";
@@ -184,13 +184,6 @@ export function renderPuzzleView(puzzle, options = {}) {
     const controlModeToggle = canSwitchControlMode
       ? createControlModeToggle(cursorControlsEnabled, options.onControlModeChange)
       : null;
-    // Cursor mode already explains movement and the two available actions
-    // beside its D-pad. Repeating the full Pip lesson and tap controls above
-    // a large board makes the board feel secondary.
-    if (!state.completed && puzzle.size >= 10 && !cursorControlsEnabled) {
-      section.appendChild(renderHowToPlayCard());
-    }
-
     if (isTimeAttack) {
       appendHintPanel(true);
     }
