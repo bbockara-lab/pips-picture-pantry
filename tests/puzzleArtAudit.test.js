@@ -1,7 +1,23 @@
 import { describe, expect, it } from "vitest";
-import { buildPuzzleArtAudit } from "../scripts/puzzle_art_audit.js";
+import { buildPuzzleArtAudit, buildReleasePuzzleArtAudits } from "../scripts/puzzle_art_audit.js";
 
 describe("puzzle art audit", () => {
+  it("includes summer content in release audits without cross-pack false positives", () => {
+    const puzzleList = [
+      { id: "pack-a-1", title: "Pack A", packId: "pack-a", size: 1, solution: ["1"] },
+      { id: "summer-1", title: "Summer", packId: "summer-pantry", size: 2, solution: ["10", "01"] },
+    ];
+
+    const audits = buildReleasePuzzleArtAudits({
+      puzzleList,
+      packIds: ["pack-a", "summer-pantry"]
+    });
+
+    expect(audits.map(({ packId }) => packId)).toEqual(["pack-a", "summer-pantry"]);
+    expect(audits.map(({ report }) => report.totals.puzzles)).toEqual([1, 1]);
+    expect(audits.every(({ report }) => report.totals.duplicateTitleGroups === 0)).toBe(true);
+  });
+
   it("prioritizes duplicate silhouettes before softer composition warnings", () => {
     const report = buildPuzzleArtAudit({
       packIds: ["test-pack"],
@@ -303,6 +319,14 @@ describe("puzzle art audit", () => {
       "village-pantry-sunflower-flour-sieve-112"
     ]);
     expect(report.candidates.some(({ id }) => repairedIds.has(id))).toBe(false);
+  });
+
+  it("keeps the full Bakery and Village launch-art audit queue closed", () => {
+    const report = buildPuzzleArtAudit();
+
+    expect(report.totals.candidates).toBe(0);
+    expect(report.duplicateSolutions).toEqual([]);
+    expect(report.duplicateTitles).toEqual([]);
   });
 
 });

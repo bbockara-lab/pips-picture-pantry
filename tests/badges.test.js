@@ -1,26 +1,91 @@
 import { describe, expect, it } from "vitest";
-import { puzzlePacks } from "../src/data/packs.js";
-import { puzzles } from "../src/data/puzzles.js";
-import { getEarnedPackBadges, getNextBadgeProgress, getPackBadgeStatus } from "../src/game/badges.js";
+import { getSeasonShelfById, getSeasonShelfPuzzles, seasonShelves } from "../src/data/seasonShelves.js";
+import {
+  BADGE_MILESTONES,
+  getBadgeForCompletedShelf,
+  getEarnedPackBadges,
+  getNextBadgeProgress,
+  getPackBadgeStatus
+} from "../src/game/badges.js";
 
-describe("pack badges", () => {
-  it("tracks the next pack badge before a stage is complete", () => {
-    const firstPack = puzzlePacks.find((pack) => pack.id === "pips-first-shelf");
-    const firstTwo = puzzles.filter((puzzle) => puzzle.packId === firstPack.id).slice(0, 2).map((puzzle) => puzzle.id);
+describe("sixteen-stage shelf badges", () => {
+  it("maps sixteen badges across six shelf groups", () => {
+    expect(BADGE_MILESTONES).toHaveLength(16);
+    expect(BADGE_MILESTONES.map((badge) => badge.stage)).toEqual(Array.from({ length: 16 }, (_, index) => index));
+    expect(BADGE_MILESTONES.map((badge) => badge.group)).toEqual(["A", "A", "A", "B", "B", "B", "C", "C", "C", "D", "D", "D", "E", "E", "E", "F"]);
+    expect(BADGE_MILESTONES.at(-1)).toMatchObject({ id: "badge-pip-korean-harvest", seasonal: true });
+    expect(BADGE_MILESTONES.at(-2)).toMatchObject({ id: "badge-pip-sunset-feast", final: true });
+  });
+
+  it("keeps each summer Pantry shelf in its own two-stage badge milestone", () => {
+    expect(BADGE_MILESTONES.slice(12, 15).map((badge) => badge.shelfIds)).toEqual([
+      ["shelf-summer-window", "shelf-fruit-market"],
+      ["shelf-garden-basket", "shelf-picnic-lawn"],
+      ["shelf-seaside-table", "shelf-sunset-feast"]
+    ]);
+  });
+
+  it("groups the four Chuseok shelves into one final harvest badge", () => {
+    expect(BADGE_MILESTONES.at(-1)?.shelfIds).toEqual([
+      "shelf-korean-harvest-1",
+      "shelf-korean-harvest-2",
+      "shelf-korean-harvest-3",
+      "shelf-korean-harvest-4"
+    ]);
+  });
+
+  it("does not make the seasonal badge a gate in the permanent journey", () => {
+    const regularIds = seasonShelves
+      .filter((shelf) => shelf.eventTheme !== "korean-harvest")
+      .flatMap((shelf) => getSeasonShelfPuzzles(shelf).map((puzzle) => puzzle.id));
+    expect(getNextBadgeProgress(regularIds)).toBeNull();
+  });
+
+  it("keeps each Step 62 shelf in its own two-shelf badge milestone", () => {
+    expect(BADGE_MILESTONES.slice(9, 12).map((badge) => badge.shelfIds)).toEqual([
+      ["shelf-herb-terrace", "shelf-sunroom-table"],
+      ["shelf-orchard-window", "shelf-lantern-courtyard"],
+      ["shelf-moonlit-veranda", "shelf-hearth-gallery"]
+    ]);
+    expect(BADGE_MILESTONES[8].shelfIds).toEqual(["shelf-garden-path", "shelf-village-pantry"]);
+  });
+
+  it("uses the canonical shelf name for every badge milestone", () => {
+    BADGE_MILESTONES.forEach((badge) => {
+      const displayShelf = getSeasonShelfById(badge.shelfIds.at(-1));
+      expect(badge.titleKey).toBe(displayShelf.titleKey);
+      expect(badge.titleKey).toMatch(/^shelves\./);
+    });
+  });
+
+  it("tracks the next badge before its milestone is complete", () => {
+    const firstTwo = getSeasonShelfPuzzles(seasonShelves[0]).slice(0, 2).map((puzzle) => puzzle.id);
     const next = getNextBadgeProgress(firstTwo);
 
-    expect(next.pack.id).toBe("pips-first-shelf");
+    expect(next.shelf.id).toBe("shelf-pips-first");
     expect(next.completed).toBe(2);
     expect(next.total).toBe(20);
     expect(next.earned).toBe(false);
   });
 
-  it("marks a stage badge earned when all pack puzzles are complete", () => {
-    const firstPackIds = puzzles.filter((puzzle) => puzzle.packId === "pips-first-shelf").map((puzzle) => puzzle.id);
-    const earned = getEarnedPackBadges(firstPackIds);
+  it("earns grouped stage badges only at the group endpoint", () => {
+    const stageThreeIds = [seasonShelves[3], seasonShelves[4]]
+      .flatMap((shelf) => getSeasonShelfPuzzles(shelf).map((puzzle) => puzzle.id));
+    const statuses = getPackBadgeStatus(stageThreeIds);
+    const stageThree = statuses.find((status) => status.badge.stage === 3);
 
-    expect(getPackBadgeStatus(firstPackIds).find((status) => status.pack.id === "pips-first-shelf").earned).toBe(true);
-    expect(earned.map((status) => status.pack.id)).toContain("pips-first-shelf");
-    expect(getNextBadgeProgress(firstPackIds).pack.id).toBe("sunny-spoon-sign");
+    expect(stageThree.total).toBe(44);
+    expect(stageThree.earned).toBe(true);
+    expect(getBadgeForCompletedShelf("shelf-market-counter", stageThreeIds)).toBeNull();
+    expect(getBadgeForCompletedShelf("shelf-window-table", stageThreeIds)?.badge.id).toBe("badge-pip-bakery-door");
+  });
+
+  it("marks a keepsake earned and advances to the next milestone", () => {
+    const firstShelfIds = getSeasonShelfPuzzles(seasonShelves[0]).map((puzzle) => puzzle.id);
+    const earned = getEarnedPackBadges(firstShelfIds);
+
+    expect(getPackBadgeStatus(firstShelfIds)[0].earned).toBe(true);
+    expect(earned.map((status) => status.badge.id)).toContain("badge-pips-first-shelf");
+    expect(getNextBadgeProgress(firstShelfIds).shelf.id).toBe("shelf-sunny-counter");
   });
 });

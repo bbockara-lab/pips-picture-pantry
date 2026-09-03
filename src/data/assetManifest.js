@@ -1,5 +1,397 @@
 export const assetRegistry = [
   {
+    id: "workshop-play-now-v2",
+    usage: "workshop-home-primary-play-action",
+    path: "src/assets/icons/workshop-nav-v3/workshop-play-now-v2.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-icon-continuity",
+    note: "Play-forward golden medallion backed by a compact nonogram notebook, balanced for an independent lower-corner home action."
+  },
+  {
+    id: "workshop-play-now-source-v2",
+    usage: "workshop-home-primary-play-action-source",
+    path: "src/assets/icons/workshop-nav-v3/workshop-play-now-v2.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-icon-continuity",
+    note: "Transparent high-resolution source for the play-forward Workshop Play Now icon."
+  },
+  {
+    id: "workshop-play-now-v1",
+    usage: "workshop-home-primary-play-action",
+    path: "src/assets/icons/workshop-nav-v3/workshop-play-now-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-icon-continuity",
+    note: "Balanced spiral nonogram notebook with a centered play medallion for the Workshop home primary action."
+  },
+  {
+    id: "workshop-play-now-source-v1",
+    usage: "workshop-home-primary-play-action-source",
+    path: "src/assets/icons/workshop-nav-v3/workshop-play-now-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-icon-continuity",
+    note: "Original high-resolution source for the balanced Workshop Play Now icon."
+  },
+  {
+    id: "workshop-nav-mailbox-v1",
+    usage: "quick-travel-mailbox-icon",
+    path: "src/assets/icons/workshop-nav-v3/workshop-nav-mailbox-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-icon-continuity",
+    note: "Cream envelope with a spoon seal, authored for Pip's Mailbox and matched to the Workshop navigation family."
+  },
+  {
+    id: "workshop-nav-mailbox-source-v1",
+    usage: "quick-travel-mailbox-icon-source",
+    path: "src/assets/icons/workshop-nav-v3/workshop-nav-mailbox-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-icon-continuity",
+    note: "Original high-resolution source for the Mailbox navigation icon."
+  },
+  {
+    id: "pip-developer-letter-welcome-v1",
+    usage: "mailbox-developer-letter-art",
+    path: "src/assets/mailbox/pip-developer-letter-welcome-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-character-and-world-continuity",
+    note: "Pip writing the first developer welcome letter at a warm Pantry workshop desk."
+  },
+  {
+    id: "pip-developer-letter-welcome-source-v1",
+    usage: "mailbox-developer-letter-art-source",
+    path: "src/assets/mailbox/pip-developer-letter-welcome-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-character-and-world-continuity",
+    note: "Original high-resolution source for Pip's first developer welcome letter."
+  },
+  {
+    id: "pip-korean-harvest-letter-v3-capybara",
+    usage: "mailbox-seasonal-letter-art",
+    path: "src/assets/mailbox/pip-korean-harvest-letter-v3-capybara.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-character-and-world-continuity",
+    note: "Korean Harvest developer-letter illustration with Pip's broad, forward-projecting capybara muzzle restored, writing beside songpyeon under the full moon. Runtime-approved art; message visibility remains season-gated."
+  },
+  {
+    id: "pip-korean-harvest-letter-source-v3-capybara",
+    usage: "mailbox-seasonal-letter-art-source",
+    path: "src/assets/mailbox/pip-korean-harvest-letter-v3-capybara.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-character-and-world-continuity",
+    note: "High-resolution source for Pip's cute-capybara Korean Harvest developer letter."
+  },
+  {
+    id: "pip-chuseok-welcome-gift-v2-capybara",
+    usage: "seasonal-welcome-gift-art",
+    path: "src/assets/seasonal/korean-harvest/pip-chuseok-welcome-gift-v2-capybara.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-character-continuity",
+    note: "Pip, with his broad forward-projecting capybara muzzle restored, presents a jade-and-cream bojagi parcel beneath the Chuseok full moon for the one-time 50-spoon welcome gift."
+  },
+  {
+    id: "pip-chuseok-welcome-gift-source-v2-capybara",
+    usage: "seasonal-welcome-gift-art-source",
+    path: "src/assets/seasonal/korean-harvest/pip-chuseok-welcome-gift-v2-capybara.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-character-continuity",
+    note: "High-resolution source for Pip's Korean Chuseok 50-spoon welcome-gift illustration."
+  },
+  {
+    id: "pip-puzzle-workshop-summer-v1",
+    usage: "puzzle-home-background",
+    path: "src/assets/generated/pip-puzzle-workshop-summer-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "companion",
+    pipCharacterAssetId: "pip-home-summer-v1",
+    identityStatus: "approved-summer-world-continuity",
+    note: "Summer common-release Workshop background with quiet UI space and seasonal produce at the scene edges. Contains no baked-in character, logo, text, or controls."
+  },
+  {
+    id: "pip-puzzle-workshop-korean-harvest-v2-cute-capybara",
+    usage: "puzzle-home-background-seasonal",
+    path: "src/assets/generated/pip-puzzle-workshop-korean-harvest-v2-cute-capybara.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-korean-harvest-world-continuity",
+    note: "Overlay-verified Korean Harvest Workshop composition using the approved cute capybara Pip identity. Pip wears a restrained jade-and-cream hanbok and prepares songpyeon under full-moon and hanji-lantern light; runtime exposure remains controlled by the seasonal publish gate."
+  },
+  {
+    id: "pip-puzzle-workshop-korean-harvest-v3-event-space",
+    usage: "puzzle-home-background-seasonal",
+    path: "src/assets/generated/pip-puzzle-workshop-korean-harvest-v3-event-space.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "companion",
+    pipCharacterAssetId: "pip-korean-harvest-greeting-v3-capybara",
+    identityStatus: "approved-korean-harvest-world-continuity",
+    note: "Korean Harvest Workshop without a baked-in character, preserving a clear greeting lane and lower-left event destination while the table keeps songpyeon and a puzzle notebook."
+  },
+  {
+    id: "pip-puzzle-workshop-korean-harvest-source-v3-event-space",
+    usage: "puzzle-home-background-seasonal-source",
+    path: "src/assets/generated/pip-puzzle-workshop-korean-harvest-v3-event-space.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "companion",
+    identityStatus: "approved-korean-harvest-world-continuity",
+    note: "High-resolution source for the character-free Korean Harvest event-space background."
+  },
+  {
+    id: "pip-korean-harvest-greeting-v3-capybara",
+    usage: "puzzle-home-character",
+    path: "src/assets/characters/pip-korean-harvest-greeting-v3-capybara.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "companion",
+    identityStatus: "approved-character-continuity",
+    note: "Transparent full-body Pip companion with the classic broad capybara muzzle, wearing jade-and-cream hanbok, waving beside the home greeting and carrying the approved golden spoon."
+  },
+  {
+    id: "pip-korean-harvest-greeting-source-v3-capybara",
+    usage: "puzzle-home-character-source",
+    path: "src/assets/characters/pip-korean-harvest-greeting-v3-capybara.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "companion",
+    identityStatus: "approved-character-continuity",
+    note: "Transparent high-resolution source for the Korean Harvest home greeting companion."
+  },
+  {
+    id: "pip-puzzle-workshop-korean-harvest-source-v2-cute-capybara",
+    usage: "puzzle-home-background-source",
+    path: "src/assets/generated/pip-puzzle-workshop-korean-harvest-v2-cute-capybara.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "candidate-korean-harvest-world-continuity",
+    note: "High-resolution source for the approved cute-capybara Korean Harvest Workshop composition."
+  },
+  {
+    id: "badge-pip-korean-harvest-v3-capybara",
+    usage: "seasonal-badge",
+    path: "src/assets/badges/badge-pip-korean-harvest-v3-capybara.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-korean-harvest-character-continuity",
+    note: "Transparent Korean Harvest badge with full moon, tiled roof, songpyeon and hanbok Pip; Pip's projecting capybara muzzle remains readable at badge scale and runtime exposure remains event-gated."
+  },
+  {
+    id: "badge-pip-korean-harvest-source-v3-capybara",
+    usage: "seasonal-badge-source",
+    path: "src/assets/badges/badge-pip-korean-harvest-v3-capybara.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-korean-harvest-character-continuity",
+    note: "Transparent high-resolution source for the capybara-corrected Korean Harvest badge."
+  },
+  {
+    id: "korean-harvest-songpyeon-tray-v1",
+    usage: "seasonal-pantry-reward",
+    path: "src/assets/seasonal/korean-harvest/songpyeon-tray-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-korean-harvest-object-continuity",
+    note: "Transparent game-ready Korean Harvest reward art: a walnut lacquer soban with songpyeon, rice sheaf and restrained bojagi detail. Approved as an isolated candidate asset; remains hidden until the event is activated."
+  },
+  {
+    id: "korean-harvest-songpyeon-tray-source-v1",
+    usage: "seasonal-pantry-reward-source",
+    path: "src/assets/seasonal/korean-harvest/songpyeon-tray-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-korean-harvest-object-continuity",
+    note: "Transparent high-resolution source for the Korean Harvest songpyeon soban reward."
+  },
+  {
+    id: "korean-harvest-bojagi-gift-v1",
+    usage: "seasonal-pantry-reward",
+    path: "src/assets/seasonal/korean-harvest/bojagi-gift-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-korean-harvest-object-continuity",
+    note: "Transparent game-ready Korean Harvest reward art: a jade, cream and persimmon bojagi parcel with restrained maedeup detail."
+  },
+  {
+    id: "korean-harvest-bojagi-gift-source-v1",
+    usage: "seasonal-pantry-reward-source",
+    path: "src/assets/seasonal/korean-harvest/bojagi-gift-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-korean-harvest-object-continuity",
+    note: "Transparent high-resolution source for the Korean Harvest bojagi parcel reward."
+  },
+  {
+    id: "korean-harvest-moon-jar-v1",
+    usage: "seasonal-pantry-reward",
+    path: "src/assets/seasonal/korean-harvest/moon-jar-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-korean-harvest-object-continuity",
+    note: "Transparent game-ready Korean Harvest reward art: warm white moon jar with restrained harvest-moon and rice-stalk painting."
+  },
+  {
+    id: "korean-harvest-moon-jar-source-v1",
+    usage: "seasonal-pantry-reward-source",
+    path: "src/assets/seasonal/korean-harvest/moon-jar-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-korean-harvest-object-continuity",
+    note: "Transparent high-resolution source for the Korean Harvest moon jar reward."
+  },
+  {
+    id: "korean-harvest-moonlit-lantern-v1",
+    usage: "seasonal-pantry-reward",
+    path: "src/assets/seasonal/korean-harvest/moonlit-lantern-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-korean-harvest-object-continuity",
+    note: "Transparent game-ready Korean Harvest reward art: a straight-frame Korean hanji lantern with full moon, rice and maedeup details."
+  },
+  {
+    id: "korean-harvest-moonlit-lantern-source-v1",
+    usage: "seasonal-pantry-reward-source",
+    path: "src/assets/seasonal/korean-harvest/moonlit-lantern-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-korean-harvest-object-continuity",
+    note: "Transparent high-resolution source for the Korean Harvest hanji lantern reward."
+  },
+  {
+    id: "pip-home-summer-v1",
+    usage: "puzzle-home-character",
+    path: "src/assets/characters/pip-home-summer-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "Theme-authored summer Pip companion that guarantees Pip visibly participates in the summer Workshop home scene."
+  },
+  {
+    id: "pip-puzzle-workshop-source-v1",
+    usage: "puzzle-home-background-source",
+    path: "src/assets/generated/pip-puzzle-workshop-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-and-world-continuity",
+    note: "Original high-resolution source for the Pip puzzle workshop runtime asset."
+  },
+  {
+    id: "pantry-room-sunlit-source-v1",
+    usage: "pantry-room-background-source",
+    path: "src/assets/backgrounds/pantry-room-sunlit-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Original high-resolution source for the sunlit Pantry room runtime asset."
+  },
+  {
+    id: "pip-puzzle-workshop-v1",
+    usage: "puzzle-home-background",
+    path: "src/assets/generated/pip-puzzle-workshop-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-character-and-world-continuity",
+    note: "High-quality WebP runtime version of Pip's authored puzzle workshop scene. It remains deliberately distinct from the editable Pantry room."
+  },
+  {
+    id: "pantry-room-sunlit-v1",
+    usage: "pantry-room-background",
+    path: "src/assets/backgrounds/pantry-room-sunlit-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "High-quality WebP runtime version of the empty sunlit Pantry room background. It gives the five decoration slots a shared home without competing with equipped art."
+  },
+  {
     id: "sunny-spoon-studios-bumper-source-v1",
     usage: "studio-bumper-source",
     path: "src/assets/brand/sunny-spoon-studios-bumper-v1.png",
@@ -12,7 +404,7 @@ export const assetRegistry = [
   },
   {
     id: "sunny-spoon-studios-bumper-v1",
-    usage: "studio-bumper",
+    usage: "studio-bumper-superseded",
     path: "src/assets/brand/sunny-spoon-studios-bumper-v1.webp",
     sourceType: "raster",
     approval: "approved",
@@ -20,6 +412,28 @@ export const assetRegistry = [
     mustReplaceBeforeMajorArtPass: false,
     identityStatus: "approved-studio-continuity",
     note: "Approved reusable Sunny Spoon Studios bumper art promoted into the first launch stage in v0.1.128. Prompt requested no text, no puzzle/Pantry-specific clutter, and a reusable spoon-sun studio identity mark."
+  },
+  {
+    id: "sunny-spoon-studios-logo-v2",
+    usage: "studio-bumper",
+    path: "src/assets/brand/sunny-spoon-studios-logo-v2.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-studio-continuity",
+    note: "Premium transparent Sunny Spoon Studios wordmark with a golden spoon-sun emblem, promoted for the shared Android and iOS launch bumper."
+  },
+  {
+    id: "pips-picture-pantry-logo-v1",
+    usage: "game-title-logo",
+    path: "src/assets/brand/pips-picture-pantry-logo-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-product-continuity",
+    note: "Premium transparent Pip's Picture Pantry title logo used by the shared Android and iOS opening identity screen."
   },
   {
     id: "opening-key-visual-source-v1",
@@ -42,6 +456,50 @@ export const assetRegistry = [
     mustReplaceBeforeMajorArtPass: false,
     identityStatus: "approved-character-continuity",
     note: "Approved high-polish Sunny Spoon/Pip opening key visual promoted into the brand intro in v0.1.103."
+  },
+  {
+    id: "opening-key-visual-korean-harvest-source-v1",
+    usage: "opening-key-visual-korean-harvest-source",
+    path: "src/assets/brand/opening-key-visual-korean-harvest-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "High-resolution source for the Korean Harvest opening visual with Pip, songpyeon, harvest moon, hanji lantern and bojagi. Runtime uses optimized WebP."
+  },
+  {
+    id: "opening-key-visual-korean-harvest-v1",
+    usage: "opening-key-visual",
+    path: "src/assets/brand/opening-key-visual-korean-harvest-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "Retired first Korean Harvest event opening visual after character feedback found Pip too humanoid."
+  },
+  {
+    id: "opening-key-visual-korean-harvest-source-v4-cute-capybara",
+    usage: "opening-key-visual-korean-harvest-source",
+    path: "src/assets/brand/opening-key-visual-korean-harvest-v4-cute-capybara.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "High-resolution source for the Korean Harvest opening visual with Pip's capybara muzzle, oversized head, narrow shoulders, compact torso, and small paws locked to the approved cute mascot proportions."
+  },
+  {
+    id: "opening-key-visual-korean-harvest-v4-cute-capybara",
+    usage: "opening-key-visual",
+    path: "src/assets/brand/opening-key-visual-korean-harvest-v4-cute-capybara.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "Korean Harvest event opening visual with Pip's classic capybara muzzle and corrected cute mascot proportions: oversized head, narrow sloped shoulders, compact torso, and small paws."
   },
   {
     id: "spoon-token-v1",
@@ -136,19 +594,32 @@ export const assetRegistry = [
     ["puzzle", "Puzzle board"],
     ["album", "Album book"],
     ["pantry", "Pantry jar"],
-    ["time-attack", "Spoon stopwatch"],
+    ["time-attack", "Retired spoon stopwatch", false],
     ["map", "Pantry map"]
-  ].map(([view, label]) => ({
+  ].map(([view, label, visible = true]) => ({
     id: `quick-travel-${view}-v1`,
     usage: "navigation-icon",
     path: `src/assets/icons/quick-travel-v1/quick-travel-${view}-v1.png`,
     sourceType: "raster",
     approval: "approved",
-    visible: true,
+    visible,
     mustReplaceBeforeMajorArtPass: false,
     identityStatus: "original-ui-approved",
-    note: `${label} artwork promoted from the reviewed v1 set for the shared quick-travel trigger and menu.`
+    note: visible
+      ? `${label} artwork promoted from the reviewed v1 set for the shared quick-travel trigger and menu.`
+      : `${label} retained only as replaced source history; runtime navigation uses Mr. Park's pocket watch instead.`
   })),
+  {
+    id: "quick-travel-time-attack-clock-v1",
+    usage: "navigation-icon",
+    path: "src/assets/icons/quick-travel-v1/quick-travel-time-attack-clock-v1.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "Mr. Park's pocket watch, isolated as the clear Time Attack destination artwork with no decorative aura."
+  },
   ...[
     ["fill", "Fill brush", "candidate-needs-ui-review"],
     ["mark", "Blank-check tile", "candidate-needs-ui-review"],
@@ -542,6 +1013,150 @@ export const assetRegistry = [
     identityStatus: "approved-character-continuity",
     stagePackId: "village-pantry",
     note: "User-approved collectible badge art promoted into runtime UI in v0.1.96."
+  },
+  {
+    id: "badge-pip-bakery-door-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-bakery-door-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-window-table",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
+    id: "badge-pip-pastry-morning-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-pastry-morning-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-pastry-corner",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
+    id: "badge-pip-tin-collection-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-tin-collection-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-bakery-window",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
+    id: "badge-pip-village-path-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-village-path-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-market-table",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
+    id: "badge-pip-clock-corner-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-clock-corner-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-bakery-walk",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
+    id: "badge-pip-full-pantry-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-full-pantry-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-village-pantry",
+    note: "Generated collectible stage badge art for the nine-stage Badge Shelf in v0.1.643."
+  },
+  {
+    id: "badge-pip-sunroom-botanicals-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-sunroom-botanicals-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-sunroom-table",
+    note: "Generated collectible badge art for the Step 62 Sunroom milestone in v0.1.713."
+  },
+  {
+    id: "badge-pip-orchard-lantern-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-orchard-lantern-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-lantern-courtyard",
+    note: "Generated collectible badge art for the Step 62 Orchard milestone in v0.1.713."
+  },
+  {
+    id: "badge-pip-hearth-gallery-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-hearth-gallery-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-hearth-gallery",
+    note: "Generated final collectible badge art for the Step 62 Hearth milestone in v0.1.713."
+  },
+  {
+    id: "badge-pip-summer-market-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-summer-market-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-fruit-market",
+    note: "Generated collectible badge art for the combined Summer Pantry release."
+  },
+  {
+    id: "badge-pip-picnic-lawn-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-picnic-lawn-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-picnic-lawn",
+    note: "Generated collectible badge art for the combined Summer Pantry release."
+  },
+  {
+    id: "badge-pip-sunset-feast-v1",
+    usage: "badge-art",
+    path: "src/assets/badges/badge-pip-sunset-feast-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    stagePackId: "shelf-sunset-feast",
+    note: "Generated final collectible badge art for the combined Summer Pantry release."
   },
   {
     id: "starter-counter-cloth-v1",
@@ -1526,8 +2141,316 @@ export const assetRegistry = [
     mustReplaceBeforeMajorArtPass: true,
     identityStatus: "rejected-wrong-character",
     note: "Rejected after user review: cute image but not Pip; do not use because it drifted into an unfamiliar bear-like mascot."
+  },
+  ...[
+    ["puzzle", "Puzzle notebook sticker"],
+    ["album", "Completed-picture album sticker"],
+    ["pantry", "Cozy pantry jar sticker"],
+    ["time-attack", "Clock Grandpa pocket watch sticker"],
+    ["map", "Achievement map sticker"],
+    ["settings", "Workshop settings sticker"]
+  ].map(([view, label]) => ({
+    id: `workshop-nav-${view}-source-v3`,
+    usage: "navigation-icon-source",
+    path: `src/assets/icons/workshop-nav-v3/workshop-nav-${view}-v3.png`,
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-navigation",
+    note: `${label} transparent source retained for the optimized workshop navigation runtime asset.`
+  })),
+  ...[
+    ["puzzle", "Puzzle notebook sticker"],
+    ["album", "Completed-picture album sticker"],
+    ["pantry", "Cozy pantry jar sticker"],
+    ["time-attack", "Clock Grandpa pocket watch sticker"],
+    ["map", "Achievement map sticker"],
+    ["settings", "Workshop settings sticker"]
+  ].map(([view, label]) => ({
+    id: `workshop-nav-${view}-v3`,
+    usage: "navigation-icon",
+    path: `src/assets/icons/workshop-nav-v3/workshop-nav-${view}-v3.webp`,
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-workshop-navigation",
+    note: `${label} rendered as a transparent cutout for the Pip puzzle workshop; no CSS card or ring is used at runtime.`
+  }))].concat([
+  {
+    id: "pantry-room-sunlit-source-v2",
+    usage: "pantry-room-background-source",
+    path: "src/assets/backgrounds/pantry-room-sunlit-v2.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Master-derived empty Pantry room source. Runtime uses the optimized v2 WebP."
+  },
+  {
+    id: "pantry-room-sunlit-v2",
+    usage: "pantry-room-background",
+    path: "src/assets/backgrounds/pantry-room-sunlit-v2.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved empty Pantry room base for the master-derived full-canvas overlay system."
+  },  {
+    id: "pantry-room-overlay-counter-01",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-counter-01.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-counter-02",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-counter-02.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-counter-03",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-counter-03.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-counter-04",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-counter-04.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-counter-05",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-counter-05.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-counter-06",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-counter-06.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-window-01",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-window-01.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-window-02",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-window-02.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-window-03",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-window-03.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-window-04",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-window-04.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-window-05",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-window-05.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-shelf-01",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-shelf-01.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-shelf-02",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-shelf-02.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-shelf-03",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-shelf-03.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-shelf-04",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-shelf-04.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-shelf-05",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-shelf-05.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-floor-01",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-floor-01.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-floor-02",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-floor-02.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-floor-03",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-floor-03.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-floor-04",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-floor-04.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-wall-01",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-wall-01.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-wall-02",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-wall-02.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-wall-03",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-wall-03.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-wall-04",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-wall-04.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
+  },  {
+    id: "pantry-room-overlay-wall-05",
+    usage: "pantry-room-overlay",
+    path: "src/assets/backgrounds/overlays/room-v2-wall-05.png",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-world-continuity",
+    note: "Approved master-derived Pantry room overlay asset."
   }
-];
+]);
 
 export function getAssetRecordById(id) {
   return assetRegistry.find((asset) => asset.id === id) || null;

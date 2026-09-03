@@ -11,8 +11,8 @@ describe("puzzle catalog report", () => {
     expect(report.totals.freePuzzles).toBeGreaterThanOrEqual(287);
     expect(report.totals.twelveByTwelveBoards).toBeGreaterThanOrEqual(93);
     expect(report.totals.readableLargeBoards).toBeGreaterThanOrEqual(149);
-    expect(report.launchTarget.targetFreePuzzles).toBe(333);
-    expect(report.launchTarget.remainingFreePuzzles).toBeLessThanOrEqual(46);
+    expect(report.launchTarget.targetFreePuzzles).toBe(500);
+    expect(report.launchTarget.remainingFreePuzzles).toBe(0);
     expect(report.launchTarget.shouldPrioritizePolish).toBe(true);
     expect(bakeryWindow.twelveByTwelveCount).toBeGreaterThanOrEqual(93);
     expect(villagePantry.largeBoardCount).toBeGreaterThanOrEqual(100);
@@ -30,9 +30,9 @@ describe("puzzle catalog report", () => {
     });
 
     expect(report.launchTarget).toEqual({
-      targetFreePuzzles: 333,
-      remainingFreePuzzles: 331,
-      progressPercent: 1,
+      targetFreePuzzles: 500,
+      remainingFreePuzzles: 498,
+      progressPercent: 0,
       shouldPrioritizePolish: false
     });
   });

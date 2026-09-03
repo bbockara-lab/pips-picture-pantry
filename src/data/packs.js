@@ -1,3 +1,5 @@
+import { KOREAN_HARVEST_CONTENT, isKoreanHarvestContentRuntimeReady } from "./koreanHarvestContent.js";
+
 export const puzzlePacks = [
   {
     id: "pips-first-shelf",
@@ -23,7 +25,7 @@ export const puzzlePacks = [
     access: "unlockable",
     monetizationRole: "free-progression",
     unlockCost: 80,
-    pantryRoomStepRequired: 3,
+    pantryRoomStepRequired: 5,
     size: 8,
     stageBonus: 80,
     muralPart: "pip-scarf",
@@ -41,7 +43,7 @@ export const puzzlePacks = [
     access: "unlockable",
     monetizationRole: "free-progression",
     unlockCost: 160,
-    pantryRoomStepRequired: 6,
+    pantryRoomStepRequired: 10,
     size: 8,
     stageBonus: 130,
     muralPart: "pip-face",
@@ -59,7 +61,7 @@ export const puzzlePacks = [
     access: "unlockable",
     monetizationRole: "free-progression",
     unlockCost: 280,
-    pantryRoomStepRequired: 10,
+    pantryRoomStepRequired: 15,
     size: 12,
     stageBonus: 200,
     muralPart: "pip-body",
@@ -77,7 +79,7 @@ export const puzzlePacks = [
     access: "unlockable",
     monetizationRole: "free-progression",
     unlockCost: 450,
-    pantryRoomStepRequired: 10,
+    pantryRoomStepRequired: 30,
     size: 10,
     stageBonus: 300,
     muralPart: "pip-card",
@@ -86,6 +88,24 @@ export const puzzlePacks = [
       id: "badge-village-pantry",
       titleKey: "badges.villagePantry",
       descriptionKey: "badges.villagePantryDesc"
+    }
+  },
+  {
+    id: "summer-pantry",
+    titleKey: "packs.summer-pantry.title",
+    noteKey: "packs.summer-pantry.note",
+    access: "unlockable",
+    monetizationRole: "free-progression",
+    unlockCost: 0,
+    pantryRoomStepRequired: 60,
+    size: 12,
+    stageBonus: 240,
+    muralPart: "summer-table",
+    muralSet: "summer-pantry",
+    badge: {
+      id: "badge-summer-pantry",
+      titleKey: "badges.summerPantry",
+      descriptionKey: "badges.summerPantryDesc"
     }
   },
   {
@@ -142,7 +162,26 @@ export const puzzlePacks = [
     muralPart: "bonus-festival",
     muralSet: "sunny-spoon-festival",
     pricePreviewKey: "packs.pricePreview"
-  }
+  },
+  ...(isKoreanHarvestContentRuntimeReady() ? [{
+    id: "korean-harvest",
+    titleKey: "packs.korean-harvest.title",
+    noteKey: "packs.korean-harvest.note",
+    access: "free",
+    monetizationRole: "seasonal-event",
+    unlockCost: 0,
+    pantryRoomStepRequired: 0,
+    size: 12,
+    catalogCount: KOREAN_HARVEST_CONTENT.puzzles.length,
+    stageBonus: 120,
+    muralPart: "harvest-moon",
+    muralSet: "korean-harvest",
+    badge: {
+      id: "badge-pip-korean-harvest",
+      titleKey: "badges.koreanHarvest",
+      descriptionKey: "badges.koreanHarvestDesc"
+    }
+  }] : [])
 ];
 
 export function getPackById(id) {

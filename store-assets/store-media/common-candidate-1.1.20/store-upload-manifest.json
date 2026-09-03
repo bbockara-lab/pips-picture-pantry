@@ -1,0 +1,697 @@
+{
+  "version": "common-candidate-1.1.20",
+  "sourceManifest": "store-assets/store-media/common-candidate-1.1.20/capture-manifest.json",
+  "policy": "All screenshots are direct current-app captures. No legacy phone-screenshots, device frames, or CSS promotional mockups.",
+  "screenshots": [
+    {
+      "store": "google-play",
+      "locale": "en-US",
+      "scene": "01-puzzle-in-progress.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/en-US/01-puzzle-in-progress.png",
+      "sha256": "946df930fa19a4578d5a7fd239a3dfc4b98c47000be5ab8f3be06294ee63dbd6"
+    },
+    {
+      "store": "google-play",
+      "locale": "en-US",
+      "scene": "02-puzzle-complete-collectible-bonus.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/en-US/02-puzzle-complete-collectible-bonus.png",
+      "sha256": "2bf1658970777519353eac4be173ada7bf1e3a4ddc318b37443cecb389b0884a"
+    },
+    {
+      "store": "google-play",
+      "locale": "en-US",
+      "scene": "03-summer-home.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/en-US/03-summer-home.png",
+      "sha256": "d315a1c25102faf32d61ceeb000b58850d29afbbf39d7ce5e21739cd2b721ddf"
+    },
+    {
+      "store": "google-play",
+      "locale": "en-US",
+      "scene": "04-puzzle-library-600.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/en-US/04-puzzle-library-600.png",
+      "sha256": "84cd8192e37c50f393d74ae4cc709548f5794ddd2c68f0c72352426663978366"
+    },
+    {
+      "store": "google-play",
+      "locale": "en-US",
+      "scene": "05-badge-collection-15.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/en-US/05-badge-collection-15.png",
+      "sha256": "a387208abb494842b50fc2c7be9853089c62db7b1a21e8839f9e179a6e265e3e"
+    },
+    {
+      "store": "google-play",
+      "locale": "en-US",
+      "scene": "06-summer-pantry-collectibles.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/en-US/06-summer-pantry-collectibles.png",
+      "sha256": "bd3b0ab60d9c5427febd8459f40ff8a3715903fa42cb5fc7619a60fb5a20eaf1"
+    },
+    {
+      "store": "google-play",
+      "locale": "ko-KR",
+      "scene": "01-puzzle-in-progress.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/ko-KR/01-puzzle-in-progress.png",
+      "sha256": "3f76f8b751a6d1e4e15a40ccf3d7d25674db8ea2efd33f2c011d3ebfeab7d355"
+    },
+    {
+      "store": "google-play",
+      "locale": "ko-KR",
+      "scene": "02-puzzle-complete-collectible-bonus.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/ko-KR/02-puzzle-complete-collectible-bonus.png",
+      "sha256": "c591d07bfa00492cb03c8300126ca2f24ce02216902f84378866e4357cf67111"
+    },
+    {
+      "store": "google-play",
+      "locale": "ko-KR",
+      "scene": "03-summer-home.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/ko-KR/03-summer-home.png",
+      "sha256": "4cb873a23fb2e03478912a128a2985d3d9548c93afda39721d46a0bc903a0df9"
+    },
+    {
+      "store": "google-play",
+      "locale": "ko-KR",
+      "scene": "04-puzzle-library-600.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/ko-KR/04-puzzle-library-600.png",
+      "sha256": "457aa80c3d72b19189f0e46838dd429ddb2d0905cb4baebf26e10b35ca382f02"
+    },
+    {
+      "store": "google-play",
+      "locale": "ko-KR",
+      "scene": "05-badge-collection-15.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/ko-KR/05-badge-collection-15.png",
+      "sha256": "3c41532c64c07cd7f9c1322e67b9f74595ca97746bd2fde47b7375a439c79309"
+    },
+    {
+      "store": "google-play",
+      "locale": "ko-KR",
+      "scene": "06-summer-pantry-collectibles.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/ko-KR/06-summer-pantry-collectibles.png",
+      "sha256": "f3128387bf4318e42a7039e2b12a71ccc6bb24c7f59281f4f3c0e04d6080fb01"
+    },
+    {
+      "store": "google-play/tablet-7",
+      "locale": "en-US",
+      "scene": "01-puzzle-in-progress.png",
+      "size": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-7/en-US/01-puzzle-in-progress.png",
+      "sha256": "d78f6e63ba331f2a5aa805ea9fdaf42c4c2e24b865bcb3de8c5f2a79666e11f1"
+    },
+    {
+      "store": "google-play/tablet-7",
+      "locale": "en-US",
+      "scene": "02-puzzle-complete-collectible-bonus.png",
+      "size": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-7/en-US/02-puzzle-complete-collectible-bonus.png",
+      "sha256": "bc440a16459a15651f032852a8b787ce92b03aa006108bf71b23c9d16e851509"
+    },
+    {
+      "store": "google-play/tablet-7",
+      "locale": "en-US",
+      "scene": "03-summer-home.png",
+      "size": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-7/en-US/03-summer-home.png",
+      "sha256": "1b9392c1b5c75a45387534eb6ceefdb6fd06e6bd14527d781e06734e50964261"
+    },
+    {
+      "store": "google-play/tablet-7",
+      "locale": "en-US",
+      "scene": "04-puzzle-library-600.png",
+      "size": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-7/en-US/04-puzzle-library-600.png",
+      "sha256": "bdbeb61b86d934a0b02bea658ea2f0aa15db03b575bc9aa5ce81ce8ddc39382a"
+    },
+    {
+      "store": "google-play/tablet-7",
+      "locale": "en-US",
+      "scene": "05-badge-collection-15.png",
+      "size": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-7/en-US/05-badge-collection-15.png",
+      "sha256": "f39e4e935871e9b9edda0c79da649e585665d9a9332ad8312d12d1f272083c5c"
+    },
+    {
+      "store": "google-play/tablet-7",
+      "locale": "en-US",
+      "scene": "06-summer-pantry-collectibles.png",
+      "size": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-7/en-US/06-summer-pantry-collectibles.png",
+      "sha256": "309dde5382f24c26c9b322a5163e4154d2c10b8d24d6523e5a978886edf42467"
+    },
+    {
+      "store": "google-play/tablet-7",
+      "locale": "ko-KR",
+      "scene": "01-puzzle-in-progress.png",
+      "size": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-7/ko-KR/01-puzzle-in-progress.png",
+      "sha256": "a0d8e01c1ccc3e224db0e7fd6bdb35ec67ed7d98b1d817e4796b0d230a49c3a0"
+    },
+    {
+      "store": "google-play/tablet-7",
+      "locale": "ko-KR",
+      "scene": "02-puzzle-complete-collectible-bonus.png",
+      "size": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-7/ko-KR/02-puzzle-complete-collectible-bonus.png",
+      "sha256": "e01624e1403469c538b1af156c6ce3c09a45ffb7d3e2d1c843884c5c40677e74"
+    },
+    {
+      "store": "google-play/tablet-7",
+      "locale": "ko-KR",
+      "scene": "03-summer-home.png",
+      "size": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-7/ko-KR/03-summer-home.png",
+      "sha256": "7904f168e9c0aca7cfb37b67180f17f44295f9f0d34b08a6e63f985e67aaf665"
+    },
+    {
+      "store": "google-play/tablet-7",
+      "locale": "ko-KR",
+      "scene": "04-puzzle-library-600.png",
+      "size": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-7/ko-KR/04-puzzle-library-600.png",
+      "sha256": "9724c47960f6ba8a0441c36a5230e3f358f9413776e2db021f4da568b71b202d"
+    },
+    {
+      "store": "google-play/tablet-7",
+      "locale": "ko-KR",
+      "scene": "05-badge-collection-15.png",
+      "size": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-7/ko-KR/05-badge-collection-15.png",
+      "sha256": "7b79934b6b249bca4edd2579b6a79a4a16f6dad7ef29e28cbe2edbff76eef729"
+    },
+    {
+      "store": "google-play/tablet-7",
+      "locale": "ko-KR",
+      "scene": "06-summer-pantry-collectibles.png",
+      "size": [
+        1600,
+        2560
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-7/ko-KR/06-summer-pantry-collectibles.png",
+      "sha256": "c3efd3bade182812818fbe4b3ce4a1fc9e36dca5a06bb5512668cc78ec2cd668"
+    },
+    {
+      "store": "google-play/tablet-10",
+      "locale": "en-US",
+      "scene": "01-puzzle-in-progress.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-10/en-US/01-puzzle-in-progress.png",
+      "sha256": "a119adfe21859ea789716c1982365a3c910ae9c449ccc20138fdeadbfb745416"
+    },
+    {
+      "store": "google-play/tablet-10",
+      "locale": "en-US",
+      "scene": "02-puzzle-complete-collectible-bonus.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-10/en-US/02-puzzle-complete-collectible-bonus.png",
+      "sha256": "b56fc85c13cd144fb2843d5ce30d1eb3c26b0893ee3fafd866bf98c2d9c3ca12"
+    },
+    {
+      "store": "google-play/tablet-10",
+      "locale": "en-US",
+      "scene": "03-summer-home.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-10/en-US/03-summer-home.png",
+      "sha256": "d62c8957f9144aae06395c60305f8dd313ff3bae170af87c71c4f07e245e2c10"
+    },
+    {
+      "store": "google-play/tablet-10",
+      "locale": "en-US",
+      "scene": "04-puzzle-library-600.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-10/en-US/04-puzzle-library-600.png",
+      "sha256": "6f0c56286d13bf780aac8ce450926f5963ccfa3cdf5d2bd012b5bff989ddb6f1"
+    },
+    {
+      "store": "google-play/tablet-10",
+      "locale": "en-US",
+      "scene": "05-badge-collection-15.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-10/en-US/05-badge-collection-15.png",
+      "sha256": "43a323d5cb2226d1317bb7b576e7072de6b6234ba60c955a5beb15d3e41c8541"
+    },
+    {
+      "store": "google-play/tablet-10",
+      "locale": "en-US",
+      "scene": "06-summer-pantry-collectibles.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-10/en-US/06-summer-pantry-collectibles.png",
+      "sha256": "273c845cd969bcd56b66b574fd04afc0f75e572a4430437703d23a5a2e8c9cfe"
+    },
+    {
+      "store": "google-play/tablet-10",
+      "locale": "ko-KR",
+      "scene": "01-puzzle-in-progress.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-10/ko-KR/01-puzzle-in-progress.png",
+      "sha256": "e4970e4469bb483e3797ce0c38247f2cbaaf3a9def43950f125b3b7c36a2e48f"
+    },
+    {
+      "store": "google-play/tablet-10",
+      "locale": "ko-KR",
+      "scene": "02-puzzle-complete-collectible-bonus.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-10/ko-KR/02-puzzle-complete-collectible-bonus.png",
+      "sha256": "17d8991dbdd8ed1be9db7e233937a490a0d5dab32ce6c8934ca13df9e01475c0"
+    },
+    {
+      "store": "google-play/tablet-10",
+      "locale": "ko-KR",
+      "scene": "03-summer-home.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-10/ko-KR/03-summer-home.png",
+      "sha256": "dac581eb68824973c577534a78fe1949de982623bb493e09eb2cb0d69dd244c1"
+    },
+    {
+      "store": "google-play/tablet-10",
+      "locale": "ko-KR",
+      "scene": "04-puzzle-library-600.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-10/ko-KR/04-puzzle-library-600.png",
+      "sha256": "e0aaf7e1eeafe2f8732c22b6df1a205bc3699e899f228f64ffa89189b2666cd5"
+    },
+    {
+      "store": "google-play/tablet-10",
+      "locale": "ko-KR",
+      "scene": "05-badge-collection-15.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-10/ko-KR/05-badge-collection-15.png",
+      "sha256": "6f805c717420c65f70e3577fab5433f2c9922b48849a58423e808b26f825496b"
+    },
+    {
+      "store": "google-play/tablet-10",
+      "locale": "ko-KR",
+      "scene": "06-summer-pantry-collectibles.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/tablet-10/ko-KR/06-summer-pantry-collectibles.png",
+      "sha256": "11f9e8e11fbfeabdd935492a7236409ca73a953d775ba5ee58e6577a214b0f4d"
+    },
+    {
+      "store": "app-store/iphone-6.9",
+      "locale": "en-US",
+      "scene": "01-puzzle-in-progress.png",
+      "size": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/iphone-6.9/en-US/01-puzzle-in-progress.png",
+      "sha256": "b2dc4de93bdea9f99edbf4431b56726b8312c502afc03e438bffeb600b65386d"
+    },
+    {
+      "store": "app-store/iphone-6.9",
+      "locale": "en-US",
+      "scene": "02-puzzle-complete-collectible-bonus.png",
+      "size": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/iphone-6.9/en-US/02-puzzle-complete-collectible-bonus.png",
+      "sha256": "2c73e073b11a8a67bca768a2cd5f706019b59deea60bbfbf5e5d6b1e1af7ef4b"
+    },
+    {
+      "store": "app-store/iphone-6.9",
+      "locale": "en-US",
+      "scene": "03-summer-home.png",
+      "size": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/iphone-6.9/en-US/03-summer-home.png",
+      "sha256": "c92b9dcf36a0127b44e9bd5def324b343e8f881d52dc2263045889e2df990693"
+    },
+    {
+      "store": "app-store/iphone-6.9",
+      "locale": "en-US",
+      "scene": "04-puzzle-library-600.png",
+      "size": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/iphone-6.9/en-US/04-puzzle-library-600.png",
+      "sha256": "a9f3f1c5a3c60597b9703cf44355e1182ea99bec2c38a576b2711b9a9afb7343"
+    },
+    {
+      "store": "app-store/iphone-6.9",
+      "locale": "en-US",
+      "scene": "05-badge-collection-15.png",
+      "size": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/iphone-6.9/en-US/05-badge-collection-15.png",
+      "sha256": "0edf181c45b04a90256c19b9d32c62c78b20eaaca61bc82dc3aaa107190fce75"
+    },
+    {
+      "store": "app-store/iphone-6.9",
+      "locale": "en-US",
+      "scene": "06-summer-pantry-collectibles.png",
+      "size": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/iphone-6.9/en-US/06-summer-pantry-collectibles.png",
+      "sha256": "de72f6abe095f3cdab6faeee27f3d2a424d72ffd45561b18af4c0cb496b2bff9"
+    },
+    {
+      "store": "app-store/iphone-6.9",
+      "locale": "ko-KR",
+      "scene": "01-puzzle-in-progress.png",
+      "size": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/iphone-6.9/ko-KR/01-puzzle-in-progress.png",
+      "sha256": "244f487d16280281daab4ad7206e1f6b1c600a5e08736d67bf37969f6e2f50ed"
+    },
+    {
+      "store": "app-store/iphone-6.9",
+      "locale": "ko-KR",
+      "scene": "02-puzzle-complete-collectible-bonus.png",
+      "size": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/iphone-6.9/ko-KR/02-puzzle-complete-collectible-bonus.png",
+      "sha256": "0b6ee4c03a94cfd7e95a8c715ca476c1120ae0ffc6370e0305cbcc63ddd3d0dd"
+    },
+    {
+      "store": "app-store/iphone-6.9",
+      "locale": "ko-KR",
+      "scene": "03-summer-home.png",
+      "size": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/iphone-6.9/ko-KR/03-summer-home.png",
+      "sha256": "9d02a9d28e24ad98607bbd7c297061d1e71582481e03510776da9a80c476d7f4"
+    },
+    {
+      "store": "app-store/iphone-6.9",
+      "locale": "ko-KR",
+      "scene": "04-puzzle-library-600.png",
+      "size": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/iphone-6.9/ko-KR/04-puzzle-library-600.png",
+      "sha256": "8121c69d47f09dd9b1d696896f075e02ca668b130d5d70d6d46546afb1560b85"
+    },
+    {
+      "store": "app-store/iphone-6.9",
+      "locale": "ko-KR",
+      "scene": "05-badge-collection-15.png",
+      "size": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/iphone-6.9/ko-KR/05-badge-collection-15.png",
+      "sha256": "d06ae32a20021ffce572dae3d1f4ecee1759ea94e7199655fd7a2af4204bfe9c"
+    },
+    {
+      "store": "app-store/iphone-6.9",
+      "locale": "ko-KR",
+      "scene": "06-summer-pantry-collectibles.png",
+      "size": [
+        1290,
+        2796
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/iphone-6.9/ko-KR/06-summer-pantry-collectibles.png",
+      "sha256": "071c0bdec3e4adfd77be6ac44bc87f9f44cbc19927c3ba756e506cea0ae8823c"
+    },
+    {
+      "store": "app-store/ipad-13",
+      "locale": "en-US",
+      "scene": "01-puzzle-in-progress.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/ipad-13/en-US/01-puzzle-in-progress.png",
+      "sha256": "ebce095c10d1891d0cc57b0800bb7a2640ae34d4889f99698a213e3091cdabee"
+    },
+    {
+      "store": "app-store/ipad-13",
+      "locale": "en-US",
+      "scene": "02-puzzle-complete-collectible-bonus.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/ipad-13/en-US/02-puzzle-complete-collectible-bonus.png",
+      "sha256": "733414780230d750906b9703b0c40e1f8518ecd6c821e897afc0b36d8117c8ca"
+    },
+    {
+      "store": "app-store/ipad-13",
+      "locale": "en-US",
+      "scene": "03-summer-home.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/ipad-13/en-US/03-summer-home.png",
+      "sha256": "3a63217db1a61e321e772ff5da71d1a376aa8c1d1a362c1776a4caba71be95bd"
+    },
+    {
+      "store": "app-store/ipad-13",
+      "locale": "en-US",
+      "scene": "04-puzzle-library-600.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/ipad-13/en-US/04-puzzle-library-600.png",
+      "sha256": "547dd0569c417ffc2b928ce89f188060dd22dd7b9fc774e9b32e3842d47faa36"
+    },
+    {
+      "store": "app-store/ipad-13",
+      "locale": "en-US",
+      "scene": "05-badge-collection-15.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/ipad-13/en-US/05-badge-collection-15.png",
+      "sha256": "fbb3a4c3193cfdea56ac54ee08efae6afd64e818c8d568eef47c51d436522349"
+    },
+    {
+      "store": "app-store/ipad-13",
+      "locale": "en-US",
+      "scene": "06-summer-pantry-collectibles.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/ipad-13/en-US/06-summer-pantry-collectibles.png",
+      "sha256": "7e6502bae2741a9a9575bc3ff8b669db5fcadd26d071f1c7e58b102d6ae2fa1b"
+    },
+    {
+      "store": "app-store/ipad-13",
+      "locale": "ko-KR",
+      "scene": "01-puzzle-in-progress.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/ipad-13/ko-KR/01-puzzle-in-progress.png",
+      "sha256": "73862d58a85776b79bf832171d191c8e5c35a465f2fc3949ecf7d74478d5c27a"
+    },
+    {
+      "store": "app-store/ipad-13",
+      "locale": "ko-KR",
+      "scene": "02-puzzle-complete-collectible-bonus.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/ipad-13/ko-KR/02-puzzle-complete-collectible-bonus.png",
+      "sha256": "4ea7009a3caca3b463df58679f04e6e3039428331ad89afa3644e36dbe778412"
+    },
+    {
+      "store": "app-store/ipad-13",
+      "locale": "ko-KR",
+      "scene": "03-summer-home.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/ipad-13/ko-KR/03-summer-home.png",
+      "sha256": "c2ec9767503f48e3de52be6fc2e72497696dc77ce901779d5c84878a53f49723"
+    },
+    {
+      "store": "app-store/ipad-13",
+      "locale": "ko-KR",
+      "scene": "04-puzzle-library-600.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/ipad-13/ko-KR/04-puzzle-library-600.png",
+      "sha256": "c55c6966081b88917c4c5e7cc707fca7c0c68b24d90973cf0b464b3fd1e478db"
+    },
+    {
+      "store": "app-store/ipad-13",
+      "locale": "ko-KR",
+      "scene": "05-badge-collection-15.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/ipad-13/ko-KR/05-badge-collection-15.png",
+      "sha256": "ae660bb7c6aaf0ddbf0324abe2ac8aeecd88faca40ad59a5e155a6f0f76d7058"
+    },
+    {
+      "store": "app-store/ipad-13",
+      "locale": "ko-KR",
+      "scene": "06-summer-pantry-collectibles.png",
+      "size": [
+        2048,
+        2732
+      ],
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/app-store/ipad-13/ko-KR/06-summer-pantry-collectibles.png",
+      "sha256": "4c1dc6f89b78f6655b7edd481c958df49ad6316e134db8b7aae50279a1b0e6b5"
+    }
+  ],
+  "featureGraphics": [
+    {
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/en-US/feature-graphic-1024x500.png",
+      "size": [
+        1024,
+        500
+      ],
+      "sha256": "c9bfbb24524d059a3a979968acd144ac2cfcee89befd1f1f7c3597d68ad34786"
+    },
+    {
+      "path": "store-assets/store-media/common-candidate-1.1.20/upload/google-play/ko-KR/feature-graphic-1024x500.png",
+      "size": [
+        1024,
+        500
+      ],
+      "sha256": "93643df07da956510ba357bccbc2e64e0464650bebe9c9c8e4452e281124e72b"
+    }
+  ],
+  "reviewSheets": [
+    "store-assets/store-media/common-candidate-1.1.20/review/google-play-en-US-contact-sheet.jpg",
+    "store-assets/store-media/common-candidate-1.1.20/review/google-play-ko-KR-contact-sheet.jpg",
+    "store-assets/store-media/common-candidate-1.1.20/review/google-play-tablet-7-en-US-contact-sheet.jpg",
+    "store-assets/store-media/common-candidate-1.1.20/review/google-play-tablet-7-ko-KR-contact-sheet.jpg",
+    "store-assets/store-media/common-candidate-1.1.20/review/google-play-tablet-10-en-US-contact-sheet.jpg",
+    "store-assets/store-media/common-candidate-1.1.20/review/google-play-tablet-10-ko-KR-contact-sheet.jpg",
+    "store-assets/store-media/common-candidate-1.1.20/review/app-store-iphone-6.9-en-US-contact-sheet.jpg",
+    "store-assets/store-media/common-candidate-1.1.20/review/app-store-iphone-6.9-ko-KR-contact-sheet.jpg",
+    "store-assets/store-media/common-candidate-1.1.20/review/app-store-ipad-13-en-US-contact-sheet.jpg",
+    "store-assets/store-media/common-candidate-1.1.20/review/app-store-ipad-13-ko-KR-contact-sheet.jpg"
+  ]
+}

@@ -1,0 +1,26 @@
+.pantry-jar__price,
+.pantry-jar-balance,
+.pantry-jar-detail__btn-buy {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+.pantry-jar__price .spoon-icon.tiny {
+  width: 13px !important;
+  height: 13px !important;
+  min-width: 13px;
+  object-fit: contain;
+}
+.pantry-jar-balance .spoon-icon.small {
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px;
+  object-fit: contain;
+}
+.pantry-jar-detail__btn-buy .spoon-icon.small {
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px;
+  object-fit: contain;
+}

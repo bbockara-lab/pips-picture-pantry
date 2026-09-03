@@ -1,6 +1,6 @@
 ﻿# Pip's Picture Pantry — Economy Design Spec
 
-Last updated: 2026-07-18
+Last updated: 2026-07-29
 Author: Claude (design) / Codex (implementation)
 Status: v1 launch direction aligned with `docs/MONETIZATION_PLAN.md`
 
@@ -79,7 +79,7 @@ save.js에 `timeAttackDailyCount`, `timeAttackBestScores` 필드 추가.
 
 ### 1-E. Pip Support Pack 구매 즉시 지급
 
-아래 IAP 섹션 참조. 구매 즉시 +250 spoons.
+아래 IAP 섹션 참조. 구매 즉시 +150 spoons.
 
 ---
 
@@ -288,8 +288,8 @@ v1에는 상품을 하나만 둔다. 목적은 강한 매출 최적화가 아니
 포함:
 - 상품 ID: `pip_cozy_support`
 - 가격 기준: USD 0.99 / KRW 1,100 근처에서 Play Console 최종 결정
-- 스푼 +250 즉시 지급 (`COZY_PASS_SPOON_GRANT`)
-- 중복 지급 방지: `cozyPassPurchased` 저장 필드와 `grantCozySupportPack()`에서 보호
+- 스푼 +150 즉시 지급 (`COZY_PASS_SPOON_GRANT`)
+- ?? ?? ??: `processedBillingPurchaseIds`? `grantCozySupportPack()`? ?? ?? ??? ???? ??
 - 복원 경로: Google Play 소유권 복원 후 같은 보상 상태로 정리
 
 사용자에게는 다음처럼 설명한다:
@@ -381,7 +381,7 @@ const REWARD_BY_SIZE = { 5: 3, 8: 6, 10: 10, 12: 15, 15: 22, 18: 30 };
 
 ```js
 export function getTimeAttackReward(size) {
-  return { 5: 15, 8: 25, 10: 38, 12: 55 }[size] ?? 25;
+  return { 5: 10, 8: 18, 10: 30, 12: 45 }[size] ?? 18;
 }
 export function getTimeAttackRecordBonus() { return 12; }
 export function getDailyTimeAttackLimit() { return 3; }
@@ -413,9 +413,9 @@ Play Console에서 같은 ID의 managed product / non-consumable을 생성하고
 - Implemented the central economy constants in `src/data/economyConfig.js`.
 - Wired puzzle-stage completion to one-time `stageBonus` rewards through `markPackCompletedIfFirst(pack)`.
 - Wired the daily recommendation bonus, Time Attack reward lane, Replay Pick limits, extra hint spending, and Pantry goal gates into the shared economy.
-- Implemented Android Billing support path for `pip_cozy_support` with `@capgo/native-purchases`, purchase, restore, cancellation/failure states, and local duplicate reward protection.
+- Implemented Android Billing support path for `pip_cozy_support` with `@capgo/native-purchases`, purchase, repeat-purchase, cancellation/failure states, and purchase-token duplicate reward protection.
 - Implemented Pantry support-path exposure from natural spoon shortfalls while keeping active puzzle play free of purchase prompts.
-- Not yet complete before public upload: Play Console managed-product activation, final Android versionCode/versionName bump, signed AAB rebuild, and real internal-tester purchase/restore validation.
+- Not yet complete before public upload: Play Console managed-product activation, final Android versionCode/versionName bump, signed AAB rebuild, and real internal-tester purchase/repeat validation.
 
 
 ## Draft Decision - 2026-07-04 Economy Baseline For Major Rework
@@ -526,10 +526,10 @@ v1 Android launch uses two Google Play managed products. Both are optional and s
 
 - Code constant: `COZY_SUPPORT_PRODUCT_ID`
 - Product ID: `pip_cozy_support`
-- Type: one-time managed product / non-consumable
+- Type: managed product / consumable repeatable support
 - Suggested price: USD 0.99 / KRW 1,100
-- Spoon grant: 250 spoons through `COZY_PASS_SPOON_GRANT`
-- Save guard: `cozyPassPurchased` prevents duplicate purchase/restore grants
+- Spoon grant: 150 spoons through `COZY_PASS_SPOON_GRANT`
+- Save guard: `processedBillingPurchaseIds` keeps the same purchase token from granting twice
 - Plugin path: `@capgo/native-purchases`
 
 ### Small Spoon Jar
@@ -538,7 +538,7 @@ v1 Android launch uses two Google Play managed products. Both are optional and s
 - Product ID: `pip_spoon_jar_small`
 - Type: managed product / consumable repeatable top-up
 - Suggested price: USD 2.99 / KRW 3,300-4,400
-- Spoon grant: 750 spoons through `SPOON_JAR_SMALL_GRANT`
+- Spoon grant: 500 spoons through `SPOON_JAR_SMALL_GRANT`
 - Save guard: `processedBillingPurchaseIds` keeps the same purchase token from granting twice
 - Plugin path: `@capgo/native-purchases`
 

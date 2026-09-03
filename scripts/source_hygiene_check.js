@@ -98,7 +98,141 @@ for (const file of releaseDocMojibakeFiles) {
     errors.push(`${file}: release notes contain common mojibake fragments`);
   }
 }
+const retiredStageLockReportSources = [
+  ["src/ui/puzzleHubView.js", /unlock(?:Plan|Gate)|unlock-panel__(?:plan|gate)/],
+  ["src/i18n/en.js", /unlock(?:Plan|Gate)/],
+  ["src/i18n/ko.js", /unlock(?:Plan|Gate)/]
+];
+for (const [file, pattern] of retiredStageLockReportSources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": stage locks must show cost, Pantry step, and direct action without duplicate reports");
+  }
+}
+
+const retiredCompactCopySources = [
+  ["src/i18n/en.js", /daily:\s*\{[\s\S]{0,500}\breward:|timeAttack:\s*\{[\s\S]{0,900}\b(?:eyebrow|hubBody|coach(?:Body|Eyebrow|Title|Earn|Spend|Record)|noRecord):/],
+  ["src/i18n/ko.js", /daily:\s*\{[\s\S]{0,500}\breward:|timeAttack:\s*\{[\s\S]{0,900}\b(?:eyebrow|hubBody|coach(?:Body|Eyebrow|Title|Earn|Spend|Record)|noRecord):/]
+];
+for (const [file, pattern] of retiredCompactCopySources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": compact hub and Time Attack copy must not restore retired reward or empty-state reports");
+  }
+}
+
+const retiredQuickTravelCopySources = [
+  ["src/ui/floatingNav.js", /(?:views\.(?:puzzleHint|albumHint|pantryHint|timeAttackHint|mapHint|quickJump)|floating-nav__trigger-(?:label|cue)|itemHint)/],
+  ["src/i18n/en.js", /(?:puzzleHint|albumHint|pantryHint|timeAttackHint|mapHint|quickJump):/],
+  ["src/i18n/ko.js", /(?:puzzleHint|albumHint|pantryHint|timeAttackHint|mapHint|quickJump):/]
+];
+for (const [file, pattern] of retiredQuickTravelCopySources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": quick travel must show destinations without report-style helper copy");
+  }
+}
+
+const retiredReplayCopySources = [
+  ["src/ui/puzzleHubView.js", /replayPicks\.(?:eyebrow|body|challenge)\b/],
+  ["src/i18n/en.js", /eyebrow:\s*"Pip's replay picks"|body:\s*"Completed pictures|challenge:\s*"Replay"/],
+  ["src/i18n/ko.js", /replayPicks:[\s\S]{0,500}(?:eyebrow|body|challenge):/]
+];
+for (const [file, pattern] of retiredReplayCopySources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": replay picks must keep one title, count, and direct picture choices");
+  }
+}
+
+const retiredCollectionCopySources = [
+  ["src/ui/albumView.js", /album\.note|album-note/],
+  ["src/ui/appChrome.js", /t\("badges\.earned"\)/],
+  ["src/ui/mapView.js", /badge-card__state/],
+  ["src/i18n/en.js", /earned:\s*"Badge earned"|note:\s*"Finished cards appear here\."/],
+  ["src/i18n/ko.js", /earned:\s*"\u|note:\s*"\u/],
+];
+for (const [file, pattern] of retiredCollectionCopySources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": redundant Album note or earned-badge label must stay removed");
+  }
+}
+
+const retiredChromeSources = [
+  ["src/ui/appChrome.js", /renderPipStrip|renderFooter|getPipPuzzleLine/],
+  ["src/i18n/en.js", /\bpipStrip\s*:|versionLabel\s*:/],
+  ["src/i18n/ko.js", /\bpipStrip\s*:|versionLabel\s*:/]
+];
+for (const [file, pattern] of retiredChromeSources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": retired player-facing Pip strip or version footer must stay removed");
+  }
+}
+
+const retiredSeasonSources = [
+  ["src/ui/puzzleHubView.js", /createSeasonProgressCard|season-next-card/],
+  ["src/i18n/en.js", /\bseasonProgress\s*:/],
+  ["src/i18n/ko.js", /\bseasonProgress\s*:/]
+];
+for (const [file, pattern] of retiredSeasonSources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": retired season progress report UI must stay removed");
+  }
+}
+
+const retiredPuzzleChoiceRewardSources = [
+  ["src/ui/puzzleHubView.js", /puzzlePicker\.(?:sizeReward|rewardLabel)/],
+  ["src/i18n/en.js", /(?:sizeReward|rewardLabel):/],
+  ["src/i18n/ko.js", /(?:sizeReward|rewardLabel):/]
+];
+for (const [file, pattern] of retiredPuzzleChoiceRewardSources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": puzzle choices must show the picture and board size, not pre-play reward reports");
+  }
+}
+
+const retiredBadgeReportSources = [
+  ["src/ui/mapView.js", /badges\.(?:nextPackBadge|packProgress)/],
+  ["src/i18n/en.js", /(?:collectionNote|nextBadge|nextPackBadge|packProgress):/],
+  ["src/i18n/ko.js", /(?:collectionNote|nextBadge|nextPackBadge|packProgress):/]
+];
+for (const [file, pattern] of retiredBadgeReportSources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": badge room must not return to report-style collection copy");
+  }
+}
+
+const retiredGlobalCatalogCountSources = [
+  ["src/ui/albumView.js", /album\.count/],
+  ["src/i18n/en.js", /album:\s*\{[\s\S]{0,400}\bcount:/],
+  ["src/i18n/ko.js", /album:\s*\{[\s\S]{0,400}\bcount:/]
+];
+for (const [file, pattern] of retiredGlobalCatalogCountSources) {
+  const source = readFileSync(resolve(root, file), "utf8");
+  if (pattern.test(source)) {
+    errors.push(file + ": player-facing Album copy must not restore the global catalog denominator");
+  }
+}
+
+const timeAttackNavigationArt = readFileSync(resolve(root, "src/data/quickTravelArt.js"), "utf8");
+if (!(timeAttackNavigationArt.includes("quick-travel-time-attack-clock-v1") || timeAttackNavigationArt.includes("workshop-nav-time-attack-v3")) || timeAttackNavigationArt.includes("quick-travel-time-attack-v1.png")) {
+  errors.push("src/data/quickTravelArt.js: Time Attack must use Mr. Park's aura-free pocket watch artwork");
+}
+
+const workshopHomeSource = readFileSync(resolve(root, "src/ui/puzzleHubView.js"), "utf8");
+if (/puzzle-home-(?:furnishings|furnishing)|puzzle-home-scene__keepsake|support-pack-gift-v1/.test(workshopHomeSource)) {
+  errors.push("src/ui/puzzleHubView.js: home must stay a complete authored workshop scene, not a Pantry-prop overlay");
+}
 const styles = readFileSync(resolve(root, "src/styles.css"), "utf8");
+const retiredWorkshopPropStyles = /\.puzzle-home-(?:furnishings|furnishing)|\.puzzle-home-scene__keepsake/;
+if (retiredWorkshopPropStyles.test(styles)) {
+  errors.push("src/styles.css: retired Pantry-prop overlay styles must stay removed from the authored workshop home");
+}
 const staleCssRules = [
   {
     label: "legacy unlockable puzzle chip dot",
@@ -111,6 +245,34 @@ const staleCssRules = [
   {
     label: "retired Pantry decoration card report styles",
     pattern: /\.pantry-(?:item-status|item-rarity|slot-note|swap-note|track-goal|item-savings(?:-meter)?)/
+  },
+  {
+    label: "retired season progress report styles",
+    pattern: /\.season-(?:progress|next-card)/
+  },
+  {
+    label: "retired player-facing intro and Pip-strip styles",
+    pattern: /\.(?:pip-strip|app-footer|brand-intro__(?:seal|launch-note|promise-strip|version|cast))/
+  },
+  {
+    label: "retired replay glare and explainer styles",
+    pattern: /\.replay-(?:picks-card::after|pick-button::before|picks-card__body)/
+  },
+  {
+    label: "retired duplicate stage-lock report styles",
+    pattern: /\.unlock-panel__(?:plan|gate)/
+  },
+  {
+    label: "retired daily reward-note styles",
+    pattern: /\.daily-reward-(?:note|amount)/
+  },
+  {
+    label: "retired Time Attack coach card styles",
+    pattern: /\.time-attack-coach-card/
+  },
+  {
+    label: "retired Pantry show-more glare and meter styles",
+    pattern: /\.pantry-shop-limit(?:::\w+|__meter|__action::\w+)/
   }
 ];
 

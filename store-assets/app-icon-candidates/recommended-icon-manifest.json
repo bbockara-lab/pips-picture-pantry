@@ -1,9 +1,9 @@
 {
     "version":  "v0.1.515",
-    "status":  "owner-review-candidate",
+    "status":  "approved",
     "candidate":  "pip-pantry-v3",
-    "approvedAt":  null,
-    "approvalBasis":  "Current opening-art Pip, golden spoon, and picture-tile identity; removes the legacy flower and soup-bowl motif.",
+    "approvedAt":  "2026-08-04",
+    "approvalBasis":  "Owner explicitly approved pip-pantry-v3 for the iOS/App Store release. Current opening-art Pip, golden spoon, and picture-tile identity; removes the legacy flower and soup-bowl motif.",
     "source":  "store-assets\\app-icon-candidates\\pip-pantry-v3-source.png",
     "sourceSha256":  "56cfed1dde7d7cbdcae18b7c8709af80371861dd9275d2b1d95b2ea09c9cc14c",
     "outputs":  [
@@ -11,6 +11,8 @@
                     "src/assets/app-icons/app-icon-512.png",
                     "src/assets/app-icons/apple-touch-icon-180.png",
                     "store-assets/play-console/app-icon-512.png",
+                    "store-assets/app-icon-candidates/pip-pantry-v3-app-store-1024.png",
+                    "ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png",
                     "android/app/src/main/res/mipmap-*/ic_launcher*.png"
                 ]
 }

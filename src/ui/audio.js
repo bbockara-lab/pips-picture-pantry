@@ -1,152 +1,196 @@
-import cozyBgmUrl from "../assets/music/bgm-cozy.mp3";
+import { isKoreanHarvestContentRuntimeReady } from "../data/koreanHarvestContent.js";
+import { getAudioCueUrls, MUSIC_CUES } from "./audioCatalog.js";
 
 const SFX_KEY = "pips-picture-pantry:v0.1:sfx";
 const MUSIC_KEY = "pips-picture-pantry:v0.1:music";
+const activePlayers = new Set();
+const lastVariationByCue = new Map();
 let audioContext = null;
 let musicElement = null;
+let musicCueId = null;
+let requestedMusicScene = "home";
 let audioUnlocked = false;
-
+let appIsActive = true;
+let musicSuppressed = false;
 
 export function getAudioPreferences() {
   return {
     sfx: readBool(SFX_KEY, true),
-    music: readBool(MUSIC_KEY, false)
+    music: readBool(MUSIC_KEY, true)
   };
 }
 
 export function setSfxEnabled(enabled) {
   writeBool(SFX_KEY, enabled);
+  if (!enabled) stopActiveEffects();
 }
 
 export function setMusicEnabled(enabled) {
   writeBool(MUSIC_KEY, enabled);
-  if (!enabled) {
-    stopMusic();
-  }
+  if (!enabled) stopMusic();
+  else startMusic();
 }
 
 export function unlockAudio() {
-  const context = getContext();
-  if (!context) {
-    return;
-  }
+  if (!appIsActive) return;
   audioUnlocked = true;
-  context.resume?.();
-  if (getAudioPreferences().music) {
-    startMusic();
-  }
+  getContext()?.resume?.();
+  if (getAudioPreferences().music) startMusic();
+}
+
+export function setMusicScene(scene) {
+  const normalized = MUSIC_CUES[scene] ? scene : "yearRound";
+  requestedMusicScene = normalized;
+  const cueId = resolveMusicCueId(normalized);
+  if (cueId === musicCueId) return;
+  const wasPlaying = Boolean(musicElement && !musicElement.paused);
+  stopMusic();
+  musicElement = null;
+  musicCueId = cueId;
+  if (wasPlaying || audioUnlocked) startMusic();
+}
+
+export function playCue(cueId, options = {}) {
+  if (!appIsActive || !getAudioPreferences().sfx) return null;
+  const urls = getAudioCueUrls(cueId);
+  if (!urls.length || typeof Audio === "undefined") return null;
+  const index = pickVariation(cueId, urls.length, options.variationIndex);
+  const player = new Audio(urls[index]);
+  player.preload = "auto";
+  player.volume = clampVolume(options.volume ?? 1);
+  activePlayers.add(player);
+  const release = () => activePlayers.delete(player);
+  player.addEventListener("ended", release, { once: true });
+  player.addEventListener("error", release, { once: true });
+  player.play().catch(release);
+  return player;
 }
 
 export function playTap() {
-  if (!getAudioPreferences().sfx) {
-    return;
-  }
-  playTone(660, 0.025, 0.035, "triangle");
+  playCue("sfx_ui_tap_soft", { volume: 0.58 });
+}
+
+export function playPrimaryTap() {
+  playCue("sfx_ui_tap_primary", { volume: 0.7 });
 }
 
 export function playCursorMove() {
-  if (!getAudioPreferences().sfx) {
-    return;
-  }
-  playTone(540, 0.018, 0.024, "triangle");
+  playCue("sfx_cursor_move", { volume: 0.42 });
 }
 
-export function playCursorAction() {
-  if (!getAudioPreferences().sfx) {
-    return;
-  }
-  playTone(720, 0.026, 0.032, "triangle");
-  lightVibrate(8);
+export function playCursorAction(mode = "fill", options = {}) {
+  const prefix = options.trail ? "sfx_cursor_trail_step" : "sfx_cursor_select";
+  playCue(`${prefix}_${mode === "mark" ? "mark" : "fill"}`, { volume: options.trail ? 0.42 : 0.62 });
+  lightVibrate(options.trail ? 4 : 8);
 }
 
 export function playComplete() {
-  if (!getAudioPreferences().sfx) {
-    return;
-  }
-  playTone(523, 0.06, 0.05, "sine");
-  globalThis.setTimeout(() => playTone(659, 0.08, 0.05, "sine"), 70);
-  globalThis.setTimeout(() => playTone(784, 0.12, 0.045, "sine"), 145);
+  playCue("sfx_picture_color_bloom", { volume: 0.72 });
+  globalThis.setTimeout(() => playCue("stinger_puzzle_complete", { volume: 0.8 }), 120);
+  globalThis.setTimeout(() => playCue("pip_happy_small", { volume: 0.56 }), 520);
 }
 
 export function playStageComplete() {
-  if (!getAudioPreferences().sfx) {
-    return;
-  }
-  playTone(523, 0.08, 0.07, "sine");
-  globalThis.setTimeout(() => playTone(659, 0.08, 0.07, "sine"), 90);
-  globalThis.setTimeout(() => playTone(784, 0.08, 0.07, "sine"), 180);
-  globalThis.setTimeout(() => playTone(1047, 0.18, 0.09, "sine"), 270);
-  globalThis.setTimeout(() => playTone(1047, 0.12, 0.07, "triangle"), 460);
+  playCue("sfx_pantry_shelf_complete", { volume: 0.74 });
+  globalThis.setTimeout(() => playCue("stinger_shelf_complete", { volume: 0.85 }), 130);
+  globalThis.setTimeout(() => playCue("pip_proud", { volume: 0.6 }), 820);
 }
 
 export function startMusic() {
-  if (!getAudioPreferences().music || !audioUnlocked) {
-    return;
-  }
-
-  const bgm = getMusicElement();
-  bgm.play().catch(() => {
-    // Some browsers defer playback until the next direct user gesture.
+  if (!appIsActive || musicSuppressed || !getAudioPreferences().music || !audioUnlocked || typeof Audio === "undefined") return;
+  getMusicElement()?.play().catch(() => {
+    // Mobile platforms may defer playback until the next direct user gesture.
   });
 }
 
 export function stopMusic() {
-  if (!musicElement) {
-    return;
-  }
-
-  musicElement.pause();
+  musicElement?.pause();
 }
 
-function playTone(frequency, duration, volume, type) {
-  const context = getContext();
-  if (!context) {
+export function setMusicSuppressed(suppressed) {
+  musicSuppressed = Boolean(suppressed);
+  if (musicSuppressed) stopMusic();
+  else startMusic();
+}
+
+export function playTimeAttackCountdown(step) {
+  const cueId = step === "go" ? "sfx_time_go" : `sfx_time_count_${Number(step) || 3}`;
+  playCue(cueId, { volume: step === "go" ? 0.86 : 0.72 });
+  lightVibrate(step === "go" ? 28 : 12);
+}
+
+export function setAudioAppActive(isActive) {
+  appIsActive = Boolean(isActive);
+  if (!appIsActive) {
+    stopMusic();
+    stopActiveEffects();
+    audioContext?.suspend?.();
     return;
   }
-  context.resume?.();
-  const oscillator = context.createOscillator();
-  const gain = context.createGain();
-  oscillator.type = type;
-  oscillator.frequency.value = frequency;
-  gain.gain.setValueAtTime(volume, context.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + duration);
-  oscillator.connect(gain);
-  gain.connect(context.destination);
-  oscillator.start();
-  oscillator.stop(context.currentTime + duration);
+  if (!audioUnlocked || !getAudioPreferences().music) return;
+  audioContext?.resume?.();
+  startMusic();
+}
+
+function resolveMusicCueId(scene) {
+  if (!isKoreanHarvestContentRuntimeReady()) return MUSIC_CUES.yearRound;
+  return MUSIC_CUES[scene] || MUSIC_CUES.home;
+}
+
+function getMusicElement() {
+  const cueId = resolveMusicCueId(requestedMusicScene);
+  if (musicElement && musicCueId === cueId) return musicElement;
+  const url = getAudioCueUrls(cueId)[0];
+  if (!url || typeof Audio === "undefined") return null;
+  musicElement?.pause();
+  musicCueId = cueId;
+  musicElement = new Audio(url);
+  musicElement.loop = true;
+  musicElement.preload = "auto";
+  musicElement.volume = sceneMusicVolume(requestedMusicScene);
+  return musicElement;
+}
+
+function sceneMusicVolume(scene) {
+  if (scene === "timeAttack") return 0.34;
+  if (scene === "dialogue") return 0.19;
+  if (scene === "puzzle") return 0.23;
+  return 0.27;
+}
+
+function pickVariation(cueId, count, requestedIndex) {
+  if (count <= 1) return 0;
+  if (Number.isInteger(requestedIndex)) return Math.max(0, Math.min(count - 1, requestedIndex));
+  const previous = lastVariationByCue.get(cueId) ?? -1;
+  let next = Math.floor(Math.random() * count);
+  if (next === previous) next = (next + 1) % count;
+  lastVariationByCue.set(cueId, next);
+  return next;
+}
+
+function stopActiveEffects() {
+  for (const player of activePlayers) {
+    player.pause?.();
+    player.currentTime = 0;
+  }
+  activePlayers.clear();
 }
 
 function lightVibrate(duration) {
-  if (typeof navigator === "undefined" || typeof navigator.vibrate !== "function") {
-    return;
-  }
-  try {
-    navigator.vibrate(duration);
-  } catch {
-    // Ignore vibration failures in browsers that restrict haptics.
-  }
+  if (typeof navigator === "undefined" || typeof navigator.vibrate !== "function") return;
+  try { navigator.vibrate(duration); } catch { /* Haptics are optional. */ }
 }
 
 function getContext() {
-  if (typeof window === "undefined") {
-    return null;
-  }
+  if (typeof window === "undefined") return null;
   const AudioContext = window.AudioContext || window.webkitAudioContext;
-  if (!AudioContext) {
-    return null;
-  }
+  if (!AudioContext) return null;
   audioContext ||= new AudioContext();
   return audioContext;
 }
 
-function getMusicElement() {
-  if (!musicElement) {
-    musicElement = new Audio(cozyBgmUrl);
-    musicElement.loop = true;
-    musicElement.preload = "auto";
-    musicElement.volume = 0.28;
-  }
-  return musicElement;
+function clampVolume(value) {
+  return Math.max(0, Math.min(1, Number(value) || 0));
 }
 
 function readBool(key, fallback) {
@@ -159,9 +203,5 @@ function readBool(key, fallback) {
 }
 
 function writeBool(key, value) {
-  try {
-    localStorage.setItem(key, String(Boolean(value)));
-  } catch {
-    // Ignore storage failures in restricted browser modes.
-  }
+  try { localStorage.setItem(key, String(Boolean(value))); } catch { /* Ignore restricted storage. */ }
 }

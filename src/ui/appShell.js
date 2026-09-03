@@ -1,124 +1,346 @@
-import { getPackById } from "../data/packs.js";
+import { eventSeasonShelves, getSeasonShelfForPuzzle, getSeasonShelfPuzzles } from "../data/seasonShelves.js";
 import { ECONOMY, getTimeAttackHintCost } from "../data/economyConfig.js";
 import { puzzles } from "../data/puzzles.js";
-import { getDailyPuzzle } from "../game/dailyPuzzle.js";
-import { getDailyReplayPicks } from "../game/replayPicks.js";
+import { getDailyDateKey, getDailyPuzzle } from "../game/dailyPuzzle.js";
+import { getDailyReplayPicks, getNextDailyReplayPick } from "../game/replayPicks.js";
 import {
   getCompletedPuzzleIds,
+  getRewardedPuzzleIds,
+  claimLoginBonus,
+  getDailyCompletedDate,
+  getReplayDailyCount,
+  getReplayRewardedPuzzleIds,
+  getPantrySpoons,
   getTimeAttackBestScores,
   getTimeAttackDailyCount,
-  getReplayDailyCount,
-  hasCozySupportPack,
   hasSeenGuide,
-  isPackUnlocked,
+  hasActivePlayer,
+  isShelfUnlocked,
   markGuideSeen,
-  markPackCompletedIfFirst,
+  markShelfCompletedIfFirst,
+  recordDailyComplete,
   resetProgress,
-  setActivePlayerName,
-  unlockPack
+  setActivePlayerName
 } from "../game/save.js";
-import { getCozySupportProduct, getSpoonJarSmallProduct, purchaseCozySupportPack, purchaseSpoonJarSmall, restoreCozySupportPack, syncCozySupportEntitlement } from "../game/billing.js";
-import { setLanguagePreference } from "../i18n/index.js";
+import { getSpoonRunOpportunity } from "../game/spoonRunRewards.js";
+import { claimKoreanHarvestWelcomeGift, getKoreanHarvestGiftStatus } from "../game/koreanHarvestGift.js";
+import {
+  COZY_SUPPORT_PRODUCT_ID,
+  SPOON_JAR_SMALL_PRODUCT_ID,
+  getBillingProducts,
+  getCachedBillingProduct,
+  purchaseCozySupportPack,
+  purchaseSpoonJarSmall,
+  restorePendingPurchases
+} from "../game/billing.js";
+import { setLanguagePreference, t } from "../i18n/index.js";
 import { renderAlbumView } from "./albumView.js";
-import { renderBadgeShelf, renderHeader, renderResetDialog } from "./appChrome.js";
-import { playStageComplete, setMusicEnabled, setSfxEnabled, startMusic } from "./audio.js";
-import { renderPantryMapView } from "./mapView.js";
+import { renderResetDialog } from "./appChrome.js";
+import { playCue, playStageComplete, playTimeAttackCountdown, setMusicEnabled, setMusicScene, setMusicSuppressed, setSfxEnabled, startMusic } from "./audio.js";
+import { getBadgeForCompletedShelf } from "../game/badges.js";
+import { renderBadgeEarnedToast, renderPantryMapView } from "./mapView.js";
 import { renderPantryView } from "./pantryView.js";
 import { getNextPantryGuideId } from "./pantryGuideFlow.js";
-import { getControlModePreference, getHideCompletedStagesPreference, setControlModePreference, setHideCompletedStagesPreference } from "./preferences.js";
-import { getStageNavigation, renderDailyCard, renderPuzzleHub, renderPuzzlePicker, renderReplayPicksCard, renderTimeAttackTeaserCard } from "./puzzleHubView.js";
+import { getControlModePreference, getCursorTrailPreference, setControlModePreference, setCursorTrailPreference } from "./preferences.js";
+import {
+  getStageNavigation,
+  getPuzzleHubOpenDecision,
+  getRegularJourneyCompleteDestination,
+  renderPuzzleHub,
+  renderPuzzlePicker,
+  renderSpoonRunView
+} from "./puzzleHubView.js";
 import { renderPlayScreen } from "./playScreen.js";
 import { renderFloatingNav } from "./floatingNav.js";
-import { renderGuideDialog } from "./guideDialog.js";
+import { renderAllPuzzlesDoneDialog, renderGuideDialog } from "./guideDialog.js";
+import { renderSpoonBalanceChip } from "./spoonIcon.js";
 import { renderStageCompleteOverlay } from "./stageComplete.js";
-import { canPurchaseSpoonJar, canPurchaseSupportPack, canRestoreSupportPack, renderSettingsDialog, renderSpoonStore } from "./settingsView.js";
+import { canPurchaseSpoonJar, canPurchaseSupportPack, renderSettingsDialog, renderSpoonStore } from "./settingsView.js";
 import { advanceTimeAttackSession, createTimeAttackSession, finishTimeAttackSession, getTimeAttackElapsedSeconds, TIME_ATTACK_LIMIT_SECONDS, TIME_ATTACK_TRIAL_ROUNDS } from "./timeAttackFlow.js";
-import { renderTimeAttackView } from "./timeAttackView.js";
+import { renderTimeAttackCountdown, renderTimeAttackView } from "./timeAttackView.js";
+import { getLoginBonusMessage } from "./loginBonusMessage.js";
+import { dismissOptionalUpdate, openUpdateStore, resolveUpdateDecision } from "../game/updatePolicy.js";
+import { renderMandatoryUpdateView } from "./updateGateView.js";
+import { getUnreadMailboxCount, renderMailboxView } from "./mailboxView.js";
+import { renderKoreanHarvestEventView } from "./koreanHarvestEventView.js";
 
 const DAILY_BONUS = ECONOMY.DAILY_BONUS;
 let introOpenViewHandler = null;
+let introDismissedHandler = null;
+let renderGeneration = 0;
 
 export function renderApp(root) {
+  const generation = ++renderGeneration;
   const dailyPuzzle = getDailyPuzzle(getDailyPuzzleCandidates());
+  const loginBonus = hasActivePlayer() ? claimLoginBonus() : null;
+  let loginBonusVisible = Boolean(loginBonus);
+  let loginBonusTimerHandle = null;
   let activePuzzle = getStartPuzzle();
   let activeView = "puzzle";
-  let playOpen = true;
+  let playOpen = false;
+  let puzzleListOpen = false;
   let resetOpen = false;
   let settingsOpen = false;
-  let hideCompletedStages = getHideCompletedStagesPreference();
+  const shelfCollapseOverrides = new Map();
   let controlMode = getControlModePreference();
   let pendingScrollTarget = null;
   let activeTimeAttackRun = null;
   let activeTimeAttackSeed = null;
   let activeTimeAttackStartedAt = null;
   let timeAttackTimerHandle = null;
+  let timeAttackCountdownHandle = null;
+  let timeAttackCountdownStep = null;
   let timeAttackRoundIndex = 0;
   let activeTimeAttackHintsUsed = 0;
   let activeTimeAttackPuzzleState = null;
   let timeAttackLastResult = null;
+  let preTimeAttackPuzzle = null;
   let activeGuide = null;
+  let pendingPantryJarDetailId = null;
+  let allPuzzlesDonePromptOpen = false;
   let replayChallenge = false;
+  let replayPicked = false;
+  let dailyChallenge = false;
+  let seasonalEventChallenge = false;
+  let seasonalArchiveChallenge = false;
+  let koreanHarvestEventOpen = root.dataset.openKoreanHarvestEvent === "true";
+  delete root.dataset.openKoreanHarvestEvent;
   let cozySupportState = createDefaultCozySupportState();
-  let cozySupportRequestId = 0;
   let spoonJarState = createDefaultSpoonJarState();
-  let spoonJarRequestId = 0;
-  let cozySupportStartupSyncStarted = false;
+  let billingCatalogRequestId = 0;
+  let updateDecision = { kind: "none" };
 
-  function selectPuzzle(puzzleId, scrollTarget = "puzzle", options = {}) {
+  void resolveUpdateDecision().then((decision) => {
+    if (generation !== renderGeneration) return;
+    updateDecision = decision;
+    if (root.dataset.introOpen !== "true") draw();
+  });
+
+  function queueViewportTopReset() {
+    pendingScrollTarget = "top";
+  }
+
+  function selectPuzzle(puzzleId, scrollTarget = "top", options = {}) {
     const nextPuzzle = puzzles.find((puzzle) => puzzle.id === puzzleId) || dailyPuzzle;
-    if (!isPackUnlocked(getPackById(nextPuzzle.packId))) {
+    if (!isShelfUnlocked(getSeasonShelfForPuzzle(nextPuzzle))) {
+      playCue("sfx_ui_locked", { volume: 0.62 });
       return;
     }
 
+    playCue(options.dailyChallenge
+      ? "sfx_daily_picture_select"
+      : options.replayChallenge
+        ? "sfx_replay_pick_select"
+        : "sfx_ui_card_select", { volume: 0.58 });
+
     activePuzzle = nextPuzzle;
     replayChallenge = Boolean(options.replayChallenge);
+    replayPicked = Boolean(options.replayPicked);
+    dailyChallenge = Boolean(options.dailyChallenge);
+    seasonalEventChallenge = Boolean(options.seasonalEventChallenge);
+    seasonalArchiveChallenge = Boolean(options.seasonalArchiveChallenge);
+    koreanHarvestEventOpen = false;
     activeView = "puzzle";
     playOpen = true;
+    puzzleListOpen = false;
     resetOpen = false;
     settingsOpen = false;
-    pendingScrollTarget = scrollTarget;
+    pendingScrollTarget = scrollTarget === "puzzle" ? "top" : scrollTarget;
     draw();
   }
 
   function selectStagePuzzle(direction) {
-    const packPuzzles = puzzles.filter((puzzle) => puzzle.packId === activePuzzle.packId);
-    const currentIndex = packPuzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
-    const nextPuzzle = packPuzzles[currentIndex + direction];
+    const shelfPuzzles = getSeasonShelfPuzzles(getSeasonShelfForPuzzle(activePuzzle));
+    const currentIndex = shelfPuzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
+    const nextPuzzle = shelfPuzzles[currentIndex + direction];
     if (nextPuzzle) {
-      selectPuzzle(nextPuzzle.id);
+      selectPuzzle(nextPuzzle.id, "top", { seasonalEventChallenge, seasonalArchiveChallenge });
     }
   }
 
   function showPuzzlePicker() {
     replayChallenge = false;
+    replayPicked = false;
+    dailyChallenge = false;
+    seasonalEventChallenge = false;
+    seasonalArchiveChallenge = false;
     activeView = "puzzle";
     playOpen = false;
+    puzzleListOpen = true;
     resetOpen = false;
     settingsOpen = false;
     pendingScrollTarget = "picker";
     draw();
   }
 
-  function selectNextPuzzle() {
-    const completedPuzzleIds = getCompletedPuzzleIds();
-    const unlockedPuzzles = puzzles.filter((puzzle) => isPackUnlocked(getPackById(puzzle.packId)));
-    const nextUnfinished = unlockedPuzzles.find((puzzle) => !completedPuzzleIds.includes(puzzle.id));
-    if (nextUnfinished) {
-      selectPuzzle(nextUnfinished.id);
+  function showRegularJourneyCompleteDestination() {
+    const destination = getRegularJourneyCompleteDestination(getCompletedPuzzleIds());
+    if (destination === "seasonal-event") {
+      replayChallenge = false;
+      replayPicked = false;
+      dailyChallenge = false;
+      seasonalEventChallenge = false;
+      seasonalArchiveChallenge = false;
+      activeView = "puzzle";
+      playOpen = false;
+      puzzleListOpen = false;
+      koreanHarvestEventOpen = true;
+      pendingScrollTarget = "top";
+      draw();
       return;
     }
-    const currentIndex = unlockedPuzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
-    const nextPuzzle = unlockedPuzzles[(currentIndex + 1) % unlockedPuzzles.length] || dailyPuzzle;
-    selectPuzzle(nextPuzzle.id);
+    showPuzzlePicker();
   }
 
-  function selectView(view) {
+  function selectNextPuzzle() {
+    playCue("sfx_next_puzzle", { volume: 0.64 });
+    if (dailyChallenge) {
+      dailyChallenge = false;
+      activeView = "spoonRun";
+      playOpen = false;
+      puzzleListOpen = false;
+      pendingScrollTarget = "replay";
+      draw();
+      return;
+    }
+    if (replayChallenge) {
+      const replayPicks = getDailyReplayPicks({
+        allPuzzles: getDailyPuzzleCandidates(),
+        completedPuzzleIds: getCompletedPuzzleIds()
+      });
+      const nextReplayPick = getNextDailyReplayPick(replayPicks, activePuzzle.id);
+      if (nextReplayPick) {
+        selectPuzzle(nextReplayPick.id, "top", { replayChallenge: true, replayPicked: true });
+        return;
+      }
+      replayChallenge = false;
+      replayPicked = false;
+      activeView = "spoonRun";
+      playOpen = false;
+      puzzleListOpen = false;
+      pendingScrollTarget = "replay";
+      draw();
+      return;
+    }
+    if (seasonalEventChallenge || seasonalArchiveChallenge) {
+      const eventPuzzles = eventSeasonShelves.flatMap((shelf) => getSeasonShelfPuzzles(shelf));
+      const completed = new Set(getCompletedPuzzleIds());
+      const currentIndex = eventPuzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
+      const searchOrder = currentIndex >= 0
+        ? [...eventPuzzles.slice(currentIndex + 1), ...eventPuzzles.slice(0, currentIndex + 1)]
+        : eventPuzzles;
+      const next = searchOrder.find((puzzle) => !completed.has(puzzle.id) && isShelfUnlocked(getSeasonShelfForPuzzle(puzzle)));
+      if (next) {
+        selectPuzzle(next.id, "top", seasonalArchiveChallenge
+          ? { seasonalArchiveChallenge: true }
+          : { seasonalEventChallenge: true });
+        return;
+      }
+      const returnToArchive = seasonalArchiveChallenge;
+      seasonalEventChallenge = false;
+      seasonalArchiveChallenge = false;
+      playOpen = false;
+      if (returnToArchive) {
+        activeView = "album";
+        pendingScrollTarget = "top";
+      } else {
+        koreanHarvestEventOpen = true;
+      }
+      draw();
+      return;
+    }
+    const decision = getPuzzleHubOpenDecision(
+      activePuzzle,
+      getCompletedPuzzleIds(),
+      isShelfUnlocked,
+      { resumeFromLastCompleted: false }
+    );
+    if (decision.type === "open" && decision.puzzle) {
+      selectPuzzle(decision.puzzle.id);
+      return;
+    }
+    if (decision.type === "unlock-guide") {
+      allPuzzlesDonePromptOpen = true;
+      draw();
+      return;
+    }
+    showRegularJourneyCompleteDestination();
+  }
+
+  function clearTimeAttackCountdown() {
+    if (timeAttackCountdownHandle) {
+      globalThis.clearTimeout(timeAttackCountdownHandle);
+      timeAttackCountdownHandle = null;
+    }
+    timeAttackCountdownStep = null;
+  }
+
+  function clearTimeAttackSession() {
+    clearTimeAttackCountdown();
+    setMusicSuppressed(false);
+    activeTimeAttackRun = null;
+    activeTimeAttackSeed = null;
+    activeTimeAttackStartedAt = null;
+    timeAttackRoundIndex = 0;
+    activeTimeAttackHintsUsed = 0;
+    activeTimeAttackPuzzleState = null;
+    if (preTimeAttackPuzzle) {
+      activePuzzle = preTimeAttackPuzzle;
+      preTimeAttackPuzzle = null;
+    }
+  }
+
+  function selectView(view, scrollTarget = "top") {
+    if (view === "settings") {
+      requestSettings();
+      return;
+    }
+    const viewCue = {
+      pantry: "sfx_pantry_open",
+      spoonRun: "sfx_spoon_run_open",
+      album: "sfx_album_page_open",
+      mailbox: "sfx_mail_open",
+      map: "sfx_ui_card_select"
+    }[view];
+    if (viewCue) playCue(viewCue, { volume: 0.58 });
+    if (timeAttackCountdownStep !== null || activeTimeAttackRun || preTimeAttackPuzzle) {
+      clearTimeAttackSession();
+    }
     replayChallenge = false;
+    replayPicked = false;
+    dailyChallenge = false;
+    seasonalEventChallenge = false;
+    seasonalArchiveChallenge = false;
+    koreanHarvestEventOpen = false;
     activeView = view;
     playOpen = false;
+    puzzleListOpen = false;
     resetOpen = false;
     settingsOpen = false;
-    pendingScrollTarget = "view";
+    allPuzzlesDonePromptOpen = false;
+    pendingScrollTarget = scrollTarget;
+    if (view === "pantry") {
+      // App-start preloading normally has prices ready before this view opens.
+      // Reuse the in-memory/catalog cache here without exposing a store handshake.
+      void refreshBillingProducts();
+    }
+    draw();
+  }
+
+  function openPuzzleFromHub() {
+    const decision = getPuzzleHubOpenDecision(activePuzzle, getCompletedPuzzleIds(), isShelfUnlocked);
+    if (decision.type === "unlock-guide") {
+      allPuzzlesDonePromptOpen = true;
+      draw();
+      return;
+    }
+    if (decision.type === "complete") {
+      showRegularJourneyCompleteDestination();
+      return;
+    }
+    activePuzzle = decision.puzzle;
+    playOpen = true;
+    queueViewportTopReset();
     draw();
   }
 
@@ -130,22 +352,119 @@ export function renderApp(root) {
     }
   }
 
-  function replayGuideFromSettings(guideId = null) {
+  function requestPantryJarGuide(jar) {
+    pendingPantryJarDetailId = jar?.id || null;
+    activeGuide = "pantryJarIntro";
+    draw();
+  }
+
+  function openFeaturedJarFromHome(jar) {
+    pendingPantryJarDetailId = jar?.id || null;
+    selectView("pantry");
+  }
+
+  function replayGuide(guideId = null) {
     settingsOpen = false;
     resetOpen = false;
     activeGuide = guideId || (activeView === "timeAttack" ? "timeAttack" : "puzzle");
     draw();
   }
 
+  function showPuzzleHub() {
+    replayChallenge = false;
+    replayPicked = false;
+    dailyChallenge = false;
+    if (seasonalEventChallenge) {
+      seasonalEventChallenge = false;
+      playOpen = false;
+      puzzleListOpen = false;
+      koreanHarvestEventOpen = true;
+      draw();
+      return;
+    }
+    if (seasonalArchiveChallenge) {
+      seasonalArchiveChallenge = false;
+      activeView = "album";
+      playOpen = false;
+      puzzleListOpen = false;
+      pendingScrollTarget = "top";
+      draw();
+      return;
+    }
+    activeView = "puzzle";
+    playOpen = false;
+    puzzleListOpen = false;
+    resetOpen = false;
+    settingsOpen = false;
+    queueViewportTopReset();
+    draw();
+  }
+
+  function openKoreanHarvestEvent() {
+    playCue("sfx_ui_card_select", { volume: 0.62 });
+    koreanHarvestEventOpen = true;
+    draw();
+  }
+
+  function closeKoreanHarvestEvent() {
+    koreanHarvestEventOpen = false;
+    draw();
+  }
+
+  function claimKoreanHarvestGiftFromEvent() {
+    const claimed = claimKoreanHarvestWelcomeGift();
+    if (claimed) {
+      playCue("sfx_spoon_gain_large", { volume: 0.74 });
+    }
+    draw();
+  }
+
+  function playKoreanHarvestPuzzle(puzzleId) {
+    selectPuzzle(puzzleId, "top", { seasonalEventChallenge: true });
+  }
+
   function requestPantryFirstPurchaseGuide(_decoration, action = {}) {
     activeGuide = getNextPantryGuideId({
       completedRequestCount: action.completedRequestCount,
-      storyCompleted: action.storyCompleted,
       hasSeen: hasSeenGuide
     });
   }
 
+  function scheduleTimeAttackCountdown() {
+    const delay = timeAttackCountdownStep === "go" ? 650 : 900;
+    timeAttackCountdownHandle = globalThis.setTimeout(() => {
+      timeAttackCountdownHandle = null;
+      if (timeAttackCountdownStep === 3) {
+        timeAttackCountdownStep = 2;
+      } else if (timeAttackCountdownStep === 2) {
+        timeAttackCountdownStep = 1;
+      } else if (timeAttackCountdownStep === 1) {
+        timeAttackCountdownStep = "go";
+      } else {
+        startTimeAttackRun();
+        return;
+      }
+      playTimeAttackCountdown(timeAttackCountdownStep);
+      draw();
+      scheduleTimeAttackCountdown();
+    }, delay);
+  }
+
+  function startTimeAttackCountdown() {
+    if (timeAttackCountdownStep !== null || activeTimeAttackRun) {
+      return;
+    }
+    timeAttackCountdownStep = 3;
+    setMusicSuppressed(false);
+    playTimeAttackCountdown(3);
+    draw();
+    scheduleTimeAttackCountdown();
+  }
+
   function startTimeAttackRun() {
+    clearTimeAttackCountdown();
+    setMusicSuppressed(false);
+    preTimeAttackPuzzle = activePuzzle;
     const session = createTimeAttackSession({ currentPuzzle: activePuzzle, rounds: TIME_ATTACK_TRIAL_ROUNDS });
     activeTimeAttackSeed = session.seed;
     activeTimeAttackRun = session.run;
@@ -155,22 +474,24 @@ export function renderApp(root) {
     activeTimeAttackPuzzleState = null;
     activePuzzle = session.activePuzzle;
     replayChallenge = false;
+    replayPicked = false;
+    dailyChallenge = false;
     activeView = "timeAttack";
     playOpen = true;
     resetOpen = false;
     settingsOpen = false;
     timeAttackLastResult = session.lastResult;
+    queueViewportTopReset();
     draw();
   }
   function closeTimeAttackRun() {
     replayChallenge = false;
-    activeView = "timeAttack";
+    replayPicked = false;
+    activeView = "puzzle";
     playOpen = false;
-    activeTimeAttackRun = null;
-    activeTimeAttackStartedAt = null;
-    timeAttackRoundIndex = 0;
-    activeTimeAttackHintsUsed = 0;
-    activeTimeAttackPuzzleState = null;
+    puzzleListOpen = false;
+    clearTimeAttackSession();
+    queueViewportTopReset();
     draw();
   }
 
@@ -191,22 +512,28 @@ export function renderApp(root) {
     }
 
     if (result.status === "next-round") {
+      playCue("sfx_time_round_complete", { volume: 0.72 });
+      globalThis.setTimeout(() => playCue("stinger_time_attack_round", { volume: 0.78 }), 110);
       activeTimeAttackHintsUsed += Math.max(0, Number(puzzleState?.hintsUsed || 0));
       activeTimeAttackPuzzleState = null;
       timeAttackRoundIndex = result.roundIndex;
       activePuzzle = result.activePuzzle;
+      queueViewportTopReset();
       draw();
       return;
     }
 
     timeAttackLastResult = result.result;
+    playCue(result.result?.recordImproved ? "stinger_time_attack_best" : "stinger_time_attack_success", { volume: 0.84 });
+    if (result.result?.reward > 0) {
+      globalThis.setTimeout(() => playCue("sfx_spoon_gain_medium", { volume: 0.68 }), 220);
+    }
     replayChallenge = false;
+    replayPicked = false;
     activeView = "timeAttack";
     playOpen = false;
-    activeTimeAttackRun = null;
-    timeAttackRoundIndex = 0;
-    activeTimeAttackHintsUsed = 0;
-    activeTimeAttackPuzzleState = null;
+    clearTimeAttackSession();
+    queueViewportTopReset();
     draw();
   }
 
@@ -223,14 +550,13 @@ export function renderApp(root) {
       outcome: "timeout"
     });
     timeAttackLastResult = result.result;
+    playCue("sfx_time_expired", { volume: 0.72 });
+    globalThis.setTimeout(() => playCue("stinger_time_attack_fail", { volume: 0.72 }), 120);
     replayChallenge = false;
+    replayPicked = false;
     activeView = "timeAttack";
     playOpen = false;
-    activeTimeAttackRun = null;
-    activeTimeAttackStartedAt = null;
-    timeAttackRoundIndex = 0;
-    activeTimeAttackHintsUsed = 0;
-    activeTimeAttackPuzzleState = null;
+    clearTimeAttackSession();
     draw();
   }
 
@@ -252,17 +578,12 @@ export function renderApp(root) {
 
   function confirmReset() {
     resetProgress();
-    resetOpen = false;
-    replayChallenge = false;
-    activePuzzle = getStartPuzzle();
-    draw();
+    window.location.reload();
   }
 
   function requestSettings() {
     settingsOpen = true;
     resetOpen = false;
-    loadCozySupportProduct();
-    loadSpoonJarProduct();
     draw();
   }
 
@@ -284,6 +605,7 @@ export function renderApp(root) {
 
   function changeSfx(enabled) {
     setSfxEnabled(enabled);
+    if (enabled) playCue("sfx_ui_toggle_on", { volume: 0.62 });
     draw();
   }
 
@@ -291,39 +613,50 @@ export function renderApp(root) {
     setMusicEnabled(enabled);
     if (enabled) {
       startMusic();
+      playCue("sfx_ui_toggle_on", { volume: 0.62 });
+    } else {
+      playCue("sfx_ui_toggle_off", { volume: 0.62 });
     }
     draw();
   }
 
-  function toggleHideCompletedStages() {
-    hideCompletedStages = !hideCompletedStages;
-    setHideCompletedStagesPreference(hideCompletedStages);
+  function toggleShelfCollapsed(shelfId, collapsed) {
+    shelfCollapseOverrides.set(shelfId, Boolean(collapsed));
     draw();
   }
 
   function changeControlMode(mode) {
     controlMode = setControlModePreference(mode);
+    playCue("sfx_control_mode_switch", { volume: 0.62 });
+    draw();
+  }
+
+  function changeCursorTrail(enabled) {
+    setCursorTrailPreference(enabled);
     draw();
   }
 
   function createDefaultCozySupportState(status = "idle") {
+    const cached = getCachedBillingProduct(COZY_SUPPORT_PRODUCT_ID);
     return {
-      available: false,
-      owned: hasCozySupportPack(),
+      available: Boolean(cached?.available),
       loading: false,
-      priceString: "",
+      priceString: cached?.product?.priceString || "",
+      storeName: cached?.storeName || "Store",
       spoons: ECONOMY.COZY_PASS_SPOON_GRANT,
-      status
+      status: cached ? "ready" : status
     };
   }
 
   function createDefaultSpoonJarState(status = "idle") {
+    const cached = getCachedBillingProduct(SPOON_JAR_SMALL_PRODUCT_ID);
     return {
-      available: false,
+      available: Boolean(cached?.available),
       loading: false,
-      priceString: "",
+      priceString: cached?.product?.priceString || "",
+      storeName: cached?.storeName || "Store",
       spoons: ECONOMY.SPOON_JAR_SMALL_GRANT,
-      status
+      status: cached ? "ready" : status
     };
   }
 
@@ -337,23 +670,29 @@ export function renderApp(root) {
       onMusicChange: changeMusic,
       onControlModeChange: changeControlMode,
       controlMode,
-      onReplayGuide: replayGuideFromSettings,
+      cursorControlsUnlocked: hasSeenGuide("cursorControlsIntro"),
+      cursorTrailEnabled: getCursorTrailPreference(),
+      onCursorTrailChange: changeCursorTrail,
       supportPack: cozySupportState,
       onSupportPurchase: buyCozySupportPack,
-      onSupportRestore: restoreCozySupport,
       spoonJar: spoonJarState,
       onSpoonJarPurchase: buySpoonJarSmall
     };
   }
 
-  async function loadSpoonJarProduct() {
-    const requestId = ++spoonJarRequestId;
-    spoonJarState = { ...spoonJarState, loading: true, status: "checking" };
-    draw();
-    const result = await getSpoonJarSmallProduct();
-    if (requestId !== spoonJarRequestId) return;
-    spoonJarState = normalizeSpoonJarState(result, result?.reason || "ready");
-    draw();
+  async function refreshBillingProducts({ forceRefresh = false } = {}) {
+    const requestId = ++billingCatalogRequestId;
+    const catalog = await getBillingProducts({ forceRefresh });
+    if (requestId !== billingCatalogRequestId || generation !== renderGeneration) return;
+    cozySupportState = normalizeCozySupportState(
+      catalog?.products?.[COZY_SUPPORT_PRODUCT_ID],
+      catalog?.products?.[COZY_SUPPORT_PRODUCT_ID]?.reason || catalog?.reason || "ready"
+    );
+    spoonJarState = normalizeSpoonJarState(
+      catalog?.products?.[SPOON_JAR_SMALL_PRODUCT_ID],
+      catalog?.products?.[SPOON_JAR_SMALL_PRODUCT_ID]?.reason || catalog?.reason || "ready"
+    );
+    if (root.dataset.introOpen !== "true") draw();
   }
 
   function selectIntroView(view) {
@@ -366,70 +705,32 @@ export function renderApp(root) {
   async function buySpoonJarSmall() {
     if (!canPurchaseSpoonJar(spoonJarState)) return;
     spoonJarState = { ...spoonJarState, loading: true, status: "checking" };
+    playCue("sfx_store_window_open", { volume: 0.65 });
     draw();
     const result = await purchaseSpoonJarSmall();
+    playPurchaseResult(result);
     spoonJarState = normalizeSpoonJarState({ ...spoonJarState, ...result }, result.status || "failed");
-    draw();
-  }
-
-  async function loadCozySupportProduct() {
-    const requestId = ++cozySupportRequestId;
-    cozySupportState = { ...cozySupportState, owned: hasCozySupportPack(), loading: true, status: "checking" };
-    draw();
-    const result = await getCozySupportProduct();
-    if (requestId !== cozySupportRequestId) return;
-    cozySupportState = normalizeCozySupportState(result, result?.reason || "ready");
     draw();
   }
 
   async function buyCozySupportPack() {
     if (!canPurchaseSupportPack(cozySupportState)) return;
     cozySupportState = { ...cozySupportState, loading: true, status: "checking" };
+    playCue("sfx_store_window_open", { volume: 0.65 });
     draw();
     const result = await purchaseCozySupportPack();
+    playPurchaseResult(result);
     cozySupportState = normalizeCozySupportState({ ...cozySupportState, ...result }, result.status || "failed");
-    if (result.ok) {
-      await loadCozySupportProduct();
-      return;
-    }
     draw();
-  }
-
-  async function restoreCozySupport() {
-    if (!canRestoreSupportPack(cozySupportState)) return;
-    cozySupportState = { ...cozySupportState, loading: true, status: "checking" };
-    draw();
-    const result = await restoreCozySupportPack();
-    cozySupportState = normalizeCozySupportState({ ...cozySupportState, ...result }, result.status || "failed");
-    if (result.ok) {
-      await loadCozySupportProduct();
-      return;
-    }
-    draw();
-  }
-
-  function syncCozySupportOnStartup() {
-    if (cozySupportStartupSyncStarted || hasCozySupportPack()) return;
-    cozySupportStartupSyncStarted = true;
-    syncCozySupportEntitlement()
-      .then((result) => {
-        if (!result?.ok || !result?.grant?.granted) return;
-        cozySupportState = normalizeCozySupportState(
-          { ...cozySupportState, ...result, owned: true },
-          result.status || "restored"
-        );
-        draw();
-      })
-      .catch(() => {});
   }
 
   function normalizeCozySupportState(result, status = "idle") {
     const product = result?.product || {};
     return {
       available: Boolean(result?.available),
-      owned: Boolean(result?.owned) || hasCozySupportPack(),
       loading: false,
       priceString: product.priceString || cozySupportState.priceString || "",
+      storeName: result?.storeName || cozySupportState.storeName || "Store",
       spoons: product.spoonGrant || ECONOMY.COZY_PASS_SPOON_GRANT,
       status
     };
@@ -441,37 +742,54 @@ export function renderApp(root) {
       available: Boolean(result?.available),
       loading: false,
       priceString: product.priceString || spoonJarState.priceString || "",
+      storeName: result?.storeName || spoonJarState.storeName || "Store",
       spoons: product.spoonGrant || ECONOMY.SPOON_JAR_SMALL_GRANT,
       status
     };
   }
 
-  function requestUnlockPack(packId) {
-    unlockPack(getPackById(packId));
-    draw();
+  function playPurchaseResult(result) {
+    if (result?.ok) {
+      playCue("sfx_store_purchase_success", { volume: 0.76 });
+      globalThis.setTimeout(() => playCue("sfx_spoon_gain_large", { volume: 0.72 }), 180);
+      return;
+    }
+    playCue(result?.status === "cancelled" ? "sfx_store_purchase_cancel" : "sfx_store_purchase_fail", { volume: 0.64 });
   }
 
+
   function checkStageComplete(puzzle) {
-    const pack = getPackById(puzzle.packId);
-    if (!pack || pack.access === "bonus-pack") {
+    if (dailyChallenge && puzzle.id === dailyPuzzle.id) {
+      recordDailyComplete(getDailyDateKey());
+    }
+    const shelf = getSeasonShelfForPuzzle(puzzle);
+    if (!shelf) {
       return;
     }
 
     const completedPuzzleIds = new Set(getCompletedPuzzleIds());
-    const packPuzzles = puzzles.filter((candidate) => candidate.packId === pack.id);
-    if (!packPuzzles.length || !packPuzzles.every((candidate) => completedPuzzleIds.has(candidate.id))) {
+    const shelfPuzzles = getSeasonShelfPuzzles(shelf);
+    if (!shelfPuzzles.length || !shelfPuzzles.every((candidate) => completedPuzzleIds.has(candidate.id))) {
       return;
     }
 
-    const completionResult = markPackCompletedIfFirst(pack);
+    const completionResult = markShelfCompletedIfFirst(shelf);
     if (!completionResult.completed) {
       return;
     }
+    const earnedBadge = getBadgeForCompletedShelf(shelf.id, getCompletedPuzzleIds());
 
     globalThis.setTimeout(() => {
       playStageComplete();
-      document.body.appendChild(renderStageCompleteOverlay(pack, draw, completionResult));
+      document.body.appendChild(renderStageCompleteOverlay(
+        shelf,
+        () => shelf.eventTheme ? openKoreanHarvestEvent() : selectView(shelf.isFinal ? "pantry" : "puzzle"),
+        completionResult
+      ));
+      const badgeToast = renderBadgeEarnedToast(earnedBadge);
+      if (badgeToast) document.body.appendChild(badgeToast);
     }, 700);
+    return completionResult;
   }
 
   function draw() {
@@ -483,27 +801,39 @@ export function renderApp(root) {
       finishTimeAttackByTimeout();
       return;
     }
+    setMusicScene(getMusicScene({ activeView, playOpen, activeGuide, settingsOpen, resetOpen }));
     root.replaceChildren();
+    if (updateDecision.kind === "mandatory") {
+      document.body.classList.remove("guide-open");
+      root.appendChild(renderMandatoryUpdateView(updateDecision, () => openUpdateStore(updateDecision.storeUrl)));
+      return;
+    }
     if (!activeGuide && activeView === "puzzle" && playOpen && !hasSeenGuide("puzzle")) {
       activeGuide = "puzzle";
+    } else if (!activeGuide && (activeView === "puzzle" || activeView === "timeAttack") && playOpen && Number(activePuzzle?.size) === 8 && !hasSeenGuide("cursorControlsIntro")) {
+      activeGuide = "cursorControlsIntro";
     } else if (!activeGuide && activeView === "timeAttack" && !playOpen && !hasSeenGuide("timeAttack")) {
       activeGuide = "timeAttack";
+    } else if (!activeGuide && activeView === "map" && !hasSeenGuide("map")) {
+      activeGuide = "map";
+    } else if (!activeGuide && activeView === "spoonRun" && !hasSeenGuide("spoonRunIntro")) {
+      activeGuide = "spoonRunIntro";
     }
-
+    document.body.classList.toggle("guide-open", Boolean(activeGuide || allPuzzlesDonePromptOpen));
     const shell = createShell({
       activePuzzle,
       activeView,
       playOpen,
+      puzzleListOpen,
       dailyPuzzle,
       resetOpen,
       settingsOpen,
       onSelectPuzzle: selectPuzzle,
       onSelectView: selectView,
-      onOpenPuzzle: () => {
-        playOpen = true;
-        draw();
-      },
-      onClosePuzzle: showPuzzlePicker,
+      onOpenFeaturedJar: openFeaturedJarFromHome,
+      onOpenSpoonStore: () => selectView("pantry", "spoonStore"),
+      onOpenPuzzle: openPuzzleFromHub,
+      onClosePuzzle: showPuzzleHub,
       onRequestReset: requestReset,
       onCancelReset: cancelReset,
       onConfirmReset: confirmReset,
@@ -515,36 +845,87 @@ export function renderApp(root) {
       onMusicChange: changeMusic,
       controlMode,
       onControlModeChange: changeControlMode,
-      onUnlockPack: requestUnlockPack,
-      hideCompletedStages,
-      onToggleHideCompletedStages: toggleHideCompletedStages,
+      shelfCollapseOverrides,
+      onToggleShelfCollapsed: toggleShelfCollapsed,
       onNextPuzzle: selectNextPuzzle,
       onPreviousStagePuzzle: () => selectStagePuzzle(-1),
       onNextStagePuzzle: () => selectStagePuzzle(1),
       onShowPuzzlePicker: showPuzzlePicker,
       replayChallenge,
-      replayPicked: replayChallenge,
+      dailyChallenge,
+      replayPicked,
       onPuzzleComplete: checkStageComplete,
-      onStartTimeAttack: startTimeAttackRun,
+      onStartTimeAttack: startTimeAttackCountdown,
       onCloseTimeAttack: closeTimeAttackRun,
       onTimeAttackPuzzleComplete: completeTimeAttackPuzzle,
       onTimeAttackPuzzleStateChange: updateTimeAttackPuzzleState,
       timeAttackRun: activeTimeAttackRun,
       timeAttackStartedAt: activeTimeAttackStartedAt,
       timeAttackRoundIndex,
+      timeAttackPuzzleState: activeTimeAttackPuzzleState,
       timeAttackLastResult,
       activeGuide,
-      onReplayPick: (puzzleId) => selectPuzzle(puzzleId, "puzzle", { replayChallenge: true }),
+      allPuzzlesDonePromptOpen,
+      onAllPuzzlesDonePantry: () => selectView("pantry"),
       onCloseGuide: closeGuide,
+      onReplayGuide: replayGuide,
       onPantryFirstPurchase: requestPantryFirstPurchaseGuide,
+      onRequestPantryJarGuide: requestPantryJarGuide,
+      pendingPantryJarDetailId,
+      onPendingPantryJarDetailOpened: () => {
+        pendingPantryJarDetailId = null;
+      },
       settingsDialogProps: getSettingsDialogProps(),
+      loginBonusMessage: loginBonusVisible ? getLoginBonusMessage(loginBonus) : null,
+      updateNotice: !loginBonusVisible && updateDecision.kind === "optional" ? updateDecision : null,
+      onUpdateNow: () => openUpdateStore(updateDecision.storeUrl),
+      onUpdateLater: () => {
+        dismissOptionalUpdate(updateDecision.platform, updateDecision.latestBuild);
+        updateDecision = { kind: "none" };
+        draw();
+      },
+      onOpenSeasonalEvent: openKoreanHarvestEvent,
       timeAttackLimitSeconds: TIME_ATTACK_LIMIT_SECONDS
     });
     root.appendChild(shell);
+    if (koreanHarvestEventOpen && root.dataset.introOpen !== "true") {
+      root.appendChild(renderKoreanHarvestEventView({
+        giftStatus: getKoreanHarvestGiftStatus(),
+        onClaimGift: claimKoreanHarvestGiftFromEvent,
+        onClose: closeKoreanHarvestEvent,
+        onPlayPuzzle: playKoreanHarvestPuzzle
+      }));
+    }
+    if (timeAttackCountdownStep !== null) {
+      root.appendChild(renderTimeAttackCountdown(timeAttackCountdownStep));
+    }
     scrollAfterDraw(root);
-    if (activeView === "timeAttack" && playOpen && activeTimeAttackStartedAt) {
+    if (!koreanHarvestEventOpen && loginBonusVisible && activeView === "puzzle" && !playOpen && !puzzleListOpen && !activeGuide) {
+      scheduleLoginBonusPresentation();
+    }
+    // Replacing the settings DOM once per second cancels an in-progress iOS
+    // pan gesture and resets the sheet to the top. Time still elapses from the
+    // original timestamp; the next draw after closing handles timeout normally.
+    if (activeView === "timeAttack" && playOpen && activeTimeAttackStartedAt && !settingsOpen) {
       timeAttackTimerHandle = globalThis.setTimeout(draw, 1000);
     }
+  }
+
+  function scheduleLoginBonusPresentation() {
+    globalThis.setTimeout(() => {
+      if (!loginBonusVisible || root.dataset.introOpen === "true" || loginBonusTimerHandle) {
+        return;
+      }
+      loginBonusTimerHandle = globalThis.setTimeout(dismissLoginBonus, 3000);
+    }, 0);
+  }
+  function dismissLoginBonus() {
+    loginBonusVisible = false;
+    if (loginBonusTimerHandle) {
+      globalThis.clearTimeout(loginBonusTimerHandle);
+      loginBonusTimerHandle = null;
+    }
+    draw();
   }
 
   function scrollAfterDraw(container) {
@@ -553,23 +934,71 @@ export function renderApp(root) {
     }
     const target = pendingScrollTarget;
     pendingScrollTarget = null;
+    if (target === "top" || target === "play" || target === "view") {
+      const resetViewport = () => {
+        const scrollRoot = document.scrollingElement || document.documentElement;
+        if (scrollRoot) {
+          scrollRoot.scrollTop = 0;
+          scrollRoot.scrollLeft = 0;
+        }
+        document.body.scrollTop = 0;
+        document.body.scrollLeft = 0;
+        globalThis.scrollTo?.({ top: 0, left: 0, behavior: "auto" });
+      };
+
+      // WebKit can restore the previous page position after the replacement DOM
+      // has painted. Reset immediately and once more on the next frame so every
+      // normal, replay, and Time Attack board begins from its intended top edge.
+      resetViewport();
+      if (typeof globalThis.requestAnimationFrame === "function") {
+        globalThis.requestAnimationFrame(resetViewport);
+      } else {
+        globalThis.setTimeout(resetViewport, 0);
+      }
+      return;
+    }
     globalThis.setTimeout(() => {
       const selector = target === "picker"
-        ? `[data-pack-id="${activePuzzle.packId}"]`
-        : target === "view"
-          ? ".app-shell"
-          : ".puzzle-panel";
-      container.querySelector(selector)?.scrollIntoView({ behavior: target === "view" ? "auto" : "smooth", block: "start" });
+        ? `[data-shelf-id="${getSeasonShelfForPuzzle(activePuzzle)?.id || ""}"]`
+        : target === "replay"
+          ? ".replay-picks-card"
+          : target === "spoonStore"
+            ? ".spoon-store"
+            : ".puzzle-panel";
+      container.querySelector(selector)?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 0);
   }
 
-  syncCozySupportOnStartup();
   if (introOpenViewHandler) {
     window.removeEventListener("ppp:intro-open-view", introOpenViewHandler);
   }
+  if (introDismissedHandler) {
+    window.removeEventListener("ppp:intro-dismissed", introDismissedHandler);
+  }
+  introDismissedHandler = draw;
+  window.addEventListener("ppp:intro-dismissed", introDismissedHandler);
   introOpenViewHandler = (event) => selectIntroView(event.detail?.view);
   window.addEventListener("ppp:intro-open-view", introOpenViewHandler);
   draw();
+  // Prime localized prices once at app start. The last successful catalog is
+  // already visible from the device cache while this silent refresh runs.
+  // Keep native billing operations serial so Play Billing product discovery
+  // does not compete with unfinished-purchase restoration on cold start.
+  void refreshBillingProducts({ forceRefresh: true }).finally(() => {
+    void restorePendingPurchases().then(({ restored }) => {
+      if (restored.length > 0 && generation === renderGeneration) draw();
+    });
+  });
+}
+
+function getMusicScene({ activeView, playOpen, activeGuide, settingsOpen, resetOpen }) {
+  if (activeGuide || settingsOpen || resetOpen || activeView === "mailbox") return "dialogue";
+  if (activeView === "timeAttack") return "timeAttack";
+  if (activeView === "pantry") return "pantry";
+  if (activeView === "spoonRun") return "spoonRun";
+  if (activeView === "album" || activeView === "map") return "albumMap";
+  if (activeView === "puzzle" && playOpen) return "puzzle";
+  return "home";
 }
 
 function getStartPuzzle() {
@@ -577,19 +1006,23 @@ function getStartPuzzle() {
 }
 
 function getDailyPuzzleCandidates() {
-  const unlocked = puzzles.filter((puzzle) => isPackUnlocked(getPackById(puzzle.packId)));
-  return unlocked.length ? unlocked : puzzles;
+  const regularPuzzles = puzzles.filter((puzzle) => puzzle.packId !== "korean-harvest");
+  const unlocked = regularPuzzles.filter((puzzle) => isShelfUnlocked(getSeasonShelfForPuzzle(puzzle)));
+  return unlocked.length ? unlocked : regularPuzzles;
 }
 
 function createShell({
   activePuzzle,
   activeView,
   playOpen,
+  puzzleListOpen,
   dailyPuzzle,
   resetOpen,
   settingsOpen,
   onSelectPuzzle,
   onSelectView,
+  onOpenFeaturedJar,
+  onOpenSpoonStore,
   onOpenPuzzle,
   onClosePuzzle,
   onRequestReset,
@@ -603,9 +1036,8 @@ function createShell({
   onMusicChange,
   controlMode,
   onControlModeChange,
-  onUnlockPack,
-  hideCompletedStages,
-  onToggleHideCompletedStages,
+  shelfCollapseOverrides,
+  onToggleShelfCollapsed,
   onNextPuzzle,
   onPreviousStagePuzzle,
   onNextStagePuzzle,
@@ -615,36 +1047,85 @@ function createShell({
   onCloseTimeAttack,
   onTimeAttackPuzzleComplete,
   onTimeAttackPuzzleStateChange,
-  onReplayPick,
   replayChallenge,
+  dailyChallenge,
   replayPicked,
   timeAttackRun,
   timeAttackStartedAt,
   timeAttackLimitSeconds,
   timeAttackRoundIndex,
+  timeAttackPuzzleState,
   timeAttackLastResult,
   activeGuide,
+  allPuzzlesDonePromptOpen,
+  onAllPuzzlesDonePantry,
   onCloseGuide,
+  onReplayGuide,
   onPantryFirstPurchase,
-  settingsDialogProps
+  onRequestPantryJarGuide,
+  pendingPantryJarDetailId,
+  onPendingPantryJarDetailOpened,
+  settingsDialogProps,
+  loginBonusMessage,
+  updateNotice,
+  onUpdateNow,
+  onUpdateLater,
+  onOpenSeasonalEvent
 }) {
   const shell = document.createElement("main");
   shell.className = "app-shell";
-  const hasBlockingOverlay = Boolean(resetOpen || settingsOpen || activeGuide);
+  shell.dataset.view = activeView;
+  const hasBlockingOverlay = Boolean(resetOpen || settingsOpen || activeGuide || allPuzzlesDonePromptOpen);
+  const isWorkshopHome = activeView === "puzzle" && !playOpen && !puzzleListOpen;
+  const today = getDailyDateKey();
+  const completedDate = getDailyCompletedDate();
+  const replayPicks = getDailyReplayPicks({
+    allPuzzles: getDailyPuzzleCandidates(),
+    completedPuzzleIds: getCompletedPuzzleIds()
+  });
+  const replayLastPick = Boolean(replayChallenge && !getNextDailyReplayPick(replayPicks, activePuzzle.id));
+  const replayRewardedPuzzleIds = getReplayRewardedPuzzleIds(today);
+  const replayDailyCount = getReplayDailyCount(today);
+  const spoonRunOpportunity = getSpoonRunOpportunity({
+    dailyPuzzle,
+    dailyCompleted: completedDate === today,
+    rewardedPuzzleIds: getRewardedPuzzleIds(),
+    replayPicks,
+    replayRewardedPuzzleIds,
+    replayDailyCount,
+    replayDailyLimit: ECONOMY.REPLAY_PICK_DAILY_LIMIT
+  });
+  if (isWorkshopHome) {
+    shell.classList.add("app-shell--workshop-home");
+  }
+  if (settingsOpen) {
+    shell.classList.add("app-shell--settings-open");
+  }
+  const focusedPlayOpen = (activeView === "puzzle" || activeView === "timeAttack") && playOpen;
+  shell.appendChild(renderSpoonBalanceChip(
+    getPantrySpoons(),
+    focusedPlayOpen ? null : onOpenSpoonStore
+  ));
 
   if ((activeView === "puzzle" || activeView === "timeAttack") && playOpen) {
     shell.classList.add("app-shell--play");
     shell.appendChild(renderPlayScreen(activePuzzle, {
       dailyPuzzle,
       dailyBonus: DAILY_BONUS,
+      dailyChallenge,
       controlMode,
+      cursorControlsUnlocked: hasSeenGuide("cursorControlsIntro"),
+      cursorTrailEnabled: getCursorTrailPreference(),
+      onControlModeChange,
       onClosePuzzle: activeView === "timeAttack" ? onCloseTimeAttack : onClosePuzzle,
       onRequestSettings,
-      onViewAlbum: () => onSelectView("album"),
+      onViewAlbum: activeView === "timeAttack" ? onCloseTimeAttack : onClosePuzzle,
       onNextPuzzle,
+      onBackToSpoonRun: () => onSelectView("spoonRun"),
       onPreviousStagePuzzle,
       onNextStagePuzzle,
       onShowPuzzlePicker,
+      onSelectView,
       getStageNavigation,
       onPuzzleComplete: activeView === "timeAttack" ? onTimeAttackPuzzleComplete : onPuzzleComplete,
       isTimeAttack: activeView === "timeAttack",
@@ -653,10 +1134,21 @@ function createShell({
       timeAttackElapsedSeconds: getTimeAttackElapsedSeconds(timeAttackStartedAt),
       timeAttackLimitSeconds,
       getTimeAttackHintCost,
+      puzzleState: activeView === "timeAttack" ? timeAttackPuzzleState : null,
       onPuzzleStateChange: activeView === "timeAttack" ? onTimeAttackPuzzleStateChange : null,
       replayChallenge,
-      replayPicked
+      replayPicked,
+      replayLastPick
     }));
+    const playHeader = shell.querySelector(".play-screen__header");
+    const spoonBalanceChip = shell.querySelector(":scope > .spoon-balance-chip");
+    const settingsButton = playHeader?.querySelector(".play-screen__settings");
+    if (playHeader && spoonBalanceChip && settingsButton) {
+      playHeader.insertBefore(spoonBalanceChip, settingsButton);
+    }
+    if (!hasBlockingOverlay) {
+      shell.appendChild(renderFloatingNav(activeView, onSelectView, getUnreadMailboxCount()));
+    }
     if (settingsOpen) {
       shell.appendChild(renderSettingsDialog(settingsDialogProps));
     }
@@ -666,23 +1158,41 @@ function createShell({
     return shell;
   }
 
-  shell.appendChild(renderHeader(onRequestSettings, onRequestReset));
-  const earnedBadgeShelf = renderBadgeShelf();
-  if (earnedBadgeShelf) {
-    shell.appendChild(earnedBadgeShelf);
+
+  if (!hasBlockingOverlay && (activeView !== "puzzle" || puzzleListOpen)) {
+    shell.appendChild(renderFloatingNav(activeView, onSelectView, getUnreadMailboxCount()));
   }
   if (activeView === "album") {
-    shell.appendChild(renderAlbumView(() => onSelectView("puzzle")));
+    shell.appendChild(renderAlbumView({
+      onPlay: onNextPuzzle,
+      onPlaySeasonal: (puzzleId) => onSelectPuzzle(puzzleId, "top", { seasonalArchiveChallenge: true })
+    }));
+  } else if (activeView === "mailbox") {
+    shell.appendChild(renderMailboxView({
+      onReplayGuide,
+      onMailboxChange: () => {
+        const currentNav = shell.querySelector(".floating-nav");
+        if (currentNav) {
+          currentNav.replaceWith(renderFloatingNav(activeView, onSelectView, getUnreadMailboxCount()));
+        }
+      }
+    }));
   } else if (activeView === "map") {
     shell.appendChild(renderPantryMapView());
   } else if (activeView === "pantry") {
     const spoonStore = renderSpoonStore(settingsDialogProps);
-    shell.appendChild(renderPantryView(
+    const pantryView = renderPantryView(
       () => onSelectView("pantry"),
       onPantryFirstPurchase,
-      () => onSelectView("puzzle"),
-      spoonStore
-    ));
+      spoonStore,
+      () => document.querySelector(".spoon-store")?.scrollIntoView({ behavior: "smooth", block: "center" }),
+      {
+        onRequestJarGuide: onRequestPantryJarGuide,
+        initialJarDetailId: pendingPantryJarDetailId,
+        onInitialJarDetailOpened: onPendingPantryJarDetailOpened
+      }
+    );
+    shell.appendChild(pantryView);
   } else if (activeView === "timeAttack") {
     shell.appendChild(renderTimeAttackView({
       bestScores: getTimeAttackBestScores(),
@@ -691,32 +1201,46 @@ function createShell({
       lastResult: timeAttackLastResult,
       onStart: onStartTimeAttack
     }));
-  } else {
-    shell.appendChild(renderPuzzleHub(activePuzzle, onOpenPuzzle, {
-      onOpenPantry: () => onSelectView("pantry"),
-      onUnlockPack,
-      onViewAlbum: () => onSelectView("album")
+  } else if (activeView === "spoonRun") {
+    shell.appendChild(renderSpoonRunView({
+      dailyPuzzle,
+      activePuzzleId: activePuzzle.id,
+      replayPicks,
+      replayRewardedPuzzleIds,
+      completedDate,
+      today,
+      dailyCount: replayDailyCount,
+      dailyLimit: ECONOMY.REPLAY_PICK_DAILY_LIMIT,
+      opportunity: spoonRunOpportunity,
+      onSelectDaily: (puzzleId) => onSelectPuzzle(puzzleId, "puzzle", { dailyChallenge: true }),
+      onSelectReplay: (puzzleId) => onSelectPuzzle(puzzleId, "puzzle", { replayChallenge: true, replayPicked: true })
     }));
-    shell.appendChild(renderDailyCard(dailyPuzzle, activePuzzle.id, onSelectPuzzle, DAILY_BONUS));
-    shell.appendChild(renderTimeAttackTeaserCard(() => onSelectView("timeAttack")));
-    const replayPicksCard = renderReplayPicksCard(
-      getDailyReplayPicks({ allPuzzles: getDailyPuzzleCandidates(), completedPuzzleIds: getCompletedPuzzleIds() }),
-      activePuzzle.id,
-      onSelectPuzzle,
-      { dailyCount: getReplayDailyCount(), dailyLimit: ECONOMY.REPLAY_PICK_DAILY_LIMIT, onReplayPick }
-    );
-    if (replayPicksCard) {
-      shell.appendChild(replayPicksCard);
-    }
-    shell.appendChild(renderPuzzlePicker(activePuzzle.id, onSelectPuzzle, onUnlockPack, {
-      hideCompletedStages,
-      onToggleHideCompletedStages,
+  } else if (puzzleListOpen) {
+    shell.appendChild(renderPuzzlePicker(activePuzzle.id, onSelectPuzzle, {
+      shelfCollapseOverrides,
+      onToggleShelfCollapsed,
       onOpenPantry: () => onSelectView("pantry")
     }));
-  }
+  } else {
+    shell.appendChild(renderPuzzleHub(activePuzzle, {
+      onOpenPuzzle,
+      onShowList: onShowPuzzlePicker,
+      onSelectView,
+      onOpenFeaturedJar,
+      onOpenSettings: onRequestSettings,
+      onOpenMailbox: () => onSelectView("mailbox"),
+      unreadMailboxCount: getUnreadMailboxCount(),
+      spoonRunOpportunity,
+      greetingMessage: loginBonusMessage || (updateNotice ? t("updatePolicy.optionalMessage", { version: updateNotice.latestVersion }) : null),
+      greetingAction: updateNotice ? {
+        updateLabel: t("updatePolicy.updateNow"),
+        laterLabel: t("updatePolicy.later"),
+        onUpdate: onUpdateNow,
+        onLater: onUpdateLater
+      } : null,
+      onOpenSeasonalEvent
+    }));
 
-  if (!hasBlockingOverlay) {
-    shell.appendChild(renderFloatingNav(activeView, onSelectView));
   }
 
   if (resetOpen) {
@@ -729,6 +1253,11 @@ function createShell({
 
   if (activeGuide) {
     shell.appendChild(renderGuideDialog(activeGuide, onCloseGuide));
+  }
+  if (allPuzzlesDonePromptOpen) {
+    shell.appendChild(renderAllPuzzlesDoneDialog({
+      onPantry: onAllPuzzlesDonePantry
+    }));
   }
 
   return shell;

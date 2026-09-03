@@ -1,91 +1,161 @@
-import { moveCursor, toggleCursorCell } from "../game/puzzleState.js";
+import { moveCursor, paintCells, setMode, toggleCursorCell } from "../game/puzzleState.js";
 import { CELL } from "../game/nonogram.js";
 import { t } from "../i18n/index.js";
 import { playCursorAction, playCursorMove } from "./audio.js";
 import { appendPuzzleControlArt } from "./puzzleControlArt.js";
 
-export function shouldShowCursorControls(puzzle, controlMode) {
+export function shouldShowCursorControls(puzzle, controlMode, cursorControlsUnlocked = false, options = {}) {
+  if (options.isTimeAttack && Number(puzzle.size) < 8) {
+    return false;
+  }
   if (controlMode === "direct") {
     return false;
   }
   if (controlMode === "cursor") {
-    return true;
+    return Number(puzzle.size) >= 8 || cursorControlsUnlocked;
   }
-  return Number(puzzle.size) >= 10;
+  return Number(puzzle.size) >= 8;
 }
 
-export function renderCursorControls(state, puzzle, update) {
-  const compact = Number(puzzle.size || 0) >= 10;
+export function createCursorControlSession(state = {}, trailEnabled = true) {
+  return {
+    trailEnabled: Boolean(trailEnabled),
+    brushMode: state.mode === "mark" ? "mark" : "fill"
+  };
+}
+
+export function shouldUseCompactCursorLayout(puzzle) {
+  return Number(puzzle?.size || 0) >= 5;
+}
+
+export function renderCursorControls(state, puzzle, update, options = {}) {
+  const session = options.session || createCursorControlSession(state);
+  const getState = options.getState || (() => state);
+  const redraw = options.redraw || (() => {});
+  const compact = shouldUseCompactCursorLayout(puzzle);
   const controls = document.createElement("section");
   controls.className = compact ? "cursor-controls cursor-controls--compact" : "cursor-controls";
   controls.setAttribute("aria-label", t("controls.cursorPanel"));
 
-  const hint = document.createElement("p");
-  hint.className = "cursor-controls__hint";
-  hint.textContent = t("controls.cursorHint");
-
-  const position = document.createElement("p");
-  position.className = "cursor-controls__position";
-  position.textContent = t("controls.cursorPosition", {
-    row: Math.max(1, Number(state.cursor?.row || 0) + 1),
-    column: Math.max(1, Number(state.cursor?.column || 0) + 1)
-  });
-
-  const status = renderCursorStatus(state);
-
-  const lineHint = document.createElement("p");
-  lineHint.className = "cursor-controls__hint cursor-controls__hint--secondary";
-  lineHint.textContent = t("controls.lineCompleteHint");
-
   const dpad = document.createElement("div");
   dpad.className = "cursor-dpad";
+  const createMoveControl = (position, label, ariaLabel, rowDelta, columnDelta) => createCursorMoveButton(
+    position,
+    label,
+    ariaLabel,
+    () => moveSelectedCell(getState(), rowDelta, columnDelta, puzzle.size, update, session),
+    () => moveSelectedCell(getState(), rowDelta, columnDelta, puzzle.size, update, session, { paintTrail: true }),
+    () => session.trailEnabled
+  );
   dpad.append(
-    createCursorMoveButton("up", "\u2191", t("controls.cursorUp"), () => moveSelectedCell(state, -1, 0, puzzle.size, update)),
-    createCursorMoveButton("left", "\u2190", t("controls.cursorLeft"), () => moveSelectedCell(state, 0, -1, puzzle.size, update)),
-    createCursorMoveButton("right", "\u2192", t("controls.cursorRight"), () => moveSelectedCell(state, 0, 1, puzzle.size, update)),
-    createCursorMoveButton("down", "\u2193", t("controls.cursorDown"), () => moveSelectedCell(state, 1, 0, puzzle.size, update))
+    createMoveControl("up", "\u2191", t("controls.cursorUp"), -1, 0),
+    createMoveControl("left", "\u2190", t("controls.cursorLeft"), 0, -1),
+    createMoveControl("right", "\u2192", t("controls.cursorRight"), 0, 1),
+    createMoveControl("down", "\u2193", t("controls.cursorDown"), 1, 0)
   );
 
   const actions = document.createElement("div");
   actions.className = "cursor-actions";
-  const actionLabels = getCursorActionDescriptors(state);
+  const actionLabels = session.trailEnabled ? getTrailActionDescriptors(session) : getCursorActionDescriptors(state);
   actions.append(
-    createCursorActionButton(actionLabels.fill, () => toggleSelectedCell(state, "fill", update)),
-    createCursorActionButton(actionLabels.mark, () => toggleSelectedCell(state, "mark", update))
+    createCursorActionButton(actionLabels.fill, () => applyCursorAction(getState(), "fill", update, session), session.brushMode === "fill" && session.trailEnabled),
+    createCursorActionButton(actionLabels.mark, () => applyCursorAction(getState(), "mark", update, session), session.brushMode === "mark" && session.trailEnabled)
   );
+  if (options.controlModeToggle) {
+    actions.appendChild(options.controlModeToggle);
+  }
 
   const body = document.createElement("div");
   body.className = "cursor-controls__body";
   body.append(dpad, actions);
 
-  if (compact) {
-    const statusRow = document.createElement("div");
-    statusRow.className = "cursor-controls__status-row";
-    statusRow.append(position, status);
-    controls.append(statusRow, body);
-  } else {
-    controls.append(hint, position, status, lineHint, body);
-  }
+  // The highlighted square is the useful position indicator. A second
+  // Row/Column plus state report duplicated it and made the board feel busy.
+  controls.append(body);
   return controls;
 }
 
-export function moveSelectedCell(state, rowDelta, columnDelta, size, update) {
+export function moveSelectedCell(state, rowDelta, columnDelta, size, update, session = null, options = {}) {
+  const priorCursor = state.cursor || { row: 0, column: 0 };
+  const movedState = moveCursor(state, rowDelta, columnDelta, size);
+  if (movedState.cursor.row === priorCursor.row && movedState.cursor.column === priorCursor.column) return;
+  if (session?.trailEnabled && options.paintTrail) {
+    const mode = session.brushMode || "fill";
+    playCursorAction(mode, { trail: true });
+    const value = mode === "mark" ? CELL.marked : CELL.filled;
+    const nextState = setMode(movedState, mode);
+    update(paintCells(nextState, [{ row: nextState.cursor.row, column: nextState.cursor.column }], value));
+    return;
+  }
   playCursorMove();
-  update(moveCursor(state, rowDelta, columnDelta, size));
+  update(movedState);
 }
 
 export function toggleSelectedCell(state, mode, update) {
-  playCursorAction();
+  playCursorAction(mode);
   update(toggleCursorCell(state, mode));
 }
 
-function createCursorMoveButton(position, label, ariaLabel, onClick) {
+export function applyCursorAction(state, mode, update, session = null) {
+  if (!session?.trailEnabled) {
+    toggleSelectedCell(state, mode, update);
+    return;
+  }
+  session.brushMode = mode;
+  const value = mode === "mark" ? CELL.marked : CELL.filled;
+  const nextState = setMode(state, mode);
+  playCursorAction(mode);
+  update(paintCells(nextState, [{ row: nextState.cursor.row, column: nextState.cursor.column }], value));
+}
+
+function createCursorMoveButton(position, label, ariaLabel, onMove, onTrailMove, isTrailEnabled) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "cursor-move cursor-move--" + position;
   button.textContent = label;
   button.setAttribute("aria-label", ariaLabel);
-  button.addEventListener("click", onClick);
+  let holdTimer = null;
+  let repeatTimer = null;
+  let activePointerId = null;
+  let holdActivated = false;
+  const stop = (commitTap = false) => {
+    const shouldMoveOnce = commitTap && activePointerId !== null && !holdActivated;
+    clearTimeout(holdTimer);
+    clearInterval(repeatTimer);
+    document.removeEventListener("pointerup", finishTap);
+    document.removeEventListener("pointercancel", stop);
+    if (activePointerId !== null && button.hasPointerCapture?.(activePointerId)) {
+      button.releasePointerCapture(activePointerId);
+    }
+    holdTimer = null;
+    repeatTimer = null;
+    activePointerId = null;
+    holdActivated = false;
+    if (shouldMoveOnce) onMove();
+  };
+  const finishTap = () => stop(true);
+  button.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
+    stop();
+    activePointerId = event.pointerId;
+    button.setPointerCapture?.(event.pointerId);
+    // Delay the single move until release so a deliberate hold can take the
+    // separate trail-paint path without painting an ordinary navigation tap.
+    holdTimer = setTimeout(() => {
+      holdActivated = true;
+      repeatTimer = setInterval(isTrailEnabled() ? onTrailMove : onMove, 105);
+    }, 320);
+    document.addEventListener("pointerup", finishTap);
+    document.addEventListener("pointercancel", stop);
+  });
+  button.addEventListener("pointerup", finishTap);
+  button.addEventListener("pointercancel", stop);
+  button.addEventListener("lostpointercapture", stop);
+  button.addEventListener("contextmenu", (event) => event.preventDefault());
+  button.addEventListener("selectstart", (event) => event.preventDefault());
+  button.addEventListener("keydown", (event) => {
+    if ((event.key === "Enter" || event.key === " ") && !event.repeat) onMove();
+  });
   return button;
 }
 
@@ -114,25 +184,19 @@ export function getCursorActionDescriptors(state) {
   };
 }
 
-function renderCursorStatus(state) {
-  const value = getSelectedCursorCell(state);
-  const labelKey = {
-    [CELL.filled]: "controls.cursorStatusFilled",
-    [CELL.marked]: "controls.cursorStatusMarked",
-    [CELL.empty]: "controls.cursorStatusEmpty"
-  }[value] || "controls.cursorStatusEmpty";
-
-  const chip = document.createElement("p");
-  chip.className = "cursor-controls__status cursor-controls__status--" + value;
-  chip.textContent = t(labelKey);
-  chip.setAttribute("aria-label", t("controls.cursorStatusLabel", { status: t(labelKey) }));
-  return chip;
+function getTrailActionDescriptors(session) {
+  return {
+    fill: { label: t("controls.cursorFill"), intent: "fill" },
+    mark: { label: t("controls.cursorMark"), intent: "mark" }
+  };
 }
 
-function createCursorActionButton(action, onClick) {
+function createCursorActionButton(action, onClick, active = false) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "cursor-action-button cursor-action-button--" + action.intent;
+  button.classList.toggle("is-active", active);
+  button.setAttribute("aria-pressed", String(active));
   appendPuzzleControlArt(
     button,
     action.intent === "mark" || action.intent === "clear-mark" ? "mark" : "fill",

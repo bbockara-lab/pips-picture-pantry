@@ -1,6 +1,8 @@
 import pipCompleteStickerUrl from "../assets/characters/pip-completion-v2.png";
 import { getCompletionPaletteId } from "../data/completionPalettes.js";
 import { puzzleAlbumText, puzzleImageName, puzzleTitle, t } from "../i18n/index.js";
+import { renderFeaturedJar } from "./featuredPantryJar.js";
+import { getSeasonalThemeForPack } from "../data/seasonalThemes.js";
 
 export const FIRST_PIP_FACE_PUZZLE_ID = "pips-first-shelf-pip-face-1";
 
@@ -14,9 +16,24 @@ export function getCompletionMessage(puzzle) {
   });
 }
 
-export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle, replayChallenge = false, replayResult = null } = {}) {
+export function renderCompletionBanner(puzzle, {
+  onNextPuzzle,
+  onBackToSpoonRun,
+  replayChallenge = false,
+  replayResult = null,
+  replayExhausted = false,
+  replayLastPick = false,
+  dailyChallenge = false,
+  isDailyPuzzle = false,
+  dailyResult = null,
+  rewardResult = null,
+  stageBonus = 0,
+  featuredJar = null
+} = {}) {
   const banner = document.createElement("div");
   banner.className = "completion-banner";
+  const puzzleTheme = getSeasonalThemeForPack(puzzle?.packId);
+  if (puzzleTheme) banner.dataset.eventTheme = puzzleTheme.id;
   const isFirstPipFace = isFirstPipFacePuzzle(puzzle);
   if (isFirstPipFace) {
     banner.classList.add("completion-banner--first-pip-face");
@@ -31,42 +48,126 @@ export function renderCompletionBanner(puzzle, { onViewAlbum, onNextPuzzle, repl
   copy.className = "completion-copy";
 
   const message = document.createElement("p");
-  message.textContent = getCompletionBannerMessage(puzzle, { replayChallenge, replayResult });
+  message.textContent = getCompletionBannerMessage(puzzle, {
+    replayChallenge,
+    replayResult,
+    replayExhausted,
+    dailyChallenge,
+    isDailyPuzzle,
+    dailyResult
+  });
 
   copy.appendChild(message);
+  const jarEffectResult = dailyResult || rewardResult || replayResult || {};
+  const rewardRows = getCompletionRewardRows({
+    puzzleReward: (dailyResult || rewardResult)?.puzzleReward,
+    dailyBonus: dailyResult?.dailyBonus,
+    jarEffectReward: jarEffectResult.jarEffectReward,
+    stageBonus
+  });
+  if (rewardRows.length) {
+    const rewardList = document.createElement("div");
+    rewardList.className = "completion-reward-list";
+    rewardRows.forEach((row) => {
+      const line = document.createElement("p");
+      line.className = "completion-reward-line";
+      if (row.key === "completion.stageBonus") line.classList.add("completion-reward-line--stage");
+      line.textContent = t(row.key, row);
+      rewardList.appendChild(line);
+    });
+    copy.appendChild(rewardList);
+  }
 
   const reveal = renderSolvedReveal(puzzle);
 
   const actions = document.createElement("div");
   actions.className = "completion-actions";
 
-  const albumButton = document.createElement("button");
-  albumButton.type = "button";
-  albumButton.className = "tool-button";
-  albumButton.textContent = replayChallenge ? t("playScreen.back") : t("completion.viewAlbum");
-  albumButton.addEventListener("click", () => onViewAlbum?.());
+  const actionButton = document.createElement("button");
+  actionButton.type = "button";
+  actionButton.className = "tool-button";
+  actionButton.textContent = t(replayExhausted || replayLastPick
+    ? "completion.backToSpoonRun"
+    : isDailyPuzzle
+      ? "completion.confirm"
+      : "completion.nextPicture");
+  let transitionStarted = false;
+  const clearPressedState = () => {
+    if (!transitionStarted) actionButton.classList.remove("is-pressed");
+  };
+  actionButton.addEventListener("pointerdown", () => actionButton.classList.add("is-pressed"));
+  actionButton.addEventListener("pointerup", clearPressedState);
+  actionButton.addEventListener("pointercancel", clearPressedState);
+  actionButton.addEventListener("pointerleave", clearPressedState);
+  actionButton.addEventListener("click", () => {
+    if (transitionStarted) return;
+    transitionStarted = true;
+    actionButton.disabled = true;
+    actionButton.setAttribute("aria-busy", "true");
+    actionButton.classList.add("is-pressed", "is-transitioning");
+    const navigate = replayExhausted || replayLastPick || isDailyPuzzle
+      ? onBackToSpoonRun
+      : onNextPuzzle;
+    const runNavigation = () => {
+      if (typeof navigate === "function") {
+        navigate();
+        return;
+      }
+      transitionStarted = false;
+      actionButton.disabled = false;
+      actionButton.removeAttribute("aria-busy");
+      actionButton.classList.remove("is-pressed", "is-transitioning");
+    };
+    if (typeof globalThis.requestAnimationFrame === "function") {
+      globalThis.requestAnimationFrame(() => globalThis.requestAnimationFrame(runNavigation));
+    } else {
+      globalThis.setTimeout(runNavigation, 32);
+    }
+  });
 
-  const nextButton = document.createElement("button");
-  nextButton.type = "button";
-  nextButton.className = "tool-button";
-  nextButton.textContent = t("completion.nextPicture");
-  nextButton.addEventListener("click", () => onNextPuzzle?.());
-
-  actions.append(albumButton, nextButton);
-  if (isFirstPipFace) {
-    banner.append(copy, reveal, actions);
-  } else {
-    banner.append(reaction, copy, reveal, actions);
-  }
+  actions.append(actionButton);
+  const featuredJarCard = renderFeaturedJar(featuredJar, {
+    className: "completion-banner__featured-jar"
+  });
+  const content = isFirstPipFace ? [copy, reveal] : [reaction, copy, reveal];
+  if (featuredJarCard) content.push(featuredJarCard);
+  content.push(actions);
+  banner.append(...content);
   return banner;
 }
 
+export function isReplayExhausted(replayChallenge, replayResult) {
+  return Boolean(replayChallenge && replayResult?.rewardAllowed && replayResult.remaining === 0);
+}
+export function getCompletionRewardRows({
+  puzzleReward = 0,
+  dailyBonus = 0,
+  jarEffectReward = 0,
+  stageBonus = 0
+} = {}) {
+  const rows = [
+    { key: "completion.puzzleReward", count: Math.max(0, Number(puzzleReward || 0)) },
+    { key: "completion.dailyBonus", count: Math.max(0, Number(dailyBonus || 0)) },
+    { key: "completion.jarEffectBonus", count: Math.max(0, Number(jarEffectReward || 0)) },
+    { key: "completion.stageBonus", count: Math.max(0, Number(stageBonus || 0)) }
+  ].filter((row) => row.count > 0);
+  return rows;
+}
 function getCompletionBannerMessage(puzzle, options = {}) {
+  if (options.replayExhausted) {
+    return t("completion.replayExhausted");
+  }
+  if (options.isDailyPuzzle) {
+    return t("completion.dailyDone");
+  }
+  if (options.dailyChallenge) {
+    return t("completion.dailyComplete");
+  }
   if (!options.replayChallenge) {
     return getCompletionMessage(puzzle);
   }
   if (options.replayResult?.rewardAllowed) {
-    return t("completion.replayReward", { count: options.replayResult.reward || 0 });
+    return t("completion.replayReward", { count: options.replayResult.reward || 0, remaining: options.replayResult.remaining || 0 });
   }
   return t("completion.replayNoReward");
 }

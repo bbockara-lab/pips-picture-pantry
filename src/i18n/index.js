@@ -59,14 +59,14 @@ export function puzzleTitle(puzzle) {
   if (puzzle?.runtimeTitle) {
     return localizedPuzzleFallback(puzzle.runtimeTitle);
   }
-  return puzzleCopy(puzzle, "title", localizedPuzzleFallback(puzzle?.title || titleFromId(puzzle?.id)));
+  return puzzleCopy(puzzle, "title", localizedPuzzleFallback(puzzle?.title || titleFromId(puzzle?.id), puzzle?.titleKo));
 }
 
 export function puzzleImageName(puzzle) {
   if (puzzle?.runtimeTitle) {
     return localizedPuzzleFallback(puzzle.runtimeTitle);
   }
-  return puzzleCopy(puzzle, "imageName", localizedPuzzleFallback(puzzle?.title || titleFromId(puzzle?.id)));
+  return puzzleCopy(puzzle, "imageName", localizedPuzzleFallback(puzzle?.title || titleFromId(puzzle?.id), puzzle?.titleKo));
 }
 
 export function puzzleAlbumText(puzzle) {
@@ -152,9 +152,12 @@ const KOREAN_PUZZLE_TITLES = {
   "Rolling Pin Rack": "밀대 선반"
 };
 
-function localizedPuzzleFallback(title) {
+function localizedPuzzleFallback(title, localizedTitle = "") {
   if (activeLocale !== "ko") {
     return title;
+  }
+  if (localizedTitle) {
+    return localizedTitle;
   }
   const match = String(title || "").match(/^(.*?)( 2)?$/);
   const translated = KOREAN_PUZZLE_TITLES[match?.[1]];

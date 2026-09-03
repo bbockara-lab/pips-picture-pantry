@@ -17,12 +17,12 @@ export const characterIdentity = [
     name: "Pip",
     role: "Picture Pantry host",
     note: "Calm mascot, direct player guide, clue carrier, and emotional anchor.",
-    cues: ["round capybara", "tiny bow", "soft smile"],
+    cues: ["broad forward-projecting capybara muzzle", "low wide nose", "small set-back ears", "large head and compact narrow body", "tiny bow", "soft smile"],
     signatureProps: ["tiny bow", "recipe card", "cozy cushion"],
     personality: ["calm", "loyal", "quietly funny", "gentle"],
     actionLanguage: ["sniffs a clue", "holds up a small card", "settles into the warmest nearby spot"],
     voiceRule: "Speak in short, warm, direct sentences when guiding the player. Pip explains one idea at a time and invites curiosity instead of lecturing.",
-    identityGuardrail: "Keep Pip recognizably capybara-shaped, gentle, and emotionally steady while allowing him to lead Picture Pantry conversations.",
+    identityGuardrail: "Keep Pip unmistakably capybara-shaped: the broad blunt muzzle must project forward beneath the eyes, the low wide nose sits on its front plane, and the small rounded ears sit back on the head. Preserve a cute mascot proportion with a large head, short narrow torso, softly sloped shoulders, short slim arms, and small paws. Never flatten Pip into a teddy-bear face or enlarge him into a broad-shouldered adult-human build.",
     franchiseCore: true
   },
   {

@@ -1,16 +1,20 @@
 import { puzzleTitle, t } from "../i18n/index.js";
+import { getDailyDateKey } from "../game/dailyPuzzle.js";
 import { renderPuzzleView } from "./puzzleView.js";
-import { appendPuzzleControlArt } from "./puzzleControlArt.js";
 
 export function renderPlayScreen(activePuzzle, options) {
   const {
     dailyPuzzle,
     dailyBonus = 0,
+    dailyChallenge = false,
     controlMode,
+    cursorControlsUnlocked = false,
+    cursorTrailEnabled = true,
+    onControlModeChange,
     onClosePuzzle,
     onViewAlbum,
-    onRequestSettings,
     onNextPuzzle,
+    onBackToSpoonRun,
     onPreviousStagePuzzle,
     onNextStagePuzzle,
     onShowPuzzlePicker,
@@ -23,7 +27,9 @@ export function renderPlayScreen(activePuzzle, options) {
     timeAttackLimitSeconds = 0,
     replayChallenge = false,
     replayPicked = false,
+    replayLastPick = false,
     getTimeAttackHintCost,
+    puzzleState = null,
     onPuzzleStateChange
   } = options;
 
@@ -34,12 +40,6 @@ export function renderPlayScreen(activePuzzle, options) {
 
   const header = document.createElement("header");
   header.className = "play-screen__header";
-
-  const backButton = document.createElement("button");
-  backButton.type = "button";
-  backButton.className = "play-screen__back";
-  backButton.textContent = t("playScreen.back");
-  backButton.addEventListener("click", onClosePuzzle);
 
   const title = document.createElement("div");
   title.className = "play-screen__title";
@@ -66,35 +66,34 @@ export function renderPlayScreen(activePuzzle, options) {
   size.className = "difficulty";
   size.textContent = `${activePuzzle.size}×${activePuzzle.size}`;
 
-  const settingsButton = document.createElement("button");
-  settingsButton.type = "button";
-  settingsButton.className = "play-screen__settings icon-button icon-button--settings";
-  settingsButton.title = t("header.settings");
-  settingsButton.setAttribute("aria-label", t("header.settings"));
-  appendPuzzleControlArt(settingsButton, "settings", "icon-button__raster-art");
-  settingsButton.addEventListener("click", onRequestSettings);
-
-  header.append(backButton, title, settingsButton, size);
+  header.append(title, size);
 
   const body = document.createElement("div");
   body.className = "play-screen__body";
   body.appendChild(renderPuzzleView(activePuzzle, {
-    dailyKey: !isTimeAttack && !replayChallenge && activePuzzle.id === dailyPuzzle.id ? getDailyKey() : null,
-    dailyBonus: !isTimeAttack && !replayChallenge && activePuzzle.id === dailyPuzzle.id ? dailyBonus : 0,
+    dailyKey: dailyChallenge && !isTimeAttack && !replayChallenge ? getDailyDateKey() : null,
+    dailyBonus: dailyChallenge && !isTimeAttack && !replayChallenge ? dailyBonus : 0,
     onNextPuzzle,
+    onBackToSpoonRun,
     controlMode,
+    cursorControlsUnlocked,
+    cursorTrailEnabled,
+    onControlModeChange,
     compactHeader: true,
     stageNavigation: isTimeAttack || replayChallenge ? null : getStageNavigation(activePuzzle, onPreviousStagePuzzle, onNextStagePuzzle, onShowPuzzlePicker),
     replayChallenge,
     replayPicked,
+    replayLastPick,
     isTimeAttack,
     getTimeAttackHintCost,
+    puzzleState,
     onPuzzleStateChange,
     onViewAlbum: replayChallenge ? onClosePuzzle : onViewAlbum,
     onPuzzleComplete
   }));
 
   screen.append(header, body);
+
   return screen;
 }
 
@@ -103,9 +102,6 @@ export function getTimeAttackElapsedSeconds(startedAt) {
   return Math.max(0, Math.floor((Date.now() - startedAt) / 1000));
 }
 
-function getDailyKey() {
-  return new Date().toISOString().slice(0, 10);
-}
 
 function formatElapsedSeconds(seconds) {
   const value = Math.max(0, Math.floor(Number(seconds) || 0));

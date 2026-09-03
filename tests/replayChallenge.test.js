@@ -15,6 +15,12 @@ class LocalStorageMock {
 
 const replayPuzzle = { id: "pips-first-shelf-pip-face-1", size: 3 };
 const solution = ["010", "111", "010"];
+const now = new Date();
+const currentDateKey = [
+  now.getFullYear(),
+  String(now.getMonth() + 1).padStart(2, "0"),
+  String(now.getDate()).padStart(2, "0")
+].join("-");
 
 describe("replay challenge reward guard", () => {
   beforeEach(() => {
@@ -24,9 +30,26 @@ describe("replay challenge reward guard", () => {
   });
 
   it("rewards only picked clean replay completions", () => {
-    expect(recordReplayReward({ puzzleId: "pips-first-shelf-pip-face-1", picked: true, clean: true, dateKey: "2026-07-06" })).toMatchObject({ rewardAllowed: true, reward: 1 });
+    expect(recordReplayReward({ puzzleId: "pips-first-shelf-pip-face-1", picked: true, clean: true, dateKey: currentDateKey })).toMatchObject({ rewardAllowed: true, reward: 1 });
     expect(getPantrySpoons()).toBe(4);
-    expect(recordReplayReward({ puzzleId: "pips-first-shelf-pip-face-1", picked: true, clean: true, dateKey: "2026-07-06" })).toMatchObject({ rewardAllowed: false, reason: "already-claimed" });
+    expect(recordReplayReward({ puzzleId: "pips-first-shelf-pip-face-1", picked: true, clean: true, dateKey: currentDateKey })).toMatchObject({ rewardAllowed: false, reason: "already-claimed" });
+  });
+
+  it("awards all three distinct clean replay picks, including the final pick", () => {
+    const replayIds = [
+      "pips-first-shelf-pip-face-1",
+      "pips-first-shelf-soup-2",
+      "pips-first-shelf-spoon-3"
+    ];
+    saveGame({ ...loadSave(), completedPuzzleIds: replayIds, pantrySpoons: 3 });
+
+    expect(recordReplayReward({ puzzleId: replayIds[0], picked: true, clean: true, dateKey: currentDateKey }))
+      .toMatchObject({ rewardAllowed: true, reward: 1, dailyCount: 1, remaining: 2 });
+    expect(recordReplayReward({ puzzleId: replayIds[1], picked: true, clean: true, dateKey: currentDateKey }))
+      .toMatchObject({ rewardAllowed: true, reward: 1, dailyCount: 2, remaining: 1 });
+    expect(recordReplayReward({ puzzleId: replayIds[2], picked: true, clean: true, dateKey: currentDateKey }))
+      .toMatchObject({ rewardAllowed: true, reward: 1, dailyCount: 3, remaining: 0 });
+    expect(getPantrySpoons()).toBe(6);
   });
 
   it("keeps replay unclean after a wrong fill is undone", () => {

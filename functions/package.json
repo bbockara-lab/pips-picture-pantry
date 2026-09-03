@@ -1,0 +1,17 @@
+{
+  "name": "sunny-spoon-store-monitor",
+  "private": true,
+  "main": "index.js",
+  "engines": {
+    "node": "22"
+  },
+  "scripts": {
+    "check": "node --check index.js && node --test test/*.test.js",
+    "deploy": "firebase deploy --only functions:storeReleaseMonitor"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.5.0",
+    "firebase-functions": "^7.0.0",
+    "google-auth-library": "^10.3.0"
+  }
+}

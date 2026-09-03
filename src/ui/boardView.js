@@ -3,6 +3,8 @@ import { getNextCellValue } from "../game/puzzleState.js";
 import { puzzleText } from "../i18n/index.js";
 import { getPuzzleCellColor } from "./coloredPuzzleArt.js";
 
+let suppressPointerClickUntil = 0;
+
 export function renderBoard(puzzle, state, onCellPress, options = {}) {
   const clues = computeClues(puzzle.solution);
   const board = document.createElement("div");
@@ -75,9 +77,10 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
   grid.setAttribute("role", "grid");
   grid.setAttribute("aria-label", `${puzzleText(puzzle.id, "title")} puzzle board`);
   const locked = Boolean(options.locked);
+  const cursorOnly = Boolean(options.cursorOnly);
   const showColoredReward = Boolean(options.completed);
+  const boardGuideInterval = getBoardGuideInterval(puzzle.size);
   let dragSession = null;
-  let suppressNextClick = false;
 
   function finishDrag() {
     if (!dragSession) {
@@ -89,14 +92,11 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
     window.removeEventListener("pointercancel", finishDrag);
     const paintCells = [...session.cells.values()];
     if (paintCells.length) {
-      suppressNextClick = true;
+      suppressPointerClickUntil = Date.now() + 300;
       onCellPress(session.start.row, session.start.column, {
         paintCells,
         paintValue: session.value
       });
-      window.setTimeout(() => {
-        suppressNextClick = false;
-      }, 0);
     }
   }
 
@@ -131,6 +131,12 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
       button.dataset.row = String(rowIndex);
       button.dataset.column = String(columnIndex);
       const classes = ["puzzle-cell", cell];
+      if (boardGuideInterval && rowIndex > 0 && rowIndex % boardGuideInterval === 0) {
+        classes.push("board-guide-top");
+      }
+      if (boardGuideInterval && columnIndex > 0 && columnIndex % boardGuideInterval === 0) {
+        classes.push("board-guide-left");
+      }
       if (showColoredReward && cell === CELL.filled) {
         classes.push("colored");
       }
@@ -163,6 +169,9 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
       button.setAttribute("aria-label", `Row ${rowIndex + 1}, column ${columnIndex + 1}, ${safeSuggestion ? "blank suggestion" : cell}`);
       if (!locked) {
         button.addEventListener("pointerdown", (event) => {
+          if (cursorOnly) {
+            return;
+          }
           if (event.pointerType === "mouse" && event.button !== 0) {
             return;
           }
@@ -183,9 +192,8 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
           }
         });
         button.addEventListener("click", (event) => {
-          if (suppressNextClick) {
+          if (shouldSuppressPointerClick(suppressPointerClickUntil, event)) {
             event.preventDefault();
-            suppressNextClick = false;
             return;
           }
           onCellPress(rowIndex, columnIndex);
@@ -202,12 +210,27 @@ function renderCells(puzzle, state, onCellPress, options, lineGuidance) {
   return grid;
 }
 
+export function shouldSuppressPointerClick(suppressUntil, event, now = Date.now()) {
+  return now <= suppressUntil;
+}
+
 export function getCellPaintValue(cell, mode, options = {}) {
   if (options.safeSuggestion && cell === CELL.empty) {
     return CELL.marked;
   }
 
   return getNextCellValue(cell, mode);
+}
+
+export function getBoardGuideInterval(size) {
+  const boardSize = Number(size);
+  if (boardSize === 8 || boardSize === 12) {
+    return 4;
+  }
+  if (boardSize === 10) {
+    return 5;
+  }
+  return 0;
 }
 
 export function getDragCellPaintValue(button, strokeValue) {

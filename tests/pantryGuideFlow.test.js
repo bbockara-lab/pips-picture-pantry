@@ -7,48 +7,24 @@ function seenGuideLookup(...guideIds) {
 }
 
 describe("pantry guide flow", () => {
-  it("keeps the room story first when its request just completed", () => {
+  it("shows the current home-display guide after the first paid collectible", () => {
     expect(getNextPantryGuideId({
-      completedRequestCount: 3,
-      storyCompleted: true,
+      completedRequestCount: 1,
       hasSeen: seenGuideLookup()
-    })).toBe("pantryRoomStory");
-  });
-
-  it("shows the first-purchase guide before an eligible neighbor", () => {
-    expect(getNextPantryGuideId({
-      completedRequestCount: 3,
-      storyCompleted: false,
-      hasSeen: seenGuideLookup("pantryRoomStory")
     })).toBe("pantryFirstPurchase");
   });
 
-  it("reveals unseen neighbors in milestone order", () => {
-    const baseSeen = ["pantryRoomStory", "pantryFirstPurchase"];
+  it("does not show a purchase guide before a paid collectible exists", () => {
     expect(getNextPantryGuideId({
-      completedRequestCount: 10,
-      hasSeen: seenGuideLookup(...baseSeen)
-    })).toBe("pantryNeighborMrPark");
-    expect(getNextPantryGuideId({
-      completedRequestCount: 10,
-      hasSeen: seenGuideLookup(...baseSeen, "pantryNeighborMrPark")
-    })).toBe("pantryNeighborLily");
-    expect(getNextPantryGuideId({
-      completedRequestCount: 10,
-      hasSeen: seenGuideLookup(...baseSeen, "pantryNeighborMrPark", "pantryNeighborLily")
-    })).toBe("pantryNeighborMateo");
+      completedRequestCount: 0,
+      hasSeen: seenGuideLookup()
+    })).toBeNull();
   });
 
-  it("returns null after every eligible guide has been seen", () => {
+  it("does not revive retired room and neighbor popups at later collection counts", () => {
     expect(getNextPantryGuideId({
       completedRequestCount: 10,
-      hasSeen: seenGuideLookup(
-        "pantryRoomStory",
-        "pantryFirstPurchase",
-        "pantryNeighborMrPark",
-        "pantryNeighborLily",
-        "pantryNeighborMateo"
-      )
+      hasSeen: seenGuideLookup("pantryFirstPurchase")
     })).toBeNull();
   });
 });

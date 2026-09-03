@@ -69,11 +69,12 @@ if (!/Mode: live-candidate/.test(releaseStatus)) {
   warnings.push("ANDROID_RELEASE_STATUS.md does not currently say Mode: live-candidate.");
 }
 
-const supportPackRealDeviceValidation = /Billing \/ IAP Real-Device Validation[\s\S]*Status:\s*\*\*passed\*\*[\s\S]*pip_cozy_support[\s\S]*purchase[\s\S]*restore/i;
-const spoonJarRealDeviceValidation = /Billing \/ IAP Real-Device Validation[\s\S]*Status:\s*\*\*passed\*\*[\s\S]*pip_spoon_jar_small[\s\S]*purchase[\s\S]*(repeat|second|another|again)/i;
+const supportPackRealDeviceValidation = /Billing \/ IAP Real-Device Validation - Pip Cozy Support[\s\S]*Status:\s*\*\*passed\*\*[\s\S]*pip_cozy_support[\s\S]*purchase[\s\S]*250 spoons/i;
+const spoonJarRealDeviceValidation = /Billing \/ IAP Real-Device Validation - Small Spoon Jar[\s\S]*Status:\s*\*\*passed\*\*[\s\S]*pip_spoon_jar_small[\s\S]*purchase[\s\S]*(repeat|second|another|again)/i;
+const spoonJarPaidValidationWaived = /Billing \/ IAP Real-Device Validation - Small Spoon Jar[\s\S]*Status:\s*\*\*waived by product owner\*\*[\s\S]*pip_spoon_jar_small[\s\S]*no further paid purchase/i;
 
 if (!supportPackRealDeviceValidation.test(releaseStatus)) {
-  const message = "docs/ANDROID_RELEASE_STATUS.md is missing a passed real-device Billing purchase/restore record for pip_cozy_support.";
+  const message = "docs/ANDROID_RELEASE_STATUS.md is missing a passed real-device Billing purchase and 250-spoon grant record for pip_cozy_support.";
   if (finalMode) {
     errors.push(message + " Complete Play Console internal-tester validation before the signed upload AAB.");
   } else {
@@ -81,7 +82,9 @@ if (!supportPackRealDeviceValidation.test(releaseStatus)) {
   }
 }
 
-if (!spoonJarRealDeviceValidation.test(releaseStatus)) {
+if (spoonJarPaidValidationWaived.test(releaseStatus)) {
+  warnings.push("The pip_spoon_jar_small real-device purchase/repeat record is explicitly waived by the product owner; automated consumable coverage remains the accepted evidence.");
+} else if (!spoonJarRealDeviceValidation.test(releaseStatus)) {
   const message = "docs/ANDROID_RELEASE_STATUS.md is missing a passed real-device Billing purchase/repeat record for pip_spoon_jar_small.";
   if (finalMode) {
     errors.push(message + " Complete Play Console internal-tester consumable validation before the signed upload AAB.");
