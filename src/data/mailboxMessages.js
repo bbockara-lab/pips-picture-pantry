@@ -1,6 +1,7 @@
 import welcomeArtUrl from "../assets/mailbox/pip-developer-letter-welcome-v1.webp";
 import koreanHarvestLetterArtUrl from "../assets/mailbox/pip-korean-harvest-letter-v3-capybara.webp";
 import { KOREAN_HARVEST_CONTENT, isKoreanHarvestContentAvailable } from "./koreanHarvestContent.js";
+import { getReferralMailboxMessages } from "../game/save.js";
 
 const GUIDE_MESSAGES = [
   ["guide-puzzle", "puzzle"],
@@ -47,7 +48,14 @@ export function getRuntimeSeasonalMailboxMessages() {
 }
 
 export function getMailboxMessages(kind = "all") {
-  const messages = [...MAILBOX_MESSAGES, ...getRuntimeSeasonalMailboxMessages()];
+  const referralMessages = getReferralMailboxMessages().map((message) => ({
+    ...message,
+    titleKey: `mailbox.referral.${message.role}.title`,
+    previewKey: "mailbox.referral.preview",
+    bodyKey: `mailbox.referral.${message.role}.body`,
+    dateKey: "mailbox.referral.date"
+  }));
+  const messages = [...referralMessages, ...MAILBOX_MESSAGES, ...getRuntimeSeasonalMailboxMessages()];
   return kind === "all" ? messages : messages.filter((message) => message.kind === kind);
 }
 

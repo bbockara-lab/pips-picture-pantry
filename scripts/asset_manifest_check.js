@@ -98,8 +98,8 @@ function assertRuntimeBackground({ id, sourceId, usage, runtimeSource, runtimeFi
 }
 
 assertRuntimeBackground({
-  id: "pip-puzzle-workshop-summer-v1",
-  sourceId: "pip-puzzle-workshop-source-v1",
+  id: "pip-puzzle-workshop-evergreen-v1",
+  sourceId: "pip-puzzle-workshop-evergreen-source-v1",
   usage: "puzzle-home-background",
   runtimeSource: puzzleHubSource,
   runtimeFile: "src/ui/puzzleHubView.js"

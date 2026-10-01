@@ -13,6 +13,8 @@ tmp-*
 qa-artifacts/
 release-artifacts/
 .firebase/
+.private/
+store-monitor-operating-recovery-*/
 # Android release signing secrets
 *.jks
 *.keystore

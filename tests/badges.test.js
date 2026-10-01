@@ -8,13 +8,13 @@ import {
   getPackBadgeStatus
 } from "../src/game/badges.js";
 
-describe("sixteen-stage shelf badges", () => {
-  it("maps sixteen badges across six shelf groups", () => {
-    expect(BADGE_MILESTONES).toHaveLength(16);
-    expect(BADGE_MILESTONES.map((badge) => badge.stage)).toEqual(Array.from({ length: 16 }, (_, index) => index));
-    expect(BADGE_MILESTONES.map((badge) => badge.group)).toEqual(["A", "A", "A", "B", "B", "B", "C", "C", "C", "D", "D", "D", "E", "E", "E", "F"]);
+describe("seventeen-stage shelf badges", () => {
+  it("maps seventeen badges across seven shelf groups", () => {
+    expect(BADGE_MILESTONES).toHaveLength(17);
+    expect(BADGE_MILESTONES.map((badge) => badge.stage)).toEqual(Array.from({ length: 17 }, (_, index) => index));
+    expect(BADGE_MILESTONES.map((badge) => badge.group)).toEqual(["A", "A", "A", "B", "B", "B", "C", "C", "C", "D", "D", "D", "E", "E", "E", "F", "G"]);
     expect(BADGE_MILESTONES.at(-1)).toMatchObject({ id: "badge-pip-korean-harvest", seasonal: true });
-    expect(BADGE_MILESTONES.at(-2)).toMatchObject({ id: "badge-pip-sunset-feast", final: true });
+    expect(BADGE_MILESTONES.at(-2)).toMatchObject({ id: "badge-pip-cozy-workshop", final: true });
   });
 
   it("keeps each summer Pantry shelf in its own two-stage badge milestone", () => {

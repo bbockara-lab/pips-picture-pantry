@@ -1,6 +1,11 @@
 import { SUMMER_PUZZLES } from "../data/summerPuzzles.js";
+import { COZY_WORKSHOP_PUZZLES } from "../data/cozyWorkshopPuzzles.js";
 
 const summerPuzzleCopy = Object.fromEntries(SUMMER_PUZZLES.map((puzzle) => [
+  puzzle.id,
+  { title: puzzle.title, imageName: puzzle.title }
+]));
+const cozyWorkshopPuzzleCopy = Object.fromEntries(COZY_WORKSHOP_PUZZLES.map((puzzle) => [
   puzzle.id,
   { title: puzzle.title, imageName: puzzle.title }
 ]));
@@ -71,6 +76,16 @@ export const en = {
       artAlt: "Hanbok Pip writing a letter beside songpyeon beneath the full moon",
       body: "Thank you for spending quiet puzzle moments with Pip.\n\nWe made this Korean harvest celebration with great care. Every moonlit picture, songpyeon plate, and little Pantry keepsake was prepared to share the warmth of Chuseok with players around the world.\n\nWe will keep filling the Pantry with new pictures, stories, and small surprises. We hope the full moon brings warmth to your day.\n\n— Sunny Spoon Studios"
     },
+    referral: {
+      preview: "A gift of 50 spoons is waiting inside.",
+      date: "A gift from Pip · Sunny Spoon Studios",
+      claim: "Add 50 spoons",
+      claimed: "Added to your spoon jar",
+      inviter: { title: "Your friend joined Pip's Pantry!", body: "A friend installed Pip's Picture Pantry from your invitation. Pip tucked 50 thank-you spoons into this letter for you." },
+      friend: { title: "Welcome gift from a friend", body: "You joined Pip's Picture Pantry through a friend's invitation. Open this gift and add 50 spoons to your jar." }
+    },
+    newReward: "A new gift letter is waiting in Pip's Mailbox!",
+    openReward: "Open mailbox",
     messages: {
       "guide-puzzle": { title: "How picture puzzles work", preview: "Replay Pip's first puzzle guide." },
       "guide-cursor": { title: "Moving around bigger boards", preview: "Replay the D-pad guide." },
@@ -97,7 +112,14 @@ export const en = {
     spoons: "Spoons {count}"
   },
   toast: {
-    loginBonus: "+{count} daily spoons! 🥄"
+    loginBonus: "+{count} daily spoons! 🥄",
+    referralReward: "+{count} friendship spoons! 🥄"
+  },
+  referral: {
+    share: "Invite a friend",
+    shareTitle: "Come solve cozy picture puzzles with Pip!",
+    shareText: "Install Pip's Picture Pantry with my invitation and we will both receive 50 spoons.",
+    copied: "Invitation link copied!"
   },
   settings: {
     title: "Settings",
@@ -548,6 +570,16 @@ export const en = {
     seasideTableTeaser: "Sea breeze meets the table.",
     sunsetFeast: "Sunset Feast",
     sunsetFeastTeaser: "Pip’s evening feast glows.",
+    cozyWorkshopMorningTable: "Morning Table",
+    cozyWorkshopMorningTableTeaser: "Breakfast treasures glow in the cottage light.",
+    cozyWorkshopBakingBench: "Baking Bench",
+    cozyWorkshopBakingBenchTeaser: "Fresh bakes and favorite tools fill the workbench.",
+    cozyWorkshopGardenNook: "Garden Nook",
+    cozyWorkshopGardenNookTeaser: "Seedlings, garden friends, and flowers brighten a quiet corner.",
+    cozyWorkshopVillageCart: "Village Cart",
+    cozyWorkshopVillageCartTeaser: "Market parcels and cottage goods gather around Pip's cheerful cart.",
+    cozyWorkshopStarlightShelf: "Starlight Shelf",
+    cozyWorkshopStarlightShelfTeaser: "Moonlit keepsakes make the workshop glow before bedtime.",
     koreanHarvest: {
       "moonrise-table": "Moonrise Table",
       "moonrise-tableTeaser": "Half moons, songpyeon, pears, and chestnuts welcome the harvest moon",
@@ -656,6 +688,10 @@ export const en = {
     "summer-pantry": {
       title: "Summer Pantry",
       note: "A sunny season of markets, gardens, picnics, and seaside treats"
+    },
+    "cozy-workshop": {
+      title: "Cozy Workshop",
+      note: "One hundred new pictures across five handcrafted cottage stages"
     },
     "korean-harvest": {
       title: "Korean Harvest Moon",
@@ -968,6 +1004,7 @@ export const en = {
     }
   },
   puzzles: {
+    ...cozyWorkshopPuzzleCopy,
     ...summerPuzzleCopy,
     "korean-harvest-half-moon-1": { title: "Half Moon", imageName: "Half Moon" },
     "korean-harvest-songpyeon-2": { title: "Songpyeon", imageName: "Songpyeon" },

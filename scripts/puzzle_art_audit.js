@@ -32,7 +32,7 @@ function hasReadableBrief(puzzle) {
 }
 
 export const DEFAULT_ART_AUDIT_PACK_IDS = ["bakery-window", "village-pantry"];
-export const RELEASE_ART_AUDIT_PACK_IDS = [...DEFAULT_ART_AUDIT_PACK_IDS, "summer-pantry"];
+export const RELEASE_ART_AUDIT_PACK_IDS = [...DEFAULT_ART_AUDIT_PACK_IDS, "summer-pantry", "cozy-workshop"];
 
 export function buildPuzzleArtAudit({ puzzleList = puzzles, packIds = DEFAULT_ART_AUDIT_PACK_IDS } = {}) {
   const auditedPackIds = new Set(packIds);

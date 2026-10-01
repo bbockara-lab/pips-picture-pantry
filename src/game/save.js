@@ -812,6 +812,52 @@ export function markMailboxMessageRead(messageId) {
   }
 }
 
+export function getReferralMailboxMessages() {
+  return loadSave()?.referralMailboxMessages || [];
+}
+
+export function mergeReferralMailboxMessages(messages = []) {
+  const save = loadSave() || createEmptySave();
+  const byId = new Map(save.referralMailboxMessages.map((message) => [message.id, message]));
+  messages.map(normalizeReferralMailboxMessage).filter(Boolean).forEach((message) => {
+    const previous = byId.get(message.id);
+    byId.set(message.id, {
+      ...previous,
+      ...message,
+      claimed: previous ? Boolean(previous.claimed) : Boolean(message.claimed),
+      claimNonce: previous?.claimNonce || message.claimNonce || null
+    });
+  });
+  save.referralMailboxMessages = Array.from(byId.values()).slice(-100);
+  saveGame(save);
+  return save.referralMailboxMessages;
+}
+
+export function prepareReferralClaimNonce(messageId) {
+  const normalizedId = String(messageId || "").trim();
+  const save = loadSave() || createEmptySave();
+  const message = save.referralMailboxMessages.find((candidate) => candidate.id === normalizedId);
+  if (!message || message.claimed) return null;
+  if (!message.claimNonce) message.claimNonce = createLocalClaimNonce();
+  saveGame(save);
+  return message.claimNonce;
+}
+
+export function claimReferralMailboxReward(messageId) {
+  const normalizedId = String(messageId || "").trim();
+  const save = loadSave() || createEmptySave();
+  const message = save.referralMailboxMessages.find((candidate) => candidate.id === normalizedId);
+  if (!message || message.claimed) {
+    return { claimed: false, balance: save.pantrySpoons, spoons: 0 };
+  }
+  message.claimed = true;
+  const spoons = Math.max(0, Math.floor(Number(message.spoons) || 0));
+  save.pantrySpoons += spoons;
+  if (!save.readMailboxMessageIds.includes(normalizedId)) save.readMailboxMessageIds.push(normalizedId);
+  saveGame(save);
+  return { claimed: true, balance: save.pantrySpoons, spoons };
+}
+
 export function isPackUnlocked(pack) {
   if (!pack || pack.access === "free" || Number(pack.unlockCost || 0) <= 0) {
     return true;
@@ -948,12 +994,37 @@ function normalizeSave(parsed) {
     readMailboxMessageIds: Array.isArray(parsed?.readMailboxMessageIds)
       ? Array.from(new Set(parsed.readMailboxMessageIds.map((id) => String(id || "").trim()).filter(Boolean)))
       : [],
+    referralMailboxMessages: Array.isArray(parsed?.referralMailboxMessages)
+      ? parsed.referralMailboxMessages.map(normalizeReferralMailboxMessage).filter(Boolean).slice(-100)
+      : [],
     processedBillingPurchaseIds: Array.isArray(parsed?.processedBillingPurchaseIds)
       ? Array.from(new Set(parsed.processedBillingPurchaseIds.map((id) => String(id || "").trim()).filter(Boolean)))
         .slice(-PROCESSED_BILLING_PURCHASE_RETENTION)
       : [],
     cozyPassPurchased: Boolean(parsed?.cozyPassPurchased)
   };
+}
+
+function normalizeReferralMailboxMessage(message) {
+  const id = String(message?.id || "").trim();
+  const spoons = Math.max(0, Math.floor(Number(message?.spoons) || 0));
+  if (!id || !spoons) return null;
+  return {
+    id,
+    kind: "letter",
+    rewardKind: "referral",
+    role: message?.role === "inviter" ? "inviter" : "friend",
+    spoons,
+    createdAt: String(message?.createdAt || ""),
+    claimed: Boolean(message?.claimed),
+    claimNonce: /^[a-f0-9]{32}$/.test(String(message?.claimNonce || "")) ? String(message.claimNonce) : null
+  };
+}
+
+function createLocalClaimNonce() {
+  const values = new Uint8Array(16);
+  globalThis.crypto.getRandomValues(values);
+  return Array.from(values, (value) => value.toString(16).padStart(2, "0")).join("");
 }
 
 function pruneReplayRewardedPuzzleIdsByDate(value, todayKey = getLocalDateKey()) {

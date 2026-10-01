@@ -1,5 +1,12 @@
 # iOS Release Status
 
+## Planned after 2026-10-04 — iOS 1.1.27 build 10 post-Harvest release
+
+- Next App Store update target: **1.1.27 build 10**; Android is aligned at **1.1.27 / versionCode 55**.
+- Release after the Korean Harvest promotion closes at **2026-10-04 23:59 America/New_York**. The evergreen presentation becomes primary on 2026-10-05 and the Harvest puzzles, progress, keepsakes, and replay path remain available from the Album archive.
+- Includes the evergreen icon/opening/home presentation, 100 new puzzles and completion/stage presentation improvements, referral links with two-sided 50-spoon mailbox rewards, and the startup/update-gate lifecycle correction.
+- Keep iOS build 9 and Android code 54 supported during store review. Activate the prepared mandatory policy for build 10/code 55 only after both binaries are publicly downloadable in every intended region; use the rollback policy immediately if either binary becomes unavailable.
+
 ## 2026-08-29 iOS 1.1.26 build 9 Korean Harvest release
 
 - Next App Store update target: **1.1.26 build 9**, installed-app label **v0.1.720**; Android is aligned at **1.1.26 / versionCode 54**.

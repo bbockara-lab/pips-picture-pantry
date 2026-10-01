@@ -84,17 +84,17 @@ describe("Android 48 / iOS build 2 summer content contract", () => {
     });
   });
 
-  it("preserves the 100-picture summer expansion inside the 616-picture live catalog", () => {
+  it("preserves the 100-picture summer expansion inside the 716-picture live catalog", () => {
     const summerPuzzles = puzzles.filter((puzzle) => puzzle.packId === "summer-pantry");
     const bySize = summerPuzzles.reduce((counts, puzzle) => {
       counts[puzzle.size] = (counts[puzzle.size] || 0) + 1;
       return counts;
     }, {});
 
-    expect(puzzles).toHaveLength(616);
+    expect(puzzles).toHaveLength(716);
     expect(summerPuzzles).toHaveLength(100);
     expect(bySize).toEqual({ 5: 12, 8: 28, 10: 36, 12: 24 });
-    expect(new Set(puzzles.map((puzzle) => puzzle.id)).size).toBe(616);
+    expect(new Set(puzzles.map((puzzle) => puzzle.id)).size).toBe(716);
     expect(new Set(summerPuzzles.map((puzzle) => puzzle.solution.join("/"))).size).toBe(100);
     expect(summerPuzzles.every((puzzle) => puzzle.titleKey && puzzle.completionPalette)).toBe(true);
   });
@@ -112,7 +112,7 @@ describe("Android 48 / iOS build 2 summer content contract", () => {
 
   it("assigns every new puzzle exactly once across six summer stages", () => {
     const summerShelves = seasonShelves.filter((shelf) => SUMMER_SHELF_IDS.includes(shelf.id));
-    expect(seasonShelves).toHaveLength(31);
+    expect(seasonShelves).toHaveLength(36);
     expect(summerShelves.map((shelf) => shelf.id)).toEqual(SUMMER_SHELF_IDS);
     expect(summerShelves.map((shelf) => shelf.puzzleIds.length)).toEqual([16, 16, 17, 17, 17, 17]);
     expect(summerShelves.map((shelf) => shelf.pantryRoomStepRequired)).toEqual([60, 60, 65, 65, 70, 70]);
@@ -143,11 +143,11 @@ describe("Android 48 / iOS build 2 summer content contract", () => {
     });
   });
 
-  it("keeps badge group E intact before the Korean Harvest finale", () => {
-    expect(BADGE_MILESTONES).toHaveLength(16);
+  it("keeps badge group E intact before Cozy Workshop and the Korean Harvest event", () => {
+    expect(BADGE_MILESTONES).toHaveLength(17);
     expect(BADGE_MILESTONES.filter((badge) => badge.group === "E")).toHaveLength(3);
     expect(BADGE_MILESTONES.filter((badge) => badge.final)).toEqual([
-      expect.objectContaining({ id: "badge-pip-sunset-feast" })
+      expect.objectContaining({ id: "badge-pip-cozy-workshop" })
     ]);
     expect(BADGE_MILESTONES.filter((badge) => badge.seasonal)).toEqual([
       expect.objectContaining({ id: "badge-pip-korean-harvest" })

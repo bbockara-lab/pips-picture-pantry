@@ -18,10 +18,24 @@ export const BADGE_MILESTONES = Object.freeze([
   { stage: 11, group: "D", shelfIds: ["shelf-moonlit-veranda", "shelf-hearth-gallery"], id: "badge-pip-hearth-gallery", titleKey: "shelves.hearthGallery" },
   { stage: 12, group: "E", shelfIds: ["shelf-summer-window", "shelf-fruit-market"], id: "badge-pip-summer-market", titleKey: "shelves.fruitMarket" },
   { stage: 13, group: "E", shelfIds: ["shelf-garden-basket", "shelf-picnic-lawn"], id: "badge-pip-picnic-lawn", titleKey: "shelves.picnicLawn" },
-  { stage: 14, group: "E", shelfIds: ["shelf-seaside-table", "shelf-sunset-feast"], id: "badge-pip-sunset-feast", titleKey: "shelves.sunsetFeast", final: true },
-  ...(koreanHarvestIsAvailable ? [{
+  { stage: 14, group: "E", shelfIds: ["shelf-seaside-table", "shelf-sunset-feast"], id: "badge-pip-sunset-feast", titleKey: "shelves.sunsetFeast" },
+  {
     stage: 15,
     group: "F",
+    shelfIds: [
+      "shelf-cozy-workshop-morning-table",
+      "shelf-cozy-workshop-baking-bench",
+      "shelf-cozy-workshop-garden-nook",
+      "shelf-cozy-workshop-village-cart",
+      "shelf-cozy-workshop-starlight-shelf"
+    ],
+    id: "badge-pip-cozy-workshop",
+    titleKey: "shelves.cozyWorkshopStarlightShelf",
+    final: true
+  },
+  ...(koreanHarvestIsAvailable ? [{
+    stage: 16,
+    group: "G",
     shelfIds: ["shelf-korean-harvest-1", "shelf-korean-harvest-2", "shelf-korean-harvest-3", "shelf-korean-harvest-4"],
     id: "badge-pip-korean-harvest",
     titleKey: "shelves.koreanHarvest.full-moon-feast",

@@ -59,9 +59,9 @@ describe("Workshop destination collection progress", () => {
   it("shows earned badge progress against every authored badge", () => {
     const empty = getBadgeHomeProgress([]);
     expect(empty.current).toBe(0);
-    expect(empty.total).toBe(16);
+    expect(empty.total).toBe(17);
     const firstBadgePuzzleIds = getSeasonShelfPuzzles(seasonShelves[0]).map((puzzle) => puzzle.id);
-    expect(getBadgeHomeProgress(firstBadgePuzzleIds)).toEqual({ current: 1, total: 16 });
+    expect(getBadgeHomeProgress(firstBadgePuzzleIds)).toEqual({ current: 1, total: 17 });
   });
 
   it("renders Pantry and Badges as flat numeric progress, never the old red dot", () => {
@@ -212,7 +212,7 @@ describe("Per-shelf puzzle picker collapse", () => {
     expect(hubSource).not.toContain("createStagePreview");
     expect(hubSource).not.toContain("createStageTileMosaic");
     expect(hubSource).not.toContain("createStageFallbackMosaic");
-    expect(hubSource).not.toContain("getStageArtUrl");
+    expect(hubSource).toContain("pack-stage-cover");
     expect(styles).not.toContain(".stage-tile-mosaic");
     expect(styles).not.toContain(".pip-tile-mosaic");
     expect(styles).not.toContain(".stage-preview");

@@ -90,7 +90,7 @@ export function renderPuzzleView(puzzle, options = {}) {
         stageBonus = Number(options.onPuzzleComplete?.(puzzle, state)?.bonus || 0);
       }
     }
-    draw();
+    draw({ celebrateCompletion: !wasCompleted && state.completed });
   }
 
   function handlePuzzleKeydown(event) {
@@ -128,7 +128,7 @@ export function renderPuzzleView(puzzle, options = {}) {
     }
   }
 
-  function draw() {
+  function draw({ celebrateCompletion = false } = {}) {
     section.replaceChildren();
     section.className = [
     "puzzle-panel",
@@ -167,6 +167,7 @@ export function renderPuzzleView(puzzle, options = {}) {
     if (state.completed) {
       section.appendChild(renderCompletionBanner(puzzle, {
         ...options,
+        celebrateCompletion,
         replayResult,
         replayExhausted: isReplayExhausted(isReplayChallenge, replayResult),
         isDailyPuzzle: isDailyChallenge,

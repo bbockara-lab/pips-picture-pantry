@@ -1,5 +1,5 @@
 import spoonTokenUrl from "../assets/icons/spoon-token-v2.png";
-import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-summer-v1.webp";
+import puzzleWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-evergreen-v1.webp";
 import koreanHarvestWorkshopBackgroundUrl from "../assets/generated/pip-puzzle-workshop-korean-harvest-v3-event-space.webp";
 import pipGuideUrl from "../assets/characters/pip-chrome-v2.png";
 import pipSummerHomeUrl from "../assets/characters/pip-home-summer-v1.webp";
@@ -22,6 +22,7 @@ import { getBadgeArtUrl } from "../data/badgeArt.js";
 import { getKoreanHarvestRewardArtUrl } from "../data/koreanHarvestRewardArt.js";
 import { BADGE_MILESTONES, getPackBadgeStatus } from "../game/badges.js";
 import { getLiveSeasonalTheme, getSeasonalTheme, getSeasonalThemeForPack, getSeasonalThemeLabel } from "../data/seasonalThemes.js";
+import { getStageArtUrl } from "../data/stageArt.js";
 
 const HOME_THEME_BACKGROUNDS = Object.freeze({
   "pip-puzzle-workshop-summer-v1": puzzleWorkshopBackgroundUrl,
@@ -139,6 +140,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     onOpenFeaturedJar = () => {},
     onOpenSettings = () => {},
     onOpenMailbox = () => {},
+    onShareReferral = () => {},
     onOpenSeasonalEvent = () => {},
     unreadMailboxCount = 0,
     spoonRunOpportunity = { total: 0 },
@@ -151,8 +153,7 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
     ? new URLSearchParams(globalThis.location?.search || "").get("seasonalTheme")
     : null;
   const homeTheme = (previewThemeId && getSeasonalTheme(previewThemeId))
-    || getLiveSeasonalTheme()
-    || getSeasonalTheme("summer");
+    || getLiveSeasonalTheme();
 
   const scene = document.createElement("section");
   scene.className = "puzzle-home-scene";
@@ -458,7 +459,14 @@ export function renderPuzzleHub(activePuzzle, options = {}) {
   }
   settingsButton.addEventListener("click", onOpenSettings);
 
-  sceneControls.append(mailboxButton, settingsButton);
+  const inviteButton = document.createElement("button");
+  inviteButton.type = "button";
+  inviteButton.className = "puzzle-home-scene__invite";
+  inviteButton.setAttribute("aria-label", t("referral.share"));
+  inviteButton.textContent = `🎁 ${t("referral.share")}`;
+  inviteButton.addEventListener("click", onShareReferral);
+
+  sceneControls.append(inviteButton, mailboxButton, settingsButton);
   if (isKoreanHarvestEventVisible()) {
     const eventButton = document.createElement("button");
     eventButton.type = "button";
@@ -743,6 +751,18 @@ export function renderPuzzlePicker(activePuzzleId, onSelectPuzzle, options = {})
           count: shelfPuzzles.length
         }));
       }
+    }
+    if (collapsed && isStageComplete) {
+      const milestone = BADGE_MILESTONES.find((badge) => badge.shelfIds.includes(shelf.id));
+      const cover = document.createElement("div");
+      cover.className = "pack-stage-cover";
+      const art = document.createElement("img");
+      art.className = "pack-stage-cover__pip";
+      art.src = getStageArtUrl(shelf.artPackId) || (milestone ? getBadgeArtUrl(milestone.id) : pipGuideUrl);
+      art.alt = "";
+      art.setAttribute("aria-hidden", "true");
+      cover.append(art, renderColoredPuzzleArt(shelfPuzzles.at(-1), { className: "pack-stage-cover__picture" }));
+      header.appendChild(cover);
     }
     header.append(headerCopy, createShelfCollapseToggle(shelf, collapsed, contentId, onToggleShelfCollapsed));
     packBlock.appendChild(header);

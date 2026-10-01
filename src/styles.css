@@ -17019,6 +17019,21 @@ img {
   background: transparent;
   box-shadow: none;
 }
+.app-shell--workshop-home .puzzle-home-scene__invite {
+  position: absolute;
+  top: 58px;
+  right: 0;
+  min-height: 44px;
+  padding: 8px 13px;
+  border: 2px solid rgba(102, 72, 50, 0.7);
+  border-radius: 999px;
+  background: rgba(255, 247, 214, 0.95);
+  color: #593d31;
+  box-shadow: 0 4px 10px rgba(73, 48, 34, 0.2);
+  font-size: 0.8rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
 
 .app-shell--workshop-home .puzzle-home-scene__settings img,
 .app-shell--workshop-home .puzzle-home-scene__mailbox img {
@@ -17080,6 +17095,7 @@ img {
     height: 46px;
     min-height: 46px;
   }
+  .app-shell--workshop-home .puzzle-home-scene__invite { top: 51px; padding-inline: 10px; font-size: 0.72rem; }
 
   .app-shell--workshop-home .puzzle-home-destination {
     width: 76px;
@@ -17176,6 +17192,19 @@ img {
 .mailbox-message__letter img { display: block; width: 100%; max-height: 480px; object-fit: cover; border-radius: 16px; }
 .mailbox-message__date { margin: 16px 2px 8px; color: #8a735f; font-weight: 700; }
 .mailbox-message__body { margin: 0 2px; white-space: pre-line; line-height: 1.75; }
+.mailbox-message__claim {
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px 18px;
+  border: 2px solid #76503b;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffd979, #f2b34f);
+  color: #4b3026;
+  box-shadow: 0 5px 0 #9e6939, 0 10px 18px rgba(96, 61, 35, 0.18);
+  font-weight: 900;
+}
+.mailbox-message__claim:not(:disabled):active { transform: translateY(3px); box-shadow: 0 2px 0 #9e6939; }
+.mailbox-message__claim:disabled { background: #d9ead6; border-color: #789476; box-shadow: none; color: #47644a; }
 
 @media (max-width: 520px) {
   .mailbox-view { width: min(100% - 18px, 860px); margin-top: 12px; }
@@ -17244,7 +17273,48 @@ img {
 }
 
 .stage-complete-card--burst {
+  isolation: isolate;
   animation: stage-complete-burst 720ms ease-out both;
+}
+
+.stage-complete-card--burst::after {
+  content: "✦  ·  ✧  ·  ✦";
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  left: 50%;
+  width: max-content;
+  color: #f3bc3f;
+  font-size: 1.1rem;
+  letter-spacing: 0.34rem;
+  text-shadow: 0 2px 8px rgba(161, 93, 25, 0.38);
+  pointer-events: none;
+  animation: stage-complete-stars 1300ms ease-out 160ms both;
+}
+
+.stage-complete-card--burst .stage-complete-pip {
+  animation: stage-complete-art-reveal 900ms cubic-bezier(0.16, 0.9, 0.22, 1.12) 90ms both;
+}
+
+.stage-complete-card--burst .stage-complete-copy {
+  animation: stage-complete-copy-arrive 540ms ease-out 430ms both;
+}
+
+@keyframes stage-complete-stars {
+  0% { opacity: 0; transform: translate(-50%, 18px) scale(0.5) rotate(-8deg); }
+  38% { opacity: 1; transform: translate(-50%, -5px) scale(1.16) rotate(2deg); }
+  100% { opacity: 0.78; transform: translate(-50%, 0) scale(1) rotate(0); }
+}
+
+@keyframes stage-complete-art-reveal {
+  0% { opacity: 0; transform: translateY(16px) scale(0.86); filter: brightness(1.45) saturate(0.7); }
+  66% { opacity: 1; transform: translateY(-3px) scale(1.035); filter: brightness(1.12) saturate(1.12); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: none; }
+}
+
+@keyframes stage-complete-copy-arrive {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .stage-complete-badge {
@@ -17257,6 +17327,11 @@ img {
 
 @media (prefers-reduced-motion: reduce) {
   .stage-complete-card--burst {
+    animation: none;
+  }
+  .stage-complete-card--burst::after,
+  .stage-complete-card--burst .stage-complete-pip,
+  .stage-complete-card--burst .stage-complete-copy {
     animation: none;
   }
 }
@@ -19028,9 +19103,79 @@ body.guide-open {
     0 6px 0 rgba(83, 62, 48, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
-.pack-block--collapsed .pack-header { min-height: 62px; align-items: center; }
+.pack-block--collapsed::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(185, 126, 42, 0.25);
+  border-radius: 15px;
+  pointer-events: none;
+}
+.pack-block--collapsed .pack-header { min-height: 76px; align-items: center; }
 .pack-block--collapsed .pack-header > div { min-width: 0; }
 .pack-block--collapsed .section-label { margin-bottom: 0; font-size: 1rem; }
+.pack-stage-cover {
+  position: relative;
+  flex: 0 0 72px;
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+  border: 2px solid rgba(110, 70, 43, 0.34);
+  border-radius: 19px 19px 15px 19px;
+  background:
+    radial-gradient(circle at 26% 18%, rgba(255, 255, 255, 0.92), transparent 26%),
+    linear-gradient(145deg, #ffe7a1, #b9dfc9 58%, #82bda7);
+  box-shadow:
+    0 4px 0 rgba(89, 57, 43, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+}
+.pack-stage-cover::after {
+  content: "✦";
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  color: #fff5b1;
+  font-size: 0.72rem;
+  filter: drop-shadow(0 1px 1px rgba(91, 55, 29, 0.4));
+}
+.pack-stage-cover__pip {
+  position: absolute;
+  left: -5px;
+  bottom: -3px;
+  width: 62px;
+  height: 62px;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 3px rgba(65, 43, 34, 0.2));
+}
+.pack-stage-cover__picture {
+  position: absolute;
+  right: 4px;
+  bottom: 5px;
+  display: grid;
+  grid-template-columns: repeat(var(--stamp-size), 1fr);
+  width: 25px;
+  height: 25px;
+  padding: 2px;
+  overflow: hidden;
+  border: 1px solid rgba(87, 57, 43, 0.28);
+  border-radius: 6px;
+  background: rgba(255, 250, 228, 0.92);
+  box-shadow: 0 2px 3px rgba(67, 44, 33, 0.16);
+}
+.pack-stage-cover__picture .stamp-cell { min-width: 0; min-height: 0; background: transparent; }
+.pack-stage-cover__picture .stamp-cell.filled { background: var(--cell-color, #d78b4b); }
+.pack-block--collapsed .pack-header > .pack-stage-cover + div { flex: 1 1 auto; }
+.pack-block--collapsed .shelf-collapse-toggle { position: relative; z-index: 1; }
+.pack-block--collapsed[data-event-theme="korean-harvest"] {
+  background:
+    radial-gradient(circle at 12% 20%, rgba(255, 221, 119, 0.2), transparent 28%),
+    linear-gradient(135deg, rgba(255, 247, 220, 0.98), rgba(224, 238, 209, 0.96));
+}
+@media (max-width: 370px) {
+  .pack-block--collapsed { padding-inline: 12px; }
+  .pack-stage-cover { flex-basis: 62px; width: 62px; height: 62px; }
+  .pack-stage-cover__pip { width: 54px; height: 54px; }
+}
 .pack-stage-complete-summary {
   margin: 6px 0 0;
   color: rgba(91, 61, 46, 0.76);
@@ -21691,9 +21836,153 @@ button.featured-pantry-jar:active { transform: translateY(1px); }
   border-radius: 18px;
 }
 
+/* Next-update large-board density pass.
+ * Keep the friendly 5x5 board unchanged. On 8x8+ boards, spend less of the
+ * mobile width on ornamental gaps and circular clue chips so the playable
+ * cells remain the visual and tactile priority. The lane widths cover the
+ * catalog maxima: 4 row runs at 8x8, 5 at 10x10, and 6 at 12x12. */
+@media (max-width: 520px) {
+  .app-shell--play .play-screen:is(
+    [data-puzzle-size="8"],
+    [data-puzzle-size="10"],
+    [data-puzzle-size="12"]
+  ) .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --board-grid-gap: 1px !important;
+    --board-grid-frame-inset: 3px;
+  }
+
+  .app-shell--play .play-screen[data-puzzle-size="8"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --board-row-clue-width: 64px !important;
+    --clue-token-size: 14px !important;
+  }
+
+  .app-shell--play .play-screen[data-puzzle-size="10"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --board-row-clue-width: 68px !important;
+    --clue-token-size: 12px !important;
+  }
+
+  .app-shell--play .play-screen[data-puzzle-size="12"] .puzzle-panel:not(.completed) .board-wrap:not(.locked) {
+    --board-row-clue-width: 74px !important;
+    --clue-token-size: 10px !important;
+  }
+
+  .app-shell--play .play-screen:is(
+    [data-puzzle-size="8"],
+    [data-puzzle-size="10"],
+    [data-puzzle-size="12"]
+  ) .puzzle-panel:not(.completed) .board-wrap:not(.locked) .puzzle-grid {
+    border-width: 2px;
+    border-radius: 9px;
+    padding: 2px;
+  }
+
+  .app-shell--play .play-screen:is(
+    [data-puzzle-size="8"],
+    [data-puzzle-size="10"],
+    [data-puzzle-size="12"]
+  ) .puzzle-panel:not(.completed) .board-wrap:not(.locked) .puzzle-cell {
+    border-width: 1px;
+    border-radius: 3px;
+  }
+
+  .app-shell--play .play-screen:is(
+    [data-puzzle-size="8"],
+    [data-puzzle-size="10"],
+    [data-puzzle-size="12"]
+  ) .puzzle-panel:not(.completed) .board-wrap:not(.locked) :is(.column-clue, .row-clue) span {
+    border: 0;
+    border-radius: 3px;
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
 .app-shell--play .floating-nav__trigger .floating-nav__trigger-icon {
   width: 42px;
   height: 42px;
+}
+
+/* Next-update completion moment.
+ * This intentionally runs only when a puzzle changes from unfinished to
+ * finished. Revisiting an album card stays calm and immediately readable. */
+.completion-banner--celebrating {
+  isolation: isolate;
+  animation: completion-card-arrive 560ms cubic-bezier(0.2, 0.9, 0.25, 1.18) both;
+}
+
+.completion-banner--celebrating::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 6%;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 16% 24%, #fff7b8 0 2px, transparent 3px),
+    radial-gradient(circle at 82% 18%, #ffd66d 0 3px, transparent 4px),
+    radial-gradient(circle at 88% 68%, #fff7b8 0 2px, transparent 3px),
+    radial-gradient(circle at 12% 76%, #f5aa70 0 3px, transparent 4px);
+  animation: completion-sparkles 1100ms ease-out 120ms both;
+}
+
+.completion-banner--celebrating .completion-reveal-card {
+  animation: completion-reveal-lift 700ms cubic-bezier(0.16, 0.9, 0.22, 1.16) 140ms both;
+}
+
+.completion-banner--celebrating .completion-reveal {
+  animation: completion-picture-glow 1200ms ease-out 420ms both;
+}
+
+.completion-banner--celebrating .reveal-cell {
+  animation: completion-grid-fade 420ms ease-out calc(180ms + var(--reveal-order, 0) * 26ms) both;
+}
+
+.completion-banner--celebrating .reveal-cell.filled {
+  animation: completion-picture-tile 620ms cubic-bezier(0.2, 0.9, 0.25, 1.25) calc(210ms + var(--reveal-order, 0) * 30ms) both;
+}
+
+@keyframes completion-card-arrive {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes completion-reveal-lift {
+  0% { opacity: 0; transform: translateY(14px) scale(0.92); }
+  70% { opacity: 1; transform: translateY(-2px) scale(1.025); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes completion-grid-fade {
+  from { opacity: 0; transform: scale(0.75); }
+  to { opacity: 0.42; transform: scale(0.94); }
+}
+
+@keyframes completion-picture-tile {
+  0% { opacity: 0; transform: scale(0.45) rotate(-8deg); filter: brightness(1.8); }
+  68% { opacity: 1; transform: scale(1.16) rotate(1deg); filter: brightness(1.22); }
+  100% { opacity: 1; transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes completion-picture-glow {
+  0%, 100% { box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.42); }
+  45% { box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.72), 0 0 0 5px rgba(255, 214, 109, 0.22), 0 0 28px rgba(255, 196, 78, 0.62); }
+}
+
+@keyframes completion-sparkles {
+  0% { opacity: 0; transform: scale(0.72) rotate(-5deg); }
+  40% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.1) rotate(6deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .completion-banner--celebrating,
+  .completion-banner--celebrating::before,
+  .completion-banner--celebrating .completion-reveal-card,
+  .completion-banner--celebrating .completion-reveal,
+  .completion-banner--celebrating .reveal-cell,
+  .completion-banner--celebrating .reveal-cell.filled {
+    animation: none !important;
+  }
 }
 
 .app-shell--play .floating-nav__trigger-text {

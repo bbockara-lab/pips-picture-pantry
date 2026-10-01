@@ -3,6 +3,7 @@ import path from "node:path";
 
 const sourceRoot = "audio-production/korean-harvest/processed";
 const runtimeRoot = "src/assets/audio/korean-harvest";
+const evergreenRuntimeRoot = "src/assets/audio/year-round/bgm";
 const groups = ["bgm", "stingers", "sfx", "ambience", "pip"];
 let sourceCount = 0;
 let runtimeCount = 0;
@@ -29,4 +30,19 @@ if (fs.readdirSync(runtimeRoot).some((name) => name === "drafts")) {
   throw new Error("Non-shipping drafts must never enter the runtime audio tree");
 }
 
-console.log(`Korean Harvest runtime audio verified: ${runtimeCount} compressed cues`);
+const evergreenTracks = [
+  "bgm_evergreen_collection_v1.mp3",
+  "bgm_evergreen_home_v1.mp3",
+  "bgm_evergreen_puzzle_v1.mp3",
+  "bgm_evergreen_time_attack_v1.mp3"
+];
+const actualEvergreenTracks = fs.readdirSync(evergreenRuntimeRoot).filter((name) => name.endsWith(".mp3")).sort();
+if (JSON.stringify(actualEvergreenTracks) !== JSON.stringify(evergreenTracks)) {
+  throw new Error("Evergreen runtime BGM set does not match the approved four-track manifest");
+}
+for (const name of actualEvergreenTracks) {
+  const size = fs.statSync(path.join(evergreenRuntimeRoot, name)).size;
+  if (size < 100_000) throw new Error(`year-round/bgm/${name} is suspiciously small (${size} bytes)`);
+}
+
+console.log(`Runtime audio verified: ${runtimeCount} Korean Harvest cues + ${actualEvergreenTracks.length} evergreen BGM tracks`);

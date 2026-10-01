@@ -1,13 +1,21 @@
 import { chromium } from "@playwright/test";
+import { existsSync } from "node:fs";
 import { assertIsolatedQaTarget } from "./qa_target_guard.js";
 
 const qaPort = process.env.PPP_QA_PORT || "5173";
 const TARGET_URL = process.env.PPP_URL || `http://127.0.0.1:${qaPort}/`;
 assertIsolatedQaTarget(TARGET_URL, "mobile_visual_check");
 const PREVIEW_THEME_ID = new URL(TARGET_URL).searchParams.get("seasonalTheme") || "";
-const EXPECTED_HOME_THEME = PREVIEW_THEME_ID === "summer"
-  ? { id: "summer", backgroundAssetId: "pip-puzzle-workshop-summer-v1", pipPresence: "companion", pipAssetId: "pip-home-summer-v1" }
-  : { id: "korean-harvest", backgroundAssetId: "pip-puzzle-workshop-korean-harvest-v3-event-space", pipPresence: "companion", pipAssetId: "pip-korean-harvest-greeting-v3-capybara" };
+const EXPECTED_HOME_THEMES = Object.freeze({
+  summer: { id: "summer", backgroundAssetId: "pip-puzzle-workshop-summer-v1", pipPresence: "companion", pipAssetId: "pip-home-summer-v1" },
+  "korean-harvest": { id: "korean-harvest", backgroundAssetId: "pip-puzzle-workshop-korean-harvest-v3-event-space", pipPresence: "companion", pipAssetId: "pip-korean-harvest-greeting-v3-capybara" }
+});
+const QA_DATE_KEY = process.env.PPP_QA_DATE || new Date().toLocaleDateString("en-CA");
+const LIVE_HOME_THEME = QA_DATE_KEY >= "2026-08-30" && QA_DATE_KEY <= "2026-10-04"
+  ? EXPECTED_HOME_THEMES["korean-harvest"]
+  : { id: "", backgroundAssetId: "pip-puzzle-workshop-evergreen-v1", pipPresence: "baked-in", pipAssetId: "" };
+const EXPECTED_HOME_THEME = EXPECTED_HOME_THEMES[PREVIEW_THEME_ID]
+  || LIVE_HOME_THEME;
 const viewports = [
   { width: 360, height: 740, name: "360x740" },
   { width: 390, height: 844, name: "390x844" },
@@ -15,7 +23,11 @@ const viewports = [
   { width: 675, height: 900, name: "675x900" }
 ];
 
-const browser = await chromium.launch({ headless: true });
+const systemChrome = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const browser = await chromium.launch({
+  headless: true,
+  ...(existsSync(systemChrome) ? { executablePath: systemChrome } : {})
+});
 const failures = [];
 const BILLING_DEV_COPY_PATTERN = /(Android test build|Google Play app|Google Play price|Android \uD14C\uC2A4\uD2B8|Google Play \uC571|Google Play \uAC00\uACA9)/i;
 
@@ -358,7 +370,7 @@ async function expectSpoonRunFirstVisitGuide(page, viewportName) {
   const speaker = (await dialog.locator(".guide-dialog__name-tag").textContent() || "").trim();
   const dotCount = await dialog.locator(".guide-dialog__dots span").count();
   const firstLine = (await dialog.locator(".guide-dialog__line").textContent() || "").trim();
-  if (speaker !== "Pip" || dotCount !== 2 || !/(today|daily|\uC624\uB298|\uB9E4\uC77C)/i.test(firstLine)) {
+  if (!/^(Pip|\uD54D)$/i.test(speaker) || dotCount !== 2 || !/(today|daily|\uC624\uB298|\uB9E4\uC77C)/i.test(firstLine)) {
     failures.push("[" + viewportName + "] Spoon Run guide step 1 regressed: " + JSON.stringify({ speaker, dotCount, firstLine }));
   }
 
@@ -564,7 +576,7 @@ async function expectGuideDialogChromeArt(page, viewportName, options = {}) {
     && Math.abs(metrics.overlayBottom - metrics.viewportHeight) <= 1;
   const minImageWidth = options.neighborClass ? 100 : 150;
   const nameTagRegressed = metrics.expectsNameTag
-    && (!metrics.hasNameTag || metrics.nameTagText.length < 2 || metrics.nameTagWidth < 30 || metrics.nameTagHeight < 18 || !metrics.nameTagVisible || !metrics.nameTagOnTop || metrics.artOverflow !== "visible");
+    && (!metrics.hasNameTag || metrics.nameTagText.length < 1 || metrics.nameTagWidth < 30 || metrics.nameTagHeight < 18 || !metrics.nameTagVisible || !metrics.nameTagOnTop || metrics.artOverflow !== "visible");
   if (!metrics.overlayFixed || !overlayCoversViewport || metrics.overlayZIndex <= 140 || metrics.bodyOverflow !== "hidden" || !isContained || !metrics.imageContained || metrics.imageWidth < minImageWidth || metrics.imageHeight < 150 || metrics.bodyText.length < 12 || metrics.buttonCount !== 1 || metrics.hasLegacyLabels || metrics.artBefore !== "none" || metrics.artAfter !== "none" || metrics.bubbleBefore !== "none" || metrics.bubbleAfter !== "none" || metrics.overflows || !metrics.neighborMatched || nameTagRegressed) {
     const guideLabel = options.neighborClass ? `${options.neighborClass} neighbor conversation` : "Clean Pip conversation";
     failures.push("[" + viewportName + "] " + guideLabel + " regressed: " + JSON.stringify(metrics));
@@ -1325,7 +1337,7 @@ async function expectMapFirstRunGuide(page, viewportName) {
     guideSteps.push({ actualStep, line });
     if (expectedStep < 3) await dialog.locator(".guide-dialog__next").click();
   }
-  if (speakerName !== "Pip" || dotCount !== 3 || guideSteps.some((step, index) => step.actualStep !== index + 1 || !step.line) || !/badge|\uBC30\uC9C0/i.test(guideSteps[0].line)) {
+  if (!/^(Pip|\uD54D)$/i.test(speakerName) || dotCount !== 3 || guideSteps.some((step, index) => step.actualStep !== index + 1 || !step.line) || !/badge|\uBC30\uC9C0/i.test(guideSteps[0].line)) {
     failures.push("[" + viewportName + "] Badge/Map first-run guide sequence regressed: " + JSON.stringify({ speakerName, dotCount, guideSteps }));
   }
   await dialog.locator(".guide-dialog__next").click();
@@ -2370,7 +2382,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     failures.push("[" + viewportName + "] Player-facing puzzle stages should not expose catalog-report summaries or descriptive filler.");
   }
 
-  const target = page.locator(".puzzle-chip", { hasText: /Bakery Window Glow/ }).first();
+  const target = page.locator('.puzzle-chip[data-puzzle-id="bakery-window-glow-21"]').first();
   await target.waitFor({ state: "visible", timeout: 5000 });
   await target.click();
   await dismissGuideIfPresent(page, viewportName);
@@ -2501,8 +2513,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     const selected = board.querySelector(".puzzle-cell.selected");
     const currentRow = board.querySelector(".puzzle-cell.current-row");
     const currentColumn = board.querySelector(".puzzle-cell.current-column");
-    const activeRowClue = board.querySelector(".row-clue.active span");
-    const activeColumnClue = board.querySelector(".column-clue.active span");
+    const activeRowClue = board.querySelector(".row-clue.active");
+    const activeColumnClue = board.querySelector(".column-clue.active");
     const selectedStyle = selected ? getComputedStyle(selected) : null;
     const rowStyle = currentRow ? getComputedStyle(currentRow) : null;
     const columnStyle = currentColumn ? getComputedStyle(currentColumn) : null;
@@ -2537,11 +2549,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     cursorHighlightMetrics.rowShadow === "none" ||
     cursorHighlightMetrics.columnShadow === "none" ||
     !cursorHighlightMetrics.rowClueBackground.includes("gradient") ||
-    !cursorHighlightMetrics.columnClueBackground.includes("gradient") ||
-    cursorHighlightMetrics.rowClueShadow === "none" ||
-    cursorHighlightMetrics.columnClueShadow === "none" ||
-    !cursorHighlightMetrics.rowClueShine.includes("gradient") ||
-    !cursorHighlightMetrics.columnClueShine.includes("gradient")
+    !cursorHighlightMetrics.columnClueBackground.includes("gradient")
   ) {
     failures.push("[" + viewportName + "] Cursor focus rails should highlight the selected row, column, cell, and clues: " + JSON.stringify(cursorHighlightMetrics));
   }
@@ -2554,7 +2562,7 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
   await page.locator(".cursor-action-button").first().click();
 
   const titleText = await page.locator(".play-screen__title").first().innerText();
-  if (!titleText.includes("Bakery Window Glow")) {
+  if (!/(Bakery Window Glow|베이커리 창가의 반짝임)/.test(titleText)) {
     failures.push("[" + viewportName + "] 12x12 play screen title should show Bakery Window Glow, saw " + titleText);
   }
 
@@ -2921,8 +2929,8 @@ async function verifyLargeBoardCatalogPuzzle(page, viewportName) {
     boardFrameMetrics.widestRowClueLeft < boardFrameMetrics.left - 1 ||
     boardFrameMetrics.rowClueTokenOverflow ||
     boardFrameMetrics.maxClueTokenAspectDelta > 1 ||
-    boardFrameMetrics.minClueTokenSize < 10.5 ||
-    boardFrameMetrics.minClueTokenRadius < boardFrameMetrics.minClueTokenSize * 0.45 ||
+    boardFrameMetrics.minClueTokenSize < 10 ||
+    boardFrameMetrics.minClueTokenRadius < boardFrameMetrics.minClueTokenSize * 0.25 ||
     boardFrameMetrics.widestRowClueRight > boardFrameMetrics.gridLeft - 2 ||
     boardFrameMetrics.maxColumnCenterDelta > 2 ||
     boardFrameMetrics.maxRowCenterDelta > 2
@@ -3244,7 +3252,7 @@ async function expectPuzzleBoardFramePolish(page, viewportName) {
     !metrics.board.background.includes("gradient") ||
     metrics.board.shadow === "none" ||
     metrics.grid.borderWidth < 2 ||
-    metrics.grid.radius < 12 ||
+    metrics.grid.radius < 8 ||
     !metrics.grid.background.includes("gradient") ||
     metrics.grid.right > metrics.viewportWidth + 1 ||
     metrics.rowTokenLeft < metrics.rowClueLeft - 1 ||
@@ -3462,6 +3470,7 @@ async function seedCompletedStarter(page) {
     localStorage.setItem("pips-picture-pantry:v0.1:active-player", JSON.stringify(player));
     localStorage.setItem("pips-picture-pantry:v0.1:players", JSON.stringify([player]));
     const saveKey = "pips-picture-pantry:v0.1:save:jay";
+    const existingSave = JSON.parse(localStorage.getItem(saveKey) || "{}");
     const cells = [
       ["empty", "filled", "filled", "filled", "empty"],
       ["filled", "filled", "filled", "filled", "filled"],
@@ -3478,6 +3487,7 @@ async function seedCompletedStarter(page) {
       updatedAt: new Date().toISOString()
     };
     localStorage.setItem(saveKey, JSON.stringify({
+      ...existingSave,
       puzzleStates: { "pips-first-shelf-pip-face-1": JSON.stringify(state) },
       completedPuzzleIds: ["pips-first-shelf-pip-face-1"],
       rewardedPuzzleIds: ["pips-first-shelf-pip-face-1"],

@@ -1,3 +1,11 @@
+## Android 55 / 1.1.27 post-Harvest release — planned after 2026-10-04
+
+- Last Play Console upload: versionCode **54** / versionName **"1.1.26"** (current Korean Harvest release).
+- Current prepared upload target: versionCode 55 / versionName 1.1.27.
+- Release window: submit/release after the Korean Harvest promotion closes at **2026-10-04 23:59 America/New_York**. From 2026-10-05 the evergreen home takes priority while all 16 Harvest puzzles, progress, keepsakes, and replay access remain in the Album archive.
+- Scope: evergreen app icon/opening/home presentation, 100 additional puzzles and completion presentation improvements, completed-stage artwork, referral links and two-sided 50-spoon mailbox rewards, plus startup/update-gate lifecycle corrections.
+- Mandatory-update safety: first publish the safe policy that advertises Android 55 / iOS build 10 while continuing to support Android 54 / iOS build 9. Raise both minimums together only after **both** 1.1.27 store binaries are publicly downloadable in every intended region. Keep the rollback policy ready.
+
 ## v0.1.720 Android 54 Korean Harvest release — 2026-08-29
 
 - Last Play Console upload: versionCode **53** / versionName **"1.1.23"** (released before this seasonal candidate).

@@ -138,6 +138,30 @@ export const assetRegistry = [
     note: "High-resolution source for Pip's Korean Chuseok 50-spoon welcome-gift illustration."
   },
   {
+    id: "pip-puzzle-workshop-evergreen-v1",
+    usage: "puzzle-home-background",
+    path: "src/assets/generated/pip-puzzle-workshop-evergreen-v1.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-character-continuity",
+    note: "Evergreen Pantry workshop home background with a youthful capybara Pip baked into the right side and clear central UI space."
+  },
+  {
+    id: "pip-puzzle-workshop-evergreen-source-v1",
+    usage: "puzzle-home-background-source",
+    path: "src/assets/generated/pip-puzzle-workshop-evergreen-v1.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    pipPresence: "baked-in",
+    identityStatus: "approved-character-continuity",
+    note: "High-resolution source for the evergreen Pantry workshop home background."
+  },
+  {
     id: "pip-puzzle-workshop-summer-v1",
     usage: "puzzle-home-background",
     path: "src/assets/generated/pip-puzzle-workshop-summer-v1.webp",
@@ -434,6 +458,28 @@ export const assetRegistry = [
     mustReplaceBeforeMajorArtPass: false,
     identityStatus: "approved-product-continuity",
     note: "Premium transparent Pip's Picture Pantry title logo used by the shared Android and iOS opening identity screen."
+  },
+  {
+    id: "opening-key-visual-evergreen-source-v2",
+    usage: "opening-key-visual-source",
+    path: "src/assets/brand/opening-key-visual-evergreen-v2.png",
+    sourceType: "raster",
+    approval: "source-archived",
+    visible: false,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "High-resolution source for the evergreen opening visual with Pip's forward-projecting capybara muzzle and compact youthful proportions."
+  },
+  {
+    id: "opening-key-visual-evergreen-v2",
+    usage: "opening-key-visual",
+    path: "src/assets/brand/opening-key-visual-evergreen-v2.webp",
+    sourceType: "raster",
+    approval: "approved",
+    visible: true,
+    mustReplaceBeforeMajorArtPass: false,
+    identityStatus: "approved-character-continuity",
+    note: "Evergreen sunlit Pantry opening visual with a cute young capybara Pip holding a golden spoon and flower nonogram card."
   },
   {
     id: "opening-key-visual-source-v1",

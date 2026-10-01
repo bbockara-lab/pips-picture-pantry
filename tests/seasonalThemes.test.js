@@ -11,10 +11,12 @@ import {
 
 describe("seasonal theme registry", () => {
   it("keeps Korean Harvest as the only live theme for the seasonal release", () => {
-    const liveTheme = getLiveSeasonalTheme();
+    const liveTheme = getLiveSeasonalTheme(new Date(2026, 8, 20));
     expect(seasonalThemes.filter((theme) => theme.status === THEME_STATUS.LIVE)).toHaveLength(1);
     expect(liveTheme?.id).toBe("korean-harvest");
     expect(isSeasonalThemeRuntimeReady(liveTheme)).toBe(true);
+    expect(getLiveSeasonalTheme(new Date(2026, 9, 4))?.id).toBe("korean-harvest");
+    expect(getLiveSeasonalTheme(new Date(2026, 9, 5))).toBeNull();
   });
 
   it("publishes Korean Harvest with Pip beside the greeting in the approved home scene", () => {
@@ -29,7 +31,7 @@ describe("seasonal theme registry", () => {
     expect(getSeasonalThemeForPack("summer-pantry")).toBeNull();
     expect(getSeasonalThemeForPack("korean-harvest")?.id).toBe("korean-harvest");
     expect(getSeasonalThemeForPack("korean-harvest", { includeCandidates: true })?.id).toBe("korean-harvest");
-    expect(getSeasonalThemeLabel(getLiveSeasonalTheme(), (key) => key)).toBe("◐ home.koreanHarvestEvent");
+    expect(getSeasonalThemeLabel(getLiveSeasonalTheme(new Date(2026, 8, 20)), (key) => key)).toBe("◐ home.koreanHarvestEvent");
   });
 
   it("rejects an incomplete live companion theme", () => {

@@ -120,6 +120,19 @@ export const puzzlePacks = [
     pricePreviewKey: "packs.pricePreview"
   },
   {
+    id: "cozy-workshop",
+    titleKey: "packs.cozy-workshop.title",
+    noteKey: "packs.cozy-workshop.note",
+    access: "free",
+    monetizationRole: "free-progression",
+    unlockCost: 0,
+    pantryRoomStepRequired: 70,
+    size: 10,
+    stageBonus: 225,
+    muralPart: "cozy-workshop-table",
+    muralSet: "cozy-workshop"
+  },
+  {
     id: "bakery-morning-plus",
     titleKey: "packs.bakery-morning-plus.title",
     noteKey: "packs.bakery-morning-plus.note",

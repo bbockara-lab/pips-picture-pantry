@@ -16,7 +16,7 @@ describe("daily login bonus presentation", () => {
     expect(appShell).toContain('root.dataset.introOpen === "true"');
     expect(appShell).toContain("globalThis.setTimeout(dismissLoginBonus, 3000)");
     expect(appShell).toContain("loginBonusMessage: loginBonusVisible ? getLoginBonusMessage(loginBonus) : null");
-    expect(appShell).toContain("greetingMessage: loginBonusMessage");
+    expect(appShell).toContain("greetingMessage: referralMessage || loginBonusMessage");
     expect(appShell).toContain("draw();");
     expect(message).toContain('t("toast.loginBonus", { count })');
     expect(hub).toContain("greetingMessage || t(getDailyGreetingKey())");

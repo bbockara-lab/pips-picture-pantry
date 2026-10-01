@@ -4,6 +4,11 @@
       "source": "functions",
       "codebase": "store-monitor",
       "runtime": "nodejs22"
+    },
+    {
+      "source": "functions-referral",
+      "codebase": "referral",
+      "runtime": "nodejs22"
     }
   ],
   "hosting": {

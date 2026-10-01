@@ -1,5 +1,7 @@
 import { getUnlockedMailboxMessages } from "../data/mailboxMessages.js";
-import { getReadMailboxMessageIds, hasSeenGuide, markMailboxMessageRead } from "../game/save.js";
+import { claimReferralMailboxReward, getReadMailboxMessageIds, hasSeenGuide, markMailboxMessageRead, prepareReferralClaimNonce } from "../game/save.js";
+import { claimReferralRewardRemote } from "../game/referrals.js";
+import { playCue } from "./audio.js";
 import { t } from "../i18n/index.js";
 
 export function getUnreadMailboxCount() {
@@ -7,7 +9,7 @@ export function getUnreadMailboxCount() {
   return getUnlockedMailboxMessages("all", hasSeenGuide).filter((message) => !read.has(message.id)).length;
 }
 
-export function renderMailboxView({ onReplayGuide = () => {}, onMailboxChange = () => {} } = {}) {
+export function renderMailboxView({ onReplayGuide = () => {}, onMailboxChange = () => {}, onRewardClaimed = () => {} } = {}) {
   const root = document.createElement("main");
   root.className = "mailbox-view";
   let filter = "all";
@@ -80,6 +82,33 @@ export function renderMailboxView({ onReplayGuide = () => {}, onMailboxChange = 
         body.className = "mailbox-message__body";
         body.textContent = t(message.bodyKey);
         detail.append(date, body);
+        if (message.rewardKind === "referral") {
+          const claim = document.createElement("button");
+          claim.type = "button";
+          claim.className = "mailbox-message__claim";
+          claim.disabled = Boolean(message.claimed);
+          claim.textContent = t(message.claimed ? "mailbox.referral.claimed" : "mailbox.referral.claim");
+          claim.addEventListener("click", async () => {
+            if (claim.disabled) return;
+            claim.disabled = true;
+            try {
+              const claimNonce = prepareReferralClaimNonce(message.id);
+              if (!claimNonce) throw new Error("reward-not-claimable");
+              const remote = await claimReferralRewardRemote(message.id, claimNonce);
+              if (!remote.claimed) throw new Error("reward-not-claimable");
+              const result = claimReferralMailboxReward(message.id);
+              if (result.claimed) {
+                playCue("sfx_spoon_gain_large", { volume: 0.8 });
+                onRewardClaimed(result);
+              }
+              onMailboxChange();
+              render();
+            } catch {
+              claim.disabled = false;
+            }
+          });
+          detail.appendChild(claim);
+        }
         article.appendChild(detail);
       }
       list.appendChild(article);

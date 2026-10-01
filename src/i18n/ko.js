@@ -1,6 +1,11 @@
 import { SUMMER_PUZZLES } from "../data/summerPuzzles.js";
+import { COZY_WORKSHOP_PUZZLES } from "../data/cozyWorkshopPuzzles.js";
 
 const summerPuzzleCopy = Object.fromEntries(SUMMER_PUZZLES.map((puzzle) => [
+  puzzle.id,
+  { title: puzzle.titleKo, imageName: puzzle.titleKo }
+]));
+const cozyWorkshopPuzzleCopy = Object.fromEntries(COZY_WORKSHOP_PUZZLES.map((puzzle) => [
   puzzle.id,
   { title: puzzle.titleKo, imageName: puzzle.titleKo }
 ]));
@@ -71,6 +76,16 @@ export const ko = {
       artAlt: "보름달 아래 송편을 곁에 두고 편지를 쓰는 한복 차림의 핍",
       body: "핍과 함께 조용한 퍼즐 시간을 보내 주셔서 고맙습니다.\n\n이번 추석 잔치도 정성을 다해 준비했어요. 달빛을 담은 그림과 송편 한 접시, 팬트리에 놓일 작은 소품마다 세계의 플레이어들과 추석의 따뜻함을 나누고 싶은 마음을 담았습니다.\n\n앞으로도 팬트리에 새로운 그림과 이야기, 작은 놀라움을 차곡차곡 채워 나가겠습니다. 보름달처럼 따뜻한 하루 보내세요.\n\n— Sunny Spoon Studios"
     },
+    referral: {
+      preview: "편지 안에 스푼 50개 선물이 기다리고 있어요.",
+      date: "핍이 전하는 선물 · Sunny Spoon Studios",
+      claim: "스푼 50개 받기",
+      claimed: "스푼함에 담았어요",
+      inviter: { title: "친구가 핍의 팬트리에 왔어요!", body: "친구가 내 초대 링크로 핍의 픽쳐 팬트리를 설치했어요. 핍이 감사의 마음을 담아 스푼 50개를 편지에 넣어 두었어요." },
+      friend: { title: "친구가 보낸 환영 선물", body: "친구의 초대로 핍의 픽쳐 팬트리에 오신 걸 환영해요. 선물을 열고 스푼 50개를 스푼함에 담아 보세요." }
+    },
+    newReward: "핍의 편지함에 새 선물 편지가 도착했어요!",
+    openReward: "편지함 열기",
     messages: {
       "guide-puzzle": { title: "그림 퍼즐을 푸는 방법", preview: "핍의 첫 퍼즐 안내를 다시 봐요." },
       "guide-cursor": { title: "큰 퍼즐판에서 움직이기", preview: "방향키 안내를 다시 봐요." },
@@ -97,7 +112,14 @@ export const ko = {
     spoons: "\uc2a4\ud47c {count}"
   },
   toast: {
-    loginBonus: "\uc624\ub298\uc758 \uc2a4\ud47c +{count}\uac1c! 🥄"
+    loginBonus: "\uc624\ub298\uc758 \uc2a4\ud47c +{count}\uac1c! 🥄",
+    referralReward: "우정 스푼 +{count}개! 🥄"
+  },
+  referral: {
+    share: "친구 초대",
+    shareTitle: "핍과 함께 포근한 그림 퍼즐을 풀어요!",
+    shareText: "내 초대로 핍의 픽쳐 팬트리를 설치하면 우리 둘 다 스푼 50개를 받아요.",
+    copied: "초대 링크를 복사했어요!"
   },
   settings: {
     title: "\uc124\uc815",
@@ -471,13 +493,13 @@ export const ko = {
     marketCounterTeaser: "싱싱한 재료가 가득해요.",
     windowTable: "\ucc3d\uac00 \ud14c\uc774\ube14",
     windowTableTeaser: "햇살이 테이블을 비춰요.",
-    morningBakery: "\uc544\uce68 \ube60\uc9d1",
+    morningBakery: "아침 빵집",
     morningBakeryTeaser: "아침 빵 향기가 퍼져요.",
     pastryCorner: "\ud398\uc774\uc2a4\ud2b8\ub9ac \uad6c\uc11d",
     pastryCornerTeaser: "달콤한 패스트리가 가득해요.",
     tinRow: "\ud2f4 \uc120\ubc18",
     tinRowTeaser: "양철 통이 줄지어 있어요.",
-    bakeryWindow: "\ube60\uc9d1 \ucc3d\uac00",
+    bakeryWindow: "빵집 창가",
     bakeryWindowTeaser: "창가 너머 거리를 보세요.",
     villageSquare: "\ub9c8\uc744 \uad11\uc7a5",
     villageSquareTeaser: "활기찬 광장을 담아요.",
@@ -515,6 +537,16 @@ export const ko = {
     seasideTableTeaser: "바닷바람이 불어와요.",
     sunsetFeast: "노을빛 만찬",
     sunsetFeastTeaser: "핍의 만찬이 빛나요.",
+    cozyWorkshopMorningTable: "아침 식탁",
+    cozyWorkshopMorningTableTeaser: "오두막 아침빛에 식탁 보물이 반짝여요.",
+    cozyWorkshopBakingBench: "베이킹 작업대",
+    cozyWorkshopBakingBenchTeaser: "갓 구운 간식과 아끼는 도구가 작업대를 채워요.",
+    cozyWorkshopGardenNook: "정원 한켠",
+    cozyWorkshopGardenNookTeaser: "모종과 정원 친구들, 꽃이 고요한 한켠을 밝혀요.",
+    cozyWorkshopVillageCart: "마을 손수레",
+    cozyWorkshopVillageCartTeaser: "장터 소포와 오두막 물건이 핍의 즐거운 손수레에 모여요.",
+    cozyWorkshopStarlightShelf: "별빛 선반",
+    cozyWorkshopStarlightShelfTeaser: "달빛 기념품이 잠들기 전 작업실을 은은하게 밝혀요.",
     koreanHarvest: {
       "moonrise-table": "달맞이 소반",
       "moonrise-tableTeaser": "반달 송편과 배, 밤이 보름달을 맞이해요",
@@ -655,6 +687,10 @@ export const ko = {
     "summer-pantry": {
       title: "여름 팬트리",
       note: "장터와 정원, 피크닉과 바닷가 간식으로 채운 햇살 좋은 계절"
+    },
+    "cozy-workshop": {
+      title: "포근한 작업실",
+      note: "손수 꾸민 오두막 스테이지 다섯 곳에서 만나는 새로운 그림 100장"
     },
     "korean-harvest": {
       title: "추석 보름달 잔치",
@@ -967,6 +1003,7 @@ export const ko = {
     }
   },
   puzzles: {
+    ...cozyWorkshopPuzzleCopy,
     ...summerPuzzleCopy,
     "korean-harvest-half-moon-1": { title: "반달", imageName: "반달" },
     "korean-harvest-songpyeon-2": { title: "송편", imageName: "송편" },

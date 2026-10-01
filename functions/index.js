@@ -27,7 +27,6 @@ const appBundleId = defineString("STORE_MONITOR_BUNDLE_ID", {
 
 const STATE_PATH = "storeReleaseMonitor/current";
 const ERROR_REPEAT_MS = 6 * 60 * 60 * 1000;
-
 exports.storeReleaseMonitor = onSchedule(
   {
     schedule: "every 30 minutes",

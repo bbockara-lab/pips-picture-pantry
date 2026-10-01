@@ -148,7 +148,7 @@ function checkReplayCleanRewardPath() {
 function checkSimpleOpening() {
   const intro = "src/ui/brandIntro.js";
   expectIncludes(intro, "buildKeyVisual(false, koreanHarvestLive)", "date-aware opening key visual");
-  expectIncludes(intro, "opening-key-visual-v1.webp", "permanent opening key visual");
+  expectIncludes(intro, "opening-key-visual-evergreen-v2.webp", "permanent evergreen opening key visual");
   expectIncludes(intro, "isKoreanHarvestEventVisible()", "seasonal opening visibility gate");
   expectIncludes(intro, "brand-intro__skip", "single Start action");
   expectExcludes(intro, "buildPromiseChip", "pre-start mode cards");
@@ -174,7 +174,7 @@ function checkDailyLoginBonus() {
   expectIncludes("src/ui/appShell.js", "hasActivePlayer() ? claimLoginBonus() : null", "active-player login claim");
   expectIncludes("src/ui/appShell.js", 'root.dataset.introOpen === "true"', "post-intro login presentation");
   expectIncludes("src/ui/appShell.js", "globalThis.setTimeout(dismissLoginBonus, 3000)", "three-second login bubble dismissal");
-  expectIncludes("src/ui/appShell.js", "greetingMessage: loginBonusMessage", "login reward reuses home greeting");
+  expectIncludes("src/ui/appShell.js", "greetingMessage: referralMessage || loginBonusMessage", "referral and login rewards reuse the home greeting");
   expectIncludes("src/ui/puzzleHubView.js", "greetingMessage || t(getDailyGreetingKey())", "daily greeting restoration fallback");
   expectExcludes("src/ui/loginBonusMessage.js", "document.createElement", "duplicate login Pip popover");
   expectIncludes("src/styles.css", "v0.1.678 - daily login spoon bonus", "login bonus presentation contract");

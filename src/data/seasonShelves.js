@@ -32,6 +32,11 @@ const SHELF_BLUEPRINT = [
   { id: "shelf-picnic-lawn", titleKey: "shelves.picnicLawn", sizes: { 8: 4, 10: 9, 12: 4 }, unlockCost: 0, pantryRoomStepRequired: 65, stageBonus: 40, artPackId: "summer-pantry" },
   { id: "shelf-seaside-table", titleKey: "shelves.seasideTable", sizes: { 10: 9, 12: 8 }, unlockCost: 0, pantryRoomStepRequired: 70, stageBonus: 40, artPackId: "summer-pantry" },
   { id: "shelf-sunset-feast", titleKey: "shelves.sunsetFeast", sizes: { 10: 9, 12: 8 }, unlockCost: 0, pantryRoomStepRequired: 70, stageBonus: 40, artPackId: "summer-pantry" }
+  ,{ id: "shelf-cozy-workshop-morning-table", titleKey: "shelves.cozyWorkshopMorningTable", sizes: { 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 70, stageBonus: 45, artPackId: "cozy-workshop-morning-table" }
+  ,{ id: "shelf-cozy-workshop-baking-bench", titleKey: "shelves.cozyWorkshopBakingBench", sizes: { 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 70, stageBonus: 45, artPackId: "cozy-workshop-baking-bench" }
+  ,{ id: "shelf-cozy-workshop-garden-nook", titleKey: "shelves.cozyWorkshopGardenNook", sizes: { 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 70, stageBonus: 45, artPackId: "cozy-workshop-garden-nook" }
+  ,{ id: "shelf-cozy-workshop-village-cart", titleKey: "shelves.cozyWorkshopVillageCart", sizes: { 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 70, stageBonus: 45, artPackId: "cozy-workshop-village-cart" }
+  ,{ id: "shelf-cozy-workshop-starlight-shelf", titleKey: "shelves.cozyWorkshopStarlightShelf", sizes: { 10: 20 }, unlockCost: 0, pantryRoomStepRequired: 70, stageBonus: 45, artPackId: "cozy-workshop-starlight-shelf" }
 ];
 
 const EVENT_SHELF_BLUEPRINT = isKoreanHarvestContentRuntimeReady()

@@ -28,10 +28,12 @@ export function renderCompletionBanner(puzzle, {
   dailyResult = null,
   rewardResult = null,
   stageBonus = 0,
-  featuredJar = null
+  featuredJar = null,
+  celebrateCompletion = false
 } = {}) {
   const banner = document.createElement("div");
   banner.className = "completion-banner";
+  banner.classList.toggle("completion-banner--celebrating", celebrateCompletion);
   const puzzleTheme = getSeasonalThemeForPack(puzzle?.packId);
   if (puzzleTheme) banner.dataset.eventTheme = puzzleTheme.id;
   const isFirstPipFace = isFirstPipFacePuzzle(puzzle);
@@ -198,6 +200,7 @@ function renderSolvedReveal(puzzle) {
       tile.className = cell === "1" ? "reveal-cell filled" : "reveal-cell";
       tile.dataset.row = String(rowIndex);
       tile.dataset.column = String(columnIndex);
+      tile.style.setProperty("--reveal-order", String(rowIndex + columnIndex));
       reveal.appendChild(tile);
     });
   });

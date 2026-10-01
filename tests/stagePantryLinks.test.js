@@ -26,7 +26,18 @@ describe("Pantry shelf and puzzle stage links", () => {
       { shelf: "hearth", stages: ["shelf-moonlit-veranda", "shelf-hearth-gallery"] },
       { shelf: "summer-orchard", stages: ["shelf-summer-window", "shelf-fruit-market"] },
       { shelf: "sunny-garden", stages: ["shelf-garden-basket", "shelf-picnic-lawn"] },
-      { shelf: "picnic-table", stages: ["shelf-seaside-table", "shelf-sunset-feast"] }
+      {
+        shelf: "picnic-table",
+        stages: [
+          "shelf-seaside-table",
+          "shelf-sunset-feast",
+          "shelf-cozy-workshop-morning-table",
+          "shelf-cozy-workshop-baking-bench",
+          "shelf-cozy-workshop-garden-nook",
+          "shelf-cozy-workshop-village-cart",
+          "shelf-cozy-workshop-starlight-shelf"
+        ]
+      }
     ]);
     expect(getPantryShelfForSeasonShelf(seasonShelves[0])).toBeNull();
   });

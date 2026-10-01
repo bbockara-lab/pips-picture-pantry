@@ -1,4 +1,5 @@
 import { chromium } from "@playwright/test";
+import { existsSync } from "node:fs";
 
 const url = process.env.PPP_URL || "http://127.0.0.1:5173/";
 const viewports = [
@@ -7,7 +8,11 @@ const viewports = [
   { width: 430, height: 932 }
 ];
 const sizes = [5, 8, 10, 12];
-const browser = await chromium.launch({ headless: true });
+const systemChrome = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const browser = await chromium.launch({
+  headless: true,
+  ...(existsSync(systemChrome) ? { executablePath: systemChrome } : {})
+});
 const failures = [];
 
 for (const viewport of viewports) {

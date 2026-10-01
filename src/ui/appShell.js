@@ -13,6 +13,7 @@ import {
   getPantrySpoons,
   getTimeAttackBestScores,
   getTimeAttackDailyCount,
+  getReferralMailboxMessages,
   hasSeenGuide,
   hasActivePlayer,
   isShelfUnlocked,
@@ -63,6 +64,7 @@ import { dismissOptionalUpdate, openUpdateStore, resolveUpdateDecision } from ".
 import { renderMandatoryUpdateView } from "./updateGateView.js";
 import { getUnreadMailboxCount, renderMailboxView } from "./mailboxView.js";
 import { renderKoreanHarvestEventView } from "./koreanHarvestEventView.js";
+import { shareReferralInvite } from "../game/referrals.js";
 
 const DAILY_BONUS = ECONOMY.DAILY_BONUS;
 let introOpenViewHandler = null;
@@ -74,6 +76,10 @@ export function renderApp(root) {
   const dailyPuzzle = getDailyPuzzle(getDailyPuzzleCandidates());
   const loginBonus = hasActivePlayer() ? claimLoginBonus() : null;
   let loginBonusVisible = Boolean(loginBonus);
+  let referralNoticeVisible = root.dataset.newReferralMail === "true"
+    || getReferralMailboxMessages().some((message) => !message.claimed);
+  delete root.dataset.newReferralMail;
+  let referralShareMessage = null;
   let loginBonusTimerHandle = null;
   let activePuzzle = getStartPuzzle();
   let activeView = "puzzle";
@@ -325,6 +331,18 @@ export function renderApp(root) {
       void refreshBillingProducts();
     }
     draw();
+  }
+
+  async function shareReferral() {
+    try {
+      const result = await shareReferralInvite();
+      if (result.copied) {
+        referralShareMessage = t("referral.copied");
+        draw();
+      }
+    } catch {
+      // Cancelling the native share sheet is not an app error.
+    }
   }
 
   function openPuzzleFromHub() {
@@ -877,6 +895,19 @@ export function renderApp(root) {
       },
       settingsDialogProps: getSettingsDialogProps(),
       loginBonusMessage: loginBonusVisible ? getLoginBonusMessage(loginBonus) : null,
+      referralMessage: referralNoticeVisible ? t("mailbox.newReward") : referralShareMessage,
+      referralAction: referralNoticeVisible ? {
+        updateLabel: t("mailbox.openReward"),
+        laterLabel: t("updatePolicy.later"),
+        onUpdate: () => {
+          referralNoticeVisible = false;
+          selectView("mailbox");
+        },
+        onLater: () => {
+          referralNoticeVisible = false;
+          draw();
+        }
+      } : null,
       updateNotice: !loginBonusVisible && updateDecision.kind === "optional" ? updateDecision : null,
       onUpdateNow: () => openUpdateStore(updateDecision.storeUrl),
       onUpdateLater: () => {
@@ -885,6 +916,7 @@ export function renderApp(root) {
         draw();
       },
       onOpenSeasonalEvent: openKoreanHarvestEvent,
+      onShareReferral: shareReferral,
       timeAttackLimitSeconds: TIME_ATTACK_LIMIT_SECONDS
     });
     root.appendChild(shell);
@@ -1067,10 +1099,13 @@ function createShell({
   onPendingPantryJarDetailOpened,
   settingsDialogProps,
   loginBonusMessage,
+  referralMessage,
+  referralAction,
   updateNotice,
   onUpdateNow,
   onUpdateLater,
-  onOpenSeasonalEvent
+  onOpenSeasonalEvent,
+  onShareReferral
 }) {
   const shell = document.createElement("main");
   shell.className = "app-shell";
@@ -1170,6 +1205,7 @@ function createShell({
   } else if (activeView === "mailbox") {
     shell.appendChild(renderMailboxView({
       onReplayGuide,
+      onRewardClaimed: () => draw(),
       onMailboxChange: () => {
         const currentNav = shell.querySelector(".floating-nav");
         if (currentNav) {
@@ -1231,13 +1267,14 @@ function createShell({
       onOpenMailbox: () => onSelectView("mailbox"),
       unreadMailboxCount: getUnreadMailboxCount(),
       spoonRunOpportunity,
-      greetingMessage: loginBonusMessage || (updateNotice ? t("updatePolicy.optionalMessage", { version: updateNotice.latestVersion }) : null),
-      greetingAction: updateNotice ? {
+      onShareReferral,
+      greetingMessage: referralMessage || loginBonusMessage || (updateNotice ? t("updatePolicy.optionalMessage", { version: updateNotice.latestVersion }) : null),
+      greetingAction: referralAction || (updateNotice ? {
         updateLabel: t("updatePolicy.updateNow"),
         laterLabel: t("updatePolicy.later"),
         onUpdate: onUpdateNow,
         onLater: onUpdateLater
-      } : null,
+      } : null),
       onOpenSeasonalEvent
     }));
 

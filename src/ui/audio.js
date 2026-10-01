@@ -1,5 +1,5 @@
-import { isKoreanHarvestContentRuntimeReady } from "../data/koreanHarvestContent.js";
-import { getAudioCueUrls, MUSIC_CUES } from "./audioCatalog.js";
+import { isKoreanHarvestEventVisible } from "../data/koreanHarvestContent.js";
+import { getAudioCueUrls, MUSIC_CUES, YEAR_ROUND_MUSIC_CUES } from "./audioCatalog.js";
 
 const SFX_KEY = "pips-picture-pantry:v0.1:sfx";
 const MUSIC_KEY = "pips-picture-pantry:v0.1:music";
@@ -39,7 +39,7 @@ export function unlockAudio() {
 }
 
 export function setMusicScene(scene) {
-  const normalized = MUSIC_CUES[scene] ? scene : "yearRound";
+  const normalized = MUSIC_CUES[scene] ? scene : "home";
   requestedMusicScene = normalized;
   const cueId = resolveMusicCueId(normalized);
   if (cueId === musicCueId) return;
@@ -132,8 +132,8 @@ export function setAudioAppActive(isActive) {
   startMusic();
 }
 
-function resolveMusicCueId(scene) {
-  if (!isKoreanHarvestContentRuntimeReady()) return MUSIC_CUES.yearRound;
+export function resolveMusicCueId(scene, eventVisible = isKoreanHarvestEventVisible()) {
+  if (!eventVisible) return YEAR_ROUND_MUSIC_CUES[scene] || YEAR_ROUND_MUSIC_CUES.home;
   return MUSIC_CUES[scene] || MUSIC_CUES.home;
 }
 
