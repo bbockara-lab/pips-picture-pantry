@@ -1,0 +1,15 @@
+{
+  "version": "v0.1.708",
+  "creativeDirection": "Static, softly defocused but identifiable pantry artwork; enlarged centered gameplay; Pip and the reusable title logo grouped on the left as secondary elements.",
+  "durationSeconds": 31.8,
+  "resolution": "1920x1080",
+  "videoEncoding": "H.264 High, CRF 14, 30 fps",
+  "gameplay": "store-assets/store-media/v0.1.708/raw/premium-trailer/gameplay-en-premium-v1.webm",
+  "background": "store-assets/store-media/v0.1.704/video-art/premium-trailer/pantry-cinematic-background-v1.png",
+  "pip": "src/assets/characters/pip-chrome-v2.png",
+  "logo": "store-assets/brand/pips-picture-pantry-logo-v1.png",
+  "music": "src/assets/music/bgm-cozy.mp3",
+  "video": "store-assets/store-media/v0.1.708/upload/youtube/en-US/premium-landscape-trailer-1920x1080-v4.mp4",
+  "thumbnail": "store-assets/store-media/v0.1.708/upload/youtube/en-US/premium-landscape-trailer-thumbnail-1280x720-v4.jpg",
+  "sha256": "3d863bb25d103fc979e83393e1c3eb3c4110c9fc14dd8dd1c54bc68b1faa3fd3"
+}

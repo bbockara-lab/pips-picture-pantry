@@ -4,13 +4,16 @@ const APPROVED_GUIDE_ART_IDS = new Set([
   "story-friend-lily-v1",
   "story-friend-mateo-v1"
 ]);
-const APPROVED_STUDIO_BUMPER_ART_IDS = new Set(["sunny-spoon-studios-bumper-v1"]);
+const APPROVED_STUDIO_BUMPER_ART_IDS = new Set(["sunny-spoon-studios-logo-v2"]);
 const APPROVED_QUICK_TRAVEL_ART_IDS = new Set([
-  "quick-travel-puzzle-v1",
-  "quick-travel-album-v1",
-  "quick-travel-pantry-v1",
-  "quick-travel-time-attack-v1",
-  "quick-travel-map-v1"
+  "spoon-token-v2",
+  "workshop-nav-puzzle-v3",
+  "workshop-nav-album-v3",
+  "workshop-nav-pantry-v3",
+  "workshop-nav-time-attack-v3",
+  "workshop-nav-map-v3",
+  "workshop-nav-settings-v3",
+  "workshop-nav-mailbox-v1"
 ]);
 const APPROVED_PUZZLE_CONTROL_ART_IDS = new Set([
   "puzzle-control-fill-v1",
@@ -19,6 +22,9 @@ const APPROVED_PUZZLE_CONTROL_ART_IDS = new Set([
   "puzzle-control-hint-v1",
   "puzzle-control-settings-v1",
   "puzzle-control-reset-v1"
+]);
+const APPROVED_HOME_ACTION_ART_IDS = new Set([
+  "workshop-play-now-v2"
 ]);
 
 export function isRuntimeGuideArtApproved(assetId) {
@@ -35,6 +41,10 @@ export function isRuntimeQuickTravelArtApproved(assetId) {
 
 export function isRuntimePuzzleControlArtApproved(assetId) {
   return APPROVED_PUZZLE_CONTROL_ART_IDS.has(assetId);
+}
+
+export function isRuntimeHomeActionArtApproved(assetId) {
+  return APPROVED_HOME_ACTION_ART_IDS.has(assetId);
 }
 
 const APPROVED_PANTRY_DECORATION_ASSET_IDS = new Set([

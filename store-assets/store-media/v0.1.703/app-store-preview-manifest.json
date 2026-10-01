@@ -1,0 +1,28 @@
+{
+  "version": "v0.1.703",
+  "appleProfile": "iPhone portrait app preview; H.264 High Profile; 886x1920; 30fps; AAC stereo 48kHz; 15-30 seconds",
+  "assets": [
+    {
+      "locale": "en-US",
+      "video": "store-assets/store-media/v0.1.703/upload/app-store/iphone-6.9/en-US/app-preview-886x1920.mp4",
+      "poster": "store-assets/store-media/v0.1.703/upload/app-store/iphone-6.9/en-US/app-preview-poster-886x1920.png",
+      "sha256": "44ca73a2eecd4303b6a8b1ef9c88285289d2ffb10ebc98e46f33481990561c65",
+      "durationSeconds": 15.4,
+      "width": 886,
+      "height": 1920,
+      "fps": 30.0,
+      "audioSampleRate": 48000
+    },
+    {
+      "locale": "ko-KR",
+      "video": "store-assets/store-media/v0.1.703/upload/app-store/iphone-6.9/ko-KR/app-preview-886x1920.mp4",
+      "poster": "store-assets/store-media/v0.1.703/upload/app-store/iphone-6.9/ko-KR/app-preview-poster-886x1920.png",
+      "sha256": "2725a0685a196a0253b68b81584c1f00f42035fcc7cb4a09e10b58194241d9f6",
+      "durationSeconds": 15.4,
+      "width": 886,
+      "height": 1920,
+      "fps": 30.0,
+      "audioSampleRate": 48000
+    }
+  ]
+}

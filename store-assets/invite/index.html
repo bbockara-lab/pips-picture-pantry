@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pip's Picture Pantry 친구 초대</title>
+  <meta name="description" content="친구와 함께 Pip's Picture Pantry를 시작하고 두 사람 모두 스푼 50개를 받아요." />
+  <style>
+    :root { color: #4c362c; font-family: ui-rounded, system-ui, sans-serif; background: #eff6df; }
+    body { min-height: 100vh; margin: 0; display: grid; place-items: center; background: radial-gradient(circle at 50% 10%, #fff7cf, #dcefd7 62%, #b8d7c0); }
+    main { width: min(88vw, 430px); padding: 30px 24px; border: 2px solid #8d6849; border-radius: 30px; background: rgba(255,252,235,.96); box-shadow: 0 18px 50px rgba(71,48,34,.22); text-align: center; }
+    img { width: 118px; height: 118px; border-radius: 25%; }
+    h1 { margin: 14px 0 8px; font-size: 1.7rem; } p { line-height: 1.6; }
+    .reward { margin: 18px 0; padding: 14px; border-radius: 18px; background: #fff0b7; font-weight: 900; }
+    a { display: block; margin-top: 10px; padding: 14px; border: 2px solid #6c4b38; border-radius: 16px; background: #f5bd59; color: #3e2a22; text-decoration: none; font-weight: 900; }
+    a.secondary { background: #d9eed9; }
+    small { display: block; margin-top: 15px; color: #746357; line-height: 1.45; }
+  </style>
+</head>
+<body>
+  <main>
+    <img src="../play-console/app-icon-512.png" alt="Pip" />
+    <h1>핍이 친구를 기다려요!</h1>
+    <p>초대 링크로 게임을 시작하면 초대한 친구와 새 친구 모두 선물 편지를 받아요.</p>
+    <div class="reward">🥄 각자 스푼 50개</div>
+    <a id="openApp" href="#">설치된 앱 열기</a>
+    <a id="androidStore" class="secondary" href="#">Google Play에서 설치</a>
+    <a id="iosStore" class="secondary" href="https://apps.apple.com/app/id6798479149">App Store에서 설치</a>
+    <small>처음 설치했다면 설치 후 이 페이지로 돌아와 ‘설치된 앱 열기’를 한 번 눌러 주세요. 선물은 앱 편지함에 도착합니다.</small>
+  </main>
+  <script>
+    const code = new URLSearchParams(location.search).get("ref") || "";
+    const valid = /^[A-Z2-9]{8}$/i.test(code);
+    const normalized = valid ? code.toUpperCase() : "";
+    document.querySelector("#openApp").href = `pipspicturepantry://invite?ref=${encodeURIComponent(normalized)}`;
+    const referrer = encodeURIComponent(`referral_code=${normalized}`);
+    document.querySelector("#androidStore").href = `https://play.google.com/store/apps/details?id=com.sunnyspoonstudios.pipspicturepantry&referrer=${referrer}`;
+    if (!valid) document.querySelector("main").innerHTML = "<h1>초대 링크를 다시 확인해 주세요.</h1>";
+  </script>
+</body>
+</html>

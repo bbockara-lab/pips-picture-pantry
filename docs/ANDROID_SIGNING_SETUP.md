@@ -1,6 +1,6 @@
 # Android Signing Setup
 
-Last updated: 2026-07-16
+Last updated: 2026-07-30
 Mode: live-candidate release infrastructure
 
 ## Goal
@@ -38,7 +38,13 @@ The script uses Android Studio's bundled JBR keytool and prompts for passwords. 
 
 ## Build A Signed AAB
 
-Set the signing environment variables in the same PowerShell session:
+The signed build script first looks for the external, uncommitted configuration file:
+
+```text
+D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Pip's Picture Pantry\pip-picture-pantry-upload.env.ps1
+```
+
+If the key folder is moved, set `PPP_UPLOAD_ENV_FILE` to the new `.env.ps1` path. Manual per-session variables remain supported:
 
 ```powershell
 $env:PPP_UPLOAD_STORE_FILE='D:\Users\bbock\OneDrive\00. Private\10. Development\99. Key Paths\Android\Pip's Picture Pantry\pip-picture-pantry-upload.jks'

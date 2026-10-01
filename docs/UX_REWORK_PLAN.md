@@ -1,7 +1,7 @@
 # Pip's Picture Pantry UX Rework Plan
 
-Status: live-quality recovery, Phases A-C implemented
-Baseline: v0.1.542
+Status: release-quality recovery complete; Season 0 progression is now being validated as short shelves
+Baseline: v0.1.587
 Goal: replace screen-by-screen patching with one coherent first-session and navigation experience before release.
 
 ## Why this pass exists
@@ -166,7 +166,7 @@ Done when:
 - Phase C: empty-slot repetition removed; first shop page reduced to three choices; Spoon Shop stays below Pantry; Settings copy and decoration reduced.
 - Completion art: the first shelf has authored motif palettes; Sunny Spoon Sign has a stage palette; Apron Drawer now has 20 unique sewing-themed silhouettes and a stage palette instead of reusing Sunny Spoon Sign puzzles.
 - Completion art: all exact duplicates, repeated titles, and the prioritized Village/Bakery blank-edge compositions are repaired and documented. The art queue now starts with high-density Bakery 12x12 candidates.
-- Release audit: keep regenerating the 51-frame visual pack and rerun the candidate gate after each completed art/UX slice.
+- Release audit: regenerate the 61-frame visual pack and rerun the candidate gate after each completed art/UX slice.
 - Current slice: v0.1.539 protects visual-QA cleanup with an owned-directory guard and simplifies Time Attack from a report-like card stack to Pip, the three-round ladder, one start action, a compact daily status, and records.
 - Verification: v0.1.539 passes 141 unit tests, the 101-candidate art audit, launch-integrity QA, production build, Android release gate, four-width mobile QA, the full candidate gate, and a regenerated 51-frame visual pack.
 - Current slice: v0.1.540 nests the optional paid packs inside the Pantry shop after all spoon-priced decoration controls and cards. Mobile QA now locks both containment and ordering.
@@ -263,3 +263,115 @@ Done when:
 ### v0.1.565 checkpoint
 - Completion-art Phase D closes all twenty-eight Village Pantry high-density candidates with seven dedicated contact sheets.
 - The automated art-review queue is reduced from 61 to 33 candidates; the next slice audits missing art briefs and any silhouettes they expose.
+
+
+### v0.1.566 checkpoint
+- Completion-art Phase D automated audit is closed: 273 Bakery/Village puzzles, zero duplicate silhouettes, zero repeated titles, and zero review candidates.
+- Phase E now becomes the active queue: whole-flow visual hierarchy, copy, and interaction review while real-device Billing evidence remains external.
+
+
+### v0.1.567 checkpoint
+- Phase E copy pass is active: hints and Pip story dialogue now answer only the immediate player question.
+- Korean neighbor dialogue was recovered from encoding corruption and is protected by a broader mojibake regression test.
+- The large-board tap-mode helper keeps one instruction and visual examples; measured four-width visual review is the current gate.
+
+
+### v0.1.568 checkpoint
+- Pantry now exposes only the filter the player can actually control: the selected room spot.
+- Hidden legacy rarity, availability, and sorting state can no longer make decoration cards disappear without an explanation.
+- Duplicate Pantry spoon and placement-report text is absent at all four QA widths.
+
+### v0.1.569 checkpoint
+- Time Attack now answers three immediate questions only: what sizes are next, how to start, and what the last/best result was.
+- Record rows no longer expose board diagnostics or unused-hint counts; zero-hint metadata is absent rather than reported.
+- Four-width visual review should confirm the shorter record and result rows retain the flat-card spacing contract.
+
+### v0.1.570 checkpoint
+- Settings guide replay now follows the one-question rule: choose Picture guide or Time Attack guide without a paragraph explaining the buttons.
+- Review 16 Time Attack translation leftovers are removed rather than carried as test-only compatibility keys.
+- Visual review should confirm the shorter settings card keeps balanced spacing at all four QA widths.
+
+### v0.1.571 checkpoint
+- The old Season 0 dashboard is now removed from source, not merely hidden from players.
+- The puzzle hub keeps only the current-picture decision; stage requirements remain at the locked stage where the player can act on them.
+- Source hygiene protects the one-screen-one-question rule against restoring season metrics or update-plan cards.
+
+### v0.1.572 checkpoint
+- The removed feature chips, visible version label, and small side-commentary Pip strip are now absent from implementation as well as the screen.
+- Pip remains present where conversation or celebration matters; persistent report-style commentary chrome stays retired.
+- Selector-aware cleanup preserves active intro art and buttons while blocking the old ornamental layers.
+
+### v0.1.573 checkpoint
+
+- Album and earned-badge surfaces now keep only identity, artwork, useful count/date/progress, and direct actions.
+- Repeated explanatory state labels were removed without changing save data or progression behavior.
+
+### v0.1.574 checkpoint
+
+- Replay choices now read like a game selection instead of a feature report.
+- Legacy glare and background-blob decoration is removed from the live replay surface; the picture names and daily count carry the interaction.
+- Daily and replay reward copy now uses clean KO/EN punctuation and short outcome language.
+
+### v0.1.575 checkpoint
+
+- A locked stage now answers only: what does it cost, which Pantry step is missing, and where can the player act.
+- Repeated planning and blocked-state reports are removed from implementation rather than hidden by CSS.
+
+### v0.1.576 checkpoint
+
+- Hub cards now keep the immediate choice only: the daily picture no longer previews its reward, and the Time Attack entry no longer narrates its size range.
+- Time Attack starts without an empty-record card; earned records remain visible once they exist.
+- The four-width QA explicitly rejects the retired daily reward note and any record panel with no useful result rows.
+- Narrow app chrome keeps the game title to one visible line while preserving 44px settings and reset targets.
+
+### v0.1.577 checkpoint
+
+- Quick travel is reduced to destination names and approved raster art; it no longer floats a current-screen report or repeated navigation helper text over the play surface.
+- The compact trigger and two-column picker keep every destination reachable without competing with Pantry cards or purchase actions.
+
+### v0.1.578 checkpoint
+
+- Language selection remains a three-choice scan at phone widths, but each label is a single compact line rather than a broken word.
+- Mobile QA now measures each language choice for horizontal clipping and accidental multi-line rendering.
+
+### v0.1.579 checkpoint
+
+- At phone widths, Quick Travel is a 48px raster-art destination button; its accessible current-screen name remains available without covering a Pantry card title with a wide pill.
+
+### v0.1.580 checkpoint
+
+- Pip speaks in the first-run full-screen Time Attack guide, not again in a persistent utility card.
+- The Time Attack surface now keeps its three-round ladder, one start action, daily status, and earned records only.
+- Hygiene and mobile QA reject the retired coach-card markup, copy, and CSS from returning.
+
+### v0.1.581 checkpoint
+
+- The hub now names the active picture once; it no longer repeats a `Current picture` eyebrow over that same title.
+- Time Attack begins with its title, ladder, and Start rather than a second `New challenge` label.
+
+### v0.1.582 checkpoint
+
+- Puzzle choices now show the picture and board size only. Spoon rewards remain a completion moment, not a pre-play report on every card.
+- Phase E code verification is complete. The only remaining release work is real-device Billing evidence for the two configured products.
+
+### v0.1.583 checkpoint
+
+- Time Attack now uses Mr. Park's isolated pocket watch as its shared destination art instead of the retired spoon-stopwatch icon.
+- The watch has no badge frame, aura, rays, or CSS-drawn decoration; at phone size it is the clear visual signal for timed play.
+
+### v0.1.584-v0.1.585 checkpoint
+
+- Finished the remaining visible report-and-glare audit: Pantry reveal and Badge room now present only their direct player decision or progress.
+- Decorative intro grain is now non-interactive during the exit transition, preserving the route from opening to playable board.
+
+### Release structure follow-up
+
+- Treat the 333-picture launch catalog as internal content supply, not a player-facing finish line. Player UI should show the current shelf and next meaningful action only.
+- Before rewiring progression, introduce a shelf-level model that preserves existing puzzle IDs and save completion records; then move from five oversized packs to short, mixed-size progression shelves with explicit story beats and completion moments.
+
+### v0.1.592 release-structure checkpoint
+
+- The short mixed-size Season Shelf model is now implemented in src/data/seasonShelves.js; it preserves all puzzle IDs and completion saves while replacing the original oversized five-pack presentation.
+- The current home scene uses Pip's authored Puzzle Workshop, while the Decor Room remains the equipment surface. Future theme or decoration presentation needs paired workshop/pantry art and perspective-safe overlays; it is intentionally not faked with reused Pantry art.
+- Four-width QA now rejects workshop destination or Pantry-slot collisions.
+- Internal release-quality work is complete at this checkpoint. External work remains the two real-device Billing evidence records, followed by an owner-requested final signed AAB and Play Console release submission.

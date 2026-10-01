@@ -4,7 +4,7 @@ import { en } from "../src/i18n/en.js";
 import { ko } from "../src/i18n/ko.js";
 import { pathToFileURL } from "node:url";
 
-export const LAUNCH_CATALOG_TARGET = 333;
+export const LAUNCH_CATALOG_TARGET = 500;
 export const LAUNCH_QUALITY_PIVOT_BUFFER = 50;
 
 function incrementCounter(counter, key) {

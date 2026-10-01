@@ -1,0 +1,29 @@
+{
+  "version": "v0.1.703",
+  "direction": "Gameplay first; existing in-game artwork only; no synthetic tone music; no CSS mockups.",
+  "googlePlayDelivery": "Upload preview video to YouTube as public or unlisted with ads disabled, then paste its video URL into Play Console.",
+  "assets": [
+    {
+      "locale": "en-US",
+      "music": "src/assets/music/bgm-cozy.mp3",
+      "musicStartSeconds": 12,
+      "gameplaySource": "store-assets/store-media/v0.1.703/raw/video/en/gameplay-en.webm",
+      "titleArt": "store-assets/store-media/v0.1.703/video-art/en-US/short-title.png",
+      "endArt": "store-assets/store-media/v0.1.703/video-art/en-US/short-end.png",
+      "youtubeThumbnail": "store-assets/store-media/v0.1.703/upload/youtube/en-US/thumbnail-1280x720.jpg",
+      "youtubeShort": "store-assets/store-media/v0.1.703/upload/youtube/en-US/launch-short-1080x1920.mp4",
+      "googlePlayPreview": "store-assets/store-media/v0.1.703/upload/google-play/en-US/preview-video-1080x1920.mp4"
+    },
+    {
+      "locale": "ko-KR",
+      "music": "src/assets/music/bgm-cozy.mp3",
+      "musicStartSeconds": 12,
+      "gameplaySource": "store-assets/store-media/v0.1.703/raw/video/ko/gameplay-ko.webm",
+      "titleArt": "store-assets/store-media/v0.1.703/video-art/ko-KR/short-title.png",
+      "endArt": "store-assets/store-media/v0.1.703/video-art/ko-KR/short-end.png",
+      "youtubeThumbnail": "store-assets/store-media/v0.1.703/upload/youtube/ko-KR/thumbnail-1280x720.jpg",
+      "youtubeShort": "store-assets/store-media/v0.1.703/upload/youtube/ko-KR/launch-short-1080x1920.mp4",
+      "googlePlayPreview": "store-assets/store-media/v0.1.703/upload/google-play/ko-KR/preview-video-1080x1920.mp4"
+    }
+  ]
+}

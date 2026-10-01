@@ -32,6 +32,21 @@ describe("puzzle data", () => {
     ))).toBe(true);
   });
 
+  it("keeps the two first-shelf spoon pictures visibly distinct", () => {
+    const uprightSpoon = puzzles.find((puzzle) => puzzle.id === "pips-first-shelf-spoon-3");
+    const woodenSpoon = puzzles.find((puzzle) => puzzle.id === "pips-first-shelf-spoon-2-13");
+
+    expect(woodenSpoon?.title).toBe("Wooden Spoon");
+    expect(woodenSpoon?.solution).toEqual([
+      "00000",
+      "11000",
+      "11111",
+      "11000",
+      "00000"
+    ]);
+    expect(woodenSpoon?.solution).not.toEqual(uprightSpoon?.solution);
+  });
+
   it("uses motif regions instead of diagonal palette cycling", () => {
     expect(getNamedCompletionColor("recipe-card", 0, 2)).toBe("#d78b4b");
     expect(getNamedCompletionColor("recipe-card", 2, 2)).toBe("#78aa72");
@@ -51,7 +66,7 @@ describe("puzzle data", () => {
     });
   });
 
-  it("gives Apron Drawer its own twenty solved silhouettes", () => {
+  it("keeps every Apron Drawer silhouette distinct from Sunny Counter", () => {
     const sunnySolutions = new Set(
       puzzles
         .filter((puzzle) => puzzle.packId === "sunny-spoon-sign")
@@ -60,8 +75,8 @@ describe("puzzle data", () => {
     const apronPuzzles = puzzles.filter((puzzle) => puzzle.packId === "apron-drawer");
     const apronSolutions = new Set(apronPuzzles.map((puzzle) => puzzle.solution.join("/")));
 
-    expect(apronPuzzles).toHaveLength(20);
-    expect(apronSolutions).toHaveLength(20);
+    expect(apronPuzzles).toHaveLength(67);
+    expect(apronSolutions).toHaveLength(67);
     apronSolutions.forEach((solution) => expect(sunnySolutions.has(solution)).toBe(false));
   });
 
@@ -118,7 +133,8 @@ describe("puzzle data", () => {
     expect(progressionPuzzles.length).toBeGreaterThanOrEqual(100);
     expect(progressionPacks.length).toBeGreaterThanOrEqual(5);
     progressionPacks.forEach((pack) => {
-      expect(puzzles.filter((puzzle) => puzzle.packId === pack.id).length).toBeGreaterThanOrEqual(20);
+      const minimumCatalogSize = pack.monetizationRole === "seasonal-event" ? 16 : 20;
+      expect(puzzles.filter((puzzle) => puzzle.packId === pack.id).length).toBeGreaterThanOrEqual(minimumCatalogSize);
     });
   });
 
@@ -230,7 +246,7 @@ describe("puzzle data", () => {
     });
 
     expect(puzzles.filter((puzzle) => puzzle.access === "free").length).toBeGreaterThanOrEqual(133);
-    expect(puzzlePacks.filter((pack) => pack.access === "unlockable")).toHaveLength(4);
+    expect(puzzlePacks.filter((pack) => pack.access === "unlockable")).toHaveLength(5);
     const bonusPacks = puzzlePacks.filter((pack) => pack.access === "bonus-pack");
     expect(bonusPacks).toHaveLength(5);
     bonusPacks.forEach((pack) => {

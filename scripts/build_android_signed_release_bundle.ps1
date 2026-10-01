@@ -1,10 +1,44 @@
 $ErrorActionPreference = "Stop"
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$env:JAVA_HOME = "D:\Program Files\Android\Android Studio\jbr"
-$env:ANDROID_HOME = "C:\Users\bbock\AppData\Local\Android\Sdk"
-$env:ANDROID_SDK_ROOT = "C:\Users\bbock\AppData\Local\Android\Sdk"
+if ($IsMacOS) {
+  if ([string]::IsNullOrWhiteSpace($env:JAVA_HOME)) {
+    $env:JAVA_HOME = (& /usr/libexec/java_home).Trim()
+  }
+  if ([string]::IsNullOrWhiteSpace($env:ANDROID_HOME)) {
+    $env:ANDROID_HOME = Join-Path $HOME "Library/Android/sdk"
+  }
+  $env:ANDROID_SDK_ROOT = $env:ANDROID_HOME
+} elseif ([string]::IsNullOrWhiteSpace($env:JAVA_HOME)) {
+  $env:JAVA_HOME = "D:\Program Files\Android\Android Studio\jbr"
+  $env:ANDROID_HOME = "C:\Users\bbock\AppData\Local\Android\Sdk"
+  $env:ANDROID_SDK_ROOT = $env:ANDROID_HOME
+}
 
+$signingConfigCandidates = @(
+  [Environment]::GetEnvironmentVariable("PPP_UPLOAD_ENV_FILE"),
+  "/Users/jay_mac/Developer/Key-Paths/Android/Pip's Picture Pantry/pip-picture-pantry-upload.env.ps1"
+) | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+
+$requiredEnv = @(
+  "PPP_UPLOAD_STORE_FILE",
+  "PPP_UPLOAD_STORE_PASSWORD",
+  "PPP_UPLOAD_KEY_ALIAS",
+  "PPP_UPLOAD_KEY_PASSWORD"
+)
+
+$missingBeforeLoad = $requiredEnv | Where-Object {
+  [string]::IsNullOrWhiteSpace([Environment]::GetEnvironmentVariable($_))
+}
+if ($missingBeforeLoad.Count -gt 0) {
+  $signingConfig = $signingConfigCandidates |
+    Where-Object { Test-Path -LiteralPath $_ } |
+    Select-Object -First 1
+  if ($signingConfig) {
+    . $signingConfig
+    Write-Host "Loaded Android signing configuration from the external Key Paths folder."
+  }
+}
 function Invoke-NativeCommand {
   param(
     [Parameter(Mandatory = $true)][string]$File,
@@ -19,19 +53,15 @@ function Invoke-NativeCommand {
 
 Push-Location $repoRoot
 try {
+  Invoke-NativeCommand "node" @("scripts/release_commit_gate.js")
   Invoke-NativeCommand "npm" @("run", "qa:candidate")
   Invoke-NativeCommand "npm" @("run", "qa:privacy:live")
   Invoke-NativeCommand "npm" @("run", "qa:release:final")
+  Invoke-NativeCommand "node" @("scripts/release_commit_gate.js")
 } finally {
   Pop-Location
 }
 
-$requiredEnv = @(
-  "PPP_UPLOAD_STORE_FILE",
-  "PPP_UPLOAD_STORE_PASSWORD",
-  "PPP_UPLOAD_KEY_ALIAS",
-  "PPP_UPLOAD_KEY_PASSWORD"
-)
 
 $missing = $requiredEnv | Where-Object { [string]::IsNullOrWhiteSpace([Environment]::GetEnvironmentVariable($_)) }
 if ($missing.Count -gt 0) {
@@ -43,24 +73,43 @@ if (-not (Test-Path -LiteralPath $keystorePath)) {
   throw "PPP_UPLOAD_STORE_FILE does not exist: $keystorePath"
 }
 
-$jarsigner = Join-Path $env:JAVA_HOME "bin\jarsigner.exe"
+$jarsigner = Join-Path $env:JAVA_HOME $(if ($IsWindows) { "bin\jarsigner.exe" } else { "bin/jarsigner" })
 if (-not (Test-Path -LiteralPath $jarsigner)) {
-  throw "jarsigner.exe was not found at $jarsigner"
+  throw "jarsigner was not found at $jarsigner"
 }
+$keytool = Join-Path $env:JAVA_HOME $(if ($IsWindows) { "bin\keytool.exe" } else { "bin/keytool" })
+if (-not (Test-Path -LiteralPath $keytool)) {
+  throw "keytool was not found at $keytool"
+}
+
+$aliasOutput = & $keytool `
+  -list `
+  -keystore $keystorePath `
+  -storepass ([Environment]::GetEnvironmentVariable("PPP_UPLOAD_STORE_PASSWORD")) `
+  -alias ([Environment]::GetEnvironmentVariable("PPP_UPLOAD_KEY_ALIAS")) 2>&1
+if ($LASTEXITCODE -ne 0) {
+  throw "Android signing preflight failed: the configured keystore password or key alias is invalid."
+}
+Write-Host "Android signing preflight: keystore and key alias verified."
 
 Push-Location $repoRoot
 try {
   Invoke-NativeCommand "npm" @("run", "build")
   Invoke-NativeCommand "npx" @("cap", "sync", "android")
 
+  $aabPath = Join-Path $repoRoot "android\app\build\outputs\bundle\release\app-release.aab"
+  if (Test-Path -LiteralPath $aabPath) {
+    Remove-Item -LiteralPath $aabPath -Force
+  }
+
   Push-Location "$repoRoot\android"
   try {
-    Invoke-NativeCommand ".\gradlew.bat" @("bundleRelease")
+    $gradleWrapper = if ($IsWindows) { ".\gradlew.bat" } else { "./gradlew" }
+    Invoke-NativeCommand $gradleWrapper @("bundleRelease")
   } finally {
     Pop-Location
   }
 
-  $aabPath = Join-Path $repoRoot "android\app\build\outputs\bundle\release\app-release.aab"
   if (-not (Test-Path -LiteralPath $aabPath)) {
     throw "Release AAB was not produced: $aabPath"
   }

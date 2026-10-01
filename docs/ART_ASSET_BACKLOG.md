@@ -1,6 +1,6 @@
 # Pip's Picture Pantry Art Asset Backlog
 
-Last updated: 2026-07-22
+Last updated: 2026-08-08
 Mode: live release-candidate final polish
 
 ## Non-Negotiable Art Rule
@@ -31,9 +31,10 @@ If the image generator returns off-prompt or low-quality output, do not wire it 
    - Each should work as a tile-reveal panel, completed album/card art, and badge source.
 
 3. Badge images
-   - Status: complete for the five free-stage badges in v0.1.96.
+   - Status: complete for all 12 progression badges through v0.1.713.
    - Runtime assets: `src/assets/badges/badge-*-v1.webp`.
    - Each badge is badge-specific circular medal art, not a reused screenshot or cast sheet.
+   - Any new stage must be assigned to exactly one milestone and must add matching production art when it creates a new milestone; `tests/contentProgressionIntegrity.test.js` enforces this chain.
 
 ## Recently Completed Art Replacements
 
@@ -41,7 +42,7 @@ If the image generator returns off-prompt or low-quality output, do not wire it 
 - Visible temporary Pip chrome/completion art was replaced in v0.1.94 by `src/assets/characters/pip-chrome-v2.png` and `src/assets/characters/pip-completion-v2.png`.
 - First free-stage reward art was approved in v0.1.94 at `src/assets/stage-rewards/pips-first-shelf-reward-v1.webp`.
 - All five free-stage reward artworks are approved and wired through `src/data/stageArt.js` as of v0.1.95.
-- Free-stage badge art was approved in v0.1.96 and wired through `src/data/badgeArt.js`.
+- All 12 progression badge artworks are wired through `src/data/badgeArt.js`; the three Step 62 milestone badges were added in v0.1.713.
 
 ## Priority 1: Pantry Decoration MVP Asset Set
 

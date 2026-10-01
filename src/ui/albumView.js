@@ -2,6 +2,9 @@ import { puzzles } from "../data/puzzles.js";
 import { getCompletedPuzzleIds, getCompletionDates } from "../game/save.js";
 import { puzzleImageName, t } from "../i18n/index.js";
 import { renderColoredPuzzleArt } from "./coloredPuzzleArt.js";
+import { isKoreanHarvestArchiveAvailable } from "../data/koreanHarvestContent.js";
+import { renderKoreanHarvestPuzzleCollection } from "./koreanHarvestEventView.js";
+import { renderKoreanHarvestRewardShelf } from "./koreanHarvestRewardShelf.js";
 
 function appendTextElement(parent, tagName, className, text) {
   const element = document.createElement(tagName);
@@ -13,26 +16,29 @@ function appendTextElement(parent, tagName, className, text) {
   return element;
 }
 
-export function renderAlbumView(onPlay = () => {}) {
+export function renderAlbumView(options = {}) {
+  const { onPlay = () => {}, onPlaySeasonal = () => {} } = typeof options === "function"
+    ? { onPlay: options, onPlaySeasonal: options }
+    : options;
   const completedIds = new Set(getCompletedPuzzleIds());
+  const albumPuzzles = puzzles.filter((puzzle) => puzzle.packId !== "korean-harvest");
   const completionDates = getCompletionDates();
   const section = document.createElement("section");
   section.className = "album-panel content-panel";
 
-  const completedCount = completedIds.size;
+  const completedCount = albumPuzzles.filter((puzzle) => completedIds.has(puzzle.id)).length;
   const header = document.createElement("div");
   header.className = "album-header";
   const headerCopy = document.createElement("div");
   appendTextElement(headerCopy, "p", "section-label", t("sections.pantryAlbum"));
-  appendTextElement(headerCopy, "h2", "", t("album.count", { completed: completedCount, total: puzzles.length }));
-  appendTextElement(header, "p", "album-note", t("album.note"));
+  appendTextElement(headerCopy, "h2", "", t("album.completed", { completed: completedCount }));
   header.prepend(headerCopy);
   section.appendChild(header);
 
   const grid = document.createElement("div");
   grid.className = "album-grid";
 
-  puzzles.filter((puzzle) => completedIds.has(puzzle.id)).forEach((puzzle) => {
+  albumPuzzles.filter((puzzle) => completedIds.has(puzzle.id)).forEach((puzzle) => {
     const card = document.createElement("article");
     card.className = "album-card complete";
     card.appendChild(renderStamp(puzzle));
@@ -60,6 +66,21 @@ export function renderAlbumView(onPlay = () => {}) {
   }
 
   section.appendChild(grid);
+
+  const archivePreview = import.meta.env.DEV
+    && new URLSearchParams(globalThis.location?.search || "").get("seasonalArchive") === "1";
+  if (isKoreanHarvestArchiveAvailable() || archivePreview) {
+    const archive = document.createElement("section");
+    archive.className = "album-seasonal-archive";
+    archive.appendChild(renderKoreanHarvestPuzzleCollection({
+      completedIds,
+      onPlayPuzzle: onPlaySeasonal,
+      archive: true
+    }));
+    const rewards = renderKoreanHarvestRewardShelf(completedIds);
+    if (rewards) archive.appendChild(rewards);
+    section.appendChild(archive);
+  }
   return section;
 }
 

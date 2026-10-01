@@ -1,0 +1,12 @@
+{
+  "version": "v0.1.703",
+  "concept": "Character-and-atmosphere launch announcement; no gameplay footage.",
+  "artwork": "store-assets/store-media/v0.1.703/video-art/character-launch/pip-open-launch-art-v1.png",
+  "music": "src/assets/music/bgm-cozy.mp3",
+  "musicStartSeconds": 36,
+  "durationSeconds": 11,
+  "outputs": [
+    "store-assets/store-media/v0.1.703/upload/youtube/en-US/character-launch-short-1080x1920.mp4",
+    "store-assets/store-media/v0.1.703/upload/youtube/ko-KR/character-launch-short-1080x1920.mp4"
+  ]
+}

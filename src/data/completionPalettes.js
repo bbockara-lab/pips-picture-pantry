@@ -10,6 +10,9 @@ export function getCompletionPaletteId(puzzle) {
 }
 
 export function getPackCompletionPalette(paletteId) {
+  if (String(paletteId || "").startsWith("korean-harvest-")) {
+    return ["#24385f", "#79917a", "#f4e4bd", "#d8764e", "#b58a3a"];
+  }
   return {
     "sunny-sign": ["#f2b84d", "#e88743", "#65a88f", "#8a5639"],
     "apron-drawer": ["#78b7a3", "#e9c96f", "#df7d68", "#7b5877"],

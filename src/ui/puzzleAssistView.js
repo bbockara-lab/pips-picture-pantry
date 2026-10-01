@@ -18,9 +18,7 @@ export function renderHowToPlayCard() {
   const bubble = document.createElement("div");
   bubble.className = "guide-copy guide-pip-scene__bubble";
   appendTextElement(bubble, "p", "section-label", t("howToPlay.title"));
-  appendTextElement(bubble, "p", "how-to-play__pip-line", t("howToPlay.pipLine"));
   appendTextElement(bubble, "p", "", t("howToPlay.goal"));
-  appendTextElement(bubble, "p", "how-to-play__line-hint", t("controls.lineCompleteHint"));
   scene.append(pip, bubble);
 
   const clueGuide = document.createElement("div");
@@ -66,7 +64,8 @@ function appendGuideAction(parent, action, label) {
   chip.className = "guide-action";
   chip.dataset.action = action;
   const icon = document.createElement("span");
-  icon.className = "guide-action__icon";
+  icon.className = "guide-action__icon guide-action__icon--raster";
+  appendPuzzleControlArt(icon, action, "guide-action__raster-art");
   const text = document.createElement("span");
   text.className = "guide-action__label";
   text.textContent = label;
@@ -77,16 +76,19 @@ function appendGuideAction(parent, action, label) {
 
 export function getHintLimit(puzzle) {
   const size = Number(puzzle.size || 0);
-  if (size >= 15) {
-    return 5;
+  if (size <= 5) {
+    return 1;
   }
-  if (size >= 12) {
-    return 4;
+  if (size <= 8) {
+    return 2;
   }
-  if (size >= 10) {
+  if (size < 12) {
     return 3;
   }
-  return 0;
+  if (size < 15) {
+    return 4;
+  }
+  return 5;
 }
 
 export function getHintRevealCount(puzzle, options = {}) {
@@ -267,7 +269,7 @@ function getHintBodyText({ remaining, hintCost, balance, revealCount, timeAttack
   if (remaining <= 0) {
     return t("controls.hintEmpty");
   }
-  return revealCount > 1 ? t("controls.hintIntroMulti", { count: revealCount }) : t("controls.hintIntro");
+  return t("controls.hintIntro");
 }
 
 export function getHintTitleText({ remaining, hintLimit }) {

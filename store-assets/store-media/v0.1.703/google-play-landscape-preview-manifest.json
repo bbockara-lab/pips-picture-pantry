@@ -1,0 +1,20 @@
+{
+  "version": "v0.1.703",
+  "purpose": "Landscape Google Play preview video delivered through a standard YouTube URL.",
+  "actualGameplaySource": "Fresh current-app v0.1.703 recordings.",
+  "orientation": "1920x1080 landscape",
+  "durationSeconds": 15.57,
+  "music": "src/assets/music/bgm-cozy.mp3",
+  "outputs": [
+    {
+      "locale": "en-US",
+      "video": "store-assets/store-media/v0.1.703/upload/google-play/en-US/preview-video-landscape-1920x1080.mp4",
+      "thumbnail": "store-assets/store-media/v0.1.703/upload/google-play/en-US/preview-video-landscape-thumbnail-1280x720.jpg"
+    },
+    {
+      "locale": "ko-KR",
+      "video": "store-assets/store-media/v0.1.703/upload/google-play/ko-KR/preview-video-landscape-1920x1080.mp4",
+      "thumbnail": "store-assets/store-media/v0.1.703/upload/google-play/ko-KR/preview-video-landscape-thumbnail-1280x720.jpg"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "version": "v0.1.704",
+  "direction": "Premium art-first landscape trailer with slow background drift and paced current-gameplay capture.",
+  "durationSeconds": 31.8,
+  "resolution": "1920x1080",
+  "gameplay": "store-assets/store-media/v0.1.704/raw/premium-trailer/gameplay-en-premium-v1.webm",
+  "background": "store-assets/store-media/v0.1.704/video-art/premium-trailer/pantry-cinematic-background-v1.png",
+  "pip": "src/assets/characters/pip-chrome-v2.png",
+  "music": "src/assets/music/bgm-cozy.mp3",
+  "video": "store-assets/store-media/v0.1.704/upload/youtube/en-US/premium-landscape-trailer-1920x1080-v1.mp4",
+  "thumbnail": "store-assets/store-media/v0.1.704/upload/youtube/en-US/premium-landscape-trailer-thumbnail-1280x720-v1.jpg"
+}

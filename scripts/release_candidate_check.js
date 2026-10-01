@@ -8,17 +8,24 @@ let baseUrl = "http://127.0.0.1:" + port + "/";
 const checks = [
   ["test", "npm run test -- --run"],
   ["catalog", "npm run qa:catalog"],
+  ["puzzle uniqueness", "npm run qa:uniqueness"],
   ["art quality audit", "npm run qa:art-audit"],
   ["bonus pack visibility", "npm run qa:bonus-pack"],
   ["launch integrity", "npm run qa:launch-integrity"],
   ["hygiene", "npm run qa:hygiene"],
   ["assets", "npm run qa:assets"],
+  ["pantry jar assets", "npm run qa:jars"],
   ["store assets", "npm run qa:store"],
   ["store listing", "npm run qa:store-listing"],
   ["billing", "npm run qa:billing"],
   ["privacy policy", "npm run qa:privacy"],
+  ["Telegram idea reconciliation", "npm run qa:telegram-ideas"],
+  ["Korean Harvest runtime audio", "npm run qa:audio"],
+  ["Korean Harvest store event", "npm run qa:harvest-event"],
+  ["remote update policy", "npm run qa:update-policy"],
   ["build", "npm run build"],
-  ["release gate", "npm run qa:release"]
+  ["Android release gate", "npm run qa:release"],
+  ["iOS release gate", "npm run qa:ios-release"]
 ];
 
 function commandFor(command) {
@@ -27,10 +34,10 @@ function commandFor(command) {
     : { file: "sh", args: ["-lc", command] };
 }
 
-function runCheck(label, command) {
+function runCheck(label, command, env = {}) {
   console.log("\n== " + label + " ==");
   const executable = commandFor(command);
-  const result = spawnSync(executable.file, executable.args, { stdio: "inherit", shell: false });
+  const result = spawnSync(executable.file, executable.args, { stdio: "inherit", shell: false, env: { ...process.env, ...env } });
   if (result.status !== 0) {
     throw new Error(label + " failed with exit code " + result.status + (result.signal ? " signal " + result.signal : "") + (result.error ? " error " + result.error.message : ""));
   }
@@ -106,7 +113,7 @@ async function main() {
   try {
     const status = await waitForServer(baseUrl);
     console.log("HTTP probe passed with status " + status + ".");
-    runCheck("mobile QA", "npm run qa:mobile");
+    runCheck("mobile QA", "npm run qa:mobile", { PPP_QA_PORT: String(port) });
     const finalStatus = await probe(baseUrl);
     if (finalStatus !== 200) {
       throw new Error("Expected HTTP 200 from " + baseUrl + ", saw " + finalStatus);

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getDailyReplayPicks } from "../src/game/replayPicks.js";
+import { getDailyReplayPicks, getNextDailyReplayPick } from "../src/game/replayPicks.js";
 
 const samplePuzzles = [
   { id: "one", packId: "starter" },
@@ -24,6 +24,13 @@ describe("daily replay picks", () => {
 
     expect(picks.map((puzzle) => puzzle.id)).toEqual(expect.arrayContaining(["one", "three"]));
     expect(picks).toHaveLength(2);
+  });
+
+  it("moves forward within the replay pool without wrapping", () => {
+    expect(getNextDailyReplayPick(samplePuzzles, "one")).toBe(samplePuzzles[1]);
+    expect(getNextDailyReplayPick(samplePuzzles, "four")).toBeNull();
+    expect(getNextDailyReplayPick(samplePuzzles, "missing")).toBe(samplePuzzles[0]);
+    expect(getNextDailyReplayPick([], "one")).toBeNull();
   });
 
   it("is stable for the same date and capped by the daily limit", () => {

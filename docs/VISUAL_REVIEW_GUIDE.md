@@ -34,7 +34,7 @@ Then open:
 http://127.0.0.1:5173/
 ```
 
-The visual pack is the fixed screenshot checklist; the local play URL is the hands-on pass for scrolling, tapping, Time Attack entry, Settings Billing, Pantry placement, and first-run guide flow.
+The visual pack is the fixed screenshot checklist; the local play URL is the hands-on pass for scrolling, tapping, Time Attack entry, Settings, Pantry Spoon Shop, Pantry placement, and first-run guide flow.
 
 ## Review Order
 
@@ -58,9 +58,9 @@ Korean first-run sequence:
 
 Returning-player and release surfaces:
 
-11. Settings Billing surface
-12. Pantry room and shop
-13. Time Attack coach
+11. Settings preferences
+12. Pantry room, decoration shop, and Spoon Shop
+13. Time Attack start surface
 14. Album progress
 15. Map badges
 16. Large-board cursor controls
@@ -71,12 +71,12 @@ Returning-player and release surfaces:
 - Buttons, chips, spoon marks, X marks, and undo symbols should feel like the same cozy tactile system.
 - Reusable control symbols must not read as temporary CSS placeholders. Paint, blank/X, undo, hint, Time Attack, settings, stage navigation, and cursor/D-pad symbols should graduate into consistent Sunny Spoon Studios artwork before release sign-off.
 - Billing copy should feel optional and supportive; avoid paid/free wording in player-facing UI.
-- The Support Pack and Small Spoon Jar should both be discoverable from Settings, with distinct one-time vs repeatable roles.
+- The Support Pack and Small Spoon Jar should both be discoverable in the Pantry Spoon Shop after spoon-priced decoration choices, with distinct one-time vs repeatable roles.
 - Pantry goals should make the next action obvious: decorate more, earn spoons, open stage, or view album.
 - No card should look like a placeholder, flat PPT block, or unrelated imported art.
 - Text must fit without overlap at the captured 390x844 mobile viewport and the 675x900 Codex preview viewport.
 - The first-play flow should feel friendly before it feels commercial.
-- Time Attack must be discoverable from both the puzzle hub teaser and the floating menu.
+- Time Attack must be discoverable from the workshop destination and the floating menu.
 - English and Korean first-run flows should feel equally intentional; do not let Korean be the overflow-only case.
 
 ## Reusable Icon Artwork Pass
@@ -96,6 +96,6 @@ Acceptance standard: each token should look tactile, rounded, slightly glossy, a
 
 ## Relationship To Automated QA
 
-`npm run qa:mobile` catches layout regressions across 360x740, 390x844, and 430x932.
+`npm run qa:mobile` catches layout regressions across 360x740, 390x844, 430x932, and 675x900.
 
 `npm run qa:visual-pack` creates the human-review screenshots at 390x844 mobile and 675x900 Codex preview sizes. It is intentionally not a replacement for mobile QA; it is the art direction layer on top.

@@ -1,8 +1,29 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { CELL } from "../src/game/nonogram.js";
-import { getCellPaintValue, getDragCellPaintValue, getLineGuidance, isLineCorrectlySatisfied } from "../src/ui/boardView.js";
+import { getBoardGuideInterval, getCellPaintValue, getDragCellPaintValue, getLineGuidance, isLineCorrectlySatisfied, shouldSuppressPointerClick } from "../src/ui/boardView.js";
+
+const styles = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
+const boardSource = readFileSync(new URL("../src/ui/boardView.js", import.meta.url), "utf8");
 
 describe("board view paint decisions", () => {
+  it("keeps mobile drag gestures owned by the puzzle grid", () => {
+    expect(styles).toMatch(
+      /v0\.1\.700 - Step 55 mobile puzzle drag ownership[\s\S]*?\.puzzle-grid\s*\{[\s\S]*?touch-action:\s*none;[\s\S]*?user-select:\s*none;/
+    );
+  });
+  it("centers marked and safe-suggestion glyphs in their cells", () => {
+    expect(styles).toMatch(
+      /\.puzzle-cell\.marked,\s*\.puzzle-cell\.safe-suggestion\s*\{[\s\S]*?display:\s*grid\s*!important;[\s\S]*?place-items:\s*center\s*!important;/
+    );
+  });
+  it("adds guide intervals only where larger boards benefit from them", () => {
+    expect(getBoardGuideInterval(5)).toBe(0);
+    expect(getBoardGuideInterval(8)).toBe(4);
+    expect(getBoardGuideInterval(10)).toBe(5);
+    expect(getBoardGuideInterval(12)).toBe(4);
+  });
+
   it("turns a safe suggestion tap into a mark instead of a wrong fill", () => {
     expect(getCellPaintValue(CELL.empty, "fill", { safeSuggestion: true })).toBe(CELL.marked);
   });
@@ -19,6 +40,18 @@ describe("board view paint decisions", () => {
     expect(getDragCellPaintValue(safeButton, CELL.empty)).toBe(CELL.marked);
     expect(getDragCellPaintValue(normalButton, CELL.empty)).toBe(CELL.empty);
     expect(getDragCellPaintValue(normalButton, CELL.filled)).toBe(CELL.filled);
+  });
+
+  it("keeps delayed-click suppression alive across board re-renders", () => {
+    expect(boardSource).toMatch(/let suppressPointerClickUntil = 0;[\s\S]*?function renderCells/);
+    expect(boardSource).not.toMatch(/function renderCells[\s\S]*?let suppressPointerClickUntil = 0;/);
+  });
+
+  it("suppresses the delayed pointer click after a completed touch stroke", () => {
+    expect(shouldSuppressPointerClick(1750, { detail: 1 }, 1200)).toBe(true);
+    expect(shouldSuppressPointerClick(1750, { detail: 0 }, 1200)).toBe(true);
+    expect(shouldSuppressPointerClick(1750, { detail: 1 }, 1800)).toBe(false);
+    expect(shouldSuppressPointerClick(1750, { detail: 0 }, 1800)).toBe(false);
   });
 
   it("treats zero-clue lines as satisfied when they contain no fills", () => {
